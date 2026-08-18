@@ -54,7 +54,10 @@ export async function requestPersistence() {
 }
 
 export function defaultSettings() {
-  return { newPerSession: 5, maxReviews: 40 };
+  // maxReviews is deliberately small: a review session is meant to be a
+  // smattering, favouring characters that have actually been missed, not a
+  // forced march through everything that happens to be due. See srs.js.
+  return { newPerSession: 5, maxReviews: 15 };
 }
 
 export function listProfiles() {

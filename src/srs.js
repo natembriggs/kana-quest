@@ -12,6 +12,16 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 export const BOX_INTERVALS_DAYS = [0, 1, 2, 4, 8, 16, 32];
 export const MAX_BOX = BOX_INTERVALS_DAYS.length - 1;
 
+// A character that has reached the top box and has *never once* been missed
+// keeps having its interval doubled rather than settling at 32 days forever.
+// This matters most for a kid who already knew some characters coming in —
+// something they have answered right every single time should fade out of
+// review almost entirely, not keep eating a review slot every month.
+// The moment a character is missed, lapses > 0 and this growth stops; it
+// goes back to the ordinary box schedule like anything else being learned.
+const NEVER_MISSED_GROWTH = 2;
+const NEVER_MISSED_CAP_DAYS = 180;
+
 // When this fraction of the current set has reached BOX_SETTLED, the set is
 // considered consolidated. This only drives a suggestion — the learner
 // decides when to take on more, it is never enforced.
@@ -31,7 +41,7 @@ export function itemKey(mode, kana) {
 }
 
 export function newRecord() {
-  return { box: 0, due: 0, seen: 0, correct: 0, lapses: 0, history: [] };
+  return { box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0, history: [] };
 }
 
 /**
@@ -45,11 +55,21 @@ export function grade(record, correct, now = Date.now()) {
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
+    const wasAtMax = rec.box >= MAX_BOX;
     rec.box = Math.min(rec.box + 1, MAX_BOX);
-    rec.due = now + BOX_INTERVALS_DAYS[rec.box] * DAY_MS;
+    if (wasAtMax && rec.lapses === 0) {
+      // Perfect record, already at the top box: keep spacing it out further
+      // instead of asking again every 32 days for the rest of time.
+      const previous = rec.intervalDays || BOX_INTERVALS_DAYS[MAX_BOX];
+      rec.intervalDays = Math.min(previous * NEVER_MISSED_GROWTH, NEVER_MISSED_CAP_DAYS);
+    } else {
+      rec.intervalDays = BOX_INTERVALS_DAYS[rec.box];
+    }
+    rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.lapses += 1;
     rec.box = 0;
+    rec.intervalDays = 0;
     rec.due = now; // immediately due again
   }
   rec.history.push([now, correct ? 1 : 0]);
@@ -109,11 +129,22 @@ export function newItems(course, mode, progress, limit = 5) {
     .slice(0, limit);
 }
 
-/** Introduced characters whose review has come due, soonest first. */
-export function dueItems(course, mode, progress, limit = 40, now = Date.now()) {
+/**
+ * Introduced characters whose review has come due, favouring the ones that
+ * have actually been missed before. When more is due than fits the session
+ * cap, a character with lapses on its record is picked ahead of one that has
+ * never once been wrong — the point of review is shoring up what's shaky,
+ * not re-proving what's already known. Ties break by how overdue it is.
+ */
+export function dueItems(course, mode, progress, limit = 15, now = Date.now()) {
   return introducedItems(course, mode, progress)
     .filter((kana) => isDue(progress[itemKey(mode, kana)], now))
-    .sort((a, b) => progress[itemKey(mode, a)].due - progress[itemKey(mode, b)].due)
+    .sort((a, b) => {
+      const ra = progress[itemKey(mode, a)];
+      const rb = progress[itemKey(mode, b)];
+      if (rb.lapses !== ra.lapses) return rb.lapses - ra.lapses;
+      return ra.due - rb.due;
+    })
     .slice(0, limit);
 }
 
@@ -126,7 +157,7 @@ export function practiceItems(course, mode, progress, limit = 20) {
  * Assemble one session. `kind` is 'new' (teach a set, then quiz just that
  * set), 'review' (quiz what is due), or 'practice' (ignore the schedule).
  */
-export function buildSession(course, mode, progress, kind, { newPerSession = 5, maxReviews = 40, limit = 20, now = Date.now() } = {}) {
+export function buildSession(course, mode, progress, kind, { newPerSession = 5, maxReviews = 15, limit = 20, now = Date.now() } = {}) {
   if (kind === 'new') {
     const fresh = newItems(course, mode, progress, newPerSession);
     return { lesson: fresh, quiz: shuffle(fresh) };

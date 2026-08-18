@@ -131,6 +131,67 @@ for (let i = 0; i < 20; i += 1) maxed = srs.grade(maxed, true, now);
 check('box is capped', maxed.box === srs.MAX_BOX, `box ${maxed.box}`);
 done('leitner boxes');
 
+// --- Never-missed characters fade out of review -----------------------------
+// The point: a kid who already knew some characters coming in should stop
+// seeing them in review almost entirely, as long as they never get one wrong.
+
+let neverMissed = srs.newRecord();
+for (let i = 0; i < 6; i += 1) neverMissed = srs.grade(neverMissed, true, now); // reaches box 6
+check('six straight passes reach the top box', neverMissed.box === srs.MAX_BOX);
+check('top box is the ordinary 32-day interval', neverMissed.intervalDays === 32);
+
+const afterOne = srs.grade(neverMissed, true, now);
+check('a further pass with a perfect record grows the interval', afterOne.intervalDays === 64);
+const afterTwo = srs.grade(afterOne, true, now);
+check('it keeps growing', afterTwo.intervalDays === 128, `got ${afterTwo.intervalDays}`);
+const afterThree = srs.grade(afterTwo, true, now);
+check('growth is capped rather than unbounded', afterThree.intervalDays === 180, `got ${afterThree.intervalDays}`);
+check('box stays at the top, only the interval keeps growing', afterThree.box === srs.MAX_BOX);
+
+// The moment a character is missed even once, the extra growth stops for
+// good — it goes back to behaving like anything else being learned.
+let onceMissed = srs.newRecord();
+for (let i = 0; i < 6; i += 1) onceMissed = srs.grade(onceMissed, true, now);
+onceMissed = srs.grade(onceMissed, false, now); // one lapse, box back to 0
+for (let i = 0; i < 6; i += 1) onceMissed = srs.grade(onceMissed, true, now); // climbs back up
+check('recovering to the top box after one lapse stays at the ordinary interval',
+  onceMissed.intervalDays === 32, `got ${onceMissed.intervalDays}`);
+const onceMissedAgain = srs.grade(onceMissed, true, now);
+check('it does not resume growing just because it is passing again',
+  onceMissedAgain.intervalDays === 32, `got ${onceMissedAgain.intervalDays}`);
+done('never-missed characters get spaced out further, not reviewed forever');
+
+// --- Review favours characters that have actually been missed --------------
+// (using the literal mode id here, not the `mode` binding declared further
+// down in this file, to sidestep a temporal-dead-zone reference)
+
+const revProgress = {};
+const solidChars = 'あいうえお'.split('');
+const shakyChars = 'かきくけこ'.split('');
+solidChars.forEach((k) => {
+  let r = srs.newRecord();
+  r = srs.grade(r, true, now - DAY);
+  revProgress[srs.itemKey('recognition', k)] = r; // due, zero lapses
+});
+shakyChars.forEach((k) => {
+  let r = srs.newRecord();
+  r = srs.grade(r, true, now - 2 * DAY);
+  r = srs.grade(r, false, now - DAY); // one lapse, back to box 0, due
+  revProgress[srs.itemKey('recognition', k)] = r;
+});
+const ranked = srs.dueItems(hiragana, 'recognition', revProgress, 5, now);
+check('a capped review pulls the missed characters first',
+  ranked.every((k) => shakyChars.includes(k)),
+  ranked.join(''));
+
+const smallCourse = { chunks: [{ items: [...solidChars, ...shakyChars] }] };
+const uncapped = srs.dueItems(smallCourse, 'recognition', revProgress, 100, now);
+check('nothing due is silently dropped when the cap is not hit',
+  uncapped.length === 10, `got ${uncapped.length}`);
+check('within the same lapse count, the more overdue one comes first',
+  uncapped.indexOf(shakyChars[0]) < uncapped.indexOf(solidChars[0]));
+done('review favours misses over a perfect record');
+
 // --- Chunk gating ---------------------------------------------------------
 
 const progress = {};

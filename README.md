@@ -40,7 +40,14 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   New characters are taught on their own cards before being quizzed.
 - **Spaced repetition.** Leitner boxes, reviewed after 1, 2, 4, 8, 16 then 32
   days. A miss drops the character to box 0, so it comes back later in the same
-  session and again the next day.
+  session and again the next day. A review session is a capped smattering
+  (15 by default), not a forced march through everything due — and when more
+  is due than fits, characters with a lapse on record are pulled ahead of ones
+  that have never once been missed. A character that reaches the top box
+  having *never* been missed keeps having its interval doubled (32 → 64 → 128
+  → capped at 180 days) instead of settling there forever — useful for a kid
+  who already knew some characters coming in, since those fade out of review
+  almost entirely rather than eating a review slot every month.
 - **The pace suggestion never blocks.** If most of what has been introduced is
   not yet solid, the card shows a *review first* tip — but *Add 5 more* stays
   enabled. The learner decides.
