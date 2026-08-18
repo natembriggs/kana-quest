@@ -23,12 +23,27 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "tools" / "data_src"
 OUT = ROOT / "src" / "kanji-data.js"
 
-MAX_GRADE = 1          # build grade 1 for now; re-run with higher grade as needed
+MAX_GRADE = 6           # grades 1-6: the full elementary-school (Kyoiku) kanji set
 EXAMPLES_PER_KANJI = 4
-MAX_KANJI_PER_WORD = 2  # skip compounds that would slow a first-grader down
+MAX_KANJI_PER_WORD = 2      # cap for the general example-word list (grade-appropriate only)
+MAX_KANJI_PER_READING_WORD = 3  # looser cap for reading-anchored lookups (see below)
+MAX_CORRECT_READINGS = 6   # must match kanji.js's own cap, so the reading-example
+                            # index only stores what the app can ever look up
 
 KANJIDIC = SRC / "kanjidic2.xml"
 JMDICT = SRC / "JMdict_e"
+
+
+def kata_to_hira(text):
+    """Convert katakana to hiragana (Unicode block offset, -0x60), leaving
+    everything else — including the prolonged-sound mark ー, which has no
+    hiragana equivalent — unchanged. KANJIDIC always writes on'yomi in
+    katakana, but the words that use them (JMdict) are usually spelled in
+    hiragana, so reading-to-word matching needs both forms compared."""
+    return ''.join(
+        chr(ord(ch) - 0x60) if 'ァ' <= ch <= 'ヶ' else ch
+        for ch in text
+    )
 
 
 def parse_kanjidic(max_grade):
@@ -67,17 +82,30 @@ def strip_dot(reading):
     return reading
 
 
-def parse_jmdict_common_words(known_kanji, max_kanji_per_word):
-    """Return {kanji: [(kanji_form, reading, gloss), ...]} for common JMdict
-    entries whose kanji form uses only characters in `known_kanji` (plus kana),
-    to keep example words within what a grade-1..N learner has met."""
+def parse_jmdict_words(known_kanji, max_kanji_per_word, max_kanji_per_reading_word):
+    """One pass over JMdict, returning two indexes keyed by kanji character:
+
+    - `general`: common words using ONLY characters in `known_kanji` (plus
+      kana), capped at `max_kanji_per_word` kanji — the grade-appropriate
+      pool the kanji-level "example word" panel is drawn from.
+    - `reading_candidates`: common words containing that kanji at all,
+      capped at the looser `max_kanji_per_reading_word`, with no grade
+      restriction on the *other* kanji in the word. This exists so a rare
+      reading whose only common word pulls in a not-yet-learned kanji (上海
+      for 上's シャン reading needs 海, which is grade 2) can still be found —
+      the word is shown only as a memory aid for that one reading, not as
+      something the learner is expected to fully read yet.
+
+    Each entry is (kanji_form, reading, gloss, {kanji characters in the word}).
+    """
     text = JMDICT.read_text(encoding="utf-8")
     entries = re.findall(r"<entry>.*?</entry>", text, re.S)
 
     kana_pattern = re.compile(r"[぀-ゟ゠-ヿー]+")
     kanji_pattern = re.compile(r"[一-鿿]")
 
-    by_kanji = {k: [] for k in known_kanji}
+    general = {k: [] for k in known_kanji}
+    reading_candidates = {k: [] for k in known_kanji}
 
     for entry in entries:
         k_ele = re.search(r"<k_ele>.*?<keb>(.*?)</keb>.*?</k_ele>", entry, re.S)
@@ -85,9 +113,8 @@ def parse_jmdict_common_words(known_kanji, max_kanji_per_word):
             continue
         keb = html.unescape(k_ele.group(1))
         kanji_in_word = set(kanji_pattern.findall(keb))
-        if not kanji_in_word or not kanji_in_word.issubset(known_kanji):
-            continue
-        if len(kanji_in_word) > max_kanji_per_word:
+        relevant = kanji_in_word & known_kanji
+        if not relevant or len(kanji_in_word) > max_kanji_per_reading_word:
             continue
         # Common-ness: JMdict marks frequent entries with a priority tag
         # (news1/ichi1/spec1/spec2/gai1/nfNN) inside <ke_pri>/<re_pri>.
@@ -103,15 +130,41 @@ def parse_jmdict_common_words(known_kanji, max_kanji_per_word):
         if not glosses:
             continue
         gloss = html.unescape(glosses[0])
-        for k in kanji_in_word:
-            by_kanji[k].append((keb, reading, gloss))
 
-    return by_kanji
+        record = (keb, reading, gloss, kanji_in_word)
+        for k in relevant:
+            reading_candidates[k].append(record)
+            if kanji_in_word.issubset(known_kanji) and len(kanji_in_word) <= max_kanji_per_word:
+                general[k].append(record)
+
+    return general, reading_candidates
 
 
 def choose_examples(words, limit):
     # Shortest reading first: for a beginner, "いち" beats "いちばん".
     return sorted(words, key=lambda w: len(w[1]))[:limit]
+
+
+def find_reading_example(target_reading, candidates):
+    """The shortest common word whose reading starts with `target_reading` —
+    checked against both the reading as given and its hiragana form, since
+    KANJIDIC writes on'yomi in katakana but most words spell them in
+    hiragana (foreign-derived readings like シャン being the exception)."""
+    target_hira = kata_to_hira(target_reading)
+    matches = [
+        c for c in candidates
+        if c[1].startswith(target_reading) or c[1].startswith(target_hira)
+    ]
+    if not matches:
+        return None
+    best = min(matches, key=lambda c: len(c[1]))
+    return {"kanji": best[0], "kana": best[1], "en": best[2]}
+
+
+def normalize_reading(raw):
+    """Must match kanji.js's normalizeReading exactly, so the readings this
+    script builds examples for are the same strings the app ever displays."""
+    return raw.replace('-', '').replace('.', '')
 
 
 def main():
@@ -124,17 +177,41 @@ def main():
     kanji_info = parse_kanjidic(MAX_GRADE)
     print(f"kanjidic2: {len(kanji_info)} kanji at grade <= {MAX_GRADE}")
 
-    words_by_kanji = parse_jmdict_common_words(set(kanji_info), MAX_KANJI_PER_WORD)
+    known_kanji = set(kanji_info)
+    general_words, reading_candidates = parse_jmdict_words(
+        known_kanji, MAX_KANJI_PER_WORD, MAX_KANJI_PER_READING_WORD,
+    )
 
     grades = {}
+    missing_reading_examples = 0
+    total_reading_examples = 0
     for kanji, info in sorted(kanji_info.items(), key=lambda kv: (kv[1]["grade"], kv[0])):
-        examples = choose_examples(words_by_kanji.get(kanji, []), EXAMPLES_PER_KANJI)
+        examples = choose_examples(general_words.get(kanji, []), EXAMPLES_PER_KANJI)
+
+        # Same on'yomi/kun'yomi + cap + ordering as kanji.js's buildKanjiIndex,
+        # so this script only ever computes examples for readings the app can
+        # actually display.
+        on_readings = list(dict.fromkeys(info["on"]))
+        kun_readings = list(dict.fromkeys(normalize_reading(r) for r in info["kun"]))
+        quiz_readings = (on_readings + kun_readings)[:MAX_CORRECT_READINGS]
+
+        candidates = reading_candidates.get(kanji, [])
+        reading_examples = {}
+        for reading in quiz_readings:
+            example = find_reading_example(reading, candidates)
+            if example:
+                reading_examples[reading] = example
+                total_reading_examples += 1
+            else:
+                missing_reading_examples += 1
+
         entry = {
             "kanji": kanji,
             "on": info["on"],
             "kun": info["kun"],
             "meanings": info["meanings"],
-            "words": [{"kanji": k, "kana": r, "en": g} for k, r, g in examples],
+            "words": [{"kanji": k, "kana": r, "en": g} for k, r, g, _ in examples],
+            "readingExamples": reading_examples,
         }
         grades.setdefault(info["grade"], []).append(entry)
         if not examples:
@@ -143,6 +220,7 @@ def main():
     for grade, entries in sorted(grades.items()):
         total_examples = sum(len(e["words"]) for e in entries)
         print(f"grade {grade}: {len(entries)} kanji, {total_examples} example words")
+    print(f"reading examples: {total_reading_examples} found, {missing_reading_examples} readings with none")
 
     js = []
     js.append("// Generated by tools/build_kanji_data.py — do not hand-edit.")

@@ -116,6 +116,11 @@ export function buildChoices(course, kana, count = 10) {
     if (options.length >= count) break;
     const romaji = romajiFor(candidate);
     if (used.has(romaji)) continue;
+    // A distractor that checkRomaji would also accept for THIS target (e.g.
+    // お's canonical "o" is also を's accepted alternate spelling) would be a
+    // confusing pair to show together, even though tap-to-choose grades by
+    // exact match and wouldn't actually mis-score it.
+    if (checkRomaji(romaji, kana)) continue;
     used.add(romaji);
     options.push(romaji);
   }

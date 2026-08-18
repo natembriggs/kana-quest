@@ -268,13 +268,14 @@ h3 { font-size: 18px; }
   transition: background 0.12s ease, border-color 0.12s ease;
 }
 .choice:active { transform: scale(0.96); }
-/* Kanji reading quiz: ticked but not yet graded. */
-.choice.is-selected { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
 .choice.is-right { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); }
 .choice.is-wrong { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
-/* A correct reading that was not ticked — shown after grading so the
-   learner sees what they missed, distinct from an outright wrong guess. */
-.choice.is-missed { border-style: dashed; border-color: var(--ok); color: var(--ok); }
+/* Kanji reading quiz, once the round is over: which correct reading's
+   example word is currently shown below. */
+.choice.is-right.is-active { box-shadow: 0 0 0 3px var(--accent) inset; }
+/* A distractor nobody ever tapped, now locked once the round is over —
+   dimmed so it doesn't compete with the readings that are still clickable. */
+.choice:disabled:not(.is-right):not(.is-wrong) { opacity: 0.35; }
 
 @media (max-width: 360px) {
   .choice { font-size: 15px; }

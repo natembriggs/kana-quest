@@ -10,7 +10,10 @@ load('vendor/wanakana.min.js');
 globalThis.window = { wanakana: globalThis.wanakana };
 
 const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/kana.js');
-const { KANJI_COURSES, kanjiInfo, buildReadingChoices } = await import('../src/kanji.js');
+const {
+  KANJI_COURSES, kanjiInfo, readingExample,
+  buildKanjiOptions, buildAdvancedAdditions, recomputeKanjiRollup,
+} = await import('../src/kanji.js');
 const srs = await import('../src/srs.js');
 
 let failures = 0;
@@ -106,7 +109,43 @@ check('distractors are drawn from the same set where possible',
   kyaOptions.join(' '));
 done('multiple-choice options');
 
+// --- All six grades: structural sanity ---------------------------------
+// The depth checks below (option counts, priority ordering, rollups, ...)
+// only run against grade 1, since they're testing the mechanism rather than
+// the data — but every grade goes through the same build script, so a quick
+// pass across all of them catches a grade-specific regression (e.g. a grade
+// with a kanji that has zero readings, or one that collides with another
+// grade's kanji).
+
+check('grades 1 through 6 all exist',
+  ['1', '2', '3', '4', '5', '6'].every((g) => KANJI_COURSES.some((c) => c.id === `kanji-grade-${g}`)),
+  KANJI_COURSES.map((c) => c.id).join(', '));
+
+const seenAcrossGrades = new Map(); // kanji -> which grade course first had it
+let crossGradeDuplicates = 0;
+let anyGradeStructureWrong = 0;
+for (const course of KANJI_COURSES) {
+  const chars = course.chunks.flatMap((c) => c.items);
+  if (new Set(chars).size !== chars.length) anyGradeStructureWrong += 1;
+  if (!course.chunks.slice(0, -1).every((c) => c.items.length === 5)) anyGradeStructureWrong += 1;
+  for (const kanji of chars) {
+    const info = kanjiInfo(course, kanji);
+    if (!info || info.on.length + info.kun.length === 0 || info.quizReadings.length === 0) {
+      anyGradeStructureWrong += 1;
+    }
+    if (seenAcrossGrades.has(kanji)) crossGradeDuplicates += 1;
+    else seenAcrossGrades.set(kanji, course.id);
+  }
+}
+check('every course is internally well-formed (chunks of 5, no dupes, every kanji has readings)',
+  anyGradeStructureWrong === 0, `${anyGradeStructureWrong} problems`);
+check('no kanji appears in more than one grade', crossGradeDuplicates === 0, `${crossGradeDuplicates} duplicates`);
+check('the full elementary set is 1006-1030 kanji (Kyoiku kanji, allowing for JOYO revisions)',
+  seenAcrossGrades.size >= 1006 && seenAcrossGrades.size <= 1030, `got ${seenAcrossGrades.size}`);
+done('all six kanji grades are structurally sound');
+
 // --- Kanji data and reading choices ----------------------------------------
+// The rest of this section goes deep on grade 1 only — see note above.
 
 const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
 check('grade-1 course exists', !!grade1);
@@ -131,24 +170,36 @@ check('every grade-1 kanji has at least one meaning', noMeanings === 0, `${noMea
 check('every grade-1 kanji has at least one example word', noWords === 0, `${noWords} missing`);
 check('every grade-1 kanji has at least one reading', noReadings === 0, `${noReadings} missing`);
 
-// The quiz cap exists because some kanji (生, 上, ...) have well over a dozen
-// kun'yomi once conjugated forms are counted — offering all of them would
-// make a 10-option question impossible.
+// The quiz-pool cap exists because some kanji (生, 上, ...) have well over a
+// dozen kun'yomi once conjugated forms are counted — offering all of them
+// would make even the "advanced" view unusable.
 let overCap = 0;
 for (const kanji of grade1Chars) {
   if (kanjiInfo(grade1, kanji).quizReadings.length > 6) overCap += 1;
 }
 check('quiz readings are capped at 6', overCap === 0, `${overCap} over the cap`);
 
-let optionCountWrong = 0;
+const noProgress = {}; // a learner who has never seen any of this before
+
+let baseCountWrong = 0;
+let baseCorrectOverLimit = 0;
+let baseCorrectAtLeastHalf = 0;
 let missingCorrect = 0;
 let duplicateOptions = 0;
 let outOfOrder = 0;
+let missingMandatory = 0;
 for (const kanji of grade1Chars) {
-  const { options, correct } = buildReadingChoices(grade1, kanji, 10);
-  if (options.length !== 10) optionCountWrong += 1;
+  const info = kanjiInfo(grade1, kanji);
+  const { options, correct } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress);
+  if (options.length !== 10) baseCountWrong += 1;
+  if (correct.size > 4) baseCorrectOverLimit += 1;
+  if (correct.size * 2 >= options.length) baseCorrectAtLeastHalf += 1;
   if (![...correct].every((r) => options.includes(r))) missingCorrect += 1;
   if (new Set(options).size !== options.length) duplicateOptions += 1;
+  // The most common on'yomi and kun'yomi (if the kanji has each) are never
+  // left out of the base view, however the "which 2 more" priority sorts.
+  if (info.on[0] && !correct.has(info.on[0])) missingMandatory += 1;
+  if (info.kun[0] && !correct.has(info.kun[0])) missingMandatory += 1;
   // Alphabetical by romaji, the same convention as kana.js's buildChoices —
   // on'yomi is katakana and kun'yomi is hiragana, so sorting the raw kana
   // would clump the two scripts instead of interleaving by sound.
@@ -156,12 +207,157 @@ for (const kanji of grade1Chars) {
   const sorted = [...romaji].sort((a, b) => a.localeCompare(b));
   if (JSON.stringify(romaji) !== JSON.stringify(sorted)) outOfOrder += 1;
 }
-check('every kanji question offers ten options', optionCountWrong === 0, `${optionCountWrong} did not`);
-check('the full correct set is always offered', missingCorrect === 0, `${missingCorrect} missing an answer`);
+check('every base kanji question offers ten options', baseCountWrong === 0, `${baseCountWrong} did not`);
+check('base view never offers more than 4 correct', baseCorrectOverLimit === 0, `${baseCorrectOverLimit} did`);
+check('base correct count is always under half (no better than guessing)',
+  baseCorrectAtLeastHalf === 0, `${baseCorrectAtLeastHalf} were not`);
+check('the correct set shown is always actually offered', missingCorrect === 0, `${missingCorrect} missing`);
 check('no kanji question has a duplicate option', duplicateOptions === 0, `${duplicateOptions} had one`);
+check('the most common on/kun reading is always in the base view',
+  missingMandatory === 0, `${missingMandatory} missing`);
 check('reading options are sorted alphabetically by romaji', outOfOrder === 0, `${outOfOrder} unsorted`);
 
-done('kanji data and reading choices');
+// --- Advanced view: only offered when there's something to add, and the
+// under-half rule holds even at the full 5/6-reading pool.
+
+const advancedEligible = grade1Chars.filter((k) => kanjiInfo(grade1, k).quizReadings.length > 4);
+check('at least one grade-1 kanji has more than 4 readings (or this whole check is vacuous)',
+  advancedEligible.length > 0);
+
+let advancedCorrectWrong = 0;
+let advancedOverHalf = 0;
+let advancedMissingCorrect = 0;
+for (const kanji of advancedEligible) {
+  const info = kanjiInfo(grade1, kanji);
+  const { options, correct } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress, { advanced: true });
+  if (correct.size !== info.quizReadings.length) advancedCorrectWrong += 1;
+  if (correct.size * 2 >= options.length) advancedOverHalf += 1;
+  if (![...correct].every((r) => options.includes(r))) advancedMissingCorrect += 1;
+}
+check('advanced view offers the full reading pool as correct',
+  advancedCorrectWrong === 0, `${advancedCorrectWrong} did not`);
+check('advanced view still keeps correct under half',
+  advancedOverHalf === 0, `${advancedOverHalf} did not`);
+check('advanced correct set is always offered', advancedMissingCorrect === 0);
+
+for (const kanji of grade1Chars) {
+  const info = kanjiInfo(grade1, kanji);
+  const isEligible = info.quizReadings.length > 4;
+  const { correct } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress);
+  check(`advanced is only meaningful when there is more to add (${kanji})`,
+    isEligible === (info.quizReadings.length > correct.size));
+}
+done('kanji data and base/advanced reading choices');
+
+// --- Advanced "additions": grows the grid rather than rebuilding it -------
+
+for (const kanji of advancedEligible.slice(0, 10)) {
+  const info = kanjiInfo(grade1, kanji);
+  const { options: shownOptions, correct: baseCorrect } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress);
+  const shown = new Set(shownOptions);
+  const { additions, newCorrect } = buildAdvancedAdditions(grade1, kanji, shown);
+
+  check(`additions never repeat what is already shown (${kanji})`,
+    additions.every((r) => !shown.has(r)));
+  check(`additions include every remaining correct reading (${kanji})`,
+    [...newCorrect].every((r) => additions.includes(r)));
+  check(`newCorrect is exactly the pool minus what the base view already had (${kanji})`,
+    newCorrect.size === info.quizReadings.length - baseCorrect.size);
+
+  const finalCorrectCount = baseCorrect.size + newCorrect.size;
+  const finalTotal = shown.size + additions.length;
+  check(`expanding still keeps correct under half of the total (${kanji})`,
+    finalCorrectCount * 2 < finalTotal, `${finalCorrectCount}/${finalTotal}`);
+}
+done('advanced additions grow the grid without duplicating or exceeding it');
+
+// --- Priority: never-graded readings fill the "2 more" slots before one
+// that's already known and not currently due.
+
+const priorityKanji = grade1Chars.find((k) => {
+  const info = kanjiInfo(grade1, k);
+  return info.on[0] && info.kun[0] && info.quizReadings.length === 5;
+});
+if (priorityKanji) {
+  const info = kanjiInfo(grade1, priorityKanji);
+  const mandatory = new Set([info.on[0], info.kun[0]]);
+  const [alreadyKnown, unseenA, unseenB] = info.quizReadings.filter((r) => !mandatory.has(r));
+  const progress = {};
+  progress[srs.yomiKey('recognition', priorityKanji, alreadyKnown)] =
+    srs.gradeYomi(srs.newYomiRecord(), true, Date.now()); // graded, due later — not due now
+  const { correct } = buildKanjiOptions(grade1, priorityKanji, 'recognition', progress);
+  check('never-graded readings are chosen over an already-known, not-due one',
+    correct.has(unseenA) && correct.has(unseenB) && !correct.has(alreadyKnown),
+    [...correct].join(', '));
+} else {
+  check('(skipped — no grade-1 kanji has exactly 5 readings with both a primary on and kun)', true);
+}
+
+// --- Per-reading example words --------------------------------------------
+// Not every reading has one (build_kanji_data.py logs which don't), but the
+// mechanism itself — including the "rare on'yomi, e.g. a loanword-derived
+// reading, still finds its word even though that word may use a kanji
+// outside this grade" case that motivated it — must work.
+
+check('readingExample returns null rather than throwing for an unmapped reading',
+  readingExample(grade1, '一', 'not-a-real-reading') === null);
+
+let exampleForPrimaryOn = 0;
+for (const kanji of grade1Chars) {
+  const info = kanjiInfo(grade1, kanji);
+  if (info.on[0] && readingExample(grade1, kanji, info.on[0])) exampleForPrimaryOn += 1;
+}
+check('most kanji have an example word for their primary on\'yomi',
+  exampleForPrimaryOn / grade1Chars.length > 0.8,
+  `${exampleForPrimaryOn}/${grade1Chars.length}`);
+
+// 上 (above) has シャン among its on'yomi specifically because of 上海
+// (Shanghai) — a rare reading findable only via a word that itself uses a
+// kanji (海) outside grade 1. This is the exact case the feature is for.
+const shanghai = kanjiInfo(grade1, '上');
+if (shanghai && shanghai.on.includes('シャン')) {
+  const example = readingExample(grade1, '上', 'シャン');
+  check('the rare シャン reading of 上 finds its Shanghai example',
+    !!example && example.kanji.includes('上'), JSON.stringify(example));
+}
+
+done('per-reading example words');
+
+// --- Kanji-level rollup, aggregated from per-reading records ---------------
+
+const rollupKanji = grade1Chars[0];
+const rollupInfo = kanjiInfo(grade1, rollupKanji);
+const rollupProgress = {};
+const rollupNow = Date.now();
+
+recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, rollupNow);
+check('rollup does nothing when no reading has been graded yet',
+  !rollupProgress[srs.itemKey('recognition', rollupKanji)]);
+
+const [firstReading, secondReading] = rollupInfo.quizReadings;
+rollupProgress[srs.yomiKey('recognition', rollupKanji, firstReading)] =
+  srs.gradeYomi(srs.newYomiRecord(), true, rollupNow); // due soon, streak 1
+if (secondReading) {
+  let solid = srs.newYomiRecord();
+  for (let i = 0; i < 6; i += 1) solid = srs.gradeYomi(solid, true, rollupNow); // due much later, streak 6
+  rollupProgress[srs.yomiKey('recognition', rollupKanji, secondReading)] = solid;
+}
+recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, rollupNow);
+const rollup = rollupProgress[srs.itemKey('recognition', rollupKanji)];
+check('rollup exists once at least one reading has a record', !!rollup);
+check('rollup due date is the EARLIEST due among introduced readings — a kanji resurfaces as soon as any one reading is shaky',
+  rollup.due === rollupProgress[srs.yomiKey('recognition', rollupKanji, firstReading)].due);
+if (secondReading) {
+  check('rollup box is the LOWEST streak among introduced readings — mastered means every reading tested is solid',
+    rollup.box === 1, `got ${rollup.box}`);
+} else {
+  check('with only one reading, rollup box matches its streak', rollup.box === 1);
+}
+check('rollup correct/lapses are summed across readings',
+  rollup.correct === (secondReading ? 7 : 1) && rollup.lapses === 0,
+  JSON.stringify(rollup));
+
+done('kanji-level rollup aggregates per-reading records');
 
 // --- SRS ------------------------------------------------------------------
 
@@ -188,6 +384,52 @@ let maxed = srs.newRecord();
 for (let i = 0; i < 20; i += 1) maxed = srs.grade(maxed, true, now);
 check('box is capped', maxed.box === srs.MAX_BOX, `box ${maxed.box}`);
 done('leitner boxes');
+
+// --- Per-reading (yomi) records: streak + lifetime-correct driven interval -
+
+let yrec = srs.newYomiRecord();
+check('a fresh yomi record has no history', yrec.correct === 0 && yrec.incorrect === 0 && yrec.streak === 0);
+
+yrec = srs.gradeYomi(yrec, true, now);
+check('first correct: streak 1', yrec.streak === 1);
+check('first correct: lifetime correct count is 1', yrec.correct === 1);
+check('lastReviewed is set, secondLastReviewed is not (no prior review)',
+  yrec.lastReviewed === now && yrec.secondLastReviewed === null);
+
+const secondNow = now + DAY;
+yrec = srs.gradeYomi(yrec, true, secondNow);
+check('second correct in a row: streak 2', yrec.streak === 2);
+check('secondLastReviewed captures the previous review', yrec.secondLastReviewed === now);
+check('the interval taken between the last two reviews is reconstructable',
+  yrec.lastReviewed - yrec.secondLastReviewed === DAY);
+
+yrec = srs.gradeYomi(yrec, false, secondNow + DAY);
+check('a miss resets the streak to zero', yrec.streak === 0);
+check('a miss counts as incorrect, not correct', yrec.incorrect === 1 && yrec.correct === 2);
+check('a miss does NOT erase the lifetime correct count — that is the whole point', yrec.correct === 2);
+check('a miss makes the record due right away', yrec.due === secondNow + DAY);
+check('the generic isDue() helper works on a yomi record too (same .due field)',
+  srs.isDue(yrec, secondNow + DAY) && !srs.isDue(yrec, secondNow + DAY - 1));
+
+// The central claim: a reading with a long correct history recovers a longer
+// interval after one slip than a reading with no track record at all, even
+// though both are back to streak 1.
+let veteran = srs.newYomiRecord();
+for (let i = 0; i < 20; i += 1) veteran = srs.gradeYomi(veteran, true, now); // 20 lifetime correct
+veteran = srs.gradeYomi(veteran, false, now); // one slip
+veteran = srs.gradeYomi(veteran, true, now); // back to streak 1
+let rookie = srs.newYomiRecord();
+rookie = srs.gradeYomi(rookie, true, now); // streak 1, correct 1 — nothing else
+check('both records are at streak 1 for a fair comparison', veteran.streak === 1 && rookie.streak === 1);
+check('a veteran reading earns a longer interval than a rookie at the same streak',
+  veteran.intervalDays > rookie.intervalDays,
+  `veteran ${veteran.intervalDays}d vs rookie ${rookie.intervalDays}d`);
+
+let longStreak = srs.newYomiRecord();
+for (let i = 0; i < 50; i += 1) longStreak = srs.gradeYomi(longStreak, true, now);
+check('the interval is capped rather than growing without bound',
+  longStreak.intervalDays <= 120, `got ${longStreak.intervalDays}`);
+done('per-reading records reward both streak and lifetime correct count');
 
 // --- Never-missed characters fade out of review -----------------------------
 // The point: a kid who already knew some characters coming in should stop

@@ -96,14 +96,22 @@
     </div>
 
     <!-- Kana: tap one option and it grades instantly.
-         Kanji: tick every reading that applies, then press OK. -->
-    <div id="quiz-choices" class="choice-grid" role="group" aria-label="Choose the reading"></div>
-    <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>OK</button>
+         Kanji: click any reading — it turns green or red on the spot. -->
+    <div id="quiz-choices" class="choice-grid" role="group" aria-label="Click the readings that apply"></div>
+
+    <!-- Kanji only, while the round is still open. -->
+    <div id="quiz-kanji-actions" class="row" hidden>
+      <button id="quiz-advanced" class="btn" type="button" hidden>Advanced</button>
+      <button id="quiz-show-answers" class="btn btn-quiet" type="button">Show answers</button>
+    </div>
+
+    <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
 
     <!-- Meanings and an example word, shown after a kanji question is graded. -->
     <div id="quiz-info" class="kanji-info" hidden>
       <div id="quiz-meanings" class="kanji-meanings"></div>
       <div id="quiz-word" class="kanji-word"></div>
+      <p id="quiz-word-hint" class="hint"></p>
     </div>
   </section>
 

@@ -1,10 +1,13 @@
 // Screen routing, session flow and event wiring.
 
 import { COURSES, romajiFor, buildChoices } from './kana.js';
-import { KANJI_COURSES, kanjiInfo, buildReadingChoices } from './kanji.js';
 import {
-  MODES, itemKey, grade, buildSession, courseStats,
-  currentSetIndex, readyForMore, newRecord,
+  KANJI_COURSES, kanjiInfo, readingExample,
+  buildKanjiOptions, buildAdvancedAdditions, recomputeKanjiRollup,
+} from './kanji.js';
+import {
+  MODES, itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
+  currentSetIndex, readyForMore, newRecord, newYomiRecord,
 } from './srs.js';
 import * as store from './store.js';
 
@@ -289,6 +292,7 @@ function renderQuestion() {
 function renderKanaChoices(course, kana) {
   state.session.attempt = 0;
   $('quiz-ok').hidden = true;
+  $('quiz-kanji-actions').hidden = true;
   const choices = $('quiz-choices');
   buildChoices(course, kana).forEach((romaji) => {
     const button = document.createElement('button');
@@ -364,123 +368,241 @@ function revealKanaAnswer(answer) {
   });
 }
 
-// --- Kanji: tick every reading that applies, then press OK -------------
+// --- Kanji: click a reading, it turns green or red immediately ---------
+//
+// Every reading is graded the instant it's clicked, individually — not the
+// kanji as a whole. Whatever was clicked correctly *before the first wrong
+// click* counts as correct in that reading's own pass/fail record; whatever
+// was still unclicked at that moment counts as incorrect, permanently, even
+// if the learner goes on to find it afterward while "learning". Finding
+// everything (through discovery after a miss, or via Show answers) still
+// unlocks Next — that gate is about the UI, not about rewriting the record.
 
 function renderKanjiChoices(course, kanji) {
   const session = state.session;
-  const { options, correct } = buildReadingChoices(course, kanji);
-  session.selected = new Set();
-  session.currentCorrect = correct;
-  session.graded = false;
-  session.kanjiAttempt = 0;
+  const { progress } = state.profile;
+  const { options, correct } = buildKanjiOptions(course, kanji, state.mode, progress);
 
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').disabled = false;
-  $('quiz-ok').textContent = 'OK';
+  session.kanjiCorrect = new Set(correct);
+  session.kanjiShown = new Set(options);
+  session.kanjiPendingRecord = new Set(correct); // not yet graded
+  session.kanjiUndiscovered = new Set(correct); // not yet revealed green
+  session.kanjiErrorMade = false;
+  session.kanjiRoundRecorded = false;
+  session.kanjiRoundOver = false;
+
+  $('quiz-ok').hidden = true; // becomes "Next" once the round resolves
+  $('quiz-kanji-actions').hidden = false;
+  $('quiz-show-answers').hidden = false;
+  $('quiz-show-answers').disabled = false;
+  const info = kanjiInfo(course, kanji);
+  $('quiz-advanced').hidden = info.quizReadings.length <= correct.size;
+  $('quiz-advanced').disabled = false;
 
   const choices = $('quiz-choices');
-  options.forEach((reading) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = reading;
-    button.dataset.reading = reading;
-    button.addEventListener('click', () => toggleReading(reading, button));
-    choices.appendChild(button);
-  });
+  options.forEach((reading) => addKanjiChoiceButton(choices, reading));
 }
 
-function toggleReading(reading, button) {
-  const session = state.session;
-  if (!session || session.graded || button.disabled) return;
-  if (session.selected.has(reading)) {
-    session.selected.delete(reading);
-    button.classList.remove('is-selected');
-  } else {
-    session.selected.add(reading);
-    button.classList.add('is-selected');
-  }
+function addKanjiChoiceButton(choices, reading) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'choice';
+  button.textContent = reading;
+  button.dataset.reading = reading;
+  button.addEventListener('click', () => clickKanjiReading(reading, button));
+  choices.appendChild(button);
 }
 
 /**
- * Graded on OK. A wrong first attempt gets one more try: options picked
- * wrongly turn red, lock, and clear themselves, but which options were
- * actually correct is not revealed yet, and options not yet tried (right or
- * wrong) stay available. As with kana, the pass/fail record is always
- * locked to the first attempt regardless of the second attempt's outcome.
+ * Once the round is over, clicking a reading no longer grades anything — it
+ * shows the example word anchored to that specific reading instead, which is
+ * most useful for a rare reading (a kanji's "Shanghai" reading is easy to
+ * forget without seeing it in the word that actually uses it).
  */
-function submitKanjiAnswer() {
+function clickKanjiReading(reading, button) {
   const session = state.session;
-  if (!session || session.graded) return;
+  if (!session || button.disabled) return;
+
+  if (session.kanjiRoundOver) {
+    showReadingExample(reading, button);
+    return;
+  }
 
   const kanji = session.queue[session.position];
   const course = getAnyCourse(state.courseId);
-  const correctSet = session.currentCorrect;
-  const selected = session.selected;
-  const isExactMatch = selected.size === correctSet.size
-    && [...selected].every((r) => correctSet.has(r));
-  session.kanjiAttempt += 1;
+  const isCorrect = session.kanjiCorrect.has(reading);
+  button.disabled = true;
 
-  if (session.kanjiAttempt === 1) {
-    session.answered += 1;
-    recordResult(kanji, isExactMatch);
+  if (isCorrect) {
+    button.classList.add('is-right');
+    session.kanjiUndiscovered.delete(reading);
+    if (!session.kanjiErrorMade) {
+      recordYomiResult(course, kanji, reading, true);
+      session.kanjiPendingRecord.delete(reading);
+    }
+    // A correct click after the error boundary is pure discovery: the
+    // record was already sealed incorrect the moment the error happened.
+  } else {
+    button.classList.add('is-wrong');
+    if (!session.kanjiErrorMade) markKanjiError(kanji, course);
   }
 
-  if (!isExactMatch && session.kanjiAttempt === 1) {
-    $('quiz-choices').querySelectorAll('.choice').forEach((button) => {
-      const reading = button.dataset.reading;
-      if (selected.has(reading) && !correctSet.has(reading)) {
-        // Wrong pick: flash red, then free it up for a different guess.
-        button.classList.remove('is-selected');
-        button.classList.add('is-wrong');
-        button.disabled = true;
-        selected.delete(reading);
-      }
-      // Correct picks stay ticked; untried options (right or wrong) stay
-      // available — nothing here reveals which options are correct.
-    });
-    $('quiz-card').className = 'quiz-card is-wrong';
-    $('quiz-feedback').className = 'feedback bad';
-    $('quiz-feedback').textContent = 'Not quite — try once more';
-    // Missed kanji come back later in the same session regardless of what
-    // happens on the second try.
-    const reinsertAt = Math.min(session.position + 4, session.queue.length);
-    session.queue.splice(reinsertAt, 0, kanji);
-    return; // still their turn — OK stays "OK", nothing is final yet
-  }
+  store.saveProfile(state.profile);
+  checkKanjiRoundComplete();
+}
 
-  // Final: either correct, or out of chances. Reveal everything.
-  session.graded = true;
+/** The first wrong click of a round: seals every still-pending reading's
+ * record as a miss, and reinserts the kanji for a fresh attempt later. */
+function markKanjiError(kanji, course) {
+  const session = state.session;
+  session.kanjiErrorMade = true;
+  session.kanjiPendingRecord.forEach((reading) => recordYomiResult(course, kanji, reading, false));
+  session.kanjiPendingRecord.clear();
+  recordKanjiRoundOutcome(kanji, false);
+
+  $('quiz-card').className = 'quiz-card is-wrong';
+  $('quiz-feedback').className = 'feedback bad';
+  $('quiz-feedback').textContent = 'Keep exploring, or tap Show answers';
+  const reinsertAt = Math.min(session.position + 4, session.queue.length);
+  session.queue.splice(reinsertAt, 0, kanji);
+}
+
+/** "Show answers": reveals whatever is still undiscovered. If no error has
+ * happened yet, this moment itself becomes the error boundary. */
+function showKanjiAnswers() {
+  const session = state.session;
+  if (!session || session.kanjiUndiscovered.size === 0) return;
+  const kanji = session.queue[session.position];
+  const course = getAnyCourse(state.courseId);
+
+  if (!session.kanjiErrorMade) markKanjiError(kanji, course);
+
   $('quiz-choices').querySelectorAll('.choice').forEach((button) => {
-    const reading = button.dataset.reading;
-    button.classList.remove('is-selected');
-    button.disabled = true;
-    if (correctSet.has(reading) && selected.has(reading)) button.classList.add('is-right');
-    else if (correctSet.has(reading)) button.classList.add('is-missed'); // should have been ticked
-    else if (selected.has(reading)) button.classList.add('is-wrong');
+    if (session.kanjiUndiscovered.has(button.dataset.reading)) {
+      button.classList.add('is-right');
+      button.disabled = true;
+    }
+  });
+  session.kanjiUndiscovered.clear();
+  store.saveProfile(state.profile);
+  checkKanjiRoundComplete();
+}
+
+/** "Advanced": grows the grid in place with the remaining readings from the
+ * pool (up to 6) rather than rebuilding it, so existing taps are untouched. */
+function expandKanjiAdvanced() {
+  const session = state.session;
+  if (!session || !session.kanjiShown) return;
+  const kanji = session.queue[session.position];
+  const course = getAnyCourse(state.courseId);
+  const { additions, newCorrect } = buildAdvancedAdditions(course, kanji, session.kanjiShown);
+
+  const choices = $('quiz-choices');
+  additions.forEach((reading) => {
+    addKanjiChoiceButton(choices, reading);
+    session.kanjiShown.add(reading);
   });
 
-  $('quiz-card').className = `quiz-card ${isExactMatch ? 'is-correct' : 'is-wrong'}`;
-  $('quiz-feedback').className = `feedback ${isExactMatch ? 'ok' : 'bad'}`;
-  const hits = [...selected].filter((r) => correctSet.has(r)).length;
-  $('quiz-feedback').textContent = isExactMatch ? '✓' : `${hits} of ${correctSet.size} correct`;
-  showKanjiInfo(course, kanji);
+  newCorrect.forEach((reading) => {
+    session.kanjiCorrect.add(reading);
+    session.kanjiUndiscovered.add(reading);
+    if (session.kanjiErrorMade) {
+      // The error boundary already passed, so a reading that only just
+      // appeared can never have been selected "before" it.
+      recordYomiResult(course, kanji, reading, false);
+    } else {
+      session.kanjiPendingRecord.add(reading);
+    }
+  });
+
+  $('quiz-advanced').hidden = true;
+  store.saveProfile(state.profile);
+}
+
+function recordYomiResult(course, kanji, reading, correct) {
+  const { progress } = state.profile;
+  const key = yomiKey(state.mode, kanji, reading);
+  progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct);
+  recomputeKanjiRollup(course, kanji, state.mode, progress);
+}
+
+/** The kanji-level (not reading-level) pass/fail for this round, recorded
+ * exactly once — used for the session summary, same as kana's first-attempt
+ * tracking. Kanji-level scheduling itself comes from recomputeKanjiRollup. */
+function recordKanjiRoundOutcome(kanji, perfect) {
+  const session = state.session;
+  if (session.kanjiRoundRecorded) return;
+  session.kanjiRoundRecorded = true;
+  session.answered += 1;
+  if (!session.results.has(kanji)) session.results.set(kanji, perfect);
+}
+
+function checkKanjiRoundComplete() {
+  const session = state.session;
+  if (session.kanjiUndiscovered.size > 0) return;
+  const kanji = session.queue[session.position];
+  if (!session.kanjiErrorMade) recordKanjiRoundOutcome(kanji, true);
+  finalizeKanjiRound(kanji);
+}
+
+function finalizeKanjiRound(kanji) {
+  const course = getAnyCourse(state.courseId);
+  const session = state.session;
+  session.kanjiRoundOver = true;
+
+  // Correct readings stay clickable after the round — that's now how their
+  // example word is shown. Distractors have nothing more to offer.
+  $('quiz-choices').querySelectorAll('.choice').forEach((button) => {
+    button.disabled = !session.kanjiCorrect.has(button.dataset.reading);
+  });
+  $('quiz-kanji-actions').hidden = true;
+  $('quiz-show-answers').hidden = true;
+  $('quiz-advanced').hidden = true;
+  $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
+
+  const perfect = !session.kanjiErrorMade;
+  $('quiz-card').className = `quiz-card ${perfect ? 'is-correct' : 'is-wrong'}`;
+  $('quiz-feedback').className = `feedback ${perfect ? 'ok' : 'bad'}`;
+  $('quiz-feedback').textContent = perfect ? '✓' : 'Found them all';
+  showKanjiInfo(course, kanji);
+  store.saveProfile(state.profile);
 }
 
 function showKanjiInfo(course, kanji) {
   const info = kanjiInfo(course, kanji);
   $('quiz-meanings').textContent = info.meanings.join(', ');
-  const word = info.words[0];
-  const wordEl = $('quiz-word');
-  wordEl.innerHTML = '';
-  if (word) {
-    wordEl.innerHTML = '<span class="word-kanji"></span><span class="word-kana"></span><span class="word-en"></span>';
-    wordEl.querySelector('.word-kanji').textContent = word.kanji;
-    wordEl.querySelector('.word-kana').textContent = `(${word.kana})`;
-    wordEl.querySelector('.word-en').textContent = word.en;
-  }
+  renderWord($('quiz-word'), info.words[0]);
+  $('quiz-word-hint').textContent = state.session.kanjiCorrect.size > 1
+    ? 'Tap a green reading above to see a word that uses it.'
+    : '';
   $('quiz-info').hidden = false;
+}
+
+function renderWord(wordEl, word) {
+  wordEl.innerHTML = '';
+  if (!word) return;
+  wordEl.innerHTML = '<span class="word-kanji"></span><span class="word-kana"></span><span class="word-en"></span>';
+  wordEl.querySelector('.word-kanji').textContent = word.kanji;
+  wordEl.querySelector('.word-kana').textContent = `(${word.kana})`;
+  wordEl.querySelector('.word-en').textContent = word.en;
+}
+
+/** Post-round: show the word anchored to the clicked reading, or say there
+ * isn't one — build_kanji_data.py doesn't find one for every reading. */
+function showReadingExample(reading, button) {
+  const course = getAnyCourse(state.courseId);
+  const kanji = state.session.queue[state.session.position];
+  $('quiz-choices').querySelectorAll('.choice.is-active').forEach((el) => el.classList.remove('is-active'));
+  button.classList.add('is-active');
+
+  const example = readingExample(course, kanji, reading);
+  if (example) {
+    renderWord($('quiz-word'), example);
+  } else {
+    $('quiz-word').innerHTML = '';
+    $('quiz-word').textContent = `No common example word found for ${reading}.`;
+  }
 }
 
 /** A tap anywhere on the quiz screen moves past a revealed kana miss. */
@@ -614,14 +736,13 @@ function wire() {
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
 
-  // Kanji only: OK grades the ticked readings; once graded, the same button
-  // (now reading "Next") advances.
-  $('quiz-ok').addEventListener('click', () => {
-    const session = state.session;
-    if (!session) return;
-    if (session.graded) nextQuestion();
-    else submitKanjiAnswer();
-  });
+  // Hidden until a question resolves (kana: correct or second miss; kanji:
+  // every reading found or "Show answers" pressed) — always just "Next".
+  $('quiz-ok').addEventListener('click', () => { if (state.session) nextQuestion(); });
+
+  // Kanji only.
+  $('quiz-show-answers').addEventListener('click', showKanjiAnswers);
+  $('quiz-advanced').addEventListener('click', expandKanjiAdvanced);
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);

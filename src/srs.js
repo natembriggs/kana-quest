@@ -183,6 +183,69 @@ export function courseStats(course, mode, progress, now = Date.now()) {
   };
 }
 
+// --- Per-reading records (kanji reading quiz) ------------------------------
+//
+// The kanji reading quiz grades each on'yomi/kun'yomi individually rather
+// than the kanji as a whole — a kid can know セイ cold while still shaky on
+// うまれる for the same kanji, and lumping them into one record would hide
+// that. This model is deliberately different from the Leitner boxes above:
+// no fixed box ladder, just two numbers the request asked for directly —
+// current streak (consecutive correct, reset by any miss) and lifetime
+// correct count — both pushing the interval out, so a reading with a long
+// history doesn't fall all the way back to "brand new" spacing after one
+// slip. lastReviewed/secondLastReviewed are kept so the interval actually
+// taken between the last two reviews can be reconstructed later even though
+// scheduling itself only looks at `due`.
+
+const YOMI_STREAK_DAYS = [0, 1, 2, 4, 8, 16, 32];
+const YOMI_MAX_INTERVAL_DAYS = 120;
+
+export function yomiKey(mode, kanji, reading) {
+  return `${mode}:${kanji}:${reading}`;
+}
+
+export function newYomiRecord() {
+  return {
+    correct: 0,
+    incorrect: 0,
+    streak: 0,
+    lastReviewed: null,
+    secondLastReviewed: null,
+    due: 0,
+    intervalDays: 0,
+  };
+}
+
+/**
+ * Apply a pass/fail result to a reading's record. A miss resets the streak
+ * to zero and makes it due immediately, but — unlike the kana boxes — does
+ * not erase the lifetime correct count, so rebuilding the streak afterward
+ * earns a longer interval sooner than a reading with no track record would.
+ */
+export function gradeYomi(record, correct, now = Date.now()) {
+  const rec = record || newYomiRecord();
+  rec.secondLastReviewed = rec.lastReviewed;
+  rec.lastReviewed = now;
+
+  if (correct) {
+    rec.correct += 1;
+    rec.streak += 1;
+    const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
+    // Credit for total correct answers, even ones before the current streak
+    // started — e.g. a reading answered right 30 times total that just had
+    // one slip shouldn't need to re-climb from a 1-day interval.
+    const experience = 1 + Math.floor(Math.log2(1 + rec.correct));
+    rec.intervalDays = Math.min(base * experience, YOMI_MAX_INTERVAL_DAYS);
+    rec.due = now + rec.intervalDays * DAY_MS;
+  } else {
+    rec.incorrect += 1;
+    rec.streak = 0;
+    rec.intervalDays = 0;
+    rec.due = now;
+  }
+  return rec;
+}
+
 export function shuffle(array) {
   const out = [...array];
   for (let i = out.length - 1; i > 0; i -= 1) {

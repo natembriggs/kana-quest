@@ -39,7 +39,29 @@ export const KANJI_BY_GRADE = {
           "kana": "いつに",
           "en": "solely"
         }
-      ]
+      ],
+      "readingExamples": {
+        "イチ": {
+          "kanji": "一",
+          "kana": "いち",
+          "en": "one"
+        },
+        "イツ": {
+          "kanji": "一に",
+          "kana": "いつに",
+          "en": "solely"
+        },
+        "ひと": {
+          "kanji": "一",
+          "kana": "ひと",
+          "en": "one"
+        },
+        "ひとつ": {
+          "kanji": "一つ",
+          "kana": "ひとつ",
+          "en": "one"
+        }
+      }
     },
     {
       "kanji": "七",
@@ -71,11 +93,28 @@ export const KANJI_BY_GRADE = {
           "en": "the seven spring flowers"
         },
         {
-          "kanji": "七夕",
-          "kana": "たなばた",
-          "en": "Star Festival (held in July or August)"
+          "kanji": "七宝",
+          "kana": "しっぽう",
+          "en": "the seven treasures (gold, silver, pearls, agate, crystal, coral, lapis lazuli)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シチ": {
+          "kanji": "七",
+          "kana": "しち",
+          "en": "seven"
+        },
+        "なな": {
+          "kanji": "七つ",
+          "kana": "ななつ",
+          "en": "seven"
+        },
+        "ななつ": {
+          "kanji": "七つ",
+          "kana": "ななつ",
+          "en": "seven"
+        }
+      }
     },
     {
       "kanji": "三",
@@ -103,16 +142,38 @@ export const KANJI_BY_GRADE = {
           "en": "three"
         },
         {
+          "kanji": "三佐",
+          "kana": "さんさ",
+          "en": "major (JGSDF)"
+        },
+        {
           "kanji": "二三",
           "kana": "にさん",
           "en": "two or three"
-        },
-        {
-          "kanji": "三校",
-          "kana": "さんこう",
-          "en": "third proof"
         }
-      ]
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "三",
+          "kana": "さん",
+          "en": "three"
+        },
+        "み": {
+          "kanji": "三つ",
+          "kana": "みっつ",
+          "en": "three"
+        },
+        "みつ": {
+          "kanji": "三つ折り",
+          "kana": "みつおり",
+          "en": "threefold"
+        },
+        "みっつ": {
+          "kanji": "三つ",
+          "kana": "みっつ",
+          "en": "three"
+        }
+      }
     },
     {
       "kanji": "上",
@@ -163,7 +224,39 @@ export const KANJI_BY_GRADE = {
           "kana": "うまい",
           "en": "skillful"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "上",
+          "kana": "じょう",
+          "en": "from the standpoint of"
+        },
+        "ショウ": {
+          "kanji": "上人",
+          "kana": "しょうにん",
+          "en": "high priest"
+        },
+        "シャン": {
+          "kanji": "上海",
+          "kana": "シャンハイ",
+          "en": "Shanghai (China)"
+        },
+        "うえ": {
+          "kanji": "上",
+          "kana": "うえ",
+          "en": "above"
+        },
+        "うわ": {
+          "kanji": "上値",
+          "kana": "うわね",
+          "en": "higher price"
+        },
+        "かみ": {
+          "kanji": "上",
+          "kana": "かみ",
+          "en": "upper reaches (of a river)"
+        }
+      }
     },
     {
       "kanji": "下",
@@ -193,26 +286,58 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
+          "kanji": "以下",
+          "kana": "いか",
+          "en": "not exceeding ..."
+        },
+        {
           "kanji": "下",
           "kana": "した",
           "en": "below"
         },
         {
-          "kanji": "下手",
-          "kana": "へた",
-          "en": "unskillful"
+          "kanji": "下位",
+          "kana": "かい",
+          "en": "low rank"
         },
         {
+          "kanji": "下記",
+          "kana": "かき",
+          "en": "the following"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "下位",
+          "kana": "かい",
+          "en": "low rank"
+        },
+        "ゲ": {
+          "kanji": "下戸",
+          "kana": "げこ",
+          "en": "non-drinker"
+        },
+        "した": {
+          "kanji": "下",
+          "kana": "した",
+          "en": "below"
+        },
+        "しも": {
+          "kanji": "下期",
+          "kana": "しもき",
+          "en": "second half of the (fiscal) year"
+        },
+        "もと": {
           "kanji": "下",
           "kana": "もと",
           "en": "under (guidance, supervision, rules, the law, etc.)"
         },
-        {
-          "kanji": "下がる",
-          "kana": "さがる",
-          "en": "to come down"
+        "さげる": {
+          "kanji": "下げる",
+          "kana": "さげる",
+          "en": "to hang"
         }
-      ]
+      }
     },
     {
       "kanji": "中",
@@ -237,21 +362,38 @@ export const KANJI_BY_GRADE = {
           "en": "inside"
         },
         {
+          "kanji": "中値",
+          "kana": "なかね",
+          "en": "medium or average price"
+        },
+        {
+          "kanji": "背中",
+          "kana": "せなか",
+          "en": "back (of the body)"
+        },
+        {
+          "kanji": "夜中",
+          "kana": "よなか",
+          "en": "middle of the night"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
           "kanji": "中",
           "kana": "ちゅう",
           "en": "medium (size)"
         },
-        {
+        "なか": {
           "kanji": "中",
-          "kana": "じゅう",
-          "en": "(all) through (e.g. the night)"
+          "kana": "なか",
+          "en": "inside"
         },
-        {
+        "うち": {
           "kanji": "雨中",
           "kana": "うちゅう",
           "en": "in the rain"
         }
-      ]
+      }
     },
     {
       "kanji": "九",
@@ -273,6 +415,11 @@ export const KANJI_BY_GRADE = {
           "en": "multiplication table"
         },
         {
+          "kanji": "九分",
+          "kana": "くぶ",
+          "en": "nine parts"
+        },
+        {
           "kanji": "九",
           "kana": "きゅう",
           "en": "nine"
@@ -281,13 +428,30 @@ export const KANJI_BY_GRADE = {
           "kanji": "九つ",
           "kana": "ここのつ",
           "en": "nine"
-        },
-        {
-          "kanji": "十九",
-          "kana": "じゅうきゅう",
-          "en": "nineteen"
         }
-      ]
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "九",
+          "kana": "きゅう",
+          "en": "nine"
+        },
+        "ク": {
+          "kanji": "九九",
+          "kana": "くく",
+          "en": "multiplication table"
+        },
+        "ここの": {
+          "kanji": "九つ",
+          "kana": "ここのつ",
+          "en": "nine"
+        },
+        "ここのつ": {
+          "kanji": "九つ",
+          "kana": "ここのつ",
+          "en": "nine"
+        }
+      }
     },
     {
       "kanji": "二",
@@ -311,21 +475,43 @@ export const KANJI_BY_GRADE = {
           "en": "two"
         },
         {
+          "kanji": "二佐",
+          "kana": "にさ",
+          "en": "lieutenant colonel (JGSDF)"
+        },
+        {
+          "kanji": "二死",
+          "kana": "にし",
+          "en": "two out"
+        },
+        {
+          "kanji": "二次",
+          "kana": "にじ",
+          "en": "second"
+        }
+      ],
+      "readingExamples": {
+        "ニ": {
+          "kanji": "二",
+          "kana": "に",
+          "en": "two"
+        },
+        "ジ": {
+          "kanji": "十二",
+          "kana": "じゅうに",
+          "en": "twelve"
+        },
+        "ふた": {
           "kanji": "二つ",
           "kana": "ふたつ",
           "en": "two"
         },
-        {
-          "kanji": "二三",
-          "kana": "にさん",
-          "en": "two or three"
-        },
-        {
-          "kanji": "二手",
-          "kana": "ふたて",
-          "en": "two groups"
+        "ふたつ": {
+          "kanji": "二つ",
+          "kana": "ふたつ",
+          "en": "two"
         }
-      ]
+      }
     },
     {
       "kanji": "五",
@@ -346,21 +532,38 @@ export const KANJI_BY_GRADE = {
           "en": "five"
         },
         {
+          "kanji": "五分",
+          "kana": "ごぶ",
+          "en": "half"
+        },
+        {
           "kanji": "五つ",
           "kana": "いつつ",
           "en": "five"
         },
         {
-          "kanji": "五目",
-          "kana": "ごもく",
-          "en": "mixture of ingredients (originally five)"
-        },
-        {
-          "kanji": "十五",
-          "kana": "じゅうご",
-          "en": "fifteen"
+          "kanji": "五感",
+          "kana": "ごかん",
+          "en": "the five senses"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "五",
+          "kana": "ご",
+          "en": "five"
+        },
+        "いつ": {
+          "kanji": "五つ",
+          "kana": "いつつ",
+          "en": "five"
+        },
+        "いつつ": {
+          "kanji": "五つ",
+          "kana": "いつつ",
+          "en": "five"
+        }
+      }
     },
     {
       "kanji": "人",
@@ -393,11 +596,38 @@ export const KANJI_BY_GRADE = {
           "en": "counter for people"
         },
         {
-          "kanji": "人気",
-          "kana": "にんき",
-          "en": "popularity"
+          "kanji": "家人",
+          "kana": "かじん",
+          "en": "occupant of a house"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ジン": {
+          "kanji": "人",
+          "kana": "じん",
+          "en": "-ian (e.g. Italian)"
+        },
+        "ニン": {
+          "kanji": "人",
+          "kana": "にん",
+          "en": "counter for people"
+        },
+        "ひと": {
+          "kanji": "人",
+          "kana": "ひと",
+          "en": "person"
+        },
+        "り": {
+          "kanji": "隣人",
+          "kana": "りんじん",
+          "en": "neighbour"
+        },
+        "と": {
+          "kanji": "当人",
+          "kana": "とうにん",
+          "en": "the person concerned"
+        }
+      }
     },
     {
       "kanji": "休",
@@ -436,7 +666,29 @@ export const KANJI_BY_GRADE = {
           "kana": "やすめる",
           "en": "to rest"
         }
-      ]
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "休暇",
+          "kana": "きゅうか",
+          "en": "holiday"
+        },
+        "やすむ": {
+          "kanji": "休む",
+          "kana": "やすむ",
+          "en": "to be absent"
+        },
+        "やすまる": {
+          "kanji": "休まる",
+          "kana": "やすまる",
+          "en": "to be rested"
+        },
+        "やすめる": {
+          "kanji": "休める",
+          "kana": "やすめる",
+          "en": "to rest"
+        }
+      }
     },
     {
       "kanji": "先",
@@ -470,11 +722,28 @@ export const KANJI_BY_GRADE = {
           "en": "a short while ago"
         },
         {
-          "kanji": "手先",
-          "kana": "てさき",
-          "en": "fingers"
+          "kanji": "機先",
+          "kana": "きせん",
+          "en": "moment just before something happens"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "先議",
+          "kana": "せんぎ",
+          "en": "initiative"
+        },
+        "さき": {
+          "kanji": "先",
+          "kana": "さき",
+          "en": "point"
+        },
+        "まず": {
+          "kanji": "先ず",
+          "kana": "まず",
+          "en": "first (of all)"
+        }
+      }
     },
     {
       "kanji": "入",
@@ -506,16 +775,48 @@ export const KANJI_BY_GRADE = {
           "en": "to enter"
         },
         {
+          "kanji": "仕入れ",
+          "kana": "しいれ",
+          "en": "buying (of stock, materials, etc.)"
+        },
+        {
           "kanji": "手入れ",
           "kana": "ていれ",
           "en": "care"
-        },
-        {
-          "kanji": "出入り",
-          "kana": "でいり",
-          "en": "going in and out"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ニュウ": {
+          "kanji": "入荷",
+          "kana": "にゅうか",
+          "en": "arrival of goods"
+        },
+        "ジュ": {
+          "kanji": "入水",
+          "kana": "じゅすい",
+          "en": "suicide by drowning"
+        },
+        "いる": {
+          "kanji": "入る",
+          "kana": "いる",
+          "en": "to enter"
+        },
+        "いり": {
+          "kanji": "入り",
+          "kana": "いり",
+          "en": "entering"
+        },
+        "いれる": {
+          "kanji": "入れる",
+          "kana": "いれる",
+          "en": "to put in"
+        },
+        "いれ": {
+          "kanji": "入れる",
+          "kana": "いれる",
+          "en": "to put in"
+        }
+      }
     },
     {
       "kanji": "八",
@@ -540,6 +841,11 @@ export const KANJI_BY_GRADE = {
           "en": "eight"
         },
         {
+          "kanji": "八重",
+          "kana": "やえ",
+          "en": "eightfold"
+        },
+        {
           "kanji": "八つ",
           "kana": "やっつ",
           "en": "eight"
@@ -548,13 +854,30 @@ export const KANJI_BY_GRADE = {
           "kanji": "お八つ",
           "kana": "おやつ",
           "en": "between-meal snack"
-        },
-        {
-          "kanji": "八本",
-          "kana": "はちほん",
-          "en": "eight (long cylindrical things)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ハチ": {
+          "kanji": "八",
+          "kana": "はち",
+          "en": "eight"
+        },
+        "や": {
+          "kanji": "八重",
+          "kana": "やえ",
+          "en": "eightfold"
+        },
+        "やつ": {
+          "kanji": "八つ当たり",
+          "kana": "やつあたり",
+          "en": "venting one's anger (on someone or something)"
+        },
+        "やっつ": {
+          "kanji": "八つ",
+          "kana": "やっつ",
+          "en": "eight"
+        }
+      }
     },
     {
       "kanji": "六",
@@ -583,11 +906,33 @@ export const KANJI_BY_GRADE = {
           "en": "six"
         },
         {
+          "kanji": "六角",
+          "kana": "ろっかく",
+          "en": "hexagon"
+        },
+        {
           "kanji": "十六",
           "kana": "じゅうろく",
           "en": "sixteen"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ロク": {
+          "kanji": "六",
+          "kana": "ろく",
+          "en": "six"
+        },
+        "む": {
+          "kanji": "六つ",
+          "kana": "むっつ",
+          "en": "six"
+        },
+        "むっつ": {
+          "kanji": "六つ",
+          "kana": "むっつ",
+          "en": "six"
+        }
+      }
     },
     {
       "kanji": "円",
@@ -618,16 +963,28 @@ export const KANJI_BY_GRADE = {
           "en": "one yen"
         },
         {
-          "kanji": "１０００円",
-          "kana": "せんえん",
-          "en": "1000 yen"
+          "kanji": "円安",
+          "kana": "えんやす",
+          "en": "depreciation of the yen"
         },
         {
-          "kanji": "１００円ショップ",
-          "kana": "ひゃくえんショップ",
-          "en": "hundred-yen store"
+          "kanji": "円建て",
+          "kana": "えんだて",
+          "en": "yen basis (for trade, exchange, etc.)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "円",
+          "kana": "えん",
+          "en": "yen (currency of Japan)"
+        },
+        "まる": {
+          "kanji": "円錐",
+          "kana": "まるぎり",
+          "en": "round gimlet"
+        }
+      }
     },
     {
       "kanji": "出",
@@ -670,7 +1027,34 @@ export const KANJI_BY_GRADE = {
           "kana": "だし",
           "en": "dashi"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シュツ": {
+          "kanji": "出土",
+          "kana": "しゅつど",
+          "en": "archeological excavation (archaeological)"
+        },
+        "スイ": {
+          "kanji": "出納",
+          "kana": "すいとう",
+          "en": "receipts and expenditure (disbursements)"
+        },
+        "でる": {
+          "kanji": "出る",
+          "kana": "でる",
+          "en": "to leave"
+        },
+        "で": {
+          "kanji": "出",
+          "kana": "で",
+          "en": "coming out"
+        },
+        "だす": {
+          "kanji": "出す",
+          "kana": "だす",
+          "en": "to take out"
+        }
+      }
     },
     {
       "kanji": "力",
@@ -690,26 +1074,43 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
-          "kanji": "力",
-          "kana": "ちから",
-          "en": "force"
+          "kanji": "自力",
+          "kana": "じりき",
+          "en": "one's own strength"
         },
         {
+          "kanji": "他力",
+          "kana": "たりき",
+          "en": "outside help"
+        },
+        {
+          "kanji": "馬力",
+          "kana": "ばりき",
+          "en": "horsepower"
+        },
+        {
+          "kanji": "非力",
+          "kana": "ひりき",
+          "en": "powerless"
+        }
+      ],
+      "readingExamples": {
+        "リョク": {
           "kanji": "力",
           "kana": "りょく",
           "en": "strength"
         },
-        {
+        "リキ": {
           "kanji": "力む",
           "kana": "りきむ",
           "en": "to strain (oneself)"
         },
-        {
-          "kanji": "火力",
-          "kana": "かりょく",
-          "en": "heating power"
+        "ちから": {
+          "kanji": "力",
+          "kana": "ちから",
+          "en": "force"
         }
-      ]
+      }
     },
     {
       "kanji": "十",
@@ -733,6 +1134,11 @@ export const KANJI_BY_GRADE = {
           "en": "ten"
         },
         {
+          "kanji": "十指",
+          "kana": "じっし",
+          "en": "the ten fingers"
+        },
+        {
           "kanji": "十五",
           "kana": "じゅうご",
           "en": "fifteen"
@@ -741,13 +1147,20 @@ export const KANJI_BY_GRADE = {
           "kanji": "十字",
           "kana": "じゅうじ",
           "en": "cross"
-        },
-        {
-          "kanji": "十二",
-          "kana": "じゅうに",
-          "en": "twelve"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ジュウ": {
+          "kanji": "十",
+          "kana": "じゅう",
+          "en": "ten"
+        },
+        "ジッ": {
+          "kanji": "十指",
+          "kana": "じっし",
+          "en": "the ten fingers"
+        }
+      }
     },
     {
       "kanji": "千",
@@ -767,11 +1180,33 @@ export const KANJI_BY_GRADE = {
           "en": "thousand"
         },
         {
-          "kanji": "千草",
-          "kana": "ちぐさ",
-          "en": "great variety of flowering plants"
+          "kanji": "千代",
+          "kana": "ちよ",
+          "en": "thousand years"
+        },
+        {
+          "kanji": "千葉",
+          "kana": "ちば",
+          "en": "Chiba (city, prefecture)"
+        },
+        {
+          "kanji": "千切る",
+          "kana": "ちぎる",
+          "en": "to tear to pieces"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "千",
+          "kana": "せん",
+          "en": "thousand"
+        },
+        "ち": {
+          "kanji": "千代",
+          "kana": "ちよ",
+          "en": "thousand years"
+        }
+      }
     },
     {
       "kanji": "口",
@@ -792,21 +1227,38 @@ export const KANJI_BY_GRADE = {
           "en": "mouth"
         },
         {
+          "kanji": "間口",
+          "kana": "まぐち",
+          "en": "frontage"
+        },
+        {
+          "kanji": "戸口",
+          "kana": "とぐち",
+          "en": "door"
+        },
+        {
           "kanji": "口火",
           "kana": "くちび",
           "en": "fuse"
-        },
-        {
-          "kanji": "手口",
-          "kana": "てぐち",
-          "en": "modus operandi"
-        },
-        {
-          "kanji": "出口",
-          "kana": "でぐち",
-          "en": "exit"
         }
-      ]
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "口語",
+          "kana": "こうご",
+          "en": "spoken language"
+        },
+        "ク": {
+          "kanji": "口",
+          "kana": "くち",
+          "en": "mouth"
+        },
+        "くち": {
+          "kanji": "口",
+          "kana": "くち",
+          "en": "mouth"
+        }
+      }
     },
     {
       "kanji": "右",
@@ -827,21 +1279,33 @@ export const KANJI_BY_GRADE = {
           "en": "right"
         },
         {
+          "kanji": "右派",
+          "kana": "うは",
+          "en": "right wing"
+        },
+        {
+          "kanji": "右岸",
+          "kana": "うがん",
+          "en": "right bank (of a river)"
+        },
+        {
           "kanji": "右手",
           "kana": "みぎて",
           "en": "right hand"
-        },
-        {
-          "kanji": "左右",
-          "kana": "さゆう",
-          "en": "left and right"
-        },
-        {
-          "kanji": "右下",
-          "kana": "みぎした",
-          "en": "lower right"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ウ": {
+          "kanji": "右派",
+          "kana": "うは",
+          "en": "right wing"
+        },
+        "みぎ": {
+          "kanji": "右",
+          "kana": "みぎ",
+          "en": "right"
+        }
+      }
     },
     {
       "kanji": "名",
@@ -866,21 +1330,38 @@ export const KANJI_BY_GRADE = {
           "en": "name"
         },
         {
-          "kanji": "あだ名",
-          "kana": "あだな",
-          "en": "nickname"
+          "kanji": "仮名",
+          "kana": "かな",
+          "en": "kana"
         },
         {
-          "kanji": "学名",
-          "kana": "がくめい",
-          "en": "scientific name (of a species)"
+          "kanji": "家名",
+          "kana": "かめい",
+          "en": "family name"
         },
         {
-          "kanji": "人名",
-          "kana": "じんめい",
-          "en": "person's name"
+          "kanji": "記名",
+          "kana": "きめい",
+          "en": "signature"
         }
-      ]
+      ],
+      "readingExamples": {
+        "メイ": {
+          "kanji": "名医",
+          "kana": "めいい",
+          "en": "noted doctor"
+        },
+        "ミョウ": {
+          "kanji": "名代",
+          "kana": "みょうだい",
+          "en": "proxy"
+        },
+        "な": {
+          "kanji": "名",
+          "kana": "な",
+          "en": "name"
+        }
+      }
     },
     {
       "kanji": "四",
@@ -903,6 +1384,11 @@ export const KANJI_BY_GRADE = {
           "en": "four"
         },
         {
+          "kanji": "四季",
+          "kana": "しき",
+          "en": "the four seasons"
+        },
+        {
           "kanji": "四手",
           "kana": "しで",
           "en": "zigzag-shaped paper streamer often used to adorn Shinto-related objects"
@@ -911,13 +1397,35 @@ export const KANJI_BY_GRADE = {
           "kanji": "四つ",
           "kana": "よっつ",
           "en": "four"
-        },
-        {
-          "kanji": "四川",
-          "kana": "しせん",
-          "en": "Sichuan (China)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "四",
+          "kana": "し",
+          "en": "four"
+        },
+        "よ": {
+          "kanji": "四つ",
+          "kana": "よっつ",
+          "en": "four"
+        },
+        "よつ": {
+          "kanji": "四つ角",
+          "kana": "よつかど",
+          "en": "four corners"
+        },
+        "よっつ": {
+          "kanji": "四つ",
+          "kana": "よっつ",
+          "en": "four"
+        },
+        "よん": {
+          "kanji": "四本",
+          "kana": "よんほん",
+          "en": "four (long cylindrical things)"
+        }
+      }
     },
     {
       "kanji": "土",
@@ -941,21 +1449,38 @@ export const KANJI_BY_GRADE = {
           "en": "earth"
         },
         {
+          "kanji": "土間",
+          "kana": "どま",
+          "en": "dirt floor"
+        },
+        {
+          "kanji": "土器",
+          "kana": "どき",
+          "en": "earthenware"
+        },
+        {
           "kanji": "土手",
           "kana": "どて",
           "en": "embankment"
-        },
-        {
-          "kanji": "土人",
-          "kana": "どじん",
-          "en": "native"
-        },
-        {
-          "kanji": "土石",
-          "kana": "どせき",
-          "en": "earth and stones"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ド": {
+          "kanji": "土間",
+          "kana": "どま",
+          "en": "dirt floor"
+        },
+        "ト": {
+          "kanji": "土地",
+          "kana": "とち",
+          "en": "plot of land"
+        },
+        "つち": {
+          "kanji": "土",
+          "kana": "つち",
+          "en": "earth"
+        }
+      }
     },
     {
       "kanji": "夕",
@@ -980,16 +1505,23 @@ export const KANJI_BY_GRADE = {
           "en": "evening sun"
         },
         {
-          "kanji": "夕立",
-          "kana": "ゆうだち",
-          "en": "(sudden, heavy) shower (on a summer afternoon or evening)"
+          "kanji": "朝夕",
+          "kana": "あさゆう",
+          "en": "morning and evening"
         },
         {
-          "kanji": "七夕",
-          "kana": "たなばた",
-          "en": "Star Festival (held in July or August)"
+          "kanji": "夕刊",
+          "kana": "ゆうかん",
+          "en": "evening edition (of a daily newspaper)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ゆう": {
+          "kanji": "夕",
+          "kana": "ゆう",
+          "en": "evening"
+        }
+      }
     },
     {
       "kanji": "大",
@@ -1018,16 +1550,43 @@ export const KANJI_BY_GRADE = {
           "en": "large"
         },
         {
-          "kanji": "大火",
-          "kana": "たいか",
-          "en": "large fire"
+          "kanji": "医大",
+          "kana": "いだい",
+          "en": "medical university"
         },
         {
-          "kanji": "大気",
-          "kana": "たいき",
-          "en": "atmosphere"
+          "kanji": "過大",
+          "kana": "かだい",
+          "en": "excessive"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ダイ": {
+          "kanji": "大",
+          "kana": "だい",
+          "en": "large"
+        },
+        "タイ": {
+          "kanji": "大尉",
+          "kana": "たいい",
+          "en": "captain (Army, US Marine Corps, USAF)"
+        },
+        "おお": {
+          "kanji": "大",
+          "kana": "おお",
+          "en": "large"
+        },
+        "おおきい": {
+          "kanji": "大きい",
+          "kana": "おおきい",
+          "en": "big"
+        },
+        "おおいに": {
+          "kanji": "大いに",
+          "kana": "おおいに",
+          "en": "very"
+        }
+      }
     },
     {
       "kanji": "天",
@@ -1065,7 +1624,19 @@ export const KANJI_BY_GRADE = {
           "kana": "てんき",
           "en": "weather"
         }
-      ]
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "天",
+          "kana": "てん",
+          "en": "sky"
+        },
+        "あま": {
+          "kanji": "天下り",
+          "kana": "あまくだり",
+          "en": "retiring high-ranking government officials taking a lucrative job in a private or semi-private corporation"
+        }
+      }
     },
     {
       "kanji": "女",
@@ -1084,26 +1655,53 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
+          "kanji": "海女",
+          "kana": "あま",
+          "en": "ama"
+        },
+        {
           "kanji": "子女",
           "kana": "しじょ",
           "en": "sons and daughters"
         },
         {
+          "kanji": "次女",
+          "kana": "じじょ",
+          "en": "second daughter"
+        },
+        {
+          "kanji": "女",
+          "kana": "おんな",
+          "en": "woman"
+        }
+      ],
+      "readingExamples": {
+        "ジョ": {
+          "kanji": "女医",
+          "kana": "じょい",
+          "en": "female doctor"
+        },
+        "ニョ": {
+          "kanji": "女人",
+          "kana": "にょにん",
+          "en": "woman"
+        },
+        "ニョウ": {
+          "kanji": "女房",
+          "kana": "にょうぼう",
+          "en": "wife (esp. one's own wife)"
+        },
+        "おんな": {
           "kanji": "女",
           "kana": "おんな",
           "en": "woman"
         },
-        {
-          "kanji": "女子",
-          "kana": "じょし",
-          "en": "woman"
-        },
-        {
-          "kanji": "王女",
-          "kana": "おうじょ",
-          "en": "princess"
+        "め": {
+          "kanji": "女神",
+          "kana": "めがみ",
+          "en": "goddess"
         }
-      ]
+      }
     },
     {
       "kanji": "子",
@@ -1135,16 +1733,38 @@ export const KANJI_BY_GRADE = {
           "en": "the Rat (first sign of the Chinese zodiac)"
         },
         {
-          "kanji": "王子",
-          "kana": "おうじ",
-          "en": "prince"
+          "kanji": "素子",
+          "kana": "そし",
+          "en": "element (esp. component in electronics)"
         },
         {
-          "kanji": "子音",
-          "kana": "しいん",
-          "en": "consonant"
+          "kanji": "父子",
+          "kana": "ふし",
+          "en": "father and child"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "獅子",
+          "kana": "しし",
+          "en": "lion"
+        },
+        "ス": {
+          "kanji": "捨て子",
+          "kana": "すてご",
+          "en": "abandoned child"
+        },
+        "こ": {
+          "kanji": "子",
+          "kana": "こ",
+          "en": "child"
+        },
+        "ね": {
+          "kanji": "子",
+          "kana": "ね",
+          "en": "the Rat (first sign of the Chinese zodiac)"
+        }
+      }
     },
     {
       "kanji": "字",
@@ -1169,21 +1789,33 @@ export const KANJI_BY_GRADE = {
           "en": "character (esp. kanji)"
         },
         {
+          "kanji": "誤字",
+          "kana": "ごじ",
+          "en": "misprint"
+        },
+        {
           "kanji": "字",
           "kana": "あざ",
           "en": "section of village"
         },
         {
-          "kanji": "文字",
-          "kana": "もじ",
-          "en": "letter (of an alphabet)"
-        },
-        {
-          "kanji": "一字",
-          "kana": "いちじ",
-          "en": "(one) letter"
+          "kanji": "字句",
+          "kana": "じく",
+          "en": "wording"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "字",
+          "kana": "じ",
+          "en": "character (esp. kanji)"
+        },
+        "あざ": {
+          "kanji": "字",
+          "kana": "あざ",
+          "en": "section of village"
+        }
+      }
     },
     {
       "kanji": "学",
@@ -1205,21 +1837,33 @@ export const KANJI_BY_GRADE = {
           "en": "learning"
         },
         {
+          "kanji": "医学",
+          "kana": "いがく",
+          "en": "medicine"
+        },
+        {
+          "kanji": "化学",
+          "kana": "かがく",
+          "en": "chemistry"
+        },
+        {
+          "kanji": "科学",
+          "kana": "かがく",
+          "en": "science"
+        }
+      ],
+      "readingExamples": {
+        "ガク": {
+          "kanji": "学",
+          "kana": "がく",
+          "en": "learning"
+        },
+        "まなぶ": {
           "kanji": "学ぶ",
           "kana": "まなぶ",
           "en": "to learn"
-        },
-        {
-          "kanji": "学び",
-          "kana": "まなび",
-          "en": "learning"
-        },
-        {
-          "kanji": "学校",
-          "kana": "がっこう",
-          "en": "school"
         }
-      ]
+      }
     },
     {
       "kanji": "小",
@@ -1243,6 +1887,11 @@ export const KANJI_BY_GRADE = {
           "en": "small"
         },
         {
+          "kanji": "小屋",
+          "kana": "こや",
+          "en": "hut"
+        },
+        {
           "kanji": "小火",
           "kana": "ボヤ",
           "en": "small fire"
@@ -1251,13 +1900,35 @@ export const KANJI_BY_GRADE = {
           "kanji": "小手",
           "kana": "こて",
           "en": "forearm"
-        },
-        {
-          "kanji": "小雨",
-          "kana": "こさめ",
-          "en": "light rain"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "小",
+          "kana": "しょう",
+          "en": "smallness"
+        },
+        "ちいさい": {
+          "kanji": "小さい",
+          "kana": "ちいさい",
+          "en": "small"
+        },
+        "こ": {
+          "kanji": "小",
+          "kana": "こ",
+          "en": "small"
+        },
+        "お": {
+          "kanji": "小川",
+          "kana": "おがわ",
+          "en": "stream"
+        },
+        "さ": {
+          "kanji": "最小",
+          "kana": "さいしょう",
+          "en": "smallest (in size, degree, etc.)"
+        }
+      }
     },
     {
       "kanji": "山",
@@ -1292,7 +1963,19 @@ export const KANJI_BY_GRADE = {
           "kana": "かざん",
           "en": "volcano"
         }
-      ]
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "山地",
+          "kana": "さんち",
+          "en": "mountainous region"
+        },
+        "やま": {
+          "kanji": "山",
+          "kana": "やま",
+          "en": "mountain"
+        }
+      }
     },
     {
       "kanji": "川",
@@ -1314,6 +1997,11 @@ export const KANJI_BY_GRADE = {
           "en": "river"
         },
         {
+          "kanji": "河川",
+          "kana": "かせん",
+          "en": "rivers"
+        },
+        {
           "kanji": "四川",
           "kana": "しせん",
           "en": "Sichuan (China)"
@@ -1322,13 +2010,20 @@ export const KANJI_BY_GRADE = {
           "kanji": "小川",
           "kana": "おがわ",
           "en": "stream"
-        },
-        {
-          "kanji": "山川",
-          "kana": "さんせん",
-          "en": "mountains and rivers"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "川柳",
+          "kana": "せんりゅう",
+          "en": "senryū"
+        },
+        "かわ": {
+          "kanji": "川",
+          "kana": "かわ",
+          "en": "river"
+        }
+      }
     },
     {
       "kanji": "左",
@@ -1344,6 +2039,16 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
+          "kanji": "左記",
+          "kana": "さき",
+          "en": "undermentioned (statement)"
+        },
+        {
+          "kanji": "左派",
+          "kana": "さは",
+          "en": "left wing"
+        },
+        {
           "kanji": "左",
           "kana": "ひだり",
           "en": "left"
@@ -1352,18 +2057,20 @@ export const KANJI_BY_GRADE = {
           "kanji": "左右",
           "kana": "さゆう",
           "en": "left and right"
-        },
-        {
-          "kanji": "左手",
-          "kana": "ひだりて",
-          "en": "left hand"
-        },
-        {
-          "kanji": "左上",
-          "kana": "ひだりうえ",
-          "en": "upper left"
         }
-      ]
+      ],
+      "readingExamples": {
+        "サ": {
+          "kanji": "左記",
+          "kana": "さき",
+          "en": "undermentioned (statement)"
+        },
+        "ひだり": {
+          "kanji": "左",
+          "kana": "ひだり",
+          "en": "left"
+        }
+      }
     },
     {
       "kanji": "年",
@@ -1389,16 +2096,28 @@ export const KANJI_BY_GRADE = {
           "en": "year"
         },
         {
-          "kanji": "学年",
-          "kana": "がくねん",
-          "en": "academic year"
+          "kanji": "多年",
+          "kana": "たねん",
+          "en": "many years"
         },
         {
-          "kanji": "青年",
-          "kana": "せいねん",
-          "en": "youth"
+          "kanji": "年賀",
+          "kana": "ねんが",
+          "en": "New Year's greetings"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ネン": {
+          "kanji": "年",
+          "kana": "ねん",
+          "en": "year"
+        },
+        "とし": {
+          "kanji": "年",
+          "kana": "とし",
+          "en": "year"
+        }
+      }
     },
     {
       "kanji": "手",
@@ -1427,16 +2146,33 @@ export const KANJI_BY_GRADE = {
           "en": "unskillful"
         },
         {
-          "kanji": "土手",
-          "kana": "どて",
-          "en": "embankment"
+          "kanji": "後手",
+          "kana": "ごて",
+          "en": "losing initiative"
         },
         {
-          "kanji": "小手",
-          "kana": "こて",
-          "en": "forearm"
+          "kanji": "仕手",
+          "kana": "して",
+          "en": "doer"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "手記",
+          "kana": "しゅき",
+          "en": "note"
+        },
+        "て": {
+          "kanji": "手",
+          "kana": "て",
+          "en": "hand"
+        },
+        "た": {
+          "kanji": "手綱",
+          "kana": "たづな",
+          "en": "reins"
+        }
+      }
     },
     {
       "kanji": "文",
@@ -1471,11 +2207,28 @@ export const KANJI_BY_GRADE = {
           "en": "letter (of an alphabet)"
         },
         {
-          "kanji": "一文",
-          "kana": "いちもん",
-          "en": "tiny amount of money"
+          "kanji": "文化",
+          "kana": "ぶんか",
+          "en": "culture"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ブン": {
+          "kanji": "文",
+          "kana": "ぶん",
+          "en": "sentence"
+        },
+        "モン": {
+          "kanji": "文句",
+          "kana": "もんく",
+          "en": "complaint"
+        },
+        "ふみ": {
+          "kanji": "文",
+          "kana": "ふみ",
+          "en": "letter"
+        }
+      }
     },
     {
       "kanji": "日",
@@ -1511,11 +2264,33 @@ export const KANJI_BY_GRADE = {
           "en": "Sunday"
         },
         {
-          "kanji": "月日",
-          "kana": "つきひ",
-          "en": "time"
+          "kanji": "過日",
+          "kana": "かじつ",
+          "en": "the other day"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ニチ": {
+          "kanji": "日",
+          "kana": "にち",
+          "en": "Sunday"
+        },
+        "ジツ": {
+          "kanji": "日月",
+          "kana": "じつげつ",
+          "en": "sun and moon"
+        },
+        "ひ": {
+          "kanji": "日",
+          "kana": "ひ",
+          "en": "day"
+        },
+        "か": {
+          "kanji": "過日",
+          "kana": "かじつ",
+          "en": "the other day"
+        }
+      }
     },
     {
       "kanji": "早",
@@ -1542,21 +2317,53 @@ export const KANJI_BY_GRADE = {
           "en": "already"
         },
         {
+          "kanji": "最早",
+          "kana": "もはや",
+          "en": "already"
+        },
+        {
           "kanji": "早く",
           "kana": "はやく",
           "en": "early"
         },
         {
+          "kanji": "早期",
+          "kana": "そうき",
+          "en": "early stage"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "早期",
+          "kana": "そうき",
+          "en": "early stage"
+        },
+        "サッ": {
+          "kanji": "早速",
+          "kana": "さっそく",
+          "en": "at once"
+        },
+        "はやい": {
           "kanji": "早い",
           "kana": "はやい",
           "en": "fast"
         },
-        {
-          "kanji": "早出",
-          "kana": "はやで",
-          "en": "leaving early (for work)"
+        "はや": {
+          "kanji": "早",
+          "kana": "はや",
+          "en": "already"
+        },
+        "はやまる": {
+          "kanji": "早まる",
+          "kana": "はやまる",
+          "en": "to be brought forward (e.g. by three hours)"
+        },
+        "はやめる": {
+          "kanji": "早める",
+          "kana": "はやめる",
+          "en": "to bring forward (e.g. by 3 hours)"
         }
-      ]
+      }
     },
     {
       "kanji": "月",
@@ -1592,7 +2399,24 @@ export const KANJI_BY_GRADE = {
           "kana": "くがつ",
           "en": "September"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ゲツ": {
+          "kanji": "月額",
+          "kana": "げつがく",
+          "en": "monthly sum"
+        },
+        "ガツ": {
+          "kanji": "月",
+          "kana": "がつ",
+          "en": "month (of the year)"
+        },
+        "つき": {
+          "kanji": "月",
+          "kana": "つき",
+          "en": "Moon"
+        }
+      }
     },
     {
       "kanji": "木",
@@ -1615,21 +2439,43 @@ export const KANJI_BY_GRADE = {
           "en": "tree"
         },
         {
+          "kanji": "木戸",
+          "kana": "きど",
+          "en": "wicket gate"
+        },
+        {
+          "kanji": "木場",
+          "kana": "きば",
+          "en": "lumberyard"
+        },
+        {
           "kanji": "木々",
           "kana": "きぎ",
           "en": "(many) trees"
-        },
-        {
-          "kanji": "土木",
-          "kana": "どぼく",
-          "en": "engineering works"
-        },
-        {
-          "kanji": "白木",
-          "kana": "しらき",
-          "en": "plain wood"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ボク": {
+          "kanji": "木刀",
+          "kana": "ぼくとう",
+          "en": "wooden sword"
+        },
+        "モク": {
+          "kanji": "木馬",
+          "kana": "もくば",
+          "en": "wooden horse"
+        },
+        "き": {
+          "kanji": "木",
+          "kana": "き",
+          "en": "tree"
+        },
+        "こ": {
+          "kanji": "古木",
+          "kana": "こぼく",
+          "en": "old tree"
+        }
+      }
     },
     {
       "kanji": "本",
@@ -1657,16 +2503,28 @@ export const KANJI_BY_GRADE = {
           "en": "mere"
         },
         {
-          "kanji": "見本",
-          "kana": "みほん",
-          "en": "sample"
+          "kanji": "絵本",
+          "kana": "えほん",
+          "en": "picture book"
         },
         {
-          "kanji": "手本",
-          "kana": "てほん",
-          "en": "model"
+          "kanji": "基本",
+          "kana": "きほん",
+          "en": "basics"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ホン": {
+          "kanji": "本",
+          "kana": "ほん",
+          "en": "book"
+        },
+        "もと": {
+          "kanji": "本木",
+          "kana": "もとき",
+          "en": "original stock"
+        }
+      }
     },
     {
       "kanji": "村",
@@ -1687,21 +2545,33 @@ export const KANJI_BY_GRADE = {
           "en": "village"
         },
         {
+          "kanji": "寒村",
+          "kana": "かんそん",
+          "en": "poor village"
+        },
+        {
+          "kanji": "漁村",
+          "kana": "ぎょそん",
+          "en": "fishing village"
+        },
+        {
           "kanji": "村人",
           "kana": "むらびと",
           "en": "villager"
-        },
-        {
-          "kanji": "村立",
-          "kana": "そんりつ",
-          "en": "established by a village"
-        },
-        {
-          "kanji": "山村",
-          "kana": "さんそん",
-          "en": "mountain village"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ソン": {
+          "kanji": "村民",
+          "kana": "そんみん",
+          "en": "villager"
+        },
+        "むら": {
+          "kanji": "村",
+          "kana": "むら",
+          "en": "village"
+        }
+      }
     },
     {
       "kanji": "林",
@@ -1722,21 +2592,33 @@ export const KANJI_BY_GRADE = {
           "en": "wood"
         },
         {
+          "kanji": "辞林",
+          "kana": "じりん",
+          "en": "dictionary"
+        },
+        {
+          "kanji": "林野",
+          "kana": "りんや",
+          "en": "forests and fields"
+        },
+        {
           "kanji": "山林",
           "kana": "さんりん",
           "en": "mountain forest"
-        },
-        {
-          "kanji": "森林",
-          "kana": "しんりん",
-          "en": "forest"
-        },
-        {
-          "kanji": "竹林",
-          "kana": "ちくりん",
-          "en": "bamboo thicket"
         }
-      ]
+      ],
+      "readingExamples": {
+        "リン": {
+          "kanji": "林檎",
+          "kana": "りんご",
+          "en": "apple (fruit)"
+        },
+        "はやし": {
+          "kanji": "林",
+          "kana": "はやし",
+          "en": "wood"
+        }
+      }
     },
     {
       "kanji": "校",
@@ -1758,21 +2640,28 @@ export const KANJI_BY_GRADE = {
           "en": "leaving school (at the end of the day)"
         },
         {
-          "kanji": "学校",
-          "kana": "がっこう",
-          "en": "school"
+          "kanji": "校医",
+          "kana": "こうい",
+          "en": "school doctor"
         },
         {
-          "kanji": "校正",
-          "kana": "こうせい",
-          "en": "proofreading"
+          "kanji": "校歌",
+          "kana": "こうか",
+          "en": "school song"
         },
         {
-          "kanji": "三校",
-          "kana": "さんこう",
-          "en": "third proof"
+          "kanji": "校旗",
+          "kana": "こうき",
+          "en": "school flag"
         }
-      ]
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "校医",
+          "kana": "こうい",
+          "en": "school doctor"
+        }
+      }
     },
     {
       "kanji": "森",
@@ -1797,7 +2686,19 @@ export const KANJI_BY_GRADE = {
           "kana": "しんりん",
           "en": "forest"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "森林",
+          "kana": "しんりん",
+          "en": "forest"
+        },
+        "もり": {
+          "kanji": "森",
+          "kana": "もり",
+          "en": "forest"
+        }
+      }
     },
     {
       "kanji": "正",
@@ -1834,11 +2735,43 @@ export const KANJI_BY_GRADE = {
           "en": "exactly"
         },
         {
-          "kanji": "校正",
-          "kana": "こうせい",
-          "en": "proofreading"
+          "kanji": "正規",
+          "kana": "せいき",
+          "en": "regular"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "正",
+          "kana": "せい",
+          "en": "(logical) true"
+        },
+        "ショウ": {
+          "kanji": "正午",
+          "kana": "しょうご",
+          "en": "noon"
+        },
+        "ただしい": {
+          "kanji": "正しい",
+          "kana": "ただしい",
+          "en": "right"
+        },
+        "ただす": {
+          "kanji": "正す",
+          "kana": "ただす",
+          "en": "to correct"
+        },
+        "まさ": {
+          "kanji": "正に",
+          "kana": "まさに",
+          "en": "exactly"
+        },
+        "まさに": {
+          "kanji": "正に",
+          "kana": "まさに",
+          "en": "exactly"
+        }
+      }
     },
     {
       "kanji": "気",
@@ -1863,21 +2796,43 @@ export const KANJI_BY_GRADE = {
           "en": "spirit"
         },
         {
+          "kanji": "意気",
+          "kana": "いき",
+          "en": "spirit"
+        },
+        {
           "kanji": "火気",
           "kana": "かき",
           "en": "fire"
         },
         {
-          "kanji": "一気",
-          "kana": "いっき",
-          "en": "one breath"
-        },
-        {
-          "kanji": "火の気",
-          "kana": "ひのけ",
-          "en": "source of fire"
+          "kanji": "気化",
+          "kana": "きか",
+          "en": "vaporization"
         }
-      ]
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "気",
+          "kana": "き",
+          "en": "spirit"
+        },
+        "ケ": {
+          "kanji": "気配",
+          "kana": "けはい",
+          "en": "indication"
+        },
+        "いき": {
+          "kanji": "意気",
+          "kana": "いき",
+          "en": "spirit"
+        },
+        "き": {
+          "kanji": "気",
+          "kana": "き",
+          "en": "spirit"
+        }
+      }
     },
     {
       "kanji": "水",
@@ -1903,16 +2858,28 @@ export const KANJI_BY_GRADE = {
           "en": "drainage"
         },
         {
-          "kanji": "水気",
-          "kana": "みずけ",
-          "en": "water content"
+          "kanji": "湖水",
+          "kana": "こすい",
+          "en": "lake"
         },
         {
-          "kanji": "水木",
-          "kana": "みずき",
-          "en": "dogwood (Cornus controversa)"
+          "kanji": "治水",
+          "kana": "ちすい",
+          "en": "river management"
         }
-      ]
+      ],
+      "readingExamples": {
+        "スイ": {
+          "kanji": "水死",
+          "kana": "すいし",
+          "en": "death by drowning"
+        },
+        "みず": {
+          "kanji": "水",
+          "kana": "みず",
+          "en": "water (esp. cool or cold)"
+        }
+      }
     },
     {
       "kanji": "火",
@@ -1934,21 +2901,38 @@ export const KANJI_BY_GRADE = {
           "en": "fire"
         },
         {
+          "kanji": "火器",
+          "kana": "かき",
+          "en": "firearms"
+        },
+        {
           "kanji": "火気",
           "kana": "かき",
           "en": "fire"
         },
         {
-          "kanji": "小火",
-          "kana": "ボヤ",
-          "en": "small fire"
-        },
-        {
-          "kanji": "下火",
-          "kana": "したび",
-          "en": "dying down (of a fire)"
+          "kanji": "火事",
+          "kana": "かじ",
+          "en": "fire"
         }
-      ]
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "火器",
+          "kana": "かき",
+          "en": "firearms"
+        },
+        "ひ": {
+          "kanji": "火",
+          "kana": "ひ",
+          "en": "fire"
+        },
+        "ほ": {
+          "kanji": "放火",
+          "kana": "ほうか",
+          "en": "arson"
+        }
+      }
     },
     {
       "kanji": "犬",
@@ -1969,11 +2953,33 @@ export const KANJI_BY_GRADE = {
           "en": "dog (Canis (lupus) familiaris)"
         },
         {
+          "kanji": "野犬",
+          "kana": "やけん",
+          "en": "stray dog"
+        },
+        {
           "kanji": "子犬",
           "kana": "こいぬ",
           "en": "puppy"
+        },
+        {
+          "kanji": "愛犬",
+          "kana": "あいけん",
+          "en": "pet dog"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "犬猿の仲",
+          "kana": "けんえんのなか",
+          "en": "like cats and dogs"
+        },
+        "いぬ": {
+          "kanji": "犬",
+          "kana": "いぬ",
+          "en": "dog (Canis (lupus) familiaris)"
+        }
+      }
     },
     {
       "kanji": "玉",
@@ -2006,11 +3012,23 @@ export const KANJI_BY_GRADE = {
           "en": "beanbags"
         },
         {
-          "kanji": "火の玉",
-          "kana": "ひのたま",
-          "en": "fireball"
+          "kanji": "悪玉",
+          "kana": "あくだま",
+          "en": "bad character"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ギョク": {
+          "kanji": "玉露",
+          "kana": "ぎょくろ",
+          "en": "high-quality green tea"
+        },
+        "たま": {
+          "kanji": "玉",
+          "kana": "たま",
+          "en": "ball"
+        }
+      }
     },
     {
       "kanji": "王",
@@ -2031,21 +3049,28 @@ export const KANJI_BY_GRADE = {
           "en": "king"
         },
         {
-          "kanji": "王子",
-          "kana": "おうじ",
-          "en": "prince"
+          "kanji": "王位",
+          "kana": "おうい",
+          "en": "the throne"
         },
         {
-          "kanji": "王手",
-          "kana": "おうて",
-          "en": "check"
+          "kanji": "王家",
+          "kana": "おうけ",
+          "en": "royal family"
         },
         {
-          "kanji": "王女",
-          "kana": "おうじょ",
-          "en": "princess"
+          "kanji": "王座",
+          "kana": "おうざ",
+          "en": "throne"
         }
-      ]
+      ],
+      "readingExamples": {
+        "オウ": {
+          "kanji": "王",
+          "kana": "おう",
+          "en": "king"
+        }
+      }
     },
     {
       "kanji": "生",
@@ -2090,16 +3115,48 @@ export const KANJI_BY_GRADE = {
           "en": "living"
         },
         {
+          "kanji": "生地",
+          "kana": "きじ",
+          "en": "cloth"
+        },
+        {
           "kanji": "生む",
           "kana": "うむ",
           "en": "to give birth"
-        },
-        {
-          "kanji": "生る",
-          "kana": "なる",
-          "en": "to bear fruit"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "生家",
+          "kana": "せいか",
+          "en": "house where one was born"
+        },
+        "ショウ": {
+          "kanji": "生姜",
+          "kana": "しょうが",
+          "en": "ginger (Zingiber officinale)"
+        },
+        "いきる": {
+          "kanji": "生きる",
+          "kana": "いきる",
+          "en": "to live"
+        },
+        "いかす": {
+          "kanji": "生かす",
+          "kana": "いかす",
+          "en": "to make (the best) use of"
+        },
+        "いける": {
+          "kanji": "生ける",
+          "kana": "いける",
+          "en": "to arrange (flowers)"
+        },
+        "うまれる": {
+          "kanji": "生まれる",
+          "kana": "うまれる",
+          "en": "to be born"
+        }
+      }
     },
     {
       "kanji": "田",
@@ -2125,16 +3182,28 @@ export const KANJI_BY_GRADE = {
           "en": "worn-out rice land"
         },
         {
-          "kanji": "田んぼ",
-          "kana": "たんぼ",
-          "en": "rice field"
+          "kanji": "真田",
+          "kana": "さなだ",
+          "en": "plait"
         },
         {
-          "kanji": "青田",
-          "kana": "あおた",
-          "en": "green paddy"
+          "kanji": "田舎",
+          "kana": "いなか",
+          "en": "rural area"
         }
-      ]
+      ],
+      "readingExamples": {
+        "デン": {
+          "kanji": "田園",
+          "kana": "でんえん",
+          "en": "the country"
+        },
+        "た": {
+          "kanji": "田",
+          "kana": "た",
+          "en": "rice field"
+        }
+      }
     },
     {
       "kanji": "男",
@@ -2151,6 +3220,11 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
+          "kanji": "次男",
+          "kana": "じなん",
+          "en": "second son"
+        },
+        {
           "kanji": "男",
           "kana": "おとこ",
           "en": "man"
@@ -2161,16 +3235,28 @@ export const KANJI_BY_GRADE = {
           "en": "boy"
         },
         {
-          "kanji": "一男",
-          "kana": "いちなん",
+          "kanji": "美男",
+          "kana": "びなん",
+          "en": "handsome man"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "男子",
+          "kana": "だんし",
           "en": "boy"
         },
-        {
-          "kanji": "三男",
-          "kana": "さんなん",
-          "en": "three sons"
+        "おとこ": {
+          "kanji": "男",
+          "kana": "おとこ",
+          "en": "man"
+        },
+        "お": {
+          "kanji": "男",
+          "kana": "おとこ",
+          "en": "man"
         }
-      ]
+      }
     },
     {
       "kanji": "町",
@@ -2198,16 +3284,28 @@ export const KANJI_BY_GRADE = {
           "en": "belle"
         },
         {
+          "kanji": "町家",
+          "kana": "まちや",
+          "en": "machiya"
+        },
+        {
           "kanji": "下町",
           "kana": "したまち",
           "en": "low-lying part of a city (usu. containing shops, factories, etc.)"
-        },
-        {
-          "kanji": "町中",
-          "kana": "まちなか",
-          "en": "downtown"
         }
-      ]
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "町会",
+          "kana": "ちょうかい",
+          "en": "town council"
+        },
+        "まち": {
+          "kanji": "町",
+          "kana": "まち",
+          "en": "town"
+        }
+      }
     },
     {
       "kanji": "白",
@@ -2230,6 +3328,11 @@ export const KANJI_BY_GRADE = {
           "en": "white"
         },
         {
+          "kanji": "自白",
+          "kana": "じはく",
+          "en": "confession"
+        },
+        {
           "kanji": "白い",
           "kana": "しろい",
           "en": "white"
@@ -2238,13 +3341,35 @@ export const KANJI_BY_GRADE = {
           "kanji": "白む",
           "kana": "しらむ",
           "en": "to whiten"
-        },
-        {
-          "kanji": "白子",
-          "kana": "しらこ",
-          "en": "soft roe"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ハク": {
+          "kanji": "白亜",
+          "kana": "はくあ",
+          "en": "chalk (rock)"
+        },
+        "ビャク": {
+          "kanji": "白夜",
+          "kana": "びゃくや",
+          "en": "night under the midnight sun"
+        },
+        "しろ": {
+          "kanji": "白",
+          "kana": "しろ",
+          "en": "white"
+        },
+        "しら": {
+          "kanji": "白む",
+          "kana": "しらむ",
+          "en": "to whiten"
+        },
+        "しろい": {
+          "kanji": "白い",
+          "kana": "しろい",
+          "en": "white"
+        }
+      }
     },
     {
       "kanji": "百",
@@ -2260,11 +3385,33 @@ export const KANJI_BY_GRADE = {
       ],
       "words": [
         {
+          "kanji": "百合",
+          "kana": "ゆり",
+          "en": "lily (Lilium spp.)"
+        },
+        {
+          "kanji": "百",
+          "kana": "ひゃく",
+          "en": "hundred"
+        },
+        {
+          "kanji": "百科",
+          "kana": "ひゃっか",
+          "en": "many objects (for study)"
+        },
+        {
+          "kanji": "何百",
+          "kana": "なんびゃく",
+          "en": "hundreds"
+        }
+      ],
+      "readingExamples": {
+        "ヒャク": {
           "kanji": "百",
           "kana": "ひゃく",
           "en": "hundred"
         }
-      ]
+      }
     },
     {
       "kanji": "目",
@@ -2290,21 +3437,38 @@ export const KANJI_BY_GRADE = {
           "en": "eye"
         },
         {
+          "kanji": "羽目",
+          "kana": "はめ",
+          "en": "panel"
+        },
+        {
+          "kanji": "目処",
+          "kana": "めど",
+          "en": "aim"
+        },
+        {
           "kanji": "一目",
           "kana": "ひとめ",
           "en": "glance"
-        },
-        {
-          "kanji": "金目",
-          "kana": "かねめ",
-          "en": "valuable"
-        },
-        {
-          "kanji": "五目",
-          "kana": "ごもく",
-          "en": "mixture of ingredients (originally five)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "モク": {
+          "kanji": "目次",
+          "kana": "もくじ",
+          "en": "table of contents"
+        },
+        "め": {
+          "kanji": "目",
+          "kana": "め",
+          "en": "eye"
+        },
+        "ま": {
+          "kanji": "真面目",
+          "kana": "まじめ",
+          "en": "serious"
+        }
+      }
     },
     {
       "kanji": "石",
@@ -2331,16 +3495,38 @@ export const KANJI_BY_GRADE = {
           "en": "koku"
         },
         {
+          "kanji": "化石",
+          "kana": "かせき",
+          "en": "fossil"
+        },
+        {
           "kanji": "小石",
           "kana": "こいし",
           "en": "pebble"
-        },
-        {
-          "kanji": "土石",
-          "kana": "どせき",
-          "en": "earth and stones"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セキ": {
+          "kanji": "石碑",
+          "kana": "せきひ",
+          "en": "stone monument"
+        },
+        "シャク": {
+          "kanji": "石神",
+          "kana": "しゃくじん",
+          "en": "stone which is worshipped"
+        },
+        "コク": {
+          "kanji": "石",
+          "kana": "こく",
+          "en": "koku"
+        },
+        "いし": {
+          "kanji": "石",
+          "kana": "いし",
+          "en": "stone"
+        }
+      }
     },
     {
       "kanji": "空",
@@ -2384,7 +3570,29 @@ export const KANJI_BY_GRADE = {
           "kana": "あき",
           "en": "space"
         }
-      ]
+      ],
+      "readingExamples": {
+        "クウ": {
+          "kanji": "空位",
+          "kana": "くうい",
+          "en": "vacant post"
+        },
+        "そら": {
+          "kanji": "空",
+          "kana": "そら",
+          "en": "sky"
+        },
+        "あき": {
+          "kanji": "空き",
+          "kana": "あき",
+          "en": "space"
+        },
+        "から": {
+          "kanji": "空",
+          "kana": "から",
+          "en": "emptiness"
+        }
+      }
     },
     {
       "kanji": "立",
@@ -2423,16 +3631,38 @@ export const KANJI_BY_GRADE = {
           "en": "to stand (up)"
         },
         {
-          "kanji": "手立て",
-          "kana": "てだて",
-          "en": "means"
+          "kanji": "起立",
+          "kana": "きりつ",
+          "en": "standing up"
         },
         {
-          "kanji": "目立つ",
-          "kana": "めだつ",
-          "en": "to be conspicuous"
+          "kanji": "仕立て",
+          "kana": "したて",
+          "en": "tailoring"
         }
-      ]
+      ],
+      "readingExamples": {
+        "リツ": {
+          "kanji": "立案",
+          "kana": "りつあん",
+          "en": "planning"
+        },
+        "たつ": {
+          "kanji": "立つ",
+          "kana": "たつ",
+          "en": "to stand (up)"
+        },
+        "たち": {
+          "kanji": "立ち",
+          "kana": "たち",
+          "en": "departure"
+        },
+        "たてる": {
+          "kanji": "立てる",
+          "kana": "たてる",
+          "en": "to stand (something) up"
+        }
+      }
     },
     {
       "kanji": "竹",
@@ -2452,16 +3682,33 @@ export const KANJI_BY_GRADE = {
           "en": "bamboo (any grass of subfamily Bambusoideae)"
         },
         {
+          "kanji": "竹刀",
+          "kana": "しない",
+          "en": "bamboo sword (for kendo)"
+        },
+        {
+          "kanji": "破竹",
+          "kana": "はちく",
+          "en": "irresistible"
+        },
+        {
+          "kanji": "竹馬",
+          "kana": "たけうま",
+          "en": "stilts (for walking)"
+        }
+      ],
+      "readingExamples": {
+        "チク": {
           "kanji": "竹林",
           "kana": "ちくりん",
           "en": "bamboo thicket"
         },
-        {
-          "kanji": "青竹",
-          "kana": "あおだけ",
-          "en": "green bamboo"
+        "たけ": {
+          "kanji": "竹",
+          "kana": "たけ",
+          "en": "bamboo (any grass of subfamily Bambusoideae)"
         }
-      ]
+      }
     },
     {
       "kanji": "糸",
@@ -2481,21 +3728,33 @@ export const KANJI_BY_GRADE = {
           "en": "thread"
         },
         {
+          "kanji": "蚕糸",
+          "kana": "さんし",
+          "en": "silk thread"
+        },
+        {
           "kanji": "生糸",
           "kana": "きいと",
           "en": "raw silk thread"
         },
         {
-          "kanji": "金糸",
-          "kana": "きんし",
-          "en": "gold thread"
-        },
-        {
-          "kanji": "糸口",
-          "kana": "いとぐち",
-          "en": "beginning"
+          "kanji": "毛糸",
+          "kana": "けいと",
+          "en": "knitting wool"
         }
-      ]
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "白糸",
+          "kana": "しらいと",
+          "en": "white thread"
+        },
+        "いと": {
+          "kanji": "糸",
+          "kana": "いと",
+          "en": "thread"
+        }
+      }
     },
     {
       "kanji": "耳",
@@ -2520,16 +3779,28 @@ export const KANJI_BY_GRADE = {
           "en": "eyes and ears"
         },
         {
-          "kanji": "中耳",
-          "kana": "ちゅうじ",
-          "en": "middle ear"
+          "kanji": "内耳",
+          "kana": "ないじ",
+          "en": "inner ear"
         },
         {
-          "kanji": "耳より",
-          "kana": "みみより",
-          "en": "welcome (news)"
+          "kanji": "初耳",
+          "kana": "はつみみ",
+          "en": "something heard for the first time"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "耳鼻科",
+          "kana": "じびか",
+          "en": "otolaryngology"
+        },
+        "みみ": {
+          "kanji": "耳",
+          "kana": "みみ",
+          "en": "ear"
+        }
+      }
     },
     {
       "kanji": "花",
@@ -2550,21 +3821,38 @@ export const KANJI_BY_GRADE = {
           "en": "flower"
         },
         {
+          "kanji": "花器",
+          "kana": "かき",
+          "en": "flower vase"
+        },
+        {
+          "kanji": "花期",
+          "kana": "かき",
+          "en": "flowering season"
+        },
+        {
           "kanji": "火花",
           "kana": "ひばな",
           "en": "spark"
-        },
-        {
-          "kanji": "花火",
-          "kana": "はなび",
-          "en": "fireworks"
-        },
-        {
-          "kanji": "花見",
-          "kana": "はなみ",
-          "en": "cherry blossom viewing"
         }
-      ]
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "花器",
+          "kana": "かき",
+          "en": "flower vase"
+        },
+        "ケ": {
+          "kanji": "献花",
+          "kana": "けんか",
+          "en": "flower offering"
+        },
+        "はな": {
+          "kanji": "花",
+          "kana": "はな",
+          "en": "flower"
+        }
+      }
     },
     {
       "kanji": "草",
@@ -2589,21 +3877,33 @@ export const KANJI_BY_GRADE = {
           "en": "grass"
         },
         {
-          "kanji": "千草",
-          "kana": "ちぐさ",
-          "en": "great variety of flowering plants"
+          "kanji": "起草",
+          "kana": "きそう",
+          "en": "drafting (e.g. a bill)"
         },
         {
-          "kanji": "草木",
-          "kana": "くさき",
-          "en": "plants"
+          "kanji": "草紙",
+          "kana": "そうし",
+          "en": "written work (esp. a bound text, as opposed to a scroll)"
         },
         {
-          "kanji": "下草",
-          "kana": "したくさ",
-          "en": "undergrowth"
+          "kanji": "仕草",
+          "kana": "しぐさ",
+          "en": "gesture"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "草紙",
+          "kana": "そうし",
+          "en": "written work (esp. a bound text, as opposed to a scroll)"
+        },
+        "くさ": {
+          "kanji": "草",
+          "kana": "くさ",
+          "en": "grass"
+        }
+      }
     },
     {
       "kanji": "虫",
@@ -2626,11 +3926,38 @@ export const KANJI_BY_GRADE = {
           "en": "insect"
         },
         {
-          "kanji": "水虫",
-          "kana": "みずむし",
-          "en": "athlete's foot"
+          "kanji": "毛虫",
+          "kana": "けむし",
+          "en": "hairy caterpillar"
+        },
+        {
+          "kanji": "虫歯",
+          "kana": "むしば",
+          "en": "tooth decay"
+        },
+        {
+          "kanji": "弱虫",
+          "kana": "よわむし",
+          "en": "coward"
         }
-      ]
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "虫垂炎",
+          "kana": "ちゅうすいえん",
+          "en": "appendicitis"
+        },
+        "キ": {
+          "kanji": "寄生虫",
+          "kana": "きせいちゅう",
+          "en": "parasite"
+        },
+        "むし": {
+          "kanji": "虫",
+          "kana": "むし",
+          "en": "insect"
+        }
+      }
     },
     {
       "kanji": "見",
@@ -2655,21 +3982,43 @@ export const KANJI_BY_GRADE = {
           "en": "to see"
         },
         {
+          "kanji": "見栄",
+          "kana": "みえ",
+          "en": "show"
+        },
+        {
+          "kanji": "意見",
+          "kana": "いけん",
+          "en": "opinion"
+        },
+        {
           "kanji": "下見",
           "kana": "したみ",
           "en": "preliminary inspection"
-        },
-        {
-          "kanji": "花見",
-          "kana": "はなみ",
-          "en": "cherry blossom viewing"
-        },
-        {
-          "kanji": "月見",
-          "kana": "つきみ",
-          "en": "moon viewing (esp. during the eight month of the lunar calendar)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "見地",
+          "kana": "けんち",
+          "en": "point of view"
+        },
+        "みる": {
+          "kanji": "見る",
+          "kana": "みる",
+          "en": "to see"
+        },
+        "みえる": {
+          "kanji": "見える",
+          "kana": "みえる",
+          "en": "to be seen"
+        },
+        "みせる": {
+          "kanji": "見せる",
+          "kana": "みせる",
+          "en": "to show"
+        }
+      }
     },
     {
       "kanji": "貝",
@@ -2687,8 +4036,20 @@ export const KANJI_BY_GRADE = {
           "kanji": "貝",
           "kana": "かい",
           "en": "shellfish"
+        },
+        {
+          "kanji": "巻き貝",
+          "kana": "まきがい",
+          "en": "snail"
         }
-      ]
+      ],
+      "readingExamples": {
+        "かい": {
+          "kanji": "貝",
+          "kana": "かい",
+          "en": "shellfish"
+        }
+      }
     },
     {
       "kanji": "赤",
@@ -2713,6 +4074,11 @@ export const KANJI_BY_GRADE = {
           "en": "red"
         },
         {
+          "kanji": "真っ赤",
+          "kana": "まっか",
+          "en": "bright red"
+        },
+        {
           "kanji": "赤い",
           "kana": "あかい",
           "en": "red"
@@ -2721,13 +4087,25 @@ export const KANJI_BY_GRADE = {
           "kanji": "赤字",
           "kana": "あかじ",
           "en": "(being in) the red"
-        },
-        {
-          "kanji": "赤子",
-          "kana": "あかご",
-          "en": "baby"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セキ": {
+          "kanji": "赤痢",
+          "kana": "せきり",
+          "en": "dysentery"
+        },
+        "あか": {
+          "kanji": "赤",
+          "kana": "あか",
+          "en": "red"
+        },
+        "あかい": {
+          "kanji": "赤い",
+          "kana": "あかい",
+          "en": "red"
+        }
+      }
     },
     {
       "kanji": "足",
@@ -2763,11 +4141,33 @@ export const KANJI_BY_GRADE = {
           "en": "to be sufficient"
         },
         {
-          "kanji": "手足",
-          "kana": "てあし",
-          "en": "hands and feet"
+          "kanji": "義足",
+          "kana": "ぎそく",
+          "en": "artificial leg"
         }
-      ]
+      ],
+      "readingExamples": {
+        "あし": {
+          "kanji": "足",
+          "kana": "あし",
+          "en": "foot"
+        },
+        "たりる": {
+          "kanji": "足りる",
+          "kana": "たりる",
+          "en": "to be sufficient"
+        },
+        "たる": {
+          "kanji": "足る",
+          "kana": "たる",
+          "en": "to be sufficient"
+        },
+        "たす": {
+          "kanji": "足す",
+          "kana": "たす",
+          "en": "to add (numbers)"
+        }
+      }
     },
     {
       "kanji": "車",
@@ -2792,16 +4192,28 @@ export const KANJI_BY_GRADE = {
           "en": "alighting (from a train, bus, etc.)"
         },
         {
+          "kanji": "貨車",
+          "kana": "かしゃ",
+          "en": "freight car"
+        },
+        {
+          "kanji": "汽車",
+          "kana": "きしゃ",
+          "en": "steam locomotive"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "車庫",
+          "kana": "しゃこ",
+          "en": "garage"
+        },
+        "くるま": {
           "kanji": "車",
           "kana": "くるま",
           "en": "car"
-        },
-        {
-          "kanji": "空車",
-          "kana": "くうしゃ",
-          "en": "empty conveyance"
         }
-      ]
+      }
     },
     {
       "kanji": "金",
@@ -2835,11 +4247,33 @@ export const KANJI_BY_GRADE = {
           "en": "money"
         },
         {
-          "kanji": "金目",
-          "kana": "かねめ",
-          "en": "valuable"
+          "kanji": "基金",
+          "kana": "ききん",
+          "en": "fund"
         }
-      ]
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "金",
+          "kana": "きん",
+          "en": "gold (metal)"
+        },
+        "コン": {
+          "kanji": "金剛",
+          "kana": "こんごう",
+          "en": "vajra (indestructible substance)"
+        },
+        "かね": {
+          "kanji": "金",
+          "kana": "かね",
+          "en": "money"
+        },
+        "かな": {
+          "kanji": "金具",
+          "kana": "かなぐ",
+          "en": "metal fittings"
+        }
+      }
     },
     {
       "kanji": "雨",
@@ -2861,21 +4295,38 @@ export const KANJI_BY_GRADE = {
           "en": "rain"
         },
         {
-          "kanji": "雨天",
-          "kana": "うてん",
-          "en": "rainy weather"
+          "kanji": "梅雨",
+          "kana": "つゆ",
+          "en": "(East Asian) rainy season (in Japan, usu. from early June to mid-July)"
         },
         {
-          "kanji": "小雨",
-          "kana": "こさめ",
-          "en": "light rain"
+          "kanji": "雨季",
+          "kana": "うき",
+          "en": "rainy season"
         },
         {
-          "kanji": "雨中",
-          "kana": "うちゅう",
-          "en": "in the rain"
+          "kanji": "多雨",
+          "kana": "たう",
+          "en": "heavy rain"
         }
-      ]
+      ],
+      "readingExamples": {
+        "ウ": {
+          "kanji": "雨季",
+          "kana": "うき",
+          "en": "rainy season"
+        },
+        "あめ": {
+          "kanji": "雨",
+          "kana": "あめ",
+          "en": "rain"
+        },
+        "あま": {
+          "kanji": "雨具",
+          "kana": "あまぐ",
+          "en": "rain gear"
+        }
+      }
     },
     {
       "kanji": "青",
@@ -2904,16 +4355,33 @@ export const KANJI_BY_GRADE = {
           "en": "blue"
         },
         {
-          "kanji": "青木",
-          "kana": "あおき",
-          "en": "Japanese laurel (Aucuba japonica)"
+          "kanji": "青果",
+          "kana": "せいか",
+          "en": "fruits and vegetables"
         },
         {
-          "kanji": "青田",
-          "kana": "あおた",
-          "en": "green paddy"
+          "kanji": "青菜",
+          "kana": "あおな",
+          "en": "greens"
         }
-      ]
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "青果",
+          "kana": "せいか",
+          "en": "fruits and vegetables"
+        },
+        "あお": {
+          "kanji": "青",
+          "kana": "あお",
+          "en": "blue"
+        },
+        "あおい": {
+          "kanji": "青い",
+          "kana": "あおい",
+          "en": "blue"
+        }
+      }
     },
     {
       "kanji": "音",
@@ -2947,11 +4415,47491 @@ export const KANJI_BY_GRADE = {
           "en": "sound"
         },
         {
-          "kanji": "子音",
-          "kana": "しいん",
-          "en": "consonant"
+          "kanji": "音頭",
+          "kana": "おんど",
+          "en": "lead (in a cheer, toast, song, etc.)"
         }
-      ]
+      ],
+      "readingExamples": {
+        "オン": {
+          "kanji": "音",
+          "kana": "おん",
+          "en": "sound"
+        },
+        "おと": {
+          "kanji": "音",
+          "kana": "おと",
+          "en": "sound"
+        },
+        "ね": {
+          "kanji": "音",
+          "kana": "ね",
+          "en": "sound"
+        }
+      }
+    }
+  ],
+  "2": [
+    {
+      "kanji": "万",
+      "on": [
+        "マン",
+        "バン"
+      ],
+      "kun": [
+        "よろず"
+      ],
+      "meanings": [
+        "ten thousand",
+        "10,000"
+      ],
+      "words": [
+        {
+          "kanji": "万",
+          "kana": "まん",
+          "en": "10,000"
+        },
+        {
+          "kanji": "万事",
+          "kana": "ばんじ",
+          "en": "all"
+        },
+        {
+          "kanji": "万里",
+          "kana": "ばんり",
+          "en": "thousands of miles"
+        },
+        {
+          "kanji": "千万",
+          "kana": "せんばん",
+          "en": "exceedingly"
+        }
+      ],
+      "readingExamples": {
+        "マン": {
+          "kanji": "万",
+          "kana": "まん",
+          "en": "10,000"
+        },
+        "バン": {
+          "kanji": "万事",
+          "kana": "ばんじ",
+          "en": "all"
+        }
+      }
+    },
+    {
+      "kanji": "丸",
+      "on": [
+        "ガン"
+      ],
+      "kun": [
+        "まる",
+        "まる.める",
+        "まる.い"
+      ],
+      "meanings": [
+        "round",
+        "full (month)",
+        "perfection",
+        "-ship"
+      ],
+      "words": [
+        {
+          "kanji": "丸",
+          "kana": "まる",
+          "en": "circle"
+        },
+        {
+          "kanji": "丸で",
+          "kana": "まるで",
+          "en": "as if"
+        },
+        {
+          "kanji": "丸み",
+          "kana": "まるみ",
+          "en": "roundness"
+        },
+        {
+          "kanji": "丸太",
+          "kana": "まるた",
+          "en": "log"
+        }
+      ],
+      "readingExamples": {
+        "まる": {
+          "kanji": "丸",
+          "kana": "まる",
+          "en": "circle"
+        },
+        "まるめる": {
+          "kanji": "丸める",
+          "kana": "まるめる",
+          "en": "to make round"
+        },
+        "まるい": {
+          "kanji": "丸い",
+          "kana": "まるい",
+          "en": "round"
+        }
+      }
+    },
+    {
+      "kanji": "交",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "まじ.わる",
+        "まじ.える",
+        "ま.じる",
+        "まじ.る",
+        "ま.ざる",
+        "ま.ぜる",
+        "-か.う",
+        "か.わす",
+        "かわ.す",
+        "こもごも"
+      ],
+      "meanings": [
+        "mingle",
+        "mixing",
+        "association",
+        "coming & going"
+      ],
+      "words": [
+        {
+          "kanji": "交差",
+          "kana": "こうさ",
+          "en": "crossing"
+        },
+        {
+          "kanji": "交付",
+          "kana": "こうふ",
+          "en": "delivery"
+        },
+        {
+          "kanji": "交わす",
+          "kana": "かわす",
+          "en": "to exchange (messages, greetings, arguments, etc.)"
+        },
+        {
+          "kanji": "交じり",
+          "kana": "まじり",
+          "en": "mixed with"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "交互",
+          "kana": "こうご",
+          "en": "alternate"
+        },
+        "まじわる": {
+          "kanji": "交わる",
+          "kana": "まじわる",
+          "en": "to cross"
+        },
+        "まじえる": {
+          "kanji": "交える",
+          "kana": "まじえる",
+          "en": "to mix"
+        }
+      }
+    },
+    {
+      "kanji": "京",
+      "on": [
+        "キョウ",
+        "ケイ",
+        "キン"
+      ],
+      "kun": [
+        "みやこ"
+      ],
+      "meanings": [
+        "capital",
+        "10**16"
+      ],
+      "words": [
+        {
+          "kanji": "京",
+          "kana": "きょう",
+          "en": "imperial capital (esp. Kyoto)"
+        },
+        {
+          "kanji": "北京",
+          "kana": "ペキン",
+          "en": "Beijing (China)"
+        },
+        {
+          "kanji": "帰京",
+          "kana": "ききょう",
+          "en": "returning (home) to Tokyo"
+        },
+        {
+          "kanji": "京阪",
+          "kana": "けいはん",
+          "en": "Kyoto and Osaka"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "京",
+          "kana": "きょう",
+          "en": "imperial capital (esp. Kyoto)"
+        },
+        "ケイ": {
+          "kanji": "京阪",
+          "kana": "けいはん",
+          "en": "Kyoto and Osaka"
+        }
+      }
+    },
+    {
+      "kanji": "今",
+      "on": [
+        "コン",
+        "キン"
+      ],
+      "kun": [
+        "いま"
+      ],
+      "meanings": [
+        "now"
+      ],
+      "words": [
+        {
+          "kanji": "今",
+          "kana": "いま",
+          "en": "now"
+        },
+        {
+          "kanji": "今朝",
+          "kana": "けさ",
+          "en": "this morning"
+        },
+        {
+          "kanji": "古今",
+          "kana": "ここん",
+          "en": "ancient and modern times"
+        },
+        {
+          "kanji": "今に",
+          "kana": "いまに",
+          "en": "before long"
+        }
+      ],
+      "readingExamples": {
+        "コン": {
+          "kanji": "今夏",
+          "kana": "こんか",
+          "en": "this summer"
+        },
+        "いま": {
+          "kanji": "今",
+          "kana": "いま",
+          "en": "now"
+        }
+      }
+    },
+    {
+      "kanji": "会",
+      "on": [
+        "カイ",
+        "エ"
+      ],
+      "kun": [
+        "あ.う",
+        "あ.わせる",
+        "あつ.まる"
+      ],
+      "meanings": [
+        "meeting",
+        "meet",
+        "party",
+        "association"
+      ],
+      "words": [
+        {
+          "kanji": "会",
+          "kana": "え",
+          "en": "gathering (esp. Buddhist, festive, etc.)"
+        },
+        {
+          "kanji": "会",
+          "kana": "かい",
+          "en": "meeting"
+        },
+        {
+          "kanji": "会う",
+          "kana": "あう",
+          "en": "to meet"
+        },
+        {
+          "kanji": "会期",
+          "kana": "かいき",
+          "en": "session (of a legislature)"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "会",
+          "kana": "かい",
+          "en": "meeting"
+        },
+        "エ": {
+          "kanji": "会",
+          "kana": "え",
+          "en": "gathering (esp. Buddhist, festive, etc.)"
+        },
+        "あう": {
+          "kanji": "会う",
+          "kana": "あう",
+          "en": "to meet"
+        }
+      }
+    },
+    {
+      "kanji": "体",
+      "on": [
+        "タイ",
+        "テイ"
+      ],
+      "kun": [
+        "からだ",
+        "かたち"
+      ],
+      "meanings": [
+        "body",
+        "substance",
+        "object",
+        "reality"
+      ],
+      "words": [
+        {
+          "kanji": "遺体",
+          "kana": "いたい",
+          "en": "(dead) body"
+        },
+        {
+          "kanji": "機体",
+          "kana": "きたい",
+          "en": "fuselage"
+        },
+        {
+          "kanji": "気体",
+          "kana": "きたい",
+          "en": "gas"
+        },
+        {
+          "kanji": "具体",
+          "kana": "ぐたい",
+          "en": "concreteness"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "体育",
+          "kana": "たいいく",
+          "en": "physical education"
+        },
+        "テイ": {
+          "kanji": "体裁",
+          "kana": "ていさい",
+          "en": "(outward) appearance"
+        },
+        "からだ": {
+          "kanji": "体",
+          "kana": "からだ",
+          "en": "body"
+        }
+      }
+    },
+    {
+      "kanji": "何",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "なに",
+        "なん",
+        "なに-",
+        "なん-"
+      ],
+      "meanings": [
+        "what"
+      ],
+      "words": [
+        {
+          "kanji": "何れ",
+          "kana": "どれ",
+          "en": "which (of three or more)"
+        },
+        {
+          "kanji": "何時",
+          "kana": "いつ",
+          "en": "when"
+        },
+        {
+          "kanji": "何",
+          "kana": "なに",
+          "en": "what"
+        },
+        {
+          "kanji": "何故",
+          "kana": "なぜ",
+          "en": "why"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "か如何か",
+          "kana": "かどうか",
+          "en": "whether (or not)"
+        },
+        "なに": {
+          "kanji": "何",
+          "kana": "なに",
+          "en": "what"
+        },
+        "なん": {
+          "kanji": "何",
+          "kana": "なん",
+          "en": "what"
+        }
+      }
+    },
+    {
+      "kanji": "作",
+      "on": [
+        "サク",
+        "サ"
+      ],
+      "kun": [
+        "つく.る",
+        "つく.り",
+        "-づく.り"
+      ],
+      "meanings": [
+        "make",
+        "production",
+        "prepare",
+        "build"
+      ],
+      "words": [
+        {
+          "kanji": "作",
+          "kana": "さく",
+          "en": "work (e.g. of art)"
+        },
+        {
+          "kanji": "遺作",
+          "kana": "いさく",
+          "en": "posthumous works"
+        },
+        {
+          "kanji": "句作",
+          "kana": "くさく",
+          "en": "composing haiku poems"
+        },
+        {
+          "kanji": "作り",
+          "kana": "つくり",
+          "en": "making"
+        }
+      ],
+      "readingExamples": {
+        "サク": {
+          "kanji": "作",
+          "kana": "さく",
+          "en": "work (e.g. of art)"
+        },
+        "サ": {
+          "kanji": "作",
+          "kana": "さく",
+          "en": "work (e.g. of art)"
+        },
+        "つくる": {
+          "kanji": "作る",
+          "kana": "つくる",
+          "en": "to make"
+        },
+        "つくり": {
+          "kanji": "作り",
+          "kana": "つくり",
+          "en": "making"
+        }
+      }
+    },
+    {
+      "kanji": "元",
+      "on": [
+        "ゲン",
+        "ガン"
+      ],
+      "kun": [
+        "もと"
+      ],
+      "meanings": [
+        "beginning",
+        "former time",
+        "origin"
+      ],
+      "words": [
+        {
+          "kanji": "元",
+          "kana": "もと",
+          "en": "origin"
+        },
+        {
+          "kanji": "火元",
+          "kana": "ひもと",
+          "en": "origin of a fire"
+        },
+        {
+          "kanji": "紀元",
+          "kana": "きげん",
+          "en": "era"
+        },
+        {
+          "kanji": "元気",
+          "kana": "げんき",
+          "en": "lively"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "元気",
+          "kana": "げんき",
+          "en": "lively"
+        },
+        "ガン": {
+          "kanji": "元祖",
+          "kana": "がんそ",
+          "en": "originator"
+        },
+        "もと": {
+          "kanji": "元",
+          "kana": "もと",
+          "en": "origin"
+        }
+      }
+    },
+    {
+      "kanji": "兄",
+      "on": [
+        "ケイ",
+        "キョウ"
+      ],
+      "kun": [
+        "あに"
+      ],
+      "meanings": [
+        "elder brother",
+        "big brother"
+      ],
+      "words": [
+        {
+          "kanji": "兄",
+          "kana": "あに",
+          "en": "older brother"
+        },
+        {
+          "kanji": "義兄",
+          "kana": "ぎけい",
+          "en": "brother-in-law (spouse's older brother or older sister's husband)"
+        },
+        {
+          "kanji": "兄貴",
+          "kana": "あにき",
+          "en": "elder brother"
+        },
+        {
+          "kanji": "兄姉",
+          "kana": "けいし",
+          "en": "older brother and older sister"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "兄姉",
+          "kana": "けいし",
+          "en": "older brother and older sister"
+        },
+        "キョウ": {
+          "kanji": "兄弟",
+          "kana": "きょうだい",
+          "en": "brothers and sisters"
+        },
+        "あに": {
+          "kanji": "兄",
+          "kana": "あに",
+          "en": "older brother"
+        }
+      }
+    },
+    {
+      "kanji": "光",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "ひか.る",
+        "ひかり"
+      ],
+      "meanings": [
+        "ray",
+        "light"
+      ],
+      "words": [
+        {
+          "kanji": "光",
+          "kana": "ひかり",
+          "en": "light"
+        },
+        {
+          "kanji": "光る",
+          "kana": "ひかる",
+          "en": "to shine"
+        },
+        {
+          "kanji": "栄光",
+          "kana": "えいこう",
+          "en": "glory"
+        },
+        {
+          "kanji": "感光",
+          "kana": "かんこう",
+          "en": "exposure"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "光輝",
+          "kana": "こうき",
+          "en": "brightness"
+        },
+        "ひかる": {
+          "kanji": "光る",
+          "kana": "ひかる",
+          "en": "to shine"
+        },
+        "ひかり": {
+          "kanji": "光",
+          "kana": "ひかり",
+          "en": "light"
+        }
+      }
+    },
+    {
+      "kanji": "公",
+      "on": [
+        "コウ",
+        "ク"
+      ],
+      "kun": [
+        "おおやけ"
+      ],
+      "meanings": [
+        "public",
+        "prince",
+        "official",
+        "governmental"
+      ],
+      "words": [
+        {
+          "kanji": "公家",
+          "kana": "くげ",
+          "en": "court noble"
+        },
+        {
+          "kanji": "公器",
+          "kana": "こうき",
+          "en": "public institution"
+        },
+        {
+          "kanji": "公庫",
+          "kana": "こうこ",
+          "en": "finance corporation"
+        },
+        {
+          "kanji": "公使",
+          "kana": "こうし",
+          "en": "envoy"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "公器",
+          "kana": "こうき",
+          "en": "public institution"
+        },
+        "ク": {
+          "kanji": "公家",
+          "kana": "くげ",
+          "en": "court noble"
+        },
+        "おおやけ": {
+          "kanji": "公",
+          "kana": "おおやけ",
+          "en": "official"
+        }
+      }
+    },
+    {
+      "kanji": "内",
+      "on": [
+        "ナイ",
+        "ダイ"
+      ],
+      "kun": [
+        "うち"
+      ],
+      "meanings": [
+        "inside",
+        "within",
+        "between",
+        "among"
+      ],
+      "words": [
+        {
+          "kanji": "内",
+          "kana": "うち",
+          "en": "inside"
+        },
+        {
+          "kanji": "内",
+          "kana": "ない",
+          "en": "within ..."
+        },
+        {
+          "kanji": "以内",
+          "kana": "いない",
+          "en": "within"
+        },
+        {
+          "kanji": "家内",
+          "kana": "かない",
+          "en": "(my) wife"
+        }
+      ],
+      "readingExamples": {
+        "ナイ": {
+          "kanji": "内",
+          "kana": "ない",
+          "en": "within ..."
+        },
+        "ダイ": {
+          "kanji": "内裏",
+          "kana": "だいり",
+          "en": "imperial palace"
+        },
+        "うち": {
+          "kanji": "内",
+          "kana": "うち",
+          "en": "inside"
+        }
+      }
+    },
+    {
+      "kanji": "冬",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "ふゆ"
+      ],
+      "meanings": [
+        "winter"
+      ],
+      "words": [
+        {
+          "kanji": "冬",
+          "kana": "ふゆ",
+          "en": "winter"
+        },
+        {
+          "kanji": "真冬",
+          "kana": "まふゆ",
+          "en": "midwinter"
+        },
+        {
+          "kanji": "冬季",
+          "kana": "とうき",
+          "en": "winter season"
+        },
+        {
+          "kanji": "冬至",
+          "kana": "とうじ",
+          "en": "winter solstice"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "冬季",
+          "kana": "とうき",
+          "en": "winter season"
+        },
+        "ふゆ": {
+          "kanji": "冬",
+          "kana": "ふゆ",
+          "en": "winter"
+        }
+      }
+    },
+    {
+      "kanji": "刀",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "かたな",
+        "そり"
+      ],
+      "meanings": [
+        "sword",
+        "saber",
+        "knife"
+      ],
+      "words": [
+        {
+          "kanji": "太刀",
+          "kana": "たち",
+          "en": "long sword (as opposed to the shorter katana)"
+        },
+        {
+          "kanji": "竹刀",
+          "kana": "しない",
+          "en": "bamboo sword (for kendo)"
+        },
+        {
+          "kanji": "刀",
+          "kana": "かたな",
+          "en": "sword (esp. Japanese single-edged)"
+        },
+        {
+          "kanji": "一刀",
+          "kana": "いっとう",
+          "en": "sword"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "刀剣",
+          "kana": "とうけん",
+          "en": "sword"
+        },
+        "かたな": {
+          "kanji": "刀",
+          "kana": "かたな",
+          "en": "sword (esp. Japanese single-edged)"
+        }
+      }
+    },
+    {
+      "kanji": "分",
+      "on": [
+        "ブン",
+        "フン",
+        "ブ"
+      ],
+      "kun": [
+        "わ.ける",
+        "わ.け",
+        "わ.かれる",
+        "わ.かる",
+        "わ.かつ"
+      ],
+      "meanings": [
+        "part",
+        "minute of time",
+        "segment",
+        "share"
+      ],
+      "words": [
+        {
+          "kanji": "九分",
+          "kana": "くぶ",
+          "en": "nine parts"
+        },
+        {
+          "kanji": "五分",
+          "kana": "ごぶ",
+          "en": "half"
+        },
+        {
+          "kanji": "分",
+          "kana": "ふん",
+          "en": "minute (unit of time)"
+        },
+        {
+          "kanji": "分",
+          "kana": "ぶん",
+          "en": "part"
+        }
+      ],
+      "readingExamples": {
+        "ブン": {
+          "kanji": "分",
+          "kana": "ぶん",
+          "en": "part"
+        },
+        "フン": {
+          "kanji": "分",
+          "kana": "ふん",
+          "en": "minute (unit of time)"
+        },
+        "ブ": {
+          "kanji": "分",
+          "kana": "ぶん",
+          "en": "part"
+        },
+        "わける": {
+          "kanji": "分ける",
+          "kana": "わける",
+          "en": "to divide (into)"
+        },
+        "わけ": {
+          "kanji": "分け",
+          "kana": "わけ",
+          "en": "division"
+        },
+        "わかれる": {
+          "kanji": "分かれる",
+          "kana": "わかれる",
+          "en": "to branch"
+        }
+      }
+    },
+    {
+      "kanji": "切",
+      "on": [
+        "セツ",
+        "サイ"
+      ],
+      "kun": [
+        "き.る",
+        "-き.る",
+        "き.り",
+        "-き.り",
+        "-ぎ.り",
+        "き.れる",
+        "-き.れる",
+        "き.れ",
+        "-き.れ",
+        "-ぎ.れ"
+      ],
+      "meanings": [
+        "cut",
+        "cutoff",
+        "be sharp"
+      ],
+      "words": [
+        {
+          "kanji": "切",
+          "kana": "せつ",
+          "en": "eager"
+        },
+        {
+          "kanji": "切り",
+          "kana": "きり",
+          "en": "end"
+        },
+        {
+          "kanji": "切る",
+          "kana": "きる",
+          "en": "to cut"
+        },
+        {
+          "kanji": "切れ",
+          "kana": "きれ",
+          "en": "piece"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "切",
+          "kana": "せつ",
+          "en": "eager"
+        },
+        "きる": {
+          "kanji": "切る",
+          "kana": "きる",
+          "en": "to cut"
+        },
+        "きり": {
+          "kanji": "切り",
+          "kana": "きり",
+          "en": "end"
+        },
+        "きれる": {
+          "kanji": "切れる",
+          "kana": "きれる",
+          "en": "to break"
+        }
+      }
+    },
+    {
+      "kanji": "前",
+      "on": [
+        "ゼン"
+      ],
+      "kun": [
+        "まえ",
+        "-まえ"
+      ],
+      "meanings": [
+        "in front",
+        "before"
+      ],
+      "words": [
+        {
+          "kanji": "前",
+          "kana": "ぜん",
+          "en": "last (i.e. immediately preceding)"
+        },
+        {
+          "kanji": "前",
+          "kana": "まえ",
+          "en": "in front (of)"
+        },
+        {
+          "kanji": "お前",
+          "kana": "おまえ",
+          "en": "you"
+        },
+        {
+          "kanji": "以前",
+          "kana": "いぜん",
+          "en": "before"
+        }
+      ],
+      "readingExamples": {
+        "ゼン": {
+          "kanji": "前",
+          "kana": "ぜん",
+          "en": "last (i.e. immediately preceding)"
+        },
+        "まえ": {
+          "kanji": "前",
+          "kana": "まえ",
+          "en": "in front (of)"
+        }
+      }
+    },
+    {
+      "kanji": "北",
+      "on": [
+        "ホク"
+      ],
+      "kun": [
+        "きた"
+      ],
+      "meanings": [
+        "north"
+      ],
+      "words": [
+        {
+          "kanji": "北",
+          "kana": "きた",
+          "en": "north"
+        },
+        {
+          "kanji": "北京",
+          "kana": "ペキン",
+          "en": "Beijing (China)"
+        },
+        {
+          "kanji": "北部",
+          "kana": "ほくぶ",
+          "en": "northern part"
+        },
+        {
+          "kanji": "西北",
+          "kana": "せいほく",
+          "en": "north-west"
+        }
+      ],
+      "readingExamples": {
+        "ホク": {
+          "kanji": "北緯",
+          "kana": "ほくい",
+          "en": "north latitude"
+        },
+        "きた": {
+          "kanji": "北",
+          "kana": "きた",
+          "en": "north"
+        }
+      }
+    },
+    {
+      "kanji": "午",
+      "on": [
+        "ゴ"
+      ],
+      "kun": [
+        "うま"
+      ],
+      "meanings": [
+        "noon",
+        "sign of the horse",
+        "11AM-1PM",
+        "seventh sign of Chinese zodiac"
+      ],
+      "words": [
+        {
+          "kanji": "午",
+          "kana": "うま",
+          "en": "the Horse (seventh sign of the Chinese zodiac)"
+        },
+        {
+          "kanji": "午後",
+          "kana": "ごご",
+          "en": "afternoon"
+        },
+        {
+          "kanji": "午前",
+          "kana": "ごぜん",
+          "en": "morning"
+        },
+        {
+          "kanji": "正午",
+          "kana": "しょうご",
+          "en": "noon"
+        }
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "午後",
+          "kana": "ごご",
+          "en": "afternoon"
+        },
+        "うま": {
+          "kanji": "午",
+          "kana": "うま",
+          "en": "the Horse (seventh sign of the Chinese zodiac)"
+        }
+      }
+    },
+    {
+      "kanji": "半",
+      "on": [
+        "ハン"
+      ],
+      "kun": [
+        "なか.ば"
+      ],
+      "meanings": [
+        "half",
+        "middle",
+        "odd number",
+        "semi-"
+      ],
+      "words": [
+        {
+          "kanji": "半",
+          "kana": "はん",
+          "en": "half"
+        },
+        {
+          "kanji": "過半",
+          "kana": "かはん",
+          "en": "the greater part"
+        },
+        {
+          "kanji": "半ば",
+          "kana": "なかば",
+          "en": "middle"
+        },
+        {
+          "kanji": "半旗",
+          "kana": "はんき",
+          "en": "flag at half-mast"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "半",
+          "kana": "はん",
+          "en": "half"
+        },
+        "なかば": {
+          "kanji": "半ば",
+          "kana": "なかば",
+          "en": "middle"
+        }
+      }
+    },
+    {
+      "kanji": "南",
+      "on": [
+        "ナン",
+        "ナ"
+      ],
+      "kun": [
+        "みなみ"
+      ],
+      "meanings": [
+        "south"
+      ],
+      "words": [
+        {
+          "kanji": "指南",
+          "kana": "しなん",
+          "en": "instruction (in martial arts, performance, etc.)"
+        },
+        {
+          "kanji": "南",
+          "kana": "みなみ",
+          "en": "south"
+        },
+        {
+          "kanji": "南下",
+          "kana": "なんか",
+          "en": "going south"
+        },
+        {
+          "kanji": "南部",
+          "kana": "なんぶ",
+          "en": "southern part"
+        }
+      ],
+      "readingExamples": {
+        "ナン": {
+          "kanji": "南緯",
+          "kana": "なんい",
+          "en": "southern latitude"
+        },
+        "ナ": {
+          "kanji": "南緯",
+          "kana": "なんい",
+          "en": "southern latitude"
+        },
+        "みなみ": {
+          "kanji": "南",
+          "kana": "みなみ",
+          "en": "south"
+        }
+      }
+    },
+    {
+      "kanji": "原",
+      "on": [
+        "ゲン"
+      ],
+      "kun": [
+        "はら"
+      ],
+      "meanings": [
+        "meadow",
+        "original",
+        "primitive",
+        "field"
+      ],
+      "words": [
+        {
+          "kanji": "原",
+          "kana": "はら",
+          "en": "field"
+        },
+        {
+          "kanji": "原画",
+          "kana": "げんが",
+          "en": "original picture"
+        },
+        {
+          "kanji": "原義",
+          "kana": "げんぎ",
+          "en": "original meaning"
+        },
+        {
+          "kanji": "原語",
+          "kana": "げんご",
+          "en": "original word"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "原画",
+          "kana": "げんが",
+          "en": "original picture"
+        },
+        "はら": {
+          "kanji": "原",
+          "kana": "はら",
+          "en": "field"
+        }
+      }
+    },
+    {
+      "kanji": "友",
+      "on": [
+        "ユウ"
+      ],
+      "kun": [
+        "とも"
+      ],
+      "meanings": [
+        "friend"
+      ],
+      "words": [
+        {
+          "kanji": "友",
+          "kana": "とも",
+          "en": "friend"
+        },
+        {
+          "kanji": "学友",
+          "kana": "がくゆう",
+          "en": "school friend"
+        },
+        {
+          "kanji": "交友",
+          "kana": "こうゆう",
+          "en": "friend"
+        },
+        {
+          "kanji": "校友",
+          "kana": "こうゆう",
+          "en": "schoolmate"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "友誼",
+          "kana": "ゆうぎ",
+          "en": "friendship"
+        },
+        "とも": {
+          "kanji": "友",
+          "kana": "とも",
+          "en": "friend"
+        }
+      }
+    },
+    {
+      "kanji": "古",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "ふる.い",
+        "ふる-",
+        "-ふる.す"
+      ],
+      "meanings": [
+        "old"
+      ],
+      "words": [
+        {
+          "kanji": "古語",
+          "kana": "こご",
+          "en": "archaic word"
+        },
+        {
+          "kanji": "古都",
+          "kana": "こと",
+          "en": "ancient city"
+        },
+        {
+          "kanji": "古寺",
+          "kana": "こじ",
+          "en": "old temple"
+        },
+        {
+          "kanji": "古希",
+          "kana": "こき",
+          "en": "70th birthday"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "古語",
+          "kana": "こご",
+          "en": "archaic word"
+        },
+        "ふるい": {
+          "kanji": "古い",
+          "kana": "ふるい",
+          "en": "old"
+        },
+        "ふる": {
+          "kanji": "古い",
+          "kana": "ふるい",
+          "en": "old"
+        },
+        "ふるす": {
+          "kanji": "古巣",
+          "kana": "ふるす",
+          "en": "old haunts"
+        }
+      }
+    },
+    {
+      "kanji": "台",
+      "on": [
+        "ダイ",
+        "タイ"
+      ],
+      "kun": [
+        "うてな",
+        "われ",
+        "つかさ"
+      ],
+      "meanings": [
+        "pedestal",
+        "a stand",
+        "counter for machines and vehicles"
+      ],
+      "words": [
+        {
+          "kanji": "台",
+          "kana": "だい",
+          "en": "stand"
+        },
+        {
+          "kanji": "屋台",
+          "kana": "やたい",
+          "en": "cart (esp. a food cart)"
+        },
+        {
+          "kanji": "荷台",
+          "kana": "にだい",
+          "en": "(truck) load-carrying tray"
+        },
+        {
+          "kanji": "台座",
+          "kana": "だいざ",
+          "en": "pedestal"
+        }
+      ],
+      "readingExamples": {
+        "ダイ": {
+          "kanji": "台",
+          "kana": "だい",
+          "en": "stand"
+        },
+        "タイ": {
+          "kanji": "台頭",
+          "kana": "たいとう",
+          "en": "rise (e.g. of a movement)"
+        }
+      }
+    },
+    {
+      "kanji": "合",
+      "on": [
+        "ゴウ",
+        "ガッ",
+        "カッ"
+      ],
+      "kun": [
+        "あ.う",
+        "-あ.う",
+        "あ.い",
+        "あい-",
+        "-あ.い",
+        "-あい",
+        "あ.わす",
+        "あ.わせる",
+        "-あ.わせる"
+      ],
+      "meanings": [
+        "fit",
+        "suit",
+        "join",
+        "0.1"
+      ],
+      "words": [
+        {
+          "kanji": "合う",
+          "kana": "あう",
+          "en": "to come together"
+        },
+        {
+          "kanji": "百合",
+          "kana": "ゆり",
+          "en": "lily (Lilium spp.)"
+        },
+        {
+          "kanji": "合",
+          "kana": "ごう",
+          "en": "gō"
+        },
+        {
+          "kanji": "化合",
+          "kana": "かごう",
+          "en": "chemical combination"
+        }
+      ],
+      "readingExamples": {
+        "ゴウ": {
+          "kanji": "合",
+          "kana": "ごう",
+          "en": "gō"
+        },
+        "ガッ": {
+          "kanji": "合致",
+          "kana": "がっち",
+          "en": "agreement"
+        },
+        "カッ": {
+          "kanji": "合羽",
+          "kana": "カッパ",
+          "en": "raincoat"
+        },
+        "あう": {
+          "kanji": "合う",
+          "kana": "あう",
+          "en": "to come together"
+        },
+        "あい": {
+          "kanji": "合間",
+          "kana": "あいま",
+          "en": "interval"
+        },
+        "あわす": {
+          "kanji": "合わす",
+          "kana": "あわす",
+          "en": "to match (rhythm, speed, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "同",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "おな.じ"
+      ],
+      "meanings": [
+        "same",
+        "agree",
+        "equal"
+      ],
+      "words": [
+        {
+          "kanji": "同",
+          "kana": "どう",
+          "en": "the same"
+        },
+        {
+          "kanji": "同じ",
+          "kana": "おなじ",
+          "en": "same"
+        },
+        {
+          "kanji": "同位",
+          "kana": "どうい",
+          "en": "the same rank"
+        },
+        {
+          "kanji": "同意",
+          "kana": "どうい",
+          "en": "agreement"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "同",
+          "kana": "どう",
+          "en": "the same"
+        },
+        "おなじ": {
+          "kanji": "同じ",
+          "kana": "おなじ",
+          "en": "same"
+        }
+      }
+    },
+    {
+      "kanji": "回",
+      "on": [
+        "カイ",
+        "エ"
+      ],
+      "kun": [
+        "まわ.る",
+        "-まわ.る",
+        "-まわ.り",
+        "まわ.す",
+        "-まわ.す",
+        "まわ.し-",
+        "-まわ.し",
+        "もとお.る",
+        "か.える"
+      ],
+      "meanings": [
+        "-times",
+        "round",
+        "game",
+        "revolve"
+      ],
+      "words": [
+        {
+          "kanji": "回",
+          "kana": "かい",
+          "en": "counter for occurrences"
+        },
+        {
+          "kanji": "回し",
+          "kana": "まわし",
+          "en": "mawashi"
+        },
+        {
+          "kanji": "回す",
+          "kana": "まわす",
+          "en": "to turn"
+        },
+        {
+          "kanji": "回帰",
+          "kana": "かいき",
+          "en": "return (to)"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "回",
+          "kana": "かい",
+          "en": "counter for occurrences"
+        },
+        "エ": {
+          "kanji": "回向",
+          "kana": "えこう",
+          "en": "memorial service"
+        },
+        "まわる": {
+          "kanji": "回る",
+          "kana": "まわる",
+          "en": "to turn"
+        },
+        "まわり": {
+          "kanji": "回り",
+          "kana": "まわり",
+          "en": "rotation"
+        },
+        "まわす": {
+          "kanji": "回す",
+          "kana": "まわす",
+          "en": "to turn"
+        },
+        "まわし": {
+          "kanji": "回し",
+          "kana": "まわし",
+          "en": "mawashi"
+        }
+      }
+    },
+    {
+      "kanji": "図",
+      "on": [
+        "ズ",
+        "ト"
+      ],
+      "kun": [
+        "え",
+        "はか.る"
+      ],
+      "meanings": [
+        "map",
+        "drawing",
+        "plan",
+        "extraordinary"
+      ],
+      "words": [
+        {
+          "kanji": "図",
+          "kana": "ず",
+          "en": "drawing"
+        },
+        {
+          "kanji": "意図",
+          "kana": "いと",
+          "en": "intention"
+        },
+        {
+          "kanji": "絵図",
+          "kana": "えず",
+          "en": "illustration"
+        },
+        {
+          "kanji": "図画",
+          "kana": "ずが",
+          "en": "drawing"
+        }
+      ],
+      "readingExamples": {
+        "ズ": {
+          "kanji": "図",
+          "kana": "ず",
+          "en": "drawing"
+        },
+        "ト": {
+          "kanji": "図書",
+          "kana": "としょ",
+          "en": "books"
+        },
+        "え": {
+          "kanji": "絵図",
+          "kana": "えず",
+          "en": "illustration"
+        },
+        "はかる": {
+          "kanji": "図る",
+          "kana": "はかる",
+          "en": "to plan"
+        }
+      }
+    },
+    {
+      "kanji": "国",
+      "on": [
+        "コク"
+      ],
+      "kun": [
+        "くに"
+      ],
+      "meanings": [
+        "country"
+      ],
+      "words": [
+        {
+          "kanji": "国",
+          "kana": "くに",
+          "en": "country"
+        },
+        {
+          "kanji": "異国",
+          "kana": "いこく",
+          "en": "foreign country"
+        },
+        {
+          "kanji": "帰国",
+          "kana": "きこく",
+          "en": "return to one's country"
+        },
+        {
+          "kanji": "故国",
+          "kana": "ここく",
+          "en": "one's native land"
+        }
+      ],
+      "readingExamples": {
+        "コク": {
+          "kanji": "国威",
+          "kana": "こくい",
+          "en": "national prestige"
+        },
+        "くに": {
+          "kanji": "国",
+          "kana": "くに",
+          "en": "country"
+        }
+      }
+    },
+    {
+      "kanji": "園",
+      "on": [
+        "エン"
+      ],
+      "kun": [
+        "その"
+      ],
+      "meanings": [
+        "park",
+        "garden",
+        "yard",
+        "farm"
+      ],
+      "words": [
+        {
+          "kanji": "園",
+          "kana": "その",
+          "en": "garden"
+        },
+        {
+          "kanji": "園",
+          "kana": "えん",
+          "en": "garden"
+        },
+        {
+          "kanji": "園児",
+          "kana": "えんじ",
+          "en": "kindergarten pupil"
+        },
+        {
+          "kanji": "園芸",
+          "kana": "えんげい",
+          "en": "horticulture"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "園",
+          "kana": "えん",
+          "en": "garden"
+        },
+        "その": {
+          "kanji": "園",
+          "kana": "その",
+          "en": "garden"
+        }
+      }
+    },
+    {
+      "kanji": "地",
+      "on": [
+        "チ",
+        "ジ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ground",
+        "earth"
+      ],
+      "words": [
+        {
+          "kanji": "地",
+          "kana": "ち",
+          "en": "earth"
+        },
+        {
+          "kanji": "意地",
+          "kana": "いじ",
+          "en": "stubbornness"
+        },
+        {
+          "kanji": "基地",
+          "kana": "きち",
+          "en": "base (military, expedition, etc.)"
+        },
+        {
+          "kanji": "生地",
+          "kana": "きじ",
+          "en": "cloth"
+        }
+      ],
+      "readingExamples": {
+        "チ": {
+          "kanji": "地",
+          "kana": "ち",
+          "en": "earth"
+        },
+        "ジ": {
+          "kanji": "地味",
+          "kana": "じみ",
+          "en": "plain"
+        }
+      }
+    },
+    {
+      "kanji": "場",
+      "on": [
+        "ジョウ",
+        "チョウ"
+      ],
+      "kun": [
+        "ば"
+      ],
+      "meanings": [
+        "location",
+        "place"
+      ],
+      "words": [
+        {
+          "kanji": "場",
+          "kana": "ば",
+          "en": "place"
+        },
+        {
+          "kanji": "木場",
+          "kana": "きば",
+          "en": "lumberyard"
+        },
+        {
+          "kanji": "磁場",
+          "kana": "じば",
+          "en": "magnetic field"
+        },
+        {
+          "kanji": "馬場",
+          "kana": "ばば",
+          "en": "riding ground"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "場内",
+          "kana": "じょうない",
+          "en": "in-house"
+        },
+        "ば": {
+          "kanji": "場",
+          "kana": "ば",
+          "en": "place"
+        }
+      }
+    },
+    {
+      "kanji": "声",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "こえ",
+        "こわ-"
+      ],
+      "meanings": [
+        "voice"
+      ],
+      "words": [
+        {
+          "kanji": "声",
+          "kana": "こえ",
+          "en": "voice"
+        },
+        {
+          "kanji": "無声",
+          "kana": "むせい",
+          "en": "silence"
+        },
+        {
+          "kanji": "小声",
+          "kana": "こごえ",
+          "en": "low voice"
+        },
+        {
+          "kanji": "和声",
+          "kana": "わせい",
+          "en": "harmony"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "声援",
+          "kana": "せいえん",
+          "en": "(shout of) encouragement"
+        },
+        "こえ": {
+          "kanji": "声",
+          "kana": "こえ",
+          "en": "voice"
+        },
+        "こわ": {
+          "kanji": "声高",
+          "kana": "こわだか",
+          "en": "loud (of a voice)"
+        }
+      }
+    },
+    {
+      "kanji": "売",
+      "on": [
+        "バイ"
+      ],
+      "kun": [
+        "う.る",
+        "う.れる"
+      ],
+      "meanings": [
+        "sell"
+      ],
+      "words": [
+        {
+          "kanji": "売る",
+          "kana": "うる",
+          "en": "to sell"
+        },
+        {
+          "kanji": "売り",
+          "kana": "うり",
+          "en": "sale"
+        },
+        {
+          "kanji": "売れる",
+          "kana": "うれる",
+          "en": "to sell (well)"
+        },
+        {
+          "kanji": "売り子",
+          "kana": "うりこ",
+          "en": "salesperson"
+        }
+      ],
+      "readingExamples": {
+        "バイ": {
+          "kanji": "売価",
+          "kana": "ばいか",
+          "en": "selling price"
+        },
+        "うる": {
+          "kanji": "売る",
+          "kana": "うる",
+          "en": "to sell"
+        },
+        "うれる": {
+          "kanji": "売れる",
+          "kana": "うれる",
+          "en": "to sell (well)"
+        }
+      }
+    },
+    {
+      "kanji": "夏",
+      "on": [
+        "カ",
+        "ガ",
+        "ゲ"
+      ],
+      "kun": [
+        "なつ"
+      ],
+      "meanings": [
+        "summer"
+      ],
+      "words": [
+        {
+          "kanji": "夏",
+          "kana": "なつ",
+          "en": "summer"
+        },
+        {
+          "kanji": "夏至",
+          "kana": "げし",
+          "en": "summer solstice"
+        },
+        {
+          "kanji": "夏季",
+          "kana": "かき",
+          "en": "summer season"
+        },
+        {
+          "kanji": "夏期",
+          "kana": "かき",
+          "en": "summer term (e.g. school)"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "夏季",
+          "kana": "かき",
+          "en": "summer season"
+        },
+        "ゲ": {
+          "kanji": "夏至",
+          "kana": "げし",
+          "en": "summer solstice"
+        },
+        "なつ": {
+          "kanji": "夏",
+          "kana": "なつ",
+          "en": "summer"
+        }
+      }
+    },
+    {
+      "kanji": "外",
+      "on": [
+        "ガイ",
+        "ゲ"
+      ],
+      "kun": [
+        "そと",
+        "ほか",
+        "はず.す",
+        "はず.れる",
+        "と-"
+      ],
+      "meanings": [
+        "outside"
+      ],
+      "words": [
+        {
+          "kanji": "外",
+          "kana": "そと",
+          "en": "outside"
+        },
+        {
+          "kanji": "外科",
+          "kana": "げか",
+          "en": "surgery (branch of medicine)"
+        },
+        {
+          "kanji": "外",
+          "kana": "がい",
+          "en": "outside ..."
+        },
+        {
+          "kanji": "以外",
+          "kana": "いがい",
+          "en": "excluding"
+        }
+      ],
+      "readingExamples": {
+        "ガイ": {
+          "kanji": "外",
+          "kana": "がい",
+          "en": "outside ..."
+        },
+        "ゲ": {
+          "kanji": "外科",
+          "kana": "げか",
+          "en": "surgery (branch of medicine)"
+        },
+        "そと": {
+          "kanji": "外",
+          "kana": "そと",
+          "en": "outside"
+        },
+        "はずす": {
+          "kanji": "外す",
+          "kana": "はずす",
+          "en": "to remove"
+        },
+        "はずれる": {
+          "kanji": "外れる",
+          "kana": "はずれる",
+          "en": "to be disconnected"
+        }
+      }
+    },
+    {
+      "kanji": "多",
+      "on": [
+        "タ"
+      ],
+      "kun": [
+        "おお.い",
+        "まさ.に",
+        "まさ.る"
+      ],
+      "meanings": [
+        "many",
+        "frequent",
+        "much"
+      ],
+      "words": [
+        {
+          "kanji": "多",
+          "kana": "た",
+          "en": "multi-"
+        },
+        {
+          "kanji": "過多",
+          "kana": "かた",
+          "en": "excess"
+        },
+        {
+          "kanji": "多岐",
+          "kana": "たき",
+          "en": "diverse"
+        },
+        {
+          "kanji": "多々",
+          "kana": "たた",
+          "en": "very much"
+        }
+      ],
+      "readingExamples": {
+        "タ": {
+          "kanji": "多",
+          "kana": "た",
+          "en": "multi-"
+        },
+        "おおい": {
+          "kanji": "多い",
+          "kana": "おおい",
+          "en": "many"
+        }
+      }
+    },
+    {
+      "kanji": "夜",
+      "on": [
+        "ヤ"
+      ],
+      "kun": [
+        "よ",
+        "よる"
+      ],
+      "meanings": [
+        "night",
+        "evening"
+      ],
+      "words": [
+        {
+          "kanji": "通夜",
+          "kana": "つや",
+          "en": "all-night vigil over a body"
+        },
+        {
+          "kanji": "夜",
+          "kana": "よる",
+          "en": "night"
+        },
+        {
+          "kanji": "夜具",
+          "kana": "やぐ",
+          "en": "bedding"
+        },
+        {
+          "kanji": "夜話",
+          "kana": "やわ",
+          "en": "night chat"
+        }
+      ],
+      "readingExamples": {
+        "ヤ": {
+          "kanji": "夜具",
+          "kana": "やぐ",
+          "en": "bedding"
+        },
+        "よ": {
+          "kanji": "夜",
+          "kana": "よる",
+          "en": "night"
+        },
+        "よる": {
+          "kanji": "夜",
+          "kana": "よる",
+          "en": "night"
+        }
+      }
+    },
+    {
+      "kanji": "太",
+      "on": [
+        "タイ",
+        "タ"
+      ],
+      "kun": [
+        "ふと.い",
+        "ふと.る"
+      ],
+      "meanings": [
+        "plump",
+        "thick",
+        "big around"
+      ],
+      "words": [
+        {
+          "kanji": "太刀",
+          "kana": "たち",
+          "en": "long sword (as opposed to the shorter katana)"
+        },
+        {
+          "kanji": "丸太",
+          "kana": "まるた",
+          "en": "log"
+        },
+        {
+          "kanji": "太い",
+          "kana": "ふとい",
+          "en": "fat"
+        },
+        {
+          "kanji": "太る",
+          "kana": "ふとる",
+          "en": "to put on weight"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "太古",
+          "kana": "たいこ",
+          "en": "ancient times"
+        },
+        "タ": {
+          "kanji": "太刀",
+          "kana": "たち",
+          "en": "long sword (as opposed to the shorter katana)"
+        },
+        "ふとい": {
+          "kanji": "太い",
+          "kana": "ふとい",
+          "en": "fat"
+        },
+        "ふとる": {
+          "kanji": "太る",
+          "kana": "ふとる",
+          "en": "to put on weight"
+        }
+      }
+    },
+    {
+      "kanji": "妹",
+      "on": [
+        "マイ"
+      ],
+      "kun": [
+        "いもうと"
+      ],
+      "meanings": [
+        "younger sister"
+      ],
+      "words": [
+        {
+          "kanji": "義妹",
+          "kana": "ぎまい",
+          "en": "sister-in-law (spouse's younger sister or younger brother's wife)"
+        },
+        {
+          "kanji": "姉妹",
+          "kana": "しまい",
+          "en": "sisters"
+        },
+        {
+          "kanji": "弟妹",
+          "kana": "ていまい",
+          "en": "younger brother and sister"
+        },
+        {
+          "kanji": "妹",
+          "kana": "いもうと",
+          "en": "younger sister"
+        }
+      ],
+      "readingExamples": {
+        "いもうと": {
+          "kanji": "妹",
+          "kana": "いもうと",
+          "en": "younger sister"
+        }
+      }
+    },
+    {
+      "kanji": "姉",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "あね",
+        "はは"
+      ],
+      "meanings": [
+        "elder sister"
+      ],
+      "words": [
+        {
+          "kanji": "義姉",
+          "kana": "ぎし",
+          "en": "sister-in-law (spouse's older sister or older brother's wife)"
+        },
+        {
+          "kanji": "姉",
+          "kana": "あね",
+          "en": "older sister"
+        },
+        {
+          "kanji": "兄姉",
+          "kana": "けいし",
+          "en": "older brother and older sister"
+        },
+        {
+          "kanji": "姉妹",
+          "kana": "しまい",
+          "en": "sisters"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "姉妹",
+          "kana": "しまい",
+          "en": "sisters"
+        },
+        "あね": {
+          "kanji": "姉",
+          "kana": "あね",
+          "en": "older sister"
+        }
+      }
+    },
+    {
+      "kanji": "室",
+      "on": [
+        "シツ"
+      ],
+      "kun": [
+        "むろ"
+      ],
+      "meanings": [
+        "room",
+        "apartment",
+        "chamber",
+        "greenhouse"
+      ],
+      "words": [
+        {
+          "kanji": "室",
+          "kana": "しつ",
+          "en": "room"
+        },
+        {
+          "kanji": "個室",
+          "kana": "こしつ",
+          "en": "single (room)"
+        },
+        {
+          "kanji": "和室",
+          "kana": "わしつ",
+          "en": "Japanese-style room"
+        },
+        {
+          "kanji": "氷室",
+          "kana": "ひむろ",
+          "en": "ice house"
+        }
+      ],
+      "readingExamples": {
+        "シツ": {
+          "kanji": "室",
+          "kana": "しつ",
+          "en": "room"
+        },
+        "むろ": {
+          "kanji": "室町",
+          "kana": "むろまち",
+          "en": "Muromachi period (1336-1573)"
+        }
+      }
+    },
+    {
+      "kanji": "家",
+      "on": [
+        "カ",
+        "ケ"
+      ],
+      "kun": [
+        "いえ",
+        "や",
+        "うち"
+      ],
+      "meanings": [
+        "house",
+        "home",
+        "family",
+        "professional"
+      ],
+      "words": [
+        {
+          "kanji": "家",
+          "kana": "け",
+          "en": "house"
+        },
+        {
+          "kanji": "家",
+          "kana": "いえ",
+          "en": "house"
+        },
+        {
+          "kanji": "家",
+          "kana": "うち",
+          "en": "one's house"
+        },
+        {
+          "kanji": "家具",
+          "kana": "かぐ",
+          "en": "furniture"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "家具",
+          "kana": "かぐ",
+          "en": "furniture"
+        },
+        "ケ": {
+          "kanji": "家",
+          "kana": "け",
+          "en": "house"
+        },
+        "いえ": {
+          "kanji": "家",
+          "kana": "いえ",
+          "en": "house"
+        },
+        "や": {
+          "kanji": "家主",
+          "kana": "やぬし",
+          "en": "landlord"
+        },
+        "うち": {
+          "kanji": "家",
+          "kana": "うち",
+          "en": "one's house"
+        }
+      }
+    },
+    {
+      "kanji": "寺",
+      "on": [
+        "ジ"
+      ],
+      "kun": [
+        "てら"
+      ],
+      "meanings": [
+        "Buddhist temple"
+      ],
+      "words": [
+        {
+          "kanji": "寺",
+          "kana": "てら",
+          "en": "temple (Buddhist)"
+        },
+        {
+          "kanji": "古寺",
+          "kana": "こじ",
+          "en": "old temple"
+        },
+        {
+          "kanji": "寺院",
+          "kana": "じいん",
+          "en": "Buddhist temple"
+        },
+        {
+          "kanji": "末寺",
+          "kana": "まつじ",
+          "en": "branch temple"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "寺院",
+          "kana": "じいん",
+          "en": "Buddhist temple"
+        },
+        "てら": {
+          "kanji": "寺",
+          "kana": "てら",
+          "en": "temple (Buddhist)"
+        }
+      }
+    },
+    {
+      "kanji": "少",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "すく.ない",
+        "すこ.し"
+      ],
+      "meanings": [
+        "few",
+        "little"
+      ],
+      "words": [
+        {
+          "kanji": "少し",
+          "kana": "すこし",
+          "en": "a little"
+        },
+        {
+          "kanji": "少",
+          "kana": "しょう",
+          "en": "small"
+        },
+        {
+          "kanji": "過少",
+          "kana": "かしょう",
+          "en": "too few"
+        },
+        {
+          "kanji": "希少",
+          "kana": "きしょう",
+          "en": "scarce"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "少",
+          "kana": "しょう",
+          "en": "small"
+        },
+        "すくない": {
+          "kanji": "少ない",
+          "kana": "すくない",
+          "en": "few"
+        },
+        "すこし": {
+          "kanji": "少し",
+          "kana": "すこし",
+          "en": "a little"
+        }
+      }
+    },
+    {
+      "kanji": "岩",
+      "on": [
+        "ガン"
+      ],
+      "kun": [
+        "いわ"
+      ],
+      "meanings": [
+        "boulder",
+        "rock",
+        "cliff"
+      ],
+      "words": [
+        {
+          "kanji": "岩",
+          "kana": "いわ",
+          "en": "rock"
+        },
+        {
+          "kanji": "岩屋",
+          "kana": "いわや",
+          "en": "cave"
+        },
+        {
+          "kanji": "岩間",
+          "kana": "いわま",
+          "en": "among rocks"
+        },
+        {
+          "kanji": "砂岩",
+          "kana": "さがん",
+          "en": "sandstone"
+        }
+      ],
+      "readingExamples": {
+        "ガン": {
+          "kanji": "岩塩",
+          "kana": "がんえん",
+          "en": "halite"
+        },
+        "いわ": {
+          "kanji": "岩",
+          "kana": "いわ",
+          "en": "rock"
+        }
+      }
+    },
+    {
+      "kanji": "工",
+      "on": [
+        "コウ",
+        "ク",
+        "グ"
+      ],
+      "kun": [],
+      "meanings": [
+        "craft",
+        "construction",
+        "katakana e radical (no. 48)"
+      ],
+      "words": [
+        {
+          "kanji": "加工",
+          "kana": "かこう",
+          "en": "manufacturing"
+        },
+        {
+          "kanji": "起工",
+          "kana": "きこう",
+          "en": "setting to work"
+        },
+        {
+          "kanji": "工科",
+          "kana": "こうか",
+          "en": "engineering course"
+        },
+        {
+          "kanji": "工具",
+          "kana": "こうぐ",
+          "en": "tool"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "工科",
+          "kana": "こうか",
+          "en": "engineering course"
+        },
+        "ク": {
+          "kanji": "工夫",
+          "kana": "くふう",
+          "en": "devising (a way)"
+        }
+      }
+    },
+    {
+      "kanji": "市",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "いち"
+      ],
+      "meanings": [
+        "market",
+        "city",
+        "town"
+      ],
+      "words": [
+        {
+          "kanji": "市",
+          "kana": "し",
+          "en": "city"
+        },
+        {
+          "kanji": "市",
+          "kana": "いち",
+          "en": "market"
+        },
+        {
+          "kanji": "市価",
+          "kana": "しか",
+          "en": "market price"
+        },
+        {
+          "kanji": "市議",
+          "kana": "しぎ",
+          "en": "city councillor"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "市",
+          "kana": "し",
+          "en": "city"
+        },
+        "いち": {
+          "kanji": "市",
+          "kana": "いち",
+          "en": "market"
+        }
+      }
+    },
+    {
+      "kanji": "帰",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "かえ.る",
+        "かえ.す",
+        "おく.る",
+        "とつ.ぐ"
+      ],
+      "meanings": [
+        "homecoming",
+        "arrive at",
+        "lead to",
+        "result in"
+      ],
+      "words": [
+        {
+          "kanji": "帰化",
+          "kana": "きか",
+          "en": "naturalization"
+        },
+        {
+          "kanji": "帰路",
+          "kana": "きろ",
+          "en": "return journey"
+        },
+        {
+          "kanji": "回帰",
+          "kana": "かいき",
+          "en": "return (to)"
+        },
+        {
+          "kanji": "帰す",
+          "kana": "かえす",
+          "en": "to send (someone) back"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "帰依",
+          "kana": "きえ",
+          "en": "becoming a devout believer"
+        },
+        "かえる": {
+          "kanji": "帰る",
+          "kana": "かえる",
+          "en": "to return"
+        },
+        "かえす": {
+          "kanji": "帰す",
+          "kana": "かえす",
+          "en": "to send (someone) back"
+        }
+      }
+    },
+    {
+      "kanji": "広",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "ひろ.い",
+        "ひろ.まる",
+        "ひろ.める",
+        "ひろ.がる",
+        "ひろ.げる"
+      ],
+      "meanings": [
+        "wide",
+        "broad",
+        "spacious"
+      ],
+      "words": [
+        {
+          "kanji": "広い",
+          "kana": "ひろい",
+          "en": "spacious"
+        },
+        {
+          "kanji": "広さ",
+          "kana": "ひろさ",
+          "en": "area"
+        },
+        {
+          "kanji": "広義",
+          "kana": "こうぎ",
+          "en": "wide sense (e.g. of a word)"
+        },
+        {
+          "kanji": "広場",
+          "kana": "ひろば",
+          "en": "public square"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "広義",
+          "kana": "こうぎ",
+          "en": "wide sense (e.g. of a word)"
+        },
+        "ひろい": {
+          "kanji": "広い",
+          "kana": "ひろい",
+          "en": "spacious"
+        },
+        "ひろまる": {
+          "kanji": "広まる",
+          "kana": "ひろまる",
+          "en": "to spread"
+        },
+        "ひろめる": {
+          "kanji": "広める",
+          "kana": "ひろめる",
+          "en": "to spread"
+        },
+        "ひろがる": {
+          "kanji": "広がる",
+          "kana": "ひろがる",
+          "en": "to spread (out)"
+        },
+        "ひろげる": {
+          "kanji": "広げる",
+          "kana": "ひろげる",
+          "en": "to spread"
+        }
+      }
+    },
+    {
+      "kanji": "店",
+      "on": [
+        "テン"
+      ],
+      "kun": [
+        "みせ",
+        "たな"
+      ],
+      "meanings": [
+        "store",
+        "shop"
+      ],
+      "words": [
+        {
+          "kanji": "店",
+          "kana": "みせ",
+          "en": "store"
+        },
+        {
+          "kanji": "店",
+          "kana": "てん",
+          "en": "store"
+        },
+        {
+          "kanji": "支店",
+          "kana": "してん",
+          "en": "branch office"
+        },
+        {
+          "kanji": "他店",
+          "kana": "たてん",
+          "en": "another shop"
+        }
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "店",
+          "kana": "てん",
+          "en": "store"
+        },
+        "みせ": {
+          "kanji": "店",
+          "kana": "みせ",
+          "en": "store"
+        },
+        "たな": {
+          "kanji": "店子",
+          "kana": "たなこ",
+          "en": "tenant (esp. in contrast to a landlord)"
+        }
+      }
+    },
+    {
+      "kanji": "弓",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "ゆみ"
+      ],
+      "meanings": [
+        "bow",
+        "bow (archery, violin)"
+      ],
+      "words": [
+        {
+          "kanji": "弓",
+          "kana": "ゆみ",
+          "en": "bow (weapon)"
+        },
+        {
+          "kanji": "弓矢",
+          "kana": "ゆみや",
+          "en": "bow and arrow"
+        },
+        {
+          "kanji": "弓道",
+          "kana": "きゅうどう",
+          "en": "kyūdō"
+        },
+        {
+          "kanji": "洋弓",
+          "kana": "ようきゅう",
+          "en": "(Western) archery"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "弓道",
+          "kana": "きゅうどう",
+          "en": "kyūdō"
+        },
+        "ゆみ": {
+          "kanji": "弓",
+          "kana": "ゆみ",
+          "en": "bow (weapon)"
+        }
+      }
+    },
+    {
+      "kanji": "引",
+      "on": [
+        "イン"
+      ],
+      "kun": [
+        "ひ.く",
+        "ひ.ける"
+      ],
+      "meanings": [
+        "pull",
+        "tug",
+        "jerk",
+        "admit"
+      ],
+      "words": [
+        {
+          "kanji": "引く",
+          "kana": "ひく",
+          "en": "to pull"
+        },
+        {
+          "kanji": "引け値",
+          "kana": "ひけね",
+          "en": "closing quotations"
+        },
+        {
+          "kanji": "引け目",
+          "kana": "ひけめ",
+          "en": "sense of inferiority"
+        },
+        {
+          "kanji": "引火",
+          "kana": "いんか",
+          "en": "ignition"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "引火",
+          "kana": "いんか",
+          "en": "ignition"
+        },
+        "ひく": {
+          "kanji": "引く",
+          "kana": "ひく",
+          "en": "to pull"
+        }
+      }
+    },
+    {
+      "kanji": "弟",
+      "on": [
+        "テイ",
+        "ダイ",
+        "デ"
+      ],
+      "kun": [
+        "おとうと"
+      ],
+      "meanings": [
+        "younger brother",
+        "faithful service to elders"
+      ],
+      "words": [
+        {
+          "kanji": "弟子",
+          "kana": "でし",
+          "en": "pupil"
+        },
+        {
+          "kanji": "義弟",
+          "kana": "ぎてい",
+          "en": "brother-in-law (spouse's younger brother or younger sister's husband)"
+        },
+        {
+          "kanji": "子弟",
+          "kana": "してい",
+          "en": "children"
+        },
+        {
+          "kanji": "師弟",
+          "kana": "してい",
+          "en": "teacher and student"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "弟妹",
+          "kana": "ていまい",
+          "en": "younger brother and sister"
+        },
+        "デ": {
+          "kanji": "弟子",
+          "kana": "でし",
+          "en": "pupil"
+        },
+        "おとうと": {
+          "kanji": "弟",
+          "kana": "おとうと",
+          "en": "younger brother"
+        }
+      }
+    },
+    {
+      "kanji": "弱",
+      "on": [
+        "ジャク"
+      ],
+      "kun": [
+        "よわ.い",
+        "よわ.る",
+        "よわ.まる",
+        "よわ.める"
+      ],
+      "meanings": [
+        "weak",
+        "frail"
+      ],
+      "words": [
+        {
+          "kanji": "弱",
+          "kana": "じゃく",
+          "en": "a little less than"
+        },
+        {
+          "kanji": "弱い",
+          "kana": "よわい",
+          "en": "weak"
+        },
+        {
+          "kanji": "弱る",
+          "kana": "よわる",
+          "en": "to weaken"
+        },
+        {
+          "kanji": "弱音",
+          "kana": "よわね",
+          "en": "feeble complaint"
+        }
+      ],
+      "readingExamples": {
+        "ジャク": {
+          "kanji": "弱",
+          "kana": "じゃく",
+          "en": "a little less than"
+        },
+        "よわい": {
+          "kanji": "弱い",
+          "kana": "よわい",
+          "en": "weak"
+        },
+        "よわる": {
+          "kanji": "弱る",
+          "kana": "よわる",
+          "en": "to weaken"
+        },
+        "よわまる": {
+          "kanji": "弱まる",
+          "kana": "よわまる",
+          "en": "to abate"
+        },
+        "よわめる": {
+          "kanji": "弱める",
+          "kana": "よわめる",
+          "en": "to weaken"
+        }
+      }
+    },
+    {
+      "kanji": "強",
+      "on": [
+        "キョウ",
+        "ゴウ"
+      ],
+      "kun": [
+        "つよ.い",
+        "つよ.まる",
+        "つよ.める",
+        "し.いる",
+        "こわ.い"
+      ],
+      "meanings": [
+        "strong"
+      ],
+      "words": [
+        {
+          "kanji": "強い",
+          "kana": "つよい",
+          "en": "strong"
+        },
+        {
+          "kanji": "強いて",
+          "kana": "しいて",
+          "en": "by force"
+        },
+        {
+          "kanji": "強いる",
+          "kana": "しいる",
+          "en": "to force"
+        },
+        {
+          "kanji": "強さ",
+          "kana": "つよさ",
+          "en": "strength"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "強化",
+          "kana": "きょうか",
+          "en": "strengthening"
+        },
+        "ゴウ": {
+          "kanji": "強引",
+          "kana": "ごういん",
+          "en": "overbearing"
+        },
+        "つよい": {
+          "kanji": "強い",
+          "kana": "つよい",
+          "en": "strong"
+        },
+        "つよまる": {
+          "kanji": "強まる",
+          "kana": "つよまる",
+          "en": "to get strong"
+        },
+        "つよめる": {
+          "kanji": "強める",
+          "kana": "つよめる",
+          "en": "to strengthen"
+        },
+        "しいる": {
+          "kanji": "強いる",
+          "kana": "しいる",
+          "en": "to force"
+        }
+      }
+    },
+    {
+      "kanji": "当",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "あ.たる",
+        "あ.たり",
+        "あ.てる",
+        "あ.て",
+        "まさ.に",
+        "まさ.にべし"
+      ],
+      "meanings": [
+        "hit",
+        "right",
+        "appropriate",
+        "himself"
+      ],
+      "words": [
+        {
+          "kanji": "当て",
+          "kana": "あて",
+          "en": "aim"
+        },
+        {
+          "kanji": "過当",
+          "kana": "かとう",
+          "en": "excessive"
+        },
+        {
+          "kanji": "当たり",
+          "kana": "あたり",
+          "en": "hit"
+        },
+        {
+          "kanji": "当たる",
+          "kana": "あたる",
+          "en": "to be hit"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "当の",
+          "kana": "とうの",
+          "en": "the ... in question"
+        },
+        "あたる": {
+          "kanji": "当たる",
+          "kana": "あたる",
+          "en": "to be hit"
+        },
+        "あたり": {
+          "kanji": "当たり",
+          "kana": "あたり",
+          "en": "hit"
+        },
+        "あてる": {
+          "kanji": "当てる",
+          "kana": "あてる",
+          "en": "to hit"
+        },
+        "あて": {
+          "kanji": "当て",
+          "kana": "あて",
+          "en": "aim"
+        }
+      }
+    },
+    {
+      "kanji": "形",
+      "on": [
+        "ケイ",
+        "ギョウ"
+      ],
+      "kun": [
+        "かた",
+        "-がた",
+        "かたち",
+        "なり"
+      ],
+      "meanings": [
+        "shape",
+        "form",
+        "style"
+      ],
+      "words": [
+        {
+          "kanji": "形",
+          "kana": "かたち",
+          "en": "(physical) form"
+        },
+        {
+          "kanji": "形見",
+          "kana": "かたみ",
+          "en": "memento (esp. of a deceased person)"
+        },
+        {
+          "kanji": "固形",
+          "kana": "こけい",
+          "en": "solid (body)"
+        },
+        {
+          "kanji": "詩形",
+          "kana": "しけい",
+          "en": "form of verse"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "形骸",
+          "kana": "けいがい",
+          "en": "(soulless) body"
+        },
+        "ギョウ": {
+          "kanji": "形相",
+          "kana": "ぎょうそう",
+          "en": "look (esp. an angry or upset look)"
+        },
+        "かた": {
+          "kanji": "形",
+          "kana": "かたち",
+          "en": "(physical) form"
+        },
+        "かたち": {
+          "kanji": "形",
+          "kana": "かたち",
+          "en": "(physical) form"
+        }
+      }
+    },
+    {
+      "kanji": "後",
+      "on": [
+        "ゴ",
+        "コウ"
+      ],
+      "kun": [
+        "のち",
+        "うし.ろ",
+        "うしろ",
+        "あと",
+        "おく.れる"
+      ],
+      "meanings": [
+        "behind",
+        "back",
+        "later"
+      ],
+      "words": [
+        {
+          "kanji": "後",
+          "kana": "ご",
+          "en": "after"
+        },
+        {
+          "kanji": "以後",
+          "kana": "いご",
+          "en": "after this"
+        },
+        {
+          "kanji": "午後",
+          "kana": "ごご",
+          "en": "afternoon"
+        },
+        {
+          "kanji": "後",
+          "kana": "あと",
+          "en": "behind"
+        }
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "後",
+          "kana": "ご",
+          "en": "after"
+        },
+        "コウ": {
+          "kanji": "後期",
+          "kana": "こうき",
+          "en": "latter period"
+        },
+        "のち": {
+          "kanji": "後",
+          "kana": "のち",
+          "en": "later"
+        },
+        "うしろ": {
+          "kanji": "後ろ",
+          "kana": "うしろ",
+          "en": "back"
+        },
+        "あと": {
+          "kanji": "後",
+          "kana": "あと",
+          "en": "behind"
+        }
+      }
+    },
+    {
+      "kanji": "心",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "こころ",
+        "-ごころ"
+      ],
+      "meanings": [
+        "heart",
+        "mind",
+        "spirit",
+        "heart radical (no. 61)"
+      ],
+      "words": [
+        {
+          "kanji": "心",
+          "kana": "しん",
+          "en": "heart"
+        },
+        {
+          "kanji": "疑心",
+          "kana": "ぎしん",
+          "en": "doubt"
+        },
+        {
+          "kanji": "苦心",
+          "kana": "くしん",
+          "en": "pains"
+        },
+        {
+          "kanji": "心",
+          "kana": "こころ",
+          "en": "mind"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "心",
+          "kana": "しん",
+          "en": "heart"
+        },
+        "こころ": {
+          "kanji": "心",
+          "kana": "こころ",
+          "en": "mind"
+        }
+      }
+    },
+    {
+      "kanji": "思",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "おも.う",
+        "おもえら.く",
+        "おぼ.す"
+      ],
+      "meanings": [
+        "think"
+      ],
+      "words": [
+        {
+          "kanji": "意思",
+          "kana": "いし",
+          "en": "intention"
+        },
+        {
+          "kanji": "思案",
+          "kana": "しあん",
+          "en": "careful thought"
+        },
+        {
+          "kanji": "思考",
+          "kana": "しこう",
+          "en": "thought"
+        },
+        {
+          "kanji": "思想",
+          "kana": "しそう",
+          "en": "thought"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "思慕",
+          "kana": "しぼ",
+          "en": "yearning"
+        },
+        "おもう": {
+          "kanji": "思う",
+          "kana": "おもう",
+          "en": "to think"
+        }
+      }
+    },
+    {
+      "kanji": "戸",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "と"
+      ],
+      "meanings": [
+        "door",
+        "counter for houses",
+        "door radical (no. 63)"
+      ],
+      "words": [
+        {
+          "kanji": "戸",
+          "kana": "と",
+          "en": "door (esp. Japanese-style)"
+        },
+        {
+          "kanji": "井戸",
+          "kana": "いど",
+          "en": "water well"
+        },
+        {
+          "kanji": "下戸",
+          "kana": "げこ",
+          "en": "non-drinker"
+        },
+        {
+          "kanji": "木戸",
+          "kana": "きど",
+          "en": "wicket gate"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "戸外",
+          "kana": "こがい",
+          "en": "open air"
+        },
+        "と": {
+          "kanji": "戸",
+          "kana": "と",
+          "en": "door (esp. Japanese-style)"
+        }
+      }
+    },
+    {
+      "kanji": "才",
+      "on": [
+        "サイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "genius",
+        "years old",
+        "cubic shaku"
+      ],
+      "words": [
+        {
+          "kanji": "才",
+          "kana": "さい",
+          "en": "ability"
+        },
+        {
+          "kanji": "才気",
+          "kana": "さいき",
+          "en": "wisdom"
+        },
+        {
+          "kanji": "多才",
+          "kana": "たさい",
+          "en": "talented"
+        },
+        {
+          "kanji": "才覚",
+          "kana": "さいかく",
+          "en": "ready wit"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "才",
+          "kana": "さい",
+          "en": "ability"
+        }
+      }
+    },
+    {
+      "kanji": "教",
+      "on": [
+        "キョウ"
+      ],
+      "kun": [
+        "おし.える",
+        "おそ.わる"
+      ],
+      "meanings": [
+        "teach",
+        "faith",
+        "doctrine"
+      ],
+      "words": [
+        {
+          "kanji": "教え",
+          "kana": "おしえ",
+          "en": "teaching"
+        },
+        {
+          "kanji": "教える",
+          "kana": "おしえる",
+          "en": "to teach"
+        },
+        {
+          "kanji": "教え子",
+          "kana": "おしえご",
+          "en": "one's student (esp. a former one)"
+        },
+        {
+          "kanji": "教わる",
+          "kana": "おそわる",
+          "en": "to be taught"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "教化",
+          "kana": "きょうか",
+          "en": "education"
+        },
+        "おしえる": {
+          "kanji": "教える",
+          "kana": "おしえる",
+          "en": "to teach"
+        },
+        "おそわる": {
+          "kanji": "教わる",
+          "kana": "おそわる",
+          "en": "to be taught"
+        }
+      }
+    },
+    {
+      "kanji": "数",
+      "on": [
+        "スウ",
+        "ス",
+        "サク",
+        "ソク",
+        "シュ"
+      ],
+      "kun": [
+        "かず",
+        "かぞ.える",
+        "しばしば",
+        "せ.める",
+        "わずらわ.しい"
+      ],
+      "meanings": [
+        "number",
+        "strength",
+        "fate",
+        "law"
+      ],
+      "words": [
+        {
+          "kanji": "数寄",
+          "kana": "すき",
+          "en": "refined taste"
+        },
+        {
+          "kanji": "数",
+          "kana": "かず",
+          "en": "number"
+        },
+        {
+          "kanji": "数",
+          "kana": "すう",
+          "en": "several"
+        },
+        {
+          "kanji": "戸数",
+          "kana": "こすう",
+          "en": "number of houses"
+        }
+      ],
+      "readingExamples": {
+        "スウ": {
+          "kanji": "数",
+          "kana": "すう",
+          "en": "several"
+        },
+        "ス": {
+          "kanji": "数寄",
+          "kana": "すき",
+          "en": "refined taste"
+        },
+        "シュ": {
+          "kanji": "周波数",
+          "kana": "しゅうはすう",
+          "en": "frequency (esp. of waveforms)"
+        },
+        "かず": {
+          "kanji": "数",
+          "kana": "かず",
+          "en": "number"
+        }
+      }
+    },
+    {
+      "kanji": "新",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "あたら.しい",
+        "あら.た",
+        "あら-",
+        "にい-"
+      ],
+      "meanings": [
+        "new"
+      ],
+      "words": [
+        {
+          "kanji": "新",
+          "kana": "しん",
+          "en": "new"
+        },
+        {
+          "kanji": "新た",
+          "kana": "あらた",
+          "en": "new"
+        },
+        {
+          "kanji": "新芽",
+          "kana": "しんめ",
+          "en": "sprout"
+        },
+        {
+          "kanji": "新規",
+          "kana": "しんき",
+          "en": "new"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "新",
+          "kana": "しん",
+          "en": "new"
+        },
+        "あたらしい": {
+          "kanji": "新しい",
+          "kana": "あたらしい",
+          "en": "new"
+        },
+        "あらた": {
+          "kanji": "新た",
+          "kana": "あらた",
+          "en": "new"
+        },
+        "あら": {
+          "kanji": "新た",
+          "kana": "あらた",
+          "en": "new"
+        },
+        "にい": {
+          "kanji": "新妻",
+          "kana": "にいづま",
+          "en": "new wife"
+        }
+      }
+    },
+    {
+      "kanji": "方",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "かた",
+        "-かた",
+        "-がた"
+      ],
+      "meanings": [
+        "direction",
+        "person",
+        "alternative"
+      ],
+      "words": [
+        {
+          "kanji": "方",
+          "kana": "かた",
+          "en": "direction"
+        },
+        {
+          "kanji": "方",
+          "kana": "ほう",
+          "en": "direction"
+        },
+        {
+          "kanji": "右方",
+          "kana": "うほう",
+          "en": "right side"
+        },
+        {
+          "kanji": "下方",
+          "kana": "かほう",
+          "en": "lower region"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "方",
+          "kana": "ほう",
+          "en": "direction"
+        },
+        "かた": {
+          "kanji": "方",
+          "kana": "かた",
+          "en": "direction"
+        }
+      }
+    },
+    {
+      "kanji": "明",
+      "on": [
+        "メイ",
+        "ミョウ",
+        "ミン"
+      ],
+      "kun": [
+        "あ.かり",
+        "あか.るい",
+        "あか.るむ",
+        "あか.らむ",
+        "あき.らか",
+        "あ.ける",
+        "-あ.け",
+        "あ.く",
+        "あ.くる",
+        "あ.かす"
+      ],
+      "meanings": [
+        "bright",
+        "light"
+      ],
+      "words": [
+        {
+          "kanji": "自明",
+          "kana": "じめい",
+          "en": "self-evident"
+        },
+        {
+          "kanji": "不明",
+          "kana": "ふめい",
+          "en": "unclear"
+        },
+        {
+          "kanji": "未明",
+          "kana": "みめい",
+          "en": "early dawn"
+        },
+        {
+          "kanji": "明かす",
+          "kana": "あかす",
+          "en": "to pass (the night)"
+        }
+      ],
+      "readingExamples": {
+        "メイ": {
+          "kanji": "明記",
+          "kana": "めいき",
+          "en": "clear writing"
+        },
+        "ミョウ": {
+          "kanji": "明晩",
+          "kana": "みょうばん",
+          "en": "tomorrow evening"
+        },
+        "あかり": {
+          "kanji": "明かり",
+          "kana": "あかり",
+          "en": "light"
+        },
+        "あかるい": {
+          "kanji": "明るい",
+          "kana": "あかるい",
+          "en": "light"
+        }
+      }
+    },
+    {
+      "kanji": "星",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "ほし",
+        "-ぼし"
+      ],
+      "meanings": [
+        "star",
+        "spot",
+        "dot",
+        "mark"
+      ],
+      "words": [
+        {
+          "kanji": "星",
+          "kana": "ほし",
+          "en": "star (usu. excluding the Sun)"
+        },
+        {
+          "kanji": "火星",
+          "kana": "かせい",
+          "en": "Mars (planet)"
+        },
+        {
+          "kanji": "星座",
+          "kana": "せいざ",
+          "en": "constellation"
+        },
+        {
+          "kanji": "土星",
+          "kana": "どせい",
+          "en": "Saturn (planet)"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "星座",
+          "kana": "せいざ",
+          "en": "constellation"
+        },
+        "ショウ": {
+          "kanji": "小惑星",
+          "kana": "しょうわくせい",
+          "en": "asteroid"
+        },
+        "ほし": {
+          "kanji": "星",
+          "kana": "ほし",
+          "en": "star (usu. excluding the Sun)"
+        }
+      }
+    },
+    {
+      "kanji": "春",
+      "on": [
+        "シュン"
+      ],
+      "kun": [
+        "はる"
+      ],
+      "meanings": [
+        "springtime",
+        "spring (season)"
+      ],
+      "words": [
+        {
+          "kanji": "春",
+          "kana": "はる",
+          "en": "spring"
+        },
+        {
+          "kanji": "小春",
+          "kana": "こはる",
+          "en": "10th month of the lunisolar calendar (traditional first month of winter, approx. November)"
+        },
+        {
+          "kanji": "春めく",
+          "kana": "はるめく",
+          "en": "to become spring-like"
+        },
+        {
+          "kanji": "春先",
+          "kana": "はるさき",
+          "en": "beginning of spring"
+        }
+      ],
+      "readingExamples": {
+        "シュン": {
+          "kanji": "春季",
+          "kana": "しゅんき",
+          "en": "spring season"
+        },
+        "はる": {
+          "kanji": "春",
+          "kana": "はる",
+          "en": "spring"
+        }
+      }
+    },
+    {
+      "kanji": "昼",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [
+        "ひる"
+      ],
+      "meanings": [
+        "daytime",
+        "noon"
+      ],
+      "words": [
+        {
+          "kanji": "昼",
+          "kana": "ひる",
+          "en": "noon"
+        },
+        {
+          "kanji": "真昼",
+          "kana": "まひる",
+          "en": "midday"
+        },
+        {
+          "kanji": "昼間",
+          "kana": "ひるま",
+          "en": "daytime"
+        },
+        {
+          "kanji": "お昼",
+          "kana": "おひる",
+          "en": "lunch"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "昼夜",
+          "kana": "ちゅうや",
+          "en": "day and night"
+        },
+        "ひる": {
+          "kanji": "昼",
+          "kana": "ひる",
+          "en": "noon"
+        }
+      }
+    },
+    {
+      "kanji": "時",
+      "on": [
+        "ジ"
+      ],
+      "kun": [
+        "とき",
+        "-どき"
+      ],
+      "meanings": [
+        "time",
+        "hour"
+      ],
+      "words": [
+        {
+          "kanji": "時",
+          "kana": "じ",
+          "en": "hour"
+        },
+        {
+          "kanji": "何時",
+          "kana": "いつ",
+          "en": "when"
+        },
+        {
+          "kanji": "４時",
+          "kana": "よじ",
+          "en": "four o'clock"
+        },
+        {
+          "kanji": "時",
+          "kana": "とき",
+          "en": "time"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "時",
+          "kana": "じ",
+          "en": "hour"
+        },
+        "とき": {
+          "kanji": "時",
+          "kana": "とき",
+          "en": "time"
+        }
+      }
+    },
+    {
+      "kanji": "晴",
+      "on": [
+        "セイ"
+      ],
+      "kun": [
+        "は.れる",
+        "は.れ",
+        "は.れ-",
+        "-ば.れ",
+        "は.らす"
+      ],
+      "meanings": [
+        "clear up"
+      ],
+      "words": [
+        {
+          "kanji": "晴れ",
+          "kana": "はれ",
+          "en": "clear weather"
+        },
+        {
+          "kanji": "晴らす",
+          "kana": "はらす",
+          "en": "to dispel"
+        },
+        {
+          "kanji": "晴れる",
+          "kana": "はれる",
+          "en": "to clear up"
+        },
+        {
+          "kanji": "晴れ間",
+          "kana": "はれま",
+          "en": "break (in the weather, esp. rain or snow)"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "晴天",
+          "kana": "せいてん",
+          "en": "fine weather (i.e. little or no clouds)"
+        },
+        "はれる": {
+          "kanji": "晴れる",
+          "kana": "はれる",
+          "en": "to clear up"
+        },
+        "はれ": {
+          "kanji": "晴れ",
+          "kana": "はれ",
+          "en": "clear weather"
+        },
+        "はらす": {
+          "kanji": "晴らす",
+          "kana": "はらす",
+          "en": "to dispel"
+        }
+      }
+    },
+    {
+      "kanji": "曜",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "weekday"
+      ],
+      "words": [
+        {
+          "kanji": "火曜",
+          "kana": "かよう",
+          "en": "Tuesday"
+        },
+        {
+          "kanji": "土曜",
+          "kana": "どよう",
+          "en": "Saturday"
+        },
+        {
+          "kanji": "曜日",
+          "kana": "ようび",
+          "en": "day of the week"
+        },
+        {
+          "kanji": "金曜",
+          "kana": "きんよう",
+          "en": "Friday"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "曜日",
+          "kana": "ようび",
+          "en": "day of the week"
+        }
+      }
+    },
+    {
+      "kanji": "書",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "か.く",
+        "-が.き",
+        "-がき"
+      ],
+      "meanings": [
+        "write"
+      ],
+      "words": [
+        {
+          "kanji": "書く",
+          "kana": "かく",
+          "en": "to write"
+        },
+        {
+          "kanji": "遺書",
+          "kana": "いしょ",
+          "en": "note left by a dead person"
+        },
+        {
+          "kanji": "古書",
+          "kana": "こしょ",
+          "en": "old book"
+        },
+        {
+          "kanji": "司書",
+          "kana": "ししょ",
+          "en": "librarian"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "書架",
+          "kana": "しょか",
+          "en": "bookshelf"
+        },
+        "かく": {
+          "kanji": "書く",
+          "kana": "かく",
+          "en": "to write"
+        }
+      }
+    },
+    {
+      "kanji": "朝",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "あさ"
+      ],
+      "meanings": [
+        "morning",
+        "dynasty",
+        "regime",
+        "epoch"
+      ],
+      "words": [
+        {
+          "kanji": "朝",
+          "kana": "あさ",
+          "en": "morning"
+        },
+        {
+          "kanji": "今朝",
+          "kana": "けさ",
+          "en": "this morning"
+        },
+        {
+          "kanji": "朝日",
+          "kana": "あさひ",
+          "en": "morning sun"
+        },
+        {
+          "kanji": "朝顔",
+          "kana": "あさがお",
+          "en": "Japanese morning glory (Ipomoea nil)"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "朝刊",
+          "kana": "ちょうかん",
+          "en": "morning edition (of a daily newspaper)"
+        },
+        "あさ": {
+          "kanji": "朝",
+          "kana": "あさ",
+          "en": "morning"
+        }
+      }
+    },
+    {
+      "kanji": "来",
+      "on": [
+        "ライ",
+        "タイ"
+      ],
+      "kun": [
+        "く.る",
+        "きた.る",
+        "きた.す",
+        "き.たす",
+        "き.たる",
+        "き",
+        "こ"
+      ],
+      "meanings": [
+        "come",
+        "due",
+        "next",
+        "cause"
+      ],
+      "words": [
+        {
+          "kanji": "出来",
+          "kana": "でき",
+          "en": "workmanship"
+        },
+        {
+          "kanji": "来",
+          "kana": "らい",
+          "en": "next (year, spring, etc.)"
+        },
+        {
+          "kanji": "来る",
+          "kana": "くる",
+          "en": "to come (spatially or temporally)"
+        },
+        {
+          "kanji": "以来",
+          "kana": "いらい",
+          "en": "since"
+        }
+      ],
+      "readingExamples": {
+        "ライ": {
+          "kanji": "来",
+          "kana": "らい",
+          "en": "next (year, spring, etc.)"
+        },
+        "くる": {
+          "kanji": "来る",
+          "kana": "くる",
+          "en": "to come (spatially or temporally)"
+        },
+        "き": {
+          "kanji": "去来",
+          "kana": "きょらい",
+          "en": "coming and going"
+        }
+      }
+    },
+    {
+      "kanji": "東",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "ひがし"
+      ],
+      "meanings": [
+        "east"
+      ],
+      "words": [
+        {
+          "kanji": "東風",
+          "kana": "こち",
+          "en": "east wind"
+        },
+        {
+          "kanji": "東",
+          "kana": "ひがし",
+          "en": "east"
+        },
+        {
+          "kanji": "東都",
+          "kana": "とうと",
+          "en": "the Eastern Capital (now Tokyo)"
+        },
+        {
+          "kanji": "東部",
+          "kana": "とうぶ",
+          "en": "eastern part"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "東都",
+          "kana": "とうと",
+          "en": "the Eastern Capital (now Tokyo)"
+        },
+        "ひがし": {
+          "kanji": "東",
+          "kana": "ひがし",
+          "en": "east"
+        }
+      }
+    },
+    {
+      "kanji": "楽",
+      "on": [
+        "ガク",
+        "ラク",
+        "ゴウ"
+      ],
+      "kun": [
+        "たの.しい",
+        "たの.しむ",
+        "この.む"
+      ],
+      "meanings": [
+        "music",
+        "comfort",
+        "ease"
+      ],
+      "words": [
+        {
+          "kanji": "楽",
+          "kana": "らく",
+          "en": "comfort"
+        },
+        {
+          "kanji": "独楽",
+          "kana": "こま",
+          "en": "spinning top"
+        },
+        {
+          "kanji": "楽屋",
+          "kana": "がくや",
+          "en": "dressing room"
+        },
+        {
+          "kanji": "楽器",
+          "kana": "がっき",
+          "en": "musical instrument"
+        }
+      ],
+      "readingExamples": {
+        "ガク": {
+          "kanji": "楽屋",
+          "kana": "がくや",
+          "en": "dressing room"
+        },
+        "ラク": {
+          "kanji": "楽",
+          "kana": "らく",
+          "en": "comfort"
+        },
+        "たのしい": {
+          "kanji": "楽しい",
+          "kana": "たのしい",
+          "en": "enjoyable"
+        },
+        "たのしむ": {
+          "kanji": "楽しむ",
+          "kana": "たのしむ",
+          "en": "to enjoy"
+        }
+      }
+    },
+    {
+      "kanji": "歌",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "うた",
+        "うた.う"
+      ],
+      "meanings": [
+        "song",
+        "sing"
+      ],
+      "words": [
+        {
+          "kanji": "歌",
+          "kana": "うた",
+          "en": "song"
+        },
+        {
+          "kanji": "歌詞",
+          "kana": "かし",
+          "en": "song lyrics"
+        },
+        {
+          "kanji": "和歌",
+          "kana": "わか",
+          "en": "waka"
+        },
+        {
+          "kanji": "悲歌",
+          "kana": "ひか",
+          "en": "elegy"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "歌詞",
+          "kana": "かし",
+          "en": "song lyrics"
+        },
+        "うた": {
+          "kanji": "歌",
+          "kana": "うた",
+          "en": "song"
+        },
+        "うたう": {
+          "kanji": "歌う",
+          "kana": "うたう",
+          "en": "to sing"
+        }
+      }
+    },
+    {
+      "kanji": "止",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "と.まる",
+        "-ど.まり",
+        "と.める",
+        "-と.める",
+        "-ど.め",
+        "とど.める",
+        "とど.め",
+        "とど.まる",
+        "や.める",
+        "や.む",
+        "-や.む",
+        "よ.す",
+        "-さ.す",
+        "-さ.し"
+      ],
+      "meanings": [
+        "stop",
+        "halt"
+      ],
+      "words": [
+        {
+          "kanji": "止す",
+          "kana": "よす",
+          "en": "to stop (doing)"
+        },
+        {
+          "kanji": "止む",
+          "kana": "やむ",
+          "en": "to cease"
+        },
+        {
+          "kanji": "禁止",
+          "kana": "きんし",
+          "en": "prohibition"
+        },
+        {
+          "kanji": "止まる",
+          "kana": "とまる",
+          "en": "to stop (moving)"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "止血",
+          "kana": "しけつ",
+          "en": "stopping of bleeding"
+        },
+        "とまる": {
+          "kanji": "止まる",
+          "kana": "とまる",
+          "en": "to stop (moving)"
+        },
+        "とめる": {
+          "kanji": "止める",
+          "kana": "とめる",
+          "en": "to stop"
+        }
+      }
+    },
+    {
+      "kanji": "歩",
+      "on": [
+        "ホ",
+        "ブ",
+        "フ"
+      ],
+      "kun": [
+        "ある.く",
+        "あゆ.む"
+      ],
+      "meanings": [
+        "walk",
+        "counter for steps"
+      ],
+      "words": [
+        {
+          "kanji": "歩",
+          "kana": "ほ",
+          "en": "step"
+        },
+        {
+          "kanji": "徒歩",
+          "kana": "とほ",
+          "en": "walking"
+        },
+        {
+          "kanji": "一歩",
+          "kana": "いっぽ",
+          "en": "(a) step"
+        },
+        {
+          "kanji": "散歩",
+          "kana": "さんぽ",
+          "en": "walk"
+        }
+      ],
+      "readingExamples": {
+        "ホ": {
+          "kanji": "歩",
+          "kana": "ほ",
+          "en": "step"
+        },
+        "ブ": {
+          "kanji": "歩合",
+          "kana": "ぶあい",
+          "en": "rate"
+        },
+        "あるく": {
+          "kanji": "歩く",
+          "kana": "あるく",
+          "en": "to walk"
+        },
+        "あゆむ": {
+          "kanji": "歩む",
+          "kana": "あゆむ",
+          "en": "to walk"
+        }
+      }
+    },
+    {
+      "kanji": "母",
+      "on": [
+        "ボ"
+      ],
+      "kun": [
+        "はは",
+        "も"
+      ],
+      "meanings": [
+        "mother"
+      ],
+      "words": [
+        {
+          "kanji": "異母",
+          "kana": "いぼ",
+          "en": "different mother"
+        },
+        {
+          "kanji": "義母",
+          "kana": "ぎぼ",
+          "en": "mother-in-law"
+        },
+        {
+          "kanji": "祖母",
+          "kana": "そぼ",
+          "en": "grandmother"
+        },
+        {
+          "kanji": "父母",
+          "kana": "ふぼ",
+          "en": "father and mother"
+        }
+      ],
+      "readingExamples": {
+        "ボ": {
+          "kanji": "母子",
+          "kana": "ぼし",
+          "en": "mother and child"
+        },
+        "はは": {
+          "kanji": "母",
+          "kana": "はは",
+          "en": "mother"
+        }
+      }
+    },
+    {
+      "kanji": "毎",
+      "on": [
+        "マイ"
+      ],
+      "kun": [
+        "ごと",
+        "-ごと.に"
+      ],
+      "meanings": [
+        "every"
+      ],
+      "words": [
+        {
+          "kanji": "毎",
+          "kana": "ごと",
+          "en": "each"
+        },
+        {
+          "kanji": "毎",
+          "kana": "まい",
+          "en": "every (usu. with events, e.g. every weekend)"
+        },
+        {
+          "kanji": "毎に",
+          "kana": "ごとに",
+          "en": "one by one"
+        },
+        {
+          "kanji": "毎時",
+          "kana": "まいじ",
+          "en": "every hour"
+        }
+      ],
+      "readingExamples": {
+        "マイ": {
+          "kanji": "毎",
+          "kana": "まい",
+          "en": "every (usu. with events, e.g. every weekend)"
+        },
+        "ごと": {
+          "kanji": "毎",
+          "kana": "ごと",
+          "en": "each"
+        },
+        "ごとに": {
+          "kanji": "毎に",
+          "kana": "ごとに",
+          "en": "one by one"
+        }
+      }
+    },
+    {
+      "kanji": "毛",
+      "on": [
+        "モウ"
+      ],
+      "kun": [
+        "け"
+      ],
+      "meanings": [
+        "fur",
+        "hair",
+        "feather",
+        "down"
+      ],
+      "words": [
+        {
+          "kanji": "毛",
+          "kana": "け",
+          "en": "hair"
+        },
+        {
+          "kanji": "羽毛",
+          "kana": "うもう",
+          "en": "feather"
+        },
+        {
+          "kanji": "赤毛",
+          "kana": "あかげ",
+          "en": "red hair"
+        },
+        {
+          "kanji": "不毛",
+          "kana": "ふもう",
+          "en": "barren"
+        }
+      ],
+      "readingExamples": {
+        "モウ": {
+          "kanji": "毛布",
+          "kana": "もうふ",
+          "en": "blanket"
+        },
+        "け": {
+          "kanji": "毛",
+          "kana": "け",
+          "en": "hair"
+        }
+      }
+    },
+    {
+      "kanji": "池",
+      "on": [
+        "チ"
+      ],
+      "kun": [
+        "いけ"
+      ],
+      "meanings": [
+        "pond",
+        "cistern",
+        "pool",
+        "reservoir"
+      ],
+      "words": [
+        {
+          "kanji": "池",
+          "kana": "いけ",
+          "en": "pond"
+        },
+        {
+          "kanji": "電池",
+          "kana": "でんち",
+          "en": "battery"
+        }
+      ],
+      "readingExamples": {
+        "チ": {
+          "kanji": "蓄電池",
+          "kana": "ちくでんち",
+          "en": "storage battery"
+        },
+        "いけ": {
+          "kanji": "池",
+          "kana": "いけ",
+          "en": "pond"
+        }
+      }
+    },
+    {
+      "kanji": "汽",
+      "on": [
+        "キ"
+      ],
+      "kun": [],
+      "meanings": [
+        "vapor",
+        "steam"
+      ],
+      "words": [
+        {
+          "kanji": "汽車",
+          "kana": "きしゃ",
+          "en": "steam locomotive"
+        },
+        {
+          "kanji": "汽船",
+          "kana": "きせん",
+          "en": "steamship"
+        },
+        {
+          "kanji": "汽笛",
+          "kana": "きてき",
+          "en": "steam whistle"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "汽車",
+          "kana": "きしゃ",
+          "en": "steam locomotive"
+        }
+      }
+    },
+    {
+      "kanji": "活",
+      "on": [
+        "カツ"
+      ],
+      "kun": [
+        "い.きる",
+        "い.かす",
+        "い.ける"
+      ],
+      "meanings": [
+        "lively",
+        "resuscitation",
+        "being helped",
+        "living"
+      ],
+      "words": [
+        {
+          "kanji": "活気",
+          "kana": "かっき",
+          "en": "energy"
+        },
+        {
+          "kanji": "活字",
+          "kana": "かつじ",
+          "en": "(piece of) type"
+        },
+        {
+          "kanji": "活路",
+          "kana": "かつろ",
+          "en": "means of survival"
+        },
+        {
+          "kanji": "死活",
+          "kana": "しかつ",
+          "en": "life and death"
+        }
+      ],
+      "readingExamples": {
+        "カツ": {
+          "kanji": "活字",
+          "kana": "かつじ",
+          "en": "(piece of) type"
+        }
+      }
+    },
+    {
+      "kanji": "海",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "うみ"
+      ],
+      "meanings": [
+        "sea",
+        "ocean"
+      ],
+      "words": [
+        {
+          "kanji": "海",
+          "kana": "うみ",
+          "en": "sea"
+        },
+        {
+          "kanji": "海女",
+          "kana": "あま",
+          "en": "ama"
+        },
+        {
+          "kanji": "海老",
+          "kana": "えび",
+          "en": "prawn"
+        },
+        {
+          "kanji": "海事",
+          "kana": "かいじ",
+          "en": "maritime affairs"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "海事",
+          "kana": "かいじ",
+          "en": "maritime affairs"
+        },
+        "うみ": {
+          "kanji": "海",
+          "kana": "うみ",
+          "en": "sea"
+        }
+      }
+    },
+    {
+      "kanji": "点",
+      "on": [
+        "テン"
+      ],
+      "kun": [
+        "つ.ける",
+        "つ.く",
+        "た.てる",
+        "さ.す",
+        "とぼ.す",
+        "とも.す",
+        "ぼち"
+      ],
+      "meanings": [
+        "spot",
+        "point",
+        "mark",
+        "speck"
+      ],
+      "words": [
+        {
+          "kanji": "点",
+          "kana": "てん",
+          "en": "dot"
+        },
+        {
+          "kanji": "点く",
+          "kana": "つく",
+          "en": "to be lit (of a lamp, burner, etc.)"
+        },
+        {
+          "kanji": "基点",
+          "kana": "きてん",
+          "en": "datum point"
+        },
+        {
+          "kanji": "起点",
+          "kana": "きてん",
+          "en": "starting point"
+        }
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "点",
+          "kana": "てん",
+          "en": "dot"
+        },
+        "つける": {
+          "kanji": "点ける",
+          "kana": "つける",
+          "en": "to turn on"
+        },
+        "つく": {
+          "kanji": "点く",
+          "kana": "つく",
+          "en": "to be lit (of a lamp, burner, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "父",
+      "on": [
+        "フ"
+      ],
+      "kun": [
+        "ちち"
+      ],
+      "meanings": [
+        "father"
+      ],
+      "words": [
+        {
+          "kanji": "義父",
+          "kana": "ぎふ",
+          "en": "father-in-law"
+        },
+        {
+          "kanji": "祖父",
+          "kana": "そふ",
+          "en": "grandfather"
+        },
+        {
+          "kanji": "父",
+          "kana": "ちち",
+          "en": "father"
+        },
+        {
+          "kanji": "父子",
+          "kana": "ふし",
+          "en": "father and child"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "父子",
+          "kana": "ふし",
+          "en": "father and child"
+        },
+        "ちち": {
+          "kanji": "父",
+          "kana": "ちち",
+          "en": "father"
+        }
+      }
+    },
+    {
+      "kanji": "牛",
+      "on": [
+        "ギュウ"
+      ],
+      "kun": [
+        "うし"
+      ],
+      "meanings": [
+        "cow"
+      ],
+      "words": [
+        {
+          "kanji": "牛",
+          "kana": "うし",
+          "en": "cattle (Bos taurus)"
+        },
+        {
+          "kanji": "子牛",
+          "kana": "こうし",
+          "en": "calf"
+        },
+        {
+          "kanji": "牛馬",
+          "kana": "ぎゅうば",
+          "en": "horses and cattle"
+        },
+        {
+          "kanji": "和牛",
+          "kana": "わぎゅう",
+          "en": "Wagyu (any of four breeds of Japanese cattle)"
+        }
+      ],
+      "readingExamples": {
+        "ギュウ": {
+          "kanji": "牛馬",
+          "kana": "ぎゅうば",
+          "en": "horses and cattle"
+        },
+        "うし": {
+          "kanji": "牛",
+          "kana": "うし",
+          "en": "cattle (Bos taurus)"
+        }
+      }
+    },
+    {
+      "kanji": "理",
+      "on": [
+        "リ"
+      ],
+      "kun": [
+        "ことわり"
+      ],
+      "meanings": [
+        "logic",
+        "arrangement",
+        "reason",
+        "justice"
+      ],
+      "words": [
+        {
+          "kanji": "理",
+          "kana": "り",
+          "en": "reason"
+        },
+        {
+          "kanji": "義理",
+          "kana": "ぎり",
+          "en": "duty"
+        },
+        {
+          "kanji": "地理",
+          "kana": "ちり",
+          "en": "geography"
+        },
+        {
+          "kanji": "無理",
+          "kana": "むり",
+          "en": "unreasonable"
+        }
+      ],
+      "readingExamples": {
+        "リ": {
+          "kanji": "理",
+          "kana": "り",
+          "en": "reason"
+        }
+      }
+    },
+    {
+      "kanji": "用",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "もち.いる"
+      ],
+      "meanings": [
+        "utilize",
+        "business",
+        "service",
+        "use"
+      ],
+      "words": [
+        {
+          "kanji": "用",
+          "kana": "よう",
+          "en": "business"
+        },
+        {
+          "kanji": "器用",
+          "kana": "きよう",
+          "en": "skillful"
+        },
+        {
+          "kanji": "起用",
+          "kana": "きよう",
+          "en": "appointment (to a position, job, etc.)"
+        },
+        {
+          "kanji": "誤用",
+          "kana": "ごよう",
+          "en": "misuse"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "用",
+          "kana": "よう",
+          "en": "business"
+        },
+        "もちいる": {
+          "kanji": "用いる",
+          "kana": "もちいる",
+          "en": "to use"
+        }
+      }
+    },
+    {
+      "kanji": "画",
+      "on": [
+        "ガ",
+        "カク",
+        "エ",
+        "カイ"
+      ],
+      "kun": [
+        "えが.く",
+        "かく.する",
+        "かぎ.る",
+        "はかりごと",
+        "はか.る"
+      ],
+      "meanings": [
+        "brush-stroke",
+        "picture"
+      ],
+      "words": [
+        {
+          "kanji": "画",
+          "kana": "かく",
+          "en": "stroke (of a kanji)"
+        },
+        {
+          "kanji": "画家",
+          "kana": "がか",
+          "en": "painter"
+        },
+        {
+          "kanji": "画布",
+          "kana": "がふ",
+          "en": "(oil painting) canvas"
+        },
+        {
+          "kanji": "図画",
+          "kana": "ずが",
+          "en": "drawing"
+        }
+      ],
+      "readingExamples": {
+        "ガ": {
+          "kanji": "画家",
+          "kana": "がか",
+          "en": "painter"
+        },
+        "カク": {
+          "kanji": "画",
+          "kana": "かく",
+          "en": "stroke (of a kanji)"
+        },
+        "エ": {
+          "kanji": "映画",
+          "kana": "えいが",
+          "en": "movie"
+        },
+        "カイ": {
+          "kanji": "絵画",
+          "kana": "かいが",
+          "en": "painting"
+        },
+        "かくする": {
+          "kanji": "画する",
+          "kana": "かくする",
+          "en": "to draw (a line)"
+        }
+      }
+    },
+    {
+      "kanji": "番",
+      "on": [
+        "バン"
+      ],
+      "kun": [
+        "つが.い"
+      ],
+      "meanings": [
+        "turn",
+        "number in a series"
+      ],
+      "words": [
+        {
+          "kanji": "番",
+          "kana": "ばん",
+          "en": "number (in a series)"
+        },
+        {
+          "kanji": "出番",
+          "kana": "でばん",
+          "en": "one's turn"
+        },
+        {
+          "kanji": "二番",
+          "kana": "にばん",
+          "en": "second"
+        },
+        {
+          "kanji": "番地",
+          "kana": "ばんち",
+          "en": "house number"
+        }
+      ],
+      "readingExamples": {
+        "バン": {
+          "kanji": "番",
+          "kana": "ばん",
+          "en": "number (in a series)"
+        }
+      }
+    },
+    {
+      "kanji": "直",
+      "on": [
+        "チョク",
+        "ジキ",
+        "ジカ"
+      ],
+      "kun": [
+        "ただ.ちに",
+        "なお.す",
+        "-なお.す",
+        "なお.る",
+        "なお.き",
+        "す.ぐ"
+      ],
+      "meanings": [
+        "straightaway",
+        "honesty",
+        "frankness",
+        "fix"
+      ],
+      "words": [
+        {
+          "kanji": "直ぐ",
+          "kana": "すぐ",
+          "en": "immediately"
+        },
+        {
+          "kanji": "直",
+          "kana": "じき",
+          "en": "soon"
+        },
+        {
+          "kanji": "素直",
+          "kana": "すなお",
+          "en": "obedient"
+        },
+        {
+          "kanji": "直ぐに",
+          "kana": "すぐに",
+          "en": "immediately"
+        }
+      ],
+      "readingExamples": {
+        "チョク": {
+          "kanji": "直",
+          "kana": "ちょく",
+          "en": "direct"
+        },
+        "ジキ": {
+          "kanji": "直",
+          "kana": "じき",
+          "en": "soon"
+        },
+        "ジカ": {
+          "kanji": "直に",
+          "kana": "じかに",
+          "en": "directly"
+        },
+        "ただちに": {
+          "kanji": "直ちに",
+          "kana": "ただちに",
+          "en": "at once"
+        },
+        "なおす": {
+          "kanji": "直す",
+          "kana": "なおす",
+          "en": "to repair"
+        },
+        "なおる": {
+          "kanji": "直る",
+          "kana": "なおる",
+          "en": "to get mended"
+        }
+      }
+    },
+    {
+      "kanji": "矢",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "や"
+      ],
+      "meanings": [
+        "dart",
+        "arrow"
+      ],
+      "words": [
+        {
+          "kanji": "矢",
+          "kana": "や",
+          "en": "arrow"
+        },
+        {
+          "kanji": "一矢",
+          "kana": "いっし",
+          "en": "one arrow"
+        },
+        {
+          "kanji": "弓矢",
+          "kana": "ゆみや",
+          "en": "bow and arrow"
+        },
+        {
+          "kanji": "矢先",
+          "kana": "やさき",
+          "en": "arrowhead"
+        }
+      ],
+      "readingExamples": {
+        "や": {
+          "kanji": "矢",
+          "kana": "や",
+          "en": "arrow"
+        }
+      }
+    },
+    {
+      "kanji": "知",
+      "on": [
+        "チ"
+      ],
+      "kun": [
+        "し.る",
+        "し.らせる"
+      ],
+      "meanings": [
+        "know",
+        "wisdom"
+      ],
+      "words": [
+        {
+          "kanji": "知る",
+          "kana": "しる",
+          "en": "to know"
+        },
+        {
+          "kanji": "知己",
+          "kana": "ちき",
+          "en": "acquaintance"
+        },
+        {
+          "kanji": "知事",
+          "kana": "ちじ",
+          "en": "prefectural governor"
+        },
+        {
+          "kanji": "未知",
+          "kana": "みち",
+          "en": "not yet known"
+        }
+      ],
+      "readingExamples": {
+        "チ": {
+          "kanji": "知恵",
+          "kana": "ちえ",
+          "en": "wisdom"
+        },
+        "しる": {
+          "kanji": "知る",
+          "kana": "しる",
+          "en": "to know"
+        },
+        "しらせる": {
+          "kanji": "知らせる",
+          "kana": "しらせる",
+          "en": "to notify"
+        }
+      }
+    },
+    {
+      "kanji": "社",
+      "on": [
+        "シャ"
+      ],
+      "kun": [
+        "やしろ"
+      ],
+      "meanings": [
+        "company",
+        "firm",
+        "office",
+        "association"
+      ],
+      "words": [
+        {
+          "kanji": "貴社",
+          "kana": "きしゃ",
+          "en": "your company"
+        },
+        {
+          "kanji": "支社",
+          "kana": "ししゃ",
+          "en": "branch office"
+        },
+        {
+          "kanji": "自社",
+          "kana": "じしゃ",
+          "en": "one's company"
+        },
+        {
+          "kanji": "他社",
+          "kana": "たしゃ",
+          "en": "another company"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "社寺",
+          "kana": "しゃじ",
+          "en": "shrines and temples"
+        }
+      }
+    },
+    {
+      "kanji": "秋",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [
+        "あき",
+        "とき"
+      ],
+      "meanings": [
+        "autumn"
+      ],
+      "words": [
+        {
+          "kanji": "秋",
+          "kana": "あき",
+          "en": "autumn"
+        },
+        {
+          "kanji": "秋口",
+          "kana": "あきぐち",
+          "en": "beginning of autumn"
+        },
+        {
+          "kanji": "秋風",
+          "kana": "あきかぜ",
+          "en": "autumn breeze"
+        },
+        {
+          "kanji": "秋晴れ",
+          "kana": "あきばれ",
+          "en": "clear autumnal weather"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "秋季",
+          "kana": "しゅうき",
+          "en": "fall season"
+        },
+        "あき": {
+          "kanji": "秋",
+          "kana": "あき",
+          "en": "autumn"
+        }
+      }
+    },
+    {
+      "kanji": "科",
+      "on": [
+        "カ"
+      ],
+      "kun": [],
+      "meanings": [
+        "department",
+        "course",
+        "section"
+      ],
+      "words": [
+        {
+          "kanji": "科",
+          "kana": "か",
+          "en": "department (of a university or hospital)"
+        },
+        {
+          "kanji": "医科",
+          "kana": "いか",
+          "en": "medical science"
+        },
+        {
+          "kanji": "外科",
+          "kana": "げか",
+          "en": "surgery (branch of medicine)"
+        },
+        {
+          "kanji": "歯科",
+          "kana": "しか",
+          "en": "dentistry"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "科",
+          "kana": "か",
+          "en": "department (of a university or hospital)"
+        }
+      }
+    },
+    {
+      "kanji": "答",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "こた.える",
+        "こた.え"
+      ],
+      "meanings": [
+        "solution",
+        "answer"
+      ],
+      "words": [
+        {
+          "kanji": "答え",
+          "kana": "こたえ",
+          "en": "answer"
+        },
+        {
+          "kanji": "答辞",
+          "kana": "とうじ",
+          "en": "address in reply (e.g. at a ceremony)"
+        },
+        {
+          "kanji": "応答",
+          "kana": "おうとう",
+          "en": "reply"
+        },
+        {
+          "kanji": "解答",
+          "kana": "かいとう",
+          "en": "answer"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "答辞",
+          "kana": "とうじ",
+          "en": "address in reply (e.g. at a ceremony)"
+        },
+        "こたえる": {
+          "kanji": "答える",
+          "kana": "こたえる",
+          "en": "to answer"
+        },
+        "こたえ": {
+          "kanji": "答え",
+          "kana": "こたえ",
+          "en": "answer"
+        }
+      }
+    },
+    {
+      "kanji": "算",
+      "on": [
+        "サン"
+      ],
+      "kun": [
+        "そろ"
+      ],
+      "meanings": [
+        "calculate",
+        "divining",
+        "number",
+        "abacus"
+      ],
+      "words": [
+        {
+          "kanji": "加算",
+          "kana": "かさん",
+          "en": "addition"
+        },
+        {
+          "kanji": "起算",
+          "kana": "きさん",
+          "en": "reckoning from some position (e.g. point, date, etc.)"
+        },
+        {
+          "kanji": "誤算",
+          "kana": "ごさん",
+          "en": "miscalculation"
+        },
+        {
+          "kanji": "試算",
+          "kana": "しさん",
+          "en": "trial calculation"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "算数",
+          "kana": "さんすう",
+          "en": "arithmetic"
+        },
+        "そろ": {
+          "kanji": "算盤",
+          "kana": "そろばん",
+          "en": "abacus"
+        }
+      }
+    },
+    {
+      "kanji": "米",
+      "on": [
+        "ベイ",
+        "マイ",
+        "メエトル"
+      ],
+      "kun": [
+        "こめ",
+        "よね"
+      ],
+      "meanings": [
+        "rice",
+        "USA",
+        "metre"
+      ],
+      "words": [
+        {
+          "kanji": "米",
+          "kana": "こめ",
+          "en": "(husked grains of) rice"
+        },
+        {
+          "kanji": "米",
+          "kana": "べい",
+          "en": "(United States of) America"
+        },
+        {
+          "kanji": "古米",
+          "kana": "こまい",
+          "en": "old rice"
+        },
+        {
+          "kanji": "米屋",
+          "kana": "こめや",
+          "en": "rice shop"
+        }
+      ],
+      "readingExamples": {
+        "ベイ": {
+          "kanji": "米",
+          "kana": "べい",
+          "en": "(United States of) America"
+        },
+        "こめ": {
+          "kanji": "米",
+          "kana": "こめ",
+          "en": "(husked grains of) rice"
+        }
+      }
+    },
+    {
+      "kanji": "紙",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "かみ"
+      ],
+      "meanings": [
+        "paper"
+      ],
+      "words": [
+        {
+          "kanji": "紙",
+          "kana": "かみ",
+          "en": "paper"
+        },
+        {
+          "kanji": "和紙",
+          "kana": "わし",
+          "en": "washi"
+        },
+        {
+          "kanji": "古紙",
+          "kana": "こし",
+          "en": "used paper"
+        },
+        {
+          "kanji": "印紙",
+          "kana": "いんし",
+          "en": "(revenue) stamp"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "紙幣",
+          "kana": "しへい",
+          "en": "paper money"
+        },
+        "かみ": {
+          "kanji": "紙",
+          "kana": "かみ",
+          "en": "paper"
+        }
+      }
+    },
+    {
+      "kanji": "細",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "ほそ.い",
+        "ほそ.る",
+        "こま.か",
+        "こま.かい"
+      ],
+      "meanings": [
+        "dainty",
+        "get thin",
+        "taper",
+        "slender"
+      ],
+      "words": [
+        {
+          "kanji": "細い",
+          "kana": "ほそい",
+          "en": "thin"
+        },
+        {
+          "kanji": "細か",
+          "kana": "こまか",
+          "en": "small"
+        },
+        {
+          "kanji": "細る",
+          "kana": "ほそる",
+          "en": "to get thin"
+        },
+        {
+          "kanji": "細工",
+          "kana": "さいく",
+          "en": "work"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "細工",
+          "kana": "さいく",
+          "en": "work"
+        },
+        "ほそい": {
+          "kanji": "細い",
+          "kana": "ほそい",
+          "en": "thin"
+        },
+        "ほそる": {
+          "kanji": "細る",
+          "kana": "ほそる",
+          "en": "to get thin"
+        },
+        "こまか": {
+          "kanji": "細か",
+          "kana": "こまか",
+          "en": "small"
+        },
+        "こまかい": {
+          "kanji": "細かい",
+          "kana": "こまかい",
+          "en": "small"
+        }
+      }
+    },
+    {
+      "kanji": "組",
+      "on": [
+        "ソ"
+      ],
+      "kun": [
+        "く.む",
+        "くみ",
+        "-ぐみ"
+      ],
+      "meanings": [
+        "association",
+        "braid",
+        "plait",
+        "construct"
+      ],
+      "words": [
+        {
+          "kanji": "組",
+          "kana": "くみ",
+          "en": "class (of students)"
+        },
+        {
+          "kanji": "組む",
+          "kana": "くむ",
+          "en": "to cross (legs or arms)"
+        },
+        {
+          "kanji": "改組",
+          "kana": "かいそ",
+          "en": "reorganization"
+        },
+        {
+          "kanji": "仕組む",
+          "kana": "しくむ",
+          "en": "to devise"
+        }
+      ],
+      "readingExamples": {
+        "ソ": {
+          "kanji": "組閣",
+          "kana": "そかく",
+          "en": "formation of a cabinet"
+        },
+        "くむ": {
+          "kanji": "組む",
+          "kana": "くむ",
+          "en": "to cross (legs or arms)"
+        },
+        "くみ": {
+          "kanji": "組",
+          "kana": "くみ",
+          "en": "class (of students)"
+        }
+      }
+    },
+    {
+      "kanji": "絵",
+      "on": [
+        "カイ",
+        "エ"
+      ],
+      "kun": [],
+      "meanings": [
+        "picture",
+        "drawing",
+        "painting",
+        "sketch"
+      ],
+      "words": [
+        {
+          "kanji": "絵",
+          "kana": "え",
+          "en": "picture"
+        },
+        {
+          "kanji": "絵図",
+          "kana": "えず",
+          "en": "illustration"
+        },
+        {
+          "kanji": "絵師",
+          "kana": "えし",
+          "en": "painter"
+        },
+        {
+          "kanji": "絵馬",
+          "kana": "えま",
+          "en": "votive tablet"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "絵画",
+          "kana": "かいが",
+          "en": "painting"
+        },
+        "エ": {
+          "kanji": "絵",
+          "kana": "え",
+          "en": "picture"
+        }
+      }
+    },
+    {
+      "kanji": "線",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "すじ"
+      ],
+      "meanings": [
+        "line",
+        "track"
+      ],
+      "words": [
+        {
+          "kanji": "線",
+          "kana": "せん",
+          "en": "line"
+        },
+        {
+          "kanji": "五線",
+          "kana": "ごせん",
+          "en": "staff"
+        },
+        {
+          "kanji": "視線",
+          "kana": "しせん",
+          "en": "one's line of sight"
+        },
+        {
+          "kanji": "線画",
+          "kana": "せんが",
+          "en": "line drawing"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "線",
+          "kana": "せん",
+          "en": "line"
+        }
+      }
+    },
+    {
+      "kanji": "羽",
+      "on": [
+        "ウ"
+      ],
+      "kun": [
+        "は",
+        "わ",
+        "はね"
+      ],
+      "meanings": [
+        "feathers",
+        "counter for birds, rabbits"
+      ],
+      "words": [
+        {
+          "kanji": "羽",
+          "kana": "わ",
+          "en": "counter for birds or rabbits"
+        },
+        {
+          "kanji": "羽",
+          "kana": "はね",
+          "en": "feather"
+        },
+        {
+          "kanji": "羽化",
+          "kana": "うか",
+          "en": "emergence (of insects)"
+        },
+        {
+          "kanji": "羽目",
+          "kana": "はめ",
+          "en": "panel"
+        }
+      ],
+      "readingExamples": {
+        "ウ": {
+          "kanji": "羽化",
+          "kana": "うか",
+          "en": "emergence (of insects)"
+        },
+        "は": {
+          "kanji": "羽",
+          "kana": "はね",
+          "en": "feather"
+        },
+        "わ": {
+          "kanji": "羽",
+          "kana": "わ",
+          "en": "counter for birds or rabbits"
+        },
+        "はね": {
+          "kanji": "羽",
+          "kana": "はね",
+          "en": "feather"
+        }
+      }
+    },
+    {
+      "kanji": "考",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "かんが.える",
+        "かんが.え"
+      ],
+      "meanings": [
+        "consider",
+        "think over"
+      ],
+      "words": [
+        {
+          "kanji": "考査",
+          "kana": "こうさ",
+          "en": "examination"
+        },
+        {
+          "kanji": "思考",
+          "kana": "しこう",
+          "en": "thought"
+        },
+        {
+          "kanji": "備考",
+          "kana": "びこう",
+          "en": "note (for reference)"
+        },
+        {
+          "kanji": "一考",
+          "kana": "いっこう",
+          "en": "consideration"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "考査",
+          "kana": "こうさ",
+          "en": "examination"
+        },
+        "かんがえる": {
+          "kanji": "考える",
+          "kana": "かんがえる",
+          "en": "to think (about, of)"
+        },
+        "かんがえ": {
+          "kanji": "考え",
+          "kana": "かんがえ",
+          "en": "thinking"
+        }
+      }
+    },
+    {
+      "kanji": "聞",
+      "on": [
+        "ブン",
+        "モン"
+      ],
+      "kun": [
+        "き.く",
+        "き.こえる"
+      ],
+      "meanings": [
+        "hear",
+        "ask",
+        "listen"
+      ],
+      "words": [
+        {
+          "kanji": "聞く",
+          "kana": "きく",
+          "en": "to hear"
+        },
+        {
+          "kanji": "見聞き",
+          "kana": "みきき",
+          "en": "information"
+        },
+        {
+          "kanji": "聞かす",
+          "kana": "きかす",
+          "en": "to let (someone) hear"
+        },
+        {
+          "kanji": "聞き手",
+          "kana": "ききて",
+          "en": "hearer"
+        }
+      ],
+      "readingExamples": {
+        "きく": {
+          "kanji": "聞く",
+          "kana": "きく",
+          "en": "to hear"
+        },
+        "きこえる": {
+          "kanji": "聞こえる",
+          "kana": "きこえる",
+          "en": "to be heard"
+        }
+      }
+    },
+    {
+      "kanji": "肉",
+      "on": [
+        "ニク"
+      ],
+      "kun": [
+        "しし"
+      ],
+      "meanings": [
+        "meat"
+      ],
+      "words": [
+        {
+          "kanji": "肉",
+          "kana": "にく",
+          "en": "flesh"
+        },
+        {
+          "kanji": "果肉",
+          "kana": "かにく",
+          "en": "flesh (of a fruit)"
+        },
+        {
+          "kanji": "肉屋",
+          "kana": "にくや",
+          "en": "butcher's shop"
+        },
+        {
+          "kanji": "馬肉",
+          "kana": "ばにく",
+          "en": "horse meat"
+        }
+      ],
+      "readingExamples": {
+        "ニク": {
+          "kanji": "肉",
+          "kana": "にく",
+          "en": "flesh"
+        }
+      }
+    },
+    {
+      "kanji": "自",
+      "on": [
+        "ジ",
+        "シ"
+      ],
+      "kun": [
+        "みずか.ら",
+        "おの.ずから",
+        "おの.ずと"
+      ],
+      "meanings": [
+        "oneself"
+      ],
+      "words": [
+        {
+          "kanji": "自家",
+          "kana": "じか",
+          "en": "one's own house"
+        },
+        {
+          "kanji": "自我",
+          "kana": "じが",
+          "en": "ego"
+        },
+        {
+          "kanji": "自己",
+          "kana": "じこ",
+          "en": "self"
+        },
+        {
+          "kanji": "自治",
+          "kana": "じち",
+          "en": "self-government"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "自家",
+          "kana": "じか",
+          "en": "one's own house"
+        },
+        "シ": {
+          "kanji": "自然",
+          "kana": "しぜん",
+          "en": "nature"
+        },
+        "みずから": {
+          "kanji": "自ら",
+          "kana": "みずから",
+          "en": "oneself"
+        },
+        "おのずから": {
+          "kanji": "自ずから",
+          "kana": "おのずから",
+          "en": "naturally"
+        }
+      }
+    },
+    {
+      "kanji": "船",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "ふね",
+        "ふな-"
+      ],
+      "meanings": [
+        "ship",
+        "boat"
+      ],
+      "words": [
+        {
+          "kanji": "船",
+          "kana": "ふね",
+          "en": "ship"
+        },
+        {
+          "kanji": "汽船",
+          "kana": "きせん",
+          "en": "steamship"
+        },
+        {
+          "kanji": "湯船",
+          "kana": "ゆぶね",
+          "en": "bathtub"
+        },
+        {
+          "kanji": "母船",
+          "kana": "ぼせん",
+          "en": "depot ship"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "船尾",
+          "kana": "せんび",
+          "en": "stern"
+        },
+        "ふね": {
+          "kanji": "船",
+          "kana": "ふね",
+          "en": "ship"
+        },
+        "ふな": {
+          "kanji": "船出",
+          "kana": "ふなで",
+          "en": "setting sail"
+        }
+      }
+    },
+    {
+      "kanji": "色",
+      "on": [
+        "ショク",
+        "シキ"
+      ],
+      "kun": [
+        "いろ"
+      ],
+      "meanings": [
+        "color"
+      ],
+      "words": [
+        {
+          "kanji": "色",
+          "kana": "いろ",
+          "en": "colour"
+        },
+        {
+          "kanji": "景色",
+          "kana": "けしき",
+          "en": "scenery"
+        },
+        {
+          "kanji": "色気",
+          "kana": "いろけ",
+          "en": "colouring"
+        },
+        {
+          "kanji": "色紙",
+          "kana": "しきし",
+          "en": "square fancy cardboard, used for autographs, poetry, etc."
+        }
+      ],
+      "readingExamples": {
+        "シキ": {
+          "kanji": "色紙",
+          "kana": "しきし",
+          "en": "square fancy cardboard, used for autographs, poetry, etc."
+        },
+        "いろ": {
+          "kanji": "色",
+          "kana": "いろ",
+          "en": "colour"
+        }
+      }
+    },
+    {
+      "kanji": "茶",
+      "on": [
+        "チャ",
+        "サ"
+      ],
+      "kun": [],
+      "meanings": [
+        "tea"
+      ],
+      "words": [
+        {
+          "kanji": "茶",
+          "kana": "ちゃ",
+          "en": "tea"
+        },
+        {
+          "kanji": "お茶",
+          "kana": "おちゃ",
+          "en": "tea (esp. green or barley)"
+        },
+        {
+          "kanji": "茶屋",
+          "kana": "ちゃや",
+          "en": "teahouse"
+        },
+        {
+          "kanji": "茶道",
+          "kana": "さどう",
+          "en": "tea ceremony"
+        }
+      ],
+      "readingExamples": {
+        "チャ": {
+          "kanji": "茶",
+          "kana": "ちゃ",
+          "en": "tea"
+        },
+        "サ": {
+          "kanji": "茶道",
+          "kana": "さどう",
+          "en": "tea ceremony"
+        }
+      }
+    },
+    {
+      "kanji": "行",
+      "on": [
+        "コウ",
+        "ギョウ",
+        "アン"
+      ],
+      "kun": [
+        "い.く",
+        "ゆ.く",
+        "-ゆ.き",
+        "-ゆき",
+        "-い.き",
+        "-いき",
+        "おこな.う",
+        "おこ.なう"
+      ],
+      "meanings": [
+        "going",
+        "journey",
+        "carry out",
+        "conduct"
+      ],
+      "words": [
+        {
+          "kanji": "行き",
+          "kana": "いき",
+          "en": "the way there"
+        },
+        {
+          "kanji": "行く",
+          "kana": "いく",
+          "en": "to go"
+        },
+        {
+          "kanji": "移行",
+          "kana": "いこう",
+          "en": "transition"
+        },
+        {
+          "kanji": "紀行",
+          "kana": "きこう",
+          "en": "traveller's journal"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "行為",
+          "kana": "こうい",
+          "en": "act"
+        },
+        "ギョウ": {
+          "kanji": "行",
+          "kana": "ぎょう",
+          "en": "line (of text)"
+        },
+        "アン": {
+          "kanji": "行脚",
+          "kana": "あんぎゃ",
+          "en": "pilgrimage"
+        },
+        "いく": {
+          "kanji": "行く",
+          "kana": "いく",
+          "en": "to go"
+        },
+        "ゆく": {
+          "kanji": "行く手",
+          "kana": "ゆくて",
+          "en": "one's way (ahead)"
+        },
+        "ゆき": {
+          "kanji": "行き来",
+          "kana": "ゆきき",
+          "en": "coming and going"
+        }
+      }
+    },
+    {
+      "kanji": "西",
+      "on": [
+        "セイ",
+        "サイ",
+        "ス"
+      ],
+      "kun": [
+        "にし"
+      ],
+      "meanings": [
+        "west",
+        "Spain"
+      ],
+      "words": [
+        {
+          "kanji": "西",
+          "kana": "にし",
+          "en": "west"
+        },
+        {
+          "kanji": "西日",
+          "kana": "にしび",
+          "en": "westering sun"
+        },
+        {
+          "kanji": "西部",
+          "kana": "せいぶ",
+          "en": "western part"
+        },
+        {
+          "kanji": "西蔵",
+          "kana": "チベット",
+          "en": "Tibet"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "西部",
+          "kana": "せいぶ",
+          "en": "western part"
+        },
+        "ス": {
+          "kanji": "瑞西",
+          "kana": "スイス",
+          "en": "Switzerland"
+        },
+        "にし": {
+          "kanji": "西",
+          "kana": "にし",
+          "en": "west"
+        }
+      }
+    },
+    {
+      "kanji": "親",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "おや",
+        "おや-",
+        "した.しい",
+        "した.しむ"
+      ],
+      "meanings": [
+        "parent",
+        "intimacy",
+        "relative",
+        "familiarity"
+      ],
+      "words": [
+        {
+          "kanji": "親",
+          "kana": "おや",
+          "en": "parent"
+        },
+        {
+          "kanji": "親子",
+          "kana": "おやこ",
+          "en": "parent and child"
+        },
+        {
+          "kanji": "親身",
+          "kana": "しんみ",
+          "en": "relation"
+        },
+        {
+          "kanji": "親父",
+          "kana": "おやじ",
+          "en": "one's father"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "親身",
+          "kana": "しんみ",
+          "en": "relation"
+        },
+        "おや": {
+          "kanji": "親",
+          "kana": "おや",
+          "en": "parent"
+        },
+        "したしい": {
+          "kanji": "親しい",
+          "kana": "したしい",
+          "en": "close (e.g. friend)"
+        },
+        "したしむ": {
+          "kanji": "親しむ",
+          "kana": "したしむ",
+          "en": "to be intimate with"
+        }
+      }
+    },
+    {
+      "kanji": "角",
+      "on": [
+        "カク"
+      ],
+      "kun": [
+        "かど",
+        "つの"
+      ],
+      "meanings": [
+        "angle",
+        "corner",
+        "square",
+        "horn"
+      ],
+      "words": [
+        {
+          "kanji": "角",
+          "kana": "かく",
+          "en": "angle"
+        },
+        {
+          "kanji": "角",
+          "kana": "かど",
+          "en": "corner"
+        },
+        {
+          "kanji": "角",
+          "kana": "つの",
+          "en": "horn"
+        },
+        {
+          "kanji": "角度",
+          "kana": "かくど",
+          "en": "angle"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "角",
+          "kana": "かく",
+          "en": "angle"
+        },
+        "かど": {
+          "kanji": "角",
+          "kana": "かど",
+          "en": "corner"
+        },
+        "つの": {
+          "kanji": "角",
+          "kana": "つの",
+          "en": "horn"
+        }
+      }
+    },
+    {
+      "kanji": "言",
+      "on": [
+        "ゲン",
+        "ゴン"
+      ],
+      "kun": [
+        "い.う",
+        "こと"
+      ],
+      "meanings": [
+        "say",
+        "word"
+      ],
+      "words": [
+        {
+          "kanji": "言う",
+          "kana": "いう",
+          "en": "to say"
+        },
+        {
+          "kanji": "言",
+          "kana": "げん",
+          "en": "word"
+        },
+        {
+          "kanji": "過言",
+          "kana": "かごん",
+          "en": "exaggeration"
+        },
+        {
+          "kanji": "苦言",
+          "kana": "くげん",
+          "en": "candid advice"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "言",
+          "kana": "げん",
+          "en": "word"
+        },
+        "いう": {
+          "kanji": "言う",
+          "kana": "いう",
+          "en": "to say"
+        },
+        "こと": {
+          "kanji": "言葉",
+          "kana": "ことば",
+          "en": "language"
+        }
+      }
+    },
+    {
+      "kanji": "計",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [
+        "はか.る",
+        "はか.らう"
+      ],
+      "meanings": [
+        "plot",
+        "plan",
+        "scheme",
+        "measure"
+      ],
+      "words": [
+        {
+          "kanji": "計",
+          "kana": "けい",
+          "en": "plan"
+        },
+        {
+          "kanji": "家計",
+          "kana": "かけい",
+          "en": "household economy"
+        },
+        {
+          "kanji": "計器",
+          "kana": "けいき",
+          "en": "meter"
+        },
+        {
+          "kanji": "時計",
+          "kana": "とけい",
+          "en": "clock"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "計",
+          "kana": "けい",
+          "en": "plan"
+        },
+        "はかる": {
+          "kanji": "計る",
+          "kana": "はかる",
+          "en": "to measure"
+        }
+      }
+    },
+    {
+      "kanji": "記",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "しる.す"
+      ],
+      "meanings": [
+        "scribe",
+        "account",
+        "narrative"
+      ],
+      "words": [
+        {
+          "kanji": "記",
+          "kana": "き",
+          "en": "account"
+        },
+        {
+          "kanji": "下記",
+          "kana": "かき",
+          "en": "the following"
+        },
+        {
+          "kanji": "記事",
+          "kana": "きじ",
+          "en": "article"
+        },
+        {
+          "kanji": "左記",
+          "kana": "さき",
+          "en": "undermentioned (statement)"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "記",
+          "kana": "き",
+          "en": "account"
+        },
+        "しるす": {
+          "kanji": "記す",
+          "kana": "しるす",
+          "en": "to write down"
+        }
+      }
+    },
+    {
+      "kanji": "話",
+      "on": [
+        "ワ"
+      ],
+      "kun": [
+        "はな.す",
+        "はなし"
+      ],
+      "meanings": [
+        "tale",
+        "talk"
+      ],
+      "words": [
+        {
+          "kanji": "世話",
+          "kana": "せわ",
+          "en": "care"
+        },
+        {
+          "kanji": "秘話",
+          "kana": "ひわ",
+          "en": "secret story"
+        },
+        {
+          "kanji": "夜話",
+          "kana": "やわ",
+          "en": "night chat"
+        },
+        {
+          "kanji": "会話",
+          "kana": "かいわ",
+          "en": "conversation"
+        }
+      ],
+      "readingExamples": {
+        "ワ": {
+          "kanji": "話題",
+          "kana": "わだい",
+          "en": "topic"
+        },
+        "はなす": {
+          "kanji": "話す",
+          "kana": "はなす",
+          "en": "to talk"
+        },
+        "はなし": {
+          "kanji": "話",
+          "kana": "はなし",
+          "en": "talk"
+        }
+      }
+    },
+    {
+      "kanji": "語",
+      "on": [
+        "ゴ"
+      ],
+      "kun": [
+        "かた.る",
+        "かた.らう"
+      ],
+      "meanings": [
+        "word",
+        "speech",
+        "language"
+      ],
+      "words": [
+        {
+          "kanji": "語",
+          "kana": "ご",
+          "en": "word"
+        },
+        {
+          "kanji": "季語",
+          "kana": "きご",
+          "en": "seasonal word (in haiku)"
+        },
+        {
+          "kanji": "古語",
+          "kana": "こご",
+          "en": "archaic word"
+        },
+        {
+          "kanji": "語気",
+          "kana": "ごき",
+          "en": "tone"
+        }
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "語",
+          "kana": "ご",
+          "en": "word"
+        },
+        "かたる": {
+          "kanji": "語る",
+          "kana": "かたる",
+          "en": "to talk about"
+        },
+        "かたらう": {
+          "kanji": "語らう",
+          "kana": "かたらう",
+          "en": "to talk"
+        }
+      }
+    },
+    {
+      "kanji": "読",
+      "on": [
+        "ドク",
+        "トク",
+        "トウ"
+      ],
+      "kun": [
+        "よ.む",
+        "-よ.み"
+      ],
+      "meanings": [
+        "read"
+      ],
+      "words": [
+        {
+          "kanji": "読み",
+          "kana": "よみ",
+          "en": "reading"
+        },
+        {
+          "kanji": "読む",
+          "kana": "よむ",
+          "en": "to read"
+        },
+        {
+          "kanji": "読み手",
+          "kana": "よみて",
+          "en": "reader (person)"
+        },
+        {
+          "kanji": "読破",
+          "kana": "どくは",
+          "en": "reading through (a book)"
+        }
+      ],
+      "readingExamples": {
+        "ドク": {
+          "kanji": "読破",
+          "kana": "どくは",
+          "en": "reading through (a book)"
+        },
+        "トク": {
+          "kanji": "読本",
+          "kana": "とくほん",
+          "en": "reading-book"
+        },
+        "よむ": {
+          "kanji": "読む",
+          "kana": "よむ",
+          "en": "to read"
+        },
+        "よみ": {
+          "kanji": "読み",
+          "kana": "よみ",
+          "en": "reading"
+        }
+      }
+    },
+    {
+      "kanji": "谷",
+      "on": [
+        "コク"
+      ],
+      "kun": [
+        "たに",
+        "きわ.まる"
+      ],
+      "meanings": [
+        "valley"
+      ],
+      "words": [
+        {
+          "kanji": "谷",
+          "kana": "たに",
+          "en": "valley"
+        },
+        {
+          "kanji": "谷地",
+          "kana": "やち",
+          "en": "marsh land"
+        },
+        {
+          "kanji": "谷間",
+          "kana": "たにま",
+          "en": "valley"
+        },
+        {
+          "kanji": "谷川",
+          "kana": "たにがわ",
+          "en": "mountain stream"
+        }
+      ],
+      "readingExamples": {
+        "たに": {
+          "kanji": "谷",
+          "kana": "たに",
+          "en": "valley"
+        }
+      }
+    },
+    {
+      "kanji": "買",
+      "on": [
+        "バイ"
+      ],
+      "kun": [
+        "か.う"
+      ],
+      "meanings": [
+        "buy"
+      ],
+      "words": [
+        {
+          "kanji": "買う",
+          "kana": "かう",
+          "en": "to buy"
+        },
+        {
+          "kanji": "買い",
+          "kana": "かい",
+          "en": "buying"
+        },
+        {
+          "kanji": "不買",
+          "kana": "ふばい",
+          "en": "not buying"
+        },
+        {
+          "kanji": "買い手",
+          "kana": "かいて",
+          "en": "buyer"
+        }
+      ],
+      "readingExamples": {
+        "バイ": {
+          "kanji": "売買",
+          "kana": "ばいばい",
+          "en": "trade"
+        },
+        "かう": {
+          "kanji": "買う",
+          "kana": "かう",
+          "en": "to buy"
+        }
+      }
+    },
+    {
+      "kanji": "走",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "はし.る"
+      ],
+      "meanings": [
+        "run"
+      ],
+      "words": [
+        {
+          "kanji": "走り",
+          "kana": "はしり",
+          "en": "running"
+        },
+        {
+          "kanji": "走る",
+          "kana": "はしる",
+          "en": "to run"
+        },
+        {
+          "kanji": "走査",
+          "kana": "そうさ",
+          "en": "scan"
+        },
+        {
+          "kanji": "師走",
+          "kana": "しわす",
+          "en": "twelfth month (esp. of the lunar calendar)"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "走査",
+          "kana": "そうさ",
+          "en": "scan"
+        },
+        "はしる": {
+          "kanji": "走る",
+          "kana": "はしる",
+          "en": "to run"
+        }
+      }
+    },
+    {
+      "kanji": "近",
+      "on": [
+        "キン",
+        "コン"
+      ],
+      "kun": [
+        "ちか.い"
+      ],
+      "meanings": [
+        "near",
+        "early",
+        "akin",
+        "tantamount"
+      ],
+      "words": [
+        {
+          "kanji": "間近",
+          "kana": "まぢか",
+          "en": "near"
+        },
+        {
+          "kanji": "近い",
+          "kana": "ちかい",
+          "en": "near"
+        },
+        {
+          "kanji": "近く",
+          "kana": "ちかく",
+          "en": "near"
+        },
+        {
+          "kanji": "近視",
+          "kana": "きんし",
+          "en": "myopia"
+        }
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "近畿",
+          "kana": "きんき",
+          "en": "Kinki (region around Osaka, Kyoto, Nara)"
+        },
+        "ちかい": {
+          "kanji": "近い",
+          "kana": "ちかい",
+          "en": "near"
+        }
+      }
+    },
+    {
+      "kanji": "通",
+      "on": [
+        "ツウ",
+        "ツ"
+      ],
+      "kun": [
+        "とお.る",
+        "とお.り",
+        "-とお.り",
+        "-どお.り",
+        "とお.す",
+        "とお.し",
+        "-どお.し",
+        "かよ.う"
+      ],
+      "meanings": [
+        "traffic",
+        "pass through",
+        "avenue",
+        "commute"
+      ],
+      "words": [
+        {
+          "kanji": "通",
+          "kana": "つう",
+          "en": "authority"
+        },
+        {
+          "kanji": "通夜",
+          "kana": "つや",
+          "en": "all-night vigil over a body"
+        },
+        {
+          "kanji": "通う",
+          "kana": "かよう",
+          "en": "to go to and from (a place)"
+        },
+        {
+          "kanji": "通す",
+          "kana": "とおす",
+          "en": "to let pass"
+        }
+      ],
+      "readingExamples": {
+        "ツウ": {
+          "kanji": "通",
+          "kana": "つう",
+          "en": "authority"
+        },
+        "ツ": {
+          "kanji": "通",
+          "kana": "つう",
+          "en": "authority"
+        },
+        "とおる": {
+          "kanji": "通る",
+          "kana": "とおる",
+          "en": "to go by"
+        },
+        "とおり": {
+          "kanji": "通り",
+          "kana": "とおり",
+          "en": "street"
+        },
+        "どおり": {
+          "kanji": "通り",
+          "kana": "どおり",
+          "en": "in accordance with"
+        },
+        "とおす": {
+          "kanji": "通す",
+          "kana": "とおす",
+          "en": "to let pass"
+        }
+      }
+    },
+    {
+      "kanji": "週",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "week"
+      ],
+      "words": [
+        {
+          "kanji": "週",
+          "kana": "しゅう",
+          "en": "week"
+        },
+        {
+          "kanji": "次週",
+          "kana": "じしゅう",
+          "en": "next week"
+        },
+        {
+          "kanji": "一週",
+          "kana": "いっしゅう",
+          "en": "one week"
+        },
+        {
+          "kanji": "今週",
+          "kana": "こんしゅう",
+          "en": "this week"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "週",
+          "kana": "しゅう",
+          "en": "week"
+        }
+      }
+    },
+    {
+      "kanji": "道",
+      "on": [
+        "ドウ",
+        "トウ"
+      ],
+      "kun": [
+        "みち",
+        "いう"
+      ],
+      "meanings": [
+        "road-way",
+        "street",
+        "district",
+        "journey"
+      ],
+      "words": [
+        {
+          "kanji": "道",
+          "kana": "みち",
+          "en": "road"
+        },
+        {
+          "kanji": "気道",
+          "kana": "きどう",
+          "en": "respiratory tract"
+        },
+        {
+          "kanji": "地道",
+          "kana": "じみち",
+          "en": "steady"
+        },
+        {
+          "kanji": "茶道",
+          "kana": "さどう",
+          "en": "tea ceremony"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "道化",
+          "kana": "どうけ",
+          "en": "antics"
+        },
+        "みち": {
+          "kanji": "道",
+          "kana": "みち",
+          "en": "road"
+        }
+      }
+    },
+    {
+      "kanji": "遠",
+      "on": [
+        "エン",
+        "オン"
+      ],
+      "kun": [
+        "とお.い"
+      ],
+      "meanings": [
+        "distant",
+        "far"
+      ],
+      "words": [
+        {
+          "kanji": "以遠",
+          "kana": "いえん",
+          "en": "beyond"
+        },
+        {
+          "kanji": "遠い",
+          "kana": "とおい",
+          "en": "far"
+        },
+        {
+          "kanji": "遠く",
+          "kana": "とおく",
+          "en": "far away"
+        },
+        {
+          "kanji": "遠出",
+          "kana": "とおで",
+          "en": "trip"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "遠因",
+          "kana": "えんいん",
+          "en": "remote cause"
+        },
+        "とおい": {
+          "kanji": "遠い",
+          "kana": "とおい",
+          "en": "far"
+        }
+      }
+    },
+    {
+      "kanji": "里",
+      "on": [
+        "リ"
+      ],
+      "kun": [
+        "さと"
+      ],
+      "meanings": [
+        "ri",
+        "village",
+        "parent's home",
+        "league"
+      ],
+      "words": [
+        {
+          "kanji": "里",
+          "kana": "り",
+          "en": "Japanese league"
+        },
+        {
+          "kanji": "千里",
+          "kana": "せんり",
+          "en": "1000 ri"
+        },
+        {
+          "kanji": "万里",
+          "kana": "ばんり",
+          "en": "thousands of miles"
+        },
+        {
+          "kanji": "里子",
+          "kana": "さとご",
+          "en": "foster child"
+        }
+      ],
+      "readingExamples": {
+        "リ": {
+          "kanji": "里",
+          "kana": "り",
+          "en": "Japanese league"
+        },
+        "さと": {
+          "kanji": "里子",
+          "kana": "さとご",
+          "en": "foster child"
+        }
+      }
+    },
+    {
+      "kanji": "野",
+      "on": [
+        "ヤ",
+        "ショ"
+      ],
+      "kun": [
+        "の",
+        "の-"
+      ],
+      "meanings": [
+        "plains",
+        "field",
+        "rustic",
+        "civilian life"
+      ],
+      "words": [
+        {
+          "kanji": "野",
+          "kana": "の",
+          "en": "field"
+        },
+        {
+          "kanji": "下野",
+          "kana": "げや",
+          "en": "resigning from (public) office"
+        },
+        {
+          "kanji": "視野",
+          "kana": "しや",
+          "en": "field of vision"
+        },
+        {
+          "kanji": "野暮",
+          "kana": "やぼ",
+          "en": "boorish"
+        }
+      ],
+      "readingExamples": {
+        "ヤ": {
+          "kanji": "野暮",
+          "kana": "やぼ",
+          "en": "boorish"
+        },
+        "の": {
+          "kanji": "野",
+          "kana": "の",
+          "en": "field"
+        }
+      }
+    },
+    {
+      "kanji": "長",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "なが.い",
+        "おさ"
+      ],
+      "meanings": [
+        "long",
+        "leader",
+        "superior",
+        "senior"
+      ],
+      "words": [
+        {
+          "kanji": "気長",
+          "kana": "きなが",
+          "en": "patient"
+        },
+        {
+          "kanji": "長",
+          "kana": "ちょう",
+          "en": "head"
+        },
+        {
+          "kanji": "長い",
+          "kana": "ながい",
+          "en": "long (distance, length)"
+        },
+        {
+          "kanji": "長さ",
+          "kana": "ながさ",
+          "en": "length"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "長",
+          "kana": "ちょう",
+          "en": "head"
+        },
+        "ながい": {
+          "kanji": "長い",
+          "kana": "ながい",
+          "en": "long (distance, length)"
+        }
+      }
+    },
+    {
+      "kanji": "門",
+      "on": [
+        "モン"
+      ],
+      "kun": [
+        "かど",
+        "と"
+      ],
+      "meanings": [
+        "gate",
+        "counter for cannons"
+      ],
+      "words": [
+        {
+          "kanji": "門",
+          "kana": "もん",
+          "en": "gate"
+        },
+        {
+          "kanji": "破門",
+          "kana": "はもん",
+          "en": "expulsion (of a pupil)"
+        },
+        {
+          "kanji": "部門",
+          "kana": "ぶもん",
+          "en": "division (of a larger group)"
+        },
+        {
+          "kanji": "門戸",
+          "kana": "もんこ",
+          "en": "door"
+        }
+      ],
+      "readingExamples": {
+        "モン": {
+          "kanji": "門",
+          "kana": "もん",
+          "en": "gate"
+        },
+        "かど": {
+          "kanji": "門出",
+          "kana": "かどで",
+          "en": "setting off (on a long journey)"
+        },
+        "と": {
+          "kanji": "登竜門",
+          "kana": "とうりゅうもん",
+          "en": "gateway to success"
+        }
+      }
+    },
+    {
+      "kanji": "間",
+      "on": [
+        "カン",
+        "ケン"
+      ],
+      "kun": [
+        "あいだ",
+        "ま",
+        "あい"
+      ],
+      "meanings": [
+        "interval",
+        "space"
+      ],
+      "words": [
+        {
+          "kanji": "間",
+          "kana": "ま",
+          "en": "time"
+        },
+        {
+          "kanji": "居間",
+          "kana": "いま",
+          "en": "living room (Western style)"
+        },
+        {
+          "kanji": "手間",
+          "kana": "てま",
+          "en": "time"
+        },
+        {
+          "kanji": "土間",
+          "kana": "どま",
+          "en": "dirt floor"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "間",
+          "kana": "かん",
+          "en": "interval"
+        },
+        "ケン": {
+          "kanji": "間数",
+          "kana": "けんすう",
+          "en": "number of ken (in length or breadth)"
+        },
+        "あいだ": {
+          "kanji": "間",
+          "kana": "あいだ",
+          "en": "space (between)"
+        },
+        "ま": {
+          "kanji": "間",
+          "kana": "ま",
+          "en": "time"
+        },
+        "あい": {
+          "kanji": "間",
+          "kana": "あいだ",
+          "en": "space (between)"
+        }
+      }
+    },
+    {
+      "kanji": "雪",
+      "on": [
+        "セツ"
+      ],
+      "kun": [
+        "ゆき"
+      ],
+      "meanings": [
+        "snow"
+      ],
+      "words": [
+        {
+          "kanji": "雪",
+          "kana": "ゆき",
+          "en": "snow"
+        },
+        {
+          "kanji": "小雪",
+          "kana": "こゆき",
+          "en": "light snow"
+        },
+        {
+          "kanji": "降雪",
+          "kana": "こうせつ",
+          "en": "snowfall"
+        },
+        {
+          "kanji": "初雪",
+          "kana": "はつゆき",
+          "en": "first snow (of the season)"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "雪原",
+          "kana": "せつげん",
+          "en": "snow field"
+        },
+        "ゆき": {
+          "kanji": "雪",
+          "kana": "ゆき",
+          "en": "snow"
+        }
+      }
+    },
+    {
+      "kanji": "雲",
+      "on": [
+        "ウン"
+      ],
+      "kun": [
+        "くも",
+        "-ぐも"
+      ],
+      "meanings": [
+        "cloud"
+      ],
+      "words": [
+        {
+          "kanji": "雲",
+          "kana": "くも",
+          "en": "cloud"
+        },
+        {
+          "kanji": "雲母",
+          "kana": "うんも",
+          "en": "mica"
+        },
+        {
+          "kanji": "暗雲",
+          "kana": "あんうん",
+          "en": "dark clouds"
+        },
+        {
+          "kanji": "雨雲",
+          "kana": "あまぐも",
+          "en": "rain cloud"
+        }
+      ],
+      "readingExamples": {
+        "ウン": {
+          "kanji": "雲母",
+          "kana": "うんも",
+          "en": "mica"
+        },
+        "くも": {
+          "kanji": "雲",
+          "kana": "くも",
+          "en": "cloud"
+        }
+      }
+    },
+    {
+      "kanji": "電",
+      "on": [
+        "デン"
+      ],
+      "kun": [],
+      "meanings": [
+        "electricity"
+      ],
+      "words": [
+        {
+          "kanji": "家電",
+          "kana": "かでん",
+          "en": "household (electrical) appliances"
+        },
+        {
+          "kanji": "市電",
+          "kana": "しでん",
+          "en": "municipal railway"
+        },
+        {
+          "kanji": "電位",
+          "kana": "でんい",
+          "en": "electric potential"
+        },
+        {
+          "kanji": "電化",
+          "kana": "でんか",
+          "en": "electrification"
+        }
+      ],
+      "readingExamples": {
+        "デン": {
+          "kanji": "電位",
+          "kana": "でんい",
+          "en": "electric potential"
+        }
+      }
+    },
+    {
+      "kanji": "頭",
+      "on": [
+        "トウ",
+        "ズ",
+        "ト"
+      ],
+      "kun": [
+        "あたま",
+        "かしら",
+        "-がしら",
+        "かぶり"
+      ],
+      "meanings": [
+        "head",
+        "counter for large animals"
+      ],
+      "words": [
+        {
+          "kanji": "頭",
+          "kana": "とう",
+          "en": "counter for large animals (e.g. head of cattle)"
+        },
+        {
+          "kanji": "馬頭",
+          "kana": "めず",
+          "en": "horse-headed demon (in hell)"
+        },
+        {
+          "kanji": "音頭",
+          "kana": "おんど",
+          "en": "lead (in a cheer, toast, song, etc.)"
+        },
+        {
+          "kanji": "頭痛",
+          "kana": "ずつう",
+          "en": "headache"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "頭",
+          "kana": "とう",
+          "en": "counter for large animals (e.g. head of cattle)"
+        },
+        "ズ": {
+          "kanji": "頭巾",
+          "kana": "ずきん",
+          "en": "headgear (esp. one made of cloth)"
+        },
+        "ト": {
+          "kanji": "頭",
+          "kana": "とう",
+          "en": "counter for large animals (e.g. head of cattle)"
+        },
+        "あたま": {
+          "kanji": "頭",
+          "kana": "あたま",
+          "en": "head"
+        },
+        "かしら": {
+          "kanji": "頭文字",
+          "kana": "かしらもじ",
+          "en": "first letter of a word"
+        }
+      }
+    },
+    {
+      "kanji": "顔",
+      "on": [
+        "ガン"
+      ],
+      "kun": [
+        "かお"
+      ],
+      "meanings": [
+        "face",
+        "expression"
+      ],
+      "words": [
+        {
+          "kanji": "顔",
+          "kana": "かお",
+          "en": "face"
+        },
+        {
+          "kanji": "似顔",
+          "kana": "にがお",
+          "en": "portrait"
+        },
+        {
+          "kanji": "笑顔",
+          "kana": "えがお",
+          "en": "smiling face"
+        },
+        {
+          "kanji": "真顔",
+          "kana": "まがお",
+          "en": "serious look (on one's face)"
+        }
+      ],
+      "readingExamples": {
+        "ガン": {
+          "kanji": "顔面",
+          "kana": "がんめん",
+          "en": "face (of person)"
+        },
+        "かお": {
+          "kanji": "顔",
+          "kana": "かお",
+          "en": "face"
+        }
+      }
+    },
+    {
+      "kanji": "風",
+      "on": [
+        "フウ",
+        "フ"
+      ],
+      "kun": [
+        "かぜ",
+        "かざ-"
+      ],
+      "meanings": [
+        "wind",
+        "air",
+        "style",
+        "manner"
+      ],
+      "words": [
+        {
+          "kanji": "風",
+          "kana": "かぜ",
+          "en": "wind"
+        },
+        {
+          "kanji": "風",
+          "kana": "ふう",
+          "en": "manner"
+        },
+        {
+          "kanji": "東風",
+          "kana": "こち",
+          "en": "east wind"
+        },
+        {
+          "kanji": "画風",
+          "kana": "がふう",
+          "en": "style of painting"
+        }
+      ],
+      "readingExamples": {
+        "フウ": {
+          "kanji": "風",
+          "kana": "ふう",
+          "en": "manner"
+        },
+        "フ": {
+          "kanji": "風",
+          "kana": "ふう",
+          "en": "manner"
+        },
+        "かぜ": {
+          "kanji": "風",
+          "kana": "かぜ",
+          "en": "wind"
+        },
+        "かざ": {
+          "kanji": "風見",
+          "kana": "かざみ",
+          "en": "weather vane"
+        }
+      }
+    },
+    {
+      "kanji": "食",
+      "on": [
+        "ショク",
+        "ジキ"
+      ],
+      "kun": [
+        "く.う",
+        "く.らう",
+        "た.べる",
+        "は.む"
+      ],
+      "meanings": [
+        "eat",
+        "food"
+      ],
+      "words": [
+        {
+          "kanji": "食う",
+          "kana": "くう",
+          "en": "to eat"
+        },
+        {
+          "kanji": "食べる",
+          "kana": "たべる",
+          "en": "to eat"
+        },
+        {
+          "kanji": "巣食う",
+          "kana": "すくう",
+          "en": "to build a nest"
+        },
+        {
+          "kanji": "食らう",
+          "kana": "くらう",
+          "en": "to eat"
+        }
+      ],
+      "readingExamples": {
+        "ショク": {
+          "kanji": "食",
+          "kana": "しょく",
+          "en": "food"
+        },
+        "くう": {
+          "kanji": "食う",
+          "kana": "くう",
+          "en": "to eat"
+        },
+        "くらう": {
+          "kanji": "食らう",
+          "kana": "くらう",
+          "en": "to eat"
+        },
+        "たべる": {
+          "kanji": "食べる",
+          "kana": "たべる",
+          "en": "to eat"
+        }
+      }
+    },
+    {
+      "kanji": "首",
+      "on": [
+        "シュ"
+      ],
+      "kun": [
+        "くび"
+      ],
+      "meanings": [
+        "neck",
+        "counter for songs and poems"
+      ],
+      "words": [
+        {
+          "kanji": "首",
+          "kana": "くび",
+          "en": "neck"
+        },
+        {
+          "kanji": "機首",
+          "kana": "きしゅ",
+          "en": "nose (of plane)"
+        },
+        {
+          "kanji": "自首",
+          "kana": "じしゅ",
+          "en": "surrender (to the authorities)"
+        },
+        {
+          "kanji": "手首",
+          "kana": "てくび",
+          "en": "wrist"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "首都",
+          "kana": "しゅと",
+          "en": "(national) capital (city)"
+        },
+        "くび": {
+          "kanji": "首",
+          "kana": "くび",
+          "en": "neck"
+        }
+      }
+    },
+    {
+      "kanji": "馬",
+      "on": [
+        "バ",
+        "メ",
+        "マ",
+        "ボ",
+        "モ"
+      ],
+      "kun": [
+        "うま",
+        "ま"
+      ],
+      "meanings": [
+        "horse"
+      ],
+      "words": [
+        {
+          "kanji": "下馬",
+          "kana": "げば",
+          "en": "dismounting"
+        },
+        {
+          "kanji": "馬",
+          "kana": "うま",
+          "en": "horse"
+        },
+        {
+          "kanji": "馬具",
+          "kana": "ばぐ",
+          "en": "horse tack"
+        },
+        {
+          "kanji": "馬頭",
+          "kana": "めず",
+          "en": "horse-headed demon (in hell)"
+        }
+      ],
+      "readingExamples": {
+        "バ": {
+          "kanji": "馬具",
+          "kana": "ばぐ",
+          "en": "horse tack"
+        },
+        "メ": {
+          "kanji": "馬頭",
+          "kana": "めず",
+          "en": "horse-headed demon (in hell)"
+        },
+        "マ": {
+          "kanji": "馬尼剌",
+          "kana": "マニラ",
+          "en": "Manila (Philippines)"
+        },
+        "モ": {
+          "kanji": "木馬",
+          "kana": "もくば",
+          "en": "wooden horse"
+        },
+        "うま": {
+          "kanji": "馬",
+          "kana": "うま",
+          "en": "horse"
+        }
+      }
+    },
+    {
+      "kanji": "高",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "たか.い",
+        "たか",
+        "-だか",
+        "たか.まる",
+        "たか.める"
+      ],
+      "meanings": [
+        "tall",
+        "high",
+        "expensive"
+      ],
+      "words": [
+        {
+          "kanji": "高",
+          "kana": "たか",
+          "en": "quantity"
+        },
+        {
+          "kanji": "高い",
+          "kana": "たかい",
+          "en": "high"
+        },
+        {
+          "kanji": "高さ",
+          "kana": "たかさ",
+          "en": "height"
+        },
+        {
+          "kanji": "高み",
+          "kana": "たかみ",
+          "en": "height"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "高位",
+          "kana": "こうい",
+          "en": "dignity"
+        },
+        "たかい": {
+          "kanji": "高い",
+          "kana": "たかい",
+          "en": "high"
+        },
+        "たか": {
+          "kanji": "高",
+          "kana": "たか",
+          "en": "quantity"
+        },
+        "たかまる": {
+          "kanji": "高まる",
+          "kana": "たかまる",
+          "en": "to rise"
+        },
+        "たかめる": {
+          "kanji": "高める",
+          "kana": "たかめる",
+          "en": "to raise"
+        }
+      }
+    },
+    {
+      "kanji": "魚",
+      "on": [
+        "ギョ"
+      ],
+      "kun": [
+        "うお",
+        "さかな",
+        "-ざかな"
+      ],
+      "meanings": [
+        "fish"
+      ],
+      "words": [
+        {
+          "kanji": "魚",
+          "kana": "さかな",
+          "en": "fish"
+        },
+        {
+          "kanji": "魚屋",
+          "kana": "さかなや",
+          "en": "fish market"
+        },
+        {
+          "kanji": "魚群",
+          "kana": "ぎょぐん",
+          "en": "school of fish"
+        },
+        {
+          "kanji": "魚肉",
+          "kana": "ぎょにく",
+          "en": "fish meat"
+        }
+      ],
+      "readingExamples": {
+        "ギョ": {
+          "kanji": "魚介",
+          "kana": "ぎょかい",
+          "en": "marine products"
+        },
+        "うお": {
+          "kanji": "魚河岸",
+          "kana": "うおがし",
+          "en": "riverside fish market"
+        },
+        "さかな": {
+          "kanji": "魚",
+          "kana": "さかな",
+          "en": "fish"
+        }
+      }
+    },
+    {
+      "kanji": "鳥",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "とり"
+      ],
+      "meanings": [
+        "bird",
+        "chicken"
+      ],
+      "words": [
+        {
+          "kanji": "鳥",
+          "kana": "とり",
+          "en": "bird"
+        },
+        {
+          "kanji": "小鳥",
+          "kana": "ことり",
+          "en": "small bird"
+        },
+        {
+          "kanji": "千鳥",
+          "kana": "ちどり",
+          "en": "plover"
+        },
+        {
+          "kanji": "鳥居",
+          "kana": "とりい",
+          "en": "torii (Shinto shrine archway)"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "鳥類",
+          "kana": "ちょうるい",
+          "en": "birds"
+        },
+        "とり": {
+          "kanji": "鳥",
+          "kana": "とり",
+          "en": "bird"
+        }
+      }
+    },
+    {
+      "kanji": "鳴",
+      "on": [
+        "メイ"
+      ],
+      "kun": [
+        "な.く",
+        "な.る",
+        "な.らす"
+      ],
+      "meanings": [
+        "chirp",
+        "cry",
+        "bark",
+        "sound"
+      ],
+      "words": [
+        {
+          "kanji": "鳴く",
+          "kana": "なく",
+          "en": "to make sound (of an animal)"
+        },
+        {
+          "kanji": "鳴る",
+          "kana": "なる",
+          "en": "to sound"
+        },
+        {
+          "kanji": "鳴り",
+          "kana": "なり",
+          "en": "ringing"
+        },
+        {
+          "kanji": "悲鳴",
+          "kana": "ひめい",
+          "en": "shriek"
+        }
+      ],
+      "readingExamples": {
+        "なく": {
+          "kanji": "鳴く",
+          "kana": "なく",
+          "en": "to make sound (of an animal)"
+        },
+        "なる": {
+          "kanji": "鳴る",
+          "kana": "なる",
+          "en": "to sound"
+        },
+        "ならす": {
+          "kanji": "鳴らす",
+          "kana": "ならす",
+          "en": "to ring"
+        }
+      }
+    },
+    {
+      "kanji": "麦",
+      "on": [
+        "バク"
+      ],
+      "kun": [
+        "むぎ"
+      ],
+      "meanings": [
+        "barley",
+        "wheat"
+      ],
+      "words": [
+        {
+          "kanji": "麦",
+          "kana": "むぎ",
+          "en": "wheat"
+        },
+        {
+          "kanji": "小麦",
+          "kana": "こむぎ",
+          "en": "wheat"
+        },
+        {
+          "kanji": "麦芽",
+          "kana": "ばくが",
+          "en": "malt"
+        },
+        {
+          "kanji": "大麦",
+          "kana": "おおむぎ",
+          "en": "barley (Hordeum vulgare)"
+        }
+      ],
+      "readingExamples": {
+        "バク": {
+          "kanji": "麦芽",
+          "kana": "ばくが",
+          "en": "malt"
+        },
+        "むぎ": {
+          "kanji": "麦",
+          "kana": "むぎ",
+          "en": "wheat"
+        }
+      }
+    },
+    {
+      "kanji": "黄",
+      "on": [
+        "コウ",
+        "オウ"
+      ],
+      "kun": [
+        "き",
+        "こ-"
+      ],
+      "meanings": [
+        "yellow"
+      ],
+      "words": [
+        {
+          "kanji": "黄身",
+          "kana": "きみ",
+          "en": "egg yolk"
+        },
+        {
+          "kanji": "黄ばむ",
+          "kana": "きばむ",
+          "en": "to turn yellow"
+        },
+        {
+          "kanji": "黄河",
+          "kana": "こうが",
+          "en": "Yellow River (China)"
+        },
+        {
+          "kanji": "黄土",
+          "kana": "おうど",
+          "en": "loess"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "黄河",
+          "kana": "こうが",
+          "en": "Yellow River (China)"
+        },
+        "オウ": {
+          "kanji": "黄土",
+          "kana": "おうど",
+          "en": "loess"
+        },
+        "き": {
+          "kanji": "黄身",
+          "kana": "きみ",
+          "en": "egg yolk"
+        },
+        "こ": {
+          "kanji": "黄河",
+          "kana": "こうが",
+          "en": "Yellow River (China)"
+        }
+      }
+    },
+    {
+      "kanji": "黒",
+      "on": [
+        "コク"
+      ],
+      "kun": [
+        "くろ",
+        "くろ.ずむ",
+        "くろ.い"
+      ],
+      "meanings": [
+        "black"
+      ],
+      "words": [
+        {
+          "kanji": "黒",
+          "kana": "くろ",
+          "en": "black"
+        },
+        {
+          "kanji": "黒い",
+          "kana": "くろい",
+          "en": "black"
+        },
+        {
+          "kanji": "黒子",
+          "kana": "ほくろ",
+          "en": "mole"
+        },
+        {
+          "kanji": "黒字",
+          "kana": "くろじ",
+          "en": "(being in) the black"
+        }
+      ],
+      "readingExamples": {
+        "コク": {
+          "kanji": "黒土",
+          "kana": "こくど",
+          "en": "black terracotta"
+        },
+        "くろ": {
+          "kanji": "黒",
+          "kana": "くろ",
+          "en": "black"
+        },
+        "くろずむ": {
+          "kanji": "黒ずむ",
+          "kana": "くろずむ",
+          "en": "to blacken"
+        },
+        "くろい": {
+          "kanji": "黒い",
+          "kana": "くろい",
+          "en": "black"
+        }
+      }
+    }
+  ],
+  "3": [
+    {
+      "kanji": "丁",
+      "on": [
+        "チョウ",
+        "テイ",
+        "チン",
+        "トウ",
+        "チ"
+      ],
+      "kun": [
+        "ひのと"
+      ],
+      "meanings": [
+        "street",
+        "ward",
+        "town",
+        "counter for guns, tools, leaves or cakes of something"
+      ],
+      "words": [
+        {
+          "kanji": "丁",
+          "kana": "ちょう",
+          "en": "counter for long and narrow things (e.g. guns, spades, hoes, oars, ink sticks, candles, abacuses, kitchen knives, scissors, shamisen, violins)"
+        },
+        {
+          "kanji": "丁度",
+          "kana": "ちょうど",
+          "en": "exactly"
+        },
+        {
+          "kanji": "丁目",
+          "kana": "ちょうめ",
+          "en": "district of a town"
+        },
+        {
+          "kanji": "装丁",
+          "kana": "そうてい",
+          "en": "binding (of a book)"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "丁",
+          "kana": "ちょう",
+          "en": "counter for long and narrow things (e.g. guns, spades, hoes, oars, ink sticks, candles, abacuses, kitchen knives, scissors, shamisen, violins)"
+        },
+        "テイ": {
+          "kanji": "丁寧",
+          "kana": "ていねい",
+          "en": "polite"
+        },
+        "チ": {
+          "kanji": "丁",
+          "kana": "ちょう",
+          "en": "counter for long and narrow things (e.g. guns, spades, hoes, oars, ink sticks, candles, abacuses, kitchen knives, scissors, shamisen, violins)"
+        }
+      }
+    },
+    {
+      "kanji": "世",
+      "on": [
+        "セイ",
+        "セ",
+        "ソウ"
+      ],
+      "kun": [
+        "よ"
+      ],
+      "meanings": [
+        "generation",
+        "world",
+        "society",
+        "public"
+      ],
+      "words": [
+        {
+          "kanji": "世",
+          "kana": "よ",
+          "en": "world"
+        },
+        {
+          "kanji": "世話",
+          "kana": "せわ",
+          "en": "care"
+        },
+        {
+          "kanji": "お世辞",
+          "kana": "おせじ",
+          "en": "flattery"
+        },
+        {
+          "kanji": "現世",
+          "kana": "げんせ",
+          "en": "this world"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "世紀",
+          "kana": "せいき",
+          "en": "century"
+        },
+        "セ": {
+          "kanji": "世話",
+          "kana": "せわ",
+          "en": "care"
+        },
+        "ソウ": {
+          "kanji": "創世",
+          "kana": "そうせい",
+          "en": "creation of the world"
+        },
+        "よ": {
+          "kanji": "世",
+          "kana": "よ",
+          "en": "world"
+        }
+      }
+    },
+    {
+      "kanji": "両",
+      "on": [
+        "リョウ"
+      ],
+      "kun": [
+        "てる",
+        "ふたつ"
+      ],
+      "meanings": [
+        "both",
+        "old Japanese coin",
+        "counter for carriages (e.g., in a train)",
+        "two"
+      ],
+      "words": [
+        {
+          "kanji": "両",
+          "kana": "りょう",
+          "en": "both (hands, parents, sides, etc.)"
+        },
+        {
+          "kanji": "両家",
+          "kana": "りょうけ",
+          "en": "both families"
+        },
+        {
+          "kanji": "両氏",
+          "kana": "りょうし",
+          "en": "both persons"
+        },
+        {
+          "kanji": "両手",
+          "kana": "りょうて",
+          "en": "both hands"
+        }
+      ],
+      "readingExamples": {
+        "リョウ": {
+          "kanji": "両",
+          "kana": "りょう",
+          "en": "both (hands, parents, sides, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "主",
+      "on": [
+        "シュ",
+        "ス",
+        "シュウ"
+      ],
+      "kun": [
+        "ぬし",
+        "おも",
+        "あるじ"
+      ],
+      "meanings": [
+        "lord",
+        "chief",
+        "master",
+        "main thing"
+      ],
+      "words": [
+        {
+          "kanji": "主",
+          "kana": "おも",
+          "en": "chief"
+        },
+        {
+          "kanji": "主",
+          "kana": "しゅ",
+          "en": "(one's) master"
+        },
+        {
+          "kanji": "主",
+          "kana": "ぬし",
+          "en": "head (of a household, etc.)"
+        },
+        {
+          "kanji": "家主",
+          "kana": "やぬし",
+          "en": "landlord"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "主",
+          "kana": "しゅ",
+          "en": "(one's) master"
+        },
+        "シュウ": {
+          "kanji": "主従",
+          "kana": "しゅうじゅう",
+          "en": "master and servant"
+        },
+        "ぬし": {
+          "kanji": "主",
+          "kana": "ぬし",
+          "en": "head (of a household, etc.)"
+        },
+        "おも": {
+          "kanji": "主",
+          "kana": "おも",
+          "en": "chief"
+        },
+        "あるじ": {
+          "kanji": "主",
+          "kana": "あるじ",
+          "en": "head (of a household)"
+        }
+      }
+    },
+    {
+      "kanji": "乗",
+      "on": [
+        "ジョウ",
+        "ショウ"
+      ],
+      "kun": [
+        "の.る",
+        "-の.り",
+        "の.せる"
+      ],
+      "meanings": [
+        "ride",
+        "power",
+        "multiplication",
+        "record"
+      ],
+      "words": [
+        {
+          "kanji": "乗り",
+          "kana": "のり",
+          "en": "riding"
+        },
+        {
+          "kanji": "乗る",
+          "kana": "のる",
+          "en": "to get on (train, plane, bus, ship, etc.)"
+        },
+        {
+          "kanji": "乗り気",
+          "kana": "のりき",
+          "en": "interest"
+        },
+        {
+          "kanji": "名乗り",
+          "kana": "なのり",
+          "en": "giving one's name"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "乗馬",
+          "kana": "じょうば",
+          "en": "horse riding"
+        },
+        "のる": {
+          "kanji": "乗る",
+          "kana": "のる",
+          "en": "to get on (train, plane, bus, ship, etc.)"
+        },
+        "のり": {
+          "kanji": "乗り",
+          "kana": "のり",
+          "en": "riding"
+        },
+        "のせる": {
+          "kanji": "乗せる",
+          "kana": "のせる",
+          "en": "to place on (something)"
+        }
+      }
+    },
+    {
+      "kanji": "予",
+      "on": [
+        "ヨ",
+        "シャ"
+      ],
+      "kun": [
+        "あらかじ.め"
+      ],
+      "meanings": [
+        "beforehand",
+        "previous",
+        "myself",
+        "I"
+      ],
+      "words": [
+        {
+          "kanji": "予科",
+          "kana": "よか",
+          "en": "preparatory course"
+        },
+        {
+          "kanji": "予期",
+          "kana": "よき",
+          "en": "expectation"
+        },
+        {
+          "kanji": "予後",
+          "kana": "よご",
+          "en": "prognosis"
+        },
+        {
+          "kanji": "予知",
+          "kana": "よち",
+          "en": "foresight"
+        }
+      ],
+      "readingExamples": {
+        "ヨ": {
+          "kanji": "予科",
+          "kana": "よか",
+          "en": "preparatory course"
+        },
+        "あらかじめ": {
+          "kanji": "予め",
+          "kana": "あらかじめ",
+          "en": "beforehand"
+        }
+      }
+    },
+    {
+      "kanji": "事",
+      "on": [
+        "ジ",
+        "ズ"
+      ],
+      "kun": [
+        "こと",
+        "つか.う",
+        "つか.える"
+      ],
+      "meanings": [
+        "matter",
+        "thing",
+        "fact",
+        "business"
+      ],
+      "words": [
+        {
+          "kanji": "医事",
+          "kana": "いじ",
+          "en": "medical practice"
+        },
+        {
+          "kanji": "家事",
+          "kana": "かじ",
+          "en": "housework"
+        },
+        {
+          "kanji": "火事",
+          "kana": "かじ",
+          "en": "fire"
+        },
+        {
+          "kanji": "記事",
+          "kana": "きじ",
+          "en": "article"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "事故",
+          "kana": "じこ",
+          "en": "accident"
+        },
+        "こと": {
+          "kanji": "事",
+          "kana": "こと",
+          "en": "thing"
+        }
+      }
+    },
+    {
+      "kanji": "仕",
+      "on": [
+        "シ",
+        "ジ"
+      ],
+      "kun": [
+        "つか.える"
+      ],
+      "meanings": [
+        "attend",
+        "doing",
+        "official",
+        "serve"
+      ],
+      "words": [
+        {
+          "kanji": "仕",
+          "kana": "し",
+          "en": "official"
+        },
+        {
+          "kanji": "仕手",
+          "kana": "して",
+          "en": "doer"
+        },
+        {
+          "kanji": "仕業",
+          "kana": "しわざ",
+          "en": "deed (esp. negative)"
+        },
+        {
+          "kanji": "仕事",
+          "kana": "しごと",
+          "en": "work"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "仕",
+          "kana": "し",
+          "en": "official"
+        },
+        "つかえる": {
+          "kanji": "仕える",
+          "kana": "つかえる",
+          "en": "to serve"
+        }
+      }
+    },
+    {
+      "kanji": "他",
+      "on": [
+        "タ"
+      ],
+      "kun": [
+        "ほか"
+      ],
+      "meanings": [
+        "other",
+        "another",
+        "the others"
+      ],
+      "words": [
+        {
+          "kanji": "他",
+          "kana": "た",
+          "en": "other (esp. people and abstract matters)"
+        },
+        {
+          "kanji": "他",
+          "kana": "ほか",
+          "en": "another place"
+        },
+        {
+          "kanji": "自他",
+          "kana": "じた",
+          "en": "oneself and others"
+        },
+        {
+          "kanji": "他意",
+          "kana": "たい",
+          "en": "other intention"
+        }
+      ],
+      "readingExamples": {
+        "タ": {
+          "kanji": "他",
+          "kana": "た",
+          "en": "other (esp. people and abstract matters)"
+        },
+        "ほか": {
+          "kanji": "他",
+          "kana": "ほか",
+          "en": "another place"
+        }
+      }
+    },
+    {
+      "kanji": "代",
+      "on": [
+        "ダイ",
+        "タイ"
+      ],
+      "kun": [
+        "か.わる",
+        "かわ.る",
+        "かわ.り",
+        "か.わり",
+        "-がわ.り",
+        "-が.わり",
+        "か.える",
+        "よ",
+        "しろ"
+      ],
+      "meanings": [
+        "substitute",
+        "change",
+        "convert",
+        "replace"
+      ],
+      "words": [
+        {
+          "kanji": "千代",
+          "kana": "ちよ",
+          "en": "thousand years"
+        },
+        {
+          "kanji": "古代",
+          "kana": "こだい",
+          "en": "ancient times"
+        },
+        {
+          "kanji": "時代",
+          "kana": "じだい",
+          "en": "period"
+        },
+        {
+          "kanji": "次代",
+          "kana": "じだい",
+          "en": "the next era"
+        }
+      ],
+      "readingExamples": {
+        "ダイ": {
+          "kanji": "代価",
+          "kana": "だいか",
+          "en": "price"
+        },
+        "タイ": {
+          "kanji": "代謝",
+          "kana": "たいしゃ",
+          "en": "metabolism"
+        },
+        "かわる": {
+          "kanji": "代わる代わる",
+          "kana": "かわるがわる",
+          "en": "alternately"
+        },
+        "かわり": {
+          "kanji": "代わり",
+          "kana": "かわり",
+          "en": "substitute"
+        }
+      }
+    },
+    {
+      "kanji": "住",
+      "on": [
+        "ジュウ",
+        "ヂュウ",
+        "チュウ"
+      ],
+      "kun": [
+        "す.む",
+        "す.まう",
+        "-ず.まい"
+      ],
+      "meanings": [
+        "dwell",
+        "reside",
+        "live",
+        "inhabit"
+      ],
+      "words": [
+        {
+          "kanji": "住む",
+          "kana": "すむ",
+          "en": "to live (of humans)"
+        },
+        {
+          "kanji": "住",
+          "kana": "じゅう",
+          "en": "dwelling"
+        },
+        {
+          "kanji": "住まう",
+          "kana": "すまう",
+          "en": "to live"
+        },
+        {
+          "kanji": "住まい",
+          "kana": "すまい",
+          "en": "dwelling"
+        }
+      ],
+      "readingExamples": {
+        "ジュウ": {
+          "kanji": "住",
+          "kana": "じゅう",
+          "en": "dwelling"
+        },
+        "すむ": {
+          "kanji": "住む",
+          "kana": "すむ",
+          "en": "to live (of humans)"
+        },
+        "すまう": {
+          "kanji": "住まう",
+          "kana": "すまう",
+          "en": "to live"
+        }
+      }
+    },
+    {
+      "kanji": "使",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "つか.う",
+        "つか.い",
+        "-つか.い",
+        "-づか.い"
+      ],
+      "meanings": [
+        "use",
+        "send on a mission",
+        "order",
+        "messenger"
+      ],
+      "words": [
+        {
+          "kanji": "使徒",
+          "kana": "しと",
+          "en": "apostle"
+        },
+        {
+          "kanji": "公使",
+          "kana": "こうし",
+          "en": "envoy"
+        },
+        {
+          "kanji": "行使",
+          "kana": "こうし",
+          "en": "use"
+        },
+        {
+          "kanji": "使い",
+          "kana": "つかい",
+          "en": "errand"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "使徒",
+          "kana": "しと",
+          "en": "apostle"
+        },
+        "つかう": {
+          "kanji": "使う",
+          "kana": "つかう",
+          "en": "to use (a tool, method, etc.)"
+        },
+        "つかい": {
+          "kanji": "使い",
+          "kana": "つかい",
+          "en": "errand"
+        }
+      }
+    },
+    {
+      "kanji": "係",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [
+        "かか.る",
+        "かかり",
+        "-がかり",
+        "かか.わる"
+      ],
+      "meanings": [
+        "person in charge",
+        "connection",
+        "duty",
+        "concern oneself"
+      ],
+      "words": [
+        {
+          "kanji": "係",
+          "kana": "かかり",
+          "en": "charge"
+        },
+        {
+          "kanji": "関係",
+          "kana": "かんけい",
+          "en": "relation"
+        },
+        {
+          "kanji": "係数",
+          "kana": "けいすう",
+          "en": "coefficient"
+        },
+        {
+          "kanji": "係争",
+          "kana": "けいそう",
+          "en": "dispute"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "係数",
+          "kana": "けいすう",
+          "en": "coefficient"
+        },
+        "かかり": {
+          "kanji": "係",
+          "kana": "かかり",
+          "en": "charge"
+        }
+      }
+    },
+    {
+      "kanji": "倍",
+      "on": [
+        "バイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "double",
+        "twice",
+        "times",
+        "fold"
+      ],
+      "words": [
+        {
+          "kanji": "倍",
+          "kana": "ばい",
+          "en": "double"
+        },
+        {
+          "kanji": "倍加",
+          "kana": "ばいか",
+          "en": "doubling"
+        },
+        {
+          "kanji": "一倍",
+          "kana": "いちばい",
+          "en": "multiplying by one"
+        },
+        {
+          "kanji": "倍額",
+          "kana": "ばいがく",
+          "en": "double amount"
+        }
+      ],
+      "readingExamples": {
+        "バイ": {
+          "kanji": "倍",
+          "kana": "ばい",
+          "en": "double"
+        }
+      }
+    },
+    {
+      "kanji": "全",
+      "on": [
+        "ゼン"
+      ],
+      "kun": [
+        "まった.く",
+        "すべ.て"
+      ],
+      "meanings": [
+        "whole",
+        "entire",
+        "all",
+        "complete"
+      ],
+      "words": [
+        {
+          "kanji": "全",
+          "kana": "ぜん",
+          "en": "all"
+        },
+        {
+          "kanji": "全戸",
+          "kana": "ぜんこ",
+          "en": "all the houses (in an area)"
+        },
+        {
+          "kanji": "全市",
+          "kana": "ぜんし",
+          "en": "the whole city"
+        },
+        {
+          "kanji": "全土",
+          "kana": "ぜんど",
+          "en": "whole nation"
+        }
+      ],
+      "readingExamples": {
+        "ゼン": {
+          "kanji": "全",
+          "kana": "ぜん",
+          "en": "all"
+        },
+        "まったく": {
+          "kanji": "全く",
+          "kana": "まったく",
+          "en": "really"
+        },
+        "すべて": {
+          "kanji": "全て",
+          "kana": "すべて",
+          "en": "everything"
+        }
+      }
+    },
+    {
+      "kanji": "具",
+      "on": [
+        "グ"
+      ],
+      "kun": [
+        "そな.える",
+        "つぶさ.に"
+      ],
+      "meanings": [
+        "tool",
+        "utensil",
+        "means",
+        "possess"
+      ],
+      "words": [
+        {
+          "kanji": "具",
+          "kana": "ぐ",
+          "en": "tool"
+        },
+        {
+          "kanji": "家具",
+          "kana": "かぐ",
+          "en": "furniture"
+        },
+        {
+          "kanji": "器具",
+          "kana": "きぐ",
+          "en": "utensil"
+        },
+        {
+          "kanji": "馬具",
+          "kana": "ばぐ",
+          "en": "horse tack"
+        }
+      ],
+      "readingExamples": {
+        "グ": {
+          "kanji": "具",
+          "kana": "ぐ",
+          "en": "tool"
+        }
+      }
+    },
+    {
+      "kanji": "写",
+      "on": [
+        "シャ",
+        "ジャ"
+      ],
+      "kun": [
+        "うつ.す",
+        "うつ.る",
+        "うつ-",
+        "うつ.し"
+      ],
+      "meanings": [
+        "copy",
+        "be photographed",
+        "describe"
+      ],
+      "words": [
+        {
+          "kanji": "試写",
+          "kana": "ししゃ",
+          "en": "preview"
+        },
+        {
+          "kanji": "写し",
+          "kana": "うつし",
+          "en": "copy"
+        },
+        {
+          "kanji": "写る",
+          "kana": "うつる",
+          "en": "to be photographed"
+        },
+        {
+          "kanji": "模写",
+          "kana": "もしゃ",
+          "en": "copy (of the real thing)"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "写実",
+          "kana": "しゃじつ",
+          "en": "realism"
+        },
+        "うつす": {
+          "kanji": "写す",
+          "kana": "うつす",
+          "en": "to copy"
+        },
+        "うつる": {
+          "kanji": "写る",
+          "kana": "うつる",
+          "en": "to be photographed"
+        },
+        "うつ": {
+          "kanji": "写し",
+          "kana": "うつし",
+          "en": "copy"
+        },
+        "うつし": {
+          "kanji": "写し",
+          "kana": "うつし",
+          "en": "copy"
+        }
+      }
+    },
+    {
+      "kanji": "列",
+      "on": [
+        "レツ",
+        "レ"
+      ],
+      "kun": [],
+      "meanings": [
+        "file",
+        "row",
+        "rank",
+        "tier"
+      ],
+      "words": [
+        {
+          "kanji": "列",
+          "kana": "れつ",
+          "en": "row"
+        },
+        {
+          "kanji": "列記",
+          "kana": "れっき",
+          "en": "list"
+        },
+        {
+          "kanji": "一列",
+          "kana": "いちれつ",
+          "en": "(a) row"
+        },
+        {
+          "kanji": "系列",
+          "kana": "けいれつ",
+          "en": "series"
+        }
+      ],
+      "readingExamples": {
+        "レツ": {
+          "kanji": "列",
+          "kana": "れつ",
+          "en": "row"
+        },
+        "レ": {
+          "kanji": "列",
+          "kana": "れつ",
+          "en": "row"
+        }
+      }
+    },
+    {
+      "kanji": "助",
+      "on": [
+        "ジョ"
+      ],
+      "kun": [
+        "たす.ける",
+        "たす.かる",
+        "す.ける",
+        "すけ"
+      ],
+      "meanings": [
+        "help",
+        "rescue",
+        "assist"
+      ],
+      "words": [
+        {
+          "kanji": "助け",
+          "kana": "たすけ",
+          "en": "assistance"
+        },
+        {
+          "kanji": "助詞",
+          "kana": "じょし",
+          "en": "particle"
+        },
+        {
+          "kanji": "補助",
+          "kana": "ほじょ",
+          "en": "assistance"
+        },
+        {
+          "kanji": "自助",
+          "kana": "じじょ",
+          "en": "self-help"
+        }
+      ],
+      "readingExamples": {
+        "ジョ": {
+          "kanji": "助詞",
+          "kana": "じょし",
+          "en": "particle"
+        },
+        "たすける": {
+          "kanji": "助ける",
+          "kana": "たすける",
+          "en": "to save"
+        },
+        "たすかる": {
+          "kanji": "助かる",
+          "kana": "たすかる",
+          "en": "to be saved"
+        },
+        "すけ": {
+          "kanji": "助っ人",
+          "kana": "すけっと",
+          "en": "helper"
+        }
+      }
+    },
+    {
+      "kanji": "勉",
+      "on": [
+        "ベン"
+      ],
+      "kun": [
+        "つと.める"
+      ],
+      "meanings": [
+        "exertion",
+        "endeavour",
+        "encourage",
+        "strive"
+      ],
+      "words": [
+        {
+          "kanji": "勤勉",
+          "kana": "きんべん",
+          "en": "diligent"
+        },
+        {
+          "kanji": "勉学",
+          "kana": "べんがく",
+          "en": "study"
+        },
+        {
+          "kanji": "勉強",
+          "kana": "べんきょう",
+          "en": "study"
+        }
+      ],
+      "readingExamples": {
+        "ベン": {
+          "kanji": "勉学",
+          "kana": "べんがく",
+          "en": "study"
+        }
+      }
+    },
+    {
+      "kanji": "動",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "うご.く",
+        "うご.かす"
+      ],
+      "meanings": [
+        "move",
+        "motion",
+        "change",
+        "confusion"
+      ],
+      "words": [
+        {
+          "kanji": "動",
+          "kana": "どう",
+          "en": "motion"
+        },
+        {
+          "kanji": "異動",
+          "kana": "いどう",
+          "en": "(personnel) change"
+        },
+        {
+          "kanji": "移動",
+          "kana": "いどう",
+          "en": "movement"
+        },
+        {
+          "kanji": "可動",
+          "kana": "かどう",
+          "en": "mobile"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "動",
+          "kana": "どう",
+          "en": "motion"
+        },
+        "うごく": {
+          "kanji": "動く",
+          "kana": "うごく",
+          "en": "to move"
+        },
+        "うごかす": {
+          "kanji": "動かす",
+          "kana": "うごかす",
+          "en": "to move"
+        }
+      }
+    },
+    {
+      "kanji": "勝",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "か.つ",
+        "-が.ち",
+        "まさ.る",
+        "すぐ.れる",
+        "かつ"
+      ],
+      "meanings": [
+        "victory",
+        "win",
+        "prevail",
+        "excel"
+      ],
+      "words": [
+        {
+          "kanji": "勝つ",
+          "kana": "かつ",
+          "en": "to win"
+        },
+        {
+          "kanji": "勝ち",
+          "kana": "かち",
+          "en": "win"
+        },
+        {
+          "kanji": "勝ち目",
+          "kana": "かちめ",
+          "en": "chance (of success)"
+        },
+        {
+          "kanji": "勝手",
+          "kana": "かって",
+          "en": "one's own convenience"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "勝訴",
+          "kana": "しょうそ",
+          "en": "winning a (legal) case"
+        },
+        "かつ": {
+          "kanji": "勝つ",
+          "kana": "かつ",
+          "en": "to win"
+        },
+        "まさる": {
+          "kanji": "勝る",
+          "kana": "まさる",
+          "en": "to excel"
+        }
+      }
+    },
+    {
+      "kanji": "化",
+      "on": [
+        "カ",
+        "ケ"
+      ],
+      "kun": [
+        "ば.ける",
+        "ば.かす",
+        "ふ.ける",
+        "け.する"
+      ],
+      "meanings": [
+        "change",
+        "take the form of",
+        "influence",
+        "enchant"
+      ],
+      "words": [
+        {
+          "kanji": "羽化",
+          "kana": "うか",
+          "en": "emergence (of insects)"
+        },
+        {
+          "kanji": "帰化",
+          "kana": "きか",
+          "en": "naturalization"
+        },
+        {
+          "kanji": "気化",
+          "kana": "きか",
+          "en": "vaporization"
+        },
+        {
+          "kanji": "固化",
+          "kana": "こか",
+          "en": "solidification"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "化す",
+          "kana": "かす",
+          "en": "to change (into)"
+        },
+        "ケ": {
+          "kanji": "化身",
+          "kana": "けしん",
+          "en": "incarnation (of a god, spirit or abstract quality)"
+        },
+        "ばける": {
+          "kanji": "化ける",
+          "kana": "ばける",
+          "en": "to take the form of (esp. in ref. to a spirit, fox, raccoon dog, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "区",
+      "on": [
+        "ク",
+        "オウ",
+        "コウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ward",
+        "district"
+      ],
+      "words": [
+        {
+          "kanji": "区",
+          "kana": "く",
+          "en": "ward"
+        },
+        {
+          "kanji": "区議",
+          "kana": "くぎ",
+          "en": "ward assemblyman"
+        },
+        {
+          "kanji": "地区",
+          "kana": "ちく",
+          "en": "district"
+        },
+        {
+          "kanji": "街区",
+          "kana": "がいく",
+          "en": "block (of land)"
+        }
+      ],
+      "readingExamples": {
+        "ク": {
+          "kanji": "区",
+          "kana": "く",
+          "en": "ward"
+        },
+        "コウ": {
+          "kanji": "鉱区",
+          "kana": "こうく",
+          "en": "mining area"
+        }
+      }
+    },
+    {
+      "kanji": "医",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "い.やす",
+        "い.する",
+        "くすし"
+      ],
+      "meanings": [
+        "doctor",
+        "medicine"
+      ],
+      "words": [
+        {
+          "kanji": "医",
+          "kana": "い",
+          "en": "medicine"
+        },
+        {
+          "kanji": "医科",
+          "kana": "いか",
+          "en": "medical science"
+        },
+        {
+          "kanji": "医師",
+          "kana": "いし",
+          "en": "doctor"
+        },
+        {
+          "kanji": "医事",
+          "kana": "いじ",
+          "en": "medical practice"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "医",
+          "kana": "い",
+          "en": "medicine"
+        }
+      }
+    },
+    {
+      "kanji": "去",
+      "on": [
+        "キョ",
+        "コ"
+      ],
+      "kun": [
+        "さ.る",
+        "-さ.る"
+      ],
+      "meanings": [
+        "gone",
+        "past",
+        "quit",
+        "leave"
+      ],
+      "words": [
+        {
+          "kanji": "過去",
+          "kana": "かこ",
+          "en": "the past"
+        },
+        {
+          "kanji": "去る",
+          "kana": "さる",
+          "en": "to leave"
+        },
+        {
+          "kanji": "死去",
+          "kana": "しきょ",
+          "en": "death"
+        },
+        {
+          "kanji": "過ぎ去る",
+          "kana": "すぎさる",
+          "en": "to pass"
+        }
+      ],
+      "readingExamples": {
+        "キョ": {
+          "kanji": "去勢",
+          "kana": "きょせい",
+          "en": "castration"
+        },
+        "さる": {
+          "kanji": "去る",
+          "kana": "さる",
+          "en": "to leave"
+        }
+      }
+    },
+    {
+      "kanji": "反",
+      "on": [
+        "ハン",
+        "ホン",
+        "タン",
+        "ホ"
+      ],
+      "kun": [
+        "そ.る",
+        "そ.らす",
+        "かえ.す",
+        "かえ.る",
+        "-かえ.る"
+      ],
+      "meanings": [
+        "anti-"
+      ],
+      "words": [
+        {
+          "kanji": "反",
+          "kana": "はん",
+          "en": "anti-"
+        },
+        {
+          "kanji": "反り",
+          "kana": "そり",
+          "en": "warp"
+        },
+        {
+          "kanji": "反る",
+          "kana": "そる",
+          "en": "to warp"
+        },
+        {
+          "kanji": "反旗",
+          "kana": "はんき",
+          "en": "standard of revolt"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "反",
+          "kana": "はん",
+          "en": "anti-"
+        },
+        "タン": {
+          "kanji": "反物",
+          "kana": "たんもの",
+          "en": "fabric"
+        },
+        "そる": {
+          "kanji": "反る",
+          "kana": "そる",
+          "en": "to warp"
+        }
+      }
+    },
+    {
+      "kanji": "取",
+      "on": [
+        "シュ"
+      ],
+      "kun": [
+        "と.る",
+        "と.り",
+        "と.り-",
+        "とり",
+        "-ど.り"
+      ],
+      "meanings": [
+        "take",
+        "fetch",
+        "take up"
+      ],
+      "words": [
+        {
+          "kanji": "取る",
+          "kana": "とる",
+          "en": "to take"
+        },
+        {
+          "kanji": "間取り",
+          "kana": "まどり",
+          "en": "layout (of a house or apartment)"
+        },
+        {
+          "kanji": "気取り",
+          "kana": "きどり",
+          "en": "affectation"
+        },
+        {
+          "kanji": "気取る",
+          "kana": "きどる",
+          "en": "to be affected"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "取材",
+          "kana": "しゅざい",
+          "en": "gathering material (for an article, novel, etc.)"
+        },
+        "とる": {
+          "kanji": "取る",
+          "kana": "とる",
+          "en": "to take"
+        },
+        "とり": {
+          "kanji": "取り柄",
+          "kana": "とりえ",
+          "en": "worth"
+        }
+      }
+    },
+    {
+      "kanji": "受",
+      "on": [
+        "ジュ"
+      ],
+      "kun": [
+        "う.ける",
+        "-う.け",
+        "う.かる"
+      ],
+      "meanings": [
+        "accept",
+        "undergo",
+        "answer (phone)",
+        "take"
+      ],
+      "words": [
+        {
+          "kanji": "受け",
+          "kana": "うけ",
+          "en": "popularity"
+        },
+        {
+          "kanji": "受かる",
+          "kana": "うかる",
+          "en": "to pass (examination)"
+        },
+        {
+          "kanji": "受ける",
+          "kana": "うける",
+          "en": "to receive"
+        },
+        {
+          "kanji": "受身",
+          "kana": "うけみ",
+          "en": "the defensive"
+        }
+      ],
+      "readingExamples": {
+        "ジュ": {
+          "kanji": "受理",
+          "kana": "じゅり",
+          "en": "acceptance"
+        },
+        "うける": {
+          "kanji": "受ける",
+          "kana": "うける",
+          "en": "to receive"
+        },
+        "うけ": {
+          "kanji": "受け",
+          "kana": "うけ",
+          "en": "popularity"
+        },
+        "うかる": {
+          "kanji": "受かる",
+          "kana": "うかる",
+          "en": "to pass (examination)"
+        }
+      }
+    },
+    {
+      "kanji": "号",
+      "on": [
+        "ゴウ"
+      ],
+      "kun": [
+        "さけ.ぶ",
+        "よびな"
+      ],
+      "meanings": [
+        "nickname",
+        "number",
+        "item",
+        "title"
+      ],
+      "words": [
+        {
+          "kanji": "号",
+          "kana": "ごう",
+          "en": "number"
+        },
+        {
+          "kanji": "屋号",
+          "kana": "やごう",
+          "en": "name of store"
+        },
+        {
+          "kanji": "記号",
+          "kana": "きごう",
+          "en": "sign"
+        },
+        {
+          "kanji": "二号",
+          "kana": "にごう",
+          "en": "number two"
+        }
+      ],
+      "readingExamples": {
+        "ゴウ": {
+          "kanji": "号",
+          "kana": "ごう",
+          "en": "number"
+        }
+      }
+    },
+    {
+      "kanji": "向",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "む.く",
+        "む.い",
+        "-む.き",
+        "む.ける",
+        "-む.け",
+        "む.かう",
+        "む.かい",
+        "む.こう",
+        "む.こう-",
+        "むこ",
+        "むか.い"
+      ],
+      "meanings": [
+        "yonder",
+        "facing",
+        "beyond",
+        "confront"
+      ],
+      "words": [
+        {
+          "kanji": "向き",
+          "kana": "むき",
+          "en": "direction"
+        },
+        {
+          "kanji": "向く",
+          "kana": "むく",
+          "en": "to turn toward"
+        },
+        {
+          "kanji": "向け",
+          "kana": "むけ",
+          "en": "intended for ..."
+        },
+        {
+          "kanji": "見向く",
+          "kana": "みむく",
+          "en": "to look around"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "向後",
+          "kana": "こうご",
+          "en": "hereafter"
+        },
+        "むく": {
+          "kanji": "向く",
+          "kana": "むく",
+          "en": "to turn toward"
+        },
+        "むき": {
+          "kanji": "向き",
+          "kana": "むき",
+          "en": "direction"
+        },
+        "むける": {
+          "kanji": "向ける",
+          "kana": "むける",
+          "en": "to turn (towards)"
+        },
+        "むけ": {
+          "kanji": "向け",
+          "kana": "むけ",
+          "en": "intended for ..."
+        }
+      }
+    },
+    {
+      "kanji": "君",
+      "on": [
+        "クン"
+      ],
+      "kun": [
+        "きみ",
+        "-ぎみ"
+      ],
+      "meanings": [
+        "mister",
+        "you",
+        "ruler",
+        "male name suffix"
+      ],
+      "words": [
+        {
+          "kanji": "君",
+          "kana": "きみ",
+          "en": "you"
+        },
+        {
+          "kanji": "君",
+          "kana": "くん",
+          "en": "Mr"
+        },
+        {
+          "kanji": "君子",
+          "kana": "くんし",
+          "en": "man of virtue"
+        },
+        {
+          "kanji": "夫君",
+          "kana": "ふくん",
+          "en": "(another's) husband"
+        }
+      ],
+      "readingExamples": {
+        "クン": {
+          "kanji": "君",
+          "kana": "くん",
+          "en": "Mr"
+        },
+        "きみ": {
+          "kanji": "君",
+          "kana": "きみ",
+          "en": "you"
+        }
+      }
+    },
+    {
+      "kanji": "味",
+      "on": [
+        "ミ"
+      ],
+      "kun": [
+        "あじ",
+        "あじ.わう"
+      ],
+      "meanings": [
+        "flavor",
+        "taste"
+      ],
+      "words": [
+        {
+          "kanji": "意味",
+          "kana": "いみ",
+          "en": "meaning"
+        },
+        {
+          "kanji": "加味",
+          "kana": "かみ",
+          "en": "seasoning"
+        },
+        {
+          "kanji": "気味",
+          "kana": "きみ",
+          "en": "sensation"
+        },
+        {
+          "kanji": "地味",
+          "kana": "じみ",
+          "en": "plain"
+        }
+      ],
+      "readingExamples": {
+        "ミ": {
+          "kanji": "味噌",
+          "kana": "みそ",
+          "en": "miso"
+        },
+        "あじ": {
+          "kanji": "味",
+          "kana": "あじ",
+          "en": "flavor"
+        },
+        "あじわう": {
+          "kanji": "味わう",
+          "kana": "あじわう",
+          "en": "to taste"
+        }
+      }
+    },
+    {
+      "kanji": "命",
+      "on": [
+        "メイ",
+        "ミョウ"
+      ],
+      "kun": [
+        "いのち"
+      ],
+      "meanings": [
+        "fate",
+        "command",
+        "decree",
+        "destiny"
+      ],
+      "words": [
+        {
+          "kanji": "使命",
+          "kana": "しめい",
+          "en": "mission"
+        },
+        {
+          "kanji": "命",
+          "kana": "いのち",
+          "en": "life"
+        },
+        {
+          "kanji": "余命",
+          "kana": "よめい",
+          "en": "remainder of one's life"
+        },
+        {
+          "kanji": "一命",
+          "kana": "いちめい",
+          "en": "one life"
+        }
+      ],
+      "readingExamples": {
+        "メイ": {
+          "kanji": "命じる",
+          "kana": "めいじる",
+          "en": "to order"
+        },
+        "いのち": {
+          "kanji": "命",
+          "kana": "いのち",
+          "en": "life"
+        }
+      }
+    },
+    {
+      "kanji": "和",
+      "on": [
+        "ワ",
+        "オ",
+        "カ"
+      ],
+      "kun": [
+        "やわ.らぐ",
+        "やわ.らげる",
+        "なご.む",
+        "なご.やか",
+        "あ.える"
+      ],
+      "meanings": [
+        "harmony",
+        "Japanese style",
+        "peace",
+        "soften"
+      ],
+      "words": [
+        {
+          "kanji": "和",
+          "kana": "わ",
+          "en": "sum"
+        },
+        {
+          "kanji": "不和",
+          "kana": "ふわ",
+          "en": "discord"
+        },
+        {
+          "kanji": "和歌",
+          "kana": "わか",
+          "en": "waka"
+        },
+        {
+          "kanji": "和語",
+          "kana": "わご",
+          "en": "Japanese language"
+        }
+      ],
+      "readingExamples": {
+        "ワ": {
+          "kanji": "和",
+          "kana": "わ",
+          "en": "sum"
+        },
+        "オ": {
+          "kanji": "温和",
+          "kana": "おんわ",
+          "en": "mild (climate)"
+        },
+        "カ": {
+          "kanji": "漢和",
+          "kana": "かんわ",
+          "en": "China and Japan"
+        },
+        "やわらぐ": {
+          "kanji": "和らぐ",
+          "kana": "やわらぐ",
+          "en": "to soften"
+        },
+        "やわらげる": {
+          "kanji": "和らげる",
+          "kana": "やわらげる",
+          "en": "to soften"
+        },
+        "なごむ": {
+          "kanji": "和む",
+          "kana": "なごむ",
+          "en": "to be softened"
+        }
+      }
+    },
+    {
+      "kanji": "品",
+      "on": [
+        "ヒン",
+        "ホン"
+      ],
+      "kun": [
+        "しな"
+      ],
+      "meanings": [
+        "goods",
+        "refinement",
+        "dignity",
+        "article"
+      ],
+      "words": [
+        {
+          "kanji": "品",
+          "kana": "しな",
+          "en": "article"
+        },
+        {
+          "kanji": "品",
+          "kana": "ひん",
+          "en": "elegance"
+        },
+        {
+          "kanji": "遺品",
+          "kana": "いひん",
+          "en": "things left (to one) by the deceased"
+        },
+        {
+          "kanji": "下品",
+          "kana": "げひん",
+          "en": "vulgar"
+        }
+      ],
+      "readingExamples": {
+        "ヒン": {
+          "kanji": "品",
+          "kana": "ひん",
+          "en": "elegance"
+        },
+        "しな": {
+          "kanji": "品",
+          "kana": "しな",
+          "en": "article"
+        }
+      }
+    },
+    {
+      "kanji": "員",
+      "on": [
+        "イン"
+      ],
+      "kun": [],
+      "meanings": [
+        "employee",
+        "member",
+        "number",
+        "the one in charge"
+      ],
+      "words": [
+        {
+          "kanji": "員",
+          "kana": "いん",
+          "en": "member"
+        },
+        {
+          "kanji": "委員",
+          "kana": "いいん",
+          "en": "committee member"
+        },
+        {
+          "kanji": "課員",
+          "kana": "かいん",
+          "en": "section staff"
+        },
+        {
+          "kanji": "議員",
+          "kana": "ぎいん",
+          "en": "member of an assembly"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "員",
+          "kana": "いん",
+          "en": "member"
+        }
+      }
+    },
+    {
+      "kanji": "商",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "あきな.う"
+      ],
+      "meanings": [
+        "make a deal",
+        "selling",
+        "dealing in",
+        "merchant"
+      ],
+      "words": [
+        {
+          "kanji": "商",
+          "kana": "しょう",
+          "en": "quotient"
+        },
+        {
+          "kanji": "画商",
+          "kana": "がしょう",
+          "en": "picture dealer"
+        },
+        {
+          "kanji": "商い",
+          "kana": "あきない",
+          "en": "trade"
+        },
+        {
+          "kanji": "商家",
+          "kana": "しょうか",
+          "en": "merchant"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "商",
+          "kana": "しょう",
+          "en": "quotient"
+        }
+      }
+    },
+    {
+      "kanji": "問",
+      "on": [
+        "モン"
+      ],
+      "kun": [
+        "と.う",
+        "と.い",
+        "とん"
+      ],
+      "meanings": [
+        "question",
+        "ask",
+        "problem"
+      ],
+      "words": [
+        {
+          "kanji": "問い",
+          "kana": "とい",
+          "en": "question"
+        },
+        {
+          "kanji": "問う",
+          "kana": "とう",
+          "en": "to ask"
+        },
+        {
+          "kanji": "問",
+          "kana": "もん",
+          "en": "counter for questions"
+        },
+        {
+          "kanji": "疑問",
+          "kana": "ぎもん",
+          "en": "doubt"
+        }
+      ],
+      "readingExamples": {
+        "モン": {
+          "kanji": "問",
+          "kana": "もん",
+          "en": "counter for questions"
+        },
+        "とう": {
+          "kanji": "問う",
+          "kana": "とう",
+          "en": "to ask"
+        },
+        "とい": {
+          "kanji": "問い",
+          "kana": "とい",
+          "en": "question"
+        },
+        "とん": {
+          "kanji": "問屋",
+          "kana": "とんや",
+          "en": "wholesale store"
+        }
+      }
+    },
+    {
+      "kanji": "坂",
+      "on": [
+        "ハン"
+      ],
+      "kun": [
+        "さか"
+      ],
+      "meanings": [
+        "slope",
+        "incline",
+        "hill"
+      ],
+      "words": [
+        {
+          "kanji": "坂",
+          "kana": "さか",
+          "en": "slope"
+        },
+        {
+          "kanji": "坂道",
+          "kana": "さかみち",
+          "en": "hill road"
+        },
+        {
+          "kanji": "下り坂",
+          "kana": "くだりざか",
+          "en": "downhill"
+        },
+        {
+          "kanji": "上り坂",
+          "kana": "のぼりざか",
+          "en": "ascent"
+        }
+      ],
+      "readingExamples": {
+        "さか": {
+          "kanji": "坂",
+          "kana": "さか",
+          "en": "slope"
+        }
+      }
+    },
+    {
+      "kanji": "央",
+      "on": [
+        "オウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "center",
+        "middle"
+      ],
+      "words": [
+        {
+          "kanji": "中央",
+          "kana": "ちゅうおう",
+          "en": "centre"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "始",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "はじ.める",
+        "-はじ.める",
+        "はじ.まる"
+      ],
+      "meanings": [
+        "commence",
+        "begin"
+      ],
+      "words": [
+        {
+          "kanji": "始祖",
+          "kana": "しそ",
+          "en": "founder"
+        },
+        {
+          "kanji": "開始",
+          "kana": "かいし",
+          "en": "start"
+        },
+        {
+          "kanji": "原始",
+          "kana": "げんし",
+          "en": "origin"
+        },
+        {
+          "kanji": "始動",
+          "kana": "しどう",
+          "en": "starting (a machine, engine, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "始祖",
+          "kana": "しそ",
+          "en": "founder"
+        },
+        "はじめる": {
+          "kanji": "始める",
+          "kana": "はじめる",
+          "en": "to start"
+        },
+        "はじまる": {
+          "kanji": "始まる",
+          "kana": "はじまる",
+          "en": "to begin"
+        }
+      }
+    },
+    {
+      "kanji": "委",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "ゆだ.ねる"
+      ],
+      "meanings": [
+        "committee",
+        "entrust to",
+        "leave to",
+        "devote"
+      ],
+      "words": [
+        {
+          "kanji": "委員",
+          "kana": "いいん",
+          "en": "committee member"
+        },
+        {
+          "kanji": "委任",
+          "kana": "いにん",
+          "en": "entrusting"
+        },
+        {
+          "kanji": "委ねる",
+          "kana": "ゆだねる",
+          "en": "to entrust (a matter) to"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "委員",
+          "kana": "いいん",
+          "en": "committee member"
+        },
+        "ゆだねる": {
+          "kanji": "委ねる",
+          "kana": "ゆだねる",
+          "en": "to entrust (a matter) to"
+        }
+      }
+    },
+    {
+      "kanji": "守",
+      "on": [
+        "シュ",
+        "ス"
+      ],
+      "kun": [
+        "まも.る",
+        "まも.り",
+        "もり",
+        "-もり",
+        "かみ"
+      ],
+      "meanings": [
+        "guard",
+        "protect",
+        "defend",
+        "obey"
+      ],
+      "words": [
+        {
+          "kanji": "守り",
+          "kana": "もり",
+          "en": "babysitting"
+        },
+        {
+          "kanji": "留守",
+          "kana": "るす",
+          "en": "absence"
+        },
+        {
+          "kanji": "子守",
+          "kana": "こもり",
+          "en": "looking after a baby"
+        },
+        {
+          "kanji": "守り",
+          "kana": "まもり",
+          "en": "protection"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "守護",
+          "kana": "しゅご",
+          "en": "protection"
+        },
+        "まもる": {
+          "kanji": "守る",
+          "kana": "まもる",
+          "en": "to protect"
+        },
+        "まもり": {
+          "kanji": "守り",
+          "kana": "まもり",
+          "en": "protection"
+        },
+        "もり": {
+          "kanji": "守り",
+          "kana": "もり",
+          "en": "babysitting"
+        }
+      }
+    },
+    {
+      "kanji": "安",
+      "on": [
+        "アン"
+      ],
+      "kun": [
+        "やす.い",
+        "やす.まる",
+        "やす",
+        "やす.らか"
+      ],
+      "meanings": [
+        "relax",
+        "cheap",
+        "low",
+        "quiet"
+      ],
+      "words": [
+        {
+          "kanji": "安芸",
+          "kana": "あき",
+          "en": "Aki (former province located in the west of present-day Hiroshima Prefecture)"
+        },
+        {
+          "kanji": "安い",
+          "kana": "やすい",
+          "en": "cheap"
+        },
+        {
+          "kanji": "安易",
+          "kana": "あんい",
+          "en": "easy"
+        },
+        {
+          "kanji": "安価",
+          "kana": "あんか",
+          "en": "low-priced"
+        }
+      ],
+      "readingExamples": {
+        "アン": {
+          "kanji": "安易",
+          "kana": "あんい",
+          "en": "easy"
+        },
+        "やすい": {
+          "kanji": "安い",
+          "kana": "やすい",
+          "en": "cheap"
+        },
+        "やす": {
+          "kanji": "安い",
+          "kana": "やすい",
+          "en": "cheap"
+        },
+        "やすらか": {
+          "kanji": "安らか",
+          "kana": "やすらか",
+          "en": "peaceful"
+        }
+      }
+    },
+    {
+      "kanji": "定",
+      "on": [
+        "テイ",
+        "ジョウ"
+      ],
+      "kun": [
+        "さだ.める",
+        "さだ.まる",
+        "さだ.か"
+      ],
+      "meanings": [
+        "determine",
+        "fix",
+        "establish",
+        "decide"
+      ],
+      "words": [
+        {
+          "kanji": "仮定",
+          "kana": "かてい",
+          "en": "assumption"
+        },
+        {
+          "kanji": "規定",
+          "kana": "きてい",
+          "en": "stipulation"
+        },
+        {
+          "kanji": "固定",
+          "kana": "こてい",
+          "en": "fixing (in place)"
+        },
+        {
+          "kanji": "査定",
+          "kana": "さてい",
+          "en": "assessment (of value, damages, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "定価",
+          "kana": "ていか",
+          "en": "list price"
+        },
+        "ジョウ": {
+          "kanji": "定規",
+          "kana": "じょうぎ",
+          "en": "(measuring) ruler"
+        },
+        "さだめる": {
+          "kanji": "定める",
+          "kana": "さだめる",
+          "en": "to decide"
+        },
+        "さだまる": {
+          "kanji": "定まる",
+          "kana": "さだまる",
+          "en": "to become settled"
+        },
+        "さだか": {
+          "kanji": "定か",
+          "kana": "さだか",
+          "en": "definite"
+        }
+      }
+    },
+    {
+      "kanji": "実",
+      "on": [
+        "ジツ",
+        "シツ"
+      ],
+      "kun": [
+        "み",
+        "みの.る",
+        "まこと",
+        "みの",
+        "みち.る"
+      ],
+      "meanings": [
+        "reality",
+        "truth",
+        "seed",
+        "fruit"
+      ],
+      "words": [
+        {
+          "kanji": "実",
+          "kana": "み",
+          "en": "fruit"
+        },
+        {
+          "kanji": "実",
+          "kana": "じつ",
+          "en": "truth"
+        },
+        {
+          "kanji": "忠実",
+          "kana": "まめ",
+          "en": "diligent"
+        },
+        {
+          "kanji": "果実",
+          "kana": "かじつ",
+          "en": "fruit"
+        }
+      ],
+      "readingExamples": {
+        "ジツ": {
+          "kanji": "実",
+          "kana": "じつ",
+          "en": "truth"
+        },
+        "シツ": {
+          "kanji": "質実",
+          "kana": "しつじつ",
+          "en": "simplicity"
+        },
+        "み": {
+          "kanji": "実",
+          "kana": "み",
+          "en": "fruit"
+        },
+        "みのる": {
+          "kanji": "実る",
+          "kana": "みのる",
+          "en": "to bear fruit"
+        },
+        "みの": {
+          "kanji": "実り",
+          "kana": "みのり",
+          "en": "ripening (of a crop)"
+        }
+      }
+    },
+    {
+      "kanji": "客",
+      "on": [
+        "キャク",
+        "カク"
+      ],
+      "kun": [],
+      "meanings": [
+        "guest",
+        "visitor",
+        "customer",
+        "client"
+      ],
+      "words": [
+        {
+          "kanji": "客",
+          "kana": "きゃく",
+          "en": "guest"
+        },
+        {
+          "kanji": "客間",
+          "kana": "きゃくま",
+          "en": "drawing room"
+        },
+        {
+          "kanji": "旅客",
+          "kana": "りょかく",
+          "en": "passenger"
+        },
+        {
+          "kanji": "主客",
+          "kana": "しゅかく",
+          "en": "host and guest"
+        }
+      ],
+      "readingExamples": {
+        "キャク": {
+          "kanji": "客",
+          "kana": "きゃく",
+          "en": "guest"
+        }
+      }
+    },
+    {
+      "kanji": "宮",
+      "on": [
+        "キュウ",
+        "グウ",
+        "ク",
+        "クウ"
+      ],
+      "kun": [
+        "みや"
+      ],
+      "meanings": [
+        "Shinto shrine",
+        "constellations",
+        "palace",
+        "princess"
+      ],
+      "words": [
+        {
+          "kanji": "宮司",
+          "kana": "ぐうじ",
+          "en": "chief priest"
+        },
+        {
+          "kanji": "二宮",
+          "kana": "にぐう",
+          "en": "the Two Ise Shrines"
+        },
+        {
+          "kanji": "宮家",
+          "kana": "みやけ",
+          "en": "house of an imperial prince"
+        },
+        {
+          "kanji": "外宮",
+          "kana": "げくう",
+          "en": "outer shrine of the Ise Grand Shrine"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "宮廷",
+          "kana": "きゅうてい",
+          "en": "imperial court"
+        },
+        "グウ": {
+          "kanji": "宮司",
+          "kana": "ぐうじ",
+          "en": "chief priest"
+        },
+        "ク": {
+          "kanji": "宮内庁",
+          "kana": "くないちょう",
+          "en": "Imperial Household Agency"
+        },
+        "みや": {
+          "kanji": "宮家",
+          "kana": "みやけ",
+          "en": "house of an imperial prince"
+        }
+      }
+    },
+    {
+      "kanji": "宿",
+      "on": [
+        "シュク"
+      ],
+      "kun": [
+        "やど",
+        "やど.る",
+        "やど.す"
+      ],
+      "meanings": [
+        "inn",
+        "lodging",
+        "relay station",
+        "dwell"
+      ],
+      "words": [
+        {
+          "kanji": "宿",
+          "kana": "やど",
+          "en": "lodging"
+        },
+        {
+          "kanji": "宿す",
+          "kana": "やどす",
+          "en": "to house"
+        },
+        {
+          "kanji": "宿る",
+          "kana": "やどる",
+          "en": "to dwell (in)"
+        },
+        {
+          "kanji": "宿屋",
+          "kana": "やどや",
+          "en": "inn"
+        }
+      ],
+      "readingExamples": {
+        "シュク": {
+          "kanji": "宿場",
+          "kana": "しゅくば",
+          "en": "relay station (esp. on Edo-period highway)"
+        },
+        "やど": {
+          "kanji": "宿",
+          "kana": "やど",
+          "en": "lodging"
+        },
+        "やどる": {
+          "kanji": "宿る",
+          "kana": "やどる",
+          "en": "to dwell (in)"
+        },
+        "やどす": {
+          "kanji": "宿す",
+          "kana": "やどす",
+          "en": "to house"
+        }
+      }
+    },
+    {
+      "kanji": "寒",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "さむ.い"
+      ],
+      "meanings": [
+        "cold"
+      ],
+      "words": [
+        {
+          "kanji": "寒",
+          "kana": "かん",
+          "en": "midwinter"
+        },
+        {
+          "kanji": "悪寒",
+          "kana": "おかん",
+          "en": "chill"
+        },
+        {
+          "kanji": "寒い",
+          "kana": "さむい",
+          "en": "cold (e.g. weather)"
+        },
+        {
+          "kanji": "寒さ",
+          "kana": "さむさ",
+          "en": "coldness"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "寒",
+          "kana": "かん",
+          "en": "midwinter"
+        },
+        "さむい": {
+          "kanji": "寒い",
+          "kana": "さむい",
+          "en": "cold (e.g. weather)"
+        }
+      }
+    },
+    {
+      "kanji": "対",
+      "on": [
+        "タイ",
+        "ツイ"
+      ],
+      "kun": [
+        "あいて",
+        "こた.える",
+        "そろ.い",
+        "つれあ.い",
+        "なら.ぶ",
+        "むか.う"
+      ],
+      "meanings": [
+        "vis-a-vis",
+        "opposite",
+        "even",
+        "equal"
+      ],
+      "words": [
+        {
+          "kanji": "対",
+          "kana": "たい",
+          "en": "versus"
+        },
+        {
+          "kanji": "対",
+          "kana": "つい",
+          "en": "pair"
+        },
+        {
+          "kanji": "対比",
+          "kana": "たいひ",
+          "en": "contrast"
+        },
+        {
+          "kanji": "対話",
+          "kana": "たいわ",
+          "en": "dialogue"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "対",
+          "kana": "たい",
+          "en": "versus"
+        },
+        "ツイ": {
+          "kanji": "対",
+          "kana": "つい",
+          "en": "pair"
+        }
+      }
+    },
+    {
+      "kanji": "局",
+      "on": [
+        "キョク"
+      ],
+      "kun": [
+        "つぼね"
+      ],
+      "meanings": [
+        "bureau",
+        "board",
+        "office",
+        "affair"
+      ],
+      "words": [
+        {
+          "kanji": "局",
+          "kana": "きょく",
+          "en": "bureau"
+        },
+        {
+          "kanji": "医局",
+          "kana": "いきょく",
+          "en": "medical office (esp. in a hospital)"
+        },
+        {
+          "kanji": "局地",
+          "kana": "きょくち",
+          "en": "locality"
+        },
+        {
+          "kanji": "局部",
+          "kana": "きょくぶ",
+          "en": "part"
+        }
+      ],
+      "readingExamples": {
+        "キョク": {
+          "kanji": "局",
+          "kana": "きょく",
+          "en": "bureau"
+        }
+      }
+    },
+    {
+      "kanji": "屋",
+      "on": [
+        "オク"
+      ],
+      "kun": [
+        "や"
+      ],
+      "meanings": [
+        "roof",
+        "house",
+        "shop",
+        "dealer"
+      ],
+      "words": [
+        {
+          "kanji": "屋根",
+          "kana": "やね",
+          "en": "roof"
+        },
+        {
+          "kanji": "小屋",
+          "kana": "こや",
+          "en": "hut"
+        },
+        {
+          "kanji": "納屋",
+          "kana": "なや",
+          "en": "barn (for storage)"
+        },
+        {
+          "kanji": "部屋",
+          "kana": "へや",
+          "en": "room"
+        }
+      ],
+      "readingExamples": {
+        "オク": {
+          "kanji": "屋外",
+          "kana": "おくがい",
+          "en": "outdoors"
+        },
+        "や": {
+          "kanji": "屋根",
+          "kana": "やね",
+          "en": "roof"
+        }
+      }
+    },
+    {
+      "kanji": "岸",
+      "on": [
+        "ガン"
+      ],
+      "kun": [
+        "きし"
+      ],
+      "meanings": [
+        "beach"
+      ],
+      "words": [
+        {
+          "kanji": "岸",
+          "kana": "きし",
+          "en": "bank"
+        },
+        {
+          "kanji": "右岸",
+          "kana": "うがん",
+          "en": "right bank (of a river)"
+        },
+        {
+          "kanji": "岸辺",
+          "kana": "きしべ",
+          "en": "shore"
+        },
+        {
+          "kanji": "護岸",
+          "kana": "ごがん",
+          "en": "river dike"
+        }
+      ],
+      "readingExamples": {
+        "ガン": {
+          "kanji": "岸壁",
+          "kana": "がんぺき",
+          "en": "quay"
+        },
+        "きし": {
+          "kanji": "岸",
+          "kana": "きし",
+          "en": "bank"
+        }
+      }
+    },
+    {
+      "kanji": "島",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "しま"
+      ],
+      "meanings": [
+        "island"
+      ],
+      "words": [
+        {
+          "kanji": "島",
+          "kana": "しま",
+          "en": "island"
+        },
+        {
+          "kanji": "小島",
+          "kana": "こじま",
+          "en": "small island"
+        },
+        {
+          "kanji": "千島",
+          "kana": "ちしま",
+          "en": "Kurile Islands"
+        },
+        {
+          "kanji": "島根",
+          "kana": "しまね",
+          "en": "Shimane (prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "島内",
+          "kana": "とうない",
+          "en": "on an island"
+        },
+        "しま": {
+          "kanji": "島",
+          "kana": "しま",
+          "en": "island"
+        }
+      }
+    },
+    {
+      "kanji": "州",
+      "on": [
+        "シュウ",
+        "ス"
+      ],
+      "kun": [
+        "す"
+      ],
+      "meanings": [
+        "state",
+        "province"
+      ],
+      "words": [
+        {
+          "kanji": "州",
+          "kana": "しゅう",
+          "en": "state (of the US, Australia, India, Germany, etc.)"
+        },
+        {
+          "kanji": "白州",
+          "kana": "しらす",
+          "en": "white sandbar"
+        },
+        {
+          "kanji": "加州",
+          "kana": "かしゅう",
+          "en": "California (state)"
+        },
+        {
+          "kanji": "州都",
+          "kana": "しゅうと",
+          "en": "state capital"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "州",
+          "kana": "しゅう",
+          "en": "state (of the US, Australia, India, Germany, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "帳",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "とばり"
+      ],
+      "meanings": [
+        "notebook",
+        "account book",
+        "album",
+        "curtain"
+      ],
+      "words": [
+        {
+          "kanji": "記帳",
+          "kana": "きちょう",
+          "en": "registry"
+        },
+        {
+          "kanji": "手帳",
+          "kana": "てちょう",
+          "en": "notebook"
+        },
+        {
+          "kanji": "元帳",
+          "kana": "もとちょう",
+          "en": "ledger"
+        },
+        {
+          "kanji": "台帳",
+          "kana": "だいちょう",
+          "en": "account book"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "帳簿",
+          "kana": "ちょうぼ",
+          "en": "account book"
+        }
+      }
+    },
+    {
+      "kanji": "平",
+      "on": [
+        "ヘイ",
+        "ビョウ",
+        "ヒョウ"
+      ],
+      "kun": [
+        "たい.ら",
+        "たい.らげる",
+        "ひら"
+      ],
+      "meanings": [
+        "even",
+        "flat",
+        "peace"
+      ],
+      "words": [
+        {
+          "kanji": "地平",
+          "kana": "ちへい",
+          "en": "level ground"
+        },
+        {
+          "kanji": "不平",
+          "kana": "ふへい",
+          "en": "discontent"
+        },
+        {
+          "kanji": "平ら",
+          "kana": "たいら",
+          "en": "flat"
+        },
+        {
+          "kanji": "平易",
+          "kana": "へいい",
+          "en": "easy"
+        }
+      ],
+      "readingExamples": {
+        "ヘイ": {
+          "kanji": "平易",
+          "kana": "へいい",
+          "en": "easy"
+        },
+        "ビョウ": {
+          "kanji": "平等",
+          "kana": "びょうどう",
+          "en": "equality"
+        },
+        "たいら": {
+          "kanji": "平ら",
+          "kana": "たいら",
+          "en": "flat"
+        },
+        "ひら": {
+          "kanji": "平手",
+          "kana": "ひらて",
+          "en": "palm"
+        }
+      }
+    },
+    {
+      "kanji": "幸",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "さいわ.い",
+        "さち",
+        "しあわ.せ"
+      ],
+      "meanings": [
+        "happiness",
+        "blessing",
+        "fortune"
+      ],
+      "words": [
+        {
+          "kanji": "幸",
+          "kana": "さち",
+          "en": "good luck"
+        },
+        {
+          "kanji": "不幸",
+          "kana": "ふこう",
+          "en": "unhappiness"
+        },
+        {
+          "kanji": "幸い",
+          "kana": "さいわい",
+          "en": "happiness"
+        },
+        {
+          "kanji": "幸福",
+          "kana": "こうふく",
+          "en": "happiness"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "幸福",
+          "kana": "こうふく",
+          "en": "happiness"
+        },
+        "さいわい": {
+          "kanji": "幸い",
+          "kana": "さいわい",
+          "en": "happiness"
+        },
+        "さち": {
+          "kanji": "幸",
+          "kana": "さち",
+          "en": "good luck"
+        },
+        "しあわせ": {
+          "kanji": "幸せ",
+          "kana": "しあわせ",
+          "en": "happiness"
+        }
+      }
+    },
+    {
+      "kanji": "度",
+      "on": [
+        "ド",
+        "ト",
+        "タク"
+      ],
+      "kun": [
+        "たび",
+        "-た.い"
+      ],
+      "meanings": [
+        "degrees",
+        "occurrence",
+        "time",
+        "counter for occurrences"
+      ],
+      "words": [
+        {
+          "kanji": "度",
+          "kana": "ど",
+          "en": "degree (angle, temperature, scale, etc.)"
+        },
+        {
+          "kanji": "過度",
+          "kana": "かど",
+          "en": "excessive"
+        },
+        {
+          "kanji": "都度",
+          "kana": "つど",
+          "en": "each (every) time"
+        },
+        {
+          "kanji": "度",
+          "kana": "たび",
+          "en": "time (three times, each time, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ド": {
+          "kanji": "度",
+          "kana": "ど",
+          "en": "degree (angle, temperature, scale, etc.)"
+        },
+        "ト": {
+          "kanji": "得度",
+          "kana": "とくど",
+          "en": "becoming a monk"
+        },
+        "たび": {
+          "kanji": "度",
+          "kana": "たび",
+          "en": "time (three times, each time, etc.)"
+        },
+        "たい": {
+          "kanji": "態度",
+          "kana": "たいど",
+          "en": "attitude"
+        }
+      }
+    },
+    {
+      "kanji": "庫",
+      "on": [
+        "コ",
+        "ク"
+      ],
+      "kun": [
+        "くら"
+      ],
+      "meanings": [
+        "warehouse",
+        "storehouse"
+      ],
+      "words": [
+        {
+          "kanji": "金庫",
+          "kana": "きんこ",
+          "en": "safe"
+        },
+        {
+          "kanji": "公庫",
+          "kana": "こうこ",
+          "en": "finance corporation"
+        },
+        {
+          "kanji": "国庫",
+          "kana": "こっこ",
+          "en": "national treasury"
+        },
+        {
+          "kanji": "在庫",
+          "kana": "ざいこ",
+          "en": "stock"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "公庫",
+          "kana": "こうこ",
+          "en": "finance corporation"
+        }
+      }
+    },
+    {
+      "kanji": "庭",
+      "on": [
+        "テイ"
+      ],
+      "kun": [
+        "にわ"
+      ],
+      "meanings": [
+        "courtyard",
+        "garden",
+        "yard"
+      ],
+      "words": [
+        {
+          "kanji": "庭",
+          "kana": "にわ",
+          "en": "garden"
+        },
+        {
+          "kanji": "家庭",
+          "kana": "かてい",
+          "en": "home"
+        },
+        {
+          "kanji": "庭木",
+          "kana": "にわき",
+          "en": "garden tree"
+        },
+        {
+          "kanji": "庭師",
+          "kana": "にわし",
+          "en": "gardener"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "庭園",
+          "kana": "ていえん",
+          "en": "garden"
+        },
+        "にわ": {
+          "kanji": "庭",
+          "kana": "にわ",
+          "en": "garden"
+        }
+      }
+    },
+    {
+      "kanji": "式",
+      "on": [
+        "シキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "style",
+        "ceremony",
+        "rite",
+        "function"
+      ],
+      "words": [
+        {
+          "kanji": "式",
+          "kana": "しき",
+          "en": "way"
+        },
+        {
+          "kanji": "古式",
+          "kana": "こしき",
+          "en": "old style"
+        },
+        {
+          "kanji": "式辞",
+          "kana": "しきじ",
+          "en": "ceremonial address"
+        },
+        {
+          "kanji": "図式",
+          "kana": "ずしき",
+          "en": "diagram"
+        }
+      ],
+      "readingExamples": {
+        "シキ": {
+          "kanji": "式",
+          "kana": "しき",
+          "en": "way"
+        }
+      }
+    },
+    {
+      "kanji": "役",
+      "on": [
+        "ヤク",
+        "エキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "duty",
+        "war",
+        "campaign",
+        "drafted labor"
+      ],
+      "words": [
+        {
+          "kanji": "役",
+          "kana": "やく",
+          "en": "role"
+        },
+        {
+          "kanji": "役場",
+          "kana": "やくば",
+          "en": "town hall"
+        },
+        {
+          "kanji": "役目",
+          "kana": "やくめ",
+          "en": "duty"
+        },
+        {
+          "kanji": "荷役",
+          "kana": "にやく",
+          "en": "handling cargo"
+        }
+      ],
+      "readingExamples": {
+        "ヤク": {
+          "kanji": "役",
+          "kana": "やく",
+          "en": "role"
+        },
+        "エキ": {
+          "kanji": "役務",
+          "kana": "えきむ",
+          "en": "labor"
+        }
+      }
+    },
+    {
+      "kanji": "待",
+      "on": [
+        "タイ"
+      ],
+      "kun": [
+        "ま.つ",
+        "-ま.ち"
+      ],
+      "meanings": [
+        "wait",
+        "depend on"
+      ],
+      "words": [
+        {
+          "kanji": "待つ",
+          "kana": "まつ",
+          "en": "to wait"
+        },
+        {
+          "kanji": "待ち",
+          "kana": "まち",
+          "en": "waiting"
+        },
+        {
+          "kanji": "期待",
+          "kana": "きたい",
+          "en": "expectation"
+        },
+        {
+          "kanji": "待機",
+          "kana": "たいき",
+          "en": "standing by"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "待機",
+          "kana": "たいき",
+          "en": "standing by"
+        },
+        "まつ": {
+          "kanji": "待つ",
+          "kana": "まつ",
+          "en": "to wait"
+        },
+        "まち": {
+          "kanji": "待ち",
+          "kana": "まち",
+          "en": "waiting"
+        }
+      }
+    },
+    {
+      "kanji": "急",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "いそ.ぐ",
+        "いそ.ぎ",
+        "せ.く"
+      ],
+      "meanings": [
+        "hurry",
+        "emergency",
+        "sudden",
+        "steep"
+      ],
+      "words": [
+        {
+          "kanji": "急",
+          "kana": "きゅう",
+          "en": "sudden"
+        },
+        {
+          "kanji": "急かす",
+          "kana": "せかす",
+          "en": "to hurry (up)"
+        },
+        {
+          "kanji": "急ぎ",
+          "kana": "いそぎ",
+          "en": "haste"
+        },
+        {
+          "kanji": "急ぐ",
+          "kana": "いそぐ",
+          "en": "to hurry"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "急",
+          "kana": "きゅう",
+          "en": "sudden"
+        },
+        "いそぐ": {
+          "kanji": "急ぐ",
+          "kana": "いそぐ",
+          "en": "to hurry"
+        },
+        "いそぎ": {
+          "kanji": "急ぎ",
+          "kana": "いそぎ",
+          "en": "haste"
+        }
+      }
+    },
+    {
+      "kanji": "息",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "いき"
+      ],
+      "meanings": [
+        "breath",
+        "respiration",
+        "son",
+        "interest (on money)"
+      ],
+      "words": [
+        {
+          "kanji": "息",
+          "kana": "いき",
+          "en": "breath"
+        },
+        {
+          "kanji": "子息",
+          "kana": "しそく",
+          "en": "(another's) son"
+        },
+        {
+          "kanji": "息子",
+          "kana": "むすこ",
+          "en": "son"
+        },
+        {
+          "kanji": "利息",
+          "kana": "りそく",
+          "en": "interest (on a loan, deposit etc.)"
+        }
+      ],
+      "readingExamples": {
+        "いき": {
+          "kanji": "息",
+          "kana": "いき",
+          "en": "breath"
+        }
+      }
+    },
+    {
+      "kanji": "悪",
+      "on": [
+        "アク",
+        "オ"
+      ],
+      "kun": [
+        "わる.い",
+        "わる-",
+        "あ.し",
+        "にく.い",
+        "-にく.い",
+        "ああ",
+        "いずくに",
+        "いずくんぞ",
+        "にく.む"
+      ],
+      "meanings": [
+        "bad",
+        "vice",
+        "rascal",
+        "false"
+      ],
+      "words": [
+        {
+          "kanji": "悪",
+          "kana": "あく",
+          "en": "evil"
+        },
+        {
+          "kanji": "悪い",
+          "kana": "わるい",
+          "en": "bad"
+        },
+        {
+          "kanji": "悪さ",
+          "kana": "わるさ",
+          "en": "badness"
+        },
+        {
+          "kanji": "悪意",
+          "kana": "あくい",
+          "en": "ill will"
+        }
+      ],
+      "readingExamples": {
+        "アク": {
+          "kanji": "悪",
+          "kana": "あく",
+          "en": "evil"
+        },
+        "オ": {
+          "kanji": "悪寒",
+          "kana": "おかん",
+          "en": "chill"
+        },
+        "わるい": {
+          "kanji": "悪い",
+          "kana": "わるい",
+          "en": "bad"
+        },
+        "わる": {
+          "kanji": "悪い",
+          "kana": "わるい",
+          "en": "bad"
+        },
+        "あし": {
+          "kanji": "悪しからず",
+          "kana": "あしからず",
+          "en": "don't get me wrong, but ..."
+        }
+      }
+    },
+    {
+      "kanji": "悲",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "かな.しい",
+        "かな.しむ"
+      ],
+      "meanings": [
+        "grieve",
+        "sad",
+        "deplore",
+        "regret"
+      ],
+      "words": [
+        {
+          "kanji": "悲喜",
+          "kana": "ひき",
+          "en": "joys and sorrows"
+        },
+        {
+          "kanji": "悲歌",
+          "kana": "ひか",
+          "en": "elegy"
+        },
+        {
+          "kanji": "悲運",
+          "kana": "ひうん",
+          "en": "sad fate"
+        },
+        {
+          "kanji": "悲観",
+          "kana": "ひかん",
+          "en": "pessimism"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "悲喜",
+          "kana": "ひき",
+          "en": "joys and sorrows"
+        },
+        "かなしい": {
+          "kanji": "悲しい",
+          "kana": "かなしい",
+          "en": "sad"
+        },
+        "かなしむ": {
+          "kanji": "悲しむ",
+          "kana": "かなしむ",
+          "en": "to be sad"
+        }
+      }
+    },
+    {
+      "kanji": "想",
+      "on": [
+        "ソウ",
+        "ソ"
+      ],
+      "kun": [
+        "おも.う"
+      ],
+      "meanings": [
+        "idea",
+        "thought",
+        "conception",
+        "think"
+      ],
+      "words": [
+        {
+          "kanji": "想",
+          "kana": "そう",
+          "en": "conception"
+        },
+        {
+          "kanji": "仮想",
+          "kana": "かそう",
+          "en": "imagination"
+        },
+        {
+          "kanji": "思想",
+          "kana": "しそう",
+          "en": "thought"
+        },
+        {
+          "kanji": "想起",
+          "kana": "そうき",
+          "en": "remembering"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "想",
+          "kana": "そう",
+          "en": "conception"
+        },
+        "ソ": {
+          "kanji": "想",
+          "kana": "そう",
+          "en": "conception"
+        }
+      }
+    },
+    {
+      "kanji": "意",
+      "on": [
+        "イ"
+      ],
+      "kun": [],
+      "meanings": [
+        "idea",
+        "mind",
+        "heart",
+        "taste"
+      ],
+      "words": [
+        {
+          "kanji": "意気",
+          "kana": "いき",
+          "en": "spirit"
+        },
+        {
+          "kanji": "意義",
+          "kana": "いぎ",
+          "en": "meaning"
+        },
+        {
+          "kanji": "意志",
+          "kana": "いし",
+          "en": "will"
+        },
+        {
+          "kanji": "意思",
+          "kana": "いし",
+          "en": "intention"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "意気",
+          "kana": "いき",
+          "en": "spirit"
+        }
+      }
+    },
+    {
+      "kanji": "感",
+      "on": [
+        "カン"
+      ],
+      "kun": [],
+      "meanings": [
+        "emotion",
+        "feeling",
+        "sensation"
+      ],
+      "words": [
+        {
+          "kanji": "感",
+          "kana": "かん",
+          "en": "feeling"
+        },
+        {
+          "kanji": "感じ",
+          "kana": "かんじ",
+          "en": "feeling"
+        },
+        {
+          "kanji": "感化",
+          "kana": "かんか",
+          "en": "influence (on someone)"
+        },
+        {
+          "kanji": "感知",
+          "kana": "かんち",
+          "en": "perception"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "感",
+          "kana": "かん",
+          "en": "feeling"
+        }
+      }
+    },
+    {
+      "kanji": "所",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "ところ",
+        "-ところ",
+        "どころ",
+        "とこ"
+      ],
+      "meanings": [
+        "place",
+        "extent"
+      ],
+      "words": [
+        {
+          "kanji": "余所",
+          "kana": "よそ",
+          "en": "another place"
+        },
+        {
+          "kanji": "所",
+          "kana": "ところ",
+          "en": "place"
+        },
+        {
+          "kanji": "所作",
+          "kana": "しょさ",
+          "en": "conduct"
+        },
+        {
+          "kanji": "所持",
+          "kana": "しょじ",
+          "en": "possession"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "所作",
+          "kana": "しょさ",
+          "en": "conduct"
+        },
+        "ところ": {
+          "kanji": "所",
+          "kana": "ところ",
+          "en": "place"
+        },
+        "とこ": {
+          "kanji": "所",
+          "kana": "ところ",
+          "en": "place"
+        }
+      }
+    },
+    {
+      "kanji": "打",
+      "on": [
+        "ダ",
+        "ダース"
+      ],
+      "kun": [
+        "う.つ",
+        "う.ち-",
+        "ぶ.つ"
+      ],
+      "meanings": [
+        "strike",
+        "hit",
+        "knock",
+        "pound"
+      ],
+      "words": [
+        {
+          "kanji": "打つ",
+          "kana": "うつ",
+          "en": "to hit"
+        },
+        {
+          "kanji": "打つ",
+          "kana": "ぶつ",
+          "en": "to hit (someone)"
+        },
+        {
+          "kanji": "打破",
+          "kana": "だは",
+          "en": "breaking down"
+        },
+        {
+          "kanji": "打",
+          "kana": "ダース",
+          "en": "dozen"
+        }
+      ],
+      "readingExamples": {
+        "ダ": {
+          "kanji": "打破",
+          "kana": "だは",
+          "en": "breaking down"
+        },
+        "ダース": {
+          "kanji": "打",
+          "kana": "ダース",
+          "en": "dozen"
+        },
+        "うつ": {
+          "kanji": "打つ",
+          "kana": "うつ",
+          "en": "to hit"
+        },
+        "うち": {
+          "kanji": "打ち合う",
+          "kana": "うちあう",
+          "en": "to hit each other"
+        },
+        "ぶつ": {
+          "kanji": "打つ",
+          "kana": "ぶつ",
+          "en": "to hit (someone)"
+        }
+      }
+    },
+    {
+      "kanji": "投",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "な.げる",
+        "-な.げ"
+      ],
+      "meanings": [
+        "throw",
+        "discard",
+        "abandon",
+        "launch into"
+      ],
+      "words": [
+        {
+          "kanji": "投げ",
+          "kana": "なげ",
+          "en": "throw"
+        },
+        {
+          "kanji": "身投げ",
+          "kana": "みなげ",
+          "en": "throwing oneself (e.g. into the water to commit suicide)"
+        },
+        {
+          "kanji": "投げる",
+          "kana": "なげる",
+          "en": "to throw"
+        },
+        {
+          "kanji": "投機",
+          "kana": "とうき",
+          "en": "speculation"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "投機",
+          "kana": "とうき",
+          "en": "speculation"
+        },
+        "なげる": {
+          "kanji": "投げる",
+          "kana": "なげる",
+          "en": "to throw"
+        },
+        "なげ": {
+          "kanji": "投げ",
+          "kana": "なげ",
+          "en": "throw"
+        }
+      }
+    },
+    {
+      "kanji": "拾",
+      "on": [
+        "シュウ",
+        "ジュウ"
+      ],
+      "kun": [
+        "ひろ.う"
+      ],
+      "meanings": [
+        "pick up",
+        "gather",
+        "find",
+        "go on foot"
+      ],
+      "words": [
+        {
+          "kanji": "拾う",
+          "kana": "ひろう",
+          "en": "to pick up"
+        },
+        {
+          "kanji": "拾い物",
+          "kana": "ひろいもの",
+          "en": "found article"
+        },
+        {
+          "kanji": "拾得",
+          "kana": "しゅうとく",
+          "en": "finding (lost property)"
+        },
+        {
+          "kanji": "収拾",
+          "kana": "しゅうしゅう",
+          "en": "control"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "拾得",
+          "kana": "しゅうとく",
+          "en": "finding (lost property)"
+        },
+        "ひろう": {
+          "kanji": "拾う",
+          "kana": "ひろう",
+          "en": "to pick up"
+        }
+      }
+    },
+    {
+      "kanji": "持",
+      "on": [
+        "ジ"
+      ],
+      "kun": [
+        "も.つ",
+        "-も.ち",
+        "も.てる"
+      ],
+      "meanings": [
+        "hold",
+        "have"
+      ],
+      "words": [
+        {
+          "kanji": "護持",
+          "kana": "ごじ",
+          "en": "defend and maintain"
+        },
+        {
+          "kanji": "支持",
+          "kana": "しじ",
+          "en": "support"
+        },
+        {
+          "kanji": "持つ",
+          "kana": "もつ",
+          "en": "to hold (in one's hand)"
+        },
+        {
+          "kanji": "保持",
+          "kana": "ほじ",
+          "en": "retention"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "持参",
+          "kana": "じさん",
+          "en": "bringing"
+        },
+        "もつ": {
+          "kanji": "持つ",
+          "kana": "もつ",
+          "en": "to hold (in one's hand)"
+        },
+        "もち": {
+          "kanji": "持ち",
+          "kana": "もち",
+          "en": "having"
+        },
+        "もてる": {
+          "kanji": "持てる",
+          "kana": "もてる",
+          "en": "to be able to possess (hold, get, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "指",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "ゆび",
+        "さ.す",
+        "-さ.し"
+      ],
+      "meanings": [
+        "finger",
+        "point to",
+        "indicate",
+        "put into"
+      ],
+      "words": [
+        {
+          "kanji": "指",
+          "kana": "ゆび",
+          "en": "finger"
+        },
+        {
+          "kanji": "指す",
+          "kana": "さす",
+          "en": "to point"
+        },
+        {
+          "kanji": "指揮",
+          "kana": "しき",
+          "en": "command"
+        },
+        {
+          "kanji": "指示",
+          "kana": "しじ",
+          "en": "indication"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "指揮",
+          "kana": "しき",
+          "en": "command"
+        },
+        "ゆび": {
+          "kanji": "指",
+          "kana": "ゆび",
+          "en": "finger"
+        },
+        "さす": {
+          "kanji": "指す",
+          "kana": "さす",
+          "en": "to point"
+        },
+        "さし": {
+          "kanji": "指図",
+          "kana": "さしず",
+          "en": "directions"
+        }
+      }
+    },
+    {
+      "kanji": "放",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "はな.す",
+        "-っぱな.し",
+        "はな.つ",
+        "はな.れる",
+        "こ.く",
+        "ほう.る"
+      ],
+      "meanings": [
+        "set free",
+        "release",
+        "fire",
+        "shoot"
+      ],
+      "words": [
+        {
+          "kanji": "放す",
+          "kana": "はなす",
+          "en": "to release"
+        },
+        {
+          "kanji": "放つ",
+          "kana": "はなつ",
+          "en": "to fire (gun, arrow, questions, etc.)"
+        },
+        {
+          "kanji": "放る",
+          "kana": "ほうる",
+          "en": "to throw"
+        },
+        {
+          "kanji": "放火",
+          "kana": "ほうか",
+          "en": "arson"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "放る",
+          "kana": "ほうる",
+          "en": "to throw"
+        },
+        "はなす": {
+          "kanji": "放す",
+          "kana": "はなす",
+          "en": "to release"
+        },
+        "っぱなし": {
+          "kanji": "っ放し",
+          "kana": "っぱなし",
+          "en": "leaving (on, open, unfinished, etc.)"
+        },
+        "はなつ": {
+          "kanji": "放つ",
+          "kana": "はなつ",
+          "en": "to fire (gun, arrow, questions, etc.)"
+        },
+        "はなれる": {
+          "kanji": "放れる",
+          "kana": "はなれる",
+          "en": "to get free (from)"
+        }
+      }
+    },
+    {
+      "kanji": "整",
+      "on": [
+        "セイ"
+      ],
+      "kun": [
+        "ととの.える",
+        "ととの.う"
+      ],
+      "meanings": [
+        "organize",
+        "arranging",
+        "tune",
+        "tone"
+      ],
+      "words": [
+        {
+          "kanji": "整地",
+          "kana": "せいち",
+          "en": "levelling of ground (for construction)"
+        },
+        {
+          "kanji": "整備",
+          "kana": "せいび",
+          "en": "maintenance"
+        },
+        {
+          "kanji": "整理",
+          "kana": "せいり",
+          "en": "sorting"
+        },
+        {
+          "kanji": "均整",
+          "kana": "きんせい",
+          "en": "symmetry"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "整地",
+          "kana": "せいち",
+          "en": "levelling of ground (for construction)"
+        },
+        "ととのえる": {
+          "kanji": "整える",
+          "kana": "ととのえる",
+          "en": "to put in order"
+        },
+        "ととのう": {
+          "kanji": "整う",
+          "kana": "ととのう",
+          "en": "to be ready"
+        }
+      }
+    },
+    {
+      "kanji": "旅",
+      "on": [
+        "リョ"
+      ],
+      "kun": [
+        "たび"
+      ],
+      "meanings": [
+        "trip",
+        "travel"
+      ],
+      "words": [
+        {
+          "kanji": "旅",
+          "kana": "たび",
+          "en": "travel"
+        },
+        {
+          "kanji": "旅費",
+          "kana": "りょひ",
+          "en": "travel expenses"
+        },
+        {
+          "kanji": "旅路",
+          "kana": "たびじ",
+          "en": "journey"
+        },
+        {
+          "kanji": "船旅",
+          "kana": "ふなたび",
+          "en": "trip by boat"
+        }
+      ],
+      "readingExamples": {
+        "リョ": {
+          "kanji": "旅費",
+          "kana": "りょひ",
+          "en": "travel expenses"
+        },
+        "たび": {
+          "kanji": "旅",
+          "kana": "たび",
+          "en": "travel"
+        }
+      }
+    },
+    {
+      "kanji": "族",
+      "on": [
+        "ゾク"
+      ],
+      "kun": [],
+      "meanings": [
+        "tribe",
+        "family"
+      ],
+      "words": [
+        {
+          "kanji": "族",
+          "kana": "ぞく",
+          "en": "tribe"
+        },
+        {
+          "kanji": "遺族",
+          "kana": "いぞく",
+          "en": "bereaved family"
+        },
+        {
+          "kanji": "家族",
+          "kana": "かぞく",
+          "en": "family"
+        },
+        {
+          "kanji": "貴族",
+          "kana": "きぞく",
+          "en": "nobility"
+        }
+      ],
+      "readingExamples": {
+        "ゾク": {
+          "kanji": "族",
+          "kana": "ぞく",
+          "en": "tribe"
+        }
+      }
+    },
+    {
+      "kanji": "昔",
+      "on": [
+        "セキ",
+        "シャク"
+      ],
+      "kun": [
+        "むかし"
+      ],
+      "meanings": [
+        "once upon a time",
+        "antiquity",
+        "old times"
+      ],
+      "words": [
+        {
+          "kanji": "昔",
+          "kana": "むかし",
+          "en": "the old days"
+        },
+        {
+          "kanji": "一昔",
+          "kana": "ひとむかし",
+          "en": "an age (ago)"
+        },
+        {
+          "kanji": "昔風",
+          "kana": "むかしふう",
+          "en": "old-fashioned"
+        },
+        {
+          "kanji": "大昔",
+          "kana": "おおむかし",
+          "en": "ancient times"
+        }
+      ],
+      "readingExamples": {
+        "むかし": {
+          "kanji": "昔",
+          "kana": "むかし",
+          "en": "the old days"
+        }
+      }
+    },
+    {
+      "kanji": "昭",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "shining",
+        "bright"
+      ],
+      "words": [
+        {
+          "kanji": "昭和",
+          "kana": "しょうわ",
+          "en": "Shōwa era (1926.12.25-1989.1.7)"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "昭和",
+          "kana": "しょうわ",
+          "en": "Shōwa era (1926.12.25-1989.1.7)"
+        }
+      }
+    },
+    {
+      "kanji": "暑",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "あつ.い"
+      ],
+      "meanings": [
+        "sultry",
+        "hot",
+        "summer heat"
+      ],
+      "words": [
+        {
+          "kanji": "暑い",
+          "kana": "あつい",
+          "en": "hot"
+        },
+        {
+          "kanji": "暑さ",
+          "kana": "あつさ",
+          "en": "heat (of the weather)"
+        },
+        {
+          "kanji": "残暑",
+          "kana": "ざんしょ",
+          "en": "late summer heat"
+        },
+        {
+          "kanji": "暑中",
+          "kana": "しょちゅう",
+          "en": "height of summer"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "暑中",
+          "kana": "しょちゅう",
+          "en": "height of summer"
+        },
+        "あつい": {
+          "kanji": "暑い",
+          "kana": "あつい",
+          "en": "hot"
+        }
+      }
+    },
+    {
+      "kanji": "暗",
+      "on": [
+        "アン"
+      ],
+      "kun": [
+        "くら.い",
+        "くら.む",
+        "くれ.る"
+      ],
+      "meanings": [
+        "darkness",
+        "disappear",
+        "shade",
+        "informal"
+      ],
+      "words": [
+        {
+          "kanji": "暗い",
+          "kana": "くらい",
+          "en": "dark"
+        },
+        {
+          "kanji": "暗に",
+          "kana": "あんに",
+          "en": "implicitly"
+        },
+        {
+          "kanji": "暗示",
+          "kana": "あんじ",
+          "en": "hint"
+        },
+        {
+          "kanji": "暗記",
+          "kana": "あんき",
+          "en": "memorization"
+        }
+      ],
+      "readingExamples": {
+        "アン": {
+          "kanji": "暗に",
+          "kana": "あんに",
+          "en": "implicitly"
+        },
+        "くらい": {
+          "kanji": "暗い",
+          "kana": "くらい",
+          "en": "dark"
+        }
+      }
+    },
+    {
+      "kanji": "曲",
+      "on": [
+        "キョク"
+      ],
+      "kun": [
+        "ま.がる",
+        "ま.げる",
+        "くま"
+      ],
+      "meanings": [
+        "bend",
+        "music",
+        "melody",
+        "composition"
+      ],
+      "words": [
+        {
+          "kanji": "曲げ",
+          "kana": "まげ",
+          "en": "flexure"
+        },
+        {
+          "kanji": "曲",
+          "kana": "きょく",
+          "en": "composition"
+        },
+        {
+          "kanji": "曲がる",
+          "kana": "まがる",
+          "en": "to bend"
+        },
+        {
+          "kanji": "曲げる",
+          "kana": "まげる",
+          "en": "to bend"
+        }
+      ],
+      "readingExamples": {
+        "キョク": {
+          "kanji": "曲",
+          "kana": "きょく",
+          "en": "composition"
+        },
+        "まがる": {
+          "kanji": "曲がる",
+          "kana": "まがる",
+          "en": "to bend"
+        },
+        "まげる": {
+          "kanji": "曲げる",
+          "kana": "まげる",
+          "en": "to bend"
+        }
+      }
+    },
+    {
+      "kanji": "有",
+      "on": [
+        "ユウ",
+        "ウ"
+      ],
+      "kun": [
+        "あ.る"
+      ],
+      "meanings": [
+        "possess",
+        "have",
+        "exist",
+        "happen"
+      ],
+      "words": [
+        {
+          "kanji": "有る",
+          "kana": "ある",
+          "en": "to be"
+        },
+        {
+          "kanji": "有",
+          "kana": "ゆう",
+          "en": "existence"
+        },
+        {
+          "kanji": "有無",
+          "kana": "うむ",
+          "en": "existence or nonexistence"
+        },
+        {
+          "kanji": "固有",
+          "kana": "こゆう",
+          "en": "characteristic (of)"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "有",
+          "kana": "ゆう",
+          "en": "existence"
+        },
+        "ウ": {
+          "kanji": "有無",
+          "kana": "うむ",
+          "en": "existence or nonexistence"
+        },
+        "ある": {
+          "kanji": "有る",
+          "kana": "ある",
+          "en": "to be"
+        }
+      }
+    },
+    {
+      "kanji": "服",
+      "on": [
+        "フク"
+      ],
+      "kun": [],
+      "meanings": [
+        "clothing",
+        "admit",
+        "obey",
+        "discharge"
+      ],
+      "words": [
+        {
+          "kanji": "服",
+          "kana": "ふく",
+          "en": "clothes (esp. Western clothes)"
+        },
+        {
+          "kanji": "衣服",
+          "kana": "いふく",
+          "en": "clothes"
+        },
+        {
+          "kanji": "不服",
+          "kana": "ふふく",
+          "en": "dissatisfaction"
+        },
+        {
+          "kanji": "和服",
+          "kana": "わふく",
+          "en": "Japanese clothes"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "服",
+          "kana": "ふく",
+          "en": "clothes (esp. Western clothes)"
+        }
+      }
+    },
+    {
+      "kanji": "期",
+      "on": [
+        "キ",
+        "ゴ"
+      ],
+      "kun": [],
+      "meanings": [
+        "period",
+        "time",
+        "date",
+        "term"
+      ],
+      "words": [
+        {
+          "kanji": "期",
+          "kana": "き",
+          "en": "period"
+        },
+        {
+          "kanji": "死期",
+          "kana": "しき",
+          "en": "time of death"
+        },
+        {
+          "kanji": "時期",
+          "kana": "じき",
+          "en": "time"
+        },
+        {
+          "kanji": "次期",
+          "kana": "じき",
+          "en": "next term"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "期",
+          "kana": "き",
+          "en": "period"
+        }
+      }
+    },
+    {
+      "kanji": "板",
+      "on": [
+        "ハン",
+        "バン"
+      ],
+      "kun": [
+        "いた"
+      ],
+      "meanings": [
+        "plank",
+        "board",
+        "plate",
+        "stage"
+      ],
+      "words": [
+        {
+          "kanji": "板",
+          "kana": "いた",
+          "en": "board"
+        },
+        {
+          "kanji": "基板",
+          "kana": "きばん",
+          "en": "(circuit) board"
+        },
+        {
+          "kanji": "戸板",
+          "kana": "といた",
+          "en": "sliding door (esp. when removed from its frame and used for carrying things or people)"
+        },
+        {
+          "kanji": "看板",
+          "kana": "かんばん",
+          "en": "signboard"
+        }
+      ],
+      "readingExamples": {
+        "バン": {
+          "kanji": "板金",
+          "kana": "ばんきん",
+          "en": "sheet metal"
+        },
+        "いた": {
+          "kanji": "板",
+          "kana": "いた",
+          "en": "board"
+        }
+      }
+    },
+    {
+      "kanji": "柱",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [
+        "はしら"
+      ],
+      "meanings": [
+        "pillar",
+        "post",
+        "cylinder",
+        "support"
+      ],
+      "words": [
+        {
+          "kanji": "柱",
+          "kana": "はしら",
+          "en": "pillar"
+        },
+        {
+          "kanji": "氷柱",
+          "kana": "つらら",
+          "en": "icicle"
+        },
+        {
+          "kanji": "火柱",
+          "kana": "ひばしら",
+          "en": "pillar of fire"
+        },
+        {
+          "kanji": "支柱",
+          "kana": "しちゅう",
+          "en": "prop"
+        }
+      ],
+      "readingExamples": {
+        "はしら": {
+          "kanji": "柱",
+          "kana": "はしら",
+          "en": "pillar"
+        }
+      }
+    },
+    {
+      "kanji": "根",
+      "on": [
+        "コン"
+      ],
+      "kun": [
+        "ね",
+        "-ね"
+      ],
+      "meanings": [
+        "root",
+        "radical",
+        "head (pimple)"
+      ],
+      "words": [
+        {
+          "kanji": "根",
+          "kana": "ね",
+          "en": "root (of a plant)"
+        },
+        {
+          "kanji": "屋根",
+          "kana": "やね",
+          "en": "roof"
+        },
+        {
+          "kanji": "根ざす",
+          "kana": "ねざす",
+          "en": "to come from"
+        },
+        {
+          "kanji": "根気",
+          "kana": "こんき",
+          "en": "patience"
+        }
+      ],
+      "readingExamples": {
+        "コン": {
+          "kanji": "根気",
+          "kana": "こんき",
+          "en": "patience"
+        },
+        "ね": {
+          "kanji": "根",
+          "kana": "ね",
+          "en": "root (of a plant)"
+        }
+      }
+    },
+    {
+      "kanji": "植",
+      "on": [
+        "ショク"
+      ],
+      "kun": [
+        "う.える",
+        "う.わる"
+      ],
+      "meanings": [
+        "plant"
+      ],
+      "words": [
+        {
+          "kanji": "植える",
+          "kana": "うえる",
+          "en": "to plant"
+        },
+        {
+          "kanji": "田植え",
+          "kana": "たうえ",
+          "en": "rice planting"
+        },
+        {
+          "kanji": "植木",
+          "kana": "うえき",
+          "en": "garden plant"
+        },
+        {
+          "kanji": "移植",
+          "kana": "いしょく",
+          "en": "transplanting (a plant)"
+        }
+      ],
+      "readingExamples": {
+        "ショク": {
+          "kanji": "植樹",
+          "kana": "しょくじゅ",
+          "en": "tree-planting"
+        },
+        "うえる": {
+          "kanji": "植える",
+          "kana": "うえる",
+          "en": "to plant"
+        }
+      }
+    },
+    {
+      "kanji": "業",
+      "on": [
+        "ギョウ",
+        "ゴウ"
+      ],
+      "kun": [
+        "わざ"
+      ],
+      "meanings": [
+        "business",
+        "vocation",
+        "arts",
+        "performance"
+      ],
+      "words": [
+        {
+          "kanji": "仕業",
+          "kana": "しわざ",
+          "en": "deed (esp. negative)"
+        },
+        {
+          "kanji": "業師",
+          "kana": "わざし",
+          "en": "tricky wrestler"
+        },
+        {
+          "kanji": "業",
+          "kana": "ぎょう",
+          "en": "work"
+        },
+        {
+          "kanji": "家業",
+          "kana": "かぎょう",
+          "en": "family business"
+        }
+      ],
+      "readingExamples": {
+        "ギョウ": {
+          "kanji": "業",
+          "kana": "ぎょう",
+          "en": "work"
+        },
+        "わざ": {
+          "kanji": "業師",
+          "kana": "わざし",
+          "en": "tricky wrestler"
+        }
+      }
+    },
+    {
+      "kanji": "様",
+      "on": [
+        "ヨウ",
+        "ショウ"
+      ],
+      "kun": [
+        "さま",
+        "さん"
+      ],
+      "meanings": [
+        "Esq.",
+        "way",
+        "manner",
+        "situation"
+      ],
+      "words": [
+        {
+          "kanji": "様",
+          "kana": "さま",
+          "en": "Mr"
+        },
+        {
+          "kanji": "様",
+          "kana": "よう",
+          "en": "appearing ..."
+        },
+        {
+          "kanji": "様に",
+          "kana": "ように",
+          "en": "like"
+        },
+        {
+          "kanji": "異様",
+          "kana": "いよう",
+          "en": "strange"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "様",
+          "kana": "よう",
+          "en": "appearing ..."
+        },
+        "ショウ": {
+          "kanji": "仕様がない",
+          "kana": "しょうがない",
+          "en": "there's no (other) way"
+        },
+        "さま": {
+          "kanji": "様",
+          "kana": "さま",
+          "en": "Mr"
+        }
+      }
+    },
+    {
+      "kanji": "横",
+      "on": [
+        "オウ"
+      ],
+      "kun": [
+        "よこ"
+      ],
+      "meanings": [
+        "sideways",
+        "side",
+        "horizontal",
+        "width"
+      ],
+      "words": [
+        {
+          "kanji": "横",
+          "kana": "よこ",
+          "en": "horizontal (as opposed to vertical)"
+        },
+        {
+          "kanji": "横目",
+          "kana": "よこめ",
+          "en": "sidelong glance"
+        },
+        {
+          "kanji": "真横",
+          "kana": "まよこ",
+          "en": "(right at the) side"
+        },
+        {
+          "kanji": "横手",
+          "kana": "よこて",
+          "en": "side"
+        }
+      ],
+      "readingExamples": {
+        "オウ": {
+          "kanji": "横行",
+          "kana": "おうこう",
+          "en": "being rampant"
+        },
+        "よこ": {
+          "kanji": "横",
+          "kana": "よこ",
+          "en": "horizontal (as opposed to vertical)"
+        }
+      }
+    },
+    {
+      "kanji": "橋",
+      "on": [
+        "キョウ"
+      ],
+      "kun": [
+        "はし"
+      ],
+      "meanings": [
+        "bridge"
+      ],
+      "words": [
+        {
+          "kanji": "橋",
+          "kana": "はし",
+          "en": "bridge"
+        },
+        {
+          "kanji": "石橋",
+          "kana": "いしばし",
+          "en": "stone bridge"
+        },
+        {
+          "kanji": "新橋",
+          "kana": "しんばし",
+          "en": "Shinbashi (Tokyo)"
+        },
+        {
+          "kanji": "船橋",
+          "kana": "ふなばし",
+          "en": "pontoon bridge"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "橋脚",
+          "kana": "きょうきゃく",
+          "en": "bridge pier"
+        },
+        "はし": {
+          "kanji": "橋",
+          "kana": "はし",
+          "en": "bridge"
+        }
+      }
+    },
+    {
+      "kanji": "次",
+      "on": [
+        "ジ",
+        "シ"
+      ],
+      "kun": [
+        "つ.ぐ",
+        "つぎ"
+      ],
+      "meanings": [
+        "next",
+        "order",
+        "sequence"
+      ],
+      "words": [
+        {
+          "kanji": "次",
+          "kana": "つぎ",
+          "en": "next"
+        },
+        {
+          "kanji": "次ぐ",
+          "kana": "つぐ",
+          "en": "to follow"
+        },
+        {
+          "kanji": "次期",
+          "kana": "じき",
+          "en": "next term"
+        },
+        {
+          "kanji": "二次",
+          "kana": "にじ",
+          "en": "second"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "次期",
+          "kana": "じき",
+          "en": "next term"
+        },
+        "シ": {
+          "kanji": "次第",
+          "kana": "しだい",
+          "en": "depending on"
+        },
+        "つぐ": {
+          "kanji": "次ぐ",
+          "kana": "つぐ",
+          "en": "to follow"
+        },
+        "つぎ": {
+          "kanji": "次",
+          "kana": "つぎ",
+          "en": "next"
+        }
+      }
+    },
+    {
+      "kanji": "歯",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "よわい",
+        "は",
+        "よわ.い",
+        "よわい.する"
+      ],
+      "meanings": [
+        "tooth",
+        "cog"
+      ],
+      "words": [
+        {
+          "kanji": "歯",
+          "kana": "は",
+          "en": "tooth"
+        },
+        {
+          "kanji": "義歯",
+          "kana": "ぎし",
+          "en": "artificial tooth"
+        },
+        {
+          "kanji": "歯科",
+          "kana": "しか",
+          "en": "dentistry"
+        },
+        {
+          "kanji": "歯形",
+          "kana": "はがた",
+          "en": "impression of the teeth"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "歯科",
+          "kana": "しか",
+          "en": "dentistry"
+        },
+        "は": {
+          "kanji": "歯",
+          "kana": "は",
+          "en": "tooth"
+        }
+      }
+    },
+    {
+      "kanji": "死",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "し.ぬ",
+        "し.に-"
+      ],
+      "meanings": [
+        "death",
+        "die"
+      ],
+      "words": [
+        {
+          "kanji": "死",
+          "kana": "し",
+          "en": "death"
+        },
+        {
+          "kanji": "仮死",
+          "kana": "かし",
+          "en": "(state of) apparent death"
+        },
+        {
+          "kanji": "死ぬ",
+          "kana": "しぬ",
+          "en": "to die"
+        },
+        {
+          "kanji": "死期",
+          "kana": "しき",
+          "en": "time of death"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "死",
+          "kana": "し",
+          "en": "death"
+        },
+        "しぬ": {
+          "kanji": "死ぬ",
+          "kana": "しぬ",
+          "en": "to die"
+        },
+        "しに": {
+          "kanji": "死人",
+          "kana": "しにん",
+          "en": "corpse"
+        }
+      }
+    },
+    {
+      "kanji": "氷",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [
+        "こおり",
+        "ひ",
+        "こお.る"
+      ],
+      "meanings": [
+        "icicle",
+        "ice",
+        "hail",
+        "freeze"
+      ],
+      "words": [
+        {
+          "kanji": "氷",
+          "kana": "こおり",
+          "en": "ice"
+        },
+        {
+          "kanji": "氷室",
+          "kana": "ひむろ",
+          "en": "ice house"
+        },
+        {
+          "kanji": "氷柱",
+          "kana": "つらら",
+          "en": "icicle"
+        },
+        {
+          "kanji": "氷河",
+          "kana": "ひょうが",
+          "en": "glacier"
+        }
+      ],
+      "readingExamples": {
+        "ヒョウ": {
+          "kanji": "氷河",
+          "kana": "ひょうが",
+          "en": "glacier"
+        },
+        "こおり": {
+          "kanji": "氷",
+          "kana": "こおり",
+          "en": "ice"
+        },
+        "ひ": {
+          "kanji": "氷室",
+          "kana": "ひむろ",
+          "en": "ice house"
+        }
+      }
+    },
+    {
+      "kanji": "決",
+      "on": [
+        "ケツ"
+      ],
+      "kun": [
+        "き.める",
+        "-ぎ.め",
+        "き.まる",
+        "さ.く"
+      ],
+      "meanings": [
+        "decide",
+        "fix",
+        "agree upon",
+        "appoint"
+      ],
+      "words": [
+        {
+          "kanji": "決め",
+          "kana": "きめ",
+          "en": "agreement"
+        },
+        {
+          "kanji": "決",
+          "kana": "けつ",
+          "en": "decision"
+        },
+        {
+          "kanji": "可決",
+          "kana": "かけつ",
+          "en": "approval"
+        },
+        {
+          "kanji": "議決",
+          "kana": "ぎけつ",
+          "en": "resolution"
+        }
+      ],
+      "readingExamples": {
+        "ケツ": {
+          "kanji": "決",
+          "kana": "けつ",
+          "en": "decision"
+        },
+        "きめる": {
+          "kanji": "決める",
+          "kana": "きめる",
+          "en": "to decide"
+        },
+        "きまる": {
+          "kanji": "決まる",
+          "kana": "きまる",
+          "en": "to be decided"
+        }
+      }
+    },
+    {
+      "kanji": "油",
+      "on": [
+        "ユ",
+        "ユウ"
+      ],
+      "kun": [
+        "あぶら"
+      ],
+      "meanings": [
+        "oil",
+        "fat"
+      ],
+      "words": [
+        {
+          "kanji": "軽油",
+          "kana": "けいゆ",
+          "en": "diesel oil"
+        },
+        {
+          "kanji": "原油",
+          "kana": "げんゆ",
+          "en": "crude oil"
+        },
+        {
+          "kanji": "石油",
+          "kana": "せきゆ",
+          "en": "oil"
+        },
+        {
+          "kanji": "灯油",
+          "kana": "とうゆ",
+          "en": "kerosene"
+        }
+      ],
+      "readingExamples": {
+        "ユ": {
+          "kanji": "油脂",
+          "kana": "ゆし",
+          "en": "fats and oils"
+        },
+        "あぶら": {
+          "kanji": "油",
+          "kana": "あぶら",
+          "en": "oil"
+        }
+      }
+    },
+    {
+      "kanji": "波",
+      "on": [
+        "ハ"
+      ],
+      "kun": [
+        "なみ"
+      ],
+      "meanings": [
+        "waves",
+        "billows",
+        "Poland"
+      ],
+      "words": [
+        {
+          "kanji": "波",
+          "kana": "なみ",
+          "en": "wave"
+        },
+        {
+          "kanji": "余波",
+          "kana": "よは",
+          "en": "waves that remain after the wind has subsided"
+        },
+        {
+          "kanji": "音波",
+          "kana": "おんぱ",
+          "en": "sound wave"
+        },
+        {
+          "kanji": "寒波",
+          "kana": "かんぱ",
+          "en": "cold wave"
+        }
+      ],
+      "readingExamples": {
+        "ハ": {
+          "kanji": "波止場",
+          "kana": "はとば",
+          "en": "wharf"
+        },
+        "なみ": {
+          "kanji": "波",
+          "kana": "なみ",
+          "en": "wave"
+        }
+      }
+    },
+    {
+      "kanji": "注",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [
+        "そそ.ぐ",
+        "さ.す",
+        "つ.ぐ"
+      ],
+      "meanings": [
+        "pour",
+        "irrigate",
+        "shed (tears)",
+        "flow into"
+      ],
+      "words": [
+        {
+          "kanji": "注す",
+          "kana": "さす",
+          "en": "to pour"
+        },
+        {
+          "kanji": "注ぐ",
+          "kana": "つぐ",
+          "en": "to pour (into a vessel)"
+        },
+        {
+          "kanji": "注",
+          "kana": "ちゅう",
+          "en": "annotation"
+        },
+        {
+          "kanji": "注ぐ",
+          "kana": "そそぐ",
+          "en": "to pour (into)"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "注",
+          "kana": "ちゅう",
+          "en": "annotation"
+        },
+        "そそぐ": {
+          "kanji": "注ぐ",
+          "kana": "そそぐ",
+          "en": "to pour (into)"
+        },
+        "さす": {
+          "kanji": "注す",
+          "kana": "さす",
+          "en": "to pour"
+        },
+        "つぐ": {
+          "kanji": "注ぐ",
+          "kana": "つぐ",
+          "en": "to pour (into a vessel)"
+        }
+      }
+    },
+    {
+      "kanji": "泳",
+      "on": [
+        "エイ"
+      ],
+      "kun": [
+        "およ.ぐ"
+      ],
+      "meanings": [
+        "swim"
+      ],
+      "words": [
+        {
+          "kanji": "泳ぐ",
+          "kana": "およぐ",
+          "en": "to swim"
+        },
+        {
+          "kanji": "泳ぎ",
+          "kana": "およぎ",
+          "en": "swimming"
+        },
+        {
+          "kanji": "遠泳",
+          "kana": "えんえい",
+          "en": "long-distance swimming"
+        },
+        {
+          "kanji": "水泳",
+          "kana": "すいえい",
+          "en": "swimming"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "泳者",
+          "kana": "えいしゃ",
+          "en": "a swimmer"
+        },
+        "およぐ": {
+          "kanji": "泳ぐ",
+          "kana": "およぐ",
+          "en": "to swim"
+        }
+      }
+    },
+    {
+      "kanji": "洋",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ocean",
+        "sea",
+        "foreign",
+        "Western style"
+      ],
+      "words": [
+        {
+          "kanji": "洋画",
+          "kana": "ようが",
+          "en": "Western painting"
+        },
+        {
+          "kanji": "洋間",
+          "kana": "ようま",
+          "en": "Western-style room"
+        },
+        {
+          "kanji": "和洋",
+          "kana": "わよう",
+          "en": "Japan and the West"
+        },
+        {
+          "kanji": "洋紙",
+          "kana": "ようし",
+          "en": "Western paper"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "洋画",
+          "kana": "ようが",
+          "en": "Western painting"
+        }
+      }
+    },
+    {
+      "kanji": "流",
+      "on": [
+        "リュウ",
+        "ル"
+      ],
+      "kun": [
+        "なが.れる",
+        "なが.れ",
+        "なが.す",
+        "-なが.す"
+      ],
+      "meanings": [
+        "current",
+        "a sink",
+        "flow",
+        "forfeit"
+      ],
+      "words": [
+        {
+          "kanji": "流布",
+          "kana": "るふ",
+          "en": "circulation"
+        },
+        {
+          "kanji": "流",
+          "kana": "りゅう",
+          "en": "way"
+        },
+        {
+          "kanji": "流し",
+          "kana": "ながし",
+          "en": "sink (e.g. in a kitchen)"
+        },
+        {
+          "kanji": "流す",
+          "kana": "ながす",
+          "en": "to drain"
+        }
+      ],
+      "readingExamples": {
+        "リュウ": {
+          "kanji": "流",
+          "kana": "りゅう",
+          "en": "way"
+        },
+        "ル": {
+          "kanji": "流布",
+          "kana": "るふ",
+          "en": "circulation"
+        },
+        "ながれる": {
+          "kanji": "流れる",
+          "kana": "ながれる",
+          "en": "to stream"
+        },
+        "ながれ": {
+          "kanji": "流れ",
+          "kana": "ながれ",
+          "en": "flow (of a fluid or gas)"
+        },
+        "ながす": {
+          "kanji": "流す",
+          "kana": "ながす",
+          "en": "to drain"
+        }
+      }
+    },
+    {
+      "kanji": "消",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "き.える",
+        "け.す"
+      ],
+      "meanings": [
+        "extinguish",
+        "blow out",
+        "turn off",
+        "neutralize"
+      ],
+      "words": [
+        {
+          "kanji": "消す",
+          "kana": "けす",
+          "en": "to erase"
+        },
+        {
+          "kanji": "消える",
+          "kana": "きえる",
+          "en": "to disappear"
+        },
+        {
+          "kanji": "火消し",
+          "kana": "ひけし",
+          "en": "extinguishing a fire"
+        },
+        {
+          "kanji": "取り消す",
+          "kana": "とりけす",
+          "en": "to cancel"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "消化",
+          "kana": "しょうか",
+          "en": "digestion (of food)"
+        },
+        "きえる": {
+          "kanji": "消える",
+          "kana": "きえる",
+          "en": "to disappear"
+        },
+        "けす": {
+          "kanji": "消す",
+          "kana": "けす",
+          "en": "to erase"
+        }
+      }
+    },
+    {
+      "kanji": "深",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "ふか.い",
+        "-ぶか.い",
+        "ふか.まる",
+        "ふか.める",
+        "み-"
+      ],
+      "meanings": [
+        "deep",
+        "heighten",
+        "intensify",
+        "strengthen"
+      ],
+      "words": [
+        {
+          "kanji": "深い",
+          "kana": "ふかい",
+          "en": "deep"
+        },
+        {
+          "kanji": "深さ",
+          "kana": "ふかさ",
+          "en": "depth"
+        },
+        {
+          "kanji": "深み",
+          "kana": "ふかみ",
+          "en": "deep place"
+        },
+        {
+          "kanji": "深度",
+          "kana": "しんど",
+          "en": "depth"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "深度",
+          "kana": "しんど",
+          "en": "depth"
+        },
+        "ふかい": {
+          "kanji": "深い",
+          "kana": "ふかい",
+          "en": "deep"
+        },
+        "ふかまる": {
+          "kanji": "深まる",
+          "kana": "ふかまる",
+          "en": "to deepen"
+        },
+        "ふかめる": {
+          "kanji": "深める",
+          "kana": "ふかめる",
+          "en": "to deepen"
+        },
+        "み": {
+          "kanji": "深山",
+          "kana": "みやま",
+          "en": "mountain recesses"
+        }
+      }
+    },
+    {
+      "kanji": "温",
+      "on": [
+        "オン"
+      ],
+      "kun": [
+        "あたた.か",
+        "あたた.かい",
+        "あたた.まる",
+        "あたた.める",
+        "ぬく"
+      ],
+      "meanings": [
+        "warm"
+      ],
+      "words": [
+        {
+          "kanji": "温い",
+          "kana": "ぬるい",
+          "en": "lukewarm"
+        },
+        {
+          "kanji": "温度",
+          "kana": "おんど",
+          "en": "temperature"
+        },
+        {
+          "kanji": "気温",
+          "kana": "きおん",
+          "en": "(air) temperature"
+        },
+        {
+          "kanji": "保温",
+          "kana": "ほおん",
+          "en": "retaining warmth"
+        }
+      ],
+      "readingExamples": {
+        "オン": {
+          "kanji": "温度",
+          "kana": "おんど",
+          "en": "temperature"
+        },
+        "あたたまる": {
+          "kanji": "温まる",
+          "kana": "あたたまる",
+          "en": "to warm oneself"
+        },
+        "あたためる": {
+          "kanji": "温める",
+          "kana": "あたためる",
+          "en": "to warm (up)"
+        },
+        "ぬく": {
+          "kanji": "温もり",
+          "kana": "ぬくもり",
+          "en": "warmth"
+        }
+      }
+    },
+    {
+      "kanji": "港",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "みなと"
+      ],
+      "meanings": [
+        "harbor"
+      ],
+      "words": [
+        {
+          "kanji": "寄港",
+          "kana": "きこう",
+          "en": "calling at a port"
+        },
+        {
+          "kanji": "港",
+          "kana": "みなと",
+          "en": "harbour"
+        },
+        {
+          "kanji": "母港",
+          "kana": "ぼこう",
+          "en": "home port"
+        },
+        {
+          "kanji": "帰港",
+          "kana": "きこう",
+          "en": "returning to port"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "港内",
+          "kana": "こうない",
+          "en": "inside the harbour"
+        },
+        "みなと": {
+          "kanji": "港",
+          "kana": "みなと",
+          "en": "harbour"
+        }
+      }
+    },
+    {
+      "kanji": "湖",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "みずうみ"
+      ],
+      "meanings": [
+        "lake"
+      ],
+      "words": [
+        {
+          "kanji": "湖水",
+          "kana": "こすい",
+          "en": "lake"
+        },
+        {
+          "kanji": "湖底",
+          "kana": "こてい",
+          "en": "bottom of a lake"
+        },
+        {
+          "kanji": "湖岸",
+          "kana": "こがん",
+          "en": "lakeshore"
+        },
+        {
+          "kanji": "湖",
+          "kana": "みずうみ",
+          "en": "lake"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "湖水",
+          "kana": "こすい",
+          "en": "lake"
+        },
+        "みずうみ": {
+          "kanji": "湖",
+          "kana": "みずうみ",
+          "en": "lake"
+        }
+      }
+    },
+    {
+      "kanji": "湯",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "ゆ"
+      ],
+      "meanings": [
+        "hot water",
+        "bath",
+        "hot spring"
+      ],
+      "words": [
+        {
+          "kanji": "湯",
+          "kana": "ゆ",
+          "en": "hot water"
+        },
+        {
+          "kanji": "湯気",
+          "kana": "ゆげ",
+          "en": "steam"
+        },
+        {
+          "kanji": "湯治",
+          "kana": "とうじ",
+          "en": "hot-spring cure"
+        },
+        {
+          "kanji": "湯船",
+          "kana": "ゆぶね",
+          "en": "bathtub"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "湯治",
+          "kana": "とうじ",
+          "en": "hot-spring cure"
+        },
+        "ゆ": {
+          "kanji": "湯",
+          "kana": "ゆ",
+          "en": "hot water"
+        }
+      }
+    },
+    {
+      "kanji": "漢",
+      "on": [
+        "カン"
+      ],
+      "kun": [],
+      "meanings": [
+        "Sino-",
+        "China"
+      ],
+      "words": [
+        {
+          "kanji": "漢語",
+          "kana": "かんご",
+          "en": "Japanese word of Chinese origin"
+        },
+        {
+          "kanji": "漢詩",
+          "kana": "かんし",
+          "en": "Chinese poem"
+        },
+        {
+          "kanji": "漢字",
+          "kana": "かんじ",
+          "en": "kanji"
+        },
+        {
+          "kanji": "漢和",
+          "kana": "かんわ",
+          "en": "China and Japan"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "漢語",
+          "kana": "かんご",
+          "en": "Japanese word of Chinese origin"
+        }
+      }
+    },
+    {
+      "kanji": "炭",
+      "on": [
+        "タン"
+      ],
+      "kun": [
+        "すみ"
+      ],
+      "meanings": [
+        "charcoal",
+        "coal"
+      ],
+      "words": [
+        {
+          "kanji": "炭",
+          "kana": "すみ",
+          "en": "charcoal"
+        },
+        {
+          "kanji": "炭化",
+          "kana": "たんか",
+          "en": "carbonization"
+        },
+        {
+          "kanji": "炭素",
+          "kana": "たんそ",
+          "en": "carbon (C)"
+        },
+        {
+          "kanji": "炭火",
+          "kana": "すみび",
+          "en": "charcoal fire"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "炭化",
+          "kana": "たんか",
+          "en": "carbonization"
+        },
+        "すみ": {
+          "kanji": "炭",
+          "kana": "すみ",
+          "en": "charcoal"
+        }
+      }
+    },
+    {
+      "kanji": "物",
+      "on": [
+        "ブツ",
+        "モツ"
+      ],
+      "kun": [
+        "もの",
+        "もの-"
+      ],
+      "meanings": [
+        "thing",
+        "object",
+        "matter"
+      ],
+      "words": [
+        {
+          "kanji": "物",
+          "kana": "もの",
+          "en": "thing"
+        },
+        {
+          "kanji": "異物",
+          "kana": "いぶつ",
+          "en": "foreign substance"
+        },
+        {
+          "kanji": "遺物",
+          "kana": "いぶつ",
+          "en": "artifact"
+        },
+        {
+          "kanji": "荷物",
+          "kana": "にもつ",
+          "en": "luggage"
+        }
+      ],
+      "readingExamples": {
+        "ブツ": {
+          "kanji": "物議",
+          "kana": "ぶつぎ",
+          "en": "public discussion"
+        },
+        "もの": {
+          "kanji": "物",
+          "kana": "もの",
+          "en": "thing"
+        }
+      }
+    },
+    {
+      "kanji": "球",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "たま"
+      ],
+      "meanings": [
+        "ball",
+        "sphere"
+      ],
+      "words": [
+        {
+          "kanji": "球",
+          "kana": "きゅう",
+          "en": "sphere"
+        },
+        {
+          "kanji": "気球",
+          "kana": "ききゅう",
+          "en": "balloon (hot-air, weather, etc.)"
+        },
+        {
+          "kanji": "球技",
+          "kana": "きゅうぎ",
+          "en": "ball game (e.g. baseball, tennis, soccer)"
+        },
+        {
+          "kanji": "四球",
+          "kana": "しきゅう",
+          "en": "base on balls"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "球",
+          "kana": "きゅう",
+          "en": "sphere"
+        }
+      }
+    },
+    {
+      "kanji": "由",
+      "on": [
+        "ユ",
+        "ユウ",
+        "ユイ"
+      ],
+      "kun": [
+        "よし",
+        "よ.る"
+      ],
+      "meanings": [
+        "wherefore",
+        "a reason"
+      ],
+      "words": [
+        {
+          "kanji": "由",
+          "kana": "よし",
+          "en": "reason"
+        },
+        {
+          "kanji": "経由",
+          "kana": "けいゆ",
+          "en": "going through"
+        },
+        {
+          "kanji": "事由",
+          "kana": "じゆう",
+          "en": "reason"
+        },
+        {
+          "kanji": "自由",
+          "kana": "じゆう",
+          "en": "freedom"
+        }
+      ],
+      "readingExamples": {
+        "ユ": {
+          "kanji": "由来",
+          "kana": "ゆらい",
+          "en": "origin"
+        },
+        "ユイ": {
+          "kanji": "由緒",
+          "kana": "ゆいしょ",
+          "en": "history"
+        },
+        "よし": {
+          "kanji": "由",
+          "kana": "よし",
+          "en": "reason"
+        }
+      }
+    },
+    {
+      "kanji": "申",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "もう.す",
+        "もう.し-",
+        "さる"
+      ],
+      "meanings": [
+        "have the honor to",
+        "sign of the monkey",
+        "3-5PM",
+        "ninth sign of Chinese zodiac"
+      ],
+      "words": [
+        {
+          "kanji": "申",
+          "kana": "さる",
+          "en": "the Monkey (ninth sign of the Chinese zodiac)"
+        },
+        {
+          "kanji": "申す",
+          "kana": "もうす",
+          "en": "to say"
+        },
+        {
+          "kanji": "具申",
+          "kana": "ぐしん",
+          "en": "offering a full report to a superior"
+        },
+        {
+          "kanji": "申し子",
+          "kana": "もうしご",
+          "en": "heaven-sent child (in answer to a Shinto or Buddhist prayer)"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "申告",
+          "kana": "しんこく",
+          "en": "report"
+        },
+        "もうす": {
+          "kanji": "申す",
+          "kana": "もうす",
+          "en": "to say"
+        },
+        "もうし": {
+          "kanji": "申し子",
+          "kana": "もうしご",
+          "en": "heaven-sent child (in answer to a Shinto or Buddhist prayer)"
+        },
+        "さる": {
+          "kanji": "申",
+          "kana": "さる",
+          "en": "the Monkey (ninth sign of the Chinese zodiac)"
+        }
+      }
+    },
+    {
+      "kanji": "界",
+      "on": [
+        "カイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "world",
+        "boundary"
+      ],
+      "words": [
+        {
+          "kanji": "下界",
+          "kana": "げかい",
+          "en": "the earth below"
+        },
+        {
+          "kanji": "視界",
+          "kana": "しかい",
+          "en": "field of vision"
+        },
+        {
+          "kanji": "世界",
+          "kana": "せかい",
+          "en": "the world"
+        },
+        {
+          "kanji": "他界",
+          "kana": "たかい",
+          "en": "death"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "界隈",
+          "kana": "かいわい",
+          "en": "neighborhood"
+        }
+      }
+    },
+    {
+      "kanji": "畑",
+      "on": [],
+      "kun": [
+        "はた",
+        "はたけ",
+        "-ばたけ"
+      ],
+      "meanings": [
+        "farm",
+        "field",
+        "garden",
+        "one's specialty"
+      ],
+      "words": [
+        {
+          "kanji": "田畑",
+          "kana": "たはた",
+          "en": "fields (of rice and other crops)"
+        },
+        {
+          "kanji": "畑",
+          "kana": "はたけ",
+          "en": "field (for growing wheat, fruit, vegetables, etc.)"
+        },
+        {
+          "kanji": "畑地",
+          "kana": "はたち",
+          "en": "farmland"
+        },
+        {
+          "kanji": "畑作",
+          "kana": "はたさく",
+          "en": "dry field farming"
+        }
+      ],
+      "readingExamples": {
+        "はた": {
+          "kanji": "畑",
+          "kana": "はたけ",
+          "en": "field (for growing wheat, fruit, vegetables, etc.)"
+        },
+        "はたけ": {
+          "kanji": "畑",
+          "kana": "はたけ",
+          "en": "field (for growing wheat, fruit, vegetables, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "病",
+      "on": [
+        "ビョウ",
+        "ヘイ"
+      ],
+      "kun": [
+        "や.む",
+        "-や.み",
+        "やまい"
+      ],
+      "meanings": [
+        "ill",
+        "sick"
+      ],
+      "words": [
+        {
+          "kanji": "病む",
+          "kana": "やむ",
+          "en": "to fall ill"
+        },
+        {
+          "kanji": "病",
+          "kana": "やまい",
+          "en": "illness"
+        },
+        {
+          "kanji": "持病",
+          "kana": "じびょう",
+          "en": "chronic disease"
+        },
+        {
+          "kanji": "病気",
+          "kana": "びょうき",
+          "en": "illness (usu. excluding minor ailments, e.g. common cold)"
+        }
+      ],
+      "readingExamples": {
+        "ビョウ": {
+          "kanji": "病気",
+          "kana": "びょうき",
+          "en": "illness (usu. excluding minor ailments, e.g. common cold)"
+        },
+        "やむ": {
+          "kanji": "病む",
+          "kana": "やむ",
+          "en": "to fall ill"
+        },
+        "やまい": {
+          "kanji": "病",
+          "kana": "やまい",
+          "en": "illness"
+        }
+      }
+    },
+    {
+      "kanji": "発",
+      "on": [
+        "ハツ",
+        "ホツ"
+      ],
+      "kun": [
+        "た.つ",
+        "あば.く",
+        "おこ.る",
+        "つか.わす",
+        "はな.つ"
+      ],
+      "meanings": [
+        "departure",
+        "discharge",
+        "publish",
+        "emit"
+      ],
+      "words": [
+        {
+          "kanji": "発条",
+          "kana": "ばね",
+          "en": "spring (device)"
+        },
+        {
+          "kanji": "発",
+          "kana": "はつ",
+          "en": "departure"
+        },
+        {
+          "kanji": "揮発",
+          "kana": "きはつ",
+          "en": "volatilization"
+        },
+        {
+          "kanji": "始発",
+          "kana": "しはつ",
+          "en": "first departure (of the day)"
+        }
+      ],
+      "readingExamples": {
+        "ハツ": {
+          "kanji": "発",
+          "kana": "はつ",
+          "en": "departure"
+        }
+      }
+    },
+    {
+      "kanji": "登",
+      "on": [
+        "トウ",
+        "ト",
+        "ドウ",
+        "ショウ",
+        "チョウ"
+      ],
+      "kun": [
+        "のぼ.る",
+        "あ.がる"
+      ],
+      "meanings": [
+        "ascend",
+        "climb up"
+      ],
+      "words": [
+        {
+          "kanji": "登記",
+          "kana": "とうき",
+          "en": "registry"
+        },
+        {
+          "kanji": "登山",
+          "kana": "とざん",
+          "en": "mountain climbing"
+        },
+        {
+          "kanji": "登校",
+          "kana": "とうこう",
+          "en": "attendance (at school)"
+        },
+        {
+          "kanji": "登録",
+          "kana": "とうろく",
+          "en": "registration"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "登記",
+          "kana": "とうき",
+          "en": "registry"
+        },
+        "ト": {
+          "kanji": "登記",
+          "kana": "とうき",
+          "en": "registry"
+        }
+      }
+    },
+    {
+      "kanji": "皮",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "かわ"
+      ],
+      "meanings": [
+        "pelt",
+        "skin",
+        "hide",
+        "leather"
+      ],
+      "words": [
+        {
+          "kanji": "皮",
+          "kana": "かわ",
+          "en": "skin"
+        },
+        {
+          "kanji": "皮下",
+          "kana": "ひか",
+          "en": "subcutaneous"
+        },
+        {
+          "kanji": "樹皮",
+          "kana": "じゅひ",
+          "en": "bark (of a tree, etc.)"
+        },
+        {
+          "kanji": "皮革",
+          "kana": "ひかく",
+          "en": "leather"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "皮下",
+          "kana": "ひか",
+          "en": "subcutaneous"
+        },
+        "かわ": {
+          "kanji": "皮",
+          "kana": "かわ",
+          "en": "skin"
+        }
+      }
+    },
+    {
+      "kanji": "皿",
+      "on": [
+        "ベイ"
+      ],
+      "kun": [
+        "さら"
+      ],
+      "meanings": [
+        "dish",
+        "a helping",
+        "plate"
+      ],
+      "words": [
+        {
+          "kanji": "皿",
+          "kana": "さら",
+          "en": "plate"
+        },
+        {
+          "kanji": "小皿",
+          "kana": "こざら",
+          "en": "small plate"
+        },
+        {
+          "kanji": "灰皿",
+          "kana": "はいざら",
+          "en": "ashtray"
+        },
+        {
+          "kanji": "受け皿",
+          "kana": "うけざら",
+          "en": "saucer"
+        }
+      ],
+      "readingExamples": {
+        "さら": {
+          "kanji": "皿",
+          "kana": "さら",
+          "en": "plate"
+        }
+      }
+    },
+    {
+      "kanji": "相",
+      "on": [
+        "ソウ",
+        "ショウ"
+      ],
+      "kun": [
+        "あい-"
+      ],
+      "meanings": [
+        "inter-",
+        "mutual",
+        "together",
+        "each other"
+      ],
+      "words": [
+        {
+          "kanji": "位相",
+          "kana": "いそう",
+          "en": "phase (e.g. wave, electricity, moon)"
+        },
+        {
+          "kanji": "手相",
+          "kana": "てそう",
+          "en": "lines of the palm (in palm reading)"
+        },
+        {
+          "kanji": "世相",
+          "kana": "せそう",
+          "en": "social conditions"
+        },
+        {
+          "kanji": "相似",
+          "kana": "そうじ",
+          "en": "resemblance"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "相違",
+          "kana": "そうい",
+          "en": "difference"
+        },
+        "ショウ": {
+          "kanji": "相",
+          "kana": "しょう",
+          "en": "minister (of a government department)"
+        },
+        "あい": {
+          "kanji": "相手",
+          "kana": "あいて",
+          "en": "companion"
+        }
+      }
+    },
+    {
+      "kanji": "県",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "か.ける"
+      ],
+      "meanings": [
+        "prefecture"
+      ],
+      "words": [
+        {
+          "kanji": "県",
+          "kana": "けん",
+          "en": "prefecture (of Japan)"
+        },
+        {
+          "kanji": "県下",
+          "kana": "けんか",
+          "en": "in the prefecture"
+        },
+        {
+          "kanji": "県議",
+          "kana": "けんぎ",
+          "en": "prefectural assembly member"
+        },
+        {
+          "kanji": "府県",
+          "kana": "ふけん",
+          "en": "prefectures (of Japan, excl. Tokyo and Hokkaido)"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "県",
+          "kana": "けん",
+          "en": "prefecture (of Japan)"
+        }
+      }
+    },
+    {
+      "kanji": "真",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "ま",
+        "ま-",
+        "まこと"
+      ],
+      "meanings": [
+        "true",
+        "reality",
+        "Buddhist sect"
+      ],
+      "words": [
+        {
+          "kanji": "真",
+          "kana": "しん",
+          "en": "truth"
+        },
+        {
+          "kanji": "真似",
+          "kana": "まね",
+          "en": "imitating"
+        },
+        {
+          "kanji": "真っ赤",
+          "kana": "まっか",
+          "en": "bright red"
+        },
+        {
+          "kanji": "真意",
+          "kana": "しんい",
+          "en": "real intention"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "真",
+          "kana": "しん",
+          "en": "truth"
+        },
+        "ま": {
+          "kanji": "真似",
+          "kana": "まね",
+          "en": "imitating"
+        }
+      }
+    },
+    {
+      "kanji": "着",
+      "on": [
+        "チャク",
+        "ジャク"
+      ],
+      "kun": [
+        "き.る",
+        "き.せる",
+        "つ.く",
+        "つ.ける"
+      ],
+      "meanings": [
+        "don",
+        "arrive",
+        "wear",
+        "counter for suits of clothing"
+      ],
+      "words": [
+        {
+          "kanji": "着く",
+          "kana": "つく",
+          "en": "to arrive at"
+        },
+        {
+          "kanji": "着る",
+          "kana": "きる",
+          "en": "to wear (from the shoulders down)"
+        },
+        {
+          "kanji": "下着",
+          "kana": "したぎ",
+          "en": "underwear"
+        },
+        {
+          "kanji": "古着",
+          "kana": "ふるぎ",
+          "en": "old clothes"
+        }
+      ],
+      "readingExamples": {
+        "チャク": {
+          "kanji": "着",
+          "kana": "ちゃく",
+          "en": "arrival"
+        },
+        "きる": {
+          "kanji": "着る",
+          "kana": "きる",
+          "en": "to wear (from the shoulders down)"
+        },
+        "きせる": {
+          "kanji": "着せる",
+          "kana": "きせる",
+          "en": "to put clothes on (someone)"
+        },
+        "つく": {
+          "kanji": "着く",
+          "kana": "つく",
+          "en": "to arrive at"
+        }
+      }
+    },
+    {
+      "kanji": "短",
+      "on": [
+        "タン"
+      ],
+      "kun": [
+        "みじか.い"
+      ],
+      "meanings": [
+        "short",
+        "brevity",
+        "fault",
+        "defect"
+      ],
+      "words": [
+        {
+          "kanji": "短歌",
+          "kana": "たんか",
+          "en": "tanka"
+        },
+        {
+          "kanji": "短期",
+          "kana": "たんき",
+          "en": "short-term"
+        },
+        {
+          "kanji": "短気",
+          "kana": "たんき",
+          "en": "short temper"
+        },
+        {
+          "kanji": "短詩",
+          "kana": "たんし",
+          "en": "verselet"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "短歌",
+          "kana": "たんか",
+          "en": "tanka"
+        },
+        "みじかい": {
+          "kanji": "短い",
+          "kana": "みじかい",
+          "en": "short"
+        }
+      }
+    },
+    {
+      "kanji": "研",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "と.ぐ"
+      ],
+      "meanings": [
+        "polish",
+        "study of",
+        "sharpen"
+      ],
+      "words": [
+        {
+          "kanji": "研ぐ",
+          "kana": "とぐ",
+          "en": "to sharpen"
+        },
+        {
+          "kanji": "研ぎ",
+          "kana": "とぎ",
+          "en": "polish"
+        },
+        {
+          "kanji": "予研",
+          "kana": "よけん",
+          "en": "National Institute of Health"
+        },
+        {
+          "kanji": "研究",
+          "kana": "けんきゅう",
+          "en": "research"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "研磨",
+          "kana": "けんま",
+          "en": "grinding"
+        },
+        "とぐ": {
+          "kanji": "研ぐ",
+          "kana": "とぐ",
+          "en": "to sharpen"
+        }
+      }
+    },
+    {
+      "kanji": "礼",
+      "on": [
+        "レイ",
+        "ライ"
+      ],
+      "kun": [],
+      "meanings": [
+        "salute",
+        "bow",
+        "ceremony",
+        "thanks"
+      ],
+      "words": [
+        {
+          "kanji": "礼",
+          "kana": "れい",
+          "en": "thanks"
+        },
+        {
+          "kanji": "お礼",
+          "kana": "おれい",
+          "en": "thanks"
+        },
+        {
+          "kanji": "非礼",
+          "kana": "ひれい",
+          "en": "impoliteness"
+        },
+        {
+          "kanji": "無礼",
+          "kana": "ぶれい",
+          "en": "rudeness"
+        }
+      ],
+      "readingExamples": {
+        "レイ": {
+          "kanji": "礼",
+          "kana": "れい",
+          "en": "thanks"
+        },
+        "ライ": {
+          "kanji": "礼賛",
+          "kana": "らいさん",
+          "en": "praise"
+        }
+      }
+    },
+    {
+      "kanji": "神",
+      "on": [
+        "シン",
+        "ジン"
+      ],
+      "kun": [
+        "かみ",
+        "かん-",
+        "こう-"
+      ],
+      "meanings": [
+        "gods",
+        "mind",
+        "soul"
+      ],
+      "words": [
+        {
+          "kanji": "神",
+          "kana": "かみ",
+          "en": "god"
+        },
+        {
+          "kanji": "女神",
+          "kana": "めがみ",
+          "en": "goddess"
+        },
+        {
+          "kanji": "神楽",
+          "kana": "かぐら",
+          "en": "kagura"
+        },
+        {
+          "kanji": "神代",
+          "kana": "かみよ",
+          "en": "ancient time"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "神秘",
+          "kana": "しんぴ",
+          "en": "mystery"
+        },
+        "ジン": {
+          "kanji": "神器",
+          "kana": "じんぎ",
+          "en": "sacred treasure"
+        },
+        "かみ": {
+          "kanji": "神",
+          "kana": "かみ",
+          "en": "god"
+        },
+        "かん": {
+          "kanji": "神主",
+          "kana": "かんぬし",
+          "en": "Shinto priest"
+        },
+        "こう": {
+          "kanji": "神戸",
+          "kana": "こうべ",
+          "en": "Kobe (city)"
+        }
+      }
+    },
+    {
+      "kanji": "祭",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "まつ.る",
+        "まつ.り",
+        "まつり"
+      ],
+      "meanings": [
+        "ritual",
+        "offer prayers",
+        "celebrate",
+        "deify"
+      ],
+      "words": [
+        {
+          "kanji": "祭る",
+          "kana": "まつる",
+          "en": "to deify"
+        },
+        {
+          "kanji": "祭り",
+          "kana": "まつり",
+          "en": "festival"
+        },
+        {
+          "kanji": "司祭",
+          "kana": "しさい",
+          "en": "priest"
+        },
+        {
+          "kanji": "祭事",
+          "kana": "さいじ",
+          "en": "festival"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "祭祀",
+          "kana": "さいし",
+          "en": "ritual"
+        },
+        "まつる": {
+          "kanji": "祭る",
+          "kana": "まつる",
+          "en": "to deify"
+        },
+        "まつり": {
+          "kanji": "祭り",
+          "kana": "まつり",
+          "en": "festival"
+        }
+      }
+    },
+    {
+      "kanji": "福",
+      "on": [
+        "フク"
+      ],
+      "kun": [],
+      "meanings": [
+        "blessing",
+        "fortune",
+        "luck",
+        "wealth"
+      ],
+      "words": [
+        {
+          "kanji": "福",
+          "kana": "ふく",
+          "en": "good fortune"
+        },
+        {
+          "kanji": "至福",
+          "kana": "しふく",
+          "en": "beatitude"
+        },
+        {
+          "kanji": "福利",
+          "kana": "ふくり",
+          "en": "welfare"
+        },
+        {
+          "kanji": "幸福",
+          "kana": "こうふく",
+          "en": "happiness"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "福",
+          "kana": "ふく",
+          "en": "good fortune"
+        }
+      }
+    },
+    {
+      "kanji": "秒",
+      "on": [
+        "ビョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "second (1/60 minute)"
+      ],
+      "words": [
+        {
+          "kanji": "秒",
+          "kana": "びょう",
+          "en": "second (unit of time)"
+        },
+        {
+          "kanji": "秒速",
+          "kana": "びょうそく",
+          "en": "speed per second"
+        },
+        {
+          "kanji": "秒読み",
+          "kana": "びょうよみ",
+          "en": "countdown"
+        },
+        {
+          "kanji": "毎秒",
+          "kana": "まいびょう",
+          "en": "every second"
+        }
+      ],
+      "readingExamples": {
+        "ビョウ": {
+          "kanji": "秒",
+          "kana": "びょう",
+          "en": "second (unit of time)"
+        }
+      }
+    },
+    {
+      "kanji": "究",
+      "on": [
+        "キュウ",
+        "ク"
+      ],
+      "kun": [
+        "きわ.める"
+      ],
+      "meanings": [
+        "research",
+        "study"
+      ],
+      "words": [
+        {
+          "kanji": "学究",
+          "kana": "がっきゅう",
+          "en": "scholar"
+        },
+        {
+          "kanji": "究明",
+          "kana": "きゅうめい",
+          "en": "investigation (esp. in academic and scientific contexts)"
+        },
+        {
+          "kanji": "研究",
+          "kana": "けんきゅう",
+          "en": "research"
+        },
+        {
+          "kanji": "探究",
+          "kana": "たんきゅう",
+          "en": "research"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "究明",
+          "kana": "きゅうめい",
+          "en": "investigation (esp. in academic and scientific contexts)"
+        }
+      }
+    },
+    {
+      "kanji": "章",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "badge",
+        "chapter",
+        "composition",
+        "poem"
+      ],
+      "words": [
+        {
+          "kanji": "章",
+          "kana": "しょう",
+          "en": "chapter"
+        },
+        {
+          "kanji": "記章",
+          "kana": "きしょう",
+          "en": "medal"
+        },
+        {
+          "kanji": "印章",
+          "kana": "いんしょう",
+          "en": "stamp"
+        },
+        {
+          "kanji": "楽章",
+          "kana": "がくしょう",
+          "en": "movement"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "章",
+          "kana": "しょう",
+          "en": "chapter"
+        }
+      }
+    },
+    {
+      "kanji": "童",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "わらべ"
+      ],
+      "meanings": [
+        "juvenile",
+        "child"
+      ],
+      "words": [
+        {
+          "kanji": "河童",
+          "kana": "かっぱ",
+          "en": "kappa"
+        },
+        {
+          "kanji": "児童",
+          "kana": "じどう",
+          "en": "children"
+        },
+        {
+          "kanji": "童画",
+          "kana": "どうが",
+          "en": "pictures drawn by child"
+        },
+        {
+          "kanji": "童子",
+          "kana": "どうじ",
+          "en": "boy"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "童画",
+          "kana": "どうが",
+          "en": "pictures drawn by child"
+        }
+      }
+    },
+    {
+      "kanji": "笛",
+      "on": [
+        "テキ"
+      ],
+      "kun": [
+        "ふえ"
+      ],
+      "meanings": [
+        "flute",
+        "clarinet",
+        "pipe",
+        "whistle"
+      ],
+      "words": [
+        {
+          "kanji": "笛",
+          "kana": "ふえ",
+          "en": "flute"
+        },
+        {
+          "kanji": "汽笛",
+          "kana": "きてき",
+          "en": "steam whistle"
+        },
+        {
+          "kanji": "警笛",
+          "kana": "けいてき",
+          "en": "horn"
+        },
+        {
+          "kanji": "口笛",
+          "kana": "くちぶえ",
+          "en": "whistle (sound made with the lips)"
+        }
+      ],
+      "readingExamples": {
+        "ふえ": {
+          "kanji": "笛",
+          "kana": "ふえ",
+          "en": "flute"
+        }
+      }
+    },
+    {
+      "kanji": "第",
+      "on": [
+        "ダイ",
+        "テイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "No.",
+        "residence"
+      ],
+      "words": [
+        {
+          "kanji": "第",
+          "kana": "だい",
+          "en": "prefix for forming ordinal numbers"
+        },
+        {
+          "kanji": "次第",
+          "kana": "しだい",
+          "en": "depending on"
+        },
+        {
+          "kanji": "第二",
+          "kana": "だいに",
+          "en": "second"
+        },
+        {
+          "kanji": "次第に",
+          "kana": "しだいに",
+          "en": "gradually"
+        }
+      ],
+      "readingExamples": {
+        "ダイ": {
+          "kanji": "第",
+          "kana": "だい",
+          "en": "prefix for forming ordinal numbers"
+        }
+      }
+    },
+    {
+      "kanji": "筆",
+      "on": [
+        "ヒツ"
+      ],
+      "kun": [
+        "ふで"
+      ],
+      "meanings": [
+        "writing brush",
+        "writing",
+        "painting brush",
+        "handwriting"
+      ],
+      "words": [
+        {
+          "kanji": "筆",
+          "kana": "ふで",
+          "en": "writing brush"
+        },
+        {
+          "kanji": "加筆",
+          "kana": "かひつ",
+          "en": "improvement (to a piece of writing or painting)"
+        },
+        {
+          "kanji": "自筆",
+          "kana": "じひつ",
+          "en": "one's own handwriting"
+        },
+        {
+          "kanji": "筆記",
+          "kana": "ひっき",
+          "en": "writing down"
+        }
+      ],
+      "readingExamples": {
+        "ヒツ": {
+          "kanji": "筆名",
+          "kana": "ひつめい",
+          "en": "alias"
+        },
+        "ふで": {
+          "kanji": "筆",
+          "kana": "ふで",
+          "en": "writing brush"
+        }
+      }
+    },
+    {
+      "kanji": "等",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "ひと.しい",
+        "など",
+        "-ら"
+      ],
+      "meanings": [
+        "etc.",
+        "and so forth",
+        "class (first)",
+        "quality"
+      ],
+      "words": [
+        {
+          "kanji": "等",
+          "kana": "ら",
+          "en": "pluralizing suffix"
+        },
+        {
+          "kanji": "等",
+          "kana": "など",
+          "en": "et cetera"
+        },
+        {
+          "kanji": "これ等",
+          "kana": "これら",
+          "en": "these"
+        },
+        {
+          "kanji": "それ等",
+          "kana": "それら",
+          "en": "those"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "等価",
+          "kana": "とうか",
+          "en": "equivalence"
+        },
+        "ひとしい": {
+          "kanji": "等しい",
+          "kana": "ひとしい",
+          "en": "equal"
+        },
+        "など": {
+          "kanji": "等",
+          "kana": "など",
+          "en": "et cetera"
+        },
+        "ら": {
+          "kanji": "等",
+          "kana": "ら",
+          "en": "pluralizing suffix"
+        }
+      }
+    },
+    {
+      "kanji": "箱",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "はこ"
+      ],
+      "meanings": [
+        "box",
+        "chest",
+        "case",
+        "bin"
+      ],
+      "words": [
+        {
+          "kanji": "箱",
+          "kana": "はこ",
+          "en": "box"
+        },
+        {
+          "kanji": "巣箱",
+          "kana": "すばこ",
+          "en": "birdhouse"
+        },
+        {
+          "kanji": "ゴミ箱",
+          "kana": "ごみばこ",
+          "en": "trash can"
+        },
+        {
+          "kanji": "本箱",
+          "kana": "ほんばこ",
+          "en": "bookcase"
+        }
+      ],
+      "readingExamples": {
+        "はこ": {
+          "kanji": "箱",
+          "kana": "はこ",
+          "en": "box"
+        }
+      }
+    },
+    {
+      "kanji": "級",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "class",
+        "rank",
+        "grade"
+      ],
+      "words": [
+        {
+          "kanji": "級",
+          "kana": "きゅう",
+          "en": "(school) grade"
+        },
+        {
+          "kanji": "下級",
+          "kana": "かきゅう",
+          "en": "lower grade"
+        },
+        {
+          "kanji": "一級",
+          "kana": "いっきゅう",
+          "en": "one grade"
+        },
+        {
+          "kanji": "階級",
+          "kana": "かいきゅう",
+          "en": "(social) class"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "級",
+          "kana": "きゅう",
+          "en": "(school) grade"
+        }
+      }
+    },
+    {
+      "kanji": "終",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [
+        "お.わる",
+        "-お.わる",
+        "おわ.る",
+        "お.える",
+        "つい",
+        "つい.に"
+      ],
+      "meanings": [
+        "end",
+        "finish"
+      ],
+      "words": [
+        {
+          "kanji": "終える",
+          "kana": "おえる",
+          "en": "to finish"
+        },
+        {
+          "kanji": "終わり",
+          "kana": "おわり",
+          "en": "end"
+        },
+        {
+          "kanji": "終わる",
+          "kana": "おわる",
+          "en": "to end"
+        },
+        {
+          "kanji": "始終",
+          "kana": "しじゅう",
+          "en": "continuously"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "終始",
+          "kana": "しゅうし",
+          "en": "beginning and end"
+        },
+        "おわる": {
+          "kanji": "終わる",
+          "kana": "おわる",
+          "en": "to end"
+        },
+        "おえる": {
+          "kanji": "終える",
+          "kana": "おえる",
+          "en": "to finish"
+        }
+      }
+    },
+    {
+      "kanji": "緑",
+      "on": [
+        "リョク",
+        "ロク"
+      ],
+      "kun": [
+        "みどり"
+      ],
+      "meanings": [
+        "green"
+      ],
+      "words": [
+        {
+          "kanji": "緑",
+          "kana": "みどり",
+          "en": "green"
+        },
+        {
+          "kanji": "黄緑",
+          "kana": "きみどり",
+          "en": "pea green"
+        },
+        {
+          "kanji": "緑地",
+          "kana": "りょくち",
+          "en": "green tract of land"
+        },
+        {
+          "kanji": "緑化",
+          "kana": "りょっか",
+          "en": "greening (i.e. planting to increase greenery)"
+        }
+      ],
+      "readingExamples": {
+        "リョク": {
+          "kanji": "緑地",
+          "kana": "りょくち",
+          "en": "green tract of land"
+        },
+        "ロク": {
+          "kanji": "緑青",
+          "kana": "ろくしょう",
+          "en": "verdigris"
+        },
+        "みどり": {
+          "kanji": "緑",
+          "kana": "みどり",
+          "en": "green"
+        }
+      }
+    },
+    {
+      "kanji": "練",
+      "on": [
+        "レン"
+      ],
+      "kun": [
+        "ね.る",
+        "ね.り"
+      ],
+      "meanings": [
+        "practice",
+        "gloss",
+        "train",
+        "drill"
+      ],
+      "words": [
+        {
+          "kanji": "練る",
+          "kana": "ねる",
+          "en": "to knead"
+        },
+        {
+          "kanji": "練り",
+          "kana": "ねり",
+          "en": "kneading"
+        },
+        {
+          "kanji": "試練",
+          "kana": "しれん",
+          "en": "test"
+        },
+        {
+          "kanji": "未練",
+          "kana": "みれん",
+          "en": "lingering attachment"
+        }
+      ],
+      "readingExamples": {
+        "レン": {
+          "kanji": "練達",
+          "kana": "れんたつ",
+          "en": "expert(ise)"
+        },
+        "ねる": {
+          "kanji": "練る",
+          "kana": "ねる",
+          "en": "to knead"
+        },
+        "ねり": {
+          "kanji": "練り",
+          "kana": "ねり",
+          "en": "kneading"
+        }
+      }
+    },
+    {
+      "kanji": "羊",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "ひつじ"
+      ],
+      "meanings": [
+        "sheep"
+      ],
+      "words": [
+        {
+          "kanji": "羊",
+          "kana": "ひつじ",
+          "en": "sheep (Ovis aries)"
+        },
+        {
+          "kanji": "羊肉",
+          "kana": "ようにく",
+          "en": "mutton"
+        },
+        {
+          "kanji": "羊毛",
+          "kana": "ようもう",
+          "en": "wool"
+        },
+        {
+          "kanji": "子羊",
+          "kana": "こひつじ",
+          "en": "lamb"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "羊肉",
+          "kana": "ようにく",
+          "en": "mutton"
+        },
+        "ひつじ": {
+          "kanji": "羊",
+          "kana": "ひつじ",
+          "en": "sheep (Ovis aries)"
+        }
+      }
+    },
+    {
+      "kanji": "美",
+      "on": [
+        "ビ",
+        "ミ"
+      ],
+      "kun": [
+        "うつく.しい"
+      ],
+      "meanings": [
+        "beauty",
+        "beautiful"
+      ],
+      "words": [
+        {
+          "kanji": "美",
+          "kana": "び",
+          "en": "beauty"
+        },
+        {
+          "kanji": "美化",
+          "kana": "びか",
+          "en": "beautification"
+        },
+        {
+          "kanji": "美味",
+          "kana": "びみ",
+          "en": "exquisite flavor (flavour)"
+        },
+        {
+          "kanji": "賛美",
+          "kana": "さんび",
+          "en": "praise"
+        }
+      ],
+      "readingExamples": {
+        "ビ": {
+          "kanji": "美",
+          "kana": "び",
+          "en": "beauty"
+        },
+        "うつくしい": {
+          "kanji": "美しい",
+          "kana": "うつくしい",
+          "en": "beautiful"
+        }
+      }
+    },
+    {
+      "kanji": "習",
+      "on": [
+        "シュウ",
+        "ジュ"
+      ],
+      "kun": [
+        "なら.う",
+        "なら.い"
+      ],
+      "meanings": [
+        "learn"
+      ],
+      "words": [
+        {
+          "kanji": "習い",
+          "kana": "ならい",
+          "en": "as is habit"
+        },
+        {
+          "kanji": "習う",
+          "kana": "ならう",
+          "en": "to take lessons in"
+        },
+        {
+          "kanji": "見習う",
+          "kana": "みならう",
+          "en": "to follow (someone's) example"
+        },
+        {
+          "kanji": "自習",
+          "kana": "じしゅう",
+          "en": "self-study"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "習字",
+          "kana": "しゅうじ",
+          "en": "penmanship"
+        },
+        "ならう": {
+          "kanji": "習う",
+          "kana": "ならう",
+          "en": "to take lessons in"
+        },
+        "ならい": {
+          "kanji": "習い",
+          "kana": "ならい",
+          "en": "as is habit"
+        }
+      }
+    },
+    {
+      "kanji": "者",
+      "on": [
+        "シャ"
+      ],
+      "kun": [
+        "もの"
+      ],
+      "meanings": [
+        "someone",
+        "person"
+      ],
+      "words": [
+        {
+          "kanji": "者",
+          "kana": "もの",
+          "en": "person"
+        },
+        {
+          "kanji": "医者",
+          "kana": "いしゃ",
+          "en": "doctor"
+        },
+        {
+          "kanji": "記者",
+          "kana": "きしゃ",
+          "en": "reporter"
+        },
+        {
+          "kanji": "使者",
+          "kana": "ししゃ",
+          "en": "messenger"
+        }
+      ],
+      "readingExamples": {
+        "もの": {
+          "kanji": "者",
+          "kana": "もの",
+          "en": "person"
+        }
+      }
+    },
+    {
+      "kanji": "育",
+      "on": [
+        "イク"
+      ],
+      "kun": [
+        "そだ.つ",
+        "そだ.ち",
+        "そだ.てる",
+        "はぐく.む"
+      ],
+      "meanings": [
+        "bring up",
+        "grow up",
+        "raise",
+        "rear"
+      ],
+      "words": [
+        {
+          "kanji": "育ち",
+          "kana": "そだち",
+          "en": "growth"
+        },
+        {
+          "kanji": "育つ",
+          "kana": "そだつ",
+          "en": "to be raised (e.g. child)"
+        },
+        {
+          "kanji": "育児",
+          "kana": "いくじ",
+          "en": "childcare"
+        },
+        {
+          "kanji": "飼育",
+          "kana": "しいく",
+          "en": "breeding"
+        }
+      ],
+      "readingExamples": {
+        "イク": {
+          "kanji": "育児",
+          "kana": "いくじ",
+          "en": "childcare"
+        },
+        "そだつ": {
+          "kanji": "育つ",
+          "kana": "そだつ",
+          "en": "to be raised (e.g. child)"
+        },
+        "そだち": {
+          "kanji": "育ち",
+          "kana": "そだち",
+          "en": "growth"
+        },
+        "そだてる": {
+          "kanji": "育てる",
+          "kana": "そだてる",
+          "en": "to raise"
+        },
+        "はぐくむ": {
+          "kanji": "育む",
+          "kana": "はぐくむ",
+          "en": "to raise"
+        }
+      }
+    },
+    {
+      "kanji": "苦",
+      "on": [
+        "ク"
+      ],
+      "kun": [
+        "くる.しい",
+        "-ぐる.しい",
+        "くる.しむ",
+        "くる.しめる",
+        "にが.い",
+        "にが.る"
+      ],
+      "meanings": [
+        "suffering",
+        "trial",
+        "worry",
+        "hardship"
+      ],
+      "words": [
+        {
+          "kanji": "苦い",
+          "kana": "にがい",
+          "en": "bitter (taste)"
+        },
+        {
+          "kanji": "苦学",
+          "kana": "くがく",
+          "en": "working one's way through school"
+        },
+        {
+          "kanji": "苦楽",
+          "kana": "くらく",
+          "en": "pleasure and pain"
+        },
+        {
+          "kanji": "苦言",
+          "kana": "くげん",
+          "en": "candid advice"
+        }
+      ],
+      "readingExamples": {
+        "ク": {
+          "kanji": "苦学",
+          "kana": "くがく",
+          "en": "working one's way through school"
+        },
+        "くるしい": {
+          "kanji": "苦しい",
+          "kana": "くるしい",
+          "en": "painful"
+        },
+        "くるしむ": {
+          "kanji": "苦しむ",
+          "kana": "くるしむ",
+          "en": "to suffer"
+        },
+        "くるしめる": {
+          "kanji": "苦しめる",
+          "kana": "くるしめる",
+          "en": "to torment"
+        },
+        "にがい": {
+          "kanji": "苦い",
+          "kana": "にがい",
+          "en": "bitter (taste)"
+        }
+      }
+    },
+    {
+      "kanji": "荷",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "に"
+      ],
+      "meanings": [
+        "baggage",
+        "shoulder-pole load",
+        "bear (a burden)",
+        "shoulder (a gun)"
+      ],
+      "words": [
+        {
+          "kanji": "荷",
+          "kana": "に",
+          "en": "load"
+        },
+        {
+          "kanji": "負荷",
+          "kana": "ふか",
+          "en": "burdening"
+        },
+        {
+          "kanji": "荷札",
+          "kana": "にふだ",
+          "en": "label"
+        },
+        {
+          "kanji": "荷主",
+          "kana": "にぬし",
+          "en": "shipper"
+        }
+      ],
+      "readingExamples": {
+        "に": {
+          "kanji": "荷",
+          "kana": "に",
+          "en": "load"
+        }
+      }
+    },
+    {
+      "kanji": "落",
+      "on": [
+        "ラク"
+      ],
+      "kun": [
+        "お.ちる",
+        "お.ち",
+        "お.とす"
+      ],
+      "meanings": [
+        "fall",
+        "drop",
+        "come down",
+        "village"
+      ],
+      "words": [
+        {
+          "kanji": "落ち",
+          "kana": "おち",
+          "en": "slip"
+        },
+        {
+          "kanji": "下落",
+          "kana": "げらく",
+          "en": "depreciation"
+        },
+        {
+          "kanji": "部落",
+          "kana": "ぶらく",
+          "en": "hamlet"
+        },
+        {
+          "kanji": "落ちる",
+          "kana": "おちる",
+          "en": "to fall"
+        }
+      ],
+      "readingExamples": {
+        "ラク": {
+          "kanji": "落語",
+          "kana": "らくご",
+          "en": "rakugo"
+        },
+        "おちる": {
+          "kanji": "落ちる",
+          "kana": "おちる",
+          "en": "to fall"
+        },
+        "おち": {
+          "kanji": "落ち",
+          "kana": "おち",
+          "en": "slip"
+        },
+        "おとす": {
+          "kanji": "落とす",
+          "kana": "おとす",
+          "en": "to drop"
+        }
+      }
+    },
+    {
+      "kanji": "葉",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "は"
+      ],
+      "meanings": [
+        "leaf",
+        "plane",
+        "lobe",
+        "needle"
+      ],
+      "words": [
+        {
+          "kanji": "葉",
+          "kana": "は",
+          "en": "leaf"
+        },
+        {
+          "kanji": "千葉",
+          "kana": "ちば",
+          "en": "Chiba (city, prefecture)"
+        },
+        {
+          "kanji": "言葉",
+          "kana": "ことば",
+          "en": "language"
+        },
+        {
+          "kanji": "若葉",
+          "kana": "わかば",
+          "en": "new leaves"
+        }
+      ],
+      "readingExamples": {
+        "は": {
+          "kanji": "葉",
+          "kana": "は",
+          "en": "leaf"
+        }
+      }
+    },
+    {
+      "kanji": "薬",
+      "on": [
+        "ヤク"
+      ],
+      "kun": [
+        "くすり"
+      ],
+      "meanings": [
+        "medicine",
+        "chemical",
+        "enamel",
+        "gunpowder"
+      ],
+      "words": [
+        {
+          "kanji": "医薬",
+          "kana": "いやく",
+          "en": "medicine"
+        },
+        {
+          "kanji": "火薬",
+          "kana": "かやく",
+          "en": "gunpowder"
+        },
+        {
+          "kanji": "試薬",
+          "kana": "しやく",
+          "en": "reagent"
+        },
+        {
+          "kanji": "薬",
+          "kana": "くすり",
+          "en": "medicine"
+        }
+      ],
+      "readingExamples": {
+        "ヤク": {
+          "kanji": "薬師",
+          "kana": "やくし",
+          "en": "Bhaisajyaguru"
+        },
+        "くすり": {
+          "kanji": "薬",
+          "kana": "くすり",
+          "en": "medicine"
+        }
+      }
+    },
+    {
+      "kanji": "血",
+      "on": [
+        "ケツ"
+      ],
+      "kun": [
+        "ち"
+      ],
+      "meanings": [
+        "blood"
+      ],
+      "words": [
+        {
+          "kanji": "血",
+          "kana": "ち",
+          "en": "blood"
+        },
+        {
+          "kanji": "血筋",
+          "kana": "ちすじ",
+          "en": "lineage"
+        },
+        {
+          "kanji": "止血",
+          "kana": "しけつ",
+          "en": "stopping of bleeding"
+        },
+        {
+          "kanji": "輸血",
+          "kana": "ゆけつ",
+          "en": "blood transfusion"
+        }
+      ],
+      "readingExamples": {
+        "ケツ": {
+          "kanji": "血圧",
+          "kana": "けつあつ",
+          "en": "blood pressure"
+        },
+        "ち": {
+          "kanji": "血",
+          "kana": "ち",
+          "en": "blood"
+        }
+      }
+    },
+    {
+      "kanji": "表",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [
+        "おもて",
+        "-おもて",
+        "あらわ.す",
+        "あらわ.れる",
+        "あら.わす"
+      ],
+      "meanings": [
+        "surface",
+        "table",
+        "chart",
+        "diagram"
+      ],
+      "words": [
+        {
+          "kanji": "表",
+          "kana": "おもて",
+          "en": "surface"
+        },
+        {
+          "kanji": "表",
+          "kana": "ひょう",
+          "en": "table"
+        },
+        {
+          "kanji": "意表",
+          "kana": "いひょう",
+          "en": "surprise"
+        },
+        {
+          "kanji": "表す",
+          "kana": "あらわす",
+          "en": "to represent"
+        }
+      ],
+      "readingExamples": {
+        "ヒョウ": {
+          "kanji": "表",
+          "kana": "ひょう",
+          "en": "table"
+        },
+        "おもて": {
+          "kanji": "表",
+          "kana": "おもて",
+          "en": "surface"
+        },
+        "あらわす": {
+          "kanji": "表す",
+          "kana": "あらわす",
+          "en": "to represent"
+        }
+      }
+    },
+    {
+      "kanji": "詩",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "うた"
+      ],
+      "meanings": [
+        "poem",
+        "poetry"
+      ],
+      "words": [
+        {
+          "kanji": "詩",
+          "kana": "し",
+          "en": "poem"
+        },
+        {
+          "kanji": "詩句",
+          "kana": "しく",
+          "en": "verse"
+        },
+        {
+          "kanji": "漢詩",
+          "kana": "かんし",
+          "en": "Chinese poem"
+        },
+        {
+          "kanji": "作詩",
+          "kana": "さくし",
+          "en": "versification"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "詩",
+          "kana": "し",
+          "en": "poem"
+        }
+      }
+    },
+    {
+      "kanji": "調",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "しら.べる",
+        "しら.べ",
+        "ととの.う",
+        "ととの.える"
+      ],
+      "meanings": [
+        "tune",
+        "tone",
+        "meter",
+        "key (music)"
+      ],
+      "words": [
+        {
+          "kanji": "調べ",
+          "kana": "しらべ",
+          "en": "investigation"
+        },
+        {
+          "kanji": "基調",
+          "kana": "きちょう",
+          "en": "basic tone"
+        },
+        {
+          "kanji": "口調",
+          "kana": "くちょう",
+          "en": "tone (of voice)"
+        },
+        {
+          "kanji": "調べる",
+          "kana": "しらべる",
+          "en": "to examine"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "調査",
+          "kana": "ちょうさ",
+          "en": "investigation"
+        },
+        "しらべる": {
+          "kanji": "調べる",
+          "kana": "しらべる",
+          "en": "to examine"
+        },
+        "しらべ": {
+          "kanji": "調べ",
+          "kana": "しらべ",
+          "en": "investigation"
+        }
+      }
+    },
+    {
+      "kanji": "談",
+      "on": [
+        "ダン"
+      ],
+      "kun": [],
+      "meanings": [
+        "discuss",
+        "talk"
+      ],
+      "words": [
+        {
+          "kanji": "示談",
+          "kana": "じだん",
+          "en": "settlement out of court"
+        },
+        {
+          "kanji": "談義",
+          "kana": "だんぎ",
+          "en": "(informal) discussion"
+        },
+        {
+          "kanji": "談話",
+          "kana": "だんわ",
+          "en": "talk"
+        },
+        {
+          "kanji": "余談",
+          "kana": "よだん",
+          "en": "digression"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "談義",
+          "kana": "だんぎ",
+          "en": "(informal) discussion"
+        }
+      }
+    },
+    {
+      "kanji": "豆",
+      "on": [
+        "トウ",
+        "ズ"
+      ],
+      "kun": [
+        "まめ",
+        "まめ-"
+      ],
+      "meanings": [
+        "beans",
+        "pea",
+        "midget"
+      ],
+      "words": [
+        {
+          "kanji": "豆",
+          "kana": "まめ",
+          "en": "legume (esp. edible legumes or their seeds, e.g. beans, peas, pulses)"
+        },
+        {
+          "kanji": "小豆",
+          "kana": "あずき",
+          "en": "adzuki bean (Vigna angularis)"
+        },
+        {
+          "kanji": "大豆",
+          "kana": "だいず",
+          "en": "soya bean (Glycine max)"
+        },
+        {
+          "kanji": "枝豆",
+          "kana": "えだまめ",
+          "en": "edamame (green soybeans)"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "豆腐",
+          "kana": "とうふ",
+          "en": "tofu"
+        },
+        "まめ": {
+          "kanji": "豆",
+          "kana": "まめ",
+          "en": "legume (esp. edible legumes or their seeds, e.g. beans, peas, pulses)"
+        }
+      }
+    },
+    {
+      "kanji": "負",
+      "on": [
+        "フ"
+      ],
+      "kun": [
+        "ま.ける",
+        "ま.かす",
+        "お.う"
+      ],
+      "meanings": [
+        "defeat",
+        "negative",
+        "-",
+        "minus"
+      ],
+      "words": [
+        {
+          "kanji": "負",
+          "kana": "ふ",
+          "en": "negative"
+        },
+        {
+          "kanji": "自負",
+          "kana": "じふ",
+          "en": "pride"
+        },
+        {
+          "kanji": "負う",
+          "kana": "おう",
+          "en": "to carry on one's back"
+        },
+        {
+          "kanji": "負け",
+          "kana": "まけ",
+          "en": "defeat"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "負",
+          "kana": "ふ",
+          "en": "negative"
+        },
+        "まける": {
+          "kanji": "負ける",
+          "kana": "まける",
+          "en": "to lose"
+        },
+        "まかす": {
+          "kanji": "負かす",
+          "kana": "まかす",
+          "en": "to defeat"
+        },
+        "おう": {
+          "kanji": "負う",
+          "kana": "おう",
+          "en": "to carry on one's back"
+        }
+      }
+    },
+    {
+      "kanji": "起",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "お.きる",
+        "お.こる",
+        "お.こす",
+        "おこ.す",
+        "た.つ"
+      ],
+      "meanings": [
+        "rouse",
+        "wake up",
+        "get up"
+      ],
+      "words": [
+        {
+          "kanji": "起きる",
+          "kana": "おきる",
+          "en": "to get up"
+        },
+        {
+          "kanji": "起こす",
+          "kana": "おこす",
+          "en": "to raise"
+        },
+        {
+          "kanji": "起こる",
+          "kana": "おこる",
+          "en": "to occur"
+        },
+        {
+          "kanji": "起因",
+          "kana": "きいん",
+          "en": "to be caused by"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "起訴",
+          "kana": "きそ",
+          "en": "prosecution"
+        },
+        "おきる": {
+          "kanji": "起きる",
+          "kana": "おきる",
+          "en": "to get up"
+        },
+        "おこる": {
+          "kanji": "起こる",
+          "kana": "おこる",
+          "en": "to occur"
+        },
+        "おこす": {
+          "kanji": "起こす",
+          "kana": "おこす",
+          "en": "to raise"
+        }
+      }
+    },
+    {
+      "kanji": "路",
+      "on": [
+        "ロ",
+        "ル"
+      ],
+      "kun": [
+        "-じ",
+        "みち"
+      ],
+      "meanings": [
+        "path",
+        "route",
+        "road",
+        "distance"
+      ],
+      "words": [
+        {
+          "kanji": "岐路",
+          "kana": "きろ",
+          "en": "forked road"
+        },
+        {
+          "kanji": "帰路",
+          "kana": "きろ",
+          "en": "return journey"
+        },
+        {
+          "kanji": "路地",
+          "kana": "ろじ",
+          "en": "alley"
+        },
+        {
+          "kanji": "理路",
+          "kana": "りろ",
+          "en": "logic"
+        }
+      ],
+      "readingExamples": {
+        "ロ": {
+          "kanji": "路地",
+          "kana": "ろじ",
+          "en": "alley"
+        },
+        "じ": {
+          "kanji": "順路",
+          "kana": "じゅんろ",
+          "en": "(regular) route"
+        }
+      }
+    },
+    {
+      "kanji": "身",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "み"
+      ],
+      "meanings": [
+        "somebody",
+        "person",
+        "one's station in life"
+      ],
+      "words": [
+        {
+          "kanji": "身",
+          "kana": "み",
+          "en": "one's body"
+        },
+        {
+          "kanji": "黄身",
+          "kana": "きみ",
+          "en": "egg yolk"
+        },
+        {
+          "kanji": "化身",
+          "kana": "けしん",
+          "en": "incarnation (of a god, spirit or abstract quality)"
+        },
+        {
+          "kanji": "我が身",
+          "kana": "わがみ",
+          "en": "myself"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "親身",
+          "kana": "しんみ",
+          "en": "relation"
+        },
+        "み": {
+          "kanji": "身",
+          "kana": "み",
+          "en": "one's body"
+        }
+      }
+    },
+    {
+      "kanji": "転",
+      "on": [
+        "テン"
+      ],
+      "kun": [
+        "ころ.がる",
+        "ころ.げる",
+        "ころ.がす",
+        "ころ.ぶ",
+        "まろ.ぶ",
+        "うたた",
+        "うつ.る",
+        "くる.めく"
+      ],
+      "meanings": [
+        "revolve",
+        "turn around",
+        "change"
+      ],
+      "words": [
+        {
+          "kanji": "移転",
+          "kana": "いてん",
+          "en": "moving"
+        },
+        {
+          "kanji": "機転",
+          "kana": "きてん",
+          "en": "quick-wittedness"
+        },
+        {
+          "kanji": "自転",
+          "kana": "じてん",
+          "en": "rotation (on an axis)"
+        },
+        {
+          "kanji": "転機",
+          "kana": "てんき",
+          "en": "turning point"
+        }
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "転嫁",
+          "kana": "てんか",
+          "en": "imputation"
+        },
+        "ころがる": {
+          "kanji": "転がる",
+          "kana": "ころがる",
+          "en": "to roll"
+        },
+        "ころがす": {
+          "kanji": "転がす",
+          "kana": "ころがす",
+          "en": "to roll"
+        },
+        "ころぶ": {
+          "kanji": "転ぶ",
+          "kana": "ころぶ",
+          "en": "to fall down"
+        }
+      }
+    },
+    {
+      "kanji": "軽",
+      "on": [
+        "ケイ",
+        "キョウ",
+        "キン"
+      ],
+      "kun": [
+        "かる.い",
+        "かろ.やか",
+        "かろ.んじる"
+      ],
+      "meanings": [
+        "lightly",
+        "trifling",
+        "unimportant"
+      ],
+      "words": [
+        {
+          "kanji": "軽",
+          "kana": "けい",
+          "en": "light (e.g. aircraft, truck)"
+        },
+        {
+          "kanji": "気軽",
+          "kana": "きがる",
+          "en": "carefree"
+        },
+        {
+          "kanji": "軽い",
+          "kana": "かるい",
+          "en": "light (i.e. not heavy)"
+        },
+        {
+          "kanji": "軽視",
+          "kana": "けいし",
+          "en": "making light of"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "軽",
+          "kana": "けい",
+          "en": "light (e.g. aircraft, truck)"
+        },
+        "かるい": {
+          "kanji": "軽い",
+          "kana": "かるい",
+          "en": "light (i.e. not heavy)"
+        },
+        "かろやか": {
+          "kanji": "軽やか",
+          "kana": "かろやか",
+          "en": "light"
+        },
+        "かろんじる": {
+          "kanji": "軽んじる",
+          "kana": "かろんじる",
+          "en": "to look down on"
+        }
+      }
+    },
+    {
+      "kanji": "農",
+      "on": [
+        "ノウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "agriculture",
+        "farmers"
+      ],
+      "words": [
+        {
+          "kanji": "農",
+          "kana": "のう",
+          "en": "farming"
+        },
+        {
+          "kanji": "農家",
+          "kana": "のうか",
+          "en": "farmer"
+        },
+        {
+          "kanji": "農地",
+          "kana": "のうち",
+          "en": "agricultural land"
+        },
+        {
+          "kanji": "農夫",
+          "kana": "のうふ",
+          "en": "(male) farmer"
+        }
+      ],
+      "readingExamples": {
+        "ノウ": {
+          "kanji": "農",
+          "kana": "のう",
+          "en": "farming"
+        }
+      }
+    },
+    {
+      "kanji": "返",
+      "on": [
+        "ヘン"
+      ],
+      "kun": [
+        "かえ.す",
+        "-かえ.す",
+        "かえ.る",
+        "-かえ.る"
+      ],
+      "meanings": [
+        "return",
+        "answer",
+        "fade",
+        "repay"
+      ],
+      "words": [
+        {
+          "kanji": "返す",
+          "kana": "かえす",
+          "en": "to return (something)"
+        },
+        {
+          "kanji": "返る",
+          "kana": "かえる",
+          "en": "to return"
+        },
+        {
+          "kanji": "返事",
+          "kana": "へんじ",
+          "en": "reply"
+        },
+        {
+          "kanji": "お返し",
+          "kana": "おかえし",
+          "en": "return gift"
+        }
+      ],
+      "readingExamples": {
+        "ヘン": {
+          "kanji": "返事",
+          "kana": "へんじ",
+          "en": "reply"
+        },
+        "かえす": {
+          "kanji": "返す",
+          "kana": "かえす",
+          "en": "to return (something)"
+        },
+        "かえる": {
+          "kanji": "返る",
+          "kana": "かえる",
+          "en": "to return"
+        }
+      }
+    },
+    {
+      "kanji": "追",
+      "on": [
+        "ツイ"
+      ],
+      "kun": [
+        "お.う"
+      ],
+      "meanings": [
+        "chase",
+        "drive away",
+        "follow",
+        "pursue"
+      ],
+      "words": [
+        {
+          "kanji": "追う",
+          "kana": "おう",
+          "en": "to chase"
+        },
+        {
+          "kanji": "追っ手",
+          "kana": "おって",
+          "en": "pursuer"
+        },
+        {
+          "kanji": "追加",
+          "kana": "ついか",
+          "en": "addition"
+        },
+        {
+          "kanji": "追手",
+          "kana": "おいて",
+          "en": "pursuer"
+        }
+      ],
+      "readingExamples": {
+        "ツイ": {
+          "kanji": "追加",
+          "kana": "ついか",
+          "en": "addition"
+        },
+        "おう": {
+          "kanji": "追う",
+          "kana": "おう",
+          "en": "to chase"
+        }
+      }
+    },
+    {
+      "kanji": "送",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "おく.る"
+      ],
+      "meanings": [
+        "escort",
+        "send"
+      ],
+      "words": [
+        {
+          "kanji": "移送",
+          "kana": "いそう",
+          "en": "transfer"
+        },
+        {
+          "kanji": "護送",
+          "kana": "ごそう",
+          "en": "escort (e.g. under guard)"
+        },
+        {
+          "kanji": "送り",
+          "kana": "おくり",
+          "en": "seeing off"
+        },
+        {
+          "kanji": "送る",
+          "kana": "おくる",
+          "en": "to send"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "送付",
+          "kana": "そうふ",
+          "en": "sending"
+        },
+        "おくる": {
+          "kanji": "送る",
+          "kana": "おくる",
+          "en": "to send"
+        }
+      }
+    },
+    {
+      "kanji": "速",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "はや.い",
+        "はや-",
+        "はや.める",
+        "すみ.やか"
+      ],
+      "meanings": [
+        "quick",
+        "fast"
+      ],
+      "words": [
+        {
+          "kanji": "加速",
+          "kana": "かそく",
+          "en": "acceleration"
+        },
+        {
+          "kanji": "時速",
+          "kana": "じそく",
+          "en": "speed (per hour)"
+        },
+        {
+          "kanji": "速さ",
+          "kana": "はやさ",
+          "en": "speed"
+        },
+        {
+          "kanji": "速記",
+          "kana": "そっき",
+          "en": "shorthand"
+        }
+      ],
+      "readingExamples": {
+        "ソク": {
+          "kanji": "速度",
+          "kana": "そくど",
+          "en": "speed"
+        },
+        "はや": {
+          "kanji": "速さ",
+          "kana": "はやさ",
+          "en": "speed"
+        },
+        "すみやか": {
+          "kanji": "速やか",
+          "kana": "すみやか",
+          "en": "quick"
+        }
+      }
+    },
+    {
+      "kanji": "進",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "すす.む",
+        "すす.める"
+      ],
+      "meanings": [
+        "advance",
+        "proceed",
+        "progress",
+        "promote"
+      ],
+      "words": [
+        {
+          "kanji": "進み",
+          "kana": "すすみ",
+          "en": "progress"
+        },
+        {
+          "kanji": "進む",
+          "kana": "すすむ",
+          "en": "to advance"
+        },
+        {
+          "kanji": "進化",
+          "kana": "しんか",
+          "en": "evolution"
+        },
+        {
+          "kanji": "進歩",
+          "kana": "しんぽ",
+          "en": "progress"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "進化",
+          "kana": "しんか",
+          "en": "evolution"
+        },
+        "すすむ": {
+          "kanji": "進む",
+          "kana": "すすむ",
+          "en": "to advance"
+        },
+        "すすめる": {
+          "kanji": "進める",
+          "kana": "すすめる",
+          "en": "to advance"
+        }
+      }
+    },
+    {
+      "kanji": "遊",
+      "on": [
+        "ユウ",
+        "ユ"
+      ],
+      "kun": [
+        "あそ.ぶ",
+        "あそ.ばす"
+      ],
+      "meanings": [
+        "play"
+      ],
+      "words": [
+        {
+          "kanji": "遊び",
+          "kana": "あそび",
+          "en": "play"
+        },
+        {
+          "kanji": "遊ぶ",
+          "kana": "あそぶ",
+          "en": "to play (games, sports)"
+        },
+        {
+          "kanji": "遊山",
+          "kana": "ゆさん",
+          "en": "excursion"
+        },
+        {
+          "kanji": "遊技",
+          "kana": "ゆうぎ",
+          "en": "game"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "遊戯",
+          "kana": "ゆうぎ",
+          "en": "play"
+        },
+        "ユ": {
+          "kanji": "遊戯",
+          "kana": "ゆうぎ",
+          "en": "play"
+        },
+        "あそぶ": {
+          "kanji": "遊ぶ",
+          "kana": "あそぶ",
+          "en": "to play (games, sports)"
+        },
+        "あそばす": {
+          "kanji": "遊ばす",
+          "kana": "あそばす",
+          "en": "to let (someone) play"
+        }
+      }
+    },
+    {
+      "kanji": "運",
+      "on": [
+        "ウン"
+      ],
+      "kun": [
+        "はこ.ぶ"
+      ],
+      "meanings": [
+        "carry",
+        "luck",
+        "destiny",
+        "fate"
+      ],
+      "words": [
+        {
+          "kanji": "運",
+          "kana": "うん",
+          "en": "fortune"
+        },
+        {
+          "kanji": "運ぶ",
+          "kana": "はこぶ",
+          "en": "to carry"
+        },
+        {
+          "kanji": "運河",
+          "kana": "うんが",
+          "en": "(navigable) canal"
+        },
+        {
+          "kanji": "運輸",
+          "kana": "うんゆ",
+          "en": "transportation"
+        }
+      ],
+      "readingExamples": {
+        "ウン": {
+          "kanji": "運",
+          "kana": "うん",
+          "en": "fortune"
+        },
+        "はこぶ": {
+          "kanji": "運ぶ",
+          "kana": "はこぶ",
+          "en": "to carry"
+        }
+      }
+    },
+    {
+      "kanji": "部",
+      "on": [
+        "ブ"
+      ],
+      "kun": [
+        "-べ"
+      ],
+      "meanings": [
+        "section",
+        "bureau",
+        "dept",
+        "class"
+      ],
+      "words": [
+        {
+          "kanji": "部",
+          "kana": "ぶ",
+          "en": "department (in an organization, company, etc.)"
+        },
+        {
+          "kanji": "下部",
+          "kana": "かぶ",
+          "en": "lower part"
+        },
+        {
+          "kanji": "基部",
+          "kana": "きぶ",
+          "en": "base"
+        },
+        {
+          "kanji": "市部",
+          "kana": "しぶ",
+          "en": "urban areas"
+        }
+      ],
+      "readingExamples": {
+        "ブ": {
+          "kanji": "部",
+          "kana": "ぶ",
+          "en": "department (in an organization, company, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "都",
+      "on": [
+        "ト",
+        "ツ"
+      ],
+      "kun": [
+        "みやこ"
+      ],
+      "meanings": [
+        "metropolis",
+        "capital",
+        "all",
+        "everything"
+      ],
+      "words": [
+        {
+          "kanji": "古都",
+          "kana": "こと",
+          "en": "ancient city"
+        },
+        {
+          "kanji": "都市",
+          "kana": "とし",
+          "en": "town"
+        },
+        {
+          "kanji": "都度",
+          "kana": "つど",
+          "en": "each (every) time"
+        },
+        {
+          "kanji": "都議",
+          "kana": "とぎ",
+          "en": "Metropolitan assemblyman"
+        }
+      ],
+      "readingExamples": {
+        "ト": {
+          "kanji": "都市",
+          "kana": "とし",
+          "en": "town"
+        },
+        "ツ": {
+          "kanji": "都度",
+          "kana": "つど",
+          "en": "each (every) time"
+        },
+        "みやこ": {
+          "kanji": "都",
+          "kana": "みやこ",
+          "en": "capital (esp. Kyoto, Japan's former capital)"
+        }
+      }
+    },
+    {
+      "kanji": "配",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [
+        "くば.る"
+      ],
+      "meanings": [
+        "distribute",
+        "spouse",
+        "exile",
+        "rationing"
+      ],
+      "words": [
+        {
+          "kanji": "気配",
+          "kana": "けはい",
+          "en": "indication"
+        },
+        {
+          "kanji": "支配",
+          "kana": "しはい",
+          "en": "rule"
+        },
+        {
+          "kanji": "手配",
+          "kana": "てはい",
+          "en": "arrangement"
+        },
+        {
+          "kanji": "配る",
+          "kana": "くばる",
+          "en": "to distribute"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "配下",
+          "kana": "はいか",
+          "en": "followers"
+        },
+        "くばる": {
+          "kanji": "配る",
+          "kana": "くばる",
+          "en": "to distribute"
+        }
+      }
+    },
+    {
+      "kanji": "酒",
+      "on": [
+        "シュ"
+      ],
+      "kun": [
+        "さけ",
+        "さか-"
+      ],
+      "meanings": [
+        "sake",
+        "alcohol"
+      ],
+      "words": [
+        {
+          "kanji": "酒",
+          "kana": "さけ",
+          "en": "alcohol"
+        },
+        {
+          "kanji": "酒屋",
+          "kana": "さかや",
+          "en": "liquor store"
+        },
+        {
+          "kanji": "酒気",
+          "kana": "しゅき",
+          "en": "liquor smell"
+        },
+        {
+          "kanji": "酒場",
+          "kana": "さかば",
+          "en": "bar"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "酒気",
+          "kana": "しゅき",
+          "en": "liquor smell"
+        },
+        "さけ": {
+          "kanji": "酒",
+          "kana": "さけ",
+          "en": "alcohol"
+        },
+        "さか": {
+          "kanji": "酒屋",
+          "kana": "さかや",
+          "en": "liquor store"
+        }
+      }
+    },
+    {
+      "kanji": "重",
+      "on": [
+        "ジュウ",
+        "チョウ"
+      ],
+      "kun": [
+        "え",
+        "おも.い",
+        "おも.り",
+        "おも.なう",
+        "かさ.ねる",
+        "かさ.なる",
+        "おも"
+      ],
+      "meanings": [
+        "heavy",
+        "important",
+        "esteem",
+        "respect"
+      ],
+      "words": [
+        {
+          "kanji": "八重",
+          "kana": "やえ",
+          "en": "eightfold"
+        },
+        {
+          "kanji": "重い",
+          "kana": "おもい",
+          "en": "heavy"
+        },
+        {
+          "kanji": "重さ",
+          "kana": "おもさ",
+          "en": "weight"
+        },
+        {
+          "kanji": "重ね",
+          "kana": "かさね",
+          "en": "pile"
+        }
+      ],
+      "readingExamples": {
+        "ジュウ": {
+          "kanji": "重視",
+          "kana": "じゅうし",
+          "en": "regarding as important"
+        },
+        "チョウ": {
+          "kanji": "重複",
+          "kana": "ちょうふく",
+          "en": "duplication"
+        },
+        "おもい": {
+          "kanji": "重い",
+          "kana": "おもい",
+          "en": "heavy"
+        },
+        "おもり": {
+          "kanji": "重り",
+          "kana": "おもり",
+          "en": "weight"
+        }
+      }
+    },
+    {
+      "kanji": "鉄",
+      "on": [
+        "テツ"
+      ],
+      "kun": [
+        "くろがね"
+      ],
+      "meanings": [
+        "iron"
+      ],
+      "words": [
+        {
+          "kanji": "鉄",
+          "kana": "てつ",
+          "en": "iron (Fe)"
+        },
+        {
+          "kanji": "私鉄",
+          "kana": "してつ",
+          "en": "private railway"
+        },
+        {
+          "kanji": "鉄火",
+          "kana": "てっか",
+          "en": "red-hot iron"
+        },
+        {
+          "kanji": "鋼鉄",
+          "kana": "こうてつ",
+          "en": "steel"
+        }
+      ],
+      "readingExamples": {
+        "テツ": {
+          "kanji": "鉄",
+          "kana": "てつ",
+          "en": "iron (Fe)"
+        }
+      }
+    },
+    {
+      "kanji": "銀",
+      "on": [
+        "ギン"
+      ],
+      "kun": [
+        "しろがね"
+      ],
+      "meanings": [
+        "silver"
+      ],
+      "words": [
+        {
+          "kanji": "銀",
+          "kana": "ぎん",
+          "en": "silver (Ag)"
+        },
+        {
+          "kanji": "銀河",
+          "kana": "ぎんが",
+          "en": "Milky Way"
+        },
+        {
+          "kanji": "銀貨",
+          "kana": "ぎんか",
+          "en": "silver coin"
+        },
+        {
+          "kanji": "銀座",
+          "kana": "ぎんざ",
+          "en": "Ginza (district in Tokyo)"
+        }
+      ],
+      "readingExamples": {
+        "ギン": {
+          "kanji": "銀",
+          "kana": "ぎん",
+          "en": "silver (Ag)"
+        }
+      }
+    },
+    {
+      "kanji": "開",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "ひら.く",
+        "ひら.き",
+        "-びら.き",
+        "ひら.ける",
+        "あ.く",
+        "あ.ける"
+      ],
+      "meanings": [
+        "open",
+        "unfold",
+        "unseal"
+      ],
+      "words": [
+        {
+          "kanji": "開く",
+          "kana": "あく",
+          "en": "to open (e.g. doors)"
+        },
+        {
+          "kanji": "開く",
+          "kana": "ひらく",
+          "en": "to open"
+        },
+        {
+          "kanji": "開ける",
+          "kana": "あける",
+          "en": "to open (a door, etc.)"
+        },
+        {
+          "kanji": "開花",
+          "kana": "かいか",
+          "en": "flowering"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "開花",
+          "kana": "かいか",
+          "en": "flowering"
+        },
+        "ひらく": {
+          "kanji": "開く",
+          "kana": "ひらく",
+          "en": "to open"
+        },
+        "ひらき": {
+          "kanji": "開き",
+          "kana": "ひらき",
+          "en": "opening"
+        },
+        "ひらける": {
+          "kanji": "開ける",
+          "kana": "ひらける",
+          "en": "to open out (of a view, scenery, etc.)"
+        },
+        "あく": {
+          "kanji": "開く",
+          "kana": "あく",
+          "en": "to open (e.g. doors)"
+        }
+      }
+    },
+    {
+      "kanji": "院",
+      "on": [
+        "イン"
+      ],
+      "kun": [],
+      "meanings": [
+        "Inst.",
+        "institution",
+        "temple",
+        "mansion"
+      ],
+      "words": [
+        {
+          "kanji": "医院",
+          "kana": "いいん",
+          "en": "doctor's office"
+        },
+        {
+          "kanji": "下院",
+          "kana": "かいん",
+          "en": "lower house"
+        },
+        {
+          "kanji": "議院",
+          "kana": "ぎいん",
+          "en": "parliament"
+        },
+        {
+          "kanji": "寺院",
+          "kana": "じいん",
+          "en": "Buddhist temple"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "院議",
+          "kana": "いんぎ",
+          "en": "legislative decision"
+        }
+      }
+    },
+    {
+      "kanji": "陽",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "ひ"
+      ],
+      "meanings": [
+        "sunshine",
+        "yang principle",
+        "positive",
+        "male"
+      ],
+      "words": [
+        {
+          "kanji": "陽",
+          "kana": "よう",
+          "en": "(the) positive"
+        },
+        {
+          "kanji": "陽気",
+          "kana": "ようき",
+          "en": "cheerful"
+        },
+        {
+          "kanji": "陽子",
+          "kana": "ようし",
+          "en": "proton"
+        },
+        {
+          "kanji": "太陽",
+          "kana": "たいよう",
+          "en": "Sun"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "陽",
+          "kana": "よう",
+          "en": "(the) positive"
+        }
+      }
+    },
+    {
+      "kanji": "階",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "きざはし"
+      ],
+      "meanings": [
+        "storey",
+        "stair",
+        "counter for storeys of a building"
+      ],
+      "words": [
+        {
+          "kanji": "階",
+          "kana": "かい",
+          "en": "storey"
+        },
+        {
+          "kanji": "階下",
+          "kana": "かいか",
+          "en": "lower floor"
+        },
+        {
+          "kanji": "二階",
+          "kana": "にかい",
+          "en": "second floor"
+        },
+        {
+          "kanji": "一階",
+          "kana": "いっかい",
+          "en": "first floor"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "階",
+          "kana": "かい",
+          "en": "storey"
+        }
+      }
+    },
+    {
+      "kanji": "集",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [
+        "あつ.まる",
+        "あつ.める",
+        "つど.う"
+      ],
+      "meanings": [
+        "gather",
+        "meet",
+        "congregate",
+        "swarm"
+      ],
+      "words": [
+        {
+          "kanji": "集い",
+          "kana": "つどい",
+          "en": "meeting"
+        },
+        {
+          "kanji": "集う",
+          "kana": "つどう",
+          "en": "to meet"
+        },
+        {
+          "kanji": "集る",
+          "kana": "たかる",
+          "en": "to gather"
+        },
+        {
+          "kanji": "集",
+          "kana": "しゅう",
+          "en": "collection"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "集",
+          "kana": "しゅう",
+          "en": "collection"
+        },
+        "あつまる": {
+          "kanji": "集まる",
+          "kana": "あつまる",
+          "en": "to gather"
+        },
+        "あつめる": {
+          "kanji": "集める",
+          "kana": "あつめる",
+          "en": "to collect"
+        },
+        "つどう": {
+          "kanji": "集う",
+          "kana": "つどう",
+          "en": "to meet"
+        }
+      }
+    },
+    {
+      "kanji": "面",
+      "on": [
+        "メン",
+        "ベン"
+      ],
+      "kun": [
+        "おも",
+        "おもて",
+        "つら"
+      ],
+      "meanings": [
+        "mask",
+        "face",
+        "features",
+        "surface"
+      ],
+      "words": [
+        {
+          "kanji": "面",
+          "kana": "つら",
+          "en": "face"
+        },
+        {
+          "kanji": "面",
+          "kana": "めん",
+          "en": "face"
+        },
+        {
+          "kanji": "仮面",
+          "kana": "かめん",
+          "en": "mask"
+        },
+        {
+          "kanji": "画面",
+          "kana": "がめん",
+          "en": "screen (of a TV, computer, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "メン": {
+          "kanji": "面",
+          "kana": "めん",
+          "en": "face"
+        },
+        "おも": {
+          "kanji": "面",
+          "kana": "おもて",
+          "en": "face"
+        },
+        "おもて": {
+          "kanji": "面",
+          "kana": "おもて",
+          "en": "face"
+        },
+        "つら": {
+          "kanji": "面",
+          "kana": "つら",
+          "en": "face"
+        }
+      }
+    },
+    {
+      "kanji": "題",
+      "on": [
+        "ダイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "topic",
+        "subject"
+      ],
+      "words": [
+        {
+          "kanji": "題",
+          "kana": "だい",
+          "en": "title"
+        },
+        {
+          "kanji": "課題",
+          "kana": "かだい",
+          "en": "subject"
+        },
+        {
+          "kanji": "画題",
+          "kana": "がだい",
+          "en": "subject (of a painting)"
+        },
+        {
+          "kanji": "議題",
+          "kana": "ぎだい",
+          "en": "topic of discussion"
+        }
+      ],
+      "readingExamples": {
+        "ダイ": {
+          "kanji": "題",
+          "kana": "だい",
+          "en": "title"
+        }
+      }
+    },
+    {
+      "kanji": "飲",
+      "on": [
+        "イン",
+        "オン"
+      ],
+      "kun": [
+        "の.む",
+        "-の.み"
+      ],
+      "meanings": [
+        "drink",
+        "smoke",
+        "take"
+      ],
+      "words": [
+        {
+          "kanji": "飲む",
+          "kana": "のむ",
+          "en": "to drink"
+        },
+        {
+          "kanji": "飲み屋",
+          "kana": "のみや",
+          "en": "bar"
+        },
+        {
+          "kanji": "試飲",
+          "kana": "しいん",
+          "en": "sampling a drink"
+        },
+        {
+          "kanji": "飲ます",
+          "kana": "のます",
+          "en": "to make (someone) drink"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "飲酒",
+          "kana": "いんしゅ",
+          "en": "drinking alcohol"
+        },
+        "のむ": {
+          "kanji": "飲む",
+          "kana": "のむ",
+          "en": "to drink"
+        },
+        "のみ": {
+          "kanji": "飲み屋",
+          "kana": "のみや",
+          "en": "bar"
+        }
+      }
+    },
+    {
+      "kanji": "館",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "やかた",
+        "たて"
+      ],
+      "meanings": [
+        "building",
+        "mansion",
+        "large building",
+        "palace"
+      ],
+      "words": [
+        {
+          "kanji": "開館",
+          "kana": "かいかん",
+          "en": "opening (for that day's business; of a library, museum, cinema, etc.)"
+        },
+        {
+          "kanji": "館員",
+          "kana": "かんいん",
+          "en": "personnel (of public building)"
+        },
+        {
+          "kanji": "公館",
+          "kana": "こうかん",
+          "en": "official residence"
+        },
+        {
+          "kanji": "新館",
+          "kana": "しんかん",
+          "en": "new building"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "館員",
+          "kana": "かんいん",
+          "en": "personnel (of public building)"
+        }
+      }
+    },
+    {
+      "kanji": "駅",
+      "on": [
+        "エキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "station"
+      ],
+      "words": [
+        {
+          "kanji": "駅",
+          "kana": "えき",
+          "en": "railway station"
+        },
+        {
+          "kanji": "駅員",
+          "kana": "えきいん",
+          "en": "(train) station attendant"
+        },
+        {
+          "kanji": "駅舎",
+          "kana": "えきしゃ",
+          "en": "station building"
+        },
+        {
+          "kanji": "駅前",
+          "kana": "えきまえ",
+          "en": "in front of a station"
+        }
+      ],
+      "readingExamples": {
+        "エキ": {
+          "kanji": "駅",
+          "kana": "えき",
+          "en": "railway station"
+        }
+      }
+    },
+    {
+      "kanji": "鼻",
+      "on": [
+        "ビ"
+      ],
+      "kun": [
+        "はな"
+      ],
+      "meanings": [
+        "nose",
+        "snout"
+      ],
+      "words": [
+        {
+          "kanji": "鼻",
+          "kana": "はな",
+          "en": "nose"
+        },
+        {
+          "kanji": "目鼻",
+          "kana": "めはな",
+          "en": "eyes and nose"
+        },
+        {
+          "kanji": "鼻血",
+          "kana": "はなぢ",
+          "en": "nosebleed"
+        },
+        {
+          "kanji": "鼻歌",
+          "kana": "はなうた",
+          "en": "humming"
+        }
+      ],
+      "readingExamples": {
+        "ビ": {
+          "kanji": "鼻炎",
+          "kana": "びえん",
+          "en": "rhinitis"
+        },
+        "はな": {
+          "kanji": "鼻",
+          "kana": "はな",
+          "en": "nose"
+        }
+      }
+    }
+  ],
+  "4": [
+    {
+      "kanji": "不",
+      "on": [
+        "フ",
+        "ブ"
+      ],
+      "kun": [],
+      "meanings": [
+        "negative",
+        "non-",
+        "bad",
+        "ugly"
+      ],
+      "words": [
+        {
+          "kanji": "不",
+          "kana": "ふ",
+          "en": "un-"
+        },
+        {
+          "kanji": "不意",
+          "kana": "ふい",
+          "en": "sudden"
+        },
+        {
+          "kanji": "不可",
+          "kana": "ふか",
+          "en": "wrong"
+        },
+        {
+          "kanji": "不義",
+          "kana": "ふぎ",
+          "en": "immorality"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "不",
+          "kana": "ふ",
+          "en": "un-"
+        },
+        "ブ": {
+          "kanji": "不気味",
+          "kana": "ぶきみ",
+          "en": "weird"
+        }
+      }
+    },
+    {
+      "kanji": "争",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "あらそ.う",
+        "いか.でか"
+      ],
+      "meanings": [
+        "contend",
+        "dispute",
+        "argue"
+      ],
+      "words": [
+        {
+          "kanji": "争議",
+          "kana": "そうぎ",
+          "en": "dispute"
+        },
+        {
+          "kanji": "係争",
+          "kana": "けいそう",
+          "en": "dispute"
+        },
+        {
+          "kanji": "戦争",
+          "kana": "せんそう",
+          "en": "war"
+        },
+        {
+          "kanji": "争い",
+          "kana": "あらそい",
+          "en": "fight"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "争議",
+          "kana": "そうぎ",
+          "en": "dispute"
+        },
+        "あらそう": {
+          "kanji": "争う",
+          "kana": "あらそう",
+          "en": "to compete"
+        }
+      }
+    },
+    {
+      "kanji": "井",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "い"
+      ],
+      "meanings": [
+        "well",
+        "well crib",
+        "town",
+        "community"
+      ],
+      "words": [
+        {
+          "kanji": "井",
+          "kana": "い",
+          "en": "well"
+        },
+        {
+          "kanji": "井戸",
+          "kana": "いど",
+          "en": "water well"
+        },
+        {
+          "kanji": "市井",
+          "kana": "しせい",
+          "en": "the street"
+        },
+        {
+          "kanji": "油井",
+          "kana": "ゆせい",
+          "en": "oil well"
+        }
+      ],
+      "readingExamples": {
+        "い": {
+          "kanji": "井",
+          "kana": "い",
+          "en": "well"
+        }
+      }
+    },
+    {
+      "kanji": "付",
+      "on": [
+        "フ"
+      ],
+      "kun": [
+        "つ.ける",
+        "-つ.ける",
+        "-づ.ける",
+        "つ.け",
+        "つ.け-",
+        "-つ.け",
+        "-づ.け",
+        "-づけ",
+        "つ.く",
+        "-づ.く",
+        "つ.き",
+        "-つ.き",
+        "-つき",
+        "-づ.き",
+        "-づき"
+      ],
+      "meanings": [
+        "adhere",
+        "attach",
+        "refer to",
+        "append"
+      ],
+      "words": [
+        {
+          "kanji": "付く",
+          "kana": "つく",
+          "en": "to be attached"
+        },
+        {
+          "kanji": "付け",
+          "kana": "つけ",
+          "en": "bill"
+        },
+        {
+          "kanji": "付加",
+          "kana": "ふか",
+          "en": "addition"
+        },
+        {
+          "kanji": "付記",
+          "kana": "ふき",
+          "en": "addition"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "付加",
+          "kana": "ふか",
+          "en": "addition"
+        },
+        "つける": {
+          "kanji": "付ける",
+          "kana": "つける",
+          "en": "to attach"
+        },
+        "つけ": {
+          "kanji": "付け",
+          "kana": "つけ",
+          "en": "bill"
+        },
+        "つく": {
+          "kanji": "付く",
+          "kana": "つく",
+          "en": "to be attached"
+        }
+      }
+    },
+    {
+      "kanji": "令",
+      "on": [
+        "レイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "orders",
+        "laws",
+        "command",
+        "decree"
+      ],
+      "words": [
+        {
+          "kanji": "令",
+          "kana": "れい",
+          "en": "command"
+        },
+        {
+          "kanji": "司令",
+          "kana": "しれい",
+          "en": "command"
+        },
+        {
+          "kanji": "指令",
+          "kana": "しれい",
+          "en": "order"
+        },
+        {
+          "kanji": "辞令",
+          "kana": "じれい",
+          "en": "notice of personnel change (appointment, dismissal, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "レイ": {
+          "kanji": "令",
+          "kana": "れい",
+          "en": "command"
+        }
+      }
+    },
+    {
+      "kanji": "以",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "もっ.て"
+      ],
+      "meanings": [
+        "by means of",
+        "because",
+        "in view of",
+        "compared with"
+      ],
+      "words": [
+        {
+          "kanji": "以下",
+          "kana": "いか",
+          "en": "not exceeding ..."
+        },
+        {
+          "kanji": "以後",
+          "kana": "いご",
+          "en": "after this"
+        },
+        {
+          "kanji": "以て",
+          "kana": "もって",
+          "en": "with"
+        },
+        {
+          "kanji": "以遠",
+          "kana": "いえん",
+          "en": "beyond"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "以下",
+          "kana": "いか",
+          "en": "not exceeding ..."
+        },
+        "もって": {
+          "kanji": "以て",
+          "kana": "もって",
+          "en": "with"
+        }
+      }
+    },
+    {
+      "kanji": "仲",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [
+        "なか"
+      ],
+      "meanings": [
+        "go-between",
+        "relationship"
+      ],
+      "words": [
+        {
+          "kanji": "仲",
+          "kana": "なか",
+          "en": "relation"
+        },
+        {
+          "kanji": "仲間",
+          "kana": "なかま",
+          "en": "companion"
+        },
+        {
+          "kanji": "仲居",
+          "kana": "なかい",
+          "en": "waitress (in a ryokan or traditional restaurant)"
+        },
+        {
+          "kanji": "不仲",
+          "kana": "ふなか",
+          "en": "discord"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "仲介",
+          "kana": "ちゅうかい",
+          "en": "agency"
+        },
+        "なか": {
+          "kanji": "仲",
+          "kana": "なか",
+          "en": "relation"
+        }
+      }
+    },
+    {
+      "kanji": "伝",
+      "on": [
+        "デン",
+        "テン"
+      ],
+      "kun": [
+        "つた.わる",
+        "つた.える",
+        "つた.う",
+        "つだ.う",
+        "-づた.い",
+        "つて"
+      ],
+      "meanings": [
+        "transmit",
+        "go along",
+        "walk along",
+        "follow"
+      ],
+      "words": [
+        {
+          "kanji": "伝",
+          "kana": "つて",
+          "en": "means of making contact"
+        },
+        {
+          "kanji": "遺伝",
+          "kana": "いでん",
+          "en": "heredity"
+        },
+        {
+          "kanji": "自伝",
+          "kana": "じでん",
+          "en": "autobiography"
+        },
+        {
+          "kanji": "伝い",
+          "kana": "づたい",
+          "en": "along (a wall, river, railroad tracks, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "デン": {
+          "kanji": "伝家",
+          "kana": "でんか",
+          "en": "heirloom"
+        },
+        "つたわる": {
+          "kanji": "伝わる",
+          "kana": "つたわる",
+          "en": "to spread (of a rumour, news, etc.)"
+        },
+        "つたえる": {
+          "kanji": "伝える",
+          "kana": "つたえる",
+          "en": "to convey"
+        },
+        "つたう": {
+          "kanji": "伝う",
+          "kana": "つたう",
+          "en": "to move along"
+        }
+      }
+    },
+    {
+      "kanji": "位",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "くらい",
+        "ぐらい"
+      ],
+      "meanings": [
+        "rank",
+        "grade",
+        "throne",
+        "crown"
+      ],
+      "words": [
+        {
+          "kanji": "位",
+          "kana": "い",
+          "en": "rank"
+        },
+        {
+          "kanji": "下位",
+          "kana": "かい",
+          "en": "low rank"
+        },
+        {
+          "kanji": "地位",
+          "kana": "ちい",
+          "en": "(social) position"
+        },
+        {
+          "kanji": "部位",
+          "kana": "ぶい",
+          "en": "part (esp. of the body)"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "位",
+          "kana": "い",
+          "en": "rank"
+        },
+        "くらい": {
+          "kanji": "位",
+          "kana": "くらい",
+          "en": "approximately"
+        }
+      }
+    },
+    {
+      "kanji": "低",
+      "on": [
+        "テイ"
+      ],
+      "kun": [
+        "ひく.い",
+        "ひく.める",
+        "ひく.まる"
+      ],
+      "meanings": [
+        "lower",
+        "short",
+        "humble"
+      ],
+      "words": [
+        {
+          "kanji": "低い",
+          "kana": "ひくい",
+          "en": "low (rank, degree, value, content, quality, etc.)"
+        },
+        {
+          "kanji": "低位",
+          "kana": "ていい",
+          "en": "lower position"
+        },
+        {
+          "kanji": "低下",
+          "kana": "ていか",
+          "en": "fall"
+        },
+        {
+          "kanji": "低地",
+          "kana": "ていち",
+          "en": "depression"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "低位",
+          "kana": "ていい",
+          "en": "lower position"
+        },
+        "ひくい": {
+          "kanji": "低い",
+          "kana": "ひくい",
+          "en": "low (rank, degree, value, content, quality, etc.)"
+        },
+        "ひくめる": {
+          "kanji": "低める",
+          "kana": "ひくめる",
+          "en": "to lower"
+        }
+      }
+    },
+    {
+      "kanji": "佐",
+      "on": [
+        "サ"
+      ],
+      "kun": [],
+      "meanings": [
+        "assistant",
+        "help"
+      ],
+      "words": [
+        {
+          "kanji": "二佐",
+          "kana": "にさ",
+          "en": "lieutenant colonel (JGSDF)"
+        },
+        {
+          "kanji": "補佐",
+          "kana": "ほさ",
+          "en": "aid"
+        },
+        {
+          "kanji": "三佐",
+          "kana": "さんさ",
+          "en": "major (JGSDF)"
+        },
+        {
+          "kanji": "大佐",
+          "kana": "たいさ",
+          "en": "colonel"
+        }
+      ],
+      "readingExamples": {
+        "サ": {
+          "kanji": "三佐",
+          "kana": "さんさ",
+          "en": "major (JGSDF)"
+        }
+      }
+    },
+    {
+      "kanji": "例",
+      "on": [
+        "レイ"
+      ],
+      "kun": [
+        "たと.える"
+      ],
+      "meanings": [
+        "example",
+        "custom",
+        "usage",
+        "precedent"
+      ],
+      "words": [
+        {
+          "kanji": "例",
+          "kana": "れい",
+          "en": "example"
+        },
+        {
+          "kanji": "異例",
+          "kana": "いれい",
+          "en": "exceptional"
+        },
+        {
+          "kanji": "事例",
+          "kana": "じれい",
+          "en": "example"
+        },
+        {
+          "kanji": "比例",
+          "kana": "ひれい",
+          "en": "proportion"
+        }
+      ],
+      "readingExamples": {
+        "レイ": {
+          "kanji": "例",
+          "kana": "れい",
+          "en": "example"
+        },
+        "たとえる": {
+          "kanji": "例える",
+          "kana": "たとえる",
+          "en": "to compare (something) to"
+        }
+      }
+    },
+    {
+      "kanji": "便",
+      "on": [
+        "ベン",
+        "ビン"
+      ],
+      "kun": [
+        "たよ.り"
+      ],
+      "meanings": [
+        "convenience",
+        "facility",
+        "excrement",
+        "feces"
+      ],
+      "words": [
+        {
+          "kanji": "便",
+          "kana": "びん",
+          "en": "flight (e.g. airline flight)"
+        },
+        {
+          "kanji": "不便",
+          "kana": "ふべん",
+          "en": "inconvenience"
+        },
+        {
+          "kanji": "便り",
+          "kana": "たより",
+          "en": "news"
+        },
+        {
+          "kanji": "便器",
+          "kana": "べんき",
+          "en": "toilet bowl"
+        }
+      ],
+      "readingExamples": {
+        "ベン": {
+          "kanji": "便器",
+          "kana": "べんき",
+          "en": "toilet bowl"
+        },
+        "ビン": {
+          "kanji": "便",
+          "kana": "びん",
+          "en": "flight (e.g. airline flight)"
+        },
+        "たより": {
+          "kanji": "便り",
+          "kana": "たより",
+          "en": "news"
+        }
+      }
+    },
+    {
+      "kanji": "信",
+      "on": [
+        "シン"
+      ],
+      "kun": [],
+      "meanings": [
+        "faith",
+        "truth",
+        "fidelity",
+        "trust"
+      ],
+      "words": [
+        {
+          "kanji": "信",
+          "kana": "しん",
+          "en": "honesty"
+        },
+        {
+          "kanji": "過信",
+          "kana": "かしん",
+          "en": "trusting too much"
+        },
+        {
+          "kanji": "私信",
+          "kana": "ししん",
+          "en": "private letter"
+        },
+        {
+          "kanji": "自信",
+          "kana": "じしん",
+          "en": "self-confidence"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "信",
+          "kana": "しん",
+          "en": "honesty"
+        }
+      }
+    },
+    {
+      "kanji": "倉",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "くら"
+      ],
+      "meanings": [
+        "godown",
+        "warehouse",
+        "storehouse",
+        "cellar"
+      ],
+      "words": [
+        {
+          "kanji": "倉庫",
+          "kana": "そうこ",
+          "en": "storehouse"
+        },
+        {
+          "kanji": "穀倉",
+          "kana": "こくそう",
+          "en": "granary"
+        },
+        {
+          "kanji": "船倉",
+          "kana": "せんそう",
+          "en": "ship's hold"
+        },
+        {
+          "kanji": "米倉",
+          "kana": "こめぐら",
+          "en": "rice granary"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "倉庫",
+          "kana": "そうこ",
+          "en": "storehouse"
+        },
+        "くら": {
+          "kanji": "倉敷",
+          "kana": "くらしき",
+          "en": "Kurashiki (city)"
+        }
+      }
+    },
+    {
+      "kanji": "候",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "そうろう"
+      ],
+      "meanings": [
+        "climate",
+        "season",
+        "weather",
+        "wait for"
+      ],
+      "words": [
+        {
+          "kanji": "気候",
+          "kana": "きこう",
+          "en": "climate"
+        },
+        {
+          "kanji": "候補",
+          "kana": "こうほ",
+          "en": "candidate"
+        },
+        {
+          "kanji": "時候",
+          "kana": "じこう",
+          "en": "season"
+        },
+        {
+          "kanji": "天候",
+          "kana": "てんこう",
+          "en": "weather"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "候補",
+          "kana": "こうほ",
+          "en": "candidate"
+        }
+      }
+    },
+    {
+      "kanji": "借",
+      "on": [
+        "シャク"
+      ],
+      "kun": [
+        "か.りる"
+      ],
+      "meanings": [
+        "borrow",
+        "rent"
+      ],
+      "words": [
+        {
+          "kanji": "借り",
+          "kana": "かり",
+          "en": "borrowing"
+        },
+        {
+          "kanji": "間借り",
+          "kana": "まがり",
+          "en": "renting a room"
+        },
+        {
+          "kanji": "借りる",
+          "kana": "かりる",
+          "en": "to borrow"
+        },
+        {
+          "kanji": "借り手",
+          "kana": "かりて",
+          "en": "borrower"
+        }
+      ],
+      "readingExamples": {
+        "シャク": {
+          "kanji": "借地",
+          "kana": "しゃくち",
+          "en": "leased land"
+        },
+        "かりる": {
+          "kanji": "借りる",
+          "kana": "かりる",
+          "en": "to borrow"
+        }
+      }
+    },
+    {
+      "kanji": "健",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "すこ.やか"
+      ],
+      "meanings": [
+        "healthy",
+        "health",
+        "strength",
+        "persistence"
+      ],
+      "words": [
+        {
+          "kanji": "健気",
+          "kana": "けなげ",
+          "en": "admirable"
+        },
+        {
+          "kanji": "保健",
+          "kana": "ほけん",
+          "en": "preservation of health"
+        },
+        {
+          "kanji": "健保",
+          "kana": "けんぽ",
+          "en": "health insurance"
+        },
+        {
+          "kanji": "健やか",
+          "kana": "すこやか",
+          "en": "vigorous"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "健保",
+          "kana": "けんぽ",
+          "en": "health insurance"
+        },
+        "すこやか": {
+          "kanji": "健やか",
+          "kana": "すこやか",
+          "en": "vigorous"
+        }
+      }
+    },
+    {
+      "kanji": "側",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "かわ",
+        "がわ",
+        "そば"
+      ],
+      "meanings": [
+        "side",
+        "lean",
+        "oppose",
+        "regret"
+      ],
+      "words": [
+        {
+          "kanji": "側",
+          "kana": "そば",
+          "en": "(place) near by"
+        },
+        {
+          "kanji": "側",
+          "kana": "がわ",
+          "en": "side (of something, or taking someone's side)"
+        },
+        {
+          "kanji": "下側",
+          "kana": "したがわ",
+          "en": "underside"
+        },
+        {
+          "kanji": "西側",
+          "kana": "にしがわ",
+          "en": "west side"
+        }
+      ],
+      "readingExamples": {
+        "ソク": {
+          "kanji": "側室",
+          "kana": "そくしつ",
+          "en": "concubine (of a noble)"
+        },
+        "がわ": {
+          "kanji": "側",
+          "kana": "がわ",
+          "en": "side (of something, or taking someone's side)"
+        },
+        "そば": {
+          "kanji": "側",
+          "kana": "そば",
+          "en": "(place) near by"
+        }
+      }
+    },
+    {
+      "kanji": "働",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "はたら.く"
+      ],
+      "meanings": [
+        "work",
+        "(kokuji)"
+      ],
+      "words": [
+        {
+          "kanji": "働き",
+          "kana": "はたらき",
+          "en": "work"
+        },
+        {
+          "kanji": "働く",
+          "kana": "はたらく",
+          "en": "to work"
+        },
+        {
+          "kanji": "労働",
+          "kana": "ろうどう",
+          "en": "labor"
+        },
+        {
+          "kanji": "実働",
+          "kana": "じつどう",
+          "en": "actual work"
+        }
+      ],
+      "readingExamples": {
+        "はたらく": {
+          "kanji": "働く",
+          "kana": "はたらく",
+          "en": "to work"
+        }
+      }
+    },
+    {
+      "kanji": "億",
+      "on": [
+        "オク"
+      ],
+      "kun": [],
+      "meanings": [
+        "hundred million",
+        "10**8"
+      ],
+      "words": [
+        {
+          "kanji": "億",
+          "kana": "おく",
+          "en": "hundred million"
+        },
+        {
+          "kanji": "一億",
+          "kana": "いちおく",
+          "en": "100,000,000"
+        },
+        {
+          "kanji": "億万",
+          "kana": "おくまん",
+          "en": "millions and millions"
+        },
+        {
+          "kanji": "十億",
+          "kana": "じゅうおく",
+          "en": "1,000,000,000"
+        }
+      ],
+      "readingExamples": {
+        "オク": {
+          "kanji": "億",
+          "kana": "おく",
+          "en": "hundred million"
+        }
+      }
+    },
+    {
+      "kanji": "兆",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "きざ.す",
+        "きざ.し"
+      ],
+      "meanings": [
+        "portent",
+        "10**12",
+        "trillion",
+        "sign"
+      ],
+      "words": [
+        {
+          "kanji": "兆",
+          "kana": "ちょう",
+          "en": "10^12"
+        },
+        {
+          "kanji": "兆し",
+          "kana": "きざし",
+          "en": "sign"
+        },
+        {
+          "kanji": "前兆",
+          "kana": "ぜんちょう",
+          "en": "omen"
+        },
+        {
+          "kanji": "兆候",
+          "kana": "ちょうこう",
+          "en": "sign"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "兆",
+          "kana": "ちょう",
+          "en": "10^12"
+        },
+        "きざし": {
+          "kanji": "兆し",
+          "kana": "きざし",
+          "en": "sign"
+        }
+      }
+    },
+    {
+      "kanji": "児",
+      "on": [
+        "ジ",
+        "ニ",
+        "ゲイ"
+      ],
+      "kun": [
+        "こ",
+        "-こ",
+        "-っこ"
+      ],
+      "meanings": [
+        "newborn babe",
+        "child",
+        "young of animals"
+      ],
+      "words": [
+        {
+          "kanji": "遺児",
+          "kana": "いじ",
+          "en": "orphan"
+        },
+        {
+          "kanji": "育児",
+          "kana": "いくじ",
+          "en": "childcare"
+        },
+        {
+          "kanji": "園児",
+          "kana": "えんじ",
+          "en": "kindergarten pupil"
+        },
+        {
+          "kanji": "児童",
+          "kana": "じどう",
+          "en": "children"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "児童",
+          "kana": "じどう",
+          "en": "children"
+        },
+        "ニ": {
+          "kanji": "乳児",
+          "kana": "にゅうじ",
+          "en": "infant (below 1 year old)"
+        },
+        "こ": {
+          "kanji": "孤児",
+          "kana": "こじ",
+          "en": "orphan"
+        }
+      }
+    },
+    {
+      "kanji": "共",
+      "on": [
+        "キョウ"
+      ],
+      "kun": [
+        "とも",
+        "とも.に",
+        "-ども"
+      ],
+      "meanings": [
+        "together",
+        "both",
+        "neither",
+        "all"
+      ],
+      "words": [
+        {
+          "kanji": "共",
+          "kana": "ども",
+          "en": "first-person plural (or singular)"
+        },
+        {
+          "kanji": "共",
+          "kana": "とも",
+          "en": "together with"
+        },
+        {
+          "kanji": "共に",
+          "kana": "ともに",
+          "en": "together"
+        },
+        {
+          "kanji": "共食い",
+          "kana": "ともぐい",
+          "en": "cannibalism (in animals)"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "共和",
+          "kana": "きょうわ",
+          "en": "republicanism"
+        },
+        "とも": {
+          "kanji": "共",
+          "kana": "とも",
+          "en": "together with"
+        },
+        "ともに": {
+          "kanji": "共に",
+          "kana": "ともに",
+          "en": "together"
+        },
+        "ども": {
+          "kanji": "共",
+          "kana": "ども",
+          "en": "first-person plural (or singular)"
+        }
+      }
+    },
+    {
+      "kanji": "兵",
+      "on": [
+        "ヘイ",
+        "ヒョウ"
+      ],
+      "kun": [
+        "つわもの"
+      ],
+      "meanings": [
+        "soldier",
+        "private",
+        "troops",
+        "army"
+      ],
+      "words": [
+        {
+          "kanji": "兵",
+          "kana": "へい",
+          "en": "(common) soldier"
+        },
+        {
+          "kanji": "兵器",
+          "kana": "へいき",
+          "en": "arms"
+        },
+        {
+          "kanji": "兵士",
+          "kana": "へいし",
+          "en": "soldier"
+        },
+        {
+          "kanji": "歩兵",
+          "kana": "ほへい",
+          "en": "infantry"
+        }
+      ],
+      "readingExamples": {
+        "ヘイ": {
+          "kanji": "兵",
+          "kana": "へい",
+          "en": "(common) soldier"
+        },
+        "ヒョウ": {
+          "kanji": "兵糧",
+          "kana": "ひょうろう",
+          "en": "(army) provisions"
+        }
+      }
+    },
+    {
+      "kanji": "典",
+      "on": [
+        "テン",
+        "デン"
+      ],
+      "kun": [
+        "ふみ",
+        "のり"
+      ],
+      "meanings": [
+        "code",
+        "ceremony",
+        "law",
+        "rule"
+      ],
+      "words": [
+        {
+          "kanji": "古典",
+          "kana": "こてん",
+          "en": "classic (work, esp. book)"
+        },
+        {
+          "kanji": "事典",
+          "kana": "じてん",
+          "en": "encyclopedia"
+        },
+        {
+          "kanji": "辞典",
+          "kana": "じてん",
+          "en": "dictionary"
+        },
+        {
+          "kanji": "恩典",
+          "kana": "おんてん",
+          "en": "favour"
+        }
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "典型",
+          "kana": "てんけい",
+          "en": "type"
+        }
+      }
+    },
+    {
+      "kanji": "冷",
+      "on": [
+        "レイ"
+      ],
+      "kun": [
+        "つめ.たい",
+        "ひ.える",
+        "ひ.や",
+        "ひ.ややか",
+        "ひ.やす",
+        "ひ.やかす",
+        "さ.める",
+        "さ.ます"
+      ],
+      "meanings": [
+        "cool",
+        "cold (beer, person)",
+        "chill"
+      ],
+      "words": [
+        {
+          "kanji": "冷え",
+          "kana": "ひえ",
+          "en": "chilliness"
+        },
+        {
+          "kanji": "冷や",
+          "kana": "ひや",
+          "en": "cold water"
+        },
+        {
+          "kanji": "保冷",
+          "kana": "ほれい",
+          "en": "keeping (something) cool"
+        },
+        {
+          "kanji": "冷える",
+          "kana": "ひえる",
+          "en": "to grow cold"
+        }
+      ],
+      "readingExamples": {
+        "レイ": {
+          "kanji": "冷気",
+          "kana": "れいき",
+          "en": "cold"
+        },
+        "つめたい": {
+          "kanji": "冷たい",
+          "kana": "つめたい",
+          "en": "cold (to the touch)"
+        },
+        "ひえる": {
+          "kanji": "冷える",
+          "kana": "ひえる",
+          "en": "to grow cold"
+        },
+        "ひや": {
+          "kanji": "冷や",
+          "kana": "ひや",
+          "en": "cold water"
+        },
+        "ひややか": {
+          "kanji": "冷ややか",
+          "kana": "ひややか",
+          "en": "cold"
+        },
+        "ひやす": {
+          "kanji": "冷やす",
+          "kana": "ひやす",
+          "en": "to cool"
+        }
+      }
+    },
+    {
+      "kanji": "初",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "はじ.め",
+        "はじ.めて",
+        "はつ",
+        "はつ-",
+        "うい-",
+        "-そ.める",
+        "-ぞ.め"
+      ],
+      "meanings": [
+        "first time",
+        "beginning"
+      ],
+      "words": [
+        {
+          "kanji": "初",
+          "kana": "はつ",
+          "en": "first"
+        },
+        {
+          "kanji": "初める",
+          "kana": "そめる",
+          "en": "to begin to"
+        },
+        {
+          "kanji": "初夏",
+          "kana": "しょか",
+          "en": "early summer"
+        },
+        {
+          "kanji": "初期",
+          "kana": "しょき",
+          "en": "early days"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "初夏",
+          "kana": "しょか",
+          "en": "early summer"
+        },
+        "はじめ": {
+          "kanji": "初めに",
+          "kana": "はじめに",
+          "en": "first"
+        },
+        "はじめて": {
+          "kanji": "初めて",
+          "kana": "はじめて",
+          "en": "for the first time"
+        },
+        "はつ": {
+          "kanji": "初",
+          "kana": "はつ",
+          "en": "first"
+        },
+        "うい": {
+          "kanji": "初子",
+          "kana": "ういご",
+          "en": "first child"
+        },
+        "そめる": {
+          "kanji": "初める",
+          "kana": "そめる",
+          "en": "to begin to"
+        }
+      }
+    },
+    {
+      "kanji": "別",
+      "on": [
+        "ベツ"
+      ],
+      "kun": [
+        "わか.れる",
+        "わ.ける"
+      ],
+      "meanings": [
+        "separate",
+        "branch off",
+        "diverge",
+        "fork"
+      ],
+      "words": [
+        {
+          "kanji": "別",
+          "kana": "べつ",
+          "en": "distinction"
+        },
+        {
+          "kanji": "区別",
+          "kana": "くべつ",
+          "en": "distinction"
+        },
+        {
+          "kanji": "個別",
+          "kana": "こべつ",
+          "en": "individual"
+        },
+        {
+          "kanji": "戸別",
+          "kana": "こべつ",
+          "en": "house-to-house"
+        }
+      ],
+      "readingExamples": {
+        "ベツ": {
+          "kanji": "別",
+          "kana": "べつ",
+          "en": "distinction"
+        },
+        "わかれる": {
+          "kanji": "別れる",
+          "kana": "わかれる",
+          "en": "to part (usu. of people)"
+        }
+      }
+    },
+    {
+      "kanji": "利",
+      "on": [
+        "リ"
+      ],
+      "kun": [
+        "き.く"
+      ],
+      "meanings": [
+        "profit",
+        "advantage",
+        "benefit"
+      ],
+      "words": [
+        {
+          "kanji": "利",
+          "kana": "り",
+          "en": "advantage"
+        },
+        {
+          "kanji": "不利",
+          "kana": "ふり",
+          "en": "disadvantage"
+        },
+        {
+          "kanji": "利己",
+          "kana": "りこ",
+          "en": "self-interest"
+        },
+        {
+          "kanji": "利子",
+          "kana": "りし",
+          "en": "interest (on a deposit, loan, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "リ": {
+          "kanji": "利",
+          "kana": "り",
+          "en": "advantage"
+        }
+      }
+    },
+    {
+      "kanji": "刷",
+      "on": [
+        "サツ"
+      ],
+      "kun": [
+        "す.る",
+        "-ず.り",
+        "-ずり",
+        "は.く"
+      ],
+      "meanings": [
+        "printing",
+        "print",
+        "brush"
+      ],
+      "words": [
+        {
+          "kanji": "刷る",
+          "kana": "する",
+          "en": "to print"
+        },
+        {
+          "kanji": "刷り",
+          "kana": "すり",
+          "en": "printing"
+        },
+        {
+          "kanji": "印刷",
+          "kana": "いんさつ",
+          "en": "printing"
+        },
+        {
+          "kanji": "刷新",
+          "kana": "さっしん",
+          "en": "reform"
+        }
+      ],
+      "readingExamples": {
+        "する": {
+          "kanji": "刷る",
+          "kana": "する",
+          "en": "to print"
+        }
+      }
+    },
+    {
+      "kanji": "副",
+      "on": [
+        "フク"
+      ],
+      "kun": [],
+      "meanings": [
+        "vice-",
+        "assistant",
+        "aide",
+        "duplicate"
+      ],
+      "words": [
+        {
+          "kanji": "副",
+          "kana": "ふく",
+          "en": "assistant"
+        },
+        {
+          "kanji": "副詞",
+          "kana": "ふくし",
+          "en": "adverb"
+        },
+        {
+          "kanji": "副署",
+          "kana": "ふくしょ",
+          "en": "countersignature"
+        },
+        {
+          "kanji": "副題",
+          "kana": "ふくだい",
+          "en": "subtitle"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "副",
+          "kana": "ふく",
+          "en": "assistant"
+        }
+      }
+    },
+    {
+      "kanji": "功",
+      "on": [
+        "コウ",
+        "ク"
+      ],
+      "kun": [
+        "いさお"
+      ],
+      "meanings": [
+        "achievement",
+        "merits",
+        "success",
+        "honor"
+      ],
+      "words": [
+        {
+          "kanji": "武功",
+          "kana": "ぶこう",
+          "en": "military exploits"
+        },
+        {
+          "kanji": "功罪",
+          "kana": "こうざい",
+          "en": "merits and demerits"
+        },
+        {
+          "kanji": "功績",
+          "kana": "こうせき",
+          "en": "achievement"
+        },
+        {
+          "kanji": "功労",
+          "kana": "こうろう",
+          "en": "meritorious deed"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "功罪",
+          "kana": "こうざい",
+          "en": "merits and demerits"
+        }
+      }
+    },
+    {
+      "kanji": "加",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "くわ.える",
+        "くわ.わる"
+      ],
+      "meanings": [
+        "add",
+        "addition",
+        "increase",
+        "join"
+      ],
+      "words": [
+        {
+          "kanji": "加",
+          "kana": "か",
+          "en": "addition"
+        },
+        {
+          "kanji": "加護",
+          "kana": "かご",
+          "en": "divine protection"
+        },
+        {
+          "kanji": "加味",
+          "kana": "かみ",
+          "en": "seasoning"
+        },
+        {
+          "kanji": "付加",
+          "kana": "ふか",
+          "en": "addition"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "加",
+          "kana": "か",
+          "en": "addition"
+        },
+        "くわえる": {
+          "kanji": "加える",
+          "kana": "くわえる",
+          "en": "to add"
+        },
+        "くわわる": {
+          "kanji": "加わる",
+          "kana": "くわわる",
+          "en": "to be added to"
+        }
+      }
+    },
+    {
+      "kanji": "努",
+      "on": [
+        "ド"
+      ],
+      "kun": [
+        "つと.める"
+      ],
+      "meanings": [
+        "toil",
+        "diligent",
+        "as much as possible"
+      ],
+      "words": [
+        {
+          "kanji": "努める",
+          "kana": "つとめる",
+          "en": "to endeavor (to do)"
+        },
+        {
+          "kanji": "努めて",
+          "kana": "つとめて",
+          "en": "as much as possible"
+        },
+        {
+          "kanji": "努力",
+          "kana": "どりょく",
+          "en": "effort"
+        }
+      ],
+      "readingExamples": {
+        "ド": {
+          "kanji": "努力",
+          "kana": "どりょく",
+          "en": "effort"
+        },
+        "つとめる": {
+          "kanji": "努める",
+          "kana": "つとめる",
+          "en": "to endeavor (to do)"
+        }
+      }
+    },
+    {
+      "kanji": "労",
+      "on": [
+        "ロウ"
+      ],
+      "kun": [
+        "ろう.する",
+        "いたわ.る",
+        "いた.ずき",
+        "ねぎら",
+        "つか.れる",
+        "ねぎら.う"
+      ],
+      "meanings": [
+        "labor",
+        "thank for",
+        "reward for",
+        "toil"
+      ],
+      "words": [
+        {
+          "kanji": "労",
+          "kana": "ろう",
+          "en": "labor"
+        },
+        {
+          "kanji": "過労",
+          "kana": "かろう",
+          "en": "overwork"
+        },
+        {
+          "kanji": "苦労",
+          "kana": "くろう",
+          "en": "trouble"
+        },
+        {
+          "kanji": "徒労",
+          "kana": "とろう",
+          "en": "fruitless effort"
+        }
+      ],
+      "readingExamples": {
+        "ロウ": {
+          "kanji": "労",
+          "kana": "ろう",
+          "en": "labor"
+        },
+        "いたわる": {
+          "kanji": "労る",
+          "kana": "いたわる",
+          "en": "to pity"
+        }
+      }
+    },
+    {
+      "kanji": "勇",
+      "on": [
+        "ユウ"
+      ],
+      "kun": [
+        "いさ.む"
+      ],
+      "meanings": [
+        "courage",
+        "cheer up",
+        "be in high spirits",
+        "bravery"
+      ],
+      "words": [
+        {
+          "kanji": "勇",
+          "kana": "ゆう",
+          "en": "bravery"
+        },
+        {
+          "kanji": "武勇",
+          "kana": "ぶゆう",
+          "en": "bravery"
+        },
+        {
+          "kanji": "勇む",
+          "kana": "いさむ",
+          "en": "to be in high spirits"
+        },
+        {
+          "kanji": "勇気",
+          "kana": "ゆうき",
+          "en": "courage"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "勇",
+          "kana": "ゆう",
+          "en": "bravery"
+        },
+        "いさむ": {
+          "kanji": "勇む",
+          "kana": "いさむ",
+          "en": "to be in high spirits"
+        }
+      }
+    },
+    {
+      "kanji": "包",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "つつ.む",
+        "くる.む"
+      ],
+      "meanings": [
+        "wrap",
+        "pack up",
+        "cover",
+        "conceal"
+      ],
+      "words": [
+        {
+          "kanji": "包み",
+          "kana": "つつみ",
+          "en": "bundle"
+        },
+        {
+          "kanji": "包囲",
+          "kana": "ほうい",
+          "en": "siege"
+        },
+        {
+          "kanji": "包む",
+          "kana": "つつむ",
+          "en": "to wrap up"
+        },
+        {
+          "kanji": "包む",
+          "kana": "くるむ",
+          "en": "to wrap up (in)"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "包囲",
+          "kana": "ほうい",
+          "en": "siege"
+        },
+        "つつむ": {
+          "kanji": "包む",
+          "kana": "つつむ",
+          "en": "to wrap up"
+        },
+        "くるむ": {
+          "kanji": "包む",
+          "kana": "くるむ",
+          "en": "to wrap up (in)"
+        }
+      }
+    },
+    {
+      "kanji": "卒",
+      "on": [
+        "ソツ",
+        "シュツ"
+      ],
+      "kun": [
+        "そっ.する",
+        "お.える",
+        "お.わる",
+        "ついに",
+        "にわか"
+      ],
+      "meanings": [
+        "graduate",
+        "soldier",
+        "private",
+        "die"
+      ],
+      "words": [
+        {
+          "kanji": "何卒",
+          "kana": "なにとぞ",
+          "en": "please"
+        },
+        {
+          "kanji": "学卒",
+          "kana": "がくそつ",
+          "en": "college graduate"
+        },
+        {
+          "kanji": "高卒",
+          "kana": "こうそつ",
+          "en": "having graduated from high school (as one's highest completed level of education)"
+        },
+        {
+          "kanji": "大卒",
+          "kana": "だいそつ",
+          "en": "university graduate"
+        }
+      ],
+      "readingExamples": {
+        "ソツ": {
+          "kanji": "卒業",
+          "kana": "そつぎょう",
+          "en": "graduation"
+        }
+      }
+    },
+    {
+      "kanji": "協",
+      "on": [
+        "キョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "co-",
+        "cooperation"
+      ],
+      "words": [
+        {
+          "kanji": "協議",
+          "kana": "きょうぎ",
+          "en": "conference"
+        },
+        {
+          "kanji": "協和",
+          "kana": "きょうわ",
+          "en": "concord"
+        },
+        {
+          "kanji": "協会",
+          "kana": "きょうかい",
+          "en": "association"
+        },
+        {
+          "kanji": "協賛",
+          "kana": "きょうさん",
+          "en": "support"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "協議",
+          "kana": "きょうぎ",
+          "en": "conference"
+        }
+      }
+    },
+    {
+      "kanji": "単",
+      "on": [
+        "タン"
+      ],
+      "kun": [
+        "ひとえ"
+      ],
+      "meanings": [
+        "simple",
+        "one",
+        "single",
+        "merely"
+      ],
+      "words": [
+        {
+          "kanji": "単",
+          "kana": "たん",
+          "en": "single"
+        },
+        {
+          "kanji": "単に",
+          "kana": "たんに",
+          "en": "simply"
+        },
+        {
+          "kanji": "単位",
+          "kana": "たんい",
+          "en": "unit (e.g. meters, grams, etc.)"
+        },
+        {
+          "kanji": "単価",
+          "kana": "たんか",
+          "en": "unit price"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "単",
+          "kana": "たん",
+          "en": "single"
+        }
+      }
+    },
+    {
+      "kanji": "博",
+      "on": [
+        "ハク",
+        "バク"
+      ],
+      "kun": [],
+      "meanings": [
+        "Dr.",
+        "command",
+        "esteem",
+        "win acclaim"
+      ],
+      "words": [
+        {
+          "kanji": "博",
+          "kana": "はく",
+          "en": "doctor"
+        },
+        {
+          "kanji": "博士",
+          "kana": "はかせ",
+          "en": "expert"
+        },
+        {
+          "kanji": "博徒",
+          "kana": "ばくと",
+          "en": "gambler"
+        },
+        {
+          "kanji": "博士",
+          "kana": "はくし",
+          "en": "doctor"
+        }
+      ],
+      "readingExamples": {
+        "ハク": {
+          "kanji": "博",
+          "kana": "はく",
+          "en": "doctor"
+        },
+        "バク": {
+          "kanji": "博徒",
+          "kana": "ばくと",
+          "en": "gambler"
+        }
+      }
+    },
+    {
+      "kanji": "印",
+      "on": [
+        "イン"
+      ],
+      "kun": [
+        "しるし",
+        "-じるし",
+        "しる.す"
+      ],
+      "meanings": [
+        "stamp",
+        "seal",
+        "mark",
+        "imprint"
+      ],
+      "words": [
+        {
+          "kanji": "印",
+          "kana": "いん",
+          "en": "stamp"
+        },
+        {
+          "kanji": "印度",
+          "kana": "インド",
+          "en": "India"
+        },
+        {
+          "kanji": "印",
+          "kana": "しるし",
+          "en": "mark"
+        },
+        {
+          "kanji": "印紙",
+          "kana": "いんし",
+          "en": "(revenue) stamp"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "印",
+          "kana": "いん",
+          "en": "stamp"
+        },
+        "しるし": {
+          "kanji": "印",
+          "kana": "しるし",
+          "en": "mark"
+        }
+      }
+    },
+    {
+      "kanji": "参",
+      "on": [
+        "サン",
+        "シン"
+      ],
+      "kun": [
+        "まい.る",
+        "まい-",
+        "まじわる",
+        "みつ"
+      ],
+      "meanings": [
+        "nonplussed",
+        "three (in documents)",
+        "going",
+        "coming"
+      ],
+      "words": [
+        {
+          "kanji": "古参",
+          "kana": "こさん",
+          "en": "senior"
+        },
+        {
+          "kanji": "参る",
+          "kana": "まいる",
+          "en": "to go"
+        },
+        {
+          "kanji": "参加",
+          "kana": "さんか",
+          "en": "participation"
+        },
+        {
+          "kanji": "参賀",
+          "kana": "さんが",
+          "en": "congratulatory visit to the Imperial Palace (e.g. at New Year)"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "参加",
+          "kana": "さんか",
+          "en": "participation"
+        },
+        "シン": {
+          "kanji": "新参",
+          "kana": "しんざん",
+          "en": "newcomer"
+        },
+        "まいる": {
+          "kanji": "参る",
+          "kana": "まいる",
+          "en": "to go"
+        },
+        "まい": {
+          "kanji": "参る",
+          "kana": "まいる",
+          "en": "to go"
+        }
+      }
+    },
+    {
+      "kanji": "司",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "つかさど.る"
+      ],
+      "meanings": [
+        "director",
+        "official",
+        "govt office",
+        "rule"
+      ],
+      "words": [
+        {
+          "kanji": "宮司",
+          "kana": "ぐうじ",
+          "en": "chief priest"
+        },
+        {
+          "kanji": "公司",
+          "kana": "コンス",
+          "en": "company (in China)"
+        },
+        {
+          "kanji": "司会",
+          "kana": "しかい",
+          "en": "leading a meeting"
+        },
+        {
+          "kanji": "司書",
+          "kana": "ししょ",
+          "en": "librarian"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "司会",
+          "kana": "しかい",
+          "en": "leading a meeting"
+        },
+        "つかさどる": {
+          "kanji": "司る",
+          "kana": "つかさどる",
+          "en": "to be in charge of"
+        }
+      }
+    },
+    {
+      "kanji": "各",
+      "on": [
+        "カク"
+      ],
+      "kun": [
+        "おのおの"
+      ],
+      "meanings": [
+        "each",
+        "every",
+        "either"
+      ],
+      "words": [
+        {
+          "kanji": "各",
+          "kana": "かく",
+          "en": "each"
+        },
+        {
+          "kanji": "各位",
+          "kana": "かくい",
+          "en": "everyone"
+        },
+        {
+          "kanji": "各自",
+          "kana": "かくじ",
+          "en": "each (person)"
+        },
+        {
+          "kanji": "各地",
+          "kana": "かくち",
+          "en": "each place"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "各",
+          "kana": "かく",
+          "en": "each"
+        },
+        "おのおの": {
+          "kanji": "各々",
+          "kana": "おのおの",
+          "en": "each"
+        }
+      }
+    },
+    {
+      "kanji": "周",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [
+        "まわ.り"
+      ],
+      "meanings": [
+        "circumference",
+        "circuit",
+        "lap"
+      ],
+      "words": [
+        {
+          "kanji": "周り",
+          "kana": "まわり",
+          "en": "circumference"
+        },
+        {
+          "kanji": "周囲",
+          "kana": "しゅうい",
+          "en": "surroundings"
+        },
+        {
+          "kanji": "周期",
+          "kana": "しゅうき",
+          "en": "cycle"
+        },
+        {
+          "kanji": "周知",
+          "kana": "しゅうち",
+          "en": "common knowledge"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "周囲",
+          "kana": "しゅうい",
+          "en": "surroundings"
+        },
+        "まわり": {
+          "kanji": "周り",
+          "kana": "まわり",
+          "en": "circumference"
+        }
+      }
+    },
+    {
+      "kanji": "唱",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "とな.える"
+      ],
+      "meanings": [
+        "chant",
+        "recite",
+        "call upon",
+        "yell"
+      ],
+      "words": [
+        {
+          "kanji": "歌唱",
+          "kana": "かしょう",
+          "en": "song"
+        },
+        {
+          "kanji": "唱える",
+          "kana": "となえる",
+          "en": "to recite"
+        },
+        {
+          "kanji": "唱歌",
+          "kana": "しょうか",
+          "en": "singing"
+        },
+        {
+          "kanji": "唱和",
+          "kana": "しょうわ",
+          "en": "cheering in chorus"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "唱歌",
+          "kana": "しょうか",
+          "en": "singing"
+        },
+        "となえる": {
+          "kanji": "唱える",
+          "kana": "となえる",
+          "en": "to recite"
+        }
+      }
+    },
+    {
+      "kanji": "器",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "うつわ"
+      ],
+      "meanings": [
+        "utensil",
+        "vessel",
+        "receptacle",
+        "implement"
+      ],
+      "words": [
+        {
+          "kanji": "火器",
+          "kana": "かき",
+          "en": "firearms"
+        },
+        {
+          "kanji": "花器",
+          "kana": "かき",
+          "en": "flower vase"
+        },
+        {
+          "kanji": "器具",
+          "kana": "きぐ",
+          "en": "utensil"
+        },
+        {
+          "kanji": "機器",
+          "kana": "きき",
+          "en": "device"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "器具",
+          "kana": "きぐ",
+          "en": "utensil"
+        },
+        "うつわ": {
+          "kanji": "器",
+          "kana": "うつわ",
+          "en": "bowl"
+        }
+      }
+    },
+    {
+      "kanji": "固",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "かた.める",
+        "かた.まる",
+        "かた.まり",
+        "かた.い"
+      ],
+      "meanings": [
+        "harden",
+        "set",
+        "clot",
+        "curdle"
+      ],
+      "words": [
+        {
+          "kanji": "固化",
+          "kana": "こか",
+          "en": "solidification"
+        },
+        {
+          "kanji": "固辞",
+          "kana": "こじ",
+          "en": "firm refusal"
+        },
+        {
+          "kanji": "確固",
+          "kana": "かっこ",
+          "en": "firm"
+        },
+        {
+          "kanji": "固め",
+          "kana": "かため",
+          "en": "hardening"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "固化",
+          "kana": "こか",
+          "en": "solidification"
+        },
+        "かためる": {
+          "kanji": "固める",
+          "kana": "かためる",
+          "en": "to harden"
+        },
+        "かたまる": {
+          "kanji": "固まる",
+          "kana": "かたまる",
+          "en": "to harden"
+        }
+      }
+    },
+    {
+      "kanji": "城",
+      "on": [
+        "ジョウ",
+        "セイ"
+      ],
+      "kun": [
+        "しろ"
+      ],
+      "meanings": [
+        "castle"
+      ],
+      "words": [
+        {
+          "kanji": "城",
+          "kana": "しろ",
+          "en": "castle"
+        },
+        {
+          "kanji": "根城",
+          "kana": "ねじろ",
+          "en": "stronghold"
+        },
+        {
+          "kanji": "古城",
+          "kana": "こじょう",
+          "en": "old castle"
+        },
+        {
+          "kanji": "城下",
+          "kana": "じょうか",
+          "en": "land near a castle"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "城下",
+          "kana": "じょうか",
+          "en": "land near a castle"
+        },
+        "しろ": {
+          "kanji": "城",
+          "kana": "しろ",
+          "en": "castle"
+        }
+      }
+    },
+    {
+      "kanji": "埼",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "さき",
+        "さい",
+        "みさき"
+      ],
+      "meanings": [
+        "cape",
+        "spit",
+        "promontory"
+      ],
+      "words": [
+        {
+          "kanji": "埼玉",
+          "kana": "さいたま",
+          "en": "Saitama (city, prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "さい": {
+          "kanji": "埼玉",
+          "kana": "さいたま",
+          "en": "Saitama (city, prefecture)"
+        }
+      }
+    },
+    {
+      "kanji": "塩",
+      "on": [
+        "エン"
+      ],
+      "kun": [
+        "しお"
+      ],
+      "meanings": [
+        "salt"
+      ],
+      "words": [
+        {
+          "kanji": "塩",
+          "kana": "しお",
+          "en": "salt"
+        },
+        {
+          "kanji": "塩化",
+          "kana": "えんか",
+          "en": "chloridation"
+        },
+        {
+          "kanji": "塩基",
+          "kana": "えんき",
+          "en": "base"
+        },
+        {
+          "kanji": "塩素",
+          "kana": "えんそ",
+          "en": "chlorine (Cl)"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "塩化",
+          "kana": "えんか",
+          "en": "chloridation"
+        },
+        "しお": {
+          "kanji": "塩",
+          "kana": "しお",
+          "en": "salt"
+        }
+      }
+    },
+    {
+      "kanji": "変",
+      "on": [
+        "ヘン"
+      ],
+      "kun": [
+        "か.わる",
+        "か.わり",
+        "か.える"
+      ],
+      "meanings": [
+        "unusual",
+        "change",
+        "strange"
+      ],
+      "words": [
+        {
+          "kanji": "変",
+          "kana": "へん",
+          "en": "strange"
+        },
+        {
+          "kanji": "変え",
+          "kana": "かえ",
+          "en": "changing"
+        },
+        {
+          "kanji": "異変",
+          "kana": "いへん",
+          "en": "unusual event"
+        },
+        {
+          "kanji": "可変",
+          "kana": "かへん",
+          "en": "variable"
+        }
+      ],
+      "readingExamples": {
+        "ヘン": {
+          "kanji": "変",
+          "kana": "へん",
+          "en": "strange"
+        },
+        "かわる": {
+          "kanji": "変わる",
+          "kana": "かわる",
+          "en": "to change"
+        },
+        "かわり": {
+          "kanji": "変わり",
+          "kana": "かわり",
+          "en": "change"
+        },
+        "かえる": {
+          "kanji": "変える",
+          "kana": "かえる",
+          "en": "to change"
+        }
+      }
+    },
+    {
+      "kanji": "夫",
+      "on": [
+        "フ",
+        "フウ",
+        "ブ"
+      ],
+      "kun": [
+        "おっと",
+        "それ"
+      ],
+      "meanings": [
+        "husband",
+        "man"
+      ],
+      "words": [
+        {
+          "kanji": "工夫",
+          "kana": "くふう",
+          "en": "devising (a way)"
+        },
+        {
+          "kanji": "農夫",
+          "kana": "のうふ",
+          "en": "(male) farmer"
+        },
+        {
+          "kanji": "夫",
+          "kana": "おっと",
+          "en": "husband"
+        },
+        {
+          "kanji": "夫君",
+          "kana": "ふくん",
+          "en": "(another's) husband"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "夫君",
+          "kana": "ふくん",
+          "en": "(another's) husband"
+        },
+        "フウ": {
+          "kanji": "夫婦",
+          "kana": "ふうふ",
+          "en": "married couple"
+        },
+        "おっと": {
+          "kanji": "夫",
+          "kana": "おっと",
+          "en": "husband"
+        }
+      }
+    },
+    {
+      "kanji": "失",
+      "on": [
+        "シツ"
+      ],
+      "kun": [
+        "うしな.う",
+        "う.せる"
+      ],
+      "meanings": [
+        "lose",
+        "error",
+        "fault",
+        "disadvantage"
+      ],
+      "words": [
+        {
+          "kanji": "遺失",
+          "kana": "いしつ",
+          "en": "loss"
+        },
+        {
+          "kanji": "過失",
+          "kana": "かしつ",
+          "en": "accident (caused by negligence)"
+        },
+        {
+          "kanji": "失意",
+          "kana": "しつい",
+          "en": "disappointment"
+        },
+        {
+          "kanji": "失火",
+          "kana": "しっか",
+          "en": "accidental fire"
+        }
+      ],
+      "readingExamples": {
+        "シツ": {
+          "kanji": "失意",
+          "kana": "しつい",
+          "en": "disappointment"
+        },
+        "うしなう": {
+          "kanji": "失う",
+          "kana": "うしなう",
+          "en": "to lose"
+        }
+      }
+    },
+    {
+      "kanji": "奈",
+      "on": [
+        "ナ",
+        "ナイ",
+        "ダイ"
+      ],
+      "kun": [
+        "いかん",
+        "からなし"
+      ],
+      "meanings": [
+        "Nara",
+        "what?"
+      ],
+      "words": [
+        {
+          "kanji": "奈良",
+          "kana": "なら",
+          "en": "Nara (city, prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "ナ": {
+          "kanji": "奈良",
+          "kana": "なら",
+          "en": "Nara (city, prefecture)"
+        }
+      }
+    },
+    {
+      "kanji": "好",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "この.む",
+        "す.く",
+        "よ.い",
+        "い.い"
+      ],
+      "meanings": [
+        "fond",
+        "pleasing",
+        "like something"
+      ],
+      "words": [
+        {
+          "kanji": "好き",
+          "kana": "すき",
+          "en": "liking"
+        },
+        {
+          "kanji": "好み",
+          "kana": "このみ",
+          "en": "liking"
+        },
+        {
+          "kanji": "好む",
+          "kana": "このむ",
+          "en": "to like"
+        },
+        {
+          "kanji": "好意",
+          "kana": "こうい",
+          "en": "kindness"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "好意",
+          "kana": "こうい",
+          "en": "kindness"
+        },
+        "このむ": {
+          "kanji": "好む",
+          "kana": "このむ",
+          "en": "to like"
+        }
+      }
+    },
+    {
+      "kanji": "媛",
+      "on": [
+        "エン"
+      ],
+      "kun": [
+        "ひめ"
+      ],
+      "meanings": [
+        "beautiful woman",
+        "princess"
+      ],
+      "words": [],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "季",
+      "on": [
+        "キ"
+      ],
+      "kun": [],
+      "meanings": [
+        "seasons"
+      ],
+      "words": [
+        {
+          "kanji": "季語",
+          "kana": "きご",
+          "en": "seasonal word (in haiku)"
+        },
+        {
+          "kanji": "四季",
+          "kana": "しき",
+          "en": "the four seasons"
+        },
+        {
+          "kanji": "雨季",
+          "kana": "うき",
+          "en": "rainy season"
+        },
+        {
+          "kanji": "夏季",
+          "kana": "かき",
+          "en": "summer season"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "季語",
+          "kana": "きご",
+          "en": "seasonal word (in haiku)"
+        }
+      }
+    },
+    {
+      "kanji": "孫",
+      "on": [
+        "ソン"
+      ],
+      "kun": [
+        "まご"
+      ],
+      "meanings": [
+        "grandchild",
+        "descendants"
+      ],
+      "words": [
+        {
+          "kanji": "孫",
+          "kana": "まご",
+          "en": "grandchild"
+        },
+        {
+          "kanji": "子孫",
+          "kana": "しそん",
+          "en": "descendant"
+        },
+        {
+          "kanji": "ひ孫",
+          "kana": "ひまご",
+          "en": "great-grandchild"
+        },
+        {
+          "kanji": "孫子",
+          "kana": "まごこ",
+          "en": "children and grandchildren"
+        }
+      ],
+      "readingExamples": {
+        "まご": {
+          "kanji": "孫",
+          "kana": "まご",
+          "en": "grandchild"
+        }
+      }
+    },
+    {
+      "kanji": "完",
+      "on": [
+        "カン"
+      ],
+      "kun": [],
+      "meanings": [
+        "perfect",
+        "completion",
+        "end"
+      ],
+      "words": [
+        {
+          "kanji": "完備",
+          "kana": "かんび",
+          "en": "being fully equipped"
+        },
+        {
+          "kanji": "補完",
+          "kana": "ほかん",
+          "en": "complementation"
+        },
+        {
+          "kanji": "未完",
+          "kana": "みかん",
+          "en": "incomplete"
+        },
+        {
+          "kanji": "完治",
+          "kana": "かんち",
+          "en": "complete recovery"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "完備",
+          "kana": "かんび",
+          "en": "being fully equipped"
+        }
+      }
+    },
+    {
+      "kanji": "官",
+      "on": [
+        "カン"
+      ],
+      "kun": [],
+      "meanings": [
+        "bureaucrat",
+        "the government",
+        "organ"
+      ],
+      "words": [
+        {
+          "kanji": "医官",
+          "kana": "いかん",
+          "en": "medical officer"
+        },
+        {
+          "kanji": "器官",
+          "kana": "きかん",
+          "en": "organ"
+        },
+        {
+          "kanji": "左官",
+          "kana": "さかん",
+          "en": "plasterer"
+        },
+        {
+          "kanji": "士官",
+          "kana": "しかん",
+          "en": "officer"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "官吏",
+          "kana": "かんり",
+          "en": "government official"
+        }
+      }
+    },
+    {
+      "kanji": "害",
+      "on": [
+        "ガイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "harm",
+        "injury"
+      ],
+      "words": [
+        {
+          "kanji": "害",
+          "kana": "がい",
+          "en": "injury"
+        },
+        {
+          "kanji": "危害",
+          "kana": "きがい",
+          "en": "injury"
+        },
+        {
+          "kanji": "利害",
+          "kana": "りがい",
+          "en": "advantages and disadvantages"
+        },
+        {
+          "kanji": "無害",
+          "kana": "むがい",
+          "en": "harmless"
+        }
+      ],
+      "readingExamples": {
+        "ガイ": {
+          "kanji": "害",
+          "kana": "がい",
+          "en": "injury"
+        }
+      }
+    },
+    {
+      "kanji": "富",
+      "on": [
+        "フ",
+        "フウ"
+      ],
+      "kun": [
+        "と.む",
+        "とみ"
+      ],
+      "meanings": [
+        "wealth",
+        "enrich",
+        "abundant"
+      ],
+      "words": [
+        {
+          "kanji": "富",
+          "kana": "とみ",
+          "en": "riches"
+        },
+        {
+          "kanji": "富む",
+          "kana": "とむ",
+          "en": "to be rich (in)"
+        },
+        {
+          "kanji": "国富",
+          "kana": "こくふ",
+          "en": "national wealth"
+        },
+        {
+          "kanji": "貧富",
+          "kana": "ひんぷ",
+          "en": "wealth and poverty"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "富貴",
+          "kana": "ふうき",
+          "en": "riches and honours (honors)"
+        },
+        "フウ": {
+          "kanji": "富貴",
+          "kana": "ふうき",
+          "en": "riches and honours (honors)"
+        },
+        "とむ": {
+          "kanji": "富む",
+          "kana": "とむ",
+          "en": "to be rich (in)"
+        },
+        "とみ": {
+          "kanji": "富",
+          "kana": "とみ",
+          "en": "riches"
+        }
+      }
+    },
+    {
+      "kanji": "察",
+      "on": [
+        "サツ"
+      ],
+      "kun": [],
+      "meanings": [
+        "guess",
+        "presume",
+        "surmise",
+        "judge"
+      ],
+      "words": [
+        {
+          "kanji": "査察",
+          "kana": "ささつ",
+          "en": "inspection (for compliance)"
+        },
+        {
+          "kanji": "察し",
+          "kana": "さっし",
+          "en": "consideration"
+        },
+        {
+          "kanji": "察知",
+          "kana": "さっち",
+          "en": "to sense"
+        },
+        {
+          "kanji": "視察",
+          "kana": "しさつ",
+          "en": "inspection"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "岐",
+      "on": [
+        "キ",
+        "ギ"
+      ],
+      "kun": [],
+      "meanings": [
+        "branch off",
+        "fork in road",
+        "scene",
+        "arena"
+      ],
+      "words": [
+        {
+          "kanji": "岐路",
+          "kana": "きろ",
+          "en": "forked road"
+        },
+        {
+          "kanji": "多岐",
+          "kana": "たき",
+          "en": "diverse"
+        },
+        {
+          "kanji": "岐阜",
+          "kana": "ぎふ",
+          "en": "Gifu (city, prefecture)"
+        },
+        {
+          "kanji": "分岐",
+          "kana": "ぶんき",
+          "en": "divergence"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "岐路",
+          "kana": "きろ",
+          "en": "forked road"
+        },
+        "ギ": {
+          "kanji": "岐阜",
+          "kana": "ぎふ",
+          "en": "Gifu (city, prefecture)"
+        }
+      }
+    },
+    {
+      "kanji": "岡",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "おか"
+      ],
+      "meanings": [
+        "mount",
+        "hill",
+        "knoll"
+      ],
+      "words": [
+        {
+          "kanji": "福岡",
+          "kana": "ふくおか",
+          "en": "Fukuoka (city, prefecture)"
+        },
+        {
+          "kanji": "静岡",
+          "kana": "しずおか",
+          "en": "Shizuoka (city, prefecture)"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "崎",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "さき",
+        "さい",
+        "みさき"
+      ],
+      "meanings": [
+        "promontory",
+        "cape",
+        "spit"
+      ],
+      "words": [
+        {
+          "kanji": "崎",
+          "kana": "さき",
+          "en": "small peninsula"
+        },
+        {
+          "kanji": "川崎",
+          "kana": "かわさき",
+          "en": "Kawasaki (city)"
+        },
+        {
+          "kanji": "長崎",
+          "kana": "ながさき",
+          "en": "Nagasaki (city, prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "さき": {
+          "kanji": "崎",
+          "kana": "さき",
+          "en": "small peninsula"
+        }
+      }
+    },
+    {
+      "kanji": "巣",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "す",
+        "す.くう"
+      ],
+      "meanings": [
+        "nest",
+        "rookery",
+        "hive",
+        "cobweb"
+      ],
+      "words": [
+        {
+          "kanji": "巣",
+          "kana": "す",
+          "en": "nest"
+        },
+        {
+          "kanji": "古巣",
+          "kana": "ふるす",
+          "en": "old haunts"
+        },
+        {
+          "kanji": "巣食う",
+          "kana": "すくう",
+          "en": "to build a nest"
+        },
+        {
+          "kanji": "巣箱",
+          "kana": "すばこ",
+          "en": "birdhouse"
+        }
+      ],
+      "readingExamples": {
+        "す": {
+          "kanji": "巣",
+          "kana": "す",
+          "en": "nest"
+        },
+        "すくう": {
+          "kanji": "巣食う",
+          "kana": "すくう",
+          "en": "to build a nest"
+        }
+      }
+    },
+    {
+      "kanji": "差",
+      "on": [
+        "サ"
+      ],
+      "kun": [
+        "さ.す",
+        "さ.し"
+      ],
+      "meanings": [
+        "distinction",
+        "difference",
+        "variation",
+        "discrepancy"
+      ],
+      "words": [
+        {
+          "kanji": "差",
+          "kana": "さ",
+          "en": "difference"
+        },
+        {
+          "kanji": "誤差",
+          "kana": "ごさ",
+          "en": "measurement error"
+        },
+        {
+          "kanji": "差す",
+          "kana": "さす",
+          "en": "to shine"
+        },
+        {
+          "kanji": "差異",
+          "kana": "さい",
+          "en": "difference"
+        }
+      ],
+      "readingExamples": {
+        "サ": {
+          "kanji": "差",
+          "kana": "さ",
+          "en": "difference"
+        },
+        "さす": {
+          "kanji": "差す",
+          "kana": "さす",
+          "en": "to shine"
+        },
+        "さし": {
+          "kanji": "差し手",
+          "kana": "さして",
+          "en": "slipping one's hand beneath the opponent's arm and latching on to the underside of his belt"
+        }
+      }
+    },
+    {
+      "kanji": "希",
+      "on": [
+        "キ",
+        "ケ"
+      ],
+      "kun": [
+        "まれ",
+        "こいねが.う"
+      ],
+      "meanings": [
+        "hope",
+        "beg",
+        "request",
+        "pray"
+      ],
+      "words": [
+        {
+          "kanji": "古希",
+          "kana": "こき",
+          "en": "70th birthday"
+        },
+        {
+          "kanji": "希望",
+          "kana": "きぼう",
+          "en": "hope"
+        },
+        {
+          "kanji": "希求",
+          "kana": "ききゅう",
+          "en": "longing"
+        },
+        {
+          "kanji": "希少",
+          "kana": "きしょう",
+          "en": "scarce"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "希望",
+          "kana": "きぼう",
+          "en": "hope"
+        }
+      }
+    },
+    {
+      "kanji": "席",
+      "on": [
+        "セキ"
+      ],
+      "kun": [
+        "むしろ"
+      ],
+      "meanings": [
+        "seat",
+        "mat",
+        "occasion",
+        "place"
+      ],
+      "words": [
+        {
+          "kanji": "寄席",
+          "kana": "よせ",
+          "en": "entertainment hall (for rakugo, manzai, magic, music, etc.)"
+        },
+        {
+          "kanji": "席",
+          "kana": "せき",
+          "en": "seat"
+        },
+        {
+          "kanji": "議席",
+          "kana": "ぎせき",
+          "en": "parliamentary seat"
+        },
+        {
+          "kanji": "座席",
+          "kana": "ざせき",
+          "en": "seat (esp. in public places or places with assigned seating)"
+        }
+      ],
+      "readingExamples": {
+        "セキ": {
+          "kanji": "席",
+          "kana": "せき",
+          "en": "seat"
+        }
+      }
+    },
+    {
+      "kanji": "帯",
+      "on": [
+        "タイ"
+      ],
+      "kun": [
+        "お.びる",
+        "おび"
+      ],
+      "meanings": [
+        "sash",
+        "belt",
+        "obi",
+        "zone"
+      ],
+      "words": [
+        {
+          "kanji": "帯",
+          "kana": "おび",
+          "en": "obi (kimono sash)"
+        },
+        {
+          "kanji": "帯",
+          "kana": "たい",
+          "en": "band (e.g. conduction, valence)"
+        },
+        {
+          "kanji": "世帯",
+          "kana": "せたい",
+          "en": "household"
+        },
+        {
+          "kanji": "帯びる",
+          "kana": "おびる",
+          "en": "to wear (a sword, decoration, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "帯",
+          "kana": "たい",
+          "en": "band (e.g. conduction, valence)"
+        },
+        "おびる": {
+          "kanji": "帯びる",
+          "kana": "おびる",
+          "en": "to wear (a sword, decoration, etc.)"
+        },
+        "おび": {
+          "kanji": "帯",
+          "kana": "おび",
+          "en": "obi (kimono sash)"
+        }
+      }
+    },
+    {
+      "kanji": "底",
+      "on": [
+        "テイ"
+      ],
+      "kun": [
+        "そこ"
+      ],
+      "meanings": [
+        "bottom",
+        "sole",
+        "depth",
+        "bottom price"
+      ],
+      "words": [
+        {
+          "kanji": "底",
+          "kana": "そこ",
+          "en": "bottom"
+        },
+        {
+          "kanji": "基底",
+          "kana": "きてい",
+          "en": "base"
+        },
+        {
+          "kanji": "底値",
+          "kana": "そこね",
+          "en": "bottom price"
+        },
+        {
+          "kanji": "湖底",
+          "kana": "こてい",
+          "en": "bottom of a lake"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "底辺",
+          "kana": "ていへん",
+          "en": "base (of a polygon)"
+        },
+        "そこ": {
+          "kanji": "底",
+          "kana": "そこ",
+          "en": "bottom"
+        }
+      }
+    },
+    {
+      "kanji": "府",
+      "on": [
+        "フ"
+      ],
+      "kun": [],
+      "meanings": [
+        "borough",
+        "urban prefecture",
+        "govt office",
+        "representative body"
+      ],
+      "words": [
+        {
+          "kanji": "政府",
+          "kana": "せいふ",
+          "en": "government"
+        },
+        {
+          "kanji": "府県",
+          "kana": "ふけん",
+          "en": "prefectures (of Japan, excl. Tokyo and Hokkaido)"
+        },
+        {
+          "kanji": "幕府",
+          "kana": "ばくふ",
+          "en": "shogunate"
+        },
+        {
+          "kanji": "府立",
+          "kana": "ふりつ",
+          "en": "prefectural"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "府県",
+          "kana": "ふけん",
+          "en": "prefectures (of Japan, excl. Tokyo and Hokkaido)"
+        }
+      }
+    },
+    {
+      "kanji": "康",
+      "on": [
+        "コウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ease",
+        "peace"
+      ],
+      "words": [
+        {
+          "kanji": "健康",
+          "kana": "けんこう",
+          "en": "health"
+        },
+        {
+          "kanji": "小康",
+          "kana": "しょうこう",
+          "en": "lull"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "建",
+      "on": [
+        "ケン",
+        "コン"
+      ],
+      "kun": [
+        "た.てる",
+        "た.て",
+        "-だ.て",
+        "た.つ"
+      ],
+      "meanings": [
+        "build"
+      ],
+      "words": [
+        {
+          "kanji": "建つ",
+          "kana": "たつ",
+          "en": "to be erected"
+        },
+        {
+          "kanji": "建てる",
+          "kana": "たてる",
+          "en": "to build"
+        },
+        {
+          "kanji": "建議",
+          "kana": "けんぎ",
+          "en": "proposition"
+        },
+        {
+          "kanji": "建具",
+          "kana": "たてぐ",
+          "en": "fittings that open and close (doors, windows, shoji, fusuma, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "建議",
+          "kana": "けんぎ",
+          "en": "proposition"
+        },
+        "コン": {
+          "kanji": "建立",
+          "kana": "こんりゅう",
+          "en": "(act of) building (temple, monument, etc.)"
+        },
+        "たてる": {
+          "kanji": "建てる",
+          "kana": "たてる",
+          "en": "to build"
+        },
+        "たて": {
+          "kanji": "建てる",
+          "kana": "たてる",
+          "en": "to build"
+        },
+        "たつ": {
+          "kanji": "建つ",
+          "kana": "たつ",
+          "en": "to be erected"
+        }
+      }
+    },
+    {
+      "kanji": "径",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [
+        "みち",
+        "こみち",
+        "さしわたし",
+        "ただちに"
+      ],
+      "meanings": [
+        "diameter",
+        "path",
+        "method"
+      ],
+      "words": [
+        {
+          "kanji": "口径",
+          "kana": "こうけい",
+          "en": "aperture"
+        },
+        {
+          "kanji": "内径",
+          "kana": "ないけい",
+          "en": "bore"
+        },
+        {
+          "kanji": "半径",
+          "kana": "はんけい",
+          "en": "radius"
+        },
+        {
+          "kanji": "直径",
+          "kana": "ちょっけい",
+          "en": "diameter"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "徒",
+      "on": [
+        "ト"
+      ],
+      "kun": [
+        "いたずら",
+        "あだ"
+      ],
+      "meanings": [
+        "on foot",
+        "junior",
+        "emptiness",
+        "vanity"
+      ],
+      "words": [
+        {
+          "kanji": "使徒",
+          "kana": "しと",
+          "en": "apostle"
+        },
+        {
+          "kanji": "徒歩",
+          "kana": "とほ",
+          "en": "walking"
+        },
+        {
+          "kanji": "徒",
+          "kana": "あだ",
+          "en": "vain"
+        },
+        {
+          "kanji": "学徒",
+          "kana": "がくと",
+          "en": "student"
+        }
+      ],
+      "readingExamples": {
+        "ト": {
+          "kanji": "徒歩",
+          "kana": "とほ",
+          "en": "walking"
+        },
+        "あだ": {
+          "kanji": "徒",
+          "kana": "あだ",
+          "en": "vain"
+        }
+      }
+    },
+    {
+      "kanji": "徳",
+      "on": [
+        "トク"
+      ],
+      "kun": [],
+      "meanings": [
+        "benevolence",
+        "virtue",
+        "goodness",
+        "commanding respect"
+      ],
+      "words": [
+        {
+          "kanji": "美徳",
+          "kana": "びとく",
+          "en": "virtue"
+        },
+        {
+          "kanji": "不徳",
+          "kana": "ふとく",
+          "en": "lack of virtue"
+        },
+        {
+          "kanji": "徳義",
+          "kana": "とくぎ",
+          "en": "morals"
+        },
+        {
+          "kanji": "悪徳",
+          "kana": "あくとく",
+          "en": "vice"
+        }
+      ],
+      "readingExamples": {
+        "トク": {
+          "kanji": "徳義",
+          "kana": "とくぎ",
+          "en": "morals"
+        }
+      }
+    },
+    {
+      "kanji": "必",
+      "on": [
+        "ヒツ"
+      ],
+      "kun": [
+        "かなら.ず"
+      ],
+      "meanings": [
+        "invariably",
+        "certain",
+        "inevitable"
+      ],
+      "words": [
+        {
+          "kanji": "必死",
+          "kana": "ひっし",
+          "en": "frantic"
+        },
+        {
+          "kanji": "必至",
+          "kana": "ひっし",
+          "en": "inevitable"
+        },
+        {
+          "kanji": "必ず",
+          "kana": "かならず",
+          "en": "always"
+        },
+        {
+          "kanji": "必見",
+          "kana": "ひっけん",
+          "en": "must-see"
+        }
+      ],
+      "readingExamples": {
+        "ヒツ": {
+          "kanji": "必需",
+          "kana": "ひつじゅ",
+          "en": "necessary"
+        },
+        "かならず": {
+          "kanji": "必ず",
+          "kana": "かならず",
+          "en": "always"
+        }
+      }
+    },
+    {
+      "kanji": "念",
+      "on": [
+        "ネン"
+      ],
+      "kun": [],
+      "meanings": [
+        "wish",
+        "sense",
+        "idea",
+        "thought"
+      ],
+      "words": [
+        {
+          "kanji": "念",
+          "kana": "ねん",
+          "en": "sense"
+        },
+        {
+          "kanji": "記念",
+          "kana": "きねん",
+          "en": "commemoration"
+        },
+        {
+          "kanji": "疑念",
+          "kana": "ぎねん",
+          "en": "doubt"
+        },
+        {
+          "kanji": "無念",
+          "kana": "むねん",
+          "en": "regret"
+        }
+      ],
+      "readingExamples": {
+        "ネン": {
+          "kanji": "念",
+          "kana": "ねん",
+          "en": "sense"
+        }
+      }
+    },
+    {
+      "kanji": "愛",
+      "on": [
+        "アイ"
+      ],
+      "kun": [
+        "いと.しい",
+        "かな.しい",
+        "め.でる",
+        "お.しむ",
+        "まな"
+      ],
+      "meanings": [
+        "love",
+        "affection",
+        "favourite"
+      ],
+      "words": [
+        {
+          "kanji": "愛",
+          "kana": "あい",
+          "en": "love"
+        },
+        {
+          "kanji": "愛護",
+          "kana": "あいご",
+          "en": "protection"
+        },
+        {
+          "kanji": "愛馬",
+          "kana": "あいば",
+          "en": "favourite horse"
+        },
+        {
+          "kanji": "愛想",
+          "kana": "あいそ",
+          "en": "amiability"
+        }
+      ],
+      "readingExamples": {
+        "アイ": {
+          "kanji": "愛",
+          "kana": "あい",
+          "en": "love"
+        },
+        "いとしい": {
+          "kanji": "愛しい",
+          "kana": "いとしい",
+          "en": "lovely"
+        },
+        "まな": {
+          "kanji": "愛弟子",
+          "kana": "まなでし",
+          "en": "favorite pupil"
+        }
+      }
+    },
+    {
+      "kanji": "成",
+      "on": [
+        "セイ",
+        "ジョウ"
+      ],
+      "kun": [
+        "な.る",
+        "な.す",
+        "-な.す"
+      ],
+      "meanings": [
+        "turn into",
+        "become",
+        "get",
+        "grow"
+      ],
+      "words": [
+        {
+          "kanji": "成す",
+          "kana": "なす",
+          "en": "to form"
+        },
+        {
+          "kanji": "成る",
+          "kana": "なる",
+          "en": "to become"
+        },
+        {
+          "kanji": "化成",
+          "kana": "かせい",
+          "en": "change"
+        },
+        {
+          "kanji": "成果",
+          "kana": "せいか",
+          "en": "(good) result"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "成果",
+          "kana": "せいか",
+          "en": "(good) result"
+        },
+        "ジョウ": {
+          "kanji": "醸成",
+          "kana": "じょうせい",
+          "en": "brewing"
+        },
+        "なる": {
+          "kanji": "成る",
+          "kana": "なる",
+          "en": "to become"
+        },
+        "なす": {
+          "kanji": "成す",
+          "kana": "なす",
+          "en": "to form"
+        }
+      }
+    },
+    {
+      "kanji": "戦",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "いくさ",
+        "たたか.う",
+        "おのの.く",
+        "そよ.ぐ",
+        "わなな.く"
+      ],
+      "meanings": [
+        "war",
+        "battle",
+        "match"
+      ],
+      "words": [
+        {
+          "kanji": "苦戦",
+          "kana": "くせん",
+          "en": "hard fight"
+        },
+        {
+          "kanji": "戦火",
+          "kana": "せんか",
+          "en": "wartime fire"
+        },
+        {
+          "kanji": "戦記",
+          "kana": "せんき",
+          "en": "record of war"
+        },
+        {
+          "kanji": "戦士",
+          "kana": "せんし",
+          "en": "soldier"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "戦火",
+          "kana": "せんか",
+          "en": "wartime fire"
+        },
+        "いくさ": {
+          "kanji": "戦",
+          "kana": "いくさ",
+          "en": "war"
+        },
+        "たたかう": {
+          "kanji": "戦う",
+          "kana": "たたかう",
+          "en": "to make war (on)"
+        }
+      }
+    },
+    {
+      "kanji": "折",
+      "on": [
+        "セツ",
+        "シャク"
+      ],
+      "kun": [
+        "お.る",
+        "おり",
+        "お.り",
+        "-お.り",
+        "お.れる"
+      ],
+      "meanings": [
+        "fold",
+        "break",
+        "fracture",
+        "bend"
+      ],
+      "words": [
+        {
+          "kanji": "折",
+          "kana": "おり",
+          "en": "opportunity"
+        },
+        {
+          "kanji": "折る",
+          "kana": "おる",
+          "en": "to break"
+        },
+        {
+          "kanji": "右折",
+          "kana": "うせつ",
+          "en": "turning to the right"
+        },
+        {
+          "kanji": "左折",
+          "kana": "させつ",
+          "en": "turning to the left"
+        }
+      ],
+      "readingExamples": {
+        "おる": {
+          "kanji": "折る",
+          "kana": "おる",
+          "en": "to break"
+        },
+        "おり": {
+          "kanji": "折",
+          "kana": "おり",
+          "en": "opportunity"
+        },
+        "おれる": {
+          "kanji": "折れる",
+          "kana": "おれる",
+          "en": "to break"
+        }
+      }
+    },
+    {
+      "kanji": "挙",
+      "on": [
+        "キョ"
+      ],
+      "kun": [
+        "あ.げる",
+        "あ.がる",
+        "こぞ.る"
+      ],
+      "meanings": [
+        "raise",
+        "plan",
+        "project",
+        "behavior"
+      ],
+      "words": [
+        {
+          "kanji": "挙句",
+          "kana": "あげく",
+          "en": "after (a long process)"
+        },
+        {
+          "kanji": "一挙",
+          "kana": "いっきょ",
+          "en": "one effort"
+        },
+        {
+          "kanji": "快挙",
+          "kana": "かいきょ",
+          "en": "brilliant achievement"
+        },
+        {
+          "kanji": "挙行",
+          "kana": "きょこう",
+          "en": "celebration (of ceremony)"
+        }
+      ],
+      "readingExamples": {
+        "キョ": {
+          "kanji": "挙行",
+          "kana": "きょこう",
+          "en": "celebration (of ceremony)"
+        }
+      }
+    },
+    {
+      "kanji": "改",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "あらた.める",
+        "あらた.まる"
+      ],
+      "meanings": [
+        "reformation",
+        "change",
+        "modify",
+        "mend"
+      ],
+      "words": [
+        {
+          "kanji": "改組",
+          "kana": "かいそ",
+          "en": "reorganization"
+        },
+        {
+          "kanji": "改悪",
+          "kana": "かいあく",
+          "en": "changing (something) for the worse"
+        },
+        {
+          "kanji": "改革",
+          "kana": "かいかく",
+          "en": "reform"
+        },
+        {
+          "kanji": "改憲",
+          "kana": "かいけん",
+          "en": "constitutional change"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "改組",
+          "kana": "かいそ",
+          "en": "reorganization"
+        },
+        "あらためる": {
+          "kanji": "改める",
+          "kana": "あらためる",
+          "en": "to change"
+        },
+        "あらたまる": {
+          "kanji": "改まる",
+          "kana": "あらたまる",
+          "en": "to be renewed"
+        }
+      }
+    },
+    {
+      "kanji": "敗",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [
+        "やぶ.れる"
+      ],
+      "meanings": [
+        "failure",
+        "defeat",
+        "reversal"
+      ],
+      "words": [
+        {
+          "kanji": "不敗",
+          "kana": "ふはい",
+          "en": "undefeated"
+        },
+        {
+          "kanji": "一敗",
+          "kana": "いっぱい",
+          "en": "one defeat"
+        },
+        {
+          "kanji": "完敗",
+          "kana": "かんぱい",
+          "en": "(suffering a) complete defeat"
+        },
+        {
+          "kanji": "失敗",
+          "kana": "しっぱい",
+          "en": "failure"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "敗訴",
+          "kana": "はいそ",
+          "en": "loss of a (legal) case"
+        },
+        "やぶれる": {
+          "kanji": "敗れる",
+          "kana": "やぶれる",
+          "en": "to be defeated"
+        }
+      }
+    },
+    {
+      "kanji": "散",
+      "on": [
+        "サン"
+      ],
+      "kun": [
+        "ち.る",
+        "ち.らす",
+        "-ち.らす",
+        "ち.らかす",
+        "ち.らかる",
+        "ち.らばる",
+        "ばら",
+        "ばら.ける"
+      ],
+      "meanings": [
+        "scatter",
+        "disperse",
+        "spend",
+        "squander"
+      ],
+      "words": [
+        {
+          "kanji": "散る",
+          "kana": "ちる",
+          "en": "to fall (e.g. blossoms, leaves)"
+        },
+        {
+          "kanji": "散らし",
+          "kana": "ちらし",
+          "en": "leaflet"
+        },
+        {
+          "kanji": "散らす",
+          "kana": "ちらす",
+          "en": "to scatter"
+        },
+        {
+          "kanji": "散布",
+          "kana": "さんぷ",
+          "en": "dissemination"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "散布",
+          "kana": "さんぷ",
+          "en": "dissemination"
+        },
+        "ちる": {
+          "kanji": "散る",
+          "kana": "ちる",
+          "en": "to fall (e.g. blossoms, leaves)"
+        },
+        "ちらす": {
+          "kanji": "散らす",
+          "kana": "ちらす",
+          "en": "to scatter"
+        },
+        "ちらかす": {
+          "kanji": "散らかす",
+          "kana": "ちらかす",
+          "en": "to scatter around"
+        },
+        "ちらかる": {
+          "kanji": "散らかる",
+          "kana": "ちらかる",
+          "en": "to be in disorder"
+        },
+        "ちらばる": {
+          "kanji": "散らばる",
+          "kana": "ちらばる",
+          "en": "to be scattered about"
+        }
+      }
+    },
+    {
+      "kanji": "料",
+      "on": [
+        "リョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "fee",
+        "materials"
+      ],
+      "words": [
+        {
+          "kanji": "料",
+          "kana": "りょう",
+          "en": "fee"
+        },
+        {
+          "kanji": "衣料",
+          "kana": "いりょう",
+          "en": "clothing"
+        },
+        {
+          "kanji": "史料",
+          "kana": "しりょう",
+          "en": "historical materials"
+        },
+        {
+          "kanji": "試料",
+          "kana": "しりょう",
+          "en": "sample"
+        }
+      ],
+      "readingExamples": {
+        "リョウ": {
+          "kanji": "料",
+          "kana": "りょう",
+          "en": "fee"
+        }
+      }
+    },
+    {
+      "kanji": "旗",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "はた"
+      ],
+      "meanings": [
+        "flag",
+        "banner",
+        "standard"
+      ],
+      "words": [
+        {
+          "kanji": "旗",
+          "kana": "はた",
+          "en": "flag"
+        },
+        {
+          "kanji": "旗手",
+          "kana": "きしゅ",
+          "en": "standard-bearer"
+        },
+        {
+          "kanji": "校旗",
+          "kana": "こうき",
+          "en": "school flag"
+        },
+        {
+          "kanji": "国旗",
+          "kana": "こっき",
+          "en": "national flag"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "旗手",
+          "kana": "きしゅ",
+          "en": "standard-bearer"
+        },
+        "はた": {
+          "kanji": "旗",
+          "kana": "はた",
+          "en": "flag"
+        }
+      }
+    },
+    {
+      "kanji": "昨",
+      "on": [
+        "サク"
+      ],
+      "kun": [],
+      "meanings": [
+        "yesterday",
+        "previous"
+      ],
+      "words": [
+        {
+          "kanji": "昨夜",
+          "kana": "ゆうべ",
+          "en": "last night"
+        },
+        {
+          "kanji": "昨日",
+          "kana": "きのう",
+          "en": "yesterday"
+        },
+        {
+          "kanji": "昨夜",
+          "kana": "さくや",
+          "en": "last night"
+        },
+        {
+          "kanji": "一昨",
+          "kana": "いっさく",
+          "en": "one previous"
+        }
+      ],
+      "readingExamples": {
+        "サク": {
+          "kanji": "昨夜",
+          "kana": "さくや",
+          "en": "last night"
+        }
+      }
+    },
+    {
+      "kanji": "景",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "scenery",
+        "view"
+      ],
+      "words": [
+        {
+          "kanji": "景気",
+          "kana": "けいき",
+          "en": "business conditions"
+        },
+        {
+          "kanji": "景色",
+          "kana": "けしき",
+          "en": "scenery"
+        },
+        {
+          "kanji": "夜景",
+          "kana": "やけい",
+          "en": "night view"
+        },
+        {
+          "kanji": "遠景",
+          "kana": "えんけい",
+          "en": "vista"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "景気",
+          "kana": "けいき",
+          "en": "business conditions"
+        }
+      }
+    },
+    {
+      "kanji": "最",
+      "on": [
+        "サイ",
+        "シュ"
+      ],
+      "kun": [
+        "もっと.も",
+        "つま"
+      ],
+      "meanings": [
+        "utmost",
+        "most",
+        "extreme"
+      ],
+      "words": [
+        {
+          "kanji": "最",
+          "kana": "さい",
+          "en": "the most"
+        },
+        {
+          "kanji": "最寄り",
+          "kana": "もより",
+          "en": "nearest"
+        },
+        {
+          "kanji": "最期",
+          "kana": "さいご",
+          "en": "one's last moment"
+        },
+        {
+          "kanji": "最古",
+          "kana": "さいこ",
+          "en": "the oldest"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "最",
+          "kana": "さい",
+          "en": "the most"
+        },
+        "もっとも": {
+          "kanji": "最も",
+          "kana": "もっとも",
+          "en": "most"
+        }
+      }
+    },
+    {
+      "kanji": "望",
+      "on": [
+        "ボウ",
+        "モウ"
+      ],
+      "kun": [
+        "のぞ.む",
+        "もち"
+      ],
+      "meanings": [
+        "ambition",
+        "full moon",
+        "hope",
+        "desire"
+      ],
+      "words": [
+        {
+          "kanji": "希望",
+          "kana": "きぼう",
+          "en": "hope"
+        },
+        {
+          "kanji": "志望",
+          "kana": "しぼう",
+          "en": "wish"
+        },
+        {
+          "kanji": "望み",
+          "kana": "のぞみ",
+          "en": "wish"
+        },
+        {
+          "kanji": "望む",
+          "kana": "のぞむ",
+          "en": "to desire"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "望遠",
+          "kana": "ぼうえん",
+          "en": "seeing at a distance"
+        },
+        "のぞむ": {
+          "kanji": "望む",
+          "kana": "のぞむ",
+          "en": "to desire"
+        },
+        "もち": {
+          "kanji": "望月",
+          "kana": "もちづき",
+          "en": "full moon"
+        }
+      }
+    },
+    {
+      "kanji": "未",
+      "on": [
+        "ミ",
+        "ビ"
+      ],
+      "kun": [
+        "いま.だ",
+        "ま.だ",
+        "ひつじ"
+      ],
+      "meanings": [
+        "un-",
+        "not yet",
+        "hitherto",
+        "still"
+      ],
+      "words": [
+        {
+          "kanji": "未",
+          "kana": "み",
+          "en": "not yet"
+        },
+        {
+          "kanji": "未だ",
+          "kana": "まだ",
+          "en": "still"
+        },
+        {
+          "kanji": "未知",
+          "kana": "みち",
+          "en": "not yet known"
+        },
+        {
+          "kanji": "未",
+          "kana": "ひつじ",
+          "en": "the Sheep (eighth sign of the Chinese zodiac)"
+        }
+      ],
+      "readingExamples": {
+        "ミ": {
+          "kanji": "未",
+          "kana": "み",
+          "en": "not yet"
+        },
+        "まだ": {
+          "kanji": "未だ",
+          "kana": "まだ",
+          "en": "still"
+        },
+        "ひつじ": {
+          "kanji": "未",
+          "kana": "ひつじ",
+          "en": "the Sheep (eighth sign of the Chinese zodiac)"
+        }
+      }
+    },
+    {
+      "kanji": "末",
+      "on": [
+        "マツ",
+        "バツ"
+      ],
+      "kun": [
+        "すえ",
+        "うら",
+        "うれ"
+      ],
+      "meanings": [
+        "end",
+        "close",
+        "tip",
+        "powder"
+      ],
+      "words": [
+        {
+          "kanji": "末",
+          "kana": "すえ",
+          "en": "end"
+        },
+        {
+          "kanji": "末",
+          "kana": "まつ",
+          "en": "the end (of)"
+        },
+        {
+          "kanji": "期末",
+          "kana": "きまつ",
+          "en": "end of term"
+        },
+        {
+          "kanji": "始末",
+          "kana": "しまつ",
+          "en": "management"
+        }
+      ],
+      "readingExamples": {
+        "マツ": {
+          "kanji": "末",
+          "kana": "まつ",
+          "en": "the end (of)"
+        },
+        "すえ": {
+          "kanji": "末",
+          "kana": "すえ",
+          "en": "end"
+        }
+      }
+    },
+    {
+      "kanji": "札",
+      "on": [
+        "サツ"
+      ],
+      "kun": [
+        "ふだ"
+      ],
+      "meanings": [
+        "tag",
+        "paper money",
+        "counter for bonds",
+        "placard"
+      ],
+      "words": [
+        {
+          "kanji": "札",
+          "kana": "さつ",
+          "en": "banknote"
+        },
+        {
+          "kanji": "札",
+          "kana": "ふだ",
+          "en": "ticket"
+        },
+        {
+          "kanji": "荷札",
+          "kana": "にふだ",
+          "en": "label"
+        },
+        {
+          "kanji": "名札",
+          "kana": "なふだ",
+          "en": "name plate"
+        }
+      ],
+      "readingExamples": {
+        "サツ": {
+          "kanji": "札",
+          "kana": "さつ",
+          "en": "banknote"
+        },
+        "ふだ": {
+          "kanji": "札",
+          "kana": "ふだ",
+          "en": "ticket"
+        }
+      }
+    },
+    {
+      "kanji": "材",
+      "on": [
+        "ザイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "lumber",
+        "log",
+        "timber",
+        "wood"
+      ],
+      "words": [
+        {
+          "kanji": "画材",
+          "kana": "がざい",
+          "en": "subject matter of a painting"
+        },
+        {
+          "kanji": "器材",
+          "kana": "きざい",
+          "en": "tools and materials"
+        },
+        {
+          "kanji": "機材",
+          "kana": "きざい",
+          "en": "machinery and materials"
+        },
+        {
+          "kanji": "資材",
+          "kana": "しざい",
+          "en": "(raw) material"
+        }
+      ],
+      "readingExamples": {
+        "ザイ": {
+          "kanji": "材質",
+          "kana": "ざいしつ",
+          "en": "material"
+        }
+      }
+    },
+    {
+      "kanji": "束",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "たば",
+        "たば.ねる",
+        "つか",
+        "つか.ねる"
+      ],
+      "meanings": [
+        "bundle",
+        "sheaf",
+        "ream",
+        "tie in bundles"
+      ],
+      "words": [
+        {
+          "kanji": "束",
+          "kana": "たば",
+          "en": "bundle"
+        },
+        {
+          "kanji": "束ね",
+          "kana": "たばね",
+          "en": "bundle"
+        },
+        {
+          "kanji": "花束",
+          "kana": "はなたば",
+          "en": "bunch of flowers"
+        },
+        {
+          "kanji": "結束",
+          "kana": "けっそく",
+          "en": "union"
+        }
+      ],
+      "readingExamples": {
+        "ソク": {
+          "kanji": "束縛",
+          "kana": "そくばく",
+          "en": "restraint"
+        },
+        "たば": {
+          "kanji": "束",
+          "kana": "たば",
+          "en": "bundle"
+        },
+        "たばねる": {
+          "kanji": "束ねる",
+          "kana": "たばねる",
+          "en": "to tie up in a bundle (e.g. straw, hair, bills, letters)"
+        }
+      }
+    },
+    {
+      "kanji": "松",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "まつ"
+      ],
+      "meanings": [
+        "pine tree"
+      ],
+      "words": [
+        {
+          "kanji": "松",
+          "kana": "まつ",
+          "en": "pine tree (Pinus spp.)"
+        },
+        {
+          "kanji": "黒松",
+          "kana": "くろまつ",
+          "en": "black pine (Pinus thunbergii)"
+        },
+        {
+          "kanji": "門松",
+          "kana": "かどまつ",
+          "en": "New Year's pine decoration"
+        },
+        {
+          "kanji": "松明",
+          "kana": "たいまつ",
+          "en": "torch (made of pine, bamboo, reed, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "松竹梅",
+          "kana": "しょうちくばい",
+          "en": "pine, bamboo and plum (an auspicious grouping)"
+        },
+        "まつ": {
+          "kanji": "松",
+          "kana": "まつ",
+          "en": "pine tree (Pinus spp.)"
+        }
+      }
+    },
+    {
+      "kanji": "果",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "は.たす",
+        "はた.す",
+        "-は.たす",
+        "は.てる",
+        "-は.てる",
+        "は.て"
+      ],
+      "meanings": [
+        "fruit",
+        "reward",
+        "carry out",
+        "achieve"
+      ],
+      "words": [
+        {
+          "kanji": "果て",
+          "kana": "はて",
+          "en": "end"
+        },
+        {
+          "kanji": "因果",
+          "kana": "いんが",
+          "en": "cause and effect"
+        },
+        {
+          "kanji": "果たす",
+          "kana": "はたす",
+          "en": "to accomplish"
+        },
+        {
+          "kanji": "果てる",
+          "kana": "はてる",
+          "en": "to end"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "果敢",
+          "kana": "かかん",
+          "en": "resolute"
+        },
+        "はたす": {
+          "kanji": "果たす",
+          "kana": "はたす",
+          "en": "to accomplish"
+        },
+        "はてる": {
+          "kanji": "果てる",
+          "kana": "はてる",
+          "en": "to end"
+        },
+        "はて": {
+          "kanji": "果て",
+          "kana": "はて",
+          "en": "end"
+        }
+      }
+    },
+    {
+      "kanji": "栃",
+      "on": [],
+      "kun": [
+        "とち"
+      ],
+      "meanings": [
+        "horse chestnut",
+        "(kokuji)"
+      ],
+      "words": [],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "栄",
+      "on": [
+        "エイ",
+        "ヨウ"
+      ],
+      "kun": [
+        "さか.える",
+        "は.え",
+        "-ば.え",
+        "は.える",
+        "え"
+      ],
+      "meanings": [
+        "flourish",
+        "prosperity",
+        "honor",
+        "glory"
+      ],
+      "words": [
+        {
+          "kanji": "見栄",
+          "kana": "みえ",
+          "en": "show"
+        },
+        {
+          "kanji": "栄え",
+          "kana": "はえ",
+          "en": "glory"
+        },
+        {
+          "kanji": "見栄え",
+          "kana": "みばえ",
+          "en": "good outward appearance"
+        },
+        {
+          "kanji": "栄える",
+          "kana": "さかえる",
+          "en": "to prosper"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "栄華",
+          "kana": "えいが",
+          "en": "prosperity"
+        },
+        "さかえる": {
+          "kanji": "栄える",
+          "kana": "さかえる",
+          "en": "to prosper"
+        },
+        "はえ": {
+          "kanji": "栄え",
+          "kana": "はえ",
+          "en": "glory"
+        }
+      }
+    },
+    {
+      "kanji": "案",
+      "on": [
+        "アン"
+      ],
+      "kun": [
+        "つくえ"
+      ],
+      "meanings": [
+        "plan",
+        "suggestion",
+        "draft",
+        "ponder"
+      ],
+      "words": [
+        {
+          "kanji": "案",
+          "kana": "あん",
+          "en": "idea"
+        },
+        {
+          "kanji": "議案",
+          "kana": "ぎあん",
+          "en": "legislative bill"
+        },
+        {
+          "kanji": "思案",
+          "kana": "しあん",
+          "en": "careful thought"
+        },
+        {
+          "kanji": "試案",
+          "kana": "しあん",
+          "en": "tentative plan"
+        }
+      ],
+      "readingExamples": {
+        "アン": {
+          "kanji": "案",
+          "kana": "あん",
+          "en": "idea"
+        }
+      }
+    },
+    {
+      "kanji": "梅",
+      "on": [
+        "バイ"
+      ],
+      "kun": [
+        "うめ"
+      ],
+      "meanings": [
+        "plum"
+      ],
+      "words": [
+        {
+          "kanji": "梅",
+          "kana": "うめ",
+          "en": "Japanese apricot (Prunus mume)"
+        },
+        {
+          "kanji": "梅雨",
+          "kana": "つゆ",
+          "en": "(East Asian) rainy season (in Japan, usu. from early June to mid-July)"
+        },
+        {
+          "kanji": "梅花",
+          "kana": "ばいか",
+          "en": "plum blossoms"
+        },
+        {
+          "kanji": "紅梅",
+          "kana": "こうばい",
+          "en": "red-blossomed plum tree"
+        }
+      ],
+      "readingExamples": {
+        "バイ": {
+          "kanji": "梅花",
+          "kana": "ばいか",
+          "en": "plum blossoms"
+        },
+        "うめ": {
+          "kanji": "梅",
+          "kana": "うめ",
+          "en": "Japanese apricot (Prunus mume)"
+        }
+      }
+    },
+    {
+      "kanji": "梨",
+      "on": [
+        "リ"
+      ],
+      "kun": [
+        "なし"
+      ],
+      "meanings": [
+        "pear tree"
+      ],
+      "words": [
+        {
+          "kanji": "梨",
+          "kana": "なし",
+          "en": "nashi (esp. Pyrus pyrifolia)"
+        }
+      ],
+      "readingExamples": {
+        "なし": {
+          "kanji": "梨",
+          "kana": "なし",
+          "en": "nashi (esp. Pyrus pyrifolia)"
+        }
+      }
+    },
+    {
+      "kanji": "械",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "かせ"
+      ],
+      "meanings": [
+        "contraption",
+        "fetter",
+        "machine",
+        "instrument"
+      ],
+      "words": [
+        {
+          "kanji": "機械",
+          "kana": "きかい",
+          "en": "machine"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "極",
+      "on": [
+        "キョク",
+        "ゴク"
+      ],
+      "kun": [
+        "きわ.める",
+        "きわ.まる",
+        "きわ.まり",
+        "きわ.み",
+        "き.める",
+        "-ぎ.め",
+        "き.まる"
+      ],
+      "meanings": [
+        "extreme",
+        "pole",
+        "extremely",
+        "very"
+      ],
+      "words": [
+        {
+          "kanji": "極",
+          "kana": "ごく",
+          "en": "quite"
+        },
+        {
+          "kanji": "極み",
+          "kana": "きわみ",
+          "en": "height"
+        },
+        {
+          "kanji": "極意",
+          "kana": "ごくい",
+          "en": "innermost secrets (of an art or skill)"
+        },
+        {
+          "kanji": "極秘",
+          "kana": "ごくひ",
+          "en": "absolute secrecy"
+        }
+      ],
+      "readingExamples": {
+        "キョク": {
+          "kanji": "極右",
+          "kana": "きょくう",
+          "en": "far right (in politics)"
+        },
+        "ゴク": {
+          "kanji": "極",
+          "kana": "ごく",
+          "en": "quite"
+        },
+        "きわめる": {
+          "kanji": "極める",
+          "kana": "きわめる",
+          "en": "to carry to extremes"
+        },
+        "きわまる": {
+          "kanji": "極まる",
+          "kana": "きわまる",
+          "en": "to reach an extreme"
+        },
+        "きわまり": {
+          "kanji": "極まりない",
+          "kana": "きわまりない",
+          "en": "extremely"
+        },
+        "きわみ": {
+          "kanji": "極み",
+          "kana": "きわみ",
+          "en": "height"
+        }
+      }
+    },
+    {
+      "kanji": "標",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [
+        "しるべ",
+        "しるし"
+      ],
+      "meanings": [
+        "signpost",
+        "seal",
+        "mark",
+        "stamp"
+      ],
+      "words": [
+        {
+          "kanji": "指標",
+          "kana": "しひょう",
+          "en": "index"
+        },
+        {
+          "kanji": "標語",
+          "kana": "ひょうご",
+          "en": "motto"
+        },
+        {
+          "kanji": "墓標",
+          "kana": "ぼひょう",
+          "en": "grave marker"
+        },
+        {
+          "kanji": "座標",
+          "kana": "ざひょう",
+          "en": "coordinate"
+        }
+      ],
+      "readingExamples": {
+        "ヒョウ": {
+          "kanji": "標語",
+          "kana": "ひょうご",
+          "en": "motto"
+        }
+      }
+    },
+    {
+      "kanji": "機",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "はた"
+      ],
+      "meanings": [
+        "loom",
+        "mechanism",
+        "machine",
+        "airplane"
+      ],
+      "words": [
+        {
+          "kanji": "機",
+          "kana": "き",
+          "en": "chance"
+        },
+        {
+          "kanji": "危機",
+          "kana": "きき",
+          "en": "crisis"
+        },
+        {
+          "kanji": "機器",
+          "kana": "きき",
+          "en": "device"
+        },
+        {
+          "kanji": "無機",
+          "kana": "むき",
+          "en": "inorganic"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "機",
+          "kana": "き",
+          "en": "chance"
+        },
+        "はた": {
+          "kanji": "機織り",
+          "kana": "はたおり",
+          "en": "weaving"
+        }
+      }
+    },
+    {
+      "kanji": "欠",
+      "on": [
+        "ケツ",
+        "ケン"
+      ],
+      "kun": [
+        "か.ける",
+        "か.く"
+      ],
+      "meanings": [
+        "lack",
+        "gap",
+        "fail",
+        "yawning radical (no. 76)"
+      ],
+      "words": [
+        {
+          "kanji": "欠く",
+          "kana": "かく",
+          "en": "to chip"
+        },
+        {
+          "kanji": "欠",
+          "kana": "けつ",
+          "en": "lack"
+        },
+        {
+          "kanji": "欠かす",
+          "kana": "かかす",
+          "en": "to miss (doing)"
+        },
+        {
+          "kanji": "欠ける",
+          "kana": "かける",
+          "en": "to chip"
+        }
+      ],
+      "readingExamples": {
+        "ケツ": {
+          "kanji": "欠",
+          "kana": "けつ",
+          "en": "lack"
+        },
+        "かける": {
+          "kanji": "欠ける",
+          "kana": "かける",
+          "en": "to chip"
+        },
+        "かく": {
+          "kanji": "欠く",
+          "kana": "かく",
+          "en": "to chip"
+        }
+      }
+    },
+    {
+      "kanji": "残",
+      "on": [
+        "ザン",
+        "サン"
+      ],
+      "kun": [
+        "のこ.る",
+        "のこ.す",
+        "そこな.う",
+        "のこ.り"
+      ],
+      "meanings": [
+        "remainder",
+        "leftover",
+        "balance"
+      ],
+      "words": [
+        {
+          "kanji": "残り",
+          "kana": "のこり",
+          "en": "remainder"
+        },
+        {
+          "kanji": "残る",
+          "kana": "のこる",
+          "en": "to remain"
+        },
+        {
+          "kanji": "残務",
+          "kana": "ざんむ",
+          "en": "remaining business"
+        },
+        {
+          "kanji": "無残",
+          "kana": "むざん",
+          "en": "cruel"
+        }
+      ],
+      "readingExamples": {
+        "ザン": {
+          "kanji": "残務",
+          "kana": "ざんむ",
+          "en": "remaining business"
+        },
+        "のこる": {
+          "kanji": "残る",
+          "kana": "のこる",
+          "en": "to remain"
+        },
+        "のこす": {
+          "kanji": "残す",
+          "kana": "のこす",
+          "en": "to leave (behind)"
+        },
+        "のこり": {
+          "kanji": "残り",
+          "kana": "のこり",
+          "en": "remainder"
+        }
+      }
+    },
+    {
+      "kanji": "氏",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "うじ",
+        "-うじ"
+      ],
+      "meanings": [
+        "family name",
+        "surname",
+        "clan"
+      ],
+      "words": [
+        {
+          "kanji": "氏",
+          "kana": "し",
+          "en": "Mr"
+        },
+        {
+          "kanji": "セ氏",
+          "kana": "セし",
+          "en": "Celsius"
+        },
+        {
+          "kanji": "氏子",
+          "kana": "うじこ",
+          "en": "shrine parishioner"
+        },
+        {
+          "kanji": "氏名",
+          "kana": "しめい",
+          "en": "(full) name"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "氏",
+          "kana": "し",
+          "en": "Mr"
+        },
+        "うじ": {
+          "kanji": "氏子",
+          "kana": "うじこ",
+          "en": "shrine parishioner"
+        }
+      }
+    },
+    {
+      "kanji": "民",
+      "on": [
+        "ミン"
+      ],
+      "kun": [
+        "たみ"
+      ],
+      "meanings": [
+        "people",
+        "nation",
+        "subjects"
+      ],
+      "words": [
+        {
+          "kanji": "民",
+          "kana": "たみ",
+          "en": "people"
+        },
+        {
+          "kanji": "移民",
+          "kana": "いみん",
+          "en": "immigration"
+        },
+        {
+          "kanji": "区民",
+          "kana": "くみん",
+          "en": "ward residents"
+        },
+        {
+          "kanji": "市民",
+          "kana": "しみん",
+          "en": "citizen (of a country)"
+        }
+      ],
+      "readingExamples": {
+        "ミン": {
+          "kanji": "民意",
+          "kana": "みんい",
+          "en": "popular will"
+        },
+        "たみ": {
+          "kanji": "民",
+          "kana": "たみ",
+          "en": "people"
+        }
+      }
+    },
+    {
+      "kanji": "求",
+      "on": [
+        "キュウ",
+        "グ"
+      ],
+      "kun": [
+        "もと.める"
+      ],
+      "meanings": [
+        "request",
+        "want",
+        "wish for",
+        "require"
+      ],
+      "words": [
+        {
+          "kanji": "希求",
+          "kana": "ききゅう",
+          "en": "longing"
+        },
+        {
+          "kanji": "求める",
+          "kana": "もとめる",
+          "en": "to want"
+        },
+        {
+          "kanji": "求愛",
+          "kana": "きゅうあい",
+          "en": "courting"
+        },
+        {
+          "kanji": "求人",
+          "kana": "きゅうじん",
+          "en": "recruiting"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "求愛",
+          "kana": "きゅうあい",
+          "en": "courting"
+        },
+        "もとめる": {
+          "kanji": "求める",
+          "kana": "もとめる",
+          "en": "to want"
+        }
+      }
+    },
+    {
+      "kanji": "沖",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [
+        "おき",
+        "おきつ",
+        "ちゅう.する",
+        "わく"
+      ],
+      "meanings": [
+        "open sea",
+        "offing",
+        "rise high into sky"
+      ],
+      "words": [
+        {
+          "kanji": "沖",
+          "kana": "おき",
+          "en": "open sea"
+        },
+        {
+          "kanji": "沖縄",
+          "kana": "おきなわ",
+          "en": "Okinawa (city, prefecture)"
+        },
+        {
+          "kanji": "沖合",
+          "kana": "おきあい",
+          "en": "off the coast"
+        }
+      ],
+      "readingExamples": {
+        "おき": {
+          "kanji": "沖",
+          "kana": "おき",
+          "en": "open sea"
+        }
+      }
+    },
+    {
+      "kanji": "治",
+      "on": [
+        "ジ",
+        "チ"
+      ],
+      "kun": [
+        "おさ.める",
+        "おさ.まる",
+        "なお.る",
+        "なお.す"
+      ],
+      "meanings": [
+        "reign",
+        "be at peace",
+        "calm down",
+        "subdue"
+      ],
+      "words": [
+        {
+          "kanji": "自治",
+          "kana": "じち",
+          "en": "self-government"
+        },
+        {
+          "kanji": "不治",
+          "kana": "ふじ",
+          "en": "incurability"
+        },
+        {
+          "kanji": "根治",
+          "kana": "こんじ",
+          "en": "complete cure"
+        },
+        {
+          "kanji": "治安",
+          "kana": "ちあん",
+          "en": "public order"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "自治",
+          "kana": "じち",
+          "en": "self-government"
+        },
+        "チ": {
+          "kanji": "治癒",
+          "kana": "ちゆ",
+          "en": "healing"
+        },
+        "おさめる": {
+          "kanji": "治める",
+          "kana": "おさめる",
+          "en": "to rule"
+        },
+        "おさまる": {
+          "kanji": "治まる",
+          "kana": "おさまる",
+          "en": "to die down (storm, anger, conflict, etc.)"
+        },
+        "なおる": {
+          "kanji": "治る",
+          "kana": "なおる",
+          "en": "to get better"
+        },
+        "なおす": {
+          "kanji": "治す",
+          "kana": "なおす",
+          "en": "to cure"
+        }
+      }
+    },
+    {
+      "kanji": "法",
+      "on": [
+        "ホウ",
+        "ハッ",
+        "ホッ",
+        "フラン"
+      ],
+      "kun": [
+        "のり"
+      ],
+      "meanings": [
+        "method",
+        "law",
+        "rule",
+        "principle"
+      ],
+      "words": [
+        {
+          "kanji": "法",
+          "kana": "ほう",
+          "en": "law"
+        },
+        {
+          "kanji": "画法",
+          "kana": "がほう",
+          "en": "art of drawing and painting"
+        },
+        {
+          "kanji": "技法",
+          "kana": "ぎほう",
+          "en": "technique"
+        },
+        {
+          "kanji": "語法",
+          "kana": "ごほう",
+          "en": "diction"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "法",
+          "kana": "ほう",
+          "en": "law"
+        },
+        "ハッ": {
+          "kanji": "法被",
+          "kana": "はっぴ",
+          "en": "happi coat"
+        },
+        "ホッ": {
+          "kanji": "法主",
+          "kana": "ほっす",
+          "en": "high priest"
+        }
+      }
+    },
+    {
+      "kanji": "泣",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "な.く"
+      ],
+      "meanings": [
+        "cry",
+        "weep",
+        "moan"
+      ],
+      "words": [
+        {
+          "kanji": "泣き",
+          "kana": "なき",
+          "en": "weeping"
+        },
+        {
+          "kanji": "泣く",
+          "kana": "なく",
+          "en": "to cry"
+        },
+        {
+          "kanji": "泣かす",
+          "kana": "なかす",
+          "en": "to make someone cry"
+        },
+        {
+          "kanji": "泣かせる",
+          "kana": "なかせる",
+          "en": "to make someone cry"
+        }
+      ],
+      "readingExamples": {
+        "なく": {
+          "kanji": "泣く",
+          "kana": "なく",
+          "en": "to cry"
+        }
+      }
+    },
+    {
+      "kanji": "浅",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "あさ.い"
+      ],
+      "meanings": [
+        "shallow",
+        "superficial",
+        "frivolous",
+        "wretched"
+      ],
+      "words": [
+        {
+          "kanji": "浅い",
+          "kana": "あさい",
+          "en": "shallow"
+        },
+        {
+          "kanji": "遠浅",
+          "kana": "とおあさ",
+          "en": "shoal"
+        },
+        {
+          "kanji": "浅見",
+          "kana": "せんけん",
+          "en": "shallow view"
+        },
+        {
+          "kanji": "浅はか",
+          "kana": "あさはか",
+          "en": "shallow"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "浅見",
+          "kana": "せんけん",
+          "en": "shallow view"
+        },
+        "あさい": {
+          "kanji": "浅い",
+          "kana": "あさい",
+          "en": "shallow"
+        }
+      }
+    },
+    {
+      "kanji": "浴",
+      "on": [
+        "ヨク"
+      ],
+      "kun": [
+        "あ.びる",
+        "あ.びせる"
+      ],
+      "meanings": [
+        "bathe",
+        "be favored with",
+        "bask in"
+      ],
+      "words": [
+        {
+          "kanji": "浴びる",
+          "kana": "あびる",
+          "en": "to dash over oneself (e.g. water)"
+        },
+        {
+          "kanji": "浴衣",
+          "kana": "ゆかた",
+          "en": "yukata"
+        },
+        {
+          "kanji": "浴後",
+          "kana": "よくご",
+          "en": "after bathing"
+        },
+        {
+          "kanji": "浴びせる",
+          "kana": "あびせる",
+          "en": "to pour on"
+        }
+      ],
+      "readingExamples": {
+        "ヨク": {
+          "kanji": "浴後",
+          "kana": "よくご",
+          "en": "after bathing"
+        },
+        "あびる": {
+          "kanji": "浴びる",
+          "kana": "あびる",
+          "en": "to dash over oneself (e.g. water)"
+        },
+        "あびせる": {
+          "kanji": "浴びせる",
+          "kana": "あびせる",
+          "en": "to pour on"
+        }
+      }
+    },
+    {
+      "kanji": "清",
+      "on": [
+        "セイ",
+        "ショウ",
+        "シン"
+      ],
+      "kun": [
+        "きよ.い",
+        "きよ.まる",
+        "きよ.める"
+      ],
+      "meanings": [
+        "pure",
+        "purify",
+        "cleanse",
+        "exorcise"
+      ],
+      "words": [
+        {
+          "kanji": "清い",
+          "kana": "きよい",
+          "en": "clean"
+        },
+        {
+          "kanji": "血清",
+          "kana": "けっせい",
+          "en": "serum"
+        },
+        {
+          "kanji": "清らか",
+          "kana": "きよらか",
+          "en": "clean"
+        },
+        {
+          "kanji": "清潔",
+          "kana": "せいけつ",
+          "en": "clean"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "清楚",
+          "kana": "せいそ",
+          "en": "neat and clean"
+        },
+        "シン": {
+          "kanji": "清朝",
+          "kana": "しんちょう",
+          "en": "Qing dynasty (of China; 1644-1912)"
+        },
+        "きよい": {
+          "kanji": "清い",
+          "kana": "きよい",
+          "en": "clean"
+        }
+      }
+    },
+    {
+      "kanji": "満",
+      "on": [
+        "マン",
+        "バン"
+      ],
+      "kun": [
+        "み.ちる",
+        "み.つ",
+        "み.たす"
+      ],
+      "meanings": [
+        "full",
+        "fullness",
+        "enough",
+        "satisfy"
+      ],
+      "words": [
+        {
+          "kanji": "肥満",
+          "kana": "ひまん",
+          "en": "corpulence"
+        },
+        {
+          "kanji": "不満",
+          "kana": "ふまん",
+          "en": "dissatisfaction"
+        },
+        {
+          "kanji": "満たす",
+          "kana": "みたす",
+          "en": "to satisfy (conditions, one's appetite, etc.)"
+        },
+        {
+          "kanji": "未満",
+          "kana": "みまん",
+          "en": "less than"
+        }
+      ],
+      "readingExamples": {
+        "マン": {
+          "kanji": "満期",
+          "kana": "まんき",
+          "en": "expiration (of a term)"
+        },
+        "みちる": {
+          "kanji": "満ちる",
+          "kana": "みちる",
+          "en": "to fill"
+        },
+        "みたす": {
+          "kanji": "満たす",
+          "kana": "みたす",
+          "en": "to satisfy (conditions, one's appetite, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "滋",
+      "on": [
+        "ジ",
+        "シ"
+      ],
+      "kun": [],
+      "meanings": [
+        "nourishing",
+        "more & more",
+        "be luxuriant",
+        "planting"
+      ],
+      "words": [
+        {
+          "kanji": "滋養",
+          "kana": "じよう",
+          "en": "nourishment"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "滋養",
+          "kana": "じよう",
+          "en": "nourishment"
+        }
+      }
+    },
+    {
+      "kanji": "漁",
+      "on": [
+        "ギョ",
+        "リョウ"
+      ],
+      "kun": [
+        "あさ.る"
+      ],
+      "meanings": [
+        "fishing",
+        "fishery"
+      ],
+      "words": [
+        {
+          "kanji": "漁る",
+          "kana": "あさる",
+          "en": "to look for"
+        },
+        {
+          "kanji": "漁期",
+          "kana": "ぎょき",
+          "en": "fishing season"
+        },
+        {
+          "kanji": "漁具",
+          "kana": "ぎょぐ",
+          "en": "fishing tackle"
+        },
+        {
+          "kanji": "漁",
+          "kana": "りょう",
+          "en": "fishing"
+        }
+      ],
+      "readingExamples": {
+        "ギョ": {
+          "kanji": "漁期",
+          "kana": "ぎょき",
+          "en": "fishing season"
+        },
+        "リョウ": {
+          "kanji": "漁",
+          "kana": "りょう",
+          "en": "fishing"
+        },
+        "あさる": {
+          "kanji": "漁る",
+          "kana": "あさる",
+          "en": "to look for"
+        }
+      }
+    },
+    {
+      "kanji": "潟",
+      "on": [
+        "セキ"
+      ],
+      "kun": [
+        "かた",
+        "-がた"
+      ],
+      "meanings": [
+        "lagoon"
+      ],
+      "words": [
+        {
+          "kanji": "潟",
+          "kana": "かた",
+          "en": "lagoon"
+        },
+        {
+          "kanji": "干潟",
+          "kana": "ひがた",
+          "en": "tidal flat"
+        },
+        {
+          "kanji": "新潟",
+          "kana": "にいがた",
+          "en": "Niigata (city, prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "かた": {
+          "kanji": "潟",
+          "kana": "かた",
+          "en": "lagoon"
+        }
+      }
+    },
+    {
+      "kanji": "灯",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "ひ",
+        "ほ-",
+        "ともしび",
+        "とも.す",
+        "あかり"
+      ],
+      "meanings": [
+        "lamp",
+        "a light",
+        "light",
+        "counter for lights"
+      ],
+      "words": [
+        {
+          "kanji": "灯",
+          "kana": "ひ",
+          "en": "light"
+        },
+        {
+          "kanji": "灯油",
+          "kana": "とうゆ",
+          "en": "kerosene"
+        },
+        {
+          "kanji": "灯す",
+          "kana": "ともす",
+          "en": "to light (a candle, lamp, etc.)"
+        },
+        {
+          "kanji": "灯火",
+          "kana": "とうか",
+          "en": "light"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "灯油",
+          "kana": "とうゆ",
+          "en": "kerosene"
+        },
+        "ひ": {
+          "kanji": "灯",
+          "kana": "ひ",
+          "en": "light"
+        },
+        "ともす": {
+          "kanji": "灯す",
+          "kana": "ともす",
+          "en": "to light (a candle, lamp, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "無",
+      "on": [
+        "ム",
+        "ブ"
+      ],
+      "kun": [
+        "な.い"
+      ],
+      "meanings": [
+        "nothingness",
+        "none",
+        "ain't",
+        "nothing"
+      ],
+      "words": [
+        {
+          "kanji": "無",
+          "kana": "む",
+          "en": "nothing"
+        },
+        {
+          "kanji": "無い",
+          "kana": "ない",
+          "en": "nonexistent"
+        },
+        {
+          "kanji": "無し",
+          "kana": "なし",
+          "en": "without"
+        },
+        {
+          "kanji": "無我",
+          "kana": "むが",
+          "en": "selflessness"
+        }
+      ],
+      "readingExamples": {
+        "ム": {
+          "kanji": "無",
+          "kana": "む",
+          "en": "nothing"
+        },
+        "ブ": {
+          "kanji": "無事",
+          "kana": "ぶじ",
+          "en": "safety"
+        },
+        "ない": {
+          "kanji": "無い",
+          "kana": "ない",
+          "en": "nonexistent"
+        }
+      }
+    },
+    {
+      "kanji": "然",
+      "on": [
+        "ゼン",
+        "ネン"
+      ],
+      "kun": [
+        "しか",
+        "しか.り",
+        "しか.し",
+        "さ"
+      ],
+      "meanings": [
+        "sort of thing",
+        "so",
+        "if so",
+        "in that case"
+      ],
+      "words": [
+        {
+          "kanji": "然う",
+          "kana": "そう",
+          "en": "in that way"
+        },
+        {
+          "kanji": "自然",
+          "kana": "しぜん",
+          "en": "nature"
+        },
+        {
+          "kanji": "然し",
+          "kana": "しかし",
+          "en": "however"
+        },
+        {
+          "kanji": "然も",
+          "kana": "しかも",
+          "en": "moreover"
+        }
+      ],
+      "readingExamples": {
+        "ゼン": {
+          "kanji": "全然",
+          "kana": "ぜんぜん",
+          "en": "(not) at all"
+        },
+        "しか": {
+          "kanji": "然し",
+          "kana": "しかし",
+          "en": "however"
+        },
+        "しかし": {
+          "kanji": "然し",
+          "kana": "しかし",
+          "en": "however"
+        },
+        "さ": {
+          "kanji": "然らば",
+          "kana": "さらば",
+          "en": "farewell"
+        }
+      }
+    },
+    {
+      "kanji": "焼",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "や.く",
+        "や.き",
+        "や.き-",
+        "-や.き",
+        "や.ける"
+      ],
+      "meanings": [
+        "bake",
+        "burning"
+      ],
+      "words": [
+        {
+          "kanji": "焼く",
+          "kana": "やく",
+          "en": "to burn"
+        },
+        {
+          "kanji": "焼ける",
+          "kana": "やける",
+          "en": "to burn"
+        },
+        {
+          "kanji": "日焼け",
+          "kana": "ひやけ",
+          "en": "sunburn"
+        },
+        {
+          "kanji": "素焼き",
+          "kana": "すやき",
+          "en": "unglazed pottery"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "焼死",
+          "kana": "しょうし",
+          "en": "death by fire"
+        },
+        "やく": {
+          "kanji": "焼く",
+          "kana": "やく",
+          "en": "to burn"
+        },
+        "やき": {
+          "kanji": "焼きそば",
+          "kana": "やきそば",
+          "en": "yakisoba"
+        },
+        "やける": {
+          "kanji": "焼ける",
+          "kana": "やける",
+          "en": "to burn"
+        }
+      }
+    },
+    {
+      "kanji": "照",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "て.る",
+        "て.らす",
+        "て.れる"
+      ],
+      "meanings": [
+        "illuminate",
+        "shine",
+        "compare",
+        "bashful"
+      ],
+      "words": [
+        {
+          "kanji": "照る",
+          "kana": "てる",
+          "en": "to shine"
+        },
+        {
+          "kanji": "照り",
+          "kana": "てり",
+          "en": "sunshine"
+        },
+        {
+          "kanji": "照らす",
+          "kana": "てらす",
+          "en": "to shine on"
+        },
+        {
+          "kanji": "照れる",
+          "kana": "てれる",
+          "en": "to be shy"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "照度",
+          "kana": "しょうど",
+          "en": "(intensity of) illumination"
+        },
+        "てる": {
+          "kanji": "照る",
+          "kana": "てる",
+          "en": "to shine"
+        },
+        "てらす": {
+          "kanji": "照らす",
+          "kana": "てらす",
+          "en": "to shine on"
+        },
+        "てれる": {
+          "kanji": "照れる",
+          "kana": "てれる",
+          "en": "to be shy"
+        }
+      }
+    },
+    {
+      "kanji": "熊",
+      "on": [
+        "ユウ"
+      ],
+      "kun": [
+        "くま"
+      ],
+      "meanings": [
+        "bear"
+      ],
+      "words": [
+        {
+          "kanji": "熊",
+          "kana": "くま",
+          "en": "bear (any mammal of family Ursidae)"
+        },
+        {
+          "kanji": "熊手",
+          "kana": "くまで",
+          "en": "rake"
+        },
+        {
+          "kanji": "穴熊",
+          "kana": "あなぐま",
+          "en": "badger"
+        },
+        {
+          "kanji": "白熊",
+          "kana": "しろくま",
+          "en": "polar bear (Ursus maritimus)"
+        }
+      ],
+      "readingExamples": {
+        "くま": {
+          "kanji": "熊",
+          "kana": "くま",
+          "en": "bear (any mammal of family Ursidae)"
+        }
+      }
+    },
+    {
+      "kanji": "熱",
+      "on": [
+        "ネツ"
+      ],
+      "kun": [
+        "あつ.い"
+      ],
+      "meanings": [
+        "heat",
+        "temperature",
+        "fever",
+        "mania"
+      ],
+      "words": [
+        {
+          "kanji": "熱",
+          "kana": "ねつ",
+          "en": "heat"
+        },
+        {
+          "kanji": "加熱",
+          "kana": "かねつ",
+          "en": "heating"
+        },
+        {
+          "kanji": "過熱",
+          "kana": "かねつ",
+          "en": "overheating"
+        },
+        {
+          "kanji": "解熱",
+          "kana": "げねつ",
+          "en": "lowering a fever"
+        }
+      ],
+      "readingExamples": {
+        "ネツ": {
+          "kanji": "熱",
+          "kana": "ねつ",
+          "en": "heat"
+        },
+        "あつい": {
+          "kanji": "熱い",
+          "kana": "あつい",
+          "en": "hot (to the touch)"
+        }
+      }
+    },
+    {
+      "kanji": "牧",
+      "on": [
+        "ボク"
+      ],
+      "kun": [
+        "まき"
+      ],
+      "meanings": [
+        "breed",
+        "care for",
+        "shepherd",
+        "feed"
+      ],
+      "words": [
+        {
+          "kanji": "牧師",
+          "kana": "ぼくし",
+          "en": "pastor"
+        },
+        {
+          "kanji": "牧野",
+          "kana": "ぼくや",
+          "en": "pasture land"
+        },
+        {
+          "kanji": "放牧",
+          "kana": "ほうぼく",
+          "en": "pasturage"
+        },
+        {
+          "kanji": "牧草",
+          "kana": "ぼくそう",
+          "en": "pasture"
+        }
+      ],
+      "readingExamples": {
+        "ボク": {
+          "kanji": "牧師",
+          "kana": "ぼくし",
+          "en": "pastor"
+        }
+      }
+    },
+    {
+      "kanji": "特",
+      "on": [
+        "トク"
+      ],
+      "kun": [],
+      "meanings": [
+        "special"
+      ],
+      "words": [
+        {
+          "kanji": "特に",
+          "kana": "とくに",
+          "en": "particularly"
+        },
+        {
+          "kanji": "特異",
+          "kana": "とくい",
+          "en": "unique"
+        },
+        {
+          "kanji": "特記",
+          "kana": "とっき",
+          "en": "special mention"
+        },
+        {
+          "kanji": "特技",
+          "kana": "とくぎ",
+          "en": "special skill"
+        }
+      ],
+      "readingExamples": {
+        "トク": {
+          "kanji": "特に",
+          "kana": "とくに",
+          "en": "particularly"
+        }
+      }
+    },
+    {
+      "kanji": "産",
+      "on": [
+        "サン"
+      ],
+      "kun": [
+        "う.む",
+        "う.まれる",
+        "うぶ-",
+        "む.す"
+      ],
+      "meanings": [
+        "products",
+        "bear",
+        "give birth",
+        "yield"
+      ],
+      "words": [
+        {
+          "kanji": "お産",
+          "kana": "おさん",
+          "en": "(giving) birth"
+        },
+        {
+          "kanji": "遺産",
+          "kana": "いさん",
+          "en": "inheritance"
+        },
+        {
+          "kanji": "産科",
+          "kana": "さんか",
+          "en": "obstetrics"
+        },
+        {
+          "kanji": "産後",
+          "kana": "さんご",
+          "en": "after childbirth"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "産科",
+          "kana": "さんか",
+          "en": "obstetrics"
+        },
+        "うぶ": {
+          "kanji": "産声",
+          "kana": "うぶごえ",
+          "en": "first cry of a newborn baby"
+        }
+      }
+    },
+    {
+      "kanji": "的",
+      "on": [
+        "テキ"
+      ],
+      "kun": [
+        "まと"
+      ],
+      "meanings": [
+        "bull's eye",
+        "mark",
+        "target",
+        "object"
+      ],
+      "words": [
+        {
+          "kanji": "的",
+          "kana": "てき",
+          "en": "-ical"
+        },
+        {
+          "kanji": "的",
+          "kana": "まと",
+          "en": "mark"
+        },
+        {
+          "kanji": "私的",
+          "kana": "してき",
+          "en": "private"
+        },
+        {
+          "kanji": "詩的",
+          "kana": "してき",
+          "en": "poetic"
+        }
+      ],
+      "readingExamples": {
+        "テキ": {
+          "kanji": "的",
+          "kana": "てき",
+          "en": "-ical"
+        },
+        "まと": {
+          "kanji": "的",
+          "kana": "まと",
+          "en": "mark"
+        }
+      }
+    },
+    {
+      "kanji": "省",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "かえり.みる",
+        "はぶ.く"
+      ],
+      "meanings": [
+        "government ministry",
+        "conserve",
+        "omit"
+      ],
+      "words": [
+        {
+          "kanji": "帰省",
+          "kana": "きせい",
+          "en": "homecoming"
+        },
+        {
+          "kanji": "自省",
+          "kana": "じせい",
+          "en": "self-examination"
+        },
+        {
+          "kanji": "省く",
+          "kana": "はぶく",
+          "en": "to omit"
+        },
+        {
+          "kanji": "三省",
+          "kana": "さんせい",
+          "en": "frequent reflection"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "省令",
+          "kana": "しょうれい",
+          "en": "ministerial ordinance"
+        },
+        "かえりみる": {
+          "kanji": "省みる",
+          "kana": "かえりみる",
+          "en": "to reflect on (oneself, past conduct, etc.)"
+        },
+        "はぶく": {
+          "kanji": "省く",
+          "kana": "はぶく",
+          "en": "to omit"
+        }
+      }
+    },
+    {
+      "kanji": "祝",
+      "on": [
+        "シュク",
+        "シュウ"
+      ],
+      "kun": [
+        "いわ.う"
+      ],
+      "meanings": [
+        "celebrate",
+        "congratulate"
+      ],
+      "words": [
+        {
+          "kanji": "祝い",
+          "kana": "いわい",
+          "en": "congratulation"
+        },
+        {
+          "kanji": "祝う",
+          "kana": "いわう",
+          "en": "to celebrate"
+        },
+        {
+          "kanji": "祝詞",
+          "kana": "のりと",
+          "en": "ritual prayer"
+        },
+        {
+          "kanji": "祝賀",
+          "kana": "しゅくが",
+          "en": "celebration"
+        }
+      ],
+      "readingExamples": {
+        "シュク": {
+          "kanji": "祝賀",
+          "kana": "しゅくが",
+          "en": "celebration"
+        },
+        "シュウ": {
+          "kanji": "祝儀",
+          "kana": "しゅうぎ",
+          "en": "celebration"
+        },
+        "いわう": {
+          "kanji": "祝う",
+          "kana": "いわう",
+          "en": "to celebrate"
+        }
+      }
+    },
+    {
+      "kanji": "票",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ballot",
+        "label",
+        "ticket",
+        "sign"
+      ],
+      "words": [
+        {
+          "kanji": "票",
+          "kana": "ひょう",
+          "en": "vote"
+        },
+        {
+          "kanji": "死票",
+          "kana": "しひょう",
+          "en": "vote for a losing candidate"
+        },
+        {
+          "kanji": "一票",
+          "kana": "いっぴょう",
+          "en": "one vote"
+        },
+        {
+          "kanji": "開票",
+          "kana": "かいひょう",
+          "en": "counting ballots"
+        }
+      ],
+      "readingExamples": {
+        "ヒョウ": {
+          "kanji": "票",
+          "kana": "ひょう",
+          "en": "vote"
+        }
+      }
+    },
+    {
+      "kanji": "種",
+      "on": [
+        "シュ"
+      ],
+      "kun": [
+        "たね",
+        "-ぐさ"
+      ],
+      "meanings": [
+        "species",
+        "kind",
+        "class",
+        "variety"
+      ],
+      "words": [
+        {
+          "kanji": "種",
+          "kana": "たね",
+          "en": "seed (e.g. of a plant)"
+        },
+        {
+          "kanji": "異種",
+          "kana": "いしゅ",
+          "en": "different kind (species, variety)"
+        },
+        {
+          "kanji": "火種",
+          "kana": "ひだね",
+          "en": "live coals (for firelighting)"
+        },
+        {
+          "kanji": "機種",
+          "kana": "きしゅ",
+          "en": "model (of machine, device)"
+        }
+      ],
+      "readingExamples": {
+        "シュ": {
+          "kanji": "種子",
+          "kana": "しゅし",
+          "en": "seed"
+        },
+        "たね": {
+          "kanji": "種",
+          "kana": "たね",
+          "en": "seed (e.g. of a plant)"
+        }
+      }
+    },
+    {
+      "kanji": "積",
+      "on": [
+        "セキ"
+      ],
+      "kun": [
+        "つ.む",
+        "-づ.み",
+        "つ.もる",
+        "つ.もり"
+      ],
+      "meanings": [
+        "volume",
+        "product (x*y)",
+        "acreage",
+        "contents"
+      ],
+      "words": [
+        {
+          "kanji": "積",
+          "kana": "せき",
+          "en": "product"
+        },
+        {
+          "kanji": "積む",
+          "kana": "つむ",
+          "en": "to pile up"
+        },
+        {
+          "kanji": "積もり",
+          "kana": "つもり",
+          "en": "intention"
+        },
+        {
+          "kanji": "積もる",
+          "kana": "つもる",
+          "en": "to pile up"
+        }
+      ],
+      "readingExamples": {
+        "セキ": {
+          "kanji": "積",
+          "kana": "せき",
+          "en": "product"
+        },
+        "つむ": {
+          "kanji": "積む",
+          "kana": "つむ",
+          "en": "to pile up"
+        },
+        "つもる": {
+          "kanji": "積もる",
+          "kana": "つもる",
+          "en": "to pile up"
+        },
+        "つもり": {
+          "kanji": "積もり",
+          "kana": "つもり",
+          "en": "intention"
+        }
+      }
+    },
+    {
+      "kanji": "競",
+      "on": [
+        "キョウ",
+        "ケイ"
+      ],
+      "kun": [
+        "きそ.う",
+        "せ.る",
+        "くら.べる"
+      ],
+      "meanings": [
+        "emulate",
+        "compete with",
+        "bid",
+        "sell at auction"
+      ],
+      "words": [
+        {
+          "kanji": "競る",
+          "kana": "せる",
+          "en": "to compete"
+        },
+        {
+          "kanji": "競う",
+          "kana": "きそう",
+          "en": "to compete"
+        },
+        {
+          "kanji": "競馬",
+          "kana": "けいば",
+          "en": "horse racing"
+        },
+        {
+          "kanji": "競技",
+          "kana": "きょうぎ",
+          "en": "game"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "競技",
+          "kana": "きょうぎ",
+          "en": "game"
+        },
+        "ケイ": {
+          "kanji": "競馬",
+          "kana": "けいば",
+          "en": "horse racing"
+        },
+        "きそう": {
+          "kanji": "競う",
+          "kana": "きそう",
+          "en": "to compete"
+        },
+        "せる": {
+          "kanji": "競る",
+          "kana": "せる",
+          "en": "to compete"
+        }
+      }
+    },
+    {
+      "kanji": "笑",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "わら.う",
+        "え.む"
+      ],
+      "meanings": [
+        "laugh"
+      ],
+      "words": [
+        {
+          "kanji": "笑み",
+          "kana": "えみ",
+          "en": "smile"
+        },
+        {
+          "kanji": "笑い",
+          "kana": "わらい",
+          "en": "laugh"
+        },
+        {
+          "kanji": "笑う",
+          "kana": "わらう",
+          "en": "to laugh"
+        },
+        {
+          "kanji": "笑顔",
+          "kana": "えがお",
+          "en": "smiling face"
+        }
+      ],
+      "readingExamples": {
+        "わらう": {
+          "kanji": "笑う",
+          "kana": "わらう",
+          "en": "to laugh"
+        }
+      }
+    },
+    {
+      "kanji": "管",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "くだ"
+      ],
+      "meanings": [
+        "pipe",
+        "tube",
+        "wind instrument",
+        "drunken talk"
+      ],
+      "words": [
+        {
+          "kanji": "管",
+          "kana": "かん",
+          "en": "pipe"
+        },
+        {
+          "kanji": "管",
+          "kana": "くだ",
+          "en": "pipe"
+        },
+        {
+          "kanji": "移管",
+          "kana": "いかん",
+          "en": "transfer of control"
+        },
+        {
+          "kanji": "管区",
+          "kana": "かんく",
+          "en": "jurisdiction"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "管",
+          "kana": "かん",
+          "en": "pipe"
+        },
+        "くだ": {
+          "kanji": "管",
+          "kana": "くだ",
+          "en": "pipe"
+        }
+      }
+    },
+    {
+      "kanji": "節",
+      "on": [
+        "セツ",
+        "セチ"
+      ],
+      "kun": [
+        "ふし",
+        "-ぶし",
+        "のっと"
+      ],
+      "meanings": [
+        "node",
+        "season",
+        "period",
+        "occasion"
+      ],
+      "words": [
+        {
+          "kanji": "節",
+          "kana": "せつ",
+          "en": "occasion"
+        },
+        {
+          "kanji": "節",
+          "kana": "ふし",
+          "en": "joint"
+        },
+        {
+          "kanji": "季節",
+          "kana": "きせつ",
+          "en": "season"
+        },
+        {
+          "kanji": "使節",
+          "kana": "しせつ",
+          "en": "envoy"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "節",
+          "kana": "せつ",
+          "en": "occasion"
+        },
+        "ふし": {
+          "kanji": "節",
+          "kana": "ふし",
+          "en": "joint"
+        }
+      }
+    },
+    {
+      "kanji": "約",
+      "on": [
+        "ヤク"
+      ],
+      "kun": [
+        "つづ.まる",
+        "つづ.める",
+        "つづま.やか"
+      ],
+      "meanings": [
+        "promise",
+        "approximately",
+        "shrink"
+      ],
+      "words": [
+        {
+          "kanji": "約",
+          "kana": "やく",
+          "en": "approximately"
+        },
+        {
+          "kanji": "規約",
+          "kana": "きやく",
+          "en": "agreement"
+        },
+        {
+          "kanji": "予約",
+          "kana": "よやく",
+          "en": "reservation"
+        },
+        {
+          "kanji": "解約",
+          "kana": "かいやく",
+          "en": "cancellation of a contract"
+        }
+      ],
+      "readingExamples": {
+        "ヤク": {
+          "kanji": "約",
+          "kana": "やく",
+          "en": "approximately"
+        }
+      }
+    },
+    {
+      "kanji": "結",
+      "on": [
+        "ケツ",
+        "ケチ"
+      ],
+      "kun": [
+        "むす.ぶ",
+        "ゆ.う",
+        "ゆ.わえる"
+      ],
+      "meanings": [
+        "tie",
+        "bind",
+        "contract",
+        "join"
+      ],
+      "words": [
+        {
+          "kanji": "結う",
+          "kana": "ゆう",
+          "en": "to do up (hair)"
+        },
+        {
+          "kanji": "帰結",
+          "kana": "きけつ",
+          "en": "consequence"
+        },
+        {
+          "kanji": "結び",
+          "kana": "むすび",
+          "en": "ending"
+        },
+        {
+          "kanji": "結ぶ",
+          "kana": "むすぶ",
+          "en": "to tie"
+        }
+      ],
+      "readingExamples": {
+        "ケツ": {
+          "kanji": "結露",
+          "kana": "けつろ",
+          "en": "condensation"
+        },
+        "ケチ": {
+          "kanji": "結縁",
+          "kana": "けちえん",
+          "en": "making a connection (with Buddha)"
+        },
+        "むすぶ": {
+          "kanji": "結ぶ",
+          "kana": "むすぶ",
+          "en": "to tie"
+        },
+        "ゆう": {
+          "kanji": "結う",
+          "kana": "ゆう",
+          "en": "to do up (hair)"
+        }
+      }
+    },
+    {
+      "kanji": "給",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "たま.う",
+        "たも.う",
+        "-たま.え"
+      ],
+      "meanings": [
+        "salary",
+        "wage",
+        "gift",
+        "allow"
+      ],
+      "words": [
+        {
+          "kanji": "給仕",
+          "kana": "きゅうじ",
+          "en": "waiting on a table"
+        },
+        {
+          "kanji": "給付",
+          "kana": "きゅうふ",
+          "en": "provision (of money or goods)"
+        },
+        {
+          "kanji": "給油",
+          "kana": "きゅうゆ",
+          "en": "refueling (a car, plane, etc.)"
+        },
+        {
+          "kanji": "支給",
+          "kana": "しきゅう",
+          "en": "provision"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "給仕",
+          "kana": "きゅうじ",
+          "en": "waiting on a table"
+        }
+      }
+    },
+    {
+      "kanji": "続",
+      "on": [
+        "ゾク",
+        "ショク",
+        "コウ",
+        "キョウ"
+      ],
+      "kun": [
+        "つづ.く",
+        "つづ.ける",
+        "つぐ.ない"
+      ],
+      "meanings": [
+        "continue",
+        "series",
+        "sequel"
+      ],
+      "words": [
+        {
+          "kanji": "持続",
+          "kana": "じぞく",
+          "en": "continuation"
+        },
+        {
+          "kanji": "続く",
+          "kana": "つづく",
+          "en": "to continue"
+        },
+        {
+          "kanji": "続き",
+          "kana": "つづき",
+          "en": "continuation"
+        },
+        {
+          "kanji": "永続",
+          "kana": "えいぞく",
+          "en": "permanence"
+        }
+      ],
+      "readingExamples": {
+        "ゾク": {
+          "kanji": "続発",
+          "kana": "ぞくはつ",
+          "en": "successive occurrence"
+        },
+        "コウ": {
+          "kanji": "後続",
+          "kana": "こうぞく",
+          "en": "succeeding"
+        },
+        "つづく": {
+          "kanji": "続く",
+          "kana": "つづく",
+          "en": "to continue"
+        },
+        "つづける": {
+          "kanji": "続ける",
+          "kana": "つづける",
+          "en": "to continue"
+        }
+      }
+    },
+    {
+      "kanji": "縄",
+      "on": [
+        "ジョウ"
+      ],
+      "kun": [
+        "なわ",
+        "ただ.す"
+      ],
+      "meanings": [
+        "straw rope",
+        "cord"
+      ],
+      "words": [
+        {
+          "kanji": "縄",
+          "kana": "なわ",
+          "en": "rope"
+        },
+        {
+          "kanji": "沖縄",
+          "kana": "おきなわ",
+          "en": "Okinawa (city, prefecture)"
+        },
+        {
+          "kanji": "縄張り",
+          "kana": "なわばり",
+          "en": "stretching a rope around"
+        },
+        {
+          "kanji": "縄文",
+          "kana": "じょうもん",
+          "en": "straw-rope pattern pressed into earthenware"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "縄文",
+          "kana": "じょうもん",
+          "en": "straw-rope pattern pressed into earthenware"
+        },
+        "なわ": {
+          "kanji": "縄",
+          "kana": "なわ",
+          "en": "rope"
+        }
+      }
+    },
+    {
+      "kanji": "置",
+      "on": [
+        "チ"
+      ],
+      "kun": [
+        "お.く",
+        "-お.き"
+      ],
+      "meanings": [
+        "placement",
+        "put",
+        "set",
+        "deposit"
+      ],
+      "words": [
+        {
+          "kanji": "置く",
+          "kana": "おく",
+          "en": "to put"
+        },
+        {
+          "kanji": "位置",
+          "kana": "いち",
+          "en": "place"
+        },
+        {
+          "kanji": "安置",
+          "kana": "あんち",
+          "en": "enshrinement"
+        },
+        {
+          "kanji": "処置",
+          "kana": "しょち",
+          "en": "measure"
+        }
+      ],
+      "readingExamples": {
+        "おく": {
+          "kanji": "置く",
+          "kana": "おく",
+          "en": "to put"
+        },
+        "おき": {
+          "kanji": "置き場",
+          "kana": "おきば",
+          "en": "place to put something"
+        }
+      }
+    },
+    {
+      "kanji": "群",
+      "on": [
+        "グン"
+      ],
+      "kun": [
+        "む.れる",
+        "む.れ",
+        "むら",
+        "むら.がる"
+      ],
+      "meanings": [
+        "flock",
+        "group",
+        "crowd",
+        "herd"
+      ],
+      "words": [
+        {
+          "kanji": "群",
+          "kana": "ぐん",
+          "en": "group"
+        },
+        {
+          "kanji": "群れ",
+          "kana": "むれ",
+          "en": "group"
+        },
+        {
+          "kanji": "群れる",
+          "kana": "むれる",
+          "en": "to crowd"
+        },
+        {
+          "kanji": "一群",
+          "kana": "いちぐん",
+          "en": "group"
+        }
+      ],
+      "readingExamples": {
+        "グン": {
+          "kanji": "群",
+          "kana": "ぐん",
+          "en": "group"
+        },
+        "むれる": {
+          "kanji": "群れる",
+          "kana": "むれる",
+          "en": "to crowd"
+        },
+        "むれ": {
+          "kanji": "群れ",
+          "kana": "むれ",
+          "en": "group"
+        },
+        "むら": {
+          "kanji": "群がる",
+          "kana": "むらがる",
+          "en": "to swarm"
+        },
+        "むらがる": {
+          "kanji": "群がる",
+          "kana": "むらがる",
+          "en": "to swarm"
+        }
+      }
+    },
+    {
+      "kanji": "老",
+      "on": [
+        "ロウ"
+      ],
+      "kun": [
+        "お.いる",
+        "ふ.ける"
+      ],
+      "meanings": [
+        "old man",
+        "old age",
+        "grow old"
+      ],
+      "words": [
+        {
+          "kanji": "海老",
+          "kana": "えび",
+          "en": "prawn"
+        },
+        {
+          "kanji": "老い",
+          "kana": "おい",
+          "en": "old age"
+        },
+        {
+          "kanji": "家老",
+          "kana": "かろう",
+          "en": "chief retainer"
+        },
+        {
+          "kanji": "古老",
+          "kana": "ころう",
+          "en": "old person (knowledgeable about events of the distant past)"
+        }
+      ],
+      "readingExamples": {
+        "ロウ": {
+          "kanji": "老後",
+          "kana": "ろうご",
+          "en": "old age"
+        },
+        "おいる": {
+          "kanji": "老いる",
+          "kana": "おいる",
+          "en": "to age"
+        },
+        "ふける": {
+          "kanji": "老ける",
+          "kana": "ふける",
+          "en": "to age"
+        }
+      }
+    },
+    {
+      "kanji": "臣",
+      "on": [
+        "シン",
+        "ジン"
+      ],
+      "kun": [],
+      "meanings": [
+        "retainer",
+        "subject"
+      ],
+      "words": [
+        {
+          "kanji": "家臣",
+          "kana": "かしん",
+          "en": "vassal"
+        },
+        {
+          "kanji": "大臣",
+          "kana": "だいじん",
+          "en": "cabinet minister"
+        },
+        {
+          "kanji": "重臣",
+          "kana": "じゅうしん",
+          "en": "chief vassal"
+        },
+        {
+          "kanji": "忠臣",
+          "kana": "ちゅうしん",
+          "en": "loyal retainer"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "良",
+      "on": [
+        "リョウ"
+      ],
+      "kun": [
+        "よ.い",
+        "-よ.い",
+        "い.い",
+        "-い.い"
+      ],
+      "meanings": [
+        "good",
+        "pleasing",
+        "skilled"
+      ],
+      "words": [
+        {
+          "kanji": "野良",
+          "kana": "のら",
+          "en": "field"
+        },
+        {
+          "kanji": "良い",
+          "kana": "よい",
+          "en": "good"
+        },
+        {
+          "kanji": "良く",
+          "kana": "よく",
+          "en": "nicely"
+        },
+        {
+          "kanji": "良さ",
+          "kana": "よさ",
+          "en": "merit"
+        }
+      ],
+      "readingExamples": {
+        "リョウ": {
+          "kanji": "良",
+          "kana": "りょう",
+          "en": "good (quality, condition, etc.)"
+        },
+        "よい": {
+          "kanji": "良い",
+          "kana": "よい",
+          "en": "good"
+        },
+        "いい": {
+          "kanji": "良いね",
+          "kana": "いいね",
+          "en": "that's good"
+        }
+      }
+    },
+    {
+      "kanji": "芸",
+      "on": [
+        "ゲイ",
+        "ウン"
+      ],
+      "kun": [
+        "う.える",
+        "のり",
+        "わざ"
+      ],
+      "meanings": [
+        "technique",
+        "art",
+        "craft",
+        "performance"
+      ],
+      "words": [
+        {
+          "kanji": "安芸",
+          "kana": "あき",
+          "en": "Aki (former province located in the west of present-day Hiroshima Prefecture)"
+        },
+        {
+          "kanji": "芸",
+          "kana": "げい",
+          "en": "art"
+        },
+        {
+          "kanji": "一芸",
+          "kana": "いちげい",
+          "en": "an art"
+        },
+        {
+          "kanji": "園芸",
+          "kana": "えんげい",
+          "en": "horticulture"
+        }
+      ],
+      "readingExamples": {
+        "ゲイ": {
+          "kanji": "芸",
+          "kana": "げい",
+          "en": "art"
+        }
+      }
+    },
+    {
+      "kanji": "芽",
+      "on": [
+        "ガ"
+      ],
+      "kun": [
+        "め"
+      ],
+      "meanings": [
+        "bud",
+        "sprout",
+        "spear",
+        "germ"
+      ],
+      "words": [
+        {
+          "kanji": "芽",
+          "kana": "め",
+          "en": "sprout"
+        },
+        {
+          "kanji": "芽生え",
+          "kana": "めばえ",
+          "en": "bud"
+        },
+        {
+          "kanji": "新芽",
+          "kana": "しんめ",
+          "en": "sprout"
+        },
+        {
+          "kanji": "麦芽",
+          "kana": "ばくが",
+          "en": "malt"
+        }
+      ],
+      "readingExamples": {
+        "め": {
+          "kanji": "芽",
+          "kana": "め",
+          "en": "sprout"
+        }
+      }
+    },
+    {
+      "kanji": "英",
+      "on": [
+        "エイ"
+      ],
+      "kun": [
+        "はなぶさ"
+      ],
+      "meanings": [
+        "England",
+        "English",
+        "hero",
+        "outstanding"
+      ],
+      "words": [
+        {
+          "kanji": "英",
+          "kana": "えい",
+          "en": "United Kingdom"
+        },
+        {
+          "kanji": "英気",
+          "kana": "えいき",
+          "en": "great wisdom"
+        },
+        {
+          "kanji": "英語",
+          "kana": "えいご",
+          "en": "English (language)"
+        },
+        {
+          "kanji": "英字",
+          "kana": "えいじ",
+          "en": "English letter"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "英",
+          "kana": "えい",
+          "en": "United Kingdom"
+        }
+      }
+    },
+    {
+      "kanji": "茨",
+      "on": [
+        "シ",
+        "ジ"
+      ],
+      "kun": [
+        "いばら",
+        "かや",
+        "くさぶき"
+      ],
+      "meanings": [
+        "briar",
+        "thorn"
+      ],
+      "words": [],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "菜",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "な"
+      ],
+      "meanings": [
+        "vegetable",
+        "side dish",
+        "greens"
+      ],
+      "words": [
+        {
+          "kanji": "菜",
+          "kana": "な",
+          "en": "greens"
+        },
+        {
+          "kanji": "菜種",
+          "kana": "なたね",
+          "en": "rapeseed"
+        },
+        {
+          "kanji": "青菜",
+          "kana": "あおな",
+          "en": "greens"
+        },
+        {
+          "kanji": "野菜",
+          "kana": "やさい",
+          "en": "vegetable"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "菜園",
+          "kana": "さいえん",
+          "en": "vegetable garden"
+        },
+        "な": {
+          "kanji": "菜",
+          "kana": "な",
+          "en": "greens"
+        }
+      }
+    },
+    {
+      "kanji": "街",
+      "on": [
+        "ガイ",
+        "カイ"
+      ],
+      "kun": [
+        "まち"
+      ],
+      "meanings": [
+        "boulevard",
+        "street",
+        "town"
+      ],
+      "words": [
+        {
+          "kanji": "街",
+          "kana": "がい",
+          "en": "street"
+        },
+        {
+          "kanji": "街区",
+          "kana": "がいく",
+          "en": "block (of land)"
+        },
+        {
+          "kanji": "街路",
+          "kana": "がいろ",
+          "en": "road"
+        },
+        {
+          "kanji": "市街",
+          "kana": "しがい",
+          "en": "urban areas"
+        }
+      ],
+      "readingExamples": {
+        "ガイ": {
+          "kanji": "街",
+          "kana": "がい",
+          "en": "street"
+        },
+        "カイ": {
+          "kanji": "街道",
+          "kana": "かいどう",
+          "en": "highway (esp. one existing from the Edo period)"
+        },
+        "まち": {
+          "kanji": "街角",
+          "kana": "まちかど",
+          "en": "street corner"
+        }
+      }
+    },
+    {
+      "kanji": "衣",
+      "on": [
+        "イ",
+        "エ"
+      ],
+      "kun": [
+        "ころも",
+        "きぬ",
+        "-ぎ"
+      ],
+      "meanings": [
+        "garment",
+        "clothes",
+        "dressing"
+      ],
+      "words": [
+        {
+          "kanji": "衣",
+          "kana": "ころも",
+          "en": "clothes"
+        },
+        {
+          "kanji": "衣服",
+          "kana": "いふく",
+          "en": "clothes"
+        },
+        {
+          "kanji": "白衣",
+          "kana": "はくい",
+          "en": "white clothes"
+        },
+        {
+          "kanji": "黒衣",
+          "kana": "こくい",
+          "en": "black clothes"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "衣服",
+          "kana": "いふく",
+          "en": "clothes"
+        },
+        "ころも": {
+          "kanji": "衣",
+          "kana": "ころも",
+          "en": "clothes"
+        }
+      }
+    },
+    {
+      "kanji": "要",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "い.る",
+        "かなめ"
+      ],
+      "meanings": [
+        "need",
+        "main point",
+        "essence",
+        "pivot"
+      ],
+      "words": [
+        {
+          "kanji": "要る",
+          "kana": "いる",
+          "en": "to be needed"
+        },
+        {
+          "kanji": "要らぬ",
+          "kana": "いらぬ",
+          "en": "needless"
+        },
+        {
+          "kanji": "要素",
+          "kana": "ようそ",
+          "en": "component"
+        },
+        {
+          "kanji": "不要",
+          "kana": "ふよう",
+          "en": "unnecessary"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "要旨",
+          "kana": "ようし",
+          "en": "(main) point"
+        },
+        "いる": {
+          "kanji": "要る",
+          "kana": "いる",
+          "en": "to be needed"
+        },
+        "かなめ": {
+          "kanji": "要",
+          "kana": "かなめ",
+          "en": "pivot"
+        }
+      }
+    },
+    {
+      "kanji": "覚",
+      "on": [
+        "カク"
+      ],
+      "kun": [
+        "おぼ.える",
+        "さ.ます",
+        "さ.める",
+        "さと.る"
+      ],
+      "meanings": [
+        "memorize",
+        "learn",
+        "remember",
+        "awake"
+      ],
+      "words": [
+        {
+          "kanji": "覚え",
+          "kana": "おぼえ",
+          "en": "memory"
+        },
+        {
+          "kanji": "覚ます",
+          "kana": "さます",
+          "en": "to awaken"
+        },
+        {
+          "kanji": "覚める",
+          "kana": "さめる",
+          "en": "to wake"
+        },
+        {
+          "kanji": "視覚",
+          "kana": "しかく",
+          "en": "(sense of) sight"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "覚悟",
+          "kana": "かくご",
+          "en": "readiness"
+        },
+        "おぼえる": {
+          "kanji": "覚える",
+          "kana": "おぼえる",
+          "en": "to memorize"
+        },
+        "さます": {
+          "kanji": "覚ます",
+          "kana": "さます",
+          "en": "to awaken"
+        },
+        "さめる": {
+          "kanji": "覚める",
+          "kana": "さめる",
+          "en": "to wake"
+        }
+      }
+    },
+    {
+      "kanji": "観",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "み.る",
+        "しめ.す"
+      ],
+      "meanings": [
+        "outlook",
+        "look",
+        "appearance",
+        "condition"
+      ],
+      "words": [
+        {
+          "kanji": "観",
+          "kana": "かん",
+          "en": "look"
+        },
+        {
+          "kanji": "史観",
+          "kana": "しかん",
+          "en": "historical view"
+        },
+        {
+          "kanji": "悲観",
+          "kana": "ひかん",
+          "en": "pessimism"
+        },
+        {
+          "kanji": "美観",
+          "kana": "びかん",
+          "en": "fine view"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "観",
+          "kana": "かん",
+          "en": "look"
+        }
+      }
+    },
+    {
+      "kanji": "訓",
+      "on": [
+        "クン",
+        "キン"
+      ],
+      "kun": [
+        "おし.える",
+        "よ.む",
+        "くん.ずる"
+      ],
+      "meanings": [
+        "instruction",
+        "Japanese character reading",
+        "explanation",
+        "read"
+      ],
+      "words": [
+        {
+          "kanji": "訓",
+          "kana": "くん",
+          "en": "native Japanese reading of a Chinese character"
+        },
+        {
+          "kanji": "遺訓",
+          "kana": "いくん",
+          "en": "teachings left by a deceased person"
+        },
+        {
+          "kanji": "訓示",
+          "kana": "くんじ",
+          "en": "instruction"
+        },
+        {
+          "kanji": "音訓",
+          "kana": "おんくん",
+          "en": "kanji readings"
+        }
+      ],
+      "readingExamples": {
+        "クン": {
+          "kanji": "訓",
+          "kana": "くん",
+          "en": "native Japanese reading of a Chinese character"
+        }
+      }
+    },
+    {
+      "kanji": "試",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "こころ.みる",
+        "ため.す"
+      ],
+      "meanings": [
+        "test",
+        "try",
+        "attempt",
+        "experiment"
+      ],
+      "words": [
+        {
+          "kanji": "模試",
+          "kana": "もし",
+          "en": "mock exam"
+        },
+        {
+          "kanji": "試し",
+          "kana": "ためし",
+          "en": "trial"
+        },
+        {
+          "kanji": "試す",
+          "kana": "ためす",
+          "en": "to try (out)"
+        },
+        {
+          "kanji": "試案",
+          "kana": "しあん",
+          "en": "tentative plan"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "試案",
+          "kana": "しあん",
+          "en": "tentative plan"
+        },
+        "こころみる": {
+          "kanji": "試みる",
+          "kana": "こころみる",
+          "en": "to try"
+        },
+        "ためす": {
+          "kanji": "試す",
+          "kana": "ためす",
+          "en": "to try (out)"
+        }
+      }
+    },
+    {
+      "kanji": "説",
+      "on": [
+        "セツ",
+        "ゼイ"
+      ],
+      "kun": [
+        "と.く"
+      ],
+      "meanings": [
+        "opinion",
+        "theory",
+        "explanation",
+        "rumor"
+      ],
+      "words": [
+        {
+          "kanji": "説",
+          "kana": "せつ",
+          "en": "theory"
+        },
+        {
+          "kanji": "説く",
+          "kana": "とく",
+          "en": "to explain"
+        },
+        {
+          "kanji": "異説",
+          "kana": "いせつ",
+          "en": "different view"
+        },
+        {
+          "kanji": "口説く",
+          "kana": "くどく",
+          "en": "to persuade"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "説",
+          "kana": "せつ",
+          "en": "theory"
+        },
+        "とく": {
+          "kanji": "説く",
+          "kana": "とく",
+          "en": "to explain"
+        }
+      }
+    },
+    {
+      "kanji": "課",
+      "on": [
+        "カ"
+      ],
+      "kun": [],
+      "meanings": [
+        "chapter",
+        "lesson",
+        "section",
+        "department"
+      ],
+      "words": [
+        {
+          "kanji": "課",
+          "kana": "か",
+          "en": "lesson"
+        },
+        {
+          "kanji": "課す",
+          "kana": "かす",
+          "en": "to impose (a tax, fine, etc.)"
+        },
+        {
+          "kanji": "課する",
+          "kana": "かする",
+          "en": "to impose (a tax, fine, etc.)"
+        },
+        {
+          "kanji": "課員",
+          "kana": "かいん",
+          "en": "section staff"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "課",
+          "kana": "か",
+          "en": "lesson"
+        }
+      }
+    },
+    {
+      "kanji": "議",
+      "on": [
+        "ギ"
+      ],
+      "kun": [],
+      "meanings": [
+        "deliberation",
+        "consultation",
+        "debate",
+        "consideration"
+      ],
+      "words": [
+        {
+          "kanji": "異議",
+          "kana": "いぎ",
+          "en": "objection"
+        },
+        {
+          "kanji": "議事",
+          "kana": "ぎじ",
+          "en": "proceedings (e.g. parliament, congress)"
+        },
+        {
+          "kanji": "区議",
+          "kana": "くぎ",
+          "en": "ward assemblyman"
+        },
+        {
+          "kanji": "市議",
+          "kana": "しぎ",
+          "en": "city councillor"
+        }
+      ],
+      "readingExamples": {
+        "ギ": {
+          "kanji": "議事",
+          "kana": "ぎじ",
+          "en": "proceedings (e.g. parliament, congress)"
+        }
+      }
+    },
+    {
+      "kanji": "貨",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "たから"
+      ],
+      "meanings": [
+        "freight",
+        "goods",
+        "property"
+      ],
+      "words": [
+        {
+          "kanji": "貨車",
+          "kana": "かしゃ",
+          "en": "freight car"
+        },
+        {
+          "kanji": "貨物",
+          "kana": "かもつ",
+          "en": "cargo"
+        },
+        {
+          "kanji": "外貨",
+          "kana": "がいか",
+          "en": "foreign currency"
+        },
+        {
+          "kanji": "金貨",
+          "kana": "きんか",
+          "en": "gold coin"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "貨車",
+          "kana": "かしゃ",
+          "en": "freight car"
+        }
+      }
+    },
+    {
+      "kanji": "賀",
+      "on": [
+        "ガ"
+      ],
+      "kun": [],
+      "meanings": [
+        "congratulations",
+        "joy"
+      ],
+      "words": [
+        {
+          "kanji": "参賀",
+          "kana": "さんが",
+          "en": "congratulatory visit to the Imperial Palace (e.g. at New Year)"
+        },
+        {
+          "kanji": "年賀",
+          "kana": "ねんが",
+          "en": "New Year's greetings"
+        },
+        {
+          "kanji": "賀状",
+          "kana": "がじょう",
+          "en": "New Year's card"
+        },
+        {
+          "kanji": "賀正",
+          "kana": "がしょう",
+          "en": "A Happy New Year!"
+        }
+      ],
+      "readingExamples": {
+        "ガ": {
+          "kanji": "賀状",
+          "kana": "がじょう",
+          "en": "New Year's card"
+        }
+      }
+    },
+    {
+      "kanji": "軍",
+      "on": [
+        "グン"
+      ],
+      "kun": [
+        "いくさ"
+      ],
+      "meanings": [
+        "army",
+        "force",
+        "troops",
+        "war"
+      ],
+      "words": [
+        {
+          "kanji": "軍",
+          "kana": "ぐん",
+          "en": "army"
+        },
+        {
+          "kanji": "軍医",
+          "kana": "ぐんい",
+          "en": "military doctor"
+        },
+        {
+          "kanji": "軍歌",
+          "kana": "ぐんか",
+          "en": "war song"
+        },
+        {
+          "kanji": "軍機",
+          "kana": "ぐんき",
+          "en": "military secret"
+        }
+      ],
+      "readingExamples": {
+        "グン": {
+          "kanji": "軍",
+          "kana": "ぐん",
+          "en": "army"
+        }
+      }
+    },
+    {
+      "kanji": "輪",
+      "on": [
+        "リン"
+      ],
+      "kun": [
+        "わ"
+      ],
+      "meanings": [
+        "wheel",
+        "ring",
+        "circle",
+        "link"
+      ],
+      "words": [
+        {
+          "kanji": "輪",
+          "kana": "わ",
+          "en": "ring"
+        },
+        {
+          "kanji": "花輪",
+          "kana": "はなわ",
+          "en": "wreath"
+        },
+        {
+          "kanji": "指輪",
+          "kana": "ゆびわ",
+          "en": "(finger) ring"
+        },
+        {
+          "kanji": "首輪",
+          "kana": "くびわ",
+          "en": "(animal) collar"
+        }
+      ],
+      "readingExamples": {
+        "リン": {
+          "kanji": "輪廻",
+          "kana": "りんね",
+          "en": "samsara (cycle of death and rebirth)"
+        },
+        "わ": {
+          "kanji": "輪",
+          "kana": "わ",
+          "en": "ring"
+        }
+      }
+    },
+    {
+      "kanji": "辞",
+      "on": [
+        "ジ"
+      ],
+      "kun": [
+        "や.める",
+        "いな.む"
+      ],
+      "meanings": [
+        "resign",
+        "word",
+        "term",
+        "expression"
+      ],
+      "words": [
+        {
+          "kanji": "固辞",
+          "kana": "こじ",
+          "en": "firm refusal"
+        },
+        {
+          "kanji": "辞意",
+          "kana": "じい",
+          "en": "intention to resign"
+        },
+        {
+          "kanji": "辞す",
+          "kana": "じす",
+          "en": "to take one's leave"
+        },
+        {
+          "kanji": "お世辞",
+          "kana": "おせじ",
+          "en": "flattery"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "辞意",
+          "kana": "じい",
+          "en": "intention to resign"
+        },
+        "やめる": {
+          "kanji": "辞める",
+          "kana": "やめる",
+          "en": "to resign"
+        }
+      }
+    },
+    {
+      "kanji": "辺",
+      "on": [
+        "ヘン"
+      ],
+      "kun": [
+        "あた.り",
+        "ほと.り",
+        "-べ"
+      ],
+      "meanings": [
+        "environs",
+        "boundary",
+        "border",
+        "vicinity"
+      ],
+      "words": [
+        {
+          "kanji": "辺",
+          "kana": "へん",
+          "en": "area"
+        },
+        {
+          "kanji": "野辺",
+          "kana": "のべ",
+          "en": "field"
+        },
+        {
+          "kanji": "右辺",
+          "kana": "うへん",
+          "en": "right side (of an equation, expression, etc.)"
+        },
+        {
+          "kanji": "海辺",
+          "kana": "うみべ",
+          "en": "beach"
+        }
+      ],
+      "readingExamples": {
+        "ヘン": {
+          "kanji": "辺",
+          "kana": "へん",
+          "en": "area"
+        },
+        "あたり": {
+          "kanji": "辺り",
+          "kana": "あたり",
+          "en": "(in the) neighbourhood"
+        }
+      }
+    },
+    {
+      "kanji": "連",
+      "on": [
+        "レン"
+      ],
+      "kun": [
+        "つら.なる",
+        "つら.ねる",
+        "つ.れる",
+        "-づ.れ"
+      ],
+      "meanings": [
+        "take along",
+        "lead",
+        "join",
+        "connect"
+      ],
+      "words": [
+        {
+          "kanji": "連れ",
+          "kana": "つれ",
+          "en": "companion"
+        },
+        {
+          "kanji": "連れ",
+          "kana": "づれ",
+          "en": "in the company of"
+        },
+        {
+          "kanji": "ソ連",
+          "kana": "ソれん",
+          "en": "Soviet Union"
+        },
+        {
+          "kanji": "連れる",
+          "kana": "つれる",
+          "en": "to take (someone) with one"
+        }
+      ],
+      "readingExamples": {
+        "レン": {
+          "kanji": "連歌",
+          "kana": "れんが",
+          "en": "renga (early Japanese poetry form)"
+        },
+        "つらなる": {
+          "kanji": "連なる",
+          "kana": "つらなる",
+          "en": "to extend"
+        },
+        "つらねる": {
+          "kanji": "連ねる",
+          "kana": "つらねる",
+          "en": "to line up"
+        },
+        "つれる": {
+          "kanji": "連れる",
+          "kana": "つれる",
+          "en": "to take (someone) with one"
+        },
+        "づれ": {
+          "kanji": "連れ",
+          "kana": "づれ",
+          "en": "in the company of"
+        }
+      }
+    },
+    {
+      "kanji": "達",
+      "on": [
+        "タツ",
+        "ダ"
+      ],
+      "kun": [
+        "-たち"
+      ],
+      "meanings": [
+        "accomplished",
+        "reach",
+        "arrive",
+        "attain"
+      ],
+      "words": [
+        {
+          "kanji": "達",
+          "kana": "たち",
+          "en": "pluralizing suffix (esp. for people and animals; formerly honorific)"
+        },
+        {
+          "kanji": "達し",
+          "kana": "たっし",
+          "en": "official notice"
+        },
+        {
+          "kanji": "先達",
+          "kana": "せんだつ",
+          "en": "leader"
+        },
+        {
+          "kanji": "速達",
+          "kana": "そくたつ",
+          "en": "express"
+        }
+      ],
+      "readingExamples": {
+        "タツ": {
+          "kanji": "達人",
+          "kana": "たつじん",
+          "en": "master"
+        },
+        "ダ": {
+          "kanji": "伊達",
+          "kana": "だて",
+          "en": "elegance"
+        },
+        "たち": {
+          "kanji": "達",
+          "kana": "たち",
+          "en": "pluralizing suffix (esp. for people and animals; formerly honorific)"
+        }
+      }
+    },
+    {
+      "kanji": "選",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "えら.ぶ",
+        "え.る",
+        "よ.る"
+      ],
+      "meanings": [
+        "elect",
+        "select",
+        "choose",
+        "prefer"
+      ],
+      "words": [
+        {
+          "kanji": "選る",
+          "kana": "よる",
+          "en": "to choose"
+        },
+        {
+          "kanji": "選",
+          "kana": "せん",
+          "en": "selection"
+        },
+        {
+          "kanji": "自選",
+          "kana": "じせん",
+          "en": "selecting from one's own works"
+        },
+        {
+          "kanji": "予選",
+          "kana": "よせん",
+          "en": "preliminary contest"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "選",
+          "kana": "せん",
+          "en": "selection"
+        },
+        "えらぶ": {
+          "kanji": "選ぶ",
+          "kana": "えらぶ",
+          "en": "to choose"
+        },
+        "よる": {
+          "kanji": "選る",
+          "kana": "よる",
+          "en": "to choose"
+        }
+      }
+    },
+    {
+      "kanji": "郡",
+      "on": [
+        "グン"
+      ],
+      "kun": [
+        "こおり"
+      ],
+      "meanings": [
+        "county",
+        "district"
+      ],
+      "words": [
+        {
+          "kanji": "郡",
+          "kana": "ぐん",
+          "en": "district"
+        },
+        {
+          "kanji": "郡部",
+          "kana": "ぐんぶ",
+          "en": "rural districts"
+        }
+      ],
+      "readingExamples": {
+        "グン": {
+          "kanji": "郡",
+          "kana": "ぐん",
+          "en": "district"
+        }
+      }
+    },
+    {
+      "kanji": "量",
+      "on": [
+        "リョウ"
+      ],
+      "kun": [
+        "はか.る"
+      ],
+      "meanings": [
+        "quantity",
+        "measure",
+        "weight",
+        "amount"
+      ],
+      "words": [
+        {
+          "kanji": "量",
+          "kana": "りょう",
+          "en": "quantity"
+        },
+        {
+          "kanji": "量り",
+          "kana": "はかり",
+          "en": "measurements"
+        },
+        {
+          "kanji": "雨量",
+          "kana": "うりょう",
+          "en": "(amount of) rainfall"
+        },
+        {
+          "kanji": "器量",
+          "kana": "きりょう",
+          "en": "looks (esp. of a woman)"
+        }
+      ],
+      "readingExamples": {
+        "リョウ": {
+          "kanji": "量",
+          "kana": "りょう",
+          "en": "quantity"
+        }
+      }
+    },
+    {
+      "kanji": "録",
+      "on": [
+        "ロク"
+      ],
+      "kun": [
+        "しる.す",
+        "と.る"
+      ],
+      "meanings": [
+        "record"
+      ],
+      "words": [
+        {
+          "kanji": "記録",
+          "kana": "きろく",
+          "en": "record"
+        },
+        {
+          "kanji": "語録",
+          "kana": "ごろく",
+          "en": "analects"
+        },
+        {
+          "kanji": "余録",
+          "kana": "よろく",
+          "en": "unofficial record"
+        },
+        {
+          "kanji": "録画",
+          "kana": "ろくが",
+          "en": "(video) recording"
+        }
+      ],
+      "readingExamples": {
+        "ロク": {
+          "kanji": "録画",
+          "kana": "ろくが",
+          "en": "(video) recording"
+        }
+      }
+    },
+    {
+      "kanji": "鏡",
+      "on": [
+        "キョウ",
+        "ケイ"
+      ],
+      "kun": [
+        "かがみ"
+      ],
+      "meanings": [
+        "mirror",
+        "speculum",
+        "barrel-head",
+        "round rice-cake offering"
+      ],
+      "words": [
+        {
+          "kanji": "鏡",
+          "kana": "かがみ",
+          "en": "mirror"
+        },
+        {
+          "kanji": "眼鏡",
+          "kana": "メガネ",
+          "en": "glasses"
+        },
+        {
+          "kanji": "鏡台",
+          "kana": "きょうだい",
+          "en": "dresser"
+        },
+        {
+          "kanji": "鏡面",
+          "kana": "きょうめん",
+          "en": "mirror surface"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "鏡台",
+          "kana": "きょうだい",
+          "en": "dresser"
+        },
+        "かがみ": {
+          "kanji": "鏡",
+          "kana": "かがみ",
+          "en": "mirror"
+        }
+      }
+    },
+    {
+      "kanji": "関",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "せき",
+        "-ぜき",
+        "かか.わる",
+        "からくり",
+        "かんぬき"
+      ],
+      "meanings": [
+        "connection",
+        "barrier",
+        "gateway",
+        "involve"
+      ],
+      "words": [
+        {
+          "kanji": "関",
+          "kana": "せき",
+          "en": "barrier"
+        },
+        {
+          "kanji": "関知",
+          "kana": "かんち",
+          "en": "(one's) concern"
+        },
+        {
+          "kanji": "機関",
+          "kana": "きかん",
+          "en": "engine"
+        },
+        {
+          "kanji": "関する",
+          "kana": "かんする",
+          "en": "to concern"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "関知",
+          "kana": "かんち",
+          "en": "(one's) concern"
+        },
+        "せき": {
+          "kanji": "関",
+          "kana": "せき",
+          "en": "barrier"
+        },
+        "かかわる": {
+          "kanji": "関わる",
+          "kana": "かかわる",
+          "en": "to be involved (in)"
+        }
+      }
+    },
+    {
+      "kanji": "阜",
+      "on": [
+        "フ",
+        "フウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "hill",
+        "mound",
+        "left village radical (no. 170)"
+      ],
+      "words": [
+        {
+          "kanji": "岐阜",
+          "kana": "ぎふ",
+          "en": "Gifu (city, prefecture)"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "阪",
+      "on": [
+        "ハン"
+      ],
+      "kun": [
+        "さか"
+      ],
+      "meanings": [
+        "heights",
+        "slope"
+      ],
+      "words": [
+        {
+          "kanji": "京阪",
+          "kana": "けいはん",
+          "en": "Kyoto and Osaka"
+        },
+        {
+          "kanji": "阪神",
+          "kana": "はんしん",
+          "en": "Osaka-Kobe"
+        },
+        {
+          "kanji": "大阪",
+          "kana": "おおさか",
+          "en": "Osaka (city, prefecture)"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "阪神",
+          "kana": "はんしん",
+          "en": "Osaka-Kobe"
+        }
+      }
+    },
+    {
+      "kanji": "陸",
+      "on": [
+        "リク",
+        "ロク"
+      ],
+      "kun": [
+        "おか"
+      ],
+      "meanings": [
+        "land",
+        "six"
+      ],
+      "words": [
+        {
+          "kanji": "陸",
+          "kana": "りく",
+          "en": "land"
+        },
+        {
+          "kanji": "陸路",
+          "kana": "りくろ",
+          "en": "land route"
+        },
+        {
+          "kanji": "陸地",
+          "kana": "りくち",
+          "en": "land"
+        },
+        {
+          "kanji": "空陸",
+          "kana": "くうりく",
+          "en": "land and air"
+        }
+      ],
+      "readingExamples": {
+        "リク": {
+          "kanji": "陸",
+          "kana": "りく",
+          "en": "land"
+        }
+      }
+    },
+    {
+      "kanji": "隊",
+      "on": [
+        "タイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "regiment",
+        "party",
+        "company",
+        "squad"
+      ],
+      "words": [
+        {
+          "kanji": "部隊",
+          "kana": "ぶたい",
+          "en": "force"
+        },
+        {
+          "kanji": "楽隊",
+          "kana": "がくたい",
+          "en": "band"
+        },
+        {
+          "kanji": "軍隊",
+          "kana": "ぐんたい",
+          "en": "armed forces"
+        },
+        {
+          "kanji": "除隊",
+          "kana": "じょたい",
+          "en": "military discharge"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "隊員",
+          "kana": "たいいん",
+          "en": "troops"
+        }
+      }
+    },
+    {
+      "kanji": "静",
+      "on": [
+        "セイ",
+        "ジョウ"
+      ],
+      "kun": [
+        "しず-",
+        "しず.か",
+        "しず.まる",
+        "しず.める"
+      ],
+      "meanings": [
+        "quiet"
+      ],
+      "words": [
+        {
+          "kanji": "静か",
+          "kana": "しずか",
+          "en": "quiet"
+        },
+        {
+          "kanji": "静止",
+          "kana": "せいし",
+          "en": "stillness"
+        },
+        {
+          "kanji": "安静",
+          "kana": "あんせい",
+          "en": "rest"
+        },
+        {
+          "kanji": "静けさ",
+          "kana": "しずけさ",
+          "en": "stillness"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "静止",
+          "kana": "せいし",
+          "en": "stillness"
+        },
+        "ジョウ": {
+          "kanji": "静脈",
+          "kana": "じょうみゃく",
+          "en": "vein"
+        },
+        "しず": {
+          "kanji": "静か",
+          "kana": "しずか",
+          "en": "quiet"
+        },
+        "しずか": {
+          "kanji": "静か",
+          "kana": "しずか",
+          "en": "quiet"
+        },
+        "しずまる": {
+          "kanji": "静まる",
+          "kana": "しずまる",
+          "en": "to become quiet"
+        },
+        "しずめる": {
+          "kanji": "静める",
+          "kana": "しずめる",
+          "en": "to quiet (a child, crowd, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "順",
+      "on": [
+        "ジュン"
+      ],
+      "kun": [],
+      "meanings": [
+        "obey",
+        "order",
+        "turn",
+        "right"
+      ],
+      "words": [
+        {
+          "kanji": "順",
+          "kana": "じゅん",
+          "en": "order"
+        },
+        {
+          "kanji": "帰順",
+          "kana": "きじゅん",
+          "en": "submission"
+        },
+        {
+          "kanji": "手順",
+          "kana": "てじゅん",
+          "en": "process"
+        },
+        {
+          "kanji": "順に",
+          "kana": "じゅんに",
+          "en": "in order"
+        }
+      ],
+      "readingExamples": {
+        "ジュン": {
+          "kanji": "順",
+          "kana": "じゅん",
+          "en": "order"
+        }
+      }
+    },
+    {
+      "kanji": "願",
+      "on": [
+        "ガン"
+      ],
+      "kun": [
+        "ねが.う",
+        "-ねがい"
+      ],
+      "meanings": [
+        "petition",
+        "request",
+        "vow",
+        "wish"
+      ],
+      "words": [
+        {
+          "kanji": "願",
+          "kana": "がん",
+          "en": "prayer"
+        },
+        {
+          "kanji": "願い",
+          "kana": "ねがい",
+          "en": "desire"
+        },
+        {
+          "kanji": "願う",
+          "kana": "ねがう",
+          "en": "to desire"
+        },
+        {
+          "kanji": "志願",
+          "kana": "しがん",
+          "en": "aspiration"
+        }
+      ],
+      "readingExamples": {
+        "ガン": {
+          "kanji": "願",
+          "kana": "がん",
+          "en": "prayer"
+        },
+        "ねがう": {
+          "kanji": "願う",
+          "kana": "ねがう",
+          "en": "to desire"
+        },
+        "ねがい": {
+          "kanji": "願い",
+          "kana": "ねがい",
+          "en": "desire"
+        }
+      }
+    },
+    {
+      "kanji": "類",
+      "on": [
+        "ルイ"
+      ],
+      "kun": [
+        "たぐ.い"
+      ],
+      "meanings": [
+        "sort",
+        "kind",
+        "variety",
+        "class"
+      ],
+      "words": [
+        {
+          "kanji": "類",
+          "kana": "るい",
+          "en": "kind"
+        },
+        {
+          "kanji": "部類",
+          "kana": "ぶるい",
+          "en": "class"
+        },
+        {
+          "kanji": "類似",
+          "kana": "るいじ",
+          "en": "resemblance"
+        },
+        {
+          "kanji": "衣類",
+          "kana": "いるい",
+          "en": "clothes"
+        }
+      ],
+      "readingExamples": {
+        "ルイ": {
+          "kanji": "類",
+          "kana": "るい",
+          "en": "kind"
+        }
+      }
+    },
+    {
+      "kanji": "飛",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "と.ぶ",
+        "と.ばす",
+        "-と.ばす"
+      ],
+      "meanings": [
+        "fly",
+        "skip (pages)",
+        "scatter"
+      ],
+      "words": [
+        {
+          "kanji": "飛",
+          "kana": "ひ",
+          "en": "rook"
+        },
+        {
+          "kanji": "飛ぶ",
+          "kana": "とぶ",
+          "en": "to fly"
+        },
+        {
+          "kanji": "飛んだ",
+          "kana": "とんだ",
+          "en": "unexpected"
+        },
+        {
+          "kanji": "飛ばす",
+          "kana": "とばす",
+          "en": "to let fly"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "飛",
+          "kana": "ひ",
+          "en": "rook"
+        },
+        "とぶ": {
+          "kanji": "飛ぶ",
+          "kana": "とぶ",
+          "en": "to fly"
+        },
+        "とばす": {
+          "kanji": "飛ばす",
+          "kana": "とばす",
+          "en": "to let fly"
+        }
+      }
+    },
+    {
+      "kanji": "飯",
+      "on": [
+        "ハン"
+      ],
+      "kun": [
+        "めし"
+      ],
+      "meanings": [
+        "meal",
+        "boiled rice"
+      ],
+      "words": [
+        {
+          "kanji": "飯",
+          "kana": "めし",
+          "en": "cooked rice"
+        },
+        {
+          "kanji": "ご飯",
+          "kana": "ごはん",
+          "en": "cooked rice"
+        },
+        {
+          "kanji": "残飯",
+          "kana": "ざんぱん",
+          "en": "leftover food"
+        },
+        {
+          "kanji": "赤飯",
+          "kana": "せきはん",
+          "en": "red rice (beans and mochi) for auspicious occasions"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "飯店",
+          "kana": "はんてん",
+          "en": "Chinese restaurant"
+        },
+        "めし": {
+          "kanji": "飯",
+          "kana": "めし",
+          "en": "cooked rice"
+        }
+      }
+    },
+    {
+      "kanji": "養",
+      "on": [
+        "ヨウ",
+        "リョウ"
+      ],
+      "kun": [
+        "やしな.う"
+      ],
+      "meanings": [
+        "foster",
+        "bring up",
+        "rear",
+        "develop"
+      ],
+      "words": [
+        {
+          "kanji": "供養",
+          "kana": "くよう",
+          "en": "memorial service for the dead"
+        },
+        {
+          "kanji": "滋養",
+          "kana": "じよう",
+          "en": "nourishment"
+        },
+        {
+          "kanji": "素養",
+          "kana": "そよう",
+          "en": "grounding (in a skill or subject)"
+        },
+        {
+          "kanji": "保養",
+          "kana": "ほよう",
+          "en": "health preservation"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "養子",
+          "kana": "ようし",
+          "en": "adopted child (usu. male)"
+        },
+        "リョウ": {
+          "kanji": "療養",
+          "kana": "りょうよう",
+          "en": "recuperation"
+        },
+        "やしなう": {
+          "kanji": "養う",
+          "kana": "やしなう",
+          "en": "to support"
+        }
+      }
+    },
+    {
+      "kanji": "香",
+      "on": [
+        "コウ",
+        "キョウ"
+      ],
+      "kun": [
+        "か",
+        "かお.り",
+        "かお.る"
+      ],
+      "meanings": [
+        "incense",
+        "smell",
+        "perfume"
+      ],
+      "words": [
+        {
+          "kanji": "香気",
+          "kana": "こうき",
+          "en": "fragrance"
+        },
+        {
+          "kanji": "香味",
+          "kana": "こうみ",
+          "en": "smell and taste"
+        },
+        {
+          "kanji": "香り",
+          "kana": "かおり",
+          "en": "aroma"
+        },
+        {
+          "kanji": "香る",
+          "kana": "かおる",
+          "en": "to smell sweet"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "香気",
+          "kana": "こうき",
+          "en": "fragrance"
+        },
+        "か": {
+          "kanji": "香り",
+          "kana": "かおり",
+          "en": "aroma"
+        },
+        "かおり": {
+          "kanji": "香り",
+          "kana": "かおり",
+          "en": "aroma"
+        },
+        "かおる": {
+          "kanji": "香る",
+          "kana": "かおる",
+          "en": "to smell sweet"
+        }
+      }
+    },
+    {
+      "kanji": "験",
+      "on": [
+        "ケン",
+        "ゲン"
+      ],
+      "kun": [
+        "あかし",
+        "しるし",
+        "ため.す",
+        "ためし"
+      ],
+      "meanings": [
+        "verification",
+        "effect",
+        "testing"
+      ],
+      "words": [
+        {
+          "kanji": "試験",
+          "kana": "しけん",
+          "en": "examination"
+        },
+        {
+          "kanji": "治験",
+          "kana": "ちけん",
+          "en": "clinical trial"
+        },
+        {
+          "kanji": "経験",
+          "kana": "けいけん",
+          "en": "experience"
+        },
+        {
+          "kanji": "実験",
+          "kana": "じっけん",
+          "en": "experiment"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "鹿",
+      "on": [
+        "ロク"
+      ],
+      "kun": [
+        "しか",
+        "か"
+      ],
+      "meanings": [
+        "deer"
+      ],
+      "words": [
+        {
+          "kanji": "鹿",
+          "kana": "しか",
+          "en": "deer (esp. the sika deer, Cervus nippon)"
+        },
+        {
+          "kanji": "馬鹿",
+          "kana": "ばか",
+          "en": "idiot"
+        },
+        {
+          "kanji": "馬鹿らしい",
+          "kana": "ばからしい",
+          "en": "absurd"
+        }
+      ],
+      "readingExamples": {
+        "しか": {
+          "kanji": "鹿",
+          "kana": "しか",
+          "en": "deer (esp. the sika deer, Cervus nippon)"
+        }
+      }
+    }
+  ],
+  "5": [
+    {
+      "kanji": "久",
+      "on": [
+        "キュウ",
+        "ク"
+      ],
+      "kun": [
+        "ひさ.しい"
+      ],
+      "meanings": [
+        "long time",
+        "old story"
+      ],
+      "words": [
+        {
+          "kanji": "久しい",
+          "kana": "ひさしい",
+          "en": "long (time that has passed)"
+        },
+        {
+          "kanji": "持久",
+          "kana": "じきゅう",
+          "en": "endurance"
+        },
+        {
+          "kanji": "久々",
+          "kana": "ひさびさ",
+          "en": "(in a) long time"
+        },
+        {
+          "kanji": "久しぶり",
+          "kana": "ひさしぶり",
+          "en": "a long time (since the last time)"
+        }
+      ],
+      "readingExamples": {
+        "ク": {
+          "kanji": "久留子",
+          "kana": "クルス",
+          "en": "cross sign"
+        },
+        "ひさしい": {
+          "kanji": "久しい",
+          "kana": "ひさしい",
+          "en": "long (time that has passed)"
+        }
+      }
+    },
+    {
+      "kanji": "仏",
+      "on": [
+        "ブツ",
+        "フツ"
+      ],
+      "kun": [
+        "ほとけ"
+      ],
+      "meanings": [
+        "Buddha",
+        "the dead",
+        "France"
+      ],
+      "words": [
+        {
+          "kanji": "仏",
+          "kana": "ふつ",
+          "en": "France"
+        },
+        {
+          "kanji": "仏",
+          "kana": "ほとけ",
+          "en": "Buddha"
+        },
+        {
+          "kanji": "仏画",
+          "kana": "ぶつが",
+          "en": "Buddhist picture"
+        },
+        {
+          "kanji": "仏間",
+          "kana": "ぶつま",
+          "en": "Buddhist family chapel"
+        }
+      ],
+      "readingExamples": {
+        "ブツ": {
+          "kanji": "仏画",
+          "kana": "ぶつが",
+          "en": "Buddhist picture"
+        },
+        "フツ": {
+          "kanji": "仏",
+          "kana": "ふつ",
+          "en": "France"
+        },
+        "ほとけ": {
+          "kanji": "仏",
+          "kana": "ほとけ",
+          "en": "Buddha"
+        }
+      }
+    },
+    {
+      "kanji": "仮",
+      "on": [
+        "カ",
+        "ケ"
+      ],
+      "kun": [
+        "かり",
+        "かり-"
+      ],
+      "meanings": [
+        "sham",
+        "temporary",
+        "interim",
+        "assumed (name)"
+      ],
+      "words": [
+        {
+          "kanji": "仮",
+          "kana": "かり",
+          "en": "temporary"
+        },
+        {
+          "kanji": "仮死",
+          "kana": "かし",
+          "en": "(state of) apparent death"
+        },
+        {
+          "kanji": "仮名",
+          "kana": "かな",
+          "en": "kana"
+        },
+        {
+          "kanji": "仮に",
+          "kana": "かりに",
+          "en": "supposing"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "仮",
+          "kana": "かり",
+          "en": "temporary"
+        },
+        "かり": {
+          "kanji": "仮",
+          "kana": "かり",
+          "en": "temporary"
+        }
+      }
+    },
+    {
+      "kanji": "件",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "くだん"
+      ],
+      "meanings": [
+        "affair",
+        "case",
+        "matter",
+        "item"
+      ],
+      "words": [
+        {
+          "kanji": "件",
+          "kana": "けん",
+          "en": "matter"
+        },
+        {
+          "kanji": "事件",
+          "kana": "じけん",
+          "en": "event"
+        },
+        {
+          "kanji": "案件",
+          "kana": "あんけん",
+          "en": "matter (to discuss)"
+        },
+        {
+          "kanji": "一件",
+          "kana": "いっけん",
+          "en": "(one) matter"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "件",
+          "kana": "けん",
+          "en": "matter"
+        }
+      }
+    },
+    {
+      "kanji": "任",
+      "on": [
+        "ニン"
+      ],
+      "kun": [
+        "まか.せる",
+        "まか.す"
+      ],
+      "meanings": [
+        "responsibility",
+        "duty",
+        "term",
+        "entrust to"
+      ],
+      "words": [
+        {
+          "kanji": "任",
+          "kana": "にん",
+          "en": "obligation"
+        },
+        {
+          "kanji": "委任",
+          "kana": "いにん",
+          "en": "entrusting"
+        },
+        {
+          "kanji": "帰任",
+          "kana": "きにん",
+          "en": "return to one's post"
+        },
+        {
+          "kanji": "辞任",
+          "kana": "じにん",
+          "en": "resignation (from a position)"
+        }
+      ],
+      "readingExamples": {
+        "ニン": {
+          "kanji": "任",
+          "kana": "にん",
+          "en": "obligation"
+        },
+        "まかせる": {
+          "kanji": "任せる",
+          "kana": "まかせる",
+          "en": "to leave (a matter, decision, etc. to someone)"
+        },
+        "まかす": {
+          "kanji": "任す",
+          "kana": "まかす",
+          "en": "to entrust (to someone)"
+        }
+      }
+    },
+    {
+      "kanji": "似",
+      "on": [
+        "ジ"
+      ],
+      "kun": [
+        "に.る",
+        "ひ.る"
+      ],
+      "meanings": [
+        "becoming",
+        "resemble",
+        "counterfeit",
+        "imitate"
+      ],
+      "words": [
+        {
+          "kanji": "似る",
+          "kana": "にる",
+          "en": "to resemble"
+        },
+        {
+          "kanji": "真似",
+          "kana": "まね",
+          "en": "imitating"
+        },
+        {
+          "kanji": "疑似",
+          "kana": "ぎじ",
+          "en": "pseudo"
+        },
+        {
+          "kanji": "似せる",
+          "kana": "にせる",
+          "en": "to copy"
+        }
+      ],
+      "readingExamples": {
+        "にる": {
+          "kanji": "似る",
+          "kana": "にる",
+          "en": "to resemble"
+        }
+      }
+    },
+    {
+      "kanji": "余",
+      "on": [
+        "ヨ"
+      ],
+      "kun": [
+        "あま.る",
+        "あま.り",
+        "あま.す",
+        "あんま.り"
+      ],
+      "meanings": [
+        "too much",
+        "myself",
+        "surplus",
+        "other"
+      ],
+      "words": [
+        {
+          "kanji": "余技",
+          "kana": "よぎ",
+          "en": "avocation"
+        },
+        {
+          "kanji": "余地",
+          "kana": "よち",
+          "en": "space"
+        },
+        {
+          "kanji": "余波",
+          "kana": "よは",
+          "en": "waves that remain after the wind has subsided"
+        },
+        {
+          "kanji": "余所",
+          "kana": "よそ",
+          "en": "another place"
+        }
+      ],
+      "readingExamples": {
+        "ヨ": {
+          "kanji": "余暇",
+          "kana": "よか",
+          "en": "leisure"
+        },
+        "あまる": {
+          "kanji": "余る",
+          "kana": "あまる",
+          "en": "to remain"
+        },
+        "あまり": {
+          "kanji": "余り",
+          "kana": "あまり",
+          "en": "remainder"
+        },
+        "あます": {
+          "kanji": "余す",
+          "kana": "あます",
+          "en": "to save"
+        }
+      }
+    },
+    {
+      "kanji": "価",
+      "on": [
+        "カ",
+        "ケ"
+      ],
+      "kun": [
+        "あたい"
+      ],
+      "meanings": [
+        "value",
+        "price"
+      ],
+      "words": [
+        {
+          "kanji": "価値",
+          "kana": "かち",
+          "en": "value"
+        },
+        {
+          "kanji": "市価",
+          "kana": "しか",
+          "en": "market price"
+        },
+        {
+          "kanji": "時価",
+          "kana": "じか",
+          "en": "current value"
+        },
+        {
+          "kanji": "地価",
+          "kana": "ちか",
+          "en": "the price of land"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "価値",
+          "kana": "かち",
+          "en": "value"
+        }
+      }
+    },
+    {
+      "kanji": "保",
+      "on": [
+        "ホ",
+        "ホウ"
+      ],
+      "kun": [
+        "たも.つ"
+      ],
+      "meanings": [
+        "protect",
+        "guarantee",
+        "keep",
+        "preserve"
+      ],
+      "words": [
+        {
+          "kanji": "保護",
+          "kana": "ほご",
+          "en": "protection"
+        },
+        {
+          "kanji": "保持",
+          "kana": "ほじ",
+          "en": "retention"
+        },
+        {
+          "kanji": "保母",
+          "kana": "ほぼ",
+          "en": "(female) childcare worker"
+        },
+        {
+          "kanji": "安保",
+          "kana": "あんぽ",
+          "en": "security (e.g. national security)"
+        }
+      ],
+      "readingExamples": {
+        "ホ": {
+          "kanji": "保護",
+          "kana": "ほご",
+          "en": "protection"
+        },
+        "たもつ": {
+          "kanji": "保つ",
+          "kana": "たもつ",
+          "en": "to keep"
+        }
+      }
+    },
+    {
+      "kanji": "修",
+      "on": [
+        "シュウ",
+        "シュ"
+      ],
+      "kun": [
+        "おさ.める",
+        "おさ.まる"
+      ],
+      "meanings": [
+        "discipline",
+        "conduct oneself well",
+        "study",
+        "master"
+      ],
+      "words": [
+        {
+          "kanji": "修める",
+          "kana": "おさめる",
+          "en": "to study"
+        },
+        {
+          "kanji": "修士",
+          "kana": "しゅうし",
+          "en": "master's (degree)"
+        },
+        {
+          "kanji": "修辞",
+          "kana": "しゅうじ",
+          "en": "figure of speech"
+        },
+        {
+          "kanji": "修理",
+          "kana": "しゅうり",
+          "en": "repair"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "修士",
+          "kana": "しゅうし",
+          "en": "master's (degree)"
+        },
+        "シュ": {
+          "kanji": "修羅",
+          "kana": "しゅら",
+          "en": "Asura"
+        },
+        "おさめる": {
+          "kanji": "修める",
+          "kana": "おさめる",
+          "en": "to study"
+        }
+      }
+    },
+    {
+      "kanji": "個",
+      "on": [
+        "コ",
+        "カ"
+      ],
+      "kun": [],
+      "meanings": [
+        "individual",
+        "counter for articles"
+      ],
+      "words": [
+        {
+          "kanji": "個",
+          "kana": "こ",
+          "en": "counter for (small) things or pieces"
+        },
+        {
+          "kanji": "個々",
+          "kana": "ここ",
+          "en": "individual"
+        },
+        {
+          "kanji": "一個",
+          "kana": "いっこ",
+          "en": "one (thing)"
+        },
+        {
+          "kanji": "個室",
+          "kana": "こしつ",
+          "en": "single (room)"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "個",
+          "kana": "こ",
+          "en": "counter for (small) things or pieces"
+        }
+      }
+    },
+    {
+      "kanji": "停",
+      "on": [
+        "テイ"
+      ],
+      "kun": [
+        "と.める",
+        "と.まる"
+      ],
+      "meanings": [
+        "halt",
+        "stopping"
+      ],
+      "words": [
+        {
+          "kanji": "停止",
+          "kana": "ていし",
+          "en": "stoppage"
+        },
+        {
+          "kanji": "バス停",
+          "kana": "バスてい",
+          "en": "bus stop"
+        },
+        {
+          "kanji": "停学",
+          "kana": "ていがく",
+          "en": "suspension from school"
+        },
+        {
+          "kanji": "停車",
+          "kana": "ていしゃ",
+          "en": "stopping (of a train, car, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "停止",
+          "kana": "ていし",
+          "en": "stoppage"
+        }
+      }
+    },
+    {
+      "kanji": "備",
+      "on": [
+        "ビ"
+      ],
+      "kun": [
+        "そな.える",
+        "そな.わる",
+        "つぶさ.に"
+      ],
+      "meanings": [
+        "equip",
+        "provision",
+        "preparation"
+      ],
+      "words": [
+        {
+          "kanji": "不備",
+          "kana": "ふび",
+          "en": "defect"
+        },
+        {
+          "kanji": "予備",
+          "kana": "よび",
+          "en": "reserve"
+        },
+        {
+          "kanji": "完備",
+          "kana": "かんび",
+          "en": "being fully equipped"
+        },
+        {
+          "kanji": "軍備",
+          "kana": "ぐんび",
+          "en": "armaments"
+        }
+      ],
+      "readingExamples": {
+        "ビ": {
+          "kanji": "備考",
+          "kana": "びこう",
+          "en": "note (for reference)"
+        },
+        "そなえる": {
+          "kanji": "備える",
+          "kana": "そなえる",
+          "en": "to furnish with"
+        },
+        "そなわる": {
+          "kanji": "備わる",
+          "kana": "そなわる",
+          "en": "to be furnished with"
+        }
+      }
+    },
+    {
+      "kanji": "像",
+      "on": [
+        "ゾウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "statue",
+        "picture",
+        "image",
+        "figure"
+      ],
+      "words": [
+        {
+          "kanji": "像",
+          "kana": "ぞう",
+          "en": "image"
+        },
+        {
+          "kanji": "画像",
+          "kana": "がぞう",
+          "en": "image"
+        },
+        {
+          "kanji": "映像",
+          "kana": "えいぞう",
+          "en": "image (on a screen)"
+        },
+        {
+          "kanji": "群像",
+          "kana": "ぐんぞう",
+          "en": "lively group (esp. of young people)"
+        }
+      ],
+      "readingExamples": {
+        "ゾウ": {
+          "kanji": "像",
+          "kana": "ぞう",
+          "en": "image"
+        }
+      }
+    },
+    {
+      "kanji": "再",
+      "on": [
+        "サイ",
+        "サ"
+      ],
+      "kun": [
+        "ふたた.び"
+      ],
+      "meanings": [
+        "again",
+        "twice",
+        "second time"
+      ],
+      "words": [
+        {
+          "kanji": "再",
+          "kana": "さい",
+          "en": "re-"
+        },
+        {
+          "kanji": "再起",
+          "kana": "さいき",
+          "en": "comeback"
+        },
+        {
+          "kanji": "再度",
+          "kana": "さいど",
+          "en": "a second time"
+        },
+        {
+          "kanji": "再び",
+          "kana": "ふたたび",
+          "en": "again"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "再",
+          "kana": "さい",
+          "en": "re-"
+        },
+        "サ": {
+          "kanji": "再",
+          "kana": "さい",
+          "en": "re-"
+        },
+        "ふたたび": {
+          "kanji": "再び",
+          "kana": "ふたたび",
+          "en": "again"
+        }
+      }
+    },
+    {
+      "kanji": "刊",
+      "on": [
+        "カン"
+      ],
+      "kun": [],
+      "meanings": [
+        "publish",
+        "carve",
+        "engrave"
+      ],
+      "words": [
+        {
+          "kanji": "季刊",
+          "kana": "きかん",
+          "en": "quarterly publication"
+        },
+        {
+          "kanji": "刊行",
+          "kana": "かんこう",
+          "en": "publication"
+        },
+        {
+          "kanji": "近刊",
+          "kana": "きんかん",
+          "en": "forthcoming publication"
+        },
+        {
+          "kanji": "月刊",
+          "kana": "げっかん",
+          "en": "monthly publication"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "刊行",
+          "kana": "かんこう",
+          "en": "publication"
+        }
+      }
+    },
+    {
+      "kanji": "判",
+      "on": [
+        "ハン",
+        "バン"
+      ],
+      "kun": [
+        "わか.る"
+      ],
+      "meanings": [
+        "judgement",
+        "judgment",
+        "signature",
+        "stamp"
+      ],
+      "words": [
+        {
+          "kanji": "判",
+          "kana": "はん",
+          "en": "seal"
+        },
+        {
+          "kanji": "小判",
+          "kana": "こばん",
+          "en": "koban"
+        },
+        {
+          "kanji": "判子",
+          "kana": "はんこ",
+          "en": "seal (used in lieu of a signature)"
+        },
+        {
+          "kanji": "判事",
+          "kana": "はんじ",
+          "en": "judge"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "判",
+          "kana": "はん",
+          "en": "seal"
+        }
+      }
+    },
+    {
+      "kanji": "制",
+      "on": [
+        "セイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "system",
+        "law",
+        "rule"
+      ],
+      "words": [
+        {
+          "kanji": "制",
+          "kana": "せい",
+          "en": "system"
+        },
+        {
+          "kanji": "規制",
+          "kana": "きせい",
+          "en": "regulation"
+        },
+        {
+          "kanji": "市制",
+          "kana": "しせい",
+          "en": "municipal organization"
+        },
+        {
+          "kanji": "自制",
+          "kana": "じせい",
+          "en": "self-control"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "制",
+          "kana": "せい",
+          "en": "system"
+        }
+      }
+    },
+    {
+      "kanji": "則",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "のっと.る",
+        "のり",
+        "すなわち"
+      ],
+      "meanings": [
+        "rule",
+        "law",
+        "follow",
+        "based on"
+      ],
+      "words": [
+        {
+          "kanji": "規則",
+          "kana": "きそく",
+          "en": "rule"
+        },
+        {
+          "kanji": "付則",
+          "kana": "ふそく",
+          "en": "additional rules"
+        },
+        {
+          "kanji": "会則",
+          "kana": "かいそく",
+          "en": "society regulations"
+        },
+        {
+          "kanji": "学則",
+          "kana": "がくそく",
+          "en": "school regulations"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "効",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "き.く",
+        "ききめ",
+        "なら.う"
+      ],
+      "meanings": [
+        "merit",
+        "efficacy",
+        "efficiency",
+        "benefit"
+      ],
+      "words": [
+        {
+          "kanji": "効",
+          "kana": "こう",
+          "en": "efficacy"
+        },
+        {
+          "kanji": "効く",
+          "kana": "きく",
+          "en": "to be effective"
+        },
+        {
+          "kanji": "効果",
+          "kana": "こうか",
+          "en": "effect"
+        },
+        {
+          "kanji": "時効",
+          "kana": "じこう",
+          "en": "statute of limitations"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "効",
+          "kana": "こう",
+          "en": "efficacy"
+        },
+        "きく": {
+          "kanji": "効く",
+          "kana": "きく",
+          "en": "to be effective"
+        },
+        "ききめ": {
+          "kanji": "効き目",
+          "kana": "ききめ",
+          "en": "effect"
+        }
+      }
+    },
+    {
+      "kanji": "務",
+      "on": [
+        "ム"
+      ],
+      "kun": [
+        "つと.める"
+      ],
+      "meanings": [
+        "task",
+        "duties"
+      ],
+      "words": [
+        {
+          "kanji": "医務",
+          "kana": "いむ",
+          "en": "medical affairs"
+        },
+        {
+          "kanji": "義務",
+          "kana": "ぎむ",
+          "en": "duty"
+        },
+        {
+          "kanji": "事務",
+          "kana": "じむ",
+          "en": "office work"
+        },
+        {
+          "kanji": "外務",
+          "kana": "がいむ",
+          "en": "foreign affairs"
+        }
+      ],
+      "readingExamples": {
+        "つとめる": {
+          "kanji": "務める",
+          "kana": "つとめる",
+          "en": "to serve as"
+        }
+      }
+    },
+    {
+      "kanji": "勢",
+      "on": [
+        "セイ",
+        "ゼイ"
+      ],
+      "kun": [
+        "いきお.い",
+        "はずみ"
+      ],
+      "meanings": [
+        "forces",
+        "energy",
+        "military strength"
+      ],
+      "words": [
+        {
+          "kanji": "勢",
+          "kana": "ぜい",
+          "en": "group (of people, competitors, companies, etc.)"
+        },
+        {
+          "kanji": "加勢",
+          "kana": "かせい",
+          "en": "assistance"
+        },
+        {
+          "kanji": "火勢",
+          "kana": "かせい",
+          "en": "force of a fire"
+        },
+        {
+          "kanji": "気勢",
+          "kana": "きせい",
+          "en": "fervour"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "勢ぞろい",
+          "kana": "せいぞろい",
+          "en": "assembling (in full force)"
+        },
+        "ゼイ": {
+          "kanji": "勢",
+          "kana": "ぜい",
+          "en": "group (of people, competitors, companies, etc.)"
+        },
+        "いきおい": {
+          "kanji": "勢い",
+          "kana": "いきおい",
+          "en": "force"
+        }
+      }
+    },
+    {
+      "kanji": "厚",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "あつ.い",
+        "あか"
+      ],
+      "meanings": [
+        "thick",
+        "heavy",
+        "rich",
+        "kind"
+      ],
+      "words": [
+        {
+          "kanji": "厚い",
+          "kana": "あつい",
+          "en": "thick"
+        },
+        {
+          "kanji": "厚さ",
+          "kana": "あつさ",
+          "en": "thickness"
+        },
+        {
+          "kanji": "厚意",
+          "kana": "こうい",
+          "en": "kindness (shown by others)"
+        },
+        {
+          "kanji": "厚手",
+          "kana": "あつで",
+          "en": "thick (paper, cloth, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "厚意",
+          "kana": "こうい",
+          "en": "kindness (shown by others)"
+        },
+        "あつい": {
+          "kanji": "厚い",
+          "kana": "あつい",
+          "en": "thick"
+        }
+      }
+    },
+    {
+      "kanji": "句",
+      "on": [
+        "ク"
+      ],
+      "kun": [],
+      "meanings": [
+        "phrase",
+        "clause",
+        "sentence",
+        "passage"
+      ],
+      "words": [
+        {
+          "kanji": "句",
+          "kana": "く",
+          "en": "section (i.e. of text)"
+        },
+        {
+          "kanji": "語句",
+          "kana": "ごく",
+          "en": "words and phrases"
+        },
+        {
+          "kanji": "詩句",
+          "kana": "しく",
+          "en": "verse"
+        },
+        {
+          "kanji": "字句",
+          "kana": "じく",
+          "en": "wording"
+        }
+      ],
+      "readingExamples": {
+        "ク": {
+          "kanji": "句",
+          "kana": "く",
+          "en": "section (i.e. of text)"
+        }
+      }
+    },
+    {
+      "kanji": "可",
+      "on": [
+        "カ",
+        "コク"
+      ],
+      "kun": [
+        "-べ.き",
+        "-べ.し"
+      ],
+      "meanings": [
+        "can",
+        "passable",
+        "approval"
+      ],
+      "words": [
+        {
+          "kanji": "可",
+          "kana": "か",
+          "en": "acceptable"
+        },
+        {
+          "kanji": "可き",
+          "kana": "べき",
+          "en": "should"
+        },
+        {
+          "kanji": "可視",
+          "kana": "かし",
+          "en": "visibility"
+        },
+        {
+          "kanji": "可否",
+          "kana": "かひ",
+          "en": "propriety"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "可",
+          "kana": "か",
+          "en": "acceptable"
+        },
+        "べき": {
+          "kanji": "可き",
+          "kana": "べき",
+          "en": "should"
+        }
+      }
+    },
+    {
+      "kanji": "史",
+      "on": [
+        "シ"
+      ],
+      "kun": [],
+      "meanings": [
+        "history",
+        "chronicle"
+      ],
+      "words": [
+        {
+          "kanji": "史",
+          "kana": "し",
+          "en": "history"
+        },
+        {
+          "kanji": "史家",
+          "kana": "しか",
+          "en": "historian"
+        },
+        {
+          "kanji": "国史",
+          "kana": "こくし",
+          "en": "history of a nation"
+        },
+        {
+          "kanji": "史学",
+          "kana": "しがく",
+          "en": "study of history"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "史",
+          "kana": "し",
+          "en": "history"
+        }
+      }
+    },
+    {
+      "kanji": "告",
+      "on": [
+        "コク"
+      ],
+      "kun": [
+        "つ.げる"
+      ],
+      "meanings": [
+        "revelation",
+        "tell",
+        "inform",
+        "announce"
+      ],
+      "words": [
+        {
+          "kanji": "告げる",
+          "kana": "つげる",
+          "en": "to tell"
+        },
+        {
+          "kanji": "告示",
+          "kana": "こくじ",
+          "en": "notice"
+        },
+        {
+          "kanji": "告知",
+          "kana": "こくち",
+          "en": "notice"
+        },
+        {
+          "kanji": "布告",
+          "kana": "ふこく",
+          "en": "edict"
+        }
+      ],
+      "readingExamples": {
+        "コク": {
+          "kanji": "告示",
+          "kana": "こくじ",
+          "en": "notice"
+        },
+        "つげる": {
+          "kanji": "告げる",
+          "kana": "つげる",
+          "en": "to tell"
+        }
+      }
+    },
+    {
+      "kanji": "喜",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "よろこ.ぶ",
+        "よろこ.ばす"
+      ],
+      "meanings": [
+        "rejoice",
+        "take pleasure in"
+      ],
+      "words": [
+        {
+          "kanji": "悲喜",
+          "kana": "ひき",
+          "en": "joys and sorrows"
+        },
+        {
+          "kanji": "喜劇",
+          "kana": "きげき",
+          "en": "comedy"
+        },
+        {
+          "kanji": "喜ぶ",
+          "kana": "よろこぶ",
+          "en": "to be delighted"
+        },
+        {
+          "kanji": "喜び",
+          "kana": "よろこび",
+          "en": "joy"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "喜劇",
+          "kana": "きげき",
+          "en": "comedy"
+        },
+        "よろこぶ": {
+          "kanji": "喜ぶ",
+          "kana": "よろこぶ",
+          "en": "to be delighted"
+        },
+        "よろこばす": {
+          "kanji": "喜ばす",
+          "kana": "よろこばす",
+          "en": "to delight"
+        }
+      }
+    },
+    {
+      "kanji": "営",
+      "on": [
+        "エイ"
+      ],
+      "kun": [
+        "いとな.む",
+        "いとな.み"
+      ],
+      "meanings": [
+        "camp",
+        "perform",
+        "build",
+        "conduct (business)"
+      ],
+      "words": [
+        {
+          "kanji": "営利",
+          "kana": "えいり",
+          "en": "money-making"
+        },
+        {
+          "kanji": "市営",
+          "kana": "しえい",
+          "en": "(under) municipal management (transport, housing, etc.)"
+        },
+        {
+          "kanji": "自営",
+          "kana": "じえい",
+          "en": "running one's own business"
+        },
+        {
+          "kanji": "野営",
+          "kana": "やえい",
+          "en": "camping"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "営利",
+          "kana": "えいり",
+          "en": "money-making"
+        },
+        "いとなむ": {
+          "kanji": "営む",
+          "kana": "いとなむ",
+          "en": "to run (a business)"
+        },
+        "いとなみ": {
+          "kanji": "営み",
+          "kana": "いとなみ",
+          "en": "activity"
+        }
+      }
+    },
+    {
+      "kanji": "因",
+      "on": [
+        "イン"
+      ],
+      "kun": [
+        "よ.る",
+        "ちな.む"
+      ],
+      "meanings": [
+        "cause",
+        "factor",
+        "be associated with",
+        "depend on"
+      ],
+      "words": [
+        {
+          "kanji": "因",
+          "kana": "いん",
+          "en": "cause"
+        },
+        {
+          "kanji": "因果",
+          "kana": "いんが",
+          "en": "cause and effect"
+        },
+        {
+          "kanji": "因子",
+          "kana": "いんし",
+          "en": "factor"
+        },
+        {
+          "kanji": "起因",
+          "kana": "きいん",
+          "en": "to be caused by"
+        }
+      ],
+      "readingExamples": {
+        "イン": {
+          "kanji": "因",
+          "kana": "いん",
+          "en": "cause"
+        }
+      }
+    },
+    {
+      "kanji": "団",
+      "on": [
+        "ダン",
+        "トン"
+      ],
+      "kun": [
+        "かたまり",
+        "まる.い"
+      ],
+      "meanings": [
+        "group",
+        "association"
+      ],
+      "words": [
+        {
+          "kanji": "師団",
+          "kana": "しだん",
+          "en": "(army) division"
+        },
+        {
+          "kanji": "団子",
+          "kana": "だんご",
+          "en": "dango"
+        },
+        {
+          "kanji": "団地",
+          "kana": "だんち",
+          "en": "multi-unit apartments"
+        },
+        {
+          "kanji": "布団",
+          "kana": "ふとん",
+          "en": "futon"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "団子",
+          "kana": "だんご",
+          "en": "dango"
+        }
+      }
+    },
+    {
+      "kanji": "囲",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "かこ.む",
+        "かこ.う",
+        "かこ.い"
+      ],
+      "meanings": [
+        "surround",
+        "besiege",
+        "store",
+        "paling"
+      ],
+      "words": [
+        {
+          "kanji": "囲い",
+          "kana": "かこい",
+          "en": "enclosure"
+        },
+        {
+          "kanji": "囲う",
+          "kana": "かこう",
+          "en": "to enclose"
+        },
+        {
+          "kanji": "囲む",
+          "kana": "かこむ",
+          "en": "to surround"
+        },
+        {
+          "kanji": "包囲",
+          "kana": "ほうい",
+          "en": "siege"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "囲碁",
+          "kana": "いご",
+          "en": "go (board game)"
+        },
+        "かこむ": {
+          "kanji": "囲む",
+          "kana": "かこむ",
+          "en": "to surround"
+        },
+        "かこう": {
+          "kanji": "囲う",
+          "kana": "かこう",
+          "en": "to enclose"
+        },
+        "かこい": {
+          "kanji": "囲い",
+          "kana": "かこい",
+          "en": "enclosure"
+        }
+      }
+    },
+    {
+      "kanji": "圧",
+      "on": [
+        "アツ",
+        "エン",
+        "オウ"
+      ],
+      "kun": [
+        "お.す",
+        "へ.す",
+        "おさ.える",
+        "お.さえる"
+      ],
+      "meanings": [
+        "pressure",
+        "push",
+        "overwhelm",
+        "oppress"
+      ],
+      "words": [
+        {
+          "kanji": "圧死",
+          "kana": "あっし",
+          "en": "death by crushing"
+        },
+        {
+          "kanji": "加圧",
+          "kana": "かあつ",
+          "en": "pressurization"
+        },
+        {
+          "kanji": "気圧",
+          "kana": "きあつ",
+          "en": "atmospheric pressure"
+        },
+        {
+          "kanji": "指圧",
+          "kana": "しあつ",
+          "en": "shiatsu"
+        }
+      ],
+      "readingExamples": {
+        "アツ": {
+          "kanji": "圧延",
+          "kana": "あつえん",
+          "en": "rolling"
+        }
+      }
+    },
+    {
+      "kanji": "在",
+      "on": [
+        "ザイ"
+      ],
+      "kun": [
+        "あ.る"
+      ],
+      "meanings": [
+        "exist",
+        "outskirts",
+        "suburbs",
+        "located in"
+      ],
+      "words": [
+        {
+          "kanji": "在位",
+          "kana": "ざいい",
+          "en": "reign"
+        },
+        {
+          "kanji": "在庫",
+          "kana": "ざいこ",
+          "en": "stock"
+        },
+        {
+          "kanji": "自在",
+          "kana": "じざい",
+          "en": "being able to do as one pleases"
+        },
+        {
+          "kanji": "不在",
+          "kana": "ふざい",
+          "en": "absence"
+        }
+      ],
+      "readingExamples": {
+        "ザイ": {
+          "kanji": "在位",
+          "kana": "ざいい",
+          "en": "reign"
+        }
+      }
+    },
+    {
+      "kanji": "均",
+      "on": [
+        "キン"
+      ],
+      "kun": [
+        "なら.す"
+      ],
+      "meanings": [
+        "level",
+        "average"
+      ],
+      "words": [
+        {
+          "kanji": "均一",
+          "kana": "きんいつ",
+          "en": "uniformity"
+        },
+        {
+          "kanji": "均質",
+          "kana": "きんしつ",
+          "en": "homogeneous"
+        },
+        {
+          "kanji": "均整",
+          "kana": "きんせい",
+          "en": "symmetry"
+        },
+        {
+          "kanji": "均等",
+          "kana": "きんとう",
+          "en": "equal (distribution, treatment, level, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "均一",
+          "kana": "きんいつ",
+          "en": "uniformity"
+        }
+      }
+    },
+    {
+      "kanji": "型",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [
+        "かた",
+        "-がた"
+      ],
+      "meanings": [
+        "mould",
+        "type",
+        "model"
+      ],
+      "words": [
+        {
+          "kanji": "型",
+          "kana": "かた",
+          "en": "type"
+        },
+        {
+          "kanji": "模型",
+          "kana": "もけい",
+          "en": "model"
+        },
+        {
+          "kanji": "小型",
+          "kana": "こがた",
+          "en": "small-sized"
+        },
+        {
+          "kanji": "型録",
+          "kana": "カタログ",
+          "en": "catalog"
+        }
+      ],
+      "readingExamples": {
+        "かた": {
+          "kanji": "型",
+          "kana": "かた",
+          "en": "type"
+        }
+      }
+    },
+    {
+      "kanji": "基",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "もと",
+        "もとい"
+      ],
+      "meanings": [
+        "fundamentals",
+        "radical (chem)",
+        "counter for machines",
+        "foundation"
+      ],
+      "words": [
+        {
+          "kanji": "基地",
+          "kana": "きち",
+          "en": "base (military, expedition, etc.)"
+        },
+        {
+          "kanji": "基部",
+          "kana": "きぶ",
+          "en": "base"
+        },
+        {
+          "kanji": "塩基",
+          "kana": "えんき",
+          "en": "base"
+        },
+        {
+          "kanji": "基幹",
+          "kana": "きかん",
+          "en": "mainstay"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "基礎",
+          "kana": "きそ",
+          "en": "foundation"
+        },
+        "もと": {
+          "kanji": "基づく",
+          "kana": "もとづく",
+          "en": "to be based (on)"
+        }
+      }
+    },
+    {
+      "kanji": "堂",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "public chamber",
+        "hall"
+      ],
+      "words": [
+        {
+          "kanji": "堂",
+          "kana": "どう",
+          "en": "temple"
+        },
+        {
+          "kanji": "一堂",
+          "kana": "いちどう",
+          "en": "one building (hall, temple, shrine, room)"
+        },
+        {
+          "kanji": "会堂",
+          "kana": "かいどう",
+          "en": "church"
+        },
+        {
+          "kanji": "講堂",
+          "kana": "こうどう",
+          "en": "auditorium"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "堂",
+          "kana": "どう",
+          "en": "temple"
+        }
+      }
+    },
+    {
+      "kanji": "報",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "むく.いる"
+      ],
+      "meanings": [
+        "report",
+        "news",
+        "reward",
+        "retribution"
+      ],
+      "words": [
+        {
+          "kanji": "報",
+          "kana": "ほう",
+          "en": "information"
+        },
+        {
+          "kanji": "誤報",
+          "kana": "ごほう",
+          "en": "false report"
+        },
+        {
+          "kanji": "時報",
+          "kana": "じほう",
+          "en": "announcement of time"
+        },
+        {
+          "kanji": "悲報",
+          "kana": "ひほう",
+          "en": "sad news"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "報",
+          "kana": "ほう",
+          "en": "information"
+        },
+        "むくいる": {
+          "kanji": "報いる",
+          "kana": "むくいる",
+          "en": "to reward"
+        }
+      }
+    },
+    {
+      "kanji": "境",
+      "on": [
+        "キョウ",
+        "ケイ"
+      ],
+      "kun": [
+        "さかい"
+      ],
+      "meanings": [
+        "boundary",
+        "border",
+        "region"
+      ],
+      "words": [
+        {
+          "kanji": "境",
+          "kana": "さかい",
+          "en": "border"
+        },
+        {
+          "kanji": "境地",
+          "kana": "きょうち",
+          "en": "state (of mind)"
+        },
+        {
+          "kanji": "境内",
+          "kana": "けいだい",
+          "en": "grounds (esp. of shrines and temples)"
+        },
+        {
+          "kanji": "境目",
+          "kana": "さかいめ",
+          "en": "borderline"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "境地",
+          "kana": "きょうち",
+          "en": "state (of mind)"
+        },
+        "ケイ": {
+          "kanji": "境内",
+          "kana": "けいだい",
+          "en": "grounds (esp. of shrines and temples)"
+        },
+        "さかい": {
+          "kanji": "境",
+          "kana": "さかい",
+          "en": "border"
+        }
+      }
+    },
+    {
+      "kanji": "墓",
+      "on": [
+        "ボ"
+      ],
+      "kun": [
+        "はか"
+      ],
+      "meanings": [
+        "grave",
+        "tomb"
+      ],
+      "words": [
+        {
+          "kanji": "墓",
+          "kana": "はか",
+          "en": "grave"
+        },
+        {
+          "kanji": "墓地",
+          "kana": "ぼち",
+          "en": "cemetery"
+        },
+        {
+          "kanji": "墓穴",
+          "kana": "ぼけつ",
+          "en": "grave (pit)"
+        },
+        {
+          "kanji": "墓石",
+          "kana": "ぼせき",
+          "en": "tombstone"
+        }
+      ],
+      "readingExamples": {
+        "ボ": {
+          "kanji": "墓碑",
+          "kana": "ぼひ",
+          "en": "gravestone"
+        },
+        "はか": {
+          "kanji": "墓",
+          "kana": "はか",
+          "en": "grave"
+        }
+      }
+    },
+    {
+      "kanji": "増",
+      "on": [
+        "ゾウ"
+      ],
+      "kun": [
+        "ま.す",
+        "ま.し",
+        "ふ.える",
+        "ふ.やす"
+      ],
+      "meanings": [
+        "increase",
+        "add",
+        "augment",
+        "gain"
+      ],
+      "words": [
+        {
+          "kanji": "増す",
+          "kana": "ます",
+          "en": "to increase"
+        },
+        {
+          "kanji": "増し",
+          "kana": "まし",
+          "en": "better"
+        },
+        {
+          "kanji": "増やし",
+          "kana": "ふやし",
+          "en": "increase"
+        },
+        {
+          "kanji": "増加",
+          "kana": "ぞうか",
+          "en": "increase"
+        }
+      ],
+      "readingExamples": {
+        "ゾウ": {
+          "kanji": "増加",
+          "kana": "ぞうか",
+          "en": "increase"
+        },
+        "ます": {
+          "kanji": "増す",
+          "kana": "ます",
+          "en": "to increase"
+        },
+        "まし": {
+          "kanji": "増し",
+          "kana": "まし",
+          "en": "better"
+        },
+        "ふえる": {
+          "kanji": "増える",
+          "kana": "ふえる",
+          "en": "to increase"
+        },
+        "ふやす": {
+          "kanji": "増やす",
+          "kana": "ふやす",
+          "en": "to increase"
+        }
+      }
+    },
+    {
+      "kanji": "士",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "さむらい"
+      ],
+      "meanings": [
+        "gentleman",
+        "scholar",
+        "samurai",
+        "samurai radical (no. 33)"
+      ],
+      "words": [
+        {
+          "kanji": "士気",
+          "kana": "しき",
+          "en": "morale (of troops, team, etc.)"
+        },
+        {
+          "kanji": "志士",
+          "kana": "しし",
+          "en": "imperial loyalist samurai of the Bakumatsu-era"
+        },
+        {
+          "kanji": "武士",
+          "kana": "ぶし",
+          "en": "samurai"
+        },
+        {
+          "kanji": "居士",
+          "kana": "こじ",
+          "en": "grhapati (layman; sometimes used as a posthumous suffix)"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "士気",
+          "kana": "しき",
+          "en": "morale (of troops, team, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "夢",
+      "on": [
+        "ム",
+        "ボウ"
+      ],
+      "kun": [
+        "ゆめ",
+        "ゆめ.みる",
+        "くら.い"
+      ],
+      "meanings": [
+        "dream",
+        "vision",
+        "illusion"
+      ],
+      "words": [
+        {
+          "kanji": "夢",
+          "kana": "ゆめ",
+          "en": "dream"
+        },
+        {
+          "kanji": "悪夢",
+          "kana": "あくむ",
+          "en": "nightmare"
+        },
+        {
+          "kanji": "夢想",
+          "kana": "むそう",
+          "en": "dream"
+        },
+        {
+          "kanji": "夢見",
+          "kana": "ゆめみ",
+          "en": "having a dream"
+        }
+      ],
+      "readingExamples": {
+        "ム": {
+          "kanji": "夢幻",
+          "kana": "むげん",
+          "en": "dreams"
+        },
+        "ゆめ": {
+          "kanji": "夢",
+          "kana": "ゆめ",
+          "en": "dream"
+        },
+        "ゆめみる": {
+          "kanji": "夢見る",
+          "kana": "ゆめみる",
+          "en": "to dream (of)"
+        }
+      }
+    },
+    {
+      "kanji": "妻",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "つま"
+      ],
+      "meanings": [
+        "wife",
+        "spouse"
+      ],
+      "words": [
+        {
+          "kanji": "妻",
+          "kana": "つま",
+          "en": "wife"
+        },
+        {
+          "kanji": "後妻",
+          "kana": "ごさい",
+          "en": "second wife"
+        },
+        {
+          "kanji": "妻子",
+          "kana": "さいし",
+          "en": "wife and children"
+        },
+        {
+          "kanji": "夫妻",
+          "kana": "ふさい",
+          "en": "husband and wife"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "妻子",
+          "kana": "さいし",
+          "en": "wife and children"
+        },
+        "つま": {
+          "kanji": "妻",
+          "kana": "つま",
+          "en": "wife"
+        }
+      }
+    },
+    {
+      "kanji": "婦",
+      "on": [
+        "フ"
+      ],
+      "kun": [
+        "よめ"
+      ],
+      "meanings": [
+        "lady",
+        "woman",
+        "wife",
+        "bride"
+      ],
+      "words": [
+        {
+          "kanji": "主婦",
+          "kana": "しゅふ",
+          "en": "housewife"
+        },
+        {
+          "kanji": "新婦",
+          "kana": "しんぷ",
+          "en": "bride"
+        },
+        {
+          "kanji": "婦警",
+          "kana": "ふけい",
+          "en": "policewoman"
+        },
+        {
+          "kanji": "婦女",
+          "kana": "ふじょ",
+          "en": "woman"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "婦警",
+          "kana": "ふけい",
+          "en": "policewoman"
+        }
+      }
+    },
+    {
+      "kanji": "容",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "い.れる"
+      ],
+      "meanings": [
+        "contain",
+        "form",
+        "looks"
+      ],
+      "words": [
+        {
+          "kanji": "美容",
+          "kana": "びよう",
+          "en": "beauty"
+        },
+        {
+          "kanji": "容易",
+          "kana": "ようい",
+          "en": "easy"
+        },
+        {
+          "kanji": "容器",
+          "kana": "ようき",
+          "en": "container"
+        },
+        {
+          "kanji": "容疑",
+          "kana": "ようぎ",
+          "en": "suspicion"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "容易",
+          "kana": "ようい",
+          "en": "easy"
+        }
+      }
+    },
+    {
+      "kanji": "寄",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "よ.る",
+        "-よ.り",
+        "よ.せる"
+      ],
+      "meanings": [
+        "draw near",
+        "stop in",
+        "bring near",
+        "gather"
+      ],
+      "words": [
+        {
+          "kanji": "寄せ",
+          "kana": "よせ",
+          "en": "yose"
+        },
+        {
+          "kanji": "寄る",
+          "kana": "よる",
+          "en": "to approach"
+        },
+        {
+          "kanji": "寄席",
+          "kana": "よせ",
+          "en": "entertainment hall (for rakugo, manzai, magic, music, etc.)"
+        },
+        {
+          "kanji": "数寄",
+          "kana": "すき",
+          "en": "refined taste"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "寄与",
+          "kana": "きよ",
+          "en": "contribution"
+        },
+        "よる": {
+          "kanji": "寄る",
+          "kana": "よる",
+          "en": "to approach"
+        },
+        "より": {
+          "kanji": "寄り合い",
+          "kana": "よりあい",
+          "en": "meeting"
+        },
+        "よせる": {
+          "kanji": "寄せる",
+          "kana": "よせる",
+          "en": "to come near"
+        }
+      }
+    },
+    {
+      "kanji": "導",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "みちび.く"
+      ],
+      "meanings": [
+        "guidance",
+        "leading",
+        "conduct",
+        "usher"
+      ],
+      "words": [
+        {
+          "kanji": "指導",
+          "kana": "しどう",
+          "en": "guidance"
+        },
+        {
+          "kanji": "補導",
+          "kana": "ほどう",
+          "en": "guidance"
+        },
+        {
+          "kanji": "引導",
+          "kana": "いんどう",
+          "en": "last words recited to the newly departed"
+        },
+        {
+          "kanji": "主導",
+          "kana": "しゅどう",
+          "en": "leadership"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "導火線",
+          "kana": "どうかせん",
+          "en": "fuse"
+        },
+        "みちびく": {
+          "kanji": "導く",
+          "kana": "みちびく",
+          "en": "to guide"
+        }
+      }
+    },
+    {
+      "kanji": "居",
+      "on": [
+        "キョ",
+        "コ"
+      ],
+      "kun": [
+        "い.る",
+        "-い",
+        "お.る"
+      ],
+      "meanings": [
+        "reside",
+        "to be",
+        "exist",
+        "live with"
+      ],
+      "words": [
+        {
+          "kanji": "居間",
+          "kana": "いま",
+          "en": "living room (Western style)"
+        },
+        {
+          "kanji": "居る",
+          "kana": "いる",
+          "en": "to be (of animate objects)"
+        },
+        {
+          "kanji": "居る",
+          "kana": "おる",
+          "en": "to be (animate)"
+        },
+        {
+          "kanji": "居士",
+          "kana": "こじ",
+          "en": "grhapati (layman; sometimes used as a posthumous suffix)"
+        }
+      ],
+      "readingExamples": {
+        "キョ": {
+          "kanji": "居室",
+          "kana": "きょしつ",
+          "en": "living room"
+        },
+        "コ": {
+          "kanji": "居士",
+          "kana": "こじ",
+          "en": "grhapati (layman; sometimes used as a posthumous suffix)"
+        },
+        "いる": {
+          "kanji": "居る",
+          "kana": "いる",
+          "en": "to be (of animate objects)"
+        },
+        "い": {
+          "kanji": "居間",
+          "kana": "いま",
+          "en": "living room (Western style)"
+        },
+        "おる": {
+          "kanji": "居る",
+          "kana": "おる",
+          "en": "to be (animate)"
+        }
+      }
+    },
+    {
+      "kanji": "属",
+      "on": [
+        "ゾク",
+        "ショク"
+      ],
+      "kun": [
+        "さかん",
+        "つく",
+        "やから"
+      ],
+      "meanings": [
+        "belong",
+        "genus",
+        "subordinate official",
+        "affiliated"
+      ],
+      "words": [
+        {
+          "kanji": "帰属",
+          "kana": "きぞく",
+          "en": "belonging"
+        },
+        {
+          "kanji": "付属",
+          "kana": "ふぞく",
+          "en": "being attached (to)"
+        },
+        {
+          "kanji": "金属",
+          "kana": "きんぞく",
+          "en": "metal"
+        },
+        {
+          "kanji": "軍属",
+          "kana": "ぐんぞく",
+          "en": "civilian in military employ"
+        }
+      ],
+      "readingExamples": {
+        "ゾク": {
+          "kanji": "属する",
+          "kana": "ぞくする",
+          "en": "to belong to"
+        }
+      }
+    },
+    {
+      "kanji": "布",
+      "on": [
+        "フ",
+        "ホ"
+      ],
+      "kun": [
+        "ぬの",
+        "し.く",
+        "きれ"
+      ],
+      "meanings": [
+        "linen",
+        "cloth",
+        "spread",
+        "distribute"
+      ],
+      "words": [
+        {
+          "kanji": "画布",
+          "kana": "がふ",
+          "en": "(oil painting) canvas"
+        },
+        {
+          "kanji": "布",
+          "kana": "ぬの",
+          "en": "cloth"
+        },
+        {
+          "kanji": "流布",
+          "kana": "るふ",
+          "en": "circulation"
+        },
+        {
+          "kanji": "絹布",
+          "kana": "けんぷ",
+          "en": "silk"
+        }
+      ],
+      "readingExamples": {
+        "フ": {
+          "kanji": "布施",
+          "kana": "ふせ",
+          "en": "alms-giving"
+        },
+        "ぬの": {
+          "kanji": "布",
+          "kana": "ぬの",
+          "en": "cloth"
+        }
+      }
+    },
+    {
+      "kanji": "師",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "いくさ"
+      ],
+      "meanings": [
+        "expert",
+        "teacher",
+        "master",
+        "model"
+      ],
+      "words": [
+        {
+          "kanji": "医師",
+          "kana": "いし",
+          "en": "doctor"
+        },
+        {
+          "kanji": "技師",
+          "kana": "ぎし",
+          "en": "engineer"
+        },
+        {
+          "kanji": "師事",
+          "kana": "しじ",
+          "en": "studying under"
+        },
+        {
+          "kanji": "絵師",
+          "kana": "えし",
+          "en": "painter"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "師事",
+          "kana": "しじ",
+          "en": "studying under"
+        }
+      }
+    },
+    {
+      "kanji": "常",
+      "on": [
+        "ジョウ"
+      ],
+      "kun": [
+        "つね",
+        "とこ-"
+      ],
+      "meanings": [
+        "usual",
+        "ordinary",
+        "normal",
+        "common"
+      ],
+      "words": [
+        {
+          "kanji": "常",
+          "kana": "つね",
+          "en": "usual state of things"
+        },
+        {
+          "kanji": "常に",
+          "kana": "つねに",
+          "en": "always"
+        },
+        {
+          "kanji": "異常",
+          "kana": "いじょう",
+          "en": "abnormal"
+        },
+        {
+          "kanji": "常時",
+          "kana": "じょうじ",
+          "en": "usually"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "常軌",
+          "kana": "じょうき",
+          "en": "normal course (of action)"
+        },
+        "つね": {
+          "kanji": "常",
+          "kana": "つね",
+          "en": "usual state of things"
+        },
+        "とこ": {
+          "kanji": "常夏",
+          "kana": "とこなつ",
+          "en": "everlasting summer"
+        }
+      }
+    },
+    {
+      "kanji": "幹",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "みき"
+      ],
+      "meanings": [
+        "tree trunk",
+        "main part",
+        "talent",
+        "capability"
+      ],
+      "words": [
+        {
+          "kanji": "幹",
+          "kana": "みき",
+          "en": "tree trunk"
+        },
+        {
+          "kanji": "幹事",
+          "kana": "かんじ",
+          "en": "executive secretary"
+        },
+        {
+          "kanji": "幹部",
+          "kana": "かんぶ",
+          "en": "management"
+        },
+        {
+          "kanji": "基幹",
+          "kana": "きかん",
+          "en": "mainstay"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "幹事",
+          "kana": "かんじ",
+          "en": "executive secretary"
+        },
+        "みき": {
+          "kanji": "幹",
+          "kana": "みき",
+          "en": "tree trunk"
+        }
+      }
+    },
+    {
+      "kanji": "序",
+      "on": [
+        "ジョ"
+      ],
+      "kun": [
+        "つい.で",
+        "ついで"
+      ],
+      "meanings": [
+        "preface",
+        "beginning",
+        "order",
+        "precedence"
+      ],
+      "words": [
+        {
+          "kanji": "序で",
+          "kana": "ついで",
+          "en": "opportunity"
+        },
+        {
+          "kanji": "序でに",
+          "kana": "ついでに",
+          "en": "while (one is at it)"
+        },
+        {
+          "kanji": "序説",
+          "kana": "じょせつ",
+          "en": "introduction"
+        },
+        {
+          "kanji": "序文",
+          "kana": "じょぶん",
+          "en": "preface"
+        }
+      ],
+      "readingExamples": {
+        "ジョ": {
+          "kanji": "序説",
+          "kana": "じょせつ",
+          "en": "introduction"
+        },
+        "ついで": {
+          "kanji": "序で",
+          "kana": "ついで",
+          "en": "opportunity"
+        }
+      }
+    },
+    {
+      "kanji": "弁",
+      "on": [
+        "ベン",
+        "ヘン"
+      ],
+      "kun": [
+        "かんむり",
+        "わきま.える",
+        "わ.ける",
+        "はなびら",
+        "あらそ.う"
+      ],
+      "meanings": [
+        "valve",
+        "petal",
+        "braid",
+        "speech"
+      ],
+      "words": [
+        {
+          "kanji": "弁",
+          "kana": "べん",
+          "en": "speech"
+        },
+        {
+          "kanji": "多弁",
+          "kana": "たべん",
+          "en": "talkativeness"
+        },
+        {
+          "kanji": "弁護",
+          "kana": "べんご",
+          "en": "defense"
+        },
+        {
+          "kanji": "弁士",
+          "kana": "べんし",
+          "en": "lecturer"
+        }
+      ],
+      "readingExamples": {
+        "ベン": {
+          "kanji": "弁",
+          "kana": "べん",
+          "en": "speech"
+        },
+        "わきまえる": {
+          "kanji": "弁える",
+          "kana": "わきまえる",
+          "en": "to discern (e.g. right from wrong)"
+        }
+      }
+    },
+    {
+      "kanji": "張",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "は.る",
+        "-は.り",
+        "-ば.り"
+      ],
+      "meanings": [
+        "counter for bows & stringed instruments",
+        "stretch",
+        "spread",
+        "put up (tent)"
+      ],
+      "words": [
+        {
+          "kanji": "張る",
+          "kana": "はる",
+          "en": "to stick"
+        },
+        {
+          "kanji": "張り",
+          "kana": "ばり",
+          "en": "in the style of (esp. literary, artistic, etc. works)"
+        },
+        {
+          "kanji": "見張る",
+          "kana": "みはる",
+          "en": "to stand watch"
+        },
+        {
+          "kanji": "張り子",
+          "kana": "はりこ",
+          "en": "papier-mâché"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "張本人",
+          "kana": "ちょうほんにん",
+          "en": "originator"
+        },
+        "はる": {
+          "kanji": "張る",
+          "kana": "はる",
+          "en": "to stick"
+        },
+        "はり": {
+          "kanji": "張り子",
+          "kana": "はりこ",
+          "en": "papier-mâché"
+        },
+        "ばり": {
+          "kanji": "張り",
+          "kana": "ばり",
+          "en": "in the style of (esp. literary, artistic, etc. works)"
+        }
+      }
+    },
+    {
+      "kanji": "往",
+      "on": [
+        "オウ"
+      ],
+      "kun": [
+        "い.く",
+        "いにしえ",
+        "さき.に",
+        "ゆ.く"
+      ],
+      "meanings": [
+        "journey",
+        "travel",
+        "chase away",
+        "let go"
+      ],
+      "words": [
+        {
+          "kanji": "往時",
+          "kana": "おうじ",
+          "en": "the past"
+        },
+        {
+          "kanji": "往路",
+          "kana": "おうろ",
+          "en": "outward journey"
+        },
+        {
+          "kanji": "往年",
+          "kana": "おうねん",
+          "en": "years gone by"
+        },
+        {
+          "kanji": "往復",
+          "kana": "おうふく",
+          "en": "making a round trip"
+        }
+      ],
+      "readingExamples": {
+        "オウ": {
+          "kanji": "往時",
+          "kana": "おうじ",
+          "en": "the past"
+        }
+      }
+    },
+    {
+      "kanji": "得",
+      "on": [
+        "トク"
+      ],
+      "kun": [
+        "え.る",
+        "う.る"
+      ],
+      "meanings": [
+        "gain",
+        "get",
+        "find",
+        "earn"
+      ],
+      "words": [
+        {
+          "kanji": "得",
+          "kana": "とく",
+          "en": "profit"
+        },
+        {
+          "kanji": "得る",
+          "kana": "うる",
+          "en": "to be able to ..."
+        },
+        {
+          "kanji": "得る",
+          "kana": "える",
+          "en": "to get"
+        },
+        {
+          "kanji": "お得",
+          "kana": "おとく",
+          "en": "good-value"
+        }
+      ],
+      "readingExamples": {
+        "トク": {
+          "kanji": "得",
+          "kana": "とく",
+          "en": "profit"
+        },
+        "える": {
+          "kanji": "得る",
+          "kana": "える",
+          "en": "to get"
+        },
+        "うる": {
+          "kanji": "得る",
+          "kana": "うる",
+          "en": "to be able to ..."
+        }
+      }
+    },
+    {
+      "kanji": "復",
+      "on": [
+        "フク"
+      ],
+      "kun": [
+        "また"
+      ],
+      "meanings": [
+        "restore",
+        "return to",
+        "revert",
+        "resume"
+      ],
+      "words": [
+        {
+          "kanji": "復帰",
+          "kana": "ふっき",
+          "en": "return"
+        },
+        {
+          "kanji": "復古",
+          "kana": "ふっこ",
+          "en": "revival"
+        },
+        {
+          "kanji": "往復",
+          "kana": "おうふく",
+          "en": "making a round trip"
+        },
+        {
+          "kanji": "回復",
+          "kana": "かいふく",
+          "en": "restoration"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "復元",
+          "kana": "ふくげん",
+          "en": "restoration (to the original state or location)"
+        }
+      }
+    },
+    {
+      "kanji": "志",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "シリング",
+        "こころざ.す",
+        "こころざし"
+      ],
+      "meanings": [
+        "intention",
+        "plan",
+        "resolve",
+        "aspire"
+      ],
+      "words": [
+        {
+          "kanji": "意志",
+          "kana": "いし",
+          "en": "will"
+        },
+        {
+          "kanji": "遺志",
+          "kana": "いし",
+          "en": "wishes of a deceased person"
+        },
+        {
+          "kanji": "志士",
+          "kana": "しし",
+          "en": "imperial loyalist samurai of the Bakumatsu-era"
+        },
+        {
+          "kanji": "志願",
+          "kana": "しがん",
+          "en": "aspiration"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "志士",
+          "kana": "しし",
+          "en": "imperial loyalist samurai of the Bakumatsu-era"
+        },
+        "こころざす": {
+          "kanji": "志す",
+          "kana": "こころざす",
+          "en": "to aspire to"
+        },
+        "こころざし": {
+          "kanji": "志",
+          "kana": "こころざし",
+          "en": "will"
+        }
+      }
+    },
+    {
+      "kanji": "応",
+      "on": [
+        "オウ",
+        "ヨウ",
+        "-ノウ"
+      ],
+      "kun": [
+        "あた.る",
+        "まさに",
+        "こた.える"
+      ],
+      "meanings": [
+        "apply",
+        "answer",
+        "yes",
+        "OK"
+      ],
+      "words": [
+        {
+          "kanji": "呼応",
+          "kana": "こおう",
+          "en": "hailing each other"
+        },
+        {
+          "kanji": "一応",
+          "kana": "いちおう",
+          "en": "more or less"
+        },
+        {
+          "kanji": "応える",
+          "kana": "こたえる",
+          "en": "to respond"
+        },
+        {
+          "kanji": "応じる",
+          "kana": "おうじる",
+          "en": "to respond"
+        }
+      ],
+      "readingExamples": {
+        "オウ": {
+          "kanji": "応募",
+          "kana": "おうぼ",
+          "en": "application"
+        },
+        "こたえる": {
+          "kanji": "応える",
+          "kana": "こたえる",
+          "en": "to respond"
+        }
+      }
+    },
+    {
+      "kanji": "快",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "こころよ.い"
+      ],
+      "meanings": [
+        "cheerful",
+        "pleasant",
+        "agreeable",
+        "comfortable"
+      ],
+      "words": [
+        {
+          "kanji": "不快",
+          "kana": "ふかい",
+          "en": "displeasure"
+        },
+        {
+          "kanji": "快打",
+          "kana": "かいだ",
+          "en": "clean hit"
+        },
+        {
+          "kanji": "快楽",
+          "kana": "かいらく",
+          "en": "pleasure"
+        },
+        {
+          "kanji": "快活",
+          "kana": "かいかつ",
+          "en": "cheerful"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "快打",
+          "kana": "かいだ",
+          "en": "clean hit"
+        },
+        "こころよい": {
+          "kanji": "快い",
+          "kana": "こころよい",
+          "en": "pleasant"
+        }
+      }
+    },
+    {
+      "kanji": "性",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "さが"
+      ],
+      "meanings": [
+        "sex",
+        "gender",
+        "nature"
+      ],
+      "words": [
+        {
+          "kanji": "性",
+          "kana": "せい",
+          "en": "nature (of a person)"
+        },
+        {
+          "kanji": "異性",
+          "kana": "いせい",
+          "en": "the opposite sex"
+        },
+        {
+          "kanji": "個性",
+          "kana": "こせい",
+          "en": "individuality"
+        },
+        {
+          "kanji": "磁性",
+          "kana": "じせい",
+          "en": "magnetism"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "性",
+          "kana": "せい",
+          "en": "nature (of a person)"
+        },
+        "ショウ": {
+          "kanji": "性根",
+          "kana": "しょうね",
+          "en": "nature"
+        }
+      }
+    },
+    {
+      "kanji": "情",
+      "on": [
+        "ジョウ",
+        "セイ"
+      ],
+      "kun": [
+        "なさ.け"
+      ],
+      "meanings": [
+        "feelings",
+        "emotion",
+        "passion",
+        "sympathy"
+      ],
+      "words": [
+        {
+          "kanji": "情",
+          "kana": "じょう",
+          "en": "feelings"
+        },
+        {
+          "kanji": "情け",
+          "kana": "なさけ",
+          "en": "pity"
+        },
+        {
+          "kanji": "風情",
+          "kana": "ふぜい",
+          "en": "taste"
+        },
+        {
+          "kanji": "苦情",
+          "kana": "くじょう",
+          "en": "complaint"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "情",
+          "kana": "じょう",
+          "en": "feelings"
+        },
+        "セイ": {
+          "kanji": "政情",
+          "kana": "せいじょう",
+          "en": "political situation"
+        },
+        "なさけ": {
+          "kanji": "情け",
+          "kana": "なさけ",
+          "en": "pity"
+        }
+      }
+    },
+    {
+      "kanji": "態",
+      "on": [
+        "タイ"
+      ],
+      "kun": [
+        "わざ.と"
+      ],
+      "meanings": [
+        "attitude",
+        "condition",
+        "figure",
+        "appearance"
+      ],
+      "words": [
+        {
+          "kanji": "態",
+          "kana": "たい",
+          "en": "condition"
+        },
+        {
+          "kanji": "態と",
+          "kana": "わざと",
+          "en": "on purpose"
+        },
+        {
+          "kanji": "態度",
+          "kana": "たいど",
+          "en": "attitude"
+        },
+        {
+          "kanji": "事態",
+          "kana": "じたい",
+          "en": "situation"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "態",
+          "kana": "たい",
+          "en": "condition"
+        },
+        "わざと": {
+          "kanji": "態と",
+          "kana": "わざと",
+          "en": "on purpose"
+        }
+      }
+    },
+    {
+      "kanji": "慣",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "な.れる",
+        "な.らす"
+      ],
+      "meanings": [
+        "accustomed",
+        "get used to",
+        "become experienced"
+      ],
+      "words": [
+        {
+          "kanji": "慣れ",
+          "kana": "なれ",
+          "en": "practice"
+        },
+        {
+          "kanji": "慣らす",
+          "kana": "ならす",
+          "en": "to accustom"
+        },
+        {
+          "kanji": "慣れる",
+          "kana": "なれる",
+          "en": "to get used to"
+        },
+        {
+          "kanji": "不慣れ",
+          "kana": "ふなれ",
+          "en": "inexperienced"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "慣行",
+          "kana": "かんこう",
+          "en": "customary practice"
+        },
+        "なれる": {
+          "kanji": "慣れる",
+          "kana": "なれる",
+          "en": "to get used to"
+        },
+        "ならす": {
+          "kanji": "慣らす",
+          "kana": "ならす",
+          "en": "to accustom"
+        }
+      }
+    },
+    {
+      "kanji": "技",
+      "on": [
+        "ギ"
+      ],
+      "kun": [
+        "わざ"
+      ],
+      "meanings": [
+        "skill",
+        "art",
+        "craft",
+        "ability"
+      ],
+      "words": [
+        {
+          "kanji": "技",
+          "kana": "わざ",
+          "en": "technique"
+        },
+        {
+          "kanji": "技師",
+          "kana": "ぎし",
+          "en": "engineer"
+        },
+        {
+          "kanji": "余技",
+          "kana": "よぎ",
+          "en": "avocation"
+        },
+        {
+          "kanji": "演技",
+          "kana": "えんぎ",
+          "en": "acting"
+        }
+      ],
+      "readingExamples": {
+        "ギ": {
+          "kanji": "技師",
+          "kana": "ぎし",
+          "en": "engineer"
+        },
+        "わざ": {
+          "kanji": "技",
+          "kana": "わざ",
+          "en": "technique"
+        }
+      }
+    },
+    {
+      "kanji": "招",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "まね.く"
+      ],
+      "meanings": [
+        "beckon",
+        "invite",
+        "summon",
+        "engage"
+      ],
+      "words": [
+        {
+          "kanji": "招き",
+          "kana": "まねき",
+          "en": "invitation"
+        },
+        {
+          "kanji": "招く",
+          "kana": "まねく",
+          "en": "to invite"
+        },
+        {
+          "kanji": "手招き",
+          "kana": "てまねき",
+          "en": "beckoning"
+        },
+        {
+          "kanji": "招待",
+          "kana": "しょうたい",
+          "en": "invitation"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "招致",
+          "kana": "しょうち",
+          "en": "invitation"
+        },
+        "まねく": {
+          "kanji": "招く",
+          "kana": "まねく",
+          "en": "to invite"
+        }
+      }
+    },
+    {
+      "kanji": "授",
+      "on": [
+        "ジュ"
+      ],
+      "kun": [
+        "さず.ける",
+        "さず.かる"
+      ],
+      "meanings": [
+        "impart",
+        "instruct",
+        "grant",
+        "confer"
+      ],
+      "words": [
+        {
+          "kanji": "授かる",
+          "kana": "さずかる",
+          "en": "to be awarded (e.g. a prize)"
+        },
+        {
+          "kanji": "授ける",
+          "kana": "さずける",
+          "en": "to grant"
+        },
+        {
+          "kanji": "授受",
+          "kana": "じゅじゅ",
+          "en": "giving and receiving"
+        },
+        {
+          "kanji": "伝授",
+          "kana": "でんじゅ",
+          "en": "(giving) instruction (esp. in the secrets of an art, discipline, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ジュ": {
+          "kanji": "授与",
+          "kana": "じゅよ",
+          "en": "awarding"
+        },
+        "さずける": {
+          "kanji": "授ける",
+          "kana": "さずける",
+          "en": "to grant"
+        },
+        "さずかる": {
+          "kanji": "授かる",
+          "kana": "さずかる",
+          "en": "to be awarded (e.g. a prize)"
+        }
+      }
+    },
+    {
+      "kanji": "採",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "と.る"
+      ],
+      "meanings": [
+        "pick",
+        "take",
+        "fetch",
+        "take up"
+      ],
+      "words": [
+        {
+          "kanji": "採る",
+          "kana": "とる",
+          "en": "to adopt (a method, proposal, etc.)"
+        },
+        {
+          "kanji": "採否",
+          "kana": "さいひ",
+          "en": "adoption or rejection"
+        },
+        {
+          "kanji": "採決",
+          "kana": "さいけつ",
+          "en": "vote"
+        },
+        {
+          "kanji": "採血",
+          "kana": "さいけつ",
+          "en": "drawing blood"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "採否",
+          "kana": "さいひ",
+          "en": "adoption or rejection"
+        },
+        "とる": {
+          "kanji": "採る",
+          "kana": "とる",
+          "en": "to adopt (a method, proposal, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "接",
+      "on": [
+        "セツ",
+        "ショウ"
+      ],
+      "kun": [
+        "つ.ぐ"
+      ],
+      "meanings": [
+        "touch",
+        "contact",
+        "adjoin",
+        "piece together"
+      ],
+      "words": [
+        {
+          "kanji": "接地",
+          "kana": "せっち",
+          "en": "ground"
+        },
+        {
+          "kanji": "接ぎ木",
+          "kana": "つぎき",
+          "en": "grafting"
+        },
+        {
+          "kanji": "応接",
+          "kana": "おうせつ",
+          "en": "reception (e.g. of visitors)"
+        },
+        {
+          "kanji": "間接",
+          "kana": "かんせつ",
+          "en": "indirection"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "接合",
+          "kana": "せつごう",
+          "en": "union"
+        }
+      }
+    },
+    {
+      "kanji": "提",
+      "on": [
+        "テイ",
+        "チョウ",
+        "ダイ"
+      ],
+      "kun": [
+        "さ.げる"
+      ],
+      "meanings": [
+        "propose",
+        "take along",
+        "carry in hand"
+      ],
+      "words": [
+        {
+          "kanji": "手提げ",
+          "kana": "てさげ",
+          "en": "handbag"
+        },
+        {
+          "kanji": "提げる",
+          "kana": "さげる",
+          "en": "to take along"
+        },
+        {
+          "kanji": "提起",
+          "kana": "ていき",
+          "en": "raising (a question)"
+        },
+        {
+          "kanji": "提示",
+          "kana": "ていじ",
+          "en": "presentation (of a passport, ID, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "提起",
+          "kana": "ていき",
+          "en": "raising (a question)"
+        },
+        "チョウ": {
+          "kanji": "提灯",
+          "kana": "ちょうちん",
+          "en": "paper lantern"
+        },
+        "ダイ": {
+          "kanji": "大前提",
+          "kana": "だいぜんてい",
+          "en": "important condition"
+        },
+        "さげる": {
+          "kanji": "提げる",
+          "kana": "さげる",
+          "en": "to take along"
+        }
+      }
+    },
+    {
+      "kanji": "損",
+      "on": [
+        "ソン"
+      ],
+      "kun": [
+        "そこ.なう",
+        "そこな.う",
+        "-そこ.なう",
+        "そこ.ねる",
+        "-そこ.ねる"
+      ],
+      "meanings": [
+        "damage",
+        "loss",
+        "disadvantage",
+        "hurt"
+      ],
+      "words": [
+        {
+          "kanji": "損",
+          "kana": "そん",
+          "en": "loss"
+        },
+        {
+          "kanji": "損じ",
+          "kana": "そんじ",
+          "en": "slip"
+        },
+        {
+          "kanji": "破損",
+          "kana": "はそん",
+          "en": "damage"
+        },
+        {
+          "kanji": "欠損",
+          "kana": "けっそん",
+          "en": "deficit"
+        }
+      ],
+      "readingExamples": {
+        "ソン": {
+          "kanji": "損",
+          "kana": "そん",
+          "en": "loss"
+        },
+        "そこなう": {
+          "kanji": "損なう",
+          "kana": "そこなう",
+          "en": "to harm"
+        },
+        "そこねる": {
+          "kanji": "損ねる",
+          "kana": "そこねる",
+          "en": "to harm"
+        }
+      }
+    },
+    {
+      "kanji": "支",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "ささ.える",
+        "つか.える",
+        "か.う"
+      ],
+      "meanings": [
+        "branch",
+        "support",
+        "sustain",
+        "branch radical (no. 65)"
+      ],
+      "words": [
+        {
+          "kanji": "支持",
+          "kana": "しじ",
+          "en": "support"
+        },
+        {
+          "kanji": "支部",
+          "kana": "しぶ",
+          "en": "branch"
+        },
+        {
+          "kanji": "干支",
+          "kana": "えと",
+          "en": "sexagenary cycle"
+        },
+        {
+          "kanji": "支社",
+          "kana": "ししゃ",
+          "en": "branch office"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "支持",
+          "kana": "しじ",
+          "en": "support"
+        },
+        "ささえる": {
+          "kanji": "支える",
+          "kana": "ささえる",
+          "en": "to support"
+        }
+      }
+    },
+    {
+      "kanji": "政",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "まつりごと",
+        "まん"
+      ],
+      "meanings": [
+        "politics",
+        "government"
+      ],
+      "words": [
+        {
+          "kanji": "家政",
+          "kana": "かせい",
+          "en": "household economy"
+        },
+        {
+          "kanji": "市政",
+          "kana": "しせい",
+          "en": "municipal government"
+        },
+        {
+          "kanji": "政治",
+          "kana": "せいじ",
+          "en": "politics"
+        },
+        {
+          "kanji": "政府",
+          "kana": "せいふ",
+          "en": "government"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "政治",
+          "kana": "せいじ",
+          "en": "politics"
+        },
+        "まつりごと": {
+          "kanji": "政",
+          "kana": "まつりごと",
+          "en": "rule"
+        }
+      }
+    },
+    {
+      "kanji": "故",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "ゆえ",
+        "ふる.い",
+        "もと"
+      ],
+      "meanings": [
+        "happenstance",
+        "especially",
+        "intentionally",
+        "reason"
+      ],
+      "words": [
+        {
+          "kanji": "故意",
+          "kana": "こい",
+          "en": "intent"
+        },
+        {
+          "kanji": "故事",
+          "kana": "こじ",
+          "en": "historical event"
+        },
+        {
+          "kanji": "事故",
+          "kana": "じこ",
+          "en": "accident"
+        },
+        {
+          "kanji": "何故",
+          "kana": "なぜ",
+          "en": "why"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "故意",
+          "kana": "こい",
+          "en": "intent"
+        },
+        "ゆえ": {
+          "kanji": "故に",
+          "kana": "ゆえに",
+          "en": "therefore"
+        }
+      }
+    },
+    {
+      "kanji": "救",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "すく.う"
+      ],
+      "meanings": [
+        "salvation",
+        "save",
+        "help",
+        "rescue"
+      ],
+      "words": [
+        {
+          "kanji": "救い",
+          "kana": "すくい",
+          "en": "help"
+        },
+        {
+          "kanji": "救う",
+          "kana": "すくう",
+          "en": "to rescue (someone)"
+        },
+        {
+          "kanji": "救護",
+          "kana": "きゅうご",
+          "en": "relief"
+        },
+        {
+          "kanji": "救済",
+          "kana": "きゅうさい",
+          "en": "relief"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "救護",
+          "kana": "きゅうご",
+          "en": "relief"
+        },
+        "すくう": {
+          "kanji": "救う",
+          "kana": "すくう",
+          "en": "to rescue (someone)"
+        }
+      }
+    },
+    {
+      "kanji": "断",
+      "on": [
+        "ダン"
+      ],
+      "kun": [
+        "た.つ",
+        "ことわ.る",
+        "さだ.める"
+      ],
+      "meanings": [
+        "severance",
+        "decline",
+        "refuse",
+        "apologize"
+      ],
+      "words": [
+        {
+          "kanji": "断つ",
+          "kana": "たつ",
+          "en": "to sever"
+        },
+        {
+          "kanji": "断",
+          "kana": "だん",
+          "en": "decision"
+        },
+        {
+          "kanji": "果断",
+          "kana": "かだん",
+          "en": "decisive"
+        },
+        {
+          "kanji": "断固",
+          "kana": "だんこ",
+          "en": "firm"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "断",
+          "kana": "だん",
+          "en": "decision"
+        },
+        "たつ": {
+          "kanji": "断つ",
+          "kana": "たつ",
+          "en": "to sever"
+        },
+        "ことわる": {
+          "kanji": "断る",
+          "kana": "ことわる",
+          "en": "to refuse"
+        }
+      }
+    },
+    {
+      "kanji": "旧",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "ふる.い",
+        "もと"
+      ],
+      "meanings": [
+        "old times",
+        "old things",
+        "old friend",
+        "former"
+      ],
+      "words": [
+        {
+          "kanji": "旧",
+          "kana": "きゅう",
+          "en": "old"
+        },
+        {
+          "kanji": "旧家",
+          "kana": "きゅうか",
+          "en": "old family"
+        },
+        {
+          "kanji": "旧知",
+          "kana": "きゅうち",
+          "en": "old friend"
+        },
+        {
+          "kanji": "旧都",
+          "kana": "きゅうと",
+          "en": "old capital"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "旧",
+          "kana": "きゅう",
+          "en": "old"
+        }
+      }
+    },
+    {
+      "kanji": "易",
+      "on": [
+        "エキ",
+        "イ"
+      ],
+      "kun": [
+        "やさ.しい",
+        "やす.い"
+      ],
+      "meanings": [
+        "easy",
+        "ready to",
+        "simple",
+        "fortune-telling"
+      ],
+      "words": [
+        {
+          "kanji": "易",
+          "kana": "えき",
+          "en": "type of cleromancy divination (described in the Book of Changes) performed with long sticks"
+        },
+        {
+          "kanji": "安易",
+          "kana": "あんい",
+          "en": "easy"
+        },
+        {
+          "kanji": "易い",
+          "kana": "やすい",
+          "en": "easy"
+        },
+        {
+          "kanji": "簡易",
+          "kana": "かんい",
+          "en": "simple"
+        }
+      ],
+      "readingExamples": {
+        "エキ": {
+          "kanji": "易",
+          "kana": "えき",
+          "en": "type of cleromancy divination (described in the Book of Changes) performed with long sticks"
+        },
+        "やさしい": {
+          "kanji": "易しい",
+          "kana": "やさしい",
+          "en": "easy"
+        },
+        "やすい": {
+          "kanji": "易い",
+          "kana": "やすい",
+          "en": "easy"
+        }
+      }
+    },
+    {
+      "kanji": "暴",
+      "on": [
+        "ボウ",
+        "バク"
+      ],
+      "kun": [
+        "あば.く",
+        "あば.れる"
+      ],
+      "meanings": [
+        "outburst",
+        "rave",
+        "fret",
+        "force"
+      ],
+      "words": [
+        {
+          "kanji": "暴徒",
+          "kana": "ぼうと",
+          "en": "rioters"
+        },
+        {
+          "kanji": "暴利",
+          "kana": "ぼうり",
+          "en": "excessive profits"
+        },
+        {
+          "kanji": "横暴",
+          "kana": "おうぼう",
+          "en": "violence"
+        },
+        {
+          "kanji": "暴れる",
+          "kana": "あばれる",
+          "en": "to act violently"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "暴徒",
+          "kana": "ぼうと",
+          "en": "rioters"
+        },
+        "バク": {
+          "kanji": "暴露",
+          "kana": "ばくろ",
+          "en": "disclosure"
+        },
+        "あばれる": {
+          "kanji": "暴れる",
+          "kana": "あばれる",
+          "en": "to act violently"
+        }
+      }
+    },
+    {
+      "kanji": "条",
+      "on": [
+        "ジョウ",
+        "チョウ",
+        "デキ"
+      ],
+      "kun": [
+        "えだ",
+        "すじ"
+      ],
+      "meanings": [
+        "article",
+        "clause",
+        "counter for articles, clauses, paragraphs, etc.",
+        "twig"
+      ],
+      "words": [
+        {
+          "kanji": "発条",
+          "kana": "ばね",
+          "en": "spring (device)"
+        },
+        {
+          "kanji": "条理",
+          "kana": "じょうり",
+          "en": "reason"
+        },
+        {
+          "kanji": "一条",
+          "kana": "いちじょう",
+          "en": "one line"
+        },
+        {
+          "kanji": "条件",
+          "kana": "じょうけん",
+          "en": "condition"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "条理",
+          "kana": "じょうり",
+          "en": "reason"
+        }
+      }
+    },
+    {
+      "kanji": "枝",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "えだ"
+      ],
+      "meanings": [
+        "bough",
+        "branch",
+        "twig",
+        "limb"
+      ],
+      "words": [
+        {
+          "kanji": "枝",
+          "kana": "えだ",
+          "en": "branch"
+        },
+        {
+          "kanji": "小枝",
+          "kana": "こえだ",
+          "en": "twig"
+        },
+        {
+          "kanji": "枝葉",
+          "kana": "えだは",
+          "en": "branches and leaves"
+        },
+        {
+          "kanji": "枝豆",
+          "kana": "えだまめ",
+          "en": "edamame (green soybeans)"
+        }
+      ],
+      "readingExamples": {
+        "えだ": {
+          "kanji": "枝",
+          "kana": "えだ",
+          "en": "branch"
+        }
+      }
+    },
+    {
+      "kanji": "査",
+      "on": [
+        "サ"
+      ],
+      "kun": [],
+      "meanings": [
+        "investigate"
+      ],
+      "words": [
+        {
+          "kanji": "検査",
+          "kana": "けんさ",
+          "en": "inspection (e.g. customs, factory)"
+        },
+        {
+          "kanji": "考査",
+          "kana": "こうさ",
+          "en": "examination"
+        },
+        {
+          "kanji": "査察",
+          "kana": "ささつ",
+          "en": "inspection (for compliance)"
+        },
+        {
+          "kanji": "査定",
+          "kana": "さてい",
+          "en": "assessment (of value, damages, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "サ": {
+          "kanji": "査察",
+          "kana": "ささつ",
+          "en": "inspection (for compliance)"
+        }
+      }
+    },
+    {
+      "kanji": "格",
+      "on": [
+        "カク",
+        "コウ",
+        "キャク",
+        "ゴウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "status",
+        "rank",
+        "capacity",
+        "character"
+      ],
+      "words": [
+        {
+          "kanji": "格",
+          "kana": "かく",
+          "en": "status"
+        },
+        {
+          "kanji": "価格",
+          "kana": "かかく",
+          "en": "price"
+        },
+        {
+          "kanji": "格差",
+          "kana": "かくさ",
+          "en": "qualitative difference"
+        },
+        {
+          "kanji": "格子",
+          "kana": "こうし",
+          "en": "lattice"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "格",
+          "kana": "かく",
+          "en": "status"
+        },
+        "コウ": {
+          "kanji": "格子",
+          "kana": "こうし",
+          "en": "lattice"
+        },
+        "ゴウ": {
+          "kanji": "合格",
+          "kana": "ごうかく",
+          "en": "passing (an exam)"
+        }
+      }
+    },
+    {
+      "kanji": "桜",
+      "on": [
+        "オウ",
+        "ヨウ"
+      ],
+      "kun": [
+        "さくら"
+      ],
+      "meanings": [
+        "cherry"
+      ],
+      "words": [
+        {
+          "kanji": "桜花",
+          "kana": "おうか",
+          "en": "cherry blossom"
+        },
+        {
+          "kanji": "桜",
+          "kana": "さくら",
+          "en": "cherry tree"
+        },
+        {
+          "kanji": "夜桜",
+          "kana": "よざくら",
+          "en": "cherry blossoms at night"
+        },
+        {
+          "kanji": "葉桜",
+          "kana": "はざくら",
+          "en": "cherry tree in leaf"
+        }
+      ],
+      "readingExamples": {
+        "オウ": {
+          "kanji": "桜花",
+          "kana": "おうか",
+          "en": "cherry blossom"
+        },
+        "さくら": {
+          "kanji": "桜",
+          "kana": "さくら",
+          "en": "cherry tree"
+        }
+      }
+    },
+    {
+      "kanji": "検",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "しら.べる"
+      ],
+      "meanings": [
+        "examination",
+        "investigate"
+      ],
+      "words": [
+        {
+          "kanji": "区検",
+          "kana": "くけん",
+          "en": "local prosecutor"
+        },
+        {
+          "kanji": "検査",
+          "kana": "けんさ",
+          "en": "inspection (e.g. customs, factory)"
+        },
+        {
+          "kanji": "検事",
+          "kana": "けんじ",
+          "en": "public prosecutor"
+        },
+        {
+          "kanji": "地検",
+          "kana": "ちけん",
+          "en": "District Public Prosecutor's Office"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "検査",
+          "kana": "けんさ",
+          "en": "inspection (e.g. customs, factory)"
+        }
+      }
+    },
+    {
+      "kanji": "構",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "かま.える",
+        "かま.う"
+      ],
+      "meanings": [
+        "posture",
+        "stance",
+        "appearance",
+        "build"
+      ],
+      "words": [
+        {
+          "kanji": "遺構",
+          "kana": "いこう",
+          "en": "(archaeological) remains"
+        },
+        {
+          "kanji": "機構",
+          "kana": "きこう",
+          "en": "mechanism"
+        },
+        {
+          "kanji": "構う",
+          "kana": "かまう",
+          "en": "to mind"
+        },
+        {
+          "kanji": "構図",
+          "kana": "こうず",
+          "en": "composition (of painting)"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "構図",
+          "kana": "こうず",
+          "en": "composition (of painting)"
+        },
+        "かまえる": {
+          "kanji": "構える",
+          "kana": "かまえる",
+          "en": "to set up (a house, store, etc.)"
+        },
+        "かまう": {
+          "kanji": "構う",
+          "kana": "かまう",
+          "en": "to mind"
+        }
+      }
+    },
+    {
+      "kanji": "武",
+      "on": [
+        "ブ",
+        "ム"
+      ],
+      "kun": [
+        "たけ",
+        "たけ.し"
+      ],
+      "meanings": [
+        "warrior",
+        "military",
+        "chivalry",
+        "arms"
+      ],
+      "words": [
+        {
+          "kanji": "武家",
+          "kana": "ぶけ",
+          "en": "samurai family"
+        },
+        {
+          "kanji": "武器",
+          "kana": "ぶき",
+          "en": "weapon"
+        },
+        {
+          "kanji": "武士",
+          "kana": "ぶし",
+          "en": "samurai"
+        },
+        {
+          "kanji": "武官",
+          "kana": "ぶかん",
+          "en": "military officer"
+        }
+      ],
+      "readingExamples": {
+        "ブ": {
+          "kanji": "武家",
+          "kana": "ぶけ",
+          "en": "samurai family"
+        },
+        "ム": {
+          "kanji": "武者",
+          "kana": "むしゃ",
+          "en": "warrior"
+        }
+      }
+    },
+    {
+      "kanji": "歴",
+      "on": [
+        "レキ",
+        "レッキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "curriculum",
+        "continuation",
+        "passage of time"
+      ],
+      "words": [
+        {
+          "kanji": "歴",
+          "kana": "れき",
+          "en": "experience"
+        },
+        {
+          "kanji": "歴史",
+          "kana": "れきし",
+          "en": "history"
+        },
+        {
+          "kanji": "学歴",
+          "kana": "がくれき",
+          "en": "academic background"
+        },
+        {
+          "kanji": "経歴",
+          "kana": "けいれき",
+          "en": "personal history"
+        }
+      ],
+      "readingExamples": {
+        "レキ": {
+          "kanji": "歴",
+          "kana": "れき",
+          "en": "experience"
+        }
+      }
+    },
+    {
+      "kanji": "殺",
+      "on": [
+        "サツ",
+        "サイ",
+        "セツ"
+      ],
+      "kun": [
+        "ころ.す",
+        "-ごろ.し",
+        "そ.ぐ",
+        "あや.める"
+      ],
+      "meanings": [
+        "kill",
+        "murder",
+        "butcher",
+        "slice off"
+      ],
+      "words": [
+        {
+          "kanji": "殺し",
+          "kana": "ころし",
+          "en": "murder"
+        },
+        {
+          "kanji": "殺す",
+          "kana": "ころす",
+          "en": "to kill"
+        },
+        {
+          "kanji": "殺意",
+          "kana": "さつい",
+          "en": "intent to kill"
+        },
+        {
+          "kanji": "殺気",
+          "kana": "さっき",
+          "en": "thirst for blood"
+        }
+      ],
+      "readingExamples": {
+        "サツ": {
+          "kanji": "殺意",
+          "kana": "さつい",
+          "en": "intent to kill"
+        },
+        "ころす": {
+          "kanji": "殺す",
+          "kana": "ころす",
+          "en": "to kill"
+        }
+      }
+    },
+    {
+      "kanji": "毒",
+      "on": [
+        "ドク"
+      ],
+      "kun": [],
+      "meanings": [
+        "poison",
+        "virus",
+        "venom",
+        "germ"
+      ],
+      "words": [
+        {
+          "kanji": "毒",
+          "kana": "どく",
+          "en": "poison"
+        },
+        {
+          "kanji": "毒素",
+          "kana": "どくそ",
+          "en": "toxin"
+        },
+        {
+          "kanji": "気の毒",
+          "kana": "きのどく",
+          "en": "pitiful"
+        },
+        {
+          "kanji": "毒殺",
+          "kana": "どくさつ",
+          "en": "killing by poisoning"
+        }
+      ],
+      "readingExamples": {
+        "ドク": {
+          "kanji": "毒",
+          "kana": "どく",
+          "en": "poison"
+        }
+      }
+    },
+    {
+      "kanji": "比",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "くら.べる"
+      ],
+      "meanings": [
+        "compare",
+        "race",
+        "ratio",
+        "Philippines"
+      ],
+      "words": [
+        {
+          "kanji": "比",
+          "kana": "ひ",
+          "en": "ratio"
+        },
+        {
+          "kanji": "比べ",
+          "kana": "くらべ",
+          "en": "contest"
+        },
+        {
+          "kanji": "対比",
+          "kana": "たいひ",
+          "en": "contrast"
+        },
+        {
+          "kanji": "比する",
+          "kana": "ひする",
+          "en": "to compare"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "比",
+          "kana": "ひ",
+          "en": "ratio"
+        },
+        "くらべる": {
+          "kanji": "比べる",
+          "kana": "くらべる",
+          "en": "to compare"
+        }
+      }
+    },
+    {
+      "kanji": "永",
+      "on": [
+        "エイ"
+      ],
+      "kun": [
+        "なが.い"
+      ],
+      "meanings": [
+        "eternity",
+        "long",
+        "lengthy"
+      ],
+      "words": [
+        {
+          "kanji": "永遠",
+          "kana": "えいえん",
+          "en": "eternity"
+        },
+        {
+          "kanji": "永世",
+          "kana": "えいせい",
+          "en": "eternity"
+        },
+        {
+          "kanji": "永続",
+          "kana": "えいぞく",
+          "en": "permanence"
+        },
+        {
+          "kanji": "永代",
+          "kana": "えいたい",
+          "en": "permanence"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "永遠",
+          "kana": "えいえん",
+          "en": "eternity"
+        }
+      }
+    },
+    {
+      "kanji": "河",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "かわ"
+      ],
+      "meanings": [
+        "river"
+      ],
+      "words": [
+        {
+          "kanji": "運河",
+          "kana": "うんが",
+          "en": "(navigable) canal"
+        },
+        {
+          "kanji": "黄河",
+          "kana": "こうが",
+          "en": "Yellow River (China)"
+        },
+        {
+          "kanji": "河川",
+          "kana": "かせん",
+          "en": "rivers"
+        },
+        {
+          "kanji": "河童",
+          "kana": "かっぱ",
+          "en": "kappa"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "河川",
+          "kana": "かせん",
+          "en": "rivers"
+        },
+        "かわ": {
+          "kanji": "河原",
+          "kana": "かわら",
+          "en": "dry riverbed"
+        }
+      }
+    },
+    {
+      "kanji": "液",
+      "on": [
+        "エキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "fluid",
+        "liquid",
+        "juice",
+        "sap"
+      ],
+      "words": [
+        {
+          "kanji": "液",
+          "kana": "えき",
+          "en": "liquid"
+        },
+        {
+          "kanji": "液化",
+          "kana": "えきか",
+          "en": "liquefaction"
+        },
+        {
+          "kanji": "輸液",
+          "kana": "ゆえき",
+          "en": "transfusion"
+        },
+        {
+          "kanji": "液肥",
+          "kana": "えきひ",
+          "en": "liquid fertilizer"
+        }
+      ],
+      "readingExamples": {
+        "エキ": {
+          "kanji": "液",
+          "kana": "えき",
+          "en": "liquid"
+        }
+      }
+    },
+    {
+      "kanji": "混",
+      "on": [
+        "コン"
+      ],
+      "kun": [
+        "ま.じる",
+        "-ま.じり",
+        "ま.ざる",
+        "ま.ぜる",
+        "こ.む"
+      ],
+      "meanings": [
+        "mix",
+        "blend",
+        "confuse"
+      ],
+      "words": [
+        {
+          "kanji": "混む",
+          "kana": "こむ",
+          "en": "to be crowded"
+        },
+        {
+          "kanji": "混ぜる",
+          "kana": "まぜる",
+          "en": "to mix"
+        },
+        {
+          "kanji": "混ざる",
+          "kana": "まざる",
+          "en": "to be mixed"
+        },
+        {
+          "kanji": "混じる",
+          "kana": "まじる",
+          "en": "to be mixed"
+        }
+      ],
+      "readingExamples": {
+        "コン": {
+          "kanji": "混血",
+          "kana": "こんけつ",
+          "en": "mixed race"
+        },
+        "まじる": {
+          "kanji": "混じる",
+          "kana": "まじる",
+          "en": "to be mixed"
+        },
+        "まざる": {
+          "kanji": "混ざる",
+          "kana": "まざる",
+          "en": "to be mixed"
+        },
+        "まぜる": {
+          "kanji": "混ぜる",
+          "kana": "まぜる",
+          "en": "to mix"
+        },
+        "こむ": {
+          "kanji": "混む",
+          "kana": "こむ",
+          "en": "to be crowded"
+        }
+      }
+    },
+    {
+      "kanji": "減",
+      "on": [
+        "ゲン"
+      ],
+      "kun": [
+        "へ.る",
+        "へ.らす"
+      ],
+      "meanings": [
+        "dwindle",
+        "decrease",
+        "reduce",
+        "decline"
+      ],
+      "words": [
+        {
+          "kanji": "減る",
+          "kana": "へる",
+          "en": "to decrease (in size or number)"
+        },
+        {
+          "kanji": "減り",
+          "kana": "へり",
+          "en": "decrease"
+        },
+        {
+          "kanji": "加減",
+          "kana": "かげん",
+          "en": "degree"
+        },
+        {
+          "kanji": "減らす",
+          "kana": "へらす",
+          "en": "to abate"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "減圧",
+          "kana": "げんあつ",
+          "en": "decompression"
+        },
+        "へる": {
+          "kanji": "減る",
+          "kana": "へる",
+          "en": "to decrease (in size or number)"
+        },
+        "へらす": {
+          "kanji": "減らす",
+          "kana": "へらす",
+          "en": "to abate"
+        }
+      }
+    },
+    {
+      "kanji": "測",
+      "on": [
+        "ソク"
+      ],
+      "kun": [
+        "はか.る"
+      ],
+      "meanings": [
+        "fathom",
+        "plan",
+        "scheme",
+        "measure"
+      ],
+      "words": [
+        {
+          "kanji": "測地",
+          "kana": "そくち",
+          "en": "geodetic survey"
+        },
+        {
+          "kanji": "予測",
+          "kana": "よそく",
+          "en": "prediction"
+        },
+        {
+          "kanji": "観測",
+          "kana": "かんそく",
+          "en": "observation"
+        },
+        {
+          "kanji": "計測",
+          "kana": "けいそく",
+          "en": "measuring"
+        }
+      ],
+      "readingExamples": {
+        "ソク": {
+          "kanji": "測地",
+          "kana": "そくち",
+          "en": "geodetic survey"
+        }
+      }
+    },
+    {
+      "kanji": "準",
+      "on": [
+        "ジュン"
+      ],
+      "kun": [
+        "じゅん.じる",
+        "じゅん.ずる",
+        "なぞら.える",
+        "のり",
+        "ひと.しい",
+        "みずもり"
+      ],
+      "meanings": [
+        "semi-",
+        "correspond to",
+        "proportionate to",
+        "conform"
+      ],
+      "words": [
+        {
+          "kanji": "準",
+          "kana": "じゅん",
+          "en": "semi-"
+        },
+        {
+          "kanji": "準備",
+          "kana": "じゅんび",
+          "en": "preparation"
+        },
+        {
+          "kanji": "基準",
+          "kana": "きじゅん",
+          "en": "standard"
+        },
+        {
+          "kanji": "準える",
+          "kana": "なぞらえる",
+          "en": "to liken to"
+        }
+      ],
+      "readingExamples": {
+        "ジュン": {
+          "kanji": "準",
+          "kana": "じゅん",
+          "en": "semi-"
+        },
+        "じゅんじる": {
+          "kanji": "準じる",
+          "kana": "じゅんじる",
+          "en": "to follow (a rule, precedent, etc.)"
+        },
+        "じゅんずる": {
+          "kanji": "準ずる",
+          "kana": "じゅんずる",
+          "en": "to follow (a rule, precedent, etc.)"
+        },
+        "なぞらえる": {
+          "kanji": "準える",
+          "kana": "なぞらえる",
+          "en": "to liken to"
+        }
+      }
+    },
+    {
+      "kanji": "演",
+      "on": [
+        "エン"
+      ],
+      "kun": [],
+      "meanings": [
+        "performance",
+        "act",
+        "play",
+        "render"
+      ],
+      "words": [
+        {
+          "kanji": "演歌",
+          "kana": "えんか",
+          "en": "enka"
+        },
+        {
+          "kanji": "演技",
+          "kana": "えんぎ",
+          "en": "acting"
+        },
+        {
+          "kanji": "演じる",
+          "kana": "えんじる",
+          "en": "to act (a part)"
+        },
+        {
+          "kanji": "演ずる",
+          "kana": "えんずる",
+          "en": "to act (a part)"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "演歌",
+          "kana": "えんか",
+          "en": "enka"
+        }
+      }
+    },
+    {
+      "kanji": "潔",
+      "on": [
+        "ケツ"
+      ],
+      "kun": [
+        "いさぎよ.い"
+      ],
+      "meanings": [
+        "undefiled",
+        "pure",
+        "clean",
+        "righteous"
+      ],
+      "words": [
+        {
+          "kanji": "不潔",
+          "kana": "ふけつ",
+          "en": "unclean"
+        },
+        {
+          "kanji": "簡潔",
+          "kana": "かんけつ",
+          "en": "concise"
+        },
+        {
+          "kanji": "潔白",
+          "kana": "けっぱく",
+          "en": "innocence"
+        },
+        {
+          "kanji": "高潔",
+          "kana": "こうけつ",
+          "en": "noble"
+        }
+      ],
+      "readingExamples": {
+        "いさぎよい": {
+          "kanji": "潔い",
+          "kana": "いさぎよい",
+          "en": "gracious (defeat, apology, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "災",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "わざわ.い"
+      ],
+      "meanings": [
+        "disaster",
+        "calamity",
+        "woe",
+        "curse"
+      ],
+      "words": [
+        {
+          "kanji": "火災",
+          "kana": "かさい",
+          "en": "conflagration"
+        },
+        {
+          "kanji": "災い",
+          "kana": "わざわい",
+          "en": "disaster"
+        },
+        {
+          "kanji": "災害",
+          "kana": "さいがい",
+          "en": "calamity"
+        },
+        {
+          "kanji": "災難",
+          "kana": "さいなん",
+          "en": "calamity"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "災害",
+          "kana": "さいがい",
+          "en": "calamity"
+        },
+        "わざわい": {
+          "kanji": "災い",
+          "kana": "わざわい",
+          "en": "disaster"
+        }
+      }
+    },
+    {
+      "kanji": "燃",
+      "on": [
+        "ネン"
+      ],
+      "kun": [
+        "も.える",
+        "も.やす",
+        "も.す"
+      ],
+      "meanings": [
+        "burn",
+        "blaze",
+        "glow"
+      ],
+      "words": [
+        {
+          "kanji": "可燃",
+          "kana": "かねん",
+          "en": "inflammable"
+        },
+        {
+          "kanji": "燃える",
+          "kana": "もえる",
+          "en": "to burn"
+        },
+        {
+          "kanji": "燃費",
+          "kana": "ねんぴ",
+          "en": "fuel consumption"
+        },
+        {
+          "kanji": "不燃",
+          "kana": "ふねん",
+          "en": "incombustibility"
+        }
+      ],
+      "readingExamples": {
+        "ネン": {
+          "kanji": "燃費",
+          "kana": "ねんぴ",
+          "en": "fuel consumption"
+        },
+        "もえる": {
+          "kanji": "燃える",
+          "kana": "もえる",
+          "en": "to burn"
+        },
+        "もやす": {
+          "kanji": "燃やす",
+          "kana": "もやす",
+          "en": "to burn"
+        }
+      }
+    },
+    {
+      "kanji": "版",
+      "on": [
+        "ハン"
+      ],
+      "kun": [],
+      "meanings": [
+        "printing block",
+        "printing plate",
+        "edition",
+        "impression"
+      ],
+      "words": [
+        {
+          "kanji": "版",
+          "kana": "はん",
+          "en": "edition"
+        },
+        {
+          "kanji": "図版",
+          "kana": "ずはん",
+          "en": "plate"
+        },
+        {
+          "kanji": "版画",
+          "kana": "はんが",
+          "en": "woodcut"
+        },
+        {
+          "kanji": "版木",
+          "kana": "はんぎ",
+          "en": "woodblock"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "版",
+          "kana": "はん",
+          "en": "edition"
+        }
+      }
+    },
+    {
+      "kanji": "犯",
+      "on": [
+        "ハン",
+        "ボン"
+      ],
+      "kun": [
+        "おか.す"
+      ],
+      "meanings": [
+        "crime",
+        "sin",
+        "offense"
+      ],
+      "words": [
+        {
+          "kanji": "犯す",
+          "kana": "おかす",
+          "en": "to commit (e.g. crime)"
+        },
+        {
+          "kanji": "犯意",
+          "kana": "はんい",
+          "en": "criminal intent"
+        },
+        {
+          "kanji": "再犯",
+          "kana": "さいはん",
+          "en": "second offense"
+        },
+        {
+          "kanji": "主犯",
+          "kana": "しゅはん",
+          "en": "principal offence"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "犯意",
+          "kana": "はんい",
+          "en": "criminal intent"
+        },
+        "おかす": {
+          "kanji": "犯す",
+          "kana": "おかす",
+          "en": "to commit (e.g. crime)"
+        }
+      }
+    },
+    {
+      "kanji": "状",
+      "on": [
+        "ジョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "status quo",
+        "conditions",
+        "circumstances",
+        "form"
+      ],
+      "words": [
+        {
+          "kanji": "状",
+          "kana": "じょう",
+          "en": "form"
+        },
+        {
+          "kanji": "異状",
+          "kana": "いじょう",
+          "en": "something wrong"
+        },
+        {
+          "kanji": "賀状",
+          "kana": "がじょう",
+          "en": "New Year's card"
+        },
+        {
+          "kanji": "波状",
+          "kana": "はじょう",
+          "en": "wavelike"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "状",
+          "kana": "じょう",
+          "en": "form"
+        }
+      }
+    },
+    {
+      "kanji": "独",
+      "on": [
+        "ドク",
+        "トク"
+      ],
+      "kun": [
+        "ひと.り"
+      ],
+      "meanings": [
+        "single",
+        "alone",
+        "spontaneously",
+        "Germany"
+      ],
+      "words": [
+        {
+          "kanji": "独楽",
+          "kana": "こま",
+          "en": "spinning top"
+        },
+        {
+          "kanji": "独",
+          "kana": "どく",
+          "en": "Germany"
+        },
+        {
+          "kanji": "独自",
+          "kana": "どくじ",
+          "en": "original"
+        },
+        {
+          "kanji": "独語",
+          "kana": "どくご",
+          "en": "monologue"
+        }
+      ],
+      "readingExamples": {
+        "ドク": {
+          "kanji": "独",
+          "kana": "どく",
+          "en": "Germany"
+        },
+        "ひとり": {
+          "kanji": "独りでに",
+          "kana": "ひとりでに",
+          "en": "by itself"
+        }
+      }
+    },
+    {
+      "kanji": "率",
+      "on": [
+        "ソツ",
+        "リツ",
+        "シュツ"
+      ],
+      "kun": [
+        "ひき.いる"
+      ],
+      "meanings": [
+        "ratio",
+        "rate",
+        "proportion",
+        "%"
+      ],
+      "words": [
+        {
+          "kanji": "率",
+          "kana": "りつ",
+          "en": "rate"
+        },
+        {
+          "kanji": "打率",
+          "kana": "だりつ",
+          "en": "batting average"
+        },
+        {
+          "kanji": "比率",
+          "kana": "ひりつ",
+          "en": "ratio"
+        },
+        {
+          "kanji": "利率",
+          "kana": "りりつ",
+          "en": "interest rate"
+        }
+      ],
+      "readingExamples": {
+        "リツ": {
+          "kanji": "率",
+          "kana": "りつ",
+          "en": "rate"
+        },
+        "ひきいる": {
+          "kanji": "率いる",
+          "kana": "ひきいる",
+          "en": "to lead"
+        }
+      }
+    },
+    {
+      "kanji": "現",
+      "on": [
+        "ゲン"
+      ],
+      "kun": [
+        "あらわ.れる",
+        "あらわ.す",
+        "うつつ",
+        "うつ.つ"
+      ],
+      "meanings": [
+        "present",
+        "existing",
+        "actual"
+      ],
+      "words": [
+        {
+          "kanji": "具現",
+          "kana": "ぐげん",
+          "en": "incarnation"
+        },
+        {
+          "kanji": "現に",
+          "kana": "げんに",
+          "en": "actually"
+        },
+        {
+          "kanji": "現場",
+          "kana": "げんば",
+          "en": "actual spot"
+        },
+        {
+          "kanji": "現世",
+          "kana": "げんせ",
+          "en": "this world"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "現に",
+          "kana": "げんに",
+          "en": "actually"
+        },
+        "あらわれる": {
+          "kanji": "現れる",
+          "kana": "あらわれる",
+          "en": "to appear"
+        }
+      }
+    },
+    {
+      "kanji": "留",
+      "on": [
+        "リュウ",
+        "ル"
+      ],
+      "kun": [
+        "と.める",
+        "と.まる",
+        "とど.める",
+        "とど.まる",
+        "るうぶる"
+      ],
+      "meanings": [
+        "detain",
+        "fasten",
+        "halt",
+        "stop"
+      ],
+      "words": [
+        {
+          "kanji": "留め",
+          "kana": "とめ",
+          "en": "(a) stop (e.g. in a timber joint, or at the end of a kanji stroke)"
+        },
+        {
+          "kanji": "留守",
+          "kana": "るす",
+          "en": "absence"
+        },
+        {
+          "kanji": "遺留",
+          "kana": "いりゅう",
+          "en": "leaving behind (after death)"
+        },
+        {
+          "kanji": "仕留める",
+          "kana": "しとめる",
+          "en": "to bring down (an animal, opponent, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "リュウ": {
+          "kanji": "留意",
+          "kana": "りゅうい",
+          "en": "heeding"
+        },
+        "ル": {
+          "kanji": "留守",
+          "kana": "るす",
+          "en": "absence"
+        },
+        "とどめる": {
+          "kanji": "留める",
+          "kana": "とどめる",
+          "en": "to stop"
+        }
+      }
+    },
+    {
+      "kanji": "略",
+      "on": [
+        "リャク"
+      ],
+      "kun": [
+        "ほぼ",
+        "はぶ.く",
+        "おか.す",
+        "おさ.める",
+        "はかりごと",
+        "はか.る"
+      ],
+      "meanings": [
+        "abbreviation",
+        "omission",
+        "outline",
+        "shorten"
+      ],
+      "words": [
+        {
+          "kanji": "略",
+          "kana": "ほぼ",
+          "en": "almost"
+        },
+        {
+          "kanji": "略",
+          "kana": "りゃく",
+          "en": "abbreviation"
+        },
+        {
+          "kanji": "略す",
+          "kana": "りゃくす",
+          "en": "to abbreviate"
+        },
+        {
+          "kanji": "略語",
+          "kana": "りゃくご",
+          "en": "abbreviation"
+        }
+      ],
+      "readingExamples": {
+        "リャク": {
+          "kanji": "略",
+          "kana": "りゃく",
+          "en": "abbreviation"
+        },
+        "ほぼ": {
+          "kanji": "略",
+          "kana": "ほぼ",
+          "en": "almost"
+        }
+      }
+    },
+    {
+      "kanji": "益",
+      "on": [
+        "エキ",
+        "ヤク"
+      ],
+      "kun": [
+        "ま.す"
+      ],
+      "meanings": [
+        "benefit",
+        "gain",
+        "profit",
+        "advantage"
+      ],
+      "words": [
+        {
+          "kanji": "益",
+          "kana": "えき",
+          "en": "benefit"
+        },
+        {
+          "kanji": "差益",
+          "kana": "さえき",
+          "en": "marginal profits"
+        },
+        {
+          "kanji": "無益",
+          "kana": "むえき",
+          "en": "useless"
+        },
+        {
+          "kanji": "利益",
+          "kana": "りえき",
+          "en": "profit"
+        }
+      ],
+      "readingExamples": {
+        "エキ": {
+          "kanji": "益",
+          "kana": "えき",
+          "en": "benefit"
+        },
+        "ます": {
+          "kanji": "益々",
+          "kana": "ますます",
+          "en": "increasingly"
+        }
+      }
+    },
+    {
+      "kanji": "眼",
+      "on": [
+        "ガン",
+        "ゲン"
+      ],
+      "kun": [
+        "まなこ",
+        "め"
+      ],
+      "meanings": [
+        "eyeball"
+      ],
+      "words": [
+        {
+          "kanji": "眼下",
+          "kana": "がんか",
+          "en": "under one's eyes"
+        },
+        {
+          "kanji": "眼科",
+          "kana": "がんか",
+          "en": "ophthalmology"
+        },
+        {
+          "kanji": "眼鏡",
+          "kana": "メガネ",
+          "en": "glasses"
+        },
+        {
+          "kanji": "眼",
+          "kana": "まなこ",
+          "en": "eye"
+        }
+      ],
+      "readingExamples": {
+        "ガン": {
+          "kanji": "眼下",
+          "kana": "がんか",
+          "en": "under one's eyes"
+        },
+        "まなこ": {
+          "kanji": "眼",
+          "kana": "まなこ",
+          "en": "eye"
+        }
+      }
+    },
+    {
+      "kanji": "破",
+      "on": [
+        "ハ"
+      ],
+      "kun": [
+        "やぶ.る",
+        "やぶ.れる",
+        "わ.れる"
+      ],
+      "meanings": [
+        "rend",
+        "rip",
+        "tear",
+        "break"
+      ],
+      "words": [
+        {
+          "kanji": "打破",
+          "kana": "だは",
+          "en": "breaking down"
+        },
+        {
+          "kanji": "読破",
+          "kana": "どくは",
+          "en": "reading through (a book)"
+        },
+        {
+          "kanji": "難破",
+          "kana": "なんぱ",
+          "en": "shipwreck"
+        },
+        {
+          "kanji": "破る",
+          "kana": "やぶる",
+          "en": "to tear"
+        }
+      ],
+      "readingExamples": {
+        "ハ": {
+          "kanji": "破棄",
+          "kana": "はき",
+          "en": "tearing up and discarding (e.g. documents)"
+        },
+        "やぶる": {
+          "kanji": "破る",
+          "kana": "やぶる",
+          "en": "to tear"
+        },
+        "やぶれる": {
+          "kanji": "破れる",
+          "kana": "やぶれる",
+          "en": "to get torn"
+        }
+      }
+    },
+    {
+      "kanji": "確",
+      "on": [
+        "カク",
+        "コウ"
+      ],
+      "kun": [
+        "たし.か",
+        "たし.かめる"
+      ],
+      "meanings": [
+        "assurance",
+        "firm",
+        "tight",
+        "hard"
+      ],
+      "words": [
+        {
+          "kanji": "確固",
+          "kana": "かっこ",
+          "en": "firm"
+        },
+        {
+          "kanji": "確保",
+          "kana": "かくほ",
+          "en": "securing"
+        },
+        {
+          "kanji": "確か",
+          "kana": "たしか",
+          "en": "sure"
+        },
+        {
+          "kanji": "確度",
+          "kana": "かくど",
+          "en": "degree of accuracy"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "確保",
+          "kana": "かくほ",
+          "en": "securing"
+        },
+        "たしか": {
+          "kanji": "確か",
+          "kana": "たしか",
+          "en": "sure"
+        },
+        "たしかめる": {
+          "kanji": "確かめる",
+          "kana": "たしかめる",
+          "en": "to make sure"
+        }
+      }
+    },
+    {
+      "kanji": "示",
+      "on": [
+        "ジ",
+        "シ"
+      ],
+      "kun": [
+        "しめ.す"
+      ],
+      "meanings": [
+        "show",
+        "indicate",
+        "point out",
+        "express"
+      ],
+      "words": [
+        {
+          "kanji": "指示",
+          "kana": "しじ",
+          "en": "indication"
+        },
+        {
+          "kanji": "図示",
+          "kana": "ずし",
+          "en": "showing by a diagram"
+        },
+        {
+          "kanji": "暗示",
+          "kana": "あんじ",
+          "en": "hint"
+        },
+        {
+          "kanji": "開示",
+          "kana": "かいじ",
+          "en": "release (of information, documents, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "示威",
+          "kana": "じい",
+          "en": "demonstration"
+        },
+        "シ": {
+          "kanji": "指示",
+          "kana": "しじ",
+          "en": "indication"
+        },
+        "しめす": {
+          "kanji": "示す",
+          "kana": "しめす",
+          "en": "to (take out and) show"
+        }
+      }
+    },
+    {
+      "kanji": "祖",
+      "on": [
+        "ソ"
+      ],
+      "kun": [],
+      "meanings": [
+        "ancestor",
+        "pioneer",
+        "founder"
+      ],
+      "words": [
+        {
+          "kanji": "祖",
+          "kana": "そ",
+          "en": "ancestor"
+        },
+        {
+          "kanji": "始祖",
+          "kana": "しそ",
+          "en": "founder"
+        },
+        {
+          "kanji": "祖父",
+          "kana": "そふ",
+          "en": "grandfather"
+        },
+        {
+          "kanji": "祖母",
+          "kana": "そぼ",
+          "en": "grandmother"
+        }
+      ],
+      "readingExamples": {
+        "ソ": {
+          "kanji": "祖",
+          "kana": "そ",
+          "en": "ancestor"
+        }
+      }
+    },
+    {
+      "kanji": "禁",
+      "on": [
+        "キン"
+      ],
+      "kun": [],
+      "meanings": [
+        "prohibition",
+        "ban",
+        "forbid"
+      ],
+      "words": [
+        {
+          "kanji": "禁",
+          "kana": "きん",
+          "en": "ban (e.g. on smoking)"
+        },
+        {
+          "kanji": "禁句",
+          "kana": "きんく",
+          "en": "taboo word"
+        },
+        {
+          "kanji": "禁止",
+          "kana": "きんし",
+          "en": "prohibition"
+        },
+        {
+          "kanji": "禁輸",
+          "kana": "きんゆ",
+          "en": "embargo"
+        }
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "禁",
+          "kana": "きん",
+          "en": "ban (e.g. on smoking)"
+        }
+      }
+    },
+    {
+      "kanji": "移",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "うつ.る",
+        "うつ.す"
+      ],
+      "meanings": [
+        "shift",
+        "move",
+        "change",
+        "drift"
+      ],
+      "words": [
+        {
+          "kanji": "移す",
+          "kana": "うつす",
+          "en": "to transfer (to a different place, group, etc.)"
+        },
+        {
+          "kanji": "移る",
+          "kana": "うつる",
+          "en": "to move (to another place or state)"
+        },
+        {
+          "kanji": "移管",
+          "kana": "いかん",
+          "en": "transfer of control"
+        },
+        {
+          "kanji": "移行",
+          "kana": "いこう",
+          "en": "transition"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "移管",
+          "kana": "いかん",
+          "en": "transfer of control"
+        },
+        "うつる": {
+          "kanji": "移る",
+          "kana": "うつる",
+          "en": "to move (to another place or state)"
+        },
+        "うつす": {
+          "kanji": "移す",
+          "kana": "うつす",
+          "en": "to transfer (to a different place, group, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "程",
+      "on": [
+        "テイ"
+      ],
+      "kun": [
+        "ほど",
+        "-ほど"
+      ],
+      "meanings": [
+        "extent",
+        "degree",
+        "law",
+        "formula"
+      ],
+      "words": [
+        {
+          "kanji": "程",
+          "kana": "ほど",
+          "en": "extent"
+        },
+        {
+          "kanji": "課程",
+          "kana": "かてい",
+          "en": "course"
+        },
+        {
+          "kanji": "過程",
+          "kana": "かてい",
+          "en": "process"
+        },
+        {
+          "kanji": "規程",
+          "kana": "きてい",
+          "en": "official regulations"
+        }
+      ],
+      "readingExamples": {
+        "テイ": {
+          "kanji": "程度",
+          "kana": "ていど",
+          "en": "degree"
+        },
+        "ほど": {
+          "kanji": "程",
+          "kana": "ほど",
+          "en": "extent"
+        }
+      }
+    },
+    {
+      "kanji": "税",
+      "on": [
+        "ゼイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "tax",
+        "duty"
+      ],
+      "words": [
+        {
+          "kanji": "課税",
+          "kana": "かぜい",
+          "en": "taxation"
+        },
+        {
+          "kanji": "税務",
+          "kana": "ぜいむ",
+          "en": "taxation business"
+        },
+        {
+          "kanji": "無税",
+          "kana": "むぜい",
+          "en": "duty-free"
+        },
+        {
+          "kanji": "府税",
+          "kana": "ふぜい",
+          "en": "urban prefectural tax (of Osaka or Kyoto)"
+        }
+      ],
+      "readingExamples": {
+        "ゼイ": {
+          "kanji": "税務",
+          "kana": "ぜいむ",
+          "en": "taxation business"
+        }
+      }
+    },
+    {
+      "kanji": "築",
+      "on": [
+        "チク"
+      ],
+      "kun": [
+        "きず.く"
+      ],
+      "meanings": [
+        "fabricate",
+        "build",
+        "construct"
+      ],
+      "words": [
+        {
+          "kanji": "築く",
+          "kana": "きずく",
+          "en": "to build"
+        },
+        {
+          "kanji": "築地",
+          "kana": "ついじ",
+          "en": "mud wall with a roof"
+        },
+        {
+          "kanji": "改築",
+          "kana": "かいちく",
+          "en": "structural alteration (of a building)"
+        },
+        {
+          "kanji": "建築",
+          "kana": "けんちく",
+          "en": "construction"
+        }
+      ],
+      "readingExamples": {
+        "チク": {
+          "kanji": "築造",
+          "kana": "ちくぞう",
+          "en": "construction"
+        },
+        "きずく": {
+          "kanji": "築く",
+          "kana": "きずく",
+          "en": "to build"
+        }
+      }
+    },
+    {
+      "kanji": "粉",
+      "on": [
+        "フン"
+      ],
+      "kun": [
+        "デシメートル",
+        "こ",
+        "こな"
+      ],
+      "meanings": [
+        "flour",
+        "powder",
+        "dust"
+      ],
+      "words": [
+        {
+          "kanji": "粉",
+          "kana": "こな",
+          "en": "flour"
+        },
+        {
+          "kanji": "パン粉",
+          "kana": "パンこ",
+          "en": "breadcrumbs"
+        },
+        {
+          "kanji": "火の粉",
+          "kana": "ひのこ",
+          "en": "sparks"
+        },
+        {
+          "kanji": "花粉",
+          "kana": "かふん",
+          "en": "pollen"
+        }
+      ],
+      "readingExamples": {
+        "フン": {
+          "kanji": "粉砕",
+          "kana": "ふんさい",
+          "en": "pulverization"
+        },
+        "こ": {
+          "kanji": "粉",
+          "kana": "こな",
+          "en": "flour"
+        },
+        "こな": {
+          "kanji": "粉",
+          "kana": "こな",
+          "en": "flour"
+        }
+      }
+    },
+    {
+      "kanji": "精",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "しら.げる",
+        "くわ.しい"
+      ],
+      "meanings": [
+        "refined",
+        "ghost",
+        "fairy",
+        "energy"
+      ],
+      "words": [
+        {
+          "kanji": "精",
+          "kana": "せい",
+          "en": "spirit"
+        },
+        {
+          "kanji": "精査",
+          "kana": "せいさ",
+          "en": "close investigation"
+        },
+        {
+          "kanji": "精子",
+          "kana": "せいし",
+          "en": "sperm"
+        },
+        {
+          "kanji": "精度",
+          "kana": "せいど",
+          "en": "precision"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "精",
+          "kana": "せい",
+          "en": "spirit"
+        },
+        "ショウ": {
+          "kanji": "精進",
+          "kana": "しょうじん",
+          "en": "concentration"
+        }
+      }
+    },
+    {
+      "kanji": "紀",
+      "on": [
+        "キ"
+      ],
+      "kun": [],
+      "meanings": [
+        "chronicle",
+        "account",
+        "narrative",
+        "history"
+      ],
+      "words": [
+        {
+          "kanji": "紀元",
+          "kana": "きげん",
+          "en": "era"
+        },
+        {
+          "kanji": "紀行",
+          "kana": "きこう",
+          "en": "traveller's journal"
+        },
+        {
+          "kanji": "世紀",
+          "kana": "せいき",
+          "en": "century"
+        },
+        {
+          "kanji": "風紀",
+          "kana": "ふうき",
+          "en": "public morals"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "紀元",
+          "kana": "きげん",
+          "en": "era"
+        }
+      }
+    },
+    {
+      "kanji": "素",
+      "on": [
+        "ソ",
+        "ス"
+      ],
+      "kun": [
+        "もと"
+      ],
+      "meanings": [
+        "elementary",
+        "principle",
+        "naked",
+        "uncovered"
+      ],
+      "words": [
+        {
+          "kanji": "素",
+          "kana": "す",
+          "en": "one's nature"
+        },
+        {
+          "kanji": "素子",
+          "kana": "そし",
+          "en": "element (esp. component in electronics)"
+        },
+        {
+          "kanji": "素手",
+          "kana": "すで",
+          "en": "bare hand"
+        },
+        {
+          "kanji": "塩素",
+          "kana": "えんそ",
+          "en": "chlorine (Cl)"
+        }
+      ],
+      "readingExamples": {
+        "ソ": {
+          "kanji": "素子",
+          "kana": "そし",
+          "en": "element (esp. component in electronics)"
+        },
+        "ス": {
+          "kanji": "素",
+          "kana": "す",
+          "en": "one's nature"
+        }
+      }
+    },
+    {
+      "kanji": "経",
+      "on": [
+        "ケイ",
+        "キョウ",
+        "キン"
+      ],
+      "kun": [
+        "へ.る",
+        "た.つ",
+        "たていと",
+        "はか.る",
+        "のり"
+      ],
+      "meanings": [
+        "sutra",
+        "longitude",
+        "pass thru",
+        "expire"
+      ],
+      "words": [
+        {
+          "kanji": "経つ",
+          "kana": "たつ",
+          "en": "to pass (of time)"
+        },
+        {
+          "kanji": "経る",
+          "kana": "へる",
+          "en": "to pass"
+        },
+        {
+          "kanji": "経過",
+          "kana": "けいか",
+          "en": "passage (of time)"
+        },
+        {
+          "kanji": "経度",
+          "kana": "けいど",
+          "en": "longitude"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "経緯",
+          "kana": "けいい",
+          "en": "details"
+        },
+        "キョウ": {
+          "kanji": "経",
+          "kana": "きょう",
+          "en": "sutra"
+        },
+        "へる": {
+          "kanji": "経る",
+          "kana": "へる",
+          "en": "to pass"
+        },
+        "たつ": {
+          "kanji": "経つ",
+          "kana": "たつ",
+          "en": "to pass (of time)"
+        }
+      }
+    },
+    {
+      "kanji": "統",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "す.べる"
+      ],
+      "meanings": [
+        "overall",
+        "relationship",
+        "ruling",
+        "governing"
+      ],
+      "words": [
+        {
+          "kanji": "統治",
+          "kana": "とうち",
+          "en": "rule"
+        },
+        {
+          "kanji": "系統",
+          "kana": "けいとう",
+          "en": "system"
+        },
+        {
+          "kanji": "血統",
+          "kana": "けっとう",
+          "en": "lineage"
+        },
+        {
+          "kanji": "正統",
+          "kana": "せいとう",
+          "en": "legitimate"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "統治",
+          "kana": "とうち",
+          "en": "rule"
+        }
+      }
+    },
+    {
+      "kanji": "絶",
+      "on": [
+        "ゼツ"
+      ],
+      "kun": [
+        "た.える",
+        "た.やす",
+        "た.つ"
+      ],
+      "meanings": [
+        "discontinue",
+        "sever",
+        "cut off",
+        "abstain"
+      ],
+      "words": [
+        {
+          "kanji": "気絶",
+          "kana": "きぜつ",
+          "en": "faint"
+        },
+        {
+          "kanji": "絶えず",
+          "kana": "たえず",
+          "en": "constantly"
+        },
+        {
+          "kanji": "絶える",
+          "kana": "たえる",
+          "en": "to die out"
+        },
+        {
+          "kanji": "絶やす",
+          "kana": "たやす",
+          "en": "to exterminate"
+        }
+      ],
+      "readingExamples": {
+        "ゼツ": {
+          "kanji": "絶縁",
+          "kana": "ぜつえん",
+          "en": "breaking off relations (with)"
+        },
+        "たえる": {
+          "kanji": "絶える",
+          "kana": "たえる",
+          "en": "to die out"
+        },
+        "たやす": {
+          "kanji": "絶やす",
+          "kana": "たやす",
+          "en": "to exterminate"
+        }
+      }
+    },
+    {
+      "kanji": "綿",
+      "on": [
+        "メン"
+      ],
+      "kun": [
+        "わた"
+      ],
+      "meanings": [
+        "cotton"
+      ],
+      "words": [
+        {
+          "kanji": "綿",
+          "kana": "めん",
+          "en": "cotton"
+        },
+        {
+          "kanji": "綿",
+          "kana": "わた",
+          "en": "cotton plant (Gossypium spp.)"
+        },
+        {
+          "kanji": "綿布",
+          "kana": "めんぷ",
+          "en": "cotton cloth"
+        },
+        {
+          "kanji": "木綿",
+          "kana": "もめん",
+          "en": "cotton (material)"
+        }
+      ],
+      "readingExamples": {
+        "メン": {
+          "kanji": "綿",
+          "kana": "めん",
+          "en": "cotton"
+        },
+        "わた": {
+          "kanji": "綿",
+          "kana": "わた",
+          "en": "cotton plant (Gossypium spp.)"
+        }
+      }
+    },
+    {
+      "kanji": "総",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "す.べて",
+        "すべ.て",
+        "ふさ"
+      ],
+      "meanings": [
+        "general",
+        "whole",
+        "all",
+        "full"
+      ],
+      "words": [
+        {
+          "kanji": "総",
+          "kana": "そう",
+          "en": "whole"
+        },
+        {
+          "kanji": "総意",
+          "kana": "そうい",
+          "en": "consensus"
+        },
+        {
+          "kanji": "総務",
+          "kana": "そうむ",
+          "en": "general affairs"
+        },
+        {
+          "kanji": "総理",
+          "kana": "そうり",
+          "en": "prime minister (as the head of a cabinet government)"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "総",
+          "kana": "そう",
+          "en": "whole"
+        }
+      }
+    },
+    {
+      "kanji": "編",
+      "on": [
+        "ヘン"
+      ],
+      "kun": [
+        "あ.む",
+        "-あ.み"
+      ],
+      "meanings": [
+        "compilation",
+        "knit",
+        "plait",
+        "braid"
+      ],
+      "words": [
+        {
+          "kanji": "編",
+          "kana": "へん",
+          "en": "compilation (of a text)"
+        },
+        {
+          "kanji": "編む",
+          "kana": "あむ",
+          "en": "to knit"
+        },
+        {
+          "kanji": "改編",
+          "kana": "かいへん",
+          "en": "reorganization"
+        },
+        {
+          "kanji": "後編",
+          "kana": "こうへん",
+          "en": "latter part (of a book, film, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ヘン": {
+          "kanji": "編",
+          "kana": "へん",
+          "en": "compilation (of a text)"
+        },
+        "あむ": {
+          "kanji": "編む",
+          "kana": "あむ",
+          "en": "to knit"
+        },
+        "あみ": {
+          "kanji": "編み出す",
+          "kana": "あみだす",
+          "en": "to think up"
+        }
+      }
+    },
+    {
+      "kanji": "績",
+      "on": [
+        "セキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "exploits",
+        "achievements",
+        "unreeling cocoons"
+      ],
+      "words": [
+        {
+          "kanji": "功績",
+          "kana": "こうせき",
+          "en": "achievement"
+        },
+        {
+          "kanji": "実績",
+          "kana": "じっせき",
+          "en": "achievements"
+        },
+        {
+          "kanji": "成績",
+          "kana": "せいせき",
+          "en": "results"
+        },
+        {
+          "kanji": "戦績",
+          "kana": "せんせき",
+          "en": "war or military record"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "織",
+      "on": [
+        "ショク",
+        "シキ"
+      ],
+      "kun": [
+        "お.る",
+        "お.り",
+        "おり",
+        "-おり",
+        "-お.り"
+      ],
+      "meanings": [
+        "weave",
+        "fabric"
+      ],
+      "words": [
+        {
+          "kanji": "織る",
+          "kana": "おる",
+          "en": "to weave"
+        },
+        {
+          "kanji": "織り",
+          "kana": "おり",
+          "en": "weave"
+        },
+        {
+          "kanji": "羽織",
+          "kana": "はおり",
+          "en": "haori (Japanese formal coat)"
+        },
+        {
+          "kanji": "組織",
+          "kana": "そしき",
+          "en": "organization"
+        }
+      ],
+      "readingExamples": {
+        "ショク": {
+          "kanji": "織布",
+          "kana": "しょくふ",
+          "en": "woven fabric"
+        },
+        "おる": {
+          "kanji": "織る",
+          "kana": "おる",
+          "en": "to weave"
+        },
+        "おり": {
+          "kanji": "織り",
+          "kana": "おり",
+          "en": "weave"
+        }
+      }
+    },
+    {
+      "kanji": "罪",
+      "on": [
+        "ザイ"
+      ],
+      "kun": [
+        "つみ"
+      ],
+      "meanings": [
+        "guilt",
+        "sin",
+        "crime",
+        "fault"
+      ],
+      "words": [
+        {
+          "kanji": "罪",
+          "kana": "つみ",
+          "en": "crime"
+        },
+        {
+          "kanji": "無罪",
+          "kana": "むざい",
+          "en": "innocence"
+        },
+        {
+          "kanji": "余罪",
+          "kana": "よざい",
+          "en": "other crimes"
+        },
+        {
+          "kanji": "功罪",
+          "kana": "こうざい",
+          "en": "merits and demerits"
+        }
+      ],
+      "readingExamples": {
+        "ザイ": {
+          "kanji": "罪悪",
+          "kana": "ざいあく",
+          "en": "crime"
+        },
+        "つみ": {
+          "kanji": "罪",
+          "kana": "つみ",
+          "en": "crime"
+        }
+      }
+    },
+    {
+      "kanji": "義",
+      "on": [
+        "ギ"
+      ],
+      "kun": [],
+      "meanings": [
+        "righteousness",
+        "justice",
+        "morality",
+        "honor"
+      ],
+      "words": [
+        {
+          "kanji": "義",
+          "kana": "ぎ",
+          "en": "morality"
+        },
+        {
+          "kanji": "意義",
+          "kana": "いぎ",
+          "en": "meaning"
+        },
+        {
+          "kanji": "疑義",
+          "kana": "ぎぎ",
+          "en": "doubt"
+        },
+        {
+          "kanji": "義姉",
+          "kana": "ぎし",
+          "en": "sister-in-law (spouse's older sister or older brother's wife)"
+        }
+      ],
+      "readingExamples": {
+        "ギ": {
+          "kanji": "義",
+          "kana": "ぎ",
+          "en": "morality"
+        }
+      }
+    },
+    {
+      "kanji": "耕",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "たがや.す"
+      ],
+      "meanings": [
+        "till",
+        "plow",
+        "cultivate"
+      ],
+      "words": [
+        {
+          "kanji": "耕地",
+          "kana": "こうち",
+          "en": "arable land"
+        },
+        {
+          "kanji": "耕す",
+          "kana": "たがやす",
+          "en": "to till"
+        },
+        {
+          "kanji": "耕作",
+          "kana": "こうさく",
+          "en": "cultivation"
+        },
+        {
+          "kanji": "農耕",
+          "kana": "のうこう",
+          "en": "farming"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "耕地",
+          "kana": "こうち",
+          "en": "arable land"
+        },
+        "たがやす": {
+          "kanji": "耕す",
+          "kana": "たがやす",
+          "en": "to till"
+        }
+      }
+    },
+    {
+      "kanji": "職",
+      "on": [
+        "ショク",
+        "ソク"
+      ],
+      "kun": [],
+      "meanings": [
+        "post",
+        "employment",
+        "work"
+      ],
+      "words": [
+        {
+          "kanji": "職",
+          "kana": "しょく",
+          "en": "job"
+        },
+        {
+          "kanji": "辞職",
+          "kana": "じしょく",
+          "en": "resignation"
+        },
+        {
+          "kanji": "職場",
+          "kana": "しょくば",
+          "en": "one's post"
+        },
+        {
+          "kanji": "職務",
+          "kana": "しょくむ",
+          "en": "professional duties"
+        }
+      ],
+      "readingExamples": {
+        "ショク": {
+          "kanji": "職",
+          "kana": "しょく",
+          "en": "job"
+        }
+      }
+    },
+    {
+      "kanji": "肥",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "こ.える",
+        "こえ",
+        "こ.やす",
+        "こ.やし",
+        "ふと.る"
+      ],
+      "meanings": [
+        "fertilizer",
+        "get fat",
+        "fertile",
+        "manure"
+      ],
+      "words": [
+        {
+          "kanji": "肥",
+          "kana": "こえ",
+          "en": "manure"
+        },
+        {
+          "kanji": "肥える",
+          "kana": "こえる",
+          "en": "to grow fat"
+        },
+        {
+          "kanji": "肥やし",
+          "kana": "こやし",
+          "en": "manure"
+        },
+        {
+          "kanji": "肥大",
+          "kana": "ひだい",
+          "en": "swelling"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "肥大",
+          "kana": "ひだい",
+          "en": "swelling"
+        },
+        "こえる": {
+          "kanji": "肥える",
+          "kana": "こえる",
+          "en": "to grow fat"
+        },
+        "こえ": {
+          "kanji": "肥",
+          "kana": "こえ",
+          "en": "manure"
+        },
+        "こやす": {
+          "kanji": "肥やす",
+          "kana": "こやす",
+          "en": "to fertilize"
+        },
+        "こやし": {
+          "kanji": "肥やし",
+          "kana": "こやし",
+          "en": "manure"
+        }
+      }
+    },
+    {
+      "kanji": "能",
+      "on": [
+        "ノウ"
+      ],
+      "kun": [
+        "よ.く",
+        "あた.う"
+      ],
+      "meanings": [
+        "ability",
+        "talent",
+        "skill",
+        "capacity"
+      ],
+      "words": [
+        {
+          "kanji": "能",
+          "kana": "のう",
+          "en": "talent"
+        },
+        {
+          "kanji": "可能",
+          "kana": "かのう",
+          "en": "possible"
+        },
+        {
+          "kanji": "機能",
+          "kana": "きのう",
+          "en": "function"
+        },
+        {
+          "kanji": "技能",
+          "kana": "ぎのう",
+          "en": "technical skill"
+        }
+      ],
+      "readingExamples": {
+        "ノウ": {
+          "kanji": "能",
+          "kana": "のう",
+          "en": "talent"
+        }
+      }
+    },
+    {
+      "kanji": "脈",
+      "on": [
+        "ミャク"
+      ],
+      "kun": [
+        "すじ"
+      ],
+      "meanings": [
+        "vein",
+        "pulse",
+        "hope"
+      ],
+      "words": [
+        {
+          "kanji": "脈",
+          "kana": "みゃく",
+          "en": "pulse"
+        },
+        {
+          "kanji": "一脈",
+          "kana": "いちみゃく",
+          "en": "(a) vein"
+        },
+        {
+          "kanji": "金脈",
+          "kana": "きんみゃく",
+          "en": "vein of gold"
+        },
+        {
+          "kanji": "鉱脈",
+          "kana": "こうみゃく",
+          "en": "vein (of ore)"
+        }
+      ],
+      "readingExamples": {
+        "ミャク": {
+          "kanji": "脈",
+          "kana": "みゃく",
+          "en": "pulse"
+        }
+      }
+    },
+    {
+      "kanji": "興",
+      "on": [
+        "コウ",
+        "キョウ"
+      ],
+      "kun": [
+        "おこ.る",
+        "おこ.す"
+      ],
+      "meanings": [
+        "entertain",
+        "revive",
+        "retrieve",
+        "interest"
+      ],
+      "words": [
+        {
+          "kanji": "興す",
+          "kana": "おこす",
+          "en": "to vitalize (e.g. an industry)"
+        },
+        {
+          "kanji": "興起",
+          "kana": "こうき",
+          "en": "rise"
+        },
+        {
+          "kanji": "興",
+          "kana": "きょう",
+          "en": "interest"
+        },
+        {
+          "kanji": "興奮",
+          "kana": "こうふん",
+          "en": "excitement"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "興起",
+          "kana": "こうき",
+          "en": "rise"
+        },
+        "キョウ": {
+          "kanji": "興",
+          "kana": "きょう",
+          "en": "interest"
+        },
+        "おこす": {
+          "kanji": "興す",
+          "kana": "おこす",
+          "en": "to vitalize (e.g. an industry)"
+        }
+      }
+    },
+    {
+      "kanji": "舎",
+      "on": [
+        "シャ",
+        "セキ"
+      ],
+      "kun": [
+        "やど.る"
+      ],
+      "meanings": [
+        "cottage",
+        "inn",
+        "hut",
+        "house"
+      ],
+      "words": [
+        {
+          "kanji": "舎",
+          "kana": "しゃ",
+          "en": "hut"
+        },
+        {
+          "kanji": "舎利",
+          "kana": "しゃり",
+          "en": "bones left after cremation (esp. those of a Buddha or Boddhisatva)"
+        },
+        {
+          "kanji": "田舎",
+          "kana": "いなか",
+          "en": "rural area"
+        },
+        {
+          "kanji": "舎路",
+          "kana": "シアトル",
+          "en": "Seattle"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "舎",
+          "kana": "しゃ",
+          "en": "hut"
+        }
+      }
+    },
+    {
+      "kanji": "航",
+      "on": [
+        "コウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "navigate",
+        "sail",
+        "cruise",
+        "fly"
+      ],
+      "words": [
+        {
+          "kanji": "航路",
+          "kana": "こうろ",
+          "en": "(air or sea) route"
+        },
+        {
+          "kanji": "運航",
+          "kana": "うんこう",
+          "en": "operation (of a ship or aircraft route)"
+        },
+        {
+          "kanji": "欠航",
+          "kana": "けっこう",
+          "en": "cancellation (of a flight or sea voyage)"
+        },
+        {
+          "kanji": "航海",
+          "kana": "こうかい",
+          "en": "(sea) voyage"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "航路",
+          "kana": "こうろ",
+          "en": "(air or sea) route"
+        }
+      }
+    },
+    {
+      "kanji": "術",
+      "on": [
+        "ジュツ"
+      ],
+      "kun": [
+        "すべ"
+      ],
+      "meanings": [
+        "art",
+        "technique",
+        "skill",
+        "means"
+      ],
+      "words": [
+        {
+          "kanji": "術",
+          "kana": "じゅつ",
+          "en": "art"
+        },
+        {
+          "kanji": "技術",
+          "kana": "ぎじゅつ",
+          "en": "technology"
+        },
+        {
+          "kanji": "術語",
+          "kana": "じゅつご",
+          "en": "technical term"
+        },
+        {
+          "kanji": "馬術",
+          "kana": "ばじゅつ",
+          "en": "horsemanship"
+        }
+      ],
+      "readingExamples": {
+        "ジュツ": {
+          "kanji": "術",
+          "kana": "じゅつ",
+          "en": "art"
+        }
+      }
+    },
+    {
+      "kanji": "衛",
+      "on": [
+        "エイ",
+        "エ"
+      ],
+      "kun": [],
+      "meanings": [
+        "defense",
+        "protection"
+      ],
+      "words": [
+        {
+          "kanji": "衛視",
+          "kana": "えいし",
+          "en": "guards at parliament"
+        },
+        {
+          "kanji": "護衛",
+          "kana": "ごえい",
+          "en": "guard"
+        },
+        {
+          "kanji": "自衛",
+          "kana": "じえい",
+          "en": "self-defense"
+        },
+        {
+          "kanji": "近衛",
+          "kana": "このえ",
+          "en": "Imperial Guards"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "衛視",
+          "kana": "えいし",
+          "en": "guards at parliament"
+        },
+        "エ": {
+          "kanji": "衛視",
+          "kana": "えいし",
+          "en": "guards at parliament"
+        }
+      }
+    },
+    {
+      "kanji": "製",
+      "on": [
+        "セイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "made in...",
+        "manufacture"
+      ],
+      "words": [
+        {
+          "kanji": "製",
+          "kana": "せい",
+          "en": "make"
+        },
+        {
+          "kanji": "手製",
+          "kana": "てせい",
+          "en": "handmade"
+        },
+        {
+          "kanji": "製図",
+          "kana": "せいず",
+          "en": "drafting"
+        },
+        {
+          "kanji": "和製",
+          "kana": "わせい",
+          "en": "Japanese-made"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "製",
+          "kana": "せい",
+          "en": "make"
+        }
+      }
+    },
+    {
+      "kanji": "複",
+      "on": [
+        "フク"
+      ],
+      "kun": [],
+      "meanings": [
+        "duplicate",
+        "double",
+        "compound",
+        "multiple"
+      ],
+      "words": [
+        {
+          "kanji": "複",
+          "kana": "ふく",
+          "en": "compound"
+        },
+        {
+          "kanji": "複利",
+          "kana": "ふくり",
+          "en": "compound interest"
+        },
+        {
+          "kanji": "単複",
+          "kana": "たんぷく",
+          "en": "simplicity and complexity"
+        },
+        {
+          "kanji": "複眼",
+          "kana": "ふくがん",
+          "en": "compound eye"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "複",
+          "kana": "ふく",
+          "en": "compound"
+        }
+      }
+    },
+    {
+      "kanji": "規",
+      "on": [
+        "キ"
+      ],
+      "kun": [],
+      "meanings": [
+        "standard",
+        "measure"
+      ],
+      "words": [
+        {
+          "kanji": "規模",
+          "kana": "きぼ",
+          "en": "scale"
+        },
+        {
+          "kanji": "規格",
+          "kana": "きかく",
+          "en": "standard"
+        },
+        {
+          "kanji": "規制",
+          "kana": "きせい",
+          "en": "regulation"
+        },
+        {
+          "kanji": "規則",
+          "kana": "きそく",
+          "en": "rule"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "規模",
+          "kana": "きぼ",
+          "en": "scale"
+        }
+      }
+    },
+    {
+      "kanji": "解",
+      "on": [
+        "カイ",
+        "ゲ"
+      ],
+      "kun": [
+        "と.く",
+        "と.かす",
+        "と.ける",
+        "ほど.く",
+        "ほぐ.す",
+        "わか.る",
+        "さと.る"
+      ],
+      "meanings": [
+        "unravel",
+        "notes",
+        "key",
+        "explanation"
+      ],
+      "words": [
+        {
+          "kanji": "解く",
+          "kana": "とく",
+          "en": "to untie"
+        },
+        {
+          "kanji": "解く",
+          "kana": "ほどく",
+          "en": "to undo"
+        },
+        {
+          "kanji": "解ける",
+          "kana": "とける",
+          "en": "to be solved"
+        },
+        {
+          "kanji": "解熱",
+          "kana": "げねつ",
+          "en": "lowering a fever"
+        }
+      ],
+      "readingExamples": {
+        "カイ": {
+          "kanji": "解雇",
+          "kana": "かいこ",
+          "en": "dismissal (of an employee)"
+        },
+        "ゲ": {
+          "kanji": "解脱",
+          "kana": "げだつ",
+          "en": "liberation from earthly desires and the woes of man"
+        },
+        "とく": {
+          "kanji": "解く",
+          "kana": "とく",
+          "en": "to untie"
+        },
+        "とける": {
+          "kanji": "解ける",
+          "kana": "とける",
+          "en": "to be solved"
+        },
+        "ほどく": {
+          "kanji": "解く",
+          "kana": "ほどく",
+          "en": "to undo"
+        }
+      }
+    },
+    {
+      "kanji": "設",
+      "on": [
+        "セツ"
+      ],
+      "kun": [
+        "もう.ける"
+      ],
+      "meanings": [
+        "establishment",
+        "provision",
+        "prepare"
+      ],
+      "words": [
+        {
+          "kanji": "移設",
+          "kana": "いせつ",
+          "en": "relocation (of facilities, an institution, factory, etc.)"
+        },
+        {
+          "kanji": "私設",
+          "kana": "しせつ",
+          "en": "private"
+        },
+        {
+          "kanji": "設置",
+          "kana": "せっち",
+          "en": "establishment"
+        },
+        {
+          "kanji": "設備",
+          "kana": "せつび",
+          "en": "equipment"
+        }
+      ],
+      "readingExamples": {
+        "セツ": {
+          "kanji": "設備",
+          "kana": "せつび",
+          "en": "equipment"
+        },
+        "もうける": {
+          "kanji": "設ける",
+          "kana": "もうける",
+          "en": "to prepare"
+        }
+      }
+    },
+    {
+      "kanji": "許",
+      "on": [
+        "キョ"
+      ],
+      "kun": [
+        "ゆる.す",
+        "もと"
+      ],
+      "meanings": [
+        "permit",
+        "approve"
+      ],
+      "words": [
+        {
+          "kanji": "許り",
+          "kana": "ばかり",
+          "en": "only"
+        },
+        {
+          "kanji": "許し",
+          "kana": "ゆるし",
+          "en": "pardon"
+        },
+        {
+          "kanji": "許す",
+          "kana": "ゆるす",
+          "en": "to permit"
+        },
+        {
+          "kanji": "許可",
+          "kana": "きょか",
+          "en": "permission"
+        }
+      ],
+      "readingExamples": {
+        "キョ": {
+          "kanji": "許可",
+          "kana": "きょか",
+          "en": "permission"
+        },
+        "ゆるす": {
+          "kanji": "許す",
+          "kana": "ゆるす",
+          "en": "to permit"
+        }
+      }
+    },
+    {
+      "kanji": "証",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "あかし"
+      ],
+      "meanings": [
+        "evidence",
+        "proof",
+        "certificate"
+      ],
+      "words": [
+        {
+          "kanji": "証",
+          "kana": "あかし",
+          "en": "proof"
+        },
+        {
+          "kanji": "査証",
+          "kana": "さしょう",
+          "en": "visa"
+        },
+        {
+          "kanji": "保証",
+          "kana": "ほしょう",
+          "en": "guarantee"
+        },
+        {
+          "kanji": "確証",
+          "kana": "かくしょう",
+          "en": "conclusive evidence"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "証拠",
+          "kana": "しょうこ",
+          "en": "evidence"
+        },
+        "あかし": {
+          "kanji": "証",
+          "kana": "あかし",
+          "en": "proof"
+        }
+      }
+    },
+    {
+      "kanji": "評",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "evaluate",
+        "criticism",
+        "comment"
+      ],
+      "words": [
+        {
+          "kanji": "評",
+          "kana": "ひょう",
+          "en": "criticism"
+        },
+        {
+          "kanji": "批評",
+          "kana": "ひひょう",
+          "en": "criticism"
+        },
+        {
+          "kanji": "評価",
+          "kana": "ひょうか",
+          "en": "valuation"
+        },
+        {
+          "kanji": "評議",
+          "kana": "ひょうぎ",
+          "en": "conference"
+        }
+      ],
+      "readingExamples": {
+        "ヒョウ": {
+          "kanji": "評",
+          "kana": "ひょう",
+          "en": "criticism"
+        }
+      }
+    },
+    {
+      "kanji": "講",
+      "on": [
+        "コウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "lecture",
+        "club",
+        "association"
+      ],
+      "words": [
+        {
+          "kanji": "講義",
+          "kana": "こうぎ",
+          "en": "lecture"
+        },
+        {
+          "kanji": "講座",
+          "kana": "こうざ",
+          "en": "course (e.g. of lectures)"
+        },
+        {
+          "kanji": "講師",
+          "kana": "こうし",
+          "en": "speaker"
+        },
+        {
+          "kanji": "講話",
+          "kana": "こうわ",
+          "en": "lecture"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "講義",
+          "kana": "こうぎ",
+          "en": "lecture"
+        }
+      }
+    },
+    {
+      "kanji": "謝",
+      "on": [
+        "シャ"
+      ],
+      "kun": [
+        "あやま.る"
+      ],
+      "meanings": [
+        "apologize",
+        "thank",
+        "refuse"
+      ],
+      "words": [
+        {
+          "kanji": "謝意",
+          "kana": "しゃい",
+          "en": "gratitude"
+        },
+        {
+          "kanji": "謝辞",
+          "kana": "しゃじ",
+          "en": "words of thanks"
+        },
+        {
+          "kanji": "感謝",
+          "kana": "かんしゃ",
+          "en": "thanks"
+        },
+        {
+          "kanji": "月謝",
+          "kana": "げっしゃ",
+          "en": "monthly tuition fee"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "謝意",
+          "kana": "しゃい",
+          "en": "gratitude"
+        },
+        "あやまる": {
+          "kanji": "謝る",
+          "kana": "あやまる",
+          "en": "to apologize (apologise)"
+        }
+      }
+    },
+    {
+      "kanji": "識",
+      "on": [
+        "シキ"
+      ],
+      "kun": [
+        "し.る",
+        "しる.す"
+      ],
+      "meanings": [
+        "discriminating",
+        "know",
+        "write"
+      ],
+      "words": [
+        {
+          "kanji": "意識",
+          "kana": "いしき",
+          "en": "consciousness"
+        },
+        {
+          "kanji": "知識",
+          "kana": "ちしき",
+          "en": "knowledge"
+        },
+        {
+          "kanji": "学識",
+          "kana": "がくしき",
+          "en": "scholarship"
+        },
+        {
+          "kanji": "見識",
+          "kana": "けんしき",
+          "en": "views"
+        }
+      ],
+      "readingExamples": {
+        "シキ": {
+          "kanji": "識見",
+          "kana": "しきけん",
+          "en": "views"
+        }
+      }
+    },
+    {
+      "kanji": "護",
+      "on": [
+        "ゴ"
+      ],
+      "kun": [
+        "まも.る"
+      ],
+      "meanings": [
+        "safeguard",
+        "protect"
+      ],
+      "words": [
+        {
+          "kanji": "加護",
+          "kana": "かご",
+          "en": "divine protection"
+        },
+        {
+          "kanji": "護持",
+          "kana": "ごじ",
+          "en": "defend and maintain"
+        },
+        {
+          "kanji": "保護",
+          "kana": "ほご",
+          "en": "protection"
+        },
+        {
+          "kanji": "愛護",
+          "kana": "あいご",
+          "en": "protection"
+        }
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "護謨",
+          "kana": "ゴム",
+          "en": "gum"
+        }
+      }
+    },
+    {
+      "kanji": "豊",
+      "on": [
+        "ホウ",
+        "ブ"
+      ],
+      "kun": [
+        "ゆた.か",
+        "とよ"
+      ],
+      "meanings": [
+        "bountiful",
+        "excellent",
+        "rich"
+      ],
+      "words": [
+        {
+          "kanji": "豊か",
+          "kana": "ゆたか",
+          "en": "abundant"
+        },
+        {
+          "kanji": "豊富",
+          "kana": "ほうふ",
+          "en": "abundant"
+        },
+        {
+          "kanji": "豊作",
+          "kana": "ほうさく",
+          "en": "abundant harvest"
+        },
+        {
+          "kanji": "豊年",
+          "kana": "ほうねん",
+          "en": "fruitful year"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "豊富",
+          "kana": "ほうふ",
+          "en": "abundant"
+        },
+        "ゆたか": {
+          "kanji": "豊か",
+          "kana": "ゆたか",
+          "en": "abundant"
+        }
+      }
+    },
+    {
+      "kanji": "象",
+      "on": [
+        "ショウ",
+        "ゾウ"
+      ],
+      "kun": [
+        "かたど.る"
+      ],
+      "meanings": [
+        "elephant",
+        "pattern after",
+        "imitate",
+        "image"
+      ],
+      "words": [
+        {
+          "kanji": "象",
+          "kana": "ぞう",
+          "en": "elephant (Elephantidae spp.)"
+        },
+        {
+          "kanji": "象",
+          "kana": "しょう",
+          "en": "form"
+        },
+        {
+          "kanji": "気象",
+          "kana": "きしょう",
+          "en": "weather (conditions)"
+        },
+        {
+          "kanji": "具象",
+          "kana": "ぐしょう",
+          "en": "concreteness"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "象",
+          "kana": "しょう",
+          "en": "form"
+        },
+        "ゾウ": {
+          "kanji": "象",
+          "kana": "ぞう",
+          "en": "elephant (Elephantidae spp.)"
+        }
+      }
+    },
+    {
+      "kanji": "財",
+      "on": [
+        "ザイ",
+        "サイ",
+        "ゾク"
+      ],
+      "kun": [
+        "たから"
+      ],
+      "meanings": [
+        "property",
+        "money",
+        "wealth",
+        "assets"
+      ],
+      "words": [
+        {
+          "kanji": "財",
+          "kana": "ざい",
+          "en": "fortune"
+        },
+        {
+          "kanji": "家財",
+          "kana": "かざい",
+          "en": "household belongings"
+        },
+        {
+          "kanji": "財布",
+          "kana": "さいふ",
+          "en": "wallet"
+        },
+        {
+          "kanji": "財務",
+          "kana": "ざいむ",
+          "en": "financial affairs"
+        }
+      ],
+      "readingExamples": {
+        "ザイ": {
+          "kanji": "財",
+          "kana": "ざい",
+          "en": "fortune"
+        },
+        "サイ": {
+          "kanji": "財布",
+          "kana": "さいふ",
+          "en": "wallet"
+        }
+      }
+    },
+    {
+      "kanji": "貧",
+      "on": [
+        "ヒン",
+        "ビン"
+      ],
+      "kun": [
+        "まず.しい"
+      ],
+      "meanings": [
+        "poverty",
+        "poor"
+      ],
+      "words": [
+        {
+          "kanji": "貧",
+          "kana": "ひん",
+          "en": "poverty"
+        },
+        {
+          "kanji": "貧富",
+          "kana": "ひんぷ",
+          "en": "wealth and poverty"
+        },
+        {
+          "kanji": "貧打",
+          "kana": "ひんだ",
+          "en": "poor hitting"
+        },
+        {
+          "kanji": "極貧",
+          "kana": "ごくひん",
+          "en": "destitution"
+        }
+      ],
+      "readingExamples": {
+        "ヒン": {
+          "kanji": "貧",
+          "kana": "ひん",
+          "en": "poverty"
+        },
+        "ビン": {
+          "kanji": "貧乏",
+          "kana": "びんぼう",
+          "en": "poverty-stricken"
+        },
+        "まずしい": {
+          "kanji": "貧しい",
+          "kana": "まずしい",
+          "en": "poor"
+        }
+      }
+    },
+    {
+      "kanji": "責",
+      "on": [
+        "セキ"
+      ],
+      "kun": [
+        "せ.める"
+      ],
+      "meanings": [
+        "blame",
+        "condemn",
+        "censure"
+      ],
+      "words": [
+        {
+          "kanji": "責め",
+          "kana": "せめ",
+          "en": "responsibility"
+        },
+        {
+          "kanji": "自責",
+          "kana": "じせき",
+          "en": "self-condemnation"
+        },
+        {
+          "kanji": "責める",
+          "kana": "せめる",
+          "en": "to condemn"
+        },
+        {
+          "kanji": "責務",
+          "kana": "せきむ",
+          "en": "duty"
+        }
+      ],
+      "readingExamples": {
+        "セキ": {
+          "kanji": "責務",
+          "kana": "せきむ",
+          "en": "duty"
+        },
+        "せめる": {
+          "kanji": "責める",
+          "kana": "せめる",
+          "en": "to condemn"
+        }
+      }
+    },
+    {
+      "kanji": "貯",
+      "on": [
+        "チョ"
+      ],
+      "kun": [
+        "た.める",
+        "たくわ.える"
+      ],
+      "meanings": [
+        "savings",
+        "store",
+        "lay in",
+        "keep"
+      ],
+      "words": [
+        {
+          "kanji": "貯金",
+          "kana": "ちょきん",
+          "en": "putting money aside"
+        },
+        {
+          "kanji": "貯水",
+          "kana": "ちょすい",
+          "en": "storage of water"
+        },
+        {
+          "kanji": "貯蔵",
+          "kana": "ちょぞう",
+          "en": "storage"
+        },
+        {
+          "kanji": "郵貯",
+          "kana": "ゆうちょ",
+          "en": "postal (post-office) savings (deposit)"
+        }
+      ],
+      "readingExamples": {
+        "チョ": {
+          "kanji": "貯金",
+          "kana": "ちょきん",
+          "en": "putting money aside"
+        }
+      }
+    },
+    {
+      "kanji": "貸",
+      "on": [
+        "タイ"
+      ],
+      "kun": [
+        "か.す",
+        "か.し-",
+        "かし-"
+      ],
+      "meanings": [
+        "lend"
+      ],
+      "words": [
+        {
+          "kanji": "貸し",
+          "kana": "かし",
+          "en": "loan"
+        },
+        {
+          "kanji": "貸す",
+          "kana": "かす",
+          "en": "to lend"
+        },
+        {
+          "kanji": "貸家",
+          "kana": "かしや",
+          "en": "house for rent"
+        },
+        {
+          "kanji": "貸間",
+          "kana": "かしま",
+          "en": "room to let"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "貸与",
+          "kana": "たいよ",
+          "en": "loan"
+        },
+        "かす": {
+          "kanji": "貸す",
+          "kana": "かす",
+          "en": "to lend"
+        },
+        "かし": {
+          "kanji": "貸し",
+          "kana": "かし",
+          "en": "loan"
+        }
+      }
+    },
+    {
+      "kanji": "費",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "つい.やす",
+        "つい.える"
+      ],
+      "meanings": [
+        "expense",
+        "cost",
+        "spend",
+        "consume"
+      ],
+      "words": [
+        {
+          "kanji": "費",
+          "kana": "ひ",
+          "en": "cost"
+        },
+        {
+          "kanji": "私費",
+          "kana": "しひ",
+          "en": "private expense"
+        },
+        {
+          "kanji": "自費",
+          "kana": "じひ",
+          "en": "one's own expense"
+        },
+        {
+          "kanji": "会費",
+          "kana": "かいひ",
+          "en": "membership fee"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "費",
+          "kana": "ひ",
+          "en": "cost"
+        },
+        "ついやす": {
+          "kanji": "費やす",
+          "kana": "ついやす",
+          "en": "to spend"
+        }
+      }
+    },
+    {
+      "kanji": "貿",
+      "on": [
+        "ボウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "trade",
+        "exchange"
+      ],
+      "words": [
+        {
+          "kanji": "貿易",
+          "kana": "ぼうえき",
+          "en": "(foreign) trade"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "貿易",
+          "kana": "ぼうえき",
+          "en": "(foreign) trade"
+        }
+      }
+    },
+    {
+      "kanji": "資",
+      "on": [
+        "シ"
+      ],
+      "kun": [],
+      "meanings": [
+        "assets",
+        "resources",
+        "capital",
+        "funds"
+      ],
+      "words": [
+        {
+          "kanji": "外資",
+          "kana": "がいし",
+          "en": "foreign capital (e.g. in a company)"
+        },
+        {
+          "kanji": "学資",
+          "kana": "がくし",
+          "en": "school expenses"
+        },
+        {
+          "kanji": "資格",
+          "kana": "しかく",
+          "en": "qualifications"
+        },
+        {
+          "kanji": "資金",
+          "kana": "しきん",
+          "en": "funds"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "資格",
+          "kana": "しかく",
+          "en": "qualifications"
+        }
+      }
+    },
+    {
+      "kanji": "賛",
+      "on": [
+        "サン"
+      ],
+      "kun": [
+        "たす.ける",
+        "たた.える"
+      ],
+      "meanings": [
+        "approve",
+        "praise",
+        "title or inscription on picture",
+        "assist"
+      ],
+      "words": [
+        {
+          "kanji": "賛",
+          "kana": "さん",
+          "en": "praise"
+        },
+        {
+          "kanji": "賛歌",
+          "kana": "さんか",
+          "en": "song of praise"
+        },
+        {
+          "kanji": "賛辞",
+          "kana": "さんじ",
+          "en": "eulogy"
+        },
+        {
+          "kanji": "賛否",
+          "kana": "さんぴ",
+          "en": "yes and no"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "賛",
+          "kana": "さん",
+          "en": "praise"
+        }
+      }
+    },
+    {
+      "kanji": "賞",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "ほ.める"
+      ],
+      "meanings": [
+        "prize",
+        "reward",
+        "praise"
+      ],
+      "words": [
+        {
+          "kanji": "賞",
+          "kana": "しょう",
+          "en": "prize"
+        },
+        {
+          "kanji": "賞味",
+          "kana": "しょうみ",
+          "en": "relish"
+        },
+        {
+          "kanji": "観賞",
+          "kana": "かんしょう",
+          "en": "admiration"
+        },
+        {
+          "kanji": "激賞",
+          "kana": "げきしょう",
+          "en": "high praise"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "賞",
+          "kana": "しょう",
+          "en": "prize"
+        }
+      }
+    },
+    {
+      "kanji": "質",
+      "on": [
+        "シツ",
+        "シチ",
+        "チ"
+      ],
+      "kun": [
+        "たち",
+        "ただ.す",
+        "もと",
+        "わりふ"
+      ],
+      "meanings": [
+        "substance",
+        "quality",
+        "matter",
+        "temperament"
+      ],
+      "words": [
+        {
+          "kanji": "質",
+          "kana": "しつ",
+          "en": "quality"
+        },
+        {
+          "kanji": "異質",
+          "kana": "いしつ",
+          "en": "different (quality, nature)"
+        },
+        {
+          "kanji": "気質",
+          "kana": "きしつ",
+          "en": "disposition"
+        },
+        {
+          "kanji": "言質",
+          "kana": "げんち",
+          "en": "commitment"
+        }
+      ],
+      "readingExamples": {
+        "シツ": {
+          "kanji": "質",
+          "kana": "しつ",
+          "en": "quality"
+        },
+        "シチ": {
+          "kanji": "質屋",
+          "kana": "しちや",
+          "en": "pawnshop"
+        },
+        "チ": {
+          "kanji": "地質",
+          "kana": "ちしつ",
+          "en": "geological features"
+        }
+      }
+    },
+    {
+      "kanji": "輸",
+      "on": [
+        "ユ",
+        "シュ"
+      ],
+      "kun": [],
+      "meanings": [
+        "transport",
+        "send",
+        "be inferior"
+      ],
+      "words": [
+        {
+          "kanji": "運輸",
+          "kana": "うんゆ",
+          "en": "transportation"
+        },
+        {
+          "kanji": "禁輸",
+          "kana": "きんゆ",
+          "en": "embargo"
+        },
+        {
+          "kanji": "空輸",
+          "kana": "くうゆ",
+          "en": "air transport"
+        },
+        {
+          "kanji": "密輸",
+          "kana": "みつゆ",
+          "en": "smuggling"
+        }
+      ],
+      "readingExamples": {
+        "ユ": {
+          "kanji": "輸液",
+          "kana": "ゆえき",
+          "en": "transfusion"
+        }
+      }
+    },
+    {
+      "kanji": "述",
+      "on": [
+        "ジュツ"
+      ],
+      "kun": [
+        "の.べる"
+      ],
+      "meanings": [
+        "mention",
+        "state",
+        "speak",
+        "relate"
+      ],
+      "words": [
+        {
+          "kanji": "述べる",
+          "kana": "のべる",
+          "en": "to state"
+        },
+        {
+          "kanji": "記述",
+          "kana": "きじゅつ",
+          "en": "description"
+        },
+        {
+          "kanji": "口述",
+          "kana": "こうじゅつ",
+          "en": "dictation"
+        },
+        {
+          "kanji": "前述",
+          "kana": "ぜんじゅつ",
+          "en": "aforementioned"
+        }
+      ],
+      "readingExamples": {
+        "のべる": {
+          "kanji": "述べる",
+          "kana": "のべる",
+          "en": "to state"
+        }
+      }
+    },
+    {
+      "kanji": "迷",
+      "on": [
+        "メイ"
+      ],
+      "kun": [
+        "まよ.う"
+      ],
+      "meanings": [
+        "astray",
+        "be perplexed",
+        "in doubt",
+        "lost"
+      ],
+      "words": [
+        {
+          "kanji": "迷う",
+          "kana": "まよう",
+          "en": "to lose one's way"
+        },
+        {
+          "kanji": "迷子",
+          "kana": "まいご",
+          "en": "lost child"
+        },
+        {
+          "kanji": "迷路",
+          "kana": "めいろ",
+          "en": "maze"
+        },
+        {
+          "kanji": "迷い",
+          "kana": "まよい",
+          "en": "hesitation"
+        }
+      ],
+      "readingExamples": {
+        "メイ": {
+          "kanji": "迷路",
+          "kana": "めいろ",
+          "en": "maze"
+        },
+        "まよう": {
+          "kanji": "迷う",
+          "kana": "まよう",
+          "en": "to lose one's way"
+        }
+      }
+    },
+    {
+      "kanji": "逆",
+      "on": [
+        "ギャク",
+        "ゲキ"
+      ],
+      "kun": [
+        "さか",
+        "さか.さ",
+        "さか.らう"
+      ],
+      "meanings": [
+        "inverted",
+        "reverse",
+        "opposite",
+        "wicked"
+      ],
+      "words": [
+        {
+          "kanji": "逆",
+          "kana": "ぎゃく",
+          "en": "reverse"
+        },
+        {
+          "kanji": "逆さ",
+          "kana": "さかさ",
+          "en": "inverted"
+        },
+        {
+          "kanji": "真逆",
+          "kana": "まさか",
+          "en": "by no means"
+        },
+        {
+          "kanji": "逆手",
+          "kana": "さかて",
+          "en": "underhand grip (e.g. in gymnastics, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ギャク": {
+          "kanji": "逆",
+          "kana": "ぎゃく",
+          "en": "reverse"
+        },
+        "さか": {
+          "kanji": "逆さ",
+          "kana": "さかさ",
+          "en": "inverted"
+        },
+        "さかさ": {
+          "kanji": "逆さ",
+          "kana": "さかさ",
+          "en": "inverted"
+        },
+        "さからう": {
+          "kanji": "逆らう",
+          "kana": "さからう",
+          "en": "to go against"
+        }
+      }
+    },
+    {
+      "kanji": "造",
+      "on": [
+        "ゾウ"
+      ],
+      "kun": [
+        "つく.る",
+        "つく.り",
+        "-づく.り"
+      ],
+      "meanings": [
+        "create",
+        "make",
+        "structure",
+        "physique"
+      ],
+      "words": [
+        {
+          "kanji": "造語",
+          "kana": "ぞうご",
+          "en": "coinage"
+        },
+        {
+          "kanji": "模造",
+          "kana": "もぞう",
+          "en": "imitation"
+        },
+        {
+          "kanji": "造花",
+          "kana": "ぞうか",
+          "en": "artificial flower"
+        },
+        {
+          "kanji": "荷造り",
+          "kana": "にづくり",
+          "en": "packing"
+        }
+      ],
+      "readingExamples": {
+        "ゾウ": {
+          "kanji": "造語",
+          "kana": "ぞうご",
+          "en": "coinage"
+        },
+        "つくり": {
+          "kanji": "造り酒屋",
+          "kana": "つくりざかや",
+          "en": "sake brewer"
+        }
+      }
+    },
+    {
+      "kanji": "過",
+      "on": [
+        "カ"
+      ],
+      "kun": [
+        "す.ぎる",
+        "す.ごす",
+        "あやま.ち",
+        "あやま.つ",
+        "よぎ.る",
+        "よ.ぎる"
+      ],
+      "meanings": [
+        "overdo",
+        "exceed",
+        "go beyond",
+        "error"
+      ],
+      "words": [
+        {
+          "kanji": "過ぎ",
+          "kana": "すぎ",
+          "en": "past"
+        },
+        {
+          "kanji": "過去",
+          "kana": "かこ",
+          "en": "the past"
+        },
+        {
+          "kanji": "過誤",
+          "kana": "かご",
+          "en": "mistake"
+        },
+        {
+          "kanji": "過多",
+          "kana": "かた",
+          "en": "excess"
+        }
+      ],
+      "readingExamples": {
+        "カ": {
+          "kanji": "過去",
+          "kana": "かこ",
+          "en": "the past"
+        },
+        "すぎる": {
+          "kanji": "過ぎる",
+          "kana": "すぎる",
+          "en": "to pass through"
+        },
+        "すごす": {
+          "kanji": "過ごす",
+          "kana": "すごす",
+          "en": "to spend (time)"
+        },
+        "あやまち": {
+          "kanji": "過ち",
+          "kana": "あやまち",
+          "en": "fault"
+        }
+      }
+    },
+    {
+      "kanji": "適",
+      "on": [
+        "テキ"
+      ],
+      "kun": [
+        "かな.う"
+      ],
+      "meanings": [
+        "suitable",
+        "occasional",
+        "rare",
+        "qualified"
+      ],
+      "words": [
+        {
+          "kanji": "適度",
+          "kana": "てきど",
+          "en": "moderate (degree)"
+        },
+        {
+          "kanji": "適否",
+          "kana": "てきひ",
+          "en": "propriety"
+        },
+        {
+          "kanji": "不適",
+          "kana": "ふてき",
+          "en": "inadequacy"
+        },
+        {
+          "kanji": "適時",
+          "kana": "てきじ",
+          "en": "timely"
+        }
+      ],
+      "readingExamples": {
+        "テキ": {
+          "kanji": "適宜",
+          "kana": "てきぎ",
+          "en": "suitable"
+        }
+      }
+    },
+    {
+      "kanji": "酸",
+      "on": [
+        "サン"
+      ],
+      "kun": [
+        "す.い"
+      ],
+      "meanings": [
+        "acid",
+        "bitterness",
+        "sour",
+        "tart"
+      ],
+      "words": [
+        {
+          "kanji": "酸",
+          "kana": "さん",
+          "en": "acid"
+        },
+        {
+          "kanji": "酸化",
+          "kana": "さんか",
+          "en": "oxidation"
+        },
+        {
+          "kanji": "酸素",
+          "kana": "さんそ",
+          "en": "oxygen (O)"
+        },
+        {
+          "kanji": "酸味",
+          "kana": "さんみ",
+          "en": "sourness"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "酸",
+          "kana": "さん",
+          "en": "acid"
+        },
+        "すい": {
+          "kanji": "水酸化ナトリウム",
+          "kana": "すいさんかナトリウム",
+          "en": "sodium hydroxide"
+        }
+      }
+    },
+    {
+      "kanji": "鉱",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "あらがね"
+      ],
+      "meanings": [
+        "mineral",
+        "ore"
+      ],
+      "words": [
+        {
+          "kanji": "鉱区",
+          "kana": "こうく",
+          "en": "mining area"
+        },
+        {
+          "kanji": "鉱山",
+          "kana": "こうざん",
+          "en": "mine (ore)"
+        },
+        {
+          "kanji": "鉱石",
+          "kana": "こうせき",
+          "en": "ore"
+        },
+        {
+          "kanji": "鉱物",
+          "kana": "こうぶつ",
+          "en": "mineral"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "鉱区",
+          "kana": "こうく",
+          "en": "mining area"
+        }
+      }
+    },
+    {
+      "kanji": "銅",
+      "on": [
+        "ドウ"
+      ],
+      "kun": [
+        "あかがね"
+      ],
+      "meanings": [
+        "copper"
+      ],
+      "words": [
+        {
+          "kanji": "銅",
+          "kana": "どう",
+          "en": "copper (Cu)"
+        },
+        {
+          "kanji": "銅貨",
+          "kana": "どうか",
+          "en": "copper coin"
+        },
+        {
+          "kanji": "青銅",
+          "kana": "せいどう",
+          "en": "bronze"
+        },
+        {
+          "kanji": "銅山",
+          "kana": "どうざん",
+          "en": "copper mine"
+        }
+      ],
+      "readingExamples": {
+        "ドウ": {
+          "kanji": "銅",
+          "kana": "どう",
+          "en": "copper (Cu)"
+        }
+      }
+    },
+    {
+      "kanji": "防",
+      "on": [
+        "ボウ"
+      ],
+      "kun": [
+        "ふせ.ぐ"
+      ],
+      "meanings": [
+        "ward off",
+        "defend",
+        "protect",
+        "resist"
+      ],
+      "words": [
+        {
+          "kanji": "砂防",
+          "kana": "さぼう",
+          "en": "erosion control"
+        },
+        {
+          "kanji": "防ぐ",
+          "kana": "ふせぐ",
+          "en": "to defend against"
+        },
+        {
+          "kanji": "防火",
+          "kana": "ぼうか",
+          "en": "fire prevention"
+        },
+        {
+          "kanji": "防止",
+          "kana": "ぼうし",
+          "en": "prevention"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "防火",
+          "kana": "ぼうか",
+          "en": "fire prevention"
+        },
+        "ふせぐ": {
+          "kanji": "防ぐ",
+          "kana": "ふせぐ",
+          "en": "to defend against"
+        }
+      }
+    },
+    {
+      "kanji": "限",
+      "on": [
+        "ゲン"
+      ],
+      "kun": [
+        "かぎ.る",
+        "かぎ.り",
+        "-かぎ.り"
+      ],
+      "meanings": [
+        "limit",
+        "restrict",
+        "to best of ability"
+      ],
+      "words": [
+        {
+          "kanji": "下限",
+          "kana": "かげん",
+          "en": "lower limit"
+        },
+        {
+          "kanji": "期限",
+          "kana": "きげん",
+          "en": "term"
+        },
+        {
+          "kanji": "限り",
+          "kana": "かぎり",
+          "en": "limit"
+        },
+        {
+          "kanji": "限る",
+          "kana": "かぎる",
+          "en": "to restrict"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "限度",
+          "kana": "げんど",
+          "en": "limit"
+        },
+        "かぎる": {
+          "kanji": "限る",
+          "kana": "かぎる",
+          "en": "to restrict"
+        },
+        "かぎり": {
+          "kanji": "限り",
+          "kana": "かぎり",
+          "en": "limit"
+        }
+      }
+    },
+    {
+      "kanji": "険",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "けわ.しい"
+      ],
+      "meanings": [
+        "precipitous",
+        "inaccessible place",
+        "impregnable position",
+        "steep place"
+      ],
+      "words": [
+        {
+          "kanji": "危険",
+          "kana": "きけん",
+          "en": "danger"
+        },
+        {
+          "kanji": "保険",
+          "kana": "ほけん",
+          "en": "insurance"
+        },
+        {
+          "kanji": "険しい",
+          "kana": "けわしい",
+          "en": "precipitous"
+        },
+        {
+          "kanji": "険悪",
+          "kana": "けんあく",
+          "en": "dangerous"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "険悪",
+          "kana": "けんあく",
+          "en": "dangerous"
+        },
+        "けわしい": {
+          "kanji": "険しい",
+          "kana": "けわしい",
+          "en": "precipitous"
+        }
+      }
+    },
+    {
+      "kanji": "際",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "きわ",
+        "-ぎわ"
+      ],
+      "meanings": [
+        "occasion",
+        "side",
+        "edge",
+        "verge"
+      ],
+      "words": [
+        {
+          "kanji": "際",
+          "kana": "さい",
+          "en": "occasion"
+        },
+        {
+          "kanji": "間際",
+          "kana": "まぎわ",
+          "en": "the point just before ..."
+        },
+        {
+          "kanji": "手際",
+          "kana": "てぎわ",
+          "en": "skill"
+        },
+        {
+          "kanji": "交際",
+          "kana": "こうさい",
+          "en": "company"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "際",
+          "kana": "さい",
+          "en": "occasion"
+        },
+        "きわ": {
+          "kanji": "際どい",
+          "kana": "きわどい",
+          "en": "risky"
+        }
+      }
+    },
+    {
+      "kanji": "雑",
+      "on": [
+        "ザツ",
+        "ゾウ"
+      ],
+      "kun": [
+        "まじ.える",
+        "まじ.る"
+      ],
+      "meanings": [
+        "miscellaneous"
+      ],
+      "words": [
+        {
+          "kanji": "雑",
+          "kana": "ざつ",
+          "en": "rough"
+        },
+        {
+          "kanji": "雑貨",
+          "kana": "ざっか",
+          "en": "miscellaneous goods"
+        },
+        {
+          "kanji": "雑誌",
+          "kana": "ざっし",
+          "en": "magazine"
+        },
+        {
+          "kanji": "雑事",
+          "kana": "ざつじ",
+          "en": "miscellaneous matters"
+        }
+      ],
+      "readingExamples": {
+        "ザツ": {
+          "kanji": "雑",
+          "kana": "ざつ",
+          "en": "rough"
+        },
+        "ゾウ": {
+          "kanji": "雑煮",
+          "kana": "ぞうに",
+          "en": "soup containing rice cakes and vegetables (New Year's dish)"
+        }
+      }
+    },
+    {
+      "kanji": "非",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "あら.ず"
+      ],
+      "meanings": [
+        "un-",
+        "mistake",
+        "negative",
+        "injustice"
+      ],
+      "words": [
+        {
+          "kanji": "非",
+          "kana": "ひ",
+          "en": "fault"
+        },
+        {
+          "kanji": "理非",
+          "kana": "りひ",
+          "en": "right and wrong"
+        },
+        {
+          "kanji": "非難",
+          "kana": "ひなん",
+          "en": "criticism"
+        },
+        {
+          "kanji": "非行",
+          "kana": "ひこう",
+          "en": "delinquency"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "非",
+          "kana": "ひ",
+          "en": "fault"
+        }
+      }
+    },
+    {
+      "kanji": "領",
+      "on": [
+        "リョウ"
+      ],
+      "kun": [
+        "えり"
+      ],
+      "meanings": [
+        "jurisdiction",
+        "dominion",
+        "territory",
+        "fief"
+      ],
+      "words": [
+        {
+          "kanji": "領事",
+          "kana": "りょうじ",
+          "en": "consul"
+        },
+        {
+          "kanji": "領地",
+          "kana": "りょうち",
+          "en": "territory"
+        },
+        {
+          "kanji": "領土",
+          "kana": "りょうど",
+          "en": "territory"
+        },
+        {
+          "kanji": "横領",
+          "kana": "おうりょう",
+          "en": "embezzlement"
+        }
+      ],
+      "readingExamples": {
+        "リョウ": {
+          "kanji": "領事",
+          "kana": "りょうじ",
+          "en": "consul"
+        }
+      }
+    },
+    {
+      "kanji": "額",
+      "on": [
+        "ガク"
+      ],
+      "kun": [
+        "ひたい"
+      ],
+      "meanings": [
+        "forehead",
+        "tablet",
+        "plaque",
+        "framed picture"
+      ],
+      "words": [
+        {
+          "kanji": "額",
+          "kana": "がく",
+          "en": "(picture) frame"
+        },
+        {
+          "kanji": "価額",
+          "kana": "かがく",
+          "en": "valuation"
+        },
+        {
+          "kanji": "額",
+          "kana": "ひたい",
+          "en": "forehead"
+        },
+        {
+          "kanji": "差額",
+          "kana": "さがく",
+          "en": "balance"
+        }
+      ],
+      "readingExamples": {
+        "ガク": {
+          "kanji": "額",
+          "kana": "がく",
+          "en": "(picture) frame"
+        },
+        "ひたい": {
+          "kanji": "額",
+          "kana": "ひたい",
+          "en": "forehead"
+        }
+      }
+    },
+    {
+      "kanji": "飼",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "か.う"
+      ],
+      "meanings": [
+        "domesticate",
+        "raise",
+        "keep",
+        "feed"
+      ],
+      "words": [
+        {
+          "kanji": "飼う",
+          "kana": "かう",
+          "en": "to keep (a pet or other animal)"
+        },
+        {
+          "kanji": "子飼い",
+          "kana": "こがい",
+          "en": "rearing from infancy"
+        },
+        {
+          "kanji": "飼育",
+          "kana": "しいく",
+          "en": "breeding"
+        },
+        {
+          "kanji": "飼料",
+          "kana": "しりょう",
+          "en": "fodder"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "飼育",
+          "kana": "しいく",
+          "en": "breeding"
+        },
+        "かう": {
+          "kanji": "飼う",
+          "kana": "かう",
+          "en": "to keep (a pet or other animal)"
+        }
+      }
+    }
+  ],
+  "6": [
+    {
+      "kanji": "並",
+      "on": [
+        "ヘイ",
+        "ホウ"
+      ],
+      "kun": [
+        "な.み",
+        "なみ",
+        "なら.べる",
+        "なら.ぶ",
+        "なら.びに"
+      ],
+      "meanings": [
+        "row",
+        "and",
+        "besides",
+        "as well as"
+      ],
+      "words": [
+        {
+          "kanji": "並",
+          "kana": "なみ",
+          "en": "average"
+        },
+        {
+          "kanji": "並び",
+          "kana": "ならび",
+          "en": "line"
+        },
+        {
+          "kanji": "並ぶ",
+          "kana": "ならぶ",
+          "en": "to line up"
+        },
+        {
+          "kanji": "毛並み",
+          "kana": "けなみ",
+          "en": "coat (of hair or fur)"
+        }
+      ],
+      "readingExamples": {
+        "ヘイ": {
+          "kanji": "並行",
+          "kana": "へいこう",
+          "en": "going side-by-side"
+        },
+        "なみ": {
+          "kanji": "並",
+          "kana": "なみ",
+          "en": "average"
+        },
+        "ならべる": {
+          "kanji": "並べる",
+          "kana": "ならべる",
+          "en": "to line up"
+        },
+        "ならぶ": {
+          "kanji": "並ぶ",
+          "kana": "ならぶ",
+          "en": "to line up"
+        },
+        "ならびに": {
+          "kanji": "並びに",
+          "kana": "ならびに",
+          "en": "and (also)"
+        }
+      }
+    },
+    {
+      "kanji": "乱",
+      "on": [
+        "ラン",
+        "ロン"
+      ],
+      "kun": [
+        "みだ.れる",
+        "みだ.る",
+        "みだ.す",
+        "みだ",
+        "おさ.める",
+        "わた.る"
+      ],
+      "meanings": [
+        "riot",
+        "war",
+        "disorder",
+        "disturb"
+      ],
+      "words": [
+        {
+          "kanji": "乱す",
+          "kana": "みだす",
+          "en": "to throw into disorder"
+        },
+        {
+          "kanji": "波乱",
+          "kana": "はらん",
+          "en": "disturbance"
+        },
+        {
+          "kanji": "乱れ",
+          "kana": "みだれ",
+          "en": "disorder"
+        },
+        {
+          "kanji": "乱打",
+          "kana": "らんだ",
+          "en": "hitting"
+        }
+      ],
+      "readingExamples": {
+        "ラン": {
+          "kanji": "乱舞",
+          "kana": "らんぶ",
+          "en": "boisterous dance"
+        },
+        "みだれる": {
+          "kanji": "乱れる",
+          "kana": "みだれる",
+          "en": "to be disordered"
+        },
+        "みだす": {
+          "kanji": "乱す",
+          "kana": "みだす",
+          "en": "to throw into disorder"
+        },
+        "みだ": {
+          "kanji": "乱す",
+          "kana": "みだす",
+          "en": "to throw into disorder"
+        }
+      }
+    },
+    {
+      "kanji": "乳",
+      "on": [
+        "ニュウ"
+      ],
+      "kun": [
+        "ちち",
+        "ち"
+      ],
+      "meanings": [
+        "milk",
+        "breasts"
+      ],
+      "words": [
+        {
+          "kanji": "乳",
+          "kana": "ちち",
+          "en": "milk"
+        },
+        {
+          "kanji": "乳母",
+          "kana": "うば",
+          "en": "wet nurse"
+        },
+        {
+          "kanji": "乳首",
+          "kana": "ちくび",
+          "en": "nipple"
+        },
+        {
+          "kanji": "乳児",
+          "kana": "にゅうじ",
+          "en": "infant (below 1 year old)"
+        }
+      ],
+      "readingExamples": {
+        "ニュウ": {
+          "kanji": "乳児",
+          "kana": "にゅうじ",
+          "en": "infant (below 1 year old)"
+        },
+        "ちち": {
+          "kanji": "乳",
+          "kana": "ちち",
+          "en": "milk"
+        },
+        "ち": {
+          "kanji": "乳",
+          "kana": "ちち",
+          "en": "milk"
+        }
+      }
+    },
+    {
+      "kanji": "亡",
+      "on": [
+        "ボウ",
+        "モウ"
+      ],
+      "kun": [
+        "な.い",
+        "な.き-",
+        "ほろ.びる",
+        "ほろ.ぶ",
+        "ほろ.ぼす"
+      ],
+      "meanings": [
+        "deceased",
+        "the late",
+        "dying",
+        "perish"
+      ],
+      "words": [
+        {
+          "kanji": "死亡",
+          "kana": "しぼう",
+          "en": "death"
+        },
+        {
+          "kanji": "亡父",
+          "kana": "ぼうふ",
+          "en": "deceased father"
+        },
+        {
+          "kanji": "亡夫",
+          "kana": "ぼうふ",
+          "en": "deceased husband"
+        },
+        {
+          "kanji": "亡くす",
+          "kana": "なくす",
+          "en": "to lose (through death; e.g. a wife, child)"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "亡父",
+          "kana": "ぼうふ",
+          "en": "deceased father"
+        },
+        "モウ": {
+          "kanji": "亡者",
+          "kana": "もうじゃ",
+          "en": "the dead"
+        },
+        "なき": {
+          "kanji": "亡き後",
+          "kana": "なきあと",
+          "en": "after one's death"
+        }
+      }
+    },
+    {
+      "kanji": "仁",
+      "on": [
+        "ジン",
+        "ニ",
+        "ニン"
+      ],
+      "kun": [],
+      "meanings": [
+        "humanity",
+        "virtue",
+        "benevolence",
+        "charity"
+      ],
+      "words": [
+        {
+          "kanji": "仁",
+          "kana": "じん",
+          "en": "benevolence (esp. as a virtue of Confucianism)"
+        },
+        {
+          "kanji": "仁義",
+          "kana": "じんぎ",
+          "en": "humanity and justice (esp. in Confucianism)"
+        },
+        {
+          "kanji": "仁王",
+          "kana": "におう",
+          "en": "two Deva kings"
+        }
+      ],
+      "readingExamples": {
+        "ジン": {
+          "kanji": "仁",
+          "kana": "じん",
+          "en": "benevolence (esp. as a virtue of Confucianism)"
+        },
+        "ニ": {
+          "kanji": "仁王",
+          "kana": "におう",
+          "en": "two Deva kings"
+        }
+      }
+    },
+    {
+      "kanji": "供",
+      "on": [
+        "キョウ",
+        "ク",
+        "クウ",
+        "グ"
+      ],
+      "kun": [
+        "そな.える",
+        "とも",
+        "-ども"
+      ],
+      "meanings": [
+        "submit",
+        "offer",
+        "present",
+        "serve (meal)"
+      ],
+      "words": [
+        {
+          "kanji": "供",
+          "kana": "とも",
+          "en": "companion"
+        },
+        {
+          "kanji": "供え",
+          "kana": "そなえ",
+          "en": "offering"
+        },
+        {
+          "kanji": "供物",
+          "kana": "くもつ",
+          "en": "offering (e.g. to the gods)"
+        },
+        {
+          "kanji": "供養",
+          "kana": "くよう",
+          "en": "memorial service for the dead"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "供与",
+          "kana": "きょうよ",
+          "en": "giving"
+        },
+        "ク": {
+          "kanji": "供物",
+          "kana": "くもつ",
+          "en": "offering (e.g. to the gods)"
+        },
+        "そなえる": {
+          "kanji": "供える",
+          "kana": "そなえる",
+          "en": "to offer"
+        },
+        "とも": {
+          "kanji": "供",
+          "kana": "とも",
+          "en": "companion"
+        }
+      }
+    },
+    {
+      "kanji": "俳",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "haiku",
+        "actor"
+      ],
+      "words": [
+        {
+          "kanji": "俳句",
+          "kana": "はいく",
+          "en": "haiku"
+        },
+        {
+          "kanji": "俳人",
+          "kana": "はいじん",
+          "en": "haiku poet"
+        },
+        {
+          "kanji": "俳優",
+          "kana": "はいゆう",
+          "en": "actor"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "俳句",
+          "kana": "はいく",
+          "en": "haiku"
+        }
+      }
+    },
+    {
+      "kanji": "俵",
+      "on": [
+        "ヒョウ"
+      ],
+      "kun": [
+        "たわら"
+      ],
+      "meanings": [
+        "bag",
+        "bale",
+        "sack",
+        "counter for bags"
+      ],
+      "words": [
+        {
+          "kanji": "俵",
+          "kana": "たわら",
+          "en": "straw bag"
+        },
+        {
+          "kanji": "土俵",
+          "kana": "どひょう",
+          "en": "(wrestling) ring"
+        }
+      ],
+      "readingExamples": {
+        "たわら": {
+          "kanji": "俵",
+          "kana": "たわら",
+          "en": "straw bag"
+        }
+      }
+    },
+    {
+      "kanji": "値",
+      "on": [
+        "チ"
+      ],
+      "kun": [
+        "ね",
+        "あたい"
+      ],
+      "meanings": [
+        "price",
+        "cost",
+        "value"
+      ],
+      "words": [
+        {
+          "kanji": "価値",
+          "kana": "かち",
+          "en": "value"
+        },
+        {
+          "kanji": "安値",
+          "kana": "やすね",
+          "en": "low price"
+        },
+        {
+          "kanji": "引け値",
+          "kana": "ひけね",
+          "en": "closing quotations"
+        },
+        {
+          "kanji": "下値",
+          "kana": "したね",
+          "en": "lowest price"
+        }
+      ],
+      "readingExamples": {
+        "ね": {
+          "kanji": "値切る",
+          "kana": "ねぎる",
+          "en": "to drive a bargain"
+        },
+        "あたい": {
+          "kanji": "値",
+          "kana": "あたい",
+          "en": "price"
+        }
+      }
+    },
+    {
+      "kanji": "傷",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "きず",
+        "いた.む",
+        "いた.める"
+      ],
+      "meanings": [
+        "wound",
+        "hurt",
+        "injure",
+        "impair"
+      ],
+      "words": [
+        {
+          "kanji": "傷",
+          "kana": "きず",
+          "en": "wound"
+        },
+        {
+          "kanji": "無傷",
+          "kana": "むきず",
+          "en": "unhurt"
+        },
+        {
+          "kanji": "火傷",
+          "kana": "やけど",
+          "en": "burn"
+        },
+        {
+          "kanji": "傷口",
+          "kana": "きずぐち",
+          "en": "(opening of a) wound"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "傷害",
+          "kana": "しょうがい",
+          "en": "injury"
+        },
+        "きず": {
+          "kanji": "傷",
+          "kana": "きず",
+          "en": "wound"
+        }
+      }
+    },
+    {
+      "kanji": "優",
+      "on": [
+        "ユウ",
+        "ウ"
+      ],
+      "kun": [
+        "やさ.しい",
+        "すぐ.れる",
+        "まさ.る"
+      ],
+      "meanings": [
+        "tenderness",
+        "excel",
+        "surpass",
+        "actor"
+      ],
+      "words": [
+        {
+          "kanji": "優に",
+          "kana": "ゆうに",
+          "en": "easily (reach, exceed, etc.)"
+        },
+        {
+          "kanji": "優位",
+          "kana": "ゆうい",
+          "en": "predominance"
+        },
+        {
+          "kanji": "優美",
+          "kana": "ゆうび",
+          "en": "grace"
+        },
+        {
+          "kanji": "女優",
+          "kana": "じょゆう",
+          "en": "actress"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "優に",
+          "kana": "ゆうに",
+          "en": "easily (reach, exceed, etc.)"
+        },
+        "やさしい": {
+          "kanji": "優しい",
+          "kana": "やさしい",
+          "en": "tender"
+        },
+        "すぐれる": {
+          "kanji": "優れる",
+          "kana": "すぐれる",
+          "en": "to be better (than)"
+        }
+      }
+    },
+    {
+      "kanji": "党",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "なかま",
+        "むら"
+      ],
+      "meanings": [
+        "party",
+        "faction",
+        "clique"
+      ],
+      "words": [
+        {
+          "kanji": "党",
+          "kana": "とう",
+          "en": "party (political)"
+        },
+        {
+          "kanji": "左党",
+          "kana": "さとう",
+          "en": "drinker"
+        },
+        {
+          "kanji": "党派",
+          "kana": "とうは",
+          "en": "faction"
+        },
+        {
+          "kanji": "党利",
+          "kana": "とうり",
+          "en": "party interests"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "党",
+          "kana": "とう",
+          "en": "party (political)"
+        }
+      }
+    },
+    {
+      "kanji": "冊",
+      "on": [
+        "サツ",
+        "サク"
+      ],
+      "kun": [
+        "ふみ"
+      ],
+      "meanings": [
+        "tome",
+        "counter for books",
+        "volume"
+      ],
+      "words": [
+        {
+          "kanji": "冊",
+          "kana": "さつ",
+          "en": "counter for books"
+        },
+        {
+          "kanji": "冊子",
+          "kana": "さっし",
+          "en": "book"
+        },
+        {
+          "kanji": "一冊",
+          "kana": "いっさつ",
+          "en": "one copy (of a book, magazine, etc.)"
+        },
+        {
+          "kanji": "冊数",
+          "kana": "さっすう",
+          "en": "number of books"
+        }
+      ],
+      "readingExamples": {
+        "サツ": {
+          "kanji": "冊",
+          "kana": "さつ",
+          "en": "counter for books"
+        }
+      }
+    },
+    {
+      "kanji": "処",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "ところ",
+        "-こ",
+        "お.る"
+      ],
+      "meanings": [
+        "dispose",
+        "manage",
+        "deal with",
+        "sentence"
+      ],
+      "words": [
+        {
+          "kanji": "目処",
+          "kana": "めど",
+          "en": "aim"
+        },
+        {
+          "kanji": "何処",
+          "kana": "どこ",
+          "en": "where"
+        },
+        {
+          "kanji": "何処か",
+          "kana": "どこか",
+          "en": "somewhere"
+        },
+        {
+          "kanji": "処置",
+          "kana": "しょち",
+          "en": "measure"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "処置",
+          "kana": "しょち",
+          "en": "measure"
+        },
+        "こ": {
+          "kanji": "此処",
+          "kana": "ここ",
+          "en": "here"
+        }
+      }
+    },
+    {
+      "kanji": "券",
+      "on": [
+        "ケン"
+      ],
+      "kun": [],
+      "meanings": [
+        "ticket"
+      ],
+      "words": [
+        {
+          "kanji": "券",
+          "kana": "けん",
+          "en": "ticket"
+        },
+        {
+          "kanji": "馬券",
+          "kana": "ばけん",
+          "en": "betting ticket"
+        },
+        {
+          "kanji": "株券",
+          "kana": "かぶけん",
+          "en": "stock certificate"
+        },
+        {
+          "kanji": "金券",
+          "kana": "きんけん",
+          "en": "gold certificate"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "券",
+          "kana": "けん",
+          "en": "ticket"
+        }
+      }
+    },
+    {
+      "kanji": "刻",
+      "on": [
+        "コク"
+      ],
+      "kun": [
+        "きざ.む",
+        "きざ.み"
+      ],
+      "meanings": [
+        "engrave",
+        "cut fine",
+        "chop",
+        "hash"
+      ],
+      "words": [
+        {
+          "kanji": "刻",
+          "kana": "こく",
+          "en": "period of time (usu. a period of approx. two hours corresponding to one of the signs of the Chinese zodiac)"
+        },
+        {
+          "kanji": "刻み",
+          "kana": "きざみ",
+          "en": "mincing"
+        },
+        {
+          "kanji": "刻む",
+          "kana": "きざむ",
+          "en": "to mince"
+        },
+        {
+          "kanji": "時刻",
+          "kana": "じこく",
+          "en": "time"
+        }
+      ],
+      "readingExamples": {
+        "コク": {
+          "kanji": "刻",
+          "kana": "こく",
+          "en": "period of time (usu. a period of approx. two hours corresponding to one of the signs of the Chinese zodiac)"
+        },
+        "きざむ": {
+          "kanji": "刻む",
+          "kana": "きざむ",
+          "en": "to mince"
+        },
+        "きざみ": {
+          "kanji": "刻み",
+          "kana": "きざみ",
+          "en": "mincing"
+        }
+      }
+    },
+    {
+      "kanji": "割",
+      "on": [
+        "カツ"
+      ],
+      "kun": [
+        "わ.る",
+        "わり",
+        "わ.り",
+        "わ.れる",
+        "さ.く"
+      ],
+      "meanings": [
+        "proportion",
+        "comparatively",
+        "divide",
+        "cut"
+      ],
+      "words": [
+        {
+          "kanji": "割る",
+          "kana": "わる",
+          "en": "to divide"
+        },
+        {
+          "kanji": "割り",
+          "kana": "わり",
+          "en": "rate"
+        },
+        {
+          "kanji": "割れる",
+          "kana": "われる",
+          "en": "to break"
+        },
+        {
+          "kanji": "二割",
+          "kana": "にわり",
+          "en": "20 percent"
+        }
+      ],
+      "readingExamples": {
+        "カツ": {
+          "kanji": "割愛",
+          "kana": "かつあい",
+          "en": "omitting (reluctantly)"
+        },
+        "わる": {
+          "kanji": "割る",
+          "kana": "わる",
+          "en": "to divide"
+        },
+        "わり": {
+          "kanji": "割り",
+          "kana": "わり",
+          "en": "rate"
+        },
+        "われる": {
+          "kanji": "割れる",
+          "kana": "われる",
+          "en": "to break"
+        }
+      }
+    },
+    {
+      "kanji": "創",
+      "on": [
+        "ソウ",
+        "ショウ"
+      ],
+      "kun": [
+        "つく.る",
+        "はじ.める",
+        "きず",
+        "けず.しける"
+      ],
+      "meanings": [
+        "genesis",
+        "wound",
+        "injury",
+        "hurt"
+      ],
+      "words": [
+        {
+          "kanji": "創意",
+          "kana": "そうい",
+          "en": "original idea"
+        },
+        {
+          "kanji": "創始",
+          "kana": "そうし",
+          "en": "creation"
+        },
+        {
+          "kanji": "創刊",
+          "kana": "そうかん",
+          "en": "foundation (of a newspaper, magazine, etc.)"
+        },
+        {
+          "kanji": "創建",
+          "kana": "そうけん",
+          "en": "establishment"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "創意",
+          "kana": "そうい",
+          "en": "original idea"
+        }
+      }
+    },
+    {
+      "kanji": "劇",
+      "on": [
+        "ゲキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "drama",
+        "play"
+      ],
+      "words": [
+        {
+          "kanji": "劇",
+          "kana": "げき",
+          "en": "drama"
+        },
+        {
+          "kanji": "歌劇",
+          "kana": "かげき",
+          "en": "opera"
+        },
+        {
+          "kanji": "喜劇",
+          "kana": "きげき",
+          "en": "comedy"
+        },
+        {
+          "kanji": "劇化",
+          "kana": "げきか",
+          "en": "dramatization"
+        }
+      ],
+      "readingExamples": {
+        "ゲキ": {
+          "kanji": "劇",
+          "kana": "げき",
+          "en": "drama"
+        }
+      }
+    },
+    {
+      "kanji": "勤",
+      "on": [
+        "キン",
+        "ゴン"
+      ],
+      "kun": [
+        "つと.める",
+        "-づと.め",
+        "つと.まる",
+        "いそ.しむ"
+      ],
+      "meanings": [
+        "diligence",
+        "become employed",
+        "serve"
+      ],
+      "words": [
+        {
+          "kanji": "勤め",
+          "kana": "つとめ",
+          "en": "service"
+        },
+        {
+          "kanji": "勤務",
+          "kana": "きんむ",
+          "en": "service"
+        },
+        {
+          "kanji": "夜勤",
+          "kana": "やきん",
+          "en": "night duty"
+        },
+        {
+          "kanji": "外勤",
+          "kana": "がいきん",
+          "en": "working away from the office"
+        }
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "勤務",
+          "kana": "きんむ",
+          "en": "service"
+        },
+        "つとめる": {
+          "kanji": "勤める",
+          "kana": "つとめる",
+          "en": "to work (for, at, in)"
+        }
+      }
+    },
+    {
+      "kanji": "危",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "あぶ.ない",
+        "あや.うい",
+        "あや.ぶむ"
+      ],
+      "meanings": [
+        "dangerous",
+        "fear",
+        "uneasy"
+      ],
+      "words": [
+        {
+          "kanji": "危機",
+          "kana": "きき",
+          "en": "crisis"
+        },
+        {
+          "kanji": "危害",
+          "kana": "きがい",
+          "en": "injury"
+        },
+        {
+          "kanji": "危険",
+          "kana": "きけん",
+          "en": "danger"
+        },
+        {
+          "kanji": "危うい",
+          "kana": "あやうい",
+          "en": "dangerous"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "危機",
+          "kana": "きき",
+          "en": "crisis"
+        },
+        "あぶない": {
+          "kanji": "危ない",
+          "kana": "あぶない",
+          "en": "dangerous"
+        },
+        "あやうい": {
+          "kanji": "危うい",
+          "kana": "あやうい",
+          "en": "dangerous"
+        },
+        "あやぶむ": {
+          "kanji": "危ぶむ",
+          "kana": "あやぶむ",
+          "en": "to fear"
+        }
+      }
+    },
+    {
+      "kanji": "卵",
+      "on": [
+        "ラン"
+      ],
+      "kun": [
+        "たまご"
+      ],
+      "meanings": [
+        "egg",
+        "ovum",
+        "spawn",
+        "roe"
+      ],
+      "words": [
+        {
+          "kanji": "卵",
+          "kana": "たまご",
+          "en": "eggs"
+        },
+        {
+          "kanji": "卵子",
+          "kana": "らんし",
+          "en": "ovum"
+        },
+        {
+          "kanji": "産卵",
+          "kana": "さんらん",
+          "en": "egg-laying"
+        },
+        {
+          "kanji": "卵黄",
+          "kana": "らんおう",
+          "en": "egg yolk"
+        }
+      ],
+      "readingExamples": {
+        "ラン": {
+          "kanji": "卵子",
+          "kana": "らんし",
+          "en": "ovum"
+        },
+        "たまご": {
+          "kanji": "卵",
+          "kana": "たまご",
+          "en": "eggs"
+        }
+      }
+    },
+    {
+      "kanji": "厳",
+      "on": [
+        "ゲン",
+        "ゴン"
+      ],
+      "kun": [
+        "おごそ.か",
+        "きび.しい",
+        "いか.めしい",
+        "いつくし"
+      ],
+      "meanings": [
+        "stern",
+        "strictness",
+        "severity",
+        "rigidity"
+      ],
+      "words": [
+        {
+          "kanji": "厳に",
+          "kana": "げんに",
+          "en": "strictly"
+        },
+        {
+          "kanji": "厳か",
+          "kana": "おごそか",
+          "en": "solemn (ceremony, atmosphere, etc.)"
+        },
+        {
+          "kanji": "厳しい",
+          "kana": "きびしい",
+          "en": "severe"
+        },
+        {
+          "kanji": "厳格",
+          "kana": "げんかく",
+          "en": "strict"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "厳に",
+          "kana": "げんに",
+          "en": "strictly"
+        },
+        "おごそか": {
+          "kanji": "厳か",
+          "kana": "おごそか",
+          "en": "solemn (ceremony, atmosphere, etc.)"
+        },
+        "きびしい": {
+          "kanji": "厳しい",
+          "kana": "きびしい",
+          "en": "severe"
+        }
+      }
+    },
+    {
+      "kanji": "収",
+      "on": [
+        "シュウ"
+      ],
+      "kun": [
+        "おさ.める",
+        "おさ.まる"
+      ],
+      "meanings": [
+        "income",
+        "obtain",
+        "reap",
+        "pay"
+      ],
+      "words": [
+        {
+          "kanji": "収まる",
+          "kana": "おさまる",
+          "en": "to fit into (a box, frame, category, etc.)"
+        },
+        {
+          "kanji": "収支",
+          "kana": "しゅうし",
+          "en": "income and expenditure"
+        },
+        {
+          "kanji": "未収",
+          "kana": "みしゅう",
+          "en": "accrued"
+        },
+        {
+          "kanji": "収める",
+          "kana": "おさめる",
+          "en": "to put (into)"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "収支",
+          "kana": "しゅうし",
+          "en": "income and expenditure"
+        },
+        "おさめる": {
+          "kanji": "収める",
+          "kana": "おさめる",
+          "en": "to put (into)"
+        },
+        "おさまる": {
+          "kanji": "収まる",
+          "kana": "おさまる",
+          "en": "to fit into (a box, frame, category, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "后",
+      "on": [
+        "コウ",
+        "ゴ"
+      ],
+      "kun": [
+        "きさき"
+      ],
+      "meanings": [
+        "empress",
+        "queen",
+        "after",
+        "behind"
+      ],
+      "words": [
+        {
+          "kanji": "后",
+          "kana": "きさき",
+          "en": "empress (consort)"
+        },
+        {
+          "kanji": "皇后",
+          "kana": "こうごう",
+          "en": "empress (consort)"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "皇后",
+          "kana": "こうごう",
+          "en": "empress (consort)"
+        },
+        "きさき": {
+          "kanji": "后",
+          "kana": "きさき",
+          "en": "empress (consort)"
+        }
+      }
+    },
+    {
+      "kanji": "否",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "いな",
+        "いや"
+      ],
+      "meanings": [
+        "negate",
+        "no",
+        "noes",
+        "refuse"
+      ],
+      "words": [
+        {
+          "kanji": "否",
+          "kana": "ひ",
+          "en": "no"
+        },
+        {
+          "kanji": "可否",
+          "kana": "かひ",
+          "en": "propriety"
+        },
+        {
+          "kanji": "否",
+          "kana": "いや",
+          "en": "no"
+        },
+        {
+          "kanji": "否",
+          "kana": "いな",
+          "en": "no"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "否",
+          "kana": "ひ",
+          "en": "no"
+        },
+        "いな": {
+          "kanji": "否",
+          "kana": "いな",
+          "en": "no"
+        },
+        "いや": {
+          "kanji": "否",
+          "kana": "いや",
+          "en": "no"
+        }
+      }
+    },
+    {
+      "kanji": "吸",
+      "on": [
+        "キュウ"
+      ],
+      "kun": [
+        "す.う"
+      ],
+      "meanings": [
+        "suck",
+        "imbibe",
+        "inhale",
+        "sip"
+      ],
+      "words": [
+        {
+          "kanji": "吸う",
+          "kana": "すう",
+          "en": "to breathe in"
+        },
+        {
+          "kanji": "吸い取る",
+          "kana": "すいとる",
+          "en": "to suck up"
+        },
+        {
+          "kanji": "吸気",
+          "kana": "きゅうき",
+          "en": "inhalation (of air)"
+        },
+        {
+          "kanji": "吸い物",
+          "kana": "すいもの",
+          "en": "clear broth soup, with ingredients and garnish floating in and on it"
+        }
+      ],
+      "readingExamples": {
+        "キュウ": {
+          "kanji": "吸気",
+          "kana": "きゅうき",
+          "en": "inhalation (of air)"
+        },
+        "すう": {
+          "kanji": "吸う",
+          "kana": "すう",
+          "en": "to breathe in"
+        }
+      }
+    },
+    {
+      "kanji": "呼",
+      "on": [
+        "コ"
+      ],
+      "kun": [
+        "よ.ぶ"
+      ],
+      "meanings": [
+        "call",
+        "call out to",
+        "invite"
+      ],
+      "words": [
+        {
+          "kanji": "呼ぶ",
+          "kana": "よぶ",
+          "en": "to call out (to)"
+        },
+        {
+          "kanji": "呼応",
+          "kana": "こおう",
+          "en": "hailing each other"
+        },
+        {
+          "kanji": "点呼",
+          "kana": "てんこ",
+          "en": "roll-call"
+        },
+        {
+          "kanji": "呼び名",
+          "kana": "よびな",
+          "en": "popular name"
+        }
+      ],
+      "readingExamples": {
+        "コ": {
+          "kanji": "呼応",
+          "kana": "こおう",
+          "en": "hailing each other"
+        },
+        "よぶ": {
+          "kanji": "呼ぶ",
+          "kana": "よぶ",
+          "en": "to call out (to)"
+        }
+      }
+    },
+    {
+      "kanji": "善",
+      "on": [
+        "ゼン"
+      ],
+      "kun": [
+        "よ.い",
+        "い.い",
+        "よ.く",
+        "よし.とする"
+      ],
+      "meanings": [
+        "virtuous",
+        "good",
+        "goodness"
+      ],
+      "words": [
+        {
+          "kanji": "善",
+          "kana": "ぜん",
+          "en": "good"
+        },
+        {
+          "kanji": "次善",
+          "kana": "じぜん",
+          "en": "second best"
+        },
+        {
+          "kanji": "善意",
+          "kana": "ぜんい",
+          "en": "virtuous mind"
+        },
+        {
+          "kanji": "善くも",
+          "kana": "よくも",
+          "en": "how dare ..."
+        }
+      ],
+      "readingExamples": {
+        "ゼン": {
+          "kanji": "善",
+          "kana": "ぜん",
+          "en": "good"
+        },
+        "よく": {
+          "kanji": "善くも",
+          "kana": "よくも",
+          "en": "how dare ..."
+        }
+      }
+    },
+    {
+      "kanji": "困",
+      "on": [
+        "コン"
+      ],
+      "kun": [
+        "こま.る"
+      ],
+      "meanings": [
+        "quandary",
+        "become distressed",
+        "annoyed"
+      ],
+      "words": [
+        {
+          "kanji": "困る",
+          "kana": "こまる",
+          "en": "to be troubled"
+        },
+        {
+          "kanji": "困難",
+          "kana": "こんなん",
+          "en": "difficulty"
+        },
+        {
+          "kanji": "貧困",
+          "kana": "ひんこん",
+          "en": "poverty"
+        },
+        {
+          "kanji": "困り果てる",
+          "kana": "こまりはてる",
+          "en": "to be at a complete loss"
+        }
+      ],
+      "readingExamples": {
+        "コン": {
+          "kanji": "困難",
+          "kana": "こんなん",
+          "en": "difficulty"
+        },
+        "こまる": {
+          "kanji": "困る",
+          "kana": "こまる",
+          "en": "to be troubled"
+        }
+      }
+    },
+    {
+      "kanji": "垂",
+      "on": [
+        "スイ"
+      ],
+      "kun": [
+        "た.れる",
+        "た.らす",
+        "た.れ",
+        "-た.れ",
+        "なんなんと.す"
+      ],
+      "meanings": [
+        "droop",
+        "suspend",
+        "hang",
+        "slouch"
+      ],
+      "words": [
+        {
+          "kanji": "垂れ",
+          "kana": "たれ",
+          "en": "sauce (esp. soy or mirin-based dipping sauce)"
+        },
+        {
+          "kanji": "垂らす",
+          "kana": "たらす",
+          "en": "to dribble"
+        },
+        {
+          "kanji": "垂れる",
+          "kana": "たれる",
+          "en": "to hang"
+        },
+        {
+          "kanji": "雨垂れ",
+          "kana": "あまだれ",
+          "en": "raindrops (dripping from eaves, branches, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "スイ": {
+          "kanji": "垂直",
+          "kana": "すいちょく",
+          "en": "vertical"
+        },
+        "たれる": {
+          "kanji": "垂れる",
+          "kana": "たれる",
+          "en": "to hang"
+        },
+        "たらす": {
+          "kanji": "垂らす",
+          "kana": "たらす",
+          "en": "to dribble"
+        },
+        "たれ": {
+          "kanji": "垂れ",
+          "kana": "たれ",
+          "en": "sauce (esp. soy or mirin-based dipping sauce)"
+        }
+      }
+    },
+    {
+      "kanji": "域",
+      "on": [
+        "イキ"
+      ],
+      "kun": [],
+      "meanings": [
+        "range",
+        "region",
+        "limits",
+        "stage"
+      ],
+      "words": [
+        {
+          "kanji": "区域",
+          "kana": "くいき",
+          "en": "area"
+        },
+        {
+          "kanji": "地域",
+          "kana": "ちいき",
+          "en": "area"
+        },
+        {
+          "kanji": "域外",
+          "kana": "いきがい",
+          "en": "outside the area"
+        },
+        {
+          "kanji": "域内",
+          "kana": "いきない",
+          "en": "inside the area"
+        }
+      ],
+      "readingExamples": {
+        "イキ": {
+          "kanji": "域外",
+          "kana": "いきがい",
+          "en": "outside the area"
+        }
+      }
+    },
+    {
+      "kanji": "奏",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [
+        "かな.でる"
+      ],
+      "meanings": [
+        "play music",
+        "speak to a ruler",
+        "complete"
+      ],
+      "words": [
+        {
+          "kanji": "合奏",
+          "kana": "がっそう",
+          "en": "ensemble (e.g. orchestra, chamber group, etc.)"
+        },
+        {
+          "kanji": "奏でる",
+          "kana": "かなでる",
+          "en": "to play an instrument (esp. string instruments)"
+        },
+        {
+          "kanji": "奏者",
+          "kana": "そうしゃ",
+          "en": "instrumentalist"
+        },
+        {
+          "kanji": "奏法",
+          "kana": "そうほう",
+          "en": "way of playing (an instrument)"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "奏者",
+          "kana": "そうしゃ",
+          "en": "instrumentalist"
+        },
+        "かなでる": {
+          "kanji": "奏でる",
+          "kana": "かなでる",
+          "en": "to play an instrument (esp. string instruments)"
+        }
+      }
+    },
+    {
+      "kanji": "奮",
+      "on": [
+        "フン"
+      ],
+      "kun": [
+        "ふる.う"
+      ],
+      "meanings": [
+        "stirred up",
+        "be invigorated",
+        "flourish"
+      ],
+      "words": [
+        {
+          "kanji": "奮う",
+          "kana": "ふるう",
+          "en": "to muster (e.g. one's courage)"
+        },
+        {
+          "kanji": "奮起",
+          "kana": "ふんき",
+          "en": "stirring"
+        },
+        {
+          "kanji": "興奮",
+          "kana": "こうふん",
+          "en": "excitement"
+        },
+        {
+          "kanji": "奮って",
+          "kana": "ふるって",
+          "en": "energetically"
+        }
+      ],
+      "readingExamples": {
+        "フン": {
+          "kanji": "奮起",
+          "kana": "ふんき",
+          "en": "stirring"
+        },
+        "ふるう": {
+          "kanji": "奮う",
+          "kana": "ふるう",
+          "en": "to muster (e.g. one's courage)"
+        }
+      }
+    },
+    {
+      "kanji": "姿",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "すがた"
+      ],
+      "meanings": [
+        "figure",
+        "form",
+        "shape"
+      ],
+      "words": [
+        {
+          "kanji": "姿",
+          "kana": "すがた",
+          "en": "figure"
+        },
+        {
+          "kanji": "姿勢",
+          "kana": "しせい",
+          "en": "posture"
+        },
+        {
+          "kanji": "容姿",
+          "kana": "ようし",
+          "en": "(physical) appearance (of a person)"
+        },
+        {
+          "kanji": "晴れ姿",
+          "kana": "はれすがた",
+          "en": "appearing in one's finest clothes"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "姿勢",
+          "kana": "しせい",
+          "en": "posture"
+        },
+        "すがた": {
+          "kanji": "姿",
+          "kana": "すがた",
+          "en": "figure"
+        }
+      }
+    },
+    {
+      "kanji": "存",
+      "on": [
+        "ソン",
+        "ゾン"
+      ],
+      "kun": [
+        "ながら.える",
+        "あ.る",
+        "たも.つ",
+        "と.う"
+      ],
+      "meanings": [
+        "exist",
+        "suppose",
+        "be aware of",
+        "believe"
+      ],
+      "words": [
+        {
+          "kanji": "異存",
+          "kana": "いぞん",
+          "en": "objection"
+        },
+        {
+          "kanji": "保存",
+          "kana": "ほぞん",
+          "en": "preservation"
+        },
+        {
+          "kanji": "存否",
+          "kana": "ぞんぴ",
+          "en": "(whether) existent or non-existent"
+        },
+        {
+          "kanji": "存知",
+          "kana": "ぞんじ",
+          "en": "knowing"
+        }
+      ],
+      "readingExamples": {
+        "ソン": {
+          "kanji": "存在",
+          "kana": "そんざい",
+          "en": "existence"
+        },
+        "ゾン": {
+          "kanji": "存否",
+          "kana": "ぞんぴ",
+          "en": "(whether) existent or non-existent"
+        }
+      }
+    },
+    {
+      "kanji": "孝",
+      "on": [
+        "コウ",
+        "キョウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "filial piety",
+        "child's respect"
+      ],
+      "words": [
+        {
+          "kanji": "不孝",
+          "kana": "ふこう",
+          "en": "undutifulness to one's parents"
+        },
+        {
+          "kanji": "孝行",
+          "kana": "こうこう",
+          "en": "filial piety"
+        },
+        {
+          "kanji": "忠孝",
+          "kana": "ちゅうこう",
+          "en": "loyalty and filial piety"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "孝行",
+          "kana": "こうこう",
+          "en": "filial piety"
+        }
+      }
+    },
+    {
+      "kanji": "宅",
+      "on": [
+        "タク"
+      ],
+      "kun": [],
+      "meanings": [
+        "home",
+        "house",
+        "residence",
+        "our house"
+      ],
+      "words": [
+        {
+          "kanji": "宅",
+          "kana": "たく",
+          "en": "house"
+        },
+        {
+          "kanji": "お宅",
+          "kana": "おたく",
+          "en": "your house"
+        },
+        {
+          "kanji": "家宅",
+          "kana": "かたく",
+          "en": "domicile"
+        },
+        {
+          "kanji": "帰宅",
+          "kana": "きたく",
+          "en": "returning home"
+        }
+      ],
+      "readingExamples": {
+        "タク": {
+          "kanji": "宅",
+          "kana": "たく",
+          "en": "house"
+        }
+      }
+    },
+    {
+      "kanji": "宇",
+      "on": [
+        "ウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "eaves",
+        "roof",
+        "house",
+        "heaven"
+      ],
+      "words": [
+        {
+          "kanji": "宇宙",
+          "kana": "うちゅう",
+          "en": "universe"
+        }
+      ],
+      "readingExamples": {
+        "ウ": {
+          "kanji": "宇宙",
+          "kana": "うちゅう",
+          "en": "universe"
+        }
+      }
+    },
+    {
+      "kanji": "宗",
+      "on": [
+        "シュウ",
+        "ソウ"
+      ],
+      "kun": [
+        "むね"
+      ],
+      "meanings": [
+        "religion",
+        "sect",
+        "denomination",
+        "main point"
+      ],
+      "words": [
+        {
+          "kanji": "宗家",
+          "kana": "そうけ",
+          "en": "head of family"
+        },
+        {
+          "kanji": "宗",
+          "kana": "しゅう",
+          "en": "sect"
+        },
+        {
+          "kanji": "宗祖",
+          "kana": "しゅうそ",
+          "en": "sect founder"
+        },
+        {
+          "kanji": "宗派",
+          "kana": "しゅうは",
+          "en": "sect"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "宗",
+          "kana": "しゅう",
+          "en": "sect"
+        },
+        "ソウ": {
+          "kanji": "宗家",
+          "kana": "そうけ",
+          "en": "head of family"
+        }
+      }
+    },
+    {
+      "kanji": "宙",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "mid-air",
+        "air",
+        "space",
+        "sky"
+      ],
+      "words": [
+        {
+          "kanji": "宙",
+          "kana": "ちゅう",
+          "en": "space"
+        },
+        {
+          "kanji": "宇宙",
+          "kana": "うちゅう",
+          "en": "universe"
+        },
+        {
+          "kanji": "宙乗り",
+          "kana": "ちゅうのり",
+          "en": "midair stunt"
+        },
+        {
+          "kanji": "宙返り",
+          "kana": "ちゅうがえり",
+          "en": "somersault"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "宙",
+          "kana": "ちゅう",
+          "en": "space"
+        }
+      }
+    },
+    {
+      "kanji": "宝",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "たから"
+      ],
+      "meanings": [
+        "treasure",
+        "wealth",
+        "valuables"
+      ],
+      "words": [
+        {
+          "kanji": "至宝",
+          "kana": "しほう",
+          "en": "greatest treasure"
+        },
+        {
+          "kanji": "宝",
+          "kana": "たから",
+          "en": "treasure"
+        },
+        {
+          "kanji": "宝庫",
+          "kana": "ほうこ",
+          "en": "treasury"
+        },
+        {
+          "kanji": "国宝",
+          "kana": "こくほう",
+          "en": "national treasure"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "宝庫",
+          "kana": "ほうこ",
+          "en": "treasury"
+        },
+        "たから": {
+          "kanji": "宝",
+          "kana": "たから",
+          "en": "treasure"
+        }
+      }
+    },
+    {
+      "kanji": "宣",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "のたま.う"
+      ],
+      "meanings": [
+        "proclaim",
+        "say",
+        "announce"
+      ],
+      "words": [
+        {
+          "kanji": "宣言",
+          "kana": "せんげん",
+          "en": "declaration"
+        },
+        {
+          "kanji": "宣告",
+          "kana": "せんこく",
+          "en": "sentencing"
+        },
+        {
+          "kanji": "宣戦",
+          "kana": "せんせん",
+          "en": "declaration of war"
+        },
+        {
+          "kanji": "宣伝",
+          "kana": "せんでん",
+          "en": "publicity"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "宣言",
+          "kana": "せんげん",
+          "en": "declaration"
+        }
+      }
+    },
+    {
+      "kanji": "密",
+      "on": [
+        "ミツ"
+      ],
+      "kun": [
+        "ひそ.か"
+      ],
+      "meanings": [
+        "secrecy",
+        "density (pop)",
+        "minuteness",
+        "carefulness"
+      ],
+      "words": [
+        {
+          "kanji": "過密",
+          "kana": "かみつ",
+          "en": "overcrowding"
+        },
+        {
+          "kanji": "機密",
+          "kana": "きみつ",
+          "en": "secrecy"
+        },
+        {
+          "kanji": "気密",
+          "kana": "きみつ",
+          "en": "airtight"
+        },
+        {
+          "kanji": "秘密",
+          "kana": "ひみつ",
+          "en": "secret"
+        }
+      ],
+      "readingExamples": {
+        "ミツ": {
+          "kanji": "密度",
+          "kana": "みつど",
+          "en": "density"
+        },
+        "ひそか": {
+          "kanji": "密か",
+          "kana": "ひそか",
+          "en": "secret"
+        }
+      }
+    },
+    {
+      "kanji": "寸",
+      "on": [
+        "スン"
+      ],
+      "kun": [],
+      "meanings": [
+        "measurement",
+        "tenth of a shaku",
+        "a little",
+        "small"
+      ],
+      "words": [
+        {
+          "kanji": "寸",
+          "kana": "すん",
+          "en": "sun (approx. 3 cm)"
+        },
+        {
+          "kanji": "一寸",
+          "kana": "いっすん",
+          "en": "one sun (approx. 3 cm)"
+        },
+        {
+          "kanji": "一寸",
+          "kana": "ちょっと",
+          "en": "a little"
+        },
+        {
+          "kanji": "原寸",
+          "kana": "げんすん",
+          "en": "actual size"
+        }
+      ],
+      "readingExamples": {
+        "スン": {
+          "kanji": "寸",
+          "kana": "すん",
+          "en": "sun (approx. 3 cm)"
+        }
+      }
+    },
+    {
+      "kanji": "専",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "もっぱ.ら"
+      ],
+      "meanings": [
+        "specialty",
+        "exclusive",
+        "mainly",
+        "solely"
+      ],
+      "words": [
+        {
+          "kanji": "専科",
+          "kana": "せんか",
+          "en": "specialized course"
+        },
+        {
+          "kanji": "専務",
+          "kana": "せんむ",
+          "en": "special duty"
+        },
+        {
+          "kanji": "高専",
+          "kana": "こうせん",
+          "en": "technical college"
+        },
+        {
+          "kanji": "専ら",
+          "kana": "もっぱら",
+          "en": "wholly"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "専科",
+          "kana": "せんか",
+          "en": "specialized course"
+        },
+        "もっぱら": {
+          "kanji": "専ら",
+          "kana": "もっぱら",
+          "en": "wholly"
+        }
+      }
+    },
+    {
+      "kanji": "射",
+      "on": [
+        "シャ"
+      ],
+      "kun": [
+        "い.る",
+        "さ.す",
+        "う.つ"
+      ],
+      "meanings": [
+        "shoot",
+        "shine into",
+        "onto",
+        "archery"
+      ],
+      "words": [
+        {
+          "kanji": "射す",
+          "kana": "さす",
+          "en": "to shine"
+        },
+        {
+          "kanji": "射る",
+          "kana": "いる",
+          "en": "to shoot (arrow, bolt, dart)"
+        },
+        {
+          "kanji": "誤射",
+          "kana": "ごしゃ",
+          "en": "accidental shooting"
+        },
+        {
+          "kanji": "試射",
+          "kana": "ししゃ",
+          "en": "test firing"
+        }
+      ],
+      "readingExamples": {
+        "シャ": {
+          "kanji": "射撃",
+          "kana": "しゃげき",
+          "en": "firing"
+        },
+        "いる": {
+          "kanji": "射る",
+          "kana": "いる",
+          "en": "to shoot (arrow, bolt, dart)"
+        },
+        "さす": {
+          "kanji": "射す",
+          "kana": "さす",
+          "en": "to shine"
+        }
+      }
+    },
+    {
+      "kanji": "将",
+      "on": [
+        "ショウ",
+        "ソウ"
+      ],
+      "kun": [
+        "まさ.に",
+        "はた",
+        "まさ",
+        "ひきい.る",
+        "もって"
+      ],
+      "meanings": [
+        "leader",
+        "commander",
+        "general",
+        "admiral"
+      ],
+      "words": [
+        {
+          "kanji": "女将",
+          "kana": "おかみ",
+          "en": "proprietress (of a traditional Japanese inn, restaurant, or shop)"
+        },
+        {
+          "kanji": "将",
+          "kana": "しょう",
+          "en": "commander"
+        },
+        {
+          "kanji": "武将",
+          "kana": "ぶしょう",
+          "en": "military commander"
+        },
+        {
+          "kanji": "王将",
+          "kana": "おうしょう",
+          "en": "(senior player's) king"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "将",
+          "kana": "しょう",
+          "en": "commander"
+        }
+      }
+    },
+    {
+      "kanji": "尊",
+      "on": [
+        "ソン"
+      ],
+      "kun": [
+        "たっと.い",
+        "とうと.い",
+        "たっと.ぶ",
+        "とうと.ぶ"
+      ],
+      "meanings": [
+        "revered",
+        "valuable",
+        "precious",
+        "noble"
+      ],
+      "words": [
+        {
+          "kanji": "自尊",
+          "kana": "じそん",
+          "en": "self-respect"
+        },
+        {
+          "kanji": "尊敬",
+          "kana": "そんけい",
+          "en": "respect"
+        },
+        {
+          "kanji": "尊厳",
+          "kana": "そんげん",
+          "en": "dignity"
+        },
+        {
+          "kanji": "本尊",
+          "kana": "ほんぞん",
+          "en": "principal object of worship (at a Buddhist temple)"
+        }
+      ],
+      "readingExamples": {
+        "ソン": {
+          "kanji": "尊敬",
+          "kana": "そんけい",
+          "en": "respect"
+        },
+        "とうとい": {
+          "kanji": "尊い",
+          "kana": "とうとい",
+          "en": "precious"
+        },
+        "とうとぶ": {
+          "kanji": "尊ぶ",
+          "kana": "とうとぶ",
+          "en": "to value"
+        }
+      }
+    },
+    {
+      "kanji": "就",
+      "on": [
+        "シュウ",
+        "ジュ"
+      ],
+      "kun": [
+        "つ.く",
+        "つ.ける"
+      ],
+      "meanings": [
+        "concerning",
+        "settle",
+        "take position",
+        "depart"
+      ],
+      "words": [
+        {
+          "kanji": "就く",
+          "kana": "つく",
+          "en": "to take (seat, position, course, office, etc.)"
+        },
+        {
+          "kanji": "に就いて",
+          "kana": "について",
+          "en": "about"
+        },
+        {
+          "kanji": "去就",
+          "kana": "きょしゅう",
+          "en": "leaving or staying"
+        },
+        {
+          "kanji": "就学",
+          "kana": "しゅうがく",
+          "en": "entering school"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "就学",
+          "kana": "しゅうがく",
+          "en": "entering school"
+        },
+        "つく": {
+          "kanji": "就く",
+          "kana": "つく",
+          "en": "to take (seat, position, course, office, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "尺",
+      "on": [
+        "シャク",
+        "セキ"
+      ],
+      "kun": [
+        "さし"
+      ],
+      "meanings": [
+        "shaku",
+        "Japanese foot",
+        "measure",
+        "scale"
+      ],
+      "words": [
+        {
+          "kanji": "尺",
+          "kana": "しゃく",
+          "en": "shaku (unit of distance approximately equal to 30.3 cm)"
+        },
+        {
+          "kanji": "尺度",
+          "kana": "しゃくど",
+          "en": "gauge"
+        },
+        {
+          "kanji": "三尺",
+          "kana": "さんじゃく",
+          "en": "3 Japanese feet"
+        },
+        {
+          "kanji": "尺八",
+          "kana": "しゃくはち",
+          "en": "shakuhachi"
+        }
+      ],
+      "readingExamples": {
+        "シャク": {
+          "kanji": "尺",
+          "kana": "しゃく",
+          "en": "shaku (unit of distance approximately equal to 30.3 cm)"
+        }
+      }
+    },
+    {
+      "kanji": "届",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "とど.ける",
+        "-とど.け",
+        "とど.く"
+      ],
+      "meanings": [
+        "deliver",
+        "reach",
+        "arrive",
+        "report"
+      ],
+      "words": [
+        {
+          "kanji": "届く",
+          "kana": "とどく",
+          "en": "to reach"
+        },
+        {
+          "kanji": "届",
+          "kana": "とどけ",
+          "en": "report"
+        },
+        {
+          "kanji": "届ける",
+          "kana": "とどける",
+          "en": "to deliver"
+        },
+        {
+          "kanji": "届け出",
+          "kana": "とどけで",
+          "en": "report"
+        }
+      ],
+      "readingExamples": {
+        "とどける": {
+          "kanji": "届ける",
+          "kana": "とどける",
+          "en": "to deliver"
+        },
+        "とどけ": {
+          "kanji": "届",
+          "kana": "とどけ",
+          "en": "report"
+        },
+        "とどく": {
+          "kanji": "届く",
+          "kana": "とどく",
+          "en": "to reach"
+        }
+      }
+    },
+    {
+      "kanji": "展",
+      "on": [
+        "テン"
+      ],
+      "kun": [],
+      "meanings": [
+        "unfold",
+        "expand"
+      ],
+      "words": [
+        {
+          "kanji": "個展",
+          "kana": "こてん",
+          "en": "solo exhibition"
+        },
+        {
+          "kanji": "展示",
+          "kana": "てんじ",
+          "en": "exhibition"
+        },
+        {
+          "kanji": "進展",
+          "kana": "しんてん",
+          "en": "progress"
+        },
+        {
+          "kanji": "展開",
+          "kana": "てんかい",
+          "en": "development"
+        }
+      ],
+      "readingExamples": {
+        "テン": {
+          "kanji": "展示",
+          "kana": "てんじ",
+          "en": "exhibition"
+        }
+      }
+    },
+    {
+      "kanji": "層",
+      "on": [
+        "ソウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "stratum",
+        "social class",
+        "layer",
+        "story"
+      ],
+      "words": [
+        {
+          "kanji": "下層",
+          "kana": "かそう",
+          "en": "lower layer"
+        },
+        {
+          "kanji": "地層",
+          "kana": "ちそう",
+          "en": "stratum"
+        },
+        {
+          "kanji": "一層",
+          "kana": "いっそう",
+          "en": "even more"
+        },
+        {
+          "kanji": "階層",
+          "kana": "かいそう",
+          "en": "class"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "層群",
+          "kana": "そうぐん",
+          "en": "(geol) group"
+        }
+      }
+    },
+    {
+      "kanji": "己",
+      "on": [
+        "コ",
+        "キ"
+      ],
+      "kun": [
+        "おのれ",
+        "つちのと",
+        "な"
+      ],
+      "meanings": [
+        "self"
+      ],
+      "words": [
+        {
+          "kanji": "自己",
+          "kana": "じこ",
+          "en": "self"
+        },
+        {
+          "kanji": "知己",
+          "kana": "ちき",
+          "en": "acquaintance"
+        },
+        {
+          "kanji": "利己",
+          "kana": "りこ",
+          "en": "self-interest"
+        },
+        {
+          "kanji": "己",
+          "kana": "おのれ",
+          "en": "oneself (itself, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "おのれ": {
+          "kanji": "己",
+          "kana": "おのれ",
+          "en": "oneself (itself, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "巻",
+      "on": [
+        "カン",
+        "ケン"
+      ],
+      "kun": [
+        "ま.く",
+        "まき",
+        "ま.き"
+      ],
+      "meanings": [
+        "scroll",
+        "volume",
+        "book",
+        "part"
+      ],
+      "words": [
+        {
+          "kanji": "巻",
+          "kana": "まき",
+          "en": "roll (e.g. of cloth)"
+        },
+        {
+          "kanji": "巻く",
+          "kana": "まく",
+          "en": "to wind"
+        },
+        {
+          "kanji": "絵巻",
+          "kana": "えまき",
+          "en": "picture scroll"
+        },
+        {
+          "kanji": "葉巻",
+          "kana": "はまき",
+          "en": "cigar"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "巻頭",
+          "kana": "かんとう",
+          "en": "beginning (of a book, magazine, etc.)"
+        },
+        "まく": {
+          "kanji": "巻く",
+          "kana": "まく",
+          "en": "to wind"
+        },
+        "まき": {
+          "kanji": "巻",
+          "kana": "まき",
+          "en": "roll (e.g. of cloth)"
+        }
+      }
+    },
+    {
+      "kanji": "幕",
+      "on": [
+        "マク",
+        "バク"
+      ],
+      "kun": [
+        "とばり"
+      ],
+      "meanings": [
+        "curtain",
+        "bunting",
+        "act of play"
+      ],
+      "words": [
+        {
+          "kanji": "幕",
+          "kana": "まく",
+          "en": "curtain"
+        },
+        {
+          "kanji": "字幕",
+          "kana": "じまく",
+          "en": "subtitles"
+        },
+        {
+          "kanji": "幕府",
+          "kana": "ばくふ",
+          "en": "shogunate"
+        },
+        {
+          "kanji": "一幕",
+          "kana": "ひとまく",
+          "en": "one act (of a play)"
+        }
+      ],
+      "readingExamples": {
+        "マク": {
+          "kanji": "幕",
+          "kana": "まく",
+          "en": "curtain"
+        },
+        "バク": {
+          "kanji": "幕府",
+          "kana": "ばくふ",
+          "en": "shogunate"
+        }
+      }
+    },
+    {
+      "kanji": "干",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "ほ.す",
+        "ほ.し-",
+        "-ぼ.し",
+        "ひ.る"
+      ],
+      "meanings": [
+        "dry",
+        "parch",
+        "ebb",
+        "recede"
+      ],
+      "words": [
+        {
+          "kanji": "干る",
+          "kana": "ひる",
+          "en": "to dry (up)"
+        },
+        {
+          "kanji": "干す",
+          "kana": "ほす",
+          "en": "to air"
+        },
+        {
+          "kanji": "干支",
+          "kana": "えと",
+          "en": "sexagenary cycle"
+        },
+        {
+          "kanji": "干潟",
+          "kana": "ひがた",
+          "en": "tidal flat"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "干拓",
+          "kana": "かんたく",
+          "en": "land reclamation (from sea)"
+        },
+        "ほす": {
+          "kanji": "干す",
+          "kana": "ほす",
+          "en": "to air"
+        },
+        "ひる": {
+          "kanji": "干る",
+          "kana": "ひる",
+          "en": "to dry (up)"
+        }
+      }
+    },
+    {
+      "kanji": "幼",
+      "on": [
+        "ヨウ"
+      ],
+      "kun": [
+        "おさな.い"
+      ],
+      "meanings": [
+        "infancy",
+        "childhood"
+      ],
+      "words": [
+        {
+          "kanji": "幼児",
+          "kana": "ようじ",
+          "en": "young child"
+        },
+        {
+          "kanji": "幼時",
+          "kana": "ようじ",
+          "en": "childhood"
+        },
+        {
+          "kanji": "幼い",
+          "kana": "おさない",
+          "en": "very young"
+        },
+        {
+          "kanji": "幼魚",
+          "kana": "ようぎょ",
+          "en": "fry (young fish)"
+        }
+      ],
+      "readingExamples": {
+        "ヨウ": {
+          "kanji": "幼児",
+          "kana": "ようじ",
+          "en": "young child"
+        },
+        "おさない": {
+          "kanji": "幼い",
+          "kana": "おさない",
+          "en": "very young"
+        }
+      }
+    },
+    {
+      "kanji": "庁",
+      "on": [
+        "チョウ",
+        "テイ"
+      ],
+      "kun": [
+        "やくしょ"
+      ],
+      "meanings": [
+        "government office"
+      ],
+      "words": [
+        {
+          "kanji": "庁",
+          "kana": "ちょう",
+          "en": "government office"
+        },
+        {
+          "kanji": "市庁",
+          "kana": "しちょう",
+          "en": "municipal office"
+        },
+        {
+          "kanji": "都庁",
+          "kana": "とちょう",
+          "en": "Tokyo Metropolitan Government (Office)"
+        },
+        {
+          "kanji": "府庁",
+          "kana": "ふちょう",
+          "en": "prefectural office (of Osaka or Kyoto)"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "庁",
+          "kana": "ちょう",
+          "en": "government office"
+        }
+      }
+    },
+    {
+      "kanji": "座",
+      "on": [
+        "ザ"
+      ],
+      "kun": [
+        "すわ.る"
+      ],
+      "meanings": [
+        "squat",
+        "seat",
+        "cushion",
+        "gathering"
+      ],
+      "words": [
+        {
+          "kanji": "座",
+          "kana": "ざ",
+          "en": "seat"
+        },
+        {
+          "kanji": "下座",
+          "kana": "げざ",
+          "en": "coming down from one's seat and prostrating oneself (to pay obeisance)"
+        },
+        {
+          "kanji": "座視",
+          "kana": "ざし",
+          "en": "remaining an idle spectator"
+        },
+        {
+          "kanji": "一座",
+          "kana": "いちざ",
+          "en": "the whole company"
+        }
+      ],
+      "readingExamples": {
+        "ザ": {
+          "kanji": "座",
+          "kana": "ざ",
+          "en": "seat"
+        },
+        "すわる": {
+          "kanji": "座る",
+          "kana": "すわる",
+          "en": "to sit (down)"
+        }
+      }
+    },
+    {
+      "kanji": "延",
+      "on": [
+        "エン"
+      ],
+      "kun": [
+        "の.びる",
+        "の.べる",
+        "の.べ",
+        "の.ばす"
+      ],
+      "meanings": [
+        "prolong",
+        "stretching"
+      ],
+      "words": [
+        {
+          "kanji": "延べ",
+          "kana": "のべ",
+          "en": "futures"
+        },
+        {
+          "kanji": "延期",
+          "kana": "えんき",
+          "en": "postponement"
+        },
+        {
+          "kanji": "圧延",
+          "kana": "あつえん",
+          "en": "rolling"
+        },
+        {
+          "kanji": "延納",
+          "kana": "えんのう",
+          "en": "deferred payment"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "延期",
+          "kana": "えんき",
+          "en": "postponement"
+        },
+        "のべ": {
+          "kanji": "延べ",
+          "kana": "のべ",
+          "en": "futures"
+        }
+      }
+    },
+    {
+      "kanji": "律",
+      "on": [
+        "リツ",
+        "リチ",
+        "レツ"
+      ],
+      "kun": [],
+      "meanings": [
+        "rhythm",
+        "law",
+        "regulation",
+        "gauge"
+      ],
+      "words": [
+        {
+          "kanji": "規律",
+          "kana": "きりつ",
+          "en": "order"
+        },
+        {
+          "kanji": "自律",
+          "kana": "じりつ",
+          "en": "autonomy"
+        },
+        {
+          "kanji": "一律",
+          "kana": "いちりつ",
+          "en": "uniform"
+        },
+        {
+          "kanji": "法律",
+          "kana": "ほうりつ",
+          "en": "law"
+        }
+      ],
+      "readingExamples": {
+        "リツ": {
+          "kanji": "律令",
+          "kana": "りつりょう",
+          "en": "ritsuryō"
+        },
+        "リチ": {
+          "kanji": "律儀",
+          "kana": "りちぎ",
+          "en": "upright"
+        }
+      }
+    },
+    {
+      "kanji": "従",
+      "on": [
+        "ジュウ",
+        "ショウ",
+        "ジュ"
+      ],
+      "kun": [
+        "したが.う",
+        "したが.える",
+        "より"
+      ],
+      "meanings": [
+        "accompany",
+        "obey",
+        "submit to",
+        "comply"
+      ],
+      "words": [
+        {
+          "kanji": "従う",
+          "kana": "したがう",
+          "en": "to obey (an order, law, etc.)"
+        },
+        {
+          "kanji": "従事",
+          "kana": "じゅうじ",
+          "en": "engaging in (work)"
+        },
+        {
+          "kanji": "従える",
+          "kana": "したがえる",
+          "en": "to be accompanied by"
+        },
+        {
+          "kanji": "従って",
+          "kana": "したがって",
+          "en": "therefore"
+        }
+      ],
+      "readingExamples": {
+        "ジュウ": {
+          "kanji": "従事",
+          "kana": "じゅうじ",
+          "en": "engaging in (work)"
+        },
+        "ジュ": {
+          "kanji": "従事",
+          "kana": "じゅうじ",
+          "en": "engaging in (work)"
+        },
+        "したがう": {
+          "kanji": "従う",
+          "kana": "したがう",
+          "en": "to obey (an order, law, etc.)"
+        },
+        "したがえる": {
+          "kanji": "従える",
+          "kana": "したがえる",
+          "en": "to be accompanied by"
+        }
+      }
+    },
+    {
+      "kanji": "忘",
+      "on": [
+        "ボウ"
+      ],
+      "kun": [
+        "わす.れる"
+      ],
+      "meanings": [
+        "forget"
+      ],
+      "words": [
+        {
+          "kanji": "ど忘れ",
+          "kana": "どわすれ",
+          "en": "lapse of memory"
+        },
+        {
+          "kanji": "忘れる",
+          "kana": "わすれる",
+          "en": "to forget"
+        },
+        {
+          "kanji": "忘れ物",
+          "kana": "わすれもの",
+          "en": "lost article"
+        },
+        {
+          "kanji": "忘れ去る",
+          "kana": "わすれさる",
+          "en": "to forget completely"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "忘却",
+          "kana": "ぼうきゃく",
+          "en": "lapse of memory"
+        },
+        "わすれる": {
+          "kanji": "忘れる",
+          "kana": "わすれる",
+          "en": "to forget"
+        }
+      }
+    },
+    {
+      "kanji": "忠",
+      "on": [
+        "チュウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "loyalty",
+        "fidelity",
+        "faithfulness"
+      ],
+      "words": [
+        {
+          "kanji": "忠実",
+          "kana": "まめ",
+          "en": "diligent"
+        },
+        {
+          "kanji": "忠義",
+          "kana": "ちゅうぎ",
+          "en": "loyalty"
+        },
+        {
+          "kanji": "忠実",
+          "kana": "ちゅうじつ",
+          "en": "faithful"
+        },
+        {
+          "kanji": "忠孝",
+          "kana": "ちゅうこう",
+          "en": "loyalty and filial piety"
+        }
+      ],
+      "readingExamples": {
+        "チュウ": {
+          "kanji": "忠義",
+          "kana": "ちゅうぎ",
+          "en": "loyalty"
+        }
+      }
+    },
+    {
+      "kanji": "恩",
+      "on": [
+        "オン"
+      ],
+      "kun": [],
+      "meanings": [
+        "grace",
+        "kindness",
+        "goodness",
+        "favor"
+      ],
+      "words": [
+        {
+          "kanji": "恩",
+          "kana": "おん",
+          "en": "favour"
+        },
+        {
+          "kanji": "恩師",
+          "kana": "おんし",
+          "en": "teacher (to whom one owes a debt of gratitude)"
+        },
+        {
+          "kanji": "恩義",
+          "kana": "おんぎ",
+          "en": "obligation"
+        },
+        {
+          "kanji": "恩人",
+          "kana": "おんじん",
+          "en": "benefactor"
+        }
+      ],
+      "readingExamples": {
+        "オン": {
+          "kanji": "恩",
+          "kana": "おん",
+          "en": "favour"
+        }
+      }
+    },
+    {
+      "kanji": "憲",
+      "on": [
+        "ケン"
+      ],
+      "kun": [],
+      "meanings": [
+        "constitution",
+        "law"
+      ],
+      "words": [
+        {
+          "kanji": "護憲",
+          "kana": "ごけん",
+          "en": "protecting the constitution"
+        },
+        {
+          "kanji": "改憲",
+          "kana": "かいけん",
+          "en": "constitutional change"
+        },
+        {
+          "kanji": "官憲",
+          "kana": "かんけん",
+          "en": "officials"
+        },
+        {
+          "kanji": "憲政",
+          "kana": "けんせい",
+          "en": "constitutional government"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "憲政",
+          "kana": "けんせい",
+          "en": "constitutional government"
+        }
+      }
+    },
+    {
+      "kanji": "我",
+      "on": [
+        "ガ"
+      ],
+      "kun": [
+        "われ",
+        "わ",
+        "わ.が-",
+        "わが-"
+      ],
+      "meanings": [
+        "ego",
+        "I",
+        "selfish",
+        "our"
+      ],
+      "words": [
+        {
+          "kanji": "我",
+          "kana": "われ",
+          "en": "I"
+        },
+        {
+          "kanji": "自我",
+          "kana": "じが",
+          "en": "ego"
+        },
+        {
+          "kanji": "無我",
+          "kana": "むが",
+          "en": "selflessness"
+        },
+        {
+          "kanji": "我が",
+          "kana": "わが",
+          "en": "my"
+        }
+      ],
+      "readingExamples": {
+        "ガ": {
+          "kanji": "我慢",
+          "kana": "がまん",
+          "en": "endurance"
+        },
+        "われ": {
+          "kanji": "我",
+          "kana": "われ",
+          "en": "I"
+        },
+        "わ": {
+          "kanji": "我",
+          "kana": "われ",
+          "en": "I"
+        },
+        "わが": {
+          "kanji": "我が",
+          "kana": "わが",
+          "en": "my"
+        }
+      }
+    },
+    {
+      "kanji": "批",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [],
+      "meanings": [
+        "criticism",
+        "strike"
+      ],
+      "words": [
+        {
+          "kanji": "批判",
+          "kana": "ひはん",
+          "en": "criticism"
+        },
+        {
+          "kanji": "批評",
+          "kana": "ひひょう",
+          "en": "criticism"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "批判",
+          "kana": "ひはん",
+          "en": "criticism"
+        }
+      }
+    },
+    {
+      "kanji": "承",
+      "on": [
+        "ショウ",
+        "ジョウ"
+      ],
+      "kun": [
+        "うけたまわ.る",
+        "う.ける"
+      ],
+      "meanings": [
+        "acquiesce",
+        "hear",
+        "listen to",
+        "be informed"
+      ],
+      "words": [
+        {
+          "kanji": "承知",
+          "kana": "しょうち",
+          "en": "knowledge"
+        },
+        {
+          "kanji": "承認",
+          "kana": "しょうにん",
+          "en": "recognition"
+        },
+        {
+          "kanji": "伝承",
+          "kana": "でんしょう",
+          "en": "handing down (information)"
+        },
+        {
+          "kanji": "承服",
+          "kana": "しょうふく",
+          "en": "accepting"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "承知",
+          "kana": "しょうち",
+          "en": "knowledge"
+        },
+        "うけたまわる": {
+          "kanji": "承る",
+          "kana": "うけたまわる",
+          "en": "to hear"
+        }
+      }
+    },
+    {
+      "kanji": "担",
+      "on": [
+        "タン"
+      ],
+      "kun": [
+        "かつ.ぐ",
+        "にな.う"
+      ],
+      "meanings": [
+        "shouldering",
+        "carry",
+        "raise",
+        "bear"
+      ],
+      "words": [
+        {
+          "kanji": "担ぐ",
+          "kana": "かつぐ",
+          "en": "to shoulder"
+        },
+        {
+          "kanji": "担保",
+          "kana": "たんぽ",
+          "en": "security"
+        },
+        {
+          "kanji": "負担",
+          "kana": "ふたん",
+          "en": "burden"
+        },
+        {
+          "kanji": "加担",
+          "kana": "かたん",
+          "en": "support"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "担架",
+          "kana": "たんか",
+          "en": "stretcher"
+        },
+        "かつぐ": {
+          "kanji": "担ぐ",
+          "kana": "かつぐ",
+          "en": "to shoulder"
+        },
+        "になう": {
+          "kanji": "担う",
+          "kana": "になう",
+          "en": "to carry on one's shoulder"
+        }
+      }
+    },
+    {
+      "kanji": "拝",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [
+        "おが.む",
+        "おろが.む"
+      ],
+      "meanings": [
+        "worship",
+        "adore",
+        "pray to"
+      ],
+      "words": [
+        {
+          "kanji": "拝む",
+          "kana": "おがむ",
+          "en": "to assume the posture of praying"
+        },
+        {
+          "kanji": "参拝",
+          "kana": "さんぱい",
+          "en": "going and worshipping (at a shrine or temple)"
+        },
+        {
+          "kanji": "拝見",
+          "kana": "はいけん",
+          "en": "seeing"
+        },
+        {
+          "kanji": "礼拝",
+          "kana": "れいはい",
+          "en": "worship (esp. Christian)"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "拝啓",
+          "kana": "はいけい",
+          "en": "Dear (so and so)"
+        },
+        "おがむ": {
+          "kanji": "拝む",
+          "kana": "おがむ",
+          "en": "to assume the posture of praying"
+        }
+      }
+    },
+    {
+      "kanji": "拡",
+      "on": [
+        "カク",
+        "コウ"
+      ],
+      "kun": [
+        "ひろ.がる",
+        "ひろ.げる",
+        "ひろ.める"
+      ],
+      "meanings": [
+        "broaden",
+        "extend",
+        "expand",
+        "enlarge"
+      ],
+      "words": [
+        {
+          "kanji": "拡散",
+          "kana": "かくさん",
+          "en": "spreading"
+        },
+        {
+          "kanji": "拡大",
+          "kana": "かくだい",
+          "en": "expansion"
+        },
+        {
+          "kanji": "軍拡",
+          "kana": "ぐんかく",
+          "en": "military expansion"
+        },
+        {
+          "kanji": "拡張",
+          "kana": "かくちょう",
+          "en": "expansion"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "拡散",
+          "kana": "かくさん",
+          "en": "spreading"
+        }
+      }
+    },
+    {
+      "kanji": "捨",
+      "on": [
+        "シャ"
+      ],
+      "kun": [
+        "す.てる"
+      ],
+      "meanings": [
+        "discard",
+        "throw away",
+        "abandon",
+        "resign"
+      ],
+      "words": [
+        {
+          "kanji": "捨てる",
+          "kana": "すてる",
+          "en": "to throw away"
+        },
+        {
+          "kanji": "捨て子",
+          "kana": "すてご",
+          "en": "abandoned child"
+        },
+        {
+          "kanji": "捨て身",
+          "kana": "すてみ",
+          "en": "putting one's life on the line"
+        },
+        {
+          "kanji": "見捨てる",
+          "kana": "みすてる",
+          "en": "to abandon"
+        }
+      ],
+      "readingExamples": {
+        "すてる": {
+          "kanji": "捨てる",
+          "kana": "すてる",
+          "en": "to throw away"
+        }
+      }
+    },
+    {
+      "kanji": "探",
+      "on": [
+        "タン"
+      ],
+      "kun": [
+        "さぐ.る",
+        "さが.す"
+      ],
+      "meanings": [
+        "grope",
+        "search",
+        "look for"
+      ],
+      "words": [
+        {
+          "kanji": "探る",
+          "kana": "さぐる",
+          "en": "to feel around for"
+        },
+        {
+          "kanji": "探査",
+          "kana": "たんさ",
+          "en": "probe"
+        },
+        {
+          "kanji": "探知",
+          "kana": "たんち",
+          "en": "detection"
+        },
+        {
+          "kanji": "探す",
+          "kana": "さがす",
+          "en": "to search for"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "探査",
+          "kana": "たんさ",
+          "en": "probe"
+        },
+        "さぐる": {
+          "kanji": "探る",
+          "kana": "さぐる",
+          "en": "to feel around for"
+        },
+        "さがす": {
+          "kanji": "探す",
+          "kana": "さがす",
+          "en": "to search for"
+        }
+      }
+    },
+    {
+      "kanji": "推",
+      "on": [
+        "スイ"
+      ],
+      "kun": [
+        "お.す"
+      ],
+      "meanings": [
+        "conjecture",
+        "infer",
+        "guess",
+        "suppose"
+      ],
+      "words": [
+        {
+          "kanji": "推す",
+          "kana": "おす",
+          "en": "to recommend"
+        },
+        {
+          "kanji": "推移",
+          "kana": "すいい",
+          "en": "transition"
+        },
+        {
+          "kanji": "推理",
+          "kana": "すいり",
+          "en": "reasoning"
+        },
+        {
+          "kanji": "推挙",
+          "kana": "すいきょ",
+          "en": "recommendation (of a person for a position)"
+        }
+      ],
+      "readingExamples": {
+        "スイ": {
+          "kanji": "推移",
+          "kana": "すいい",
+          "en": "transition"
+        },
+        "おす": {
+          "kanji": "推す",
+          "kana": "おす",
+          "en": "to recommend"
+        }
+      }
+    },
+    {
+      "kanji": "揮",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "ふる.う"
+      ],
+      "meanings": [
+        "brandish",
+        "wave",
+        "wag",
+        "swing"
+      ],
+      "words": [
+        {
+          "kanji": "指揮",
+          "kana": "しき",
+          "en": "command"
+        },
+        {
+          "kanji": "揮発",
+          "kana": "きはつ",
+          "en": "volatilization"
+        },
+        {
+          "kanji": "発揮",
+          "kana": "はっき",
+          "en": "show (of power, ability, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "揮発",
+          "kana": "きはつ",
+          "en": "volatilization"
+        }
+      }
+    },
+    {
+      "kanji": "操",
+      "on": [
+        "ソウ",
+        "サン"
+      ],
+      "kun": [
+        "みさお",
+        "あやつ.る"
+      ],
+      "meanings": [
+        "maneuver",
+        "manipulate",
+        "operate",
+        "steer"
+      ],
+      "words": [
+        {
+          "kanji": "操",
+          "kana": "みさお",
+          "en": "fidelity"
+        },
+        {
+          "kanji": "操作",
+          "kana": "そうさ",
+          "en": "operation"
+        },
+        {
+          "kanji": "節操",
+          "kana": "せっそう",
+          "en": "integrity"
+        },
+        {
+          "kanji": "操り",
+          "kana": "あやつり",
+          "en": "manipulation"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "操作",
+          "kana": "そうさ",
+          "en": "operation"
+        },
+        "みさお": {
+          "kanji": "操",
+          "kana": "みさお",
+          "en": "fidelity"
+        },
+        "あやつる": {
+          "kanji": "操る",
+          "kana": "あやつる",
+          "en": "to operate (e.g. a machine)"
+        }
+      }
+    },
+    {
+      "kanji": "敬",
+      "on": [
+        "ケイ",
+        "キョウ"
+      ],
+      "kun": [
+        "うやま.う"
+      ],
+      "meanings": [
+        "awe",
+        "respect",
+        "honor",
+        "revere"
+      ],
+      "words": [
+        {
+          "kanji": "敬意",
+          "kana": "けいい",
+          "en": "respect"
+        },
+        {
+          "kanji": "敬具",
+          "kana": "けいぐ",
+          "en": "yours sincerely"
+        },
+        {
+          "kanji": "敬語",
+          "kana": "けいご",
+          "en": "honorific"
+        },
+        {
+          "kanji": "敬う",
+          "kana": "うやまう",
+          "en": "to show respect for"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "敬意",
+          "kana": "けいい",
+          "en": "respect"
+        },
+        "うやまう": {
+          "kanji": "敬う",
+          "kana": "うやまう",
+          "en": "to show respect for"
+        }
+      }
+    },
+    {
+      "kanji": "敵",
+      "on": [
+        "テキ"
+      ],
+      "kun": [
+        "かたき",
+        "あだ",
+        "かな.う"
+      ],
+      "meanings": [
+        "enemy",
+        "foe",
+        "opponent"
+      ],
+      "words": [
+        {
+          "kanji": "敵",
+          "kana": "てき",
+          "en": "opponent"
+        },
+        {
+          "kanji": "素敵",
+          "kana": "すてき",
+          "en": "lovely"
+        },
+        {
+          "kanji": "敵意",
+          "kana": "てきい",
+          "en": "hostility"
+        },
+        {
+          "kanji": "敵視",
+          "kana": "てきし",
+          "en": "looking upon (someone) as an enemy"
+        }
+      ],
+      "readingExamples": {
+        "テキ": {
+          "kanji": "敵",
+          "kana": "てき",
+          "en": "opponent"
+        },
+        "かたき": {
+          "kanji": "敵討ち",
+          "kana": "かたきうち",
+          "en": "vengeance"
+        }
+      }
+    },
+    {
+      "kanji": "映",
+      "on": [
+        "エイ"
+      ],
+      "kun": [
+        "うつ.る",
+        "うつ.す",
+        "は.える",
+        "-ば.え"
+      ],
+      "meanings": [
+        "reflect",
+        "reflection",
+        "projection"
+      ],
+      "words": [
+        {
+          "kanji": "映る",
+          "kana": "うつる",
+          "en": "to be reflected"
+        },
+        {
+          "kanji": "映画",
+          "kana": "えいが",
+          "en": "movie"
+        },
+        {
+          "kanji": "映す",
+          "kana": "うつす",
+          "en": "to project"
+        },
+        {
+          "kanji": "映える",
+          "kana": "はえる",
+          "en": "to shine"
+        }
+      ],
+      "readingExamples": {
+        "エイ": {
+          "kanji": "映画",
+          "kana": "えいが",
+          "en": "movie"
+        },
+        "うつる": {
+          "kanji": "映る",
+          "kana": "うつる",
+          "en": "to be reflected"
+        },
+        "うつす": {
+          "kanji": "映す",
+          "kana": "うつす",
+          "en": "to project"
+        },
+        "はえる": {
+          "kanji": "映える",
+          "kana": "はえる",
+          "en": "to shine"
+        }
+      }
+    },
+    {
+      "kanji": "晩",
+      "on": [
+        "バン"
+      ],
+      "kun": [],
+      "meanings": [
+        "nightfall",
+        "night"
+      ],
+      "words": [
+        {
+          "kanji": "晩",
+          "kana": "ばん",
+          "en": "evening"
+        },
+        {
+          "kanji": "晩夏",
+          "kana": "ばんか",
+          "en": "late summer"
+        },
+        {
+          "kanji": "晩期",
+          "kana": "ばんき",
+          "en": "the last stage"
+        },
+        {
+          "kanji": "一晩",
+          "kana": "ひとばん",
+          "en": "one night"
+        }
+      ],
+      "readingExamples": {
+        "バン": {
+          "kanji": "晩",
+          "kana": "ばん",
+          "en": "evening"
+        }
+      }
+    },
+    {
+      "kanji": "暖",
+      "on": [
+        "ダン",
+        "ノン"
+      ],
+      "kun": [
+        "あたた.か",
+        "あたた.かい",
+        "あたた.まる",
+        "あたた.める"
+      ],
+      "meanings": [
+        "warmth"
+      ],
+      "words": [
+        {
+          "kanji": "暖地",
+          "kana": "だんち",
+          "en": "warm district"
+        },
+        {
+          "kanji": "温暖",
+          "kana": "おんだん",
+          "en": "warm"
+        },
+        {
+          "kanji": "暖冬",
+          "kana": "だんとう",
+          "en": "mild winter"
+        },
+        {
+          "kanji": "寒暖",
+          "kana": "かんだん",
+          "en": "cold and heat"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "暖炉",
+          "kana": "だんろ",
+          "en": "fireplace"
+        },
+        "あたたか": {
+          "kanji": "暖かい",
+          "kana": "あたたかい",
+          "en": "warm"
+        },
+        "あたたかい": {
+          "kanji": "暖かい",
+          "kana": "あたたかい",
+          "en": "warm"
+        }
+      }
+    },
+    {
+      "kanji": "暮",
+      "on": [
+        "ボ"
+      ],
+      "kun": [
+        "く.れる",
+        "く.らす"
+      ],
+      "meanings": [
+        "evening",
+        "twilight",
+        "season's end",
+        "livelihood"
+      ],
+      "words": [
+        {
+          "kanji": "暮れ",
+          "kana": "くれ",
+          "en": "sunset"
+        },
+        {
+          "kanji": "野暮",
+          "kana": "やぼ",
+          "en": "boorish"
+        },
+        {
+          "kanji": "日暮れ",
+          "kana": "ひぐれ",
+          "en": "twilight"
+        },
+        {
+          "kanji": "暮らし",
+          "kana": "くらし",
+          "en": "(way of) life"
+        }
+      ],
+      "readingExamples": {
+        "くれる": {
+          "kanji": "暮れる",
+          "kana": "くれる",
+          "en": "to get dark"
+        },
+        "くらす": {
+          "kanji": "暮らす",
+          "kana": "くらす",
+          "en": "to live (on, by, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "朗",
+      "on": [
+        "ロウ"
+      ],
+      "kun": [
+        "ほが.らか",
+        "あき.らか"
+      ],
+      "meanings": [
+        "melodious",
+        "clear",
+        "bright",
+        "serene"
+      ],
+      "words": [
+        {
+          "kanji": "明朗",
+          "kana": "めいろう",
+          "en": "cheerful"
+        },
+        {
+          "kanji": "朗らか",
+          "kana": "ほがらか",
+          "en": "cheerful"
+        },
+        {
+          "kanji": "朗読",
+          "kana": "ろうどく",
+          "en": "reading aloud"
+        },
+        {
+          "kanji": "朗報",
+          "kana": "ろうほう",
+          "en": "good news"
+        }
+      ],
+      "readingExamples": {
+        "ロウ": {
+          "kanji": "朗詠",
+          "kana": "ろうえい",
+          "en": "recitation (of Japanese or Chinese poem)"
+        },
+        "ほがらか": {
+          "kanji": "朗らか",
+          "kana": "ほがらか",
+          "en": "cheerful"
+        }
+      }
+    },
+    {
+      "kanji": "机",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "つくえ"
+      ],
+      "meanings": [
+        "desk",
+        "table"
+      ],
+      "words": [
+        {
+          "kanji": "机",
+          "kana": "つくえ",
+          "en": "desk"
+        },
+        {
+          "kanji": "机上",
+          "kana": "きじょう",
+          "en": "on the desk"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "机上",
+          "kana": "きじょう",
+          "en": "on the desk"
+        },
+        "つくえ": {
+          "kanji": "机",
+          "kana": "つくえ",
+          "en": "desk"
+        }
+      }
+    },
+    {
+      "kanji": "枚",
+      "on": [
+        "マイ",
+        "バイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "sheet of...",
+        "counter for flat thin objects or sheets"
+      ],
+      "words": [
+        {
+          "kanji": "枚",
+          "kana": "まい",
+          "en": "counter for thin, flat objects (e.g. sheets of paper, plates, coins)"
+        },
+        {
+          "kanji": "二枚",
+          "kana": "にまい",
+          "en": "two sheets (of paper or other flat objects)"
+        },
+        {
+          "kanji": "一枚",
+          "kana": "いちまい",
+          "en": "one (thin, flat object)"
+        },
+        {
+          "kanji": "三枚",
+          "kana": "さんまい",
+          "en": "three flat objects (sheets of paper, pieces of cloth, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "マイ": {
+          "kanji": "枚",
+          "kana": "まい",
+          "en": "counter for thin, flat objects (e.g. sheets of paper, plates, coins)"
+        }
+      }
+    },
+    {
+      "kanji": "染",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "そ.める",
+        "そ.まる",
+        "し.みる",
+        "し.み"
+      ],
+      "meanings": [
+        "dye",
+        "color",
+        "paint",
+        "stain"
+      ],
+      "words": [
+        {
+          "kanji": "染み",
+          "kana": "しみ",
+          "en": "stain"
+        },
+        {
+          "kanji": "染め",
+          "kana": "そめ",
+          "en": "dyeing"
+        },
+        {
+          "kanji": "染まる",
+          "kana": "そまる",
+          "en": "to be dyed"
+        },
+        {
+          "kanji": "染みる",
+          "kana": "しみる",
+          "en": "to soak (into)"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "染織",
+          "kana": "せんしょく",
+          "en": "dyeing and weaving"
+        },
+        "そめる": {
+          "kanji": "染める",
+          "kana": "そめる",
+          "en": "to dye"
+        },
+        "そまる": {
+          "kanji": "染まる",
+          "kana": "そまる",
+          "en": "to be dyed"
+        },
+        "しみる": {
+          "kanji": "染みる",
+          "kana": "しみる",
+          "en": "to soak (into)"
+        },
+        "しみ": {
+          "kanji": "染み",
+          "kana": "しみ",
+          "en": "stain"
+        }
+      }
+    },
+    {
+      "kanji": "株",
+      "on": [
+        "シュ"
+      ],
+      "kun": [
+        "かぶ"
+      ],
+      "meanings": [
+        "stocks",
+        "stump",
+        "shares",
+        "stock"
+      ],
+      "words": [
+        {
+          "kanji": "株",
+          "kana": "かぶ",
+          "en": "stock"
+        },
+        {
+          "kanji": "株価",
+          "kana": "かぶか",
+          "en": "stock prices"
+        },
+        {
+          "kanji": "株屋",
+          "kana": "かぶや",
+          "en": "stockbroker"
+        },
+        {
+          "kanji": "お株",
+          "kana": "おかぶ",
+          "en": "one's forte"
+        }
+      ],
+      "readingExamples": {
+        "かぶ": {
+          "kanji": "株",
+          "kana": "かぶ",
+          "en": "stock"
+        }
+      }
+    },
+    {
+      "kanji": "棒",
+      "on": [
+        "ボウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "rod",
+        "stick",
+        "cane",
+        "pole"
+      ],
+      "words": [
+        {
+          "kanji": "棒",
+          "kana": "ぼう",
+          "en": "pole"
+        },
+        {
+          "kanji": "警棒",
+          "kana": "けいぼう",
+          "en": "(police officer's) baton"
+        },
+        {
+          "kanji": "相棒",
+          "kana": "あいぼう",
+          "en": "partner"
+        },
+        {
+          "kanji": "鉄棒",
+          "kana": "てつぼう",
+          "en": "iron rod"
+        }
+      ],
+      "readingExamples": {
+        "ボウ": {
+          "kanji": "棒",
+          "kana": "ぼう",
+          "en": "pole"
+        }
+      }
+    },
+    {
+      "kanji": "模",
+      "on": [
+        "モ",
+        "ボ"
+      ],
+      "kun": [],
+      "meanings": [
+        "imitation",
+        "copy",
+        "mock"
+      ],
+      "words": [
+        {
+          "kanji": "規模",
+          "kana": "きぼ",
+          "en": "scale"
+        },
+        {
+          "kanji": "模試",
+          "kana": "もし",
+          "en": "mock exam"
+        },
+        {
+          "kanji": "模型",
+          "kana": "もけい",
+          "en": "model"
+        },
+        {
+          "kanji": "模写",
+          "kana": "もしゃ",
+          "en": "copy (of the real thing)"
+        }
+      ],
+      "readingExamples": {
+        "モ": {
+          "kanji": "模擬",
+          "kana": "もぎ",
+          "en": "imitation"
+        }
+      }
+    },
+    {
+      "kanji": "権",
+      "on": [
+        "ケン",
+        "ゴン"
+      ],
+      "kun": [
+        "おもり",
+        "かり",
+        "はか.る"
+      ],
+      "meanings": [
+        "authority",
+        "power",
+        "rights"
+      ],
+      "words": [
+        {
+          "kanji": "権",
+          "kana": "けん",
+          "en": "right (to do something)"
+        },
+        {
+          "kanji": "権化",
+          "kana": "ごんげ",
+          "en": "incarnation (of Buddha or bodhisattva)"
+        },
+        {
+          "kanji": "権利",
+          "kana": "けんり",
+          "en": "right"
+        },
+        {
+          "kanji": "利権",
+          "kana": "りけん",
+          "en": "interest"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "権",
+          "kana": "けん",
+          "en": "right (to do something)"
+        },
+        "ゴン": {
+          "kanji": "権化",
+          "kana": "ごんげ",
+          "en": "incarnation (of Buddha or bodhisattva)"
+        }
+      }
+    },
+    {
+      "kanji": "樹",
+      "on": [
+        "ジュ"
+      ],
+      "kun": [
+        "き"
+      ],
+      "meanings": [
+        "timber",
+        "trees",
+        "wood",
+        "establish"
+      ],
+      "words": [
+        {
+          "kanji": "果樹",
+          "kana": "かじゅ",
+          "en": "fruit tree"
+        },
+        {
+          "kanji": "樹皮",
+          "kana": "じゅひ",
+          "en": "bark (of a tree, etc.)"
+        },
+        {
+          "kanji": "樹木",
+          "kana": "じゅもく",
+          "en": "tree"
+        },
+        {
+          "kanji": "樹立",
+          "kana": "じゅりつ",
+          "en": "establishment"
+        }
+      ],
+      "readingExamples": {
+        "ジュ": {
+          "kanji": "樹脂",
+          "kana": "じゅし",
+          "en": "resin"
+        }
+      }
+    },
+    {
+      "kanji": "欲",
+      "on": [
+        "ヨク"
+      ],
+      "kun": [
+        "ほっ.する",
+        "ほ.しい"
+      ],
+      "meanings": [
+        "longing",
+        "covetousness",
+        "greed",
+        "passion"
+      ],
+      "words": [
+        {
+          "kanji": "欲",
+          "kana": "よく",
+          "en": "greed"
+        },
+        {
+          "kanji": "無欲",
+          "kana": "むよく",
+          "en": "unselfish"
+        },
+        {
+          "kanji": "欲しい",
+          "kana": "ほしい",
+          "en": "wanting (to have)"
+        },
+        {
+          "kanji": "意欲",
+          "kana": "いよく",
+          "en": "will"
+        }
+      ],
+      "readingExamples": {
+        "ヨク": {
+          "kanji": "欲",
+          "kana": "よく",
+          "en": "greed"
+        },
+        "ほっする": {
+          "kanji": "欲する",
+          "kana": "ほっする",
+          "en": "to want"
+        },
+        "ほしい": {
+          "kanji": "欲しい",
+          "kana": "ほしい",
+          "en": "wanting (to have)"
+        }
+      }
+    },
+    {
+      "kanji": "段",
+      "on": [
+        "ダン",
+        "タン"
+      ],
+      "kun": [],
+      "meanings": [
+        "grade",
+        "steps",
+        "stairs"
+      ],
+      "words": [
+        {
+          "kanji": "段",
+          "kana": "だん",
+          "en": "step"
+        },
+        {
+          "kanji": "下段",
+          "kana": "げだん",
+          "en": "lower tier"
+        },
+        {
+          "kanji": "値段",
+          "kana": "ねだん",
+          "en": "price"
+        },
+        {
+          "kanji": "段位",
+          "kana": "だんい",
+          "en": "dan rank (in martial arts, go, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "ダン": {
+          "kanji": "段",
+          "kana": "だん",
+          "en": "step"
+        }
+      }
+    },
+    {
+      "kanji": "沿",
+      "on": [
+        "エン"
+      ],
+      "kun": [
+        "そ.う",
+        "-ぞ.い"
+      ],
+      "meanings": [
+        "run alongside",
+        "follow along",
+        "run along",
+        "lie along"
+      ],
+      "words": [
+        {
+          "kanji": "沿う",
+          "kana": "そう",
+          "en": "to run along"
+        },
+        {
+          "kanji": "沿い",
+          "kana": "ぞい",
+          "en": "along (a river, coast, railway, etc.)"
+        },
+        {
+          "kanji": "沿って",
+          "kana": "そって",
+          "en": "along"
+        },
+        {
+          "kanji": "沿海",
+          "kana": "えんかい",
+          "en": "sea along the coast"
+        }
+      ],
+      "readingExamples": {
+        "エン": {
+          "kanji": "沿海",
+          "kana": "えんかい",
+          "en": "sea along the coast"
+        },
+        "そう": {
+          "kanji": "沿う",
+          "kana": "そう",
+          "en": "to run along"
+        },
+        "ぞい": {
+          "kanji": "沿い",
+          "kana": "ぞい",
+          "en": "along (a river, coast, railway, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "泉",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "いずみ"
+      ],
+      "meanings": [
+        "spring",
+        "fountain"
+      ],
+      "words": [
+        {
+          "kanji": "泉",
+          "kana": "いずみ",
+          "en": "spring"
+        },
+        {
+          "kanji": "温泉",
+          "kana": "おんせん",
+          "en": "hot spring"
+        },
+        {
+          "kanji": "源泉",
+          "kana": "げんせん",
+          "en": "source (of a spring, etc.)"
+        },
+        {
+          "kanji": "泉水",
+          "kana": "せんすい",
+          "en": "garden pond"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "泉水",
+          "kana": "せんすい",
+          "en": "garden pond"
+        },
+        "いずみ": {
+          "kanji": "泉",
+          "kana": "いずみ",
+          "en": "spring"
+        }
+      }
+    },
+    {
+      "kanji": "洗",
+      "on": [
+        "セン"
+      ],
+      "kun": [
+        "あら.う"
+      ],
+      "meanings": [
+        "wash",
+        "inquire into",
+        "probe"
+      ],
+      "words": [
+        {
+          "kanji": "洗う",
+          "kana": "あらう",
+          "en": "to wash"
+        },
+        {
+          "kanji": "手洗い",
+          "kana": "てあらい",
+          "en": "washing one's hands"
+        },
+        {
+          "kanji": "水洗",
+          "kana": "すいせん",
+          "en": "washing with water"
+        },
+        {
+          "kanji": "洗顔",
+          "kana": "せんがん",
+          "en": "face-washing"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "洗顔",
+          "kana": "せんがん",
+          "en": "face-washing"
+        },
+        "あらう": {
+          "kanji": "洗う",
+          "kana": "あらう",
+          "en": "to wash"
+        }
+      }
+    },
+    {
+      "kanji": "派",
+      "on": [
+        "ハ"
+      ],
+      "kun": [],
+      "meanings": [
+        "faction",
+        "group",
+        "party",
+        "clique"
+      ],
+      "words": [
+        {
+          "kanji": "派",
+          "kana": "は",
+          "en": "group"
+        },
+        {
+          "kanji": "右派",
+          "kana": "うは",
+          "en": "right wing"
+        },
+        {
+          "kanji": "左派",
+          "kana": "さは",
+          "en": "left wing"
+        },
+        {
+          "kanji": "他派",
+          "kana": "たは",
+          "en": "the other group"
+        }
+      ],
+      "readingExamples": {
+        "ハ": {
+          "kanji": "派",
+          "kana": "は",
+          "en": "group"
+        }
+      }
+    },
+    {
+      "kanji": "済",
+      "on": [
+        "サイ",
+        "セイ"
+      ],
+      "kun": [
+        "す.む",
+        "-ず.み",
+        "-ずみ",
+        "す.まない",
+        "す.ます",
+        "-す.ます",
+        "すく.う",
+        "な.す",
+        "わたし",
+        "わた.る"
+      ],
+      "meanings": [
+        "settle (debt, etc.)",
+        "relieve (burden)",
+        "finish",
+        "come to an end"
+      ],
+      "words": [
+        {
+          "kanji": "済む",
+          "kana": "すむ",
+          "en": "to finish"
+        },
+        {
+          "kanji": "済み",
+          "kana": "ずみ",
+          "en": "arranged"
+        },
+        {
+          "kanji": "済ます",
+          "kana": "すます",
+          "en": "to finish"
+        },
+        {
+          "kanji": "完済",
+          "kana": "かんさい",
+          "en": "full payment"
+        }
+      ],
+      "readingExamples": {
+        "すむ": {
+          "kanji": "済む",
+          "kana": "すむ",
+          "en": "to finish"
+        },
+        "ずみ": {
+          "kanji": "済み",
+          "kana": "ずみ",
+          "en": "arranged"
+        },
+        "すまない": {
+          "kanji": "済まない",
+          "kana": "すまない",
+          "en": "inexcusable"
+        },
+        "すます": {
+          "kanji": "済ます",
+          "kana": "すます",
+          "en": "to finish"
+        }
+      }
+    },
+    {
+      "kanji": "源",
+      "on": [
+        "ゲン"
+      ],
+      "kun": [
+        "みなもと"
+      ],
+      "meanings": [
+        "source",
+        "origin"
+      ],
+      "words": [
+        {
+          "kanji": "語源",
+          "kana": "ごげん",
+          "en": "origin of a word"
+        },
+        {
+          "kanji": "資源",
+          "kana": "しげん",
+          "en": "resources"
+        },
+        {
+          "kanji": "起源",
+          "kana": "きげん",
+          "en": "origin"
+        },
+        {
+          "kanji": "源氏",
+          "kana": "げんじ",
+          "en": "Genji (the character in the Genji Monogatari)"
+        }
+      ],
+      "readingExamples": {
+        "ゲン": {
+          "kanji": "源氏",
+          "kana": "げんじ",
+          "en": "Genji (the character in the Genji Monogatari)"
+        },
+        "みなもと": {
+          "kanji": "源",
+          "kana": "みなもと",
+          "en": "source (of a river)"
+        }
+      }
+    },
+    {
+      "kanji": "潮",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "しお",
+        "うしお"
+      ],
+      "meanings": [
+        "tide",
+        "salt water",
+        "opportunity"
+      ],
+      "words": [
+        {
+          "kanji": "潮",
+          "kana": "しお",
+          "en": "tide"
+        },
+        {
+          "kanji": "黒潮",
+          "kana": "くろしお",
+          "en": "Kuroshio Current"
+        },
+        {
+          "kanji": "思潮",
+          "kana": "しちょう",
+          "en": "trend of thought"
+        },
+        {
+          "kanji": "上げ潮",
+          "kana": "あげしお",
+          "en": "rising tide"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "潮流",
+          "kana": "ちょうりゅう",
+          "en": "tide"
+        },
+        "しお": {
+          "kanji": "潮",
+          "kana": "しお",
+          "en": "tide"
+        }
+      }
+    },
+    {
+      "kanji": "激",
+      "on": [
+        "ゲキ"
+      ],
+      "kun": [
+        "はげ.しい"
+      ],
+      "meanings": [
+        "violent",
+        "get excited",
+        "enraged",
+        "chafe"
+      ],
+      "words": [
+        {
+          "kanji": "過激",
+          "kana": "かげき",
+          "en": "extreme (measure, idea, etc.)"
+        },
+        {
+          "kanji": "激化",
+          "kana": "げきか",
+          "en": "intensification"
+        },
+        {
+          "kanji": "激務",
+          "kana": "げきむ",
+          "en": "exhausting work"
+        },
+        {
+          "kanji": "感激",
+          "kana": "かんげき",
+          "en": "deep emotion"
+        }
+      ],
+      "readingExamples": {
+        "ゲキ": {
+          "kanji": "激化",
+          "kana": "げきか",
+          "en": "intensification"
+        },
+        "はげしい": {
+          "kanji": "激しい",
+          "kana": "はげしい",
+          "en": "violent"
+        }
+      }
+    },
+    {
+      "kanji": "灰",
+      "on": [
+        "カイ"
+      ],
+      "kun": [
+        "はい"
+      ],
+      "meanings": [
+        "ashes",
+        "puckery juice",
+        "cremate"
+      ],
+      "words": [
+        {
+          "kanji": "灰",
+          "kana": "はい",
+          "en": "ash"
+        },
+        {
+          "kanji": "灰皿",
+          "kana": "はいざら",
+          "en": "ashtray"
+        },
+        {
+          "kanji": "灰色",
+          "kana": "はいいろ",
+          "en": "grey"
+        },
+        {
+          "kanji": "石灰",
+          "kana": "せっかい",
+          "en": "lime"
+        }
+      ],
+      "readingExamples": {
+        "はい": {
+          "kanji": "灰",
+          "kana": "はい",
+          "en": "ash"
+        }
+      }
+    },
+    {
+      "kanji": "熟",
+      "on": [
+        "ジュク"
+      ],
+      "kun": [
+        "う.れる"
+      ],
+      "meanings": [
+        "mellow",
+        "ripen",
+        "mature",
+        "acquire skill"
+      ],
+      "words": [
+        {
+          "kanji": "熟す",
+          "kana": "こなす",
+          "en": "to digest"
+        },
+        {
+          "kanji": "熟し",
+          "kana": "こなし",
+          "en": "carriage"
+        },
+        {
+          "kanji": "熟",
+          "kana": "つくづく",
+          "en": "deeply"
+        },
+        {
+          "kanji": "熟語",
+          "kana": "じゅくご",
+          "en": "kanji compound"
+        }
+      ],
+      "readingExamples": {
+        "ジュク": {
+          "kanji": "熟語",
+          "kana": "じゅくご",
+          "en": "kanji compound"
+        }
+      }
+    },
+    {
+      "kanji": "片",
+      "on": [
+        "ヘン"
+      ],
+      "kun": [
+        "かた-",
+        "かた"
+      ],
+      "meanings": [
+        "one-sided",
+        "leaf",
+        "sheet",
+        "right-side kata radical (no. 91)"
+      ],
+      "words": [
+        {
+          "kanji": "欠片",
+          "kana": "かけら",
+          "en": "fragment"
+        },
+        {
+          "kanji": "破片",
+          "kana": "はへん",
+          "en": "fragment"
+        },
+        {
+          "kanji": "片手",
+          "kana": "かたて",
+          "en": "one hand"
+        },
+        {
+          "kanji": "片目",
+          "kana": "かため",
+          "en": "one eye"
+        }
+      ],
+      "readingExamples": {
+        "かた": {
+          "kanji": "片手",
+          "kana": "かたて",
+          "en": "one hand"
+        }
+      }
+    },
+    {
+      "kanji": "班",
+      "on": [
+        "ハン"
+      ],
+      "kun": [],
+      "meanings": [
+        "squad",
+        "corps",
+        "unit",
+        "group"
+      ],
+      "words": [
+        {
+          "kanji": "班",
+          "kana": "はん",
+          "en": "group"
+        },
+        {
+          "kanji": "首班",
+          "kana": "しゅはん",
+          "en": "head"
+        },
+        {
+          "kanji": "班員",
+          "kana": "はんいん",
+          "en": "member of a group"
+        },
+        {
+          "kanji": "班長",
+          "kana": "はんちょう",
+          "en": "squad leader"
+        }
+      ],
+      "readingExamples": {
+        "ハン": {
+          "kanji": "班",
+          "kana": "はん",
+          "en": "group"
+        }
+      }
+    },
+    {
+      "kanji": "異",
+      "on": [
+        "イ"
+      ],
+      "kun": [
+        "こと",
+        "こと.なる",
+        "け"
+      ],
+      "meanings": [
+        "uncommon",
+        "different",
+        "queerness",
+        "strangeness"
+      ],
+      "words": [
+        {
+          "kanji": "異議",
+          "kana": "いぎ",
+          "en": "objection"
+        },
+        {
+          "kanji": "異母",
+          "kana": "いぼ",
+          "en": "different mother"
+        },
+        {
+          "kanji": "差異",
+          "kana": "さい",
+          "en": "difference"
+        },
+        {
+          "kanji": "異国",
+          "kana": "いこく",
+          "en": "foreign country"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "異議",
+          "kana": "いぎ",
+          "en": "objection"
+        },
+        "こと": {
+          "kanji": "異なる",
+          "kana": "ことなる",
+          "en": "to differ"
+        },
+        "ことなる": {
+          "kanji": "異なる",
+          "kana": "ことなる",
+          "en": "to differ"
+        }
+      }
+    },
+    {
+      "kanji": "疑",
+      "on": [
+        "ギ"
+      ],
+      "kun": [
+        "うたが.う"
+      ],
+      "meanings": [
+        "doubt",
+        "distrust",
+        "be suspicious",
+        "question"
+      ],
+      "words": [
+        {
+          "kanji": "疑",
+          "kana": "ぎ",
+          "en": "doubt"
+        },
+        {
+          "kanji": "疑義",
+          "kana": "ぎぎ",
+          "en": "doubt"
+        },
+        {
+          "kanji": "疑似",
+          "kana": "ぎじ",
+          "en": "pseudo"
+        },
+        {
+          "kanji": "疑心",
+          "kana": "ぎしん",
+          "en": "doubt"
+        }
+      ],
+      "readingExamples": {
+        "ギ": {
+          "kanji": "疑",
+          "kana": "ぎ",
+          "en": "doubt"
+        },
+        "うたがう": {
+          "kanji": "疑う",
+          "kana": "うたがう",
+          "en": "to doubt"
+        }
+      }
+    },
+    {
+      "kanji": "痛",
+      "on": [
+        "ツウ"
+      ],
+      "kun": [
+        "いた.い",
+        "いた.む",
+        "いた.ましい",
+        "いた.める"
+      ],
+      "meanings": [
+        "pain",
+        "hurt",
+        "damage",
+        "bruise"
+      ],
+      "words": [
+        {
+          "kanji": "胃痛",
+          "kana": "いつう",
+          "en": "stomach-ache"
+        },
+        {
+          "kanji": "苦痛",
+          "kana": "くつう",
+          "en": "pain"
+        },
+        {
+          "kanji": "痛い",
+          "kana": "いたい",
+          "en": "painful"
+        },
+        {
+          "kanji": "痛む",
+          "kana": "いたむ",
+          "en": "to hurt"
+        }
+      ],
+      "readingExamples": {
+        "ツウ": {
+          "kanji": "痛打",
+          "kana": "つうだ",
+          "en": "hard blow"
+        },
+        "いたい": {
+          "kanji": "痛い",
+          "kana": "いたい",
+          "en": "painful"
+        },
+        "いたむ": {
+          "kanji": "痛む",
+          "kana": "いたむ",
+          "en": "to hurt"
+        },
+        "いたましい": {
+          "kanji": "痛ましい",
+          "kana": "いたましい",
+          "en": "pitiful"
+        },
+        "いためる": {
+          "kanji": "痛める",
+          "kana": "いためる",
+          "en": "to hurt"
+        }
+      }
+    },
+    {
+      "kanji": "皇",
+      "on": [
+        "コウ",
+        "オウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "emperor"
+      ],
+      "words": [
+        {
+          "kanji": "皇位",
+          "kana": "こうい",
+          "en": "imperial throne"
+        },
+        {
+          "kanji": "皇子",
+          "kana": "おうじ",
+          "en": "imperial prince"
+        },
+        {
+          "kanji": "皇居",
+          "kana": "こうきょ",
+          "en": "Imperial Palace (of Japan)"
+        },
+        {
+          "kanji": "皇后",
+          "kana": "こうごう",
+          "en": "empress (consort)"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "皇位",
+          "kana": "こうい",
+          "en": "imperial throne"
+        },
+        "オウ": {
+          "kanji": "皇子",
+          "kana": "おうじ",
+          "en": "imperial prince"
+        }
+      }
+    },
+    {
+      "kanji": "盛",
+      "on": [
+        "セイ",
+        "ジョウ"
+      ],
+      "kun": [
+        "も.る",
+        "さか.る",
+        "さか.ん"
+      ],
+      "meanings": [
+        "boom",
+        "prosper",
+        "copulate"
+      ],
+      "words": [
+        {
+          "kanji": "盛る",
+          "kana": "もる",
+          "en": "to serve (in a bowl, on a plate, etc.)"
+        },
+        {
+          "kanji": "盛り",
+          "kana": "さかり",
+          "en": "height (e.g. of summer)"
+        },
+        {
+          "kanji": "盛ん",
+          "kana": "さかん",
+          "en": "prosperous"
+        },
+        {
+          "kanji": "目盛り",
+          "kana": "めもり",
+          "en": "graduations (on a ruler, thermometer, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "盛夏",
+          "kana": "せいか",
+          "en": "midsummer"
+        },
+        "もる": {
+          "kanji": "盛る",
+          "kana": "もる",
+          "en": "to serve (in a bowl, on a plate, etc.)"
+        },
+        "さかん": {
+          "kanji": "盛ん",
+          "kana": "さかん",
+          "en": "prosperous"
+        }
+      }
+    },
+    {
+      "kanji": "盟",
+      "on": [
+        "メイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "alliance",
+        "oath"
+      ],
+      "words": [
+        {
+          "kanji": "加盟",
+          "kana": "かめい",
+          "en": "joining (an association, agreement, etc.)"
+        },
+        {
+          "kanji": "盟主",
+          "kana": "めいしゅ",
+          "en": "leader (of an alliance)"
+        },
+        {
+          "kanji": "盟約",
+          "kana": "めいやく",
+          "en": "oath"
+        },
+        {
+          "kanji": "盟友",
+          "kana": "めいゆう",
+          "en": "sworn friend"
+        }
+      ],
+      "readingExamples": {
+        "メイ": {
+          "kanji": "盟主",
+          "kana": "めいしゅ",
+          "en": "leader (of an alliance)"
+        }
+      }
+    },
+    {
+      "kanji": "看",
+      "on": [
+        "カン"
+      ],
+      "kun": [
+        "み.る"
+      ],
+      "meanings": [
+        "watch over",
+        "see"
+      ],
+      "words": [
+        {
+          "kanji": "看る",
+          "kana": "みる",
+          "en": "to look after (often medically)"
+        },
+        {
+          "kanji": "看過",
+          "kana": "かんか",
+          "en": "overlooking"
+        },
+        {
+          "kanji": "看護",
+          "kana": "かんご",
+          "en": "nursing"
+        },
+        {
+          "kanji": "看守",
+          "kana": "かんしゅ",
+          "en": "prison guard"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "看過",
+          "kana": "かんか",
+          "en": "overlooking"
+        },
+        "みる": {
+          "kanji": "看る",
+          "kana": "みる",
+          "en": "to look after (often medically)"
+        }
+      }
+    },
+    {
+      "kanji": "砂",
+      "on": [
+        "サ",
+        "シャ"
+      ],
+      "kun": [
+        "すな"
+      ],
+      "meanings": [
+        "sand"
+      ],
+      "words": [
+        {
+          "kanji": "砂",
+          "kana": "すな",
+          "en": "sand"
+        },
+        {
+          "kanji": "砂岩",
+          "kana": "さがん",
+          "en": "sandstone"
+        },
+        {
+          "kanji": "砂場",
+          "kana": "すなば",
+          "en": "sandpit"
+        },
+        {
+          "kanji": "砂地",
+          "kana": "すなじ",
+          "en": "sandy soil"
+        }
+      ],
+      "readingExamples": {
+        "サ": {
+          "kanji": "砂岩",
+          "kana": "さがん",
+          "en": "sandstone"
+        },
+        "すな": {
+          "kanji": "砂",
+          "kana": "すな",
+          "en": "sand"
+        }
+      }
+    },
+    {
+      "kanji": "磁",
+      "on": [
+        "ジ"
+      ],
+      "kun": [],
+      "meanings": [
+        "magnet",
+        "porcelain"
+      ],
+      "words": [
+        {
+          "kanji": "磁器",
+          "kana": "じき",
+          "en": "porcelain"
+        },
+        {
+          "kanji": "磁気",
+          "kana": "じき",
+          "en": "magnetism"
+        },
+        {
+          "kanji": "磁場",
+          "kana": "じば",
+          "en": "magnetic field"
+        },
+        {
+          "kanji": "磁性",
+          "kana": "じせい",
+          "en": "magnetism"
+        }
+      ],
+      "readingExamples": {
+        "ジ": {
+          "kanji": "磁器",
+          "kana": "じき",
+          "en": "porcelain"
+        }
+      }
+    },
+    {
+      "kanji": "私",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "わたくし",
+        "わたし"
+      ],
+      "meanings": [
+        "private",
+        "I",
+        "me"
+      ],
+      "words": [
+        {
+          "kanji": "私費",
+          "kana": "しひ",
+          "en": "private expense"
+        },
+        {
+          "kanji": "私事",
+          "kana": "しじ",
+          "en": "personal affairs"
+        },
+        {
+          "kanji": "無私",
+          "kana": "むし",
+          "en": "unselfish"
+        },
+        {
+          "kanji": "私語",
+          "kana": "しご",
+          "en": "whispering"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "私費",
+          "kana": "しひ",
+          "en": "private expense"
+        },
+        "わたくし": {
+          "kanji": "私",
+          "kana": "わたくし",
+          "en": "I"
+        },
+        "わたし": {
+          "kanji": "私",
+          "kana": "わたし",
+          "en": "I"
+        }
+      }
+    },
+    {
+      "kanji": "秘",
+      "on": [
+        "ヒ"
+      ],
+      "kun": [
+        "ひ.める",
+        "ひそ.か",
+        "かく.す"
+      ],
+      "meanings": [
+        "secret",
+        "conceal"
+      ],
+      "words": [
+        {
+          "kanji": "秘話",
+          "kana": "ひわ",
+          "en": "secret story"
+        },
+        {
+          "kanji": "極秘",
+          "kana": "ごくひ",
+          "en": "absolute secrecy"
+        },
+        {
+          "kanji": "神秘",
+          "kana": "しんぴ",
+          "en": "mystery"
+        },
+        {
+          "kanji": "秘める",
+          "kana": "ひめる",
+          "en": "to hide"
+        }
+      ],
+      "readingExamples": {
+        "ヒ": {
+          "kanji": "秘話",
+          "kana": "ひわ",
+          "en": "secret story"
+        },
+        "ひめる": {
+          "kanji": "秘める",
+          "kana": "ひめる",
+          "en": "to hide"
+        }
+      }
+    },
+    {
+      "kanji": "穀",
+      "on": [
+        "コク"
+      ],
+      "kun": [],
+      "meanings": [
+        "cereals",
+        "grain"
+      ],
+      "words": [
+        {
+          "kanji": "穀倉",
+          "kana": "こくそう",
+          "en": "granary"
+        },
+        {
+          "kanji": "穀物",
+          "kana": "こくもつ",
+          "en": "grain"
+        },
+        {
+          "kanji": "穀類",
+          "kana": "こくるい",
+          "en": "grains"
+        },
+        {
+          "kanji": "米穀",
+          "kana": "べいこく",
+          "en": "rice"
+        }
+      ],
+      "readingExamples": {
+        "コク": {
+          "kanji": "穀倉",
+          "kana": "こくそう",
+          "en": "granary"
+        }
+      }
+    },
+    {
+      "kanji": "穴",
+      "on": [
+        "ケツ"
+      ],
+      "kun": [
+        "あな"
+      ],
+      "meanings": [
+        "hole",
+        "aperture",
+        "slit",
+        "cave"
+      ],
+      "words": [
+        {
+          "kanji": "穴",
+          "kana": "あな",
+          "en": "hole"
+        },
+        {
+          "kanji": "馬穴",
+          "kana": "バケツ",
+          "en": "bucket"
+        },
+        {
+          "kanji": "穴場",
+          "kana": "あなば",
+          "en": "good place not many people know about"
+        },
+        {
+          "kanji": "墓穴",
+          "kana": "ぼけつ",
+          "en": "grave (pit)"
+        }
+      ],
+      "readingExamples": {
+        "あな": {
+          "kanji": "穴",
+          "kana": "あな",
+          "en": "hole"
+        }
+      }
+    },
+    {
+      "kanji": "窓",
+      "on": [
+        "ソウ",
+        "ス"
+      ],
+      "kun": [
+        "まど",
+        "てんまど",
+        "けむだし"
+      ],
+      "meanings": [
+        "window",
+        "pane"
+      ],
+      "words": [
+        {
+          "kanji": "窓",
+          "kana": "まど",
+          "en": "window"
+        },
+        {
+          "kanji": "出窓",
+          "kana": "でまど",
+          "en": "bay window"
+        },
+        {
+          "kanji": "車窓",
+          "kana": "しゃそう",
+          "en": "train window"
+        },
+        {
+          "kanji": "窓口",
+          "kana": "まどぐち",
+          "en": "counter"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "窓外",
+          "kana": "そうがい",
+          "en": "outside a window"
+        },
+        "まど": {
+          "kanji": "窓",
+          "kana": "まど",
+          "en": "window"
+        },
+        "てんまど": {
+          "kanji": "天窓",
+          "kana": "てんまど",
+          "en": "skylight"
+        }
+      }
+    },
+    {
+      "kanji": "筋",
+      "on": [
+        "キン"
+      ],
+      "kun": [
+        "すじ"
+      ],
+      "meanings": [
+        "muscle",
+        "sinew",
+        "tendon",
+        "fiber"
+      ],
+      "words": [
+        {
+          "kanji": "筋",
+          "kana": "すじ",
+          "en": "muscle"
+        },
+        {
+          "kanji": "血筋",
+          "kana": "ちすじ",
+          "en": "lineage"
+        },
+        {
+          "kanji": "背筋",
+          "kana": "せすじ",
+          "en": "spine"
+        },
+        {
+          "kanji": "家筋",
+          "kana": "いえすじ",
+          "en": "lineage"
+        }
+      ],
+      "readingExamples": {
+        "キン": {
+          "kanji": "筋肉",
+          "kana": "きんにく",
+          "en": "muscle"
+        },
+        "すじ": {
+          "kanji": "筋",
+          "kana": "すじ",
+          "en": "muscle"
+        }
+      }
+    },
+    {
+      "kanji": "策",
+      "on": [
+        "サク"
+      ],
+      "kun": [],
+      "meanings": [
+        "scheme",
+        "plan",
+        "policy",
+        "step"
+      ],
+      "words": [
+        {
+          "kanji": "策",
+          "kana": "さく",
+          "en": "plan"
+        },
+        {
+          "kanji": "策士",
+          "kana": "さくし",
+          "en": "tactician"
+        },
+        {
+          "kanji": "無策",
+          "kana": "むさく",
+          "en": "lack of policy"
+        },
+        {
+          "kanji": "秘策",
+          "kana": "ひさく",
+          "en": "secret plan"
+        }
+      ],
+      "readingExamples": {
+        "サク": {
+          "kanji": "策",
+          "kana": "さく",
+          "en": "plan"
+        }
+      }
+    },
+    {
+      "kanji": "簡",
+      "on": [
+        "カン",
+        "ケン"
+      ],
+      "kun": [
+        "えら.ぶ",
+        "ふだ"
+      ],
+      "meanings": [
+        "simplicity",
+        "brevity"
+      ],
+      "words": [
+        {
+          "kanji": "簡易",
+          "kana": "かんい",
+          "en": "simple"
+        },
+        {
+          "kanji": "簡素",
+          "kana": "かんそ",
+          "en": "simple"
+        },
+        {
+          "kanji": "簡潔",
+          "kana": "かんけつ",
+          "en": "concise"
+        },
+        {
+          "kanji": "簡単",
+          "kana": "かんたん",
+          "en": "simple"
+        }
+      ],
+      "readingExamples": {
+        "カン": {
+          "kanji": "簡易",
+          "kana": "かんい",
+          "en": "simple"
+        }
+      }
+    },
+    {
+      "kanji": "糖",
+      "on": [
+        "トウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "sugar"
+      ],
+      "words": [
+        {
+          "kanji": "糖",
+          "kana": "とう",
+          "en": "sugar"
+        },
+        {
+          "kanji": "砂糖",
+          "kana": "さとう",
+          "en": "sugar"
+        },
+        {
+          "kanji": "血糖",
+          "kana": "けっとう",
+          "en": "blood sugar"
+        },
+        {
+          "kanji": "製糖",
+          "kana": "せいとう",
+          "en": "sugar manufacture"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "糖",
+          "kana": "とう",
+          "en": "sugar"
+        }
+      }
+    },
+    {
+      "kanji": "系",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "lineage",
+        "system"
+      ],
+      "words": [
+        {
+          "kanji": "系",
+          "kana": "けい",
+          "en": "system"
+        },
+        {
+          "kanji": "家系",
+          "kana": "かけい",
+          "en": "family lineage"
+        },
+        {
+          "kanji": "系図",
+          "kana": "けいず",
+          "en": "family tree"
+        },
+        {
+          "kanji": "理系",
+          "kana": "りけい",
+          "en": "the sciences"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "系",
+          "kana": "けい",
+          "en": "system"
+        }
+      }
+    },
+    {
+      "kanji": "紅",
+      "on": [
+        "コウ",
+        "ク"
+      ],
+      "kun": [
+        "べに",
+        "くれない",
+        "あか.い"
+      ],
+      "meanings": [
+        "crimson",
+        "deep red"
+      ],
+      "words": [
+        {
+          "kanji": "深紅",
+          "kana": "しんく",
+          "en": "deep crimson"
+        },
+        {
+          "kanji": "紅葉",
+          "kana": "もみじ",
+          "en": "maple (tree)"
+        },
+        {
+          "kanji": "口紅",
+          "kana": "くちべに",
+          "en": "lipstick"
+        },
+        {
+          "kanji": "紅花",
+          "kana": "べにばな",
+          "en": "safflower (Carthamus tinctorius)"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "紅海",
+          "kana": "こうかい",
+          "en": "Red Sea"
+        },
+        "ク": {
+          "kanji": "口紅",
+          "kana": "くちべに",
+          "en": "lipstick"
+        },
+        "べに": {
+          "kanji": "紅花",
+          "kana": "べにばな",
+          "en": "safflower (Carthamus tinctorius)"
+        },
+        "くれない": {
+          "kanji": "紅",
+          "kana": "くれない",
+          "en": "deep red"
+        }
+      }
+    },
+    {
+      "kanji": "納",
+      "on": [
+        "ノウ",
+        "ナッ",
+        "ナ",
+        "ナン",
+        "トウ"
+      ],
+      "kun": [
+        "おさ.める",
+        "-おさ.める",
+        "おさ.まる"
+      ],
+      "meanings": [
+        "settlement",
+        "obtain",
+        "reap",
+        "pay"
+      ],
+      "words": [
+        {
+          "kanji": "納屋",
+          "kana": "なや",
+          "en": "barn (for storage)"
+        },
+        {
+          "kanji": "納期",
+          "kana": "のうき",
+          "en": "appointed date of delivery"
+        },
+        {
+          "kanji": "納付",
+          "kana": "のうふ",
+          "en": "payment"
+        },
+        {
+          "kanji": "未納",
+          "kana": "みのう",
+          "en": "payment default"
+        }
+      ],
+      "readingExamples": {
+        "ノウ": {
+          "kanji": "納期",
+          "kana": "のうき",
+          "en": "appointed date of delivery"
+        },
+        "ナッ": {
+          "kanji": "納豆",
+          "kana": "なっとう",
+          "en": "natto (fermented soybeans)"
+        },
+        "ナ": {
+          "kanji": "納屋",
+          "kana": "なや",
+          "en": "barn (for storage)"
+        },
+        "ナン": {
+          "kanji": "納戸",
+          "kana": "なんど",
+          "en": "storage room"
+        }
+      }
+    },
+    {
+      "kanji": "純",
+      "on": [
+        "ジュン"
+      ],
+      "kun": [],
+      "meanings": [
+        "genuine",
+        "purity",
+        "innocence",
+        "net (profit)"
+      ],
+      "words": [
+        {
+          "kanji": "純",
+          "kana": "じゅん",
+          "en": "innocent"
+        },
+        {
+          "kanji": "純化",
+          "kana": "じゅんか",
+          "en": "purification"
+        },
+        {
+          "kanji": "純度",
+          "kana": "じゅんど",
+          "en": "purity (of a substance)"
+        },
+        {
+          "kanji": "不純",
+          "kana": "ふじゅん",
+          "en": "impure"
+        }
+      ],
+      "readingExamples": {
+        "ジュン": {
+          "kanji": "純",
+          "kana": "じゅん",
+          "en": "innocent"
+        }
+      }
+    },
+    {
+      "kanji": "絹",
+      "on": [
+        "ケン"
+      ],
+      "kun": [
+        "きぬ"
+      ],
+      "meanings": [
+        "silk"
+      ],
+      "words": [
+        {
+          "kanji": "絹",
+          "kana": "きぬ",
+          "en": "silk"
+        },
+        {
+          "kanji": "絹布",
+          "kana": "けんぷ",
+          "en": "silk"
+        },
+        {
+          "kanji": "絹糸",
+          "kana": "きぬいと",
+          "en": "silk thread"
+        }
+      ],
+      "readingExamples": {
+        "ケン": {
+          "kanji": "絹布",
+          "kana": "けんぷ",
+          "en": "silk"
+        },
+        "きぬ": {
+          "kanji": "絹",
+          "kana": "きぬ",
+          "en": "silk"
+        }
+      }
+    },
+    {
+      "kanji": "縦",
+      "on": [
+        "ジュウ"
+      ],
+      "kun": [
+        "たて"
+      ],
+      "meanings": [
+        "vertical",
+        "length",
+        "height",
+        "self-indulgent"
+      ],
+      "words": [
+        {
+          "kanji": "縦",
+          "kana": "たて",
+          "en": "the vertical"
+        },
+        {
+          "kanji": "縦書き",
+          "kana": "たてがき",
+          "en": "writing vertically"
+        },
+        {
+          "kanji": "縦割り",
+          "kana": "たてわり",
+          "en": "dividing vertically"
+        },
+        {
+          "kanji": "縦糸",
+          "kana": "たていと",
+          "en": "(weaving) warp"
+        }
+      ],
+      "readingExamples": {
+        "ジュウ": {
+          "kanji": "縦貫",
+          "kana": "じゅうかん",
+          "en": "running through"
+        },
+        "たて": {
+          "kanji": "縦",
+          "kana": "たて",
+          "en": "the vertical"
+        }
+      }
+    },
+    {
+      "kanji": "縮",
+      "on": [
+        "シュク"
+      ],
+      "kun": [
+        "ちぢ.む",
+        "ちぢ.まる",
+        "ちぢ.める",
+        "ちぢ.れる",
+        "ちぢ.らす"
+      ],
+      "meanings": [
+        "shrink",
+        "contract",
+        "shrivel",
+        "wrinkle"
+      ],
+      "words": [
+        {
+          "kanji": "縮む",
+          "kana": "ちぢむ",
+          "en": "to shrink"
+        },
+        {
+          "kanji": "縮み",
+          "kana": "ちぢみ",
+          "en": "shrinkage"
+        },
+        {
+          "kanji": "縮まる",
+          "kana": "ちぢまる",
+          "en": "to shorten"
+        },
+        {
+          "kanji": "縮める",
+          "kana": "ちぢめる",
+          "en": "to shorten"
+        }
+      ],
+      "readingExamples": {
+        "シュク": {
+          "kanji": "縮図",
+          "kana": "しゅくず",
+          "en": "reduced drawing"
+        },
+        "ちぢむ": {
+          "kanji": "縮む",
+          "kana": "ちぢむ",
+          "en": "to shrink"
+        },
+        "ちぢまる": {
+          "kanji": "縮まる",
+          "kana": "ちぢまる",
+          "en": "to shorten"
+        },
+        "ちぢめる": {
+          "kanji": "縮める",
+          "kana": "ちぢめる",
+          "en": "to shorten"
+        },
+        "ちぢれる": {
+          "kanji": "縮れる",
+          "kana": "ちぢれる",
+          "en": "to be wavy"
+        }
+      }
+    },
+    {
+      "kanji": "署",
+      "on": [
+        "ショ"
+      ],
+      "kun": [],
+      "meanings": [
+        "signature",
+        "govt office",
+        "police station"
+      ],
+      "words": [
+        {
+          "kanji": "部署",
+          "kana": "ぶしょ",
+          "en": "one's post"
+        },
+        {
+          "kanji": "支署",
+          "kana": "ししょ",
+          "en": "substation"
+        },
+        {
+          "kanji": "署名",
+          "kana": "しょめい",
+          "en": "signature"
+        },
+        {
+          "kanji": "副署",
+          "kana": "ふくしょ",
+          "en": "countersignature"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "署名",
+          "kana": "しょめい",
+          "en": "signature"
+        }
+      }
+    },
+    {
+      "kanji": "翌",
+      "on": [
+        "ヨク"
+      ],
+      "kun": [],
+      "meanings": [
+        "the following",
+        "next"
+      ],
+      "words": [
+        {
+          "kanji": "翌月",
+          "kana": "よくげつ",
+          "en": "following month"
+        },
+        {
+          "kanji": "翌日",
+          "kana": "よくじつ",
+          "en": "next day"
+        },
+        {
+          "kanji": "翌年",
+          "kana": "よくねん",
+          "en": "following year"
+        },
+        {
+          "kanji": "翌朝",
+          "kana": "よくあさ",
+          "en": "next morning"
+        }
+      ],
+      "readingExamples": {
+        "ヨク": {
+          "kanji": "翌月",
+          "kana": "よくげつ",
+          "en": "following month"
+        }
+      }
+    },
+    {
+      "kanji": "聖",
+      "on": [
+        "セイ",
+        "ショウ"
+      ],
+      "kun": [
+        "ひじり"
+      ],
+      "meanings": [
+        "holy",
+        "saint",
+        "sage",
+        "master"
+      ],
+      "words": [
+        {
+          "kanji": "聖歌",
+          "kana": "せいか",
+          "en": "sacred song"
+        },
+        {
+          "kanji": "聖母",
+          "kana": "せいぼ",
+          "en": "mother of a holy person"
+        },
+        {
+          "kanji": "聖火",
+          "kana": "せいか",
+          "en": "sacred fire"
+        },
+        {
+          "kanji": "聖地",
+          "kana": "せいち",
+          "en": "sacred place"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "聖歌",
+          "kana": "せいか",
+          "en": "sacred song"
+        }
+      }
+    },
+    {
+      "kanji": "肺",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "lungs"
+      ],
+      "words": [
+        {
+          "kanji": "肺",
+          "kana": "はい",
+          "en": "lung"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "肺",
+          "kana": "はい",
+          "en": "lung"
+        }
+      }
+    },
+    {
+      "kanji": "胃",
+      "on": [
+        "イ"
+      ],
+      "kun": [],
+      "meanings": [
+        "stomach",
+        "paunch",
+        "crop",
+        "craw"
+      ],
+      "words": [
+        {
+          "kanji": "胃",
+          "kana": "い",
+          "en": "stomach"
+        },
+        {
+          "kanji": "胃痛",
+          "kana": "いつう",
+          "en": "stomach-ache"
+        },
+        {
+          "kanji": "胃腸",
+          "kana": "いちょう",
+          "en": "stomach and intestines"
+        },
+        {
+          "kanji": "胃カメラ",
+          "kana": "いカメラ",
+          "en": "gastrocamera"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "胃",
+          "kana": "い",
+          "en": "stomach"
+        }
+      }
+    },
+    {
+      "kanji": "背",
+      "on": [
+        "ハイ"
+      ],
+      "kun": [
+        "せ",
+        "せい",
+        "そむ.く",
+        "そむ.ける"
+      ],
+      "meanings": [
+        "stature",
+        "height",
+        "back",
+        "behind"
+      ],
+      "words": [
+        {
+          "kanji": "背",
+          "kana": "せ",
+          "en": "back"
+        },
+        {
+          "kanji": "背",
+          "kana": "せい",
+          "en": "height"
+        },
+        {
+          "kanji": "背く",
+          "kana": "そむく",
+          "en": "to run counter to"
+        },
+        {
+          "kanji": "背後",
+          "kana": "はいご",
+          "en": "back"
+        }
+      ],
+      "readingExamples": {
+        "ハイ": {
+          "kanji": "背後",
+          "kana": "はいご",
+          "en": "back"
+        },
+        "せ": {
+          "kanji": "背",
+          "kana": "せ",
+          "en": "back"
+        },
+        "せい": {
+          "kanji": "背",
+          "kana": "せい",
+          "en": "height"
+        },
+        "そむく": {
+          "kanji": "背く",
+          "kana": "そむく",
+          "en": "to run counter to"
+        }
+      }
+    },
+    {
+      "kanji": "胸",
+      "on": [
+        "キョウ"
+      ],
+      "kun": [
+        "むね",
+        "むな-"
+      ],
+      "meanings": [
+        "bosom",
+        "breast",
+        "chest",
+        "heart"
+      ],
+      "words": [
+        {
+          "kanji": "胸",
+          "kana": "むね",
+          "en": "chest"
+        },
+        {
+          "kanji": "胸元",
+          "kana": "むなもと",
+          "en": "breast"
+        },
+        {
+          "kanji": "胸部",
+          "kana": "きょうぶ",
+          "en": "chest"
+        },
+        {
+          "kanji": "度胸",
+          "kana": "どきょう",
+          "en": "courage"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "胸部",
+          "kana": "きょうぶ",
+          "en": "chest"
+        },
+        "むね": {
+          "kanji": "胸",
+          "kana": "むね",
+          "en": "chest"
+        },
+        "むな": {
+          "kanji": "胸元",
+          "kana": "むなもと",
+          "en": "breast"
+        }
+      }
+    },
+    {
+      "kanji": "脳",
+      "on": [
+        "ノウ",
+        "ドウ"
+      ],
+      "kun": [
+        "のうずる"
+      ],
+      "meanings": [
+        "brain",
+        "memory"
+      ],
+      "words": [
+        {
+          "kanji": "脳",
+          "kana": "のう",
+          "en": "brain"
+        },
+        {
+          "kanji": "頭脳",
+          "kana": "ずのう",
+          "en": "head"
+        },
+        {
+          "kanji": "脳死",
+          "kana": "のうし",
+          "en": "brain death"
+        },
+        {
+          "kanji": "脳波",
+          "kana": "のうは",
+          "en": "brain waves"
+        }
+      ],
+      "readingExamples": {
+        "ノウ": {
+          "kanji": "脳",
+          "kana": "のう",
+          "en": "brain"
+        }
+      }
+    },
+    {
+      "kanji": "腸",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "はらわた",
+        "わた"
+      ],
+      "meanings": [
+        "intestines",
+        "guts",
+        "bowels",
+        "viscera"
+      ],
+      "words": [
+        {
+          "kanji": "腸",
+          "kana": "ちょう",
+          "en": "intestine"
+        },
+        {
+          "kanji": "胃腸",
+          "kana": "いちょう",
+          "en": "stomach and intestines"
+        },
+        {
+          "kanji": "結腸",
+          "kana": "けっちょう",
+          "en": "colon"
+        },
+        {
+          "kanji": "大腸",
+          "kana": "だいちょう",
+          "en": "large intestine"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "腸",
+          "kana": "ちょう",
+          "en": "intestine"
+        }
+      }
+    },
+    {
+      "kanji": "腹",
+      "on": [
+        "フク"
+      ],
+      "kun": [
+        "はら"
+      ],
+      "meanings": [
+        "abdomen",
+        "belly",
+        "stomach"
+      ],
+      "words": [
+        {
+          "kanji": "腹",
+          "kana": "はら",
+          "en": "abdomen"
+        },
+        {
+          "kanji": "お腹",
+          "kana": "おなか",
+          "en": "belly"
+        },
+        {
+          "kanji": "腹部",
+          "kana": "ふくぶ",
+          "en": "abdomen"
+        },
+        {
+          "kanji": "自腹",
+          "kana": "じばら",
+          "en": "paying one's own way"
+        }
+      ],
+      "readingExamples": {
+        "フク": {
+          "kanji": "腹部",
+          "kana": "ふくぶ",
+          "en": "abdomen"
+        },
+        "はら": {
+          "kanji": "腹",
+          "kana": "はら",
+          "en": "abdomen"
+        }
+      }
+    },
+    {
+      "kanji": "臓",
+      "on": [
+        "ゾウ"
+      ],
+      "kun": [
+        "はらわた"
+      ],
+      "meanings": [
+        "entrails",
+        "viscera",
+        "bowels"
+      ],
+      "words": [
+        {
+          "kanji": "臓",
+          "kana": "ぞう",
+          "en": "viscera"
+        },
+        {
+          "kanji": "臓器",
+          "kana": "ぞうき",
+          "en": "internal organs"
+        },
+        {
+          "kanji": "心臓",
+          "kana": "しんぞう",
+          "en": "heart"
+        },
+        {
+          "kanji": "内臓",
+          "kana": "ないぞう",
+          "en": "internal organs"
+        }
+      ],
+      "readingExamples": {
+        "ゾウ": {
+          "kanji": "臓",
+          "kana": "ぞう",
+          "en": "viscera"
+        }
+      }
+    },
+    {
+      "kanji": "臨",
+      "on": [
+        "リン"
+      ],
+      "kun": [
+        "のぞ.む"
+      ],
+      "meanings": [
+        "look to",
+        "face",
+        "meet",
+        "confront"
+      ],
+      "words": [
+        {
+          "kanji": "臨む",
+          "kana": "のぞむ",
+          "en": "to look out on"
+        },
+        {
+          "kanji": "臨時",
+          "kana": "りんじ",
+          "en": "temporary"
+        },
+        {
+          "kanji": "君臨",
+          "kana": "くんりん",
+          "en": "reigning (over a country)"
+        },
+        {
+          "kanji": "臨界",
+          "kana": "りんかい",
+          "en": "boundary"
+        }
+      ],
+      "readingExamples": {
+        "リン": {
+          "kanji": "臨時",
+          "kana": "りんじ",
+          "en": "temporary"
+        },
+        "のぞむ": {
+          "kanji": "臨む",
+          "kana": "のぞむ",
+          "en": "to look out on"
+        }
+      }
+    },
+    {
+      "kanji": "至",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "いた.る"
+      ],
+      "meanings": [
+        "climax",
+        "arrive",
+        "proceed",
+        "reach"
+      ],
+      "words": [
+        {
+          "kanji": "夏至",
+          "kana": "げし",
+          "en": "summer solstice"
+        },
+        {
+          "kanji": "至る",
+          "kana": "いたる",
+          "en": "to arrive at (e.g. a decision)"
+        },
+        {
+          "kanji": "至極",
+          "kana": "しごく",
+          "en": "very"
+        },
+        {
+          "kanji": "至難",
+          "kana": "しなん",
+          "en": "most difficult"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "至極",
+          "kana": "しごく",
+          "en": "very"
+        },
+        "いたる": {
+          "kanji": "至る",
+          "kana": "いたる",
+          "en": "to arrive at (e.g. a decision)"
+        }
+      }
+    },
+    {
+      "kanji": "舌",
+      "on": [
+        "ゼツ"
+      ],
+      "kun": [
+        "した"
+      ],
+      "meanings": [
+        "tongue",
+        "reed",
+        "clapper"
+      ],
+      "words": [
+        {
+          "kanji": "舌",
+          "kana": "した",
+          "en": "tongue"
+        },
+        {
+          "kanji": "舌戦",
+          "kana": "ぜっせん",
+          "en": "war of words"
+        },
+        {
+          "kanji": "舌打ち",
+          "kana": "したうち",
+          "en": "clicking one's tongue"
+        },
+        {
+          "kanji": "毒舌",
+          "kana": "どくぜつ",
+          "en": "wicked tongue"
+        }
+      ],
+      "readingExamples": {
+        "した": {
+          "kanji": "舌",
+          "kana": "した",
+          "en": "tongue"
+        }
+      }
+    },
+    {
+      "kanji": "若",
+      "on": [
+        "ジャク",
+        "ニャク",
+        "ニャ"
+      ],
+      "kun": [
+        "わか.い",
+        "わか-",
+        "も.しくわ",
+        "も.し",
+        "も.しくは",
+        "ごと.し"
+      ],
+      "meanings": [
+        "young",
+        "if",
+        "perhaps",
+        "possibly"
+      ],
+      "words": [
+        {
+          "kanji": "若し",
+          "kana": "もし",
+          "en": "if"
+        },
+        {
+          "kanji": "若い",
+          "kana": "わかい",
+          "en": "young"
+        },
+        {
+          "kanji": "若さ",
+          "kana": "わかさ",
+          "en": "youth"
+        },
+        {
+          "kanji": "若手",
+          "kana": "わかて",
+          "en": "young person"
+        }
+      ],
+      "readingExamples": {
+        "ジャク": {
+          "kanji": "若年",
+          "kana": "じゃくねん",
+          "en": "youth"
+        },
+        "わかい": {
+          "kanji": "若い",
+          "kana": "わかい",
+          "en": "young"
+        },
+        "わか": {
+          "kanji": "若い",
+          "kana": "わかい",
+          "en": "young"
+        }
+      }
+    },
+    {
+      "kanji": "著",
+      "on": [
+        "チョ",
+        "チャク"
+      ],
+      "kun": [
+        "あらわ.す",
+        "いちじる.しい"
+      ],
+      "meanings": [
+        "renowned",
+        "publish",
+        "write",
+        "remarkable"
+      ],
+      "words": [
+        {
+          "kanji": "著",
+          "kana": "ちょ",
+          "en": "(written) work"
+        },
+        {
+          "kanji": "自著",
+          "kana": "じちょ",
+          "en": "one's own literary work"
+        },
+        {
+          "kanji": "原著",
+          "kana": "げんちょ",
+          "en": "the original work"
+        },
+        {
+          "kanji": "前著",
+          "kana": "ぜんちょ",
+          "en": "ibid."
+        }
+      ],
+      "readingExamples": {
+        "チョ": {
+          "kanji": "著",
+          "kana": "ちょ",
+          "en": "(written) work"
+        },
+        "あらわす": {
+          "kanji": "著す",
+          "kana": "あらわす",
+          "en": "to write"
+        },
+        "いちじるしい": {
+          "kanji": "著しい",
+          "kana": "いちじるしい",
+          "en": "striking"
+        }
+      }
+    },
+    {
+      "kanji": "蒸",
+      "on": [
+        "ジョウ",
+        "セイ"
+      ],
+      "kun": [
+        "む.す",
+        "む.れる",
+        "む.らす"
+      ],
+      "meanings": [
+        "steam",
+        "heat",
+        "sultry",
+        "foment"
+      ],
+      "words": [
+        {
+          "kanji": "蒸す",
+          "kana": "むす",
+          "en": "to steam (food, towel, etc.)"
+        },
+        {
+          "kanji": "蒸し",
+          "kana": "むし",
+          "en": "steaming"
+        },
+        {
+          "kanji": "蒸かす",
+          "kana": "ふかす",
+          "en": "to steam (food)"
+        },
+        {
+          "kanji": "蒸気",
+          "kana": "じょうき",
+          "en": "steam"
+        }
+      ],
+      "readingExamples": {
+        "ジョウ": {
+          "kanji": "蒸気",
+          "kana": "じょうき",
+          "en": "steam"
+        },
+        "むす": {
+          "kanji": "蒸す",
+          "kana": "むす",
+          "en": "to steam (food, towel, etc.)"
+        }
+      }
+    },
+    {
+      "kanji": "蔵",
+      "on": [
+        "ゾウ",
+        "ソウ"
+      ],
+      "kun": [
+        "くら",
+        "おさ.める",
+        "かく.れる"
+      ],
+      "meanings": [
+        "storehouse",
+        "hide",
+        "own",
+        "have"
+      ],
+      "words": [
+        {
+          "kanji": "蔵",
+          "kana": "くら",
+          "en": "warehouse"
+        },
+        {
+          "kanji": "地蔵",
+          "kana": "じぞう",
+          "en": "Kshitigarbha (bodhisattva who looks over children, travellers and the underworld)"
+        },
+        {
+          "kanji": "秘蔵",
+          "kana": "ひぞう",
+          "en": "treasuring"
+        },
+        {
+          "kanji": "土蔵",
+          "kana": "どぞう",
+          "en": "storehouse with thick (earthen) walls"
+        }
+      ],
+      "readingExamples": {
+        "ゾウ": {
+          "kanji": "蔵書",
+          "kana": "ぞうしょ",
+          "en": "collection of books"
+        },
+        "くら": {
+          "kanji": "蔵",
+          "kana": "くら",
+          "en": "warehouse"
+        }
+      }
+    },
+    {
+      "kanji": "蚕",
+      "on": [
+        "サン",
+        "テン"
+      ],
+      "kun": [
+        "かいこ",
+        "こ"
+      ],
+      "meanings": [
+        "silkworm"
+      ],
+      "words": [
+        {
+          "kanji": "蚕",
+          "kana": "かいこ",
+          "en": "silkworm (Bombyx mori)"
+        },
+        {
+          "kanji": "蚕糸",
+          "kana": "さんし",
+          "en": "silk thread"
+        },
+        {
+          "kanji": "養蚕",
+          "kana": "ようさん",
+          "en": "sericulture"
+        }
+      ],
+      "readingExamples": {
+        "サン": {
+          "kanji": "蚕糸",
+          "kana": "さんし",
+          "en": "silk thread"
+        },
+        "かいこ": {
+          "kanji": "蚕",
+          "kana": "かいこ",
+          "en": "silkworm (Bombyx mori)"
+        }
+      }
+    },
+    {
+      "kanji": "衆",
+      "on": [
+        "シュウ",
+        "シュ"
+      ],
+      "kun": [
+        "おお.い"
+      ],
+      "meanings": [
+        "masses",
+        "great numbers",
+        "multitude",
+        "populace"
+      ],
+      "words": [
+        {
+          "kanji": "衆",
+          "kana": "しゅう",
+          "en": "great numbers (of people)"
+        },
+        {
+          "kanji": "観衆",
+          "kana": "かんしゅう",
+          "en": "spectators"
+        },
+        {
+          "kanji": "公衆",
+          "kana": "こうしゅう",
+          "en": "the public"
+        },
+        {
+          "kanji": "衆院",
+          "kana": "しゅういん",
+          "en": "House of Representatives (lower house of the National Diet of Japan)"
+        }
+      ],
+      "readingExamples": {
+        "シュウ": {
+          "kanji": "衆",
+          "kana": "しゅう",
+          "en": "great numbers (of people)"
+        },
+        "シュ": {
+          "kanji": "衆",
+          "kana": "しゅう",
+          "en": "great numbers (of people)"
+        }
+      }
+    },
+    {
+      "kanji": "裁",
+      "on": [
+        "サイ"
+      ],
+      "kun": [
+        "た.つ",
+        "さば.く"
+      ],
+      "meanings": [
+        "tailor",
+        "judge",
+        "decision",
+        "cut out (pattern)"
+      ],
+      "words": [
+        {
+          "kanji": "裁つ",
+          "kana": "たつ",
+          "en": "to cut (cloth)"
+        },
+        {
+          "kanji": "裁き",
+          "kana": "さばき",
+          "en": "judgment"
+        },
+        {
+          "kanji": "裁く",
+          "kana": "さばく",
+          "en": "to judge"
+        },
+        {
+          "kanji": "地裁",
+          "kana": "ちさい",
+          "en": "district court"
+        }
+      ],
+      "readingExamples": {
+        "サイ": {
+          "kanji": "裁決",
+          "kana": "さいけつ",
+          "en": "decision"
+        },
+        "たつ": {
+          "kanji": "裁つ",
+          "kana": "たつ",
+          "en": "to cut (cloth)"
+        },
+        "さばく": {
+          "kanji": "裁く",
+          "kana": "さばく",
+          "en": "to judge"
+        }
+      }
+    },
+    {
+      "kanji": "装",
+      "on": [
+        "ソウ",
+        "ショウ"
+      ],
+      "kun": [
+        "よそお.う",
+        "よそお.い"
+      ],
+      "meanings": [
+        "attire",
+        "dress",
+        "pretend",
+        "disguise"
+      ],
+      "words": [
+        {
+          "kanji": "仮装",
+          "kana": "かそう",
+          "en": "costume"
+        },
+        {
+          "kanji": "装具",
+          "kana": "そうぐ",
+          "en": "equipment"
+        },
+        {
+          "kanji": "装置",
+          "kana": "そうち",
+          "en": "equipment"
+        },
+        {
+          "kanji": "装備",
+          "kana": "そうび",
+          "en": "equipment"
+        }
+      ],
+      "readingExamples": {
+        "ソウ": {
+          "kanji": "装具",
+          "kana": "そうぐ",
+          "en": "equipment"
+        },
+        "ショウ": {
+          "kanji": "装束",
+          "kana": "しょうぞく",
+          "en": "costume"
+        },
+        "よそおう": {
+          "kanji": "装う",
+          "kana": "よそおう",
+          "en": "to dress (oneself in)"
+        },
+        "よそおい": {
+          "kanji": "装い",
+          "kana": "よそおい",
+          "en": "dress"
+        }
+      }
+    },
+    {
+      "kanji": "裏",
+      "on": [
+        "リ"
+      ],
+      "kun": [
+        "うら"
+      ],
+      "meanings": [
+        "back",
+        "amidst",
+        "in",
+        "reverse"
+      ],
+      "words": [
+        {
+          "kanji": "裏",
+          "kana": "うら",
+          "en": "opposite side"
+        },
+        {
+          "kanji": "内裏",
+          "kana": "だいり",
+          "en": "imperial palace"
+        },
+        {
+          "kanji": "脳裏",
+          "kana": "のうり",
+          "en": "one's mind"
+        },
+        {
+          "kanji": "裏手",
+          "kana": "うらて",
+          "en": "back (esp. of a building, etc.)"
+        }
+      ],
+      "readingExamples": {
+        "リ": {
+          "kanji": "裏面",
+          "kana": "りめん",
+          "en": "back (side)"
+        },
+        "うら": {
+          "kanji": "裏",
+          "kana": "うら",
+          "en": "opposite side"
+        }
+      }
+    },
+    {
+      "kanji": "補",
+      "on": [
+        "ホ"
+      ],
+      "kun": [
+        "おぎな.う"
+      ],
+      "meanings": [
+        "supplement",
+        "supply",
+        "make good",
+        "offset"
+      ],
+      "words": [
+        {
+          "kanji": "補佐",
+          "kana": "ほさ",
+          "en": "aid"
+        },
+        {
+          "kanji": "候補",
+          "kana": "こうほ",
+          "en": "candidate"
+        },
+        {
+          "kanji": "補完",
+          "kana": "ほかん",
+          "en": "complementation"
+        },
+        {
+          "kanji": "補欠",
+          "kana": "ほけつ",
+          "en": "filling a vacancy"
+        }
+      ],
+      "readingExamples": {
+        "ホ": {
+          "kanji": "補佐",
+          "kana": "ほさ",
+          "en": "aid"
+        },
+        "おぎなう": {
+          "kanji": "補う",
+          "kana": "おぎなう",
+          "en": "to supplement"
+        }
+      }
+    },
+    {
+      "kanji": "視",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "み.る"
+      ],
+      "meanings": [
+        "inspection",
+        "regard as",
+        "see",
+        "look at"
+      ],
+      "words": [
+        {
+          "kanji": "可視",
+          "kana": "かし",
+          "en": "visibility"
+        },
+        {
+          "kanji": "視野",
+          "kana": "しや",
+          "en": "field of vision"
+        },
+        {
+          "kanji": "無視",
+          "kana": "むし",
+          "en": "disregarding"
+        },
+        {
+          "kanji": "座視",
+          "kana": "ざし",
+          "en": "remaining an idle spectator"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "視野",
+          "kana": "しや",
+          "en": "field of vision"
+        }
+      }
+    },
+    {
+      "kanji": "覧",
+      "on": [
+        "ラン"
+      ],
+      "kun": [
+        "み.る"
+      ],
+      "meanings": [
+        "perusal",
+        "see"
+      ],
+      "words": [
+        {
+          "kanji": "ご覧",
+          "kana": "ごらん",
+          "en": "(please) try to"
+        },
+        {
+          "kanji": "一覧",
+          "kana": "いちらん",
+          "en": "look"
+        },
+        {
+          "kanji": "回覧",
+          "kana": "かいらん",
+          "en": "circulation (esp. of documents)"
+        },
+        {
+          "kanji": "観覧",
+          "kana": "かんらん",
+          "en": "viewing"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "討",
+      "on": [
+        "トウ"
+      ],
+      "kun": [
+        "う.つ"
+      ],
+      "meanings": [
+        "chastise",
+        "attack",
+        "defeat",
+        "destroy"
+      ],
+      "words": [
+        {
+          "kanji": "討つ",
+          "kana": "うつ",
+          "en": "to attack"
+        },
+        {
+          "kanji": "討議",
+          "kana": "とうぎ",
+          "en": "debate"
+        },
+        {
+          "kanji": "夜討ち",
+          "kana": "ようち",
+          "en": "night attack"
+        },
+        {
+          "kanji": "検討",
+          "kana": "けんとう",
+          "en": "consideration"
+        }
+      ],
+      "readingExamples": {
+        "トウ": {
+          "kanji": "討議",
+          "kana": "とうぎ",
+          "en": "debate"
+        },
+        "うつ": {
+          "kanji": "討つ",
+          "kana": "うつ",
+          "en": "to attack"
+        }
+      }
+    },
+    {
+      "kanji": "訪",
+      "on": [
+        "ホウ"
+      ],
+      "kun": [
+        "おとず.れる",
+        "たず.ねる",
+        "と.う"
+      ],
+      "meanings": [
+        "call on",
+        "visit",
+        "look up",
+        "offer sympathy"
+      ],
+      "words": [
+        {
+          "kanji": "探訪",
+          "kana": "たんぼう",
+          "en": "searching"
+        },
+        {
+          "kanji": "訪ねる",
+          "kana": "たずねる",
+          "en": "to visit"
+        },
+        {
+          "kanji": "訪日",
+          "kana": "ほうにち",
+          "en": "visit to Japan"
+        },
+        {
+          "kanji": "訪米",
+          "kana": "ほうべい",
+          "en": "visit to the United States"
+        }
+      ],
+      "readingExamples": {
+        "ホウ": {
+          "kanji": "訪日",
+          "kana": "ほうにち",
+          "en": "visit to Japan"
+        },
+        "おとずれる": {
+          "kanji": "訪れる",
+          "kana": "おとずれる",
+          "en": "to visit"
+        },
+        "たずねる": {
+          "kanji": "訪ねる",
+          "kana": "たずねる",
+          "en": "to visit"
+        }
+      }
+    },
+    {
+      "kanji": "訳",
+      "on": [
+        "ヤク"
+      ],
+      "kun": [
+        "わけ"
+      ],
+      "meanings": [
+        "translate",
+        "reason",
+        "circumstance",
+        "case"
+      ],
+      "words": [
+        {
+          "kanji": "訳",
+          "kana": "わけ",
+          "en": "reason"
+        },
+        {
+          "kanji": "誤訳",
+          "kana": "ごやく",
+          "en": "mistranslation"
+        },
+        {
+          "kanji": "訳す",
+          "kana": "やくす",
+          "en": "to translate"
+        },
+        {
+          "kanji": "訳語",
+          "kana": "やくご",
+          "en": "translation equivalent"
+        }
+      ],
+      "readingExamples": {
+        "ヤク": {
+          "kanji": "訳す",
+          "kana": "やくす",
+          "en": "to translate"
+        },
+        "わけ": {
+          "kanji": "訳",
+          "kana": "わけ",
+          "en": "reason"
+        }
+      }
+    },
+    {
+      "kanji": "詞",
+      "on": [
+        "シ"
+      ],
+      "kun": [
+        "ことば"
+      ],
+      "meanings": [
+        "part of speech",
+        "words",
+        "poetry"
+      ],
+      "words": [
+        {
+          "kanji": "歌詞",
+          "kana": "かし",
+          "en": "song lyrics"
+        },
+        {
+          "kanji": "作詞",
+          "kana": "さくし",
+          "en": "(writing) song lyrics"
+        },
+        {
+          "kanji": "祝詞",
+          "kana": "のりと",
+          "en": "ritual prayer"
+        },
+        {
+          "kanji": "助詞",
+          "kana": "じょし",
+          "en": "particle"
+        }
+      ],
+      "readingExamples": {}
+    },
+    {
+      "kanji": "誌",
+      "on": [
+        "シ"
+      ],
+      "kun": [],
+      "meanings": [
+        "document",
+        "records"
+      ],
+      "words": [
+        {
+          "kanji": "誌",
+          "kana": "し",
+          "en": "magazine"
+        },
+        {
+          "kanji": "地誌",
+          "kana": "ちし",
+          "en": "topography"
+        },
+        {
+          "kanji": "雑誌",
+          "kana": "ざっし",
+          "en": "magazine"
+        },
+        {
+          "kanji": "誌面",
+          "kana": "しめん",
+          "en": "page of a magazine"
+        }
+      ],
+      "readingExamples": {
+        "シ": {
+          "kanji": "誌",
+          "kana": "し",
+          "en": "magazine"
+        }
+      }
+    },
+    {
+      "kanji": "認",
+      "on": [
+        "ニン"
+      ],
+      "kun": [
+        "みと.める",
+        "したた.める"
+      ],
+      "meanings": [
+        "acknowledge",
+        "witness",
+        "discern",
+        "recognize"
+      ],
+      "words": [
+        {
+          "kanji": "誤認",
+          "kana": "ごにん",
+          "en": "misrecognition"
+        },
+        {
+          "kanji": "自認",
+          "kana": "じにん",
+          "en": "admission"
+        },
+        {
+          "kanji": "認可",
+          "kana": "にんか",
+          "en": "approval"
+        },
+        {
+          "kanji": "認知",
+          "kana": "にんち",
+          "en": "acknowledgement"
+        }
+      ],
+      "readingExamples": {
+        "ニン": {
+          "kanji": "認可",
+          "kana": "にんか",
+          "en": "approval"
+        },
+        "みとめる": {
+          "kanji": "認める",
+          "kana": "みとめる",
+          "en": "to recognize"
+        }
+      }
+    },
+    {
+      "kanji": "誕",
+      "on": [
+        "タン"
+      ],
+      "kun": [],
+      "meanings": [
+        "nativity",
+        "be born",
+        "declension",
+        "lie"
+      ],
+      "words": [
+        {
+          "kanji": "生誕",
+          "kana": "せいたん",
+          "en": "birth (esp. of a famous person)"
+        },
+        {
+          "kanji": "誕生",
+          "kana": "たんじょう",
+          "en": "birth (of a person)"
+        }
+      ],
+      "readingExamples": {
+        "タン": {
+          "kanji": "誕生",
+          "kana": "たんじょう",
+          "en": "birth (of a person)"
+        }
+      }
+    },
+    {
+      "kanji": "誠",
+      "on": [
+        "セイ"
+      ],
+      "kun": [
+        "まこと"
+      ],
+      "meanings": [
+        "sincerity",
+        "admonish",
+        "warn",
+        "prohibit"
+      ],
+      "words": [
+        {
+          "kanji": "誠意",
+          "kana": "せいい",
+          "en": "sincerity"
+        },
+        {
+          "kanji": "誠",
+          "kana": "まこと",
+          "en": "truth"
+        },
+        {
+          "kanji": "至誠",
+          "kana": "しせい",
+          "en": "sincerity"
+        },
+        {
+          "kanji": "誠に",
+          "kana": "まことに",
+          "en": "really"
+        }
+      ],
+      "readingExamples": {
+        "セイ": {
+          "kanji": "誠意",
+          "kana": "せいい",
+          "en": "sincerity"
+        },
+        "まこと": {
+          "kanji": "誠",
+          "kana": "まこと",
+          "en": "truth"
+        }
+      }
+    },
+    {
+      "kanji": "誤",
+      "on": [
+        "ゴ"
+      ],
+      "kun": [
+        "あやま.る",
+        "-あやま.る"
+      ],
+      "meanings": [
+        "mistake",
+        "err",
+        "do wrong",
+        "mislead"
+      ],
+      "words": [
+        {
+          "kanji": "過誤",
+          "kana": "かご",
+          "en": "mistake"
+        },
+        {
+          "kanji": "誤差",
+          "kana": "ごさ",
+          "en": "measurement error"
+        },
+        {
+          "kanji": "誤字",
+          "kana": "ごじ",
+          "en": "misprint"
+        },
+        {
+          "kanji": "誤解",
+          "kana": "ごかい",
+          "en": "misunderstanding"
+        }
+      ],
+      "readingExamples": {
+        "ゴ": {
+          "kanji": "誤差",
+          "kana": "ごさ",
+          "en": "measurement error"
+        },
+        "あやまる": {
+          "kanji": "誤る",
+          "kana": "あやまる",
+          "en": "to make a mistake (in)"
+        }
+      }
+    },
+    {
+      "kanji": "論",
+      "on": [
+        "ロン"
+      ],
+      "kun": [
+        "あげつら.う"
+      ],
+      "meanings": [
+        "argument",
+        "discourse"
+      ],
+      "words": [
+        {
+          "kanji": "異論",
+          "kana": "いろん",
+          "en": "different opinion"
+        },
+        {
+          "kanji": "議論",
+          "kana": "ぎろん",
+          "en": "argument"
+        },
+        {
+          "kanji": "無論",
+          "kana": "むろん",
+          "en": "of course"
+        },
+        {
+          "kanji": "理論",
+          "kana": "りろん",
+          "en": "theory"
+        }
+      ],
+      "readingExamples": {
+        "ロン": {
+          "kanji": "論議",
+          "kana": "ろんぎ",
+          "en": "discussion"
+        }
+      }
+    },
+    {
+      "kanji": "諸",
+      "on": [
+        "ショ"
+      ],
+      "kun": [
+        "もろ"
+      ],
+      "meanings": [
+        "various",
+        "many",
+        "several",
+        "together"
+      ],
+      "words": [
+        {
+          "kanji": "諸",
+          "kana": "しょ",
+          "en": "various"
+        },
+        {
+          "kanji": "諸君",
+          "kana": "しょくん",
+          "en": "you (people)"
+        },
+        {
+          "kanji": "諸国",
+          "kana": "しょこく",
+          "en": "various countries"
+        },
+        {
+          "kanji": "諸島",
+          "kana": "しょとう",
+          "en": "archipelago"
+        }
+      ],
+      "readingExamples": {
+        "ショ": {
+          "kanji": "諸",
+          "kana": "しょ",
+          "en": "various"
+        },
+        "もろ": {
+          "kanji": "諸刃",
+          "kana": "もろは",
+          "en": "double-edged (e.g. sword blade)"
+        }
+      }
+    },
+    {
+      "kanji": "警",
+      "on": [
+        "ケイ"
+      ],
+      "kun": [
+        "いまし.める"
+      ],
+      "meanings": [
+        "admonish",
+        "commandment"
+      ],
+      "words": [
+        {
+          "kanji": "警句",
+          "kana": "けいく",
+          "en": "aphorism"
+        },
+        {
+          "kanji": "警護",
+          "kana": "けいご",
+          "en": "bodyguard"
+        },
+        {
+          "kanji": "警視",
+          "kana": "けいし",
+          "en": "police superintendent"
+        },
+        {
+          "kanji": "警備",
+          "kana": "けいび",
+          "en": "defense"
+        }
+      ],
+      "readingExamples": {
+        "ケイ": {
+          "kanji": "警句",
+          "kana": "けいく",
+          "en": "aphorism"
+        }
+      }
+    },
+    {
+      "kanji": "貴",
+      "on": [
+        "キ"
+      ],
+      "kun": [
+        "たっと.い",
+        "とうと.い",
+        "たっと.ぶ",
+        "とうと.ぶ"
+      ],
+      "meanings": [
+        "precious",
+        "value",
+        "prize",
+        "esteem"
+      ],
+      "words": [
+        {
+          "kanji": "貴社",
+          "kana": "きしゃ",
+          "en": "your company"
+        },
+        {
+          "kanji": "貴族",
+          "kana": "きぞく",
+          "en": "nobility"
+        },
+        {
+          "kanji": "貴方",
+          "kana": "あなた",
+          "en": "you"
+        },
+        {
+          "kanji": "兄貴",
+          "kana": "あにき",
+          "en": "elder brother"
+        }
+      ],
+      "readingExamples": {
+        "キ": {
+          "kanji": "貴社",
+          "kana": "きしゃ",
+          "en": "your company"
+        }
+      }
+    },
+    {
+      "kanji": "賃",
+      "on": [
+        "チン"
+      ],
+      "kun": [],
+      "meanings": [
+        "fare",
+        "fee",
+        "hire",
+        "rent"
+      ],
+      "words": [
+        {
+          "kanji": "家賃",
+          "kana": "やちん",
+          "en": "rent"
+        },
+        {
+          "kanji": "運賃",
+          "kana": "うんちん",
+          "en": "(passenger) fare"
+        },
+        {
+          "kanji": "工賃",
+          "kana": "こうちん",
+          "en": "labor cost"
+        },
+        {
+          "kanji": "賃金",
+          "kana": "ちんぎん",
+          "en": "wages"
+        }
+      ],
+      "readingExamples": {
+        "チン": {
+          "kanji": "賃金",
+          "kana": "ちんぎん",
+          "en": "wages"
+        }
+      }
+    },
+    {
+      "kanji": "退",
+      "on": [
+        "タイ"
+      ],
+      "kun": [
+        "しりぞ.く",
+        "しりぞ.ける",
+        "ひ.く",
+        "の.く",
+        "の.ける",
+        "ど.く"
+      ],
+      "meanings": [
+        "retreat",
+        "withdraw",
+        "retire",
+        "resign"
+      ],
+      "words": [
+        {
+          "kanji": "退く",
+          "kana": "どく",
+          "en": "to step aside"
+        },
+        {
+          "kanji": "辞退",
+          "kana": "じたい",
+          "en": "declining"
+        },
+        {
+          "kanji": "退ける",
+          "kana": "のける",
+          "en": "to put something out of the way"
+        },
+        {
+          "kanji": "退位",
+          "kana": "たいい",
+          "en": "abdication"
+        }
+      ],
+      "readingExamples": {
+        "タイ": {
+          "kanji": "退位",
+          "kana": "たいい",
+          "en": "abdication"
+        },
+        "しりぞく": {
+          "kanji": "退く",
+          "kana": "しりぞく",
+          "en": "to step back"
+        },
+        "のける": {
+          "kanji": "退ける",
+          "kana": "のける",
+          "en": "to put something out of the way"
+        }
+      }
+    },
+    {
+      "kanji": "遺",
+      "on": [
+        "イ",
+        "ユイ"
+      ],
+      "kun": [
+        "のこ.す"
+      ],
+      "meanings": [
+        "bequeath",
+        "leave behind",
+        "reserve"
+      ],
+      "words": [
+        {
+          "kanji": "遺志",
+          "kana": "いし",
+          "en": "wishes of a deceased person"
+        },
+        {
+          "kanji": "遺児",
+          "kana": "いじ",
+          "en": "orphan"
+        },
+        {
+          "kanji": "遺訓",
+          "kana": "いくん",
+          "en": "teachings left by a deceased person"
+        },
+        {
+          "kanji": "遺構",
+          "kana": "いこう",
+          "en": "(archaeological) remains"
+        }
+      ],
+      "readingExamples": {
+        "イ": {
+          "kanji": "遺志",
+          "kana": "いし",
+          "en": "wishes of a deceased person"
+        },
+        "ユイ": {
+          "kanji": "遺言",
+          "kana": "ゆいごん",
+          "en": "will"
+        }
+      }
+    },
+    {
+      "kanji": "郵",
+      "on": [
+        "ユウ"
+      ],
+      "kun": [],
+      "meanings": [
+        "mail",
+        "stagecoach stop"
+      ],
+      "words": [
+        {
+          "kanji": "郵送",
+          "kana": "ゆうそう",
+          "en": "mailing"
+        },
+        {
+          "kanji": "郵便",
+          "kana": "ゆうびん",
+          "en": "mail service"
+        },
+        {
+          "kanji": "郵政",
+          "kana": "ゆうせい",
+          "en": "postal system"
+        },
+        {
+          "kanji": "郵船",
+          "kana": "ゆうせん",
+          "en": "mail boat"
+        }
+      ],
+      "readingExamples": {
+        "ユウ": {
+          "kanji": "郵送",
+          "kana": "ゆうそう",
+          "en": "mailing"
+        }
+      }
+    },
+    {
+      "kanji": "郷",
+      "on": [
+        "キョウ",
+        "ゴウ"
+      ],
+      "kun": [
+        "さと"
+      ],
+      "meanings": [
+        "home town",
+        "village",
+        "native place",
+        "district"
+      ],
+      "words": [
+        {
+          "kanji": "異郷",
+          "kana": "いきょう",
+          "en": "foreign country"
+        },
+        {
+          "kanji": "郷土",
+          "kana": "きょうど",
+          "en": "native place"
+        },
+        {
+          "kanji": "郷里",
+          "kana": "きょうり",
+          "en": "hometown"
+        },
+        {
+          "kanji": "故郷",
+          "kana": "ふるさと",
+          "en": "hometown"
+        }
+      ],
+      "readingExamples": {
+        "キョウ": {
+          "kanji": "郷土",
+          "kana": "きょうど",
+          "en": "native place"
+        }
+      }
+    },
+    {
+      "kanji": "針",
+      "on": [
+        "シン"
+      ],
+      "kun": [
+        "はり"
+      ],
+      "meanings": [
+        "needle",
+        "pin",
+        "staple",
+        "stinger"
+      ],
+      "words": [
+        {
+          "kanji": "針",
+          "kana": "はり",
+          "en": "needle"
+        },
+        {
+          "kanji": "指針",
+          "kana": "ししん",
+          "en": "needle (compass, gauge, etc.)"
+        },
+        {
+          "kanji": "針路",
+          "kana": "しんろ",
+          "en": "course"
+        },
+        {
+          "kanji": "検針",
+          "kana": "けんしん",
+          "en": "inspection of a meter"
+        }
+      ],
+      "readingExamples": {
+        "シン": {
+          "kanji": "針路",
+          "kana": "しんろ",
+          "en": "course"
+        },
+        "はり": {
+          "kanji": "針",
+          "kana": "はり",
+          "en": "needle"
+        }
+      }
+    },
+    {
+      "kanji": "銭",
+      "on": [
+        "セン",
+        "ゼン"
+      ],
+      "kun": [
+        "ぜに",
+        "すき"
+      ],
+      "meanings": [
+        "coin",
+        ".01 yen",
+        "money"
+      ],
+      "words": [
+        {
+          "kanji": "銭",
+          "kana": "せん",
+          "en": "sen (hundredth of a yen)"
+        },
+        {
+          "kanji": "小銭",
+          "kana": "こぜに",
+          "en": "small change"
+        },
+        {
+          "kanji": "日銭",
+          "kana": "ひぜに",
+          "en": "daily income in cash"
+        },
+        {
+          "kanji": "身銭",
+          "kana": "みぜに",
+          "en": "one's own money"
+        }
+      ],
+      "readingExamples": {
+        "セン": {
+          "kanji": "銭",
+          "kana": "せん",
+          "en": "sen (hundredth of a yen)"
+        }
+      }
+    },
+    {
+      "kanji": "鋼",
+      "on": [
+        "コウ"
+      ],
+      "kun": [
+        "はがね"
+      ],
+      "meanings": [
+        "steel"
+      ],
+      "words": [
+        {
+          "kanji": "鋼",
+          "kana": "はがね",
+          "en": "steel"
+        },
+        {
+          "kanji": "鋼管",
+          "kana": "こうかん",
+          "en": "steel pipe"
+        },
+        {
+          "kanji": "鋼材",
+          "kana": "こうざい",
+          "en": "steel material"
+        },
+        {
+          "kanji": "鋼鉄",
+          "kana": "こうてつ",
+          "en": "steel"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "鋼管",
+          "kana": "こうかん",
+          "en": "steel pipe"
+        },
+        "はがね": {
+          "kanji": "鋼",
+          "kana": "はがね",
+          "en": "steel"
+        }
+      }
+    },
+    {
+      "kanji": "閉",
+      "on": [
+        "ヘイ"
+      ],
+      "kun": [
+        "と.じる",
+        "と.ざす",
+        "し.める",
+        "し.まる",
+        "た.てる"
+      ],
+      "meanings": [
+        "closed",
+        "shut"
+      ],
+      "words": [
+        {
+          "kanji": "閉まる",
+          "kana": "しまる",
+          "en": "to be shut"
+        },
+        {
+          "kanji": "閉ざす",
+          "kana": "とざす",
+          "en": "to shut"
+        },
+        {
+          "kanji": "閉じる",
+          "kana": "とじる",
+          "en": "to close (e.g. book, eyes, meeting, etc.)"
+        },
+        {
+          "kanji": "閉める",
+          "kana": "しめる",
+          "en": "to close"
+        }
+      ],
+      "readingExamples": {
+        "ヘイ": {
+          "kanji": "閉鎖",
+          "kana": "へいさ",
+          "en": "closing"
+        },
+        "とじる": {
+          "kanji": "閉じる",
+          "kana": "とじる",
+          "en": "to close (e.g. book, eyes, meeting, etc.)"
+        },
+        "とざす": {
+          "kanji": "閉ざす",
+          "kana": "とざす",
+          "en": "to shut"
+        },
+        "しめる": {
+          "kanji": "閉める",
+          "kana": "しめる",
+          "en": "to close"
+        },
+        "しまる": {
+          "kanji": "閉まる",
+          "kana": "しまる",
+          "en": "to be shut"
+        }
+      }
+    },
+    {
+      "kanji": "閣",
+      "on": [
+        "カク"
+      ],
+      "kun": [],
+      "meanings": [
+        "tower",
+        "tall building",
+        "palace"
+      ],
+      "words": [
+        {
+          "kanji": "閣下",
+          "kana": "かっか",
+          "en": "your Excellency"
+        },
+        {
+          "kanji": "閣議",
+          "kana": "かくぎ",
+          "en": "cabinet meeting"
+        },
+        {
+          "kanji": "組閣",
+          "kana": "そかく",
+          "en": "formation of a cabinet"
+        },
+        {
+          "kanji": "閣外",
+          "kana": "かくがい",
+          "en": "outside the Cabinet"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "閣議",
+          "kana": "かくぎ",
+          "en": "cabinet meeting"
+        }
+      }
+    },
+    {
+      "kanji": "降",
+      "on": [
+        "コウ",
+        "ゴ"
+      ],
+      "kun": [
+        "お.りる",
+        "お.ろす",
+        "ふ.る",
+        "ふ.り",
+        "くだ.る",
+        "くだ.す"
+      ],
+      "meanings": [
+        "descend",
+        "precipitate",
+        "fall",
+        "surrender"
+      ],
+      "words": [
+        {
+          "kanji": "降る",
+          "kana": "ふる",
+          "en": "to fall (of rain, snow, ash, etc.)"
+        },
+        {
+          "kanji": "降り",
+          "kana": "ふり",
+          "en": "rainfall"
+        },
+        {
+          "kanji": "以降",
+          "kana": "いこう",
+          "en": "on and after"
+        },
+        {
+          "kanji": "下降",
+          "kana": "かこう",
+          "en": "descent"
+        }
+      ],
+      "readingExamples": {
+        "コウ": {
+          "kanji": "降雨",
+          "kana": "こうう",
+          "en": "rainfall"
+        },
+        "おりる": {
+          "kanji": "降りる",
+          "kana": "おりる",
+          "en": "to descend (e.g. a mountain)"
+        },
+        "ふる": {
+          "kanji": "降る",
+          "kana": "ふる",
+          "en": "to fall (of rain, snow, ash, etc.)"
+        },
+        "ふり": {
+          "kanji": "降り",
+          "kana": "ふり",
+          "en": "rainfall"
+        }
+      }
+    },
+    {
+      "kanji": "陛",
+      "on": [
+        "ヘイ"
+      ],
+      "kun": [],
+      "meanings": [
+        "highness",
+        "steps (of throne)"
+      ],
+      "words": [
+        {
+          "kanji": "陛下",
+          "kana": "へいか",
+          "en": "Your Majesty"
+        }
+      ],
+      "readingExamples": {
+        "ヘイ": {
+          "kanji": "陛下",
+          "kana": "へいか",
+          "en": "Your Majesty"
+        }
+      }
+    },
+    {
+      "kanji": "除",
+      "on": [
+        "ジョ",
+        "ジ"
+      ],
+      "kun": [
+        "のぞ.く",
+        "-よ.け"
+      ],
+      "meanings": [
+        "exclude",
+        "division (x/3)",
+        "remove",
+        "abolish"
+      ],
+      "words": [
+        {
+          "kanji": "除く",
+          "kana": "のぞく",
+          "en": "to remove"
+        },
+        {
+          "kanji": "除夜",
+          "kana": "じょや",
+          "en": "New Year's Eve"
+        },
+        {
+          "kanji": "解除",
+          "kana": "かいじょ",
+          "en": "termination (of a contract)"
+        },
+        {
+          "kanji": "除いて",
+          "kana": "のぞいて",
+          "en": "except"
+        }
+      ],
+      "readingExamples": {
+        "ジョ": {
+          "kanji": "除夜",
+          "kana": "じょや",
+          "en": "New Year's Eve"
+        },
+        "ジ": {
+          "kanji": "除夜",
+          "kana": "じょや",
+          "en": "New Year's Eve"
+        },
+        "のぞく": {
+          "kanji": "除く",
+          "kana": "のぞく",
+          "en": "to remove"
+        }
+      }
+    },
+    {
+      "kanji": "障",
+      "on": [
+        "ショウ"
+      ],
+      "kun": [
+        "さわ.る"
+      ],
+      "meanings": [
+        "hinder",
+        "hurt",
+        "harm"
+      ],
+      "words": [
+        {
+          "kanji": "気障",
+          "kana": "きざ",
+          "en": "affected"
+        },
+        {
+          "kanji": "障る",
+          "kana": "さわる",
+          "en": "to be harmful to"
+        },
+        {
+          "kanji": "故障",
+          "kana": "こしょう",
+          "en": "fault"
+        },
+        {
+          "kanji": "支障",
+          "kana": "ししょう",
+          "en": "obstacle"
+        }
+      ],
+      "readingExamples": {
+        "ショウ": {
+          "kanji": "障子",
+          "kana": "しょうじ",
+          "en": "shoji (paper sliding door)"
+        },
+        "さわる": {
+          "kanji": "障る",
+          "kana": "さわる",
+          "en": "to be harmful to"
+        }
+      }
+    },
+    {
+      "kanji": "難",
+      "on": [
+        "ナン"
+      ],
+      "kun": [
+        "かた.い",
+        "-がた.い",
+        "むずか.しい",
+        "むづか.しい",
+        "むつか.しい",
+        "-にく.い"
+      ],
+      "meanings": [
+        "difficult",
+        "impossible",
+        "trouble",
+        "accident"
+      ],
+      "words": [
+        {
+          "kanji": "難",
+          "kana": "なん",
+          "en": "difficulty"
+        },
+        {
+          "kanji": "苦難",
+          "kana": "くなん",
+          "en": "suffering"
+        },
+        {
+          "kanji": "至難",
+          "kana": "しなん",
+          "en": "most difficult"
+        },
+        {
+          "kanji": "多難",
+          "kana": "たなん",
+          "en": "full of troubles, difficulties"
+        }
+      ],
+      "readingExamples": {
+        "ナン": {
+          "kanji": "難",
+          "kana": "なん",
+          "en": "difficulty"
+        },
+        "かたい": {
+          "kanji": "難い",
+          "kana": "かたい",
+          "en": "difficult"
+        },
+        "むずかしい": {
+          "kanji": "難しい",
+          "kana": "むずかしい",
+          "en": "difficult"
+        }
+      }
+    },
+    {
+      "kanji": "革",
+      "on": [
+        "カク"
+      ],
+      "kun": [
+        "かわ"
+      ],
+      "meanings": [
+        "leather",
+        "skin",
+        "reform",
+        "become serious"
+      ],
+      "words": [
+        {
+          "kanji": "革",
+          "kana": "かわ",
+          "en": "leather"
+        },
+        {
+          "kanji": "皮革",
+          "kana": "ひかく",
+          "en": "leather"
+        },
+        {
+          "kanji": "保革",
+          "kana": "ほかく",
+          "en": "conservatism and progressivism"
+        },
+        {
+          "kanji": "沿革",
+          "kana": "えんかく",
+          "en": "history"
+        }
+      ],
+      "readingExamples": {
+        "カク": {
+          "kanji": "革新",
+          "kana": "かくしん",
+          "en": "reform"
+        },
+        "かわ": {
+          "kanji": "革",
+          "kana": "かわ",
+          "en": "leather"
+        }
+      }
+    },
+    {
+      "kanji": "頂",
+      "on": [
+        "チョウ"
+      ],
+      "kun": [
+        "いただ.く",
+        "いただき"
+      ],
+      "meanings": [
+        "place on the head",
+        "receive",
+        "top of head",
+        "top"
+      ],
+      "words": [
+        {
+          "kanji": "頂",
+          "kana": "いただき",
+          "en": "crown (of head)"
+        },
+        {
+          "kanji": "頂く",
+          "kana": "いただく",
+          "en": "to receive"
+        },
+        {
+          "kanji": "山頂",
+          "kana": "さんちょう",
+          "en": "summit (of a mountain)"
+        },
+        {
+          "kanji": "絶頂",
+          "kana": "ぜっちょう",
+          "en": "top (of a mountain)"
+        }
+      ],
+      "readingExamples": {
+        "チョウ": {
+          "kanji": "頂戴",
+          "kana": "ちょうだい",
+          "en": "receiving"
+        },
+        "いただく": {
+          "kanji": "頂く",
+          "kana": "いただく",
+          "en": "to receive"
+        },
+        "いただき": {
+          "kanji": "頂",
+          "kana": "いただき",
+          "en": "crown (of head)"
+        }
+      }
+    },
+    {
+      "kanji": "預",
+      "on": [
+        "ヨ"
+      ],
+      "kun": [
+        "あず.ける",
+        "あず.かる"
+      ],
+      "meanings": [
+        "deposit",
+        "custody",
+        "leave with",
+        "entrust to"
+      ],
+      "words": [
+        {
+          "kanji": "預け",
+          "kana": "あずけ",
+          "en": "custody"
+        },
+        {
+          "kanji": "預金",
+          "kana": "よきん",
+          "en": "deposit"
+        },
+        {
+          "kanji": "預言",
+          "kana": "よげん",
+          "en": "(religious) prophecy"
+        },
+        {
+          "kanji": "預かり",
+          "kana": "あずかり",
+          "en": "safekeeping"
+        }
+      ],
+      "readingExamples": {
+        "ヨ": {
+          "kanji": "預金",
+          "kana": "よきん",
+          "en": "deposit"
+        },
+        "あずける": {
+          "kanji": "預ける",
+          "kana": "あずける",
+          "en": "to leave (in someone's keeping)"
+        },
+        "あずかる": {
+          "kanji": "預かる",
+          "kana": "あずかる",
+          "en": "to look after"
+        }
+      }
+    },
+    {
+      "kanji": "骨",
+      "on": [
+        "コツ"
+      ],
+      "kun": [
+        "ほね"
+      ],
+      "meanings": [
+        "skeleton",
+        "bone",
+        "remains",
+        "frame"
+      ],
+      "words": [
+        {
+          "kanji": "骨",
+          "kana": "ほね",
+          "en": "bone"
+        },
+        {
+          "kanji": "遺骨",
+          "kana": "いこつ",
+          "en": "cremated remains (esp. the bones)"
+        },
+        {
+          "kanji": "気骨",
+          "kana": "きこつ",
+          "en": "(moral) backbone"
+        },
+        {
+          "kanji": "骨子",
+          "kana": "こっし",
+          "en": "main point"
+        }
+      ],
+      "readingExamples": {
+        "コツ": {
+          "kanji": "骨髄",
+          "kana": "こつずい",
+          "en": "bone marrow"
+        },
+        "ほね": {
+          "kanji": "骨",
+          "kana": "ほね",
+          "en": "bone"
+        }
+      }
     }
   ]
 };

@@ -160,7 +160,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 // --- Boot -----------------------------------------------------------------
 
 const { romajiFor } = await import('../src/kana.js');
-const { KANJI_COURSES, kanjiInfo } = await import('../src/kanji.js');
+const { KANJI_COURSES, kanjiInfo, buildKanjiOptions } = await import('../src/kanji.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -344,96 +344,149 @@ for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
 check('the kanji lesson hands over to the quiz', visible() === 'screen-quiz', `showing ${visible()}`);
 
 const kanjiCourse = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+const currentProgress = () => [...rows.values()][0].progress;
+
 let kAnswered = 0;
-let firstTryDone = false;
-let firstTryKanji = null;
-let kRecoveryDone = false;
-let kRecoveryKanji = null;
-let kRevealDone = false;
-let kRevealKanji = null;
+let kPerfectDone = false; let kPerfectKanji = null;
+let kRecoverDone = false; let kRecoverKanji = null;
+let kRevealDone2 = false; let kRevealKanji = null;
+let kAdvancedDone = false;
+let kExampleDone = false;
 
 for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
   const kanji = el('quiz-kana').textContent;
   if (!kanji) break;
-  const correctSet = new Set(kanjiInfo(kanjiCourse, kanji).quizReadings);
+  const { correct } = buildKanjiOptions(kanjiCourse, kanji, 'recognition', currentProgress());
   const choices = el('quiz-choices')._children;
   check(`kanji question ${i + 1} offers ten options`, choices.length === 10);
-  const correctButtons = choices.filter((c) => correctSet.has(c.textContent));
-  const wrongButtons = choices.filter((c) => !correctSet.has(c.textContent));
+  const correctButtons = choices.filter((c) => correct.has(c.dataset.reading));
+  const wrongButtons = choices.filter((c) => !correct.has(c.dataset.reading));
+  check(`kanji question ${i + 1} has both a correct and a wrong option to test with`,
+    correctButtons.length > 0 && wrongButtons.length > 0);
+  const advancedAvailable = kanjiInfo(kanjiCourse, kanji).quizReadings.length > correct.size;
 
-  if (kAnswered === 0 && !firstTryDone) {
-    firstTryDone = true;
-    firstTryKanji = kanji;
+  if (kAnswered === 0 && !kPerfectDone) {
+    // Perfect run: click only the correct readings. Every one turns green
+    // the instant it's clicked, and finding the last one unlocks Next with
+    // no extra step — no submit button in this model.
+    kPerfectDone = true; kPerfectKanji = kanji;
     correctButtons.forEach((b) => fire(b, 'click'));
-    fire(el('quiz-ok'), 'click');
     await settle();
-    check('ticking exactly the correct set finalizes on the first try',
-      el('quiz-ok').textContent === 'Next');
-    check('a first-try match reveals the meaning/word panel', el('quiz-info').hidden === false);
-    check('a first-try match marks every correct option right',
+    check('a perfect run marks every correct option right immediately',
       correctButtons.every((b) => b.classList.contains('is-right')));
+    check('a perfect run unlocks Next without a separate submit step',
+      el('quiz-ok').hidden === false);
+    check('a perfect run reveals the meaning/word panel', el('quiz-info').hidden === false);
+    check('show answers / advanced hide themselves once resolved',
+      el('quiz-show-answers').hidden === true && el('quiz-advanced').hidden === true);
     fire(el('quiz-ok'), 'click'); // Next
     await settle();
-  } else if (kAnswered === 1 && !kRecoveryDone) {
-    kRecoveryDone = true;
-    kRecoveryKanji = kanji;
+  } else if (kAnswered === 1 && !kRecoverDone) {
+    // One wrong click, then find everything else by exploring — recovering
+    // still unlocks Next, but the record must already be sealed as a miss.
+    kRecoverDone = true; kRecoverKanji = kanji;
     fire(wrongButtons[0], 'click');
+    await settle();
+    check('a wrong click turns red on the spot', wrongButtons[0].classList.contains('is-wrong'));
+    check('a wrong click does not reveal any correct option',
+      !correctButtons.some((b) => b.classList.contains('is-right')));
+    check('a wrong click alone does not unlock Next', el('quiz-ok').hidden === true);
+    check('show answers stays offered so exploring is optional', el('quiz-show-answers').hidden === false);
+
+    correctButtons.forEach((b) => fire(b, 'click')); // "learning" — discovered after the miss
+    await settle();
+    check('finding everything after a miss still unlocks Next', el('quiz-ok').hidden === false);
+    check('everything discovered through learning is still shown green',
+      correctButtons.every((b) => b.classList.contains('is-right')));
     fire(el('quiz-ok'), 'click');
     await settle();
-    check('a wrong tick does not finalize the question', el('quiz-ok').textContent === 'OK');
-    check('a wrong tick does not reveal the info panel yet', el('quiz-info').hidden === true);
-    check('a wrong tick turns red and locks', wrongButtons[0].classList.contains('is-wrong') && wrongButtons[0].disabled);
-    check('a wrong tick does not reveal which options were correct',
-      !choices.some((c) => c.classList.contains('is-missed')));
-    correctButtons.forEach((b) => fire(b, 'click'));
-    fire(el('quiz-ok'), 'click');
-    await settle();
-    check('ticking the full correct set on the second try finalizes it',
-      el('quiz-ok').textContent === 'Next');
-    check('the info panel is shown once the retry succeeds', el('quiz-info').hidden === false);
-    fire(el('quiz-ok'), 'click');
-    await settle();
-  } else if (kAnswered === 2 && !kRevealDone) {
-    kRevealDone = true;
-    kRevealKanji = kanji;
+  } else if (kAnswered === 2 && !kRevealDone2) {
+    // A wrong click, then give up via Show answers instead of exploring.
+    kRevealDone2 = true; kRevealKanji = kanji;
     fire(wrongButtons[0], 'click');
+    await settle();
+    fire(el('quiz-show-answers'), 'click');
+    await settle();
+    check('show answers reveals every remaining correct reading',
+      correctButtons.every((b) => b.classList.contains('is-right')));
+    check('show answers unlocks Next', el('quiz-ok').hidden === false);
     fire(el('quiz-ok'), 'click');
     await settle();
-    fire(wrongButtons[1], 'click'); // a different wrong option for the second try
-    fire(el('quiz-ok'), 'click');
+  } else if (advancedAvailable && !kAdvancedDone) {
+    // Growing the grid in place: existing buttons must not be replaced.
+    kAdvancedDone = true;
+    const before = [...choices];
+    fire(el('quiz-advanced'), 'click');
     await settle();
-    check('being wrong twice reveals the correct options as missed',
-      correctButtons.every((b) => b.classList.contains('is-missed')));
-    check('being wrong twice shows the info panel', el('quiz-info').hidden === false);
+    const grown = el('quiz-choices')._children;
+    check('advanced adds buttons rather than rebuilding the grid',
+      grown.length > before.length && before.every((b, idx) => grown[idx] === b));
+    check('advanced hides itself once used', el('quiz-advanced').hidden === true);
+
+    const { correct: advancedCorrect } = buildKanjiOptions(
+      kanjiCourse, kanji, 'recognition', currentProgress(), { advanced: true },
+    );
+    check('advanced offers strictly more correct readings than the base view',
+      advancedCorrect.size > correct.size);
+    grown.filter((b) => advancedCorrect.has(b.dataset.reading)).forEach((b) => fire(b, 'click'));
+    await settle();
+    check('finding every reading including the newly-added ones unlocks Next',
+      el('quiz-ok').hidden === false);
     fire(el('quiz-ok'), 'click');
     await settle();
   } else {
     correctButtons.forEach((b) => fire(b, 'click'));
-    fire(el('quiz-ok'), 'click');
     await settle();
+    check(`question ${i + 1} resolves once every correct reading is found`,
+      el('quiz-ok').hidden === false);
+
+    if (!kExampleDone) {
+      // Post-round: clicking a (now green) reading shows its example word
+      // instead of doing anything to the grade — the round is already over.
+      kExampleDone = true;
+      const target = correctButtons[0];
+      fire(target, 'click');
+      await settle();
+      check('a post-round click marks that reading active',
+        target.classList.contains('is-active'));
+      check('a post-round click shows something in the word panel',
+        el('quiz-word').innerHTML.length > 0 || el('quiz-word').textContent.length > 0);
+    }
     fire(el('quiz-ok'), 'click');
     await settle();
   }
   kAnswered += 1;
 }
 
-check('the kanji first-try path was exercised', firstTryDone);
-check('the kanji recover-on-second-try path was exercised', kRecoveryDone);
-check('the kanji wrong-both-times path was exercised', kRevealDone);
+check('the perfect-first-try path was exercised', kPerfectDone);
+check('the miss-then-recover-by-exploring path was exercised', kRecoverDone);
+check('the miss-then-show-answers path was exercised', kRevealDone2);
+check('the advanced-expansion path was exercised', kAdvancedDone);
+check('the post-round example-word click was exercised', kExampleDone);
 check('the kanji quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
 
+// --- Per-reading (yomi) records, and the kanji-level rollup ---------------
+
 const afterKanji = [...rows.values()][0];
-const firstTryRecord = afterKanji.progress[`recognition:${firstTryKanji}`];
-check('an exact first-try kanji answer has zero lapses',
-  !!firstTryRecord && firstTryRecord.lapses === 0, JSON.stringify(firstTryRecord));
+const yomiRecords = Object.entries(afterKanji.progress).filter(([k]) => k.split(':').length === 3);
+check('kanji questions write per-reading records, not one record per kanji',
+  yomiRecords.length > 0, `${yomiRecords.length} yomi records`);
+check('every yomi record is keyed under recognition mode',
+  yomiRecords.every(([k]) => k.startsWith('recognition:')));
+check('every yomi record has correct/incorrect/streak fields',
+  yomiRecords.every(([, r]) => 'correct' in r && 'incorrect' in r && 'streak' in r));
 
-const kanjiRecoveryRecord = afterKanji.progress[`recognition:${kRecoveryKanji}`];
-check('a kanji miss recovered on the second try still counts as a lapse',
-  !!kanjiRecoveryRecord && kanjiRecoveryRecord.lapses >= 1, JSON.stringify(kanjiRecoveryRecord));
+const perfectRollup = afterKanji.progress[`recognition:${kPerfectKanji}`];
+check('a perfect-first-try kanji has a rollup record with zero lapses',
+  !!perfectRollup && perfectRollup.lapses === 0, JSON.stringify(perfectRollup));
 
-const kanjiRevealRecord = afterKanji.progress[`recognition:${kRevealKanji}`];
-check('a kanji miss wrong both times counts as a lapse',
-  !!kanjiRevealRecord && kanjiRevealRecord.lapses >= 1);
+const recoverRollup = afterKanji.progress[`recognition:${kRecoverKanji}`];
+check('a recovered miss still shows up as a lapse in the kanji rollup — recovering does not launder the record',
+  !!recoverRollup && recoverRollup.lapses >= 1, JSON.stringify(recoverRollup));
+
+const revealRollup = afterKanji.progress[`recognition:${kRevealKanji}`];
+check('a shown-answers miss also counts as a lapse in the rollup',
+  !!revealRollup && revealRollup.lapses >= 1);
 
 // --- data-action coverage -------------------------------------------------
 

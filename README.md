@@ -27,8 +27,8 @@ $JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sess
 
 Both must be run from the repo root.
 
-To regenerate `src/kanji-data.js` (e.g. after raising `MAX_GRADE` in
-`tools/build_kanji_data.py`):
+To regenerate `src/kanji-data.js` (e.g. after changing `MAX_GRADE`,
+currently 6, in `tools/build_kanji_data.py`):
 
 ```sh
 ./tools/fetch_kanji_sources.sh   # downloads KANJIDIC2 + JMdict, ~90MB, not committed
@@ -70,16 +70,63 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   repetition, since the point of the record is what a learner actually knew
   before being shown anything.
 
-**Reading practice for kanji, starting with Japanese school Grade 1 (80
-kanji).** A kanji is shown, and up to ten of its on'yomi/kun'yomi readings are
-offered (real readings plus plausible ones borrowed from other grade-1 kanji);
-the learner ticks every reading that applies, then presses OK. Grading
-requires the exact set — same one-more-try-then-reveal contract as the kana
-quiz, and the tick/cross highlighting distinguishes a wrong guess (red) from a
-correct reading you didn't tick (dashed green, shown once the question is
-finalized). Meanings and a common example word are shown as feedback once a
-question resolves. Data (readings, meanings, example words) comes from
-KANJIDIC2 and JMdict — see `tools/build_kanji_data.py`.
+**Reading practice for kanji, all six Japanese elementary-school grades
+(1,026 kanji total).** A kanji is shown with up to 10 candidate readings —
+its own on'yomi/kun'yomi plus plausible ones borrowed from other kanji in the
+same grade. Unlike the kana quiz, there's no submit step: **click a reading
+and it turns green or red immediately.**
+
+- **Grading happens per reading, not per kanji.** A kid can know セイ cold
+  while still shaky on うまれる for the same 生, and the record reflects that
+  — see "Per-reading spaced repetition" below.
+- **The base view shows up to 4 readings as correct** (out of 10 options) —
+  always the single most common on'yomi and kun'yomi, plus up to 2 more
+  chosen by priority (never-graded readings first, then whichever is most
+  overdue). Correct options are deliberately kept under half the total, so
+  passing by clicking everything isn't possible.
+- **The grading moment is the first wrong click**, not a submit button.
+  Whatever was clicked correctly *before* that click is recorded correct;
+  whatever correct reading was still unclicked at that moment is recorded
+  incorrect — permanently, even if it's found afterward. After a miss, the
+  learner can either keep clicking around to find the rest ("learning" —
+  this still unlocks *Next*, it just doesn't rewrite the record) or tap
+  **Show answers** to reveal everything and move on.
+- **Advanced**, shown only when a kanji has more than 4 real readings, grows
+  the same grid in place (existing taps keep their colour) to offer the rest
+  of the pool — up to 6 — with enough distractors added to keep correct
+  readings under half even at the full pool size. Never required to
+  progress.
+- **After a question resolves, clicking a (green) reading shows the most
+  common word that uses it.** This is aimed squarely at readings that are
+  easy to forget precisely because they're rare — 上 (above) has シャン among
+  its on'yomi *only* because of 上海 (Shanghai); clicking シャン surfaces
+  that word directly, even though 海 is a grade-2 kanji the learner may not
+  have met yet. `tools/build_kanji_data.py` builds this index by matching
+  each reading against JMdict directly, not by restricting to
+  already-learned kanji the way the general example-word list does.
+- Meanings and the kanji's general example word are shown as feedback once a
+  question resolves either way.
+
+Data (readings, meanings, example words) comes from KANJIDIC2 and JMdict —
+see `tools/build_kanji_data.py`.
+
+### Per-reading spaced repetition
+
+Each reading of each kanji gets its own record — correct count, incorrect
+count, current streak (consecutive correct, reset by any miss), and the
+timestamps of its last two reviews (so the interval actually taken between
+them can be reconstructed later). Both the streak *and* the lifetime correct
+count push the review interval out — a reading answered right 30 times that
+just had one slip doesn't fall all the way back to "brand new" spacing the
+way a reading with no track record would. See `gradeYomi` in `src/srs.js`.
+
+The kanji itself (as a schedulable "card") doesn't have its own real record —
+it's a **rollup**, recomputed from its readings' records after every grading
+event: due date is the *soonest* of any introduced reading (so a kanji comes
+back for review as soon as any one reading on it looks shaky, not only once
+every reading has lapsed), and "mastered" means *every* reading tested on
+that kanji is solid, not just the easiest one. See `recomputeKanjiRollup` in
+`src/kanji.js`.
 
 ## What is not built yet
 
@@ -87,9 +134,6 @@ KANJIDIC2 and JMdict — see `tools/build_kanji_data.py`.
   kanji. Next thing to build: a canvas with the four-quadrant dashed guide,
   then stroke-by-stroke grading against [KanjiVG](https://kanjivg.tagaini.net/)
   stroke data.
-- **Kanji beyond grade 1.** Re-running `tools/build_kanji_data.py` with a
-  higher `MAX_GRADE` and adding the grade number to `KANJI_COURSES` in
-  `src/kanji.js` is the whole extension path.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
@@ -117,9 +161,9 @@ history, so restoring an old backup cannot wipe out newer practice.
 | --- | --- |
 | `index.html` | All screens, hidden and shown by `app.js` |
 | `src/kana.js` | Kana tables, chunking, romaji answer checking |
-| `src/kanji.js` | Kanji courses (built from `kanji-data.js`) and reading-quiz choices |
-| `src/kanji-data.js` | Generated data: readings/meanings/example words per kanji — do not hand-edit, see below |
-| `src/srs.js` | Leitner scheduling and the pace-suggestion rule |
+| `src/kanji.js` | Kanji courses (built from `kanji-data.js`), reading-choice selection, kanji-level rollup |
+| `src/kanji-data.js` | Generated data: readings/meanings/example words per kanji, grades 1-6 — do not hand-edit, see below |
+| `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
