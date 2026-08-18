@@ -1,9 +1,9 @@
 // Screen routing, session flow and event wiring.
 
-import { COURSES, getCourse, romajiFor, checkRomaji } from './kana.js';
+import { COURSES, getCourse, romajiFor, buildChoices } from './kana.js';
 import {
   MODES, itemKey, grade, buildSession, courseStats,
-  unlockedChunkCount, newRecord,
+  currentSetIndex, readyForMore, newRecord,
 } from './srs.js';
 import * as store from './store.js';
 
@@ -106,9 +106,11 @@ function renderHome() {
   list.innerHTML = '';
   COURSES.forEach((course) => {
     const stats = courseStats(course, state.mode, profile.progress);
-    const openCount = unlockedChunkCount(course, state.mode, profile.progress);
-    const currentChunk = course.chunks[Math.min(openCount - 1, course.chunks.length - 1)];
+    const setIndex = currentSetIndex(course, state.mode, profile.progress);
+    const currentChunk = course.chunks[setIndex];
     const pct = Math.round((stats.started / stats.total) * 100);
+    const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
+    const settled = readyForMore(course, state.mode, profile.progress);
 
     const card = document.createElement('div');
     card.className = 'card course-card';
@@ -121,20 +123,52 @@ function renderHome() {
         <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
       </div>
       <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="badges">
-        <span class="badge badge-due">${stats.due} to review</span>
-        <span class="badge badge-new">${stats.fresh ? `${Math.min(stats.fresh, profile.settings.newPerSession)} new` : 'no new'}</span>
-        <span class="badge">★ ${stats.mastered}</span>
-      </div>
-      <div class="hint">Now learning: <b>${currentChunk.label}</b> · set ${openCount} of ${course.chunks.length}</div>
+      <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
     `;
-    const start = document.createElement('button');
-    start.type = 'button';
-    start.className = 'btn btn-primary wide';
-    const nothingToDo = stats.due === 0 && stats.fresh === 0;
-    start.textContent = nothingToDo ? 'All caught up — practise anyway' : 'Start';
-    start.addEventListener('click', () => startSession(course.id, nothingToDo));
-    card.appendChild(start);
+
+    // Learning new characters and reviewing are separate buttons, so adding
+    // more to study is always a decision rather than something that happens
+    // automatically at the start of a session.
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+
+    const review = document.createElement('button');
+    review.type = 'button';
+    review.className = 'btn btn-primary';
+    if (stats.due > 0) {
+      review.innerHTML = `Review <b>${stats.due}</b>`;
+      review.addEventListener('click', () => startSession(course.id, 'review'));
+    } else if (stats.started > 0) {
+      review.className = 'btn';
+      review.textContent = 'Practise';
+      review.addEventListener('click', () => startSession(course.id, 'practice'));
+    } else {
+      review.textContent = 'Nothing to review';
+      review.disabled = true;
+    }
+    actions.appendChild(review);
+
+    const learn = document.createElement('button');
+    learn.type = 'button';
+    learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
+    if (newCount > 0) {
+      learn.innerHTML = `Add <b>${newCount}</b> more`;
+      learn.addEventListener('click', () => startSession(course.id, 'new'));
+    } else {
+      learn.textContent = 'All characters started';
+      learn.disabled = true;
+    }
+    actions.appendChild(learn);
+
+    card.appendChild(actions);
+
+    // A suggestion, not a restriction: adding more is always allowed.
+    if (newCount > 0 && stats.started > 0 && !settled) {
+      const note = document.createElement('p');
+      note.className = 'hint';
+      note.textContent = 'Tip: the current set isn\'t solid yet — a review first will make it stick.';
+      card.appendChild(note);
+    }
     list.appendChild(card);
   });
 
@@ -143,22 +177,15 @@ function renderHome() {
 
 // --- Session --------------------------------------------------------------
 
-function startSession(courseId, practiceAnyway = false) {
+function startSession(courseId, kind) {
   state.courseId = courseId;
+  state.kind = kind;
   const course = getCourse(courseId);
   const { progress, settings } = state.profile;
-  const built = buildSession(course, state.mode, progress, {
+  const built = buildSession(course, state.mode, progress, kind, {
     newPerSession: settings.newPerSession,
     maxReviews: settings.maxReviews,
   });
-
-  // "Practise anyway" ignores the schedule and drills whatever is unlocked.
-  if (practiceAnyway && built.quiz.length === 0) {
-    const open = course.chunks
-      .slice(0, unlockedChunkCount(course, state.mode, progress))
-      .flatMap((c) => c.items);
-    built.quiz = open.sort(() => Math.random() - 0.5).slice(0, 20);
-  }
 
   if (built.lesson.length === 0 && built.quiz.length === 0) {
     renderHome();
@@ -200,8 +227,6 @@ function advanceLesson() {
 function startQuiz() {
   show('screen-quiz');
   renderQuestion();
-  // Focusing inside the tap that got us here keeps the on-screen keyboard up.
-  $('quiz-answer').focus();
 }
 
 function renderQuestion() {
@@ -211,67 +236,88 @@ function renderQuestion() {
     return;
   }
   const kana = session.queue[session.position];
+  const course = getCourse(state.courseId);
+
   $('quiz-kana').textContent = kana;
   $('quiz-feedback').textContent = '';
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
-  $('quiz-answer').value = '';
-  $('quiz-answer').disabled = false;
-  $('quiz-submit').textContent = 'Check';
-  $('quiz-dontknow').hidden = false;
   session.awaitingAcknowledge = false;
+  session.locked = false;
+
+  const choices = $('quiz-choices');
+  choices.innerHTML = '';
+  buildChoices(course, kana).forEach((romaji) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = romaji;
+    button.dataset.romaji = romaji;
+    button.addEventListener('click', () => chooseAnswer(romaji, button));
+    choices.appendChild(button);
+  });
 
   const done = session.answered;
   $('quiz-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
   $('quiz-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
 }
 
-function submitAnswer() {
+function chooseAnswer(romaji, button) {
   const session = state.session;
-  if (!session) return;
-
-  // Second press of the button/Enter after a miss just moves on.
-  if (session.awaitingAcknowledge) {
-    nextQuestion();
-    return;
-  }
+  // Taps during the pause after an answer are handled by acknowledge().
+  if (!session || session.locked || session.awaitingAcknowledge) return;
 
   const kana = session.queue[session.position];
-  const typed = $('quiz-answer').value;
-  if (!typed.trim()) return;
+  const answer = romajiFor(kana);
+  const correct = romaji === answer;
 
-  const correct = checkRomaji(typed, kana);
+  session.locked = true;
+  session.answered += 1;
   recordResult(kana, correct);
 
   if (correct) {
+    button.classList.add('is-right');
     $('quiz-card').className = 'quiz-card is-correct';
     $('quiz-feedback').className = 'feedback ok';
-    $('quiz-feedback').textContent = `✓ ${romajiFor(kana)}`;
-    $('quiz-answer').value = '';
-    session.answered += 1;
-    setTimeout(() => { session.position += 1; renderQuestion(); }, 500);
-  } else {
-    showMiss(kana);
+    $('quiz-feedback').textContent = '✓';
+    session.pendingAdvance = setTimeout(nextQuestion, 550);
+    return;
   }
-}
 
-function showMiss(kana) {
-  const session = state.session;
+  button.classList.add('is-wrong');
+  revealAnswer(answer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  $('quiz-feedback').textContent = `${romajiFor(kana)}`;
-  $('quiz-answer').value = '';
-  $('quiz-submit').textContent = 'Got it';
-  $('quiz-dontknow').hidden = true;
-  session.answered += 1;
-  session.awaitingAcknowledge = true;
+  $('quiz-feedback').textContent = answer;
   // Missed characters come back later in the same session.
   const reinsertAt = Math.min(session.position + 4, session.queue.length);
   session.queue.splice(reinsertAt, 0, kana);
+  // Wait for a tap so there is time to look, but do not stall forever.
+  session.awaitingAcknowledge = true;
+  session.locked = false;
+  session.pendingAdvance = setTimeout(nextQuestion, 2600);
+}
+
+function revealAnswer(answer) {
+  $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
+    if (el.dataset.romaji === answer) el.classList.add('is-right');
+  });
+}
+
+/** A tap anywhere on the quiz screen moves past a revealed answer. */
+function acknowledge() {
+  const session = state.session;
+  if (!session || !session.awaitingAcknowledge) return;
+  nextQuestion();
 }
 
 function nextQuestion() {
-  state.session.position += 1;
+  const session = state.session;
+  if (!session) return;
+  clearTimeout(session.pendingAdvance);
+  session.pendingAdvance = null;
+  session.awaitingAcknowledge = false;
+  session.position += 1;
   renderQuestion();
 }
 
@@ -304,6 +350,20 @@ function finishSession() {
     chip.querySelector('.chip-romaji').textContent = romajiFor(kana);
     list.appendChild(chip);
   });
+
+  // Offer the same two choices as the home screen, so carrying on with more
+  // new characters does not mean navigating back out first.
+  const course = getCourse(state.courseId);
+  const stats = courseStats(course, state.mode, state.profile.progress);
+  const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
+
+  const learnButton = $('summary-learn');
+  learnButton.hidden = newCount === 0;
+  learnButton.innerHTML = `Add <b>${newCount}</b> more`;
+
+  const reviewButton = $('summary-review');
+  reviewButton.hidden = stats.due === 0;
+  reviewButton.innerHTML = `Review <b>${stats.due}</b> due`;
 
   state.session = null;
   store.saveProfile(state.profile);
@@ -369,16 +429,9 @@ function wire() {
 
   $('lesson-next').addEventListener('click', advanceLesson);
 
-  $('quiz-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    submitAnswer();
-  });
-
-  $('quiz-dontknow').addEventListener('click', () => {
-    const kana = state.session.queue[state.session.position];
-    recordResult(kana, false);
-    showMiss(kana);
-  });
+  // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
+  // an answer is revealed, so the two handlers never both act on one tap.
+  $('screen-quiz').addEventListener('click', acknowledge);
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);
@@ -404,8 +457,14 @@ function wire() {
       case 'go-home':
         if (state.profile) renderHome(); else renderProfiles();
         break;
-      case 'quit-session': state.session = null; renderHome(); break;
-      case 'again': startSession(state.courseId, true); break;
+      case 'quit-session':
+        if (state.session) clearTimeout(state.session.pendingAdvance);
+        state.session = null;
+        renderHome();
+        break;
+      case 'again': startSession(state.courseId, 'practice'); break;
+      case 'learn-more': startSession(state.courseId, 'new'); break;
+      case 'review-more': startSession(state.courseId, 'review'); break;
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
       case 'delete-profile':

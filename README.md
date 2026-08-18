@@ -29,19 +29,25 @@ Both must be run from the repo root.
 
 ## What works now
 
-**Reading practice for hiragana and katakana.** A character is shown, the
-learner types the sound in romaji.
+**Reading practice for hiragana and katakana.** A character is shown, and the
+learner taps its sound from ten options laid out in two rows of five. Nothing
+is typed, so no keyboard appears and the layout never shifts under a finger.
 
 - **Profiles.** Several learners per device, no passwords — tap a name.
-- **Characters arrive in sets.** Five new characters (adjustable) are taught on
-  their own cards before the quiz starts. The next set only unlocks once 80% of
-  the current one has been answered correctly twice.
+- **Adding more is always a deliberate choice.** The home screen and the
+  end-of-session screen both offer *Add 5 more* and *Review N* as separate
+  buttons; the app never slips new characters into a review session on its own.
+  New characters are taught on their own cards before being quizzed.
 - **Spaced repetition.** Leitner boxes, reviewed after 1, 2, 4, 8, 16 then 32
   days. A miss drops the character to box 0, so it comes back later in the same
   session and again the next day.
-- **Answer checking is forgiving about romaji style.** `shi` and `si`, `fu` and
-  `hu`, `tsu` and `tu` are all accepted, because the input is converted to kana
-  and compared as kana rather than as text.
+- **The pace suggestion never blocks.** If most of what has been introduced is
+  not yet solid, the card shows a *review first* tip — but *Add 5 more* stays
+  enabled. The learner decides.
+- **Distractors are confusable on purpose.** The nine wrong options are drawn
+  from the character's own set first, and de-duplicated by romaji, because
+  じ/ぢ are both "ji" and ず/づ are both "zu" — offering both would make a
+  question unanswerable. A test checks this for all 208 characters.
 
 ## What is not built yet
 

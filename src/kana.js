@@ -5,6 +5,8 @@
 // wanakana.toRomaji, so there is no hand-typed romaji anywhere that could
 // silently disagree with the answer checker.
 
+import { shuffle } from './srs.js';
+
 const { toRomaji, toKana, toHiragana, toKatakana } = window.wanakana;
 
 // Rows of the gojuon, in the order they are normally taught.
@@ -85,6 +87,37 @@ export function getCourse(courseId) {
 /** The romaji we show as the answer / as the writing-mode prompt. */
 export function romajiFor(kana) {
   return toRomaji(kana);
+}
+
+/**
+ * Multiple-choice options for a character: the correct romaji plus
+ * distractors, shuffled.
+ *
+ * Distractors are drawn from the character's own set first, so the choice is
+ * between genuinely confusable sounds rather than between one plausible
+ * answer and nine obviously wrong ones.
+ *
+ * Options are de-duplicated by romaji, which matters because じ/ぢ are both
+ * "ji" and ず/づ are both "zu" — offering both would make the question
+ * unanswerable.
+ */
+export function buildChoices(course, kana, count = 10) {
+  const answer = romajiFor(kana);
+  const used = new Set([answer]);
+  const options = [answer];
+
+  const sameSet = course.chunks.find((c) => c.items.includes(kana));
+  const near = shuffle(sameSet ? sameSet.items.filter((k) => k !== kana) : []);
+  const far = shuffle(course.chunks.flatMap((c) => c.items).filter((k) => k !== kana));
+
+  for (const candidate of [...near, ...far]) {
+    if (options.length >= count) break;
+    const romaji = romajiFor(candidate);
+    if (used.has(romaji)) continue;
+    used.add(romaji);
+    options.push(romaji);
+  }
+  return shuffle(options);
 }
 
 /**

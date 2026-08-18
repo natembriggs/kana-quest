@@ -12,16 +12,17 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 export const BOX_INTERVALS_DAYS = [0, 1, 2, 4, 8, 16, 32];
 export const MAX_BOX = BOX_INTERVALS_DAYS.length - 1;
 
-// A chunk counts as learned well enough to unlock the next one when this
-// fraction of its characters have reached BOX_TO_ADVANCE.
-const FRACTION_TO_ADVANCE = 0.8;
-const BOX_TO_ADVANCE = 2;
+// When this fraction of the current set has reached BOX_SETTLED, the set is
+// considered consolidated. This only drives a suggestion — the learner
+// decides when to take on more, it is never enforced.
+const FRACTION_SETTLED = 0.8;
+const BOX_SETTLED = 2;
 
 // Keep history bounded so a profile document cannot grow without limit.
 const MAX_HISTORY = 300;
 
 export const MODES = {
-  recognition: { id: 'recognition', name: 'Reading', hint: 'See the kana, type the sound' },
+  recognition: { id: 'recognition', name: 'Reading', hint: 'See the kana, tap the sound' },
   writing: { id: 'writing', name: 'Writing', hint: 'See the sound, draw the kana' },
 };
 
@@ -62,64 +63,93 @@ export function isDue(record, now = Date.now()) {
   return !!record && record.due <= now;
 }
 
-/**
- * How many chunks of a course are currently open to the learner, for a
- * given mode. Chunk 0 is always open; each subsequent chunk opens once the
- * previous one is mostly at BOX_TO_ADVANCE or better.
- */
-export function unlockedChunkCount(course, mode, progress) {
-  let unlocked = 1;
-  for (const chunk of course.chunks) {
-    const learned = chunk.items.filter((kana) => {
-      const rec = progress[itemKey(mode, kana)];
-      return rec && rec.box >= BOX_TO_ADVANCE;
-    }).length;
-    if (learned / chunk.items.length >= FRACTION_TO_ADVANCE) {
-      unlocked = Math.min(unlocked + 1, course.chunks.length);
-    } else {
-      break;
-    }
-  }
-  return unlocked;
+/** Every character of a course, in teaching order. */
+function allItems(course) {
+  return course.chunks.flatMap((chunk) => chunk.items);
 }
 
-/** Characters in the open chunks, in teaching order. */
-export function unlockedItems(course, mode, progress) {
-  const count = unlockedChunkCount(course, mode, progress);
-  return course.chunks.slice(0, count).flatMap((chunk) => chunk.items);
+/** Characters that have been introduced, i.e. have a record for this mode. */
+export function introducedItems(course, mode, progress) {
+  return allItems(course).filter((kana) => progress[itemKey(mode, kana)]);
 }
 
 /**
- * Build a session: a lesson of never-seen characters (capped), followed by
- * the reviews that have come due.
+ * Which set the learner is currently on — the set holding the next character
+ * they have not met yet. Used for display only.
  */
-export function buildSession(course, mode, progress, { newPerSession = 5, maxReviews = 40, now = Date.now() } = {}) {
-  const open = unlockedItems(course, mode, progress);
+export function currentSetIndex(course, mode, progress) {
+  const index = course.chunks.findIndex((chunk) =>
+    chunk.items.some((kana) => !progress[itemKey(mode, kana)]));
+  return index === -1 ? course.chunks.length - 1 : index;
+}
 
-  const fresh = open
+/**
+ * Whether what the learner has already met looks solid enough that taking on
+ * more would be sensible. Advisory only: the app shows a nudge, never blocks.
+ *
+ * Judged over everything introduced rather than over the current set, because
+ * once a set has been fully introduced the "current set" is the next, empty
+ * one — which would always look consolidated.
+ */
+export function readyForMore(course, mode, progress) {
+  const seen = introducedItems(course, mode, progress);
+  if (seen.length === 0) return true;
+  const settled = seen.filter((kana) => progress[itemKey(mode, kana)].box >= BOX_SETTLED);
+  return settled.length / seen.length >= FRACTION_SETTLED;
+}
+
+// Learning new characters and reviewing old ones are deliberately kept as
+// two separate activities the learner picks between, rather than one blended
+// session, so that "add more" is always a conscious choice.
+
+/** The next never-seen characters, in teaching order. */
+export function newItems(course, mode, progress, limit = 5) {
+  return allItems(course)
     .filter((kana) => !progress[itemKey(mode, kana)])
-    .slice(0, newPerSession);
+    .slice(0, limit);
+}
 
-  const reviews = open
+/** Introduced characters whose review has come due, soonest first. */
+export function dueItems(course, mode, progress, limit = 40, now = Date.now()) {
+  return introducedItems(course, mode, progress)
     .filter((kana) => isDue(progress[itemKey(mode, kana)], now))
     .sort((a, b) => progress[itemKey(mode, a)].due - progress[itemKey(mode, b)].due)
-    .slice(0, maxReviews);
-
-  return { lesson: fresh, quiz: shuffle([...fresh, ...reviews]) };
+    .slice(0, limit);
 }
 
-/** Counts for the home screen. */
+/** Free practice: anything already introduced, regardless of the schedule. */
+export function practiceItems(course, mode, progress, limit = 20) {
+  return shuffle(introducedItems(course, mode, progress)).slice(0, limit);
+}
+
+/**
+ * Assemble one session. `kind` is 'new' (teach a set, then quiz just that
+ * set), 'review' (quiz what is due), or 'practice' (ignore the schedule).
+ */
+export function buildSession(course, mode, progress, kind, { newPerSession = 5, maxReviews = 40, limit = 20, now = Date.now() } = {}) {
+  if (kind === 'new') {
+    const fresh = newItems(course, mode, progress, newPerSession);
+    return { lesson: fresh, quiz: shuffle(fresh) };
+  }
+  if (kind === 'review') {
+    return { lesson: [], quiz: shuffle(dueItems(course, mode, progress, maxReviews, now)) };
+  }
+  return { lesson: [], quiz: practiceItems(course, mode, progress, limit) };
+}
+
+/** Counts for the home and summary screens. */
 export function courseStats(course, mode, progress, now = Date.now()) {
-  const all = course.chunks.flatMap((c) => c.items);
-  const open = unlockedItems(course, mode, progress);
-  const started = all.filter((k) => progress[itemKey(mode, k)]).length;
-  const due = open.filter((k) => isDue(progress[itemKey(mode, k)], now)).length;
-  const fresh = open.filter((k) => !progress[itemKey(mode, k)]).length;
-  const mastered = all.filter((k) => {
-    const rec = progress[itemKey(mode, k)];
-    return rec && rec.box >= MAX_BOX;
-  }).length;
-  return { total: all.length, started, due, fresh, mastered };
+  const all = allItems(course);
+  const started = introducedItems(course, mode, progress);
+  const due = started.filter((k) => isDue(progress[itemKey(mode, k)], now)).length;
+  const mastered = started.filter((k) => progress[itemKey(mode, k)].box >= MAX_BOX).length;
+  return {
+    total: all.length,
+    started: started.length,
+    due,
+    fresh: all.length - started.length, // still available to learn
+    mastered,
+  };
 }
 
 export function shuffle(array) {

@@ -9,7 +9,7 @@
 load('vendor/wanakana.min.js');
 globalThis.window = { wanakana: globalThis.wanakana };
 
-const { COURSES, romajiFor, checkRomaji } = await import('../src/kana.js');
+const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/kana.js');
 const srs = await import('../src/srs.js');
 
 let failures = 0;
@@ -76,6 +76,35 @@ for (const [typed, target] of rejected) {
 }
 done('alternate spellings');
 
+// --- Multiple-choice options ---------------------------------------------
+// Checked for every character in both courses, because the failure that
+// matters is an unanswerable question: two options showing the same romaji
+// (じ/ぢ are both "ji", ず/づ are both "zu"), or the answer missing entirely.
+
+let ambiguous = 0;
+let missingAnswer = 0;
+let wrongCount = 0;
+for (const course of COURSES) {
+  for (const kana of course.chunks.flatMap((c) => c.items)) {
+    const options = buildChoices(course, kana, 10);
+    if (options.length !== 10) wrongCount += 1;
+    if (new Set(options).size !== options.length) ambiguous += 1;
+    if (!options.includes(romajiFor(kana))) missingAnswer += 1;
+    // Exactly one option may be accepted as the answer.
+    if (options.filter((o) => checkRomaji(o, kana)).length !== 1) ambiguous += 1;
+  }
+}
+check('every question offers ten options', wrongCount === 0, `${wrongCount} did not`);
+check('the right answer is always offered', missingAnswer === 0, `${missingAnswer} missing`);
+check('no question has two options that both read as the answer', ambiguous === 0, `${ambiguous} ambiguous`);
+
+const kyaOptions = buildChoices(hiragana, 'きゃ', 10);
+check('options are plain romaji strings', kyaOptions.every((o) => typeof o === 'string' && o.length));
+check('distractors are drawn from the same set where possible',
+  kyaOptions.some((o) => ['kyu', 'kyo', 'gya', 'gyu', 'gyo'].includes(o)),
+  kyaOptions.join(' '));
+done('multiple-choice options');
+
 // --- SRS ------------------------------------------------------------------
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -106,31 +135,57 @@ done('leitner boxes');
 
 const progress = {};
 const mode = 'recognition';
-check('first chunk is open', srs.unlockedChunkCount(hiragana, mode, progress) === 1);
+check('starts on the first set', srs.currentSetIndex(hiragana, mode, progress) === 0);
+check('a fresh course is ready for more', srs.readyForMore(hiragana, mode, progress));
 
-// Learn 4 of the 5 characters in chunk 0 to box 2 — 80%, enough to advance.
+// Introduce 4 of the 5 characters in set 0 and get them to box 2.
 hiragana.chunks[0].items.slice(0, 4).forEach((kana) => {
   let r = srs.newRecord();
   r = srs.grade(r, true, now);
   r = srs.grade(r, true, now);
   progress[srs.itemKey(mode, kana)] = r;
 });
-check('80% at box 2 opens the next chunk',
-  srs.unlockedChunkCount(hiragana, mode, progress) === 2,
-  `got ${srs.unlockedChunkCount(hiragana, mode, progress)}`);
+check('still on set 0 while one character is unmet',
+  srs.currentSetIndex(hiragana, mode, progress) === 0);
+check('80% at box 2 counts as consolidated', srs.readyForMore(hiragana, mode, progress));
+
+// Adding more is never blocked, even when the current set is shaky.
+const shaky = {};
+hiragana.chunks[0].items.forEach((kana) => {
+  shaky[srs.itemKey(mode, kana)] = srs.grade(srs.newRecord(), true, now); // box 1 only
+});
+check('a shaky set is flagged as not consolidated', !srs.readyForMore(hiragana, mode, shaky));
+check('but more characters are still offered',
+  srs.newItems(hiragana, mode, shaky, 5).length === 5,
+  'adding more must never be blocked — the learner decides');
+check('new characters continue in teaching order',
+  srs.newItems(hiragana, mode, shaky, 5)[0] === hiragana.chunks[1].items[0]);
+check('moving on advances the displayed set',
+  srs.currentSetIndex(hiragana, mode, shaky) === 1);
 
 check('writing mode is tracked separately',
-  srs.unlockedChunkCount(hiragana, 'writing', progress) === 1);
+  srs.currentSetIndex(hiragana, 'writing', progress) === 0
+  && srs.courseStats(hiragana, 'writing', progress).started === 0);
 
-const session = srs.buildSession(hiragana, mode, progress, { newPerSession: 3, now });
+const session = srs.buildSession(hiragana, mode, progress, 'new', { newPerSession: 3, now });
 check('lesson respects the new-per-session cap', session.lesson.length === 3, `got ${session.lesson.length}`);
-check('new characters come only from open chunks',
-  session.lesson.every((k) => hiragana.chunks.slice(0, 2).flatMap((c) => c.items).includes(k)));
-check('nothing is due yet today', session.quiz.length === session.lesson.length);
+check('a "new" session quizzes exactly what it taught',
+  session.quiz.length === session.lesson.length);
+check('a "new" session never includes seen characters',
+  session.lesson.every((k) => !progress[srs.itemKey(mode, k)]));
+
+const reviewNow = srs.buildSession(hiragana, mode, progress, 'review', { now });
+check('nothing is due on the same day', reviewNow.quiz.length === 0, `got ${reviewNow.quiz.length}`);
+check('a review session never teaches', reviewNow.lesson.length === 0);
 
 const later = now + 2 * DAY;
-const dueSession = srs.buildSession(hiragana, mode, progress, { newPerSession: 0, now: later });
-check('reviews come due after the interval', dueSession.quiz.length === 4, `got ${dueSession.quiz.length}`);
+const reviewLater = srs.buildSession(hiragana, mode, progress, 'review', { now: later });
+check('reviews come due after the interval', reviewLater.quiz.length === 4, `got ${reviewLater.quiz.length}`);
+check('review sessions exclude never-seen characters',
+  reviewLater.quiz.every((k) => progress[srs.itemKey(mode, k)]));
+
+const practice = srs.buildSession(hiragana, mode, progress, 'practice', { now });
+check('practice ignores the schedule', practice.quiz.length === 4, `got ${practice.quiz.length}`);
 
 const stats = srs.courseStats(hiragana, mode, progress, later);
 check('stats total', stats.total === 104);

@@ -92,13 +92,7 @@
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 
-    <form id="quiz-form" class="quiz-input">
-      <input id="quiz-answer" type="text" inputmode="latin" enterkeyhint="go"
-             autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false"
-             placeholder="type the sound…" aria-label="Romaji answer">
-      <button id="quiz-submit" class="btn btn-primary" type="submit">Check</button>
-    </form>
-    <button id="quiz-dontknow" class="btn btn-quiet wide" type="button">I don't know</button>
+    <div id="quiz-choices" class="choice-grid" role="group" aria-label="Choose the sound"></div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->
@@ -108,7 +102,9 @@
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>
     <div class="stack">
-      <button class="btn btn-primary wide" type="button" data-action="again">Practise again</button>
+      <button id="summary-learn" class="btn btn-primary wide" type="button" data-action="learn-more" hidden></button>
+      <button id="summary-review" class="btn wide" type="button" data-action="review-more" hidden></button>
+      <button class="btn wide" type="button" data-action="again">Practise again</button>
       <button class="btn btn-quiet wide" type="button" data-action="go-home">Back to menu</button>
     </div>
   </section>
