@@ -21,11 +21,19 @@ here):
 
 ```sh
 JSC=/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc
-$JSC -m test/smoke.js     # kana tables, answer checking, spaced repetition
-$JSC -m test/wiring.js    # boots the app against a stub DOM and plays a session
+$JSC -m test/smoke.js     # kana/kanji tables, answer checking, spaced repetition
+$JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sessions
 ```
 
 Both must be run from the repo root.
+
+To regenerate `src/kanji-data.js` (e.g. after raising `MAX_GRADE` in
+`tools/build_kanji_data.py`):
+
+```sh
+./tools/fetch_kanji_sources.sh   # downloads KANJIDIC2 + JMdict, ~90MB, not committed
+python3 tools/build_kanji_data.py
+```
 
 ## What works now
 
@@ -55,14 +63,33 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   from the character's own set first, and de-duplicated by romaji, because
   じ/ぢ are both "ji" and ず/づ are both "zu" — offering both would make a
   question unanswerable. A test checks this for all 208 characters.
+- **A wrong tap gets one more try**, not an instant reveal. The tapped option
+  turns red and locks; a second, different tap either finds the right answer
+  or reveals it. Either way, the pass/fail record is locked to the *first*
+  attempt — recovering on the second try doesn't erase the miss from spaced
+  repetition, since the point of the record is what a learner actually knew
+  before being shown anything.
+
+**Reading practice for kanji, starting with Japanese school Grade 1 (80
+kanji).** A kanji is shown, and up to ten of its on'yomi/kun'yomi readings are
+offered (real readings plus plausible ones borrowed from other grade-1 kanji);
+the learner ticks every reading that applies, then presses OK. Grading
+requires the exact set — same one-more-try-then-reveal contract as the kana
+quiz, and the tick/cross highlighting distinguishes a wrong guess (red) from a
+correct reading you didn't tick (dashed green, shown once the question is
+finalized). Meanings and a common example word are shown as feedback once a
+question resolves. Data (readings, meanings, example words) comes from
+KANJIDIC2 and JMdict — see `tools/build_kanji_data.py`.
 
 ## What is not built yet
 
-- **Writing mode** — visible in the app but disabled. Next thing to build:
-  a canvas with the four-quadrant dashed guide, then stroke-by-stroke grading
-  against [KanjiVG](https://kanjivg.tagaini.net/) stroke data.
-- **Kanji** — readings, example words and meanings from KANJIDIC2/JMdict,
-  ordered by Japanese school grade.
+- **Writing mode** — visible in the app but disabled, for both kana and
+  kanji. Next thing to build: a canvas with the four-quadrant dashed guide,
+  then stroke-by-stroke grading against [KanjiVG](https://kanjivg.tagaini.net/)
+  stroke data.
+- **Kanji beyond grade 1.** Re-running `tools/build_kanji_data.py` with a
+  higher `MAX_GRADE` and adding the grade number to `KANJI_COURSES` in
+  `src/kanji.js` is the whole extension path.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
@@ -90,11 +117,15 @@ history, so restoring an old backup cannot wipe out newer practice.
 | --- | --- |
 | `index.html` | All screens, hidden and shown by `app.js` |
 | `src/kana.js` | Kana tables, chunking, romaji answer checking |
-| `src/srs.js` | Leitner scheduling and the chunk-unlocking rule |
+| `src/kanji.js` | Kanji courses (built from `kanji-data.js`) and reading-quiz choices |
+| `src/kanji-data.js` | Generated data: readings/meanings/example words per kanji — do not hand-edit, see below |
+| `src/srs.js` | Leitner scheduling and the pace-suggestion rule |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
 | `tools/make_icons.py` | Regenerates the home-screen icons |
+| `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2 + JMdict into `tools/data_src/` (not committed, ~90MB) |
+| `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/kanji-data.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
 with `wanakana.toKatakana`, and every romaji prompt is derived with
@@ -105,3 +136,7 @@ characters.
 ## Credits
 
 Uses [WanaKana](https://wanakana.com/) (MIT) for romaji/kana conversion.
+Kanji readings, meanings and example words are distilled from
+[KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) and
+[JMdict](https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project),
+© The Electronic Dictionary Research and Development Group, CC BY-SA 4.0.

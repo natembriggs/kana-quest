@@ -68,12 +68,14 @@ function buildChunks(courseId, toScript) {
 export const COURSES = [
   {
     id: 'hiragana',
+    kind: 'kana',
     name: 'Hiragana',
     native: 'ひらがな',
     chunks: buildChunks('hiragana', (c) => c),
   },
   {
     id: 'katakana',
+    kind: 'kana',
     name: 'Katakana',
     native: 'カタカナ',
     chunks: buildChunks('katakana', (c) => toKatakana(c)),
@@ -117,7 +119,9 @@ export function buildChoices(course, kana, count = 10) {
     used.add(romaji);
     options.push(romaji);
   }
-  return shuffle(options);
+  // Alphabetical rather than shuffled: if you already know the sound, it's
+  // faster to scan a sorted grid than a random one.
+  return options.sort();
 }
 
 /**

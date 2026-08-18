@@ -1,11 +1,17 @@
 // Screen routing, session flow and event wiring.
 
-import { COURSES, getCourse, romajiFor, buildChoices } from './kana.js';
+import { COURSES, romajiFor, buildChoices } from './kana.js';
+import { KANJI_COURSES, kanjiInfo, buildReadingChoices } from './kanji.js';
 import {
   MODES, itemKey, grade, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord,
 } from './srs.js';
 import * as store from './store.js';
+
+const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
+function getAnyCourse(courseId) {
+  return ALL_COURSES.find((c) => c.id === courseId);
+}
 
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
@@ -104,7 +110,10 @@ function renderHome() {
 
   const list = $('course-list');
   list.innerHTML = '';
-  COURSES.forEach((course) => {
+  // Kanji only has a reading mode built so far (see kanji.js); once writing
+  // mode exists for kanji this filter goes away.
+  const visibleCourses = ALL_COURSES.filter((c) => c.kind !== 'kanji' || state.mode === 'recognition');
+  visibleCourses.forEach((course) => {
     const stats = courseStats(course, state.mode, profile.progress);
     const setIndex = currentSetIndex(course, state.mode, profile.progress);
     const currentChunk = course.chunks[setIndex];
@@ -180,7 +189,7 @@ function renderHome() {
 function startSession(courseId, kind) {
   state.courseId = courseId;
   state.kind = kind;
-  const course = getCourse(courseId);
+  const course = getAnyCourse(courseId);
   const { progress, settings } = state.profile;
   const built = buildSession(course, state.mode, progress, kind, {
     newPerSession: settings.newPerSession,
@@ -209,11 +218,29 @@ function startSession(courseId, kind) {
 
 function renderLesson() {
   const session = state.session;
-  const kana = session.lesson[session.lessonIndex];
-  $('lesson-kana').textContent = kana;
-  $('lesson-romaji').textContent = romajiFor(kana);
+  const item = session.lesson[session.lessonIndex];
+  const course = getAnyCourse(state.courseId);
+
+  $('lesson-kana').textContent = item;
   $('lesson-counter').textContent = `${session.lessonIndex + 1}/${session.lesson.length}`;
   $('lesson-next').textContent = session.lessonIndex === session.lesson.length - 1 ? 'Start quiz' : 'Next';
+
+  if (course.kind === 'kanji') {
+    const info = kanjiInfo(course, item);
+    $('lesson-romaji').hidden = true;
+    $('lesson-readings').hidden = false;
+    $('lesson-readings').textContent = [...info.on, ...info.kun].join(' · ');
+    $('lesson-meanings').hidden = false;
+    $('lesson-meanings').textContent = info.meanings.join(', ');
+    $('lesson-hint').textContent = 'The quiz asks you to pick out these readings — no need to remember every one yet.';
+  } else {
+    $('lesson-romaji').hidden = false;
+    $('lesson-romaji').textContent = romajiFor(item);
+    $('lesson-readings').hidden = true;
+    $('lesson-meanings').hidden = true;
+    $('lesson-hint').textContent = "Say it out loud, then remember it — it's coming up in the quiz.";
+  }
+
   show('screen-lesson');
 }
 
@@ -235,18 +262,34 @@ function renderQuestion() {
     finishSession();
     return;
   }
-  const kana = session.queue[session.position];
-  const course = getCourse(state.courseId);
+  const item = session.queue[session.position];
+  const course = getAnyCourse(state.courseId);
 
-  $('quiz-kana').textContent = kana;
+  $('quiz-kana').textContent = item;
   $('quiz-feedback').textContent = '';
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
+  $('quiz-info').hidden = true;
   session.awaitingAcknowledge = false;
   session.locked = false;
 
   const choices = $('quiz-choices');
   choices.innerHTML = '';
+
+  if (course.kind === 'kanji') renderKanjiChoices(course, item);
+  else renderKanaChoices(course, item);
+
+  const done = session.answered;
+  $('quiz-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
+  $('quiz-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
+}
+
+// --- Kana: tap once, grades instantly ---------------------------------
+
+function renderKanaChoices(course, kana) {
+  state.session.attempt = 0;
+  $('quiz-ok').hidden = true;
+  const choices = $('quiz-choices');
   buildChoices(course, kana).forEach((romaji) => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -256,55 +299,191 @@ function renderQuestion() {
     button.addEventListener('click', () => chooseAnswer(romaji, button));
     choices.appendChild(button);
   });
-
-  const done = session.answered;
-  $('quiz-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
-  $('quiz-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
 }
 
+/**
+ * A wrong tap gets one more try rather than immediately revealing the
+ * answer: the button turns red and is disabled, and a second, different tap
+ * is expected. The grade (and the item's pass/fail record) is always locked
+ * to the *first* attempt, though — a correct recovery on attempt two still
+ * counts as a miss for spaced repetition, per the request that a retry not
+ * launder the original wrong answer out of the record.
+ */
 function chooseAnswer(romaji, button) {
   const session = state.session;
-  // Taps during the pause after an answer are handled by acknowledge().
-  if (!session || session.locked || session.awaitingAcknowledge) return;
+  // Taps during the pause after a resolved question are handled by acknowledge().
+  if (!session || session.locked || session.awaitingAcknowledge || button.disabled) return;
 
   const kana = session.queue[session.position];
   const answer = romajiFor(kana);
   const correct = romaji === answer;
+  session.attempt += 1;
 
-  session.locked = true;
-  session.answered += 1;
-  recordResult(kana, correct);
+  if (session.attempt === 1) {
+    session.answered += 1;
+    recordResult(kana, correct);
+  }
 
   if (correct) {
     button.classList.add('is-right');
     $('quiz-card').className = 'quiz-card is-correct';
     $('quiz-feedback').className = 'feedback ok';
     $('quiz-feedback').textContent = '✓';
+    session.locked = true;
     session.pendingAdvance = setTimeout(nextQuestion, 550);
     return;
   }
 
   button.classList.add('is-wrong');
-  revealAnswer(answer);
+  button.disabled = true;
+
+  if (session.attempt === 1) {
+    // Missed characters come back later in the same session regardless of
+    // what happens on the second try.
+    const reinsertAt = Math.min(session.position + 4, session.queue.length);
+    session.queue.splice(reinsertAt, 0, kana);
+    $('quiz-card').className = 'quiz-card is-wrong';
+    $('quiz-feedback').className = 'feedback bad';
+    $('quiz-feedback').textContent = 'Try once more';
+    return; // still their turn — no lock, no reveal yet
+  }
+
+  // Second miss: out of chances, reveal the answer and move on.
+  revealKanaAnswer(answer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
   $('quiz-feedback').textContent = answer;
-  // Missed characters come back later in the same session.
-  const reinsertAt = Math.min(session.position + 4, session.queue.length);
-  session.queue.splice(reinsertAt, 0, kana);
-  // Wait for a tap so there is time to look, but do not stall forever.
-  session.awaitingAcknowledge = true;
-  session.locked = false;
+  session.locked = true;
+  session.awaitingAcknowledge = true; // wait for a tap, but don't stall forever
   session.pendingAdvance = setTimeout(nextQuestion, 2600);
 }
 
-function revealAnswer(answer) {
+function revealKanaAnswer(answer) {
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
     if (el.dataset.romaji === answer) el.classList.add('is-right');
   });
 }
 
-/** A tap anywhere on the quiz screen moves past a revealed answer. */
+// --- Kanji: tick every reading that applies, then press OK -------------
+
+function renderKanjiChoices(course, kanji) {
+  const session = state.session;
+  const { options, correct } = buildReadingChoices(course, kanji);
+  session.selected = new Set();
+  session.currentCorrect = correct;
+  session.graded = false;
+  session.kanjiAttempt = 0;
+
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').disabled = false;
+  $('quiz-ok').textContent = 'OK';
+
+  const choices = $('quiz-choices');
+  options.forEach((reading) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = reading;
+    button.dataset.reading = reading;
+    button.addEventListener('click', () => toggleReading(reading, button));
+    choices.appendChild(button);
+  });
+}
+
+function toggleReading(reading, button) {
+  const session = state.session;
+  if (!session || session.graded || button.disabled) return;
+  if (session.selected.has(reading)) {
+    session.selected.delete(reading);
+    button.classList.remove('is-selected');
+  } else {
+    session.selected.add(reading);
+    button.classList.add('is-selected');
+  }
+}
+
+/**
+ * Graded on OK. A wrong first attempt gets one more try: options picked
+ * wrongly turn red, lock, and clear themselves, but which options were
+ * actually correct is not revealed yet, and options not yet tried (right or
+ * wrong) stay available. As with kana, the pass/fail record is always
+ * locked to the first attempt regardless of the second attempt's outcome.
+ */
+function submitKanjiAnswer() {
+  const session = state.session;
+  if (!session || session.graded) return;
+
+  const kanji = session.queue[session.position];
+  const course = getAnyCourse(state.courseId);
+  const correctSet = session.currentCorrect;
+  const selected = session.selected;
+  const isExactMatch = selected.size === correctSet.size
+    && [...selected].every((r) => correctSet.has(r));
+  session.kanjiAttempt += 1;
+
+  if (session.kanjiAttempt === 1) {
+    session.answered += 1;
+    recordResult(kanji, isExactMatch);
+  }
+
+  if (!isExactMatch && session.kanjiAttempt === 1) {
+    $('quiz-choices').querySelectorAll('.choice').forEach((button) => {
+      const reading = button.dataset.reading;
+      if (selected.has(reading) && !correctSet.has(reading)) {
+        // Wrong pick: flash red, then free it up for a different guess.
+        button.classList.remove('is-selected');
+        button.classList.add('is-wrong');
+        button.disabled = true;
+        selected.delete(reading);
+      }
+      // Correct picks stay ticked; untried options (right or wrong) stay
+      // available — nothing here reveals which options are correct.
+    });
+    $('quiz-card').className = 'quiz-card is-wrong';
+    $('quiz-feedback').className = 'feedback bad';
+    $('quiz-feedback').textContent = 'Not quite — try once more';
+    // Missed kanji come back later in the same session regardless of what
+    // happens on the second try.
+    const reinsertAt = Math.min(session.position + 4, session.queue.length);
+    session.queue.splice(reinsertAt, 0, kanji);
+    return; // still their turn — OK stays "OK", nothing is final yet
+  }
+
+  // Final: either correct, or out of chances. Reveal everything.
+  session.graded = true;
+  $('quiz-choices').querySelectorAll('.choice').forEach((button) => {
+    const reading = button.dataset.reading;
+    button.classList.remove('is-selected');
+    button.disabled = true;
+    if (correctSet.has(reading) && selected.has(reading)) button.classList.add('is-right');
+    else if (correctSet.has(reading)) button.classList.add('is-missed'); // should have been ticked
+    else if (selected.has(reading)) button.classList.add('is-wrong');
+  });
+
+  $('quiz-card').className = `quiz-card ${isExactMatch ? 'is-correct' : 'is-wrong'}`;
+  $('quiz-feedback').className = `feedback ${isExactMatch ? 'ok' : 'bad'}`;
+  const hits = [...selected].filter((r) => correctSet.has(r)).length;
+  $('quiz-feedback').textContent = isExactMatch ? '✓' : `${hits} of ${correctSet.size} correct`;
+  showKanjiInfo(course, kanji);
+  $('quiz-ok').textContent = 'Next';
+}
+
+function showKanjiInfo(course, kanji) {
+  const info = kanjiInfo(course, kanji);
+  $('quiz-meanings').textContent = info.meanings.join(', ');
+  const word = info.words[0];
+  const wordEl = $('quiz-word');
+  wordEl.innerHTML = '';
+  if (word) {
+    wordEl.innerHTML = '<span class="word-kanji"></span><span class="word-kana"></span><span class="word-en"></span>';
+    wordEl.querySelector('.word-kanji').textContent = word.kanji;
+    wordEl.querySelector('.word-kana').textContent = `(${word.kana})`;
+    wordEl.querySelector('.word-en').textContent = word.en;
+  }
+  $('quiz-info').hidden = false;
+}
+
+/** A tap anywhere on the quiz screen moves past a revealed kana miss. */
 function acknowledge() {
   const session = state.session;
   if (!session || !session.awaitingAcknowledge) return;
@@ -333,6 +512,7 @@ function recordResult(kana, correct) {
 
 function finishSession() {
   const session = state.session;
+  const course = getAnyCourse(state.courseId);
   const entries = [...session.results.entries()];
   const right = entries.filter(([, ok]) => ok).length;
 
@@ -342,18 +522,19 @@ function finishSession() {
 
   const list = $('summary-list');
   list.innerHTML = '';
-  entries.forEach(([kana, ok]) => {
+  entries.forEach(([item, ok]) => {
     const chip = document.createElement('div');
     chip.className = `chip ${ok ? 'chip-ok' : 'chip-bad'}`;
     chip.innerHTML = `<span class="chip-kana"></span><span class="chip-romaji"></span>`;
-    chip.querySelector('.chip-kana').textContent = kana;
-    chip.querySelector('.chip-romaji').textContent = romajiFor(kana);
+    chip.querySelector('.chip-kana').textContent = item;
+    chip.querySelector('.chip-romaji').textContent = course.kind === 'kanji'
+      ? (kanjiInfo(course, item).quizReadings[0] || '')
+      : romajiFor(item);
     list.appendChild(chip);
   });
 
   // Offer the same two choices as the home screen, so carrying on with more
   // new characters does not mean navigating back out first.
-  const course = getCourse(state.courseId);
   const stats = courseStats(course, state.mode, state.profile.progress);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
 
@@ -432,6 +613,15 @@ function wire() {
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
+
+  // Kanji only: OK grades the ticked readings; once graded, the same button
+  // (now reading "Next") advances.
+  $('quiz-ok').addEventListener('click', () => {
+    const session = state.session;
+    if (!session) return;
+    if (session.graded) nextQuestion();
+    else submitKanjiAnswer();
+  });
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);

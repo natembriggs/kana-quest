@@ -160,6 +160,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 // --- Boot -----------------------------------------------------------------
 
 const { romajiFor } = await import('../src/kana.js');
+const { KANJI_COURSES, kanjiInfo } = await import('../src/kanji.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -209,54 +210,87 @@ for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
 }
 check('lesson hands over to the quiz', visible() === 'screen-quiz', `showing ${visible()}`);
 
-// --- Answer the quiz ------------------------------------------------------
+// --- Answer the quiz --------------------------------------------------
+// Exercises both wrong-answer paths: a miss recovered on the second try, and
+// a miss that stays wrong through both tries. Per the app's rule, the SRS
+// record is locked to the *first* attempt either way — a recovery must not
+// erase the lapse, and it must not require a second recordResult() call.
 
 let answered = 0;
-let missedOnce = false;
+let recoveryDone = false;
+let recoveryKana = null;
+let revealDone = false;
+let revealKana = null;
 let sawTenOptions = true;
-for (let i = 0; i < 60 && visible() === 'screen-quiz'; i += 1) {
+
+for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
   const kana = el('quiz-kana').textContent;
   if (!kana) break;
   const choices = el('quiz-choices')._children;
   if (choices.length !== 10) sawTenOptions = false;
-
   const answer = romajiFor(kana);
-  // Get the third question wrong on purpose, to exercise the miss path.
-  const deliberateMiss = answered === 2 && !missedOnce;
-  const target = deliberateMiss
-    ? choices.find((c) => c.textContent !== answer)
-    : choices.find((c) => c.textContent === answer);
-  check(`question ${i + 1} offers a tappable answer`, !!target);
-  if (!target) break;
 
-  fire(target, 'click');
-  await settle();
+  const doRecovery = answered === 1 && !recoveryDone;
+  const doReveal = answered === 2 && !revealDone;
 
-  if (deliberateMiss) {
-    missedOnce = true;
-    check('a miss shows the right answer', el('quiz-feedback').textContent === answer,
-      `"${el('quiz-feedback').textContent}"`);
-    check('a miss marks the tapped option wrong', target.classList.contains('is-wrong'));
-    check('a miss highlights the correct option',
-      choices.some((c) => c.textContent === answer && c.classList.contains('is-right')));
-    check('the app waits rather than skipping straight past a miss',
-      visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
-    // A tap anywhere on the quiz screen moves on.
-    fire(el('screen-quiz'), 'click');
+  if (doRecovery || doReveal) {
+    const wrongTarget = choices.find((c) => c.textContent !== answer);
+    check(`question ${i + 1} offers a wrong option to tap first`, !!wrongTarget);
+    fire(wrongTarget, 'click');
     await settle();
-    check('acknowledging a miss cancels the auto-advance timer', timers.size === 0);
+    check('a first miss does not reveal the answer',
+      el('quiz-feedback').textContent === 'Try once more',
+      `"${el('quiz-feedback').textContent}"`);
+    check('a first miss disables the option that was tapped', wrongTarget.disabled);
+    check('a first miss does not move on', visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+    check('a first miss does not reveal which option was correct',
+      !choices.some((c) => c.classList.contains('is-right')));
+
+    if (doRecovery) {
+      recoveryDone = true;
+      recoveryKana = kana;
+      const correctTarget = choices.find((c) => c.textContent === answer);
+      fire(correctTarget, 'click');
+      await settle();
+      check('finding it on the second try still marks it right',
+        correctTarget.classList.contains('is-right'));
+      runTimers(); // short pause after landing on the correct answer
+      await settle();
+    } else {
+      revealDone = true;
+      revealKana = kana;
+      const secondWrong = choices.find((c) => c !== wrongTarget && c.textContent !== answer && !c.disabled);
+      check('a different wrong option is available for the second try', !!secondWrong);
+      fire(secondWrong, 'click');
+      await settle();
+      check('a second miss reveals the answer', el('quiz-feedback').textContent === answer,
+        `"${el('quiz-feedback').textContent}"`);
+      check('a second miss highlights the correct option',
+        choices.some((c) => c.textContent === answer && c.classList.contains('is-right')));
+      check('the app waits for a tap after the final reveal',
+        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+      fire(el('screen-quiz'), 'click'); // a tap anywhere on the quiz screen moves on
+      await settle();
+      check('acknowledging the reveal cancels the auto-advance timer', timers.size === 0);
+    }
   } else {
-    runTimers(); // the short pause after a correct answer
+    const target = choices.find((c) => c.textContent === answer);
+    check(`question ${i + 1} offers a tappable answer`, !!target);
+    if (!target) break;
+    fire(target, 'click');
+    await settle();
+    runTimers();
     await settle();
   }
   answered += 1;
 }
 check('every question offered ten options', sawTenOptions);
+check('the recover-on-second-try path was exercised', recoveryDone);
+check('the wrong-both-times path was exercised', revealDone);
 
 check('the quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
 check('summary reports a score', el('summary-score').textContent.length > 0,
   `"${el('summary-score').textContent}"`);
-check('a deliberate miss happened', missedOnce);
 check('summary offers more new characters', el('summary-learn').hidden === false);
 check('summary "learn more" is labelled with a count',
   /\d/.test(el('summary-learn').innerHTML), `"${el('summary-learn').innerHTML}"`);
@@ -267,9 +301,139 @@ check('progress was written to storage', records.length > 0, `${records.length} 
 check('progress is keyed by mode', records.every(([k]) => k.startsWith('recognition:')));
 check('every record has a history', records.every(([, r]) => r.history.length > 0));
 check('correct answers advanced past box 0', records.some(([, r]) => r.box > 0));
-check('the missed character was re-drilled',
-  records.some(([, r]) => r.history.length > 1),
-  'expected the missed item to be asked again in the same session');
+
+const recoveryRecord = saved.progress[`recognition:${recoveryKana}`];
+check('a miss recovered on the second try still counts as a lapse',
+  !!recoveryRecord && recoveryRecord.lapses >= 1, JSON.stringify(recoveryRecord));
+check('the recovered character was re-drilled later in the session',
+  recoveryRecord && recoveryRecord.history.length > 1);
+
+const revealRecord = saved.progress[`recognition:${revealKana}`];
+check('a miss wrong both times counts as a lapse', !!revealRecord && revealRecord.lapses >= 1);
+check('it too was re-drilled later in the session',
+  revealRecord && revealRecord.history.length > 1);
+
+// --- Kanji reading quiz -----------------------------------------------
+// Same "give another chance, but the record is locked to the first
+// attempt" contract as kana, but multi-select: tick every reading that
+// applies, then press OK. Exercises all three outcomes.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+check('back on the home screen after the kana session', visible() === 'screen-home', `showing ${visible()}`);
+
+const kanjiCard = el('course-list')._children
+  .find((card) => (card.innerHTML || '').includes('小学'));
+check('the kanji course card is on the home screen', !!kanjiCard);
+
+const kanjiButtons = kanjiCard._children.flatMap((n) => (n._children.length ? n._children : [n]));
+const kanjiLearnButton = kanjiButtons.find((b) => (b.innerHTML || '').includes('more'));
+check('the kanji course offers an "add more" button', !!kanjiLearnButton);
+
+fire(kanjiLearnButton, 'click');
+await settle();
+check('a kanji session opens the lesson screen first', visible() === 'screen-lesson', `showing ${visible()}`);
+check('a kanji lesson shows readings instead of romaji',
+  el('lesson-readings').hidden === false && el('lesson-romaji').hidden === true);
+check('a kanji lesson shows a meaning', el('lesson-meanings').textContent.length > 0);
+
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the kanji lesson hands over to the quiz', visible() === 'screen-quiz', `showing ${visible()}`);
+
+const kanjiCourse = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+let kAnswered = 0;
+let firstTryDone = false;
+let firstTryKanji = null;
+let kRecoveryDone = false;
+let kRecoveryKanji = null;
+let kRevealDone = false;
+let kRevealKanji = null;
+
+for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
+  const kanji = el('quiz-kana').textContent;
+  if (!kanji) break;
+  const correctSet = new Set(kanjiInfo(kanjiCourse, kanji).quizReadings);
+  const choices = el('quiz-choices')._children;
+  check(`kanji question ${i + 1} offers ten options`, choices.length === 10);
+  const correctButtons = choices.filter((c) => correctSet.has(c.textContent));
+  const wrongButtons = choices.filter((c) => !correctSet.has(c.textContent));
+
+  if (kAnswered === 0 && !firstTryDone) {
+    firstTryDone = true;
+    firstTryKanji = kanji;
+    correctButtons.forEach((b) => fire(b, 'click'));
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    check('ticking exactly the correct set finalizes on the first try',
+      el('quiz-ok').textContent === 'Next');
+    check('a first-try match reveals the meaning/word panel', el('quiz-info').hidden === false);
+    check('a first-try match marks every correct option right',
+      correctButtons.every((b) => b.classList.contains('is-right')));
+    fire(el('quiz-ok'), 'click'); // Next
+    await settle();
+  } else if (kAnswered === 1 && !kRecoveryDone) {
+    kRecoveryDone = true;
+    kRecoveryKanji = kanji;
+    fire(wrongButtons[0], 'click');
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    check('a wrong tick does not finalize the question', el('quiz-ok').textContent === 'OK');
+    check('a wrong tick does not reveal the info panel yet', el('quiz-info').hidden === true);
+    check('a wrong tick turns red and locks', wrongButtons[0].classList.contains('is-wrong') && wrongButtons[0].disabled);
+    check('a wrong tick does not reveal which options were correct',
+      !choices.some((c) => c.classList.contains('is-missed')));
+    correctButtons.forEach((b) => fire(b, 'click'));
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    check('ticking the full correct set on the second try finalizes it',
+      el('quiz-ok').textContent === 'Next');
+    check('the info panel is shown once the retry succeeds', el('quiz-info').hidden === false);
+    fire(el('quiz-ok'), 'click');
+    await settle();
+  } else if (kAnswered === 2 && !kRevealDone) {
+    kRevealDone = true;
+    kRevealKanji = kanji;
+    fire(wrongButtons[0], 'click');
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    fire(wrongButtons[1], 'click'); // a different wrong option for the second try
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    check('being wrong twice reveals the correct options as missed',
+      correctButtons.every((b) => b.classList.contains('is-missed')));
+    check('being wrong twice shows the info panel', el('quiz-info').hidden === false);
+    fire(el('quiz-ok'), 'click');
+    await settle();
+  } else {
+    correctButtons.forEach((b) => fire(b, 'click'));
+    fire(el('quiz-ok'), 'click');
+    await settle();
+    fire(el('quiz-ok'), 'click');
+    await settle();
+  }
+  kAnswered += 1;
+}
+
+check('the kanji first-try path was exercised', firstTryDone);
+check('the kanji recover-on-second-try path was exercised', kRecoveryDone);
+check('the kanji wrong-both-times path was exercised', kRevealDone);
+check('the kanji quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
+
+const afterKanji = [...rows.values()][0];
+const firstTryRecord = afterKanji.progress[`recognition:${firstTryKanji}`];
+check('an exact first-try kanji answer has zero lapses',
+  !!firstTryRecord && firstTryRecord.lapses === 0, JSON.stringify(firstTryRecord));
+
+const kanjiRecoveryRecord = afterKanji.progress[`recognition:${kRecoveryKanji}`];
+check('a kanji miss recovered on the second try still counts as a lapse',
+  !!kanjiRecoveryRecord && kanjiRecoveryRecord.lapses >= 1, JSON.stringify(kanjiRecoveryRecord));
+
+const kanjiRevealRecord = afterKanji.progress[`recognition:${kRevealKanji}`];
+check('a kanji miss wrong both times counts as a lapse',
+  !!kanjiRevealRecord && kanjiRevealRecord.lapses >= 1);
 
 // --- data-action coverage -------------------------------------------------
 

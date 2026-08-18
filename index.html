@@ -74,8 +74,11 @@
     <div class="teach-card">
       <div id="lesson-kana" class="glyph glyph-xl"></div>
       <div id="lesson-romaji" class="romaji"></div>
+      <!-- Kanji lessons only: readings + meanings, see renderLesson(). -->
+      <div id="lesson-readings" class="kanji-readings" hidden></div>
+      <div id="lesson-meanings" class="kanji-meanings" hidden></div>
     </div>
-    <p class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
+    <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
     <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
   </section>
 
@@ -92,7 +95,16 @@
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 
-    <div id="quiz-choices" class="choice-grid" role="group" aria-label="Choose the sound"></div>
+    <!-- Kana: tap one option and it grades instantly.
+         Kanji: tick every reading that applies, then press OK. -->
+    <div id="quiz-choices" class="choice-grid" role="group" aria-label="Choose the reading"></div>
+    <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>OK</button>
+
+    <!-- Meanings and an example word, shown after a kanji question is graded. -->
+    <div id="quiz-info" class="kanji-info" hidden>
+      <div id="quiz-meanings" class="kanji-meanings"></div>
+      <div id="quiz-word" class="kanji-word"></div>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

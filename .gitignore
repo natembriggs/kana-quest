@@ -1,2 +1,9 @@
 .DS_Store
 *.log
+__pycache__/
+
+# Downloaded by tools/fetch_kanji_sources.sh — large (~90MB uncompressed),
+# regenerable, and CC BY-SA data that shouldn't be duplicated into this repo.
+# tools/build_kanji_data.py reads these and writes the much smaller
+# src/kanji-data.js, which IS committed.
+tools/data_src/

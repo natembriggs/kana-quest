@@ -74,7 +74,7 @@ def parse_jmdict_common_words(known_kanji, max_kanji_per_word):
     text = JMDICT.read_text(encoding="utf-8")
     entries = re.findall(r"<entry>.*?</entry>", text, re.S)
 
-    kana_pattern = re.compile(r"[぀-ゟ゠-ヿー]")
+    kana_pattern = re.compile(r"[぀-ゟ゠-ヿー]+")
     kanji_pattern = re.compile(r"[一-鿿]")
 
     by_kanji = {k: [] for k in known_kanji}

@@ -10,6 +10,7 @@ load('vendor/wanakana.min.js');
 globalThis.window = { wanakana: globalThis.wanakana };
 
 const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/kana.js');
+const { KANJI_COURSES, kanjiInfo, buildReadingChoices } = await import('../src/kanji.js');
 const srs = await import('../src/srs.js');
 
 let failures = 0;
@@ -104,6 +105,63 @@ check('distractors are drawn from the same set where possible',
   kyaOptions.some((o) => ['kyu', 'kyo', 'gya', 'gyu', 'gyo'].includes(o)),
   kyaOptions.join(' '));
 done('multiple-choice options');
+
+// --- Kanji data and reading choices ----------------------------------------
+
+const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+check('grade-1 course exists', !!grade1);
+const grade1Chars = grade1.chunks.flatMap((c) => c.items);
+check('grade 1 has 80 kanji', grade1Chars.length === 80, `got ${grade1Chars.length}`);
+check('no duplicate kanji', new Set(grade1Chars).size === grade1Chars.length);
+check('chunked in fives like the kana courses',
+  grade1.chunks.slice(0, -1).every((c) => c.items.length === 5));
+
+let noMeanings = 0;
+let noWords = 0;
+let noReadings = 0;
+for (const kanji of grade1Chars) {
+  const info = kanjiInfo(grade1, kanji);
+  check(`kanjiInfo resolves for ${kanji}`, !!info);
+  if (!info) continue;
+  if (info.meanings.length === 0) noMeanings += 1;
+  if (info.words.length === 0) noWords += 1;
+  if (info.on.length + info.kun.length === 0) noReadings += 1;
+}
+check('every grade-1 kanji has at least one meaning', noMeanings === 0, `${noMeanings} missing`);
+check('every grade-1 kanji has at least one example word', noWords === 0, `${noWords} missing`);
+check('every grade-1 kanji has at least one reading', noReadings === 0, `${noReadings} missing`);
+
+// The quiz cap exists because some kanji (生, 上, ...) have well over a dozen
+// kun'yomi once conjugated forms are counted — offering all of them would
+// make a 10-option question impossible.
+let overCap = 0;
+for (const kanji of grade1Chars) {
+  if (kanjiInfo(grade1, kanji).quizReadings.length > 6) overCap += 1;
+}
+check('quiz readings are capped at 6', overCap === 0, `${overCap} over the cap`);
+
+let optionCountWrong = 0;
+let missingCorrect = 0;
+let duplicateOptions = 0;
+let outOfOrder = 0;
+for (const kanji of grade1Chars) {
+  const { options, correct } = buildReadingChoices(grade1, kanji, 10);
+  if (options.length !== 10) optionCountWrong += 1;
+  if (![...correct].every((r) => options.includes(r))) missingCorrect += 1;
+  if (new Set(options).size !== options.length) duplicateOptions += 1;
+  // Alphabetical by romaji, the same convention as kana.js's buildChoices —
+  // on'yomi is katakana and kun'yomi is hiragana, so sorting the raw kana
+  // would clump the two scripts instead of interleaving by sound.
+  const romaji = options.map((r) => romajiFor(r));
+  const sorted = [...romaji].sort((a, b) => a.localeCompare(b));
+  if (JSON.stringify(romaji) !== JSON.stringify(sorted)) outOfOrder += 1;
+}
+check('every kanji question offers ten options', optionCountWrong === 0, `${optionCountWrong} did not`);
+check('the full correct set is always offered', missingCorrect === 0, `${missingCorrect} missing an answer`);
+check('no kanji question has a duplicate option', duplicateOptions === 0, `${duplicateOptions} had one`);
+check('reading options are sorted alphabetically by romaji', outOfOrder === 0, `${outOfOrder} unsorted`);
+
+done('kanji data and reading choices');
 
 // --- SRS ------------------------------------------------------------------
 
