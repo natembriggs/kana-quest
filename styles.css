@@ -1,0 +1,273 @@
+/* Kana Quest — mobile-first, large touch targets, light and dark. */
+
+:root {
+  --bg: #fdf6f0;
+  --surface: #ffffff;
+  --ink: #23201e;
+  --ink-soft: #6d6560;
+  --line: #e8ded6;
+  --accent: #e8553d;
+  --accent-ink: #ffffff;
+  --ok: #2e9e6b;
+  --ok-bg: #e4f6ec;
+  --bad: #d94141;
+  --bad-bg: #fdeaea;
+  --radius: 18px;
+  --tap: 52px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17151a;
+    --surface: #221f26;
+    --ink: #f2ece8;
+    --ink-soft: #a49b96;
+    --line: #35303a;
+    --accent: #ff6f56;
+    --accent-ink: #21100c;
+    --ok: #57d39a;
+    --ok-bg: #17342a;
+    --bad: #ff7b7b;
+    --bad-bg: #3a1f22;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+}
+
+.screen { display: flex; flex-direction: column; gap: 16px; }
+.screen[hidden] { display: none; }
+
+h1, h2, h3 { margin: 0; line-height: 1.2; }
+h1 { font-size: 26px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+
+.screen-title { font-size: 22px; font-weight: 600; }
+.hint { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.footnote { margin: 8px 0 0; color: var(--ink-soft); font-size: 13px; text-align: center; }
+
+/* --- Japanese glyphs ---------------------------------------------------- */
+
+.glyph {
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+               "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+}
+.glyph-xl { font-size: clamp(96px, 34vw, 168px); }
+
+.romaji {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+/* --- Structure ---------------------------------------------------------- */
+
+.brand { display: flex; align-items: center; gap: 12px; justify-content: center; }
+.brand-mark {
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--accent); color: var(--accent-ink);
+  width: 52px; height: 52px; border-radius: 16px;
+  display: grid; place-items: center; font-size: 20px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: var(--tap) 1fr var(--tap);
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+}
+.topbar h2 { text-align: center; }
+.counter { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; font-size: 14px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; }
+
+/* --- Buttons ------------------------------------------------------------ */
+
+.btn {
+  min-height: var(--tap);
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-quiet { background: transparent; color: var(--ink-soft); }
+.btn-danger { background: transparent; border-color: var(--bad); color: var(--bad); }
+.btn-icon { width: var(--tap); padding: 0; display: grid; place-items: center; font-size: 20px; }
+.wide { width: 100%; }
+
+.linkish {
+  background: none; border: none; padding: 0;
+  color: var(--accent); font: inherit; font-size: 13px;
+  text-decoration: underline; cursor: pointer;
+}
+
+/* --- Profiles ----------------------------------------------------------- */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font: inherit; color: inherit; cursor: pointer;
+}
+.avatar { font-size: 40px; line-height: 1; }
+.profile-name { font-weight: 600; }
+
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ink-soft); }
+.field input[type="text"] {
+  min-height: var(--tap);
+  padding: 0 14px;
+  font-size: 17px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.field input[type="range"] { accent-color: var(--accent); height: 32px; }
+
+.emoji-picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.emoji-option {
+  width: 46px; height: 46px;
+  font-size: 24px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: var(--bg);
+  cursor: pointer;
+}
+.emoji-option.selected { border-color: var(--accent); }
+
+/* --- Mode picker -------------------------------------------------------- */
+
+.segmented {
+  display: flex; gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 4px;
+}
+.segment {
+  flex: 1; min-height: 44px;
+  border: none; border-radius: 10px;
+  background: transparent; color: var(--ink-soft);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.segment.active { background: var(--accent); color: var(--accent-ink); }
+.segment small { font-weight: 500; opacity: 0.7; font-size: 11px; }
+
+/* --- Course cards ------------------------------------------------------- */
+
+.course-card { display: flex; flex-direction: column; gap: 12px; }
+.course-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.course-native { color: var(--ink-soft); font-size: 14px; }
+.course-count { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.course-count span { font-size: 15px; font-weight: 500; color: var(--ink-soft); }
+
+.progress {
+  height: 8px; border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+.progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.25s ease; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge {
+  font-size: 13px; font-weight: 600;
+  padding: 4px 10px; border-radius: 99px;
+  background: var(--bg); border: 1px solid var(--line); color: var(--ink-soft);
+}
+.badge-due { color: var(--accent); border-color: var(--accent); }
+.badge-new { color: var(--ok); border-color: var(--ok); }
+
+/* --- Lesson & quiz ------------------------------------------------------ */
+
+.teach-card, .quiz-card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 24px;
+  padding: 28px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  min-height: 44vh;
+  justify-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.quiz-card.is-correct { border-color: var(--ok); background: var(--ok-bg); }
+.quiz-card.is-wrong { border-color: var(--bad); background: var(--bad-bg); }
+
+.feedback { min-height: 38px; font-size: 30px; font-weight: 700; }
+.feedback.ok { color: var(--ok); }
+.feedback.bad { color: var(--bad); }
+
+.quiz-input { display: flex; gap: 8px; }
+.quiz-input input {
+  flex: 1; min-width: 0;
+  min-height: var(--tap);
+  padding: 0 16px;
+  font-size: 22px; font-weight: 600;
+  font-family: inherit;
+  text-align: center;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.quiz-input input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.quiz-input .btn { flex: 0 0 auto; }
+
+/* --- Summary ------------------------------------------------------------ */
+
+.score { margin: 0; font-size: 20px; font-weight: 600; text-align: center; }
+.chip-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.chip {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 58px; padding: 8px 10px;
+  border-radius: 14px; border: 1px solid var(--line); background: var(--surface);
+}
+.chip-ok { border-color: var(--ok); background: var(--ok-bg); }
+.chip-bad { border-color: var(--bad); background: var(--bad-bg); }
+.chip-kana {
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 26px; line-height: 1.1;
+}
+.chip-romaji { font-size: 12px; color: var(--ink-soft); }

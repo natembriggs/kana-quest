@@ -1,0 +1,145 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#e8553d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Kana Quest">
+<title>Kana Quest</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+
+<!-- wanakana is a UMD bundle, so it loads as a classic script and provides
+     window.wanakana before the ES modules below run. -->
+<script src="vendor/wanakana.min.js"></script>
+
+<main id="app">
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-profiles" class="screen">
+    <header class="brand">
+      <div class="brand-mark">かな</div>
+      <h1>Kana Quest</h1>
+    </header>
+    <h2 class="screen-title">Who's practising?</h2>
+    <div id="profile-list" class="profile-grid"></div>
+
+    <form id="new-profile-form" class="card stack" hidden>
+      <h3>New learner</h3>
+      <label class="field">
+        <span>Name</span>
+        <input id="new-profile-name" type="text" maxlength="20" autocomplete="off" required>
+      </label>
+      <div class="field">
+        <span>Pick a badge</span>
+        <div id="emoji-picker" class="emoji-picker"></div>
+      </div>
+      <div class="row">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="button" class="btn btn-quiet" data-action="cancel-new-profile">Cancel</button>
+      </div>
+    </form>
+
+    <button id="add-profile" class="btn btn-quiet wide" type="button">+ Add a learner</button>
+    <p class="footnote">
+      Progress is saved on this device.
+      <button class="linkish" type="button" data-action="open-transfer">Move progress to another device</button>
+    </p>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-home" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="switch-profile" aria-label="Switch learner">
+        <span id="home-avatar" class="avatar">🌱</span>
+      </button>
+      <h2 id="home-greeting">Hello</h2>
+      <button class="btn btn-icon" type="button" data-action="open-settings" aria-label="Settings">⚙️</button>
+    </header>
+
+    <div class="segmented" role="tablist" id="mode-picker"></div>
+    <p id="mode-hint" class="hint"></p>
+
+    <div id="course-list" class="stack"></div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-lesson" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>
+      <h2>New characters</h2>
+      <span id="lesson-counter" class="counter"></span>
+    </header>
+    <div class="teach-card">
+      <div id="lesson-kana" class="glyph glyph-xl"></div>
+      <div id="lesson-romaji" class="romaji"></div>
+    </div>
+    <p class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
+    <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-quiz" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>
+      <div class="progress"><div id="quiz-progress" class="progress-fill"></div></div>
+      <span id="quiz-counter" class="counter"></span>
+    </header>
+
+    <div id="quiz-card" class="quiz-card">
+      <div id="quiz-kana" class="glyph glyph-xl"></div>
+      <div id="quiz-feedback" class="feedback"></div>
+    </div>
+
+    <form id="quiz-form" class="quiz-input">
+      <input id="quiz-answer" type="text" inputmode="latin" enterkeyhint="go"
+             autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false"
+             placeholder="type the sound…" aria-label="Romaji answer">
+      <button id="quiz-submit" class="btn btn-primary" type="submit">Check</button>
+    </form>
+    <button id="quiz-dontknow" class="btn btn-quiet wide" type="button">I don't know</button>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-summary" class="screen" hidden>
+    <header class="brand"><div class="brand-mark">🎉</div></header>
+    <h2 class="screen-title">Session done</h2>
+    <p id="summary-score" class="score"></p>
+    <div id="summary-list" class="chip-grid"></div>
+    <div class="stack">
+      <button class="btn btn-primary wide" type="button" data-action="again">Practise again</button>
+      <button class="btn btn-quiet wide" type="button" data-action="go-home">Back to menu</button>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-settings" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-home" aria-label="Back">←</button>
+      <h2>Settings</h2>
+      <span></span>
+    </header>
+    <div class="card stack profile-only">
+      <label class="field">
+        <span>New characters per session: <b id="new-per-session-value"></b></span>
+        <input id="new-per-session" type="range" min="1" max="10" step="1">
+      </label>
+      <p class="hint">How many never-seen characters get introduced before the review quiz starts.</p>
+    </div>
+    <div class="card stack">
+      <h3>Backup &amp; transfer</h3>
+      <p class="hint">Progress lives on this device only. Save a backup file to move it to a new phone or tablet.</p>
+      <button class="btn wide" type="button" data-action="export">Save backup file</button>
+      <button class="btn wide" type="button" data-action="import">Load backup file</button>
+      <input id="import-file" type="file" accept="application/json,.json" hidden>
+      <p id="transfer-status" class="hint"></p>
+    </div>
+    <div class="card stack profile-only">
+      <button class="btn btn-danger wide" type="button" data-action="delete-profile">Delete this learner</button>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="src/app.js"></script>
