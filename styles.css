@@ -281,7 +281,7 @@ h3 { font-size: 18px; }
 .feedback.ok { color: var(--ok); }
 .feedback.bad { color: var(--bad); }
 
-/* --- Writing (Trace mode) ------------------------------------------------ */
+/* --- Writing (Trace / Guided / Free) --------------------------------------- */
 /* See writing-mode-plan.md. The guide is drawn at the character's TRUE
    position, never shifted to match where the learner started — placement
    within the quartered box is part of the orthography being taught, not
@@ -290,6 +290,7 @@ h3 { font-size: 18px; }
 
 .writing-prompt { text-align: center; }
 .writing-stroke-counter { text-align: center; }
+.writing-mode-toggle { margin: 0 auto 8px; max-width: min(78vw, 340px); }
 
 .writing-board {
   position: relative;
@@ -319,11 +320,29 @@ h3 { font-size: 18px; }
    lines behind an opaque box — the writing-board div supplies those
    instead, so the guide layer itself has to stay transparent. */
 .writing-guide .stroke-svg { background: transparent; border: none; border-radius: 0; }
-.writing-guide .stroke-path { opacity: 0.3; }
-/* A stroke turns solid and green the moment it's accepted — visible
-   progress feedback, distinct from the strokes still to come. */
+
+/* Baseline visibility per mode — see renderGuide() in writing.js. Guided and
+   Free both start every stroke invisible; only Trace shows the full model
+   up front. The per-stroke status rules below come later in the cascade so
+   they win at equal specificity regardless of which mode class is set. */
+.writing-guide.mode-trace .stroke-path { opacity: 0.3; }
+.writing-guide.mode-trace .stroke-number { opacity: 0.55; }
+.writing-guide.mode-guided .stroke-path,
+.writing-guide.mode-free .stroke-path { opacity: 0; }
+.writing-guide.mode-guided .stroke-number,
+.writing-guide.mode-free .stroke-number { opacity: 0; }
+
+/* A stroke turns solid and green the moment it's accepted (Trace, Guided,
+   and a correct stroke in Free mode's end-of-attempt review) — visible
+   progress feedback, distinct from strokes still to come. Wrong/missing are
+   Free mode's review only, from markGuideStrokeReview() in writing.js. */
 .writing-guide .stroke-path.stroke-path-done { opacity: 0.9; stroke: var(--ok); }
-.writing-guide .stroke-number { opacity: 0.55; }
+.writing-guide .stroke-path.stroke-path-wrong { opacity: 0.9; stroke: var(--bad); }
+.writing-guide .stroke-path.stroke-path-missing {
+  opacity: 0.5;
+  stroke: var(--ink-soft);
+  stroke-dasharray: 4 3;
+}
 
 .writing-canvas { touch-action: none; cursor: crosshair; }
 
@@ -331,6 +350,7 @@ h3 { font-size: 18px; }
 .writing-feedback.is-bad { color: var(--bad); }
 
 .writing-result-message { text-align: center; font-size: 18px; font-weight: 700; }
+.writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }
 
 /* Ten answers, two rows of five. Fixed row heights so that revealing an
    answer never moves anything under the learner's finger. */

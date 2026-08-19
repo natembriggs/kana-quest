@@ -345,15 +345,35 @@ in the same spirit as its deliberate non-implementation of SVG geometry.
 
 Each phase leaves both test suites green.
 
-| Phase | Work |
-| --- | --- |
-| 0 | Commit the three untracked stroke-data files as they stand. |
-| 1 | `stroke-geometry.js` + `stroke-grader.js` + the tests in §6. No UI. |
-| 2 | Canvas widget + **Trace mode, kana only**, wired end-to-end through a real session. First point a child can use it. |
-| 3 | Guided and Free modes, the result step of §4, *Write it again*, *Mark as not known*. |
-| 4 | Kanji prompt panel and example-word masking. |
-| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration, drop `comingSoon`. |
-| 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. |
+| Phase | Work | Status |
+| --- | --- | --- |
+| 0 | Commit the three untracked stroke-data files as they stand. | Done |
+| 1 | `stroke-geometry.js` + `stroke-grader.js` + the tests in §6. No UI. | Done |
+| 2 | Canvas widget + **Trace mode, kana only**, wired end-to-end through a real session. First point a child can use it. The result step (§4: no auto-advance, *Write it again*, *Mark as not known*) was pulled forward into this phase rather than phase 3, since it's core UX independent of which sub-mode is active. | Done |
+| 3 | Guided and Free modes, plus the three-way toggle on the writing screen (manual only — automatic selection by mastery is still phase 5). | Done |
+| 4 | Kanji prompt panel and example-word masking. | Not started |
+| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration, drop `comingSoon`. | Not started |
+| 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. | Not started |
+
+### 7.1 A correction from phase 2/3: the message is not the record
+
+Phase 2 tied the completion message to the same `correct` value that gets
+recorded for spaced repetition — a character finished after any stroke
+needed a retry showed "Good try — here's how it goes.", the same wording as
+a genuine miss. That's wrong: a kid who gets every stroke right eventually
+watched themselves successfully write the character, and telling them
+"good try" reads as a rejection of something they just did correctly.
+
+The fix, applied in phase 3: **the completion message and the SRS record
+are allowed to disagree.** Trace and Guided always show "Nicely done!" once
+every stroke is accepted, regardless of retries — the record alone (via
+`correct` in `finishWritingCharacter()` in `src/app.js`) quietly reflects
+whether it was a clean first-try pass, which is what still gates *Write it
+again* and *Mark as not known* and what the Leitner box actually moves on.
+Free mode is the one exception: its message DOES follow `correct`, because
+there `correct` is the learner's own yes/no self-grade, not an automatic
+verdict being softened at them — echoing back what they just told the app
+isn't the same problem as the app unilaterally judging them.
 
 ---
 

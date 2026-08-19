@@ -12,8 +12,8 @@ import {
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
-  createWritingAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
-  renderGuide, markGuideStrokeDone, resetGuideProgress,
+  createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
+  renderGuide, markGuideStrokeDone, markGuideStrokeReview,
 } from './writing.js';
 import * as store from './store.js';
 
@@ -474,6 +474,10 @@ function startSession(courseId, kind) {
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt)
     awaitingAcknowledge: false,
+    // Writing only: which of Trace/Guided/Free the toggle is on, an
+    // override for the rest of THIS session (see writing-mode-plan.md).
+    // Reset to 'trace' at the start of every session, not persisted.
+    writingSubMode: 'trace',
   };
 
   if (built.lesson.length) renderLesson();
@@ -710,18 +714,44 @@ function revealSingleAnswer(answer) {
   });
 }
 
-// --- Writing (Trace mode): draw each stroke against the KanjiVG guide -----
+// --- Writing (Trace / Guided / Free): draw each stroke against the -------
+// --- KanjiVG guide ---------------------------------------------------------
 //
-// See writing-mode-plan.md. The guide is shown at the character's TRUE
-// position throughout — placement within the box is part of what's being
-// taught, so it is never shifted to match where the learner started.
-// Grading happens live, stroke by stroke, with unlimited retries on a
-// rejected stroke; what's locked in for spaced repetition is whether every
-// stroke was accepted on its very first try, the same rule every other mode
-// in this app already uses (see chooseAnswer() above). The character never
-// auto-advances once complete — the learner chooses Next, Write it again
-// (redo purely for the look, doesn't touch the record), or Mark as not
-// known (overrides a generous grade without a second grading event).
+// See writing-mode-plan.md. The guide, wherever and whenever it appears, is
+// always shown at the character's TRUE position — placement within the box
+// is part of what's being taught, so it is never shifted to match where the
+// learner started.
+//
+// Trace and Guided share the same live, stroke-by-stroke grading with
+// unlimited retries on a rejected stroke; what's locked in for spaced
+// repetition is whether every stroke was accepted on its very first try,
+// the same rule every other mode in this app already uses (see
+// chooseAnswer() above). They differ only in what's rendered: Trace shows
+// the whole model faintly from the start, Guided reveals each stroke only
+// once it's been accepted, so the guide can never be used to place a stroke
+// in advance — see createWritingAttempt() in writing.js.
+//
+// Free mode is different in kind, not just degree: no guide, no live
+// rejection, no fixed stroke count to hit — every completed pointer gesture
+// is simply captured, right or wrong, until the learner presses Done. Only
+// then is anything graded, strokes are aligned to the model sequentially,
+// and the guide appears for the first time, coloured per stroke as a
+// review. See createFreeAttempt() in writing.js.
+//
+// All three converge on the same ending: the character never auto-advances
+// once finished. The learner chooses Next, Write it again (redo purely for
+// the look, doesn't touch the record), or Mark as not known (overrides a
+// generous grade without a second grading event). For Free mode, the
+// automatic verdict itself is only ever a SUGGESTION — the learner's own
+// yes/no self-grade is what actually gets recorded.
+//
+// The completion MESSAGE and the RECORD are allowed to disagree, on
+// purpose: finishing every stroke of a Trace/Guided attempt is praised
+// every time, even if a stroke needed a retry along the way and the record
+// (correct, in finishWritingCharacter below) quietly reflects that — a kid
+// who got there in the end shouldn't be told "good try" as if they failed.
+
+const WRITING_SUB_MODES = ['trace', 'guided', 'free'];
 
 const WRITING_FEEDBACK = {
   backwards: 'Try drawing that stroke the other way.',
@@ -740,8 +770,13 @@ function writingFeedbackMessage(result) {
   return WRITING_FEEDBACK[result.verdict] || 'Try that stroke again.';
 }
 
+function createAttemptForMode(item, mode) {
+  return mode === 'free' ? createFreeAttempt(item) : createWritingAttempt(item);
+}
+
 function renderWritingQuestion(course, item) {
   const session = state.session;
+  const mode = session.writingSubMode || 'trace';
 
   const isKanji = course.kind === 'kanji';
   $('writing-romaji').hidden = isKanji;
@@ -750,18 +785,23 @@ function renderWritingQuestion(course, item) {
   $('writing-feedback').textContent = '';
   $('writing-feedback').className = 'hint writing-feedback';
   $('writing-result').hidden = true;
+  $('writing-self-grade').hidden = true;
+  $('writing-done').hidden = true;
   // Test hook only — never rendered as text, so it can't give the answer away.
   $('screen-writing').dataset.char = item;
 
-  session.writingGuidePaths = renderGuide($('writing-guide'), item);
-  session.writingAttempt = createWritingAttempt(item);
+  WRITING_SUB_MODES.forEach((m) => { $(`writing-mode-${m}`).className = `segment${m === mode ? ' active' : ''}`; });
+
+  session.writingGuidePaths = renderGuide($('writing-guide'), item, mode);
+  session.writingAttempt = createAttemptForMode(item, mode);
   session.writingStrokes = [];
   session.writingCurrentPoints = null;
   session.writingPointerId = null;
-  // "Write it again" lets the character be completed more than once — the
-  // SRS record is only ever written for the FIRST completion of a given
-  // question. Reset per question, not per attempt.
-  session.writingRecorded = false;
+  // NOTE: session.writingRecorded is NOT reset here — this function also
+  // runs for a redo or a mode-toggle switch on a question already recorded,
+  // and re-arming it here would let either one write a second, conflicting
+  // record. It resets only in nextQuestion() above, when the question
+  // actually changes.
 
   const sized = setupCanvas($('writing-canvas'));
   session.writingCtx = sized ? sized.ctx : null;
@@ -775,9 +815,26 @@ function renderWritingQuestion(course, item) {
   $('writing-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
 }
 
+/** Switches Trace/Guided/Free for the rest of this session and re-renders
+ * the CURRENT question fresh in the new mode — not a second chance at a
+ * question already recorded, just a different way to look at it (see the
+ * writingRecorded note in renderWritingQuestion above). */
+function writingSetSubMode(mode) {
+  const session = state.session;
+  if (!session) return;
+  session.writingSubMode = mode;
+  renderQuestion();
+}
+
 function updateWritingStrokeCounter() {
-  const attempt = state.session && state.session.writingAttempt;
+  const session = state.session;
+  const attempt = session && session.writingAttempt;
   if (!attempt) return;
+  if (session.writingSubMode === 'free') {
+    const drawn = attempt.drawnCount();
+    $('writing-stroke-counter').textContent = drawn === 0 ? '' : `${drawn} stroke${drawn === 1 ? '' : 's'} drawn`;
+    return;
+  }
   const total = attempt.strokeCount();
   const current = Math.min(attempt.currentStrokeIndex() + 1, total);
   $('writing-stroke-counter').textContent = total ? `Stroke ${current} of ${total}` : '';
@@ -819,10 +876,13 @@ function writingPointerMove(event) {
 }
 
 /**
- * A completed pointer gesture is graded as one stroke. Trace mode never
- * blocks progress — a rejected stroke can be retried without limit — but a
- * retry means the character can no longer earn a correct record, only be
- * finished (see createWritingAttempt in writing.js).
+ * A completed pointer gesture is one stroke. Free mode just captures it,
+ * unconditionally, and defers everything else to writingDone() below —
+ * there's no live rejection or fixed stroke count to hit while the guide
+ * is hidden. Trace/Guided grade it immediately: neither blocks progress on
+ * a rejected stroke (unlimited retries), but a retry means the character
+ * can no longer earn a correct record, only be finished (see
+ * createWritingAttempt in writing.js).
  */
 function writingPointerUp(event) {
   const session = state.session;
@@ -835,6 +895,16 @@ function writingPointerUp(event) {
 
   const { width, height } = session.writingCanvasSize;
   const modelPoints = localPoints.map((p) => toModelSpace(p, width, height));
+
+  if (session.writingSubMode === 'free') {
+    session.writingAttempt.submitStroke(modelPoints);
+    session.writingStrokes.push(localPoints);
+    updateWritingStrokeCounter();
+    redrawWritingCanvas();
+    $('writing-done').hidden = false; // nothing to press Done for until there's a first stroke
+    return;
+  }
+
   const result = session.writingAttempt.submitStroke(modelPoints);
 
   if (result.verdict === 'ok') {
@@ -853,6 +923,45 @@ function writingPointerUp(event) {
 }
 
 /**
+ * Free mode only: the learner has decided they're finished. Aligns whatever
+ * was drawn against the model (see createFreeAttempt in writing.js — this
+ * is also where a different stroke COUNT than the model gets handled) and
+ * reveals the guide for the first time, coloured per stroke as a review.
+ * The automatic verdict shown here is only ever a suggestion — it leads
+ * into the self-grade step below, not straight into finishWritingCharacter.
+ */
+function writingDone() {
+  const session = state.session;
+  if (!session || !session.writingAttempt || session.writingSubMode !== 'free') return;
+  const review = session.writingAttempt.finish();
+  if (!review) return;
+
+  review.perStroke.forEach((entry, index) => {
+    if (entry.status !== 'extra') markGuideStrokeReview(session.writingGuidePaths, index, entry.status);
+  });
+  const extraCount = review.perStroke.filter((entry) => entry.status === 'extra').length;
+  $('writing-feedback').textContent = extraCount > 0
+    ? `${extraCount} extra stroke${extraCount === 1 ? '' : 's'} drawn — compare against the guide now shown.`
+    : '';
+  $('writing-feedback').className = 'hint writing-feedback';
+
+  $('writing-self-grade-hint').textContent = review.suggestedCorrect
+    ? 'That matches the stroke order and shape well.'
+    : 'A few strokes look off against the guide now shown — have a look.';
+  $('writing-done').hidden = true;
+  $('writing-self-grade').hidden = false;
+}
+
+/** Free mode only: the learner's own yes/no, from comparing their finished
+ * drawing against the guide writingDone() just revealed — see the module
+ * comment above for why this, not the automatic verdict, is what commits. */
+function writingSelfGrade(correct) {
+  if (!state.session) return;
+  $('writing-self-grade').hidden = true;
+  finishWritingCharacter(correct);
+}
+
+/**
  * Deliberately does not auto-advance: the learner reviews the finished
  * character (the guide is still visible underneath their ink) and chooses
  * what happens next. The SRS record is written the FIRST time a question is
@@ -861,11 +970,16 @@ function writingPointerUp(event) {
  * the same character a second time, purely for the look of it; that later
  * completion still updates the message and buttons below, it just can't
  * write a second, conflicting record on top of the first.
+ *
+ * `explicitCorrect` is how Free mode's self-grade (writingSelfGrade above)
+ * provides the verdict — Trace/Guided always finish this via
+ * attempt.isCorrect() instead, since there's no separate self-grade step.
  */
-function finishWritingCharacter() {
+function finishWritingCharacter(explicitCorrect) {
   const session = state.session;
   const item = session.queue[session.position];
-  const correct = session.writingAttempt.isCorrect();
+  const isAutomatic = explicitCorrect === undefined;
+  const correct = isAutomatic ? session.writingAttempt.isCorrect() : explicitCorrect;
 
   if (!session.writingRecorded) {
     session.writingRecorded = true;
@@ -874,8 +988,17 @@ function finishWritingCharacter() {
   }
 
   $('writing-feedback').textContent = '';
-  $('writing-result-message').textContent = correct ? 'Nicely done!' : "Good try — here's how it goes.";
-  // Only offered on a successful attempt — see the module comment above.
+  // The message is about what the learner just watched happen, not about
+  // what got written to spaced repetition — those are allowed to disagree.
+  // Finishing every stroke reads as "I wrote it" even if a stroke needed a
+  // retry along the way, so Trace/Guided always praise it here; only the
+  // record (correct, above) carries the retry. Free mode's message DOES
+  // follow correct, because there explicitCorrect is the learner's own
+  // yes/no self-grade, not an automatic verdict being softened at them.
+  $('writing-result-message').textContent = (isAutomatic || correct)
+    ? 'Nicely done!'
+    : 'Okay — marked for more practice.';
+  // Only offered on a clean, first-try pass — see the module comment above.
   $('writing-retry').hidden = !correct;
   $('writing-mark-unknown').hidden = !correct;
   $('writing-result').hidden = false;
@@ -884,13 +1007,22 @@ function finishWritingCharacter() {
 function writingRetry() {
   const session = state.session;
   if (!session || !session.writingAttempt) return;
+  const mode = session.writingSubMode || 'trace';
+  const item = session.queue[session.position];
+
   session.writingAttempt.restart();
   session.writingStrokes = [];
   session.writingCurrentPoints = null;
-  resetGuideProgress(session.writingGuidePaths);
+  // Rebuilding the guide (rather than stripping classes off the old one)
+  // resets it to fully blank/faint per the current mode in one call — see
+  // renderGuide() in writing.js.
+  session.writingGuidePaths = renderGuide($('writing-guide'), item, mode);
   redrawWritingCanvas();
   updateWritingStrokeCounter();
   $('writing-result').hidden = true;
+  $('writing-self-grade').hidden = true;
+  $('writing-done').hidden = true;
+  $('writing-feedback').textContent = '';
 }
 
 /**
@@ -1176,6 +1308,11 @@ function nextQuestion() {
   session.pendingAdvance = null;
   session.awaitingAcknowledge = false;
   session.position += 1;
+  // Writing only: a NEW question hasn't been recorded yet. Deliberately not
+  // reset in renderWritingQuestion() itself, which also runs for a redo or
+  // a mode-toggle switch on the SAME question — those must not re-arm a
+  // second recordResult() call for something already graded.
+  session.writingRecorded = false;
   renderQuestion();
 }
 
@@ -1323,6 +1460,12 @@ function wire() {
   $('writing-next').addEventListener('click', () => { if (state.session) nextQuestion(); });
   $('writing-retry').addEventListener('click', writingRetry);
   $('writing-mark-unknown').addEventListener('click', writingMarkNotKnown);
+  WRITING_SUB_MODES.forEach((mode) => {
+    $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
+  });
+  $('writing-done').addEventListener('click', writingDone);
+  $('writing-self-grade-yes').addEventListener('click', () => writingSelfGrade(true));
+  $('writing-self-grade-no').addEventListener('click', () => writingSelfGrade(false));
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);

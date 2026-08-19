@@ -53,6 +53,11 @@ function makeElement(id = '') {
       add(...c) { c.forEach((x) => this._set.add(x)); },
       remove(...c) { c.forEach((x) => this._set.delete(x)); },
       contains(c) { return this._set.has(c); },
+      toggle(c, force) {
+        const on = force === undefined ? !this._set.has(c) : !!force;
+        if (on) this._set.add(c); else this._set.delete(c);
+        return on;
+      },
     },
     addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
     appendChild(child) { this._children.push(child); return child; },
@@ -494,8 +499,9 @@ await settle();
 // Second character: get one stroke deliberately wrong before completing the
 // rest correctly — proves everyStrokeFirstTry locks correctness to false
 // even though Trace mode lets the character be finished regardless.
+let secondWritingChar = null;
 if (visible() === 'screen-writing') {
-  const secondWritingChar = el('screen-writing').dataset.char;
+  secondWritingChar = el('screen-writing').dataset.char;
   const secondStrokeCount = STROKES[secondWritingChar].strokes.length;
 
   traceBadStroke();
@@ -509,12 +515,116 @@ if (visible() === 'screen-writing') {
   }
   check('a character finished after a retry still reaches a result — Trace mode never blocks progress',
     el('writing-result').hidden === false);
-  check('a retry-tainted attempt is not praised as a clean pass',
-    el('writing-result-message').textContent !== 'Nicely done!');
-  check('a retry-tainted attempt is not offered "Write it again" — only a clean pass is',
+  // The MESSAGE still praises finishing it — a kid who got there in the end
+  // shouldn't be told "good try" as if they failed. Only the RECORD (below,
+  // after quitting the session) is allowed to quietly reflect the retry.
+  check('a retry-tainted attempt still gets the same positive completion message as a clean pass',
+    el('writing-result-message').textContent === 'Nicely done!');
+  check('a retry-tainted attempt is still not offered "Write it again" — only a clean first-try pass is',
     el('writing-retry').hidden === true);
-  check('a retry-tainted attempt has nothing left to override, so "Mark as not known" is not offered',
+  check('a retry-tainted attempt has nothing left to override, so "Mark as not known" is still not offered',
     el('writing-mark-unknown').hidden === true);
+
+  fire(el('writing-next'), 'click');
+  await settle();
+}
+
+// --- Guided mode -----------------------------------------------------------
+// Same live grading as Trace — switching to it and tracing perfectly should
+// behave identically from the learner's perspective. What's different (the
+// guide staying invisible until each stroke is accepted) is a CSS-only
+// distinction the stub can't see rendered, but it CAN see the mode class
+// actually landing on the guide container, which is what that CSS keys off.
+let guidedChar = null;
+if (visible() === 'screen-writing') {
+  fire(el('writing-mode-guided'), 'click');
+  await settle();
+  check('switching to Guided puts the guide in guided mode',
+    el('writing-guide').className.includes('mode-guided'));
+  check('the Guided toggle button is marked active, Trace is not',
+    el('writing-mode-guided').className.includes('active')
+    && !el('writing-mode-trace').className.includes('active'));
+
+  guidedChar = el('screen-writing').dataset.char;
+  const guidedStrokeCount = STROKES[guidedChar].strokes.length;
+  for (let i = 0; i < guidedStrokeCount; i += 1) {
+    traceModelStroke(guidedChar, i);
+    await settle();
+  }
+  check('a clean Guided-mode trace is praised just like a clean Trace-mode one',
+    el('writing-result-message').textContent === 'Nicely done!');
+
+  fire(el('writing-next'), 'click');
+  await settle();
+}
+
+// --- Free mode ---------------------------------------------------------
+// No guide, no live rejection: every stroke is captured as drawn, right or
+// wrong, and nothing is graded until Done. The automatic verdict is only
+// ever a suggestion (see writing-mode-plan.md) — the learner's own yes/no
+// is what actually gets recorded, which this exercises both ways.
+let freeCharNo = null;
+if (visible() === 'screen-writing') {
+  fire(el('writing-mode-free'), 'click');
+  await settle();
+  check('switching to Free puts the guide in free mode',
+    el('writing-guide').className.includes('mode-free'));
+  check('the Done button stays hidden until a stroke is drawn', el('writing-done').hidden === true);
+
+  freeCharNo = el('screen-writing').dataset.char;
+  const freeStrokeCount = STROKES[freeCharNo].strokes.length;
+
+  // A bad first stroke — Free mode must NOT reject or block it the way
+  // Trace/Guided would; it's just captured as "stroke 1", right or wrong.
+  traceBadStroke();
+  await settle();
+  check('a bad stroke in Free mode is captured with no rejection message',
+    el('writing-feedback').textContent === '');
+  check('the Done button appears once there is a first stroke to review', el('writing-done').hidden === false);
+
+  for (let i = 1; i < freeStrokeCount; i += 1) {
+    traceModelStroke(freeCharNo, i);
+    await settle();
+  }
+  check('Free mode never auto-completes — it always waits for Done',
+    el('writing-result').hidden === true && el('writing-self-grade').hidden === true);
+
+  fire(el('writing-done'), 'click');
+  await settle();
+  check('Done reveals the self-grade step, noting the mismatch from the bad first stroke',
+    el('writing-self-grade').hidden === false && el('writing-self-grade-hint').textContent.includes('off'));
+
+  // The learner's own "No" is what commits — even though nothing here
+  // touched the automatic per-stroke grader's usual leniency.
+  fire(el('writing-self-grade-no'), 'click');
+  await settle();
+  check('a "No" self-grade is not praised', el('writing-result-message').textContent !== 'Nicely done!');
+  check('a "No" self-grade is not offered "Write it again"', el('writing-retry').hidden === true);
+
+  fire(el('writing-next'), 'click');
+  await settle();
+}
+
+// A second Free-mode character, traced perfectly this time, to exercise the
+// "Yes" side of the self-grade override.
+let freeCharYes = null;
+if (visible() === 'screen-writing') {
+  freeCharYes = el('screen-writing').dataset.char;
+  const strokeCount = STROKES[freeCharYes].strokes.length;
+  for (let i = 0; i < strokeCount; i += 1) {
+    traceModelStroke(freeCharYes, i);
+    await settle();
+  }
+  fire(el('writing-done'), 'click');
+  await settle();
+  check('a clean Free-mode attempt suggests it looks right',
+    el('writing-self-grade-hint').textContent.includes('well'));
+
+  fire(el('writing-self-grade-yes'), 'click');
+  await settle();
+  check('a "Yes" self-grade is praised and offered the same follow-up buttons as any clean pass',
+    el('writing-result-message').textContent === 'Nicely done!'
+    && el('writing-retry').hidden === false && el('writing-mark-unknown').hidden === false);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -534,6 +644,11 @@ const firstWritingRecord = writingSaved.progress[`writing:${firstWritingChar}`];
 check('"Mark as not known" forced the box back down without a second grading event',
   !!firstWritingRecord && firstWritingRecord.box === 0 && firstWritingRecord.seen === 1,
   JSON.stringify(firstWritingRecord));
+
+const secondWritingRecord = writingSaved.progress[`writing:${secondWritingChar}`];
+check('the retry-tainted character\'s RECORD still reflects the retry, even though its MESSAGE praised it',
+  !!secondWritingRecord && secondWritingRecord.box === 0 && secondWritingRecord.lapses >= 1,
+  JSON.stringify(secondWritingRecord));
 
 // --- Kanji reading quiz -----------------------------------------------
 // Same "give another chance, but the record is locked to the first
