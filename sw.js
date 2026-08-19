@@ -20,7 +20,7 @@
 //      precaching is an optimisation, not a correctness requirement, since
 //      the fetch handler populates the cache as pages are used anyway.
 
-const VERSION = '2026-08-19a';
+const VERSION = '2026-08-19b';
 const CACHE = `kana-quest-${VERSION}`;
 
 const SHELL = [

@@ -40,6 +40,37 @@ check('no duplicate katakana', new Set(kataChars).size === kataChars.length);
 check('katakana really is katakana', kataChars.every((c) => !hiraChars.includes(c)));
 done('tables');
 
+// --- CSS: [hidden] must actually hide things ------------------------------
+// A real, shipped bug: several component classes (.kanji-info, .row, .stack)
+// declare their own explicit `display`, and an author-stylesheet class rule
+// beats the browser's built-in `[hidden]{display:none}` at equal
+// specificity — so `element.hidden = true` in app.js was updating the
+// attribute correctly while the element stayed visually flexed. Symptoms:
+// the kanji info panel from the previous question staying on screen while
+// the next one loaded, and the Show answers/Advanced row appearing in
+// Definition mode where it should never show at all. There is no CSS engine
+// in this test environment to check real computed styles, so this instead
+// pins the actual fix: one global rule with !important that makes `hidden`
+// an unconditional override no component class can accidentally beat again.
+// If this rule is ever weakened or removed, the whole class of bug is back.
+const css = readFile('styles.css');
+const cssNoComments = css.replace(/\/\*[\s\S]*?\*\//g, ''); // strip comments before counting
+const importantRules = [...cssNoComments.matchAll(/!important/g)];
+check('exactly one !important rule exists in the stylesheet — the [hidden] guard',
+  importantRules.length === 1, `found ${importantRules.length}`);
+check('[hidden] is forced to display:none regardless of any component\'s own display rule',
+  /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/.test(cssNoComments));
+// The bug specifically involved classes that set an explicit `display` — if
+// any of those ever lose their reliance on the global rule and grow their
+// own [hidden] override instead, that's fine, but the global rule is the
+// actual guarantee and must not regress.
+for (const cls of ['.kanji-info', '.row', '.stack', '.screen']) {
+  const declaresDisplay = new RegExp(`${cls.replace('.', '\\.')}\\s*\\{[^}]*display:`).test(cssNoComments);
+  check(`${cls} still sets its own display (confirms the global rule is doing real work, not dead code)`,
+    declaresDisplay);
+}
+done('the [hidden] CSS guard');
+
 // --- The round-trip invariant --------------------------------------------
 // Whatever romaji the app shows as the answer must be accepted as the answer.
 

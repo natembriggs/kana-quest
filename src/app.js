@@ -12,7 +12,7 @@ import {
 } from './srs.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19b'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {

@@ -34,6 +34,17 @@
 
 * { box-sizing: border-box; }
 
+/* The browser's own [hidden]{display:none} default has the same specificity
+   as a single class selector, and author rules beat the UA stylesheet at
+   equal specificity — so any component below that sets its own `display`
+   (flex/grid) silently wins over `.hidden = true` in JS, and the element
+   stays visible. !important here is deliberate and load-bearing: it is what
+   makes `hidden` an unconditional override no future component class needs
+   to remember to guard against. Found via a genuine bug (kanji-info and the
+   Show answers/Advanced row staying visible when JS had already hidden
+   them) — do not remove this without re-auditing every `.hidden =` in app.js. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -50,7 +61,6 @@ body {
 }
 
 .screen { display: flex; flex-direction: column; gap: 16px; }
-.screen[hidden] { display: none; }
 
 h1, h2, h3 { margin: 0; line-height: 1.2; }
 h1 { font-size: 26px; }
