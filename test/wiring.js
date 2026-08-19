@@ -1166,8 +1166,68 @@ for (let i = 0; i < kanjiWritingStrokeCount; i += 1) {
 }
 check('a perfectly traced kanji is accepted, same grading pipeline as kana',
   el('writing-result').hidden === false && el('writing-result-message').textContent === 'Nicely done!');
+check('every character in a brand-new writing session defaults to Trace — none has a mastery record yet',
+  el('writing-hints').hidden === true); // Trace never shows the peek/switch-easier row
 
 fire(el('writing-next'), 'click');
+await settle();
+
+// Every other mode's quiz is driven all the way to the summary screen and
+// checked there (see the recognition/Yomi/Definition sections above) —
+// writing mode never had been, so this is also the first proof that
+// finishSession()/the summary chips work correctly for it, not just that a
+// single question does.
+for (let i = 0; i < 10 && visible() === 'screen-writing'; i += 1) {
+  const char = el('screen-writing').dataset.char;
+  const strokeCount = STROKES[char].strokes.length;
+  for (let s = 0; s < strokeCount; s += 1) {
+    traceModelStroke(char, s);
+    await settle();
+  }
+  fire(el('writing-next'), 'click');
+  await settle();
+}
+check('a completed kanji writing session reaches the summary, same as every other mode',
+  visible() === 'screen-summary', `showing ${visible()}`);
+check('the writing summary reports a score', el('summary-score').textContent.length > 0,
+  `"${el('summary-score').textContent}"`);
+const writingSummaryChips = el('summary-list')._children;
+check('the writing summary shows one chip per character, each with a non-blank reading label',
+  writingSummaryChips.length > 0
+  && writingSummaryChips.every((c) => c.querySelector('.chip-romaji').textContent.length > 0),
+  writingSummaryChips.map((c) => c.querySelector('.chip-romaji').textContent).join(' | '));
+
+// The overview/detail screens are driven entirely by state.mode, with no
+// writing-specific branch of their own (see writing-mode-plan.md §1: "the
+// Leitner grade() is mode-agnostic — progress storage needs no changes at
+// all"). This is the first check that actually proves it for writing mode,
+// rather than just relying on that being true by construction.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('back on the kanji course screen after the writing session', visible() === 'screen-course', `showing ${visible()}`);
+
+const kanjiWritingViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(kanjiWritingViewSetButton, 'click');
+await settle();
+check('the overview opens under writing mode too', visible() === 'screen-overview', `showing ${visible()}`);
+
+const kanjiWritingOverviewTiles = el('overview-grid')._children;
+const practicedTile = kanjiWritingOverviewTiles.find((t) => t.textContent === kanjiWritingChar);
+check('the character just practiced in writing mode shows progress in the writing overview, not tier-0',
+  !!practicedTile && !practicedTile.className.includes('tier-0'),
+  practicedTile && practicedTile.className);
+
+fire(practicedTile, 'click');
+await settle();
+check('the writing-mode detail screen shows a mastery tier beyond "Not started"',
+  el('detail-mastery').textContent !== 'Not started', el('detail-mastery').textContent);
+check('the writing-mode detail screen still renders the stroke diagram',
+  el('detail-stroke')._children.length > 0);
+check('a kanji detail screen under writing mode still shows readings and a meaning, same as any other kanji mode',
+  el('detail-readings').hidden === false && el('detail-meanings').textContent.length > 0);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-overview' } }) } });
 await settle();
 
 // --- Set overview and character detail -------------------------------------
@@ -1274,6 +1334,32 @@ if (detailChips.length > 0) {
     el('detail-word').hidden === false);
   check('tapping the chip marks it active', detailChips[0].classList.contains('is-active'));
 }
+
+// --- Settings: writing strictness ------------------------------------------
+// Phase 5 of writing-mode-plan.md — a per-profile slider, same pattern as
+// the existing "new characters per session" one, that feeds the strictness
+// multiplier already proven in test/smoke.js's grading tests.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await settle();
+check('opening settings shows the settings screen', visible() === 'screen-settings', `showing ${visible()}`);
+check('writing strictness defaults to Normal (level 3)',
+  Number(el('writing-strictness').value) === 3 && el('writing-strictness-value').textContent === 'Normal',
+  `${el('writing-strictness').value} / "${el('writing-strictness-value').textContent}"`);
+
+el('writing-strictness').value = '5';
+fire(el('writing-strictness'), 'input', { target: el('writing-strictness') });
+await settle();
+check('moving the slider updates its label immediately', el('writing-strictness-value').textContent === 'Strict',
+  el('writing-strictness-value').textContent);
+
+const afterStrictness = [...rows.values()][0];
+check('the chosen strictness level is saved to the profile, same as new-per-session',
+  afterStrictness.settings.strictness === 5, JSON.stringify(afterStrictness.settings));
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await settle();
+check('closing settings leaves the settings screen', visible() !== 'screen-settings', `showing ${visible()}`);
 
 // --- data-action coverage -------------------------------------------------
 

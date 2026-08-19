@@ -6,6 +6,8 @@
 // Profiles are small (a few hundred records each), so a whole profile
 // document is read and written at once rather than storing items separately.
 
+import { DEFAULT_STRICTNESS } from './stroke-grader.js';
+
 const DB_NAME = 'kana-quest';
 const DB_VERSION = 1;
 const STORE = 'profiles';
@@ -57,7 +59,12 @@ export function defaultSettings() {
   // maxReviews is deliberately small: a review session is meant to be a
   // smattering, favouring characters that have actually been missed, not a
   // forced march through everything that happens to be due. See srs.js.
-  return { newPerSession: 5, maxReviews: 15 };
+  // strictness is writing mode's grading strictness, 1 (Gentle) to 5
+  // (Strict) — see STRICTNESS_LEVELS in stroke-grader.js. Per profile, so
+  // two children sharing a device can set it differently. A profile saved
+  // before this field existed just reads as undefined and falls back to
+  // DEFAULT_STRICTNESS wherever it's used — no migration needed.
+  return { newPerSession: 5, maxReviews: 15, strictness: DEFAULT_STRICTNESS };
 }
 
 export function listProfiles() {

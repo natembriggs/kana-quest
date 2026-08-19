@@ -875,6 +875,26 @@ for (let i = 0; i < 20; i += 1) maxed = srs.grade(maxed, true, now);
 check('box is capped', maxed.box === srs.MAX_BOX, `box ${maxed.box}`);
 done('leitner boxes');
 
+// --- Writing mode: which of Trace/Guided/Free a question defaults to -------
+// See writing-mode-plan.md §3 — this is the mapping the whole auto-selection
+// feature turns on, so it is pinned here the same way the grading tolerances
+// in §2.5 are pinned above.
+check('a character never attempted (no record at all) defaults to Trace',
+  srs.autoWritingMode(null) === 'trace');
+let writingRec = srs.grade(srs.newRecord(), true, now); // box 1
+check('a character below box 3 defaults to Guided',
+  srs.autoWritingMode(writingRec) === 'guided', `box ${writingRec.box}`);
+writingRec = srs.grade(writingRec, false, now); // a miss always drops to box 0
+check('a record reset to box 0 by a miss still defaults to Guided, not back to Trace — it has been attempted before',
+  writingRec.box === 0 && srs.autoWritingMode(writingRec) === 'guided');
+writingRec = srs.grade(srs.newRecord(), true, now);
+writingRec = srs.grade(writingRec, true, now);
+writingRec = srs.grade(writingRec, true, now); // three passes reach box 3
+check('a character that has reached box 3 defaults to Free — the guide is trusted to fade away',
+  writingRec.box === 3 && srs.autoWritingMode(writingRec) === 'free');
+check('a maxed-out character also defaults to Free', srs.autoWritingMode(maxed) === 'free');
+done('writing mode: Trace/Guided/Free is chosen from mastery, not hardcoded');
+
 // --- Per-reading (yomi) records: streak + lifetime-correct driven interval -
 
 let yrec = srs.newYomiRecord();

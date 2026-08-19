@@ -268,6 +268,21 @@ export function masteryTier(record) {
   return 4;
 }
 
+/**
+ * Trace/Guided/Free, chosen from the SAME writing record masteryTier reads
+ * (see writing-mode-plan.md §3): a character never attempted gets the full
+ * guide (Trace), one still being learned gets the guide revealed stroke-by-
+ * stroke as earned (Guided), and one that has reached box 3 or beyond is
+ * tested with no guide at all (Free). This is only the default — the
+ * three-way toggle on the writing screen overrides it for the rest of the
+ * session, see writingSetSubMode() in app.js.
+ */
+export function autoWritingMode(record) {
+  if (!record) return 'trace';
+  if (record.box >= 3) return 'free';
+  return 'guided';
+}
+
 // --- Per-reading records (kanji reading quiz) ------------------------------
 //
 // The kanji reading quiz grades each on'yomi/kun'yomi individually rather

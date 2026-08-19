@@ -352,7 +352,7 @@ Each phase leaves both test suites green.
 | 2 | Canvas widget + **Trace mode, kana only**, wired end-to-end through a real session. First point a child can use it. The result step (§4: no auto-advance, *Write it again*, *Mark as not known*) was pulled forward into this phase rather than phase 3, since it's core UX independent of which sub-mode is active. | Done |
 | 3 | Guided and Free modes, plus the three-way toggle on the writing screen (manual only — automatic selection by mastery is still phase 5). | Done |
 | 4 | Kanji prompt panel and example-word masking. Pulled `comingSoon` off kanji writing specifically as part of this phase (rather than deferring it to phase 5), since a panel nobody can reach is not actually done — see §7.4. | Done |
-| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration. | Not started |
+| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration. | Done |
 | 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. | Not started |
 
 ### 7.1 A correction from phase 2/3: the message is not the record
@@ -469,6 +469,44 @@ deferred to phase 5 as originally tabled — a finished panel behind a mode
 toggle nobody can reach isn't a finished phase, and nothing else gating
 kanji writing (mastery-based auto mode selection, the strictness slider)
 actually blocks it from being usable today; those remain phase 5.
+
+### 7.5 Phase 5: mastery drives the mode, strictness is now a setting
+
+**Automatic mode selection.** `autoWritingMode(record)` in `srs.js` is the
+mapping from §3 (new → Trace, learning → Guided, box ≥ 3 → Free), pinned by
+its own regression tests in `smoke.js` alongside the Leitner-box ones it
+reads. `renderWritingQuestion()` in `app.js` now calls it fresh for every
+question, keyed off `itemKey('writing', item)` — so within one session, one
+character can render in Trace while the next renders in Free, exactly
+matching each character's own progress. The session-long `writingSubMode`
+field became two fields: `writingModeOverride` (null until the learner
+touches the toggle or a difficulty-ladder button) and `writingSubMode`
+(whatever actually rendered last, override or automatic). Touching the
+toggle sets the override, which then wins for every later question in the
+session too — the manual choice was always meant to stick "for the session"
+per §3, not just for one character.
+
+**Strictness slider.** `defaultSettings()` in `store.js` gained a
+`strictness` field (1-5, default `DEFAULT_STRICTNESS` = 3/Normal — see
+`STRICTNESS_LEVELS` in `stroke-grader.js`), and the settings screen got a
+slider for it, same pattern as the existing "new characters per session"
+one. `createAttemptForMode()` in `app.js` now reads it and passes it through
+to `createWritingAttempt()`/`createFreeAttempt()`, which already accepted a
+`strictness` option since phase 1 — grading itself needed no changes, only
+the wiring to reach it. A profile saved before this field existed reads
+`strictness` as `undefined` and falls back to `DEFAULT_STRICTNESS` wherever
+it's read; no migration was written, deliberately, matching how this file
+already treats every other settings field.
+
+**Summary and detail-screen integration** turned out to need no new code —
+both screens are already driven by `state.mode`/`itemKey()` with no
+mode-specific branch (see §1: "the Leitner `grade()` is mode-agnostic —
+progress storage needs no changes at all"). What phase 5 actually added
+here is proof: `test/wiring.js` previously drove writing sessions only
+partway before quitting out, so nothing had ever confirmed a writing session
+reaches `screen-summary` with sensible chips, or that the overview/detail
+screens correctly reflect writing-mode mastery. Both are now exercised
+end-to-end for a kanji writing session.
 
 ## 8. Open questions
 

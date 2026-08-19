@@ -8,13 +8,14 @@ import {
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
-  currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier,
+  currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
+import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import * as store from './store.js';
 
 export const APP_VERSION = '2026-08-19f'; // keep in step with VERSION in sw.js
@@ -474,9 +475,15 @@ function startSession(courseId, kind) {
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt)
     awaitingAcknowledge: false,
-    // Writing only: which of Trace/Guided/Free the toggle is on, an
-    // override for the rest of THIS session (see writing-mode-plan.md).
-    // Reset to 'trace' at the start of every session, not persisted.
+    // Writing only: null means each question picks Trace/Guided/Free itself
+    // from that character's own mastery (autoWritingMode in srs.js). Manually
+    // touching the toggle (or the difficulty-ladder button) sets this and it
+    // sticks for the rest of THIS session, overriding the per-character
+    // default from then on — see writingSetSubMode() below. Not persisted.
+    writingModeOverride: null,
+    // Derived fresh per question in renderWritingQuestion() below; only
+    // initialized here so it has a sane value before the first question
+    // renders.
     writingSubMode: 'trace',
   };
 
@@ -796,12 +803,21 @@ function writingFeedbackMessage(result) {
 }
 
 function createAttemptForMode(item, mode) {
-  return mode === 'free' ? createFreeAttempt(item) : createWritingAttempt(item);
+  const strictness = state.profile.settings.strictness || DEFAULT_STRICTNESS;
+  return mode === 'free'
+    ? createFreeAttempt(item, { strictness })
+    : createWritingAttempt(item, { strictness });
 }
 
 function renderWritingQuestion(course, item) {
   const session = state.session;
-  const mode = session.writingSubMode || 'trace';
+  // No manual override yet this session: each question picks its own mode
+  // from THIS character's own mastery — see autoWritingMode() in srs.js.
+  // Once the learner touches the toggle or a difficulty-ladder button,
+  // writingModeOverride is set and wins from then on (writingSetSubMode()).
+  const record = state.profile.progress[itemKey('writing', item)];
+  const mode = session.writingModeOverride || autoWritingMode(record);
+  session.writingSubMode = mode;
 
   const isKanji = course.kind === 'kanji';
   $('writing-romaji').hidden = isKanji;
@@ -882,10 +898,13 @@ function maskKanjiWord(word, kanji) {
 /** Switches Trace/Guided/Free for the rest of this session and re-renders
  * the CURRENT question fresh in the new mode — not a second chance at a
  * question already recorded, just a different way to look at it (see the
- * writingRecorded note in renderWritingQuestion above). */
+ * writingRecorded note in renderWritingQuestion above). Setting the override
+ * here (rather than just writingSubMode) is what makes it stick for every
+ * later question too, instead of being recomputed from mastery next render. */
 function writingSetSubMode(mode) {
   const session = state.session;
   if (!session) return;
+  session.writingModeOverride = mode;
   session.writingSubMode = mode;
   renderQuestion();
 }
@@ -1519,6 +1538,11 @@ function finishSession() {
 
 // --- Settings, backup, transfer ------------------------------------------
 
+function strictnessName(level) {
+  const found = STRICTNESS_LEVELS.find((l) => l.id === level);
+  return found ? found.name : 'Normal';
+}
+
 function renderSettings() {
   const hasProfile = !!state.profile;
   // Remember where settings was opened from, so Back returns there rather
@@ -1529,6 +1553,9 @@ function renderSettings() {
   if (hasProfile) {
     $('new-per-session').value = state.profile.settings.newPerSession;
     $('new-per-session-value').textContent = state.profile.settings.newPerSession;
+    const strictness = state.profile.settings.strictness || DEFAULT_STRICTNESS;
+    $('writing-strictness').value = strictness;
+    $('writing-strictness-value').textContent = strictnessName(strictness);
   }
   $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
@@ -1631,6 +1658,13 @@ function wire() {
     const value = Number(event.target.value);
     $('new-per-session-value').textContent = value;
     state.profile.settings.newPerSession = value;
+    store.saveProfile(state.profile);
+  });
+
+  $('writing-strictness').addEventListener('input', (event) => {
+    const value = Number(event.target.value);
+    $('writing-strictness-value').textContent = strictnessName(value);
+    state.profile.settings.strictness = value;
     store.saveProfile(state.profile);
   });
 
