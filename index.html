@@ -169,16 +169,6 @@
       <p id="writing-script-label" class="hint"></p>
     </div>
 
-    <!-- Trace: full faint guide throughout. Guided: a stroke appears, at its
-         true position, only once accepted. Free: no guide until Done, then
-         a graded review. Overrides for the rest of this session — see
-         writing-mode-plan.md. -->
-    <div class="segmented writing-mode-toggle" role="tablist" aria-label="Writing mode">
-      <button id="writing-mode-trace" class="segment" type="button">Trace</button>
-      <button id="writing-mode-guided" class="segment" type="button">Guided</button>
-      <button id="writing-mode-free" class="segment" type="button">Free</button>
-    </div>
-
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
 
     <div id="writing-board" class="writing-board">
@@ -191,6 +181,16 @@
     </div>
 
     <p id="writing-feedback" class="hint writing-feedback"></p>
+
+    <!-- Guided/Free only (Trace already shows the whole guide). Hold to
+         peek — shown only while pressed, released hides it again — plus a
+         one-level-down escape hatch that appears once this question has
+         come back marked wrong. -->
+    <div id="writing-hints" class="row writing-hints" hidden>
+      <button id="writing-peek-first" class="btn btn-quiet" type="button">Show first stroke</button>
+      <button id="writing-peek-full" class="btn btn-quiet" type="button">Show full character</button>
+      <button id="writing-switch-easier" class="btn btn-quiet" type="button" hidden>Switch to Trace</button>
+    </div>
 
     <!-- Free mode only: appears once at least one stroke is drawn: no guide
          to compare against until the learner says they're finished. -->
@@ -214,7 +214,25 @@
         <button id="writing-retry" class="btn btn-quiet" type="button" hidden>Write it again</button>
         <button id="writing-mark-unknown" class="btn btn-quiet" type="button" hidden>Mark as not known</button>
       </div>
-      <button id="writing-next" class="btn btn-primary wide" type="button">Next</button>
+      <!-- A clean pass offers going one level up, right next to Next — a
+           miss offers going one level down instead, up in #writing-hints,
+           since that appears earlier on screen, while still drawn. -->
+      <div class="row">
+        <button id="writing-try-harder" class="btn btn-quiet" type="button" hidden>Try Guided</button>
+        <button id="writing-next" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
+    <!-- Deliberately last on the screen: fine to be pushed below the fold
+         once the elements above fill the screen — Next matters more than
+         this does once a character is finished. -->
+    <div class="writing-difficulty">
+      <p class="hint writing-difficulty-label">Difficulty level</p>
+      <div class="segmented writing-mode-toggle" role="tablist" aria-label="Writing difficulty">
+        <button id="writing-mode-trace" class="segment" type="button">Trace</button>
+        <button id="writing-mode-guided" class="segment" type="button">Guided</button>
+        <button id="writing-mode-free" class="segment" type="button">Free</button>
+      </div>
     </div>
   </section>
 

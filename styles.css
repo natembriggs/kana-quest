@@ -289,12 +289,17 @@ h3 { font-size: 18px; }
    learner's ink rather than chase it. */
 
 .writing-prompt { text-align: center; }
-.writing-stroke-counter { text-align: center; }
-.writing-mode-toggle { margin: 0 auto 8px; max-width: min(78vw, 340px); }
+.writing-stroke-counter { text-align: center; margin: 4px 0; }
+
+/* Deliberately last on the screen and modest in size — see the comment on
+   .writing-difficulty in index.html. "Difficulty level" is a label, not a
+   heading, so it stays visually quiet next to the segmented control. */
+.writing-difficulty { margin: 16px auto 0; max-width: min(78vw, 340px); }
+.writing-difficulty-label { text-align: center; margin: 0 0 4px; }
 
 .writing-board {
   position: relative;
-  width: min(78vw, 340px);
+  width: min(66vw, 300px);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
   background: var(--surface);
@@ -332,6 +337,15 @@ h3 { font-size: 18px; }
 .writing-guide.mode-guided .stroke-number,
 .writing-guide.mode-free .stroke-number { opacity: 0; }
 
+/* Hold-to-peek (Guided/Free only — see #writing-hints in index.html and
+   setGuidePeekFull()/setStrokePeek() in writing.js). Same specificity as
+   the mode rules above, so source order alone decides: these come AFTER
+   the mode rules, so peeking wins over "not yet shown" — but BEFORE the
+   graded-status rules below, so a stroke already marked right/wrong never
+   dims back down to a plain peek while another stroke is being peeked at. */
+.writing-guide.peek-full .stroke-path { opacity: 0.3; }
+.writing-guide .stroke-path.stroke-path-peek { opacity: 0.3; }
+
 /* A stroke turns solid and green the moment it's accepted (Trace, Guided,
    and a correct stroke in Free mode's end-of-attempt review) — visible
    progress feedback, distinct from strokes still to come. Wrong/missing are
@@ -348,6 +362,9 @@ h3 { font-size: 18px; }
 
 .writing-feedback { min-height: 1.4em; text-align: center; }
 .writing-feedback.is-bad { color: var(--bad); }
+
+.writing-hints { margin: 4px 0; }
+.writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; }
 
 .writing-result-message { text-align: center; font-size: 18px; font-weight: 700; }
 .writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }

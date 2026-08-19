@@ -266,3 +266,24 @@ export function markGuideStrokeReview(paths, index, status) {
   else if (status === 'wrong') path.classList.add('stroke-path-wrong');
   else if (status === 'missing') path.classList.add('stroke-path-missing');
 }
+
+/**
+ * Hold-to-peek, for Guided/Free where the guide is otherwise hidden — see
+ * #writing-hints in index.html. `on` shows or hides it; callers toggle this
+ * from a press/release pair, never leaving it stuck showing. Deliberately
+ * doesn't touch any stroke already marked done/wrong/missing (styled in
+ * styles.css to win over a peek regardless), so revealing the rest of the
+ * character never dims out what's already been graded.
+ */
+export function setGuidePeekFull(container, on) {
+  if (!container || !container.classList) return;
+  if (on) container.classList.add('peek-full'); else container.classList.remove('peek-full');
+}
+
+/** Same idea as setGuidePeekFull, but for a single stroke — "show first
+ * stroke" reveals just paths[index] (index 0, from app.js) while held. */
+export function setStrokePeek(paths, index, on) {
+  const path = paths[index];
+  if (!path || !path.classList) return;
+  if (on) path.classList.add('stroke-path-peek'); else path.classList.remove('stroke-path-peek');
+}

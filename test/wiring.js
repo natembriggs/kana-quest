@@ -428,6 +428,8 @@ for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
 check('the writing lesson hands over to the writing screen', visible() === 'screen-writing', `showing ${visible()}`);
 check('the writing screen never displays the glyph itself',
   !el('writing-romaji').textContent.includes(el('screen-writing').dataset.char));
+check('Trace already shows the whole guide, so the peek/switch-easier hint row stays hidden',
+  el('writing-hints').hidden === true);
 
 function traceModelStroke(char, index) {
   const d = STROKES[char].strokes[index];
@@ -524,6 +526,8 @@ if (visible() === 'screen-writing') {
     el('writing-retry').hidden === true);
   check('a retry-tainted attempt has nothing left to override, so "Mark as not known" is still not offered',
     el('writing-mark-unknown').hidden === true);
+  check('Trace has no easier level to switch down to, so that offer never appears',
+    el('writing-switch-easier').hidden === true);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -544,6 +548,31 @@ if (visible() === 'screen-writing') {
   check('the Guided toggle button is marked active, Trace is not',
     el('writing-mode-guided').className.includes('active')
     && !el('writing-mode-trace').className.includes('active'));
+  check('the hint row (peek + switch-easier) is shown once Trace is left',
+    el('writing-hints').hidden === false);
+
+  // Hold to peek: shown only while held, gone the instant it's released —
+  // exercised here mid-attempt, before anything is graded, since peeking is
+  // meant to be available any time the learner is stuck.
+  fire(el('writing-peek-full'), 'pointerdown');
+  await settle();
+  check('holding "Show full character" reveals the whole guide',
+    el('writing-guide').classList.contains('peek-full'));
+  fire(el('writing-peek-full'), 'pointerup');
+  await settle();
+  check('releasing it hides the guide again',
+    !el('writing-guide').classList.contains('peek-full'));
+
+  const guideSvg = el('writing-guide')._children[0];
+  const firstGuidePath = guideSvg._children[0];
+  fire(el('writing-peek-first'), 'pointerdown');
+  await settle();
+  check('holding "Show first stroke" reveals just the model\'s stroke 0',
+    firstGuidePath.classList.contains('stroke-path-peek'));
+  fire(el('writing-peek-first'), 'pointerleave'); // dragging off the button also releases it
+  await settle();
+  check('a pointer dragged off the button releases the peek just like pointerup',
+    !firstGuidePath.classList.contains('stroke-path-peek'));
 
   guidedChar = el('screen-writing').dataset.char;
   const guidedStrokeCount = STROKES[guidedChar].strokes.length;
@@ -553,6 +582,30 @@ if (visible() === 'screen-writing') {
   }
   check('a clean Guided-mode trace is praised just like a clean Trace-mode one',
     el('writing-result-message').textContent === 'Nicely done!');
+  check('a clean Guided pass offers trying Free next, right by Next',
+    el('writing-try-harder').hidden === false && el('writing-try-harder').textContent === 'Try Free');
+  check('a clean pass is never offered a level DOWN — nothing to switch away from',
+    el('writing-switch-easier').hidden === true);
+
+  // Bonus round: take the suggestion, on the SAME character, rather than
+  // pressing Next — proves the original Guided pass's record isn't
+  // clobbered by voluntary extra practice at a harder level (checked
+  // against storage at the end of this section).
+  fire(el('writing-try-harder'), 'click');
+  await settle();
+  check('"Try Free" re-renders the SAME character in Free mode, not a new one',
+    el('screen-writing').dataset.char === guidedChar
+    && el('writing-guide').className.includes('mode-free')
+    && el('writing-mode-free').className.includes('active'));
+
+  for (let i = 0; i < guidedStrokeCount; i += 1) {
+    traceModelStroke(guidedChar, i);
+    await settle();
+  }
+  fire(el('writing-done'), 'click');
+  await settle();
+  fire(el('writing-self-grade-yes'), 'click');
+  await settle();
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -600,6 +653,10 @@ if (visible() === 'screen-writing') {
   await settle();
   check('a "No" self-grade is not praised', el('writing-result-message').textContent !== 'Nicely done!');
   check('a "No" self-grade is not offered "Write it again"', el('writing-retry').hidden === true);
+  check('a miss in Free mode offers switching one level down, to Guided',
+    el('writing-switch-easier').hidden === false && el('writing-switch-easier').textContent === 'Switch to Guided');
+  check('a miss is never offered a level UP — nothing to try harder from a fail',
+    el('writing-try-harder').hidden === true);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -649,6 +706,11 @@ const secondWritingRecord = writingSaved.progress[`writing:${secondWritingChar}`
 check('the retry-tainted character\'s RECORD still reflects the retry, even though its MESSAGE praised it',
   !!secondWritingRecord && secondWritingRecord.box === 0 && secondWritingRecord.lapses >= 1,
   JSON.stringify(secondWritingRecord));
+
+const guidedRecord = writingSaved.progress[`writing:${guidedChar}`];
+check('"Try Free" bonus practice on an already-passed character did not write a second, conflicting record',
+  !!guidedRecord && guidedRecord.seen === 1 && guidedRecord.box > 0,
+  JSON.stringify(guidedRecord));
 
 // --- Kanji reading quiz -----------------------------------------------
 // Same "give another chance, but the record is locked to the first

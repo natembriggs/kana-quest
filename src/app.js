@@ -13,7 +13,7 @@ import {
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
-  renderGuide, markGuideStrokeDone, markGuideStrokeReview,
+  renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
 import * as store from './store.js';
 
@@ -752,6 +752,21 @@ function revealSingleAnswer(answer) {
 // who got there in the end shouldn't be told "good try" as if they failed.
 
 const WRITING_SUB_MODES = ['trace', 'guided', 'free'];
+const WRITING_MODE_LABELS = { trace: 'Trace', guided: 'Guided', free: 'Free' };
+
+/** One level up/down the difficulty ladder, or null at either end — used
+ * for the "try one level harder" / "switch to <easier>" suggestions below,
+ * not just the toggle itself. */
+function nextHarderMode(mode) {
+  if (mode === 'trace') return 'guided';
+  if (mode === 'guided') return 'free';
+  return null;
+}
+function nextEasierMode(mode) {
+  if (mode === 'free') return 'guided';
+  if (mode === 'guided') return 'trace';
+  return null;
+}
 
 const WRITING_FEEDBACK = {
   backwards: 'Try drawing that stroke the other way.',
@@ -782,11 +797,17 @@ function renderWritingQuestion(course, item) {
   $('writing-romaji').hidden = isKanji;
   $('writing-romaji').textContent = isKanji ? '' : romajiFor(item);
   $('writing-script-label').textContent = isKanji ? '' : `Write it in ${course.name.toLowerCase()}`;
+  $('writing-peek-full').textContent = `Show full ${isKanji ? 'kanji' : 'kana'}`;
   $('writing-feedback').textContent = '';
   $('writing-feedback').className = 'hint writing-feedback';
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
+  $('writing-try-harder').hidden = true;
+  $('writing-switch-easier').hidden = true;
+  // Trace already shows the whole guide — the hint row only makes sense
+  // where something is actually being hidden.
+  $('writing-hints').hidden = mode === 'trace';
   // Test hook only — never rendered as text, so it can't give the answer away.
   $('screen-writing').dataset.char = item;
 
@@ -838,6 +859,33 @@ function updateWritingStrokeCounter() {
   const total = attempt.strokeCount();
   const current = Math.min(attempt.currentStrokeIndex() + 1, total);
   $('writing-stroke-counter').textContent = total ? `Stroke ${current} of ${total}` : '';
+}
+
+/**
+ * Wires a press-and-hold interaction on `button`: `onChange(true)` fires on
+ * press, `onChange(false)` on release — including a pointer dragged off the
+ * button (pointerleave) or an interrupted gesture (pointercancel), so a
+ * peek button can never get stuck showing something it shouldn't.
+ */
+function bindHoldToPeek(button, onChange) {
+  button.addEventListener('pointerdown', (event) => { event.preventDefault(); onChange(true); });
+  button.addEventListener('pointerup', () => onChange(false));
+  button.addEventListener('pointerleave', () => onChange(false));
+  button.addEventListener('pointercancel', () => onChange(false));
+}
+
+/** "Show first stroke" reveals the model's own stroke 0 — not whichever
+ * stroke is next — as a way to get oriented, not a running hint per stroke.
+ * "Show full character" reveals every stroke at Trace's faint baseline. Both
+ * are no-ops in Trace mode, where the guide is already fully visible. */
+function writingSetPeek(kind, on) {
+  const session = state.session;
+  if (!session || session.writingSubMode === 'trace') return;
+  if (kind === 'full') {
+    setGuidePeekFull($('writing-guide'), on);
+  } else if (kind === 'first' && session.writingGuidePaths) {
+    setStrokePeek(session.writingGuidePaths, 0, on);
+  }
 }
 
 function redrawWritingCanvas() {
@@ -1001,6 +1049,19 @@ function finishWritingCharacter(explicitCorrect) {
   // Only offered on a clean, first-try pass — see the module comment above.
   $('writing-retry').hidden = !correct;
   $('writing-mark-unknown').hidden = !correct;
+
+  // A clean pass offers going one level harder, right by Next; a miss
+  // offers going one level easier, in the hint row instead — see index.html.
+  const harder = nextHarderMode(session.writingSubMode);
+  const tryHarder = $('writing-try-harder');
+  tryHarder.hidden = !(correct && harder);
+  if (harder) tryHarder.textContent = `Try ${WRITING_MODE_LABELS[harder]}`;
+
+  const easier = nextEasierMode(session.writingSubMode);
+  const switchEasier = $('writing-switch-easier');
+  switchEasier.hidden = !(!correct && easier);
+  if (easier) switchEasier.textContent = `Switch to ${WRITING_MODE_LABELS[easier]}`;
+
   $('writing-result').hidden = false;
 }
 
@@ -1022,6 +1083,8 @@ function writingRetry() {
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
+  $('writing-try-harder').hidden = true;
+  $('writing-switch-easier').hidden = true;
   $('writing-feedback').textContent = '';
 }
 
@@ -1466,6 +1529,21 @@ function wire() {
   $('writing-done').addEventListener('click', writingDone);
   $('writing-self-grade-yes').addEventListener('click', () => writingSelfGrade(true));
   $('writing-self-grade-no').addEventListener('click', () => writingSelfGrade(false));
+  $('writing-try-harder').addEventListener('click', () => {
+    if (!state.session) return;
+    const harder = nextHarderMode(state.session.writingSubMode);
+    if (harder) writingSetSubMode(harder);
+  });
+  $('writing-switch-easier').addEventListener('click', () => {
+    if (!state.session) return;
+    const easier = nextEasierMode(state.session.writingSubMode);
+    if (easier) writingSetSubMode(easier);
+  });
+  // Hold to peek: shown only while pressed, hidden the instant it's
+  // released — pointerleave/pointercancel too, so dragging off the button
+  // (or an interrupted gesture) can't leave it stuck showing.
+  bindHoldToPeek($('writing-peek-first'), (on) => writingSetPeek('first', on));
+  bindHoldToPeek($('writing-peek-full'), (on) => writingSetPeek('full', on));
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);
