@@ -35,6 +35,31 @@ currently 6, in `tools/build_kanji_data.py`):
 python3 tools/build_kanji_data.py
 ```
 
+## Deploying to GitHub Pages
+
+Pages serves the repo as static files, which is exactly what this app is —
+there is nothing to build. Every path in the app is relative, so it works
+unchanged from `https://<user>.github.io/kana-quest/` rather than a domain
+root; `.nojekyll` stops Pages trying to run Jekyll over the files.
+
+Once it's live, updating the kids' devices is just `git push` — and the
+whole "phone can't reach the laptop" problem below goes away, because the
+site is always reachable over HTTPS. HTTPS is also what speech input will
+need later.
+
+To publish (one-time):
+
+1. Create an **empty** public repo named `kana-quest` at
+   <https://github.com/new> — no README, no .gitignore, no licence, since
+   this repo already has its history.
+2. `git push -u origin main` from the repo (see "Where things live" for the
+   path). The remote is already configured.
+3. In the repo's **Settings → Pages**, set Source to *Deploy from a branch*,
+   branch `main`, folder `/ (root)`, and Save.
+
+The site appears at `https://<user>.github.io/kana-quest/` within a minute or
+two. On each device, open that URL and *Add to Home Screen*.
+
 ## Getting around
 
 The front page asks **Hiragana, Katakana or Kanji**. Picking one opens that
