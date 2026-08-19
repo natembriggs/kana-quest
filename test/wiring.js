@@ -479,12 +479,12 @@ check('a clean Trace pass offers trying one level harder',
 check('the hint row has nothing left to do once finished, so it is hidden too — Trace never showed it anyway',
   el('writing-hints').hidden === true);
 
-// "Try again": redraws the same character. Retrying something already
-// recorded correct also quietly marks it not known — folded in rather than
-// a separate "Mark as not known" button — checked against storage at the
-// end of this section. The stroke counter resetting to 1 (and the prompt
-// reappearing) is proof the redo actually cleared the in-progress attempt
-// rather than silently no-op'ing.
+// "Try again": redraws the same character. This is a pure redo — it does
+// not touch the record on its own (checked against storage at the end of
+// this section: without clicking "Mark this attempt as bad" below, the
+// original record would stand untouched). The stroke counter resetting to
+// 1 (and the prompt reappearing) is proof the redo actually cleared the
+// in-progress attempt rather than silently no-op'ing.
 fire(el('writing-retry'), 'click');
 await settle();
 check('"Try again" hides the result message, brings the prompt back, and resets the stroke count',
@@ -496,8 +496,19 @@ for (let i = 0; i < firstWritingStrokeCount; i += 1) {
   traceModelStroke(firstWritingChar, i);
   await settle();
 }
-check('the redo reaches a result of its own without writing a second record',
-  el('writing-result').hidden === false && el('writing-result-message').textContent === 'Nicely done!');
+check('a clean redo of an already-recorded character offers "Mark this attempt as bad" instead of praise text, in the same slot',
+  el('writing-result').hidden === false
+  && el('writing-result-message').hidden === true && el('writing-mark-bad').hidden === false);
+
+// Exercise the explicit override itself — this is what used to happen
+// automatically on every redo, and now only happens if the learner asks
+// for it.
+fire(el('writing-mark-bad'), 'click');
+await settle();
+check('clicking it swaps back to text confirming the correction, without a second grading event',
+  el('writing-mark-bad').hidden === true
+  && el('writing-result-message').hidden === false
+  && el('writing-result-message').textContent === 'Okay — marked for more practice.');
 
 fire(el('writing-next'), 'click');
 await settle();
@@ -719,7 +730,7 @@ check('writing progress was written to storage, keyed by mode', writingRecords.l
 check('every writing record has a history', writingRecords.every(([, r]) => r.history.length > 0));
 
 const firstWritingRecord = writingSaved.progress[`writing:${firstWritingChar}`];
-check('"Try again" on an already-correct character folded in the not-known override, without a second grading event',
+check('"Mark this attempt as bad" after a redo applied the not-known override, without a second grading event',
   !!firstWritingRecord && firstWritingRecord.box === 0 && firstWritingRecord.seen === 1,
   JSON.stringify(firstWritingRecord));
 

@@ -420,6 +420,26 @@ passed is itself a signal you don't fully trust the grade. Retrying
 something already recorded wrong is a no-op for the record; there's nothing
 left to override.
 
+### 7.3 A reversal: folding it into "Try again" cost too much
+
+In practice, wanting a neater second attempt at something you just got right
+(the *Write it again* motivation from §4) is common and has nothing to do
+with distrusting the grade — but §7.2's fold made every such redo quietly
+reset the box anyway. That's the wrong default: it punishes the exact
+behaviour the guide is designed to encourage.
+
+**"Try again" is back to being a pure redo — it never touches the record.**
+The override is still available, but now as an explicit, opt-in action: a
+clean redo of an already-recorded character shows a **"Mark this attempt as
+bad"** button instead of the "Nicely done!" text, in the same slot above the
+canvas (`writing-mark-bad` in `index.html`/`app.js`). It only appears on a
+redo — the first pass through a character has nothing to mark bad yet — and
+only replaces the positive message, since a redo that itself goes badly
+already shows "Okay — marked for more practice." with nothing further to
+opt into. Clicking it applies exactly the same schedule correction as
+before (box back to 0, due now, `seen`/`lapses`/history untouched), then
+swaps back to that same confirmation text.
+
 ---
 
 ## 8. Open questions

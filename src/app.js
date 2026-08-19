@@ -739,14 +739,13 @@ function revealSingleAnswer(answer) {
 // review. See createFreeAttempt() in writing.js.
 //
 // All three converge on the same ending: the character never auto-advances
-// once finished. One row, up to three buttons: Try again (always offered —
-// redoing something already recorded correct also quietly marks it not
-// known, folding in what used to be a separate "Mark as not known" button;
-// see writingRetry below), one button that switches difficulty (labelled
-// "Try harder mode" after a clean pass or "Switch to easier mode" after a
-// miss, hidden entirely at either end of the ladder), and Next. For Free
-// mode, the automatic verdict itself is only ever a SUGGESTION — the
-// learner's own yes/no self-grade is what actually gets recorded.
+// once finished. One row, up to three buttons: Try again (a pure redo — it
+// no longer touches the record on its own, see writingRetry below), one
+// button that switches difficulty (labelled "Try harder mode" after a clean
+// pass or "Switch to easier mode" after a miss, hidden entirely at either
+// end of the ladder), and Next. For Free mode, the automatic verdict itself
+// is only ever a SUGGESTION — the learner's own yes/no self-grade is what
+// actually gets recorded.
 //
 // The completion MESSAGE and the RECORD are allowed to disagree, on
 // purpose: finishing every stroke of a Trace/Guided attempt is praised
@@ -755,6 +754,13 @@ function revealSingleAnswer(answer) {
 // who got there in the end shouldn't be told "good try" as if they failed.
 // That message now appears ABOVE the canvas, replacing the prompt and
 // stroke count in the same slot, rather than adding new space below it.
+//
+// A redo (Try again) finishing cleanly is the one case where that slot shows
+// a button instead of text: the record is already locked in from the first
+// pass, so "Nicely done!" is replaced by "Mark this attempt as bad" — an
+// explicit, opt-in way to say the original grade was too generous, rather
+// than Try again silently applying that override every time. See
+// writingMarkBad below.
 
 const WRITING_SUB_MODES = ['trace', 'guided', 'free'];
 
@@ -809,6 +815,7 @@ function renderWritingQuestion(course, item) {
   $('writing-prompt').hidden = false;
   $('writing-stroke-counter').hidden = false;
   $('writing-result-message').hidden = true;
+  $('writing-mark-bad').hidden = true;
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
@@ -1055,6 +1062,7 @@ function finishWritingCharacter(explicitCorrect) {
   const correct = isAutomatic ? session.writingAttempt.isCorrect() : explicitCorrect;
   session.writingLastCorrect = correct; // read by writingRetry() and the switch-mode button below
 
+  const wasAlreadyRecorded = !!session.writingRecorded; // this finish is a redo, not the first pass
   if (!session.writingRecorded) {
     session.writingRecorded = true;
     session.answered += 1;
@@ -1078,7 +1086,12 @@ function finishWritingCharacter(explicitCorrect) {
   // not an automatic verdict being softened at them.
   $('writing-prompt').hidden = true;
   $('writing-stroke-counter').hidden = true;
-  $('writing-result-message').hidden = false;
+  // A clean redo shows the "mark this as bad" button in this slot instead of
+  // praise, since there's no more praise to give that isn't already on
+  // record — see the module comment above and writingMarkBad below.
+  const showMarkBad = wasAlreadyRecorded && (isAutomatic || correct);
+  $('writing-result-message').hidden = showMarkBad;
+  $('writing-mark-bad').hidden = !showMarkBad;
   $('writing-result-message').textContent = (isAutomatic || correct)
     ? 'Nicely done!'
     : 'Okay — marked for more practice.';
@@ -1094,31 +1107,18 @@ function finishWritingCharacter(explicitCorrect) {
 }
 
 /**
- * "Try again" always offers a redo — but retrying something already
- * recorded correct is also treated as the learner not actually trusting
- * that grade, folding in what used to be a separate "Mark as not known"
- * button: a schedule correction, not a second grading event. seen/lapses/
- * history stay exactly as recordResult() already left them in
- * finishWritingCharacter(); only the box and due date move, so this can't
- * be mistaken for a second real attempt if the history is inspected later.
- * Retrying something already marked wrong is a no-op here — there's
- * nothing to override, box/due are already exactly this.
+ * "Try again" is a pure redo — it does not touch the record. Redoing
+ * something already recorded correct used to also fold in a quiet "mark as
+ * not known" override; that's now a separate, explicit choice (see
+ * writingMarkBad below), because wanting a neater attempt isn't the same
+ * thing as not trusting the grade, and folding them together meant every
+ * redo silently cost the learner their box progress.
  */
 function writingRetry() {
   const session = state.session;
   if (!session || !session.writingAttempt) return;
   const mode = session.writingSubMode || 'trace';
   const item = session.queue[session.position];
-
-  if (session.writingLastCorrect) {
-    const record = state.profile.progress[itemKey('writing', item)];
-    if (record) {
-      record.box = 0;
-      record.due = Date.now();
-      store.saveProfile(state.profile);
-    }
-    session.results.set(item, false);
-  }
 
   session.writingAttempt.restart();
   session.writingStrokes = [];
@@ -1134,12 +1134,39 @@ function writingRetry() {
   $('writing-prompt').hidden = false;
   $('writing-stroke-counter').hidden = false;
   $('writing-result-message').hidden = true;
+  $('writing-mark-bad').hidden = true;
   $('writing-hints').hidden = mode === 'trace';
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
   $('writing-switch-mode').hidden = true;
   $('writing-feedback').textContent = '';
+}
+
+/**
+ * The explicit override, shown only in place of "Nicely done!" after a redo
+ * (see finishWritingCharacter above) — the learner is saying the ORIGINAL
+ * pass shouldn't have counted as correct, not grading this redo. A schedule
+ * correction, not a second grading event: seen/lapses/history stay exactly
+ * as recordResult() already left them from the first pass; only the box and
+ * due date move, so this can't be mistaken for a second real attempt if the
+ * history is inspected later.
+ */
+function writingMarkBad() {
+  const session = state.session;
+  if (!session) return;
+  const item = session.queue[session.position];
+  const record = state.profile.progress[itemKey('writing', item)];
+  if (record) {
+    record.box = 0;
+    record.due = Date.now();
+    store.saveProfile(state.profile);
+  }
+  session.results.set(item, false);
+
+  $('writing-mark-bad').hidden = true;
+  $('writing-result-message').hidden = false;
+  $('writing-result-message').textContent = 'Okay — marked for more practice.';
 }
 
 // --- Kanji: click a reading, it turns green or red immediately ---------
@@ -1552,6 +1579,7 @@ function wire() {
   writingCanvas.addEventListener('pointercancel', writingPointerUp);
   $('writing-next').addEventListener('click', () => { if (state.session) nextQuestion(); });
   $('writing-retry').addEventListener('click', writingRetry);
+  $('writing-mark-bad').addEventListener('click', writingMarkBad);
   WRITING_SUB_MODES.forEach((mode) => {
     $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
   });
