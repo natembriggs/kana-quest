@@ -513,13 +513,26 @@ check('a clean Trace pass offers trying one level harder',
 check('the hint row has nothing left to do once finished, so it is hidden too — Trace never showed it anyway',
   el('writing-hints').hidden === true);
 
-// "Try again": redraws the same character. This is a pure redo — it does
+// bindTap() (see app.js): a touch pointerup should fire the handler
+// immediately, without waiting for the click the browser would ordinarily
+// synthesize from it — that's the whole fix for taps needing to land twice
+// on a phone right after a canvas gesture. A mouse pointerup is ignored,
+// leaving mouse users on the ordinary click listener, unaffected. Exercised
+// here on "Try again", which is also the very next real interaction in this
+// flow — this both tests bindTap AND drives the redo below via touch
+// instead of click, proving touch alone is enough, with no click needed.
+//
+// "Try again" redraws the same character. This is a pure redo — it does
 // not touch the record on its own (checked against storage at the end of
 // this section: without clicking "Mark this attempt as bad" below, the
 // original record would stand untouched). The stroke counter resetting to
 // 1 (and the prompt reappearing) is proof the redo actually cleared the
 // in-progress attempt rather than silently no-op'ing.
-fire(el('writing-retry'), 'click');
+fire(el('writing-retry'), 'pointerup', { pointerType: 'mouse' });
+await settle();
+check('a mouse pointerup is ignored by bindTap — "Try again" must not have fired from it',
+  el('writing-result').hidden === false); // still showing the finished result, untouched
+fire(el('writing-retry'), 'pointerup', { pointerType: 'touch' });
 await settle();
 check('"Try again" hides the result message, brings the prompt back, and resets the stroke count',
   el('writing-result').hidden === true

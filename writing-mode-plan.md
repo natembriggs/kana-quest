@@ -511,39 +511,45 @@ reaches `screen-summary` with sensible chips, or that the overview/detail
 screens correctly reflect writing-mode mastery. Both are now exercised
 end-to-end for a kanji writing session.
 
-### 7.6 An open bug from real phone use: "Next" needing multiple presses
+### 7.6 A bug from real phone use: "Next" needing multiple taps
 
 Reported on-device: after finishing a character's last stroke, the first tap
 on **Next** (and **Try again**) often does nothing — a second, sometimes a
-third, tap is needed. **Still not confirmed fixed as of this writing.**
+third, tap is needed. **The same interaction always works first try with a
+mouse in a desktop browser** — this turned out to be the key fact, isolating
+it to touch specifically rather than anything in the session/rendering logic
+(which would misbehave identically on both).
 
-First attempt: `writingPointerDown()` calls `canvas.setPointerCapture()` when
-a stroke begins, and nothing ever called the matching
-`releasePointerCapture()`. Capture is *supposed* to release itself
-automatically on pointerup, but this is a known soft spot on mobile
-WebKit/PWA — the very next tap anywhere else on the page can be swallowed or
-misrouted the first time. Fixed by releasing it explicitly in
-`writingPointerUp()`, guarded the same defensive way it was acquired.
+Two earlier attempts, kept as belt-and-braces since they're harmless even if
+not the actual cause: releasing pointer capture explicitly in
+`writingPointerUp()` (capture from `writingPointerDown()`'s
+`setPointerCapture()` is *supposed* to release itself automatically on
+pointerup, but this is a known soft spot on mobile WebKit/PWA), and
+`event.preventDefault()` in all three pointer handlers, to head off iOS
+synthesizing compatibility mouse events on top of pointer events even with
+`touch-action: none` set.
 
-Reported as still happening after that fix (though not confirmed whether the
-fix had actually been deployed and force-refreshed on the test device before
-retrying — an iOS home-screen app can easily still be running old cached
-code, see *If a phone is stuck on an old version* in the README). Second,
-overlapping measure added regardless: `event.preventDefault()` in all three
-pointer handlers (`writingPointerDown/Move/Up`), belt-and-braces against the
-same class of bug — iOS synthesizing compatibility mouse events or invoking
-its own long-press/selection handling on top of the pointer events, which
-`touch-action: none` alone is not always enough to suppress.
+**The actual fix, once touch-vs-mouse was confirmed:** stop relying on the
+browser's synthesized `click` event at all for buttons that appear right
+after a canvas gesture. `bindTap()` in `app.js` listens on `pointerup`
+directly for touch/pen (`event.pointerType !== 'mouse'`), calling
+`preventDefault()` there to suppress the `click` iOS would otherwise
+synthesize from that same tap — sidestepping whatever is unreliable about
+that synthesis rather than needing to understand exactly what it is. Mouse
+is untouched (`pointerType === 'mouse'` is skipped, falling through to the
+ordinary `click` listener kept underneath), which is also what keyboard/
+assistive-tech activation fires (no pointer events at all), so both keep
+working exactly as before. Applied to every writing-screen button that
+follows a canvas gesture: Next, Try again, Mark this attempt as bad, the
+difficulty-ladder switch button, Done, and both self-grade buttons.
 
-No behavioural test can exercise either fix directly — both depend on real
-browser pointer-capture/touch semantics no DOM stub reproduces. If reported
-again after confirming a genuinely fresh deploy, the next places to look:
-whether the issue reproduces on the **Try again**/**Mark this attempt as
-bad** buttons specifically or on *every* button on the writing screen
-(narrows it to something canvas-adjacent vs. something wrong with the result
-panel's own rendering), and whether it reproduces in Safari directly (not
-just the installed home-screen app), which would rule out anything
-PWA/service-worker-specific.
+Pinned in `test/wiring.js`: a `pointerup` with `pointerType: 'mouse'` on
+"Try again" is checked to do nothing, then a `pointerup` with
+`pointerType: 'touch'` is checked to trigger the redo — with no `click`
+event involved at all, proving touch alone is sufficient. The pointer-
+capture-release and `preventDefault` measures from the earlier attempts
+remain untested directly (they depend on real browser semantics no DOM stub
+reproduces), but are still in place.
 
 ### 7.7 Phase 6: version bump, service worker shell, README
 

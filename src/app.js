@@ -999,6 +999,29 @@ function updateWritingStrokeCounter() {
 }
 
 /**
+ * For buttons that appear right after a canvas drawing gesture ends —
+ * Next, Try again, Done, and the rest of the writing screen's result/self-
+ * grade panel — reported to sometimes need two taps on a phone before the
+ * ordinary `click` fires, even though the exact same tap always works first
+ * try with a mouse. Reacting to `pointerup` directly, for touch/pen only,
+ * sidesteps whatever iOS is doing when synthesizing `click` from a touch
+ * sequence right after the canvas's own pointer handling. `click` is kept
+ * underneath it, both for mouse (`pointerType === 'mouse'` is skipped here,
+ * so desktop is unaffected) and as the only thing keyboard/assistive-tech
+ * activation fires at all (no pointer events). `preventDefault` on the touch
+ * pointerup suppresses the `click` that would otherwise follow it, so the
+ * two paths don't both fire for the same tap.
+ */
+function bindTap(element, handler) {
+  element.addEventListener('pointerup', (event) => {
+    if (event.pointerType === 'mouse') return;
+    event.preventDefault();
+    handler(event);
+  });
+  element.addEventListener('click', (event) => handler(event));
+}
+
+/**
  * Wires a press-and-hold interaction on `button`: `onChange(true)` fires on
  * press, `onChange(false)` on release — including a pointer dragged off the
  * button (pointerleave) or an interrupted gesture (pointercancel), so a
@@ -1724,18 +1747,18 @@ function wire() {
   writingCanvas.addEventListener('pointermove', writingPointerMove);
   writingCanvas.addEventListener('pointerup', writingPointerUp);
   writingCanvas.addEventListener('pointercancel', writingPointerUp);
-  $('writing-next').addEventListener('click', () => { if (state.session) nextQuestion(); });
-  $('writing-retry').addEventListener('click', writingRetry);
-  $('writing-mark-bad').addEventListener('click', writingMarkBad);
+  bindTap($('writing-next'), () => { if (state.session) nextQuestion(); });
+  bindTap($('writing-retry'), writingRetry);
+  bindTap($('writing-mark-bad'), writingMarkBad);
   WRITING_SUB_MODES.forEach((mode) => {
     $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
   });
-  $('writing-done').addEventListener('click', writingDone);
-  $('writing-self-grade-yes').addEventListener('click', () => writingSelfGrade(true));
-  $('writing-self-grade-no').addEventListener('click', () => writingSelfGrade(false));
+  bindTap($('writing-done'), writingDone);
+  bindTap($('writing-self-grade-yes'), () => writingSelfGrade(true));
+  bindTap($('writing-self-grade-no'), () => writingSelfGrade(false));
   // One button, direction depends on how the just-finished attempt went —
   // see finishWritingCharacter(), which sets session.writingLastCorrect.
-  $('writing-switch-mode').addEventListener('click', () => {
+  bindTap($('writing-switch-mode'), () => {
     const session = state.session;
     if (!session) return;
     const target = session.writingLastCorrect
