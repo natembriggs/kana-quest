@@ -247,6 +247,22 @@ export function courseStats(course, mode, progress, now = Date.now()) {
   };
 }
 
+/**
+ * A 0-4 mastery tier from a record's box, for colour-coding an overview
+ * grid: 0 = never introduced, 1 = just started (box 0 — including a fresh
+ * miss, which always drops back to box 0), 2-3 = making progress, 4 = at or
+ * past the top box. Works on both the Leitner records kana/Definition use
+ * and the kanji-rollup records Yomi produces (recomputeKanjiRollup in
+ * kanji.js), since both carry the same `.box` field.
+ */
+export function masteryTier(record) {
+  if (!record) return 0;
+  if (record.box <= 0) return 1;
+  if (record.box <= 2) return 2;
+  if (record.box <= 4) return 3;
+  return 4;
+}
+
 // --- Per-reading records (kanji reading quiz) ------------------------------
 //
 // The kanji reading quiz grades each on'yomi/kun'yomi individually rather

@@ -8,11 +8,12 @@ import {
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
-  currentSetIndex, readyForMore, newRecord, newYomiRecord,
+  currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier,
 } from './srs.js';
+import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19e'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
@@ -33,12 +34,20 @@ const KANJI_GRADES = KANJI_COURSES
 
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
+const MASTERY_LABELS = ['Not started', 'Just started', 'Learning', 'Doing well', 'Well known'];
+
 const state = {
   profile: null,
   scriptId: 'hiragana',
   grade: KANJI_GRADES[0],
   mode: 'recognition',
   session: null,
+  // Set overview / character detail — independent of the session state
+  // above, since they're read-only browsing, reachable with or without one.
+  overviewCourseId: null,
+  overviewChunkIndex: 0,
+  detailCourseId: null,
+  detailChar: null,
 };
 
 function currentScript() {
@@ -260,8 +269,18 @@ function renderCourse() {
       <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
     </div>
     <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
   `;
+
+  // Tappable rather than plain text: opens the set overview (glyphs colour-
+  // coded by how well each one is known, tap through to stroke order and
+  // readings for any of them). Starts on the current set; the overview has
+  // its own prev/next to browse any other one.
+  const viewSet = document.createElement('button');
+  viewSet.type = 'button';
+  viewSet.className = 'hint linkish-row';
+  viewSet.innerHTML = `Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered ›`;
+  viewSet.addEventListener('click', () => openOverview(course, setIndex));
+  card.appendChild(viewSet);
 
   // Learning new characters and reviewing are separate buttons, so adding
   // more to study is always a decision rather than something that happens
@@ -309,6 +328,115 @@ function renderCourse() {
   list.appendChild(card);
 
   show('screen-course');
+}
+
+// --- Set overview: every character in one chunk, colour-coded by mastery --
+
+function openOverview(course, chunkIndex) {
+  state.overviewCourseId = course.id;
+  state.overviewChunkIndex = chunkIndex;
+  renderOverview();
+}
+
+function renderOverview() {
+  const course = getAnyCourse(state.overviewCourseId);
+  const chunk = course.chunks[state.overviewChunkIndex];
+  const progress = state.profile.progress;
+
+  $('overview-title').textContent = chunk.label;
+  $('overview-counter').textContent = `${state.overviewChunkIndex + 1}/${course.chunks.length}`;
+  $('overview-prev').disabled = state.overviewChunkIndex === 0;
+  $('overview-next').disabled = state.overviewChunkIndex === course.chunks.length - 1;
+
+  const grid = $('overview-grid');
+  grid.innerHTML = '';
+  chunk.items.forEach((item) => {
+    const tier = masteryTier(progress[itemKey(state.mode, item)]);
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.className = `overview-tile tier-${tier}`;
+    tile.textContent = item;
+    tile.setAttribute('aria-label', `${item}: ${MASTERY_LABELS[tier]}`);
+    tile.addEventListener('click', () => openCharacterDetail(course, item));
+    grid.appendChild(tile);
+  });
+
+  show('screen-overview');
+}
+
+function overviewStep(delta) {
+  const course = getAnyCourse(state.overviewCourseId);
+  const next = state.overviewChunkIndex + delta;
+  if (next < 0 || next >= course.chunks.length) return;
+  state.overviewChunkIndex = next;
+  renderOverview();
+}
+
+// --- Character detail: stroke order, readings, meanings -------------------
+
+function openCharacterDetail(course, char) {
+  state.detailCourseId = course.id;
+  state.detailChar = char;
+  renderCharacterDetail();
+}
+
+function renderCharacterDetail() {
+  const course = getAnyCourse(state.detailCourseId);
+  const char = state.detailChar;
+  const progress = state.profile.progress;
+
+  $('detail-glyph').textContent = char;
+
+  const strokeContainer = $('detail-stroke');
+  strokeContainer.innerHTML = '';
+  const { svg, paths } = buildStrokeSVG(char);
+  strokeContainer.appendChild(svg);
+  const playButton = $('detail-play-strokes');
+  playButton.hidden = paths.length === 0;
+  playButton.onclick = () => animateStrokes(paths);
+
+  const tier = masteryTier(progress[itemKey(state.mode, char)]);
+  $('detail-mastery').textContent = MASTERY_LABELS[tier];
+  $('detail-mastery').className = `mastery-label tier-${tier}`;
+
+  if (course.kind === 'kanji') {
+    const info = kanjiInfo(course, char);
+    $('detail-romaji').hidden = true;
+    $('detail-readings').hidden = false;
+    renderReadingChips($('detail-readings'), $('detail-word'), course, char, info);
+    $('detail-meanings').hidden = false;
+    $('detail-meanings').textContent = info.meanings.join(', ');
+    $('detail-word').hidden = true;
+    $('detail-word').innerHTML = '';
+    renderGeneralWords(info.words);
+  } else {
+    $('detail-romaji').hidden = false;
+    $('detail-romaji').textContent = romajiFor(char);
+    $('detail-readings').hidden = true;
+    $('detail-readings').innerHTML = '';
+    $('detail-meanings').hidden = true;
+    $('detail-word').hidden = true;
+    $('detail-general-words').hidden = true;
+  }
+
+  show('screen-character-detail');
+}
+
+function renderGeneralWords(words) {
+  const section = $('detail-general-words');
+  const list = $('detail-general-words-list');
+  list.innerHTML = '';
+  if (!words.length) {
+    section.hidden = true;
+    return;
+  }
+  words.forEach((word) => {
+    const row = document.createElement('div');
+    row.className = 'kanji-word';
+    renderWord(row, word);
+    list.appendChild(row);
+  });
+  section.hidden = false;
 }
 
 // --- Session --------------------------------------------------------------
@@ -361,7 +489,7 @@ function renderLesson() {
     // seeing the word a rare reading actually comes from is exactly what
     // makes it stick on a first encounter, not just at review time.
     $('lesson-readings').hidden = false;
-    renderLessonReadingChips(course, item, info);
+    renderReadingChips($('lesson-readings'), $('lesson-word'), course, item, info);
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.meanings.join(', ');
     $('lesson-word').hidden = true;
@@ -382,26 +510,31 @@ function renderLesson() {
   show('screen-lesson');
 }
 
-function renderLessonReadingChips(course, kanji, info) {
-  const container = $('lesson-readings');
-  container.innerHTML = '';
+/**
+ * Tappable reading chips wired to reveal an example word — the same
+ * interaction on the lesson card, the character detail screen, and (via its
+ * own click handler in the quiz code) after a Yomi question resolves. Shared
+ * here rather than duplicated per screen: same data, same behaviour, only
+ * the target elements differ.
+ */
+function renderReadingChips(containerEl, wordEl, course, kanji, info) {
+  containerEl.innerHTML = '';
   info.quizReadings.forEach((reading) => {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'reading-chip';
     chip.textContent = reading;
     chip.dataset.reading = reading;
-    chip.addEventListener('click', () => showLessonReadingExample(course, kanji, reading, chip));
-    container.appendChild(chip);
+    chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip));
+    containerEl.appendChild(chip);
   });
 }
 
-function showLessonReadingExample(course, kanji, reading, chip) {
-  $('lesson-readings').querySelectorAll('.reading-chip').forEach((el) => el.classList.remove('is-active'));
+function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip) {
+  containerEl.querySelectorAll('.reading-chip').forEach((el) => el.classList.remove('is-active'));
   chip.classList.add('is-active');
 
   const example = readingExample(course, kanji, reading);
-  const wordEl = $('lesson-word');
   if (example) {
     renderWord(wordEl, example);
   } else {
@@ -932,6 +1065,9 @@ function wire() {
 
   $('lesson-next').addEventListener('click', advanceLesson);
 
+  $('overview-prev').addEventListener('click', () => overviewStep(-1));
+  $('overview-next').addEventListener('click', () => overviewStep(1));
+
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
@@ -974,6 +1110,7 @@ function wire() {
       case 'go-course':
         if (state.profile) renderCourse(); else renderProfiles();
         break;
+      case 'go-overview': renderOverview(); break;
       case 'close-settings':
         if (!state.profile) renderProfiles();
         else if (state.settingsReturn === 'screen-course') renderCourse();

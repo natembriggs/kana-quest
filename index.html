@@ -80,6 +80,60 @@
   </section>
 
   <!-- ---------------------------------------------------------------- -->
+  <!-- One set (5 characters): tap a tile, coloured by how well it's known,
+       to see its stroke order and readings on screen-character-detail. -->
+  <section id="screen-overview" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
+      <h2 id="overview-title">Set</h2>
+      <span id="overview-counter" class="counter"></span>
+    </header>
+    <div id="overview-grid" class="overview-grid"></div>
+    <p class="hint mastery-legend">
+      <span class="mastery-swatch tier-0"></span>not started
+      <span class="mastery-swatch tier-1"></span>started
+      <span class="mastery-swatch tier-2"></span>learning
+      <span class="mastery-swatch tier-3"></span>doing well
+      <span class="mastery-swatch tier-4"></span>well known
+    </p>
+    <div class="row">
+      <button id="overview-prev" class="btn" type="button">‹ Previous set</button>
+      <button id="overview-next" class="btn" type="button">Next set ›</button>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section id="screen-character-detail" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-overview" aria-label="Back">←</button>
+      <h2>Detail</h2>
+      <span></span>
+    </header>
+
+    <div class="detail-head">
+      <div id="detail-glyph" class="glyph glyph-lg"></div>
+      <div class="detail-stroke-wrap">
+        <div id="detail-stroke"></div>
+        <button id="detail-play-strokes" class="btn btn-quiet" type="button">▶ Play stroke order</button>
+      </div>
+    </div>
+
+    <p id="detail-mastery" class="mastery-label"></p>
+
+    <div id="detail-romaji" class="romaji" hidden></div>
+    <!-- Kanji only: tappable readings (tap to see the word it's used in),
+         meanings, and the word for whichever reading was last tapped. -->
+    <div id="detail-readings" class="reading-chips" hidden></div>
+    <div id="detail-meanings" class="kanji-meanings" hidden></div>
+    <div id="detail-word" class="kanji-word" hidden></div>
+
+    <div id="detail-general-words" class="stack" hidden>
+      <h3>Common words</h3>
+      <div id="detail-general-words-list" class="stack"></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
   <section id="screen-lesson" class="screen" hidden>
     <header class="topbar">
       <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>

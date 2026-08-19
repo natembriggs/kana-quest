@@ -20,7 +20,7 @@
 //      precaching is an optimisation, not a correctness requirement, since
 //      the fetch handler populates the cache as pages are used anyway.
 
-const VERSION = '2026-08-19d';
+const VERSION = '2026-08-19e';
 const CACHE = `kana-quest-${VERSION}`;
 
 const SHELL = [
@@ -35,6 +35,8 @@ const SHELL = [
   'src/kanji-data.js',
   'src/srs.js',
   'src/store.js',
+  'src/strokes.js',
+  'src/stroke-data.js',
 ];
 
 self.addEventListener('install', (event) => {

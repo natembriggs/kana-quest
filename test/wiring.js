@@ -53,6 +53,10 @@ function makeElement(id = '') {
     remove() {},
     focus() {},
     click() {},
+    // Real SVG elements always have this; strokes.js calls it unconditionally
+    // (not inside its try/catch, unlike the stroke-geometry calls) to force a
+    // layout flush before starting the draw-in animation.
+    getBoundingClientRect() { return { x: 0, y: 0, width: 0, height: 0, top: 0, left: 0, right: 0, bottom: 0 }; },
     // Nodes written via innerHTML are not really parsed here, so hand back a
     // stable placeholder per selector rather than null — enough for code that
     // sets .textContent on a child it just created.
@@ -102,6 +106,12 @@ globalThis.document = {
     return [];
   },
   createElement() { return makeElement(); },
+  // Namespace is irrelevant to the stub — same generic element either way.
+  // strokes.js's getPointAtLength/getTotalLength calls are already wrapped
+  // in try/catch expecting a non-browser environment, so this stub
+  // deliberately does not implement real SVG geometry: it exercises that
+  // fallback path rather than papering over it.
+  createElementNS(_ns, _tag) { return makeElement(); },
   addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
   body: makeElement('body'),
 };
@@ -162,7 +172,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 
 // --- Boot -----------------------------------------------------------------
 
-const { romajiFor } = await import('../src/kana.js');
+const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
@@ -709,6 +719,102 @@ check('a definition miss recovered on the second try still counts as a lapse',
   JSON.stringify(afterDefinition.progress[`definition:${defMissKanji}`]));
 check('yomi progress is untouched by definition practice — the modes are independent',
   Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
+
+// --- Set overview and character detail -------------------------------------
+// Reached from the course screen's "Current set" line, now a real button.
+// Uses katakana specifically: no session has touched it anywhere above, so
+// every tile should show as tier-0 ("not started") — a clean baseline to
+// check the colour-coding logic against.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'katakana'), 'click');
+await settle();
+
+const viewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Current set'));
+check('the course card has a "Current set" button leading to the overview', !!viewSetButton);
+
+fire(viewSetButton, 'click');
+await settle();
+check('opening the current set shows the overview screen', visible() === 'screen-overview', `showing ${visible()}`);
+
+const katakanaCourse = getCourse('katakana');
+const tiles = el('overview-grid')._children;
+check('the overview shows one tile per character in the set',
+  tiles.length === katakanaCourse.chunks[0].items.length, `${tiles.length} tiles`);
+check('every tile in an untouched set shows as not-started (tier-0)',
+  tiles.every((t) => t.className.includes('tier-0')), tiles.map((t) => t.className).join(' | '));
+check('the overview counter shows the set position',
+  el('overview-counter').textContent === `1/${katakanaCourse.chunks.length}`,
+  el('overview-counter').textContent);
+check('previous is disabled on the first set', el('overview-prev').disabled === true);
+check('next is enabled when there is another set', el('overview-next').disabled === false);
+
+fire(el('overview-next'), 'click');
+await settle();
+check('next moves to set 2', el('overview-counter').textContent === `2/${katakanaCourse.chunks.length}`);
+check('previous becomes enabled after moving forward', el('overview-prev').disabled === false);
+
+fire(el('overview-prev'), 'click');
+await settle();
+check('previous returns to set 1', el('overview-counter').textContent === `1/${katakanaCourse.chunks.length}`);
+
+// Tap a tile to reach the character detail screen.
+const firstTile = el('overview-grid')._children[0];
+const firstTileChar = firstTile.textContent;
+fire(firstTile, 'click');
+await settle();
+check('tapping a tile opens the character detail screen',
+  visible() === 'screen-character-detail', `showing ${visible()}`);
+check('the detail screen shows the tapped character', el('detail-glyph').textContent === firstTileChar);
+check('a kana detail screen shows romaji, not readings',
+  el('detail-romaji').hidden === false && el('detail-readings').hidden === true);
+check('the detail screen renders a stroke diagram', el('detail-stroke')._children.length > 0);
+check('an untouched character is labelled "Not started"',
+  el('detail-mastery').textContent === 'Not started', el('detail-mastery').textContent);
+
+fire(el('detail-play-strokes'), 'click'); // must not throw without real SVG geometry
+await settle();
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-overview' } }) } });
+await settle();
+check('backing out of detail returns to the overview, not the course screen',
+  visible() === 'screen-overview', `showing ${visible()}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('backing out of the overview returns to the course screen',
+  visible() === 'screen-course', `showing ${visible()}`);
+
+// Kanji detail: readings should be tappable, same mechanism as the lesson
+// card and the post-quiz reveal.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+const kanjiViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Current set'));
+fire(kanjiViewSetButton, 'click');
+await settle();
+check('opening a kanji set shows the overview screen', visible() === 'screen-overview');
+
+const kanjiTile = el('overview-grid')._children[0];
+fire(kanjiTile, 'click');
+await settle();
+check('a kanji detail screen shows readings instead of romaji',
+  el('detail-romaji').hidden === true && el('detail-readings').hidden === false);
+check('a kanji detail screen shows a meaning', el('detail-meanings').textContent.length > 0);
+
+const detailChips = el('detail-readings')._children;
+check('the kanji detail screen offers reading chips', detailChips.length > 0);
+if (detailChips.length > 0) {
+  fire(detailChips[0], 'click');
+  await settle();
+  check('tapping a reading chip on the detail screen reveals the word panel',
+    el('detail-word').hidden === false);
+  check('tapping the chip marks it active', detailChips[0].classList.contains('is-active'));
+}
 
 // --- data-action coverage -------------------------------------------------
 

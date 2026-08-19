@@ -14,6 +14,10 @@ const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
 } = await import('../src/kanji.js');
+// strokesFor/hasStrokes are pure lookups (no DOM access at import or call
+// time); buildStrokeSVG/animateStrokes touch `document` and are exercised in
+// test/wiring.js's stubbed DOM instead, not here.
+const { strokesFor, hasStrokes } = await import('../src/strokes.js');
 const srs = await import('../src/srs.js');
 
 let failures = 0;
@@ -39,6 +43,54 @@ check('katakana mirrors hiragana', kataChars.length === hiraChars.length);
 check('no duplicate katakana', new Set(kataChars).size === kataChars.length);
 check('katakana really is katakana', kataChars.every((c) => !hiraChars.includes(c)));
 done('tables');
+
+// --- Stroke-order data coverage --------------------------------------------
+// A yōon like きゃ is two graphemes (き, ゃ), each with its own KanjiVG entry —
+// STROKES is keyed by single character only, per tools/build_stroke_data.py,
+// so coverage has to be checked grapheme by grapheme, not against the
+// 1-or-2-character strings kana.js's chunks actually contain.
+
+let missingKanaStrokes = 0;
+for (const item of [...hiraChars, ...kataChars]) {
+  for (const grapheme of Array.from(item)) {
+    if (!hasStrokes(grapheme)) missingKanaStrokes += 1;
+  }
+}
+check('every kana grapheme (including yōon components) has stroke data',
+  missingKanaStrokes === 0, `${missingKanaStrokes} missing`);
+
+let missingKanjiStrokes = 0;
+let kanjiWithStrokes = 0;
+for (const course of KANJI_COURSES) {
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    if (hasStrokes(kanji)) kanjiWithStrokes += 1;
+    else missingKanjiStrokes += 1;
+  }
+}
+check('every one of the 1,026 kyoiku kanji has stroke data',
+  missingKanjiStrokes === 0, `${missingKanjiStrokes} missing`);
+check('stroke coverage was actually exercised, not vacuously empty',
+  kanjiWithStrokes > 1000, `only checked ${kanjiWithStrokes}`);
+
+// The data itself has to be usable, not just present: a real viewBox and at
+// least one non-empty path per stroke.
+let malformedStrokeData = 0;
+for (const grapheme of new Set([...hiraChars, ...kataChars].flatMap((s) => Array.from(s)))) {
+  const data = strokesFor(grapheme);
+  if (!data) continue;
+  if (!/^-?\d+(\.\d+)? -?\d+(\.\d+)? \d+(\.\d+)? \d+(\.\d+)?$/.test(data.viewBox)) malformedStrokeData += 1;
+  if (data.strokes.length === 0 || data.strokes.some((d) => !d || d.length < 2)) malformedStrokeData += 1;
+}
+check('stroke data has a well-formed viewBox and non-empty stroke paths',
+  malformedStrokeData === 0, `${malformedStrokeData} malformed`);
+
+// 一 (one) is the simplest possible check: exactly one stroke, a single
+// horizontal line — if this is wrong, everything downstream is suspect.
+const ichiStrokes = strokesFor('一');
+check('一 has exactly one stroke', ichiStrokes && ichiStrokes.strokes.length === 1,
+  ichiStrokes ? ichiStrokes.strokes.length : 'missing');
+
+done('stroke-order data covers every kana grapheme and every kyoiku kanji');
 
 // --- CSS: [hidden] must actually hide things ------------------------------
 // A real, shipped bug: several component classes (.kanji-info, .row, .stack)

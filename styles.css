@@ -14,6 +14,20 @@
   --bad-bg: #fdeaea;
   --radius: 18px;
   --tap: 52px;
+
+  /* Mastery scale for the set-overview grid: 0 (never introduced) through 4
+     (at or past the top box). Deliberately distinct from --ok/--ok-bg —
+     those mean "just answered correctly", this means "known over time". */
+  --tier-0: var(--surface);
+  --tier-0-ink: var(--ink-soft);
+  --tier-1: #e3f3e3;
+  --tier-1-ink: #2f5233;
+  --tier-2: #a9dbac;
+  --tier-2-ink: #1f4023;
+  --tier-3: #5cb663;
+  --tier-3-ink: #ffffff;
+  --tier-4: #2e8b3d;
+  --tier-4-ink: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +43,17 @@
     --ok-bg: #17342a;
     --bad: #ff7b7b;
     --bad-bg: #3a1f22;
+
+    --tier-0: var(--surface);
+    --tier-0-ink: var(--ink-soft);
+    --tier-1: #1d3320;
+    --tier-1-ink: #a9dbac;
+    --tier-2: #2f6a37;
+    --tier-2-ink: #d9f0da;
+    --tier-3: #3f9a4c;
+    --tier-3-ink: #ffffff;
+    --tier-4: #57c765;
+    --tier-4-ink: #0c1f0e;
   }
 }
 
@@ -429,3 +454,82 @@ h3 { font-size: 18px; }
   font-size: 26px; line-height: 1.1;
 }
 .chip-romaji { font-size: 12px; color: var(--ink-soft); }
+
+/* --- Set overview --------------------------------------------------------- */
+
+/* Reuses .hint's look but is a real button, opening the overview screen. */
+.linkish-row {
+  display: block; width: 100%;
+  text-align: left;
+  background: none; border: none; padding: 0;
+  font: inherit; cursor: pointer;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 10px;
+}
+.overview-tile {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: clamp(28px, 8vw, 40px);
+  cursor: pointer;
+}
+.overview-tile:active { transform: scale(0.96); }
+.overview-tile.tier-0 { background: var(--tier-0); color: var(--tier-0-ink); }
+.overview-tile.tier-1 { background: var(--tier-1); color: var(--tier-1-ink); border-color: var(--tier-1); }
+.overview-tile.tier-2 { background: var(--tier-2); color: var(--tier-2-ink); border-color: var(--tier-2); }
+.overview-tile.tier-3 { background: var(--tier-3); color: var(--tier-3-ink); border-color: var(--tier-3); }
+.overview-tile.tier-4 { background: var(--tier-4); color: var(--tier-4-ink); border-color: var(--tier-4); }
+
+.mastery-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.mastery-swatch {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  margin-right: -4px;
+}
+.mastery-swatch.tier-0 { background: var(--tier-0); }
+.mastery-swatch.tier-1 { background: var(--tier-1); border-color: var(--tier-1); }
+.mastery-swatch.tier-2 { background: var(--tier-2); border-color: var(--tier-2); }
+.mastery-swatch.tier-3 { background: var(--tier-3); border-color: var(--tier-3); }
+.mastery-swatch.tier-4 { background: var(--tier-4); border-color: var(--tier-4); }
+
+/* --- Character detail ------------------------------------------------------ */
+
+.glyph-lg { font-size: clamp(56px, 18vw, 88px); }
+
+.detail-head { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.detail-stroke-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+#detail-stroke { width: clamp(140px, 40vw, 200px); }
+.stroke-svg {
+  width: 100%; height: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.stroke-path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stroke-number { font-size: 8px; fill: var(--accent); }
+.stroke-fallback-glyph {
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 60px;
+  fill: var(--ink);
+}
+
+.mastery-label { margin: 0; text-align: center; font-weight: 700; }
+.mastery-label.tier-0 { color: var(--ink-soft); }
+.mastery-label.tier-1 { color: var(--tier-2); }
+.mastery-label.tier-2 { color: var(--tier-2); }
+.mastery-label.tier-3 { color: var(--tier-3); }
+.mastery-label.tier-4 { color: var(--tier-4); }
