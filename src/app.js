@@ -54,6 +54,16 @@ const state = {
   detailChar: null,
 };
 
+// The writing lesson card's stroke-order animation loops like a gif (see
+// animateStrokes in strokes.js) — this is its stop handle, so a new card (or
+// leaving the lesson screen entirely) can cancel the previous one instead of
+// leaving its timers running forever against detached SVG nodes.
+let lessonStrokeLoopStop = null;
+function stopLessonStrokeLoop() {
+  if (lessonStrokeLoopStop) lessonStrokeLoopStop();
+  lessonStrokeLoopStop = null;
+}
+
 function currentScript() {
   return SCRIPTS.find((s) => s.id === state.scriptId);
 }
@@ -245,12 +255,58 @@ function renderGradePicker(script) {
   });
 }
 
+const WRITING_MODE_PREFS = ['dynamic', 'trace', 'guided', 'free'];
+const WRITING_MODE_PREF_LABELS = { dynamic: 'Dynamic', trace: 'Trace', guided: 'Guided', free: 'Free' };
+
+/**
+ * Writing mode only: chosen BEFORE a session starts, so a fixed choice
+ * applies from the very first character, including one that's brand new —
+ * without this, the first character of every session would still start in
+ * Trace regardless (autoWritingMode's "new" case), and only the in-session
+ * toggle could override it, one question too late for a learner who wants
+ * to test themselves in Guided from the start. "Dynamic" is that per-
+ * character mastery-based choice; see writing-mode-plan.md.
+ */
+function renderWritingModePicker() {
+  const picker = $('writing-mode-picker');
+  const hint = $('writing-mode-picker-hint');
+  if (state.mode !== 'writing') {
+    picker.hidden = true;
+    hint.hidden = true;
+    return;
+  }
+  picker.hidden = false;
+  hint.hidden = false;
+  const current = state.profile.settings.writingModePreference || 'dynamic';
+  picker.innerHTML = '';
+  WRITING_MODE_PREFS.forEach((pref) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `segment${pref === current ? ' active' : ''}`;
+    button.textContent = WRITING_MODE_PREF_LABELS[pref];
+    button.addEventListener('click', () => setWritingModePreference(pref));
+    picker.appendChild(button);
+  });
+  hint.textContent = current === 'dynamic'
+    ? 'Each character starts in whichever mode fits how well you know it.'
+    : `Every character starts in ${WRITING_MODE_PREF_LABELS[current]} until you change this.`;
+}
+
+/** Persisted per profile — sticks across sessions, not just this one, until
+ * changed again here or via the in-session toggle (writingSetSubMode). */
+function setWritingModePreference(pref) {
+  state.profile.settings.writingModePreference = pref;
+  store.saveProfile(state.profile);
+  renderWritingModePicker();
+}
+
 function renderCourse() {
   const profile = state.profile;
   const script = currentScript();
   $('course-title').textContent = script.name;
   renderModePicker(script.kind);
   renderGradePicker(script);
+  renderWritingModePicker();
 
   const course = currentCourse();
   const list = $('course-list');
@@ -466,6 +522,8 @@ function startSession(courseId, kind) {
     return;
   }
 
+  const writingModePref = settings.writingModePreference;
+
   state.session = {
     lesson: built.lesson,
     lessonIndex: 0,
@@ -476,11 +534,16 @@ function startSession(courseId, kind) {
     results: new Map(), // kana -> true/false (first attempt)
     awaitingAcknowledge: false,
     // Writing only: null means each question picks Trace/Guided/Free itself
-    // from that character's own mastery (autoWritingMode in srs.js). Manually
-    // touching the toggle (or the difficulty-ladder button) sets this and it
-    // sticks for the rest of THIS session, overriding the per-character
-    // default from then on — see writingSetSubMode() below. Not persisted.
-    writingModeOverride: null,
+    // from that character's own mastery (autoWritingMode in srs.js) —
+    // "Dynamic" on the course-screen picker. A fixed preference chosen there
+    // (writingModePreference in profile.settings) seeds this instead, so it
+    // applies from the very first character of the session, not just from
+    // whenever the in-session toggle is first touched. Touching the toggle
+    // (or a difficulty-ladder button) mid-session also sets this and it
+    // sticks for the rest of THIS session — see writingSetSubMode() below —
+    // but that's session-only and does not itself change the persisted
+    // preference; only the course-screen picker does that.
+    writingModeOverride: writingModePref && writingModePref !== 'dynamic' ? writingModePref : null,
     // Derived fresh per question in renderWritingQuestion() below; only
     // initialized here so it has a sane value before the first question
     // renders.
@@ -527,8 +590,12 @@ function renderLesson() {
     $('lesson-hint').textContent = "Say it out loud, then remember it — it's coming up in the quiz.";
   }
 
-  // Writing mode: watch the stroke order drawn in once before being quizzed
-  // on it. Same SVG builder as the character-detail screen.
+  // Writing mode: watch the stroke order drawn in, on repeat, before being
+  // quizzed on it — introducing a brand-new character is exactly when
+  // watching it more than once actually helps. Same SVG builder as the
+  // character-detail screen (which stays one-shot, triggered by its own
+  // Play button, not looped — that one is on-demand review, not an intro).
+  stopLessonStrokeLoop();
   const strokeWrap = $('lesson-stroke-wrap');
   strokeWrap.hidden = state.mode !== 'writing';
   if (state.mode === 'writing') {
@@ -536,7 +603,7 @@ function renderLesson() {
     strokeContainer.innerHTML = '';
     const { svg, paths } = buildStrokeSVG(item);
     strokeContainer.appendChild(svg);
-    animateStrokes(paths);
+    lessonStrokeLoopStop = animateStrokes(paths, { loop: true });
     $('lesson-hint').textContent = "Watch how it's drawn — you'll trace it in the quiz.";
   }
 
@@ -585,6 +652,7 @@ function advanceLesson() {
 }
 
 function startQuiz() {
+  stopLessonStrokeLoop(); // leaving the lesson screen — nothing left to loop
   show(state.mode === 'writing' ? 'screen-writing' : 'screen-quiz');
   renderQuestion();
 }
@@ -811,10 +879,12 @@ function createAttemptForMode(item, mode) {
 
 function renderWritingQuestion(course, item) {
   const session = state.session;
-  // No manual override yet this session: each question picks its own mode
-  // from THIS character's own mastery — see autoWritingMode() in srs.js.
-  // Once the learner touches the toggle or a difficulty-ladder button,
-  // writingModeOverride is set and wins from then on (writingSetSubMode()).
+  // writingModeOverride is set either from a fixed practice-mode choice made
+  // before the session started (the course-screen picker) or from touching
+  // the in-session toggle/a difficulty-ladder button (writingSetSubMode()) —
+  // either way it wins outright. Left null ("Dynamic"), each question picks
+  // its own mode fresh from THIS character's own mastery instead — see
+  // autoWritingMode() in srs.js.
   const record = state.profile.progress[itemKey('writing', item)];
   const mode = session.writingModeOverride || autoWritingMode(record);
   session.writingSubMode = mode;
@@ -900,7 +970,12 @@ function maskKanjiWord(word, kanji) {
  * question already recorded, just a different way to look at it (see the
  * writingRecorded note in renderWritingQuestion above). Setting the override
  * here (rather than just writingSubMode) is what makes it stick for every
- * later question too, instead of being recomputed from mastery next render. */
+ * later question too, instead of being recomputed from mastery next render.
+ * Session-only, deliberately NOT written back to writingModePreference: this
+ * fires from both the toggle and the "try harder/easier" difficulty-ladder
+ * buttons, and a quick ladder nudge on one character (still Dynamic overall)
+ * is a different thing from a deliberate fixed choice made before starting —
+ * only the course-screen picker (setWritingModePreference) persists. */
 function writingSetSubMode(mode) {
   const session = state.session;
   if (!session) return;
@@ -982,6 +1057,13 @@ function writingLocalPoint(canvas, event) {
 function writingPointerDown(event) {
   const session = state.session;
   if (!session || !session.writingAttempt || session.writingAttempt.isComplete()) return;
+  // touch-action: none on the canvas (see styles.css) already suppresses
+  // scrolling/panning for touches that start here, but explicitly preventing
+  // the default too heads off iOS's compatibility mouse-event/long-press
+  // synthesis on top of that — belt and braces against the same class of
+  // "next tap somewhere else on the page gets eaten" bug the pointer-capture
+  // release below exists for.
+  if (typeof event.preventDefault === 'function') event.preventDefault();
   const canvas = $('writing-canvas');
   session.writingPointerId = event.pointerId;
   session.writingCurrentPoints = [writingLocalPoint(canvas, event)];
@@ -993,6 +1075,7 @@ function writingPointerDown(event) {
 function writingPointerMove(event) {
   const session = state.session;
   if (!session || !session.writingCurrentPoints || event.pointerId !== session.writingPointerId) return;
+  if (typeof event.preventDefault === 'function') event.preventDefault();
   const canvas = $('writing-canvas');
   const events = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : [event];
   events.forEach((e) => session.writingCurrentPoints.push(writingLocalPoint(canvas, e)));
@@ -1009,12 +1092,13 @@ function writingPointerMove(event) {
  * createWritingAttempt in writing.js).
  */
 function writingPointerUp(event) {
+  if (typeof event.preventDefault === 'function') event.preventDefault();
   // The pointer capture set in writingPointerDown is supposed to release
-  // itself automatically on pointerup, but on-device testing found the very
-  // next tap elsewhere on the page (Next, most often — it's what's clicked
-  // right after finishing a stroke) sometimes needed a second press to
-  // register. Releasing it explicitly, the same guarded way it was
-  // acquired, is the fix: it costs nothing when the browser already did it.
+  // itself automatically on pointerup — this makes it explicit, on the
+  // theory that the browser doing so unreliably is why the very next tap
+  // elsewhere on the page (Next, most often — it's what's tapped right
+  // after finishing a stroke) has been reported to sometimes need a second
+  // press. Costs nothing if the browser already released it correctly.
   const canvas = $('writing-canvas');
   if (typeof canvas.releasePointerCapture === 'function' && event.pointerId != null) {
     try { canvas.releasePointerCapture(event.pointerId); } catch { /* already released, or unsupported */ }
@@ -1711,6 +1795,7 @@ function wire() {
         else renderHome();
         break;
       case 'quit-session':
+        stopLessonStrokeLoop(); // in case quit happened mid-lesson, not from the quiz
         if (state.session) clearTimeout(state.session.pendingAdvance);
         state.session = null;
         renderCourse();

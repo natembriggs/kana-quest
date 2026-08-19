@@ -64,7 +64,14 @@ export function defaultSettings() {
   // two children sharing a device can set it differently. A profile saved
   // before this field existed just reads as undefined and falls back to
   // DEFAULT_STRICTNESS wherever it's used — no migration needed.
-  return { newPerSession: 5, maxReviews: 15, strictness: DEFAULT_STRICTNESS };
+  // writingModePreference is 'dynamic' (Trace/Guided/Free chosen per
+  // character from its own mastery — see autoWritingMode in srs.js) or a
+  // fixed 'trace'/'guided'/'free' that applies to every character from the
+  // very first one of a session, chosen before starting on the course
+  // screen. Same no-migration fallback as strictness.
+  return {
+    newPerSession: 5, maxReviews: 15, strictness: DEFAULT_STRICTNESS, writingModePreference: 'dynamic',
+  };
 }
 
 export function listProfiles() {

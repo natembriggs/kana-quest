@@ -1,7 +1,9 @@
 // Stroke-order rendering, from data built by tools/build_stroke_data.py out
 // of KanjiVG. Two things live here: building the SVG (numbered, static —
-// this is what's shown by default) and animating it (an on-demand "Play"
-// that draws each stroke in order, then leaves it fully drawn).
+// this is what's shown by default) and animating it — either an on-demand
+// "Play" that draws each stroke in order once and leaves it fully drawn, or
+// (with `loop: true`) a repeating gif-like cycle for introducing a brand-new
+// character, where watching it draw itself more than once is the point.
 
 import { STROKES } from './stroke-data.js';
 
@@ -75,33 +77,60 @@ export function buildStrokeSVG(char) {
 
 /**
  * Play the strokes drawing in, one after another, then leave them fully
- * drawn. Safe to call again mid-animation — each call resets from scratch.
+ * drawn — or, with `loop: true`, pause and do it again, indefinitely, like a
+ * gif. Safe to call again mid-animation — each call resets from scratch.
  * No-op for a character with no stroke data (paths is then empty).
+ *
+ * Returns a stop function. The caller is responsible for calling it before
+ * starting another loop or navigating away, since nothing here can detect
+ * that on its own — the paths are just detached SVG nodes at that point, not
+ * an error, but the timers would otherwise keep firing against them forever
+ * for the life of the page (this is a single-page app, so nothing reloads to
+ * clear them naturally).
  */
-export function animateStrokes(paths, { strokeMs = 450, gapMs = 150 } = {}) {
-  if (!paths.length) return;
+export function animateStrokes(paths, { strokeMs = 450, gapMs = 150, loop = false, loopPauseMs = 900 } = {}) {
+  if (!paths.length) return () => {};
 
-  paths.forEach((path) => {
-    let length;
-    try {
-      length = path.getTotalLength();
-    } catch {
-      return; // geometry unavailable — leave the path statically visible
+  let stopped = false;
+  const timers = [];
+  const after = (fn, delay) => { timers.push(setTimeout(fn, delay)); };
+
+  function drawIn() {
+    paths.forEach((path) => {
+      let length;
+      try {
+        length = path.getTotalLength();
+      } catch {
+        return; // geometry unavailable — leave the path statically visible
+      }
+      path.style.transition = 'none';
+      path.style.strokeDasharray = String(length);
+      path.style.strokeDashoffset = String(length);
+    });
+
+    // Force layout so the reset above is committed before the transition
+    // below is applied — otherwise the browser can coalesce the two and the
+    // draw-in never visibly happens.
+    void paths[0].getBoundingClientRect();
+
+    paths.forEach((path, index) => {
+      after(() => {
+        if (stopped) return;
+        path.style.transition = `stroke-dashoffset ${strokeMs}ms ease-in-out`;
+        path.style.strokeDashoffset = '0';
+      }, index * (strokeMs + gapMs));
+    });
+
+    if (loop) {
+      const drawnMs = (paths.length - 1) * (strokeMs + gapMs) + strokeMs;
+      after(() => { if (!stopped) drawIn(); }, drawnMs + loopPauseMs);
     }
-    path.style.transition = 'none';
-    path.style.strokeDasharray = String(length);
-    path.style.strokeDashoffset = String(length);
-  });
+  }
 
-  // Force layout so the reset above is committed before the transition
-  // below is applied — otherwise the browser can coalesce the two and the
-  // draw-in never visibly happens.
-  void paths[0].getBoundingClientRect();
+  drawIn();
 
-  paths.forEach((path, index) => {
-    setTimeout(() => {
-      path.style.transition = `stroke-dashoffset ${strokeMs}ms ease-in-out`;
-      path.style.strokeDashoffset = '0';
-    }, index * (strokeMs + gapMs));
-  });
+  return () => {
+    stopped = true;
+    timers.forEach(clearTimeout);
+  };
 }

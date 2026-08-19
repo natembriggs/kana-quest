@@ -76,6 +76,15 @@
 
     <div id="grade-picker" class="grade-grid" role="group" aria-label="School grade" hidden></div>
 
+    <!-- Writing mode only: chosen BEFORE a session starts, so the very first
+         character (which is otherwise brand new, and would default to Trace)
+         also honours a fixed choice instead of only kicking in once the
+         learner touches the in-session toggle — see writing-mode-plan.md.
+         Persisted per profile; "Dynamic" is autoWritingMode()'s per-character
+         choice by mastery, same as before this existed. -->
+    <div id="writing-mode-picker" class="segmented" role="tablist" aria-label="Writing practice mode" hidden></div>
+    <p id="writing-mode-picker-hint" class="hint" hidden></p>
+
     <div id="course-list" class="stack"></div>
   </section>
 

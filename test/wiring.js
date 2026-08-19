@@ -422,6 +422,39 @@ check('a writing session opens the lesson screen first', visible() === 'screen-l
 check('the writing lesson animates the stroke order',
   el('lesson-stroke-wrap').hidden === false && el('lesson-stroke')._children.length > 0);
 
+// The lesson card's stroke animation loops like a gif rather than drawing in
+// once and stopping — see animateStrokes({ loop: true }) in strokes.js. This
+// harness's fake setTimeout ignores delay and just queues (see runTimers()
+// above), which is exactly what's needed to prove it actually repeats
+// without waiting on real wall-clock time.
+const lessonSvg1 = el('lesson-stroke')._children[0];
+const lessonPaths1 = lessonSvg1 ? lessonSvg1._children : [];
+check('the lesson card has at least one stroke path to animate', lessonPaths1.length > 0);
+runTimers();
+check('the first pass reveals every stroke',
+  lessonPaths1.every((p) => p.style.strokeDashoffset === '0'),
+  lessonPaths1.map((p) => p.style.strokeDashoffset).join(','));
+check("finishing one pass schedules the next — this is what makes it loop, not draw in once and stop",
+  timers.size > 0, `${timers.size} pending timers`);
+runTimers(); // a second pass — proves it keeps going, not just twice
+check('a second pass runs too, and schedules a third', timers.size > 0, `${timers.size} pending timers`);
+
+// Advancing to the next card must CANCEL that pending loop, not merely leave
+// it running underneath the new one — otherwise its timers keep firing
+// forever against stroke paths no longer on screen (see stopLessonStrokeLoop
+// in app.js). Checked precisely: right after advancing, the only timers
+// queued should be exactly the new card's own first batch.
+const pendingBeforeAdvance = timers.size;
+fire(el('lesson-next'), 'click');
+await settle();
+if (visible() === 'screen-lesson') {
+  const secondLessonChar = el('lesson-kana').textContent;
+  const expectedBatch = STROKES[secondLessonChar].strokes.length + 1; // N stroke reveals + 1 loop-restart
+  check("advancing cancels the previous card's pending loop instead of leaking it — only the new card's batch is queued",
+    timers.size === expectedBatch,
+    `${timers.size} pending, expected ${expectedBatch} for the new card (previous card had ${pendingBeforeAdvance} queued)`);
+}
+
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   fire(el('lesson-next'), 'click');
   await settle();
@@ -1229,6 +1262,59 @@ check('a kanji detail screen under writing mode still shows readings and a meani
   el('detail-readings').hidden === false && el('detail-meanings').textContent.length > 0);
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-overview' } }) } });
+await settle();
+
+// --- Writing practice mode: fixed vs Dynamic, chosen before starting ------
+// A choice on the course screen, made BEFORE a session starts, so a fixed
+// mode applies from the very first character too — without this, the first
+// character of every session is brand new and Dynamic would always start it
+// in Trace, one question too late for a learner who wants Guided from the
+// very start. Uses grade 2, untouched by any earlier section, so its first
+// character is guaranteed to have no mastery record at all.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('back on the kanji course screen', visible() === 'screen-course', `showing ${visible()}`);
+
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '2'), 'click');
+await settle();
+
+const modePrefButtons = el('writing-mode-picker')._children;
+check('the writing practice-mode picker offers Dynamic, Trace, Guided, Free, in that order',
+  modePrefButtons.map((b) => b.textContent).join(',') === 'Dynamic,Trace,Guided,Free',
+  modePrefButtons.map((b) => b.textContent).join(','));
+check('it defaults to Dynamic', modePrefButtons[0].className.includes('active'));
+
+fire(modePrefButtons.find((b) => b.textContent === 'Guided'), 'click');
+await settle();
+const modePrefButtonsAfter = el('writing-mode-picker')._children;
+check('choosing Guided marks it active and Dynamic no longer active',
+  modePrefButtonsAfter.find((b) => b.textContent === 'Guided').className.includes('active')
+  && !modePrefButtonsAfter.find((b) => b.textContent === 'Dynamic').className.includes('active'));
+
+const gradeTwoSaved = [...rows.values()][0];
+check('the choice is persisted to the profile immediately, before any session has started',
+  gradeTwoSaved.settings.writingModePreference === 'guided', JSON.stringify(gradeTwoSaved.settings));
+
+const gradeTwoLearn = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('more'));
+fire(gradeTwoLearn, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the fixed-preference session reaches the writing screen', visible() === 'screen-writing', `showing ${visible()}`);
+check('a Guided preference applies from the very first character, even though it is brand new — Dynamic would have picked Trace for it',
+  el('writing-guide').className.includes('mode-guided')
+  && el('writing-mode-guided').className.includes('active')
+  && el('writing-hints').hidden === false,
+  el('writing-guide').className);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+// Grade 1 is what every later section assumes is selected.
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
 await settle();
 
 // --- Set overview and character detail -------------------------------------

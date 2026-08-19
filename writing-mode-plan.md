@@ -511,22 +511,39 @@ reaches `screen-summary` with sensible chips, or that the overview/detail
 screens correctly reflect writing-mode mastery. Both are now exercised
 end-to-end for a kanji writing session.
 
-### 7.6 A bug from real phone use: "Next" needing two presses
+### 7.6 An open bug from real phone use: "Next" needing multiple presses
 
-On-device testing found that after finishing a character's last stroke, the
-first tap on **Next** sometimes did nothing — a second tap was always needed.
-The cause: `writingPointerDown()` calls `canvas.setPointerCapture()` when a
-stroke begins, and nothing ever called the matching
+Reported on-device: after finishing a character's last stroke, the first tap
+on **Next** (and **Try again**) often does nothing — a second, sometimes a
+third, tap is needed. **Still not confirmed fixed as of this writing.**
+
+First attempt: `writingPointerDown()` calls `canvas.setPointerCapture()` when
+a stroke begins, and nothing ever called the matching
 `releasePointerCapture()`. Capture is *supposed* to release itself
 automatically on pointerup, but this is a known soft spot on mobile
 WebKit/PWA — the very next tap anywhere else on the page can be swallowed or
 misrouted the first time. Fixed by releasing it explicitly in
-`writingPointerUp()`, guarded the same defensive way it was acquired (a
-`typeof` check plus a `try`/`catch`, since not every environment — including
-the test stub — implements it). No behavioural test can exercise this one
-directly (it depends on real browser pointer-capture semantics no DOM stub
-reproduces); it's noted here instead as the reason it was fixed even though
-it isn't pinned by a regression test.
+`writingPointerUp()`, guarded the same defensive way it was acquired.
+
+Reported as still happening after that fix (though not confirmed whether the
+fix had actually been deployed and force-refreshed on the test device before
+retrying — an iOS home-screen app can easily still be running old cached
+code, see *If a phone is stuck on an old version* in the README). Second,
+overlapping measure added regardless: `event.preventDefault()` in all three
+pointer handlers (`writingPointerDown/Move/Up`), belt-and-braces against the
+same class of bug — iOS synthesizing compatibility mouse events or invoking
+its own long-press/selection handling on top of the pointer events, which
+`touch-action: none` alone is not always enough to suppress.
+
+No behavioural test can exercise either fix directly — both depend on real
+browser pointer-capture/touch semantics no DOM stub reproduces. If reported
+again after confirming a genuinely fresh deploy, the next places to look:
+whether the issue reproduces on the **Try again**/**Mark this attempt as
+bad** buttons specifically or on *every* button on the writing screen
+(narrows it to something canvas-adjacent vs. something wrong with the result
+panel's own rendering), and whether it reproduces in Safari directly (not
+just the installed home-screen app), which would rule out anything
+PWA/service-worker-specific.
 
 ### 7.7 Phase 6: version bump, service worker shell, README
 
@@ -539,6 +556,39 @@ those three files; and the README's stale "Writing mode — visible in the app
 but disabled" bullet under *What is not built yet* replaced with a real
 **Writing mode** section under *What works now*, matching the depth of the
 existing Definition/Yomi sections.
+
+### 7.8 Practice mode chosen before starting, and a looping stroke intro
+
+Two more pieces requested directly from phone use:
+
+**A fixed-vs-Dynamic choice made BEFORE a session starts.** Without this,
+the in-session Trace/Guided/Free toggle from phase 3 could only override
+*after* the first character had already rendered — and since a session's
+first few characters are typically brand new, Dynamic (§3's autoWritingMode)
+would always start them in Trace regardless, which defeats a learner who
+specifically wants to test themselves in Guided (or Free) from the very
+first character. A new segmented control on the course screen — Dynamic /
+Trace / Guided / Free — chosen before **Add more**/**Review** is pressed,
+persisted as `writingModePreference` in `profile.settings` (default
+`'dynamic'`, same no-migration fallback as `strictness`). `startSession()`
+seeds `session.writingModeOverride` from it directly, so it's already in
+effect for question 1. Deliberately **not** written to by the in-session
+toggle or the difficulty-ladder buttons — those remain session-only, exactly
+as phase 5 built them; only this course-screen picker changes the persisted
+default, so a quick "try harder" nudge on one character during an otherwise-
+Dynamic session doesn't silently become tomorrow's default too.
+
+**The lesson card's stroke-order intro now loops like a gif** instead of
+drawing in once and stopping — introducing a brand-new character is exactly
+when watching it more than once helps, unlike the character-detail screen's
+on-demand Play button, which stays one-shot (that one is review, triggered
+deliberately, not an unattended intro). `animateStrokes()` in `strokes.js`
+takes a `loop` option and returns a stop function; `app.js` tracks the
+current one in `lessonStrokeLoopStop` and cancels it before starting a new
+card's loop or leaving the lesson screen entirely (`startQuiz()`,
+`quit-session`) — without that, the old loop's timers would keep firing
+forever against detached SVG nodes for the life of the page, since nothing
+reloads to clear them in a single-page app.
 
 ## 8. Open questions
 
