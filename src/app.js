@@ -13,7 +13,7 @@ import {
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19f'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
@@ -45,7 +45,6 @@ const state = {
   // Set overview / character detail — independent of the session state
   // above, since they're read-only browsing, reachable with or without one.
   overviewCourseId: null,
-  overviewChunkIndex: 0,
   detailCourseId: null,
   detailChar: null,
 };
@@ -269,17 +268,18 @@ function renderCourse() {
       <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
     </div>
     <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
   `;
 
-  // Tappable rather than plain text: opens the set overview (glyphs colour-
-  // coded by how well each one is known, tap through to stroke order and
-  // readings for any of them). Starts on the current set; the overview has
-  // its own prev/next to browse any other one.
+  // A real, clearly-bordered button rather than styled text — that it was
+  // tappable wasn't obvious before. Opens every character in the course at
+  // once (glyphs colour-coded by how well each is known, tap through to
+  // stroke order and readings for any of them), scrolled to the current set.
   const viewSet = document.createElement('button');
   viewSet.type = 'button';
-  viewSet.className = 'hint linkish-row';
-  viewSet.innerHTML = `Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered ›`;
-  viewSet.addEventListener('click', () => openOverview(course, setIndex));
+  viewSet.className = 'btn wide overview-button';
+  viewSet.innerHTML = '📋 View set overview';
+  viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
   card.appendChild(viewSet);
 
   // Learning new characters and reviewing are separate buttons, so adding
@@ -330,27 +330,33 @@ function renderCourse() {
   show('screen-course');
 }
 
-// --- Set overview: every character in one chunk, colour-coded by mastery --
+// --- Set overview: every character in the whole course, colour-coded by
+// --- mastery, in one scrollable grid ---------------------------------------
 
-function openOverview(course, chunkIndex) {
+function openOverview(course, scrollToChar) {
   state.overviewCourseId = course.id;
-  state.overviewChunkIndex = chunkIndex;
-  renderOverview();
+  renderOverview(scrollToChar);
 }
 
-function renderOverview() {
+/**
+ * `scrollToChar`, if given, is scrolled into view after rendering — used
+ * both to open on the learner's current set (rather than the top of a course
+ * that can run to 200 characters) and, when returning from the detail
+ * screen, to land back near whichever character was just being looked at
+ * rather than snapping to the top of the list.
+ */
+function renderOverview(scrollToChar) {
   const course = getAnyCourse(state.overviewCourseId);
-  const chunk = course.chunks[state.overviewChunkIndex];
   const progress = state.profile.progress;
+  const allItems = course.chunks.flatMap((c) => c.items);
 
-  $('overview-title').textContent = chunk.label;
-  $('overview-counter').textContent = `${state.overviewChunkIndex + 1}/${course.chunks.length}`;
-  $('overview-prev').disabled = state.overviewChunkIndex === 0;
-  $('overview-next').disabled = state.overviewChunkIndex === course.chunks.length - 1;
+  $('overview-title').textContent = course.name;
+  $('overview-counter').textContent = `${allItems.length} characters`;
 
   const grid = $('overview-grid');
   grid.innerHTML = '';
-  chunk.items.forEach((item) => {
+  let scrollTarget = null;
+  allItems.forEach((item) => {
     const tier = masteryTier(progress[itemKey(state.mode, item)]);
     const tile = document.createElement('button');
     tile.type = 'button';
@@ -359,17 +365,15 @@ function renderOverview() {
     tile.setAttribute('aria-label', `${item}: ${MASTERY_LABELS[tier]}`);
     tile.addEventListener('click', () => openCharacterDetail(course, item));
     grid.appendChild(tile);
+    if (item === scrollToChar) scrollTarget = tile;
   });
 
   show('screen-overview');
-}
-
-function overviewStep(delta) {
-  const course = getAnyCourse(state.overviewCourseId);
-  const next = state.overviewChunkIndex + delta;
-  if (next < 0 || next >= course.chunks.length) return;
-  state.overviewChunkIndex = next;
-  renderOverview();
+  // Deferred a frame: the grid was just unhidden, and scrollIntoView needs
+  // its layout to have actually happened first.
+  if (scrollTarget && typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(() => scrollTarget.scrollIntoView({ block: 'center' }));
+  }
 }
 
 // --- Character detail: stroke order, readings, meanings -------------------
@@ -1065,9 +1069,6 @@ function wire() {
 
   $('lesson-next').addEventListener('click', advanceLesson);
 
-  $('overview-prev').addEventListener('click', () => overviewStep(-1));
-  $('overview-next').addEventListener('click', () => overviewStep(1));
-
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
@@ -1110,7 +1111,9 @@ function wire() {
       case 'go-course':
         if (state.profile) renderCourse(); else renderProfiles();
         break;
-      case 'go-overview': renderOverview(); break;
+      // Scrolls back to whichever character was just being looked at, not
+      // the top of a list that can run to 200 characters.
+      case 'go-overview': renderOverview(state.detailChar); break;
       case 'close-settings':
         if (!state.profile) renderProfiles();
         else if (state.settingsReturn === 'screen-course') renderCourse();

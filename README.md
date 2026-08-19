@@ -80,6 +80,16 @@ Switching to a *different kind* of script (kana ↔ kanji) resets to that
 kind's own default instead, since the modes don't line up 1:1 — kanji opens
 on **Definition** rather than carrying Reading in as Yomi.
 
+**📋 View set overview**, on the course screen, opens every character in the
+whole course at once — up to 200 for the biggest kanji grade — in one
+scrolling grid, colour-coded green by how well each is known (a legend at the
+top explains the shades). It opens scrolled to the current set rather than
+the top of a long list. Tap any character for its **detail screen**: stroke
+order (numbered, with a Play button that animates the strokes drawing in one
+at a time), and for kanji, its readings, meanings and example words — tapping
+a reading shows the word it actually comes from, the same interaction as
+after answering a Yomi question.
+
 ## If a phone is stuck on an old version
 
 An iOS home-screen app is stubborn about picking up new code. **Settings →
@@ -283,13 +293,17 @@ history, so restoring an old backup cannot wipe out newer practice.
 | `src/kana.js` | Kana tables, chunking, romaji answer checking |
 | `src/kanji.js` | Kanji courses (built from `kanji-data.js`), reading-choice selection, kanji-level rollup |
 | `src/kanji-data.js` | Generated data: readings/meanings/example words per kanji, grades 1-6 — do not hand-edit, see below |
-| `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule |
+| `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
+| `src/strokes.js` | Builds the numbered stroke-order SVG and its draw-in animation, from `stroke-data.js` |
+| `src/stroke-data.js` | Generated data: stroke paths per character, from KanjiVG — do not hand-edit, see below |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
 | `tools/make_icons.py` | Regenerates the home-screen icons |
 | `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2 + JMdict into `tools/data_src/` (not committed, ~90MB) |
 | `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/kanji-data.js` |
+| `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
+| `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/`, writes `src/stroke-data.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
 with `wanakana.toKatakana`, and every romaji prompt is derived with

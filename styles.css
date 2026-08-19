@@ -457,25 +457,27 @@ h3 { font-size: 18px; }
 
 /* --- Set overview --------------------------------------------------------- */
 
-/* Reuses .hint's look but is a real button, opening the overview screen. */
-.linkish-row {
-  display: block; width: 100%;
-  text-align: left;
-  background: none; border: none; padding: 0;
-  font: inherit; cursor: pointer;
-}
+/* A clearly-bordered, accent-coloured button — the plain-text version of
+   this ("Current set: ...") wasn't obviously tappable. */
+.overview-button { border-color: var(--accent); color: var(--accent); font-weight: 700; }
 
+/* One whole course (up to 200 characters for the biggest kanji grade) in a
+   single scrolling grid, not one 5-character set at a time. Tiles are sized
+   from --tap (the app's standard minimum touch target) rather than shrunk to
+   force a specific column count onto one screen — readable and tappable
+   matters more than fitting everything above the fold, and the screen
+   scrolls for the rest. */
 .overview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(var(--tap), 1fr));
+  gap: 8px;
 }
 .overview-tile {
   aspect-ratio: 1;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 2px solid var(--line);
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: clamp(28px, 8vw, 40px);
+  font-size: clamp(20px, 6vw, 28px);
   cursor: pointer;
 }
 .overview-tile:active { transform: scale(0.96); }

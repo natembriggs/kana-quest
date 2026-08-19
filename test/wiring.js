@@ -57,6 +57,10 @@ function makeElement(id = '') {
     // (not inside its try/catch, unlike the stroke-geometry calls) to force a
     // layout flush before starting the draw-in animation.
     getBoundingClientRect() { return { x: 0, y: 0, width: 0, height: 0, top: 0, left: 0, right: 0, bottom: 0 }; },
+    // Records that it was called rather than doing anything — enough to
+    // verify the overview scrolls to the right tile without a real layout
+    // engine to actually measure a scroll position against.
+    scrollIntoView() { this._scrolledIntoView = true; },
     // Nodes written via innerHTML are not really parsed here, so hand back a
     // stable placeholder per selector rather than null — enough for code that
     // sets .textContent on a child it just created.
@@ -119,6 +123,10 @@ globalThis.document = {
 globalThis.window = { wanakana: globalThis.wanakana, scrollTo() {} };
 globalThis.navigator = {};
 globalThis.confirm = () => true;
+// Fired synchronously — the app defers scrollIntoView by a frame purely to
+// let a just-unhidden screen's layout settle, which the stub has no layout
+// engine to need waiting for.
+globalThis.requestAnimationFrame = (fn) => { fn(); return 0; };
 
 // Timers are queued rather than fired immediately, so the test can inspect the
 // screen during the pause after an answer is revealed — which is the whole
@@ -721,10 +729,13 @@ check('yomi progress is untouched by definition practice — the modes are indep
   Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
 
 // --- Set overview and character detail -------------------------------------
-// Reached from the course screen's "Current set" line, now a real button.
-// Uses katakana specifically: no session has touched it anywhere above, so
-// every tile should show as tier-0 ("not started") — a clean baseline to
-// check the colour-coding logic against.
+// Reached from the course screen's "View set overview" button — a plain
+// clickable-looking text line was not obviously tappable, so this is now a
+// real bordered button. The overview shows the WHOLE course at once (up to
+// 200 characters for the biggest kanji grade), not one 5-character set with
+// prev/next paging between them. Uses katakana specifically: no session has
+// touched it anywhere above, so every tile should show as tier-0
+// ("not started") — a clean baseline for the colour-coding check.
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
 await settle();
@@ -732,42 +743,38 @@ fire(el('script-list')._children.find((c) => c.dataset.script === 'katakana'), '
 await settle();
 
 const viewSetButton = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('Current set'));
-check('the course card has a "Current set" button leading to the overview', !!viewSetButton);
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+check('the course card has an obvious "View set overview" button', !!viewSetButton,
+  buttonsIn(el('course-list')._children[0]).map((b) => b.innerHTML).join(' | '));
 
 fire(viewSetButton, 'click');
 await settle();
-check('opening the current set shows the overview screen', visible() === 'screen-overview', `showing ${visible()}`);
+check('opening the overview shows the overview screen', visible() === 'screen-overview', `showing ${visible()}`);
 
 const katakanaCourse = getCourse('katakana');
+const katakanaChars = katakanaCourse.chunks.flatMap((c) => c.items);
 const tiles = el('overview-grid')._children;
-check('the overview shows one tile per character in the set',
-  tiles.length === katakanaCourse.chunks[0].items.length, `${tiles.length} tiles`);
-check('every tile in an untouched set shows as not-started (tier-0)',
+check('the overview shows every character in the whole course, not one 5-character set',
+  tiles.length === katakanaChars.length, `${tiles.length} tiles, expected ${katakanaChars.length}`);
+check('every tile in an untouched course shows as not-started (tier-0)',
   tiles.every((t) => t.className.includes('tier-0')), tiles.map((t) => t.className).join(' | '));
-check('the overview counter shows the set position',
-  el('overview-counter').textContent === `1/${katakanaCourse.chunks.length}`,
+check('the overview counter shows the total character count',
+  el('overview-counter').textContent === `${katakanaChars.length} characters`,
   el('overview-counter').textContent);
-check('previous is disabled on the first set', el('overview-prev').disabled === true);
-check('next is enabled when there is another set', el('overview-next').disabled === false);
+check('opening the overview scrolls to the current set (tile 0 — nothing learned yet)',
+  tiles[0]._scrolledIntoView === true);
 
-fire(el('overview-next'), 'click');
-await settle();
-check('next moves to set 2', el('overview-counter').textContent === `2/${katakanaCourse.chunks.length}`);
-check('previous becomes enabled after moving forward', el('overview-prev').disabled === false);
-
-fire(el('overview-prev'), 'click');
-await settle();
-check('previous returns to set 1', el('overview-counter').textContent === `1/${katakanaCourse.chunks.length}`);
-
-// Tap a tile to reach the character detail screen.
-const firstTile = el('overview-grid')._children[0];
-const firstTileChar = firstTile.textContent;
-fire(firstTile, 'click');
+// Tap a tile well into the list, not the first one, so returning from detail
+// can prove it scrolls back to where you were rather than snapping to the
+// top of a 104-tile list.
+const deepIndex = 40;
+const deepTile = tiles[deepIndex];
+const deepTileChar = deepTile.textContent;
+fire(deepTile, 'click');
 await settle();
 check('tapping a tile opens the character detail screen',
   visible() === 'screen-character-detail', `showing ${visible()}`);
-check('the detail screen shows the tapped character', el('detail-glyph').textContent === firstTileChar);
+check('the detail screen shows the tapped character', el('detail-glyph').textContent === deepTileChar);
 check('a kana detail screen shows romaji, not readings',
   el('detail-romaji').hidden === false && el('detail-readings').hidden === true);
 check('the detail screen renders a stroke diagram', el('detail-stroke')._children.length > 0);
@@ -781,6 +788,12 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-ove
 await settle();
 check('backing out of detail returns to the overview, not the course screen',
   visible() === 'screen-overview', `showing ${visible()}`);
+const rebuiltTiles = el('overview-grid')._children;
+check('the overview is rebuilt with the same full character set on return',
+  rebuiltTiles.length === katakanaChars.length);
+check('returning from detail scrolls back to that character, not the top of the list',
+  rebuiltTiles[deepIndex]._scrolledIntoView === true,
+  `tile ${deepIndex} (${rebuiltTiles[deepIndex].textContent})`);
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
@@ -794,10 +807,14 @@ await settle();
 fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
 await settle();
 const kanjiViewSetButton = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('Current set'));
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
 fire(kanjiViewSetButton, 'click');
 await settle();
-check('opening a kanji set shows the overview screen', visible() === 'screen-overview');
+check('opening a kanji overview shows the overview screen', visible() === 'screen-overview');
+
+const kanjiGrade1Course = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+check('the kanji overview shows the whole grade (80 kanji), not one set',
+  el('overview-grid')._children.length === kanjiGrade1Course.chunks.flatMap((c) => c.items).length);
 
 const kanjiTile = el('overview-grid')._children[0];
 fire(kanjiTile, 'click');
