@@ -739,20 +739,24 @@ function revealSingleAnswer(answer) {
 // review. See createFreeAttempt() in writing.js.
 //
 // All three converge on the same ending: the character never auto-advances
-// once finished. The learner chooses Next, Write it again (redo purely for
-// the look, doesn't touch the record), or Mark as not known (overrides a
-// generous grade without a second grading event). For Free mode, the
-// automatic verdict itself is only ever a SUGGESTION — the learner's own
-// yes/no self-grade is what actually gets recorded.
+// once finished. One row, up to three buttons: Try again (always offered —
+// redoing something already recorded correct also quietly marks it not
+// known, folding in what used to be a separate "Mark as not known" button;
+// see writingRetry below), one button that switches difficulty (labelled
+// "Try harder mode" after a clean pass or "Switch to easier mode" after a
+// miss, hidden entirely at either end of the ladder), and Next. For Free
+// mode, the automatic verdict itself is only ever a SUGGESTION — the
+// learner's own yes/no self-grade is what actually gets recorded.
 //
 // The completion MESSAGE and the RECORD are allowed to disagree, on
 // purpose: finishing every stroke of a Trace/Guided attempt is praised
 // every time, even if a stroke needed a retry along the way and the record
 // (correct, in finishWritingCharacter below) quietly reflects that — a kid
 // who got there in the end shouldn't be told "good try" as if they failed.
+// That message now appears ABOVE the canvas, replacing the prompt and
+// stroke count in the same slot, rather than adding new space below it.
 
 const WRITING_SUB_MODES = ['trace', 'guided', 'free'];
-const WRITING_MODE_LABELS = { trace: 'Trace', guided: 'Guided', free: 'Free' };
 
 /** One level up/down the difficulty ladder, or null at either end — used
  * for the "try one level harder" / "switch to <easier>" suggestions below,
@@ -800,13 +804,18 @@ function renderWritingQuestion(course, item) {
   $('writing-peek-full').textContent = `Show full ${isKanji ? 'kanji' : 'kana'}`;
   $('writing-feedback').textContent = '';
   $('writing-feedback').className = 'hint writing-feedback';
+  // In progress: prompt + stroke count. The result message that replaces
+  // them lives in the same slot — see finishWritingCharacter() below.
+  $('writing-prompt').hidden = false;
+  $('writing-stroke-counter').hidden = false;
+  $('writing-result-message').hidden = true;
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
-  $('writing-try-harder').hidden = true;
-  $('writing-switch-easier').hidden = true;
+  $('writing-switch-mode').hidden = true;
   // Trace already shows the whole guide — the hint row only makes sense
-  // where something is actually being hidden.
+  // where something is actually being hidden, and only while still in
+  // progress (finishWritingCharacter hides it again once finished).
   $('writing-hints').hidden = mode === 'trace';
   // Test hook only — never rendered as text, so it can't give the answer away.
   $('screen-writing').dataset.char = item;
@@ -818,6 +827,8 @@ function renderWritingQuestion(course, item) {
   session.writingStrokes = [];
   session.writingCurrentPoints = null;
   session.writingPointerId = null;
+  session.writingPeekedStrokeIndex = null;
+  session.writingLastCorrect = false;
   // NOTE: session.writingRecorded is NOT reset here — this function also
   // runs for a redo or a mode-toggle switch on a question already recorded,
   // and re-arming it here would let either one write a second, conflicting
@@ -874,17 +885,31 @@ function bindHoldToPeek(button, onChange) {
   button.addEventListener('pointercancel', () => onChange(false));
 }
 
-/** "Show first stroke" reveals the model's own stroke 0 — not whichever
- * stroke is next — as a way to get oriented, not a running hint per stroke.
- * "Show full character" reveals every stroke at Trace's faint baseline. Both
- * are no-ops in Trace mode, where the guide is already fully visible. */
+/** "Show next stroke" reveals whichever stroke the attempt is currently
+ * waiting on — moves on as strokes are accepted, so it's useful at any point
+ * partway through, not just at the start. "Show full character" reveals
+ * every stroke at Trace's faint baseline. Both are no-ops in Trace mode,
+ * where the guide is already fully visible. */
 function writingSetPeek(kind, on) {
   const session = state.session;
-  if (!session || session.writingSubMode === 'trace') return;
+  if (!session || session.writingSubMode === 'trace' || !session.writingAttempt) return;
   if (kind === 'full') {
     setGuidePeekFull($('writing-guide'), on);
-  } else if (kind === 'first' && session.writingGuidePaths) {
-    setStrokePeek(session.writingGuidePaths, 0, on);
+    return;
+  }
+  if (kind !== 'next') return;
+  // Remembers which stroke was actually peeked at press-time and un-peeks
+  // that SAME one on release, rather than recomputing "the next stroke" at
+  // release-time — the two could differ if a stroke got accepted while the
+  // button was held (a second finger drawing, on a touchscreen), which
+  // would otherwise leave the originally-peeked stroke stuck showing.
+  if (on) {
+    const index = Math.min(session.writingAttempt.currentStrokeIndex(), (session.writingGuidePaths || []).length - 1);
+    session.writingPeekedStrokeIndex = index;
+    setStrokePeek(session.writingGuidePaths, index, true);
+  } else if (session.writingPeekedStrokeIndex != null) {
+    setStrokePeek(session.writingGuidePaths, session.writingPeekedStrokeIndex, false);
+    session.writingPeekedStrokeIndex = null;
   }
 }
 
@@ -1014,7 +1039,7 @@ function writingSelfGrade(correct) {
  * character (the guide is still visible underneath their ink) and chooses
  * what happens next. The SRS record is written the FIRST time a question is
  * completed — matching every other mode's "first attempt locks the record"
- * rule — not deferred until Next is pressed. "Write it again" can complete
+ * rule — not deferred until Next is pressed. "Try again" can complete
  * the same character a second time, purely for the look of it; that later
  * completion still updates the message and buttons below, it just can't
  * write a second, conflicting record on top of the first.
@@ -1028,6 +1053,7 @@ function finishWritingCharacter(explicitCorrect) {
   const item = session.queue[session.position];
   const isAutomatic = explicitCorrect === undefined;
   const correct = isAutomatic ? session.writingAttempt.isCorrect() : explicitCorrect;
+  session.writingLastCorrect = correct; // read by writingRetry() and the switch-mode button below
 
   if (!session.writingRecorded) {
     session.writingRecorded = true;
@@ -1036,80 +1062,84 @@ function finishWritingCharacter(explicitCorrect) {
   }
 
   $('writing-feedback').textContent = '';
-  // The message is about what the learner just watched happen, not about
-  // what got written to spaced repetition — those are allowed to disagree.
-  // Finishing every stroke reads as "I wrote it" even if a stroke needed a
-  // retry along the way, so Trace/Guided always praise it here; only the
-  // record (correct, above) carries the retry. Free mode's message DOES
-  // follow correct, because there explicitCorrect is the learner's own
-  // yes/no self-grade, not an automatic verdict being softened at them.
+  // Hints only made sense while something was still hidden to peek at or a
+  // level down was worth escaping to mid-attempt — once finished, neither
+  // applies, and the space is worth reclaiming (see writing-mode-plan.md).
+  $('writing-hints').hidden = true;
+
+  // The message replaces the prompt/stroke-count in the SAME slot above the
+  // canvas, rather than adding new space below it — see index.html. It's
+  // about what the learner just watched happen, not about what got written
+  // to spaced repetition — those are allowed to disagree. Finishing every
+  // stroke reads as "I wrote it" even if a stroke needed a retry along the
+  // way, so Trace/Guided always praise it here; only the record (correct,
+  // above) carries the retry. Free mode's message DOES follow correct,
+  // because there explicitCorrect is the learner's own yes/no self-grade,
+  // not an automatic verdict being softened at them.
+  $('writing-prompt').hidden = true;
+  $('writing-stroke-counter').hidden = true;
+  $('writing-result-message').hidden = false;
   $('writing-result-message').textContent = (isAutomatic || correct)
     ? 'Nicely done!'
     : 'Okay — marked for more practice.';
-  // Only offered on a clean, first-try pass — see the module comment above.
-  $('writing-retry').hidden = !correct;
-  $('writing-mark-unknown').hidden = !correct;
 
-  // A clean pass offers going one level harder, right by Next; a miss
-  // offers going one level easier, in the hint row instead — see index.html.
-  const harder = nextHarderMode(session.writingSubMode);
-  const tryHarder = $('writing-try-harder');
-  tryHarder.hidden = !(correct && harder);
-  if (harder) tryHarder.textContent = `Try ${WRITING_MODE_LABELS[harder]}`;
-
-  const easier = nextEasierMode(session.writingSubMode);
-  const switchEasier = $('writing-switch-easier');
-  switchEasier.hidden = !(!correct && easier);
-  if (easier) switchEasier.textContent = `Switch to ${WRITING_MODE_LABELS[easier]}`;
+  // One button whose label/target adapts to the outcome, never both — see
+  // the module comment above #writing-result in index.html.
+  const target = correct ? nextHarderMode(session.writingSubMode) : nextEasierMode(session.writingSubMode);
+  const switchButton = $('writing-switch-mode');
+  switchButton.hidden = !target;
+  switchButton.textContent = correct ? 'Try harder mode' : 'Switch to easier mode';
 
   $('writing-result').hidden = false;
 }
 
+/**
+ * "Try again" always offers a redo — but retrying something already
+ * recorded correct is also treated as the learner not actually trusting
+ * that grade, folding in what used to be a separate "Mark as not known"
+ * button: a schedule correction, not a second grading event. seen/lapses/
+ * history stay exactly as recordResult() already left them in
+ * finishWritingCharacter(); only the box and due date move, so this can't
+ * be mistaken for a second real attempt if the history is inspected later.
+ * Retrying something already marked wrong is a no-op here — there's
+ * nothing to override, box/due are already exactly this.
+ */
 function writingRetry() {
   const session = state.session;
   if (!session || !session.writingAttempt) return;
   const mode = session.writingSubMode || 'trace';
   const item = session.queue[session.position];
 
+  if (session.writingLastCorrect) {
+    const record = state.profile.progress[itemKey('writing', item)];
+    if (record) {
+      record.box = 0;
+      record.due = Date.now();
+      store.saveProfile(state.profile);
+    }
+    session.results.set(item, false);
+  }
+
   session.writingAttempt.restart();
   session.writingStrokes = [];
   session.writingCurrentPoints = null;
+  session.writingPeekedStrokeIndex = null;
   // Rebuilding the guide (rather than stripping classes off the old one)
   // resets it to fully blank/faint per the current mode in one call — see
   // renderGuide() in writing.js.
   session.writingGuidePaths = renderGuide($('writing-guide'), item, mode);
   redrawWritingCanvas();
   updateWritingStrokeCounter();
+
+  $('writing-prompt').hidden = false;
+  $('writing-stroke-counter').hidden = false;
+  $('writing-result-message').hidden = true;
+  $('writing-hints').hidden = mode === 'trace';
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-done').hidden = true;
-  $('writing-try-harder').hidden = true;
-  $('writing-switch-easier').hidden = true;
+  $('writing-switch-mode').hidden = true;
   $('writing-feedback').textContent = '';
-}
-
-/**
- * The false-positive-friendly grading in stroke-grader.js means some
- * "correct" verdicts will be generous. This is the learner's own override —
- * a schedule correction, not a second grading event: seen/lapses/history
- * stay exactly as recordResult() already left them in
- * finishWritingCharacter(), only the box and due date move, so this can't
- * be mistaken for a second real attempt if the history is inspected later.
- */
-function writingMarkNotKnown() {
-  const session = state.session;
-  if (!session) return;
-  const item = session.queue[session.position];
-  const record = state.profile.progress[itemKey('writing', item)];
-  if (record) {
-    record.box = 0;
-    record.due = Date.now();
-    store.saveProfile(state.profile);
-  }
-  session.results.set(item, false);
-  $('writing-result-message').textContent = 'Okay — marked for more practice.';
-  $('writing-retry').hidden = true;
-  $('writing-mark-unknown').hidden = true;
 }
 
 // --- Kanji: click a reading, it turns green or red immediately ---------
@@ -1522,27 +1552,26 @@ function wire() {
   writingCanvas.addEventListener('pointercancel', writingPointerUp);
   $('writing-next').addEventListener('click', () => { if (state.session) nextQuestion(); });
   $('writing-retry').addEventListener('click', writingRetry);
-  $('writing-mark-unknown').addEventListener('click', writingMarkNotKnown);
   WRITING_SUB_MODES.forEach((mode) => {
     $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
   });
   $('writing-done').addEventListener('click', writingDone);
   $('writing-self-grade-yes').addEventListener('click', () => writingSelfGrade(true));
   $('writing-self-grade-no').addEventListener('click', () => writingSelfGrade(false));
-  $('writing-try-harder').addEventListener('click', () => {
-    if (!state.session) return;
-    const harder = nextHarderMode(state.session.writingSubMode);
-    if (harder) writingSetSubMode(harder);
-  });
-  $('writing-switch-easier').addEventListener('click', () => {
-    if (!state.session) return;
-    const easier = nextEasierMode(state.session.writingSubMode);
-    if (easier) writingSetSubMode(easier);
+  // One button, direction depends on how the just-finished attempt went —
+  // see finishWritingCharacter(), which sets session.writingLastCorrect.
+  $('writing-switch-mode').addEventListener('click', () => {
+    const session = state.session;
+    if (!session) return;
+    const target = session.writingLastCorrect
+      ? nextHarderMode(session.writingSubMode)
+      : nextEasierMode(session.writingSubMode);
+    if (target) writingSetSubMode(target);
   });
   // Hold to peek: shown only while pressed, hidden the instant it's
   // released — pointerleave/pointercancel too, so dragging off the button
   // (or an interrupted gesture) can't leave it stuck showing.
-  bindHoldToPeek($('writing-peek-first'), (on) => writingSetPeek('first', on));
+  bindHoldToPeek($('writing-peek-next'), (on) => writingSetPeek('next', on));
   bindHoldToPeek($('writing-peek-full'), (on) => writingSetPeek('full', on));
 
   $('new-per-session').addEventListener('input', (event) => {

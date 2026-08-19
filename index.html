@@ -164,12 +164,16 @@
       <span id="writing-counter" class="counter"></span>
     </header>
 
-    <div class="writing-prompt">
+    <!-- In progress: the prompt and stroke count. Finished: replaced by the
+         result message in the SAME slot, rather than adding a new one below
+         the canvas — see finishWritingCharacter()/renderWritingQuestion() in
+         app.js. Exactly one of these two is visible at a time. -->
+    <div id="writing-prompt" class="writing-prompt">
       <div id="writing-romaji" class="romaji"></div>
       <p id="writing-script-label" class="hint"></p>
     </div>
-
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
+    <p id="writing-result-message" class="writing-result-message" hidden></p>
 
     <div id="writing-board" class="writing-board">
       <svg class="writing-quadrants" viewBox="0 0 109 109" preserveAspectRatio="none" aria-hidden="true">
@@ -182,14 +186,13 @@
 
     <p id="writing-feedback" class="hint writing-feedback"></p>
 
-    <!-- Guided/Free only (Trace already shows the whole guide). Hold to
-         peek — shown only while pressed, released hides it again — plus a
-         one-level-down escape hatch that appears once this question has
-         come back marked wrong. -->
+    <!-- Guided/Free only (Trace already shows the whole guide), and only
+         while still in progress — gone once finished, see
+         finishWritingCharacter() in app.js. Hold to peek: shown only while
+         pressed, released hides it again. -->
     <div id="writing-hints" class="row writing-hints" hidden>
-      <button id="writing-peek-first" class="btn btn-quiet" type="button">Show first stroke</button>
+      <button id="writing-peek-next" class="btn btn-quiet" type="button">Show next stroke</button>
       <button id="writing-peek-full" class="btn btn-quiet" type="button">Show full character</button>
-      <button id="writing-switch-easier" class="btn btn-quiet" type="button" hidden>Switch to Trace</button>
     </div>
 
     <!-- Free mode only: appears once at least one stroke is drawn: no guide
@@ -208,17 +211,17 @@
       </div>
     </div>
 
+    <!-- One row, up to three buttons. Try again always offers a redo —
+         retrying something already recorded correct also quietly marks it
+         not known, folding that override in rather than a separate button
+         (see writingRetry() in app.js). The middle button is one button
+         whose label/target adapts to the outcome: "Try harder mode" after a
+         clean pass, "Switch to easier mode" after a miss — never both, and
+         hidden entirely at either end of the difficulty ladder. -->
     <div id="writing-result" class="card stack" hidden>
-      <p id="writing-result-message" class="writing-result-message"></p>
       <div class="row">
-        <button id="writing-retry" class="btn btn-quiet" type="button" hidden>Write it again</button>
-        <button id="writing-mark-unknown" class="btn btn-quiet" type="button" hidden>Mark as not known</button>
-      </div>
-      <!-- A clean pass offers going one level up, right next to Next — a
-           miss offers going one level down instead, up in #writing-hints,
-           since that appears earlier on screen, while still drawn. -->
-      <div class="row">
-        <button id="writing-try-harder" class="btn btn-quiet" type="button" hidden>Try Guided</button>
+        <button id="writing-retry" class="btn btn-quiet" type="button">Try again</button>
+        <button id="writing-switch-mode" class="btn btn-quiet" type="button" hidden>Try harder mode</button>
         <button id="writing-next" class="btn btn-primary" type="button">Next</button>
       </div>
     </div>

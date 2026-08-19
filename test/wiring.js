@@ -467,18 +467,30 @@ check('a perfectly traced character is accepted with no rejection message',
   el('writing-feedback').textContent === '', `"${el('writing-feedback').textContent}"`);
 check('the result panel appears without auto-advancing — the learner has to press Next',
   el('writing-result').hidden === false, `showing ${visible()}`);
-check('a correct attempt is offered "Write it again"', el('writing-retry').hidden === false);
-check('a correct attempt is offered "Mark as not known"', el('writing-mark-unknown').hidden === false);
+// The message replaces the prompt/stroke-count above the canvas, in the
+// same slot, rather than adding new space below — see index.html.
+check('finishing hides the prompt and stroke count, replaced by the result message',
+  el('writing-prompt').hidden === true && el('writing-stroke-counter').hidden === true
+  && el('writing-result-message').hidden === false);
 check('a correct attempt is praised', el('writing-result-message').textContent === 'Nicely done!');
+check('"Try again" is always offered once finished', el('writing-retry').hidden === false);
+check('a clean Trace pass offers trying one level harder',
+  el('writing-switch-mode').hidden === false && el('writing-switch-mode').textContent === 'Try harder mode');
+check('the hint row has nothing left to do once finished, so it is hidden too — Trace never showed it anyway',
+  el('writing-hints').hidden === true);
 
-// "Write it again": redraws the same character without touching the record
-// already written. Retrace it cleanly a second time — the stroke counter
-// resetting to 1 is proof the redo actually cleared the in-progress attempt
+// "Try again": redraws the same character. Retrying something already
+// recorded correct also quietly marks it not known — folded in rather than
+// a separate "Mark as not known" button — checked against storage at the
+// end of this section. The stroke counter resetting to 1 (and the prompt
+// reappearing) is proof the redo actually cleared the in-progress attempt
 // rather than silently no-op'ing.
 fire(el('writing-retry'), 'click');
 await settle();
-check('"Write it again" hides the result panel and resets the stroke count',
-  el('writing-result').hidden === true && el('writing-stroke-counter').textContent === `Stroke 1 of ${firstWritingStrokeCount}`);
+check('"Try again" hides the result message, brings the prompt back, and resets the stroke count',
+  el('writing-result').hidden === true
+  && el('writing-prompt').hidden === false && el('writing-result-message').hidden === true
+  && el('writing-stroke-counter').textContent === `Stroke 1 of ${firstWritingStrokeCount}`);
 
 for (let i = 0; i < firstWritingStrokeCount; i += 1) {
   traceModelStroke(firstWritingChar, i);
@@ -486,14 +498,6 @@ for (let i = 0; i < firstWritingStrokeCount; i += 1) {
 }
 check('the redo reaches a result of its own without writing a second record',
   el('writing-result').hidden === false && el('writing-result-message').textContent === 'Nicely done!');
-
-// The record was already committed as correct by the FIRST completion,
-// before "Write it again" ever ran — this button only overrides it now.
-fire(el('writing-mark-unknown'), 'click');
-await settle();
-check('"Mark as not known" replaces the message and hides both buttons',
-  el('writing-result-message').textContent === 'Okay — marked for more practice.'
-  && el('writing-retry').hidden === true && el('writing-mark-unknown').hidden === true);
 
 fire(el('writing-next'), 'click');
 await settle();
@@ -522,12 +526,10 @@ if (visible() === 'screen-writing') {
   // after quitting the session) is allowed to quietly reflect the retry.
   check('a retry-tainted attempt still gets the same positive completion message as a clean pass',
     el('writing-result-message').textContent === 'Nicely done!');
-  check('a retry-tainted attempt is still not offered "Write it again" — only a clean first-try pass is',
-    el('writing-retry').hidden === true);
-  check('a retry-tainted attempt has nothing left to override, so "Mark as not known" is still not offered',
-    el('writing-mark-unknown').hidden === true);
-  check('Trace has no easier level to switch down to, so that offer never appears',
-    el('writing-switch-easier').hidden === true);
+  check('"Try again" is offered even on a retry-tainted attempt — it is always offered once finished',
+    el('writing-retry').hidden === false);
+  check('Trace has no easier level to switch down to, so the switch-mode offer never appears',
+    el('writing-switch-mode').hidden === true);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -548,7 +550,7 @@ if (visible() === 'screen-writing') {
   check('the Guided toggle button is marked active, Trace is not',
     el('writing-mode-guided').className.includes('active')
     && !el('writing-mode-trace').className.includes('active'));
-  check('the hint row (peek + switch-easier) is shown once Trace is left',
+  check('the hint row (peek buttons) is shown once Trace is left',
     el('writing-hints').hidden === false);
 
   // Hold to peek: shown only while held, gone the instant it's released —
@@ -564,36 +566,53 @@ if (visible() === 'screen-writing') {
     !el('writing-guide').classList.contains('peek-full'));
 
   const guideSvg = el('writing-guide')._children[0];
-  const firstGuidePath = guideSvg._children[0];
-  fire(el('writing-peek-first'), 'pointerdown');
+  const strokePath = (index) => guideSvg._children[index];
+
+  fire(el('writing-peek-next'), 'pointerdown');
   await settle();
-  check('holding "Show first stroke" reveals just the model\'s stroke 0',
-    firstGuidePath.classList.contains('stroke-path-peek'));
-  fire(el('writing-peek-first'), 'pointerleave'); // dragging off the button also releases it
+  check('holding "Show next stroke" reveals the model\'s stroke 0 before anything has been drawn',
+    strokePath(0).classList.contains('stroke-path-peek'));
+  fire(el('writing-peek-next'), 'pointerleave'); // dragging off the button also releases it
   await settle();
   check('a pointer dragged off the button releases the peek just like pointerup',
-    !firstGuidePath.classList.contains('stroke-path-peek'));
+    !strokePath(0).classList.contains('stroke-path-peek'));
 
   guidedChar = el('screen-writing').dataset.char;
   const guidedStrokeCount = STROKES[guidedChar].strokes.length;
-  for (let i = 0; i < guidedStrokeCount; i += 1) {
+
+  // "Show next stroke" moves on as strokes are accepted — not stuck showing
+  // stroke 0 forever — checked here after the first stroke, but only on a
+  // character with a second stroke to distinguish it from (the queue order
+  // is shuffled, so this is guarded rather than assumed).
+  traceModelStroke(guidedChar, 0);
+  await settle();
+  if (guidedStrokeCount > 1) {
+    fire(el('writing-peek-next'), 'pointerdown');
+    await settle();
+    check('after accepting stroke 1, "Show next stroke" reveals stroke 2, not stroke 1 again',
+      strokePath(1).classList.contains('stroke-path-peek') && !strokePath(0).classList.contains('stroke-path-peek'));
+    fire(el('writing-peek-next'), 'pointerup');
+    await settle();
+  }
+
+  for (let i = 1; i < guidedStrokeCount; i += 1) {
     traceModelStroke(guidedChar, i);
     await settle();
   }
   check('a clean Guided-mode trace is praised just like a clean Trace-mode one',
     el('writing-result-message').textContent === 'Nicely done!');
-  check('a clean Guided pass offers trying Free next, right by Next',
-    el('writing-try-harder').hidden === false && el('writing-try-harder').textContent === 'Try Free');
-  check('a clean pass is never offered a level DOWN — nothing to switch away from',
-    el('writing-switch-easier').hidden === true);
+  check('a clean Guided pass offers trying one level harder',
+    el('writing-switch-mode').hidden === false && el('writing-switch-mode').textContent === 'Try harder mode');
+  check('the hint row is hidden again once finished — nothing left to peek at',
+    el('writing-hints').hidden === true);
 
   // Bonus round: take the suggestion, on the SAME character, rather than
   // pressing Next — proves the original Guided pass's record isn't
   // clobbered by voluntary extra practice at a harder level (checked
   // against storage at the end of this section).
-  fire(el('writing-try-harder'), 'click');
+  fire(el('writing-switch-mode'), 'click');
   await settle();
-  check('"Try Free" re-renders the SAME character in Free mode, not a new one',
+  check('"Try harder mode" re-renders the SAME character in Free mode, not a new one',
     el('screen-writing').dataset.char === guidedChar
     && el('writing-guide').className.includes('mode-free')
     && el('writing-mode-free').className.includes('active'));
@@ -652,11 +671,12 @@ if (visible() === 'screen-writing') {
   fire(el('writing-self-grade-no'), 'click');
   await settle();
   check('a "No" self-grade is not praised', el('writing-result-message').textContent !== 'Nicely done!');
-  check('a "No" self-grade is not offered "Write it again"', el('writing-retry').hidden === true);
-  check('a miss in Free mode offers switching one level down, to Guided',
-    el('writing-switch-easier').hidden === false && el('writing-switch-easier').textContent === 'Switch to Guided');
-  check('a miss is never offered a level UP — nothing to try harder from a fail',
-    el('writing-try-harder').hidden === true);
+  check('"Try again" is offered even on a "No" self-grade — it is always offered once finished',
+    el('writing-retry').hidden === false);
+  check('a miss in Free mode offers switching one level easier',
+    el('writing-switch-mode').hidden === false && el('writing-switch-mode').textContent === 'Switch to easier mode');
+  check('the hint row is hidden again once finished',
+    el('writing-hints').hidden === true);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -679,9 +699,10 @@ if (visible() === 'screen-writing') {
 
   fire(el('writing-self-grade-yes'), 'click');
   await settle();
-  check('a "Yes" self-grade is praised and offered the same follow-up buttons as any clean pass',
-    el('writing-result-message').textContent === 'Nicely done!'
-    && el('writing-retry').hidden === false && el('writing-mark-unknown').hidden === false);
+  check('a "Yes" self-grade is praised and offered "Try again", same as any other clean pass',
+    el('writing-result-message').textContent === 'Nicely done!' && el('writing-retry').hidden === false);
+  check('Free is already the hardest level, so a clean pass there offers no switch-mode button',
+    el('writing-switch-mode').hidden === true);
 
   fire(el('writing-next'), 'click');
   await settle();
@@ -698,7 +719,7 @@ check('writing progress was written to storage, keyed by mode', writingRecords.l
 check('every writing record has a history', writingRecords.every(([, r]) => r.history.length > 0));
 
 const firstWritingRecord = writingSaved.progress[`writing:${firstWritingChar}`];
-check('"Mark as not known" forced the box back down without a second grading event',
+check('"Try again" on an already-correct character folded in the not-known override, without a second grading event',
   !!firstWritingRecord && firstWritingRecord.box === 0 && firstWritingRecord.seen === 1,
   JSON.stringify(firstWritingRecord));
 

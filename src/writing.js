@@ -67,7 +67,7 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
     return { verdict, strokeIndex, complete: false, matchedLaterStroke };
   }
 
-  /** Start over on the SAME character, from stroke 1 — "Write it again".
+  /** Start over on the SAME character, from stroke 1 — "Try again".
    * Deliberately does not reset everyStrokeFirstTry: a redo is for the look
    * of the result, not a second chance at the record, and callers read
    * isCorrect() from the original attempt before calling this. */
@@ -141,7 +141,7 @@ export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}
     return review;
   }
 
-  /** "Write it again": same character, blank slate. */
+  /** "Try again": same character, blank slate. */
   function restart() {
     drawn.length = 0;
     finished = false;
@@ -154,6 +154,11 @@ export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}
     restart,
     drawnCount: () => drawn.length,
     modelStrokeCount: () => (modelStrokes ? modelStrokes.length : 0),
+    // Matches createWritingAttempt's currentStrokeIndex() so "show next
+    // stroke" (app.js) can use the same call regardless of attempt type —
+    // Free has no notion of a REQUIRED next stroke, but drawnCount is still
+    // a reasonable "which one are you probably about to draw".
+    currentStrokeIndex: () => Math.min(drawn.length, modelStrokes ? modelStrokes.length - 1 : 0),
     isComplete: () => finished,
     // Only meaningful as a fallback — app.js always has the learner's
     // explicit self-grade by the time a Free attempt finishes.
@@ -240,7 +245,7 @@ export function toModelSpace(localPoint, boxWidth, boxHeight) {
  *     stroke as a graded review once markGuideStrokeReview() below is
  *     called for each one
  * Rebuilding the guide (rather than resetting classes on the old one) is
- * also how "Write it again" clears prior progress markings in one call.
+ * also how "Try again" clears prior progress markings in one call.
  */
 export function renderGuide(container, char, mode = 'trace') {
   container.innerHTML = '';

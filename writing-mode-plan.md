@@ -375,6 +375,51 @@ there `correct` is the learner's own yes/no self-grade, not an automatic
 verdict being softened at them — echoing back what they just told the app
 isn't the same problem as the app unilaterally judging them.
 
+### 7.2 A second layout pass: reclaiming space, a difficulty ladder
+
+Real phone use surfaced two more problems, both fixed within phase 3 rather
+than deferred:
+
+- **The Trace/Guided/Free toggle, sitting above the canvas, pushed Next off
+  the bottom of a phone screen** before a character was even finished. Fixed
+  by moving it to the very bottom of the screen, under a "Difficulty level"
+  label, deliberately last in DOM order — it's fine for it to be pushed
+  below the fold once other content fills the screen, since it matters far
+  less than whatever's currently in front of the learner.
+- **The result message ("Nicely done!") added a whole new line below the
+  canvas.** It now appears ABOVE the canvas instead, in the same slot the
+  prompt and stroke counter occupy while drawing — exactly one of
+  {prompt+counter, result message} is visible at a time, so finishing a
+  character replaces rather than adds.
+
+Two more pieces landed alongside those:
+
+- **Hold-to-peek**, for Guided/Free where the guide is otherwise hidden:
+  "Show next stroke" reveals whichever stroke the attempt is currently
+  waiting on (moves on as strokes are accepted — not stuck on stroke 1) and
+  "Show full character" reveals everything, both only while held down. Gone
+  entirely once a character is finished, alongside the rest of the
+  in-progress-only controls, since neither is useful once there's nothing
+  left to peek at.
+- **A difficulty ladder**, not just a toggle: a clean pass offers "Try
+  harder mode" right next to Next; a miss offers "Switch to easier mode" in
+  the hint row. Both reuse the exact same mode-switch path as the toggle
+  itself — redoing the SAME character at the new level, not skipping ahead
+  to a new one — and neither writes a second, conflicting record on top of
+  one already committed (bonus practice at a different difficulty is
+  practice, not a re-grade). The labels deliberately never name the target
+  mode ("Try harder mode", never "Try Free") — Trace/Guided/Free mean
+  nothing to a first-time reader out of context.
+
+**"Mark as not known" was folded into "Try again"** rather than kept as a
+separate button, to hold the finished-state controls to three: Try again,
+the (conditional) switch-mode button, and Next. Retrying something already
+recorded correct now ALSO quietly applies the old override (box back to 0,
+due now) — the reasoning being that wanting to redo something you just
+passed is itself a signal you don't fully trust the grade. Retrying
+something already recorded wrong is a no-op for the record; there's nothing
+left to override.
+
 ---
 
 ## 8. Open questions

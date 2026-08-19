@@ -290,6 +290,10 @@ h3 { font-size: 18px; }
 
 .writing-prompt { text-align: center; }
 .writing-stroke-counter { text-align: center; margin: 4px 0; }
+/* Sits in the same slot as .writing-prompt/.writing-stroke-counter above —
+   exactly one of the two is ever visible, see index.html — so a finished
+   character replaces the prompt rather than adding new space below it. */
+.writing-result-message { text-align: center; font-size: 18px; font-weight: 700; margin: 4px 0; }
 
 /* Deliberately last on the screen and modest in size — see the comment on
    .writing-difficulty in index.html. "Difficulty level" is a label, not a
@@ -366,7 +370,6 @@ h3 { font-size: 18px; }
 .writing-hints { margin: 4px 0; }
 .writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; }
 
-.writing-result-message { text-align: center; font-size: 18px; font-weight: 700; }
 .writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }
 
 /* Ten answers, two rows of five. Fixed row heights so that revealing an
