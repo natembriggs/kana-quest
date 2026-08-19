@@ -61,12 +61,20 @@ export const MODES = {
       kana: 'See the sound, draw the character',
       kanji: 'See the meaning, draw the kanji',
     },
-    comingSoon: true,
+    // Kana writing (Trace mode) is live; kanji writing needs the reading/
+    // meaning side panel from writing-mode-plan.md phase 4, not built yet.
+    comingSoon: { kanji: true },
   },
 };
 
 export function modesForKind(kind) {
   return Object.values(MODES).filter((m) => m.kinds.includes(kind));
+}
+
+/** Whether a mode is available for a given kind right now — comingSoon is
+ * per-kind (kana writing shipped before kanji writing did). */
+export function isModeComingSoon(mode, kind) {
+  return !!(mode.comingSoon && mode.comingSoon[kind]);
 }
 
 export function modeName(modeId, kind) {
@@ -84,7 +92,7 @@ export function modeHint(modeId, kind) {
  * ordering is a no-op there.
  */
 export function defaultModeForKind(kind) {
-  const usable = modesForKind(kind).filter((m) => !m.comingSoon);
+  const usable = modesForKind(kind).filter((m) => !isModeComingSoon(m, kind));
   for (const id of ['definition', 'recognition']) {
     const found = usable.find((m) => m.id === id);
     if (found) return found.id;

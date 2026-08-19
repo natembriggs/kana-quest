@@ -281,6 +281,57 @@ h3 { font-size: 18px; }
 .feedback.ok { color: var(--ok); }
 .feedback.bad { color: var(--bad); }
 
+/* --- Writing (Trace mode) ------------------------------------------------ */
+/* See writing-mode-plan.md. The guide is drawn at the character's TRUE
+   position, never shifted to match where the learner started — placement
+   within the quartered box is part of the orthography being taught, not
+   just the grading, so the guide is allowed to visibly disagree with the
+   learner's ink rather than chase it. */
+
+.writing-prompt { text-align: center; }
+.writing-stroke-counter { text-align: center; }
+
+.writing-board {
+  position: relative;
+  width: min(78vw, 340px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.writing-quadrants,
+.writing-guide,
+.writing-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.writing-quadrants line {
+  stroke: var(--line);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 3;
+}
+.writing-guide svg { width: 100%; height: 100%; }
+/* Full opacity/border/background from .stroke-svg would hide the quadrant
+   lines behind an opaque box — the writing-board div supplies those
+   instead, so the guide layer itself has to stay transparent. */
+.writing-guide .stroke-svg { background: transparent; border: none; border-radius: 0; }
+.writing-guide .stroke-path { opacity: 0.3; }
+/* A stroke turns solid and green the moment it's accepted — visible
+   progress feedback, distinct from the strokes still to come. */
+.writing-guide .stroke-path.stroke-path-done { opacity: 0.9; stroke: var(--ok); }
+.writing-guide .stroke-number { opacity: 0.55; }
+
+.writing-canvas { touch-action: none; cursor: crosshair; }
+
+.writing-feedback { min-height: 1.4em; text-align: center; }
+.writing-feedback.is-bad { color: var(--bad); }
+
+.writing-result-message { text-align: center; font-size: 18px; font-weight: 700; }
+
 /* Ten answers, two rows of five. Fixed row heights so that revealing an
    answer never moves anything under the learner's finger. */
 .choice-grid {
@@ -509,6 +560,7 @@ h3 { font-size: 18px; }
 .detail-stroke-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
 #detail-stroke { width: clamp(140px, 40vw, 200px); }
+#lesson-stroke { width: clamp(120px, 34vw, 170px); }
 .stroke-svg {
   width: 100%; height: auto;
   background: var(--surface);

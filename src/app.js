@@ -6,11 +6,15 @@ import {
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
 } from './kanji.js';
 import {
-  MODES, modesForKind, modeName, modeHint, defaultModeForKind,
+  MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
+import {
+  createWritingAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
+  renderGuide, markGuideStrokeDone, resetGuideProgress,
+} from './writing.js';
 import * as store from './store.js';
 
 export const APP_VERSION = '2026-08-19f'; // keep in step with VERSION in sw.js
@@ -199,9 +203,10 @@ function renderModePicker(kind) {
     button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
     button.textContent = label;
     button.dataset.mode = mode.id;
-    // Writing mode is the next thing to build; it is shown but inert so the
-    // shape of the app is visible rather than implied.
-    if (mode.comingSoon) {
+    // Kanji writing needs its reading/meaning side panel (phase 4 of
+    // writing-mode-plan.md), so it's still shown but inert there — kana
+    // writing (Trace mode) is live.
+    if (isModeComingSoon(mode, kind)) {
       button.disabled = true;
       button.classList.add('segment-soon');
       button.innerHTML = `${label} <small>soon</small>`;
@@ -511,6 +516,19 @@ function renderLesson() {
     $('lesson-hint').textContent = "Say it out loud, then remember it — it's coming up in the quiz.";
   }
 
+  // Writing mode: watch the stroke order drawn in once before being quizzed
+  // on it. Same SVG builder as the character-detail screen.
+  const strokeWrap = $('lesson-stroke-wrap');
+  strokeWrap.hidden = state.mode !== 'writing';
+  if (state.mode === 'writing') {
+    const strokeContainer = $('lesson-stroke');
+    strokeContainer.innerHTML = '';
+    const { svg, paths } = buildStrokeSVG(item);
+    strokeContainer.appendChild(svg);
+    animateStrokes(paths);
+    $('lesson-hint').textContent = "Watch how it's drawn — you'll trace it in the quiz.";
+  }
+
   show('screen-lesson');
 }
 
@@ -556,7 +574,7 @@ function advanceLesson() {
 }
 
 function startQuiz() {
-  show('screen-quiz');
+  show(state.mode === 'writing' ? 'screen-writing' : 'screen-quiz');
   renderQuestion();
 }
 
@@ -568,6 +586,11 @@ function renderQuestion() {
   }
   const item = session.queue[session.position];
   const course = getAnyCourse(state.courseId);
+
+  if (state.mode === 'writing') {
+    renderWritingQuestion(course, item);
+    return;
+  }
 
   $('quiz-kana').textContent = item;
   $('quiz-feedback').textContent = '';
@@ -685,6 +708,213 @@ function revealSingleAnswer(answer) {
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
     if (el.dataset.value === answer) el.classList.add('is-right');
   });
+}
+
+// --- Writing (Trace mode): draw each stroke against the KanjiVG guide -----
+//
+// See writing-mode-plan.md. The guide is shown at the character's TRUE
+// position throughout — placement within the box is part of what's being
+// taught, so it is never shifted to match where the learner started.
+// Grading happens live, stroke by stroke, with unlimited retries on a
+// rejected stroke; what's locked in for spaced repetition is whether every
+// stroke was accepted on its very first try, the same rule every other mode
+// in this app already uses (see chooseAnswer() above). The character never
+// auto-advances once complete — the learner chooses Next, Write it again
+// (redo purely for the look, doesn't touch the record), or Mark as not
+// known (overrides a generous grade without a second grading event).
+
+const WRITING_FEEDBACK = {
+  backwards: 'Try drawing that stroke the other way.',
+  'too-short': 'Keep going a bit further.',
+  'too-long': 'A little short of that — try stopping sooner.',
+  start: 'Start a little closer to where this stroke begins.',
+  end: 'Finish a little closer to where this stroke ends.',
+  shape: 'Close — try following the stroke a bit more closely.',
+  wild: 'That strayed quite far from the stroke — give it another go.',
+};
+
+function writingFeedbackMessage(result) {
+  if (result.matchedLaterStroke != null) {
+    return `That looks like stroke ${result.matchedLaterStroke + 1} — stroke ${result.strokeIndex + 1} comes first.`;
+  }
+  return WRITING_FEEDBACK[result.verdict] || 'Try that stroke again.';
+}
+
+function renderWritingQuestion(course, item) {
+  const session = state.session;
+
+  const isKanji = course.kind === 'kanji';
+  $('writing-romaji').hidden = isKanji;
+  $('writing-romaji').textContent = isKanji ? '' : romajiFor(item);
+  $('writing-script-label').textContent = isKanji ? '' : `Write it in ${course.name.toLowerCase()}`;
+  $('writing-feedback').textContent = '';
+  $('writing-feedback').className = 'hint writing-feedback';
+  $('writing-result').hidden = true;
+  // Test hook only — never rendered as text, so it can't give the answer away.
+  $('screen-writing').dataset.char = item;
+
+  session.writingGuidePaths = renderGuide($('writing-guide'), item);
+  session.writingAttempt = createWritingAttempt(item);
+  session.writingStrokes = [];
+  session.writingCurrentPoints = null;
+  session.writingPointerId = null;
+  // "Write it again" lets the character be completed more than once — the
+  // SRS record is only ever written for the FIRST completion of a given
+  // question. Reset per question, not per attempt.
+  session.writingRecorded = false;
+
+  const sized = setupCanvas($('writing-canvas'));
+  session.writingCtx = sized ? sized.ctx : null;
+  session.writingCanvasSize = sized ? { width: sized.width, height: sized.height } : { width: 300, height: 300 };
+  redrawWritingCanvas();
+
+  updateWritingStrokeCounter();
+
+  const done = session.answered;
+  $('writing-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
+  $('writing-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
+}
+
+function updateWritingStrokeCounter() {
+  const attempt = state.session && state.session.writingAttempt;
+  if (!attempt) return;
+  const total = attempt.strokeCount();
+  const current = Math.min(attempt.currentStrokeIndex() + 1, total);
+  $('writing-stroke-counter').textContent = total ? `Stroke ${current} of ${total}` : '';
+}
+
+function redrawWritingCanvas() {
+  const session = state.session;
+  if (!session || !session.writingCtx) return;
+  const { width, height } = session.writingCanvasSize;
+  const strokes = session.writingCurrentPoints
+    ? [...session.writingStrokes, session.writingCurrentPoints]
+    : session.writingStrokes;
+  redrawInk(session.writingCtx, width, height, strokes);
+}
+
+function writingLocalPoint(canvas, event) {
+  const rect = canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : { left: 0, top: 0 };
+  return [event.clientX - rect.left, event.clientY - rect.top];
+}
+
+function writingPointerDown(event) {
+  const session = state.session;
+  if (!session || !session.writingAttempt || session.writingAttempt.isComplete()) return;
+  const canvas = $('writing-canvas');
+  session.writingPointerId = event.pointerId;
+  session.writingCurrentPoints = [writingLocalPoint(canvas, event)];
+  if (typeof canvas.setPointerCapture === 'function' && event.pointerId != null) {
+    try { canvas.setPointerCapture(event.pointerId); } catch { /* not every environment supports this */ }
+  }
+}
+
+function writingPointerMove(event) {
+  const session = state.session;
+  if (!session || !session.writingCurrentPoints || event.pointerId !== session.writingPointerId) return;
+  const canvas = $('writing-canvas');
+  const events = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : [event];
+  events.forEach((e) => session.writingCurrentPoints.push(writingLocalPoint(canvas, e)));
+  redrawWritingCanvas();
+}
+
+/**
+ * A completed pointer gesture is graded as one stroke. Trace mode never
+ * blocks progress — a rejected stroke can be retried without limit — but a
+ * retry means the character can no longer earn a correct record, only be
+ * finished (see createWritingAttempt in writing.js).
+ */
+function writingPointerUp(event) {
+  const session = state.session;
+  if (!session || !session.writingCurrentPoints || event.pointerId !== session.writingPointerId) return;
+  const localPoints = session.writingCurrentPoints;
+  session.writingCurrentPoints = null;
+  session.writingPointerId = null;
+
+  if (localPoints.length < 2) { redrawWritingCanvas(); return; } // a tap, not a stroke
+
+  const { width, height } = session.writingCanvasSize;
+  const modelPoints = localPoints.map((p) => toModelSpace(p, width, height));
+  const result = session.writingAttempt.submitStroke(modelPoints);
+
+  if (result.verdict === 'ok') {
+    session.writingStrokes.push(localPoints);
+    markGuideStrokeDone(session.writingGuidePaths, result.strokeIndex);
+    $('writing-feedback').textContent = '';
+    updateWritingStrokeCounter();
+  } else {
+    $('writing-feedback').textContent = writingFeedbackMessage(result);
+    $('writing-feedback').className = 'hint writing-feedback is-bad';
+  }
+  // Draw the just-accepted stroke BEFORE showing the result panel — the
+  // completing stroke would otherwise never actually appear on screen.
+  redrawWritingCanvas();
+  if (result.verdict === 'ok' && result.complete) finishWritingCharacter();
+}
+
+/**
+ * Deliberately does not auto-advance: the learner reviews the finished
+ * character (the guide is still visible underneath their ink) and chooses
+ * what happens next. The SRS record is written the FIRST time a question is
+ * completed — matching every other mode's "first attempt locks the record"
+ * rule — not deferred until Next is pressed. "Write it again" can complete
+ * the same character a second time, purely for the look of it; that later
+ * completion still updates the message and buttons below, it just can't
+ * write a second, conflicting record on top of the first.
+ */
+function finishWritingCharacter() {
+  const session = state.session;
+  const item = session.queue[session.position];
+  const correct = session.writingAttempt.isCorrect();
+
+  if (!session.writingRecorded) {
+    session.writingRecorded = true;
+    session.answered += 1;
+    recordResult(item, correct);
+  }
+
+  $('writing-feedback').textContent = '';
+  $('writing-result-message').textContent = correct ? 'Nicely done!' : "Good try — here's how it goes.";
+  // Only offered on a successful attempt — see the module comment above.
+  $('writing-retry').hidden = !correct;
+  $('writing-mark-unknown').hidden = !correct;
+  $('writing-result').hidden = false;
+}
+
+function writingRetry() {
+  const session = state.session;
+  if (!session || !session.writingAttempt) return;
+  session.writingAttempt.restart();
+  session.writingStrokes = [];
+  session.writingCurrentPoints = null;
+  resetGuideProgress(session.writingGuidePaths);
+  redrawWritingCanvas();
+  updateWritingStrokeCounter();
+  $('writing-result').hidden = true;
+}
+
+/**
+ * The false-positive-friendly grading in stroke-grader.js means some
+ * "correct" verdicts will be generous. This is the learner's own override —
+ * a schedule correction, not a second grading event: seen/lapses/history
+ * stay exactly as recordResult() already left them in
+ * finishWritingCharacter(), only the box and due date move, so this can't
+ * be mistaken for a second real attempt if the history is inspected later.
+ */
+function writingMarkNotKnown() {
+  const session = state.session;
+  if (!session) return;
+  const item = session.queue[session.position];
+  const record = state.profile.progress[itemKey('writing', item)];
+  if (record) {
+    record.box = 0;
+    record.due = Date.now();
+    store.saveProfile(state.profile);
+  }
+  session.results.set(item, false);
+  $('writing-result-message').textContent = 'Okay — marked for more practice.';
+  $('writing-retry').hidden = true;
+  $('writing-mark-unknown').hidden = true;
 }
 
 // --- Kanji: click a reading, it turns green or red immediately ---------
@@ -1080,6 +1310,19 @@ function wire() {
   // Kanji only.
   $('quiz-show-answers').addEventListener('click', showKanjiAnswers);
   $('quiz-advanced').addEventListener('click', expandKanjiAdvanced);
+
+  // Writing: one canvas, wired once here rather than per-question — the
+  // handlers read state.session fresh on every pointer event instead of
+  // closing over a particular question, the same way every other listener
+  // in this function is wired once and driven by live state.
+  const writingCanvas = $('writing-canvas');
+  writingCanvas.addEventListener('pointerdown', writingPointerDown);
+  writingCanvas.addEventListener('pointermove', writingPointerMove);
+  writingCanvas.addEventListener('pointerup', writingPointerUp);
+  writingCanvas.addEventListener('pointercancel', writingPointerUp);
+  $('writing-next').addEventListener('click', () => { if (state.session) nextQuestion(); });
+  $('writing-retry').addEventListener('click', writingRetry);
+  $('writing-mark-unknown').addEventListener('click', writingMarkNotKnown);
 
   $('new-per-session').addEventListener('input', (event) => {
     const value = Number(event.target.value);

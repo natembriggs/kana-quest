@@ -139,6 +139,10 @@
     <div class="teach-card">
       <div id="lesson-kana" class="glyph glyph-xl"></div>
       <div id="lesson-romaji" class="romaji"></div>
+      <!-- Writing mode only: the stroke order animated once. See renderLesson(). -->
+      <div id="lesson-stroke-wrap" class="detail-stroke-wrap" hidden>
+        <div id="lesson-stroke"></div>
+      </div>
       <!-- Kanji lessons only: tappable readings, meanings, and the example
            word for whichever reading was last tapped. See renderLesson(). -->
       <div id="lesson-readings" class="reading-chips" hidden></div>
@@ -147,6 +151,45 @@
     </div>
     <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
     <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- Writing (Trace mode): romaji prompt, a guide + canvas stacked over
+       the quartered box, live per-stroke grading. See writing-mode-plan.md.
+       No glyph is ever shown here — that would give the answer away. -->
+  <section id="screen-writing" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>
+      <div class="progress"><div id="writing-progress" class="progress-fill"></div></div>
+      <span id="writing-counter" class="counter"></span>
+    </header>
+
+    <div class="writing-prompt">
+      <div id="writing-romaji" class="romaji"></div>
+      <p id="writing-script-label" class="hint"></p>
+    </div>
+
+    <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
+
+    <div id="writing-board" class="writing-board">
+      <svg class="writing-quadrants" viewBox="0 0 109 109" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="54.5" y1="0" x2="54.5" y2="109"></line>
+        <line x1="0" y1="54.5" x2="109" y2="54.5"></line>
+      </svg>
+      <div id="writing-guide" class="writing-guide"></div>
+      <canvas id="writing-canvas" class="writing-canvas"></canvas>
+    </div>
+
+    <p id="writing-feedback" class="hint writing-feedback"></p>
+
+    <div id="writing-result" class="card stack" hidden>
+      <p id="writing-result-message" class="writing-result-message"></p>
+      <div class="row">
+        <button id="writing-retry" class="btn btn-quiet" type="button" hidden>Write it again</button>
+        <button id="writing-mark-unknown" class="btn btn-quiet" type="button" hidden>Mark as not known</button>
+      </div>
+      <button id="writing-next" class="btn btn-primary wide" type="button">Next</button>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

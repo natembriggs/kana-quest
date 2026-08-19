@@ -27,6 +27,14 @@ function check(name, condition, detail) {
 
 const elements = new Map();
 
+function makeCanvasContext() {
+  return {
+    scale() {}, clearRect() {}, beginPath() {}, moveTo() {}, lineTo() {}, stroke() {},
+    closePath() {}, save() {}, restore() {}, translate() {}, setTransform() {},
+    strokeStyle: '', fillStyle: '', lineWidth: 0, lineCap: '', lineJoin: '',
+  };
+}
+
 function makeElement(id = '') {
   const el = {
     id,
@@ -57,6 +65,11 @@ function makeElement(id = '') {
     // (not inside its try/catch, unlike the stroke-geometry calls) to force a
     // layout flush before starting the draw-in animation.
     getBoundingClientRect() { return { x: 0, y: 0, width: 0, height: 0, top: 0, left: 0, right: 0, bottom: 0 }; },
+    // No real canvas geometry here, same non-implementation as SVG geometry
+    // above — writing.js's setupCanvas()/redrawInk() are written to tolerate
+    // a context whose drawing calls are all no-ops.
+    getContext(type) { return type === '2d' ? makeCanvasContext() : null; },
+    setPointerCapture() {},
     // Records that it was called rather than doing anything — enough to
     // verify the overview scrolls to the right tile without a real layout
     // engine to actually measure a scroll position against.
@@ -182,6 +195,8 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
+const { STROKES } = await import('../src/stroke-data.js');
+const { flattenPath, resample } = await import('../src/stroke-geometry.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -230,8 +245,12 @@ check('kana offers two modes, not three', kanaModes.length === 2,
   kanaModes.map((b) => b.textContent).join(' | '));
 check('the kana middle mode is called Reading, not Yomi',
   kanaModes[0].textContent === 'Reading', kanaModes.map((b) => b.textContent).join(' | '));
-check('kana writing is present but disabled',
-  kanaModes[1].innerHTML.includes('Writing') && kanaModes[1].disabled === true);
+// Kana writing (Trace mode) shipped; kanji writing hasn't (see below) — the
+// "soon" badge is set via innerHTML, an enabled button only ever gets
+// .textContent, so an enabled Writing button has an empty innerHTML.
+check('kana writing is enabled — Trace mode is live',
+  kanaModes[1].textContent === 'Writing' && kanaModes[1].disabled === false
+  && !kanaModes[1].innerHTML.includes('soon'));
 check('kana has no grade picker', el('grade-picker').hidden === true);
 
 const courseButtons = buttonsIn(el('course-list')._children[0]);
@@ -357,6 +376,164 @@ const revealRecord = saved.progress[`recognition:${revealKana}`];
 check('a miss wrong both times counts as a lapse', !!revealRecord && revealRecord.lapses >= 1);
 check('it too was re-drilled later in the session',
   revealRecord && revealRecord.history.length > 1);
+
+// --- Writing (Trace mode) -----------------------------------------------
+// Drives real pointer events through app.js's actual handlers — not a
+// shortcut — proving the whole pipeline: pointerdown/move/up -> local pixel
+// coordinates -> the model's 0-109 coordinate space -> stroke-grader.js ->
+// the writing screen's UI. Each stroke is traced from a real model stroke's
+// own points (via STROKES + flattenPath/resample, the same modules
+// stroke-grader.js itself uses), not hard-coded per character, so this
+// works for whichever character the session actually lands on.
+//
+// The generic DOM stub reports every element's bounding box as zero-sized
+// (see getBoundingClientRect above), which pointer-to-model-space division
+// can't work with — writing-canvas's box is pinned to a known size below,
+// the one deliberate stub customisation this test needs.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('back on the course screen after the kana Reading quiz', visible() === 'screen-course');
+
+const WRITING_BOX = 300;
+const writingCanvas = el('writing-canvas');
+writingCanvas.getBoundingClientRect = () => (
+  { x: 0, y: 0, width: WRITING_BOX, height: WRITING_BOX, top: 0, left: 0, right: WRITING_BOX, bottom: WRITING_BOX }
+);
+
+const writingModeButton = el('mode-picker')._children.find((b) => b.dataset.mode === 'writing');
+check('the writing mode button is enabled', !!writingModeButton && writingModeButton.disabled === false);
+fire(writingModeButton, 'click');
+await settle();
+
+const writingCourseButtons = buttonsIn(el('course-list')._children[0]);
+const writingLearnButton = writingCourseButtons.find((b) => (b.innerHTML || '').includes('more'));
+check('writing mode offers an "add more" button too', !!writingLearnButton);
+fire(writingLearnButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+check('a writing session opens the lesson screen first', visible() === 'screen-lesson', `showing ${visible()}`);
+check('the writing lesson animates the stroke order',
+  el('lesson-stroke-wrap').hidden === false && el('lesson-stroke')._children.length > 0);
+
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the writing lesson hands over to the writing screen', visible() === 'screen-writing', `showing ${visible()}`);
+check('the writing screen never displays the glyph itself',
+  !el('writing-romaji').textContent.includes(el('screen-writing').dataset.char));
+
+function traceModelStroke(char, index) {
+  const d = STROKES[char].strokes[index];
+  const { points } = resample(flattenPath(d), 30); // dense enough to hug curved strokes
+  const local = points.map(([mx, my]) => [(mx / 109) * WRITING_BOX, (my / 109) * WRITING_BOX]);
+  fire(writingCanvas, 'pointerdown', { pointerId: 1, clientX: local[0][0], clientY: local[0][1] });
+  for (let i = 1; i < local.length; i += 1) {
+    fire(writingCanvas, 'pointermove', { pointerId: 1, clientX: local[i][0], clientY: local[i][1] });
+  }
+  fire(writingCanvas, 'pointerup', { pointerId: 1, clientX: local[local.length - 1][0], clientY: local[local.length - 1][1] });
+}
+
+// A stroke far too short to be anything real — a couple of pixels — used
+// below to prove a genuinely bad attempt is rejected, regardless of which
+// character or stroke it lands on (see the length gate in
+// stroke-grader.js: the floor scales with the model stroke's own length,
+// so a ~1-pixel stroke fails it no matter what).
+function traceBadStroke() {
+  // Needs a real pointermove in between: a down+up with no move in between
+  // is exactly what app.js's own "that's a tap, not a stroke" filter is
+  // there to discard (points.length < 2), before grading ever runs.
+  fire(writingCanvas, 'pointerdown', { pointerId: 1, clientX: 4, clientY: 4 });
+  fire(writingCanvas, 'pointermove', { pointerId: 1, clientX: 5, clientY: 5 });
+  fire(writingCanvas, 'pointerup', { pointerId: 1, clientX: 5, clientY: 5 });
+}
+
+const firstWritingChar = el('screen-writing').dataset.char;
+const firstWritingStrokeCount = STROKES[firstWritingChar].strokes.length;
+
+for (let i = 0; i < firstWritingStrokeCount; i += 1) {
+  traceModelStroke(firstWritingChar, i);
+  await settle();
+}
+check('a perfectly traced character is accepted with no rejection message',
+  el('writing-feedback').textContent === '', `"${el('writing-feedback').textContent}"`);
+check('the result panel appears without auto-advancing — the learner has to press Next',
+  el('writing-result').hidden === false, `showing ${visible()}`);
+check('a correct attempt is offered "Write it again"', el('writing-retry').hidden === false);
+check('a correct attempt is offered "Mark as not known"', el('writing-mark-unknown').hidden === false);
+check('a correct attempt is praised', el('writing-result-message').textContent === 'Nicely done!');
+
+// "Write it again": redraws the same character without touching the record
+// already written. Retrace it cleanly a second time — the stroke counter
+// resetting to 1 is proof the redo actually cleared the in-progress attempt
+// rather than silently no-op'ing.
+fire(el('writing-retry'), 'click');
+await settle();
+check('"Write it again" hides the result panel and resets the stroke count',
+  el('writing-result').hidden === true && el('writing-stroke-counter').textContent === `Stroke 1 of ${firstWritingStrokeCount}`);
+
+for (let i = 0; i < firstWritingStrokeCount; i += 1) {
+  traceModelStroke(firstWritingChar, i);
+  await settle();
+}
+check('the redo reaches a result of its own without writing a second record',
+  el('writing-result').hidden === false && el('writing-result-message').textContent === 'Nicely done!');
+
+// The record was already committed as correct by the FIRST completion,
+// before "Write it again" ever ran — this button only overrides it now.
+fire(el('writing-mark-unknown'), 'click');
+await settle();
+check('"Mark as not known" replaces the message and hides both buttons',
+  el('writing-result-message').textContent === 'Okay — marked for more practice.'
+  && el('writing-retry').hidden === true && el('writing-mark-unknown').hidden === true);
+
+fire(el('writing-next'), 'click');
+await settle();
+
+// Second character: get one stroke deliberately wrong before completing the
+// rest correctly — proves everyStrokeFirstTry locks correctness to false
+// even though Trace mode lets the character be finished regardless.
+if (visible() === 'screen-writing') {
+  const secondWritingChar = el('screen-writing').dataset.char;
+  const secondStrokeCount = STROKES[secondWritingChar].strokes.length;
+
+  traceBadStroke();
+  await settle();
+  check('the second character also rejects a bad first stroke',
+    el('writing-feedback').textContent.length > 0);
+
+  for (let i = 0; i < secondStrokeCount; i += 1) {
+    traceModelStroke(secondWritingChar, i);
+    await settle();
+  }
+  check('a character finished after a retry still reaches a result — Trace mode never blocks progress',
+    el('writing-result').hidden === false);
+  check('a retry-tainted attempt is not praised as a clean pass',
+    el('writing-result-message').textContent !== 'Nicely done!');
+  check('a retry-tainted attempt is not offered "Write it again" — only a clean pass is',
+    el('writing-retry').hidden === true);
+  check('a retry-tainted attempt has nothing left to override, so "Mark as not known" is not offered',
+    el('writing-mark-unknown').hidden === true);
+
+  fire(el('writing-next'), 'click');
+  await settle();
+}
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+check('quitting a writing session returns to the course screen', visible() === 'screen-course');
+
+const writingSaved = [...rows.values()][0];
+const writingRecords = Object.entries(writingSaved.progress).filter(([k]) => k.startsWith('writing:'));
+check('writing progress was written to storage, keyed by mode', writingRecords.length >= 2,
+  `${writingRecords.length} records`);
+check('every writing record has a history', writingRecords.every(([, r]) => r.history.length > 0));
+
+const firstWritingRecord = writingSaved.progress[`writing:${firstWritingChar}`];
+check('"Mark as not known" forced the box back down without a second grading event',
+  !!firstWritingRecord && firstWritingRecord.box === 0 && firstWritingRecord.seen === 1,
+  JSON.stringify(firstWritingRecord));
 
 // --- Kanji reading quiz -----------------------------------------------
 // Same "give another chance, but the record is locked to the first
