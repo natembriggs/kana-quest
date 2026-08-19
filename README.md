@@ -47,18 +47,23 @@ whole "phone can't reach the laptop" problem below goes away, because the
 site is always reachable over HTTPS. HTTPS is also what speech input will
 need later.
 
-To publish (one-time):
+To publish (one-time), via GitHub Desktop:
 
-1. Create an **empty** public repo named `kana-quest` at
-   <https://github.com/new> — no README, no .gitignore, no licence, since
-   this repo already has its history.
-2. `git push -u origin main` from the repo (see "Where things live" for the
-   path). The remote is already configured.
-3. In the repo's **Settings → Pages**, set Source to *Deploy from a branch*,
-   branch `main`, folder `/ (root)`, and Save.
+1. Open this repo in GitHub Desktop and click **Publish repository**. It
+   creates the repo on GitHub and pushes in one step — no remote needs
+   configuring first. **Untick "Keep this code private"**: Pages from a
+   private repo requires a paid plan.
+2. In the repo's **Settings → Pages** on github.com, set Source to *Deploy
+   from a branch*, branch `main`, folder `/ (root)`, and Save.
+
+If the button says *Publish branch* rather than *Publish repository*, a
+remote is already configured and Desktop will try to push to a repo that may
+not exist. `git remote remove origin` puts it back to the create-and-push
+path.
 
 The site appears at `https://<user>.github.io/kana-quest/` within a minute or
-two. On each device, open that URL and *Add to Home Screen*.
+two. On each device, open that URL and *Add to Home Screen*. After that,
+updating every device is just a push.
 
 ## Getting around
 
