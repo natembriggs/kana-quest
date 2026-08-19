@@ -163,7 +163,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 // --- Boot -----------------------------------------------------------------
 
 const { romajiFor } = await import('../src/kana.js');
-const { KANJI_COURSES, kanjiInfo, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
+const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -419,6 +419,37 @@ check('a kanji session opens the lesson screen first', visible() === 'screen-les
 check('a kanji lesson shows readings instead of romaji',
   el('lesson-readings').hidden === false && el('lesson-romaji').hidden === true);
 check('a kanji lesson shows a meaning', el('lesson-meanings').textContent.length > 0);
+
+// Readings are tappable during the lesson too, not just after answering a
+// Yomi question — seeing the word a reading comes from on first encounter
+// is the point, not only at review time.
+const lessonKanjiFirst = el('lesson-kana').textContent;
+const lessonChips = el('lesson-readings')._children;
+check('the lesson shows one chip per quizzed reading',
+  lessonChips.length === kanjiInfo(KANJI_COURSES.find((c) => c.id === 'kanji-grade-1'), lessonKanjiFirst).quizReadings.length,
+  `${lessonChips.length} chips`);
+check('the example word is hidden until a reading is tapped', el('lesson-word').hidden === true);
+
+const lessonCourse = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+const firstChip = lessonChips[0];
+fire(firstChip, 'click');
+await settle();
+check('tapping a reading chip marks it active', firstChip.classList.contains('is-active'));
+check('tapping a reading chip reveals the example word panel', el('lesson-word').hidden === false);
+const firstExample = readingExample(lessonCourse, lessonKanjiFirst, firstChip.dataset.reading);
+if (firstExample) {
+  check('the shown word matches the reading that was tapped',
+    el('lesson-word').querySelector('.word-kanji').textContent === firstExample.kanji,
+    el('lesson-word').querySelector('.word-kanji').textContent);
+}
+
+if (lessonChips.length > 1) {
+  const secondChip = lessonChips[1];
+  fire(secondChip, 'click');
+  await settle();
+  check('tapping a second reading moves the active mark, not adds to it',
+    secondChip.classList.contains('is-active') && !firstChip.classList.contains('is-active'));
+}
 
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   fire(el('lesson-next'), 'click');

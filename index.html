@@ -89,9 +89,11 @@
     <div class="teach-card">
       <div id="lesson-kana" class="glyph glyph-xl"></div>
       <div id="lesson-romaji" class="romaji"></div>
-      <!-- Kanji lessons only: readings + meanings, see renderLesson(). -->
-      <div id="lesson-readings" class="kanji-readings" hidden></div>
+      <!-- Kanji lessons only: tappable readings, meanings, and the example
+           word for whichever reading was last tapped. See renderLesson(). -->
+      <div id="lesson-readings" class="reading-chips" hidden></div>
       <div id="lesson-meanings" class="kanji-meanings" hidden></div>
+      <div id="lesson-word" class="kanji-word" hidden></div>
     </div>
     <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
     <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>

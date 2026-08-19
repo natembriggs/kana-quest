@@ -12,7 +12,7 @@ import {
 } from './srs.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19d'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
@@ -357,22 +357,58 @@ function renderLesson() {
     $('lesson-romaji').hidden = true;
     // Only the readings that are actually quizzed are taught — showing the
     // full KANJIDIC list would include readings no common word ever uses.
+    // Each one is tappable, same as after answering a Yomi question, since
+    // seeing the word a rare reading actually comes from is exactly what
+    // makes it stick on a first encounter, not just at review time.
     $('lesson-readings').hidden = false;
-    $('lesson-readings').textContent = info.quizReadings.join(' · ');
+    renderLessonReadingChips(course, item, info);
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.meanings.join(', ');
+    $('lesson-word').hidden = true;
+    $('lesson-word').innerHTML = '';
     $('lesson-hint').textContent = state.mode === 'definition'
       ? 'Remember what it means — the quiz asks you to pick the meaning.'
-      : 'The quiz asks you to pick out these readings — no need to remember every one yet.';
+      : 'Tap a reading to see a word that uses it.';
   } else {
     $('lesson-romaji').hidden = false;
     $('lesson-romaji').textContent = romajiFor(item);
     $('lesson-readings').hidden = true;
+    $('lesson-readings').innerHTML = '';
     $('lesson-meanings').hidden = true;
+    $('lesson-word').hidden = true;
     $('lesson-hint').textContent = "Say it out loud, then remember it — it's coming up in the quiz.";
   }
 
   show('screen-lesson');
+}
+
+function renderLessonReadingChips(course, kanji, info) {
+  const container = $('lesson-readings');
+  container.innerHTML = '';
+  info.quizReadings.forEach((reading) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'reading-chip';
+    chip.textContent = reading;
+    chip.dataset.reading = reading;
+    chip.addEventListener('click', () => showLessonReadingExample(course, kanji, reading, chip));
+    container.appendChild(chip);
+  });
+}
+
+function showLessonReadingExample(course, kanji, reading, chip) {
+  $('lesson-readings').querySelectorAll('.reading-chip').forEach((el) => el.classList.remove('is-active'));
+  chip.classList.add('is-active');
+
+  const example = readingExample(course, kanji, reading);
+  const wordEl = $('lesson-word');
+  if (example) {
+    renderWord(wordEl, example);
+  } else {
+    wordEl.innerHTML = '';
+    wordEl.textContent = `No common example word found for ${reading}.`;
+  }
+  wordEl.hidden = false;
 }
 
 function advanceLesson() {

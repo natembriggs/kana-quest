@@ -384,8 +384,27 @@ h3 { font-size: 18px; }
 
 /* Reused on the lesson (teach) card, so it needs its own text sizing rather
    than the feedback-panel sizing above. */
-.teach-card .kanji-readings { font-size: 22px; font-weight: 600; color: var(--accent); text-align: center; }
 .teach-card .kanji-meanings { font-size: 16px; text-align: center; }
+.teach-card .kanji-word { justify-content: center; }
+
+/* Tappable readings on the lesson card — tapping one shows the example word
+   below, same idea as tapping a reading after a Yomi question resolves. */
+.reading-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.reading-chip {
+  min-height: 40px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.reading-chip:active { transform: scale(0.96); }
+.reading-chip.is-active { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+
 .kanji-word { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .kanji-word .word-kanji {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
