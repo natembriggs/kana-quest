@@ -160,7 +160,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 // --- Boot -----------------------------------------------------------------
 
 const { romajiFor } = await import('../src/kana.js');
-const { KANJI_COURSES, kanjiInfo, buildKanjiOptions } = await import('../src/kanji.js');
+const { KANJI_COURSES, kanjiInfo, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -488,6 +488,110 @@ const revealRollup = afterKanji.progress[`recognition:${kRevealKanji}`];
 check('a shown-answers miss also counts as a lapse in the rollup',
   !!revealRollup && revealRollup.lapses >= 1);
 
+// --- Definition mode ---------------------------------------------------
+// Three modes for kanji now: Definition, Yomi, Writing. Definition is
+// single-answer (tap the English meaning) and applies to kanji only, so
+// selecting it must hide the kana courses.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+
+const modeButtons = el('mode-picker')._children;
+check('the mode picker offers exactly three modes', modeButtons.length === 3,
+  modeButtons.map((b) => b.textContent).join(' | '));
+check('the modes are Definition, Yomi, Writing in that order',
+  modeButtons[0].textContent === 'Definition'
+  && modeButtons[1].textContent === 'Yomi'
+  && modeButtons[2].innerHTML.includes('Writing'),
+  modeButtons.map((b) => b.textContent || b.innerHTML).join(' | '));
+check('writing mode is still disabled', modeButtons[2].disabled === true);
+
+const kanaCardsUnderYomi = el('course-list')._children
+  .filter((card) => (card.innerHTML || '').includes('ひらがな') || (card.innerHTML || '').includes('カタカナ'));
+check('kana courses are listed under Yomi', kanaCardsUnderYomi.length === 2);
+
+fire(modeButtons[0], 'click'); // Definition
+await settle();
+check('switching to Definition stays on the home screen', visible() === 'screen-home');
+const cardsUnderDefinition = el('course-list')._children;
+check('kana courses disappear under Definition — kana has no English meaning to quiz',
+  cardsUnderDefinition.every((card) => !(card.innerHTML || '').includes('ひらがな')
+    && !(card.innerHTML || '').includes('カタカナ')),
+  `${cardsUnderDefinition.length} cards`);
+check('kanji courses remain under Definition',
+  cardsUnderDefinition.some((card) => (card.innerHTML || '').includes('小学')));
+
+const defCard = cardsUnderDefinition.find((card) => (card.innerHTML || '').includes('小学1年生'));
+check('the grade-1 card is present under Definition', !!defCard);
+const defButtons = defCard._children.flatMap((n) => (n._children.length ? n._children : [n]));
+const defLearn = defButtons.find((b) => (b.innerHTML || '').includes('more'));
+check('Definition mode starts with its own separate progress (nothing learned yet)', !!defLearn);
+
+fire(defLearn, 'click');
+await settle();
+check('a definition session opens the lesson screen', visible() === 'screen-lesson', `showing ${visible()}`);
+check('the definition lesson shows the meaning', el('lesson-meanings').textContent.length > 0);
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the definition lesson hands over to the quiz', visible() === 'screen-quiz', `showing ${visible()}`);
+check('definition options use the roomier text grid, not the 5-across kana grid',
+  el('quiz-choices').className.includes('choice-grid-text'), el('quiz-choices').className);
+
+const kanjiGrade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+let defAnswered = 0;
+let defMissDone = false;
+let defMissKanji = null;
+for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
+  const kanji = el('quiz-kana').textContent;
+  if (!kanji) break;
+  const answer = meaningLabel(kanjiInfo(kanjiGrade1, kanji));
+  const choices = el('quiz-choices')._children;
+  check(`definition question ${i + 1} offers ten options`, choices.length === 10);
+  check(`definition question ${i + 1} offers English prose, not readings`,
+    choices.every((c) => /[a-z]/i.test(c.textContent)),
+    choices.map((c) => c.textContent).join(' | '));
+  const right = choices.find((c) => c.textContent === answer);
+  check(`definition question ${i + 1} offers its correct meaning`, !!right, `want "${answer}"`);
+  if (!right) break;
+
+  if (defAnswered === 1 && !defMissDone) {
+    defMissDone = true;
+    defMissKanji = kanji;
+    const wrong = choices.find((c) => c.textContent !== answer);
+    fire(wrong, 'click');
+    await settle();
+    check('a wrong definition gets one more try, same as kana',
+      el('quiz-feedback').textContent === 'Try once more', `"${el('quiz-feedback').textContent}"`);
+    fire(right, 'click');
+    await settle();
+    check('recovering on the second try marks it right', right.classList.contains('is-right'));
+  } else {
+    fire(right, 'click');
+    await settle();
+    check('a correct definition shows the readings as follow-up context',
+      el('quiz-info').hidden === false && el('quiz-meanings').textContent.length > 0);
+  }
+  runTimers();
+  await settle();
+  defAnswered += 1;
+}
+check('the definition miss-then-recover path was exercised', defMissDone);
+check('the definition quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
+
+const afterDefinition = [...rows.values()][0];
+const defRecords = Object.entries(afterDefinition.progress).filter(([k]) => k.startsWith('definition:'));
+check('definition mode writes its own records, separate from yomi',
+  defRecords.length > 0, `${defRecords.length} definition records`);
+check('definition records are plain Leitner records, not per-reading ones',
+  defRecords.every(([k]) => k.split(':').length === 2));
+check('a definition miss recovered on the second try still counts as a lapse',
+  afterDefinition.progress[`definition:${defMissKanji}`].lapses >= 1,
+  JSON.stringify(afterDefinition.progress[`definition:${defMissKanji}`]));
+check('yomi progress is untouched by definition practice — the modes are independent',
+  Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
+
 // --- data-action coverage -------------------------------------------------
 
 const appSource = readFile('src/app.js');
@@ -501,4 +605,6 @@ if (failures) {
   print(`${failures} failure(s)`);
   throw new Error(`${failures} wiring failure(s)`);
 }
-print(`all wiring checks passed (${answered} questions answered, ${records.length} records saved)`);
+print('all wiring checks passed '
+  + `(kana ${answered}, yomi ${kAnswered}, definition ${defAnswered} questions answered; `
+  + `${Object.keys([...rows.values()][0].progress).length} records saved)`);

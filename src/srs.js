@@ -31,10 +31,33 @@ const BOX_SETTLED = 2;
 // Keep history bounded so a profile document cannot grow without limit.
 const MAX_HISTORY = 300;
 
+// `kinds` is which course types a mode applies to: kana has no English
+// definition to quiz, so Definition shows kanji courses only.
 export const MODES = {
-  recognition: { id: 'recognition', name: 'Reading', hint: 'See the kana, tap the sound' },
-  writing: { id: 'writing', name: 'Writing', hint: 'See the sound, draw the kana' },
+  definition: {
+    id: 'definition',
+    name: 'Definition',
+    kinds: ['kanji'],
+    hint: 'See the kanji, tap what it means',
+  },
+  recognition: {
+    id: 'recognition',
+    name: 'Yomi',
+    kinds: ['kana', 'kanji'],
+    hint: 'See the character, tap how it is read',
+  },
+  writing: {
+    id: 'writing',
+    name: 'Writing',
+    kinds: ['kana', 'kanji'],
+    hint: 'See the sound, draw the character',
+    comingSoon: true,
+  },
 };
+
+export function modesForKind(kind) {
+  return Object.values(MODES).filter((m) => m.kinds.includes(kind));
+}
 
 export function itemKey(mode, kana) {
   return `${mode}:${kana}`;
@@ -83,14 +106,21 @@ export function isDue(record, now = Date.now()) {
   return !!record && record.due <= now;
 }
 
-/** Every character of a course, in teaching order. */
-function allItems(course) {
-  return course.chunks.flatMap((chunk) => chunk.items);
+/**
+ * Every character of a course that can be quizzed in this mode, in teaching
+ * order. A course may exclude some items from a mode — e.g. a kanji with no
+ * reading that appears in any common word has no yomi question to ask, but is
+ * still taught in the other modes. See buildKanjiCourse in kanji.js.
+ */
+function allItems(course, mode) {
+  const excluded = course.excludeForMode && course.excludeForMode[mode];
+  const items = course.chunks.flatMap((chunk) => chunk.items);
+  return excluded ? items.filter((item) => !excluded.has(item)) : items;
 }
 
 /** Characters that have been introduced, i.e. have a record for this mode. */
 export function introducedItems(course, mode, progress) {
-  return allItems(course).filter((kana) => progress[itemKey(mode, kana)]);
+  return allItems(course, mode).filter((kana) => progress[itemKey(mode, kana)]);
 }
 
 /**
@@ -98,8 +128,9 @@ export function introducedItems(course, mode, progress) {
  * they have not met yet. Used for display only.
  */
 export function currentSetIndex(course, mode, progress) {
+  const excluded = (course.excludeForMode && course.excludeForMode[mode]) || new Set();
   const index = course.chunks.findIndex((chunk) =>
-    chunk.items.some((kana) => !progress[itemKey(mode, kana)]));
+    chunk.items.some((kana) => !excluded.has(kana) && !progress[itemKey(mode, kana)]));
   return index === -1 ? course.chunks.length - 1 : index;
 }
 
@@ -124,7 +155,7 @@ export function readyForMore(course, mode, progress) {
 
 /** The next never-seen characters, in teaching order. */
 export function newItems(course, mode, progress, limit = 5) {
-  return allItems(course)
+  return allItems(course, mode)
     .filter((kana) => !progress[itemKey(mode, kana)])
     .slice(0, limit);
 }
@@ -170,7 +201,7 @@ export function buildSession(course, mode, progress, kind, { newPerSession = 5, 
 
 /** Counts for the home and summary screens. */
 export function courseStats(course, mode, progress, now = Date.now()) {
-  const all = allItems(course);
+  const all = allItems(course, mode);
   const started = introducedItems(course, mode, progress);
   const due = started.filter((k) => isDue(progress[itemKey(mode, k)], now)).length;
   const mastered = started.filter((k) => progress[itemKey(mode, k)].box >= MAX_BOX).length;

@@ -11,8 +11,8 @@ globalThis.window = { wanakana: globalThis.wanakana };
 
 const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/kana.js');
 const {
-  KANJI_COURSES, kanjiInfo, readingExample,
-  buildKanjiOptions, buildAdvancedAdditions, recomputeKanjiRollup,
+  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
+  buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
 } = await import('../src/kanji.js');
 const srs = await import('../src/srs.js');
 
@@ -124,24 +124,57 @@ check('grades 1 through 6 all exist',
 const seenAcrossGrades = new Map(); // kanji -> which grade course first had it
 let crossGradeDuplicates = 0;
 let anyGradeStructureWrong = 0;
+let noMeaningAnywhere = 0;
+let unquizzableYomi = 0;
+let quizReadingWithoutExample = 0;
 for (const course of KANJI_COURSES) {
   const chars = course.chunks.flatMap((c) => c.items);
   if (new Set(chars).size !== chars.length) anyGradeStructureWrong += 1;
   if (!course.chunks.slice(0, -1).every((c) => c.items.length === 5)) anyGradeStructureWrong += 1;
   for (const kanji of chars) {
     const info = kanjiInfo(course, kanji);
-    if (!info || info.on.length + info.kun.length === 0 || info.quizReadings.length === 0) {
-      anyGradeStructureWrong += 1;
+    if (!info || info.on.length + info.kun.length === 0) anyGradeStructureWrong += 1;
+    if (!info || info.meanings.length === 0) noMeaningAnywhere += 1;
+    // Every quizzed reading must have an example word — that is now the
+    // criterion for being quizzed at all.
+    for (const reading of (info ? info.quizReadings : [])) {
+      if (!readingExample(course, kanji, reading)) quizReadingWithoutExample += 1;
     }
+    if (info && info.quizReadings.length === 0) unquizzableYomi += 1;
     if (seenAcrossGrades.has(kanji)) crossGradeDuplicates += 1;
     else seenAcrossGrades.set(kanji, course.id);
   }
 }
-check('every course is internally well-formed (chunks of 5, no dupes, every kanji has readings)',
+check('every course is internally well-formed (chunks of 5, no dupes, every kanji has some reading listed)',
   anyGradeStructureWrong === 0, `${anyGradeStructureWrong} problems`);
+check('every kanji has at least one non-radical English meaning to quiz',
+  noMeaningAnywhere === 0, `${noMeaningAnywhere} without one`);
+check('every quizzed reading has an example word — that is the bar for being quizzed',
+  quizReadingWithoutExample === 0, `${quizReadingWithoutExample} without one`);
 check('no kanji appears in more than one grade', crossGradeDuplicates === 0, `${crossGradeDuplicates} duplicates`);
 check('the full elementary set is 1006-1030 kanji (Kyoiku kanji, allowing for JOYO revisions)',
   seenAcrossGrades.size >= 1006 && seenAcrossGrades.size <= 1030, `got ${seenAcrossGrades.size}`);
+
+// A few kanji (prefecture names like 媛/栃/茨) have no reading appearing in any
+// common word, so they have no yomi question. They must be excluded from that
+// mode specifically — not dropped from the course, since Definition still
+// works for them.
+let excludedButQuizzable = 0;
+let quizzableButExcluded = 0;
+for (const course of KANJI_COURSES) {
+  const excluded = course.excludeForMode.recognition;
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    const hasReadings = kanjiInfo(course, kanji).quizReadings.length > 0;
+    if (excluded.has(kanji) && hasReadings) excludedButQuizzable += 1;
+    if (!excluded.has(kanji) && !hasReadings) quizzableButExcluded += 1;
+  }
+}
+check('kanji with no quizzable reading are excluded from yomi mode',
+  quizzableButExcluded === 0, `${quizzableButExcluded} not excluded`);
+check('nothing quizzable is excluded from yomi mode by mistake',
+  excludedButQuizzable === 0, `${excludedButQuizzable} wrongly excluded`);
+check('the unquizzable-yomi set is a small handful, not a systemic failure',
+  unquizzableYomi <= 10, `${unquizzableYomi} kanji have no quizzable reading`);
 done('all six kanji grades are structurally sound');
 
 // --- Kanji data and reading choices ----------------------------------------
@@ -196,10 +229,12 @@ for (const kanji of grade1Chars) {
   if (correct.size * 2 >= options.length) baseCorrectAtLeastHalf += 1;
   if (![...correct].every((r) => options.includes(r))) missingCorrect += 1;
   if (new Set(options).size !== options.length) duplicateOptions += 1;
-  // The most common on'yomi and kun'yomi (if the kanji has each) are never
-  // left out of the base view, however the "which 2 more" priority sorts.
-  if (info.on[0] && !correct.has(info.on[0])) missingMandatory += 1;
-  if (info.kun[0] && !correct.has(info.kun[0])) missingMandatory += 1;
+  // The most common *quizzable* on'yomi and kun'yomi are never left out of
+  // the base view, however the "which 2 more" priority sorts. Quizzable, not
+  // KANJIDIC's first: a kanji's headline reading is skipped if no common word
+  // uses it, so quizOn[0]/quizKun[0] are the right reference, not on[0]/kun[0].
+  if (info.quizOn[0] && !correct.has(info.quizOn[0])) missingMandatory += 1;
+  if (info.quizKun[0] && !correct.has(info.quizKun[0])) missingMandatory += 1;
   // Alphabetical by romaji, the same convention as kana.js's buildChoices —
   // on'yomi is katakana and kun'yomi is hiragana, so sorting the raw kana
   // would clump the two scripts instead of interleaving by sound.
@@ -321,7 +356,101 @@ if (shanghai && shanghai.on.includes('シャン')) {
     !!example && example.kanji.includes('上'), JSON.stringify(example));
 }
 
+// The bug this alignment exists to prevent: 十二 reads じゅうに, so a naive
+// "word reading starts with the target reading" test credited it to 二's rare
+// ジ on'yomi — when in fact 二 is に there and じゅう belongs to 十. The word
+// must now be credited to 二's ニ reading (or not at all), never to ジ.
+const two = kanjiInfo(grade1, '二');
+check('二 does not offer ジ as a quizzable reading — no common word uses it',
+  !two.quizReadings.includes('ジ'), two.quizReadings.join(', '));
+for (const [reading, example] of Object.entries(two.readingExamples)) {
+  check(`二's example for ${reading} is not the mis-attributed 十二`,
+    !(reading === 'ジ' && example.kanji === '十二'), JSON.stringify(example));
+}
+
+// Same class of error in the other direction: a reading must be credited to
+// the kanji that actually contributes it, wherever in the word it sits.
+const ten = kanjiInfo(grade1, '十');
+if (ten.readingExamples['ジュウ']) {
+  check('十 credits じゅう to a word where 十 really is read じゅう',
+    ten.readingExamples['ジュウ'].kana.startsWith('じゅう'),
+    JSON.stringify(ten.readingExamples['ジュウ']));
+}
+
+let exampleContainsKanji = 0;
+let exampleMissingKanji = 0;
+for (const course of KANJI_COURSES) {
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    for (const reading of kanjiInfo(course, kanji).quizReadings) {
+      const example = readingExample(course, kanji, reading);
+      if (example && example.kanji.includes(kanji)) exampleContainsKanji += 1;
+      else exampleMissingKanji += 1;
+    }
+  }
+}
+check('every reading example actually contains the kanji it illustrates',
+  exampleMissingKanji === 0, `${exampleMissingKanji} did not`);
+check('the reading-example index is substantial, not near-empty after filtering',
+  exampleContainsKanji > 2000, `only ${exampleContainsKanji}`);
+
 done('per-reading example words');
+
+// --- Meanings: definitions only, no radical names -------------------------
+
+let radicalNameLeaked = 0;
+let legitimateRadicalMeaningLost = 0;
+for (const course of KANJI_COURSES) {
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    for (const meaning of kanjiInfo(course, kanji).meanings) {
+      // KANJIDIC lists the radical's *name* as a pseudo-meaning, e.g.
+      // "one radical (no.1)" — not a definition, so it must be gone.
+      if (/radical\s*\(no/i.test(meaning)) radicalNameLeaked += 1;
+    }
+  }
+}
+check('radical names are stripped from meanings', radicalNameLeaked === 0, `${radicalNameLeaked} leaked`);
+
+// ...but "radical" as a genuine English definition must survive: 根 is a
+// mathematical root/radical, 基 is a chemical radical. Filtering on the bare
+// word would wrongly delete these.
+for (const [kanji, expected] of [['根', 'radical'], ['基', 'radical (chem)']]) {
+  const course = KANJI_COURSES.find((c) => c.index.has(kanji));
+  if (course) {
+    check(`${kanji} keeps its genuine "radical" definition`,
+      kanjiInfo(course, kanji).meanings.includes(expected),
+      kanjiInfo(course, kanji).meanings.join(', '));
+  }
+}
+done('meanings are definitions only, without discarding real ones');
+
+// --- Definition mode choices ----------------------------------------------
+
+let defCountWrong = 0;
+let defMissingAnswer = 0;
+let defDuplicate = 0;
+let defUnsorted = 0;
+for (const kanji of grade1Chars) {
+  const { options, answer } = buildDefinitionChoices(grade1, kanji, 10);
+  if (options.length !== 10) defCountWrong += 1;
+  if (!options.includes(answer)) defMissingAnswer += 1;
+  if (new Set(options).size !== options.length) defDuplicate += 1;
+  const sorted = [...options].sort((a, b) => a.localeCompare(b));
+  if (JSON.stringify(options) !== JSON.stringify(sorted)) defUnsorted += 1;
+}
+check('every definition question offers ten options', defCountWrong === 0, `${defCountWrong} did not`);
+check('the correct definition is always offered', defMissingAnswer === 0, `${defMissingAnswer} missing`);
+check('no definition question repeats an option — a duplicate label would be unanswerable',
+  defDuplicate === 0, `${defDuplicate} had one`);
+check('definition options are sorted alphabetically', defUnsorted === 0, `${defUnsorted} unsorted`);
+
+const defOne = buildDefinitionChoices(grade1, '一', 10);
+check('the definition answer is the kanji\'s own meaning label',
+  defOne.answer === meaningLabel(kanjiInfo(grade1, '一')), defOne.answer);
+check('the definition answer is English prose, not a reading',
+  /[a-z]/i.test(defOne.answer), defOne.answer);
+check('definition options carry no radical-name text',
+  defOne.options.every((o) => !/radical\s*\(no/i.test(o)));
+done('definition mode choices');
 
 // --- Kanji-level rollup, aggregated from per-reading records ---------------
 

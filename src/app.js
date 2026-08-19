@@ -2,8 +2,8 @@
 
 import { COURSES, romajiFor, buildChoices } from './kana.js';
 import {
-  KANJI_COURSES, kanjiInfo, readingExample,
-  buildKanjiOptions, buildAdvancedAdditions, recomputeKanjiRollup,
+  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
+  buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
 } from './kanji.js';
 import {
   MODES, itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
@@ -93,7 +93,7 @@ function renderModePicker() {
     button.textContent = mode.name;
     // Writing mode is the next thing to build; it is shown but inert so the
     // shape of the app is visible rather than implied.
-    if (mode.id === 'writing') {
+    if (mode.comingSoon) {
       button.disabled = true;
       button.classList.add('segment-soon');
       button.innerHTML = `${mode.name} <small>soon</small>`;
@@ -113,9 +113,8 @@ function renderHome() {
 
   const list = $('course-list');
   list.innerHTML = '';
-  // Kanji only has a reading mode built so far (see kanji.js); once writing
-  // mode exists for kanji this filter goes away.
-  const visibleCourses = ALL_COURSES.filter((c) => c.kind !== 'kanji' || state.mode === 'recognition');
+  // Definition only applies to kanji — kana has no English meaning to quiz.
+  const visibleCourses = ALL_COURSES.filter((c) => MODES[state.mode].kinds.includes(c.kind));
   visibleCourses.forEach((course) => {
     const stats = courseStats(course, state.mode, profile.progress);
     const setIndex = currentSetIndex(course, state.mode, profile.progress);
@@ -231,11 +230,15 @@ function renderLesson() {
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, item);
     $('lesson-romaji').hidden = true;
+    // Only the readings that are actually quizzed are taught — showing the
+    // full KANJIDIC list would include readings no common word ever uses.
     $('lesson-readings').hidden = false;
-    $('lesson-readings').textContent = [...info.on, ...info.kun].join(' · ');
+    $('lesson-readings').textContent = info.quizReadings.join(' · ');
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.meanings.join(', ');
-    $('lesson-hint').textContent = 'The quiz asks you to pick out these readings — no need to remember every one yet.';
+    $('lesson-hint').textContent = state.mode === 'definition'
+      ? 'Remember what it means — the quiz asks you to pick the meaning.'
+      : 'The quiz asks you to pick out these readings — no need to remember every one yet.';
   } else {
     $('lesson-romaji').hidden = false;
     $('lesson-romaji').textContent = romajiFor(item);
@@ -279,28 +282,42 @@ function renderQuestion() {
   const choices = $('quiz-choices');
   choices.innerHTML = '';
 
-  if (course.kind === 'kanji') renderKanjiChoices(course, item);
-  else renderKanaChoices(course, item);
+  // Yomi on a kanji is the only multi-answer quiz; kana reading and kanji
+  // definition are both "one right option out of ten".
+  if (course.kind === 'kanji' && state.mode === 'recognition') renderKanjiChoices(course, item);
+  else renderSingleChoice(course, item);
 
   const done = session.answered;
   $('quiz-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
   $('quiz-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
 }
 
-// --- Kana: tap once, grades instantly ---------------------------------
+// --- Single answer (kana reading, kanji definition): tap once, grades
+// --- instantly -------------------------------------------------------
 
-function renderKanaChoices(course, kana) {
-  state.session.attempt = 0;
+function renderSingleChoice(course, item) {
+  const session = state.session;
+  session.attempt = 0;
   $('quiz-ok').hidden = true;
   $('quiz-kanji-actions').hidden = true;
+
+  const isDefinition = state.mode === 'definition';
+  const { options, answer } = isDefinition
+    ? buildDefinitionChoices(course, item)
+    : { options: buildChoices(course, item), answer: romajiFor(item) };
+  session.singleAnswer = answer;
+
   const choices = $('quiz-choices');
-  buildChoices(course, kana).forEach((romaji) => {
+  // English definitions are far longer than romaji, so they get a roomier
+  // two-column layout instead of the five-across kana grid.
+  choices.className = isDefinition ? 'choice-grid choice-grid-text' : 'choice-grid';
+  options.forEach((value) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'choice';
-    button.textContent = romaji;
-    button.dataset.romaji = romaji;
-    button.addEventListener('click', () => chooseAnswer(romaji, button));
+    button.textContent = value;
+    button.dataset.value = value;
+    button.addEventListener('click', () => chooseAnswer(value, button));
     choices.appendChild(button);
   });
 }
@@ -313,19 +330,19 @@ function renderKanaChoices(course, kana) {
  * counts as a miss for spaced repetition, per the request that a retry not
  * launder the original wrong answer out of the record.
  */
-function chooseAnswer(romaji, button) {
+function chooseAnswer(value, button) {
   const session = state.session;
   // Taps during the pause after a resolved question are handled by acknowledge().
   if (!session || session.locked || session.awaitingAcknowledge || button.disabled) return;
 
-  const kana = session.queue[session.position];
-  const answer = romajiFor(kana);
-  const correct = romaji === answer;
+  const item = session.queue[session.position];
+  const answer = session.singleAnswer;
+  const correct = value === answer;
   session.attempt += 1;
 
   if (session.attempt === 1) {
     session.answered += 1;
-    recordResult(kana, correct);
+    recordResult(item, correct);
   }
 
   if (correct) {
@@ -334,6 +351,7 @@ function chooseAnswer(romaji, button) {
     $('quiz-feedback').className = 'feedback ok';
     $('quiz-feedback').textContent = '✓';
     session.locked = true;
+    if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
     session.pendingAdvance = setTimeout(nextQuestion, 550);
     return;
   }
@@ -345,26 +363,29 @@ function chooseAnswer(romaji, button) {
     // Missed characters come back later in the same session regardless of
     // what happens on the second try.
     const reinsertAt = Math.min(session.position + 4, session.queue.length);
-    session.queue.splice(reinsertAt, 0, kana);
+    session.queue.splice(reinsertAt, 0, item);
     $('quiz-card').className = 'quiz-card is-wrong';
     $('quiz-feedback').className = 'feedback bad';
     $('quiz-feedback').textContent = 'Try once more';
     return; // still their turn — no lock, no reveal yet
   }
 
-  // Second miss: out of chances, reveal the answer and move on.
-  revealKanaAnswer(answer);
+  // Second miss: out of chances, reveal the answer and move on. An English
+  // definition is far too long for the big feedback line, and the option
+  // itself is already highlighted green, so it just shows a cross there.
+  revealSingleAnswer(answer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  $('quiz-feedback').textContent = answer;
+  $('quiz-feedback').textContent = state.mode === 'definition' ? '✗' : answer;
   session.locked = true;
+  if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
   session.awaitingAcknowledge = true; // wait for a tap, but don't stall forever
   session.pendingAdvance = setTimeout(nextQuestion, 2600);
 }
 
-function revealKanaAnswer(answer) {
+function revealSingleAnswer(answer) {
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
-    if (el.dataset.romaji === answer) el.classList.add('is-right');
+    if (el.dataset.value === answer) el.classList.add('is-right');
   });
 }
 
@@ -569,11 +590,19 @@ function finalizeKanjiRound(kanji) {
   store.saveProfile(state.profile);
 }
 
+/**
+ * The info panel shown once a kanji question resolves. In Yomi mode the
+ * useful extra context is what the kanji means; in Definition mode (where the
+ * meaning *was* the answer) it's how the kanji is read instead.
+ */
 function showKanjiInfo(course, kanji) {
   const info = kanjiInfo(course, kanji);
-  $('quiz-meanings').textContent = info.meanings.join(', ');
+  const isYomi = state.mode === 'recognition';
+  $('quiz-meanings').textContent = isYomi
+    ? info.meanings.join(', ')
+    : info.quizReadings.join(' · ');
   renderWord($('quiz-word'), info.words[0]);
-  $('quiz-word-hint').textContent = state.session.kanjiCorrect.size > 1
+  $('quiz-word-hint').textContent = isYomi && state.session.kanjiCorrect.size > 1
     ? 'Tap a green reading above to see a word that uses it.'
     : '';
   $('quiz-info').hidden = false;
@@ -588,8 +617,8 @@ function renderWord(wordEl, word) {
   wordEl.querySelector('.word-en').textContent = word.en;
 }
 
-/** Post-round: show the word anchored to the clicked reading, or say there
- * isn't one — build_kanji_data.py doesn't find one for every reading. */
+/** Post-round: show the word anchored to the clicked reading. Every quizzed
+ * reading has one, since the build script drops readings that don't. */
 function showReadingExample(reading, button) {
   const course = getAnyCourse(state.courseId);
   const kanji = state.session.queue[state.session.position];
@@ -649,9 +678,14 @@ function finishSession() {
     chip.className = `chip ${ok ? 'chip-ok' : 'chip-bad'}`;
     chip.innerHTML = `<span class="chip-kana"></span><span class="chip-romaji"></span>`;
     chip.querySelector('.chip-kana').textContent = item;
-    chip.querySelector('.chip-romaji').textContent = course.kind === 'kanji'
-      ? (kanjiInfo(course, item).quizReadings[0] || '')
-      : romajiFor(item);
+    let label = romajiFor(item);
+    if (course.kind === 'kanji') {
+      const info = kanjiInfo(course, item);
+      label = state.mode === 'definition'
+        ? meaningLabel(info)
+        : (info.quizReadings[0] || '');
+    }
+    chip.querySelector('.chip-romaji').textContent = label;
     list.appendChild(chip);
   });
 

@@ -15,12 +15,6 @@ const { toRomaji } = window.wanakana;
 
 const CHUNK_SIZE = 5; // matches the kana courses, for a consistent lesson size
 
-// Offering every reading KANJIDIC lists would be unusable — 生 alone has 18
-// kun'yomi once conjugated forms are counted. Cap the pool a question can
-// ever draw correct readings from; KANJIDIC already orders readings with the
-// most common first, so capping keeps the ones a first encounter should teach.
-const MAX_CORRECT_READINGS = 6;
-
 // A question shows at most this many readings as correct by default — enough
 // to be worth answering, few enough that a kid can't pass by clicking
 // everything. Always under half of BASE_TOTAL_OPTIONS, per the same
@@ -31,41 +25,43 @@ const BASE_TOTAL_OPTIONS = 10;
 // even the full pool of 6 correct stays comfortably under half.
 const ADVANCED_TOTAL_OPTIONS = 15;
 
-/**
- * KANJIDIC marks the okurigana boundary with '.' (い.きる) and marks bound
- * forms with a leading or trailing '-' (-あ.げる, うわ-). Neither is useful
- * to a learner tapping a multiple-choice option, so this collapses a raw
- * reading down to the plain kana they would actually write: い.きる -> いきる.
- */
-function normalizeReading(raw) {
-  return raw.replace(/-/g, '').replace(/\./g, '');
-}
+// Definition questions are single-answer, so the ratio rule doesn't apply the
+// way it does to the multi-select yomi quiz.
+const DEFINITION_OPTIONS = 10;
+const MEANINGS_PER_LABEL = 2;
 
 function buildKanjiIndex(grade) {
   const entries = KANJI_BY_GRADE[grade] || [];
   const byChar = new Map();
   for (const entry of entries) {
-    const onReadings = [...new Set(entry.on)];
-    const kunReadings = [...new Set(entry.kun.map(normalizeReading))];
     byChar.set(entry.kanji, {
       kanji: entry.kanji,
-      on: onReadings,
-      kun: kunReadings,
+      // Full reading lists, for reference/display. These include readings
+      // that are never quizzed (see quizReadings).
+      on: entry.on,
+      kun: entry.kun,
       meanings: entry.meanings,
       words: entry.words,
-      // The readings actually offered as correct options, capped. Kept
-      // alongside the full lists above so a future "show everything" detail
-      // view is not blocked by this quiz-only cap.
-      quizReadings: [...onReadings, ...kunReadings].slice(0, MAX_CORRECT_READINGS),
-      // reading (normalized, matching quizReadings) -> {kanji, kana, en}:
-      // the most common word anchored to that specific reading, e.g. 上's
-      // rare シャン on'yomi -> 上海 "Shanghai". Not every reading has one
-      // (build_kanji_data.py logs which); keyed as a plain object since it's
-      // only ever looked up by an exact reading string, never iterated.
+      // The readings actually quizzed: normalized, capped, and — since the
+      // build script filters them — guaranteed to have an example word.
+      // A reading no common word ever uses isn't worth a child's time and
+      // has nothing to show when tapped, so it isn't offered at all.
+      quizOn: entry.quizOn,
+      quizKun: entry.quizKun,
+      quizReadings: entry.quizReadings,
+      // reading (matching quizReadings) -> {kanji, kana, en}: the most common
+      // word that genuinely uses the kanji with *that* reading, established by
+      // aligning the word against its reading in build_kanji_data.py rather
+      // than by string-matching. Every quizzed reading has one.
       readingExamples: entry.readingExamples || {},
     });
   }
   return byChar;
+}
+
+/** The short English label used as the answer in Definition mode. */
+export function meaningLabel(info) {
+  return info.meanings.slice(0, MEANINGS_PER_LABEL).join(', ');
 }
 
 function buildChunks(courseId, chars) {
@@ -93,12 +89,19 @@ function buildKanjiCourse(grade) {
     native: `小学${grade}年生`,
     chunks: buildChunks(`kanji-grade-${grade}`, chars),
     index,
+    // A handful of kanji (prefecture names like 媛/栃/茨) have no reading that
+    // appears in any common word, so there is no yomi question to ask about
+    // them — they are skipped in that mode only, and still taught in the
+    // others. srs.js honours this when picking items.
+    excludeForMode: {
+      recognition: new Set(chars.filter((k) => index.get(k).quizReadings.length === 0)),
+    },
   };
 }
 
-// Only grade 1 has been built (see tools/build_kanji_data.py — MAX_GRADE).
-// Re-running that script with a higher MAX_GRADE and adding the grade number
-// here is the whole extension path; nothing else needs to change.
+// Grades are whatever tools/build_kanji_data.py emitted (MAX_GRADE there).
+// Raising it and re-running is the whole extension path — nothing here needs
+// to change.
 export const KANJI_COURSES = Object.keys(KANJI_BY_GRADE)
   .map(Number)
   .sort((a, b) => a - b)
@@ -112,8 +115,8 @@ export function kanjiInfo(course, kanji) {
   return course.index.get(kanji);
 }
 
-/** The example word anchored to one specific reading of a kanji, if one was
- * found at build time — see build_kanji_data.py's find_reading_example. */
+/** The example word anchored to one specific reading of a kanji. Every
+ * quizzed reading has one — build_kanji_data.py drops readings that don't. */
 export function readingExample(course, kanji, reading) {
   return kanjiInfo(course, kanji).readingExamples[reading] || null;
 }
@@ -122,10 +125,12 @@ function sortByRomaji(readings) {
   return [...readings].sort((a, b) => toRomaji(a).localeCompare(toRomaji(b)));
 }
 
+/** Distractors come from other kanji's *quizzed* readings, so a wrong option
+ * is always a real reading a learner could plausibly meet elsewhere. */
 function distractorPool(course, kanji) {
   return shuffle([...course.index.values()]
     .filter((e) => e.kanji !== kanji)
-    .flatMap((e) => [...e.on, ...e.kun]));
+    .flatMap((e) => e.quizReadings));
 }
 
 /**
@@ -139,7 +144,10 @@ function distractorPool(course, kanji) {
 function pickBaseCorrectReadings(course, kanji, mode, progress) {
   const info = kanjiInfo(course, kanji);
   const pool = info.quizReadings;
-  const mandatory = [info.on[0], info.kun[0]].filter((r) => r && pool.includes(r));
+  // The most common *quizzable* on and kun — quizOn/quizKun are already
+  // filtered to readings that appear in a real word, so this is the first
+  // surviving one, not necessarily KANJIDIC's first.
+  const mandatory = [info.quizOn[0], info.quizKun[0]].filter((r) => r && pool.includes(r));
   const remainingSlots = Math.max(0, BASE_CORRECT_LIMIT - mandatory.length);
 
   const candidates = pool.filter((r) => !mandatory.includes(r));
@@ -177,6 +185,35 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
   }
 
   return { options: sortByRomaji(options), correct };
+}
+
+/**
+ * Options for a Definition question: one correct English meaning label plus
+ * distractors taken from other kanji in the same grade.
+ *
+ * Single-answer, unlike the yomi quiz — the whole meaning label ("above, up")
+ * is one option rather than each meaning separately, so there is exactly one
+ * defensible answer instead of several overlapping ones.
+ *
+ * Returns { options, answer }.
+ */
+export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS) {
+  const answer = meaningLabel(kanjiInfo(course, kanji));
+  const used = new Set([answer]);
+  const options = [answer];
+
+  for (const entry of shuffle([...course.index.values()])) {
+    if (options.length >= count) break;
+    if (entry.kanji === kanji) continue;
+    const label = meaningLabel(entry);
+    // Different kanji can share a meaning; an identical label would make the
+    // question unanswerable.
+    if (!label || used.has(label)) continue;
+    used.add(label);
+    options.push(label);
+  }
+
+  return { options: options.sort((a, b) => a.localeCompare(b)), answer };
 }
 
 /**

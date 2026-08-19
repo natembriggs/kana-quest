@@ -70,11 +70,31 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   repetition, since the point of the record is what a learner actually knew
   before being shown anything.
 
-**Reading practice for kanji, all six Japanese elementary-school grades
-(1,026 kanji total).** A kanji is shown with up to 10 candidate readings —
-its own on'yomi/kun'yomi plus plausible ones borrowed from other kanji in the
-same grade. Unlike the kana quiz, there's no submit step: **click a reading
-and it turns green or red immediately.**
+**Kanji, all six Japanese elementary-school grades (1,026 kanji).** Kanji has
+three modes rather than two: **Definition**, **Yomi** and **Writing**.
+Selecting Definition hides the kana courses, since kana has no English
+meaning to quiz. Each mode keeps entirely separate progress.
+
+### Definition mode
+
+Single-answer, like the kana quiz: the kanji is shown, and ten English
+meanings are offered — its own plus distractors from other kanji in the same
+grade. Same one-more-try-then-reveal rule, same first-attempt-locks-the-record
+rule. Once the question resolves, the kanji's readings are shown as follow-up
+context (the reverse of Yomi mode, where the meanings are the follow-up).
+
+Meanings come from KANJIDIC2 with radical *names* stripped — it lists those
+as if they were definitions ("one radical (no.1)"), and they aren't. The
+filter matches the `radical (no. N)` shape rather than the bare word, so 根
+("radical", a mathematical root) and 基 ("radical (chem)") keep their genuine
+English definitions.
+
+### Yomi mode
+
+A kanji is shown with up to 10 candidate readings — its own on'yomi/kun'yomi
+plus plausible ones borrowed from other kanji in the same grade. Unlike the
+kana quiz, there's no submit step: **click a reading and it turns green or red
+immediately.**
 
 - **Grading happens per reading, not per kanji.** A kid can know セイ cold
   while still shaky on うまれる for the same 生, and the record reflects that
@@ -96,19 +116,46 @@ and it turns green or red immediately.**
   of the pool — up to 6 — with enough distractors added to keep correct
   readings under half even at the full pool size. Never required to
   progress.
+- **Only readings that appear in a real word are quizzed.** A reading no
+  common word ever uses isn't worth a child's time and has no example to show
+  when tapped, so it's dropped entirely — about 900 of 3,400 across the six
+  grades. A handful of kanji (prefecture names like 媛/栃/茨) end up with no
+  quizzable reading at all; they're skipped in Yomi mode specifically, and
+  still taught in the other modes.
 - **After a question resolves, clicking a (green) reading shows the most
   common word that uses it.** This is aimed squarely at readings that are
   easy to forget precisely because they're rare — 上 (above) has シャン among
   its on'yomi *only* because of 上海 (Shanghai); clicking シャン surfaces
   that word directly, even though 海 is a grade-2 kanji the learner may not
-  have met yet. `tools/build_kanji_data.py` builds this index by matching
-  each reading against JMdict directly, not by restricting to
-  already-learned kanji the way the general example-word list does.
+  have met yet.
 - Meanings and the kanji's general example word are shown as feedback once a
   question resolves either way.
 
 Data (readings, meanings, example words) comes from KANJIDIC2 and JMdict —
 see `tools/build_kanji_data.py`.
+
+### Getting the example words right
+
+Deciding which word demonstrates which reading is the fiddly part, and the
+obvious approach is wrong. Testing whether a word's reading *starts with* the
+target reading offers 十二 (じゅうに) as proof that 二 can be read ジ — but 二 is
+に there, and じゅう belongs to 十. Position doesn't fix it either, since a
+kanji can sit anywhere in a word.
+
+So the build script **aligns** each word against its reading: kana in the
+written form must match the reading literally, which anchors everything, and
+each kanji consumes one of its own known readings (from KANJIDIC, all 13,000
+of them — not just the grades being built, since an example word may contain
+any kanji at all). Longest candidate first, so 十 claims じゅう before じ is
+ever considered. Rendaku (連濁, か→が) and gemination (促音, がく→がっ) are
+handled, so 十指 correctly credits じっ and 三十日 (みそか) correctly resolves to
+三=み, 十=そ, 日=か.
+
+One kanji per word may absorb an arbitrary span, which is what keeps 上海
+(しゃんはい) working — はい isn't among 海's listed readings, so a strict
+alignment would reject exactly the rare-reading case the feature exists for.
+About 98% of candidate words align; the rest are dropped rather than guessed
+at.
 
 ### Per-reading spaced repetition
 
@@ -141,12 +188,14 @@ that kanji is solid, not just the easiest one. See `recomputeKanjiRollup` in
 ## Progress and backups
 
 Progress is stored per device in IndexedDB, and separately for each mode — a
-learner can be well ahead on reading a character while still learning to write
-it, and the app tracks those independently.
+learner can know what 生 means, be shaky on its readings, and not be able to
+write it at all, and the app tracks those three independently.
 
-Every pass and fail is appended to the character's history, not just the
-current box, so the scheduling algorithm can be changed later without throwing
-away what a learner has actually done.
+For kana and for Definition mode, every pass and fail is appended to the
+item's history, not just the current box, so the scheduling algorithm can be
+changed later without throwing away what a learner has actually done. Yomi
+mode records per *reading* instead (counts, streak, last two review times) —
+see "Per-reading spaced repetition" above.
 
 Browsers can evict site storage, and Safari is the strictest about it. The app
 asks for persistent storage on launch, but that is a request rather than a

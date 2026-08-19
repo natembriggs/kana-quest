@@ -277,9 +277,26 @@ h3 { font-size: 18px; }
    dimmed so it doesn't compete with the readings that are still clickable. */
 .choice:disabled:not(.is-right):not(.is-wrong) { opacity: 0.35; }
 
+/* Definition mode: English meanings need far more room than romaji, so two
+   roomy columns instead of five narrow ones, and text that wraps. */
+.choice-grid-text {
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(56px, auto);
+}
+.choice-grid-text .choice {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 8px 10px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 360px) {
   .choice { font-size: 15px; }
   .choice-grid { grid-auto-rows: 52px; gap: 6px; }
+  .choice-grid-text { grid-auto-rows: minmax(52px, auto); }
+  .choice-grid-text .choice { font-size: 14px; }
 }
 
 /* Kanji meanings + example word, shown as feedback after grading. */
