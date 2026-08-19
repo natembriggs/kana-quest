@@ -313,6 +313,31 @@ for (const kanji of grade1Chars) {
   check(`advanced is only meaningful when there is more to add (${kanji})`,
     isEligible === (info.quizReadings.length > correct.size));
 }
+
+// A real bug, not hypothetical: the base view only shows some of a kanji's
+// own readings as correct (子 has 5, only 4 make the base view). The other
+// 1-2 are still genuine readings of that kanji, just not being quizzed this
+// round — and since distractors are drawn randomly from every other kanji in
+// the course, one of them can coincidentally read the same way (音 is also
+// read ね, one of 子's own leftover readings). Before this was fixed, ね could
+// appear on 子's grid as a "distractor" — click it, a genuinely correct
+// answer, and be marked wrong. Only shows up on unlucky shuffles, hence the
+// many trials: this is checking an invariant on the *output* of each call,
+// not repeating one flaky assertion and hoping.
+let ownReadingOfferedAsDistractor = 0;
+for (let trial = 0; trial < 30; trial += 1) {
+  for (const kanji of advancedEligible) {
+    const info = kanjiInfo(grade1, kanji);
+    const ownPool = new Set(info.quizReadings);
+    const { options, correct } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress);
+    for (const option of options) {
+      if (!correct.has(option) && ownPool.has(option)) ownReadingOfferedAsDistractor += 1;
+    }
+  }
+}
+check('a kanji\'s own reading never appears on its own grid marked as a distractor',
+  ownReadingOfferedAsDistractor === 0, `${ownReadingOfferedAsDistractor} occurrences across 30 trials`);
+
 done('kanji data and base/advanced reading choices');
 
 // --- Advanced "additions": grows the grid rather than rebuilding it -------

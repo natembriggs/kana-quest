@@ -77,10 +77,19 @@ export function modeHint(modeId, kind) {
   return MODES[modeId].hint[kind];
 }
 
-/** The mode to fall back to when the current one doesn't apply to a script. */
+/**
+ * The mode to open a script on: whenever the current one doesn't apply, and
+ * whenever a script is opened fresh from a different kind. Definition first
+ * for kanji, Reading (recognition) for kana — kana has no Definition, so this
+ * ordering is a no-op there.
+ */
 export function defaultModeForKind(kind) {
   const usable = modesForKind(kind).filter((m) => !m.comingSoon);
-  return (usable.find((m) => m.id === 'recognition') || usable[0]).id;
+  for (const id of ['definition', 'recognition']) {
+    const found = usable.find((m) => m.id === id);
+    if (found) return found.id;
+  }
+  return usable[0].id;
 }
 
 export function itemKey(mode, kana) {

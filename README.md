@@ -75,7 +75,10 @@ session actions under that. Backing out returns to the script picker.
 Modes are per script: kana has **Reading** and **Writing**; kanji has
 **Definition**, **Yomi** and **Writing**. Reading and Yomi are the same
 activity under two names — "what sound does this make" — so switching between
-scripts keeps you in the equivalent mode rather than resetting.
+hiragana and katakana keeps you in the equivalent mode rather than resetting.
+Switching to a *different kind* of script (kana ↔ kanji) resets to that
+kind's own default instead, since the modes don't line up 1:1 — kanji opens
+on **Definition** rather than carrying Reading in as Yomi.
 
 ## If a phone is stuck on an old version
 

@@ -12,7 +12,7 @@ import {
 } from './srs.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19c'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
@@ -167,11 +167,15 @@ function renderHome() {
 // --- Course screen: modes, grade, and the session actions -----------------
 
 function openScript(scriptId) {
+  const previousKind = currentScript().kind;
   state.scriptId = scriptId;
   const script = currentScript();
-  // Carry the current mode over when it applies to this script, so switching
-  // between hiragana and katakana keeps you in the same activity.
-  if (!MODES[state.mode].kinds.includes(script.kind)) {
+  // Carry the mode over between scripts of the same kind, so switching
+  // between hiragana and katakana keeps you in the same activity. Switching
+  // to a different kind resets to that kind's own default instead — kana's
+  // Reading and kanji's Yomi share a mode id, but arriving at kanji fresh
+  // should open on Definition, not carry Reading in as Yomi.
+  if (script.kind !== previousKind || !MODES[state.mode].kinds.includes(script.kind)) {
     state.mode = defaultModeForKind(script.kind);
   }
   renderCourse();

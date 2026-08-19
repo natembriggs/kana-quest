@@ -379,11 +379,26 @@ check('the kanji modes are Definition, Yomi, Writing in that order',
   kanjiModes.map((b) => b.textContent || b.innerHTML).join(' | '));
 check('the kana Reading mode is called Yomi here — same activity, per-script label',
   kanjiModes[1].dataset.mode === 'recognition');
-check('carrying over from kana kept the same mode selected',
-  kanjiModes[1].className.includes('active'));
+// Entering kanji from a different script kind (kana) resets to kanji's own
+// default — Definition — rather than carrying "Reading" over as "Yomi".
+// Mode carry-over only applies within the same kind (hiragana <-> katakana,
+// checked earlier).
+check('opening kanji from kana defaults to Definition, not a carried-over Yomi',
+  kanjiModes[0].className.includes('active') && kanjiModes[0].dataset.mode === 'definition',
+  kanjiModes.map((b) => `${b.dataset.mode}:${b.className.includes('active')}`).join(' | '));
+
+// Switch into Yomi explicitly for the rest of this section, which exercises
+// the multi-select yomi quiz.
+fire(kanjiModes[1], 'click');
+await settle();
+check('switching to Yomi selects it', el('mode-picker')._children[1].className.includes('active'));
+
+// Switching to Yomi re-rendered the grade picker with fresh nodes.
+const yomiGradeButtons = el('grade-picker')._children;
+check('the grade picker survives the mode switch', yomiGradeButtons.length === 6);
 
 // Switching grade re-renders the card for that grade.
-fire(gradeButtons[2], 'click'); // grade 3
+fire(yomiGradeButtons[2], 'click'); // grade 3
 await settle();
 check('choosing a grade selects it', el('grade-picker')._children[2].className.includes('active'));
 check('the card follows the selected grade',

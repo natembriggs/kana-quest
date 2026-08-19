@@ -179,10 +179,17 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
   const correct = new Set(correctReadings);
   const total = advanced ? ADVANCED_TOTAL_OPTIONS : BASE_TOTAL_OPTIONS;
 
+  // The base view only shows some of this kanji's own readings as correct —
+  // e.g. 子 has 5, only 4 make the base view. The other 1-2 are still
+  // genuinely correct readings of 子, just not being quizzed this round, so
+  // they must never appear as a "wrong" distractor even if some other kanji
+  // (e.g. 音, also read ね) would otherwise offer that exact reading.
+  const ownPool = new Set(info.quizReadings);
+
   const options = new Set(correct);
   for (const reading of distractorPool(course, kanji)) {
     if (options.size >= total) break;
-    if (correct.has(reading)) continue; // would be ambiguous as a distractor
+    if (ownPool.has(reading)) continue; // would be ambiguous, or outright wrong to mark wrong
     options.add(reading);
   }
 
