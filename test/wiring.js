@@ -776,10 +776,10 @@ check('grade 1 is selected by default', gradeButtons[0].className.includes('acti
 const kanjiModes = el('mode-picker')._children;
 check('kanji offers three modes', kanjiModes.length === 3,
   kanjiModes.map((b) => b.textContent).join(' | '));
-check('the kanji modes are Definition, Yomi, Writing in that order',
+check('the kanji modes are Definition, Yomi, Writing in that order — all three enabled now that kanji writing has its prompt panel',
   kanjiModes[0].textContent === 'Definition'
   && kanjiModes[1].textContent === 'Yomi'
-  && kanjiModes[2].innerHTML.includes('Writing'),
+  && kanjiModes[2].textContent === 'Writing' && kanjiModes[2].disabled === false,
   kanjiModes.map((b) => b.textContent || b.innerHTML).join(' | '));
 check('the kana Reading mode is called Yomi here — same activity, per-script label',
   kanjiModes[1].dataset.mode === 'recognition');
@@ -1113,6 +1113,62 @@ check('a definition miss recovered on the second try still counts as a lapse',
   JSON.stringify(afterDefinition.progress[`definition:${defMissKanji}`]));
 check('yomi progress is untouched by definition practice — the modes are independent',
   Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
+
+// --- Kanji writing (phase 4 of writing-mode-plan.md) -----------------------
+// Kana writing is prompted by its romaji, an unambiguous single clue. A
+// kanji has no equivalent single glyph to prompt with, so writing mode
+// needed its own panel: the readings and meaning actually taught (same data
+// as Yomi/Definition), plus an example word — masked, since it's spelled
+// using the target kanji drawn in its correct form, which would hand over
+// the answer before a single stroke is drawn. Reuses the exact same canvas/
+// grading pipeline already proven above for kana.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+const kanjiWritingModeButton = el('mode-picker')._children.find((b) => b.dataset.mode === 'writing');
+check('kanji writing is enabled now that it has its prompt panel', !!kanjiWritingModeButton && kanjiWritingModeButton.disabled === false);
+fire(kanjiWritingModeButton, 'click');
+await settle();
+
+const kanjiWritingLearn = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('more'));
+check('kanji writing starts with its own separate progress', !!kanjiWritingLearn);
+fire(kanjiWritingLearn, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+check('a kanji writing session opens the lesson screen', visible() === 'screen-lesson', `showing ${visible()}`);
+check('the kanji writing lesson also animates the stroke order',
+  el('lesson-stroke-wrap').hidden === false && el('lesson-stroke')._children.length > 0);
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the kanji writing lesson hands over to the writing screen', visible() === 'screen-writing', `showing ${visible()}`);
+
+const kanjiWritingChar = el('screen-writing').dataset.char;
+const kanjiWritingInfo = kanjiInfo(kanjiGrade1, kanjiWritingChar);
+check('the kanji prompt panel replaces the romaji prompt',
+  el('writing-romaji').hidden === true && el('writing-kanji-info').hidden === false);
+check('the kanji prompt shows the on/kun readings actually taught',
+  el('writing-kanji-readings').textContent.length > 0, el('writing-kanji-readings').textContent);
+check('the kanji prompt shows the English meaning',
+  el('writing-kanji-meanings').textContent === kanjiWritingInfo.meanings.join(', '));
+const writingWordKanji = el('writing-kanji-word').querySelector('.word-kanji').textContent;
+check("the prompt's example word is masked — it never shows the target kanji itself",
+  !writingWordKanji.includes(kanjiWritingChar), writingWordKanji);
+
+const kanjiWritingStrokeCount = STROKES[kanjiWritingChar].strokes.length;
+for (let i = 0; i < kanjiWritingStrokeCount; i += 1) {
+  traceModelStroke(kanjiWritingChar, i);
+  await settle();
+}
+check('a perfectly traced kanji is accepted, same grading pipeline as kana',
+  el('writing-result').hidden === false && el('writing-result-message').textContent === 'Nicely done!');
+
+fire(el('writing-next'), 'click');
+await settle();
 
 // --- Set overview and character detail -------------------------------------
 // Reached from the course screen's "View set overview" button — a plain

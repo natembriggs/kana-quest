@@ -171,6 +171,16 @@
     <div id="writing-prompt" class="writing-prompt">
       <div id="writing-romaji" class="romaji"></div>
       <p id="writing-script-label" class="hint"></p>
+      <!-- Kanji only: readings and meaning are the clue, same as Yomi/
+           Definition mode — but the example word is MASKED (see
+           renderWritingKanjiInfo() in app.js), since it's spelled with the
+           target kanji drawn in its correct form, which would give the
+           answer away before a single stroke is drawn. -->
+      <div id="writing-kanji-info" class="writing-kanji-info" hidden>
+        <p id="writing-kanji-readings" class="hint"></p>
+        <div id="writing-kanji-meanings" class="kanji-meanings"></div>
+        <div id="writing-kanji-word" class="kanji-word"></div>
+      </div>
     </div>
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
     <p id="writing-result-message" class="writing-result-message" hidden></p>

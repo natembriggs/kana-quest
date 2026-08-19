@@ -351,8 +351,8 @@ Each phase leaves both test suites green.
 | 1 | `stroke-geometry.js` + `stroke-grader.js` + the tests in §6. No UI. | Done |
 | 2 | Canvas widget + **Trace mode, kana only**, wired end-to-end through a real session. First point a child can use it. The result step (§4: no auto-advance, *Write it again*, *Mark as not known*) was pulled forward into this phase rather than phase 3, since it's core UX independent of which sub-mode is active. | Done |
 | 3 | Guided and Free modes, plus the three-way toggle on the writing screen (manual only — automatic selection by mastery is still phase 5). | Done |
-| 4 | Kanji prompt panel and example-word masking. | Not started |
-| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration, drop `comingSoon`. | Not started |
+| 4 | Kanji prompt panel and example-word masking. Pulled `comingSoon` off kanji writing specifically as part of this phase (rather than deferring it to phase 5), since a panel nobody can reach is not actually done — see §7.4. | Done |
+| 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration. | Not started |
 | 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. | Not started |
 
 ### 7.1 A correction from phase 2/3: the message is not the record
@@ -441,6 +441,34 @@ before (box back to 0, due now, `seen`/`lapses`/history untouched), then
 swaps back to that same confirmation text.
 
 ---
+
+### 7.4 Phase 4: the kanji prompt panel
+
+Kana writing is prompted by romaji — one unambiguous clue. A kanji has no
+equivalent single glyph, so writing mode needed its own panel, added inside
+`#writing-prompt` next to the (now kanji-hidden) romaji: the on'yomi and
+kun'yomi actually taught (`quizOn`/`quizKun`, not the full KANJIDIC lists —
+same restriction the lesson and detail screens already apply), the English
+meanings, and one example word.
+
+**The example word is masked.** `maskKanjiWord()` in `app.js` replaces every
+occurrence of the target kanji in the word's spelling with `○` before
+handing it to the existing `renderWord()` — 学校 becomes ○校 when the target
+is 学, leaving any *other* kanji in the word (校) visible, since only the
+character actually being tested is the answer. Unlike the reading chips
+elsewhere in the app, the panel's readings are plain text, not tappable —
+a tappable chip's whole purpose is to reveal the example word *for that
+reading*, unmasked, which would defeat the point.
+
+No new grading or capture logic was needed: `createAttemptForMode()`,
+`stroke-grader.js` and the canvas widget were already kind-agnostic (see §1)
+— kanji writing reuses them exactly as kana does.
+
+**`comingSoon` was dropped for kanji writing as part of this phase**, not
+deferred to phase 5 as originally tabled — a finished panel behind a mode
+toggle nobody can reach isn't a finished phase, and nothing else gating
+kanji writing (mastery-based auto mode selection, the strictness slider)
+actually blocks it from being usable today; those remain phase 5.
 
 ## 8. Open questions
 

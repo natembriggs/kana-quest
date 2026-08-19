@@ -59,11 +59,8 @@ export const MODES = {
     name: { kana: 'Writing', kanji: 'Writing' },
     hint: {
       kana: 'See the sound, draw the character',
-      kanji: 'See the meaning, draw the kanji',
+      kanji: 'See the readings and meaning, draw the kanji',
     },
-    // Kana writing (Trace mode) is live; kanji writing needs the reading/
-    // meaning side panel from writing-mode-plan.md phase 4, not built yet.
-    comingSoon: { kanji: true },
   },
 };
 

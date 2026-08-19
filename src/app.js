@@ -807,6 +807,8 @@ function renderWritingQuestion(course, item) {
   $('writing-romaji').hidden = isKanji;
   $('writing-romaji').textContent = isKanji ? '' : romajiFor(item);
   $('writing-script-label').textContent = isKanji ? '' : `Write it in ${course.name.toLowerCase()}`;
+  $('writing-kanji-info').hidden = !isKanji;
+  if (isKanji) renderWritingKanjiInfo(course, item);
   $('writing-peek-full').textContent = `Show full ${isKanji ? 'kanji' : 'kana'}`;
   $('writing-feedback').textContent = '';
   $('writing-feedback').className = 'hint writing-feedback';
@@ -852,6 +854,29 @@ function renderWritingQuestion(course, item) {
   const done = session.answered;
   $('writing-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
   $('writing-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
+}
+
+/**
+ * Kanji prompt: readings and meaning are the clue, same as Yomi/Definition
+ * mode — only the readings that are actually quizzed are shown, matching
+ * what the lesson/detail screens teach. The example word is masked (see
+ * maskKanjiWord below): it exists to show the kanji used in context, not to
+ * hand over its correct form before a single stroke is drawn.
+ */
+function renderWritingKanjiInfo(course, kanji) {
+  const info = kanjiInfo(course, kanji);
+  const on = info.quizOn.join('・');
+  const kun = info.quizKun.join('・');
+  $('writing-kanji-readings').textContent = [on && `On: ${on}`, kun && `Kun: ${kun}`].filter(Boolean).join('   ');
+  $('writing-kanji-meanings').textContent = info.meanings.join(', ');
+  renderWord($('writing-kanji-word'), info.words[0] ? maskKanjiWord(info.words[0], kanji) : null);
+}
+
+/** Every occurrence of the target kanji in the word's spelling becomes ○ —
+ * any other kanji in a multi-character word (校 in 学校) stays visible,
+ * since only the character being tested is the answer. */
+function maskKanjiWord(word, kanji) {
+  return { ...word, kanji: word.kanji.split(kanji).join('○') };
 }
 
 /** Switches Trace/Guided/Free for the rest of this session and re-renders
