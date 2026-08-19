@@ -18,7 +18,7 @@ import {
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import * as store from './store.js';
 
-export const APP_VERSION = '2026-08-19f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-19g'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
@@ -1009,6 +1009,17 @@ function writingPointerMove(event) {
  * createWritingAttempt in writing.js).
  */
 function writingPointerUp(event) {
+  // The pointer capture set in writingPointerDown is supposed to release
+  // itself automatically on pointerup, but on-device testing found the very
+  // next tap elsewhere on the page (Next, most often — it's what's clicked
+  // right after finishing a stroke) sometimes needed a second press to
+  // register. Releasing it explicitly, the same guarded way it was
+  // acquired, is the fix: it costs nothing when the browser already did it.
+  const canvas = $('writing-canvas');
+  if (typeof canvas.releasePointerCapture === 'function' && event.pointerId != null) {
+    try { canvas.releasePointerCapture(event.pointerId); } catch { /* already released, or unsupported */ }
+  }
+
   const session = state.session;
   if (!session || !session.writingCurrentPoints || event.pointerId !== session.writingPointerId) return;
   const localPoints = session.writingCurrentPoints;

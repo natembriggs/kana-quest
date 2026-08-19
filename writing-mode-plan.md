@@ -1,7 +1,10 @@
 # Writing mode — implementation plan
 
-Status: plan only, nothing built yet. Supersedes the "Writing mode" bullet
-under *What is not built yet* in the README.
+Status: all six phases in §7 are done — see that section, and §7.1-7.7 for
+corrections and additions made along the way. Originally superseded the
+"Writing mode" bullet under *What is not built yet* in the README; that
+bullet is now gone, replaced by a proper Writing mode section under *What
+works now* (§7.7).
 
 Writing is the third mode for kana (after Reading) and kanji (after Definition
 and Yomi). The learner is shown a prompt — romaji for kana, meanings and
@@ -353,7 +356,7 @@ Each phase leaves both test suites green.
 | 3 | Guided and Free modes, plus the three-way toggle on the writing screen (manual only — automatic selection by mastery is still phase 5). | Done |
 | 4 | Kanji prompt panel and example-word masking. Pulled `comingSoon` off kanji writing specifically as part of this phase (rather than deferring it to phase 5), since a panel nobody can reach is not actually done — see §7.4. | Done |
 | 5 | Automatic mode selection by mastery, strictness slider, summary and detail-screen integration. | Done |
-| 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. | Not started |
+| 6 | README, `APP_VERSION` and sw.js `VERSION` bump, new files added to the service worker `SHELL` list. | Done |
 
 ### 7.1 A correction from phase 2/3: the message is not the record
 
@@ -507,6 +510,35 @@ partway before quitting out, so nothing had ever confirmed a writing session
 reaches `screen-summary` with sensible chips, or that the overview/detail
 screens correctly reflect writing-mode mastery. Both are now exercised
 end-to-end for a kanji writing session.
+
+### 7.6 A bug from real phone use: "Next" needing two presses
+
+On-device testing found that after finishing a character's last stroke, the
+first tap on **Next** sometimes did nothing — a second tap was always needed.
+The cause: `writingPointerDown()` calls `canvas.setPointerCapture()` when a
+stroke begins, and nothing ever called the matching
+`releasePointerCapture()`. Capture is *supposed* to release itself
+automatically on pointerup, but this is a known soft spot on mobile
+WebKit/PWA — the very next tap anywhere else on the page can be swallowed or
+misrouted the first time. Fixed by releasing it explicitly in
+`writingPointerUp()`, guarded the same defensive way it was acquired (a
+`typeof` check plus a `try`/`catch`, since not every environment — including
+the test stub — implements it). No behavioural test can exercise this one
+directly (it depends on real browser pointer-capture semantics no DOM stub
+reproduces); it's noted here instead as the reason it was fixed even though
+it isn't pinned by a regression test.
+
+### 7.7 Phase 6: version bump, service worker shell, README
+
+Housekeeping, done together as one commit: `APP_VERSION` (`app.js`) and
+`VERSION` (`sw.js`) bumped in step to `2026-08-19g`; `src/stroke-geometry.js`,
+`src/stroke-grader.js` and `src/writing.js` — present since phase 1 but never
+added to the service worker's `SHELL` precache list — added, so an offline
+first load actually has writing mode available rather than failing to fetch
+those three files; and the README's stale "Writing mode — visible in the app
+but disabled" bullet under *What is not built yet* replaced with a real
+**Writing mode** section under *What works now*, matching the depth of the
+existing Definition/Yomi sections.
 
 ## 8. Open questions
 

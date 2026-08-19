@@ -256,12 +256,36 @@ every reading has lapsed), and "mastered" means *every* reading tested on
 that kanji is solid, not just the easiest one. See `recomputeKanjiRollup` in
 `src/kanji.js`.
 
+### Writing mode
+
+A character is shown — romaji for kana, on'yomi/kun'yomi and the English
+meaning for kanji — and drawn on a quartered canvas, graded stroke-by-stroke
+against [KanjiVG](https://kanjivg.tagaini.net/) stroke data. For kanji, the
+example word shown alongside the readings is masked (学校 → ○校) so it can't
+give the target kanji's shape away before a stroke is drawn.
+
+- **Three modes** — Trace (the whole model shown faintly throughout), Guided
+  (each stroke's model is revealed only once drawn correctly, never in
+  advance), and Free (no guide until the character is finished, then it's
+  reviewed stroke-by-stroke). Chosen automatically per character from its own
+  spaced-repetition box — new → Trace, still learning → Guided, box 3+ →
+  Free — or overridden manually for the rest of the session with the toggle
+  at the bottom of the screen.
+- **False positives are strongly preferred to false negatives.** This is
+  practice, not an exam: the grading tolerances are tuned so a sloppy attempt
+  is accepted rather than rejected, since the correct form is shown
+  afterward regardless. Grading strictness (Gentle to Strict) is a
+  per-profile setting under Settings. "Mark this attempt as bad" — offered in
+  place of the praise message when redoing an already-correct character — is
+  the manual correction channel for when the app was too generous.
+- Stroke order is enforced, and placement/size/shape are graded, but pen
+  speed, pressure and aesthetics are not.
+
+See `writing-mode-plan.md` for the full design, including the numbers behind
+the grading tolerances.
+
 ## What is not built yet
 
-- **Writing mode** — visible in the app but disabled, for both kana and
-  kanji. Next thing to build: a canvas with the four-quadrant dashed guide,
-  then stroke-by-stroke grading against [KanjiVG](https://kanjivg.tagaini.net/)
-  stroke data.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.

@@ -75,6 +75,7 @@ function makeElement(id = '') {
     // a context whose drawing calls are all no-ops.
     getContext(type) { return type === '2d' ? makeCanvasContext() : null; },
     setPointerCapture() {},
+    releasePointerCapture() {},
     // Records that it was called rather than doing anything — enough to
     // verify the overview scrolls to the right tile without a real layout
     // engine to actually measure a scroll position against.
