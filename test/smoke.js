@@ -19,6 +19,11 @@ const {
 // test/wiring.js's stubbed DOM instead, not here.
 const { strokesFor, hasStrokes } = await import('../src/strokes.js');
 const srs = await import('../src/srs.js');
+const { STROKES } = await import('../src/stroke-data.js');
+const {
+  flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset,
+} = await import('../src/stroke-geometry.js');
+const grader = await import('../src/stroke-grader.js');
 
 let failures = 0;
 function check(name, condition, detail) {
@@ -91,6 +96,250 @@ check('一 has exactly one stroke', ichiStrokes && ichiStrokes.strokes.length ==
   ichiStrokes ? ichiStrokes.strokes.length : 'missing');
 
 done('stroke-order data covers every kana grapheme and every kyoiku kanji');
+
+// --- Stroke geometry: bezier flattening, resampling, smoothing ------------
+// Pure geometry, checked against paths whose true endpoints and length are
+// known by construction, before trusting it on real KanjiVG data below.
+
+const straightLine = flattenPath('M0,0C10,0,20,0,30,0'); // a cubic that is a straight line
+check('flattenPath starts and ends at the path\'s declared coordinates',
+  distance(straightLine[0], [0, 0]) < 1e-6 && distance(straightLine[straightLine.length - 1], [30, 0]) < 1e-6);
+check('flattenPath measures a straight line at its true length',
+  Math.abs(polylineLength(straightLine) - 30) < 1e-6, `got ${polylineLength(straightLine)}`);
+
+const bump = flattenPath('M0,0C0,50,50,50,50,0'); // a symmetric curved bump
+const bumpResampled = resample(bump, 48);
+check('resample() holds the curve\'s own endpoints fixed',
+  distance(bumpResampled.points[0], bump[0]) < 1e-6
+  && distance(bumpResampled.points[47], bump[bump.length - 1]) < 1e-6);
+const bumpTrueLength = polylineLength(bump);
+check('resampling to 48 points preserves arc length within 2%',
+  Math.abs(bumpResampled.length - bumpTrueLength) / bumpTrueLength < 0.02,
+  `resampled ${bumpResampled.length.toFixed(2)}, true ${bumpTrueLength.toFixed(2)}`);
+
+const zigzag = smooth([[0, 0], [1, 5], [2, -5], [3, 5], [4, 0]], 2);
+check('smooth() holds the first and last point fixed',
+  distance(zigzag[0], [0, 0]) < 1e-9 && distance(zigzag[zigzag.length - 1], [4, 0]) < 1e-9);
+
+// findCorners() and boundedOffset() are advisory / feedback-only — see
+// writing-mode-plan.md — but still pure and worth pinning now, before later
+// phases build UI on top of them.
+const straightPolyline = resample(flattenPath('M0,0C25,0,75,0,100,0'), 48).points;
+check('findCorners reports nothing on a straight line',
+  findCorners(straightPolyline).length === 0);
+
+const lShape = resample([...flattenPath('M0,0C0,33,0,66,0,100'), ...flattenPath('M0,100C33,100,66,100,100,100')], 96);
+check('findCorners detects a sharp 90-degree turn',
+  findCorners(lShape.points).length >= 1);
+
+const model2 = [resample(flattenPath('M0,0C10,0,20,0,30,0'), 8).points];
+// user drawn +5,+5 away from the model — boundedOffset() should report the
+// translation that would bring user onto model, i.e. -5,-5.
+const user2 = [resample(flattenPath('M5,5C15,5,25,5,35,5'), 8).points];
+const offset = boundedOffset(user2, model2, 10);
+check('boundedOffset recovers a translation smaller than its bound',
+  Math.abs(offset.dx + 5) < 1e-6 && Math.abs(offset.dy + 5) < 1e-6);
+const farUser2 = [resample(flattenPath('M50,50C60,50,70,50,80,50'), 8).points]; // shifted +50,+50
+const clamped = boundedOffset(farUser2, model2, 10);
+check('boundedOffset clamps a translation larger than its bound',
+  Math.abs(Math.hypot(clamped.dx, clamped.dy) - 10) < 1e-6);
+
+// Every real stroke, not just the synthetic ones above: resampling to 48
+// points has to track true arc length closely, because gradeResampled()
+// measures a drawn stroke's length off the resampled points, not the dense
+// ones — see the length gate in stroke-grader.js.
+let worstLengthRatioError = 0;
+let sampled = 0;
+for (const data of Object.values(STROKES)) {
+  for (const d of data.strokes) {
+    sampled += 1;
+    if (sampled % 5 !== 0) continue; // every 5th stroke is plenty to catch a systematic bug
+    const dense = flattenPath(d);
+    const trueLength = polylineLength(dense);
+    if (trueLength === 0) continue;
+    const err = Math.abs(resample(dense, 48).length - trueLength) / trueLength;
+    if (err > worstLengthRatioError) worstLengthRatioError = err;
+  }
+}
+check('resampling real stroke data to 48 points preserves arc length within 5%',
+  worstLengthRatioError < 0.05, `worst case ${(worstLengthRatioError * 100).toFixed(1)}%`);
+
+done('stroke geometry');
+
+// --- Stroke grading --------------------------------------------------------
+// The tolerances in stroke-grader.js were tuned outside this repo against a
+// simulated sloppy 12-year-old and a simulated 6-year-old with poor motor
+// control, aiming for near-zero false "incorrect" verdicts at the default
+// strictness — see writing-mode-plan.md §2.5 for the full numbers this
+// pins in place. Everything here runs against the real stroke data, not a
+// hand-picked sample: every one of the ~10,000 strokes across all 1,174
+// characters.
+
+// Deterministic PRNG (mulberry32) so the simulated-writer checks below are
+// reproducible without needing to store random data.
+function mulberry32(seed) {
+  let a = seed;
+  return function rand() {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function gaussian(rand) {
+  const u1 = Math.max(rand(), 1e-9);
+  const u2 = rand();
+  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+
+const allModelStrokes = [];
+for (const [char, data] of Object.entries(STROKES)) {
+  data.strokes.forEach((d, index) => {
+    allModelStrokes.push({ char, index, model: grader.prepareModelStroke(d) });
+  });
+}
+check('stroke grading has real model data to test against',
+  allModelStrokes.length > 10000, `${allModelStrokes.length} strokes`);
+
+// 1. Every model stroke must be accepted against itself, at every strictness
+// level — the most basic sanity check there is.
+let selfRejections = 0;
+for (const { model } of allModelStrokes) {
+  for (const level of grader.STRICTNESS_LEVELS) {
+    if (grader.gradeResampled(model.points, model.length, model.points, model.length, level.multiplier) !== 'ok') {
+      selfRejections += 1;
+    }
+  }
+}
+check('every model stroke is accepted against itself at every strictness level',
+  selfRejections === 0, `${selfRejections} rejection(s)`);
+
+// 2. A stroke drawn in reverse must be rejected almost always, at every
+// strictness level — direction is never relaxed by strictness.
+let reversedAccepted = 0;
+for (const { model } of allModelStrokes) {
+  const reversedPoints = [...model.points].reverse();
+  for (const level of grader.STRICTNESS_LEVELS) {
+    if (grader.gradeResampled(reversedPoints, model.length, model.points, model.length, level.multiplier) === 'ok') {
+      reversedAccepted += 1;
+    }
+  }
+}
+const reversedTotal = allModelStrokes.length * grader.STRICTNESS_LEVELS.length;
+check('drawing a stroke backwards is rejected at least 99% of the time',
+  reversedAccepted / reversedTotal <= 0.01,
+  `${reversedAccepted}/${reversedTotal} wrongly accepted`);
+
+// 3. A scribble — nothing like the stroke's shape — must be rejected at
+// Normal strictness and above, proving the loose defaults are not a rubber
+// stamp.
+function scribble(model, rand) {
+  const n = model.points.length;
+  const cx = model.points.reduce((s, p) => s + p[0], 0) / n;
+  const cy = model.points.reduce((s, p) => s + p[1], 0) / n;
+  const out = [];
+  for (let k = 0; k < n; k += 1) {
+    const u = (k / (n - 1)) * Math.PI * 4;
+    out.push([cx + 18 * Math.cos(u) + gaussian(rand) * 3, cy + 12 * Math.sin(u * 1.3) + gaussian(rand) * 3]);
+  }
+  return out;
+}
+let scribbleRand = mulberry32(12345);
+let scribbleAccepted = 0;
+let scribbleTotal = 0;
+for (const { model } of allModelStrokes) {
+  const raw = scribble(model, scribbleRand);
+  for (const level of grader.STRICTNESS_LEVELS.filter((l) => l.id >= 3)) {
+    scribbleTotal += 1;
+    if (grader.gradeStroke(raw, model, level.multiplier) === 'ok') scribbleAccepted += 1;
+  }
+}
+check('a scribble is rejected at least 99% of the time at Normal strictness or stricter',
+  scribbleAccepted / scribbleTotal <= 0.01,
+  `${scribbleAccepted}/${scribbleTotal} wrongly accepted`);
+
+// 4. The false-negative guard the whole design turns on: a simulated sloppy
+// 12-year-old — smooth systematic offset, scale, tilt and wobble, not white
+// noise, since that is how sloppy handwriting actually deviates — must be
+// accepted at least 99.5% of the time per stroke at the default strictness.
+function writeStroke(model, opts, rand) {
+  const { offset, scale, tiltDeg, wobble, endslop } = opts;
+  const dx = (rand() * 2 - 1) * offset;
+  const dy = (rand() * 2 - 1) * offset;
+  const sc = 1 + (rand() * 2 - 1) * scale;
+  const theta = ((rand() * 2 - 1) * tiltDeg * Math.PI) / 180;
+  const ph1 = rand() * 2 * Math.PI;
+  const ph2 = rand() * 2 * Math.PI;
+  const a1 = (rand() * 2 - 1) * wobble;
+  const a2 = (rand() * 2 - 1) * wobble;
+  const s0 = [gaussian(rand) * endslop, gaussian(rand) * endslop];
+  const s1 = [gaussian(rand) * endslop, gaussian(rand) * endslop];
+  const tremor = endslop * 0.25;
+  const n = model.points.length;
+  const cx = 54.5;
+  const cy = 54.5;
+  const out = [];
+  for (let k = 0; k < n; k += 1) {
+    const [x, y] = model.points[k];
+    const u = k / (n - 1);
+    const X0 = (x - cx) * sc;
+    const Y0 = (y - cy) * sc;
+    let X = X0 * Math.cos(theta) - Y0 * Math.sin(theta) + cx + dx;
+    let Y = X0 * Math.sin(theta) + Y0 * Math.cos(theta) + cy + dy;
+    X += a1 * Math.sin(Math.PI * u + ph1);
+    Y += a2 * Math.sin(Math.PI * u * 1.5 + ph2);
+    const w0 = (1 - u) ** 2;
+    const w1 = u ** 2;
+    X += s0[0] * w0 + s1[0] * w1;
+    Y += s0[1] * w0 + s1[1] * w1;
+    X += gaussian(rand) * tremor;
+    Y += gaussian(rand) * tremor;
+    out.push([X, Y]);
+  }
+  return out;
+}
+const SLOPPY_12YO = { offset: 5.0, scale: 0.09, tiltDeg: 5, wobble: 3.5, endslop: 3.0 };
+let sloppyRand = mulberry32(777);
+let sloppyAccepted = 0;
+for (const { model } of allModelStrokes) {
+  const written = smooth(writeStroke(model, SLOPPY_12YO, sloppyRand), 2);
+  const writtenLength = polylineLength(written);
+  const verdict = grader.gradeResampled(written, writtenLength, model.points, model.length, grader.strictnessMultiplier(grader.DEFAULT_STRICTNESS));
+  if (verdict === 'ok') sloppyAccepted += 1;
+}
+check('a simulated sloppy 12-year-old is accepted at least 99.5% of the time per stroke at the default (Normal) strictness',
+  sloppyAccepted / allModelStrokes.length >= 0.995,
+  `${(100 * sloppyAccepted / allModelStrokes.length).toFixed(1)}% accepted, wanted >= 99.5%`);
+
+// 5. Drawing only the first half of a stroke and stopping must be rejected
+// most of the time from Easy strictness upward — a stub is not "close
+// enough", however generous the acceptance radius on a short stroke is.
+function halfStroke(model) {
+  const points = model.points;
+  const half = points.slice(0, Math.floor(points.length / 2));
+  const n = points.length;
+  const out = [];
+  for (let k = 0; k < n; k += 1) {
+    const idx = Math.min(Math.floor((k * half.length) / n), half.length - 1);
+    out.push(half[idx]);
+  }
+  return out;
+}
+let halfAccepted = 0;
+let halfTotal = 0;
+for (const { model } of allModelStrokes) {
+  const half = halfStroke(model);
+  const halfLength = polylineLength(half);
+  for (const level of grader.STRICTNESS_LEVELS.filter((l) => l.id >= 2)) {
+    halfTotal += 1;
+    if (grader.gradeResampled(half, halfLength, model.points, model.length, level.multiplier) === 'ok') halfAccepted += 1;
+  }
+}
+check('drawing only the first half of a stroke is rejected at least 85% of the time from Easy strictness upward',
+  (halfTotal - halfAccepted) / halfTotal >= 0.85,
+  `${(100 * (halfTotal - halfAccepted) / halfTotal).toFixed(1)}% rejected, wanted >= 85%`);
+
+done('stroke grading');
 
 // --- CSS: [hidden] must actually hide things ------------------------------
 // A real, shipped bug: several component classes (.kanji-info, .row, .stack)
