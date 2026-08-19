@@ -32,31 +32,55 @@ const BOX_SETTLED = 2;
 const MAX_HISTORY = 300;
 
 // `kinds` is which course types a mode applies to: kana has no English
-// definition to quiz, so Definition shows kanji courses only.
+// definition to quiz, so Definition is offered for kanji only.
+//
+// The middle mode is the same activity either way — "what sound does this
+// make" — but it is called Reading for kana and Yomi for kanji, so the label
+// and hint are per-kind.
 export const MODES = {
   definition: {
     id: 'definition',
-    name: 'Definition',
     kinds: ['kanji'],
-    hint: 'See the kanji, tap what it means',
+    name: { kanji: 'Definition' },
+    hint: { kanji: 'See the kanji, tap what it means' },
   },
   recognition: {
     id: 'recognition',
-    name: 'Yomi',
     kinds: ['kana', 'kanji'],
-    hint: 'See the character, tap how it is read',
+    name: { kana: 'Reading', kanji: 'Yomi' },
+    hint: {
+      kana: 'See the character, tap the sound',
+      kanji: 'See the kanji, tap every reading that applies',
+    },
   },
   writing: {
     id: 'writing',
-    name: 'Writing',
     kinds: ['kana', 'kanji'],
-    hint: 'See the sound, draw the character',
+    name: { kana: 'Writing', kanji: 'Writing' },
+    hint: {
+      kana: 'See the sound, draw the character',
+      kanji: 'See the meaning, draw the kanji',
+    },
     comingSoon: true,
   },
 };
 
 export function modesForKind(kind) {
   return Object.values(MODES).filter((m) => m.kinds.includes(kind));
+}
+
+export function modeName(modeId, kind) {
+  return MODES[modeId].name[kind];
+}
+
+export function modeHint(modeId, kind) {
+  return MODES[modeId].hint[kind];
+}
+
+/** The mode to fall back to when the current one doesn't apply to a script. */
+export function defaultModeForKind(kind) {
+  const usable = modesForKind(kind).filter((m) => !m.comingSoon);
+  return (usable.find((m) => m.id === 'recognition') || usable[0]).id;
 }
 
 export function itemKey(mode, kana) {

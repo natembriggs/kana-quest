@@ -425,25 +425,29 @@ done('meanings are definitions only, without discarding real ones');
 
 // --- Definition mode choices ----------------------------------------------
 
+// Four options (two rows of two), not ten: English definitions are long, and
+// a definition question is single-answer so the under-half rule that governs
+// the multi-select yomi quiz doesn't apply.
 let defCountWrong = 0;
 let defMissingAnswer = 0;
 let defDuplicate = 0;
 let defUnsorted = 0;
 for (const kanji of grade1Chars) {
-  const { options, answer } = buildDefinitionChoices(grade1, kanji, 10);
-  if (options.length !== 10) defCountWrong += 1;
+  const { options, answer } = buildDefinitionChoices(grade1, kanji);
+  if (options.length !== 4) defCountWrong += 1;
   if (!options.includes(answer)) defMissingAnswer += 1;
   if (new Set(options).size !== options.length) defDuplicate += 1;
   const sorted = [...options].sort((a, b) => a.localeCompare(b));
   if (JSON.stringify(options) !== JSON.stringify(sorted)) defUnsorted += 1;
 }
-check('every definition question offers ten options', defCountWrong === 0, `${defCountWrong} did not`);
+check('every definition question offers four options by default',
+  defCountWrong === 0, `${defCountWrong} did not`);
 check('the correct definition is always offered', defMissingAnswer === 0, `${defMissingAnswer} missing`);
 check('no definition question repeats an option — a duplicate label would be unanswerable',
   defDuplicate === 0, `${defDuplicate} had one`);
 check('definition options are sorted alphabetically', defUnsorted === 0, `${defUnsorted} unsorted`);
 
-const defOne = buildDefinitionChoices(grade1, '一', 10);
+const defOne = buildDefinitionChoices(grade1, '一');
 check('the definition answer is the kanji\'s own meaning label',
   defOne.answer === meaningLabel(kanjiInfo(grade1, '一')), defOne.answer);
 check('the definition answer is English prose, not a reading',

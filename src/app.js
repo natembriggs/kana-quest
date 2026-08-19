@@ -6,24 +6,58 @@ import {
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
 } from './kanji.js';
 import {
-  MODES, itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
+  MODES, modesForKind, modeName, modeHint, defaultModeForKind,
+  itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord,
 } from './srs.js';
 import * as store from './store.js';
+
+export const APP_VERSION = '2026-08-19a'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 function getAnyCourse(courseId) {
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
+// The three things a learner picks between on the front page. Kanji fans out
+// into one course per school grade; each kana script is a single course.
+const SCRIPTS = [
+  { id: 'hiragana', kind: 'kana', name: 'Hiragana', native: 'ひらがな', sample: 'あ' },
+  { id: 'katakana', kind: 'kana', name: 'Katakana', native: 'カタカナ', sample: 'ア' },
+  { id: 'kanji', kind: 'kanji', name: 'Kanji', native: '漢字', sample: '学' },
+];
+
+const KANJI_GRADES = KANJI_COURSES
+  .map((c) => Number(c.id.replace('kanji-grade-', '')))
+  .sort((a, b) => a - b);
+
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
 const state = {
   profile: null,
-  courseId: 'hiragana',
+  scriptId: 'hiragana',
+  grade: KANJI_GRADES[0],
   mode: 'recognition',
   session: null,
 };
+
+function currentScript() {
+  return SCRIPTS.find((s) => s.id === state.scriptId);
+}
+
+/** The course the current script + grade selection resolves to. */
+function currentCourse() {
+  return currentScript().kind === 'kanji'
+    ? getAnyCourse(`kanji-grade-${state.grade}`)
+    : getAnyCourse(state.scriptId);
+}
+
+/** Every course a script covers — one for kana, one per grade for kanji. */
+function coursesForScript(script) {
+  return script.kind === 'kanji'
+    ? KANJI_COURSES
+    : [getAnyCourse(script.id)];
+}
 
 const $ = (id) => document.getElementById(id);
 const screens = () => document.querySelectorAll('.screen');
@@ -81,109 +115,196 @@ function openProfile(profile) {
   renderHome();
 }
 
-// --- Home -----------------------------------------------------------------
-
-function renderModePicker() {
-  const picker = $('mode-picker');
-  picker.innerHTML = '';
-  Object.values(MODES).forEach((mode) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
-    button.textContent = mode.name;
-    // Writing mode is the next thing to build; it is shown but inert so the
-    // shape of the app is visible rather than implied.
-    if (mode.comingSoon) {
-      button.disabled = true;
-      button.classList.add('segment-soon');
-      button.innerHTML = `${mode.name} <small>soon</small>`;
-    } else {
-      button.addEventListener('click', () => { state.mode = mode.id; renderHome(); });
-    }
-    picker.appendChild(button);
-  });
-  $('mode-hint').textContent = MODES[state.mode].hint;
-}
+// --- Home: pick a script --------------------------------------------------
 
 function renderHome() {
   const profile = state.profile;
   $('home-avatar').textContent = profile.emoji;
   $('home-greeting').textContent = profile.name;
-  renderModePicker();
 
-  const list = $('course-list');
+  const list = $('script-list');
   list.innerHTML = '';
-  // Definition only applies to kanji — kana has no English meaning to quiz.
-  const visibleCourses = ALL_COURSES.filter((c) => MODES[state.mode].kinds.includes(c.kind));
-  visibleCourses.forEach((course) => {
-    const stats = courseStats(course, state.mode, profile.progress);
-    const setIndex = currentSetIndex(course, state.mode, profile.progress);
-    const currentChunk = course.chunks[setIndex];
-    const pct = Math.round((stats.started / stats.total) * 100);
-    const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
-    const settled = readyForMore(course, state.mode, profile.progress);
+  SCRIPTS.forEach((script) => {
+    // Progress shown here is for whichever mode applies to the script, summed
+    // over its courses (all six grades, for kanji).
+    const mode = MODES[state.mode].kinds.includes(script.kind)
+      ? state.mode
+      : defaultModeForKind(script.kind);
+    const totals = coursesForScript(script).reduce((acc, course) => {
+      const stats = courseStats(course, mode, profile.progress);
+      return { started: acc.started + stats.started, total: acc.total + stats.total, due: acc.due + stats.due };
+    }, { started: 0, total: 0, due: 0 });
+    const pct = Math.round((totals.started / totals.total) * 100);
 
-    const card = document.createElement('div');
-    card.className = 'card course-card';
-    card.innerHTML = `
-      <div class="course-head">
-        <div>
-          <h3>${course.name}</h3>
-          <div class="course-native">${course.native}</div>
-        </div>
-        <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
-      </div>
-      <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'script-card';
+    button.dataset.script = script.id;
+    button.innerHTML = `
+      <span class="script-sample glyph"></span>
+      <span class="script-text">
+        <span class="script-name"></span>
+        <span class="script-native"></span>
+      </span>
+      <span class="script-meta">
+        <span class="script-count"></span>
+        <span class="progress"><span class="progress-fill" style="width:${pct}%"></span></span>
+      </span>
     `;
-
-    // Learning new characters and reviewing are separate buttons, so adding
-    // more to study is always a decision rather than something that happens
-    // automatically at the start of a session.
-    const actions = document.createElement('div');
-    actions.className = 'actions';
-
-    const review = document.createElement('button');
-    review.type = 'button';
-    review.className = 'btn btn-primary';
-    if (stats.due > 0) {
-      review.innerHTML = `Review <b>${stats.due}</b>`;
-      review.addEventListener('click', () => startSession(course.id, 'review'));
-    } else if (stats.started > 0) {
-      review.className = 'btn';
-      review.textContent = 'Practise';
-      review.addEventListener('click', () => startSession(course.id, 'practice'));
-    } else {
-      review.textContent = 'Nothing to review';
-      review.disabled = true;
-    }
-    actions.appendChild(review);
-
-    const learn = document.createElement('button');
-    learn.type = 'button';
-    learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
-    if (newCount > 0) {
-      learn.innerHTML = `Add <b>${newCount}</b> more`;
-      learn.addEventListener('click', () => startSession(course.id, 'new'));
-    } else {
-      learn.textContent = 'All characters started';
-      learn.disabled = true;
-    }
-    actions.appendChild(learn);
-
-    card.appendChild(actions);
-
-    // A suggestion, not a restriction: adding more is always allowed.
-    if (newCount > 0 && stats.started > 0 && !settled) {
-      const note = document.createElement('p');
-      note.className = 'hint';
-      note.textContent = 'Tip: the current set isn\'t solid yet — a review first will make it stick.';
-      card.appendChild(note);
-    }
-    list.appendChild(card);
+    button.querySelector('.script-sample').textContent = script.sample;
+    button.querySelector('.script-name').textContent = script.name;
+    button.querySelector('.script-native').textContent = script.native;
+    button.querySelector('.script-count').textContent = totals.due > 0
+      ? `${totals.due} to review`
+      : `${totals.started} / ${totals.total}`;
+    button.addEventListener('click', () => openScript(script.id));
+    list.appendChild(button);
   });
 
   show('screen-home');
+}
+
+// --- Course screen: modes, grade, and the session actions -----------------
+
+function openScript(scriptId) {
+  state.scriptId = scriptId;
+  const script = currentScript();
+  // Carry the current mode over when it applies to this script, so switching
+  // between hiragana and katakana keeps you in the same activity.
+  if (!MODES[state.mode].kinds.includes(script.kind)) {
+    state.mode = defaultModeForKind(script.kind);
+  }
+  renderCourse();
+}
+
+function renderModePicker(kind) {
+  const picker = $('mode-picker');
+  picker.innerHTML = '';
+  modesForKind(kind).forEach((mode) => {
+    const label = modeName(mode.id, kind);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
+    button.textContent = label;
+    button.dataset.mode = mode.id;
+    // Writing mode is the next thing to build; it is shown but inert so the
+    // shape of the app is visible rather than implied.
+    if (mode.comingSoon) {
+      button.disabled = true;
+      button.classList.add('segment-soon');
+      button.innerHTML = `${label} <small>soon</small>`;
+    } else {
+      button.addEventListener('click', () => { state.mode = mode.id; renderCourse(); });
+    }
+    picker.appendChild(button);
+  });
+  $('mode-hint').textContent = modeHint(state.mode, kind);
+}
+
+function renderGradePicker(script) {
+  const picker = $('grade-picker');
+  picker.innerHTML = '';
+  if (script.kind !== 'kanji') {
+    picker.hidden = true;
+    return;
+  }
+  picker.hidden = false;
+  KANJI_GRADES.forEach((gradeNumber) => {
+    const course = getAnyCourse(`kanji-grade-${gradeNumber}`);
+    const stats = courseStats(course, state.mode, state.profile.progress);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `grade${state.grade === gradeNumber ? ' active' : ''}`;
+    button.dataset.grade = String(gradeNumber);
+    button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
+    button.querySelector('.grade-number').textContent = String(gradeNumber);
+    // A dot marks a grade with reviews waiting, so the right one to open is
+    // visible without tapping through all six.
+    button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
+    button.setAttribute('aria-label', `Grade ${gradeNumber}, ${stats.started} of ${stats.total} started`);
+    button.addEventListener('click', () => { state.grade = gradeNumber; renderCourse(); });
+    picker.appendChild(button);
+  });
+}
+
+function renderCourse() {
+  const profile = state.profile;
+  const script = currentScript();
+  $('course-title').textContent = script.name;
+  renderModePicker(script.kind);
+  renderGradePicker(script);
+
+  const course = currentCourse();
+  const list = $('course-list');
+  list.innerHTML = '';
+
+  const stats = courseStats(course, state.mode, profile.progress);
+  const setIndex = currentSetIndex(course, state.mode, profile.progress);
+  const currentChunk = course.chunks[setIndex];
+  const pct = Math.round((stats.started / stats.total) * 100);
+  const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
+  const settled = readyForMore(course, state.mode, profile.progress);
+
+  const card = document.createElement('div');
+  card.className = 'card course-card';
+  card.innerHTML = `
+    <div class="course-head">
+      <div>
+        <h3>${course.name}</h3>
+        <div class="course-native">${course.native}</div>
+      </div>
+      <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
+    </div>
+    <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
+  `;
+
+  // Learning new characters and reviewing are separate buttons, so adding
+  // more to study is always a decision rather than something that happens
+  // automatically at the start of a session.
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  const review = document.createElement('button');
+  review.type = 'button';
+  review.className = 'btn btn-primary';
+  if (stats.due > 0) {
+    review.innerHTML = `Review <b>${stats.due}</b>`;
+    review.addEventListener('click', () => startSession(course.id, 'review'));
+  } else if (stats.started > 0) {
+    review.className = 'btn';
+    review.textContent = 'Practise';
+    review.addEventListener('click', () => startSession(course.id, 'practice'));
+  } else {
+    review.textContent = 'Nothing to review';
+    review.disabled = true;
+  }
+  actions.appendChild(review);
+
+  const learn = document.createElement('button');
+  learn.type = 'button';
+  learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
+  if (newCount > 0) {
+    learn.innerHTML = `Add <b>${newCount}</b> more`;
+    learn.addEventListener('click', () => startSession(course.id, 'new'));
+  } else {
+    learn.textContent = 'All characters started';
+    learn.disabled = true;
+  }
+  actions.appendChild(learn);
+
+  card.appendChild(actions);
+
+  // A suggestion, not a restriction: adding more is always allowed.
+  if (newCount > 0 && stats.started > 0 && !settled) {
+    const note = document.createElement('p');
+    note.className = 'hint';
+    note.textContent = 'Tip: the current set isn\'t solid yet — a review first will make it stick.';
+    card.appendChild(note);
+  }
+  list.appendChild(card);
+
+  show('screen-course');
 }
 
 // --- Session --------------------------------------------------------------
@@ -199,7 +320,7 @@ function startSession(courseId, kind) {
   });
 
   if (built.lesson.length === 0 && built.quiz.length === 0) {
-    renderHome();
+    renderCourse();
     return;
   }
 
@@ -711,11 +832,16 @@ function finishSession() {
 
 function renderSettings() {
   const hasProfile = !!state.profile;
+  // Remember where settings was opened from, so Back returns there rather
+  // than dumping the learner at the top level.
+  const current = [...screens()].find((el) => !el.hidden);
+  state.settingsReturn = current ? current.id : 'screen-home';
   document.querySelectorAll('.profile-only').forEach((el) => { el.hidden = !hasProfile; });
   if (hasProfile) {
     $('new-per-session').value = state.profile.settings.newPerSession;
     $('new-per-session-value').textContent = state.profile.settings.newPerSession;
   }
+  $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
   show('screen-settings');
 }
@@ -799,19 +925,31 @@ function wire() {
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
       case 'open-transfer': renderSettings(); break;
+      // Back out one level: the course screen returns to the script picker.
       case 'go-home':
         if (state.profile) renderHome(); else renderProfiles();
+        break;
+      // Return to the course screen — from a finished session, or from
+      // settings opened while on it.
+      case 'go-course':
+        if (state.profile) renderCourse(); else renderProfiles();
+        break;
+      case 'close-settings':
+        if (!state.profile) renderProfiles();
+        else if (state.settingsReturn === 'screen-course') renderCourse();
+        else renderHome();
         break;
       case 'quit-session':
         if (state.session) clearTimeout(state.session.pendingAdvance);
         state.session = null;
-        renderHome();
+        renderCourse();
         break;
       case 'again': startSession(state.courseId, 'practice'); break;
       case 'learn-more': startSession(state.courseId, 'new'); break;
       case 'review-more': startSession(state.courseId, 'review'); break;
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
+      case 'force-refresh': forceRefresh(); break;
       case 'delete-profile':
         if (confirm(`Delete ${state.profile.name} and all their progress?`)) {
           await store.deleteProfile(state.profile.id);
@@ -824,13 +962,65 @@ function wire() {
   });
 }
 
+// --- Staying up to date ---------------------------------------------------
+//
+// An iOS home-screen app is stubborn about picking up new code: swiping it
+// away doesn't reliably tear down the service worker, and Safari may serve
+// the worker script itself from its own HTTP cache. So: register with
+// updateViaCache 'none' (never cache the worker script), actively check for
+// an update on launch and whenever the app is brought back to the front, and
+// reload once a new worker takes control. See sw.js for the other half.
+
+let reloadingForUpdate = false;
+
+function watchForUpdates() {
+  if (!('serviceWorker' in navigator)) return;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    // A new worker took over: the page is running old code, so reload once.
+    if (reloadingForUpdate) return;
+    reloadingForUpdate = true;
+    window.location.reload();
+  });
+
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+    .then((registration) => {
+      registration.update().catch(() => {});
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) registration.update().catch(() => {});
+      });
+    })
+    .catch(() => { /* offline support is optional */ });
+}
+
+/**
+ * The escape hatch: drop every cache, unregister the worker and reload from
+ * the network. Nothing here touches IndexedDB, so learner progress survives.
+ */
+async function forceRefresh() {
+  $('transfer-status').textContent = 'Refreshing…';
+  try {
+    if ('serviceWorker' in navigator) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((r) => r.unregister()));
+    }
+    if (window.caches) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+  } catch {
+    // Even if clearing fails, the reload below is still worth doing.
+  }
+  reloadingForUpdate = true;
+  // Cache-busting query so the navigation itself cannot come from a cache.
+  window.location.replace(`${window.location.pathname}?fresh=${Date.now()}`);
+}
+
 async function boot() {
   wire();
   store.requestPersistence();
   await renderProfiles();
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => { /* offline support is optional */ });
-  }
+  watchForUpdates();
 }
 
 boot();

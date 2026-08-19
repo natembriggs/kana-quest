@@ -25,9 +25,11 @@ const BASE_TOTAL_OPTIONS = 10;
 // even the full pool of 6 correct stays comfortably under half.
 const ADVANCED_TOTAL_OPTIONS = 15;
 
-// Definition questions are single-answer, so the ratio rule doesn't apply the
-// way it does to the multi-select yomi quiz.
-const DEFINITION_OPTIONS = 10;
+// Definition questions are single-answer, so the under-half ratio rule that
+// governs the multi-select yomi quiz doesn't apply. Four is plenty: English
+// definitions are long, and two rows of two stay readable on a phone where
+// ten would not.
+const DEFINITION_OPTIONS = 4;
 const MEANINGS_PER_LABEL = 2;
 
 function buildKanjiIndex(grade) {

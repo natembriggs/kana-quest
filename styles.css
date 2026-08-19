@@ -277,17 +277,17 @@ h3 { font-size: 18px; }
    dimmed so it doesn't compete with the readings that are still clickable. */
 .choice:disabled:not(.is-right):not(.is-wrong) { opacity: 0.35; }
 
-/* Definition mode: English meanings need far more room than romaji, so two
-   roomy columns instead of five narrow ones, and text that wraps. */
+/* Definition mode: four English meanings in two rows of two. They need far
+   more room than romaji, so the cells are tall and the text wraps. */
 .choice-grid-text {
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: minmax(56px, auto);
+  grid-auto-rows: minmax(88px, auto);
 }
 .choice-grid-text .choice {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.25;
-  padding: 8px 10px;
+  line-height: 1.3;
+  padding: 10px 12px;
   white-space: normal;
   overflow-wrap: anywhere;
 }
@@ -295,9 +295,72 @@ h3 { font-size: 18px; }
 @media (max-width: 360px) {
   .choice { font-size: 15px; }
   .choice-grid { grid-auto-rows: 52px; gap: 6px; }
-  .choice-grid-text { grid-auto-rows: minmax(52px, auto); }
-  .choice-grid-text .choice { font-size: 14px; }
+  .choice-grid-text { grid-auto-rows: minmax(80px, auto); }
+  .choice-grid-text .choice { font-size: 15px; }
 }
+
+/* --- Script picker (home) ------------------------------------------------ */
+
+.script-grid { display: flex; flex-direction: column; gap: 12px; }
+.script-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.script-card:active { transform: scale(0.99); }
+.script-sample {
+  font-size: 40px;
+  width: 56px;
+  text-align: center;
+  color: var(--accent);
+}
+.script-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.script-name { font-size: 19px; font-weight: 700; }
+.script-native {
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.script-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; width: 92px; }
+.script-count { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.script-meta .progress { width: 100%; display: block; }
+.script-meta .progress-fill { display: block; }
+
+/* --- Grade picker (kanji only) ------------------------------------------- */
+
+.grade-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.grade {
+  position: relative;
+  min-height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.grade.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+/* A dot marks a grade with reviews waiting, so the one to open is visible
+   without tapping through all six. */
+.grade-dot {
+  position: absolute;
+  top: 3px; right: 7px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--accent);
+}
+.grade.active .grade-dot { color: var(--accent-ink); }
 
 /* Kanji meanings + example word, shown as feedback after grading. */
 .kanji-info {

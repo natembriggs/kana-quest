@@ -48,6 +48,8 @@ function makeElement(id = '') {
     },
     addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
     appendChild(child) { this._children.push(child); return child; },
+    setAttribute(name, value) { this._attrs[name] = String(value); },
+    getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
     remove() {},
     focus() {},
     click() {},
@@ -66,6 +68,7 @@ function makeElement(id = '') {
     closest() { return null; },
     _children: [],
     _found: new Map(),
+    _attrs: {},
   };
   // innerHTML = '' is how the app clears a container before rebuilding it, so
   // the stub has to drop the recorded children when that happens.
@@ -179,21 +182,45 @@ for (let i = 0; i < 10; i += 1) await settle();
 check('a profile was persisted', rows.size === 1, `${rows.size} rows`);
 check('lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
 
-// --- Start a session ------------------------------------------------------
+// --- Home is a three-way script picker ------------------------------------
 
 const profile = [...rows.values()][0];
 check('new profile starts with no progress', Object.keys(profile.progress).length === 0);
 
-// The home screen offers "Learn N new" and "Review N" as separate buttons,
-// built by renderHome. Find the learn button among the generated nodes and
-// press it, the same way a learner would.
-const homeButtons = el('course-list')._children
-  .flatMap((card) => card._children)
-  .flatMap((node) => (node._children.length ? node._children : [node]));
-const learnButton = homeButtons.find((b) => (b.innerHTML || '').includes('more'));
-check('the home screen offers an "add more" button', !!learnButton,
-  homeButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
-const reviewButton = homeButtons.find((b) => (b.textContent || '') === 'Nothing to review');
+const scriptCards = el('script-list')._children;
+check('the home screen offers exactly three scripts', scriptCards.length === 3,
+  scriptCards.map((c) => c.dataset.script).join(', '));
+check('the three scripts are hiragana, katakana and kanji',
+  scriptCards.map((c) => c.dataset.script).join(',') === 'hiragana,katakana,kanji',
+  scriptCards.map((c) => c.dataset.script).join(','));
+check('the home screen no longer lists individual courses — that moved a level down',
+  el('course-list')._children.length === 0);
+
+/** Buttons inside a rendered card, flattened one level (actions wrapper). */
+const buttonsIn = (card) => card._children.flatMap((n) => (n._children.length ? n._children : [n]));
+
+// --- Hiragana: modes across the top, no grade picker ----------------------
+
+fire(scriptCards.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+check('picking a script opens the course screen', visible() === 'screen-course', `showing ${visible()}`);
+check('the course screen is titled for the script', el('course-title').textContent === 'Hiragana',
+  el('course-title').textContent);
+
+const kanaModes = el('mode-picker')._children;
+check('kana offers two modes, not three', kanaModes.length === 2,
+  kanaModes.map((b) => b.textContent).join(' | '));
+check('the kana middle mode is called Reading, not Yomi',
+  kanaModes[0].textContent === 'Reading', kanaModes.map((b) => b.textContent).join(' | '));
+check('kana writing is present but disabled',
+  kanaModes[1].innerHTML.includes('Writing') && kanaModes[1].disabled === true);
+check('kana has no grade picker', el('grade-picker').hidden === true);
+
+const courseButtons = buttonsIn(el('course-list')._children[0]);
+const learnButton = courseButtons.find((b) => (b.innerHTML || '').includes('more'));
+check('the course screen offers an "add more" button', !!learnButton,
+  courseButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
+const reviewButton = courseButtons.find((b) => (b.textContent || '') === 'Nothing to review');
 check('a brand-new learner has nothing to review yet', !!reviewButton);
 
 fire(learnButton, 'click');
@@ -318,16 +345,57 @@ check('it too was re-drilled later in the session',
 // attempt" contract as kana, but multi-select: tick every reading that
 // applies, then press OK. Exercises all three outcomes.
 
+// Back out to the course screen, then up to the script picker, then into
+// kanji — the same route a learner takes.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('leaving a session returns to the course screen, not the top level',
+  visible() === 'screen-course', `showing ${visible()}`);
+
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
 await settle();
-check('back on the home screen after the kana session', visible() === 'screen-home', `showing ${visible()}`);
+check('backing out of the course screen reaches the script picker',
+  visible() === 'screen-home', `showing ${visible()}`);
 
-const kanjiCard = el('course-list')._children
-  .find((card) => (card.innerHTML || '').includes('小学'));
-check('the kanji course card is on the home screen', !!kanjiCard);
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+check('picking kanji opens the course screen', visible() === 'screen-course', `showing ${visible()}`);
+check('kanji shows a grade picker', el('grade-picker').hidden === false);
 
-const kanjiButtons = kanjiCard._children.flatMap((n) => (n._children.length ? n._children : [n]));
-const kanjiLearnButton = kanjiButtons.find((b) => (b.innerHTML || '').includes('more'));
+const gradeButtons = el('grade-picker')._children;
+check('the grade picker offers all six elementary grades', gradeButtons.length === 6,
+  gradeButtons.map((b) => b.dataset.grade).join(','));
+check('grades are numbered 1 to 6 in order',
+  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6');
+check('grade 1 is selected by default', gradeButtons[0].className.includes('active'));
+
+const kanjiModes = el('mode-picker')._children;
+check('kanji offers three modes', kanjiModes.length === 3,
+  kanjiModes.map((b) => b.textContent).join(' | '));
+check('the kanji modes are Definition, Yomi, Writing in that order',
+  kanjiModes[0].textContent === 'Definition'
+  && kanjiModes[1].textContent === 'Yomi'
+  && kanjiModes[2].innerHTML.includes('Writing'),
+  kanjiModes.map((b) => b.textContent || b.innerHTML).join(' | '));
+check('the kana Reading mode is called Yomi here — same activity, per-script label',
+  kanjiModes[1].dataset.mode === 'recognition');
+check('carrying over from kana kept the same mode selected',
+  kanjiModes[1].className.includes('active'));
+
+// Switching grade re-renders the card for that grade.
+fire(gradeButtons[2], 'click'); // grade 3
+await settle();
+check('choosing a grade selects it', el('grade-picker')._children[2].className.includes('active'));
+check('the card follows the selected grade',
+  (el('course-list')._children[0].innerHTML || '').includes('小学3年生'),
+  el('course-list')._children[0].innerHTML);
+fire(el('grade-picker')._children[0], 'click'); // back to grade 1
+await settle();
+check('switching back to grade 1 works',
+  (el('course-list')._children[0].innerHTML || '').includes('小学1年生'));
+
+const kanjiLearnButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('more'));
 check('the kanji course offers an "add more" button', !!kanjiLearnButton);
 
 fire(kanjiLearnButton, 'click');
@@ -489,42 +557,45 @@ check('a shown-answers miss also counts as a lapse in the rollup',
   !!revealRollup && revealRollup.lapses >= 1);
 
 // --- Definition mode ---------------------------------------------------
-// Three modes for kanji now: Definition, Yomi, Writing. Definition is
-// single-answer (tap the English meaning) and applies to kanji only, so
-// selecting it must hide the kana courses.
+// Definition is single-answer (tap the English meaning) and kanji-only, so
+// it appears in the kanji mode picker but not the kana one.
 
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('back on the kanji course screen', visible() === 'screen-course', `showing ${visible()}`);
+
+const defModeButton = el('mode-picker')._children.find((b) => b.dataset.mode === 'definition');
+check('Definition is offered for kanji', !!defModeButton);
+fire(defModeButton, 'click');
+await settle();
+check('switching mode stays on the course screen', visible() === 'screen-course');
+check('Definition is now the active mode',
+  el('mode-picker')._children.find((b) => b.dataset.mode === 'definition').className.includes('active'));
+check('the grade picker is still available under Definition', el('grade-picker').hidden === false);
+
+// Kana must not offer Definition at all — check by going back and in again.
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
 await settle();
-
-const modeButtons = el('mode-picker')._children;
-check('the mode picker offers exactly three modes', modeButtons.length === 3,
-  modeButtons.map((b) => b.textContent).join(' | '));
-check('the modes are Definition, Yomi, Writing in that order',
-  modeButtons[0].textContent === 'Definition'
-  && modeButtons[1].textContent === 'Yomi'
-  && modeButtons[2].innerHTML.includes('Writing'),
-  modeButtons.map((b) => b.textContent || b.innerHTML).join(' | '));
-check('writing mode is still disabled', modeButtons[2].disabled === true);
-
-const kanaCardsUnderYomi = el('course-list')._children
-  .filter((card) => (card.innerHTML || '').includes('ひらがな') || (card.innerHTML || '').includes('カタカナ'));
-check('kana courses are listed under Yomi', kanaCardsUnderYomi.length === 2);
-
-fire(modeButtons[0], 'click'); // Definition
+fire(el('script-list')._children.find((c) => c.dataset.script === 'katakana'), 'click');
 await settle();
-check('switching to Definition stays on the home screen', visible() === 'screen-home');
-const cardsUnderDefinition = el('course-list')._children;
-check('kana courses disappear under Definition — kana has no English meaning to quiz',
-  cardsUnderDefinition.every((card) => !(card.innerHTML || '').includes('ひらがな')
-    && !(card.innerHTML || '').includes('カタカナ')),
-  `${cardsUnderDefinition.length} cards`);
-check('kanji courses remain under Definition',
-  cardsUnderDefinition.some((card) => (card.innerHTML || '').includes('小学')));
+check('kana has no Definition mode — there is no English meaning to quiz',
+  !el('mode-picker')._children.some((b) => b.dataset.mode === 'definition'),
+  el('mode-picker')._children.map((b) => b.dataset.mode).join(','));
+check('an inapplicable mode falls back rather than leaving a blank screen',
+  el('mode-picker')._children.some((b) => b.className.includes('active')));
+check('katakana still shows its course card',
+  (el('course-list')._children[0].innerHTML || '').includes('カタカナ'));
 
-const defCard = cardsUnderDefinition.find((card) => (card.innerHTML || '').includes('小学1年生'));
-check('the grade-1 card is present under Definition', !!defCard);
-const defButtons = defCard._children.flatMap((n) => (n._children.length ? n._children : [n]));
-const defLearn = defButtons.find((b) => (b.innerHTML || '').includes('more'));
+// Back to kanji Definition to actually run a session.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+await settle();
+
+const defLearn = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('more'));
 check('Definition mode starts with its own separate progress (nothing learned yet)', !!defLearn);
 
 fire(defLearn, 'click');
@@ -548,7 +619,8 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
   if (!kanji) break;
   const answer = meaningLabel(kanjiInfo(kanjiGrade1, kanji));
   const choices = el('quiz-choices')._children;
-  check(`definition question ${i + 1} offers ten options`, choices.length === 10);
+  check(`definition question ${i + 1} offers four options (two rows of two)`, choices.length === 4,
+    `got ${choices.length}`);
   check(`definition question ${i + 1} offers English prose, not readings`,
     choices.every((c) => /[a-z]/i.test(c.textContent)),
     choices.map((c) => c.textContent).join(' | '));

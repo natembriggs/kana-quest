@@ -35,6 +35,40 @@ currently 6, in `tools/build_kanji_data.py`):
 python3 tools/build_kanji_data.py
 ```
 
+## Getting around
+
+The front page asks **Hiragana, Katakana or Kanji**. Picking one opens that
+script's own screen, with the modes across the top, a grade picker below them
+for kanji (1–6, with a dot on any grade that has reviews waiting), and the
+session actions under that. Backing out returns to the script picker.
+
+Modes are per script: kana has **Reading** and **Writing**; kanji has
+**Definition**, **Yomi** and **Writing**. Reading and Yomi are the same
+activity under two names — "what sound does this make" — so switching between
+scripts keeps you in the equivalent mode rather than resetting.
+
+## If a phone is stuck on an old version
+
+An iOS home-screen app is stubborn about picking up new code. **Settings →
+Force refresh** clears every cache, unregisters the service worker and reloads
+from the server; the version shown above that button tells you which build is
+actually running. Progress lives in IndexedDB and is not touched.
+
+Worth knowing about the underlying cause, since it will keep happening while
+the app is served off a laptop: the phone can only update when it can actually
+reach `tools/serve.sh` at the same LAN address it was installed from. If the
+Mac is asleep, the server isn't running, or DHCP moved the Mac to a different
+IP, the app silently keeps serving its cached copy — that is the service
+worker doing its job, not a bug. Deploying to a stable HTTPS URL (GitHub
+Pages) removes the whole class of problem.
+
+The worker itself now defends against the two failure modes that are actual
+bugs: it fetches with `cache: 'no-store'` (Safari applies heuristic freshness
+to `python3 -m http.server` responses, which send no `Cache-Control`, so
+network-first alone was not enough), and it precaches files individually
+rather than via `cache.addAll`, whose all-or-nothing behaviour meant one slow
+file could stop a new worker from ever activating.
+
 ## What works now
 
 **Reading practice for hiragana and katakana.** A character is shown, and the
@@ -77,11 +111,15 @@ meaning to quiz. Each mode keeps entirely separate progress.
 
 ### Definition mode
 
-Single-answer, like the kana quiz: the kanji is shown, and ten English
-meanings are offered — its own plus distractors from other kanji in the same
-grade. Same one-more-try-then-reveal rule, same first-attempt-locks-the-record
-rule. Once the question resolves, the kanji's readings are shown as follow-up
-context (the reverse of Yomi mode, where the meanings are the follow-up).
+Single-answer, like the kana quiz: the kanji is shown, and four English
+meanings are offered in two rows of two — its own plus distractors from other
+kanji in the same grade. Four rather than ten because English definitions are
+long and ten would not stay readable on a phone; the under-half ratio rule
+that governs the multi-select yomi quiz doesn't apply to a single-answer
+question. Same one-more-try-then-reveal rule, same
+first-attempt-locks-the-record rule. Once the question resolves, the kanji's
+readings are shown as follow-up context (the reverse of Yomi mode, where the
+meanings are the follow-up).
 
 Meanings come from KANJIDIC2 with radical *names* stripped — it lists those
 as if they were definitions ("one radical (no.1)"), and they aren't. The
