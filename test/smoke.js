@@ -942,13 +942,28 @@ const placedYomi = srs.gradeYomi(srs.newYomiRecord(), true, now, { placement: tr
 check('placement on a per-reading (Yomi) record jumps the streak to MAX_BOX too',
   placedYomi.streak === srs.MAX_BOX, `streak ${placedYomi.streak}`);
 
-const placementCtx = { progress: {}, study: { [rollupKanji]: ['recognition'] } };
+// Enrollment happens lazily per item as each one is actually attempted (see
+// ensurePlacementEnrolled in app.js), never upfront for the whole batch —
+// quitting partway through a placement test must not leave the rest of the
+// unit sitting enrolled-but-untouched. So the pool a placement session draws
+// from (neverSeenItems) deliberately ignores the study-list gate entirely:
+// it must reach a kanji that was never enrolled at all, not just one already
+// sitting enrolled in "waiting to learn" the way pendingItems requires.
+const placementSeen = grade1Chars[0];
+const placementUnseenUnenrolled = grade1Chars[1];
+const placementCtx = {
+  progress: { [srs.itemKey('recognition', placementSeen)]: srs.newRecord() },
+  study: {}, // deliberately empty — nothing enrolled at all
+};
 const placementBuilt = srs.buildSession(grade1, 'recognition', placementCtx, 'placement');
 check('a placement session has no lesson step — nothing is shown before being asked',
   placementBuilt.lesson.length === 0);
-check('a placement session quizzes every enrolled-but-untaught item, not a capped batch',
-  placementBuilt.quiz.length === 1 && placementBuilt.quiz[0] === rollupKanji,
-  JSON.stringify(placementBuilt.quiz));
+check('a placement session excludes anything with a progress record already',
+  !placementBuilt.quiz.includes(placementSeen), JSON.stringify(placementBuilt.quiz));
+check('a placement session includes a never-seen item even when not enrolled in the study list — unlike pendingItems',
+  placementBuilt.quiz.includes(placementUnseenUnenrolled));
+check('a placement session covers every never-seen item in the unit, not a capped batch',
+  placementBuilt.quiz.length === grade1Chars.length - 1, placementBuilt.quiz.length);
 done('placement test: correct answers jump straight to the top box');
 
 // --- Writing mode: which of Trace/Guided/Free a question defaults to -------

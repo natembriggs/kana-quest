@@ -379,24 +379,24 @@ results would silently imply the results were scoped to whichever grade
 happened to be selected, which is exactly backwards from the point of not
 needing to know that in the first place.
 
-### 2.9 Placement test: "test out" of kanji an existing learner already knows
+### 2.9 Placement test: "test out" of items an existing learner already knows
 
 Requested directly, outside the phase plan: an existing learner picking this
 app up mid-way through their own study shouldn't have to sit through a
-lesson card for every kanji they already know just to get it correctly
-scheduled. A new button, right of **View set overview** on the course card,
-kanji only: **🎯 Test *N* unlearned**, where *N* is every kanji in the
-current unit (grade/sub-unit) not yet enrolled in the current mode.
+lesson card for every item they already know just to get it correctly
+scheduled. A button, right of **View set overview** on the course card, both
+kana and kanji: **🎯 Test unlearned**, drawing on every never-seen item in
+the current unit (grade/sub-unit, or the kana script itself).
 
 - **Unlimited, on purpose.** "No reason to do just 5 if you're not
-  learning" — the button enrolls and quizzes every one of them in one go,
+  learning" — the quiz covers every never-seen item in the unit in one go,
   not a session-sized batch the way "Add more" caps ordinary teaching. The
   learner stops whenever they want via the ordinary quit action; nothing
   about the session itself is capped.
-- **No lesson step.** `buildSession`'s new `'placement'` kind returns
-  `{ lesson: [], quiz: shuffle(pendingItems(...)) }` — straight to the quiz,
-  nothing shown first. For Writing mode specifically this also forces the
-  session's sub-mode to **Free**, overriding even a fixed Trace/Guided
+- **No lesson step.** `buildSession`'s `'placement'` kind returns
+  `{ lesson: [], quiz: shuffle(neverSeenItems(...)) }` — straight to the
+  quiz, nothing shown first. For Writing mode specifically this also forces
+  the session's sub-mode to **Free**, overriding even a fixed Trace/Guided
   preference: Trace shows the whole character before a stroke is drawn and
   Guided reveals each stroke the instant it's accepted, both of which defeat
   "without being shown the answers first." The learner can still switch away
@@ -410,10 +410,48 @@ current unit (grade/sub-unit) not yet enrolled in the current mode.
   start it normally, at box 0, not somehow be worse than never testing it.
   `session.placementTest` carries the flag from `startSession()` through to
   `recordResult()`/`recordYomiResult()`.
-- Enrollment happens the same way "Add more" already does it — `enrollNext`
-  mutates `study` in `startSession()` before `buildSession` runs, just with
-  `limit = Infinity` instead of `newPerSession` — so the study-list
-  invariant (progress record ⇒ enrolled) is never at risk of drifting.
+
+#### 2.9.1 A bug from real use: enrolling the whole batch upfront was wrong
+
+Shipped first the way "Add more" does it: `enrollNext(..., Infinity)` in
+`startSession()`, enrolling every never-seen kanji in the unit into `study`
+*before* the first question even rendered. Reported immediately: quitting
+after one kanji left every OTHER kanji in that unit marked "waiting to
+learn" in the overview, despite never having been shown, let alone
+attempted. The fix (per the report): **"only the ones I actually try — click
+an answer, or write at least one stroke — count as tried."**
+
+This meant reversing the enrollment model, not just tuning it:
+
+- **`neverSeenItems(course, mode, ctx)`**, new in `srs.js`, is the pool a
+  placement session's quiz now draws from — every item with no progress
+  record yet, *regardless of enrollment*. Unlike `pendingItems` (which
+  requires a kanji to already be `isStudying` before it counts as
+  "pending"), this can reach a kanji that was never enrolled at all, which
+  is the whole point: nothing gets enrolled until it is actually attempted.
+- **`startSession()` no longer enrolls anything for `kind === 'placement'`.**
+  The quiz queue is built entirely from `neverSeenItems`, untouched by
+  enrollment.
+- **`ensurePlacementEnrolled(item)`**, new in `app.js`, enrolls exactly one
+  item, called from wherever "actually tried" happens per mode:
+  `recordResult()`/`recordYomiResult()` (a choice was clicked — grading
+  happens in the same breath there, so this is also where Definition/Yomi/
+  kana enrollment happens) and `writingPointerUp()` (a real stroke was
+  drawn — even one that gets rejected in Trace/Guided counts, matching
+  "write at least one stroke," but merely having the question on screen does
+  not). Idempotent and a no-op for kana (no study list to enroll into) or
+  outside a placement session, so it costs nothing to call defensively from
+  both `recordResult` and the stroke handler for Writing.
+- **The button lost its count.** It used to read "Test *N* unlearned," where
+  *N* was how many would be enrolled by tapping it — accurate under the old
+  upfront-enrollment model, dishonest under this one, since tapping the
+  button no longer enrolls anything by itself. It now just reads "Test
+  unlearned."
+- **Kana gained the same button** in the same pass, since the fix happened
+  to make it nearly free: kana has no study list, so `neverSeenItems` for a
+  kana course is identical to "no progress record yet" with no enrollment
+  concept in play at all — the button only needed the `course.kind ===
+  'kanji'` UI gate removed, nothing in the session/grading logic changed.
 
 ---
 

@@ -288,6 +288,19 @@ export function pendingItems(course, mode, ctx) {
   return eligibleItems(course, mode, c).filter((kana) => !c.progress[itemKey(mode, kana)]);
 }
 
+/**
+ * Every item in this unit with no progress record yet, regardless of
+ * enrollment — the pool a placement test ("Test unlearned") draws from.
+ * Deliberately ignores the study-list gate pendingItems applies: a
+ * placement test needs to reach a kanji that was never enrolled at all, not
+ * just one already sitting enrolled in "waiting to learn". For kana, which
+ * have no study list, this is identical to pendingItems.
+ */
+export function neverSeenItems(course, mode, ctx) {
+  const { progress } = asContext(ctx);
+  return allItems(course, mode).filter((item) => !progress[itemKey(mode, item)]);
+}
+
 /** Course items not yet enrolled at all — the pool "Add N more" draws from. */
 export function unenrolledItems(course, mode, ctx) {
   const c = asContext(ctx);
@@ -392,12 +405,14 @@ export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxRe
     return { lesson: [], quiz: shuffle(dueItems(course, mode, ctx, maxReviews, now)) };
   }
   if (kind === 'placement') {
-    // "Test out" of never-seen items with no lesson step first — the caller
-    // (startSession in app.js) enrolls every not-yet-started item in this
-    // unit, unlimited, before calling this, so pendingItems here picks up
-    // all of them rather than a session-sized batch. See grade()'s
-    // `placement` option for what a correct answer does to the record.
-    return { lesson: [], quiz: shuffle(pendingItems(course, mode, ctx)) };
+    // "Test out" of never-seen items with no lesson step first, and no
+    // enrollment step here either — unlike 'new', nothing is enrolled
+    // upfront. neverSeenItems ignores the study-list gate entirely, so this
+    // reaches kanji never enrolled at all, not just ones already "waiting to
+    // learn". The caller (app.js) enrolls each one lazily, only once it's
+    // actually attempted — see ensurePlacementEnrolled() there. See
+    // grade()'s `placement` option for what a correct answer does.
+    return { lesson: [], quiz: shuffle(neverSeenItems(course, mode, ctx)) };
   }
   return { lesson: [], quiz: practiceItems(course, mode, ctx, limit) };
 }

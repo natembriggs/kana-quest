@@ -10,7 +10,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji, unenrolledItems,
+  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji, neverSeenItems,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -638,36 +638,35 @@ function renderCourse() {
   viewSet.innerHTML = '📋 View set overview';
   viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
 
-  // Kanji only — "place in": an already-capable learner tests every
-  // not-yet-started kanji in this unit cold, no lesson step, so nothing is
-  // shown before being asked. A correct first answer jumps straight to the
-  // top box instead of the usual one-box-at-a-time climb (see grade()'s
-  // `placement` option) — the whole point is skipping the slow climb for
-  // something already known. Unlimited on purpose: capping it at a normal
-  // session-sized batch would defeat "just stop when you want" (see
-  // kanji-expansion-plan.md).
-  if (course.kind === 'kanji') {
-    const row = document.createElement('div');
-    row.className = 'row';
-    row.appendChild(viewSet);
+  // "Place in": an already-capable learner tests every not-yet-started item
+  // in this unit cold, no lesson step, so nothing is shown before being
+  // asked. A correct first answer jumps straight to the top box instead of
+  // the usual one-box-at-a-time climb (see grade()'s `placement` option) —
+  // the whole point is skipping the slow climb for something already known.
+  // No count in the label on purpose: this used to say "Test N unlearned",
+  // but N was how many were ENROLLED by tapping the button, not a preview —
+  // quitting after just one meant the rest of that N sat there marked
+  // "waiting to learn" despite never being touched. Enrollment now happens
+  // lazily, one item at a time, only once actually attempted (see
+  // ensurePlacementEnrolled() below), so there is no longer a single count
+  // to show honestly before the learner has done anything.
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.appendChild(viewSet);
 
-    const untested = unenrolledItems(course, state.mode, profile).length;
-    const placement = document.createElement('button');
-    placement.type = 'button';
-    placement.className = 'btn';
-    if (untested > 0) {
-      placement.innerHTML = `🎯 Test <b>${untested}</b> unlearned`;
-      placement.addEventListener('click', () => startSession(course.id, 'placement'));
-    } else {
-      placement.textContent = 'Nothing left to test';
-      placement.disabled = true;
-    }
-    row.appendChild(placement);
-    card.appendChild(row);
+  const untested = neverSeenItems(course, state.mode, profile).length;
+  const placement = document.createElement('button');
+  placement.type = 'button';
+  placement.className = 'btn';
+  if (untested > 0) {
+    placement.innerHTML = '🎯 Test unlearned';
+    placement.addEventListener('click', () => startSession(course.id, 'placement'));
   } else {
-    viewSet.classList.add('wide');
-    card.appendChild(viewSet);
+    placement.textContent = 'Nothing left to test';
+    placement.disabled = true;
   }
+  row.appendChild(placement);
+  card.appendChild(row);
 
   // Learning new characters and reviewing are separate buttons, so adding
   // more to study is always a decision rather than something that happens
@@ -1037,20 +1036,20 @@ async function startSession(courseId, kind, items) {
     // tops up from course order only if there is room left. Kana have no
     // study list, so enrollNext is a no-op there and `new` keeps meaning
     // "next never-seen".
+    // 'placement' ("Test unlearned") deliberately enrolls NOTHING here,
+    // unlike 'new' — buildSession's 'placement' branch quizzes every
+    // never-seen item in the unit regardless of enrollment, and each one is
+    // only enrolled lazily, the moment it's actually attempted (see
+    // ensurePlacementEnrolled). Enrolling the whole batch upfront, the way
+    // 'new' does, would mean quitting after one kanji left every other
+    // untouched kanji in the unit marked "waiting to learn" — exactly the
+    // bug this avoids.
     if (kind === 'new') {
       const waiting = newItems(course, state.mode, profile, settings.newPerSession).length;
       if (waiting < settings.newPerSession) {
         enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
         store.saveProfile(profile);
       }
-    } else if (kind === 'placement') {
-      // "Test out": every not-yet-started kanji in this unit, unlimited —
-      // no reason to cap a placement test at a session-sized batch the way
-      // "Add more" caps ordinary teaching. buildSession's 'placement' branch
-      // then quizzes whatever is pending, which after this is all of them,
-      // with no lesson step (see there for why).
-      enrollNext(course, state.mode, profile, Infinity);
-      store.saveProfile(profile);
     }
     built = buildSession(course, state.mode, profile, kind, {
       newPerSession: settings.newPerSession,
@@ -1709,6 +1708,11 @@ function writingPointerUp(event) {
 
   if (localPoints.length < 2) { redrawWritingCanvas(); return; } // a tap, not a stroke
 
+  // A placement test only counts a character as "tried" once a real stroke
+  // gesture happens on it — even one that gets rejected in Trace/Guided, but
+  // not merely having the question displayed. See ensurePlacementEnrolled().
+  ensurePlacementEnrolled(session.queue[session.position]);
+
   const { width, height } = session.writingCanvasSize;
   const modelPoints = localPoints.map((p) => toModelSpace(p, width, height));
 
@@ -2075,7 +2079,30 @@ function expandKanjiAdvanced() {
   store.saveProfile(state.profile);
 }
 
+/**
+ * Placement tests ("Test unlearned") enroll one item at a time, the moment
+ * the learner actually engages with it, rather than the whole batch upfront
+ * — quitting after one kanji must not leave the rest of the unit marked
+ * "waiting to learn" when nothing was ever attempted on them. Called from
+ * wherever "actually tried" happens per mode: recordResult/recordYomiResult
+ * (a choice was clicked — grading happens in the same breath there) and
+ * writingPointerUp (a real stroke was drawn, whether or not it was accepted
+ * or the character ever got finished). No-op outside a placement session,
+ * for kana (no study list to enroll into), and for anything already
+ * enrolled (a genuine re-attempt, or previously hand-added).
+ */
+function ensurePlacementEnrolled(item) {
+  const session = state.session;
+  if (!session || !session.placementTest) return;
+  const course = getAnyCourse(state.courseId);
+  if (!course || course.kind !== 'kanji') return;
+  if (isStudying(state.profile.study, item, state.mode)) return;
+  setStudying(state.profile.study, item, state.mode, true);
+  store.saveProfile(state.profile);
+}
+
 function recordYomiResult(course, kanji, reading, correct) {
+  ensurePlacementEnrolled(kanji);
   const { progress } = state.profile;
   const key = yomiKey(state.mode, kanji, reading);
   const placement = !!(state.session && state.session.placementTest);
@@ -2193,6 +2220,7 @@ function nextQuestion() {
 }
 
 function recordResult(kana, correct) {
+  ensurePlacementEnrolled(kana);
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey(state.mode, kana);
@@ -2570,8 +2598,13 @@ export function renderInstallBanner() {
   if (isIOSDevice()) {
     // No programmatic install API exists on iOS at all — this is the only
     // way to install there, spelled out since it is genuinely not obvious.
+    // Deliberately no claim about WHERE the Share button is — Safari puts it
+    // in the bottom toolbar, Chrome on iOS puts it at the top next to the
+    // address bar, and other browsers vary again. The 📤 glyph stands in
+    // for its icon (a square with an arrow out of the top) without
+    // committing to a position that would be wrong on at least one browser.
     $('install-banner-text').textContent =
-      'Progress may not be saved reliably in a browser tab. Tap the Share button below, then "Add to Home Screen", to keep it safe.';
+      'Progress may not be saved reliably in a browser tab. Tap Share 📤, then "Add to Home Screen", to keep it safe.';
     action.hidden = true;
   } else if (deferredInstallPrompt) {
     $('install-banner-text').textContent =

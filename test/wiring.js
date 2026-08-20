@@ -209,7 +209,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
 const {
-  courseStats, studiedKanji, isStudying, unenrolledItems, MAX_BOX,
+  courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
@@ -1862,39 +1862,43 @@ check('un-enrolling never deletes the progress record already earned',
   !!grade6SavedAfter.progress[`definition:${grade6Char}`],
   JSON.stringify(grade6SavedAfter.progress[`definition:${grade6Char}`]));
 
-// --- Placement test: "Test unlearned kanji" ---------------------------------
+// --- Placement test: "Test unlearned" ---------------------------------------
 // A button next to "View set overview" lets an already-capable learner test
-// EVERY not-yet-started kanji in the current unit at once, unlimited, with no
-// lesson step first — a correct answer jumps straight to the top box instead
-// of the normal one-box-at-a-time climb. Still grade 6, Definition mode, but
-// the course screen itself was last rendered several steps ago (before the
-// un-enroll above) — re-visit it so the card reflects current enrollment.
+// every not-yet-started item in the current unit, unlimited, with no lesson
+// step first — a correct answer jumps straight to the top box instead of the
+// normal one-box-at-a-time climb. Enrollment happens lazily, one kanji at a
+// time, only once actually attempted — quitting after one kanji must NOT
+// leave the rest of the unit marked "waiting to learn" (the reported bug: it
+// used to enroll the whole batch upfront). Still grade 6, Definition mode,
+// but the course screen itself was last rendered several steps ago (before
+// the un-enroll above) — re-visit it so the card reflects current state.
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
 
 const profileBeforePlacement = [...rows.values()][0];
-const grade6Untested = unenrolledItems(grade6Course, 'definition', profileBeforePlacement);
+const grade6Untested = neverSeenItems(grade6Course, 'definition', profileBeforePlacement);
 check('there is at least one untested grade-6 kanji to placement-test against',
   grade6Untested.length > 0, grade6Untested.length);
+check('none of them are enrolled yet — the button has not been touched',
+  grade6Untested.every((k) => !isStudying(profileBeforePlacement.study, k, 'definition')));
 
 const placementButtonsBefore = buttonsIn(el('course-list')._children[0]);
 const placementButton = placementButtonsBefore
   .find((b) => (b.innerHTML || '').includes('Test') && (b.innerHTML || '').includes('unlearned'));
 check('the course card offers a placement-test button, right of View set overview',
   !!placementButton, placementButtonsBefore.map((b) => b.innerHTML || b.textContent).join(' | '));
-check('its count matches how many grade-6 kanji have never been started in this mode',
-  !!placementButton && placementButton.innerHTML.includes(String(grade6Untested.length)),
-  placementButton && placementButton.innerHTML);
+check('the button carries no count — nothing has been attempted yet to honestly count',
+  placementButton.innerHTML === '🎯 Test unlearned', placementButton.innerHTML);
 
 fire(placementButton, 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 check('a placement test skips the lesson screen entirely — nothing is shown before being asked',
   visible() === 'screen-quiz', visible());
 
-const placementProfileMidway = [...rows.values()][0];
-check('clicking the placement button enrolled every untested grade-6 kanji at once, not a session-sized batch',
-  grade6Untested.every((k) => isStudying(placementProfileMidway.study, k, 'definition')));
+const placementProfileAfterOpen = [...rows.values()][0];
+check('merely opening the placement test enrolls nothing at all — not even the whole batch',
+  grade6Untested.every((k) => !isStudying(placementProfileAfterOpen.study, k, 'definition')));
 
 const placementKanji = el('quiz-kana').textContent;
 check('the placement quiz is drawn from the untested set',
@@ -1905,10 +1909,66 @@ const placementRightChoice = el('quiz-choices')._children.find((c) => c.textCont
 fire(placementRightChoice, 'click');
 await settle();
 
-const placementProfileAfter = [...rows.values()][0];
-const placementRecord = placementProfileAfter.progress[`definition:${placementKanji}`];
+const placementProfileAfterAnswer = [...rows.values()][0];
+const placementRecord = placementProfileAfterAnswer.progress[`definition:${placementKanji}`];
 check('a correct placement answer jumps straight to the top box, not box 1',
   !!placementRecord && placementRecord.box === MAX_BOX, JSON.stringify(placementRecord));
+check('answering it enrolled that ONE kanji',
+  isStudying(placementProfileAfterAnswer.study, placementKanji, 'definition'));
+check('every kanji not yet reached in the quiz is still completely untouched — no study entry at all',
+  grade6Untested.filter((k) => k !== placementKanji)
+    .every((k) => !isStudying(placementProfileAfterAnswer.study, k, 'definition')
+      && !placementProfileAfterAnswer.progress[`definition:${k}`]));
+
+// The actual reported bug: quit right after that one answer, before reaching
+// anything else in the (potentially large) queue.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+
+const placementProfileAfterQuit = [...rows.values()][0];
+check('quitting after one kanji leaves every OTHER kanji in the unit exactly as untouched as before the test started',
+  grade6Untested.filter((k) => k !== placementKanji)
+    .every((k) => !isStudying(placementProfileAfterQuit.study, k, 'definition')
+      && !placementProfileAfterQuit.progress[`definition:${k}`]));
+check('the one kanji actually answered keeps its record after quitting',
+  !!placementProfileAfterQuit.progress[`definition:${placementKanji}`]
+  && placementProfileAfterQuit.progress[`definition:${placementKanji}`].box === MAX_BOX);
+
+// Placement testing is not kanji-only — kana gets the same button, drawing
+// on neverSeenItems/recordResult exactly as kanji does (kana just has no
+// study list to lazily enroll into, so only the box-jump behaviour applies).
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+
+const profileBeforeKanaPlacement = [...rows.values()][0];
+const hiraganaUntested = neverSeenItems(getCourse('hiragana'), 'recognition', profileBeforeKanaPlacement);
+check('there is at least one untested hiragana character to placement-test against',
+  hiraganaUntested.length > 0, hiraganaUntested.length);
+
+const kanaPlacementButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Test') && (b.innerHTML || '').includes('unlearned'));
+check('kana gets the same placement-test button as kanji', !!kanaPlacementButton);
+
+fire(kanaPlacementButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a kana placement test also skips straight to the quiz, no lesson screen',
+  visible() === 'screen-quiz', visible());
+
+const kanaPlacementChar = el('quiz-kana').textContent;
+check('the kana placement quiz is drawn from the untested set',
+  hiraganaUntested.includes(kanaPlacementChar), kanaPlacementChar);
+
+const kanaPlacementAnswer = romajiFor(kanaPlacementChar);
+const kanaPlacementRightChoice = el('quiz-choices')._children.find((c) => c.textContent === kanaPlacementAnswer);
+fire(kanaPlacementRightChoice, 'click');
+await settle();
+
+const profileAfterKanaPlacement = [...rows.values()][0];
+const kanaPlacementRecord = profileAfterKanaPlacement.progress[`recognition:${kanaPlacementChar}`];
+check('a correct kana placement answer jumps straight to the top box too',
+  !!kanaPlacementRecord && kanaPlacementRecord.box === MAX_BOX, JSON.stringify(kanaPlacementRecord));
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
 await settle();
