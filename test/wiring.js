@@ -142,6 +142,13 @@ globalThis.document = {
 globalThis.window = { wanakana: globalThis.wanakana, scrollTo() {} };
 globalThis.navigator = {};
 globalThis.confirm = () => true;
+// A real sessionStorage is not part of JavaScriptCore — just enough of the
+// Storage interface for renderInstallBanner()'s per-session dismiss to work.
+globalThis.sessionStorage = {
+  _data: new Map(),
+  getItem(key) { return this._data.has(key) ? this._data.get(key) : null; },
+  setItem(key, value) { this._data.set(key, String(value)); },
+};
 // Fired synchronously — the app defers scrollIntoView by a frame purely to
 // let a just-unhidden screen's layout settle, which the stub has no layout
 // engine to need waiting for.
@@ -1968,6 +1975,45 @@ check('force refresh deletes only Kana Quest caches',
   forceDeletedCaches.join(', '));
 check('force refresh still performs a cache-busted navigation',
   /^\/kana-quest\/index\.html\?fresh=\d+$/.test(replacedUrl), replacedUrl);
+
+// --- Install banner ---------------------------------------------------------
+// Nudges a phone browser that is NOT running installed (standalone) to add
+// the app to its home screen, since that is what actually makes storage
+// persist reliably — see renderInstallBanner() in app.js. The
+// beforeinstallprompt capture itself can't be exercised in a stubbed
+// (non-browser) DOM, so this covers the device/standalone/dismissed gates
+// directly instead.
+
+const iosUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15';
+const desktopUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15';
+
+navigator.userAgent = iosUserAgent;
+navigator.standalone = true;
+appModule.renderInstallBanner();
+check('an already-installed (standalone) iOS app is never offered the banner',
+  el('install-banner').hidden === true);
+
+navigator.standalone = false;
+appModule.renderInstallBanner();
+check('an iOS browser tab (not installed) IS offered the banner',
+  el('install-banner').hidden === false);
+check('the iOS message is instructional, with no action button — no programmatic install API exists there',
+  el('install-banner-text').textContent.includes('Add to Home Screen')
+  && el('install-banner-action').hidden === true,
+  el('install-banner-text').textContent);
+
+fire(el('install-banner-dismiss'), 'click');
+await settle();
+check('dismissing hides the banner immediately', el('install-banner').hidden === true);
+appModule.renderInstallBanner();
+check('re-rendering within the same session honours the dismissal — it does not reappear unasked',
+  el('install-banner').hidden === true);
+
+sessionStorage._data.clear(); // undo the dismissal above so the check below tests the device gate, not a leftover dismiss
+navigator.userAgent = desktopUserAgent;
+appModule.renderInstallBanner();
+check('a desktop browser is never offered the banner — this is a phone-specific nudge',
+  el('install-banner').hidden === true);
 
 // --- data-action coverage -------------------------------------------------
 

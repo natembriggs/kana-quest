@@ -36,6 +36,25 @@
   <span class="data-loading-spinner"></span> Loading…
 </div>
 
+<!-- Shown on a phone browser that is NOT running installed (standalone) —
+     see renderInstallBanner() in app.js. Safari in particular evicts a
+     browser tab's storage far more aggressively than an installed
+     home-screen app's, which is the real, observed cause behind "my
+     progress didn't save" reports, not a bug in the storage code. Android/
+     Chromium gets a real Install button via a captured beforeinstallprompt
+     event; iOS has no such API at all, so its message is purely
+     instructional (Share sheet → Add to Home Screen is always a manual
+     step there). Dismissible for the current browser session only — the
+     underlying risk is still there next time an ordinary tab is opened, so
+     it is not dismissed forever. -->
+<div id="install-banner" class="install-banner" hidden>
+  <p id="install-banner-text" class="install-banner-text"></p>
+  <div class="install-banner-actions">
+    <button id="install-banner-action" class="btn btn-primary" type="button" hidden>Install</button>
+    <button id="install-banner-dismiss" class="btn btn-icon" type="button" aria-label="Dismiss">✕</button>
+  </div>
+</div>
+
 <main id="app">
 
   <!-- ---------------------------------------------------------------- -->

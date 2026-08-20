@@ -139,6 +139,29 @@ body {
   animation: splash-spin 0.8s linear infinite;
 }
 
+/* --- Install banner -------------------------------------------------------
+   See #install-banner in index.html for why this exists. A wide bottom bar
+   rather than the data-loading pill's shape — this needs room for a
+   sentence of text plus a button, not just a spinner and a word. */
+.install-banner {
+  position: fixed;
+  left: 12px; right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 997;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+.install-banner-text { margin: 0; flex: 1; font-size: 14px; line-height: 1.4; color: var(--ink); }
+.install-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.install-banner-actions .btn-primary { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.install-banner-actions .btn-icon { width: 36px; min-height: 36px; font-size: 15px; }
+
 #app {
   max-width: 620px;
   margin: 0 auto;

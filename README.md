@@ -330,13 +330,21 @@ changed later without throwing away what a learner has actually done. Yomi
 mode records per *reading* instead (counts, streak, last two review times) —
 see "Per-reading spaced repetition" above.
 
-Browsers can evict site storage, and Safari is the strictest about it. The app
-asks for persistent storage on launch, but that is a request rather than a
-guarantee, so **Settings → Save backup file** writes a JSON file with every
-profile on the device. Loading a backup on another device merges rather than
-overwrites: records are resolved by their latest grading time, study lists are
-unioned, and settings already chosen on the receiving device win. Restoring
-an old backup therefore cannot wipe out newer practice.
+Browsers can evict site storage, and Safari is the strictest about it —
+an ordinary browser tab is far more likely to have its storage cleared than
+an installed home-screen app. The app asks for persistent storage on launch,
+but that is a request rather than a guarantee, which is why *Add to Home
+Screen* (see "Deploying to GitHub Pages" above) matters for more than
+convenience. A phone browser that isn't already running installed sees a
+dismissible banner nudging this on launch — an actual **Install** button on
+Android/Chromium (via `beforeinstallprompt`), instructions to use the Share
+sheet on iOS, since no browser exposes a programmatic install trigger there.
+As a second line of defence regardless, **Settings → Save backup file**
+writes a JSON file with every profile on the device. Loading a backup on
+another device merges rather than overwrites: records are resolved by their
+latest grading time, study lists are unioned, and settings already chosen on
+the receiving device win. Restoring an old backup therefore cannot wipe out
+newer practice.
 
 ## Layout
 

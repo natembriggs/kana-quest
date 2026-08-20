@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2412,6 +2412,18 @@ function wire() {
     event.target.value = '';
   });
 
+  $('install-banner-dismiss').addEventListener('click', () => {
+    $('install-banner').hidden = true;
+    try { sessionStorage.setItem(INSTALL_DISMISSED_KEY, '1'); } catch { /* private browsing etc. */ }
+  });
+  $('install-banner-action').addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice; // resolves either way; appinstalled only fires on "accepted"
+    deferredInstallPrompt = null;
+    $('install-banner').hidden = true;
+  });
+
   document.addEventListener('click', async (event) => {
     const trigger = event.target.closest('[data-action]');
     if (!trigger) return;
@@ -2472,6 +2484,104 @@ function wire() {
       default: break;
     }
   });
+}
+
+// --- Install banner ---------------------------------------------------------
+//
+// Safari (and mobile browsers generally) evict an ordinary tab's storage far
+// more readily than an installed home-screen app's — this is the real,
+// observed cause behind "my progress didn't save" reports, not a bug in the
+// storage code (see README "Progress and backups"). A new user has no reason
+// to know Add to Home Screen matters at all, let alone do it unprompted, so
+// this nudges them on a phone browser that isn't already running installed.
+//
+// Chromium (Android Chrome, Edge, Samsung Internet) exposes a real,
+// button-triggerable install flow via `beforeinstallprompt` — captured here
+// and reused later from the banner's own button. iOS has no equivalent API
+// at all; Add to Home Screen there is always a manual Share-sheet action, so
+// its banner is purely instructional. The listener is registered at module
+// scope, not inside boot(), so an event firing before boot() runs is never
+// missed.
+
+let deferredInstallPrompt = null;
+// Guarded rather than called unconditionally: test/wiring.js stubs `window`
+// deliberately minimally (no addEventListener/matchMedia at all, since it
+// is not a real browser), and app.js runs its top-level boot() as a side
+// effect of being imported there.
+if (typeof window.addEventListener === 'function') {
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault(); // suppress the browser's own mini-infobar — this banner replaces it
+    deferredInstallPrompt = event;
+    renderInstallBanner();
+  });
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    $('install-banner').hidden = true;
+  });
+}
+
+function isStandaloneApp() {
+  return (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches)
+    || navigator.standalone === true; // legacy iOS Safari flag, still the only signal there
+}
+
+function isIOSDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent)
+    // iPadOS 13+ reports a desktop-Safari UA string with no "iPad" in it —
+    // touch support is what actually distinguishes it from a real Mac.
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function isMobileDevice() {
+  return isIOSDevice() || /android/i.test(navigator.userAgent);
+}
+
+// Dismissing hides the banner for the rest of THIS browser session only,
+// not forever — the underlying storage-eviction risk is exactly as real the
+// next time an ordinary tab is opened, so re-nagging on a fresh visit is the
+// right amount of persistent, short of showing it on every single render.
+const INSTALL_DISMISSED_KEY = 'kana-quest-install-dismissed';
+
+function installBannerDismissedThisSession() {
+  try {
+    return sessionStorage.getItem(INSTALL_DISMISSED_KEY) === '1';
+  } catch {
+    return false; // private browsing etc. — err toward showing it
+  }
+}
+
+// Exported so test/wiring.js can exercise the device/standalone/dismissed
+// logic directly — the beforeinstallprompt capture itself isn't testable in
+// a stubbed (non-browser) DOM by design, see the guard above.
+//
+// Always explicitly sets `hidden` on every path, rather than leaving it at
+// whatever the HTML's own `hidden` attribute started it as: this can run
+// more than once as conditions change (a captured install prompt arriving
+// after the first render, a dismissal), so "only ever un-hide it" would
+// leave it stuck shown once a later call decides it shouldn't be.
+export function renderInstallBanner() {
+  const banner = $('install-banner');
+  if (isStandaloneApp() || !isMobileDevice() || installBannerDismissedThisSession()) {
+    banner.hidden = true;
+    return;
+  }
+
+  const action = $('install-banner-action');
+  if (isIOSDevice()) {
+    // No programmatic install API exists on iOS at all — this is the only
+    // way to install there, spelled out since it is genuinely not obvious.
+    $('install-banner-text').textContent =
+      'Progress may not be saved reliably in a browser tab. Tap the Share button below, then "Add to Home Screen", to keep it safe.';
+    action.hidden = true;
+  } else if (deferredInstallPrompt) {
+    $('install-banner-text').textContent =
+      'Install this app so your progress is saved reliably, instead of in a browser tab.';
+    action.hidden = false;
+  } else {
+    banner.hidden = true; // Chromium but no captured prompt yet — nothing actionable to show
+    return;
+  }
+  banner.hidden = false;
 }
 
 // --- Staying up to date ---------------------------------------------------
@@ -2546,6 +2656,7 @@ async function boot() {
   await renderProfiles();
   hideSplash();
   watchForUpdates();
+  renderInstallBanner(); // iOS has no beforeinstallprompt event, so this is the only call that ever renders it there
 }
 
 boot();
