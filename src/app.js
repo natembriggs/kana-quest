@@ -24,7 +24,8 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20d'; // keep in step with VERSION in sw.js
+const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 
@@ -2418,19 +2419,24 @@ function watchForUpdates() {
 }
 
 /**
- * The escape hatch: drop every cache, unregister the worker and reload from
- * the network. Nothing here touches IndexedDB, so learner progress survives.
+ * The escape hatch: drop Kana Quest's caches, unregister this app's worker,
+ * and reload from the network. Sibling PWAs on the same origin are left
+ * alone. Nothing here touches IndexedDB, so learner progress survives.
  */
-async function forceRefresh() {
+export async function forceRefresh() {
   $('transfer-status').textContent = 'Refreshing…';
   try {
     if ('serviceWorker' in navigator) {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations.map((r) => r.unregister()));
+      // `./` resolves to this deployed app directory and getRegistration()
+      // returns only the registration whose scope contains that URL.
+      const registration = await navigator.serviceWorker.getRegistration('./');
+      if (registration) await registration.unregister();
     }
     if (window.caches) {
       const keys = await caches.keys();
-      await Promise.all(keys.map((k) => caches.delete(k)));
+      await Promise.all(keys
+        .filter((key) => key.startsWith(CACHE_PREFIX))
+        .map((key) => caches.delete(key)));
     }
   } catch {
     // Even if clearing fails, the reload below is still worth doing.

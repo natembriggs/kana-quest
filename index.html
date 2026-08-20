@@ -1,5 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#e8553d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -13,14 +16,15 @@
 <!-- wanakana is a UMD bundle, so it loads as a classic script and provides
      window.wanakana before the ES modules below run. -->
 <script src="vendor/wanakana.min.js"></script>
+</head>
+<body>
 
-<!-- Static HTML, no JS required — the module script below pulls in the
-     kanji/stroke data (over 2MB) before boot() ever runs, and on a slow
-     connection an empty, half-wired profile screen during that wait reads
-     as broken rather than loading. Covers the viewport until boot() has
-     something real to show; see hideSplash() in app.js. -->
+<!-- Static HTML, no JS required. Covers the viewport while the small app
+     shell boots so a slow first load never looks like an empty, half-wired
+     profile screen; see hideSplash() in app.js. Heavy kanji/stroke chunks
+     are loaded later, only when the learner opens a unit that needs them. -->
 <div id="splash" class="splash" aria-hidden="true">
-  <div class="brand-mark splash-mark">かな</div>
+  <div class="brand-mark splash-mark" lang="ja">かな</div>
   <div class="splash-spinner"></div>
 </div>
 
@@ -37,7 +41,7 @@
   <!-- ---------------------------------------------------------------- -->
   <section id="screen-profiles" class="screen">
     <header class="brand">
-      <div class="brand-mark">かな</div>
+      <div class="brand-mark" lang="ja">かな</div>
       <h1>Kana Quest</h1>
     </header>
     <h2 class="screen-title">Who's practising?</h2>
@@ -167,7 +171,7 @@
     </header>
 
     <div class="detail-head">
-      <div id="detail-glyph" class="glyph glyph-lg"></div>
+      <div id="detail-glyph" class="glyph glyph-lg" lang="ja"></div>
       <div class="detail-stroke-wrap">
         <div id="detail-stroke"></div>
         <button id="detail-play-strokes" class="btn btn-quiet" type="button">▶ Play stroke order</button>
@@ -196,7 +200,7 @@
     <div id="detail-romaji" class="romaji" hidden></div>
     <!-- Kanji only: tappable readings (tap to see the word it's used in),
          meanings, and the word for whichever reading was last tapped. -->
-    <div id="detail-readings" class="reading-chips" hidden></div>
+    <div id="detail-readings" class="reading-chips" lang="ja" hidden></div>
     <div id="detail-meanings" class="kanji-meanings" hidden></div>
     <div id="detail-word" class="kanji-word" hidden></div>
 
@@ -214,7 +218,7 @@
       <span id="lesson-counter" class="counter"></span>
     </header>
     <div class="teach-card">
-      <div id="lesson-kana" class="glyph glyph-xl"></div>
+      <div id="lesson-kana" class="glyph glyph-xl" lang="ja"></div>
       <div id="lesson-romaji" class="romaji"></div>
       <!-- Writing mode only: the stroke order animated once. See renderLesson(). -->
       <div id="lesson-stroke-wrap" class="detail-stroke-wrap" hidden>
@@ -222,7 +226,7 @@
       </div>
       <!-- Kanji lessons only: tappable readings, meanings, and the example
            word for whichever reading was last tapped. See renderLesson(). -->
-      <div id="lesson-readings" class="reading-chips" hidden></div>
+      <div id="lesson-readings" class="reading-chips" lang="ja" hidden></div>
       <div id="lesson-meanings" class="kanji-meanings" hidden></div>
       <div id="lesson-word" class="kanji-word" hidden></div>
     </div>
@@ -254,7 +258,7 @@
            target kanji drawn in its correct form, which would give the
            answer away before a single stroke is drawn. -->
       <div id="writing-kanji-info" class="writing-kanji-info" hidden>
-        <p id="writing-kanji-readings" class="hint"></p>
+        <p id="writing-kanji-readings" class="hint" lang="ja"></p>
         <div id="writing-kanji-meanings" class="kanji-meanings"></div>
         <div id="writing-kanji-word" class="kanji-word"></div>
       </div>
@@ -339,7 +343,7 @@
     </header>
 
     <div id="quiz-card" class="quiz-card">
-      <div id="quiz-kana" class="glyph glyph-xl"></div>
+      <div id="quiz-kana" class="glyph glyph-xl" lang="ja"></div>
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 
@@ -423,3 +427,5 @@
 </main>
 
 <script type="module" src="src/app.js"></script>
+</body>
+</html>

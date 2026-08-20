@@ -28,8 +28,9 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-08-20c';
-const CACHE = `kana-quest-${VERSION}`;
+const VERSION = '2026-08-20d';
+const CACHE_PREFIX = 'kana-quest-';
+const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
 const SHELL = [
   './',
@@ -68,7 +69,11 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
+    // Multiple project PWAs can share one origin (notably on GitHub Pages).
+    // Remove only superseded Kana Quest caches, never a sibling app's data.
+    await Promise.all(keys
+      .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE)
+      .map((key) => caches.delete(key)));
     await self.clients.claim();
   })());
 });
@@ -86,14 +91,23 @@ self.addEventListener('fetch', (event) => {
       const fresh = await fetch(request.url, { cache: 'no-store' });
       if (fresh.ok) {
         const cache = await caches.open(CACHE);
-        cache.put(request, fresh.clone());
+        // Keep the worker alive until the runtime response is safely cached.
+        await cache.put(request, fresh.clone());
       }
       return fresh;
     } catch {
-      const cached = await caches.match(request);
+      // Search only Kana Quest's current cache. A same-origin sibling PWA
+      // must never become an accidental fallback source for this app.
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(request);
       if (cached) return cached;
-      const shell = await caches.match('index.html');
-      if (shell) return shell;
+      // The app shell is a valid fallback for SPA navigations only. Returning
+      // HTML for a missing script/image/data chunk hides the real failure and
+      // produces confusing parse or decode errors.
+      if (request.mode === 'navigate') {
+        const shell = await cache.match('index.html');
+        if (shell) return shell;
+      }
       throw new Error('offline and nothing cached');
     }
   })());

@@ -210,11 +210,20 @@ const { courseStats, studiedKanji } = await import('../src/srs.js');
 // app.js).
 const { strokesFor } = await import('../src/strokes.js');
 const { flattenPath, resample } = await import('../src/stroke-geometry.js');
-await import('../src/app.js');
+const appModule = await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
 check('every id app.js asks for exists in index.html', missingIds.size === 0,
   [...missingIds].join(', '));
+check('index.html opts into standards mode and declares its document language',
+  /^<!doctype html>\s*<html\s+lang="en">/i.test(html));
+check('the viewport permits user zoom',
+  /name="viewport"[^>]*content="[^"]*width=device-width/.test(html)
+  && !/maximum-scale|user-scalable\s*=\s*no/i.test(html));
+const workerVersion = readFile('sw.js').match(/const VERSION = '([^']+)'/)?.[1];
+check('the app and service-worker versions stay in step',
+  appModule.APP_VERSION === workerVersion,
+  `${appModule.APP_VERSION} / ${workerVersion}`);
 
 const visible = () => screenIds.find((id) => !el(id).hidden);
 check('boots to the profile screen', visible() === 'screen-profiles', `showing ${visible()}`);
@@ -1848,6 +1857,43 @@ check('the chosen strictness level is saved to the profile, same as new-per-sess
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
 await settle();
 check('closing settings leaves the settings screen', visible() !== 'screen-settings', `showing ${visible()}`);
+
+// --- Force refresh isolation ---------------------------------------------
+// GitHub Pages project sites share an origin. Force refresh must clear only
+// this app's worker/cache state, leaving sibling PWAs untouched.
+
+let requestedRegistrationUrl = null;
+let ownWorkerUnregistered = false;
+let replacedUrl = null;
+const forceDeletedCaches = [];
+navigator.serviceWorker = {
+  async getRegistration(url) {
+    requestedRegistrationUrl = url;
+    return { async unregister() { ownWorkerUnregistered = true; } };
+  },
+};
+globalThis.caches = {
+  async keys() { return ['kana-quest-old', 'kana-quest-current', 'other-app-v4']; },
+  async delete(key) { forceDeletedCaches.push(key); return true; },
+};
+window.caches = globalThis.caches;
+window.location = {
+  pathname: '/kana-quest/index.html',
+  replace(url) { replacedUrl = url; },
+};
+
+await appModule.forceRefresh();
+check('force refresh requests only the worker registration for this app directory',
+  requestedRegistrationUrl === './' && ownWorkerUnregistered,
+  String(requestedRegistrationUrl));
+check('force refresh deletes only Kana Quest caches',
+  forceDeletedCaches.length === 2
+  && forceDeletedCaches.includes('kana-quest-old')
+  && forceDeletedCaches.includes('kana-quest-current')
+  && !forceDeletedCaches.includes('other-app-v4'),
+  forceDeletedCaches.join(', '));
+check('force refresh still performs a cache-busted navigation',
+  /^\/kana-quest\/index\.html\?fresh=\d+$/.test(replacedUrl), replacedUrl);
 
 // --- data-action coverage -------------------------------------------------
 

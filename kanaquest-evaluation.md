@@ -6,14 +6,14 @@ Date: 20 August 2026
 
 KanaQuest is already a strong, unusually thoughtful learning app. The core flows are clear on a phone, the visual language is consistent, the touch targets are generally generous, and the learning model goes well beyond a toy flashcard app. In particular, first-attempt grading, per-reading Yomi records, deliberate separation of learning and review, and the forgiving handwriting grader are all well reasoned and well tested.
 
-The two existing JavaScriptCore test suites pass. A manual browser pass at 390×844 and 320×568 covered profile creation, script and mode selection, set overviews, character details, lesson cards, reading feedback, handwriting mode, kanji search, study enrollment, review scope, and settings.
+The four JavaScriptCore test suites pass. A manual browser pass at 390×844 and 320×568 covered profile creation, script and mode selection, set overviews, character details, lesson cards, reading feedback, handwriting mode, kanji search, study enrollment, review scope, and settings.
 
-The main risks are data integrity and PWA isolation rather than the visible learning flow:
+The initial review found four high-priority engineering issues rather than problems with the visible learning flow. All four have now been addressed:
 
-1. Backup merging can silently omit Yomi progress and does not merge study-list state.
-2. Service-worker cleanup can delete caches and registrations belonging to other apps hosted on the same origin.
-3. The page runs in browser quirks mode and disables zoom.
-4. More than 2 MB of generated data blocks the first useful screen; work on the Phase 5 data split is already underway and should remain the next performance priority.
+1. Backup merging could silently omit Yomi progress and study-list state; conflict-safe merging and tests are now in place.
+2. Service-worker cleanup could delete caches and registrations belonging to other apps on the same origin; cleanup is now scoped to KanaQuest.
+3. The page ran in browser quirks mode and disabled zoom; it now uses standards mode and permits user scaling.
+4. More than 2 MB of generated data blocked the first useful screen; kanji and stroke data are now split and loaded by unit on demand.
 
 ## What is working particularly well
 
@@ -29,7 +29,7 @@ The main risks are data integrity and PWA isolation rather than the visible lear
 
 ### P0 — Make backup merging safe for every record type
 
-Implementation status: fixed in the working tree on 20 August 2026, with focused coverage in `test/store.js`. The description below records the original failure and the rationale for the fix.
+Implementation status: fixed and committed on 20 August 2026, with focused coverage in `test/store.js`. The description below records the original failure and the rationale for the fix.
 
 `src/store.js:141-164` compares records only by `history.length`. Yomi records, however, use `correct`, `incorrect`, `streak`, and `lastReviewed`; they have no `history`. Therefore:
 
@@ -51,7 +51,9 @@ Suggested fix:
 
 ### P0 — Restrict service-worker cleanup to KanaQuest
 
-`sw.js:60-64` deletes every cache on the origin except the current KanaQuest cache. `forceRefresh()` in `src/app.js` similarly deletes every Cache Storage entry and unregisters every service worker registration on the origin.
+Implementation status: fixed in the working tree on 20 August 2026. Activation and Force refresh now affect only `kana-quest-` caches and KanaQuest's own registration; runtime writes are awaited; HTML fallback is navigation-only. `test/service-worker.js` and `test/wiring.js` cover the isolation paths.
+
+Original finding: `sw.js:60-64` deleted every cache on the origin except the current KanaQuest cache. `forceRefresh()` in `src/app.js` similarly deleted every Cache Storage entry and unregistered every service worker registration on the origin.
 
 On GitHub Pages, separate project sites share an origin such as `https://user.github.io/`. Updating or force-refreshing KanaQuest can therefore remove offline data belonging to unrelated PWAs under sibling paths.
 
@@ -65,9 +67,11 @@ Suggested fix:
 
 ### P1 — Put the document in standards mode and restore zoom
 
-`index.html` starts directly with `<meta>` and has no doctype, `<html>`, `<head>`, or `<body>`. The browser reports `document.compatMode === "BackCompat"`, so KanaQuest is running in quirks mode. This makes cross-browser layout behavior less predictable.
+Implementation status: fixed in the working tree on 20 August 2026. The document now has a doctype, explicit English language, proper head/body structure, an unrestricted viewport, and Japanese language annotations on the main glyph/reading regions. Real-browser checks confirmed `CSS1Compat`, no horizontal overflow, and no console warnings/errors at both 320×568 and 390×844.
 
-The viewport also sets `maximum-scale=1`, preventing users with low vision from zooming.
+Original finding: `index.html` started directly with `<meta>` and had no doctype, `<html>`, `<head>`, or `<body>`. The browser reported `document.compatMode === "BackCompat"`, so KanaQuest was running in quirks mode. This made cross-browser layout behavior less predictable.
+
+The viewport also set `maximum-scale=1`, preventing users with low vision from zooming.
 
 Suggested fix:
 
@@ -78,9 +82,11 @@ Suggested fix:
 
 ### P1 — Finish the in-progress lazy data loading
 
-Initial boot currently imports about 1.2 MB of `kanji-data.js` and 900 KB of `stroke-data.js` before the profile screen becomes useful. This penalizes learners who only want Kana Reading and, because the service worker is network-first with `cache: "no-store"`, can recur while online.
+Implementation status: completed in the Phase 5/6 work committed on 20 August 2026. The app now keeps a small manifest in the shell and loads kanji/stroke data by unit on demand, with test coverage for manifest integrity, memoized loading, and session gating.
 
-The current uncommitted Phase 5 work already starts splitting kanji and stroke data by grade. Complete that direction rather than adding more data to the eager shell:
+Before Phase 5, initial boot imported about 1.2 MB of `kanji-data.js` and 900 KB of `stroke-data.js` before the profile screen became useful. This penalized learners who only wanted Kana Reading and, because the service worker is network-first with `cache: "no-store"`, could recur while online.
+
+The completed split follows the recommended direction:
 
 - Always load only the small course manifest and kana essentials.
 - Load a grade’s full dictionary data when that grade, its search result, or a session needs it.
@@ -112,7 +118,7 @@ Suggested fix:
 
 ### P2 — Clarify the home-screen Kanji total
 
-The home card reports statistics for the global `state.mode`. On a fresh profile it showed `0 / 1023` because the initial mode is Yomi, but opening Kanji reset the course to Definition and showed totals adding to 1,026. Switching Kanji modes can make the home total change without the card saying which mode it represents.
+The home card reports statistics for the global `state.mode`. In the original pre-expansion browser pass, a fresh profile showed `0 / 1023` because the initial mode was Yomi, but opening Kanji reset the course to Definition and showed totals adding to 1,026. The exact totals are now larger after full jōyō coverage, but the underlying issue remains: switching Kanji modes can make the home total change without the card saying which mode it represents.
 
 Choose one stable home metric, or label the metric explicitly—for example, “Yomi: 0 / 1023.” A compact per-mode summary would be even clearer once learners have progress in all three modes.
 
@@ -143,9 +149,9 @@ A small Playwright suite in GitHub Actions would cover this without introducing 
 
 ### P3 — Bring the documentation back in sync
 
-The README says the explicit study list is not built, while `kanji-expansion-plan.md` correctly records phases 0–4 as complete and says it supersedes that README section. Some source comments also still describe Kanji Writing as inert even though it is shipped.
+Implementation status: completed as part of the Phase 5/6 work. The README now identifies the explicit study list, lazy per-grade loading, and full jōyō coverage as shipped, while retaining JLPT/frequency grouping and beyond-jōyō support as future work. The backup description was also updated after the safe-merge fix.
 
-Update the README’s “What is not built yet” section and remove stale implementation comments when Phase 5 lands. This matters because the design documents are otherwise unusually valuable and trustworthy.
+Original finding: the README said the explicit study list was not built, while `kanji-expansion-plan.md` correctly recorded phases 0–4 as complete and said it superseded that README section. Some source comments also described Kanji Writing as inert even though it had shipped.
 
 ## Product improvements after the fixes
 
@@ -157,11 +163,13 @@ Update the README’s “What is not built yet” section and remove stale imple
 ## Verification performed
 
 - `test/smoke.js`: all checks passed.
-- `test/wiring.js`: all wiring checks passed; 48 records saved in the simulated sessions.
-- `git diff --check`: passed for the pre-existing working changes.
+- `test/wiring.js`: all wiring checks passed; 50 records saved in the simulated sessions.
+- `test/store.js`: all 12 backup/import checks passed.
+- `test/service-worker.js`: all 8 cache-isolation and fallback checks passed.
+- `git diff --check`: passed.
 - Shell scripts passed `sh -n`.
 - Manual browser review at 390×844 and 320×568.
-- Confirmed `BackCompat` document mode and no document language.
+- Confirmed `CSS1Compat` standards mode, `lang="en"`, an unrestricted viewport, and no horizontal overflow at both browser sizes.
 - Measured the major generated payloads and light-theme contrast ratios.
 
 Physical-device handwriting ergonomics, installed-PWA update behavior on iOS/Android, true offline reloads, and backup import/export were not end-to-end tested on hardware. Those are the highest-value targets for the proposed browser/device test pass.

@@ -23,9 +23,11 @@ here):
 JSC=/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc
 $JSC -m test/smoke.js     # kana/kanji tables, answer checking, spaced repetition
 $JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sessions
+$JSC -m test/store.js     # backup validation and conflict-safe profile merging
+$JSC -m test/service-worker.js # cache isolation and offline fallback behaviour
 ```
 
-Both must be run from the repo root.
+All four must be run from the repo root.
 
 To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
 in `tools/build_kanji_data.py`):
@@ -98,9 +100,10 @@ after answering a Yomi question.
 ## If a phone is stuck on an old version
 
 An iOS home-screen app is stubborn about picking up new code. **Settings →
-Force refresh** clears every cache, unregisters the service worker and reloads
-from the server; the version shown above that button tells you which build is
-actually running. Progress lives in IndexedDB and is not touched.
+Force refresh** clears Kana Quest's caches, unregisters its service worker and
+reloads from the server; the version shown above that button tells you which
+build is actually running. Other apps hosted on the same origin are left
+alone. Progress lives in IndexedDB and is not touched.
 
 Worth knowing about the underlying cause, since it will keep happening while
 the app is served off a laptop: the phone can only update when it can actually
@@ -331,8 +334,9 @@ Browsers can evict site storage, and Safari is the strictest about it. The app
 asks for persistent storage on launch, but that is a request rather than a
 guarantee, so **Settings → Save backup file** writes a JSON file with every
 profile on the device. Loading a backup on another device merges rather than
-overwrites: for each character it keeps whichever record has the longer
-history, so restoring an old backup cannot wipe out newer practice.
+overwrites: records are resolved by their latest grading time, study lists are
+unioned, and settings already chosen on the receiving device win. Restoring
+an old backup therefore cannot wipe out newer practice.
 
 ## Layout
 
