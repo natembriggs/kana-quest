@@ -2014,6 +2014,7 @@ export const KANJI_UNITS = {
     "斥",
     "詔",
     "椅",
+    "叱",
     "挨",
     "憧",
     "宵",
@@ -2047,6 +2048,7 @@ export const KANJI_UNITS = {
     "稽",
     "蹴",
     "訃",
+    "剥",
     "蓋",
     "畏",
     "喉",
@@ -2054,6 +2056,7 @@ export const KANJI_UNITS = {
     "但",
     "芋",
     "拭",
+    "頬",
     "婆",
     "貼",
     "倣",
@@ -2075,7 +2078,6 @@ export const KANJI_UNITS = {
     "僅",
     "冶",
     "刹",
-    "剝",
     "勃",
     "勾",
     "吏",
@@ -2085,7 +2087,7 @@ export const KANJI_UNITS = {
     "嘲",
     "塑",
     "塞",
-    "塡",
+    "填",
     "墾",
     "妬",
     "宛",
@@ -2161,11 +2163,9 @@ export const KANJI_UNITS = {
     "錮",
     "隙",
     "頓",
-    "頰",
     "顎",
     "骸",
-    "鬱",
-    "𠮟"
+    "鬱"
   ]
 };
 
@@ -2173,4 +2173,4 @@ export const KANJI_UNITS = {
 // src/kanji.js) — kept in the manifest, not the per-unit chunk, since
 // srs.js consults this during scheduling, before a unit may have ever
 // been opened.
-export const NO_YOMI_CHARS = ["剝", "勅", "叔", "咽", "嗣", "塡", "壱", "媛", "弐", "恭", "斑", "斤", "曽", "朕", "栃", "沃", "淫", "玩", "璽", "茨", "蔽", "薫", "虞", "謁", "貞", "辣", "附", "隻", "頰", "𠮟"];
+export const NO_YOMI_CHARS = [];

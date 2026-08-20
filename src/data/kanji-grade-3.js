@@ -117,9 +117,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "世紀",
-        "kana": "せいき",
-        "en": "century"
+        "kanji": "叔世",
+        "kana": "しゅくせい",
+        "en": "age of decline"
       },
       "セ": {
         "kanji": "世界",
@@ -463,9 +463,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジ": {
-        "kanji": "記事",
-        "kana": "きじ",
-        "en": "article"
+        "kanji": "淫事",
+        "kana": "いんじ",
+        "en": "lascivious act"
       },
       "こと": {
         "kanji": "仕事",
@@ -818,9 +818,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "使用",
-        "kana": "しよう",
-        "en": "use"
+        "kanji": "勅使",
+        "kana": "ちょくし",
+        "en": "imperial envoy"
       },
       "つかう": {
         "kanji": "使う",
@@ -1058,9 +1058,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "グ": {
-        "kanji": "具体的",
-        "kana": "ぐたいてき",
-        "en": "concrete"
+        "kanji": "淫具",
+        "kana": "いんぐ",
+        "en": "sex toy"
       }
     }
   },
@@ -1523,9 +1523,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カ": {
-        "kanji": "文化",
-        "kana": "ぶんか",
-        "en": "culture"
+        "kanji": "薫化",
+        "kana": "くんか",
+        "en": "influencing people by one's virtue"
       },
       "ケ": {
         "kanji": "化粧",
@@ -2186,9 +2186,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ミ": {
-        "kanji": "意味",
-        "kana": "いみ",
-        "en": "meaning"
+        "kanji": "玩味",
+        "kana": "がんみ",
+        "en": "tasting"
       },
       "あじ": {
         "kanji": "味",
@@ -2253,9 +2253,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "メイ": {
-        "kanji": "革命",
-        "kana": "かくめい",
-        "en": "revolution"
+        "kanji": "勅命",
+        "kana": "ちょくめい",
+        "en": "imperial command"
       },
       "ミョウ": {
         "kanji": "寿命",
@@ -2331,9 +2331,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ワ": {
-        "kanji": "平和",
-        "kana": "へいわ",
-        "en": "peace"
+        "kanji": "貞和",
+        "kana": "じょうわ",
+        "en": "Jōwa era (of the Northern Court) (1345.10.21-1350.2.27)"
       },
       "オ": {
         "kanji": "和尚",
@@ -2411,9 +2411,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヒン": {
-        "kanji": "作品",
-        "kana": "さくひん",
-        "en": "work (e.g. book, film, painting, composition)"
+        "kanji": "玩弄品",
+        "kana": "がんろうひん",
+        "en": "toy"
       },
       "しな": {
         "kanji": "品物",
@@ -2575,9 +2575,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "モン": {
-        "kanji": "質問",
-        "kana": "しつもん",
-        "en": "question"
+        "kanji": "勅問",
+        "kana": "ちょくもん",
+        "en": "imperial question"
       },
       "とう": {
         "kanji": "問う",
@@ -2872,9 +2872,9 @@ export const KANJI_ENTRIES = [
         "en": "absence"
       },
       "まもる": {
-        "kanji": "守る",
-        "kana": "まもる",
-        "en": "to protect"
+        "kanji": "貞節を守る",
+        "kana": "ていせつをまもる",
+        "en": "to keep one's chastity"
       },
       "まもり": {
         "kanji": "守り",
@@ -2943,9 +2943,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "アン": {
-        "kanji": "安保",
-        "kana": "あんぽ",
-        "en": "security (e.g. national security)"
+        "kanji": "安貞",
+        "kana": "あんてい",
+        "en": "Antei era (1227.12.10-1229.3.5)"
       },
       "やすい": {
         "kanji": "気安い",
@@ -3104,14 +3104,14 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジツ": {
-        "kanji": "事実",
-        "kana": "じじつ",
-        "en": "fact"
+        "kanji": "貞実",
+        "kana": "ていじつ",
+        "en": "faithful"
       },
       "み": {
-        "kanji": "木の実",
-        "kana": "きのみ",
-        "en": "fruit of a tree"
+        "kanji": "栃の実",
+        "kana": "とちのみ",
+        "en": "chestnut"
       },
       "みのる": {
         "kanji": "実る",
@@ -3324,9 +3324,9 @@ export const KANJI_ENTRIES = [
         "en": "accommodation"
       },
       "やど": {
-        "kanji": "宿",
-        "kana": "やど",
-        "en": "lodging"
+        "kanji": "淫売宿",
+        "kana": "いんばいやど",
+        "en": "brothel"
       },
       "やどる": {
         "kanji": "宿る",
@@ -3564,9 +3564,9 @@ export const KANJI_ENTRIES = [
         "en": "rooftop"
       },
       "や": {
-        "kanji": "部屋",
-        "kana": "へや",
-        "en": "room"
+        "kanji": "淫売屋",
+        "kana": "いんばいや",
+        "en": "brothel"
       }
     }
   },
@@ -3997,9 +3997,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ド": {
-        "kanji": "制度",
-        "kana": "せいど",
-        "en": "system"
+        "kanji": "沃度",
+        "kana": "ヨード",
+        "en": "iodine (I)"
       },
       "ト": {
         "kanji": "法度",
@@ -4492,9 +4492,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "アク": {
-        "kanji": "悪化",
-        "kana": "あっか",
-        "en": "deterioration"
+        "kanji": "悪辣",
+        "kana": "あくらつ",
+        "en": "crafty"
       },
       "オ": {
         "kanji": "憎悪",
@@ -4687,9 +4687,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イ": {
-        "kanji": "意味",
-        "kana": "いみ",
-        "en": "meaning"
+        "kanji": "勅意",
+        "kana": "ちょくい",
+        "en": "meaning or gist of a decree"
       }
     }
   },
@@ -5614,9 +5614,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "アン": {
-        "kanji": "暗殺",
-        "kana": "あんさつ",
-        "en": "assassination"
+        "kanji": "大暗斑",
+        "kana": "だいあんもん",
+        "en": "Great Dark Spot (on Neptune)"
       },
       "くらい": {
         "kanji": "薄暗い",
@@ -6152,9 +6152,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ギョウ": {
-        "kanji": "業",
-        "kana": "ぎょう",
-        "en": "work"
+        "kanji": "嗣業",
+        "kana": "しぎょう",
+        "en": "God's gift (esp. the promised land)"
       },
       "ゴウ": {
         "kanji": "自業自得",
@@ -6467,9 +6467,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "歯科",
-        "kana": "しか",
-        "en": "dentistry"
+        "kanji": "咽頭歯",
+        "kana": "いんとうし",
+        "en": "pharyngeal tooth"
       },
       "は": {
         "kanji": "歯",
@@ -6527,9 +6527,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "死",
-        "kana": "し",
-        "en": "death"
+        "kanji": "死斑",
+        "kana": "しはん",
+        "en": "postmortem lividity"
       },
       "しぬ": {
         "kanji": "死ぬ",
@@ -7610,9 +7610,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ブツ": {
-        "kanji": "人物",
-        "kana": "じんぶつ",
-        "en": "person"
+        "kanji": "玩物",
+        "kana": "がんぶつ",
+        "en": "toy"
       },
       "モツ": {
         "kanji": "貨物",
@@ -7620,9 +7620,9 @@ export const KANJI_ENTRIES = [
         "en": "cargo"
       },
       "もの": {
-        "kanji": "物語",
-        "kana": "ものがたり",
-        "en": "story"
+        "kanji": "薫物",
+        "kana": "たきもの",
+        "en": "incense"
       }
     }
   },
@@ -7990,9 +7990,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ビョウ": {
-        "kanji": "病院",
-        "kana": "びょういん",
-        "en": "hospital"
+        "kanji": "病斑",
+        "kana": "びょうはん",
+        "en": "spot (on a plant; caused by disease or insects)"
       },
       "ヘイ": {
         "kanji": "疾病",
@@ -8353,9 +8353,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケン": {
-        "kanji": "県警",
-        "kana": "けんけい",
-        "en": "prefectural police"
+        "kanji": "愛媛県",
+        "kana": "えひめけん",
+        "en": "Ehime Prefecture (Shikoku)"
       }
     }
   },
@@ -8475,9 +8475,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チャク": {
-        "kanji": "決着",
-        "kana": "けっちゃく",
-        "en": "conclusion"
+        "kanji": "附着力",
+        "kana": "ふちゃくりょく",
+        "en": "adhesion"
       },
       "きる": {
         "kanji": "着る",
@@ -8724,9 +8724,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シン": {
-        "kanji": "精神",
-        "kana": "せいしん",
-        "en": "mind"
+        "kanji": "神璽",
+        "kana": "しんじ",
+        "en": "Imperial regalia (esp. the jewel Yasakani no Magatama)"
       },
       "かみ": {
         "kanji": "神",
@@ -8797,9 +8797,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "祭典",
-        "kana": "さいてん",
-        "en": "festival"
+        "kanji": "勅祭",
+        "kana": "ちょくさい",
+        "en": "festival held by imperial order"
       },
       "まつる": {
         "kanji": "祭る",
@@ -9050,9 +9050,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ドウ": {
-        "kanji": "児童",
-        "kana": "じどう",
-        "en": "children"
+        "kanji": "童貞",
+        "kana": "どうてい",
+        "en": "virginity (of a male)"
       }
     }
   },
@@ -9211,9 +9211,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヒツ": {
-        "kanji": "筆頭",
-        "kana": "ひっとう",
-        "en": "brush tip"
+        "kanji": "勅筆",
+        "kana": "ちょくひつ",
+        "en": "imperial autograph"
       },
       "ふで": {
         "kanji": "筆",
@@ -9641,9 +9641,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヨウ": {
-        "kanji": "羊毛",
-        "kana": "ようもう",
-        "en": "wool"
+        "kanji": "淫羊藿",
+        "kana": "いんようかく",
+        "en": "horny goat weed (Epimedium grandiflorum var. thunbergianum)"
       },
       "ひつじ": {
         "kanji": "羊",
@@ -9889,9 +9889,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イク": {
-        "kanji": "教育",
-        "kana": "きょういく",
-        "en": "education"
+        "kanji": "薫育",
+        "kana": "くんいく",
+        "en": "moral influence"
       },
       "そだつ": {
         "kanji": "育つ",
@@ -10297,9 +10297,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケツ": {
-        "kanji": "血液",
-        "kana": "けつえき",
-        "en": "blood"
+        "kanji": "血斑",
+        "kana": "けっぱん",
+        "en": "blood spot"
       },
       "ち": {
         "kanji": "血",
@@ -10604,9 +10604,9 @@ export const KANJI_ENTRIES = [
         "en": "soya bean (Glycine max)"
       },
       "まめ": {
-        "kanji": "豆",
-        "kana": "まめ",
-        "en": "legume (esp. edible legumes or their seeds, e.g. beans, peas, pulses)"
+        "kanji": "豆斑猫",
+        "kana": "マメハンミョウ",
+        "en": "bean blister beetle (Epicauta gorhami)"
       }
     }
   },
@@ -10823,9 +10823,9 @@ export const KANJI_ENTRIES = [
         "en": "Seattle"
       },
       "じ": {
-        "kanji": "大路",
-        "kana": "おおじ",
-        "en": "main street (esp. in a capital)"
+        "kanji": "木曽路",
+        "kana": "きそじ",
+        "en": "Kiso valley section of the Nakasendo"
       }
     }
   },
@@ -12274,9 +12274,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シュウ": {
-        "kanji": "集会",
-        "kana": "しゅうかい",
-        "en": "meeting"
+        "kanji": "勅撰集",
+        "kana": "ちょくせんしゅう",
+        "en": "imperially commissioned poetry anthology"
       },
       "あつまる": {
         "kanji": "集まる",
@@ -12350,9 +12350,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "メン": {
-        "kanji": "全面",
-        "kana": "ぜんめん",
-        "en": "whole surface"
+        "kanji": "面謁",
+        "kana": "めんえつ",
+        "en": "audience with someone of high rank"
       },
       "おも": {
         "kanji": "面白",
@@ -12412,9 +12412,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ダイ": {
-        "kanji": "課題",
-        "kana": "かだい",
-        "en": "subject"
+        "kanji": "勅題",
+        "kana": "ちょくだい",
+        "en": "theme of the Imperial Poetry Contest"
       }
     }
   },
@@ -12629,9 +12629,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ビ": {
-        "kanji": "鼻炎",
-        "kana": "びえん",
-        "en": "rhinitis"
+        "kanji": "鼻咽頭",
+        "kana": "びいんとう",
+        "en": "nasopharynx"
       },
       "はな": {
         "kanji": "鼻",

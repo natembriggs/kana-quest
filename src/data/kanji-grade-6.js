@@ -146,9 +146,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ラン": {
-        "kanji": "混乱",
-        "kana": "こんらん",
-        "en": "disorder"
+        "kanji": "淫乱",
+        "kana": "いんらん",
+        "en": "debauched"
       },
       "みだれる": {
         "kanji": "乱れる",
@@ -1372,9 +1372,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ラン": {
-        "kanji": "産卵",
-        "kana": "さんらん",
-        "en": "egg-laying"
+        "kanji": "雀卵斑",
+        "kana": "じゃくらんはん",
+        "en": "freckle"
       },
       "たまご": {
         "kanji": "卵",
@@ -2576,9 +2576,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セン": {
-        "kanji": "宣言",
-        "kana": "せんげん",
-        "en": "declaration"
+        "kanji": "勅宣",
+        "kana": "ちょくせん",
+        "en": "imperial decree"
       }
     }
   },
@@ -2630,9 +2630,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ミツ": {
-        "kanji": "秘密",
-        "kana": "ひみつ",
-        "en": "secret"
+        "kanji": "密勅",
+        "kana": "みっちょく",
+        "en": "secret order of the Emperor"
       },
       "ひそか": {
         "kanji": "密か",
@@ -3056,9 +3056,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シャク": {
-        "kanji": "尺度",
-        "kana": "しゃくど",
-        "en": "gauge"
+        "kanji": "尺斤法",
+        "kana": "しゃくきんほう",
+        "en": "Chinese system of weights and measures"
       }
     }
   },
@@ -4362,9 +4362,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ハイ": {
-        "kanji": "参拝",
-        "kana": "さんぱい",
-        "en": "going and worshipping (at a shrine or temple)"
+        "kanji": "拝謁",
+        "kana": "はいえつ",
+        "en": "audience with someone of high rank (e.g. the emperor)"
       },
       "おがむ": {
         "kanji": "拝む",
@@ -4709,9 +4709,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ソウ": {
-        "kanji": "操作",
-        "kana": "そうさ",
-        "en": "operation"
+        "kanji": "貞操",
+        "kana": "ていそう",
+        "en": "chastity"
       },
       "みさお": {
         "kanji": "操",
@@ -4774,9 +4774,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケイ": {
-        "kanji": "敬称",
-        "kana": "けいしょう",
-        "en": "honorific title"
+        "kanji": "恭敬",
+        "kana": "きょうけい",
+        "en": "respect"
       },
       "うやまう": {
         "kanji": "敬う",
@@ -5306,9 +5306,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セン": {
-        "kanji": "汚染",
-        "kana": "おせん",
-        "en": "pollution"
+        "kanji": "薫染",
+        "kana": "くんせん",
+        "en": "good influence"
       },
       "そめる": {
         "kanji": "染める",
@@ -5426,9 +5426,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ボウ": {
-        "kanji": "棒",
-        "kana": "ぼう",
-        "en": "pole"
+        "kanji": "栃麺棒",
+        "kana": "とちめんぼう",
+        "en": "rolling pin for making horse chestnut noodles"
       }
     }
   },
@@ -5650,9 +5650,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヨク": {
-        "kanji": "意欲",
-        "kana": "いよく",
-        "en": "will"
+        "kanji": "淫欲",
+        "kana": "いんよく",
+        "en": "sexual desire"
       },
       "ほっする": {
         "kanji": "欲する",
@@ -6537,9 +6537,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ギ": {
-        "kanji": "容疑者",
-        "kana": "ようぎしゃ",
-        "en": "suspect"
+        "kanji": "疑弐",
+        "kana": "ぎじ",
+        "en": "doubt"
       },
       "うたがう": {
         "kanji": "疑う",
@@ -6605,9 +6605,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ツウ": {
-        "kanji": "痛感",
-        "kana": "つうかん",
-        "en": "feeling keenly"
+        "kanji": "咽頭痛",
+        "kana": "いんとうつう",
+        "en": "sore throat"
       },
       "いたい": {
         "kanji": "痛い",
@@ -6674,9 +6674,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "皇太子",
-        "kana": "こうたいし",
-        "en": "crown prince"
+        "kanji": "皇嗣",
+        "kana": "こうし",
+        "en": "Imperial heir"
       },
       "オウ": {
         "kanji": "皇子",
@@ -7571,9 +7571,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "紅白",
-        "kana": "こうはく",
-        "en": "red and white"
+        "kanji": "紅斑",
+        "kana": "こうはん",
+        "en": "red spots"
       },
       "ク": {
         "kanji": "深紅",
@@ -7825,9 +7825,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュウ": {
-        "kanji": "操縦",
-        "kana": "そうじゅう",
-        "en": "steering"
+        "kanji": "淫縦",
+        "kana": "いんじゅう",
+        "en": "disgusting selfishness"
       },
       "たて": {
         "kanji": "縦",
@@ -8061,9 +8061,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "棋聖",
-        "kana": "きせい",
-        "en": "great master of go"
+        "kanji": "聖勅",
+        "kana": "せいちょく",
+        "en": "imperial rescript"
       }
     }
   },
@@ -8764,9 +8764,9 @@ export const KANJI_ENTRIES = [
         "en": "young person"
       },
       "わか": {
-        "kanji": "若手",
-        "kana": "わかて",
-        "en": "young person"
+        "kanji": "栃若",
+        "kana": "とちわか",
+        "en": "Tochinishiki and Wakanohana I (dominant 1950s yokozuna)"
       },
       "もし": {
         "kanji": "若し",
@@ -9123,9 +9123,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "裁判",
-        "kana": "さいばん",
-        "en": "trial"
+        "kanji": "勅裁",
+        "kana": "ちょくさい",
+        "en": "imperial decision"
       },
       "たつ": {
         "kanji": "裁つ",

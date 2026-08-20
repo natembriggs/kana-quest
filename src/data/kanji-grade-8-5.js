@@ -546,10 +546,28 @@ export const KANJI_ENTRIES = [
       "smoke (tobacco)"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "クン"
+    ],
+    "quizKun": [
+      "かおる"
+    ],
+    "quizReadings": [
+      "クン",
+      "かおる"
+    ],
+    "readingExamples": {
+      "クン": {
+        "kanji": "薫",
+        "kana": "くん",
+        "en": "pleasant smell"
+      },
+      "かおる": {
+        "kanji": "風薫る",
+        "kana": "かぜかおる",
+        "en": "(subject to the) cool light breeze in early summer"
+      }
+    }
   },
   {
     "kanji": "瓦",
@@ -1147,9 +1165,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シャ": {
-        "kanji": "遮断機",
-        "kana": "しゃだんき",
-        "en": "(railway) crossing gate"
+        "kanji": "遮蔽",
+        "kana": "しゃへい",
+        "en": "shielding"
       },
       "さえぎる": {
         "kanji": "遮る",
@@ -2027,9 +2045,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ホン": {
-        "kanji": "奔放",
-        "kana": "ほんぽう",
-        "en": "wild"
+        "kanji": "淫奔",
+        "kana": "いんぽん",
+        "en": "lewdness"
       }
     }
   },
@@ -2330,9 +2348,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キョウ": {
-        "kanji": "享受",
-        "kana": "きょうじゅ",
-        "en": "enjoyment (of freedom, beauty, etc.)"
+        "kanji": "貞享",
+        "kana": "じょうきょう",
+        "en": "Jōkyō era (1684.2.21-1688.9.30)"
       }
     }
   },
@@ -3076,9 +3094,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シュク": {
-        "kanji": "淑女",
-        "kana": "しゅくじょ",
-        "en": "lady"
+        "kanji": "貞淑",
+        "kana": "ていしゅく",
+        "en": "chastity"
       },
       "しとやか": {
         "kanji": "淑やか",
@@ -3807,10 +3825,20 @@ export const KANJI_ENTRIES = [
         "en": "aunt"
       }
     ],
-    "quizOn": [],
+    "quizOn": [
+      "シュク"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "シュク"
+    ],
+    "readingExamples": {
+      "シュク": {
+        "kanji": "伯叔",
+        "kana": "はくしゅく",
+        "en": "brothers"
+      }
+    }
   },
   {
     "kanji": "雌",
@@ -4928,14 +4956,22 @@ export const KANJI_ENTRIES = [
         "en": "upper lip"
       }
     ],
-    "quizOn": [],
+    "quizOn": [
+      "シン"
+    ],
     "quizKun": [
       "くちびる"
     ],
     "quizReadings": [
+      "シン",
       "くちびる"
     ],
     "readingExamples": {
+      "シン": {
+        "kanji": "淫唇",
+        "kana": "いんしん",
+        "en": "labia"
+      },
       "くちびる": {
         "kanji": "唇",
         "kana": "くちびる",
@@ -8127,9 +8163,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "か": {
-        "kanji": "蚊",
-        "kana": "か",
-        "en": "mosquito"
+        "kanji": "羽斑蚊",
+        "kana": "はまだらか",
+        "en": "Anopheles (genus of mosquitoes)"
       }
     }
   },
@@ -8223,9 +8259,9 @@ export const KANJI_ENTRIES = [
         "en": "seaweed"
       },
       "も": {
-        "kanji": "藻",
-        "kana": "も",
-        "en": "algae"
+        "kanji": "茨藻",
+        "kana": "いばらも",
+        "en": "spiny water nymph (Najas marina)"
       }
     }
   },
@@ -8261,9 +8297,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チャク": {
-        "kanji": "嫡出",
-        "kana": "ちゃくしゅつ",
-        "en": "legitimate birth"
+        "kanji": "嫡嗣",
+        "kana": "ちゃくし",
+        "en": "legitimate heir"
       }
     }
   },

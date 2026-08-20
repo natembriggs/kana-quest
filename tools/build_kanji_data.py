@@ -41,8 +41,10 @@ DATA_DIR = ROOT / "src" / "data"
 # (secondary jōyō — everything in the 2,136-kanji jōyō set that isn't
 # elementary). Grade 7 doesn't exist in KANJIDIC's scheme; 9/10 are jinmeiyō
 # (name kanji, not jōyō) and are out of scope — see kanji-expansion-plan.md
-# §5 for that as a separate, later phase. Verified against the downloaded
-# source: grades 1-6 + 8 sum to exactly 2,136.
+# §5 for that as a separate, later phase. Grades 1-6 + 8 sum to exactly
+# 2,136 — but count alone doesn't prove the SET is right, see
+# UNICODE_VARIANT_SUBSTITUTIONS immediately below for the four places it
+# wasn't, found by diffing against an independent jōyō character list.
 GRADES = (1, 2, 3, 4, 5, 6, 8)
 GRADE_8_SUB_UNITS = 6   # secondary jōyō (1,110 kanji) is one KANJIDIC grade
                         # but far too big to be one teaching unit or one lazy-
@@ -53,6 +55,26 @@ EXAMPLES_PER_KANJI = 4
 MAX_KANJI_PER_WORD = 2      # cap for the general example-word list (grade-appropriate only)
 MAX_KANJI_PER_READING_WORD = 3  # looser cap for reading-anchored lookups (see below)
 MAX_QUIZ_READINGS = 6   # must match MAX_CORRECT_READINGS in kanji.js
+
+# A handful of jōyō kanji exist at TWO Unicode code points: the one
+# KANJIDIC's <grade> field tags as jōyō (a legacy pre-Unicode-consolidation
+# "IVS" glyph form), and a second, visually near-identical one that is what
+# every IME, font, and real dictionary entry actually uses. JMdict's word
+# list lives almost entirely on the second form — e.g. 𠮟 (KANJIDIC's graded
+# code point for "scold") has ZERO JMdict entries, so no word could ever
+# align to it and it would end up with no quizzable reading at all, even
+# though 叱る (the everyday spelling, U+53F1) is common enough to carry an
+# `nf` priority band. Confirmed by hand against the fetched sources: both
+# code points in every pair below have KanjiVG stroke data, so switching
+# which one is taught costs nothing there. Applied as a grade transplant in
+# main() — the common code point's own KANJIDIC entry (on/kun/meanings) is
+# kept as-is, it just wasn't tagged jōyō before this.
+UNICODE_VARIANT_SUBSTITUTIONS = {
+    "剝": "剥",  # peel — is what 剥がす actually uses
+    "塡": "填",  # fill — 填める
+    "頰": "頬",  # cheek — 頬づえ
+    "𠮟": "叱",  # scold — 叱る
+}
 
 KANJIDIC = SRC / "kanjidic2.xml"
 JMDICT = SRC / "JMdict_e"
@@ -275,7 +297,7 @@ def priority_rank(entry):
     return 99
 
 
-def parse_jmdict_words(known_kanji, kanjidic, stem_index):
+def parse_jmdict_words(known_kanji, kanjidic, stem_index, require_priority=True, targets=None):
     """One pass over JMdict, returning two indexes keyed by kanji character:
 
     - `general`: common words using ONLY characters in `known_kanji` (plus
@@ -287,12 +309,24 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index):
       only common word may pull in a kanji the learner hasn't met (上海 for
       上's シャン needs 海, grade 2). The word is a memory aid for that one
       reading, not something they're expected to fully read yet.
+
+    `targets`, if given, is used instead of `known_kanji` to decide which
+    words are worth aligning at all — `known_kanji` still gates what a
+    *found* kanji is allowed to credit. `require_priority=False` drops the
+    common-word-only gate entirely. Together these two let main() run a
+    second, much narrower pass over JMdict for the handful of kanji that
+    came up with no quizzable reading on the first (common-only) pass —
+    see UNCOMMON_READING_FALLBACK below. Restricting `targets` to that small
+    set keeps the narrow pass cheap even with the gate dropped, since the
+    (kanji_in_word & targets) check below still throws out the vast
+    majority of JMdict before align_word ever runs.
     """
     text = JMDICT.read_text(encoding="utf-8")
     entries = re.findall(r"<entry>.*?</entry>", text, re.S)
 
     kana_pattern = re.compile(r"[぀-ゟ゠-ヿー]+")
     kanji_pattern = re.compile(r"[一-鿿]")
+    targets = known_kanji if targets is None else targets
 
     general = {k: [] for k in known_kanji}
     by_reading = {k: {} for k in known_kanji}
@@ -304,12 +338,12 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index):
             continue
         keb = html.unescape(k_ele.group(1))
         kanji_in_word = set(kanji_pattern.findall(keb))
-        relevant = kanji_in_word & known_kanji
+        relevant = kanji_in_word & targets
         if not relevant or len(kanji_in_word) > MAX_KANJI_PER_READING_WORD:
             continue
         # Common-ness: JMdict marks frequent entries with a priority tag
         # (news1/ichi1/spec1/spec2/gai1/nfNN) inside <ke_pri>/<re_pri>.
-        if "<ke_pri>" not in entry and "<re_pri>" not in entry:
+        if require_priority and "<ke_pri>" not in entry and "<re_pri>" not in entry:
             continue
         r_ele = re.search(r"<r_ele>.*?<reb>(.*?)</reb>.*?</r_ele>", entry, re.S)
         if not r_ele:
@@ -381,6 +415,17 @@ def main():
         )
 
     kanjidic = parse_kanjidic()
+
+    # See UNICODE_VARIANT_SUBSTITUTIONS above. Both entries stay in
+    # `kanjidic` either way — the rare one is still needed for word
+    # alignment on the off chance some OTHER word's keb uses it as a
+    # non-target character — only which one is jōyō (and therefore taught)
+    # moves.
+    for rare, common in UNICODE_VARIANT_SUBSTITUTIONS.items():
+        if rare in kanjidic and common in kanjidic:
+            kanjidic[common]["grade"] = kanjidic[rare]["grade"]
+            kanjidic[rare]["grade"] = None
+
     stem_index = build_stem_index(kanjidic)
     graded = {k: v for k, v in kanjidic.items() if v["grade"] in GRADES}
     print(f"kanjidic2: {len(graded)} kanji across grades {GRADES} "
@@ -403,6 +448,30 @@ def main():
 
     known = set(graded)
     general_words, words_by_reading = parse_jmdict_words(known, kanjidic, stem_index)
+
+    # Every kanji should have SOMETHING to quiz — a reading nobody can ever
+    # be asked about is worse than a reading whose only example is obscure.
+    # Find whichever kanji came up with no common-word-backed reading at all
+    # on the pass above, then run one more, much narrower pass over JMdict
+    # for just those, with the common-word gate dropped — see
+    # parse_jmdict_words's require_priority/targets. This is a strict
+    # superset of the substitutions above: fixing those first shrinks this
+    # set by removing the four kanji that only looked readingless because
+    # they were taught under the wrong code point.
+    def display(raw):
+        return raw.replace('-', '').replace('.', '')
+
+    needs_uncommon = {
+        kanji for kanji, info in graded.items()
+        if not any(display(r) in words_by_reading.get(kanji, {}) for r in info["on"] + info["kun"])
+    }
+    if needs_uncommon:
+        _, uncommon_by_reading = parse_jmdict_words(
+            known, kanjidic, stem_index, require_priority=False, targets=needs_uncommon)
+        for kanji, readings in uncommon_by_reading.items():
+            words_by_reading.setdefault(kanji, {}).update(readings)
+        print(f"uncommon-word fallback used for {len(needs_uncommon)} kanji: "
+              f"{''.join(sorted(needs_uncommon))}")
 
     grades = {}
     dropped_readings = 0

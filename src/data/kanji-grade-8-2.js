@@ -1139,9 +1139,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "レツ": {
-        "kanji": "分裂",
-        "kana": "ぶんれつ",
-        "en": "split"
+        "kanji": "淫裂",
+        "kana": "いんれつ",
+        "en": "vulva"
       },
       "さく": {
         "kanji": "裂く",
@@ -1791,9 +1791,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カイ": {
-        "kanji": "警戒",
-        "kana": "けいかい",
-        "en": "vigilance"
+        "kanji": "邪淫戒",
+        "kana": "じゃいんかい",
+        "en": "precept of marital chastity and sexual restraint"
       },
       "いましめる": {
         "kanji": "戒める",
@@ -2686,9 +2686,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ギョ": {
-        "kanji": "防御",
-        "kana": "ぼうぎょ",
-        "en": "defense"
+        "kanji": "御璽",
+        "kana": "ぎょじ",
+        "en": "imperial seal"
       },
       "ゴ": {
         "kanji": "御所",
@@ -2817,9 +2817,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イン": {
-        "kanji": "隠滅",
-        "kana": "いんめつ",
-        "en": "destruction (esp. of evidence)"
+        "kanji": "隠蔽",
+        "kana": "いんぺい",
+        "en": "concealment"
       },
       "オン": {
         "kanji": "隠密",
@@ -3042,9 +3042,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "荒廃",
-        "kana": "こうはい",
-        "en": "ruin"
+        "kanji": "荒淫",
+        "kana": "こういん",
+        "en": "sexual indulgence"
       },
       "あらす": {
         "kanji": "荒らす",
@@ -3663,9 +3663,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カン": {
-        "kanji": "肝臓",
-        "kana": "かんぞう",
-        "en": "liver"
+        "kanji": "肝斑",
+        "kana": "かんぱん",
+        "en": "melasma"
       },
       "きも": {
         "kanji": "肝",
@@ -4238,9 +4238,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "マ": {
-        "kanji": "麻薬",
-        "kana": "まやく",
-        "en": "narcotic"
+        "kanji": "胡麻斑",
+        "kana": "ごまふ",
+        "en": "black speckles"
       },
       "あさ": {
         "kanji": "麻",
@@ -4396,9 +4396,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ザイ": {
-        "kanji": "覚醒剤",
-        "kana": "かくせいざい",
-        "en": "stimulant (e.g. psychoactive drugs like methamphetamine, ritalin, etc.)"
+        "kanji": "催淫剤",
+        "kana": "さいいんざい",
+        "en": "aphrodisiac"
       }
     }
   },
@@ -4958,9 +4958,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ワン": {
-        "kanji": "手腕",
-        "kana": "しゅわん",
-        "en": "ability"
+        "kanji": "辣腕",
+        "kana": "らつわん",
+        "en": "shrewdness"
       },
       "うで": {
         "kanji": "腕",
@@ -5078,9 +5078,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "趣旨",
-        "kana": "しゅし",
-        "en": "meaning"
+        "kanji": "勅旨",
+        "kana": "ちょくし",
+        "en": "imperial order"
       },
       "むね": {
         "kanji": "旨",
@@ -6171,9 +6171,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "デン": {
-        "kanji": "殿下",
-        "kana": "でんか",
-        "en": "Your Highness"
+        "kanji": "貞観殿",
+        "kana": "じょうがんでん",
+        "en": "pavilion housing the empress's reception hall (in the inner Heian Palace)"
       },
       "テン": {
         "kanji": "御殿",
@@ -7126,9 +7126,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キャク": {
-        "kanji": "脚本",
-        "kana": "きゃくほん",
-        "en": "script"
+        "kanji": "隻脚",
+        "kana": "せっきゃく",
+        "en": "one-legged"
       },
       "キャ": {
         "kanji": "行脚",
@@ -7559,9 +7559,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エン": {
-        "kanji": "肺炎",
-        "kana": "はいえん",
-        "en": "pneumonia"
+        "kanji": "咽頭炎",
+        "kana": "いんとうえん",
+        "en": "pharyngitis"
       },
       "ほのお": {
         "kanji": "炎",
@@ -9607,9 +9607,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エン": {
-        "kanji": "喫煙",
-        "kana": "きつえん",
-        "en": "smoking (tobacco)"
+        "kanji": "薫煙",
+        "kana": "くんえん",
+        "en": "fragrant smoke"
       },
       "けむる": {
         "kanji": "煙る",
@@ -10345,9 +10345,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケン": {
-        "kanji": "剣",
-        "kana": "けん",
-        "en": "sword (esp. a large, double-edged one)"
+        "kanji": "剣璽",
+        "kana": "けんじ",
+        "en": "sacred sword and jewels (imperial regalia)"
       }
     }
   },

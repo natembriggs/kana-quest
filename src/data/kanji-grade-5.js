@@ -297,9 +297,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ニン": {
-        "kanji": "責任",
-        "kana": "せきにん",
-        "en": "duty"
+        "kanji": "勅任",
+        "kana": "ちょくにん",
+        "en": "imperial appointment"
       },
       "まかせる": {
         "kanji": "任せる",
@@ -428,9 +428,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヨ": {
-        "kanji": "余裕",
-        "kana": "よゆう",
-        "en": "surplus"
+        "kanji": "余薫",
+        "kana": "よくん",
+        "en": "lingering odor"
       },
       "あまる": {
         "kanji": "余る",
@@ -1389,9 +1389,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ク": {
-        "kanji": "俳句",
-        "kana": "はいく",
-        "en": "haiku"
+        "kanji": "隻句",
+        "kana": "せっく",
+        "en": "a few words"
       }
     }
   },
@@ -2565,9 +2565,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ム": {
-        "kanji": "悪夢",
-        "kana": "あくむ",
-        "en": "nightmare"
+        "kanji": "淫夢",
+        "kana": "いんむ",
+        "en": "lewd dream"
       },
       "ゆめ": {
         "kanji": "夢",
@@ -2678,9 +2678,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フ": {
-        "kanji": "主婦",
-        "kana": "しゅふ",
-        "en": "housewife"
+        "kanji": "淫婦",
+        "kana": "いんぷ",
+        "en": "woman of loose morals"
       }
     }
   },
@@ -3728,9 +3728,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "オウ": {
-        "kanji": "対応",
-        "kana": "たいおう",
-        "en": "correspondence (to)"
+        "kanji": "貞応",
+        "kana": "じょうおう",
+        "en": "Jōō era (1222.4.13-1224.11.20)"
       },
       "こたえる": {
         "kanji": "応える",
@@ -3845,9 +3845,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "女性",
-        "kana": "じょせい",
-        "en": "woman"
+        "kanji": "性玩具",
+        "kana": "せいがんぐ",
+        "en": "sex toy"
       },
       "ショウ": {
         "kanji": "相性",
@@ -5045,9 +5045,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジョウ": {
-        "kanji": "条件",
-        "kana": "じょうけん",
-        "en": "condition"
+        "kanji": "斑条",
+        "kana": "はんじょう",
+        "en": "variegated streaks"
       }
     }
   },
@@ -5734,9 +5734,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エイ": {
-        "kanji": "永遠",
-        "kana": "えいえん",
-        "en": "eternity"
+        "kanji": "貞永",
+        "kana": "じょうえい",
+        "en": "Jōei era (1232.4.2-1233.4.15)"
       }
     }
   },
@@ -5839,9 +5839,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エキ": {
-        "kanji": "血液",
-        "kana": "けつえき",
-        "en": "blood"
+        "kanji": "淫液",
+        "kana": "いんえき",
+        "en": "arousal fluid"
       }
     }
   },
@@ -6221,9 +6221,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケツ": {
-        "kanji": "清潔",
-        "kana": "せいけつ",
-        "en": "clean"
+        "kanji": "貞潔",
+        "kana": "ていけつ",
+        "en": "chastity"
       },
       "いさぎよい": {
         "kanji": "潔い",
@@ -6455,9 +6455,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ハン": {
-        "kanji": "犯罪",
-        "kana": "はんざい",
-        "en": "crime"
+        "kanji": "虞犯",
+        "kana": "ぐはん",
+        "en": "being likely to commit a crime"
       },
       "おかす": {
         "kanji": "犯す",
@@ -6509,9 +6509,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジョウ": {
-        "kanji": "状態",
-        "kana": "じょうたい",
-        "en": "state"
+        "kanji": "斑状",
+        "kana": "はんじょう",
+        "en": "mottled"
       }
     }
   },
@@ -6956,9 +6956,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガン": {
-        "kanji": "主眼",
-        "kana": "しゅがん",
-        "en": "main purpose"
+        "kanji": "隻眼",
+        "kana": "せきがん",
+        "en": "one eye"
       },
       "ゲン": {
         "kanji": "慈眼",
@@ -7222,9 +7222,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ソ": {
-        "kanji": "祖国",
-        "kana": "そこく",
-        "en": "homeland"
+        "kanji": "曽祖父",
+        "kana": "そうそふ",
+        "en": "great-grandfather"
       }
     }
   },
@@ -7559,9 +7559,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フン": {
-        "kanji": "花粉",
-        "kana": "かふん",
-        "en": "pollen"
+        "kanji": "酸辣粉",
+        "kana": "サンラーフン",
+        "en": "hot and sour noodles (Szechuan dish)"
       },
       "こ": {
         "kanji": "小麦粉",
@@ -7735,9 +7735,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ソ": {
-        "kanji": "素材",
-        "kana": "そざい",
-        "en": "ingredient"
+        "kanji": "色素斑",
+        "kana": "しきそはん",
+        "en": "pigmented spot"
       },
       "ス": {
         "kanji": "素直",
@@ -8297,9 +8297,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ザイ": {
-        "kanji": "犯罪",
-        "kana": "はんざい",
-        "en": "crime"
+        "kanji": "姦淫罪",
+        "kana": "かんいんざい",
+        "en": "sex crimes"
       },
       "つみ": {
         "kanji": "罪",
@@ -8522,9 +8522,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヒ": {
-        "kanji": "肥満",
-        "kana": "ひまん",
-        "en": "corpulence"
+        "kanji": "肥沃",
+        "kana": "ひよく",
+        "en": "fertile"
       },
       "こえる": {
         "kanji": "肥える",
@@ -9267,9 +9267,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キョ": {
-        "kanji": "許可",
-        "kana": "きょか",
-        "en": "permission"
+        "kanji": "勅許",
+        "kana": "ちょっきょ",
+        "en": "imperial sanction"
       },
       "ゆるす": {
         "kanji": "許す",
@@ -9639,9 +9639,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ホウ": {
-        "kanji": "豊富",
-        "kana": "ほうふ",
-        "en": "abundant"
+        "kanji": "豊沃",
+        "kana": "ほうよく",
+        "en": "fertility"
       },
       "ゆたか": {
         "kanji": "豊か",
@@ -10239,9 +10239,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショウ": {
-        "kanji": "受賞",
-        "kana": "じゅしょう",
-        "en": "winning a prize"
+        "kanji": "賞玩",
+        "kana": "しょうがん",
+        "en": "appreciation"
       }
     }
   },
@@ -10793,9 +10793,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サン": {
-        "kanji": "酸化",
-        "kana": "さんか",
-        "en": "oxidation"
+        "kanji": "酸辣粉",
+        "kana": "サンラーフン",
+        "en": "hot and sour noodles (Szechuan dish)"
       }
     }
   },
@@ -10842,9 +10842,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "炭鉱",
-        "kana": "たんこう",
-        "en": "coal mine"
+        "kanji": "斑銅鉱",
+        "kana": "はんどうこう",
+        "en": "bornite"
       }
     }
   },
@@ -10890,9 +10890,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ドウ": {
-        "kanji": "銅",
-        "kana": "どう",
-        "en": "copper (Cu)"
+        "kanji": "斑銅鉱",
+        "kana": "はんどうこう",
+        "en": "bornite"
       }
     }
   },
@@ -11348,9 +11348,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガク": {
-        "kanji": "総額",
-        "kana": "そうがく",
-        "en": "total amount (of money)"
+        "kanji": "勅額",
+        "kana": "ちょくがく",
+        "en": "imperial scroll"
       },
       "ひたい": {
         "kanji": "額",

@@ -505,8 +505,8 @@ re-chunked.
 
 As designed — all 2,136 jōyō kanji, on top of phase 5's lazy loading, with
 zero further architectural change needed. Verified against the downloaded
-KANJIDIC2 source that grades 1-6 + grade 8 sum to exactly 2,136, confirming
-grade 8 ("secondary jōyō") is the right filter for the rest of the set.
+KANJIDIC2 source that grades 1-6 + grade 8 sum to exactly 2,136 — **the count
+was right, the set wasn't quite**; see §4.3.
 
 **§8's open question is resolved: grade 8 ships sub-divided, not as one flat
 unit.** At 1,110 kanji, KANJIDIC's grade 8 alone is over half the jōyō set —
@@ -539,9 +539,71 @@ ranking logic and the grade/reading data itself were ever meant to stay
 frozen, not the word pool a wider vocabulary naturally draws from.
 
 The unquizzable-Yomi set grew from 3 to 30 kanji (still a small fraction of
-2,136) — expected, since secondary jōyō includes many more obscure
-characters whose only common uses are as name/place components with no
-everyday-word-anchored reading.
+2,136) — treated as expected at the time, since secondary jōyō includes many
+more obscure characters whose only common uses are as name/place components.
+**That call is reversed in §4.3: every kanji now has at least one quizzable
+reading, that 30 included.**
+
+### 4.3 Two bugs found from a user report: 叱 (しかる, "to scold") had no yomi
+
+Both bugs, and the fix for each, in `tools/build_kanji_data.py`:
+
+**Bug 1 — four jōyō kanji were being taught at the wrong Unicode code
+point.** A handful of jōyō kanji exist at two code points: the one
+KANJIDIC's `<grade>` field tags as jōyō (a legacy pre-Unicode-consolidation
+glyph form), and a second, visually near-identical one that is what every
+IME, font, and real dictionary entry actually uses. 叱 was the reported
+case — KANJIDIC grades 𠮟 (U+20B9F) as jōyō, but 叱る (U+53F1) is the
+everyday spelling, and JMdict's word list lives almost entirely on the
+everyday form: 𠮟 has **zero** JMdict entries, so no word could ever align
+to it. The same split exists for 剝/剥 (peel), 塡/填 (fill), and 頰/頬
+(cheek). Confirmed against the downloaded sources that both code points in
+every pair have KanjiVG stroke data, so which one gets taught was free to
+change. `UNICODE_VARIANT_SUBSTITUTIONS` transplants the `grade` tag from the
+rare code point onto the common one before anything else runs — the common
+code point's own KANJIDIC entry (on/kun/meanings) is used as-is, and the
+rare entry is kept in `kanjidic` (for word alignment on the off chance some
+unrelated word uses it as a non-target character) but permanently loses the
+grade tag, so it can never be taught again. This is also why the §4.2 count
+check was a false positive: 2,136 was always the right total, because the
+four missing (common) code points and the four wrongly-included (rare) ones
+canceled out in the sum.
+
+Found by diffing the shipped 2,136-character set against an independent
+plaintext jōyō list
+([gist](https://gist.github.com/fasiha/4988a6701487d28d5b12d22af6593f67)) —
+a `count == 2136` check can never catch a same-size wrong SET, which is
+exactly what happened here.
+
+**Bug 2 — 30 kanji (§4.2) had no quizzable reading at all, by design, and
+that design was wrong.** `excludeForMode` was built specifically to handle
+this: a reading with no JMdict-common word backing it got silently dropped,
+and a kanji left with zero readings got excluded from Yomi entirely. Correct
+per the original spec (`quiz_readings` was never meant to include a reading
+with no example to show), but the user's report reframed the requirement:
+every kanji should have *something* to quiz, and a reading whose only
+example is obscure beats a reading nobody can ever be asked about.
+
+Fix: after the normal common-word pass, collect whichever kanji still ended
+up with zero quiz readings (four fewer than before, once bug 1 is fixed),
+and run one more pass over JMdict for just that small set, with the
+common-word (`ke_pri`/`re_pri`) gate dropped. `parse_jmdict_words` gained
+two parameters for this — `require_priority` (the gate itself) and
+`targets` (which kanji are worth aligning a word to at all) — rather than a
+second, duplicated scanning function. Restricting `targets` to the ~20-30
+kanji that need it, instead of relaxing the gate for the full 218K-entry
+JMdict pass, is what keeps this cheap: the `kanji_in_word & targets` check
+still throws out the vast majority of entries before the expensive part
+(`align_word`'s backtracking search) ever runs. Measured: +0.4s on a ~2.5s
+full build. `NO_YOMI_CHARS` in the manifest is now empty, and
+`excludeForMode`'s Yomi-exclusion path is consequently dead code that
+nothing currently populates — left in place rather than removed, since nothing
+guarantees some future data refresh won't produce a genuinely unfixable
+case.
+
+Both bugs required regenerating `stroke-*.js` too (`build_stroke_data.py`
+reads its character list from the manifest `build_kanji_data.py` just
+wrote), since bug 1 changes which literal characters are taught.
 
 ---
 

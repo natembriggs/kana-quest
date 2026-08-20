@@ -472,9 +472,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イ": {
-        "kanji": "違反",
-        "kana": "いはん",
-        "en": "violation"
+        "kanji": "違勅",
+        "kana": "いちょく",
+        "en": "disobeying the emperor's order"
       },
       "ちがう": {
         "kanji": "違う",
@@ -1033,9 +1033,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エイ": {
-        "kanji": "影響",
-        "kana": "えいきょう",
-        "en": "influence"
+        "kanji": "隻影",
+        "kana": "せきえい",
+        "en": "a glimpse of an object's outlines"
       },
       "かげ": {
         "kanji": "影",
@@ -1212,9 +1212,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カク": {
-        "kanji": "核",
-        "kana": "かく",
-        "en": "stone (of a fruit)"
+        "kanji": "青斑核",
+        "kana": "せいはんかく",
+        "en": "locus coeruleus"
       }
     }
   },
@@ -1531,9 +1531,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "要請",
-        "kana": "ようせい",
-        "en": "appeal"
+        "kanji": "請謁",
+        "kana": "せいえつ",
+        "en": "beseeching"
       }
     }
   },
@@ -1693,9 +1693,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "開催",
-        "kana": "かいさい",
-        "en": "holding (a conference, exhibition, etc.)"
+        "kanji": "催淫",
+        "kana": "さいいん",
+        "en": "arousing sexual desire"
       },
       "もよおす": {
         "kanji": "催す",
@@ -4241,9 +4241,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケイ": {
-        "kanji": "継続",
-        "kana": "けいぞく",
-        "en": "continuation"
+        "kanji": "継嗣",
+        "kana": "けいし",
+        "en": "successor"
       },
       "つぐ": {
         "kanji": "引き継ぐ",
@@ -5001,9 +5001,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チョウ": {
-        "kanji": "聴取",
-        "kana": "ちょうしゅ",
-        "en": "hearing (of a statement, opinion, explanation, etc.)"
+        "kanji": "聴斑",
+        "kana": "ちょうはん",
+        "en": "acoustic spot"
       }
     }
   },
@@ -10899,9 +10899,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュウ": {
-        "kanji": "銃",
-        "kana": "じゅう",
-        "en": "gun"
+        "kanji": "玩具銃",
+        "kana": "がんぐじゅう",
+        "en": "toy gun"
       }
     }
   },

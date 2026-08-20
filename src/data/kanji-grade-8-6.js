@@ -83,9 +83,9 @@ export const KANJI_ENTRIES = [
         "en": "(Japanese) rice cracker"
       },
       "もち": {
-        "kanji": "餅",
-        "kana": "もち",
-        "en": "mochi"
+        "kanji": "栃餅",
+        "kana": "とちもち",
+        "en": "cake made from pounded horse chestnuts and mochi rice"
       }
     }
   },
@@ -183,10 +183,20 @@ export const KANJI_ENTRIES = [
       "imperial order"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "チョク"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "チョク"
+    ],
+    "readingExamples": {
+      "チョク": {
+        "kanji": "勅意",
+        "kana": "ちょくい",
+        "en": "meaning or gist of a decree"
+      }
+    }
   },
   {
     "kanji": "棺",
@@ -283,10 +293,35 @@ export const KANJI_ENTRIES = [
         "en": "unevenness (of colour, paint, etc.)"
       }
     ],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "ハン"
+    ],
+    "quizKun": [
+      "ふ",
+      "まだら"
+    ],
+    "quizReadings": [
+      "ハン",
+      "ふ",
+      "まだら"
+    ],
+    "readingExamples": {
+      "ハン": {
+        "kanji": "母斑",
+        "kana": "ぼはん",
+        "en": "nevus"
+      },
+      "ふ": {
+        "kanji": "虎斑",
+        "kana": "とらふ",
+        "en": "tiger stripes"
+      },
+      "まだら": {
+        "kanji": "斑",
+        "kana": "まだら",
+        "en": "spots"
+      }
+    }
   },
   {
     "kanji": "摯",
@@ -447,9 +482,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ビ": {
-        "kanji": "焦眉",
-        "kana": "しょうび",
-        "en": "emergency"
+        "kanji": "眉斑",
+        "kana": "びはん",
+        "en": "superciliary stripe"
       },
       "まゆ": {
         "kanji": "眉",
@@ -572,9 +607,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カツ": {
-        "kanji": "褐色",
-        "kana": "かっしょく",
-        "en": "dark brown"
+        "kanji": "褐色斑",
+        "kana": "かっしょくはん",
+        "en": "chloasma"
       }
     }
   },
@@ -1065,10 +1100,20 @@ export const KANJI_ENTRIES = [
         "en": "toy"
       }
     ],
-    "quizOn": [],
+    "quizOn": [
+      "ガン"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "ガン"
+    ],
+    "readingExamples": {
+      "ガン": {
+        "kanji": "玩味",
+        "kana": "がんみ",
+        "en": "tasting"
+      }
+    }
   },
   {
     "kanji": "錬",
@@ -1323,8 +1368,8 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショウ": {
-        "kanji": "詔書",
-        "kana": "しょうしょ",
+        "kanji": "詔勅",
+        "kana": "しょうちょく",
         "en": "imperial edict"
       },
       "みことのり": {
@@ -1362,6 +1407,50 @@ export const KANJI_ENTRIES = [
         "kanji": "椅子",
         "kana": "いす",
         "en": "chair"
+      }
+    }
+  },
+  {
+    "kanji": "叱",
+    "on": [
+      "シツ",
+      "シチ",
+      "カ"
+    ],
+    "kun": [
+      "しか.る"
+    ],
+    "meanings": [
+      "scold",
+      "reprove"
+    ],
+    "words": [
+      {
+        "kanji": "叱る",
+        "kana": "しかる",
+        "en": "to scold"
+      }
+    ],
+    "quizOn": [
+      "シツ"
+    ],
+    "quizKun": [
+      "しかる"
+    ],
+    "quizReadings": [
+      "シツ",
+      "しかる"
+    ],
+    "readingExamples": {
+      "シツ": {
+        "kanji": "叱咤",
+        "kana": "しった",
+        "en": "scolding"
+      },
+      "しかる": {
+        "kanji": "叱る",
+        "kana": "しかる",
+        "en": "to scold"
       }
     }
   },
@@ -1782,10 +1871,20 @@ export const KANJI_ENTRIES = [
       "succeed"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "シ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "シ"
+    ],
+    "readingExamples": {
+      "シ": {
+        "kanji": "嗣",
+        "kana": "し",
+        "en": "succession"
+      }
+    }
   },
   {
     "kanji": "凄",
@@ -2070,9 +2169,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "メン": {
-        "kanji": "麺",
-        "kana": "めん",
-        "en": "noodles"
+        "kanji": "栃麺",
+        "kana": "とちめん",
+        "en": "noodles made from regular flour and horse chestnut flour"
       }
     }
   },
@@ -2383,10 +2482,20 @@ export const KANJI_ENTRIES = [
       "one (in documents)"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "イチ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "イチ"
+    ],
+    "readingExamples": {
+      "イチ": {
+        "kanji": "壱越",
+        "kana": "いちこつ",
+        "en": "fundamental tone in the traditional Japanese 12-tone scale (approx. D)"
+      }
+    }
   },
   {
     "kanji": "瑠",
@@ -2673,6 +2782,100 @@ export const KANJI_ENTRIES = [
     }
   },
   {
+    "kanji": "剥",
+    "on": [
+      "ハク",
+      "ホク"
+    ],
+    "kun": [
+      "へ.ぐ",
+      "へず.る",
+      "む.く",
+      "む.ける",
+      "は.がれる",
+      "は.ぐ",
+      "は.げる",
+      "は.がす"
+    ],
+    "meanings": [
+      "come off",
+      "peel",
+      "fade",
+      "discolor"
+    ],
+    "words": [
+      {
+        "kanji": "剥く",
+        "kana": "むく",
+        "en": "to peel"
+      },
+      {
+        "kanji": "剥ぐ",
+        "kana": "はぐ",
+        "en": "to tear off"
+      },
+      {
+        "kanji": "剥ける",
+        "kana": "むける",
+        "en": "to peel off"
+      },
+      {
+        "kanji": "剥げる",
+        "kana": "はげる",
+        "en": "to peel off"
+      }
+    ],
+    "quizOn": [],
+    "quizKun": [
+      "むく",
+      "むける",
+      "はがれる",
+      "はぐ",
+      "はげる",
+      "はがす"
+    ],
+    "quizReadings": [
+      "むく",
+      "むける",
+      "はがれる",
+      "はぐ",
+      "はげる",
+      "はがす"
+    ],
+    "readingExamples": {
+      "むく": {
+        "kanji": "剥く",
+        "kana": "むく",
+        "en": "to peel"
+      },
+      "むける": {
+        "kanji": "剥ける",
+        "kana": "むける",
+        "en": "to peel off"
+      },
+      "はがれる": {
+        "kanji": "剥がれる",
+        "kana": "はがれる",
+        "en": "to come unstuck from"
+      },
+      "はぐ": {
+        "kanji": "剥ぐ",
+        "kana": "はぐ",
+        "en": "to tear off"
+      },
+      "はげる": {
+        "kanji": "剥げる",
+        "kana": "はげる",
+        "en": "to peel off"
+      },
+      "はがす": {
+        "kanji": "剥がす",
+        "kana": "はがす",
+        "en": "to tear off"
+      }
+    }
+  },
+  {
     "kanji": "蓋",
     "on": [
       "ガイ",
@@ -2789,14 +2992,22 @@ export const KANJI_ENTRIES = [
         "en": "throat"
       }
     ],
-    "quizOn": [],
+    "quizOn": [
+      "コウ"
+    ],
     "quizKun": [
       "のど"
     ],
     "quizReadings": [
+      "コウ",
       "のど"
     ],
     "readingExamples": {
+      "コウ": {
+        "kanji": "咽喉",
+        "kana": "いんこう",
+        "en": "throat"
+      },
       "のど": {
         "kanji": "喉",
         "kana": "のど",
@@ -2820,10 +3031,20 @@ export const KANJI_ENTRIES = [
       "append"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "フ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "フ"
+    ],
+    "readingExamples": {
+      "フ": {
+        "kanji": "附置",
+        "kana": "ふち",
+        "en": "(organizational) attachment"
+      }
+    }
   },
   {
     "kanji": "但",
@@ -2968,6 +3189,46 @@ export const KANJI_ENTRIES = [
         "kanji": "拭く",
         "kana": "ふく",
         "en": "to wipe"
+      }
+    }
+  },
+  {
+    "kanji": "頬",
+    "on": [
+      "キョウ"
+    ],
+    "kun": [
+      "ほお",
+      "ほほ"
+    ],
+    "meanings": [
+      "cheeks",
+      "jaw"
+    ],
+    "words": [
+      {
+        "kanji": "頬",
+        "kana": "ほお",
+        "en": "cheek (of the face)"
+      },
+      {
+        "kanji": "頬っぺた",
+        "kana": "ほっぺた",
+        "en": "cheek"
+      }
+    ],
+    "quizOn": [],
+    "quizKun": [
+      "ほお"
+    ],
+    "quizReadings": [
+      "ほお"
+    ],
+    "readingExamples": {
+      "ほお": {
+        "kanji": "頬",
+        "kana": "ほお",
+        "en": "cheek (of the face)"
       }
     }
   },
@@ -3399,9 +3660,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケン": {
-        "kanji": "倹約",
-        "kana": "けんやく",
-        "en": "thrift"
+        "kanji": "恭倹",
+        "kana": "きょうけん",
+        "en": "respectfulness and modesty"
       }
     }
   },
@@ -3819,34 +4080,6 @@ export const KANJI_ENTRIES = [
     }
   },
   {
-    "kanji": "剝",
-    "on": [
-      "ハク",
-      "ホク"
-    ],
-    "kun": [
-      "へ.ぐ",
-      "へず.る",
-      "む.く",
-      "む.ける",
-      "は.がれる",
-      "は.ぐ",
-      "は.げる",
-      "は.がす"
-    ],
-    "meanings": [
-      "come off",
-      "peel",
-      "fade",
-      "discolor"
-    ],
-    "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
-  },
-  {
     "kanji": "勃",
     "on": [
       "ボツ",
@@ -3981,10 +4214,35 @@ export const KANJI_ENTRIES = [
       "stuffy"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "イン",
+      "エツ"
+    ],
+    "quizKun": [
+      "むせぶ"
+    ],
+    "quizReadings": [
+      "イン",
+      "エツ",
+      "むせぶ"
+    ],
+    "readingExamples": {
+      "イン": {
+        "kanji": "咽喉",
+        "kana": "いんこう",
+        "en": "throat"
+      },
+      "エツ": {
+        "kanji": "嗚咽",
+        "kana": "おえつ",
+        "en": "sobbing"
+      },
+      "むせぶ": {
+        "kanji": "咽ぶ",
+        "kana": "むせぶ",
+        "en": "to be choked"
+      }
+    }
   },
   {
     "kanji": "唾",
@@ -4209,27 +4467,47 @@ export const KANJI_ENTRIES = [
     }
   },
   {
-    "kanji": "塡",
+    "kanji": "填",
     "on": [
       "テン",
       "チン"
     ],
     "kun": [
-      "はま.る",
-      "うず.める",
+      "は.まる",
       "は.める",
+      "うず.める",
+      "しず.める",
       "ふさ.ぐ"
     ],
     "meanings": [
-      "fill in",
-      "fill up",
-      "make good"
+      "fill in"
     ],
-    "words": [],
-    "quizOn": [],
+    "words": [
+      {
+        "kanji": "補填",
+        "kana": "ほてん",
+        "en": "covering (a loss, deficit, etc.)"
+      },
+      {
+        "kanji": "充填",
+        "kana": "じゅうてん",
+        "en": "filling (up)"
+      }
+    ],
+    "quizOn": [
+      "テン"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "テン"
+    ],
+    "readingExamples": {
+      "テン": {
+        "kanji": "補填",
+        "kana": "ほてん",
+        "en": "covering (a loss, deficit, etc.)"
+      }
+    }
   },
   {
     "kanji": "墾",
@@ -4513,9 +4791,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ロウ": {
-        "kanji": "翻弄",
-        "kana": "ほんろう",
-        "en": "having at one's mercy"
+        "kanji": "玩弄",
+        "kana": "がんろう",
+        "en": "toying with"
       },
       "いじる": {
         "kanji": "弄る",
@@ -4540,10 +4818,28 @@ export const KANJI_ENTRIES = [
       "second"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "ジ"
+    ],
+    "quizKun": [
+      "ふたつ"
+    ],
+    "quizReadings": [
+      "ジ",
+      "ふたつ"
+    ],
+    "readingExamples": {
+      "ジ": {
+        "kanji": "疑弐",
+        "kana": "ぎじ",
+        "en": "doubt"
+      },
+      "ふたつ": {
+        "kanji": "弐つ",
+        "kana": "ふたつ",
+        "en": "two"
+      }
+    }
   },
   {
     "kanji": "彙",
@@ -4883,10 +5179,20 @@ export const KANJI_ENTRIES = [
       "counter for loaves of bread"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "キン"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "キン"
+    ],
+    "readingExamples": {
+      "キン": {
+        "kanji": "斤",
+        "kana": "きん",
+        "en": "kin"
+      }
+    }
   },
   {
     "kanji": "旦",
@@ -5024,10 +5330,20 @@ export const KANJI_ENTRIES = [
       "imperial we"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "チン"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "チン"
+    ],
+    "readingExamples": {
+      "チン": {
+        "kanji": "朕",
+        "kana": "ちん",
+        "en": "We"
+      }
+    }
   },
   {
     "kanji": "柵",
@@ -5303,10 +5619,20 @@ export const KANJI_ENTRIES = [
       "fertility"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "ヨク"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "ヨク"
+    ],
+    "readingExamples": {
+      "ヨク": {
+        "kanji": "肥沃",
+        "kana": "ひよく",
+        "en": "fertile"
+      }
+    }
   },
   {
     "kanji": "淫",
@@ -5325,10 +5651,28 @@ export const KANJI_ENTRIES = [
       "licentiousness"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "イン"
+    ],
+    "quizKun": [
+      "みだら"
+    ],
+    "quizReadings": [
+      "イン",
+      "みだら"
+    ],
+    "readingExamples": {
+      "イン": {
+        "kanji": "淫",
+        "kana": "いん",
+        "en": "licentiousness"
+      },
+      "みだら": {
+        "kanji": "淫ら",
+        "kana": "みだら",
+        "en": "obscene"
+      }
+    }
   },
   {
     "kanji": "溺",
@@ -5601,10 +5945,20 @@ export const KANJI_ENTRIES = [
       "emperor's seal"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "ジ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "ジ"
+    ],
+    "readingExamples": {
+      "ジ": {
+        "kanji": "璽",
+        "kana": "じ",
+        "en": "emperor's seal"
+      }
+    }
   },
   {
     "kanji": "痘",
@@ -6352,10 +6706,20 @@ export const KANJI_ENTRIES = [
       "capsize"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "ヘイ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "ヘイ"
+    ],
+    "readingExamples": {
+      "ヘイ": {
+        "kanji": "隠蔽",
+        "kana": "いんぺい",
+        "en": "concealment"
+      }
+    }
   },
   {
     "kanji": "虞",
@@ -6379,10 +6743,20 @@ export const KANJI_ENTRIES = [
       "concern"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "グ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "グ"
+    ],
+    "readingExamples": {
+      "グ": {
+        "kanji": "不虞",
+        "kana": "ふぐ",
+        "en": "unforeseen (occurrence)"
+      }
+    }
   },
   {
     "kanji": "詣",
@@ -6516,10 +6890,20 @@ export const KANJI_ENTRIES = [
       "audience (with king)"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "エツ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "エツ"
+    ],
+    "readingExamples": {
+      "エツ": {
+        "kanji": "謁",
+        "kana": "えつ",
+        "en": "audience (with a superior, e.g. nobility)"
+      }
+    }
   },
   {
     "kanji": "貌",
@@ -6752,10 +7136,20 @@ export const KANJI_ENTRIES = [
       "cruel"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "ラツ"
+    ],
     "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizReadings": [
+      "ラツ"
+    ],
+    "readingExamples": {
+      "ラツ": {
+        "kanji": "悪辣",
+        "kana": "あくらつ",
+        "en": "crafty"
+      }
+    }
   },
   {
     "kanji": "遜",
@@ -7106,25 +7500,6 @@ export const KANJI_ENTRIES = [
     }
   },
   {
-    "kanji": "頰",
-    "on": [
-      "キョウ"
-    ],
-    "kun": [
-      "ほお",
-      "ほほ"
-    ],
-    "meanings": [
-      "cheeks",
-      "jaw"
-    ],
-    "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
-  },
-  {
     "kanji": "顎",
     "on": [
       "ガク"
@@ -7258,25 +7633,5 @@ export const KANJI_ENTRIES = [
         "en": "depression"
       }
     }
-  },
-  {
-    "kanji": "𠮟",
-    "on": [
-      "シツ",
-      "シチ",
-      "カ"
-    ],
-    "kun": [
-      "しか.る"
-    ],
-    "meanings": [
-      "scold",
-      "reprove"
-    ],
-    "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
   }
 ];

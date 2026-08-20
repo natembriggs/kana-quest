@@ -47,9 +47,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フ": {
-        "kanji": "不況",
-        "kana": "ふきょう",
-        "en": "(economic) depression"
+        "kanji": "不虞",
+        "kana": "ふぐ",
+        "en": "unforeseen (occurrence)"
       }
     }
   },
@@ -323,9 +323,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "レイ": {
-        "kanji": "司令官",
-        "kana": "しれいかん",
-        "en": "commandant"
+        "kanji": "令嗣",
+        "kana": "れいし",
+        "en": "your heir"
       }
     }
   },
@@ -1999,9 +1999,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フク": {
-        "kanji": "副社長",
-        "kana": "ふくしゃちょう",
-        "en": "executive vice-president"
+        "kanji": "副弐",
+        "kana": "ふくじ",
+        "en": "secondary (thing)"
       }
     }
   },
@@ -2621,9 +2621,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イン": {
-        "kanji": "印象",
-        "kana": "いんしょう",
-        "en": "impression"
+        "kanji": "印璽",
+        "kana": "いんじ",
+        "en": "imperial seal"
       },
       "しるし": {
         "kanji": "印",
@@ -3532,10 +3532,28 @@ export const KANJI_ENTRIES = [
       "princess"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "エン"
+    ],
+    "quizKun": [
+      "ひめ"
+    ],
+    "quizReadings": [
+      "エン",
+      "ひめ"
+    ],
+    "readingExamples": {
+      "エン": {
+        "kanji": "才媛",
+        "kana": "さいえん",
+        "en": "literary woman"
+      },
+      "ひめ": {
+        "kanji": "愛媛",
+        "kana": "えひめ",
+        "en": "Ehime (prefecture)"
+      }
+    }
   },
   {
     "kanji": "季",
@@ -3730,9 +3748,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カン": {
-        "kanji": "長官",
-        "kana": "ちょうかん",
-        "en": "secretary (government)"
+        "kanji": "勅任官",
+        "kana": "ちょくにんかん",
+        "en": "imperial appointee"
       }
     }
   },
@@ -3950,9 +3968,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キ": {
-        "kanji": "岐阜",
-        "kana": "ぎふ",
-        "en": "Gifu (city, prefecture)"
+        "kanji": "壱岐",
+        "kana": "いき",
+        "en": "Iki (former province located on Iki Island in present-day Nagasaki Prefecture)"
       }
     }
   },
@@ -4325,9 +4343,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "タイ": {
-        "kanji": "地帯",
-        "kana": "ちたい",
-        "en": "zone"
+        "kanji": "貞操帯",
+        "kana": "ていそうたい",
+        "en": "chastity belt"
       },
       "おびる": {
         "kanji": "帯びる",
@@ -4889,9 +4907,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "アイ": {
-        "kanji": "愛",
-        "kana": "あい",
-        "en": "love"
+        "kanji": "愛玩",
+        "kana": "あいがん",
+        "en": "caring for (esp. a pet or a small object)"
       },
       "いとしい": {
         "kanji": "愛しい",
@@ -6195,9 +6213,19 @@ export const KANJI_ENTRIES = [
     ],
     "words": [],
     "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizKun": [
+      "とち"
+    ],
+    "quizReadings": [
+      "とち"
+    ],
+    "readingExamples": {
+      "とち": {
+        "kanji": "栃木",
+        "kana": "とちぎ",
+        "en": "Tochigi (city, prefecture)"
+      }
+    }
   },
   {
     "kanji": "栄",
@@ -7086,9 +7114,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジ": {
-        "kanji": "政治",
-        "kana": "せいじ",
-        "en": "politics"
+        "kanji": "貞治",
+        "kana": "じょうじ",
+        "en": "Jōji era (of the Northern Court) (1362.9.23-1368.2.18)"
       },
       "チ": {
         "kanji": "自治",
@@ -7172,9 +7200,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ホウ": {
-        "kanji": "憲法",
-        "kana": "けんぽう",
-        "en": "constitution"
+        "kanji": "尺斤法",
+        "kana": "しゃくきんほう",
+        "en": "Chinese system of weights and measures"
       },
       "ハッ": {
         "kanji": "法度",
@@ -8938,9 +8966,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セツ": {
-        "kanji": "季節",
-        "kana": "きせつ",
-        "en": "season"
+        "kanji": "貞節",
+        "kana": "ていせつ",
+        "en": "chastity"
       },
       "セチ": {
         "kanji": "お節",
@@ -9061,9 +9089,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケツ": {
-        "kanji": "結果",
-        "kana": "けっか",
-        "en": "result"
+        "kanji": "蛇結茨",
+        "kana": "ジャケツイバラ",
+        "en": "Caesalpinia decapetala var. japonica"
       },
       "ケチ": {
         "kanji": "結縁",
@@ -9314,9 +9342,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チ": {
-        "kanji": "措置",
-        "kana": "そち",
-        "en": "measure"
+        "kanji": "附置",
+        "kana": "ふち",
+        "en": "(organizational) attachment"
       },
       "おく": {
         "kanji": "置く",
@@ -9456,9 +9484,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ロウ": {
-        "kanji": "老人",
-        "kana": "ろうじん",
-        "en": "old person"
+        "kanji": "老人斑",
+        "kana": "ろうじんはん",
+        "en": "senile plaque"
       },
       "おいる": {
         "kanji": "年老いる",
@@ -9746,9 +9774,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エイ": {
-        "kanji": "英語",
-        "kana": "えいご",
-        "en": "English (language)"
+        "kanji": "英斤",
+        "kana": "えいきん",
+        "en": "pound (unit of weight)"
       }
     }
   },
@@ -9768,10 +9796,28 @@ export const KANJI_ENTRIES = [
       "thorn"
     ],
     "words": [],
-    "quizOn": [],
-    "quizKun": [],
-    "quizReadings": [],
-    "readingExamples": {}
+    "quizOn": [
+      "シ"
+    ],
+    "quizKun": [
+      "いばら"
+    ],
+    "quizReadings": [
+      "シ",
+      "いばら"
+    ],
+    "readingExamples": {
+      "シ": {
+        "kanji": "茅茨",
+        "kana": "ぼうし",
+        "en": "thatched roof"
+      },
+      "いばら": {
+        "kanji": "茨",
+        "kana": "いばら",
+        "en": "thorny shrub"
+      }
+    }
   },
   {
     "kanji": "菜",
@@ -10147,9 +10193,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カン": {
-        "kanji": "観光",
-        "kana": "かんこう",
-        "en": "sightseeing"
+        "kanji": "貞観",
+        "kana": "じょうがん",
+        "en": "Jōgan era (859.4.15-877.4.16)"
       }
     }
   },
@@ -10325,9 +10371,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セツ": {
-        "kanji": "演説",
-        "kana": "えんぜつ",
-        "en": "speech"
+        "kanji": "童貞説",
+        "kana": "どうていせつ",
+        "en": "immaculate conception"
       },
       "ゼイ": {
         "kanji": "遊説",
@@ -10530,9 +10576,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガ": {
-        "kanji": "祝賀",
-        "kana": "しゅくが",
-        "en": "celebration"
+        "kanji": "恭賀",
+        "kana": "きょうが",
+        "en": "respectful congratulations"
       }
     }
   },
@@ -10976,9 +11022,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セン": {
-        "kanji": "選挙",
-        "kana": "せんきょ",
-        "en": "election"
+        "kanji": "勅選",
+        "kana": "ちょくせん",
+        "en": "imperial nomination"
       },
       "えらぶ": {
         "kanji": "選ぶ",
@@ -11079,9 +11125,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "リョウ": {
-        "kanji": "大量",
-        "kana": "たいりょう",
-        "en": "large quantity"
+        "kanji": "斤量",
+        "kana": "きんりょう",
+        "en": "impost"
       },
       "はかる": {
         "kanji": "推し量る",
@@ -11584,9 +11630,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュン": {
-        "kanji": "順調",
-        "kana": "じゅんちょう",
-        "en": "favourable"
+        "kanji": "恭順",
+        "kana": "きょうじゅん",
+        "en": "allegiance"
       }
     }
   },
@@ -11639,9 +11685,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガン": {
-        "kanji": "願",
-        "kana": "がん",
-        "en": "prayer"
+        "kanji": "勅願",
+        "kana": "ちょくがん",
+        "en": "imperial prayer"
       },
       "ねがう": {
         "kanji": "願う",
@@ -11874,9 +11920,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヨウ": {
-        "kanji": "栄養",
-        "kana": "えいよう",
-        "en": "nutrition"
+        "kanji": "養嗣子",
+        "kana": "ようしし",
+        "en": "adoptive heir"
       },
       "やしなう": {
         "kanji": "養う",
@@ -11937,9 +11983,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "香水",
-        "kana": "こうすい",
-        "en": "perfume"
+        "kanji": "薫香",
+        "kana": "くんこう",
+        "en": "incense"
       },
       "かおり": {
         "kanji": "香り",
@@ -12052,9 +12098,9 @@ export const KANJI_ENTRIES = [
         "en": "deer (esp. the sika deer, Cervus nippon)"
       },
       "か": {
-        "kanji": "馬鹿",
-        "kana": "ばか",
-        "en": "idiot"
+        "kanji": "鹿の子斑",
+        "kana": "かのこまだら",
+        "en": "pattern of white spots"
       }
     }
   }
