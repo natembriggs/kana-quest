@@ -183,7 +183,9 @@ function asContext(ctx) {
 }
 
 export function newRecord() {
-  return { box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0, history: [] };
+  return {
+    box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0, history: [], updatedAt: null,
+  };
 }
 
 /**
@@ -218,6 +220,12 @@ export function grade(record, correct, now = Date.now()) {
   if (rec.history.length > MAX_HISTORY) {
     rec.history.splice(0, rec.history.length - MAX_HISTORY);
   }
+  // Backup merging cannot rely on history length: histories are capped, and
+  // Yomi records use counters rather than an event array. A common timestamp
+  // gives every record type the same unambiguous "which copy is newer?"
+  // signal. Old records remain compatible; store.js derives their timestamp
+  // from history/lastReviewed when this field is absent.
+  rec.updatedAt = now;
   return rec;
 }
 
@@ -456,6 +464,7 @@ export function newYomiRecord() {
     secondLastReviewed: null,
     due: 0,
     intervalDays: 0,
+    updatedAt: null,
   };
 }
 
@@ -486,6 +495,7 @@ export function gradeYomi(record, correct, now = Date.now()) {
     rec.intervalDays = 0;
     rec.due = now;
   }
+  rec.updatedAt = now;
   return rec;
 }
 
