@@ -58,8 +58,8 @@ for (const course of KANJI_COURSES) {
     manifestCoverage.add(char);
   }
 }
-check('the manifest covers 1006-1030 kanji with no duplicates across units',
-  manifestDuplicates === 0 && manifestCoverage.size >= 1006 && manifestCoverage.size <= 1030,
+check('the manifest covers 2130-2140 kanji with no duplicates across units',
+  manifestDuplicates === 0 && manifestCoverage.size >= 2130 && manifestCoverage.size <= 2140,
   `${manifestCoverage.size} unique, ${manifestDuplicates} duplicate(s)`);
 check('every loaded course has real per-kanji data, not just the skeleton',
   KANJI_COURSES.every((c) => c.chunks.flatMap((ch) => ch.items).every((k) => !!kanjiInfo(c, k))));
@@ -488,16 +488,18 @@ check('distractors are drawn from the same set where possible',
   kyaOptions.join(' '));
 done('multiple-choice options');
 
-// --- All six grades: structural sanity ---------------------------------
+// --- All twelve units (grades 1-6 + secondary sub-units 8-1..8-6):
+// --- structural sanity ---------------------------------------------------
 // The depth checks below (option counts, priority ordering, rollups, ...)
 // only run against grade 1, since they're testing the mechanism rather than
-// the data — but every grade goes through the same build script, so a quick
-// pass across all of them catches a grade-specific regression (e.g. a grade
-// with a kanji that has zero readings, or one that collides with another
-// grade's kanji).
+// the data — but every unit goes through the same build script, so a quick
+// pass across all of them catches a unit-specific regression (e.g. one with
+// a kanji that has zero readings, or one that collides with another unit's
+// kanji).
 
-check('grades 1 through 6 all exist',
-  ['1', '2', '3', '4', '5', '6'].every((g) => KANJI_COURSES.some((c) => c.id === `kanji-grade-${g}`)),
+const EXPECTED_UNITS = ['1', '2', '3', '4', '5', '6', '8-1', '8-2', '8-3', '8-4', '8-5', '8-6'];
+check('grades 1-6 and secondary sub-units 8-1..8-6 all exist',
+  EXPECTED_UNITS.every((u) => KANJI_COURSES.some((c) => c.id === `kanji-grade-${u}`)),
   KANJI_COURSES.map((c) => c.id).join(', '));
 
 const seenAcrossGrades = new Map(); // kanji -> which grade course first had it
@@ -531,8 +533,8 @@ check('every kanji has at least one non-radical English meaning to quiz',
 check('every quizzed reading has an example word — that is the bar for being quizzed',
   quizReadingWithoutExample === 0, `${quizReadingWithoutExample} without one`);
 check('no kanji appears in more than one grade', crossGradeDuplicates === 0, `${crossGradeDuplicates} duplicates`);
-check('the full elementary set is 1006-1030 kanji (Kyoiku kanji, allowing for JOYO revisions)',
-  seenAcrossGrades.size >= 1006 && seenAcrossGrades.size <= 1030, `got ${seenAcrossGrades.size}`);
+check('the full jōyō set is 2130-2140 kanji (2,136 official, allowing for minor revisions)',
+  seenAcrossGrades.size >= 2130 && seenAcrossGrades.size <= 2140, `got ${seenAcrossGrades.size}`);
 
 // A few kanji (prefecture names like 媛/栃/茨) have no reading appearing in any
 // common word, so they have no yomi question. They must be excluded from that
@@ -552,9 +554,9 @@ check('kanji with no quizzable reading are excluded from yomi mode',
   quizzableButExcluded === 0, `${quizzableButExcluded} not excluded`);
 check('nothing quizzable is excluded from yomi mode by mistake',
   excludedButQuizzable === 0, `${excludedButQuizzable} wrongly excluded`);
-check('the unquizzable-yomi set is a small handful, not a systemic failure',
-  unquizzableYomi <= 10, `${unquizzableYomi} kanji have no quizzable reading`);
-done('all six kanji grades are structurally sound');
+check('the unquizzable-yomi set is a small fraction, not a systemic failure',
+  unquizzableYomi <= 40, `${unquizzableYomi} kanji have no quizzable reading`);
+done('all twelve kanji units are structurally sound');
 
 // --- Kanji data and reading choices ----------------------------------------
 // The rest of this section goes deep on grade 1 only — see note above.

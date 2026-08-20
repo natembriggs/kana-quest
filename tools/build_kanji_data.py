@@ -37,7 +37,18 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "tools" / "data_src"
 DATA_DIR = ROOT / "src" / "data"
 
-MAX_GRADE = 6           # grades 1-6: the full elementary-school (Kyoiku) kanji set
+# KANJIDIC's own grade values to include: 1-6 (elementary/Kyoiku), 8
+# (secondary jōyō — everything in the 2,136-kanji jōyō set that isn't
+# elementary). Grade 7 doesn't exist in KANJIDIC's scheme; 9/10 are jinmeiyō
+# (name kanji, not jōyō) and are out of scope — see kanji-expansion-plan.md
+# §5 for that as a separate, later phase. Verified against the downloaded
+# source: grades 1-6 + 8 sum to exactly 2,136.
+GRADES = (1, 2, 3, 4, 5, 6, 8)
+GRADE_8_SUB_UNITS = 6   # secondary jōyō (1,110 kanji) is one KANJIDIC grade
+                        # but far too big to be one teaching unit or one lazy-
+                        # loaded chunk — split into this many, by frequency
+                        # rank, each its own grade-picker tile. See
+                        # split_grade_8() and kanji-expansion-plan.md §8.
 EXAMPLES_PER_KANJI = 4
 MAX_KANJI_PER_WORD = 2      # cap for the general example-word list (grade-appropriate only)
 MAX_KANJI_PER_READING_WORD = 3  # looser cap for reading-anchored lookups (see below)
@@ -116,17 +127,23 @@ def stem_variants(stem):
 
 def parse_kanjidic():
     """Return {kanji: {'on': [...], 'kun': [...], 'meanings': [...],
-    'grade': n|None}} for EVERY kanji in KANJIDIC.
+    'grade': n|None, 'freq': n|None}} for EVERY kanji in KANJIDIC.
 
     Every kanji is parsed, not just the graded ones, because word alignment
     needs the readings of whatever else happens to appear in an example word
     (上海 needs 海's readings even when only grade 1 is being built).
+
+    `freq` is KANJIDIC's newspaper-corpus frequency rank (1 = most common),
+    present for roughly the top 2,500 kanji — used only to order grade 8
+    (secondary jōyō) into sub-units, since KANJIDIC's own grade field puts
+    all 1,110 of them in one undifferentiated bucket. See split_grade_8().
     """
     text = KANJIDIC.read_text(encoding="utf-8")
     out = {}
     for block in re.findall(r"<character>.*?</character>", text, re.S):
         literal = re.search(r"<literal>(.*?)</literal>", block).group(1)
         grade_m = re.search(r"<grade>(\d+)</grade>", block)
+        freq_m = re.search(r"<freq>(\d+)</freq>", block)
         meanings = [
             html.unescape(m) for m in
             re.findall(r'<meaning>(?!<)(.*?)</meaning>', block)
@@ -138,6 +155,7 @@ def parse_kanjidic():
             "kun": re.findall(r'<reading r_type="ja_kun">(.*?)</reading>', block),
             "meanings": [m for m in meanings if not RADICAL_MEANING.search(m)][:4],
             "grade": int(grade_m.group(1)) if grade_m else None,
+            "freq": int(freq_m.group(1)) if freq_m else None,
         }
     return out
 
@@ -334,6 +352,27 @@ def choose_examples(words, limit):
     return sorted(words, key=lambda w: (w[3], len(w[1])))[:limit]
 
 
+def split_grade_8(kanjidic):
+    """Secondary jōyō (KANJIDIC grade 8) is 1,110 kanji in one undifferentiated
+    bucket — far too many for one teaching unit or one lazy-loaded chunk (see
+    kanji-expansion-plan.md §8). Splits it into GRADE_8_SUB_UNITS "8-1".."8-N"
+    sub-units by KANJIDIC's own newspaper-frequency rank (most common first;
+    kanji with no rank at all sort last, tie-broken by codepoint for
+    determinism), each roughly equal in size.
+
+    Returns (unit_of: {kanji: "8-N"}, ordered: [kanji, ...] in the same
+    frequency order the split was made from) — `ordered` is also each
+    sub-unit's internal teaching order, most useful characters first, same as
+    every other unit's order is meaningful (grade 1 opens with 一 not some
+    arbitrary kanji).
+    """
+    grade8 = [k for k, v in kanjidic.items() if v["grade"] == 8]
+    ordered = sorted(grade8, key=lambda k: (kanjidic[k]["freq"] or 10 ** 9, k))
+    size = -(-len(ordered) // GRADE_8_SUB_UNITS)  # ceil division
+    unit_of = {kanji: f"8-{i // size + 1}" for i, kanji in enumerate(ordered)}
+    return unit_of, ordered
+
+
 def main():
     if not KANJIDIC.exists() or not JMDICT.exists():
         raise SystemExit(
@@ -343,9 +382,24 @@ def main():
 
     kanjidic = parse_kanjidic()
     stem_index = build_stem_index(kanjidic)
-    graded = {k: v for k, v in kanjidic.items() if v["grade"] and v["grade"] <= MAX_GRADE}
-    print(f"kanjidic2: {len(graded)} kanji at grade <= {MAX_GRADE} "
+    graded = {k: v for k, v in kanjidic.items() if v["grade"] in GRADES}
+    print(f"kanjidic2: {len(graded)} kanji across grades {GRADES} "
           f"({len(kanjidic)} total parsed for word alignment)")
+
+    grade8_unit, grade8_order = split_grade_8(kanjidic)
+
+    def unit_of(kanji, info):
+        return grade8_unit[kanji] if info["grade"] == 8 else str(info["grade"])
+
+    # Elementary grades keep their existing (grade, codepoint) order —
+    # unchanged from before grade 8 existed. Grade 8 follows in frequency
+    # order (see split_grade_8) rather than being re-sorted alphabetically,
+    # so each of its sub-units stays internally ordered most-common-first.
+    elementary_order = sorted(
+        (k for k, v in graded.items() if v["grade"] != 8),
+        key=lambda k: (graded[k]["grade"], k),
+    )
+    iteration_order = elementary_order + grade8_order
 
     known = set(graded)
     general_words, words_by_reading = parse_jmdict_words(known, kanjidic, stem_index)
@@ -354,7 +408,8 @@ def main():
     dropped_readings = 0
     kept_readings = 0
     no_quiz_readings = []
-    for kanji, info in sorted(graded.items(), key=lambda kv: (kv[1]["grade"], kv[0])):
+    for kanji in iteration_order:
+        info = graded[kanji]
         reading_words = words_by_reading.get(kanji, {})
 
         # Only readings that actually show up in a common word are quizzed —
@@ -386,7 +441,7 @@ def main():
             reading_examples[reading] = {"kanji": best[0], "kana": best[1], "en": best[2]}
 
         examples = choose_examples(general_words.get(kanji, []), EXAMPLES_PER_KANJI)
-        grades.setdefault(info["grade"], []).append({
+        grades.setdefault(unit_of(kanji, info), []).append({
             "kanji": kanji,
             "on": info["on"],
             "kun": info["kun"],

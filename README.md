@@ -152,10 +152,13 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   repetition, since the point of the record is what a learner actually knew
   before being shown anything.
 
-**Kanji, all six Japanese elementary-school grades (1,026 kanji).** Kanji has
-three modes rather than two: **Definition**, **Yomi** and **Writing**.
-Selecting Definition hides the kana courses, since kana has no English
-meaning to quiz. Each mode keeps entirely separate progress.
+**Kanji, the full 2,136-character jōyō set** — all six Japanese
+elementary-school grades plus secondary jōyō (everything else in general use,
+split into six frequency-ordered sub-units so no single one is unwieldy; see
+`kanji-expansion-plan.md` §8). Kanji has three modes rather than two:
+**Definition**, **Yomi** and **Writing**. Selecting Definition hides the kana
+courses, since kana has no English meaning to quiz. Each mode keeps entirely
+separate progress.
 
 ### Definition mode
 
@@ -303,10 +306,11 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 
 ## What is not built yet
 
-- **The whole of `kanji-expansion-plan.md`** — full jōyō coverage (currently
-  only the 1,026 elementary-school kanji), grouping by JLPT level or
-  frequency instead of school grade, and an explicit study list you manage
-  yourself. See that document for the phasing.
+- **The rest of `kanji-expansion-plan.md`** — grouping kanji by JLPT level or
+  frequency instead of school grade (phase 7), and kanji beyond the official
+  jōyō set: names and places (phase 8). Full jōyō coverage, the explicit
+  study list, and lazy per-grade data loading are all done — see that
+  document's phase table.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.

@@ -1,10 +1,10 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0-5 done (example-word ranking fix, study-list model and
+Status: phases 0-6 done (example-word ranking fix, study-list model and
 scheduling, enrollment UI, review scope toggle, kanji search, lazy per-grade
-data loading). Phase 6 (all 2,136 jōyō kanji, on top of phase 5's lazy
-loading) is next. Supersedes the kanji bullet under *What is not built yet*
-in the README.
+data loading, all 2,136 jōyō kanji). Phase 7 (JLPT/frequency orderings) is
+next. Supersedes the kanji bullet under *What is not built yet* in the
+README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -501,6 +501,48 @@ content-neutral against the previous monolithic files before deleting them —
 same 1,026 kanji, same readings/meanings/examples/stroke paths, just
 re-chunked.
 
+### 4.2 How phase 6 actually landed
+
+As designed — all 2,136 jōyō kanji, on top of phase 5's lazy loading, with
+zero further architectural change needed. Verified against the downloaded
+KANJIDIC2 source that grades 1-6 + grade 8 sum to exactly 2,136, confirming
+grade 8 ("secondary jōyō") is the right filter for the rest of the set.
+
+**§8's open question is resolved: grade 8 ships sub-divided, not as one flat
+unit.** At 1,110 kanji, KANJIDIC's grade 8 alone is over half the jōyō set —
+one lazy-loaded chunk that size, and a 222-set course with a meaningless "N
+sets left" counter, was judged worse than a small amount of extra work now.
+`build_kanji_data.py` splits it into six ~185-kanji sub-units
+(`8-1`..`8-6`) by KANJIDIC's own newspaper-frequency rank — most useful
+first, unranked kanji last — the same signal §3.2 already earmarked for the
+frequency ordering in phase 7. Each sub-unit is a fully independent teaching
+unit and lazy-loaded chunk, with its own grade-picker tile
+("Secondary 1".."Secondary 6"); `kanji.js`'s unit-key handling
+(`compareUnits`, `unitLabel`) was written generically enough from phase 5
+that a dash-separated sub-unit key needed no special-casing beyond the label
+formatter.
+
+**`state.grade` (a plain number) generalizes to `state.kanjiUnit` (a unit-key
+string).** The only other `app.js` changes were `KANJI_GRADES` becoming
+`KANJI_UNIT_IDS` (derived from `KANJI_COURSES` itself, not hardcoded numbers)
+and the grade-picker badge text (`unitBadge`: `"1"`.."6" as-is, `"8-N"` →
+`"SN"`, short enough for the same tile size). Nothing about the lazy-loading
+mechanism itself changed — a secondary sub-unit loads exactly the way an
+elementary grade does.
+
+**Word alignment now runs against the full 2,136-kanji "known" set, not just
+the grades being built** — `parse_jmdict_words()`'s `known_kanji` parameter
+was already grade-agnostic, so grades 1-6 pick up a few more/better example
+words than phase 5's byte-identical output (more kanji are "known," so more
+compound words qualify), which is expected and not a regression: only §0's
+ranking logic and the grade/reading data itself were ever meant to stay
+frozen, not the word pool a wider vocabulary naturally draws from.
+
+The unquizzable-Yomi set grew from 3 to 30 kanji (still a small fraction of
+2,136) — expected, since secondary jōyō includes many more obscure
+characters whose only common uses are as name/place components with no
+everyday-word-anchored reading.
+
 ---
 
 ## 5. Beyond jōyō
@@ -559,7 +601,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | **Done** — see §2.7 |
 | 4 | Kanji search (§2.2). | **Done** — see §2.8 |
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | **Done** — see §4.1 |
-| 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | Not started |
+| 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | **Done** — see §4.2 |
 | 7 | JLPT and frequency orderings, ordering picker (§3). | Not started |
 | 8 | Beyond-jōyō set (§5). | Not started |
 | 9 | README, `APP_VERSION` / sw.js `VERSION` bump, service worker `SHELL` review. | Not started |

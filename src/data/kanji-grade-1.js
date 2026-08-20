@@ -33,9 +33,9 @@ export const KANJI_ENTRIES = [
         "en": "one o'clock"
       },
       {
-        "kanji": "一番",
-        "kana": "いちばん",
-        "en": "number one"
+        "kanji": "一般",
+        "kana": "いっぱん",
+        "en": "general"
       }
     ],
     "quizOn": [
@@ -253,14 +253,14 @@ export const KANJI_ENTRIES = [
         "en": "doomed (business, trade, etc.)"
       },
       {
+        "kanji": "上昇",
+        "kana": "じょうしょう",
+        "en": "rising"
+      },
+      {
         "kanji": "値上げ",
         "kana": "ねあげ",
         "en": "price increase"
-      },
-      {
-        "kanji": "上位",
-        "kana": "じょうい",
-        "en": "superior (in rank)"
       }
     ],
     "quizOn": [
@@ -446,9 +446,9 @@ export const KANJI_ENTRIES = [
         "en": "center"
       },
       {
-        "kanji": "中間",
-        "kana": "ちゅうかん",
-        "en": "middle"
+        "kanji": "途中",
+        "kana": "とちゅう",
+        "en": "on the way"
       }
     ],
     "quizOn": [
@@ -779,6 +779,11 @@ export const KANJI_ENTRIES = [
         "en": "rest"
       },
       {
+        "kanji": "休暇",
+        "kana": "きゅうか",
+        "en": "holiday"
+      },
+      {
         "kanji": "夏休み",
         "kana": "なつやすみ",
         "en": "summer vacation"
@@ -787,11 +792,6 @@ export const KANJI_ENTRIES = [
         "kanji": "休日",
         "kana": "きゅうじつ",
         "en": "holiday"
-      },
-      {
-        "kanji": "連休",
-        "kana": "れんきゅう",
-        "en": "consecutive holidays"
       }
     ],
     "quizOn": [
@@ -923,6 +923,11 @@ export const KANJI_ENTRIES = [
         "en": "import"
       },
       {
+        "kanji": "購入",
+        "kana": "こうにゅう",
+        "en": "purchase"
+      },
+      {
         "kanji": "導入",
         "kana": "どうにゅう",
         "en": "introduction"
@@ -931,11 +936,6 @@ export const KANJI_ENTRIES = [
         "kanji": "収入",
         "kana": "しゅうにゅう",
         "en": "income"
-      },
-      {
-        "kanji": "入り",
-        "kana": "いり",
-        "en": "entering"
       }
     ],
     "quizOn": [
@@ -1552,6 +1552,11 @@ export const KANJI_ENTRIES = [
         "en": "right"
       },
       {
+        "kanji": "右翼",
+        "kana": "うよく",
+        "en": "right wing"
+      },
+      {
         "kanji": "左右",
         "kana": "さゆう",
         "en": "left and right"
@@ -1560,11 +1565,6 @@ export const KANJI_ENTRIES = [
         "kanji": "右派",
         "kana": "うは",
         "en": "right wing"
-      },
-      {
-        "kanji": "右手",
-        "kana": "みぎて",
-        "en": "right hand"
       }
     ],
     "quizOn": [
@@ -1625,14 +1625,14 @@ export const KANJI_ENTRIES = [
         "en": "name"
       },
       {
+        "kanji": "名誉",
+        "kana": "めいよ",
+        "en": "honor"
+      },
+      {
         "kanji": "指名",
         "kana": "しめい",
         "en": "naming"
-      },
-      {
-        "kanji": "氏名",
-        "kana": "しめい",
-        "en": "(full) name"
       }
     ],
     "quizOn": [
@@ -2505,14 +2505,14 @@ export const KANJI_ENTRIES = [
         "en": "on the left as one faces (it)"
       },
       {
+        "kanji": "左翼",
+        "kana": "さよく",
+        "en": "left wing"
+      },
+      {
         "kanji": "左右",
         "kana": "さゆう",
         "en": "left and right"
-      },
-      {
-        "kanji": "左派",
-        "kana": "さは",
-        "en": "left wing"
       }
     ],
     "quizOn": [
@@ -3543,9 +3543,9 @@ export const KANJI_ENTRIES = [
         "en": "conflagration"
       },
       {
-        "kanji": "放火",
-        "kana": "ほうか",
-        "en": "arson"
+        "kanji": "噴火",
+        "kana": "ふんか",
+        "en": "eruption"
       }
     ],
     "quizOn": [
@@ -3654,14 +3654,14 @@ export const KANJI_ENTRIES = [
         "en": "eyeball"
       },
       {
+        "kanji": "替え玉",
+        "kana": "かえだま",
+        "en": "stand-in"
+      },
+      {
         "kanji": "お年玉",
         "kana": "おとしだま",
         "en": "New Year's gift (usu. money given to a child by relatives and visitors)"
-      },
-      {
-        "kanji": "悪玉",
-        "kana": "あくだま",
-        "en": "bad character"
       }
     ],
     "quizOn": [
@@ -4184,9 +4184,9 @@ export const KANJI_ENTRIES = [
         "en": "notice"
       },
       {
-        "kanji": "名目",
-        "kana": "めいもく",
-        "en": "name"
+        "kanji": "項目",
+        "kana": "こうもく",
+        "en": "item"
       }
     ],
     "quizOn": [
@@ -4494,6 +4494,11 @@ export const KANJI_ENTRIES = [
         "en": "bamboo (any grass of subfamily Bambusoideae)"
       },
       {
+        "kanji": "爆竹",
+        "kana": "ばくちく",
+        "en": "firecracker"
+      },
+      {
         "kanji": "竹林",
         "kana": "ちくりん",
         "en": "bamboo thicket"
@@ -4502,11 +4507,6 @@ export const KANJI_ENTRIES = [
         "kanji": "竹刀",
         "kana": "しない",
         "en": "bamboo sword (for kendo)"
-      },
-      {
-        "kanji": "青竹",
-        "kana": "あおだけ",
-        "en": "green bamboo"
       }
     ],
     "quizOn": [
@@ -4783,6 +4783,11 @@ export const KANJI_ENTRIES = [
         "en": "insect"
       },
       {
+        "kanji": "昆虫",
+        "kana": "こんちゅう",
+        "en": "insect"
+      },
+      {
         "kanji": "虫歯",
         "kana": "むしば",
         "en": "tooth decay"
@@ -4791,11 +4796,6 @@ export const KANJI_ENTRIES = [
         "kanji": "害虫",
         "kana": "がいちゅう",
         "en": "harmful insect"
-      },
-      {
-        "kanji": "幼虫",
-        "kana": "ようちゅう",
-        "en": "larva"
       }
     ],
     "quizOn": [
@@ -4912,6 +4912,16 @@ export const KANJI_ENTRIES = [
         "kanji": "貝",
         "kana": "かい",
         "en": "shellfish"
+      },
+      {
+        "kanji": "貝殻",
+        "kana": "かいがら",
+        "en": "seashell"
+      },
+      {
+        "kanji": "貝塚",
+        "kana": "かいづか",
+        "en": "shell heap"
       },
       {
         "kanji": "巻き貝",
@@ -5168,14 +5178,14 @@ export const KANJI_ENTRIES = [
         "en": "funds"
       },
       {
-        "kanji": "基金",
-        "kana": "ききん",
-        "en": "fund"
+        "kanji": "金融",
+        "kana": "きんゆう",
+        "en": "finance"
       },
       {
-        "kanji": "年金",
-        "kana": "ねんきん",
-        "en": "annuity"
+        "kanji": "献金",
+        "kana": "けんきん",
+        "en": "donation"
       }
     ],
     "quizOn": [
@@ -5393,9 +5403,9 @@ export const KANJI_ENTRIES = [
         "en": "real intention"
       },
       {
-        "kanji": "音声",
-        "kana": "おんせい",
-        "en": "voice"
+        "kanji": "騒音",
+        "kana": "そうおん",
+        "en": "noise"
       }
     ],
     "quizOn": [

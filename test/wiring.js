@@ -827,11 +827,49 @@ check('picking kanji opens the course screen', visible() === 'screen-course', `s
 check('kanji shows a grade picker', el('grade-picker').hidden === false);
 
 const gradeButtons = el('grade-picker')._children;
-check('the grade picker offers all six elementary grades', gradeButtons.length === 6,
+check('the grade picker offers all six elementary grades plus six secondary sub-units', gradeButtons.length === 12,
   gradeButtons.map((b) => b.dataset.grade).join(','));
-check('grades are numbered 1 to 6 in order',
-  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6');
+check('elementary grades come first, numbered 1 to 6, then secondary sub-units 8-1..8-6',
+  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6,8-1,8-2,8-3,8-4,8-5,8-6');
 check('grade 1 is selected by default', gradeButtons[0].className.includes('active'));
+
+// A secondary sub-unit is a real, independently-loadable unit, not just a
+// picker label — select one, open its overview, and open a character on it,
+// proving the lazy load actually resolves to real per-kanji/stroke data the
+// same way an elementary grade's does (see kanji-expansion-plan.md §4.1/§8).
+const secondaryButton = gradeButtons.find((b) => b.dataset.grade === '8-3');
+fire(secondaryButton, 'click');
+await settle();
+check('selecting a secondary sub-unit shows its own course card',
+  (el('course-list')._children[0].innerHTML || '').includes('中学以降 3'),
+  el('course-list')._children[0].innerHTML);
+
+const secondaryViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(secondaryViewSetButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // first-ever load of this sub-unit's manifest-listed characters
+check('a secondary sub-unit\'s overview opens and lists its own kanji, not another unit\'s',
+  visible() === 'screen-overview' && el('overview-grid')._children.length > 0,
+  `showing ${visible()}, ${el('overview-grid')._children.length} tiles`);
+
+const secondaryTile = el('overview-grid')._children[0];
+const secondaryChar = secondaryTile.textContent;
+fire(secondaryTile, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // lazy-loads 8-3's real kanji/stroke data
+check('opening a secondary-unit kanji renders its real readings, not a blank/fallback screen',
+  el('detail-glyph').textContent === secondaryChar
+  && el('detail-readings').hidden === false
+  && el('detail-meanings').textContent.length > 0,
+  `glyph "${el('detail-glyph').textContent}", meanings "${el('detail-meanings').textContent}"`);
+check('the secondary-unit kanji also has a real stroke diagram, not the text fallback',
+  el('detail-stroke')._children.length > 0);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click'); // back to grade 1
+await settle();
 
 const kanjiModes = el('mode-picker')._children;
 check('kanji offers three modes', kanjiModes.length === 3,
@@ -859,7 +897,7 @@ check('switching to Yomi selects it', el('mode-picker')._children[1].className.i
 
 // Switching to Yomi re-rendered the grade picker with fresh nodes.
 const yomiGradeButtons = el('grade-picker')._children;
-check('the grade picker survives the mode switch', yomiGradeButtons.length === 6);
+check('the grade picker survives the mode switch', yomiGradeButtons.length === 12);
 
 // Switching grade re-renders the card for that grade.
 fire(yomiGradeButtons[2], 'click'); // grade 3

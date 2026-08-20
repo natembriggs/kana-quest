@@ -28,7 +28,7 @@ Most of the data work is done and sitting untracked in the working tree.
 
 | Piece | State |
 | --- | --- |
-| `src/stroke-data.js` | **Complete.** 1,174 characters — 148 kana + all 1,026 kyōiku kanji, **zero gaps**. 918 KB, one `0 0 109 109` viewBox throughout, 10,095 strokes. Untracked. |
+| `src/data/stroke-kana.js` + `stroke-grade-*.js` | **Complete.** 2,284 characters — 148 kana + all 2,136 jōyō kanji, **zero gaps**. One `0 0 109 109` viewBox throughout, 22,799 strokes. Split per grade and loaded lazily since kanji-expansion-plan.md §4 — originally one untracked `src/stroke-data.js`. |
 | `tools/build_stroke_data.py`, `tools/fetch_kanjivg.sh` | Working. Untracked. |
 | `src/strokes.js` | Builds the numbered stroke SVG and animates draw-in. Reusable as the guide layer and on the lesson card. |
 | `src/srs.js:56` | `writing` mode already declared, with `comingSoon: true`. |
