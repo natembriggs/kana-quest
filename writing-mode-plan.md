@@ -611,6 +611,30 @@ card's loop or leaving the lesson screen entirely (`startQuiz()`,
 forever against detached SVG nodes for the life of the page, since nothing
 reloads to clear them in a single-page app.
 
+### 7.9 Undo for Free mode, and double-tap-to-zoom disabled app-wide
+
+**Free mode gained Undo**, next to Done. Free has no live per-stroke
+rejection the way Trace/Guided do (that's the whole point of the mode — see
+§3), so a single bad stroke previously had only one way out: **Try again**,
+discarding the entire character. `createFreeAttempt()` in `writing.js`
+gained an `undo()` that pops the last drawn stroke off its internal list (a
+no-op once `finish()` has run); `app.js`'s `writingUndo()` mirrors that pop
+on `session.writingStrokes` (the rendered ink, a parallel array kept in
+lock-step with the attempt's own model — see `writingPointerUp`) and
+redraws. The button lives inside a new wrapper, `#writing-free-actions`,
+alongside Done — the pair share one hidden/shown state exactly like Done
+did alone before, since neither is useful without at least one stroke drawn.
+
+**Double-tap-to-zoom is now disabled globally**, `touch-action: manipulation`
+on `body` in `styles.css`, not a `user-scalable=no` viewport change —
+that would also kill pinch-zoom, an accessibility regression (WCAG 1.4.4)
+this app has no reason to force on a reader who needs to zoom in on a small
+glyph. `manipulation` removes only the double-tap gesture (and the ~300ms
+tap delay it implies) and leaves pinch-zoom untouched. Unrelated to the
+canvas's own `touch-action: none` (§3.3), which exists for stroke capture,
+not zoom — the two rules don't conflict, since the canvas's own value still
+wins on the canvas by CSS specificity/locality.
+
 ## 8. Open questions
 
 - **Scale error resists correction.** A child writing consistently 15–20%

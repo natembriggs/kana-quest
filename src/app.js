@@ -1428,7 +1428,7 @@ function renderWritingQuestion(course, item) {
   $('writing-mark-bad').hidden = true;
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
-  $('writing-done').hidden = true;
+  $('writing-free-actions').hidden = true;
   $('writing-switch-mode').hidden = true;
   // Trace already shows the whole guide — the hint row only makes sense
   // where something is actually being hidden, and only while still in
@@ -1665,7 +1665,7 @@ function writingPointerUp(event) {
     session.writingStrokes.push(localPoints);
     updateWritingStrokeCounter();
     redrawWritingCanvas();
-    $('writing-done').hidden = false; // nothing to press Done for until there's a first stroke
+    $('writing-free-actions').hidden = false; // nothing to press Done/Undo for until there's a first stroke
     return;
   }
 
@@ -1712,8 +1712,27 @@ function writingDone() {
   $('writing-self-grade-hint').textContent = review.suggestedCorrect
     ? 'That matches the stroke order and shape well.'
     : 'A few strokes look off against the guide now shown — have a look.';
-  $('writing-done').hidden = true;
+  $('writing-free-actions').hidden = true;
   $('writing-self-grade').hidden = false;
+}
+
+/**
+ * Free mode only: drops just the last drawn stroke, rather than the whole
+ * character — the equivalent of Trace/Guided's live per-stroke rejection,
+ * which Free deliberately has none of (see the module comment above
+ * createWritingAttempt). Undoing the only stroke drawn hides Done/Undo
+ * again, matching how that row stays hidden until the first stroke exists
+ * in the first place.
+ */
+function writingUndo() {
+  const session = state.session;
+  if (!session || !session.writingAttempt || session.writingSubMode !== 'free') return;
+  if (session.writingAttempt.drawnCount() === 0) return;
+  session.writingAttempt.undo();
+  session.writingStrokes.pop();
+  redrawWritingCanvas();
+  updateWritingStrokeCounter();
+  $('writing-free-actions').hidden = session.writingAttempt.drawnCount() === 0;
 }
 
 /** Free mode only: the learner's own yes/no, from comparing their finished
@@ -1822,7 +1841,7 @@ function writingRetry() {
   $('writing-hints').hidden = mode === 'trace';
   $('writing-result').hidden = true;
   $('writing-self-grade').hidden = true;
-  $('writing-done').hidden = true;
+  $('writing-free-actions').hidden = true;
   $('writing-switch-mode').hidden = true;
   $('writing-feedback').textContent = '';
 }
@@ -2301,6 +2320,7 @@ function wire() {
     $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
   });
   bindTap($('writing-done'), writingDone);
+  bindTap($('writing-undo'), writingUndo);
   bindTap($('writing-self-grade-yes'), () => writingSelfGrade(true));
   bindTap($('writing-self-grade-no'), () => writingSelfGrade(false));
   // One button, direction depends on how the just-finished attempt went —

@@ -721,7 +721,7 @@ if (visible() === 'screen-writing') {
   await settle();
   check('switching to Free puts the guide in free mode',
     el('writing-guide').className.includes('mode-free'));
-  check('the Done button stays hidden until a stroke is drawn', el('writing-done').hidden === true);
+  check('the Done/Undo row stays hidden until a stroke is drawn', el('writing-free-actions').hidden === true);
 
   freeCharNo = el('screen-writing').dataset.char;
   const freeStrokeCount = strokesFor(freeCharNo).strokes.length;
@@ -732,7 +732,18 @@ if (visible() === 'screen-writing') {
   await settle();
   check('a bad stroke in Free mode is captured with no rejection message',
     el('writing-feedback').textContent === '');
-  check('the Done button appears once there is a first stroke to review', el('writing-done').hidden === false);
+  check('the Done/Undo row appears once there is a first stroke to review',
+    el('writing-free-actions').hidden === false);
+
+  // Undo the only stroke drawn so far: the row should hide again, exactly
+  // as it does before the first stroke — then redraw the same bad stroke so
+  // the mismatch/self-grade checks below are unaffected by this detour.
+  fire(el('writing-undo'), 'click');
+  await settle();
+  check('undoing the only drawn stroke hides the Done/Undo row again',
+    el('writing-free-actions').hidden === true);
+  traceBadStroke();
+  await settle();
 
   for (let i = 1; i < freeStrokeCount; i += 1) {
     traceModelStroke(freeCharNo, i);
@@ -740,6 +751,16 @@ if (visible() === 'screen-writing') {
   }
   check('Free mode never auto-completes — it always waits for Done',
     el('writing-result').hidden === true && el('writing-self-grade').hidden === true);
+
+  // Undo mid-attempt: removes just the last stroke, not the whole thing —
+  // the row stays visible since earlier strokes remain — then redraw it so
+  // the character below is complete again.
+  fire(el('writing-undo'), 'click');
+  await settle();
+  check('undoing mid-attempt removes only the last stroke; earlier strokes keep the row visible',
+    el('writing-free-actions').hidden === false);
+  traceModelStroke(freeCharNo, freeStrokeCount - 1);
+  await settle();
 
   fire(el('writing-done'), 'click');
   await settle();

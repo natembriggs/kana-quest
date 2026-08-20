@@ -147,10 +147,21 @@ export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}
     review = null;
   }
 
+  /** "Undo": drops the most recently drawn stroke, so one bad stroke in
+   * Free mode doesn't force starting the whole character over via Try
+   * again — Free has no live rejection to fix a slip the way Trace/Guided
+   * do, so this is its equivalent. No-op once finished; app.js only shows
+   * the button before Done is pressed anyway. */
+  function undo() {
+    if (finished) return;
+    drawn.pop();
+  }
+
   return {
     submitStroke,
     finish,
     restart,
+    undo,
     drawnCount: () => drawn.length,
     modelStrokeCount: () => (modelStrokes ? modelStrokes.length : 0),
     // Matches createWritingAttempt's currentStrokeIndex() so "show next

@@ -77,6 +77,12 @@ body {
   font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  /* Disables double-tap-to-zoom (and the ~300ms tap delay it implies)
+     app-wide, without touching the viewport meta tag — that would need
+     user-scalable=no, which also kills pinch-zoom and is an accessibility
+     regression (WCAG 1.4.4). touch-action: manipulation leaves pinch-zoom
+     alone and only removes the double-tap gesture specifically. */
+  touch-action: manipulation;
 }
 
 /* --- Splash --------------------------------------------------------------

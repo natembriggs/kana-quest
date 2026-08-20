@@ -294,8 +294,14 @@
     </div>
 
     <!-- Free mode only: appears once at least one stroke is drawn: no guide
-         to compare against until the learner says they're finished. -->
-    <button id="writing-done" class="btn wide" type="button" hidden>Done</button>
+         to compare against until the learner says they're finished. Undo
+         drops just the last stroke — Free has no live per-stroke rejection
+         to fix a slip the way Trace/Guided do, so this is its equivalent,
+         rather than forcing a full Try again over one bad stroke. -->
+    <div id="writing-free-actions" class="row" hidden>
+      <button id="writing-undo" class="btn btn-quiet" type="button">Undo</button>
+      <button id="writing-done" class="btn btn-primary" type="button">Done</button>
+    </div>
 
     <!-- Free mode only, between Done and the shared result panel: the
          automatic grade is only ever a suggestion here (see
