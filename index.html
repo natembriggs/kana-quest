@@ -76,6 +76,15 @@
 
     <div id="grade-picker" class="grade-grid" role="group" aria-label="School grade" hidden></div>
 
+    <!-- Kanji only, any mode: which pool "Review"/"Practise" draws from —
+         just the currently-selected grade, or the whole study list across
+         every grade at once. See kanji-expansion-plan.md §2.4. Persisted per
+         profile, so it stays put across grade switches and app restarts. -->
+    <div id="review-scope-picker" class="segmented" role="tablist" aria-label="Review scope" hidden>
+      <button id="review-scope-set" class="segment" type="button">This set</button>
+      <button id="review-scope-studying" class="segment" type="button">Everything I'm studying</button>
+    </div>
+
     <!-- Writing mode only: chosen BEFORE a session starts, so the very first
          character (which is otherwise brand new, and would default to Trace)
          also honours a fixed choice instead of only kicking in once the

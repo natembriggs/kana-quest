@@ -1,8 +1,9 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0-2 done (example-word ranking fix, study-list model and
-scheduling, enrollment UI). Phase 3 (review scope toggle) is next. Supersedes
-the kanji bullet under *What is not built yet* in the README.
+Status: phases 0-3 done (example-word ranking fix, study-list model and
+scheduling, enrollment UI, review scope toggle). Phase 4 (kanji search) is
+next. Supersedes the kanji bullet under *What is not built yet* in the
+README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -301,6 +302,38 @@ is currently browsing under* (`state.mode`) — a session can only run in one
 mode at a time, so the button has to pick one, and the mode already implied
 by how you got to this screen is the least surprising choice.
 
+### 2.7 How phase 3 actually landed
+
+Both pieces shipped roughly as designed, with one addition each.
+
+**The review-scope pool needed a real cross-grade `kanjiInfo` lookup, not
+just a cross-grade item list.** §1.5's synthetic pool
+(`{ chunks: [{ items }], excludeForMode }`) is enough to *schedule* a
+session — `dueItems`/`buildSession` only ever need `.chunks` — but
+*rendering* one (quiz questions, lesson cards, summary chips) calls
+`kanjiInfo(course, kanji)`, which reads `course.index`, and no single
+grade's own index covers kanji from other grades. `studyListPool()` in
+`app.js` therefore also carries a merged `index` — every `KANJI_COURSES[i]
+.index` unioned into one `Map`, built lazily and cached (kyōiku kanji never
+repeat across grades, so the union is exact and cheap: 1,026 entries, once).
+The item list itself is rebuilt fresh on every lookup rather than cached
+alongside it, so it can never go stale mid-session.
+
+`excludeForMode` on the synthetic pool is deliberately left empty rather
+than also merged — a kanji excluded from a mode can never be enrolled in it
+to begin with (`applicableStudyModes()` hides that toggle), so nothing that
+could ever reach this pool needs excluding.
+
+**"Add more" needed a kana-specific carve-out for the new "Learn N waiting"
+wording.** `stats.pending` (added in phase 1) is only a meaningful "you
+chose this" signal for kanji — kana has no enrollment step, so every
+never-seen kana counts as "pending" under the same definition, and without
+gating on `course.kind === 'kanji'` the kana course card showed "Learn 5
+waiting" for kana nobody had ever touched, which is exactly backwards. This
+surfaced immediately in `test/wiring.js`, since the very first check in the
+whole suite looks for an "add more" button by matching the word "more" in
+its label.
+
 ---
 
 ## 3. Orderings
@@ -436,7 +469,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 0 | Example-word ranking fix (§0) and regenerate `kanji-data.js`. | **Done** |
 | 1 | Study list data model, migration, pool refactor in `srs.js` (§1). Pure logic and tests only, no UI. | **Done** — see §1.7 |
 | 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | **Done** — see §2.5 |
-| 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | Not started |
+| 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | **Done** — see §2.7 |
 | 4 | Kanji search (§2.2). | Not started |
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | Not started |
 | 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | Not started |

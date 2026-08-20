@@ -201,6 +201,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
+const { courseStats, studiedKanji } = await import('../src/srs.js');
 const { STROKES } = await import('../src/stroke-data.js');
 const { flattenPath, resample } = await import('../src/stroke-geometry.js');
 await import('../src/app.js');
@@ -1571,6 +1572,98 @@ check('after being taught, the kanji is "Learning" rather than "Waiting to learn
   el('detail-study-toggle').textContent.includes('Learning'), el('detail-study-toggle').textContent);
 check('"Study it now" is no longer offered once it has actually been taught',
   el('detail-study-now').hidden === true);
+
+// --- Review scope: "This set" vs "Everything I'm studying" -----------------
+// Phase 3, kanji-expansion-plan.md §2.4. grade6Char was just taught in
+// 'definition' mode above (still enrolled — the un-enroll test is further
+// down). Needs a genuinely DUE grade-1 kanji to prove the wider scope
+// actually pulls from more than one grade — deliberately created here rather
+// than reused from defMissKanji earlier: grading always reflects the latest
+// attempt, not "ever having lapsed", and defMissKanji was re-queued and
+// answered correctly later in that same section, so by now it is not due.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+await settle();
+
+const profileBeforeMiss = [...rows.values()][0];
+const grade1Untouched = kanjiGrade1.chunks.flatMap((c) => c.items)
+  .find((k) => !profileBeforeMiss.progress[`definition:${k}`]);
+
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === grade1Untouched), 'click');
+await settle();
+fire(el('detail-study-toggle'), 'click'); // enrolls it in every applicable mode
+await settle();
+fire(el('detail-study-now'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+fire(el('lesson-next'), 'click');
+await settle();
+
+const grade1UntouchedAnswer = meaningLabel(kanjiInfo(kanjiGrade1, grade1Untouched));
+const grade1WrongChoice = el('quiz-choices')._children.find((c) => c.textContent !== grade1UntouchedAnswer);
+fire(grade1WrongChoice, 'click');
+await settle();
+// Quit right after the first (recorded) miss, before it can be re-queued
+// and answered correctly — see the comment above.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
+await settle();
+check('the review-scope picker is offered for kanji', el('review-scope-picker').hidden === false);
+check('"This set" is selected by default', el('review-scope-set').className.includes('active'));
+
+const profileForScope = [...rows.values()][0];
+const grade6OnlyStats = courseStats(grade6Course, 'definition', profileForScope);
+const studyingPool = {
+  chunks: [{ items: studiedKanji(profileForScope.study, 'definition') }], excludeForMode: {},
+};
+const studyingStats = courseStats(studyingPool, 'definition', profileForScope);
+check('"Everything I\'m studying" spans every grade — more started kanji than grade 6 alone',
+  studyingStats.started > grade6OnlyStats.started,
+  `grade 6 alone: ${grade6OnlyStats.started}, everything: ${studyingStats.started}`);
+check('grade 6 alone has nothing due yet, so it offers Practise rather than Review',
+  buttonsIn(el('course-list')._children[0]).some((b) => b.textContent === 'Practise'),
+  buttonsIn(el('course-list')._children[0]).map((b) => b.textContent).join(' | '));
+
+fire(el('review-scope-studying'), 'click');
+await settle();
+check('choosing the wider scope marks it active and "This set" no longer active',
+  el('review-scope-studying').className.includes('active') && !el('review-scope-set').className.includes('active'));
+
+const studyingButtons = buttonsIn(el('course-list')._children[0]);
+const studyingReviewButton = studyingButtons.find((b) => (b.innerHTML || '').includes('Review'));
+check('the wider scope surfaces the still-due grade-1 miss even while browsing grade 6',
+  !!studyingReviewButton, studyingButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
+
+fire(studyingReviewButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('reviewing in the wider scope actually pulls in a kanji from grade 1, not just grade 6',
+  visible() === 'screen-quiz' && kanjiGrade1.chunks.flatMap((c) => c.items).includes(el('quiz-kana').textContent),
+  `showing ${visible()}, kanji "${el('quiz-kana').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+fire(el('review-scope-set'), 'click');
+await settle();
+const afterScopeSaved = [...rows.values()][0];
+check('review scope is persisted to the profile, like the other course-screen pickers',
+  afterScopeSaved.settings.reviewScope === 'set', afterScopeSaved.settings.reviewScope);
+
+// Back to the detail screen for the rest of this section's checks.
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
+await settle();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === grade6Char), 'click');
+await settle();
 
 fire(el('detail-mode-writing'), 'click');
 await settle();

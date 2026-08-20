@@ -9,7 +9,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying,
+  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
@@ -22,7 +22,48 @@ import * as store from './store.js';
 export const APP_VERSION = '2026-08-19g'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
+
+// A merged index spanning every grade's kanji, built lazily and cached —
+// needed only when a session can contain kanji from more than one grade at
+// once (the "everything I'm studying" review scope below), since each
+// grade's own course.index covers just its own kanji. Kyoiku kanji never
+// repeat across grades, so a plain union is exact.
+let allKanjiIndexCache = null;
+function allKanjiIndex() {
+  if (!allKanjiIndexCache) {
+    allKanjiIndexCache = new Map();
+    KANJI_COURSES.forEach((course) => {
+      course.index.forEach((info, kanji) => allKanjiIndexCache.set(kanji, info));
+    });
+  }
+  return allKanjiIndexCache;
+}
+
+const STUDY_LIST_POOL_ID = 'study-list';
+
+/**
+ * A synthetic single-chunk course spanning every kanji enrolled in `mode`,
+ * across every grade — see kanji-expansion-plan.md §1.5/§2.4. Rebuilt fresh
+ * on every lookup (cheap: one array over an already-small study list) rather
+ * than cached, so it can never go stale mid-session the way a cached pool
+ * snapshot could. excludeForMode is deliberately empty: a kanji excluded
+ * from a mode can never be enrolled in it in the first place — see
+ * applicableStudyModes(), which hides that toggle entirely — so nothing
+ * reaching this pool needs excluding by mode.
+ */
+function studyListPool(mode) {
+  return {
+    id: STUDY_LIST_POOL_ID,
+    kind: 'kanji',
+    name: "Everything you're studying",
+    chunks: [{ items: studiedKanji(state.profile.study, mode) }],
+    excludeForMode: {},
+    index: allKanjiIndex(),
+  };
+}
+
 function getAnyCourse(courseId) {
+  if (courseId === STUDY_LIST_POOL_ID) return studyListPool(state.mode);
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
@@ -340,12 +381,37 @@ function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
   return ` · ${remaining} set${remaining === 1 ? '' : 's'} left`;
 }
 
+/**
+ * Kanji only — kana has no study list to span. "This set" is the current
+ * grade, exactly as review has always worked; "Everything I'm studying" is
+ * the synthetic pool from studyListPool() above, spanning every grade at
+ * once. Persisted, so it stays put across grade switches.
+ */
+function renderReviewScopePicker(script) {
+  const picker = $('review-scope-picker');
+  if (script.kind !== 'kanji') {
+    picker.hidden = true;
+    return;
+  }
+  picker.hidden = false;
+  const scope = state.profile.settings.reviewScope || 'set';
+  $('review-scope-set').className = `segment${scope === 'set' ? ' active' : ''}`;
+  $('review-scope-studying').className = `segment${scope === 'studying' ? ' active' : ''}`;
+}
+
+function setReviewScope(scope) {
+  state.profile.settings.reviewScope = scope;
+  store.saveProfile(state.profile);
+  renderCourse();
+}
+
 function renderCourse() {
   const profile = state.profile;
   const script = currentScript();
   $('course-title').textContent = script.name;
   renderModePicker(script.kind);
   renderGradePicker(script);
+  renderReviewScopePicker(script);
   renderWritingModePicker();
 
   const course = currentCourse();
@@ -359,6 +425,15 @@ function renderCourse() {
   const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
   const settled = readyForMore(course, state.mode, profile);
   const setsLeft = remainingSetsLabel(course, state.mode, profile, setIndex, stats.fresh);
+
+  // Review/Practise draw from a possibly-different pool than everything else
+  // on this card (current set, mastered count, Add more) — those stay scoped
+  // to the selected grade regardless, since "add more" always means "enroll
+  // from THIS grade's course order" and there is no sensible cross-grade
+  // version of that question.
+  const reviewScope = script.kind === 'kanji' ? (profile.settings.reviewScope || 'set') : 'set';
+  const reviewPool = reviewScope === 'studying' ? getAnyCourse(STUDY_LIST_POOL_ID) : course;
+  const reviewStats = reviewPool === course ? stats : courseStats(reviewPool, state.mode, profile);
 
   const card = document.createElement('div');
   card.className = 'card course-card';
@@ -394,13 +469,13 @@ function renderCourse() {
   const review = document.createElement('button');
   review.type = 'button';
   review.className = 'btn btn-primary';
-  if (stats.due > 0) {
-    review.innerHTML = `Review <b>${stats.due}</b>`;
-    review.addEventListener('click', () => startSession(course.id, 'review'));
-  } else if (stats.started > 0) {
+  if (reviewStats.due > 0) {
+    review.innerHTML = `Review <b>${reviewStats.due}</b>`;
+    review.addEventListener('click', () => startSession(reviewPool.id, 'review'));
+  } else if (reviewStats.started > 0) {
     review.className = 'btn';
     review.textContent = 'Practise';
-    review.addEventListener('click', () => startSession(course.id, 'practice'));
+    review.addEventListener('click', () => startSession(reviewPool.id, 'practice'));
   } else {
     review.textContent = 'Nothing to review';
     review.disabled = true;
@@ -409,9 +484,17 @@ function renderCourse() {
 
   const learn = document.createElement('button');
   learn.type = 'button';
-  learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
+  learn.className = reviewStats.due > 0 ? 'btn' : 'btn btn-primary';
   if (newCount > 0) {
-    learn.innerHTML = `Add <b>${newCount}</b> more`;
+    // "Learn" when at least one of this batch is a manual add already
+    // waiting its turn — "Add" implies committing to something new, which
+    // isn't accurate for a kanji chosen from the detail screen (§1.6). Kana
+    // has no enrollment step at all, so stats.pending there just means
+    // "never seen yet" and must not trigger this wording — every kana would
+    // otherwise show as "waiting" until the whole course is memorised.
+    learn.innerHTML = course.kind === 'kanji' && stats.pending > 0
+      ? `Learn <b>${newCount}</b> waiting`
+      : `Add <b>${newCount}</b> more`;
     learn.addEventListener('click', () => startSession(course.id, 'new'));
   } else {
     learn.textContent = 'All characters started';
@@ -1919,6 +2002,9 @@ function wire() {
     $(`detail-mode-${mode}`).addEventListener('click', () => toggleDetailStudyMode(mode));
   });
   $('detail-study-now').addEventListener('click', studyDetailCharNow);
+
+  $('review-scope-set').addEventListener('click', () => setReviewScope('set'));
+  $('review-scope-studying').addEventListener('click', () => setReviewScope('studying'));
 
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.

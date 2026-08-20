@@ -69,8 +69,16 @@ export function defaultSettings() {
   // fixed 'trace'/'guided'/'free' that applies to every character from the
   // very first one of a session, chosen before starting on the course
   // screen. Same no-migration fallback as strictness.
+  // reviewScope is 'set' (review just the current grade, as always) or
+  // 'studying' (review everything enrolled in the study list, across every
+  // grade at once) — kanji-expansion-plan.md §2.4. Kana ignore it; there is
+  // no study list to span. Same no-migration fallback as the two above.
   return {
-    newPerSession: 5, maxReviews: 15, strictness: DEFAULT_STRICTNESS, writingModePreference: 'dynamic',
+    newPerSession: 5,
+    maxReviews: 15,
+    strictness: DEFAULT_STRICTNESS,
+    writingModePreference: 'dynamic',
+    reviewScope: 'set',
   };
 }
 
