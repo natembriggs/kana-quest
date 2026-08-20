@@ -221,13 +221,41 @@ def credited_reading(kanji_info, segment, keb, pos):
     return best
 
 
+NF_BAND = re.compile(r"\bnf(\d\d)\b")
+TIER_1 = re.compile(r"\b(?:news1|ichi1|spec1|gai1)\b")
+TIER_2 = re.compile(r"\b(?:news2|ichi2|spec2|gai2)\b")
+
+
+def priority_rank(entry):
+    """Lower ranks first — how choose_examples() below picks the most
+    familiar word, not just the one with the shortest reading.
+
+    `nf##` is JMdict's finest signal: present on roughly the top 24,000 words
+    by newspaper-corpus frequency, in bands of 500 (nf01 = top 500). Failing
+    that, fall back to the coarser priority-list tags, "1" tier (top half of
+    each list) ranked ahead of "2" tier, which is what that suffix means for
+    every one of news/ichi/spec/gai. Some priority tag is guaranteed on any
+    entry reaching this function — parse_jmdict_words already filtered to
+    entries carrying at least one — so the final fallback never actually
+    fires; it exists only so this can't crash on a tag shape it doesn't know.
+    """
+    m = NF_BAND.search(entry)
+    if m:
+        return int(m.group(1))
+    if TIER_1.search(entry):
+        return 60
+    if TIER_2.search(entry):
+        return 80
+    return 99
+
+
 def parse_jmdict_words(known_kanji, kanjidic, stem_index):
     """One pass over JMdict, returning two indexes keyed by kanji character:
 
     - `general`: common words using ONLY characters in `known_kanji` (plus
       kana), capped at MAX_KANJI_PER_WORD kanji — the grade-appropriate pool
       the kanji-level "example word" panel is drawn from.
-    - `by_reading`: {kanji: {reading_display: [(keb, reb, gloss), ...]}} —
+    - `by_reading`: {kanji: {reading_display: [(keb, reb, gloss, priority), ...]}} —
       words credited to one specific reading via align_word, with no grade
       restriction on the *other* kanji in the word, since a rare reading's
       only common word may pull in a kanji the learner hasn't met (上海 for
@@ -267,7 +295,7 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index):
         if not glosses:
             continue
         gloss = html.unescape(glosses[0])
-        record = (keb, reb, gloss)
+        record = (keb, reb, gloss, priority_rank(entry))
 
         for k in relevant:
             if kanji_in_word.issubset(known_kanji) and len(kanji_in_word) <= MAX_KANJI_PER_WORD:
@@ -291,8 +319,11 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index):
 
 
 def choose_examples(words, limit):
-    # Shortest reading first: for a beginner, "いち" beats "いちばん".
-    return sorted(words, key=lambda w: len(w[1]))[:limit]
+    # Most familiar first, by JMdict's own corpus-frequency signal (see
+    # priority_rank) — お父さん is a far more useful first example for 父 than
+    # 義父 (father-in-law), even though 義父's reading is shorter. Reading
+    # length only breaks a tie among equally common candidates.
+    return sorted(words, key=lambda w: (w[3], len(w[1])))[:limit]
 
 
 def main():
@@ -352,7 +383,7 @@ def main():
             "on": info["on"],
             "kun": info["kun"],
             "meanings": info["meanings"],
-            "words": [{"kanji": k, "kana": r, "en": g} for k, r, g in examples],
+            "words": [{"kanji": k, "kana": r, "en": g} for k, r, g, _pri in examples],
             "quizOn": quiz_on,
             "quizKun": quiz_kun,
             "quizReadings": quiz_readings,
