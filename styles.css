@@ -579,6 +579,11 @@ h3 { font-size: 18px; }
 .overview-tile.tier-2 { background: var(--tier-2); color: var(--tier-2-ink); border-color: var(--tier-2); }
 .overview-tile.tier-3 { background: var(--tier-3); color: var(--tier-3-ink); border-color: var(--tier-3); }
 .overview-tile.tier-4 { background: var(--tier-4); color: var(--tier-4-ink); border-color: var(--tier-4); }
+/* Enrolled but not yet taught — orthogonal to the tier-0..4 mastery ramp
+   above (which is entirely about progress, not intent), so this is a border
+   treatment rather than another fill colour, and can combine with tier-0
+   only: any real progress moves a tile off tier-0 and this stops applying. */
+.overview-tile.is-pending { border-color: var(--accent); border-style: dashed; }
 
 .mastery-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
 .mastery-swatch {
@@ -593,6 +598,7 @@ h3 { font-size: 18px; }
 .mastery-swatch.tier-2 { background: var(--tier-2); border-color: var(--tier-2); }
 .mastery-swatch.tier-3 { background: var(--tier-3); border-color: var(--tier-3); }
 .mastery-swatch.tier-4 { background: var(--tier-4); border-color: var(--tier-4); }
+.mastery-swatch.is-pending { background: var(--tier-0); border-color: var(--accent); border-style: dashed; }
 
 /* --- Character detail ------------------------------------------------------ */
 

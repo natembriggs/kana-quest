@@ -99,6 +99,9 @@
     </header>
     <p class="hint mastery-legend">
       <span class="mastery-swatch tier-0"></span>not started
+      <!-- Kanji only — hidden for kana, which has no study list to be
+           "waiting" on (see renderOverview() in app.js). -->
+      <span id="legend-pending" class="legend-pending" hidden><span class="mastery-swatch is-pending"></span>added, waiting to learn</span>
       <span class="mastery-swatch tier-1"></span>started
       <span class="mastery-swatch tier-2"></span>learning
       <span class="mastery-swatch tier-3"></span>doing well
@@ -139,6 +142,10 @@
         <button id="detail-mode-recognition" class="segment" type="button" data-mode="recognition">Yomi</button>
         <button id="detail-mode-writing" class="segment" type="button" data-mode="writing">Writing</button>
       </div>
+      <!-- Only when waiting to learn in whichever mode is currently active —
+           jumps straight to a lesson-then-quiz session for just this one
+           character instead of waiting for "Add more" to reach it. -->
+      <button id="detail-study-now" class="btn btn-primary wide" type="button" hidden>Study it now</button>
     </div>
 
     <div id="detail-romaji" class="romaji" hidden></div>

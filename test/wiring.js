@@ -1487,6 +1487,12 @@ if (detailChips.length > 0) {
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
+// Definition, specifically: state.mode carried over as 'writing' from the
+// section above (kind stayed 'kanji' throughout, so it was never reset),
+// and "Study it now" below needs a mode where finishing the one-item session
+// it starts is a plain multiple-choice tap, not a canvas trace.
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+await settle();
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
 await settle();
 const grade6ViewSetButton = buttonsIn(el('course-list')._children[0])
@@ -1519,12 +1525,59 @@ check('enrolling is persisted to the profile immediately, before any session has
   Array.isArray(grade6Saved.study[grade6Char]) && grade6Saved.study[grade6Char].length >= 1,
   JSON.stringify(grade6Saved.study[grade6Char]));
 
+// Bug fix: masteryTier alone can't tell "enrolled, not yet taught" apart
+// from "never enrolled" — both have no progress record, so both were tier-0
+// with nothing to distinguish them on the overview.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+const grade6TileAfterEnroll = el('overview-grid')._children.find((t) => t.textContent === grade6Char);
+check('an enrolled-but-not-taught kanji gets a distinct "pending" marker on the overview',
+  grade6TileAfterEnroll.className.includes('is-pending') && grade6TileAfterEnroll.className.includes('tier-0'),
+  grade6TileAfterEnroll.className);
+
+fire(grade6TileAfterEnroll, 'click');
+await settle();
+
+// "Study it now": jump straight to a lesson-then-quiz session for just this
+// one kanji rather than waiting for "Add more" to reach it through whatever
+// else happens to be pending ahead of it in grade order.
+check('"Study it now" is offered for a kanji waiting to learn in the current mode',
+  el('detail-study-now').hidden === false);
+
+fire(el('detail-study-now'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('"Study it now" jumps straight into a lesson for just this one kanji',
+  visible() === 'screen-lesson', `showing ${visible()}`);
+fire(el('lesson-next'), 'click');
+await settle();
+check('"Study it now" then quizzes exactly that one kanji, not a whole set',
+  visible() === 'screen-quiz', `showing ${visible()}`);
+
+const grade6Course = KANJI_COURSES.find((c) => c.id === 'kanji-grade-6');
+const studyNowAnswer = meaningLabel(kanjiInfo(grade6Course, grade6Char));
+const studyNowRight = el('quiz-choices')._children.find((c) => c.textContent === studyNowAnswer);
+fire(studyNowRight, 'click');
+await settle();
+runTimers();
+await settle();
+check('answering the one question ends the session at the summary',
+  visible() === 'screen-summary', `showing ${visible()}`);
+
+// Back to the detail screen via the now-tappable summary chip, to confirm
+// teaching it moved it out of "waiting".
+fire(el('summary-list')._children[0], 'click');
+await settle();
+check('after being taught, the kanji is "Learning" rather than "Waiting to learn"',
+  el('detail-study-toggle').textContent.includes('Learning'), el('detail-study-toggle').textContent);
+check('"Study it now" is no longer offered once it has actually been taught',
+  el('detail-study-now').hidden === true);
+
 fire(el('detail-mode-writing'), 'click');
 await settle();
-check('a per-mode toggle turns off just that mode, independent of the others — still enrolled overall',
+check('a per-mode toggle turns off just that mode, independent of the others — still Learning overall',
   !el('detail-mode-writing').className.includes('active')
   && el('detail-mode-definition').className.includes('active')
-  && el('detail-study-toggle').textContent.includes('Waiting to learn'));
+  && el('detail-study-toggle').textContent.includes('Learning'));
 
 fire(el('detail-study-toggle'), 'click');
 await settle();
@@ -1535,6 +1588,9 @@ check('tapping the headline button again un-enrolls every mode at once',
 const grade6SavedAfter = [...rows.values()][0];
 check('un-enrolling removes the study-list entry entirely, not just clears its modes',
   !(grade6Char in grade6SavedAfter.study), JSON.stringify(grade6SavedAfter.study[grade6Char]));
+check('un-enrolling never deletes the progress record already earned',
+  !!grade6SavedAfter.progress[`definition:${grade6Char}`],
+  JSON.stringify(grade6SavedAfter.progress[`definition:${grade6Char}`]));
 
 // --- Settings: writing strictness ------------------------------------------
 // Phase 5 of writing-mode-plan.md — a per-profile slider, same pattern as

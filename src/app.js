@@ -455,17 +455,24 @@ function renderOverview(scrollToChar) {
 
   $('overview-title').textContent = course.name;
   $('overview-counter').textContent = `${allItems.length} characters`;
+  $('legend-pending').hidden = course.kind !== 'kanji';
 
   const grid = $('overview-grid');
   grid.innerHTML = '';
   let scrollTarget = null;
   allItems.forEach((item) => {
     const tier = masteryTier(progress[itemKey(state.mode, item)]);
+    // masteryTier alone can't tell "never enrolled" apart from "enrolled but
+    // not yet taught" — both have no progress record, so both are tier 0.
+    // Enrolling from the detail screen and coming straight back here was
+    // otherwise indistinguishable from having done nothing at all.
+    const pending = course.kind === 'kanji' && tier === 0
+      && isStudying(state.profile.study, item, state.mode);
     const tile = document.createElement('button');
     tile.type = 'button';
-    tile.className = `overview-tile tier-${tier}`;
+    tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
     tile.textContent = item;
-    tile.setAttribute('aria-label', `${item}: ${MASTERY_LABELS[tier]}`);
+    tile.setAttribute('aria-label', `${item}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
     tile.addEventListener('click', () => openCharacterDetail(course, item));
     grid.appendChild(tile);
     if (item === scrollToChar) scrollTarget = tile;
@@ -550,6 +557,14 @@ function renderDetailStudy(course, char) {
     button.textContent = modeName(mode, 'kanji');
     button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
   });
+
+  // Enrolled in whichever mode the learner is currently browsing under, but
+  // not yet taught in it — the case "Study it now" exists for. Scoped to
+  // state.mode specifically (not "any enrolled mode") because a session can
+  // only ever run in one mode at a time; the button starting one has to know
+  // which. See startSession()'s `items` parameter above.
+  const studyNow = $('detail-study-now');
+  studyNow.hidden = !(isStudying(study, char, state.mode) && !progress[itemKey(state.mode, char)]);
 }
 
 function toggleDetailStudy() {
@@ -570,6 +585,15 @@ function toggleDetailStudyMode(mode) {
   setStudying(study, char, mode, !isStudying(study, char, mode));
   store.saveProfile(state.profile);
   renderDetailStudy(course, char);
+}
+
+/** "Study it now" — see startSession()'s `items` parameter. Jumps straight
+ * into a lesson-then-quiz session containing only this one character, in
+ * state.mode, rather than waiting for "Add more" to reach it through
+ * whatever else happens to be pending ahead of it in course order. */
+function studyDetailCharNow() {
+  const course = getAnyCourse(state.detailCourseId);
+  startSession(course.id, 'new', [state.detailChar]);
 }
 
 function renderCharacterDetail() {
@@ -635,30 +659,45 @@ function renderGeneralWords(words) {
 
 // --- Session --------------------------------------------------------------
 
-function startSession(courseId, kind) {
+/**
+ * `items`, when given, bypasses course order and the enrollment top-up below
+ * entirely: exactly those items are taught and quizzed, nothing more, in the
+ * order given. This is "Study it now" from the detail screen (see
+ * studyDetailCharNow below, and kanji-expansion-plan.md §2.6) — a kanji just
+ * added by hand shouldn't have to wait for "Add more" to work through
+ * whatever else was already pending ahead of it in course order. The caller
+ * is responsible for `items` already being enrolled; this only teaches and
+ * quizzes.
+ */
+function startSession(courseId, kind, items) {
   state.courseId = courseId;
   state.kind = kind;
   const course = getAnyCourse(courseId);
   const profile = state.profile;
   const { settings } = profile;
 
-  // "Add more" is now two steps: enroll the next few kanji in the study list,
-  // then teach whatever is waiting. Anything added by hand from the detail
-  // screen is already waiting, so it gets taught first and this tops up from
-  // course order only if there is room left. Kana have no study list, so
-  // enrollNext is a no-op there and `new` keeps meaning "next never-seen".
-  if (kind === 'new') {
-    const waiting = newItems(course, state.mode, profile, settings.newPerSession).length;
-    if (waiting < settings.newPerSession) {
-      enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
-      store.saveProfile(profile);
+  let built;
+  if (items) {
+    built = { lesson: items, quiz: items };
+  } else {
+    // "Add more" is now two steps: enroll the next few kanji in the study
+    // list, then teach whatever is waiting. Anything added by hand from the
+    // detail screen is already waiting, so it gets taught first and this
+    // tops up from course order only if there is room left. Kana have no
+    // study list, so enrollNext is a no-op there and `new` keeps meaning
+    // "next never-seen".
+    if (kind === 'new') {
+      const waiting = newItems(course, state.mode, profile, settings.newPerSession).length;
+      if (waiting < settings.newPerSession) {
+        enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
+        store.saveProfile(profile);
+      }
     }
+    built = buildSession(course, state.mode, profile, kind, {
+      newPerSession: settings.newPerSession,
+      maxReviews: settings.maxReviews,
+    });
   }
-
-  const built = buildSession(course, state.mode, profile, kind, {
-    newPerSession: settings.newPerSession,
-    maxReviews: settings.maxReviews,
-  });
 
   if (built.lesson.length === 0 && built.quiz.length === 0) {
     renderCourse();
@@ -1879,6 +1918,7 @@ function wire() {
   STUDY_MODE_IDS.forEach((mode) => {
     $(`detail-mode-${mode}`).addEventListener('click', () => toggleDetailStudyMode(mode));
   });
+  $('detail-study-now').addEventListener('click', studyDetailCharNow);
 
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.

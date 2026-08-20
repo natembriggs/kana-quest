@@ -274,6 +274,33 @@ itself: the detail screen's back button had a single hardcoded destination
 parameter) and the action was renamed `go-overview` → `detail-back` to match
 that it no longer always does that.
 
+### 2.6 Two gaps found immediately after phase 2 shipped
+
+Both reported from actually using it, both fixed the same day.
+
+**The overview couldn't show "enrolled but not taught."** `masteryTier()`
+only reads a progress record's box, and enrolling doesn't create one — so a
+kanji just added from the detail screen looked exactly like one that had
+never been touched at all, tier-0 either way. There isn't a clean way to
+fold this into the tier ramp itself (tiers 0-4 are entirely about *progress*,
+and "enrolled" is orthogonal to that — a fifth colour would have implied a
+mastery level that doesn't exist yet). Overview tiles instead get an
+`is-pending` class — a dashed accent-coloured border over the ordinary
+tier-0 fill — computed as `tier === 0 && isStudying(study, item, mode)`,
+which is exactly the condition that only a manual add can produce.
+
+**Nothing let you act on a kanji the moment you enrolled it.** Newly-added
+kanji correctly went into the pending queue, but the only way to actually
+learn one was "Add more," which teaches from course order and might reach
+several other pending kanji first. `startSession()` gained an optional
+`items` parameter — when given, it bypasses course order and the enrollment
+top-up entirely and just teaches/quizzes exactly that list. The detail
+screen's new **Study it now** button calls it with `[char]`, and is shown
+only when the kanji is enrolled-but-untaught *in whichever mode the learner
+is currently browsing under* (`state.mode`) — a session can only run in one
+mode at a time, so the button has to pick one, and the mode already implied
+by how you got to this screen is the least surprising choice.
+
 ---
 
 ## 3. Orderings
