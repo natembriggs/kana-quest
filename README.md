@@ -284,8 +284,24 @@ give the target kanji's shape away before a stroke is drawn.
 See `writing-mode-plan.md` for the full design, including the numbers behind
 the grading tolerances.
 
+## Design documents
+
+Larger pieces of work get a plan document at the repo root before they get
+code. Each one keeps its own running record of decisions, including the ones
+that turned out to be wrong and were reversed — that history is the point, so
+the reasoning behind a tolerance or a piece of UX is recoverable later.
+
+| Document | Covers | Status |
+| --- | --- | --- |
+| `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
+| `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
+
 ## What is not built yet
 
+- **The whole of `kanji-expansion-plan.md`** — full jōyō coverage (currently
+  only the 1,026 elementary-school kanji), grouping by JLPT level or
+  frequency instead of school grade, and an explicit study list you manage
+  yourself. See that document for the phasing.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.

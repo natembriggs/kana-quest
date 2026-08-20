@@ -1,10 +1,19 @@
 # Writing mode — implementation plan
 
-Status: all six phases in §7 are done — see that section, and §7.1-7.7 for
-corrections and additions made along the way. Originally superseded the
-"Writing mode" bullet under *What is not built yet* in the README; that
-bullet is now gone, replaced by a proper Writing mode section under *What
-works now* (§7.7).
+**Status: COMPLETE and shipped.** All six phases in §7 are done, and every
+follow-up correction found through real phone use (§7.1–§7.8) has landed and
+been confirmed working on-device — including the last one, the "taps needing
+to land twice" bug in §7.6.
+
+This document is kept as the design record for writing mode, not as a live
+work list. Nothing here is outstanding; §8 lists the known trade-offs that
+were accepted deliberately, which is worth reading before changing any of
+the grading tolerances. New kanji work is planned separately, in
+`kanji-expansion-plan.md`.
+
+Originally this file superseded the "Writing mode" bullet under *What is not
+built yet* in the README; that bullet is gone, replaced by a proper Writing
+mode section under *What works now* (§7.7).
 
 Writing is the third mode for kana (after Reading) and kanji (after Definition
 and Yomi). The learner is shown a prompt — romaji for kana, meanings and
@@ -511,14 +520,20 @@ reaches `screen-summary` with sensible chips, or that the overview/detail
 screens correctly reflect writing-mode mastery. Both are now exercised
 end-to-end for a kanji writing session.
 
-### 7.6 A bug from real phone use: "Next" needing multiple taps
+### 7.6 A bug from real phone use: "Next" needing multiple taps — FIXED
 
 Reported on-device: after finishing a character's last stroke, the first tap
 on **Next** (and **Try again**) often does nothing — a second, sometimes a
 third, tap is needed. **The same interaction always works first try with a
 mouse in a desktop browser** — this turned out to be the key fact, isolating
 it to touch specifically rather than anything in the session/rendering logic
-(which would misbehave identically on both).
+(which would misbehave identically on both). Confirmed fixed on-device.
+
+The diagnostic lesson worth keeping: two rounds of plausible-sounding fixes
+(below) were shipped blind before that one comparison was made, and neither
+was the cause. "Works with a mouse, fails with touch" took about ten seconds
+to establish and immediately ruled out three quarters of the search space.
+Ask for it first next time.
 
 Two earlier attempts, kept as belt-and-braces since they're harmless even if
 not the actual cause: releasing pointer capture explicitly in
