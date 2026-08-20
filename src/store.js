@@ -100,6 +100,13 @@ export function createProfile(name, emoji) {
     settings: defaultSettings(),
     // itemKey ("mode:kana") -> record, see srs.js
     progress: {},
+    // kanji -> [mode, ...]: which kanji are being studied, and in which
+    // modes. Kanji only — see the study-list notes in srs.js. A profile saved
+    // before this field existed has no `study` at all, which is the trigger
+    // for the one-time migration in openProfile() (app.js); a brand-new
+    // profile therefore has to start as {} rather than undefined, or it would
+    // look like an un-migrated one.
+    study: {},
   };
   return saveProfile(profile).then(() => profile);
 }

@@ -1161,6 +1161,25 @@ check('a definition miss recovered on the second try still counts as a lapse',
 check('yomi progress is untouched by definition practice — the modes are independent',
   Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
 
+// The study list (kanji-expansion-plan.md §1) is maintained by real sessions,
+// not only by the enrollment UI: "Add more" enrolls what it is about to teach,
+// so the list stays an accurate description of what is being worked on without
+// anyone curating it by hand.
+check('a new profile starts with an empty study list, not an absent one — absent means un-migrated',
+  afterDefinition.study && typeof afterDefinition.study === 'object',
+  JSON.stringify(afterDefinition.study));
+const studiedDefinition = Object.keys(afterDefinition.study)
+  .filter((k) => afterDefinition.study[k].includes('definition'));
+check('every kanji taught in a definition session was enrolled in the study list for that mode',
+  studiedDefinition.length > 0
+  && Object.keys(afterDefinition.progress)
+    .filter((k) => k.startsWith('definition:'))
+    .every((k) => studiedDefinition.includes(k.split(':')[1])),
+  `${studiedDefinition.length} enrolled`);
+check('kana practice never touches the study list — it is kanji-only',
+  Object.keys(afterDefinition.study).every((k) => /[㐀-䶿一-鿿]/.test(k)),
+  Object.keys(afterDefinition.study).join(''));
+
 // --- Kanji writing (phase 4 of writing-mode-plan.md) -----------------------
 // Kana writing is prompted by its romaji, an unambiguous single clue. A
 // kanji has no equivalent single glyph to prompt with, so writing mode

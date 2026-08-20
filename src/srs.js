@@ -101,6 +101,87 @@ export function itemKey(mode, kana) {
   return `${mode}:${kana}`;
 }
 
+// --- Study list -----------------------------------------------------------
+//
+// Which kanji the learner has actually chosen to work on, and in which of the
+// three modes. See kanji-expansion-plan.md §1. Before this existed, "am I
+// learning this?" was answered by "does a progress record exist for it",
+// which conflated intent with history and left no way to add a kanji you care
+// about or drop one you don't.
+//
+// Kanji only, deliberately: kana courses are small, complete and taught in a
+// fixed order, so an enrollment UI over 104 characters would be noise. The
+// code path is shared, and kana simply behave as though everything is
+// enrolled — see eligibleItems() below, which only ever filters kanji.
+//
+// Progress records are NEVER deleted by un-enrolling. History is the real
+// record (see the module header), so dropping a kanji and picking it up again
+// a month later resumes where it left off instead of starting from zero.
+
+const KANJI_CHAR = /[㐀-䶿一-鿿]/;
+
+export function isKanjiChar(ch) {
+  return typeof ch === 'string' && ch.length > 0 && KANJI_CHAR.test(ch[0]);
+}
+
+/**
+ * Build a study list from existing progress keys — the one-time migration for
+ * profiles saved before this field existed. Only 2-part keys are considered:
+ * the yomi quiz also writes 3-part per-reading keys ("recognition:生:セイ",
+ * see yomiKey below) which are not items in their own right.
+ */
+export function deriveStudyList(progress) {
+  const study = {};
+  for (const key of Object.keys(progress || {})) {
+    const parts = key.split(':');
+    if (parts.length !== 2) continue;
+    const [mode, char] = parts;
+    if (!isKanjiChar(char)) continue;
+    if (!study[char]) study[char] = [];
+    if (!study[char].includes(mode)) study[char].push(mode);
+  }
+  return study;
+}
+
+export function studyModes(study, kanji) {
+  const list = (study || {})[kanji];
+  return Array.isArray(list) ? list.slice() : [];
+}
+
+export function isStudying(study, kanji, mode) {
+  return studyModes(study, kanji).includes(mode);
+}
+
+/**
+ * Enroll or un-enroll one (kanji, mode). Mutates and returns `study`. An
+ * entry that ends up with no modes is deleted rather than left as an empty
+ * array, so "is this key present" and "is this being studied" never disagree.
+ */
+export function setStudying(study, kanji, mode, on) {
+  if (!study[kanji]) study[kanji] = [];
+  const at = study[kanji].indexOf(mode);
+  if (on && at === -1) study[kanji].push(mode);
+  if (!on && at !== -1) study[kanji].splice(at, 1);
+  if (study[kanji].length === 0) delete study[kanji];
+  return study;
+}
+
+/** Every kanji enrolled in this mode, across every course. */
+export function studiedKanji(study, mode) {
+  return Object.keys(study || {}).filter((k) => isStudying(study, k, mode));
+}
+
+/**
+ * The scheduling functions below accept either a whole profile ({progress,
+ * study}) or — as the pure tests and every pre-study-list caller do — a bare
+ * progress map. A bare map means "no study list", which switches enrollment
+ * filtering off entirely and reproduces the original behaviour exactly.
+ */
+function asContext(ctx) {
+  if (ctx && ctx.progress) return { progress: ctx.progress || {}, study: ctx.study };
+  return { progress: ctx || {}, study: undefined };
+}
+
 export function newRecord() {
   return { box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0, history: [] };
 }
@@ -156,16 +237,63 @@ function allItems(course, mode) {
   return excluded ? items.filter((item) => !excluded.has(item)) : items;
 }
 
+/**
+ * allItems, further restricted to what the learner has actually enrolled —
+ * the item list every scheduling decision below is made over.
+ *
+ * With no study list (kana, and the pure tests) this is exactly allItems.
+ * With one, kanji must be enrolled in this mode to be eligible; kana are
+ * never filtered, since the study list is kanji-only (see above).
+ */
+function eligibleItems(course, mode, ctx) {
+  const items = allItems(course, mode);
+  if (!ctx.study) return items;
+  return items.filter((item) => !isKanjiChar(item) || isStudying(ctx.study, item, mode));
+}
+
 /** Characters that have been introduced, i.e. have a record for this mode. */
-export function introducedItems(course, mode, progress) {
-  return allItems(course, mode).filter((kana) => progress[itemKey(mode, kana)]);
+export function introducedItems(course, mode, ctx) {
+  const c = asContext(ctx);
+  return eligibleItems(course, mode, c).filter((kana) => c.progress[itemKey(mode, kana)]);
+}
+
+/**
+ * Enrolled but never yet taught — "waiting to learn". Manually adding a kanji
+ * from the detail screen lands it here, which is what a `new` session then
+ * picks up (see newItems below).
+ */
+export function pendingItems(course, mode, ctx) {
+  const c = asContext(ctx);
+  return eligibleItems(course, mode, c).filter((kana) => !c.progress[itemKey(mode, kana)]);
+}
+
+/** Course items not yet enrolled at all — the pool "Add N more" draws from. */
+export function unenrolledItems(course, mode, ctx) {
+  const c = asContext(ctx);
+  if (!c.study) return [];
+  return allItems(course, mode)
+    .filter((item) => isKanjiChar(item) && !isStudying(c.study, item, mode));
+}
+
+/**
+ * Enroll the next `limit` not-yet-enrolled kanji, in teaching order — what
+ * "Add 5 more" does before running a `new` session over them. Mutates
+ * `ctx.study` and returns what it enrolled.
+ */
+export function enrollNext(course, mode, ctx, limit = 5) {
+  const c = asContext(ctx);
+  if (!c.study) return [];
+  const next = unenrolledItems(course, mode, c).slice(0, limit);
+  next.forEach((kanji) => setStudying(c.study, kanji, mode, true));
+  return next;
 }
 
 /**
  * Which set the learner is currently on — the set holding the next character
  * they have not met yet. Used for display only.
  */
-export function currentSetIndex(course, mode, progress) {
+export function currentSetIndex(course, mode, ctx) {
+  const { progress } = asContext(ctx);
   const excluded = (course.excludeForMode && course.excludeForMode[mode]) || new Set();
   const index = course.chunks.findIndex((chunk) =>
     chunk.items.some((kana) => !excluded.has(kana) && !progress[itemKey(mode, kana)]));
@@ -180,10 +308,11 @@ export function currentSetIndex(course, mode, progress) {
  * once a set has been fully introduced the "current set" is the next, empty
  * one — which would always look consolidated.
  */
-export function readyForMore(course, mode, progress) {
-  const seen = introducedItems(course, mode, progress);
+export function readyForMore(course, mode, ctx) {
+  const c = asContext(ctx);
+  const seen = introducedItems(course, mode, c);
   if (seen.length === 0) return true;
-  const settled = seen.filter((kana) => progress[itemKey(mode, kana)].box >= BOX_SETTLED);
+  const settled = seen.filter((kana) => c.progress[itemKey(mode, kana)].box >= BOX_SETTLED);
   return settled.length / seen.length >= FRACTION_SETTLED;
 }
 
@@ -191,11 +320,17 @@ export function readyForMore(course, mode, progress) {
 // two separate activities the learner picks between, rather than one blended
 // session, so that "add more" is always a conscious choice.
 
-/** The next never-seen characters, in teaching order. */
-export function newItems(course, mode, progress, limit = 5) {
-  return allItems(course, mode)
-    .filter((kana) => !progress[itemKey(mode, kana)])
-    .slice(0, limit);
+/**
+ * What a `new` session teaches, in teaching order.
+ *
+ * Without a study list this is "never seen", as it always was. With one it is
+ * pendingItems — enrolled but not yet taught — so a kanji added by hand from
+ * the detail screen is picked up here rather than only when grade order
+ * eventually reaches it. Enrolling the next few is a separate, explicit step
+ * (enrollNext above), which is what keeps "add more" a conscious choice.
+ */
+export function newItems(course, mode, ctx, limit = 5) {
+  return pendingItems(course, mode, ctx).slice(0, limit);
 }
 
 /**
@@ -205,8 +340,9 @@ export function newItems(course, mode, progress, limit = 5) {
  * never once been wrong — the point of review is shoring up what's shaky,
  * not re-proving what's already known. Ties break by how overdue it is.
  */
-export function dueItems(course, mode, progress, limit = 15, now = Date.now()) {
-  return introducedItems(course, mode, progress)
+export function dueItems(course, mode, ctx, limit = 15, now = Date.now()) {
+  const { progress } = asContext(ctx);
+  return introducedItems(course, mode, ctx)
     .filter((kana) => isDue(progress[itemKey(mode, kana)], now))
     .sort((a, b) => {
       const ra = progress[itemKey(mode, a)];
@@ -218,32 +354,39 @@ export function dueItems(course, mode, progress, limit = 15, now = Date.now()) {
 }
 
 /** Free practice: anything already introduced, regardless of the schedule. */
-export function practiceItems(course, mode, progress, limit = 20) {
-  return shuffle(introducedItems(course, mode, progress)).slice(0, limit);
+export function practiceItems(course, mode, ctx, limit = 20) {
+  return shuffle(introducedItems(course, mode, ctx)).slice(0, limit);
 }
 
 /**
  * Assemble one session. `kind` is 'new' (teach a set, then quiz just that
  * set), 'review' (quiz what is due), or 'practice' (ignore the schedule).
  */
-export function buildSession(course, mode, progress, kind, { newPerSession = 5, maxReviews = 15, limit = 20, now = Date.now() } = {}) {
+export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxReviews = 15, limit = 20, now = Date.now() } = {}) {
   if (kind === 'new') {
-    const fresh = newItems(course, mode, progress, newPerSession);
+    const fresh = newItems(course, mode, ctx, newPerSession);
     return { lesson: fresh, quiz: shuffle(fresh) };
   }
   if (kind === 'review') {
-    return { lesson: [], quiz: shuffle(dueItems(course, mode, progress, maxReviews, now)) };
+    return { lesson: [], quiz: shuffle(dueItems(course, mode, ctx, maxReviews, now)) };
   }
-  return { lesson: [], quiz: practiceItems(course, mode, progress, limit) };
+  return { lesson: [], quiz: practiceItems(course, mode, ctx, limit) };
 }
 
 /** Counts for the home and summary screens. */
-export function courseStats(course, mode, progress, now = Date.now()) {
+export function courseStats(course, mode, ctx, now = Date.now()) {
+  const c = asContext(ctx);
+  const { progress } = c;
   const all = allItems(course, mode);
-  const started = introducedItems(course, mode, progress);
+  const started = introducedItems(course, mode, c);
   const due = started.filter((k) => isDue(progress[itemKey(mode, k)], now)).length;
   const mastered = started.filter((k) => progress[itemKey(mode, k)].box >= MAX_BOX).length;
   return {
+    // Enrolled but not yet taught, and course items not yet enrolled at all.
+    // Both are 0 without a study list, where "fresh" below keeps its original
+    // meaning of everything not yet started.
+    pending: pendingItems(course, mode, c).length,
+    unenrolled: unenrolledItems(course, mode, c).length,
     total: all.length,
     started: started.length,
     due,

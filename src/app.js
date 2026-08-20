@@ -9,6 +9,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
+  deriveStudyList, enrollNext, newItems,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
@@ -133,8 +134,23 @@ function selectedEmoji() {
   return chosen ? chosen.textContent : EMOJI_CHOICES[0];
 }
 
+/**
+ * One-time study-list migration, then open the profile. A profile saved
+ * before the study list existed has no `study` field at all, and its
+ * enrollment is implied by which progress records exist — deriveStudyList()
+ * reads exactly that back out. See kanji-expansion-plan.md §1.3.
+ *
+ * `undefined` is the trigger, deliberately, not falsiness: `{}` is a
+ * legitimate state (everything removed) and must not re-populate itself from
+ * history on the next load. Persisted immediately so the derivation happens
+ * once rather than on every open.
+ */
 function openProfile(profile) {
   state.profile = profile;
+  if (profile.study === undefined) {
+    profile.study = deriveStudyList(profile.progress);
+    store.saveProfile(profile);
+  }
   renderHome();
 }
 
@@ -154,7 +170,7 @@ function renderHome() {
       ? state.mode
       : defaultModeForKind(script.kind);
     const totals = coursesForScript(script).reduce((acc, course) => {
-      const stats = courseStats(course, mode, profile.progress);
+      const stats = courseStats(course, mode, profile);
       return { started: acc.started + stats.started, total: acc.total + stats.total, due: acc.due + stats.due };
     }, { started: 0, total: 0, due: 0 });
     const pct = Math.round((totals.started / totals.total) * 100);
@@ -239,7 +255,7 @@ function renderGradePicker(script) {
   picker.hidden = false;
   KANJI_GRADES.forEach((gradeNumber) => {
     const course = getAnyCourse(`kanji-grade-${gradeNumber}`);
-    const stats = courseStats(course, state.mode, state.profile.progress);
+    const stats = courseStats(course, state.mode, state.profile);
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `grade${state.grade === gradeNumber ? ' active' : ''}`;
@@ -312,12 +328,12 @@ function renderCourse() {
   const list = $('course-list');
   list.innerHTML = '';
 
-  const stats = courseStats(course, state.mode, profile.progress);
-  const setIndex = currentSetIndex(course, state.mode, profile.progress);
+  const stats = courseStats(course, state.mode, profile);
+  const setIndex = currentSetIndex(course, state.mode, profile);
   const currentChunk = course.chunks[setIndex];
   const pct = Math.round((stats.started / stats.total) * 100);
   const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
-  const settled = readyForMore(course, state.mode, profile.progress);
+  const settled = readyForMore(course, state.mode, profile);
 
   const card = document.createElement('div');
   card.className = 'card course-card';
@@ -511,8 +527,23 @@ function startSession(courseId, kind) {
   state.courseId = courseId;
   state.kind = kind;
   const course = getAnyCourse(courseId);
-  const { progress, settings } = state.profile;
-  const built = buildSession(course, state.mode, progress, kind, {
+  const profile = state.profile;
+  const { settings } = profile;
+
+  // "Add more" is now two steps: enroll the next few kanji in the study list,
+  // then teach whatever is waiting. Anything added by hand from the detail
+  // screen is already waiting, so it gets taught first and this tops up from
+  // course order only if there is room left. Kana have no study list, so
+  // enrollNext is a no-op there and `new` keeps meaning "next never-seen".
+  if (kind === 'new') {
+    const waiting = newItems(course, state.mode, profile, settings.newPerSession).length;
+    if (waiting < settings.newPerSession) {
+      enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
+      store.saveProfile(profile);
+    }
+  }
+
+  const built = buildSession(course, state.mode, profile, kind, {
     newPerSession: settings.newPerSession,
     maxReviews: settings.maxReviews,
   });
@@ -1638,7 +1669,7 @@ function finishSession() {
 
   // Offer the same two choices as the home screen, so carrying on with more
   // new characters does not mean navigating back out first.
-  const stats = courseStats(course, state.mode, state.profile.progress);
+  const stats = courseStats(course, state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
 
   const learnButton = $('summary-learn');

@@ -1,7 +1,8 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0–1 not started. Supersedes the kanji bullet under *What is
-not built yet* in the README.
+Status: phase 1 done (study-list model and scheduling). Phase 2 (the
+enrollment UI) is next. Supersedes the kanji bullet under *What is not built
+yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -172,6 +173,35 @@ otherwise manually adding a kanji would appear to do nothing until you
 happened to reach it in grade order.
 
 ---
+
+### 1.7 How phase 1 actually landed
+
+Close to the design above, with one deliberate scope change and one piece of
+the refactor that turned out to be much cheaper than expected.
+
+**The pool refactor was almost free.** No signature moved. Every scheduling
+function already took `(course, mode, progress)`, and the only change needed
+was to accept *either* a whole profile or a bare progress map — `asContext()`
+in `srs.js` normalises the two. A bare map means "no study list", which
+switches enrollment filtering off and reproduces the original behaviour
+exactly. That is what let ~20 existing pure tests, and all of kana, keep
+working untouched instead of being rewritten. A study-list pool really is
+just `{ chunks: [{ items }], excludeForMode }`, as §1.5 predicted.
+
+**Enrollment filtering shipped in phase 1, not phase 2.** The plan put it
+with the UI, on the grounds that nothing can un-enroll until there is a
+button. But `newItems()` had to change to mean *pending* in the same breath,
+and leaving those two out of step would have meant "Add 5 more" silently
+returning nothing the moment migration ran. Doing both together also leaves
+phase 2 as pure UI, which is a better seam. The consequence is that
+`courseStats()` grew `pending` and `unenrolled` counts now rather than later;
+`fresh` is unchanged and still equals `pending + unenrolled`.
+
+**`startSession` is where "add more" enrolls.** For `kind === 'new'` it tops
+up the study list only as far as the session cap, and only if fewer than that
+many are already waiting — so a kanji added by hand from the detail screen
+gets taught first, and course order fills whatever is left. Kana fall through
+untouched, since `enrollNext` only ever enrolls kanji characters.
 
 ## 2. Screens
 
@@ -354,7 +384,7 @@ Each phase leaves both test suites green and is independently shippable.
 | Phase | Work | Status |
 | --- | --- | --- |
 | 0 | Example-word ranking fix (§0) and regenerate `kanji-data.js`. | Not started |
-| 1 | Study list data model, migration, pool refactor in `srs.js` (§1). Pure logic and tests only, no UI. | Not started |
+| 1 | Study list data model, migration, pool refactor in `srs.js` (§1). Pure logic and tests only, no UI. | **Done** — see §1.7 |
 | 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | Not started |
 | 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | Not started |
 | 4 | Kanji search (§2.2). | Not started |

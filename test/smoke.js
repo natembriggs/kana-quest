@@ -1064,6 +1064,113 @@ check('stats started', stats.started === 4, `got ${stats.started}`);
 check('stats due', stats.due === 4, `got ${stats.due}`);
 done('chunk gating and sessions');
 
+// --- Study list -----------------------------------------------------------
+// See kanji-expansion-plan.md §1. The key property throughout: passing a bare
+// progress map (as every test above does) means "no study list", which turns
+// enrollment filtering off entirely and reproduces the original behaviour —
+// that is what keeps kana, and all of the above, working untouched.
+
+const g1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+const g2 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-2');
+
+// Migration: read enrollment back out of whatever records already exist.
+const legacyProgress = {
+  'definition:一': srs.newRecord(),
+  'recognition:一': srs.newRecord(),
+  'writing:二': srs.newRecord(),
+  'recognition:あ': srs.newRecord(),          // kana — not study-listed
+  'recognition:生:セイ': srs.newYomiRecord(), // per-reading key, not an item
+};
+const derived = srs.deriveStudyList(legacyProgress);
+check('migration enrolls each kanji in exactly the modes it has records for',
+  derived['一'].sort().join(',') === 'definition,recognition'
+  && derived['二'].join(',') === 'writing',
+  JSON.stringify(derived));
+check('migration ignores kana — the study list is kanji-only',
+  !('あ' in derived), JSON.stringify(derived));
+check('migration ignores 3-part per-reading yomi keys, which are not items',
+  !('生' in derived), JSON.stringify(derived));
+
+// Enroll / un-enroll round-trip.
+const study = {};
+srs.setStudying(study, '山', 'writing', true);
+srs.setStudying(study, '山', 'definition', true);
+check('enrolling records the mode', srs.isStudying(study, '山', 'writing'));
+check('modes are independent',
+  !srs.isStudying(study, '山', 'recognition'), JSON.stringify(study));
+srs.setStudying(study, '山', 'writing', false);
+check('un-enrolling one mode leaves the others', srs.isStudying(study, '山', 'definition')
+  && !srs.isStudying(study, '山', 'writing'));
+srs.setStudying(study, '山', 'definition', false);
+check('a kanji with no modes left is removed entirely, not left as an empty array',
+  !('山' in study), JSON.stringify(study));
+
+// Enrollment gates what a session can contain.
+const p = { progress: {}, study: {} };
+check('nothing is eligible before anything is enrolled',
+  srs.newItems(g1, 'definition', p, 5).length === 0
+  && srs.courseStats(g1, 'definition', p).started === 0);
+
+const enrolled = srs.enrollNext(g1, 'definition', p, 3);
+check('enrollNext takes the next few in teaching order', enrolled.length === 3
+  && enrolled[0] === g1.chunks[0].items[0], enrolled.join(''));
+check('enrolled-but-untaught kanji are pending, and are what a new session teaches',
+  srs.pendingItems(g1, 'definition', p).length === 3
+  && srs.buildSession(g1, 'definition', p, 'new', { newPerSession: 5 }).lesson.length === 3);
+check('stats separate waiting-to-learn from not-yet-enrolled',
+  srs.courseStats(g1, 'definition', p).pending === 3
+  && srs.courseStats(g1, 'definition', p).unenrolled === g1.chunks.flatMap((c) => c.items).length - 3);
+
+// A manually-added kanji from a later set jumps the queue, because pending is
+// in course order but "add more" only tops up what is already waiting.
+srs.setStudying(p.study, g1.chunks[4].items[0], 'definition', true);
+check('a kanji added by hand becomes pending immediately, without waiting for grade order',
+  srs.pendingItems(g1, 'definition', p).includes(g1.chunks[4].items[0]));
+
+// Teaching one removes it from pending and puts it on the schedule.
+p.progress[srs.itemKey('definition', enrolled[0])] = srs.grade(srs.newRecord(), true, now);
+check('a taught kanji leaves pending and counts as started',
+  !srs.pendingItems(g1, 'definition', p).includes(enrolled[0])
+  && srs.courseStats(g1, 'definition', p).started === 1);
+
+// Un-enrolling hides it from scheduling but keeps the history.
+srs.setStudying(p.study, enrolled[0], 'definition', false);
+check('un-enrolling drops it out of review without deleting its record',
+  srs.courseStats(g1, 'definition', p).started === 0
+  && !!p.progress[srs.itemKey('definition', enrolled[0])]);
+srs.setStudying(p.study, enrolled[0], 'definition', true);
+check('re-enrolling resumes from the record that was kept, not from zero',
+  srs.courseStats(g1, 'definition', p).started === 1
+  && p.progress[srs.itemKey('definition', enrolled[0])].box === 1);
+
+// excludeForMode still applies through the study list, not just a course.
+const noYomi = [...(g1.excludeForMode.recognition || [])][0];
+if (noYomi) {
+  const ex = { progress: {}, study: {} };
+  srs.setStudying(ex.study, noYomi, 'recognition', true);
+  check('a kanji with no quizzable reading stays excluded from Yomi even when enrolled in it',
+    srs.pendingItems(g1, 'recognition', ex).length === 0, noYomi);
+}
+
+// A pool spanning several grades — what "review everything I'm studying"
+// builds on. A synthetic single-chunk course is all it takes (§1.5).
+const across = { progress: {}, study: {} };
+const fromG1 = g1.chunks[0].items[0];
+const fromG2 = g2.chunks[0].items[0];
+[fromG1, fromG2].forEach((k) => {
+  srs.setStudying(across.study, k, 'definition', true);
+  across.progress[srs.itemKey('definition', k)] = srs.grade(srs.newRecord(), false, now);
+});
+const studyPool = { chunks: [{ items: srs.studiedKanji(across.study, 'definition') }], excludeForMode: {} };
+const acrossSession = srs.buildSession(studyPool, 'definition', across, 'review', { now });
+check('a study-list pool reviews across grades in one session',
+  acrossSession.quiz.includes(fromG1) && acrossSession.quiz.includes(fromG2),
+  acrossSession.quiz.join(''));
+check('a single-grade course still only reviews its own grade',
+  !srs.buildSession(g1, 'definition', across, 'review', { now }).quiz.includes(fromG2));
+
+done('study list: enrollment gates scheduling, and survives un-enrolling');
+
 // --- Result ---------------------------------------------------------------
 
 print('');
