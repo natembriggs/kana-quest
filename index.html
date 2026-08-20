@@ -104,7 +104,10 @@
          (see renderCourse() in app.js), since results aren't limited to
          whichever grade happens to be selected. -->
     <div id="kanji-search-wrap" class="stack" hidden>
-      <input id="kanji-search" type="search" class="search-input" placeholder="Search by kanji, meaning, or reading" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="search-field">
+        <input id="kanji-search" type="search" class="search-input" placeholder="Search by kanji, meaning, or reading" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button id="kanji-search-clear" class="search-clear" type="button" aria-label="Clear search" hidden>✕</button>
+      </div>
       <div id="kanji-search-results" class="overview-grid"></div>
       <p id="kanji-search-empty" class="hint" hidden>No matches.</p>
       <p id="kanji-search-truncated" class="hint" hidden></p>

@@ -577,6 +577,7 @@ function renderCourse() {
 
   $('kanji-search-wrap').hidden = script.kind !== 'kanji';
   const searchQuery = script.kind === 'kanji' ? $('kanji-search').value.trim() : '';
+  $('kanji-search-clear').hidden = !searchQuery;
   renderKanjiSearchResults(searchQuery);
 
   const list = $('course-list');
@@ -2266,6 +2267,12 @@ function wire() {
   // debounce would only add perceived latency for no real benefit.
   $('kanji-search').addEventListener('input', renderCourse);
 
+  $('kanji-search-clear').addEventListener('click', () => {
+    $('kanji-search').value = '';
+    renderCourse();
+    $('kanji-search').focus();
+  });
+
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
@@ -2341,8 +2348,15 @@ function wire() {
       case 'open-settings': renderSettings(); break;
       case 'open-transfer': renderSettings(); break;
       // Back out one level: the course screen returns to the script picker.
+      // But if a kanji search is active, back out of search first — otherwise
+      // this button would strand the learner on the script picker with no
+      // visible way back to the grade/mode UI the search had hidden (see
+      // renderCourse()), since the search box's own value is easy to miss.
       case 'go-home':
-        if (state.profile) renderHome(); else renderProfiles();
+        if (!$('kanji-search-wrap').hidden && $('kanji-search').value.trim()) {
+          $('kanji-search').value = '';
+          renderCourse();
+        } else if (state.profile) renderHome(); else renderProfiles();
         break;
       // Return to the course screen — from a finished session, or from
       // settings opened while on it.

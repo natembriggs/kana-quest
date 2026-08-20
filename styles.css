@@ -256,10 +256,11 @@ h3 { font-size: 18px; }
 }
 .field input[type="range"] { accent-color: var(--accent); height: 32px; }
 
+.search-field { position: relative; }
 .search-input {
   min-height: var(--tap);
   width: 100%;
-  padding: 0 14px;
+  padding: 0 40px 0 14px;
   font-size: 17px;
   font-family: inherit;
   color: var(--ink);
@@ -267,6 +268,28 @@ h3 { font-size: 18px; }
   border: 1px solid var(--line);
   border-radius: 12px;
 }
+/* The custom clear button below replaces the native one so it looks and
+   behaves the same across browsers (some hide their own on type="search"). */
+.search-input::-webkit-search-cancel-button { display: none; }
+.search-clear {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.search-clear:hover, .search-clear:active { background: var(--line); }
 
 .emoji-picker { display: flex; flex-wrap: wrap; gap: 8px; }
 .emoji-option {
