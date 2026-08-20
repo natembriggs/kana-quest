@@ -1269,6 +1269,24 @@ check('the writing summary shows one chip per character, each with a non-blank r
   && writingSummaryChips.every((c) => c.querySelector('.chip-romaji').textContent.length > 0),
   writingSummaryChips.map((c) => c.querySelector('.chip-romaji').textContent).join(' | '));
 
+// Summary chips are tappable now (kanji-expansion-plan.md §2.3) — exactly
+// where seeing a miss makes you want to look closer, or seeing a pass makes
+// you want to add writing practice for it. Back returns to the summary
+// itself, not the course screen, since that is genuinely where this was
+// opened from — see openCharacterDetail()'s `returnTo` and the 'detail-back'
+// action in app.js.
+const summaryChipChar = writingSummaryChips[0].querySelector('.chip-kana').textContent;
+fire(writingSummaryChips[0], 'click');
+await settle();
+check('tapping a summary chip opens the detail screen for that character',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === summaryChipChar,
+  `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('backing out of a detail screen opened from the summary returns to the summary, not the overview',
+  visible() === 'screen-summary', `showing ${visible()}`);
+
 // The overview/detail screens are driven entirely by state.mode, with no
 // writing-specific branch of their own (see writing-mode-plan.md §1: "the
 // Leitner grade() is mode-agnostic — progress storage needs no changes at
@@ -1299,7 +1317,7 @@ check('the writing-mode detail screen still renders the stroke diagram',
 check('a kanji detail screen under writing mode still shows readings and a meaning, same as any other kanji mode',
   el('detail-readings').hidden === false && el('detail-meanings').textContent.length > 0);
 
-fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-overview' } }) } });
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
 await settle();
 
 // --- Writing practice mode: fixed vs Dynamic, chosen before starting ------
@@ -1411,7 +1429,7 @@ check('an untouched character is labelled "Not started"',
 fire(el('detail-play-strokes'), 'click'); // must not throw without real SVG geometry
 await settle();
 
-fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-overview' } }) } });
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
 await settle();
 check('backing out of detail returns to the overview, not the course screen',
   visible() === 'screen-overview', `showing ${visible()}`);
@@ -1459,6 +1477,64 @@ if (detailChips.length > 0) {
     el('detail-word').hidden === false);
   check('tapping the chip marks it active', detailChips[0].classList.contains('is-active'));
 }
+
+// --- Study-list enrollment from the detail screen --------------------------
+// Phase 2 of kanji-expansion-plan.md. Grade 6 is untouched by everything
+// above, so its first kanji is guaranteed never-studied — a clean slate to
+// prove the three-state model (kanji-expansion-plan.md §1.2) and both levels
+// of the enrollment UI: the headline bulk toggle and the three independent
+// per-mode ones underneath it.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
+await settle();
+const grade6ViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(grade6ViewSetButton, 'click');
+await settle();
+
+const grade6Tile = el('overview-grid')._children[0];
+const grade6Char = grade6Tile.textContent;
+fire(grade6Tile, 'click');
+await settle();
+
+const modeToggleIds = ['detail-mode-definition', 'detail-mode-recognition', 'detail-mode-writing'];
+check('a never-studied kanji shows "Not studying" on its detail screen',
+  el('detail-study').hidden === false && el('detail-study-toggle').textContent.includes('Not studying'),
+  el('detail-study-toggle').textContent);
+check('its per-mode toggles all start inactive',
+  modeToggleIds.every((id) => !el(id).className.includes('active')),
+  modeToggleIds.map((id) => el(id).className).join(' | '));
+
+fire(el('detail-study-toggle'), 'click');
+await settle();
+check('tapping the headline button enrolls it in every applicable mode at once',
+  el('detail-study-toggle').textContent.includes('Waiting to learn')
+  && modeToggleIds.every((id) => el(id).hidden || el(id).className.includes('active')),
+  modeToggleIds.map((id) => `${id}:${el(id).className}`).join(' | '));
+
+const grade6Saved = [...rows.values()][0];
+check('enrolling is persisted to the profile immediately, before any session has taught it',
+  Array.isArray(grade6Saved.study[grade6Char]) && grade6Saved.study[grade6Char].length >= 1,
+  JSON.stringify(grade6Saved.study[grade6Char]));
+
+fire(el('detail-mode-writing'), 'click');
+await settle();
+check('a per-mode toggle turns off just that mode, independent of the others — still enrolled overall',
+  !el('detail-mode-writing').className.includes('active')
+  && el('detail-mode-definition').className.includes('active')
+  && el('detail-study-toggle').textContent.includes('Waiting to learn'));
+
+fire(el('detail-study-toggle'), 'click');
+await settle();
+check('tapping the headline button again un-enrolls every mode at once',
+  el('detail-study-toggle').textContent.includes('Not studying')
+  && modeToggleIds.every((id) => !el(id).className.includes('active')));
+
+const grade6SavedAfter = [...rows.values()][0];
+check('un-enrolling removes the study-list entry entirely, not just clears its modes',
+  !(grade6Char in grade6SavedAfter.study), JSON.stringify(grade6SavedAfter.study[grade6Char]));
 
 // --- Settings: writing strictness ------------------------------------------
 // Phase 5 of writing-mode-plan.md — a per-profile slider, same pattern as

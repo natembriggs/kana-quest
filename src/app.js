@@ -9,7 +9,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems, introducedItems,
+  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
@@ -481,10 +481,95 @@ function renderOverview(scrollToChar) {
 
 // --- Character detail: stroke order, readings, meanings -------------------
 
-function openCharacterDetail(course, char) {
+/**
+ * `returnTo` is which screen the back button (data-action="detail-back")
+ * returns to — 'overview' (the set overview, tapping a tile) or 'summary'
+ * (the end-of-session summary, tapping a chip — see finishSession()). Kept
+ * on state rather than derived from "whichever screen was visible before",
+ * since detail can itself be re-entered from detail-adjacent actions with no
+ * other screen in between.
+ */
+function openCharacterDetail(course, char, returnTo = 'overview') {
   state.detailCourseId = course.id;
   state.detailChar = char;
+  state.detailReturn = returnTo;
   renderCharacterDetail();
+}
+
+// The three modes a kanji can be enrolled in, in the order they read best on
+// the detail screen — same order the course mode picker uses.
+const STUDY_MODE_IDS = ['definition', 'recognition', 'writing'];
+
+/** Which of the three modes actually apply to this kanji — a handful (媛/栃/
+ * 茨 and friends) have no reading any common word uses, so Yomi has nothing
+ * to ask about them; see excludeForMode in kanji.js. */
+function applicableStudyModes(course, char) {
+  return STUDY_MODE_IDS.filter((mode) => {
+    const excluded = course.excludeForMode && course.excludeForMode[mode];
+    return !excluded || !excluded.has(char);
+  });
+}
+
+/** The three-state model from kanji-expansion-plan.md §1.2: not enrolled in
+ * any applicable mode, enrolled but never taught in any of them, or enrolled
+ * and on the schedule in at least one. */
+function studyStatus(study, progress, char, modes) {
+  const enrolled = modes.filter((mode) => isStudying(study, char, mode));
+  if (enrolled.length === 0) return 'not-studying';
+  const started = enrolled.some((mode) => !!progress[itemKey(mode, char)]);
+  return started ? 'learning' : 'waiting';
+}
+
+/**
+ * Kanji only. The headline button is a bulk convenience — enrolling turns on
+ * every applicable mode, un-enrolling turns all of them off — sitting above
+ * three independent per-mode toggles for fine control (I want to write 龍 but
+ * don't care about its readings). Both act on the same underlying list, so
+ * neither can leave the other looking wrong: toggling one mode by hand always
+ * updates what the headline button says next.
+ */
+function renderDetailStudy(course, char) {
+  $('detail-study').hidden = course.kind !== 'kanji';
+  if (course.kind !== 'kanji') return;
+
+  const { study, progress } = state.profile;
+  const modes = applicableStudyModes(course, char);
+  const status = studyStatus(study, progress, char, modes);
+
+  const toggle = $('detail-study-toggle');
+  toggle.className = `btn wide${status === 'not-studying' ? ' btn-primary' : ''}`;
+  toggle.textContent = {
+    'not-studying': 'Not studying — tap to start',
+    waiting: 'Waiting to learn — tap to stop',
+    learning: 'Learning — tap to stop',
+  }[status];
+
+  STUDY_MODE_IDS.forEach((mode) => {
+    const button = $(`detail-mode-${mode}`);
+    button.hidden = !modes.includes(mode);
+    button.textContent = modeName(mode, 'kanji');
+    button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
+  });
+}
+
+function toggleDetailStudy() {
+  const course = getAnyCourse(state.detailCourseId);
+  const char = state.detailChar;
+  const { study, progress } = state.profile;
+  const modes = applicableStudyModes(course, char);
+  const turnOn = studyStatus(study, progress, char, modes) === 'not-studying';
+  modes.forEach((mode) => setStudying(study, char, mode, turnOn));
+  store.saveProfile(state.profile);
+  renderDetailStudy(course, char);
+}
+
+function toggleDetailStudyMode(mode) {
+  const course = getAnyCourse(state.detailCourseId);
+  const char = state.detailChar;
+  const { study } = state.profile;
+  setStudying(study, char, mode, !isStudying(study, char, mode));
+  store.saveProfile(state.profile);
+  renderDetailStudy(course, char);
 }
 
 function renderCharacterDetail() {
@@ -505,6 +590,8 @@ function renderCharacterDetail() {
   const tier = masteryTier(progress[itemKey(state.mode, char)]);
   $('detail-mastery').textContent = MASTERY_LABELS[tier];
   $('detail-mastery').className = `mastery-label tier-${tier}`;
+
+  renderDetailStudy(course, char);
 
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, char);
@@ -1677,7 +1764,12 @@ function finishSession() {
   const list = $('summary-list');
   list.innerHTML = '';
   entries.forEach(([item, ok]) => {
-    const chip = document.createElement('div');
+    // A button, not a div — tapping opens the detail screen (stroke order,
+    // readings, and now the study-list controls) for whatever just showed up
+    // in the summary, right where seeing a miss makes you want to look closer
+    // or seeing a pass makes you want to add writing practice for it.
+    const chip = document.createElement('button');
+    chip.type = 'button';
     chip.className = `chip ${ok ? 'chip-ok' : 'chip-bad'}`;
     chip.innerHTML = `<span class="chip-kana"></span><span class="chip-romaji"></span>`;
     chip.querySelector('.chip-kana').textContent = item;
@@ -1689,6 +1781,7 @@ function finishSession() {
         : (info.quizReadings[0] || '');
     }
     chip.querySelector('.chip-romaji').textContent = label;
+    chip.addEventListener('click', () => openCharacterDetail(course, item, 'summary'));
     list.appendChild(chip);
   });
 
@@ -1782,6 +1875,11 @@ function wire() {
 
   $('lesson-next').addEventListener('click', advanceLesson);
 
+  $('detail-study-toggle').addEventListener('click', toggleDetailStudy);
+  STUDY_MODE_IDS.forEach((mode) => {
+    $(`detail-mode-${mode}`).addEventListener('click', () => toggleDetailStudyMode(mode));
+  });
+
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
@@ -1865,9 +1963,14 @@ function wire() {
       case 'go-course':
         if (state.profile) renderCourse(); else renderProfiles();
         break;
-      // Scrolls back to whichever character was just being looked at, not
-      // the top of a list that can run to 200 characters.
-      case 'go-overview': renderOverview(state.detailChar); break;
+      // Returns wherever the detail screen was opened from — the set
+      // overview (scrolled back to whichever character was being looked at,
+      // not the top of a list that can run to 200 characters) normally, or
+      // the session summary if that is where its now-tappable chips sent us.
+      case 'detail-back':
+        if (state.detailReturn === 'summary') show('screen-summary');
+        else renderOverview(state.detailChar);
+        break;
       case 'close-settings':
         if (!state.profile) renderProfiles();
         else if (state.settingsReturn === 'screen-course') renderCourse();

@@ -110,7 +110,10 @@
   <!-- ---------------------------------------------------------------- -->
   <section id="screen-character-detail" class="screen" hidden>
     <header class="topbar">
-      <button class="btn btn-icon" type="button" data-action="go-overview" aria-label="Back">←</button>
+      <!-- Returns wherever this screen was opened from — the set overview
+           normally, but the session summary too now that its chips are
+           tappable (see openCharacterDetail() in app.js). -->
+      <button class="btn btn-icon" type="button" data-action="detail-back" aria-label="Back">←</button>
       <h2>Detail</h2>
       <span></span>
     </header>
@@ -124,6 +127,19 @@
     </div>
 
     <p id="detail-mastery" class="mastery-label"></p>
+
+    <!-- Kanji only: whether this kanji is being studied is now an editable
+         choice, not just a fact — the button below both shows and sets it.
+         See kanji-expansion-plan.md §2.1. Kana keep the implicit model (every
+         character in every applicable mode), so this stays hidden for kana. -->
+    <div id="detail-study" class="stack" hidden>
+      <button id="detail-study-toggle" class="btn wide" type="button"></button>
+      <div id="detail-study-modes" class="segmented" role="group" aria-label="Which modes to study">
+        <button id="detail-mode-definition" class="segment" type="button" data-mode="definition">Definition</button>
+        <button id="detail-mode-recognition" class="segment" type="button" data-mode="recognition">Yomi</button>
+        <button id="detail-mode-writing" class="segment" type="button" data-mode="writing">Writing</button>
+      </div>
+    </div>
 
     <div id="detail-romaji" class="romaji" hidden></div>
     <!-- Kanji only: tappable readings (tap to see the word it's used in),

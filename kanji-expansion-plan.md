@@ -1,8 +1,8 @@
 # Kanji expansion — implementation plan
 
-Status: phase 1 done (study-list model and scheduling). Phase 2 (the
-enrollment UI) is next. Supersedes the kanji bullet under *What is not built
-yet* in the README.
+Status: phases 0-2 done (example-word ranking fix, study-list model and
+scheduling, enrollment UI). Phase 3 (review scope toggle) is next. Supersedes
+the kanji bullet under *What is not built yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -251,6 +251,29 @@ Implemented as the pool choice from §1.5, so it is one argument, not a second
 code path. The count next to each updates to match. Scope is remembered per
 profile, like `writingModePreference`.
 
+### 2.5 How §2.1 and §2.3 actually landed
+
+Both shipped as designed, with the enrollment UI slightly simpler than
+drafted: one headline button (bulk enroll/un-enroll every applicable mode)
+above three independent per-mode toggles, rather than the button also trying
+to summarise per-mode state in its own text — the three toggles already show
+that directly, so the button only ever needs to say one of "Not studying",
+"Waiting to learn", or "Learning".
+
+The mastery label (`#detail-mastery`) was **not** repurposed into a subtitle
+as originally drafted — it still shows the tier for whichever mode the
+learner currently has selected on the course screen (`state.mode`), which
+stayed independently useful, and conflating it with per-mode enrollment
+state would have made one element try to mean two things. The two sit
+stacked instead: mastery-for-current-mode above, the enrollment block below.
+
+Getting to summary chips required one small structural change beyond §2.3
+itself: the detail screen's back button had a single hardcoded destination
+(the overview). It now remembers where it was opened from
+(`state.detailReturn`, set by `openCharacterDetail()`'s new `returnTo`
+parameter) and the action was renamed `go-overview` → `detail-back` to match
+that it no longer always does that.
+
 ---
 
 ## 3. Orderings
@@ -383,9 +406,9 @@ Each phase leaves both test suites green and is independently shippable.
 
 | Phase | Work | Status |
 | --- | --- | --- |
-| 0 | Example-word ranking fix (§0) and regenerate `kanji-data.js`. | Not started |
+| 0 | Example-word ranking fix (§0) and regenerate `kanji-data.js`. | **Done** |
 | 1 | Study list data model, migration, pool refactor in `srs.js` (§1). Pure logic and tests only, no UI. | **Done** — see §1.7 |
-| 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | Not started |
+| 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | **Done** — see §2.5 |
 | 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | Not started |
 | 4 | Kanji search (§2.2). | Not started |
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | Not started |
