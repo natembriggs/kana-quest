@@ -201,7 +201,9 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
-const { courseStats, studiedKanji } = await import('../src/srs.js');
+const {
+  courseStats, studiedKanji, isStudying, unenrolledItems, MAX_BOX,
+} = await import('../src/srs.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
 // that grade has actually been loaded (kanji-expansion-plan.md §4), which
@@ -1852,6 +1854,57 @@ check('un-enrolling removes the study-list entry entirely, not just clears its m
 check('un-enrolling never deletes the progress record already earned',
   !!grade6SavedAfter.progress[`definition:${grade6Char}`],
   JSON.stringify(grade6SavedAfter.progress[`definition:${grade6Char}`]));
+
+// --- Placement test: "Test unlearned kanji" ---------------------------------
+// A button next to "View set overview" lets an already-capable learner test
+// EVERY not-yet-started kanji in the current unit at once, unlimited, with no
+// lesson step first — a correct answer jumps straight to the top box instead
+// of the normal one-box-at-a-time climb. Still grade 6, Definition mode, but
+// the course screen itself was last rendered several steps ago (before the
+// un-enroll above) — re-visit it so the card reflects current enrollment.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+
+const profileBeforePlacement = [...rows.values()][0];
+const grade6Untested = unenrolledItems(grade6Course, 'definition', profileBeforePlacement);
+check('there is at least one untested grade-6 kanji to placement-test against',
+  grade6Untested.length > 0, grade6Untested.length);
+
+const placementButtonsBefore = buttonsIn(el('course-list')._children[0]);
+const placementButton = placementButtonsBefore
+  .find((b) => (b.innerHTML || '').includes('Test') && (b.innerHTML || '').includes('unlearned'));
+check('the course card offers a placement-test button, right of View set overview',
+  !!placementButton, placementButtonsBefore.map((b) => b.innerHTML || b.textContent).join(' | '));
+check('its count matches how many grade-6 kanji have never been started in this mode',
+  !!placementButton && placementButton.innerHTML.includes(String(grade6Untested.length)),
+  placementButton && placementButton.innerHTML);
+
+fire(placementButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a placement test skips the lesson screen entirely — nothing is shown before being asked',
+  visible() === 'screen-quiz', visible());
+
+const placementProfileMidway = [...rows.values()][0];
+check('clicking the placement button enrolled every untested grade-6 kanji at once, not a session-sized batch',
+  grade6Untested.every((k) => isStudying(placementProfileMidway.study, k, 'definition')));
+
+const placementKanji = el('quiz-kana').textContent;
+check('the placement quiz is drawn from the untested set',
+  grade6Untested.includes(placementKanji), placementKanji);
+
+const placementAnswer = meaningLabel(kanjiInfo(grade6Course, placementKanji));
+const placementRightChoice = el('quiz-choices')._children.find((c) => c.textContent === placementAnswer);
+fire(placementRightChoice, 'click');
+await settle();
+
+const placementProfileAfter = [...rows.values()][0];
+const placementRecord = placementProfileAfter.progress[`definition:${placementKanji}`];
+check('a correct placement answer jumps straight to the top box, not box 1',
+  !!placementRecord && placementRecord.box === MAX_BOX, JSON.stringify(placementRecord));
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
 
 // --- Settings: writing strictness ------------------------------------------
 // Phase 5 of writing-mode-plan.md — a per-profile slider, same pattern as

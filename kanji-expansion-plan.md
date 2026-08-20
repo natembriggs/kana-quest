@@ -2,9 +2,10 @@
 
 Status: phases 0-6 done (example-word ranking fix, study-list model and
 scheduling, enrollment UI, review scope toggle, kanji search, lazy per-grade
-data loading, all 2,136 jōyō kanji). Phase 7 (JLPT/frequency orderings) is
-next. Supersedes the kanji bullet under *What is not built yet* in the
-README.
+data loading, all 2,136 jōyō kanji), plus two bug fixes (§4.3) and a
+placement test (§2.9) requested outside the phase plan. Phase 7 (JLPT/
+frequency orderings) is next. Supersedes the kanji bullet under *What is not
+built yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -377,6 +378,42 @@ spans every grade the way search results do — showing them alongside search
 results would silently imply the results were scoped to whichever grade
 happened to be selected, which is exactly backwards from the point of not
 needing to know that in the first place.
+
+### 2.9 Placement test: "test out" of kanji an existing learner already knows
+
+Requested directly, outside the phase plan: an existing learner picking this
+app up mid-way through their own study shouldn't have to sit through a
+lesson card for every kanji they already know just to get it correctly
+scheduled. A new button, right of **View set overview** on the course card,
+kanji only: **🎯 Test *N* unlearned**, where *N* is every kanji in the
+current unit (grade/sub-unit) not yet enrolled in the current mode.
+
+- **Unlimited, on purpose.** "No reason to do just 5 if you're not
+  learning" — the button enrolls and quizzes every one of them in one go,
+  not a session-sized batch the way "Add more" caps ordinary teaching. The
+  learner stops whenever they want via the ordinary quit action; nothing
+  about the session itself is capped.
+- **No lesson step.** `buildSession`'s new `'placement'` kind returns
+  `{ lesson: [], quiz: shuffle(pendingItems(...)) }` — straight to the quiz,
+  nothing shown first. For Writing mode specifically this also forces the
+  session's sub-mode to **Free**, overriding even a fixed Trace/Guided
+  preference: Trace shows the whole character before a stroke is drawn and
+  Guided reveals each stroke the instant it's accepted, both of which defeat
+  "without being shown the answers first." The learner can still switch away
+  mid-attempt via the ordinary toggle.
+- **A correct answer jumps straight to the top box**, not the usual
+  one-box-at-a-time climb — `grade()` (kana/Definition/Writing) and
+  `gradeYomi()` (per-reading Yomi records, which `recomputeKanjiRollup`
+  aggregates as `min(streak, MAX_BOX)`) both gained a `{ placement }` option
+  that does this on a hit; a miss is graded exactly like an ordinary first
+  miss either way — testing something you don't actually know should just
+  start it normally, at box 0, not somehow be worse than never testing it.
+  `session.placementTest` carries the flag from `startSession()` through to
+  `recordResult()`/`recordYomiResult()`.
+- Enrollment happens the same way "Add more" already does it — `enrollNext`
+  mutates `study` in `startSession()` before `buildSession` runs, just with
+  `limit = Infinity` instead of `newPerSession` — so the study-list
+  invariant (progress record ⇒ enrolled) is never at risk of drifting.
 
 ---
 

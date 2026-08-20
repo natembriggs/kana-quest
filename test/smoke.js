@@ -924,6 +924,33 @@ for (let i = 0; i < 20; i += 1) maxed = srs.grade(maxed, true, now);
 check('box is capped', maxed.box === srs.MAX_BOX, `box ${maxed.box}`);
 done('leitner boxes');
 
+// --- Placement test: a correct answer on a never-seen item jumps to the --
+// --- top box instead of climbing one at a time --------------------------
+
+const placedRight = srs.grade(srs.newRecord(), true, now, { placement: true });
+check('a placement-correct answer jumps straight to the top box, not box 1',
+  placedRight.box === srs.MAX_BOX, `box ${placedRight.box}`);
+check('placement still records a normal correct/seen/history entry',
+  placedRight.seen === 1 && placedRight.correct === 1
+  && placedRight.history.length === 1 && placedRight.history[0][1] === 1);
+
+const placedWrong = srs.grade(srs.newRecord(), false, now, { placement: true });
+check('a placement-incorrect answer is graded exactly like an ordinary miss',
+  placedWrong.box === 0 && placedWrong.lapses === 1 && srs.isDue(placedWrong, now));
+
+const placedYomi = srs.gradeYomi(srs.newYomiRecord(), true, now, { placement: true });
+check('placement on a per-reading (Yomi) record jumps the streak to MAX_BOX too',
+  placedYomi.streak === srs.MAX_BOX, `streak ${placedYomi.streak}`);
+
+const placementCtx = { progress: {}, study: { [rollupKanji]: ['recognition'] } };
+const placementBuilt = srs.buildSession(grade1, 'recognition', placementCtx, 'placement');
+check('a placement session has no lesson step — nothing is shown before being asked',
+  placementBuilt.lesson.length === 0);
+check('a placement session quizzes every enrolled-but-untaught item, not a capped batch',
+  placementBuilt.quiz.length === 1 && placementBuilt.quiz[0] === rollupKanji,
+  JSON.stringify(placementBuilt.quiz));
+done('placement test: correct answers jump straight to the top box');
+
 // --- Writing mode: which of Trace/Guided/Free a question defaults to -------
 // See writing-mode-plan.md §3 — this is the mapping the whole auto-selection
 // feature turns on, so it is pinned here the same way the grading tolerances

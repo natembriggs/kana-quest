@@ -10,7 +10,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji,
+  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji, unenrolledItems,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -634,10 +634,40 @@ function renderCourse() {
   // stroke order and readings for any of them), scrolled to the current set.
   const viewSet = document.createElement('button');
   viewSet.type = 'button';
-  viewSet.className = 'btn wide overview-button';
+  viewSet.className = 'btn overview-button';
   viewSet.innerHTML = '📋 View set overview';
   viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
-  card.appendChild(viewSet);
+
+  // Kanji only — "place in": an already-capable learner tests every
+  // not-yet-started kanji in this unit cold, no lesson step, so nothing is
+  // shown before being asked. A correct first answer jumps straight to the
+  // top box instead of the usual one-box-at-a-time climb (see grade()'s
+  // `placement` option) — the whole point is skipping the slow climb for
+  // something already known. Unlimited on purpose: capping it at a normal
+  // session-sized batch would defeat "just stop when you want" (see
+  // kanji-expansion-plan.md).
+  if (course.kind === 'kanji') {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.appendChild(viewSet);
+
+    const untested = unenrolledItems(course, state.mode, profile).length;
+    const placement = document.createElement('button');
+    placement.type = 'button';
+    placement.className = 'btn';
+    if (untested > 0) {
+      placement.innerHTML = `🎯 Test <b>${untested}</b> unlearned`;
+      placement.addEventListener('click', () => startSession(course.id, 'placement'));
+    } else {
+      placement.textContent = 'Nothing left to test';
+      placement.disabled = true;
+    }
+    row.appendChild(placement);
+    card.appendChild(row);
+  } else {
+    viewSet.classList.add('wide');
+    card.appendChild(viewSet);
+  }
 
   // Learning new characters and reviewing are separate buttons, so adding
   // more to study is always a decision rather than something that happens
@@ -1013,6 +1043,14 @@ async function startSession(courseId, kind, items) {
         enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
         store.saveProfile(profile);
       }
+    } else if (kind === 'placement') {
+      // "Test out": every not-yet-started kanji in this unit, unlimited —
+      // no reason to cap a placement test at a session-sized batch the way
+      // "Add more" caps ordinary teaching. buildSession's 'placement' branch
+      // then quizzes whatever is pending, which after this is all of them,
+      // with no lesson step (see there for why).
+      enrollNext(course, state.mode, profile, Infinity);
+      store.saveProfile(profile);
     }
     built = buildSession(course, state.mode, profile, kind, {
       newPerSession: settings.newPerSession,
@@ -1047,6 +1085,10 @@ async function startSession(courseId, kind, items) {
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt)
     awaitingAcknowledge: false,
+    // "Unlearned kanji test": a correct first answer jumps straight to the
+    // top box instead of climbing one at a time — see grade()'s `placement`
+    // option in srs.js and recordResult()/recordYomiResult() below.
+    placementTest: kind === 'placement',
     // Writing only: null means each question picks Trace/Guided/Free itself
     // from that character's own mastery (autoWritingMode in srs.js) —
     // "Dynamic" on the course-screen picker. A fixed preference chosen there
@@ -1057,7 +1099,17 @@ async function startSession(courseId, kind, items) {
     // sticks for the rest of THIS session — see writingSetSubMode() below —
     // but that's session-only and does not itself change the persisted
     // preference; only the course-screen picker does that.
-    writingModeOverride: writingModePref && writingModePref !== 'dynamic' ? writingModePref : null,
+    //
+    // A placement test overrides even a fixed Trace/Guided preference to
+    // Free: Trace shows the whole character before a stroke is drawn and
+    // Guided reveals each stroke the moment it's accepted, both of which
+    // directly contradict "without being shown the answers first" — Free's
+    // no-guide-until-self-graded is the only sub-mode that actually tests
+    // blind. The learner can still switch away mid-attempt via the ordinary
+    // toggle if they want to.
+    writingModeOverride: kind === 'placement'
+      ? 'free'
+      : (writingModePref && writingModePref !== 'dynamic' ? writingModePref : null),
     // Derived fresh per question in renderWritingQuestion() below; only
     // initialized here so it has a sane value before the first question
     // renders.
@@ -2026,7 +2078,8 @@ function expandKanjiAdvanced() {
 function recordYomiResult(course, kanji, reading, correct) {
   const { progress } = state.profile;
   const key = yomiKey(state.mode, kanji, reading);
-  progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct);
+  const placement = !!(state.session && state.session.placementTest);
+  progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct, Date.now(), { placement });
   recomputeKanjiRollup(course, kanji, state.mode, progress);
 }
 
@@ -2143,7 +2196,7 @@ function recordResult(kana, correct) {
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey(state.mode, kana);
-  progress[key] = grade(progress[key] || newRecord(), correct);
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
   // The summary reflects the first attempt at each character.
   if (!session.results.has(kana)) session.results.set(kana, correct);
   store.saveProfile(state.profile);

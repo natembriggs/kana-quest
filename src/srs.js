@@ -193,21 +193,34 @@ export function newRecord() {
  * A miss always drops the item to box 0 so it is re-drilled in the same
  * session, and increments `lapses` so a persistently hard character is
  * visible in the stats later.
+ *
+ * `placement`, when true, is a "test out" answer (kanji-expansion-plan.md
+ * §placement test): a NEVER-BEFORE-SEEN item answered correctly means the
+ * learner already knew it coming in, so a hit jumps straight to the top box
+ * instead of climbing one box at a time like an ordinary first correct
+ * answer would. A miss is graded identically either way — placement testing
+ * something you don't actually know should just start it normally, at box 0,
+ * the same as any other first-time miss.
  */
-export function grade(record, correct, now = Date.now()) {
+export function grade(record, correct, now = Date.now(), { placement = false } = {}) {
   const rec = record || newRecord();
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
-    const wasAtMax = rec.box >= MAX_BOX;
-    rec.box = Math.min(rec.box + 1, MAX_BOX);
-    if (wasAtMax && rec.lapses === 0) {
-      // Perfect record, already at the top box: keep spacing it out further
-      // instead of asking again every 32 days for the rest of time.
-      const previous = rec.intervalDays || BOX_INTERVALS_DAYS[MAX_BOX];
-      rec.intervalDays = Math.min(previous * NEVER_MISSED_GROWTH, NEVER_MISSED_CAP_DAYS);
+    if (placement) {
+      rec.box = MAX_BOX;
+      rec.intervalDays = BOX_INTERVALS_DAYS[MAX_BOX];
     } else {
-      rec.intervalDays = BOX_INTERVALS_DAYS[rec.box];
+      const wasAtMax = rec.box >= MAX_BOX;
+      rec.box = Math.min(rec.box + 1, MAX_BOX);
+      if (wasAtMax && rec.lapses === 0) {
+        // Perfect record, already at the top box: keep spacing it out further
+        // instead of asking again every 32 days for the rest of time.
+        const previous = rec.intervalDays || BOX_INTERVALS_DAYS[MAX_BOX];
+        rec.intervalDays = Math.min(previous * NEVER_MISSED_GROWTH, NEVER_MISSED_CAP_DAYS);
+      } else {
+        rec.intervalDays = BOX_INTERVALS_DAYS[rec.box];
+      }
     }
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
@@ -378,6 +391,14 @@ export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxRe
   if (kind === 'review') {
     return { lesson: [], quiz: shuffle(dueItems(course, mode, ctx, maxReviews, now)) };
   }
+  if (kind === 'placement') {
+    // "Test out" of never-seen items with no lesson step first — the caller
+    // (startSession in app.js) enrolls every not-yet-started item in this
+    // unit, unlimited, before calling this, so pendingItems here picks up
+    // all of them rather than a session-sized batch. See grade()'s
+    // `placement` option for what a correct answer does to the record.
+    return { lesson: [], quiz: shuffle(pendingItems(course, mode, ctx)) };
+  }
   return { lesson: [], quiz: practiceItems(course, mode, ctx, limit) };
 }
 
@@ -473,15 +494,22 @@ export function newYomiRecord() {
  * to zero and makes it due immediately, but — unlike the kana boxes — does
  * not erase the lifetime correct count, so rebuilding the streak afterward
  * earns a longer interval sooner than a reading with no track record would.
+ *
+ * `placement` (see grade() above) jumps the streak straight to MAX_BOX
+ * instead of incrementing by one — recomputeKanjiRollup in kanji.js derives
+ * the kanji-level box as min(streak, MAX_BOX) across every reading, so a
+ * placement-correct reading here is what lets a whole kanji's rollup land on
+ * "well known" from a single clean round, the same as grade() does for the
+ * simpler per-kanji record modes.
  */
-export function gradeYomi(record, correct, now = Date.now()) {
+export function gradeYomi(record, correct, now = Date.now(), { placement = false } = {}) {
   const rec = record || newYomiRecord();
   rec.secondLastReviewed = rec.lastReviewed;
   rec.lastReviewed = now;
 
   if (correct) {
     rec.correct += 1;
-    rec.streak += 1;
+    rec.streak = placement ? MAX_BOX : rec.streak + 1;
     const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
     // Credit for total correct answers, even ones before the current streak
     // started — e.g. a reading answered right 30 times total that just had
