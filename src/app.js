@@ -4,6 +4,7 @@ import { COURSES, romajiFor, buildChoices } from './kana.js';
 import {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
+  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded,
 } from './kanji.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -11,7 +12,7 @@ import {
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji,
 } from './srs.js';
-import { buildStrokeSVG, animateStrokes } from './strokes.js';
+import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
@@ -23,32 +24,40 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20b'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 
-// A merged index spanning every grade's kanji, built lazily and cached —
-// needed whenever something can span more than one grade at once (the
-// "everything I'm studying" review scope below, and kanji search, which by
-// definition doesn't know which grade to look in), since each grade's own
-// course.index covers just its own kanji. Kyoiku kanji never repeat across
-// grades, so a plain union is exact.
-let allKanjiIndexCache = null;
+/**
+ * A merged index spanning every grade's kanji — needed whenever something
+ * can span more than one grade at once (the "everything I'm studying" review
+ * scope below, and kanji search, which by definition doesn't know which
+ * grade to look in), since each grade's own course.index covers just its own
+ * kanji. Kyoiku/jōyō kanji never repeat across grades, so a plain union is
+ * exact.
+ *
+ * Rebuilt fresh on every call rather than cached: each course's `.index` now
+ * fills in lazily, grade by grade (see kanji-expansion-plan.md §4), so a
+ * cached snapshot taken before every grade had loaded would go stale as more
+ * load in behind it. The union itself is cheap — at most ~2,100 Map inserts
+ * over data already sitting in memory — so there is nothing worth caching.
+ */
 function allKanjiIndex() {
-  if (!allKanjiIndexCache) {
-    allKanjiIndexCache = new Map();
-    KANJI_COURSES.forEach((course) => {
-      course.index.forEach((info, kanji) => allKanjiIndexCache.set(kanji, info));
-    });
-  }
-  return allKanjiIndexCache;
+  const merged = new Map();
+  KANJI_COURSES.forEach((course) => {
+    course.index.forEach((info, kanji) => merged.set(kanji, info));
+  });
+  return merged;
 }
 
 /** Which grade's own course a kanji belongs to — needed to open the detail
  * screen on it (openCharacterDetail wants a real course, not the merged
- * index), since search results can't assume the currently-selected grade. */
+ * index), since search results can't assume the currently-selected grade.
+ * Resolved from the manifest (kanjiUnitFor), not course.index, so this works
+ * even before that grade's real data has ever been loaded. */
 function kanjiCourseFor(char) {
-  return KANJI_COURSES.find((course) => course.index.has(char));
+  const unit = kanjiUnitFor(char);
+  return unit ? getAnyCourse(`kanji-grade-${unit}`) : undefined;
 }
 
 const STUDY_LIST_POOL_ID = 'study-list';
@@ -79,6 +88,50 @@ function getAnyCourse(courseId) {
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
+// --- Lazy kanji-data loading ------------------------------------------------
+// See kanji-expansion-plan.md §4. A grade's real per-kanji data (readings,
+// meanings, example words) and stroke data are fetched together, on demand,
+// the first time a screen actually needs to show that grade's kanji — course
+// stats, the grade picker, and the overview grid all only need the manifest
+// (character lists + progress records), so they need none of this.
+
+/** Both halves of one grade's real data, loaded together and memoized —
+ * ensureKanjiUnitLoaded/ensureStrokeUnitLoaded (kanji.js/strokes.js) each
+ * dedupe their own fetch, so calling this repeatedly for an already-loaded
+ * unit is just two resolved-Promise checks. */
+async function ensureUnitReady(unit) {
+  await Promise.all([ensureKanjiUnitLoaded(unit), ensureStrokeUnitLoaded(unit)]);
+}
+async function ensureUnitsReady(units) {
+  await Promise.all([...units].map(ensureUnitReady));
+}
+
+// A small "Loading…" pill (see #data-loading in index.html), shown only if a
+// load takes long enough to actually notice — delayed so an already-cached
+// grade never flashes it. Depth-counted so overlapping loads (rare, but e.g.
+// the study-list pool touching several grades at once) don't hide it early.
+let loadingDepth = 0;
+let loadingTimer = null;
+function beginLoading() {
+  loadingDepth += 1;
+  if (loadingDepth > 1) return;
+  loadingTimer = setTimeout(() => { $('data-loading').hidden = false; }, 200);
+}
+function endLoading() {
+  loadingDepth = Math.max(0, loadingDepth - 1);
+  if (loadingDepth > 0) return;
+  clearTimeout(loadingTimer);
+  $('data-loading').hidden = true;
+}
+async function withLoading(promise) {
+  beginLoading();
+  try {
+    return await promise;
+  } finally {
+    endLoading();
+  }
+}
+
 // The three things a learner picks between on the front page. Kanji fans out
 // into one course per school grade; each kana script is a single course.
 const SCRIPTS = [
@@ -87,9 +140,9 @@ const SCRIPTS = [
   { id: 'kanji', kind: 'kanji', name: 'Kanji', native: '漢字', sample: '学' },
 ];
 
-const KANJI_GRADES = KANJI_COURSES
-  .map((c) => Number(c.id.replace('kanji-grade-', '')))
-  .sort((a, b) => a - b);
+// Unit ids ("1".."6", later "8-1".."8-6") in teaching order — KANJI_COURSES
+// is already sorted that way (see compareUnits in kanji.js).
+const KANJI_UNIT_IDS = KANJI_COURSES.map((c) => c.unit);
 
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
@@ -98,7 +151,7 @@ const MASTERY_LABELS = ['Not started', 'Just started', 'Learning', 'Doing well',
 const state = {
   profile: null,
   scriptId: 'hiragana',
-  grade: KANJI_GRADES[0],
+  kanjiUnit: KANJI_UNIT_IDS[0],
   mode: 'recognition',
   session: null,
   // Set overview / character detail — independent of the session state
@@ -125,7 +178,7 @@ function currentScript() {
 /** The course the current script + grade selection resolves to. */
 function currentCourse() {
   return currentScript().kind === 'kanji'
-    ? getAnyCourse(`kanji-grade-${state.grade}`)
+    ? getAnyCourse(`kanji-grade-${state.kanjiUnit}`)
     : getAnyCourse(state.scriptId);
 }
 
@@ -139,7 +192,17 @@ function coursesForScript(script) {
 const $ = (id) => document.getElementById(id);
 const screens = () => document.querySelectorAll('.screen');
 
+// Bumped every time the visible screen changes — every navigation path ends
+// up here, so this is one single place to detect "the user has moved on"
+// generically. Used by async functions that await a lazy data load
+// (openCharacterDetail, startSession — see kanji-expansion-plan.md §4) to
+// avoid forcing the user onto a screen they've already navigated away from
+// by the time that load finishes: capture navSeq before the await, and skip
+// rendering if it no longer matches afterward.
+let navSeq = 0;
+
 function show(screenId) {
+  navSeq += 1;
   screens().forEach((el) => { el.hidden = el.id !== screenId; });
   window.scrollTo(0, 0);
 }
@@ -298,6 +361,12 @@ function renderModePicker(kind) {
   $('mode-hint').textContent = modeHint(state.mode, kind);
 }
 
+// Short badge text for the grade-picker tile — "1".."6" for elementary,
+// "S1".."S6" for secondary jōyō sub-units (see kanji-expansion-plan.md §8).
+function unitBadge(unit) {
+  return unit.startsWith('8-') ? `S${unit.slice(2)}` : unit;
+}
+
 function renderGradePicker(script) {
   const picker = $('grade-picker');
   picker.innerHTML = '';
@@ -306,20 +375,20 @@ function renderGradePicker(script) {
     return;
   }
   picker.hidden = false;
-  KANJI_GRADES.forEach((gradeNumber) => {
-    const course = getAnyCourse(`kanji-grade-${gradeNumber}`);
+  KANJI_UNIT_IDS.forEach((unit) => {
+    const course = getAnyCourse(`kanji-grade-${unit}`);
     const stats = courseStats(course, state.mode, state.profile);
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = `grade${state.grade === gradeNumber ? ' active' : ''}`;
-    button.dataset.grade = String(gradeNumber);
+    button.className = `grade${state.kanjiUnit === unit ? ' active' : ''}`;
+    button.dataset.grade = unit;
     button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
-    button.querySelector('.grade-number').textContent = String(gradeNumber);
+    button.querySelector('.grade-number').textContent = unitBadge(unit);
     // A dot marks a grade with reviews waiting, so the right one to open is
-    // visible without tapping through all six.
+    // visible without tapping through all of them.
     button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
-    button.setAttribute('aria-label', `Grade ${gradeNumber}, ${stats.started} of ${stats.total} started`);
-    button.addEventListener('click', () => { state.grade = gradeNumber; renderCourse(); });
+    button.setAttribute('aria-label', `${course.name}, ${stats.started} of ${stats.total} started`);
+    button.addEventListener('click', () => { state.kanjiUnit = unit; renderCourse(); });
     picker.appendChild(button);
   });
 }
@@ -433,6 +502,15 @@ function kanjiMatchesSearch(info, char, query, queryRomaji) {
     .some((reading) => toRomaji(reading.replace(/[-.]/g, '')).toLowerCase().includes(queryRomaji));
 }
 
+// Set once the first full load has been kicked off — search needs EVERY
+// grade's real kanji data loaded to match against (it doesn't know which
+// grade a query might match ahead of time), unlike detail/session which
+// only ever need one or a few. Stroke data isn't needed for matching or for
+// the result tiles themselves, only once a specific result is opened — see
+// openCharacterDetail() — so this loads kanji data only, not strokes, to
+// keep the one-time cost proportionate to what search actually needs.
+let kanjiSearchLoadStarted = false;
+
 /**
  * Kanji only — finds a kanji by character, English meaning, or reading,
  * across every grade at once, without needing to know which one it's in
@@ -444,10 +522,27 @@ function renderKanjiSearchResults(query) {
   const grid = $('kanji-search-results');
   const empty = $('kanji-search-empty');
   const truncated = $('kanji-search-truncated');
+  const loading = $('kanji-search-loading');
   grid.innerHTML = '';
   empty.hidden = true;
   truncated.hidden = true;
+  loading.hidden = true;
   if (!query) return;
+
+  if (!areAllKanjiUnitsLoaded()) {
+    loading.hidden = false;
+    if (!kanjiSearchLoadStarted) {
+      kanjiSearchLoadStarted = true;
+      Promise.all(KANJI_COURSES.map((c) => ensureKanjiUnitLoaded(c.unit))).then(() => {
+        // Only re-render if the search box still holds a query — it may
+        // have been cleared, or the learner navigated away and back with a
+        // different one, while this was loading.
+        const current = $('kanji-search').value.trim();
+        if (current) renderKanjiSearchResults(current);
+      });
+    }
+    return;
+  }
 
   const queryLower = query.toLowerCase();
   const queryRomaji = toRomaji(query).toLowerCase();
@@ -681,10 +776,18 @@ function renderOverview(scrollToChar) {
  * "whichever screen was visible before", since detail can itself be
  * re-entered from detail-adjacent actions with no other screen in between.
  */
-function openCharacterDetail(course, char, returnTo = 'overview') {
+async function openCharacterDetail(course, char, returnTo = 'overview') {
   state.detailCourseId = course.id;
   state.detailChar = char;
   state.detailReturn = returnTo;
+  if (course.kind === 'kanji') {
+    const requestNav = navSeq;
+    await withLoading(ensureUnitReady(course.unit));
+    // The user may have navigated elsewhere (or tapped a different
+    // character) while this was loading — only the most recent request
+    // should ever paint a screen.
+    if (navSeq !== requestNav) return;
+  }
   renderCharacterDetail();
 }
 
@@ -884,7 +987,8 @@ function renderGeneralWords(words) {
  * is responsible for `items` already being enrolled; this only teaches and
  * quizzes.
  */
-function startSession(courseId, kind, items) {
+async function startSession(courseId, kind, items) {
+  const requestNav = navSeq;
   state.courseId = courseId;
   state.kind = kind;
   const course = getAnyCourse(courseId);
@@ -918,6 +1022,17 @@ function startSession(courseId, kind, items) {
     renderCourse();
     return;
   }
+
+  // The item list can span several grades — the "everything I'm studying"
+  // pool (§2.4) is the whole study list, not one grade — so every grade
+  // actually touched gets loaded, not just course.unit (which for that pool
+  // doesn't even exist as a single grade). Kana courses have no kanji items,
+  // so kanjiUnitFor returns null for all of them and this is a no-op.
+  const units = new Set([...built.lesson, ...built.quiz].map(kanjiUnitFor).filter(Boolean));
+  if (units.size) await withLoading(ensureUnitsReady(units));
+  // The user may have navigated elsewhere while this was loading — only the
+  // most recent request should ever commit a session and render it.
+  if (navSeq !== requestNav) return;
 
   const writingModePref = settings.writingModePreference;
 

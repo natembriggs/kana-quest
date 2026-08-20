@@ -13,11 +13,10 @@
 //     other event listener in the app — this module hands app.js the pieces
 //     (coordinate mapping, drawing) rather than owning the listeners.
 
-import { STROKES } from './stroke-data.js';
 import {
   prepareModelStroke, gradeStroke, findBestMatchingStroke, strictnessMultiplier, DEFAULT_STRICTNESS,
 } from './stroke-grader.js';
-import { buildStrokeSVG } from './strokes.js';
+import { buildStrokeSVG, strokesFor } from './strokes.js';
 
 // KanjiVG's viewBox is always "0 0 109 109" (checked for every character in
 // test/smoke.js) — this is that same coordinate space, used for grading.
@@ -26,7 +25,7 @@ export const MODEL_SIZE = 109;
 /** A character's model strokes, prepared once per attempt rather than once
  * per grading call — see prepareModelStroke in stroke-grader.js. */
 export function prepareCharacter(char) {
-  const data = STROKES[char];
+  const data = strokesFor(char);
   if (!data) return null;
   return data.strokes.map((d) => prepareModelStroke(d));
 }

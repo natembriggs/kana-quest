@@ -1,11 +1,22 @@
 // Kanji courses (one per school grade), and the reading-quiz question logic.
 //
 // Data comes from tools/build_kanji_data.py, which distills KANJIDIC2 and
-// JMdict down to src/kanji-data.js: for each kanji, its on'yomi, kun'yomi,
-// English meanings and a few common example words. See that script for how
-// "common" is decided and why higher grades aren't built yet.
+// JMdict down to src/data/: for each kanji, its on'yomi, kun'yomi, English
+// meanings and a few common example words. See that script for how "common"
+// is decided.
+//
+// The per-kanji data is loaded lazily, one grade at a time — see
+// kanji-expansion-plan.md §4. KANJI_UNITS (src/data/kanji-manifest.js) is
+// small and always loaded: just the ordered character list per grade, enough
+// to build every course's id/name/chunks up front, exactly as if the whole
+// set were in memory. Each course's `.index` Map starts EMPTY and is filled
+// in place by ensureKanjiUnitLoaded() the first time that grade is actually
+// needed — kanjiInfo() and everything built on it (buildKanjiOptions,
+// buildDefinitionChoices, ...) are unchanged and stay synchronous; they just
+// require the caller to have awaited that load first. See app.js's
+// ensureUnitReady().
 
-import { KANJI_BY_GRADE } from './kanji-data.js';
+import { KANJI_UNITS, NO_YOMI_CHARS } from './data/kanji-manifest.js';
 import { itemKey, yomiKey, MAX_BOX } from './srs.js';
 
 // Used only to order options alphabetically (see buildKanjiOptions) — kun
@@ -32,33 +43,31 @@ const ADVANCED_TOTAL_OPTIONS = 15;
 const DEFINITION_OPTIONS = 4;
 const MEANINGS_PER_LABEL = 2;
 
-function buildKanjiIndex(grade) {
-  const entries = KANJI_BY_GRADE[grade] || [];
-  const byChar = new Map();
-  for (const entry of entries) {
-    byChar.set(entry.kanji, {
-      kanji: entry.kanji,
-      // Full reading lists, for reference/display. These include readings
-      // that are never quizzed (see quizReadings).
-      on: entry.on,
-      kun: entry.kun,
-      meanings: entry.meanings,
-      words: entry.words,
-      // The readings actually quizzed: normalized, capped, and — since the
-      // build script filters them — guaranteed to have an example word.
-      // A reading no common word ever uses isn't worth a child's time and
-      // has nothing to show when tapped, so it isn't offered at all.
-      quizOn: entry.quizOn,
-      quizKun: entry.quizKun,
-      quizReadings: entry.quizReadings,
-      // reading (matching quizReadings) -> {kanji, kana, en}: the most common
-      // word that genuinely uses the kanji with *that* reading, established by
-      // aligning the word against its reading in build_kanji_data.py rather
-      // than by string-matching. Every quizzed reading has one.
-      readingExamples: entry.readingExamples || {},
-    });
-  }
-  return byChar;
+/** Shapes one raw KANJI_ENTRIES record (see build_kanji_data.py) into the
+ * form course.index stores — same fields whether this runs eagerly (never,
+ * now) or lazily inside ensureKanjiUnitLoaded() below. */
+function normalizeEntry(entry) {
+  return {
+    kanji: entry.kanji,
+    // Full reading lists, for reference/display. These include readings
+    // that are never quizzed (see quizReadings).
+    on: entry.on,
+    kun: entry.kun,
+    meanings: entry.meanings,
+    words: entry.words,
+    // The readings actually quizzed: normalized, capped, and — since the
+    // build script filters them — guaranteed to have an example word.
+    // A reading no common word ever uses isn't worth a child's time and
+    // has nothing to show when tapped, so it isn't offered at all.
+    quizOn: entry.quizOn,
+    quizKun: entry.quizKun,
+    quizReadings: entry.quizReadings,
+    // reading (matching quizReadings) -> {kanji, kana, en}: the most common
+    // word that genuinely uses the kanji with *that* reading, established by
+    // aligning the word against its reading in build_kanji_data.py rather
+    // than by string-matching. Every quizzed reading has one.
+    readingExamples: entry.readingExamples || {},
+  };
 }
 
 /** The short English label used as the answer in Definition mode. */
@@ -81,36 +90,105 @@ function buildChunks(courseId, chars) {
   return chunks;
 }
 
-function buildKanjiCourse(grade) {
-  const index = buildKanjiIndex(grade);
-  const chars = [...index.keys()];
+/** "1".."6" (elementary) before "8-1".."8-6" (secondary jōyō sub-units, see
+ * kanji-expansion-plan.md §4/§8) — compares numerically part by part so this
+ * keeps working unchanged how ever many dash-separated parts a unit key
+ * gains later, rather than hardcoding today's two shapes. */
+function compareUnits(a, b) {
+  const pa = a.split('-').map(Number);
+  const pb = b.split('-').map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i += 1) {
+    const diff = (pa[i] ?? -1) - (pb[i] ?? -1);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
+function unitLabel(unit) {
+  return unit.startsWith('8-') ? `Secondary ${unit.slice(2)}` : `Grade ${unit}`;
+}
+function unitNative(unit) {
+  return unit.startsWith('8-') ? `中学以降 ${unit.slice(2)}` : `小学${unit}年生`;
+}
+
+/**
+ * Course skeleton for one teaching unit, built entirely from the small
+ * always-loaded manifest — id, name, chunks (character order) and the Yomi
+ * exclusion set (from NO_YOMI_CHARS, not the per-unit chunk, so this is
+ * correct immediately rather than only once the unit has actually loaded —
+ * srs.js consults excludeForMode during scheduling, which can happen before
+ * that). `.index` starts empty; ensureKanjiUnitLoaded() below fills it in
+ * place the first time this unit's real data is needed.
+ */
+function buildKanjiCourse(unit) {
+  const chars = KANJI_UNITS[unit];
   return {
-    id: `kanji-grade-${grade}`,
+    id: `kanji-grade-${unit}`,
     kind: 'kanji',
-    name: `Kanji · Grade ${grade}`,
-    native: `小学${grade}年生`,
-    chunks: buildChunks(`kanji-grade-${grade}`, chars),
-    index,
+    unit,
+    name: `Kanji · ${unitLabel(unit)}`,
+    native: unitNative(unit),
+    chunks: buildChunks(`kanji-grade-${unit}`, chars),
+    index: new Map(),
     // A handful of kanji (prefecture names like 媛/栃/茨) have no reading that
     // appears in any common word, so there is no yomi question to ask about
     // them — they are skipped in that mode only, and still taught in the
     // others. srs.js honours this when picking items.
     excludeForMode: {
-      recognition: new Set(chars.filter((k) => index.get(k).quizReadings.length === 0)),
+      recognition: new Set(chars.filter((k) => NO_YOMI_CHARS.includes(k))),
     },
   };
 }
 
-// Grades are whatever tools/build_kanji_data.py emitted (MAX_GRADE there).
-// Raising it and re-running is the whole extension path — nothing here needs
-// to change.
-export const KANJI_COURSES = Object.keys(KANJI_BY_GRADE)
-  .map(Number)
-  .sort((a, b) => a - b)
+export const KANJI_COURSES = Object.keys(KANJI_UNITS)
+  .sort(compareUnits)
   .map(buildKanjiCourse);
 
 export function getKanjiCourse(courseId) {
   return KANJI_COURSES.find((c) => c.id === courseId);
+}
+
+// char -> unit, built once from the manifest — cheap (2,136 entries at most)
+// and needed wherever a kanji's home unit has to be found without already
+// knowing which course it's in: the "everything I'm studying" pool (spans
+// every grade) and search (doesn't know which grade to look in by design).
+const unitByChar = new Map();
+Object.entries(KANJI_UNITS).forEach(([unit, chars]) => {
+  chars.forEach((char) => unitByChar.set(char, unit));
+});
+export function kanjiUnitFor(char) {
+  return unitByChar.get(char) || null;
+}
+
+const loadedUnits = new Set();
+const loadingUnits = new Map(); // unit -> in-flight Promise, dedupes concurrent callers
+
+/**
+ * Loads one unit's real per-kanji data (readings, meanings, example words)
+ * and fills its course's `.index` Map in place. Memoized: safe to call any
+ * number of times, from any number of call sites, for the same unit — the
+ * dynamic import only actually happens once. Every other function in this
+ * module (kanjiInfo, buildKanjiOptions, ...) stays synchronous; the contract
+ * is simply that the caller has awaited this first. See app.js's
+ * ensureUnitReady(), the only place that should call this directly.
+ */
+export async function ensureKanjiUnitLoaded(unit) {
+  if (loadedUnits.has(unit)) return;
+  if (!loadingUnits.has(unit)) {
+    loadingUnits.set(unit, import(`./data/kanji-grade-${unit}.js`).then((mod) => {
+      const course = getKanjiCourse(`kanji-grade-${unit}`);
+      mod.KANJI_ENTRIES.forEach((entry) => course.index.set(entry.kanji, normalizeEntry(entry)));
+      loadedUnits.add(unit);
+    }));
+  }
+  await loadingUnits.get(unit);
+}
+
+/** Sync check for whether every unit's real data has been loaded — used by
+ * search (app.js), which needs to know whether it can match right now or
+ * has to kick off a full load first. */
+export function areAllKanjiUnitsLoaded() {
+  return KANJI_COURSES.every((c) => loadedUnits.has(c.unit));
 }
 
 export function kanjiInfo(course, kanji) {

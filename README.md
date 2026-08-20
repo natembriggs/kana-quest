@@ -27,13 +27,18 @@ $JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sess
 
 Both must be run from the repo root.
 
-To regenerate `src/kanji-data.js` (e.g. after changing `MAX_GRADE`,
-currently 6, in `tools/build_kanji_data.py`):
+To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
+in `tools/build_kanji_data.py`):
 
 ```sh
 ./tools/fetch_kanji_sources.sh   # downloads KANJIDIC2 + JMdict, ~90MB, not committed
-python3 tools/build_kanji_data.py
+python3 tools/build_kanji_data.py    # writes src/data/kanji-manifest.js + kanji-grade-*.js
+./tools/fetch_kanjivg.sh             # downloads KanjiVG stroke SVGs, ~13MB, not committed
+python3 tools/build_stroke_data.py   # writes src/data/stroke-kana.js + stroke-grade-*.js
 ```
+
+`build_stroke_data.py` reads the manifest `build_kanji_data.py` just wrote,
+so run them in that order.
 
 ## Deploying to GitHub Pages
 
@@ -331,19 +336,21 @@ history, so restoring an old backup cannot wipe out newer practice.
 | --- | --- |
 | `index.html` | All screens, hidden and shown by `app.js` |
 | `src/kana.js` | Kana tables, chunking, romaji answer checking |
-| `src/kanji.js` | Kanji courses (built from `kanji-data.js`), reading-choice selection, kanji-level rollup |
-| `src/kanji-data.js` | Generated data: readings/meanings/example words per kanji, grades 1-6 — do not hand-edit, see below |
+| `src/kanji.js` | Kanji courses (built from `src/data/kanji-manifest.js`, one grade's real data loaded lazily on demand — see below), reading-choice selection, kanji-level rollup |
+| `src/data/kanji-manifest.js` | Generated data: just the character list per grade — always loaded, enough to build the course skeleton without fetching anything else |
+| `src/data/kanji-grade-*.js` | Generated data: readings/meanings/example words per kanji, one file per grade — do not hand-edit, see below. Fetched lazily the first time that grade is opened, not on startup |
 | `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
-| `src/strokes.js` | Builds the numbered stroke-order SVG and its draw-in animation, from `stroke-data.js` |
-| `src/stroke-data.js` | Generated data: stroke paths per character, from KanjiVG — do not hand-edit, see below |
+| `src/strokes.js` | Builds the numbered stroke-order SVG and its draw-in animation, from `src/data/stroke-*.js` |
+| `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
+| `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
 | `tools/make_icons.py` | Regenerates the home-screen icons |
 | `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2 + JMdict into `tools/data_src/` (not committed, ~90MB) |
-| `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/kanji-data.js` |
+| `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/data/kanji-manifest.js` + `kanji-grade-*.js` |
 | `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
-| `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/`, writes `src/stroke-data.js` |
+| `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/` (and the manifest above), writes `src/data/stroke-kana.js` + `stroke-grade-*.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
 with `wanakana.toKatakana`, and every romaji prompt is derived with

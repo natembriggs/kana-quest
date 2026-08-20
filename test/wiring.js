@@ -202,7 +202,13 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
 const { courseStats, studiedKanji } = await import('../src/srs.js');
-const { STROKES } = await import('../src/stroke-data.js');
+// strokesFor() reads live from strokes.js's lazily-populated store, not a
+// frozen snapshot — kanji stroke data for a given grade only exists once
+// that grade has actually been loaded (kanji-expansion-plan.md §4), which
+// for every char used below happens naturally as the flow reaches it (a
+// writing session gates on it before rendering — see startSession() in
+// app.js).
+const { strokesFor } = await import('../src/strokes.js');
 const { flattenPath, resample } = await import('../src/stroke-geometry.js');
 await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
@@ -395,7 +401,7 @@ check('it too was re-drilled later in the session',
 // shortcut — proving the whole pipeline: pointerdown/move/up -> local pixel
 // coordinates -> the model's 0-109 coordinate space -> stroke-grader.js ->
 // the writing screen's UI. Each stroke is traced from a real model stroke's
-// own points (via STROKES + flattenPath/resample, the same modules
+// own points (via strokesFor + flattenPath/resample, the same modules
 // stroke-grader.js itself uses), not hard-coded per character, so this
 // works for whichever character the session actually lands on.
 //
@@ -456,7 +462,7 @@ fire(el('lesson-next'), 'click');
 await settle();
 if (visible() === 'screen-lesson') {
   const secondLessonChar = el('lesson-kana').textContent;
-  const expectedBatch = STROKES[secondLessonChar].strokes.length + 1; // N stroke reveals + 1 loop-restart
+  const expectedBatch = strokesFor(secondLessonChar).strokes.length + 1; // N stroke reveals + 1 loop-restart
   check("advancing cancels the previous card's pending loop instead of leaking it — only the new card's batch is queued",
     timers.size === expectedBatch,
     `${timers.size} pending, expected ${expectedBatch} for the new card (previous card had ${pendingBeforeAdvance} queued)`);
@@ -473,7 +479,7 @@ check('Trace already shows the whole guide, so the peek/switch-easier hint row s
   el('writing-hints').hidden === true);
 
 function traceModelStroke(char, index) {
-  const d = STROKES[char].strokes[index];
+  const d = strokesFor(char).strokes[index];
   const { points } = resample(flattenPath(d), 30); // dense enough to hug curved strokes
   const local = points.map(([mx, my]) => [(mx / 109) * WRITING_BOX, (my / 109) * WRITING_BOX]);
   fire(writingCanvas, 'pointerdown', { pointerId: 1, clientX: local[0][0], clientY: local[0][1] });
@@ -498,7 +504,7 @@ function traceBadStroke() {
 }
 
 const firstWritingChar = el('screen-writing').dataset.char;
-const firstWritingStrokeCount = STROKES[firstWritingChar].strokes.length;
+const firstWritingStrokeCount = strokesFor(firstWritingChar).strokes.length;
 
 for (let i = 0; i < firstWritingStrokeCount; i += 1) {
   traceModelStroke(firstWritingChar, i);
@@ -573,7 +579,7 @@ await settle();
 let secondWritingChar = null;
 if (visible() === 'screen-writing') {
   secondWritingChar = el('screen-writing').dataset.char;
-  const secondStrokeCount = STROKES[secondWritingChar].strokes.length;
+  const secondStrokeCount = strokesFor(secondWritingChar).strokes.length;
 
   traceBadStroke();
   await settle();
@@ -643,7 +649,7 @@ if (visible() === 'screen-writing') {
     !strokePath(0).classList.contains('stroke-path-peek'));
 
   guidedChar = el('screen-writing').dataset.char;
-  const guidedStrokeCount = STROKES[guidedChar].strokes.length;
+  const guidedStrokeCount = strokesFor(guidedChar).strokes.length;
 
   // "Show next stroke" moves on as strokes are accepted — not stuck showing
   // stroke 0 forever — checked here after the first stroke, but only on a
@@ -709,7 +715,7 @@ if (visible() === 'screen-writing') {
   check('the Done button stays hidden until a stroke is drawn', el('writing-done').hidden === true);
 
   freeCharNo = el('screen-writing').dataset.char;
-  const freeStrokeCount = STROKES[freeCharNo].strokes.length;
+  const freeStrokeCount = strokesFor(freeCharNo).strokes.length;
 
   // A bad first stroke — Free mode must NOT reject or block it the way
   // Trace/Guided would; it's just captured as "stroke 1", right or wrong.
@@ -752,7 +758,7 @@ if (visible() === 'screen-writing') {
 let freeCharYes = null;
 if (visible() === 'screen-writing') {
   freeCharYes = el('screen-writing').dataset.char;
-  const strokeCount = STROKES[freeCharYes].strokes.length;
+  const strokeCount = strokesFor(freeCharYes).strokes.length;
   for (let i = 0; i < strokeCount; i += 1) {
     traceModelStroke(freeCharYes, i);
     await settle();
@@ -872,7 +878,11 @@ const kanjiLearnButton = buttonsIn(el('course-list')._children[0])
 check('the kanji course offers an "add more" button', !!kanjiLearnButton);
 
 fire(kanjiLearnButton, 'click');
-await settle();
+// Starting a kanji session now lazily loads that grade's real data first
+// (kanji-expansion-plan.md §4) — a real dynamic import, so it needs more
+// than a couple of microtask hops to resolve, same as the canvas-touching
+// waits elsewhere in this file.
+for (let i = 0; i < 10; i += 1) await settle();
 check('a kanji session opens the lesson screen first', visible() === 'screen-lesson', `showing ${visible()}`);
 check('a kanji lesson shows readings instead of romaji',
   el('lesson-readings').hidden === false && el('lesson-romaji').hidden === true);
@@ -1103,7 +1113,7 @@ const defLearn = buttonsIn(el('course-list')._children[0])
 check('Definition mode starts with its own separate progress (nothing learned yet)', !!defLearn);
 
 fire(defLearn, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // lazy grade load — see the earlier kanji session start
 check('a definition session opens the lesson screen', visible() === 'screen-lesson', `showing ${visible()}`);
 check('the definition lesson shows the meaning', el('lesson-meanings').textContent.length > 0);
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
@@ -1232,7 +1242,7 @@ const writingWordKanji = el('writing-kanji-word').querySelector('.word-kanji').t
 check("the prompt's example word is masked — it never shows the target kanji itself",
   !writingWordKanji.includes(kanjiWritingChar), writingWordKanji);
 
-const kanjiWritingStrokeCount = STROKES[kanjiWritingChar].strokes.length;
+const kanjiWritingStrokeCount = strokesFor(kanjiWritingChar).strokes.length;
 for (let i = 0; i < kanjiWritingStrokeCount; i += 1) {
   traceModelStroke(kanjiWritingChar, i);
   await settle();
@@ -1252,7 +1262,7 @@ await settle();
 // single question does.
 for (let i = 0; i < 10 && visible() === 'screen-writing'; i += 1) {
   const char = el('screen-writing').dataset.char;
-  const strokeCount = STROKES[char].strokes.length;
+  const strokeCount = strokesFor(char).strokes.length;
   for (let s = 0; s < strokeCount; s += 1) {
     traceModelStroke(char, s);
     await settle();
@@ -1278,7 +1288,7 @@ check('the writing summary shows one chip per character, each with a non-blank r
 // action in app.js.
 const summaryChipChar = writingSummaryChips[0].querySelector('.chip-kana').textContent;
 fire(writingSummaryChips[0], 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('tapping a summary chip opens the detail screen for that character',
   visible() === 'screen-character-detail' && el('detail-glyph').textContent === summaryChipChar,
   `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
@@ -1310,7 +1320,7 @@ check('the character just practiced in writing mode shows progress in the writin
   practicedTile && practicedTile.className);
 
 fire(practicedTile, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('the writing-mode detail screen shows a mastery tier beyond "Not started"',
   el('detail-mastery').textContent !== 'Not started', el('detail-mastery').textContent);
 check('the writing-mode detail screen still renders the stroke diagram',
@@ -1464,7 +1474,7 @@ check('the kanji overview shows the whole grade (80 kanji), not one set',
 
 const kanjiTile = el('overview-grid')._children[0];
 fire(kanjiTile, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('a kanji detail screen shows readings instead of romaji',
   el('detail-romaji').hidden === true && el('detail-readings').hidden === false);
 check('a kanji detail screen shows a meaning', el('detail-meanings').textContent.length > 0);
@@ -1497,7 +1507,11 @@ function typeKanjiSearch(query) {
 }
 
 typeKanjiSearch('一');
-await settle();
+// The first non-empty query kicks off a real, one-time load of every
+// grade's kanji data (search doesn't know which grade to look in ahead of
+// time — see renderKanjiSearchResults() in app.js) — a real dynamic import,
+// same as the lazy grade loads above.
+for (let i = 0; i < 10; i += 1) await settle();
 check('searching by the character itself finds it, and the grade-scoped card steps aside',
   el('kanji-search-results')._children.some((t) => t.textContent === '一')
   && el('grade-picker').hidden === true && el('course-list')._children.length === 0,
@@ -1530,7 +1544,7 @@ typeKanjiSearch('一');
 await settle();
 const searchTile = el('kanji-search-results')._children.find((t) => t.textContent === '一');
 fire(searchTile, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('tapping a search result opens the detail screen for that character',
   visible() === 'screen-character-detail' && el('detail-glyph').textContent === '一');
 
@@ -1582,7 +1596,7 @@ await settle();
 const grade6Tile = el('overview-grid')._children[0];
 const grade6Char = grade6Tile.textContent;
 fire(grade6Tile, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily loads grade 6's data (first time)
 
 const modeToggleIds = ['detail-mode-definition', 'detail-mode-recognition', 'detail-mode-writing'];
 check('a never-studied kanji shows "Not started" on its detail screen',
@@ -1617,7 +1631,7 @@ check('an enrolled-but-not-taught kanji gets a distinct "pending" marker on the 
   grade6TileAfterEnroll.className);
 
 fire(grade6TileAfterEnroll, 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily loads grade 6's data (first time)
 
 // "Study it now": jump straight to a lesson-then-quiz session for just this
 // one kanji rather than waiting for "Add more" to reach it through whatever
@@ -1647,7 +1661,7 @@ check('answering the one question ends the session at the summary',
 // Back to the detail screen via the now-tappable summary chip, to confirm
 // teaching it moved it out of "waiting".
 fire(el('summary-list')._children[0], 'click');
-await settle();
+for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('after being taught in one mode, the kanji is past "Waiting to learn" overall',
   !el('detail-study-toggle').textContent.includes('Waiting to learn')
   && !el('detail-study-toggle').textContent.includes('Not started'),

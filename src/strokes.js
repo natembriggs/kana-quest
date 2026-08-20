@@ -4,17 +4,51 @@
 // "Play" that draws each stroke in order once and leaves it fully drawn, or
 // (with `loop: true`) a repeating gif-like cycle for introducing a brand-new
 // character, where watching it draw itself more than once is the point.
+//
+// Kana stroke data is small and always loaded — every screen that can show
+// writing practice needs it, kana or kanji. Kanji stroke data is loaded
+// lazily per grade, same split and same reasoning as kanji.js's per-kanji
+// data — see kanji-expansion-plan.md §4 and ensureStrokeUnitLoaded() below.
+// strokesFor/hasStrokes/buildStrokeSVG stay synchronous either way; the
+// caller is responsible for having awaited a unit's load first (via
+// app.js's ensureUnitReady()) before asking about a kanji in it.
 
-import { STROKES } from './stroke-data.js';
+import { STROKES as KANA_STROKES } from './data/stroke-kana.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
+const strokeStore = new Map(Object.entries(KANA_STROKES));
+
+const loadedStrokeUnits = new Set();
+const loadingStrokeUnits = new Map(); // unit -> in-flight Promise, dedupes concurrent callers
+
+/** Loads one unit's stroke data and merges it into strokeStore. Memoized,
+ * same contract as kanji.js's ensureKanjiUnitLoaded() — safe to call
+ * repeatedly, only fetches once per unit. */
+export async function ensureStrokeUnitLoaded(unit) {
+  if (loadedStrokeUnits.has(unit)) return;
+  if (!loadingStrokeUnits.has(unit)) {
+    loadingStrokeUnits.set(unit, import(`./data/stroke-grade-${unit}.js`).then((mod) => {
+      Object.entries(mod.STROKES).forEach(([char, data]) => strokeStore.set(char, data));
+      loadedStrokeUnits.add(unit);
+    }));
+  }
+  await loadingStrokeUnits.get(unit);
+}
+
 export function strokesFor(char) {
-  return STROKES[char] || null;
+  return strokeStore.get(char) || null;
 }
 
 export function hasStrokes(char) {
-  return !!STROKES[char];
+  return strokeStore.has(char);
+}
+
+/** Every [char, data] pair currently loaded — test-only (test/smoke.js wants
+ * to exhaustively check stroke data across every grade at once, unlike the
+ * app itself, which never needs more than what's currently on screen). */
+export function allStrokeEntries() {
+  return [...strokeStore.entries()];
 }
 
 /**

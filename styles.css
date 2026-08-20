@@ -104,6 +104,35 @@ body {
 }
 @keyframes splash-spin { to { transform: rotate(360deg); } }
 
+/* --- Data loading pill -----------------------------------------------------
+   See #data-loading in index.html. A small fixed pill rather than a
+   full-screen overlay — loading one grade's data is a background hand-off,
+   not a blocking event the way the initial splash is. */
+.data-loading {
+  position: fixed;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.data-loading-spinner {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  animation: splash-spin 0.8s linear infinite;
+}
+
 #app {
   max-width: 620px;
   margin: 0 auto;

@@ -15,12 +15,20 @@
 //
 //   2. If install fails, the new worker never activates and the old one keeps
 //      serving the old files forever. cache.addAll() is atomic, so one slow
-//      or failed file (kanji-data.js is ~1.2MB) would sink the whole update.
-//      Files are cached individually here and a failure is tolerated —
-//      precaching is an optimisation, not a correctness requirement, since
-//      the fetch handler populates the cache as pages are used anyway.
+//      or failed file would sink the whole update. Files are cached
+//      individually here and a failure is tolerated — precaching is an
+//      optimisation, not a correctness requirement, since the fetch handler
+//      populates the cache as pages are used anyway.
+//
+// The heavy per-kanji data (kanji-expansion-plan.md §4) is deliberately NOT
+// listed below: src/data/kanji-grade-*.js and stroke-grade-*.js (well over
+// 1MB apiece once every jōyō grade is loaded) are fetched lazily, on demand,
+// per grade — precaching all of them here would defeat the whole point.
+// They still end up cached, just opportunistically, the first time the
+// fetch handler actually sees a request for one. Only the always-needed
+// manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-08-20a';
+const VERSION = '2026-08-20b';
 const CACHE = `kana-quest-${VERSION}`;
 
 const SHELL = [
@@ -32,11 +40,11 @@ const SHELL = [
   'src/app.js',
   'src/kana.js',
   'src/kanji.js',
-  'src/kanji-data.js',
+  'src/data/kanji-manifest.js',
   'src/srs.js',
   'src/store.js',
   'src/strokes.js',
-  'src/stroke-data.js',
+  'src/data/stroke-kana.js',
   'src/stroke-geometry.js',
   'src/stroke-grader.js',
   'src/writing.js',

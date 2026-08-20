@@ -55,7 +55,7 @@ export function strokeTolerances(modelLength, multiplier = 1.0) {
 /**
  * Prepare a model stroke once (per character, cached by the caller) so
  * repeated grading attempts don't reparse and reflatten the same path.
- * `d` is the raw SVG path string from src/stroke-data.js.
+ * `d` is the raw SVG path string from one of src/data/stroke-*.js.
  */
 export function prepareModelStroke(d) {
   const dense = flattenPath(d);

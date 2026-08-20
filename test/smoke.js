@@ -13,13 +13,13 @@ const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/k
 const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
+  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded,
 } = await import('../src/kanji.js');
 // strokesFor/hasStrokes are pure lookups (no DOM access at import or call
 // time); buildStrokeSVG/animateStrokes touch `document` and are exercised in
 // test/wiring.js's stubbed DOM instead, not here.
-const { strokesFor, hasStrokes } = await import('../src/strokes.js');
+const { strokesFor, hasStrokes, ensureStrokeUnitLoaded, allStrokeEntries } = await import('../src/strokes.js');
 const srs = await import('../src/srs.js');
-const { STROKES } = await import('../src/stroke-data.js');
 const {
   flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset,
 } = await import('../src/stroke-geometry.js');
@@ -32,6 +32,53 @@ function check(name, condition, detail) {
   print(`FAIL  ${name}${detail ? ` — ${detail}` : ''}`);
 }
 function done(name) { print(`ok    ${name}`); }
+
+// --- Load everything up front -----------------------------------------------
+// The real app loads a grade's kanji/stroke data lazily, on demand — see
+// kanji-expansion-plan.md §4. This suite exhaustively checks every grade at
+// once, so unlike the app it loads everything up front, right here, before
+// any of the checks below run.
+
+const kanjiUnits = KANJI_COURSES.map((c) => c.unit);
+const indexBefore = KANJI_COURSES[0].index; // same Map object, checked below
+
+await Promise.all(kanjiUnits.map((unit) => Promise.all([
+  ensureKanjiUnitLoaded(unit),
+  ensureStrokeUnitLoaded(unit),
+])));
+// Reconstructs the same shape the old, monolithic src/stroke-data.js used to
+// export — everything below this point that iterates STROKES is unchanged.
+const STROKES = Object.fromEntries(allStrokeEntries());
+
+const manifestCoverage = new Set();
+let manifestDuplicates = 0;
+for (const course of KANJI_COURSES) {
+  for (const char of course.chunks.flatMap((c) => c.items)) {
+    if (manifestCoverage.has(char)) manifestDuplicates += 1;
+    manifestCoverage.add(char);
+  }
+}
+check('the manifest covers 1006-1030 kanji with no duplicates across units',
+  manifestDuplicates === 0 && manifestCoverage.size >= 1006 && manifestCoverage.size <= 1030,
+  `${manifestCoverage.size} unique, ${manifestDuplicates} duplicate(s)`);
+check('every loaded course has real per-kanji data, not just the skeleton',
+  KANJI_COURSES.every((c) => c.chunks.flatMap((ch) => ch.items).every((k) => !!kanjiInfo(c, k))));
+check('kanjiUnitFor resolves every manifest character to its real, now-loaded course',
+  [...manifestCoverage].every((char) => {
+    const unit = kanjiUnitFor(char);
+    return unit && KANJI_COURSES.some((c) => c.unit === unit && c.index.has(char));
+  }));
+check('areAllKanjiUnitsLoaded reports true once every unit has actually been loaded',
+  areAllKanjiUnitsLoaded());
+
+// Loading is memoized: re-requesting an already-loaded unit must be a no-op
+// (same Map instance, not rebuilt), so concurrent callers can never race
+// each other into inconsistent state.
+await ensureKanjiUnitLoaded(KANJI_COURSES[0].unit);
+check('re-loading an already-loaded unit is a no-op (same Map instance, memoized)',
+  KANJI_COURSES[0].index === indexBefore);
+
+done('kanji data manifest and lazy loading');
 
 // --- Tables ---------------------------------------------------------------
 

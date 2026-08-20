@@ -24,6 +24,14 @@
   <div class="splash-spinner"></div>
 </div>
 
+<!-- Shown only while a grade's real kanji/stroke data is being fetched for
+     the first time (see ensureUnitReady() in app.js) — hidden the rest of
+     the time, and only actually revealed if that fetch takes long enough to
+     notice. -->
+<div id="data-loading" class="data-loading" hidden aria-live="polite">
+  <span class="data-loading-spinner"></span> Loading…
+</div>
+
 <main id="app">
 
   <!-- ---------------------------------------------------------------- -->
@@ -96,6 +104,10 @@
       <div id="kanji-search-results" class="overview-grid"></div>
       <p id="kanji-search-empty" class="hint" hidden>No matches.</p>
       <p id="kanji-search-truncated" class="hint" hidden></p>
+      <!-- Search needs every grade's kanji data loaded to match against —
+           shown only the very first time a query is typed, until that
+           one-time load finishes. See renderKanjiSearchResults() in app.js. -->
+      <p id="kanji-search-loading" class="hint" hidden>Searching…</p>
     </div>
 
     <div id="grade-picker" class="grade-grid" role="group" aria-label="School grade" hidden></div>

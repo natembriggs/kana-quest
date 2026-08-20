@@ -1,10 +1,10 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0-4 done (example-word ranking fix, study-list model and
-scheduling, enrollment UI, review scope toggle, kanji search). Phase 5 (the
-data-payload split needed before full jōyō coverage) is next — the largest
-and riskiest phase, see §4. Supersedes the kanji bullet under *What is not
-built yet* in the README.
+Status: phases 0-5 done (example-word ranking fix, study-list model and
+scheduling, enrollment UI, review scope toggle, kanji search, lazy per-grade
+data loading). Phase 6 (all 2,136 jōyō kanji, on top of phase 5's lazy
+loading) is next. Supersedes the kanji bullet under *What is not built yet*
+in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -458,6 +458,49 @@ This work is why the data expansion is phased *after* the study list despite
 being the headline request: it is the part most likely to go wrong, and the
 study list is worth having whether or not this lands cleanly.
 
+### 4.1 How phase 5 actually landed
+
+Close to the design above, with `KANJI_COURSES` staying a synchronous
+module-level `const` after all — the part flagged above as "the main
+non-obvious cost" turned out to be avoidable by splitting what a course
+*needs* into two tiers rather than splitting the course object itself:
+
+**A tiny always-loaded manifest carries everything `renderCourse`,
+`courseStats`, the grade picker and the overview grid actually touch** —
+each grade's ordered character list, and (new, not in the original design)
+which characters have no quizzable Yomi reading. That second field matters
+because `srs.js` reads `excludeForMode` during scheduling, before a grade's
+real data may ever have loaded; moving it into the manifest means every one
+of those screens stays exactly as synchronous as it always was — none of
+them needed touching. `KANJI_COURSES` is built from the manifest at module
+load, same ids/chunks/teaching order as before; each course's `.index` Map
+just starts empty.
+
+**Only three call sites in `app.js` actually need a grade's heavy per-kanji
+data and became `async`**: `openCharacterDetail`, `startSession` (which
+resolves every grade touched by the session's item list — the "everything
+I'm studying" pool can span several at once), and kanji search on its first
+non-empty query (which needs every grade, since it doesn't know which one to
+look in). Each awaits `ensureKanjiUnitLoaded`/`ensureStrokeUnitLoaded`
+(`kanji.js`/`strokes.js`, both memoized dynamic `import()`s) before running
+its existing render code unchanged. A small "Loading…" pill appears only if
+a fetch takes long enough to notice.
+
+**Stale-response guard.** An async screen transition can be overtaken by a
+faster one — tap a kanji tile, then tap "back" before its data finishes
+loading. A single `navSeq` counter, bumped inside `show()` (the one function
+every navigation path already runs through), lets both async call sites
+detect "the user has moved on" generically and skip rendering rather than
+forcing a stale screen onto someone who has already left it.
+
+Both files split one-for-one by grade (`kanji-grade-N.js` / `stroke-grade-N.js`
+under a new `src/data/`), plus the manifest and an always-loaded
+`stroke-kana.js` (kana strokes are needed by every writing screen,
+kanji or kana, so there is no reason to lazy-load them). Verified
+content-neutral against the previous monolithic files before deleting them —
+same 1,026 kanji, same readings/meanings/examples/stroke paths, just
+re-chunked.
+
 ---
 
 ## 5. Beyond jōyō
@@ -515,7 +558,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | **Done** — see §2.5 |
 | 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | **Done** — see §2.7 |
 | 4 | Kanji search (§2.2). | **Done** — see §2.8 |
-| 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | Not started |
+| 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | **Done** — see §4.1 |
 | 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | Not started |
 | 7 | JLPT and frequency orderings, ordering picker (§3). | Not started |
 | 8 | Beyond-jōyō set (§5). | Not started |
