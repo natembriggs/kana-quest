@@ -184,6 +184,11 @@ export const KANJI_ENTRIES = [
         "kanji": "映倫",
         "kana": "えいりん",
         "en": "Eirin"
+      },
+      {
+        "kanji": "倫敦",
+        "kana": "ロンドン",
+        "en": "London (UK)"
       }
     ],
     "quizOn": [
@@ -726,9 +731,9 @@ export const KANJI_ENTRIES = [
         "en": "tacit"
       },
       {
-        "kanji": "黙秘",
-        "kana": "もくひ",
-        "en": "remaining silent"
+        "kanji": "黙祷",
+        "kana": "もくとう",
+        "en": "silent prayer"
       }
     ],
     "quizOn": [
@@ -1302,9 +1307,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ボ": {
-        "kanji": "霊璽簿",
-        "kana": "れいじぼ",
-        "en": "list of names of the dead"
+        "kanji": "名簿",
+        "kana": "めいぼ",
+        "en": "register of names"
       }
     }
   },
@@ -2195,9 +2200,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ルイ": {
-        "kanji": "暗涙に咽ぶ",
-        "kana": "あんるいにむせぶ",
-        "en": "to shed silent tears"
+        "kanji": "催涙",
+        "kana": "さいるい",
+        "en": "tear-inducing"
       },
       "なみだ": {
         "kanji": "涙",
@@ -2855,9 +2860,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "レツ": {
-        "kanji": "貞烈",
-        "kana": "ていれつ",
-        "en": "extreme faithfulness"
+        "kanji": "強烈",
+        "kana": "きょうれつ",
+        "en": "strong"
       }
     }
   },
@@ -2993,6 +2998,11 @@ export const KANJI_ENTRIES = [
         "en": "painstaking"
       },
       {
+        "kanji": "牡丹",
+        "kana": "ぼたん",
+        "en": "tree peony (Paeonia suffruticosa)"
+      },
+      {
         "kanji": "丹精",
         "kana": "たんせい",
         "en": "working earnestly"
@@ -3031,6 +3041,11 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "啓発",
         "kana": "けいはつ",
+        "en": "enlightenment"
+      },
+      {
+        "kanji": "啓蒙",
+        "kana": "けいもう",
         "en": "enlightenment"
       },
       {
@@ -3146,9 +3161,9 @@ export const KANJI_ENTRIES = [
         "en": "separate building"
       },
       {
-        "kanji": "上棟",
-        "kana": "じょうとう",
-        "en": "raising the ridgepole"
+        "kanji": "棟梁",
+        "kana": "とうりょう",
+        "en": "central figure"
       }
     ],
     "quizOn": [
@@ -4085,6 +4100,11 @@ export const KANJI_ENTRIES = [
         "en": "kyōtei"
       },
       {
+        "kanji": "漕艇",
+        "kana": "そうてい",
+        "en": "rowing"
+      },
+      {
         "kanji": "舟艇",
         "kana": "しゅうてい",
         "en": "boat"
@@ -4909,9 +4929,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "レイ": {
-        "kanji": "霊璽",
-        "kana": "れいじ",
-        "en": "something worshiped as a symbol for the spirit of the dead"
+        "kanji": "霊",
+        "kana": "れい",
+        "en": "soul"
       },
       "リョウ": {
         "kanji": "精霊",
@@ -5041,9 +5061,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ユ": {
-        "kanji": "勅諭",
-        "kana": "ちょくゆ",
-        "en": "imperial instructions"
+        "kanji": "教諭",
+        "kana": "きょうゆ",
+        "en": "(licensed) teacher"
       },
       "さとす": {
         "kanji": "諭す",
@@ -5081,9 +5101,9 @@ export const KANJI_ENTRIES = [
         "en": "prayer (for something)"
       },
       {
-        "kanji": "祈る",
-        "kana": "いのる",
-        "en": "to pray"
+        "kanji": "祈祷",
+        "kana": "きとう",
+        "en": "prayer"
       }
     ],
     "quizOn": [
@@ -5217,9 +5237,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ギャク": {
-        "kanji": "淫虐",
-        "kana": "いんぎゃく",
-        "en": "sexual cruelty"
+        "kanji": "虐殺",
+        "kana": "ぎゃくさつ",
+        "en": "slaughter"
       },
       "しいたげる": {
         "kanji": "虐げる",
@@ -6316,9 +6336,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カン": {
-        "kanji": "勅勘",
-        "kana": "ちょっかん",
-        "en": "the emperor's censure"
+        "kanji": "勘定",
+        "kana": "かんじょう",
+        "en": "calculation"
       }
     }
   },
@@ -6624,9 +6644,9 @@ export const KANJI_ENTRIES = [
         "en": "laurels"
       },
       "かんむり": {
-        "kanji": "茨の冠",
-        "kana": "いばらのかんむり",
-        "en": "a crown of thorns"
+        "kanji": "冠",
+        "kana": "かんむり",
+        "en": "traditional cap worn by Shinto clergy and courtiers"
       }
     }
   },
@@ -6983,9 +7003,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "マ": {
-        "kanji": "淫魔",
-        "kana": "いんま",
-        "en": "incubus"
+        "kanji": "悪魔",
+        "kana": "あくま",
+        "en": "devil"
       }
     }
   },
@@ -7072,9 +7092,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "紫斑",
-        "kana": "しはん",
-        "en": "purpura"
+        "kanji": "紫外線",
+        "kana": "しがいせん",
+        "en": "ultraviolet rays"
       },
       "むらさき": {
         "kanji": "紫",
@@ -7186,9 +7206,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "モン": {
-        "kanji": "斑紋",
-        "kana": "はんもん",
-        "en": "spots"
+        "kanji": "波紋",
+        "kana": "はもん",
+        "en": "ripple"
       }
     }
   },
@@ -7354,9 +7374,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イツ": {
-        "kanji": "淫逸",
-        "kana": "いんいつ",
-        "en": "debauchery"
+        "kanji": "逸脱",
+        "kana": "いつだつ",
+        "en": "deviation"
       },
       "それる": {
         "kanji": "逸れる",
@@ -8004,9 +8024,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "かき": {
-        "kanji": "茨垣",
-        "kana": "いばらがき",
-        "en": "thorn hedge"
+        "kanji": "石垣",
+        "kana": "いしがき",
+        "en": "stone wall"
       }
     }
   },
@@ -9529,6 +9549,11 @@ export const KANJI_ENTRIES = [
         "en": "vajra (indestructible substance)"
       },
       {
+        "kanji": "剛毅",
+        "kana": "ごうき",
+        "en": "fortitude"
+      },
+      {
         "kanji": "剛健",
         "kana": "ごうけん",
         "en": "vigour"
@@ -9866,9 +9891,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケン": {
-        "kanji": "恭謙",
-        "kana": "きょうけん",
-        "en": "modesty"
+        "kanji": "謙虚",
+        "kana": "けんきょ",
+        "en": "modest"
       }
     }
   },

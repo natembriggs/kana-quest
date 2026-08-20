@@ -584,6 +584,17 @@ h3 { font-size: 18px; }
 /* --- Grade picker (kanji only) ------------------------------------------- */
 
 .grade-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+/* Heading above each row of the grade grid ("Primary school grade",
+   "Secondary school", "Names & places") — a plain grid child spanning every
+   column, interleaved with that group's buttons in DOM order. */
+.grade-group-label {
+  grid-column: 1 / -1;
+  margin: 10px 0 -2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.grade-group-label:first-child { margin-top: 0; }
 .grade {
   position: relative;
   min-height: 46px;

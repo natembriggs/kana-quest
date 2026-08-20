@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-21a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -141,9 +141,21 @@ const SCRIPTS = [
   { id: 'kanji', kind: 'kanji', name: 'Kanji', native: '漢字', sample: '学' },
 ];
 
-// Unit ids ("1".."6", later "8-1".."8-6") in teaching order — KANJI_COURSES
-// is already sorted that way (see compareUnits in kanji.js).
+// Unit ids ("1".."6", "8-1".."8-6", "9-1".."9-N") in teaching order —
+// KANJI_COURSES is already sorted that way (see compareUnits in kanji.js).
 const KANJI_UNIT_IDS = KANJI_COURSES.map((c) => c.unit);
+
+// Which group a unit belongs to, and the heading shown above its row in the
+// grade picker — checked in this order since '8-'/'9-' are also matched by
+// nothing else. Elementary units ("1".."6") have no dash at all.
+const KANJI_UNIT_GROUPS = [
+  { test: (unit) => unit.startsWith('9-'), label: 'Names & places' },
+  { test: (unit) => unit.startsWith('8-'), label: 'Secondary school' },
+  { test: (unit) => true, label: 'Primary school grade' },
+];
+function kanjiUnitGroup(unit) {
+  return KANJI_UNIT_GROUPS.find((g) => g.test(unit));
+}
 
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
@@ -363,9 +375,12 @@ function renderModePicker(kind) {
 }
 
 // Short badge text for the grade-picker tile — "1".."6" for elementary,
-// "S1".."S6" for secondary jōyō sub-units (see kanji-expansion-plan.md §8).
+// "S1".."S6" for secondary jōyō sub-units, "N1".."N6" for beyond-jōyō names
+// & places sub-units (see kanji-expansion-plan.md §5/§8).
 function unitBadge(unit) {
-  return unit.startsWith('8-') ? `S${unit.slice(2)}` : unit;
+  if (unit.startsWith('9-')) return `N${unit.slice(2)}`;
+  if (unit.startsWith('8-')) return `S${unit.slice(2)}`;
+  return unit;
 }
 
 function renderGradePicker(script) {
@@ -376,7 +391,16 @@ function renderGradePicker(script) {
     return;
   }
   picker.hidden = false;
+  let lastGroup = null;
   KANJI_UNIT_IDS.forEach((unit) => {
+    const group = kanjiUnitGroup(unit);
+    if (group !== lastGroup) {
+      const heading = document.createElement('div');
+      heading.className = 'grade-group-label';
+      heading.textContent = group.label;
+      picker.appendChild(heading);
+      lastGroup = group;
+    }
     const course = getAnyCourse(`kanji-grade-${unit}`);
     const stats = courseStats(course, state.mode, state.profile);
     const button = document.createElement('button');

@@ -1,11 +1,11 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0-6 done (example-word ranking fix, study-list model and
+Status: phases 0-6 and 8 done (example-word ranking fix, study-list model and
 scheduling, enrollment UI, review scope toggle, kanji search, lazy per-grade
-data loading, all 2,136 jōyō kanji), plus two bug fixes (§4.3) and a
-placement test (§2.9) requested outside the phase plan. Phase 7 (JLPT/
-frequency orderings) is next. Supersedes the kanji bullet under *What is not
-built yet* in the README.
+data loading, all 2,136 jōyō kanji, and the beyond-jōyō "names & places" set),
+plus two bug fixes (§4.3) and a placement test (§2.9) requested outside the
+phase plan. Phase 7 (JLPT/frequency orderings) is next. Supersedes the kanji
+bullet under *What is not built yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -680,6 +680,70 @@ Both bugs required regenerating `stroke-*.js` too (`build_stroke_data.py`
 reads its character list from the manifest `build_kanji_data.py` just
 wrote), since bug 1 changes which literal characters are taught.
 
+### 4.4 A third bug, found while building phase 8: the uncommon-word fallback could clobber an unrelated kanji's good example with an inappropriate one
+
+Not from a user report this time — caught by diffing phase 8's regenerated
+jōyō-grade files against their previous, unrelated-in-principle content
+before committing, on the theory that grades 1-6/8 shouldn't change at all
+from adding a new unit group. They did: ~600 `readingExamples` entries
+changed across grades 1-6/8 alone.
+
+**The bug.** §4.3's uncommon-word fallback pass (`needs_uncommon` /
+`parse_jmdict_words(..., targets=needs_uncommon)`) finds words for kanji with
+zero common-word-backed reading by dropping the priority-tag gate. Its
+`targets` parameter controls which *words are attempted* (`kanji_in_word &
+targets` must be non-empty) — but `align_word` credits **every** kanji in
+that word, not just the target one. For 三十日 (a real fallback candidate for
+a genuinely needy neighbour elsewhere in the word), the merge step —
+
+```python
+for kanji, readings in uncommon_by_reading.items():
+    words_by_reading.setdefault(kanji, {}).update(readings)
+```
+
+— iterated every kanji `uncommon_by_reading` happened to touch, not just the
+ones actually in `needs_uncommon`, and `.update()` unconditionally
+overwrote that kanji's existing, perfectly good, common-word-backed entry
+for that reading with whatever the no-priority-gate pass found instead —
+which, priority-tag dropped, is frequently a far worse pick. Concretely: 六's
+reading example became 六淫 ("six lascivious/pathogenic factors," a TCM
+term), 手's became 手淫 (masturbation), 声's became 淫声, 心's became 淫心 —
+`淫` ("lewd, obscene") is not a character any of grades 1-6's own kanji
+should ever surface, and it was showing up as the reading example for
+grade-1 六/手/声/心 purely because those kanji happened to share a JMdict
+entry with some unrelated needy kanji.
+
+**Why phase 8 exposed it rather than caused it.** The bug is in `parse_
+jmdict_words`/the merge loop, not in anything phase 8 added — `needs_uncommon`
+already existed and was already non-empty (26 kanji, per §4.3) in the
+pre-phase-8 codebase, so this was already live and already capable of
+corrupting a jōyō reading example before any of phase 8's code existed. It
+just wasn't *caught*, because nobody had diffed a full regeneration against
+the previous one since §4.3 shipped — every previous kanji-data change also
+changed which characters were being taught, so "did an unrelated kanji's
+example silently get worse" was never a meaningful diff to check. Phase 8
+adding ~900 new candidate kanji to `needs_uncommon` (523, up from 26) made
+the blast radius large enough (~600 changed entries, several genuinely
+inappropriate for the app's audience) to be obvious on inspection, but the
+mechanism was already there.
+
+**Fix:** skip any kanji in the merge loop that isn't actually in
+`needs_uncommon`:
+
+```python
+for kanji, readings in uncommon_by_reading.items():
+    if kanji not in needs_uncommon:
+        continue
+    words_by_reading.setdefault(kanji, {}).update(readings)
+```
+
+Safe unconditionally for a kanji genuinely in `needs_uncommon`, since by that
+set's own definition every one of its readings had zero backing beforehand —
+there is nothing there to clobber. Verified afterward: regenerating with this
+fix produces **zero** diff in grades 1-6/8 versus a jōyō-only (no beyond-jōyō
+set at all) run, i.e. the fix fully isolates the fallback pass's effect to
+kanji that actually needed it, exactly as originally intended.
+
 ---
 
 ## 5. Beyond jōyō
@@ -700,6 +764,73 @@ They therefore go in their own ordering unit ("Names and places") rather than
 being mixed into the frequency bands, so nobody works through them expecting
 everyday words. Many will also have thin data — fewer meanings, fewer example
 words, and some with no quizzable reading at all.
+
+### 5.1 How phase 8 actually landed
+
+Close to the design above, with the actual candidate counts turning out
+different from the estimate (this section's own numbers were written before
+checking the source data): **989 raw candidates** (863 jinmeiyō ∪ 126
+non-jōyō-with-freq, not 464 — the discrepancy is `<freq>` being scarcer than
+expected outside jōyō: only 2,501 kanji carry a rank at all, and jōyō itself
+consumes most of them), landing on **897 taught** after one filter not in
+the original design.
+
+**A KanjiVG-stroke-data filter, not a hand-audited substitution table.**
+UNICODE_VARIANT_SUBSTITUTIONS (§4.3) fixed four *jōyō* kanji taught at the
+wrong Unicode code point by hand, found by diffing against an independent
+list — that doesn't scale to auditing ~1,000 candidates by hand. Instead,
+`select_beyond_joyo()`'s raw candidate set is filtered to characters KanjiVG
+actually has a stroke diagram for (a kanji this app can't draw can't be
+taught at all, regardless of jōyō status). This turned out to double as the
+audit: all 89 dropped candidates are legacy kyūjitai forms or CJK
+Compatibility Ideographs (U+F900–FAFF) of a kanji already taught elsewhere
+under its modern code point — 神/海/難/社/... at a second, defunct code
+point KanjiVG never drew a duplicate diagram for. Confirmed by hand for a
+sample: none were real characters this app would otherwise be missing.
+
+**Reuses the split_grade_8 pattern verbatim, one synthetic "grade" up.**
+`select_beyond_joyo()` + `split_beyond()` produce "9-1".."9-6" sub-units —
+897 kanji, ~150 per unit, frequency-ordered exactly like secondary jōyō's
+"8-N" units. Choosing the "9-" prefix (rather than e.g. "names-") meant
+`compareUnits` in `kanji.js` needed no change at all — it already generalizes
+to "however many dash-separated parts a unit key gains later," which turned
+out to include a whole new group, not just more sub-units of an existing
+one. `unitLabel`/`unitNative`/`unitBadge` gained one more `startsWith` branch
+each ("Names & places N" / 人名・地名N / "NN"), and `build_stroke_data.py`
+needed *no* changes whatsoever — it already reads whichever units the
+manifest lists.
+
+**A second exclusion joined `excludeForMode`, not just `NO_YOMI_CHARS`.**
+Filtering to stroke-drawable candidates left every one of the 897 with at
+least one meaning and one on/kun reading — except two (舛, 禾) whose *only*
+KANJIDIC gloss is their own radical name ("dancing radical (no. 136)"),
+which the existing `RADICAL_MEANING` filter correctly strips, leaving zero
+real definitions. Rather than drop two otherwise-fine kanji, `NO_MEANING_CHARS`
+was added to the manifest alongside `NO_YOMI_CHARS`, and `buildKanjiCourse()`
+in `kanji.js` now populates `excludeForMode.definition` from it — the
+mechanism needed no new plumbing in `srs.js` or `applicableStudyModes()`
+(app.js), since both were already written generically over "whichever mode
+key the course happens to exclude," never hardcoded to `recognition`.
+
+**The unquizzable-Yomi fraction is real, not a bug.** 208 of the 897 (~23%)
+have no reading backed by any JMdict word, even after the uncommon-word
+fallback pass (§4.3) — up from 0 in jōyō, which stays exactly 0 (the
+fallback pass runs generically over the combined jōyō+beyond `graded` dict,
+so jōyō's guarantee is untouched). This is expected, not a data-quality
+problem: purely-decorative or single-surname jinmeiyō characters can
+legitimately have no reading in common use at all. `excludeForMode` already
+handled this per-kanji, so the fraction being an order of magnitude higher
+than jōyō's needed no new mechanism, only a looser test bound for this
+subset specifically.
+
+**Three UI labels shipped alongside**, requested together with the data
+expansion: the grade picker's rows gained plain-text headings — "Primary
+school grade" above "1".."6", "Secondary school" above "8-N", "Names &
+places" above "9-N" — as grid children spanning every column
+(`grid-column: 1 / -1`), interleaved with each group's buttons in DOM order.
+Grouping is computed from the unit-key prefix (`KANJI_UNIT_GROUPS` in
+`app.js`), so it needs no separate list to stay in sync with whatever units
+`KANJI_COURSES` actually contains.
 
 ---
 
@@ -740,7 +871,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | **Done** — see §4.1 |
 | 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | **Done** — see §4.2 |
 | 7 | JLPT and frequency orderings, ordering picker (§3). | Not started |
-| 8 | Beyond-jōyō set (§5). | Not started |
+| 8 | Beyond-jōyō set (§5). | **Done** — see §5.1 |
 | 9 | README, `APP_VERSION` / sw.js `VERSION` bump, service worker `SHELL` review. | Not started |
 
 ---
@@ -751,10 +882,6 @@ Each phase leaves both test suites green and is independently shippable.
   first time. 2,136 kanji at 5 per set is 428 sets, which makes the set
   counter meaningless as a progress indicator. Larger sets higher up, or a
   different progress display, or both.
-- **Whether "secondary" (jōyō grade 8) should be one unit.** It is 1,110
-  kanji — over half the jōyō set in a single undifferentiated bucket. It may
-  need sub-dividing by frequency to be usable, which effectively makes grade
-  ordering a hybrid above grade 6.
 - **What the study list should do when it is empty.** A learner who removes
   everything, or a brand-new profile that has not pressed "Add 5 more" yet,
   currently has nothing to review and no obvious next step. The course screen

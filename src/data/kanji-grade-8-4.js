@@ -747,9 +747,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シン": {
-        "kanji": "辛辣",
-        "kana": "しんらつ",
-        "en": "bitter (e.g. criticism)"
+        "kanji": "香辛料",
+        "kana": "こうしんりょう",
+        "en": "spice"
       },
       "からい": {
         "kanji": "辛い",
@@ -790,6 +790,11 @@ export const KANJI_ENTRIES = [
         "en": "polish"
       },
       {
+        "kanji": "琢磨",
+        "kana": "たくま",
+        "en": "polish (jewels)"
+      },
+      {
         "kanji": "歯磨き",
         "kana": "はみがき",
         "en": "dental brushing"
@@ -798,11 +803,6 @@ export const KANJI_ENTRIES = [
         "kanji": "研磨",
         "kana": "けんま",
         "en": "grinding"
-      },
-      {
-        "kanji": "達磨",
-        "kana": "だるま",
-        "en": "daruma"
       }
     ],
     "quizOn": [
@@ -1006,9 +1006,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジャ": {
-        "kanji": "邪淫",
-        "kana": "じゃいん",
-        "en": "lewdness"
+        "kanji": "邪魔",
+        "kana": "じゃま",
+        "en": "hindrance"
       }
     }
   },
@@ -1049,9 +1049,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショウ": {
-        "kanji": "斑晶",
-        "kana": "はんしょう",
-        "en": "phenocryst"
+        "kanji": "液晶",
+        "kana": "えきしょう",
+        "en": "liquid crystal"
       }
     }
   },
@@ -1527,9 +1527,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ホウ": {
-        "kanji": "奉勅",
-        "kana": "ほうちょく",
-        "en": "receiving an imperial decree"
+        "kanji": "奉仕",
+        "kana": "ほうし",
+        "en": "service"
       },
       "ブ": {
         "kanji": "奉行",
@@ -1567,14 +1567,14 @@ export const KANJI_ENTRIES = [
         "en": "bitter experience"
       },
       {
+        "kanji": "杞憂",
+        "kana": "きゆう",
+        "en": "needless fear"
+      },
+      {
         "kanji": "憂える",
         "kana": "うれえる",
         "en": "to worry about"
-      },
-      {
-        "kanji": "憂国",
-        "kana": "ゆうこく",
-        "en": "patriotic concern for the future of one's country"
       }
     ],
     "quizOn": [
@@ -1593,8 +1593,8 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ユウ": {
-        "kanji": "憂虞",
-        "kana": "ゆうぐ",
+        "kanji": "憂慮",
+        "kana": "ゆうりょ",
         "en": "anxiety"
       },
       "うれえる": {
@@ -1799,9 +1799,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "トウ": {
-        "kanji": "淫筒",
-        "kana": "いんとう",
-        "en": "vaginal passage"
+        "kanji": "封筒",
+        "kana": "ふうとう",
+        "en": "envelope"
       },
       "つつ": {
         "kanji": "筒井",
@@ -1931,9 +1931,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "リュウ": {
-        "kanji": "粒状斑",
-        "kana": "りゅうじょうはん",
-        "en": "granule"
+        "kanji": "粒子",
+        "kana": "りゅうし",
+        "en": "particle"
       },
       "つぶ": {
         "kanji": "粒",
@@ -2622,9 +2622,9 @@ export const KANJI_ENTRIES = [
         "en": "cholera"
       },
       "とら": {
-        "kanji": "虎斑",
-        "kana": "とらふ",
-        "en": "tiger stripes"
+        "kanji": "虎",
+        "kana": "とら",
+        "en": "tiger (Panthera tigris)"
       }
     }
   },
@@ -3051,6 +3051,11 @@ export const KANJI_ENTRIES = [
     ],
     "words": [
       {
+        "kanji": "痴呆",
+        "kana": "ちほう",
+        "en": "dementia"
+      },
+      {
         "kanji": "愚痴",
         "kana": "ぐち",
         "en": "idle complaint"
@@ -3064,11 +3069,6 @@ export const KANJI_ENTRIES = [
         "kanji": "音痴",
         "kana": "おんち",
         "en": "tone deafness"
-      },
-      {
-        "kanji": "白痴",
-        "kana": "はくち",
-        "en": "idiot"
       }
     ],
     "quizOn": [
@@ -3488,9 +3488,9 @@ export const KANJI_ENTRIES = [
         "en": "banquet"
       },
       {
-        "kanji": "祝宴",
-        "kana": "しゅくえん",
-        "en": "celebratory banquet"
+        "kanji": "饗宴",
+        "kana": "きょうえん",
+        "en": "feast"
       }
     ],
     "quizOn": [
@@ -3695,9 +3695,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "トウ": {
-        "kanji": "薫陶",
-        "kana": "くんとう",
-        "en": "education"
+        "kanji": "陶芸",
+        "kana": "とうげい",
+        "en": "ceramic art"
       }
     }
   },
@@ -3854,6 +3854,11 @@ export const KANJI_ENTRIES = [
         "kanji": "弥生",
         "kana": "やよい",
         "en": "third month of the lunar calendar"
+      },
+      {
+        "kanji": "弥撒",
+        "kana": "ミサ",
+        "en": "(Catholic) Mass"
       }
     ],
     "quizOn": [
@@ -4990,9 +4995,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュウ": {
-        "kanji": "淫獣",
-        "kana": "いんじゅう",
-        "en": "lustful beast"
+        "kanji": "獣医",
+        "kana": "じゅうい",
+        "en": "veterinarian"
       },
       "けもの": {
         "kanji": "獣",
@@ -5053,9 +5058,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "アイ": {
-        "kanji": "哀咽",
-        "kana": "あいえつ",
-        "en": "being choked with tears"
+        "kanji": "哀悼",
+        "kana": "あいとう",
+        "en": "condolence"
       },
       "あわれ": {
         "kanji": "哀れ",
@@ -5237,9 +5242,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カ": {
-        "kanji": "玩菓",
-        "kana": "がんが",
-        "en": "food sold with a toy"
+        "kanji": "菓子",
+        "kana": "かし",
+        "en": "confectionery"
       }
     }
   },
@@ -5295,9 +5300,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジャ": {
-        "kanji": "蛇結茨",
-        "kana": "ジャケツイバラ",
-        "en": "Caesalpinia decapetala var. japonica"
+        "kanji": "蛇の目",
+        "kana": "じゃのめ",
+        "en": "bull's-eye (pattern)"
       },
       "ダ": {
         "kanji": "蛇行",
@@ -6021,14 +6026,14 @@ export const KANJI_ENTRIES = [
         "en": "wink of sleep"
       },
       {
+        "kanji": "昏睡",
+        "kana": "こんすい",
+        "en": "coma"
+      },
+      {
         "kanji": "熟睡",
         "kana": "じゅくすい",
         "en": "deep sleep"
-      },
-      {
-        "kanji": "睡魔",
-        "kana": "すいま",
-        "en": "sleepiness"
       }
     ],
     "quizOn": [
@@ -6070,14 +6075,14 @@ export const KANJI_ENTRIES = [
         "en": "mistake"
       },
       {
+        "kanji": "錯綜",
+        "kana": "さくそう",
+        "en": "becoming complicated"
+      },
+      {
         "kanji": "交錯",
         "kana": "こうさく",
         "en": "mixture"
-      },
-      {
-        "kanji": "錯乱",
-        "kana": "さくらん",
-        "en": "confusion"
       }
     ],
     "quizOn": [
@@ -6138,9 +6143,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ハク": {
-        "kanji": "伯叔",
-        "kana": "はくしゅく",
-        "en": "brothers"
+        "kanji": "伯爵",
+        "kana": "はくしゃく",
+        "en": "count"
       }
     }
   },
@@ -6330,9 +6335,9 @@ export const KANJI_ENTRIES = [
         "en": "heavy fog"
       },
       "きり": {
-        "kanji": "斑霧",
-        "kana": "むらぎり",
-        "en": "sparse mist"
+        "kanji": "霧",
+        "kana": "きり",
+        "en": "fog"
       }
     }
   },
@@ -6941,9 +6946,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エツ": {
-        "kanji": "淫悦",
-        "kana": "いんえつ",
-        "en": "lewd pleasure"
+        "kanji": "満悦",
+        "kana": "まんえつ",
+        "en": "great delight"
       }
     }
   },
@@ -7237,9 +7242,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "モウ": {
-        "kanji": "盲斑",
-        "kana": "もうはん",
-        "en": "blind spot (on the retina)"
+        "kanji": "盲導犬",
+        "kana": "もうどうけん",
+        "en": "guide dog"
       },
       "めくら": {
         "kanji": "盲",
@@ -7441,9 +7446,9 @@ export const KANJI_ENTRIES = [
         "en": "ape man"
       },
       "さる": {
-        "kanji": "猿捕茨",
-        "kana": "さるとりいばら",
-        "en": "Smilax china (species of sarsaparilla)"
+        "kanji": "猿",
+        "kana": "さる",
+        "en": "monkey (esp. the Japanese macaque, Macaca fuscata)"
       }
     }
   },
@@ -7880,6 +7885,11 @@ export const KANJI_ENTRIES = [
         "kanji": "桃色",
         "kana": "ももいろ",
         "en": "pink (colour, color)"
+      },
+      {
+        "kanji": "胡桃",
+        "kana": "くるみ",
+        "en": "walnut (Juglans spp., esp. Juglans regia)"
       }
     ],
     "quizOn": [],
@@ -7951,9 +7961,9 @@ export const KANJI_ENTRIES = [
         "en": "hunting"
       },
       "かり": {
-        "kanji": "童貞狩り",
-        "kana": "どうていがり",
-        "en": "seduction of a male virgin"
+        "kanji": "狩り",
+        "kana": "かり",
+        "en": "hunting"
       }
     }
   },
@@ -8472,9 +8482,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フ": {
-        "kanji": "璽符",
-        "kana": "じふ",
-        "en": "imperial seal"
+        "kanji": "終止符",
+        "kana": "しゅうしふ",
+        "en": "full stop"
       }
     }
   },
@@ -8617,9 +8627,9 @@ export const KANJI_ENTRIES = [
         "en": "revolution"
       },
       {
-        "kanji": "旋盤",
-        "kana": "せんばん",
-        "en": "lathe"
+        "kanji": "凱旋",
+        "kana": "がいせん",
+        "en": "triumphant return"
       }
     ],
     "quizOn": [

@@ -594,6 +594,11 @@ export const KANJI_ENTRIES = [
         "en": "collapse"
       },
       {
+        "kanji": "瓦斯",
+        "kana": "ガス",
+        "en": "gas (as a fuel)"
+      },
+      {
         "kanji": "瓦",
         "kana": "グラム",
         "en": "gram"
@@ -1165,9 +1170,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シャ": {
-        "kanji": "遮蔽",
-        "kana": "しゃへい",
-        "en": "shielding"
+        "kanji": "遮断機",
+        "kana": "しゃだんき",
+        "en": "(railway) crossing gate"
       },
       "さえぎる": {
         "kanji": "遮る",
@@ -2045,9 +2050,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ホン": {
-        "kanji": "淫奔",
-        "kana": "いんぽん",
-        "en": "lewdness"
+        "kanji": "奔放",
+        "kana": "ほんぽう",
+        "en": "wild"
       }
     }
   },
@@ -2348,9 +2353,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キョウ": {
-        "kanji": "貞享",
-        "kana": "じょうきょう",
-        "en": "Jōkyō era (1684.2.21-1688.9.30)"
+        "kanji": "享受",
+        "kana": "きょうじゅ",
+        "en": "enjoyment (of freedom, beauty, etc.)"
       }
     }
   },
@@ -2877,6 +2882,11 @@ export const KANJI_ENTRIES = [
         "kanji": "腰椎",
         "kana": "ようつい",
         "en": "lumbar vertebra"
+      },
+      {
+        "kanji": "椎茸",
+        "kana": "しいたけ",
+        "en": "shiitake mushroom (Lentinula edodes)"
       }
     ],
     "quizOn": [
@@ -3094,9 +3104,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シュク": {
-        "kanji": "貞淑",
-        "kana": "ていしゅく",
-        "en": "chastity"
+        "kanji": "淑女",
+        "kana": "しゅくじょ",
+        "en": "lady"
       },
       "しとやか": {
         "kanji": "淑やか",
@@ -3277,14 +3287,14 @@ export const KANJI_ENTRIES = [
         "en": "fellow"
       },
       {
-        "kanji": "彼奴",
-        "kana": "あいつ",
+        "kanji": "其奴",
+        "kana": "そいつ",
         "en": "he"
       },
       {
-        "kanji": "奴ら",
-        "kana": "やつら",
-        "en": "they"
+        "kanji": "彼奴",
+        "kana": "あいつ",
+        "en": "he"
       }
     ],
     "quizOn": [
@@ -4956,22 +4966,14 @@ export const KANJI_ENTRIES = [
         "en": "upper lip"
       }
     ],
-    "quizOn": [
-      "シン"
-    ],
+    "quizOn": [],
     "quizKun": [
       "くちびる"
     ],
     "quizReadings": [
-      "シン",
       "くちびる"
     ],
     "readingExamples": {
-      "シン": {
-        "kanji": "淫唇",
-        "kana": "いんしん",
-        "en": "labia"
-      },
       "くちびる": {
         "kanji": "唇",
         "kana": "くちびる",
@@ -6344,6 +6346,11 @@ export const KANJI_ENTRIES = [
         "kanji": "藍",
         "kana": "あい",
         "en": "dyer's knotweed (Persicaria tinctoria, used to produce indigo dye)"
+      },
+      {
+        "kanji": "伽藍",
+        "kana": "がらん",
+        "en": "temple (esp. large one)"
       }
     ],
     "quizOn": [
@@ -6602,6 +6609,11 @@ export const KANJI_ENTRIES = [
         "kanji": "瞳孔",
         "kana": "どうこう",
         "en": "pupil (of the eye)"
+      },
+      {
+        "kanji": "孔雀",
+        "kana": "くじゃく",
+        "en": "peafowl (incl. the male peacock, female peahen, and young peachick)"
       }
     ],
     "quizOn": [
@@ -8163,9 +8175,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "か": {
-        "kanji": "羽斑蚊",
-        "kana": "はまだらか",
-        "en": "Anopheles (genus of mosquitoes)"
+        "kanji": "蚊",
+        "kana": "か",
+        "en": "mosquito"
       }
     }
   },
@@ -8259,9 +8271,9 @@ export const KANJI_ENTRIES = [
         "en": "seaweed"
       },
       "も": {
-        "kanji": "茨藻",
-        "kana": "いばらも",
-        "en": "spiny water nymph (Najas marina)"
+        "kanji": "藻",
+        "kana": "も",
+        "en": "algae"
       }
     }
   },
@@ -8297,9 +8309,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チャク": {
-        "kanji": "嫡嗣",
-        "kana": "ちゃくし",
-        "en": "legitimate heir"
+        "kanji": "嫡出",
+        "kana": "ちゃくしゅつ",
+        "en": "legitimate birth"
       }
     }
   },

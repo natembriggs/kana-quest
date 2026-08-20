@@ -472,9 +472,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "イ": {
-        "kanji": "違勅",
-        "kana": "いちょく",
-        "en": "disobeying the emperor's order"
+        "kanji": "違反",
+        "kana": "いはん",
+        "en": "violation"
       },
       "ちがう": {
         "kanji": "違う",
@@ -1033,9 +1033,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "エイ": {
-        "kanji": "隻影",
-        "kana": "せきえい",
-        "en": "a glimpse of an object's outlines"
+        "kanji": "影響",
+        "kana": "えいきょう",
+        "en": "influence"
       },
       "かげ": {
         "kanji": "影",
@@ -1212,9 +1212,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カク": {
-        "kanji": "青斑核",
-        "kana": "せいはんかく",
-        "en": "locus coeruleus"
+        "kanji": "核",
+        "kana": "かく",
+        "en": "stone (of a fruit)"
       }
     }
   },
@@ -1531,9 +1531,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "請謁",
-        "kana": "せいえつ",
-        "en": "beseeching"
+        "kanji": "要請",
+        "kana": "ようせい",
+        "en": "appeal"
       }
     }
   },
@@ -1693,9 +1693,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "催淫",
-        "kana": "さいいん",
-        "en": "arousing sexual desire"
+        "kanji": "開催",
+        "kana": "かいさい",
+        "en": "holding (a conference, exhibition, etc.)"
       },
       "もよおす": {
         "kanji": "催す",
@@ -4241,9 +4241,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケイ": {
-        "kanji": "継嗣",
-        "kana": "けいし",
-        "en": "successor"
+        "kanji": "継続",
+        "kana": "けいぞく",
+        "en": "continuation"
       },
       "つぐ": {
         "kanji": "引き継ぐ",
@@ -5001,9 +5001,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チョウ": {
-        "kanji": "聴斑",
-        "kana": "ちょうはん",
-        "en": "acoustic spot"
+        "kanji": "聴取",
+        "kana": "ちょうしゅ",
+        "en": "hearing (of a statement, opinion, explanation, etc.)"
       }
     }
   },
@@ -10899,9 +10899,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュウ": {
-        "kanji": "玩具銃",
-        "kana": "がんぐじゅう",
-        "en": "toy gun"
+        "kanji": "銃",
+        "kana": "じゅう",
+        "en": "gun"
       }
     }
   },

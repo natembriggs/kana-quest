@@ -50,17 +50,30 @@ await Promise.all(kanjiUnits.map((unit) => Promise.all([
 // export — everything below this point that iterates STROKES is unchanged.
 const STROKES = Object.fromEntries(allStrokeEntries());
 
+// Units split into two families: the official 2,136-kanji jōyō set (grades
+// "1".."6"/"8-N") and the beyond-jōyō "names & places" set ("9-N", see
+// kanji-expansion-plan.md §5) — the former has an official count to check
+// tightly, the latter is data-derived (jinmeiyō ∪ freq-ranked non-jōyō,
+// filtered to characters KanjiVG can actually draw) so only a loose sanity
+// bound applies.
 const manifestCoverage = new Set();
+const joyoCoverage = new Set();
+const beyondCoverage = new Set();
 let manifestDuplicates = 0;
 for (const course of KANJI_COURSES) {
+  const family = course.unit.startsWith('9-') ? beyondCoverage : joyoCoverage;
   for (const char of course.chunks.flatMap((c) => c.items)) {
     if (manifestCoverage.has(char)) manifestDuplicates += 1;
     manifestCoverage.add(char);
+    family.add(char);
   }
 }
-check('the manifest covers 2130-2140 kanji with no duplicates across units',
-  manifestDuplicates === 0 && manifestCoverage.size >= 2130 && manifestCoverage.size <= 2140,
-  `${manifestCoverage.size} unique, ${manifestDuplicates} duplicate(s)`);
+check('the manifest covers 2130-2140 jōyō kanji with no duplicates across units',
+  manifestDuplicates === 0 && joyoCoverage.size >= 2130 && joyoCoverage.size <= 2140,
+  `${joyoCoverage.size} unique jōyō, ${manifestDuplicates} duplicate(s)`);
+check('the beyond-jōyō "names & places" set is a substantial, bounded addition',
+  beyondCoverage.size >= 700 && beyondCoverage.size <= 1100,
+  `${beyondCoverage.size} unique beyond-jōyō kanji`);
 check('every loaded course has real per-kanji data, not just the skeleton',
   KANJI_COURSES.every((c) => c.chunks.flatMap((ch) => ch.items).every((k) => !!kanjiInfo(c, k))));
 check('kanjiUnitFor resolves every manifest character to its real, now-loaded course',
@@ -119,7 +132,7 @@ for (const course of KANJI_COURSES) {
     else missingKanjiStrokes += 1;
   }
 }
-check('every one of the 1,026 kyoiku kanji has stroke data',
+check('every taught kanji (jōyō and beyond-jōyō) has stroke data',
   missingKanjiStrokes === 0, `${missingKanjiStrokes} missing`);
 check('stroke coverage was actually exercised, not vacuously empty',
   kanjiWithStrokes > 1000, `only checked ${kanjiWithStrokes}`);
@@ -488,8 +501,8 @@ check('distractors are drawn from the same set where possible',
   kyaOptions.join(' '));
 done('multiple-choice options');
 
-// --- All twelve units (grades 1-6 + secondary sub-units 8-1..8-6):
-// --- structural sanity ---------------------------------------------------
+// --- All eighteen units (grades 1-6, secondary sub-units 8-1..8-6, and
+// --- beyond-jōyō "names & places" sub-units 9-1..9-6): structural sanity ---
 // The depth checks below (option counts, priority ordering, rollups, ...)
 // only run against grade 1, since they're testing the mechanism rather than
 // the data — but every unit goes through the same build script, so a quick
@@ -497,66 +510,98 @@ done('multiple-choice options');
 // a kanji that has zero readings, or one that collides with another unit's
 // kanji).
 
-const EXPECTED_UNITS = ['1', '2', '3', '4', '5', '6', '8-1', '8-2', '8-3', '8-4', '8-5', '8-6'];
-check('grades 1-6 and secondary sub-units 8-1..8-6 all exist',
+const EXPECTED_UNITS = [
+  '1', '2', '3', '4', '5', '6',
+  '8-1', '8-2', '8-3', '8-4', '8-5', '8-6',
+  '9-1', '9-2', '9-3', '9-4', '9-5', '9-6',
+];
+check('grades 1-6, secondary sub-units 8-1..8-6 and names/places sub-units 9-1..9-6 all exist',
   EXPECTED_UNITS.every((u) => KANJI_COURSES.some((c) => c.id === `kanji-grade-${u}`)),
   KANJI_COURSES.map((c) => c.id).join(', '));
 
 const seenAcrossGrades = new Map(); // kanji -> which grade course first had it
+const seenJoyo = new Set();
+const seenBeyond = new Set();
 let crossGradeDuplicates = 0;
 let anyGradeStructureWrong = 0;
 let noMeaningAnywhere = 0;
-let unquizzableYomi = 0;
+let unquizzableYomiJoyo = 0;
+let unquizzableYomiBeyond = 0;
 let quizReadingWithoutExample = 0;
 for (const course of KANJI_COURSES) {
+  const isBeyond = course.unit.startsWith('9-');
   const chars = course.chunks.flatMap((c) => c.items);
   if (new Set(chars).size !== chars.length) anyGradeStructureWrong += 1;
   if (!course.chunks.slice(0, -1).every((c) => c.items.length === 5)) anyGradeStructureWrong += 1;
   for (const kanji of chars) {
     const info = kanjiInfo(course, kanji);
     if (!info || info.on.length + info.kun.length === 0) anyGradeStructureWrong += 1;
-    if (!info || info.meanings.length === 0) noMeaningAnywhere += 1;
+    // A kanji with no non-radical meaning at all (NO_MEANING_CHARS, see
+    // kanji-expansion-plan.md §5) is meant to have none — it's excluded from
+    // Definition mode specifically, checked below, not a structural problem.
+    if ((!info || info.meanings.length === 0) && !course.excludeForMode.definition.has(kanji)) {
+      noMeaningAnywhere += 1;
+    }
     // Every quizzed reading must have an example word — that is now the
     // criterion for being quizzed at all.
     for (const reading of (info ? info.quizReadings : [])) {
       if (!readingExample(course, kanji, reading)) quizReadingWithoutExample += 1;
     }
-    if (info && info.quizReadings.length === 0) unquizzableYomi += 1;
+    if (info && info.quizReadings.length === 0) {
+      if (isBeyond) unquizzableYomiBeyond += 1; else unquizzableYomiJoyo += 1;
+    }
     if (seenAcrossGrades.has(kanji)) crossGradeDuplicates += 1;
     else seenAcrossGrades.set(kanji, course.id);
+    (isBeyond ? seenBeyond : seenJoyo).add(kanji);
   }
 }
 check('every course is internally well-formed (chunks of 5, no dupes, every kanji has some reading listed)',
   anyGradeStructureWrong === 0, `${anyGradeStructureWrong} problems`);
-check('every kanji has at least one non-radical English meaning to quiz',
+check('every kanji has at least one non-radical English meaning to quiz, unless excluded from Definition mode',
   noMeaningAnywhere === 0, `${noMeaningAnywhere} without one`);
 check('every quizzed reading has an example word — that is the bar for being quizzed',
   quizReadingWithoutExample === 0, `${quizReadingWithoutExample} without one`);
 check('no kanji appears in more than one grade', crossGradeDuplicates === 0, `${crossGradeDuplicates} duplicates`);
 check('the full jōyō set is 2130-2140 kanji (2,136 official, allowing for minor revisions)',
-  seenAcrossGrades.size >= 2130 && seenAcrossGrades.size <= 2140, `got ${seenAcrossGrades.size}`);
+  seenJoyo.size >= 2130 && seenJoyo.size <= 2140, `got ${seenJoyo.size}`);
+check('the beyond-jōyō "names & places" set is a substantial, bounded addition',
+  seenBeyond.size >= 700 && seenBeyond.size <= 1100, `got ${seenBeyond.size}`);
 
 // A few kanji (prefecture names like 媛/栃/茨) have no reading appearing in any
 // common word, so they have no yomi question. They must be excluded from that
 // mode specifically — not dropped from the course, since Definition still
-// works for them.
+// works for them. Likewise a couple of kanji have no non-radical meaning at
+// all and must be excluded from Definition specifically.
 let excludedButQuizzable = 0;
 let quizzableButExcluded = 0;
+let excludedButHasMeaning = 0;
+let meaninglessButNotExcluded = 0;
 for (const course of KANJI_COURSES) {
-  const excluded = course.excludeForMode.recognition;
+  const excludedYomi = course.excludeForMode.recognition;
+  const excludedDefinition = course.excludeForMode.definition;
   for (const kanji of course.chunks.flatMap((c) => c.items)) {
-    const hasReadings = kanjiInfo(course, kanji).quizReadings.length > 0;
-    if (excluded.has(kanji) && hasReadings) excludedButQuizzable += 1;
-    if (!excluded.has(kanji) && !hasReadings) quizzableButExcluded += 1;
+    const info = kanjiInfo(course, kanji);
+    const hasReadings = info.quizReadings.length > 0;
+    if (excludedYomi.has(kanji) && hasReadings) excludedButQuizzable += 1;
+    if (!excludedYomi.has(kanji) && !hasReadings) quizzableButExcluded += 1;
+    const hasMeaning = info.meanings.length > 0;
+    if (excludedDefinition.has(kanji) && hasMeaning) excludedButHasMeaning += 1;
+    if (!excludedDefinition.has(kanji) && !hasMeaning) meaninglessButNotExcluded += 1;
   }
 }
 check('kanji with no quizzable reading are excluded from yomi mode',
   quizzableButExcluded === 0, `${quizzableButExcluded} not excluded`);
 check('nothing quizzable is excluded from yomi mode by mistake',
   excludedButQuizzable === 0, `${excludedButQuizzable} wrongly excluded`);
-check('the unquizzable-yomi set is a small fraction, not a systemic failure',
-  unquizzableYomi <= 40, `${unquizzableYomi} kanji have no quizzable reading`);
-done('all twelve kanji units are structurally sound');
+check('kanji with no meaning at all are excluded from definition mode',
+  meaninglessButNotExcluded === 0, `${meaninglessButNotExcluded} not excluded`);
+check('nothing with a real meaning is excluded from definition mode by mistake',
+  excludedButHasMeaning === 0, `${excludedButHasMeaning} wrongly excluded`);
+check('the jōyō unquizzable-yomi set is a small fraction, not a systemic failure',
+  unquizzableYomiJoyo <= 40, `${unquizzableYomiJoyo} jōyō kanji have no quizzable reading`);
+check('the beyond-jōyō unquizzable-yomi set stays under a third — most names/places kanji still get a Yomi question',
+  unquizzableYomiBeyond <= seenBeyond.size / 3, `${unquizzableYomiBeyond} of ${seenBeyond.size} beyond-jōyō kanji have no quizzable reading`);
+done('all eighteen kanji units are structurally sound');
 
 // --- Kanji data and reading choices ----------------------------------------
 // The rest of this section goes deep on grade 1 only — see note above.

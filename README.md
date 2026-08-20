@@ -155,10 +155,13 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   repetition, since the point of the record is what a learner actually knew
   before being shown anything.
 
-**Kanji, the full 2,136-character jōyō set** — all six Japanese
-elementary-school grades plus secondary jōyō (everything else in general use,
-split into six frequency-ordered sub-units so no single one is unwieldy; see
-`kanji-expansion-plan.md` §8). Kanji has three modes rather than two:
+**Kanji: the full 2,136-character jōyō set, plus ~900 more** — all six
+Japanese elementary-school grades ("Primary school grade") plus secondary
+jōyō ("Secondary school", everything else in general use, split into six
+frequency-ordered sub-units so no single one is unwieldy; see
+`kanji-expansion-plan.md` §8), plus a "Names & places" set beyond jōyō
+(jinmeiyō and other common non-jōyō kanji, also split into six sub-units; see
+§5). Kanji has three modes rather than two:
 **Definition**, **Yomi** and **Writing**. Selecting Definition hides the kana
 courses, since kana has no English meaning to quiz. Each mode keeps entirely
 separate progress.
@@ -310,10 +313,10 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 ## What is not built yet
 
 - **The rest of `kanji-expansion-plan.md`** — grouping kanji by JLPT level or
-  frequency instead of school grade (phase 7), and kanji beyond the official
-  jōyō set: names and places (phase 8). Full jōyō coverage, the explicit
-  study list, and lazy per-grade data loading are all done — see that
-  document's phase table.
+  frequency instead of school grade (phase 7). Full jōyō coverage, the
+  explicit study list, lazy per-grade data loading, and the beyond-jōyō
+  "names & places" set (phase 8) are all done — see that document's phase
+  table.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.

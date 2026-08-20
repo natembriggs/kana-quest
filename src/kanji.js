@@ -16,7 +16,7 @@
 // require the caller to have awaited that load first. See app.js's
 // ensureUnitReady().
 
-import { KANJI_UNITS, NO_YOMI_CHARS } from './data/kanji-manifest.js';
+import { KANJI_UNITS, NO_YOMI_CHARS, NO_MEANING_CHARS } from './data/kanji-manifest.js';
 import { itemKey, yomiKey, MAX_BOX } from './srs.js';
 
 // Used only to order options alphabetically (see buildKanjiOptions) — kun
@@ -90,10 +90,11 @@ function buildChunks(courseId, chars) {
   return chunks;
 }
 
-/** "1".."6" (elementary) before "8-1".."8-6" (secondary jōyō sub-units, see
- * kanji-expansion-plan.md §4/§8) — compares numerically part by part so this
- * keeps working unchanged how ever many dash-separated parts a unit key
- * gains later, rather than hardcoding today's two shapes. */
+/** "1".."6" (elementary) before "8-1".."8-6" (secondary jōyō sub-units) before
+ * "9-1".."9-N" (beyond-jōyō names & places sub-units, see
+ * kanji-expansion-plan.md §4/§5/§8) — compares numerically part by part so
+ * this keeps working unchanged how ever many dash-separated parts a unit key
+ * gains later, rather than hardcoding today's shapes. */
 function compareUnits(a, b) {
   const pa = a.split('-').map(Number);
   const pb = b.split('-').map(Number);
@@ -105,10 +106,14 @@ function compareUnits(a, b) {
 }
 
 function unitLabel(unit) {
-  return unit.startsWith('8-') ? `Secondary ${unit.slice(2)}` : `Grade ${unit}`;
+  if (unit.startsWith('9-')) return `Names & places ${unit.slice(2)}`;
+  if (unit.startsWith('8-')) return `Secondary ${unit.slice(2)}`;
+  return `Grade ${unit}`;
 }
 function unitNative(unit) {
-  return unit.startsWith('8-') ? `中学以降 ${unit.slice(2)}` : `小学${unit}年生`;
+  if (unit.startsWith('9-')) return `人名・地名 ${unit.slice(2)}`;
+  if (unit.startsWith('8-')) return `中学以降 ${unit.slice(2)}`;
+  return `小学${unit}年生`;
 }
 
 /**
@@ -130,12 +135,17 @@ function buildKanjiCourse(unit) {
     native: unitNative(unit),
     chunks: buildChunks(`kanji-grade-${unit}`, chars),
     index: new Map(),
-    // A handful of kanji (prefecture names like 媛/栃/茨) have no reading that
-    // appears in any common word, so there is no yomi question to ask about
-    // them — they are skipped in that mode only, and still taught in the
-    // others. srs.js honours this when picking items.
+    // A handful of kanji (prefecture names like 媛/栃/茨, and beyond-jōyō
+    // names/places kanji, see kanji-expansion-plan.md §5) have no reading
+    // that appears in any common word, so there is no yomi question to ask
+    // about them — they are skipped in that mode only, and still taught in
+    // the others. A much smaller handful have no non-radical English
+    // meaning at all (KANJIDIC's only gloss for them is their own radical
+    // name), so Definition is skipped the same way. srs.js honours both when
+    // picking items.
     excludeForMode: {
       recognition: new Set(chars.filter((k) => NO_YOMI_CHARS.includes(k))),
+      definition: new Set(chars.filter((k) => NO_MEANING_CHARS.includes(k))),
     },
   };
 }
@@ -148,7 +158,7 @@ export function getKanjiCourse(courseId) {
   return KANJI_COURSES.find((c) => c.id === courseId);
 }
 
-// char -> unit, built once from the manifest — cheap (2,136 entries at most)
+// char -> unit, built once from the manifest — cheap (~3,000 entries at most)
 // and needed wherever a kanji's home unit has to be found without already
 // knowing which course it's in: the "everything I'm studying" pool (spans
 // every grade) and search (doesn't know which grade to look in by design).

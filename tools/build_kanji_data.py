@@ -1,15 +1,17 @@
 """Build src/data/kanji-grade-*.js and src/data/kanji-manifest.js from
 KANJIDIC2 and JMdict.
 
-Extracts kanji for the given school grades with their on'yomi/kun'yomi
-readings, English meanings, and example words. Writes one data file PER
-GRADE (`KANJI_ENTRIES`, the full per-kanji data) plus one small always-loaded
-manifest (`KANJI_UNITS`, just the ordered character list per grade, and
-`NO_YOMI_CHARS`, the handful of kanji with no quizzable reading at all) — see
-kanji-expansion-plan.md §4. `src/kanji.js` loads a grade's `KANJI_ENTRIES`
-file lazily, on demand; the manifest is small enough to load eagerly and is
-enough on its own to build the app's course skeleton (ids, chunks, overview
-tiles) without touching the network.
+Extracts kanji for the given school grades, plus a "beyond jōyō" names &
+places set (jinmeiyō and other common non-jōyō kanji, see
+select_beyond_joyo), with their on'yomi/kun'yomi readings, English meanings,
+and example words. Writes one data file PER UNIT (`KANJI_ENTRIES`, the full
+per-kanji data) plus one small always-loaded manifest (`KANJI_UNITS`, just
+the ordered character list per unit, and `NO_YOMI_CHARS`, the handful of
+kanji with no quizzable reading at all) — see kanji-expansion-plan.md §4/§5.
+`src/kanji.js` loads a unit's `KANJI_ENTRIES` file lazily, on demand; the
+manifest is small enough to load eagerly and is enough on its own to build
+the app's course skeleton (ids, chunks, overview tiles) without touching the
+network.
 
 The hard part is the per-reading example index: the word shown when a learner
 taps one specific reading. A naive "does the word's reading start with this
@@ -36,21 +38,27 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "tools" / "data_src"
 DATA_DIR = ROOT / "src" / "data"
+KANJIVG_DIR = ROOT / "tools" / "data_src" / "kanjivg" / "kanji"
 
 # KANJIDIC's own grade values to include: 1-6 (elementary/Kyoiku), 8
 # (secondary jōyō — everything in the 2,136-kanji jōyō set that isn't
-# elementary). Grade 7 doesn't exist in KANJIDIC's scheme; 9/10 are jinmeiyō
-# (name kanji, not jōyō) and are out of scope — see kanji-expansion-plan.md
-# §5 for that as a separate, later phase. Grades 1-6 + 8 sum to exactly
-# 2,136 — but count alone doesn't prove the SET is right, see
+# elementary). Grade 7 doesn't exist in KANJIDIC's scheme. Grades 1-6 + 8 sum
+# to exactly 2,136 — but count alone doesn't prove the SET is right, see
 # UNICODE_VARIANT_SUBSTITUTIONS immediately below for the four places it
 # wasn't, found by diffing against an independent jōyō character list.
+#
+# Jinmeiyō (grades 9/10) and other common non-jōyō kanji are NOT in GRADES —
+# they are a separate "beyond jōyō" set, selected by select_beyond_joyo() and
+# taught as its own "Names & places" unit group. See kanji-expansion-plan.md
+# §5.
 GRADES = (1, 2, 3, 4, 5, 6, 8)
 GRADE_8_SUB_UNITS = 6   # secondary jōyō (1,110 kanji) is one KANJIDIC grade
                         # but far too big to be one teaching unit or one lazy-
                         # loaded chunk — split into this many, by frequency
                         # rank, each its own grade-picker tile. See
                         # split_grade_8() and kanji-expansion-plan.md §8.
+BEYOND_SUB_UNITS = 6    # same reasoning as GRADE_8_SUB_UNITS, applied to the
+                        # beyond-jōyō "names & places" set. See split_beyond().
 EXAMPLES_PER_KANJI = 4
 MAX_KANJI_PER_WORD = 2      # cap for the general example-word list (grade-appropriate only)
 MAX_KANJI_PER_READING_WORD = 3  # looser cap for reading-anchored lookups (see below)
@@ -407,6 +415,41 @@ def split_grade_8(kanjidic):
     return unit_of, ordered
 
 
+def has_stroke_data(kanji):
+    return (KANJIVG_DIR / f"{ord(kanji):05x}.svg").exists()
+
+
+def select_beyond_joyo(kanjidic):
+    """Candidate characters for "beyond jōyō": kanji worth knowing that
+    aren't in the 2,136-character jōyō set taught above. Two KANJIDIC
+    signals, unioned (kanji-expansion-plan.md §5):
+
+    - **Jinmeiyō** (grades 9-10) — the official supplementary set legally
+      permitted in personal names. The dominant contributor (~860 kanji).
+    - **Non-jōyō kanji with a `<freq>` newspaper-frequency rank** — no grade
+      tag at all, but common enough (top ~2,500) to be worth knowing, e.g.
+      prefecture-name components that never made either jōyō list.
+
+    Returns the RAW candidate set — see has_stroke_data filtering in main(),
+    which is what actually decides which of these get taught.
+    """
+    return {
+        k for k, v in kanjidic.items()
+        if v["grade"] in (9, 10) or (v["grade"] is None and v["freq"] is not None)
+    }
+
+
+def split_beyond(kanjidic, beyond):
+    """Splits the beyond-jōyō set into BEYOND_SUB_UNITS "9-1".."9-N"
+    sub-units — same scheme as split_grade_8: most common (lowest freq rank)
+    first, kanji with no freq rank at all last, tie-broken by codepoint for
+    determinism. Returns (unit_of, ordered), same shape as split_grade_8."""
+    ordered = sorted(beyond, key=lambda k: (kanjidic[k]["freq"] or 10 ** 9, k))
+    size = -(-len(ordered) // BEYOND_SUB_UNITS)  # ceil division
+    unit_of = {kanji: f"9-{i // size + 1}" for i, kanji in enumerate(ordered)}
+    return unit_of, ordered
+
+
 def main():
     if not KANJIDIC.exists() or not JMDICT.exists():
         raise SystemExit(
@@ -433,18 +476,44 @@ def main():
 
     grade8_unit, grade8_order = split_grade_8(kanjidic)
 
+    # See select_beyond_joyo's docstring for the two signals unioned into the
+    # candidate set. Requiring KanjiVG stroke data (has_stroke_data) is what
+    # actually cuts it down to a teachable set — every candidate this drops
+    # turns out to be a legacy/CJK-compatibility duplicate codepoint of a
+    # kanji already taught elsewhere, which KanjiVG (correctly) never drew a
+    # second diagram for.
+    beyond_candidates = select_beyond_joyo(kanjidic)
+    beyond = {k for k in beyond_candidates if has_stroke_data(k)}
+    print(f"beyond jōyō (names & places): {len(beyond)} of {len(beyond_candidates)} "
+          f"candidates have KanjiVG stroke data; "
+          f"{len(beyond_candidates) - len(beyond)} dropped as un-drawable "
+          f"duplicate codepoints")
+    beyond_unit, beyond_order = split_beyond(kanjidic, beyond)
+
+    # graded now covers everything taught: the 2,136-kanji jōyō set plus the
+    # beyond-jōyō "names & places" set. Every downstream use of `graded`
+    # (word alignment's `known` set, the main per-kanji loop, the
+    # no-quiz-reading fallback pass) is written generically enough that this
+    # single update is all that's needed to bring beyond-jōyō kanji along.
+    graded.update({k: kanjidic[k] for k in beyond})
+
     def unit_of(kanji, info):
+        if kanji in beyond_unit:
+            return beyond_unit[kanji]
         return grade8_unit[kanji] if info["grade"] == 8 else str(info["grade"])
 
     # Elementary grades keep their existing (grade, codepoint) order —
     # unchanged from before grade 8 existed. Grade 8 follows in frequency
     # order (see split_grade_8) rather than being re-sorted alphabetically,
     # so each of its sub-units stays internally ordered most-common-first.
+    # Beyond-jōyō kanji are excluded here (their own `info["grade"]` is None
+    # or 9/10, which would break the (grade, codepoint) sort key) and instead
+    # follow in their own frequency order, same reasoning as grade 8.
     elementary_order = sorted(
-        (k for k, v in graded.items() if v["grade"] != 8),
+        (k for k, v in graded.items() if v["grade"] != 8 and k not in beyond),
         key=lambda k: (graded[k]["grade"], k),
     )
-    iteration_order = elementary_order + grade8_order
+    iteration_order = elementary_order + grade8_order + beyond_order
 
     known = set(graded)
     general_words, words_by_reading = parse_jmdict_words(known, kanjidic, stem_index)
@@ -468,7 +537,20 @@ def main():
     if needs_uncommon:
         _, uncommon_by_reading = parse_jmdict_words(
             known, kanjidic, stem_index, require_priority=False, targets=needs_uncommon)
+        # parse_jmdict_words's `relevant` gate is "ANY target kanji in the
+        # word", not "every kanji is a target" — a word like 一葉楓 (found
+        # because 楓 ∈ needs_uncommon) also credits 一 and 葉's OWN readings
+        # as a side effect of alignment, even though neither needed this
+        # fallback pass at all. Restricting the merge to kanji actually IN
+        # needs_uncommon is what keeps this fallback from overwriting an
+        # already-good, common-word-backed reading on a collateral kanji
+        # with this pass's priority-gate-dropped (i.e. worse) pick. Safe to
+        # unconditionally .update() for a kanji that IS in needs_uncommon,
+        # since by definition every one of its own readings had zero
+        # backing beforehand — there's nothing there to clobber.
         for kanji, readings in uncommon_by_reading.items():
+            if kanji not in needs_uncommon:
+                continue
             words_by_reading.setdefault(kanji, {}).update(readings)
         print(f"uncommon-word fallback used for {len(needs_uncommon)} kanji: "
               f"{''.join(sorted(needs_uncommon))}")
@@ -544,11 +626,13 @@ def main():
 
     manifest_units = {}
     no_yomi_chars = []
+    no_meaning_chars = []
     for grade in sorted(grades, key=str):
         entries = grades[grade]
         unit = str(grade)
         manifest_units[unit] = [e["kanji"] for e in entries]
         no_yomi_chars.extend(e["kanji"] for e in entries if not e["quizReadings"])
+        no_meaning_chars.extend(e["kanji"] for e in entries if not e["meanings"])
 
         out_path = DATA_DIR / f"kanji-grade-{unit}.js"
         js = header + [
@@ -571,6 +655,14 @@ def main():
         "// srs.js consults this during scheduling, before a unit may have ever\n"
         "// been opened.",
         "export const NO_YOMI_CHARS = " + json.dumps(sorted(set(no_yomi_chars)), ensure_ascii=False) + ";",
+        "",
+        "// Every kanji with no non-radical English meaning at all — a handful of\n"
+        "// beyond-jōyō characters (see kanji-expansion-plan.md §5) whose only\n"
+        "// KANJIDIC gloss is their own radical name (e.g. \"dancing radical (no.\n"
+        "// 136)\" for 舛), which build_kanji_data.py's RADICAL_MEANING filter\n"
+        "// correctly strips as not a real definition. Same role as\n"
+        "// NO_YOMI_CHARS, for Definition mode instead of Yomi.",
+        "export const NO_MEANING_CHARS = " + json.dumps(sorted(set(no_meaning_chars)), ensure_ascii=False) + ";",
         "",
     ]
     manifest_path.write_text("\n".join(manifest_js), encoding="utf-8")

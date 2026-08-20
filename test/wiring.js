@@ -865,11 +865,15 @@ await settle();
 check('picking kanji opens the course screen', visible() === 'screen-course', `showing ${visible()}`);
 check('kanji shows a grade picker', el('grade-picker').hidden === false);
 
-const gradeButtons = el('grade-picker')._children;
-check('the grade picker offers all six elementary grades plus six secondary sub-units', gradeButtons.length === 12,
-  gradeButtons.map((b) => b.dataset.grade).join(','));
-check('elementary grades come first, numbered 1 to 6, then secondary sub-units 8-1..8-6',
-  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6,8-1,8-2,8-3,8-4,8-5,8-6');
+// The grade picker interleaves a heading div (no dataset.grade) above each
+// group's row (see kanji-expansion-plan.md §5/§8 and renderGradePicker in
+// app.js) — filter those out to get just the real grade buttons, in order.
+const gradePickerButtons = () => el('grade-picker')._children.filter((c) => c.dataset.grade !== undefined);
+const gradeButtons = gradePickerButtons();
+check('the grade picker offers all six elementary grades, six secondary sub-units, and six names/places sub-units',
+  gradeButtons.length === 18, gradeButtons.map((b) => b.dataset.grade).join(','));
+check('elementary grades come first numbered 1 to 6, then secondary sub-units 8-1..8-6, then names/places sub-units 9-1..9-6',
+  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6,8-1,8-2,8-3,8-4,8-5,8-6,9-1,9-2,9-3,9-4,9-5,9-6');
 check('grade 1 is selected by default', gradeButtons[0].className.includes('active'));
 
 // A secondary sub-unit is a real, independently-loadable unit, not just a
@@ -935,17 +939,17 @@ await settle();
 check('switching to Yomi selects it', el('mode-picker')._children[1].className.includes('active'));
 
 // Switching to Yomi re-rendered the grade picker with fresh nodes.
-const yomiGradeButtons = el('grade-picker')._children;
-check('the grade picker survives the mode switch', yomiGradeButtons.length === 12);
+const yomiGradeButtons = gradePickerButtons();
+check('the grade picker survives the mode switch', yomiGradeButtons.length === 18);
 
 // Switching grade re-renders the card for that grade.
 fire(yomiGradeButtons[2], 'click'); // grade 3
 await settle();
-check('choosing a grade selects it', el('grade-picker')._children[2].className.includes('active'));
+check('choosing a grade selects it', gradePickerButtons()[2].className.includes('active'));
 check('the card follows the selected grade',
   (el('course-list')._children[0].innerHTML || '').includes('小学3年生'),
   el('course-list')._children[0].innerHTML);
-fire(el('grade-picker')._children[0], 'click'); // back to grade 1
+fire(gradePickerButtons()[0], 'click'); // back to grade 1
 await settle();
 check('switching back to grade 1 works',
   (el('course-list')._children[0].innerHTML || '').includes('小学1年生'));

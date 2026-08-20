@@ -206,9 +206,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "交附",
-        "kana": "こうふ",
-        "en": "delivery"
+        "kanji": "外交",
+        "kana": "がいこう",
+        "en": "diplomacy"
       },
       "まじわる": {
         "kanji": "交わる",
@@ -683,9 +683,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ゲン": {
-        "kanji": "貞元",
-        "kana": "じょうげん",
-        "en": "Jōgen era (976.7.13-978.11.29)"
+        "kanji": "元首",
+        "kana": "げんしゅ",
+        "en": "sovereign"
       },
       "ガン": {
         "kanji": "元日",
@@ -947,9 +947,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ナイ": {
-        "kanji": "内謁",
-        "kana": "ないえつ",
-        "en": "private audience"
+        "kanji": "市内",
+        "kana": "しない",
+        "en": "in the city"
       },
       "ダイ": {
         "kanji": "境内",
@@ -1727,9 +1727,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コ": {
-        "kanji": "蒙古斑",
-        "kana": "もうこはん",
-        "en": "Mongolian spot"
+        "kanji": "古代",
+        "kana": "こだい",
+        "en": "ancient times"
       },
       "ふるい": {
         "kanji": "古い",
@@ -2023,9 +2023,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カイ": {
-        "kanji": "回勅",
-        "kana": "かいちょく",
-        "en": "encyclical"
+        "kanji": "回復",
+        "kana": "かいふく",
+        "en": "restoration"
       },
       "エ": {
         "kanji": "回向",
@@ -2167,9 +2167,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コク": {
-        "kanji": "国璽",
-        "kana": "こくじ",
-        "en": "great seal"
+        "kanji": "国家",
+        "kana": "こっか",
+        "en": "state"
       },
       "くに": {
         "kanji": "国",
@@ -2281,9 +2281,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "チ": {
-        "kanji": "沃地",
-        "kana": "よくち",
-        "en": "fertile land"
+        "kanji": "地区",
+        "kana": "ちく",
+        "en": "district"
       },
       "ジ": {
         "kanji": "地元",
@@ -2399,14 +2399,14 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "淫声",
-        "kana": "いんせい",
-        "en": "screams produced during sex"
+        "kanji": "声明",
+        "kana": "せいめい",
+        "en": "declaration"
       },
       "こえ": {
-        "kanji": "隻手の声",
-        "kana": "せきしゅのこえ",
-        "en": "the sound of one hand clapping (a classic Zen koan)"
+        "kanji": "声",
+        "kana": "こえ",
+        "en": "voice"
       },
       "こわ": {
         "kanji": "声高",
@@ -2463,9 +2463,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "バイ": {
-        "kanji": "淫売",
-        "kana": "いんばい",
-        "en": "prostitution"
+        "kanji": "販売",
+        "kana": "はんばい",
+        "en": "sale"
       },
       "うる": {
         "kanji": "売る",
@@ -2682,9 +2682,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "タ": {
-        "kanji": "多淫",
-        "kana": "たいん",
-        "en": "lubriciousness"
+        "kanji": "多数",
+        "kana": "たすう",
+        "en": "large number (of)"
       },
       "おおい": {
         "kanji": "多い",
@@ -3132,9 +3132,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジ": {
-        "kanji": "勅願寺",
-        "kana": "ちょくがんじ",
-        "en": "temple built at the order of the emperor"
+        "kanji": "寺院",
+        "kana": "じいん",
+        "en": "Buddhist temple"
       },
       "てら": {
         "kanji": "寺",
@@ -3255,9 +3255,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガン": {
-        "kanji": "斑岩",
-        "kana": "はんがん",
-        "en": "porphyry"
+        "kanji": "溶岩",
+        "kana": "ようがん",
+        "en": "lava"
       },
       "いわ": {
         "kanji": "岩",
@@ -3588,9 +3588,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "テン": {
-        "kanji": "玩具店",
-        "kana": "がんぐてん",
-        "en": "toy shop"
+        "kanji": "支店",
+        "kana": "してん",
+        "en": "branch office"
       },
       "みせ": {
         "kanji": "店先",
@@ -3650,9 +3650,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "キュウ": {
-        "kanji": "咽頭弓",
-        "kana": "いんとうきゅう",
-        "en": "pharyngeal arch"
+        "kanji": "洋弓",
+        "kana": "ようきゅう",
+        "en": "(Western) archery"
       },
       "ゆみ": {
         "kanji": "弓",
@@ -3938,9 +3938,9 @@ export const KANJI_ENTRIES = [
         "en": "strengthening"
       },
       "ゴウ": {
-        "kanji": "強淫",
-        "kana": "ごういん",
-        "en": "rape"
+        "kanji": "強盗",
+        "kana": "ごうとう",
+        "en": "robber"
       },
       "つよい": {
         "kanji": "力強い",
@@ -4190,9 +4190,9 @@ export const KANJI_ENTRIES = [
         "en": "afternoon"
       },
       "コウ": {
-        "kanji": "後嗣",
-        "kana": "こうし",
-        "en": "heir"
+        "kanji": "後半",
+        "kana": "こうはん",
+        "en": "second half"
       },
       "のち": {
         "kanji": "後",
@@ -4264,9 +4264,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シン": {
-        "kanji": "淫心",
-        "kana": "いんしん",
-        "en": "sexual passion"
+        "kanji": "関心",
+        "kana": "かんしん",
+        "en": "concern"
       },
       "こころ": {
         "kanji": "心から",
@@ -4432,9 +4432,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "才媛",
-        "kana": "さいえん",
-        "en": "literary woman"
+        "kanji": "才能",
+        "kana": "さいのう",
+        "en": "talent"
       }
     }
   },
@@ -4566,9 +4566,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "スウ": {
-        "kanji": "数隻",
-        "kana": "すうせき",
-        "en": "several (boats)"
+        "kanji": "数字",
+        "kana": "すうじ",
+        "en": "numeral"
       },
       "ス": {
         "kanji": "数寄",
@@ -5237,9 +5237,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショ": {
-        "kanji": "璽書",
-        "kana": "じしょ",
-        "en": "document with the emperor's seal"
+        "kanji": "書記",
+        "kana": "しょき",
+        "en": "clerk"
       },
       "かく": {
         "kanji": "書く",
@@ -5371,9 +5371,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ライ": {
-        "kanji": "来謁",
-        "kana": "らいえつ",
-        "en": "visiting and meeting someone (of higher status)"
+        "kanji": "以来",
+        "kana": "いらい",
+        "en": "since"
       },
       "タイ": {
         "kanji": "出来",
@@ -5508,9 +5508,9 @@ export const KANJI_ENTRIES = [
         "en": "music"
       },
       "ラク": {
-        "kanji": "淫楽",
-        "kana": "いんらく",
-        "en": "carnal pleasure"
+        "kanji": "娯楽",
+        "kana": "ごらく",
+        "en": "amusement"
       },
       "たのしい": {
         "kanji": "楽しい",
@@ -5809,9 +5809,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ボ": {
-        "kanji": "母斑",
-        "kana": "ぼはん",
-        "en": "nevus"
+        "kanji": "父母",
+        "kana": "ふぼ",
+        "en": "father and mother"
       },
       "はは": {
         "kanji": "母",
@@ -5942,9 +5942,9 @@ export const KANJI_ENTRIES = [
         "en": "blanket"
       },
       "け": {
-        "kanji": "栃栗毛",
-        "kana": "とちくりげ",
-        "en": "dark chestnut (horse coat color)"
+        "kanji": "毛",
+        "kana": "け",
+        "en": "hair"
       }
     }
   },
@@ -6205,9 +6205,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "テン": {
-        "kanji": "斑点",
-        "kana": "はんてん",
-        "en": "(scattered) spots"
+        "kanji": "焦点",
+        "kana": "しょうてん",
+        "en": "focus"
       },
       "つける": {
         "kanji": "点ける",
@@ -6266,9 +6266,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フ": {
-        "kanji": "曽祖父",
-        "kana": "そうそふ",
-        "en": "great-grandfather"
+        "kanji": "父母",
+        "kana": "ふぼ",
+        "en": "father and mother"
       },
       "ちち": {
         "kanji": "父",
@@ -6327,9 +6327,9 @@ export const KANJI_ENTRIES = [
         "en": "beef"
       },
       "うし": {
-        "kanji": "斑牛",
-        "kana": "まだらうし",
-        "en": "brindled ox"
+        "kanji": "牛",
+        "kana": "うし",
+        "en": "cattle (Bos taurus)"
       }
     }
   },
@@ -6498,9 +6498,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ガ": {
-        "kanji": "淫画",
-        "kana": "いんが",
-        "en": "lewd pictures"
+        "kanji": "映画",
+        "kana": "えいが",
+        "en": "movie"
       },
       "カク": {
         "kanji": "計画",
@@ -6824,9 +6824,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シャ": {
-        "kanji": "勅祭社",
-        "kana": "ちょくさいしゃ",
-        "en": "shrine whose rituals are attended by an imperial envoy (who presents offerings)"
+        "kanji": "会社",
+        "kana": "かいしゃ",
+        "en": "company"
       }
     }
   },
@@ -6984,9 +6984,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "トウ": {
-        "kanji": "勅答",
-        "kana": "ちょくとう",
-        "en": "emperor's reply"
+        "kanji": "回答",
+        "kana": "かいとう",
+        "en": "reply"
       },
       "こたえる": {
         "kanji": "答える",
@@ -7172,9 +7172,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シ": {
-        "kanji": "斑紙魚",
-        "kana": "まだらしみ",
-        "en": "firebrat (species of bristletail, Thermobia domestica)"
+        "kanji": "用紙",
+        "kana": "ようし",
+        "en": "blank form"
       },
       "かみ": {
         "kanji": "紙",
@@ -7497,9 +7497,9 @@ export const KANJI_ENTRIES = [
         "en": "feather"
       },
       "は": {
-        "kanji": "羽斑蚊",
-        "kana": "はまだらか",
-        "en": "Anopheles (genus of mosquitoes)"
+        "kanji": "羽目",
+        "kana": "はめ",
+        "en": "panel"
       },
       "わ": {
         "kanji": "羽",
@@ -7894,14 +7894,14 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショク": {
-        "kanji": "斑色",
-        "kana": "はんしょく",
-        "en": "spotted color"
+        "kanji": "特色",
+        "kana": "とくしょく",
+        "en": "characteristic"
       },
       "シキ": {
-        "kanji": "色素斑",
-        "kana": "しきそはん",
-        "en": "pigmented spot"
+        "kanji": "色彩",
+        "kana": "しきさい",
+        "en": "colour"
       },
       "いろ": {
         "kanji": "色",
@@ -8029,9 +8029,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "淫行",
-        "kana": "いんこう",
-        "en": "obscenity"
+        "kanji": "銀行",
+        "kana": "ぎんこう",
+        "en": "bank"
       },
       "ギョウ": {
         "kanji": "行政",
@@ -8589,9 +8589,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ゴ": {
-        "kanji": "隻語",
-        "kana": "せきご",
-        "en": "just a few words"
+        "kanji": "英語",
+        "kana": "えいご",
+        "en": "English (language)"
       },
       "かたる": {
         "kanji": "語る",
@@ -9117,9 +9117,9 @@ export const KANJI_ENTRIES = [
         "en": "Shinto"
       },
       "みち": {
-        "kanji": "茨の道",
-        "kana": "いばらのみち",
-        "en": "thorny path"
+        "kanji": "道",
+        "kana": "みち",
+        "en": "road"
       }
     }
   },
@@ -9290,9 +9290,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヤ": {
-        "kanji": "沃野",
-        "kana": "よくや",
-        "en": "fertile fields or plain"
+        "kanji": "分野",
+        "kana": "ぶんや",
+        "en": "field"
       },
       "の": {
         "kanji": "野",
@@ -9408,9 +9408,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "モン": {
-        "kanji": "貞門",
-        "kana": "ていもん",
-        "en": "Teimon school (of haikai, founded by Matsunaga Teitoku)"
+        "kanji": "部門",
+        "kana": "ぶもん",
+        "en": "division (of a larger group)"
       },
       "かど": {
         "kanji": "門出",
@@ -9489,9 +9489,9 @@ export const KANJI_ENTRIES = [
         "en": "space (between)"
       },
       "ま": {
-        "kanji": "謁見の間",
-        "kana": "えっけんのま",
-        "en": "throne room"
+        "kanji": "仲間",
+        "kana": "なかま",
+        "en": "companion"
       },
       "あい": {
         "kanji": "幕間",
@@ -9550,9 +9550,9 @@ export const KANJI_ENTRIES = [
         "en": "vindication of honour"
       },
       "ゆき": {
-        "kanji": "斑雪",
-        "kana": "まだらゆき",
-        "en": "lingering patches of snow"
+        "kanji": "雪",
+        "kana": "ゆき",
+        "en": "snow"
       }
     }
   },
@@ -9716,9 +9716,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "トウ": {
-        "kanji": "咽頭",
-        "kana": "いんとう",
-        "en": "pharynx"
+        "kanji": "冒頭",
+        "kana": "ぼうとう",
+        "en": "beginning"
       },
       "ズ": {
         "kanji": "頭痛",
@@ -9853,9 +9853,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "フウ": {
-        "kanji": "淫風",
-        "kana": "いんぷう",
-        "en": "lewd manners"
+        "kanji": "風景",
+        "kana": "ふうけい",
+        "en": "scenery"
       },
       "フ": {
         "kanji": "金屏風",
@@ -9863,9 +9863,9 @@ export const KANJI_ENTRIES = [
         "en": "folding screen covered with gold leaf"
       },
       "かぜ": {
-        "kanji": "風薫る",
-        "kana": "かぜかおる",
-        "en": "(subject to the) cool light breeze in early summer"
+        "kanji": "追い風",
+        "kana": "おいかぜ",
+        "en": "tailwind"
       },
       "かざ": {
         "kanji": "風向き",
@@ -9930,9 +9930,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショク": {
-        "kanji": "食玩",
-        "kana": "しょくがん",
-        "en": "small toy included with food"
+        "kanji": "食事",
+        "kana": "しょくじ",
+        "en": "meal (e.g. lunch, dinner)"
       },
       "ジキ": {
         "kanji": "断食",
@@ -10067,9 +10067,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "バ": {
-        "kanji": "斑馬",
-        "kana": "はんば",
-        "en": "speckled horse"
+        "kanji": "出馬",
+        "kana": "しゅつば",
+        "en": "running (for election)"
       },
       "メ": {
         "kanji": "馬頭",
@@ -10077,14 +10077,14 @@ export const KANJI_ENTRIES = [
         "en": "horse-headed demon (in hell)"
       },
       "マ": {
-        "kanji": "木曽馬",
-        "kana": "きそうま",
-        "en": "Kiso horse (Japanese indigenous horse breed)"
+        "kanji": "絵馬",
+        "kana": "えま",
+        "en": "votive tablet"
       },
       "うま": {
-        "kanji": "斑馬",
-        "kana": "まだらうま",
-        "en": "zebra"
+        "kanji": "馬",
+        "kana": "うま",
+        "en": "horse"
       }
     }
   },
@@ -10481,9 +10481,9 @@ export const KANJI_ENTRIES = [
         "en": "Yellow River (China)"
       },
       "オウ": {
-        "kanji": "黄斑",
-        "kana": "おうはん",
-        "en": "macula"
+        "kanji": "黄金",
+        "kana": "おうごん",
+        "en": "gold (Au)"
       },
       "き": {
         "kanji": "黄色",
@@ -10548,9 +10548,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コク": {
-        "kanji": "黒斑",
-        "kana": "こくはん",
-        "en": "black spot"
+        "kanji": "黒人",
+        "kana": "こくじん",
+        "en": "black person"
       },
       "くろ": {
         "kanji": "黒字",

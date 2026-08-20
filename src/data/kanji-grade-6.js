@@ -146,9 +146,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ラン": {
-        "kanji": "淫乱",
-        "kana": "いんらん",
-        "en": "debauched"
+        "kanji": "混乱",
+        "kana": "こんらん",
+        "en": "disorder"
       },
       "みだれる": {
         "kanji": "乱れる",
@@ -1372,9 +1372,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ラン": {
-        "kanji": "雀卵斑",
-        "kana": "じゃくらんはん",
-        "en": "freckle"
+        "kanji": "産卵",
+        "kana": "さんらん",
+        "en": "egg-laying"
       },
       "たまご": {
         "kanji": "卵",
@@ -2454,9 +2454,9 @@ export const KANJI_ENTRIES = [
         "en": "somersault"
       },
       {
-        "kanji": "宙乗り",
-        "kana": "ちゅうのり",
-        "en": "midair stunt"
+        "kanji": "宙吊り",
+        "kana": "ちゅうづり",
+        "en": "hanging in midair"
       }
     ],
     "quizOn": [
@@ -2576,9 +2576,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セン": {
-        "kanji": "勅宣",
-        "kana": "ちょくせん",
-        "en": "imperial decree"
+        "kanji": "宣言",
+        "kana": "せんげん",
+        "en": "declaration"
       }
     }
   },
@@ -2630,9 +2630,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ミツ": {
-        "kanji": "密勅",
-        "kana": "みっちょく",
-        "en": "secret order of the Emperor"
+        "kanji": "秘密",
+        "kana": "ひみつ",
+        "en": "secret"
       },
       "ひそか": {
         "kanji": "密か",
@@ -3056,9 +3056,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "シャク": {
-        "kanji": "尺斤法",
-        "kana": "しゃくきんほう",
-        "en": "Chinese system of weights and measures"
+        "kanji": "尺度",
+        "kana": "しゃくど",
+        "en": "gauge"
       }
     }
   },
@@ -4362,9 +4362,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ハイ": {
-        "kanji": "拝謁",
-        "kana": "はいえつ",
-        "en": "audience with someone of high rank (e.g. the emperor)"
+        "kanji": "参拝",
+        "kana": "さんぱい",
+        "en": "going and worshipping (at a shrine or temple)"
       },
       "おがむ": {
         "kanji": "拝む",
@@ -4709,9 +4709,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ソウ": {
-        "kanji": "貞操",
-        "kana": "ていそう",
-        "en": "chastity"
+        "kanji": "操作",
+        "kana": "そうさ",
+        "en": "operation"
       },
       "みさお": {
         "kanji": "操",
@@ -4774,9 +4774,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケイ": {
-        "kanji": "恭敬",
-        "kana": "きょうけい",
-        "en": "respect"
+        "kanji": "敬称",
+        "kana": "けいしょう",
+        "en": "honorific title"
       },
       "うやまう": {
         "kanji": "敬う",
@@ -5306,9 +5306,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セン": {
-        "kanji": "薫染",
-        "kana": "くんせん",
-        "en": "good influence"
+        "kanji": "汚染",
+        "kana": "おせん",
+        "en": "pollution"
       },
       "そめる": {
         "kanji": "染める",
@@ -5426,9 +5426,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ボウ": {
-        "kanji": "栃麺棒",
-        "kana": "とちめんぼう",
-        "en": "rolling pin for making horse chestnut noodles"
+        "kanji": "棒",
+        "kana": "ぼう",
+        "en": "pole"
       }
     }
   },
@@ -5650,9 +5650,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ヨク": {
-        "kanji": "淫欲",
-        "kana": "いんよく",
-        "en": "sexual desire"
+        "kanji": "意欲",
+        "kana": "いよく",
+        "en": "will"
       },
       "ほっする": {
         "kanji": "欲する",
@@ -6537,9 +6537,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ギ": {
-        "kanji": "疑弐",
-        "kana": "ぎじ",
-        "en": "doubt"
+        "kanji": "容疑者",
+        "kana": "ようぎしゃ",
+        "en": "suspect"
       },
       "うたがう": {
         "kanji": "疑う",
@@ -6605,9 +6605,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ツウ": {
-        "kanji": "咽頭痛",
-        "kana": "いんとうつう",
-        "en": "sore throat"
+        "kanji": "痛感",
+        "kana": "つうかん",
+        "en": "feeling keenly"
       },
       "いたい": {
         "kanji": "痛い",
@@ -6674,9 +6674,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "皇嗣",
-        "kana": "こうし",
-        "en": "Imperial heir"
+        "kanji": "皇太子",
+        "kana": "こうたいし",
+        "en": "crown prince"
       },
       "オウ": {
         "kanji": "皇子",
@@ -7571,9 +7571,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "コウ": {
-        "kanji": "紅斑",
-        "kana": "こうはん",
-        "en": "red spots"
+        "kanji": "紅白",
+        "kana": "こうはく",
+        "en": "red and white"
       },
       "ク": {
         "kanji": "深紅",
@@ -7825,9 +7825,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ジュウ": {
-        "kanji": "淫縦",
-        "kana": "いんじゅう",
-        "en": "disgusting selfishness"
+        "kanji": "操縦",
+        "kana": "そうじゅう",
+        "en": "steering"
       },
       "たて": {
         "kanji": "縦",
@@ -8061,9 +8061,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "セイ": {
-        "kanji": "聖勅",
-        "kana": "せいちょく",
-        "en": "imperial rescript"
+        "kanji": "棋聖",
+        "kana": "きせい",
+        "en": "great master of go"
       }
     }
   },
@@ -8764,9 +8764,9 @@ export const KANJI_ENTRIES = [
         "en": "young person"
       },
       "わか": {
-        "kanji": "栃若",
-        "kana": "とちわか",
-        "en": "Tochinishiki and Wakanohana I (dominant 1950s yokozuna)"
+        "kanji": "若手",
+        "kana": "わかて",
+        "en": "young person"
       },
       "もし": {
         "kanji": "若し",
@@ -9123,9 +9123,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "サイ": {
-        "kanji": "勅裁",
-        "kana": "ちょくさい",
-        "en": "imperial decision"
+        "kanji": "裁判",
+        "kana": "さいばん",
+        "en": "trial"
       },
       "たつ": {
         "kanji": "裁つ",

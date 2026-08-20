@@ -83,9 +83,9 @@ export const KANJI_ENTRIES = [
         "en": "(Japanese) rice cracker"
       },
       "もち": {
-        "kanji": "栃餅",
-        "kana": "とちもち",
-        "en": "cake made from pounded horse chestnuts and mochi rice"
+        "kanji": "餅",
+        "kana": "もち",
+        "en": "mochi"
       }
     }
   },
@@ -482,9 +482,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ビ": {
-        "kanji": "眉斑",
-        "kana": "びはん",
-        "en": "superciliary stripe"
+        "kanji": "焦眉",
+        "kana": "しょうび",
+        "en": "emergency"
       },
       "まゆ": {
         "kanji": "眉",
@@ -607,9 +607,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "カツ": {
-        "kanji": "褐色斑",
-        "kana": "かっしょくはん",
-        "en": "chloasma"
+        "kanji": "褐色",
+        "kana": "かっしょく",
+        "en": "dark brown"
       }
     }
   },
@@ -807,6 +807,11 @@ export const KANJI_ENTRIES = [
         "kanji": "蜜月",
         "kana": "みつげつ",
         "en": "honeymoon"
+      },
+      {
+        "kanji": "蜜柑",
+        "kana": "みかん",
+        "en": "mandarin (esp. the satsuma mandarin (Citrus unshiu))"
       },
       {
         "kanji": "蜂蜜",
@@ -1368,8 +1373,8 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ショウ": {
-        "kanji": "詔勅",
-        "kana": "しょうちょく",
+        "kanji": "詔書",
+        "kana": "しょうしょ",
         "en": "imperial edict"
       },
       "みことのり": {
@@ -2169,9 +2174,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "メン": {
-        "kanji": "栃麺",
-        "kana": "とちめん",
-        "en": "noodles made from regular flour and horse chestnut flour"
+        "kanji": "麺",
+        "kana": "めん",
+        "en": "noodles"
       }
     }
   },
@@ -2992,22 +2997,14 @@ export const KANJI_ENTRIES = [
         "en": "throat"
       }
     ],
-    "quizOn": [
-      "コウ"
-    ],
+    "quizOn": [],
     "quizKun": [
       "のど"
     ],
     "quizReadings": [
-      "コウ",
       "のど"
     ],
     "readingExamples": {
-      "コウ": {
-        "kanji": "咽喉",
-        "kana": "いんこう",
-        "en": "throat"
-      },
       "のど": {
         "kanji": "喉",
         "kana": "のど",
@@ -3660,9 +3657,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ケン": {
-        "kanji": "恭倹",
-        "kana": "きょうけん",
-        "en": "respectfulness and modesty"
+        "kanji": "倹約",
+        "kana": "けんやく",
+        "en": "thrift"
       }
     }
   },
@@ -4791,9 +4788,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ロウ": {
-        "kanji": "玩弄",
-        "kana": "がんろう",
-        "en": "toying with"
+        "kanji": "翻弄",
+        "kana": "ほんろう",
+        "en": "having at one's mercy"
       },
       "いじる": {
         "kanji": "弄る",
@@ -5584,6 +5581,11 @@ export const KANJI_ENTRIES = [
       "weeding out"
     ],
     "words": [
+      {
+        "kanji": "淘汰",
+        "kana": "とうた",
+        "en": "weeding out"
+      },
       {
         "kanji": "沙汰",
         "kana": "さた",
