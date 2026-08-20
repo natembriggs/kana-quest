@@ -14,6 +14,16 @@
      window.wanakana before the ES modules below run. -->
 <script src="vendor/wanakana.min.js"></script>
 
+<!-- Static HTML, no JS required — the module script below pulls in the
+     kanji/stroke data (over 2MB) before boot() ever runs, and on a slow
+     connection an empty, half-wired profile screen during that wait reads
+     as broken rather than loading. Covers the viewport until boot() has
+     something real to show; see hideSplash() in app.js. -->
+<div id="splash" class="splash" aria-hidden="true">
+  <div class="brand-mark splash-mark">かな</div>
+  <div class="splash-spinner"></div>
+</div>
+
 <main id="app">
 
   <!-- ---------------------------------------------------------------- -->

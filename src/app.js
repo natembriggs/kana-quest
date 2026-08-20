@@ -23,7 +23,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-19g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20a'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 
@@ -620,8 +620,14 @@ function buildMasteryTile(course, item, returnTo) {
   // not yet taught" — both have no progress record, so both are tier 0.
   // Enrolling from the detail screen and coming straight back here was
   // otherwise indistinguishable from having done nothing at all.
+  //
+  // Enrollment itself is checked across every applicable mode (studyStatus),
+  // not just state.mode — the tile is scoped to whichever mode's overview
+  // this is (that's what tier means), but a kanji enrolled by hand via a
+  // single mode toggle (say, just Writing) is still "waiting to learn" and
+  // should show as such even while browsing a different mode's overview.
   const pending = course.kind === 'kanji' && tier === 0
-    && isStudying(state.profile.study, item, state.mode);
+    && studyStatus(state.profile.study, progress, item, applicableStudyModes(course, item)) !== 'not-studying';
   const tile = document.createElement('button');
   tile.type = 'button';
   tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
@@ -706,6 +712,12 @@ function studyStatus(study, progress, char, modes) {
   return started ? 'learning' : 'waiting';
 }
 
+/** Every applicable mode `char` is enrolled in but hasn't been taught in yet
+ * — what "Study it now" (studyDetailCharNow below) actually has to offer. */
+function pendingStudyModes(study, progress, char, modes) {
+  return modes.filter((mode) => isStudying(study, char, mode) && !progress[itemKey(mode, char)]);
+}
+
 /**
  * Kanji only. The headline button is a bulk convenience — enrolling turns on
  * every applicable mode, un-enrolling turns all of them off — sitting above
@@ -721,14 +733,20 @@ function renderDetailStudy(course, char) {
   const { study, progress } = state.profile;
   const modes = applicableStudyModes(course, char);
   const status = studyStatus(study, progress, char, modes);
+  const tier = masteryTier(progress[itemKey(state.mode, char)]);
 
+  // One button, carrying both what's true and what tapping it does, rather
+  // than this and the separate mastery line above both saying almost the
+  // same thing in the same amount of space. Mastery only adds anything once
+  // there's real progress in the mode currently being browsed; below that
+  // it's just "waiting"/"not started", same as studyStatus already says.
   const toggle = $('detail-study-toggle');
   toggle.className = `btn wide${status === 'not-studying' ? ' btn-primary' : ''}`;
-  toggle.textContent = {
-    'not-studying': 'Not studying — tap to start',
-    waiting: 'Waiting to learn — tap to stop',
-    learning: 'Learning — tap to stop',
-  }[status];
+  toggle.textContent = status === 'not-studying'
+    ? 'Not started — tap to start studying'
+    : tier === 0
+      ? 'Waiting to learn — tap to stop studying'
+      : `${MASTERY_LABELS[tier]} — tap to stop studying`;
 
   STUDY_MODE_IDS.forEach((mode) => {
     const button = $(`detail-mode-${mode}`);
@@ -737,13 +755,13 @@ function renderDetailStudy(course, char) {
     button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
   });
 
-  // Enrolled in whichever mode the learner is currently browsing under, but
-  // not yet taught in it — the case "Study it now" exists for. Scoped to
-  // state.mode specifically (not "any enrolled mode") because a session can
-  // only ever run in one mode at a time; the button starting one has to know
-  // which. See startSession()'s `items` parameter above.
-  const studyNow = $('detail-study-now');
-  studyNow.hidden = !(isStudying(study, char, state.mode) && !progress[itemKey(state.mode, char)]);
+  // Visible whenever ANY applicable mode is enrolled-but-untaught, not just
+  // whichever mode the learner happens to be browsing under right now — a
+  // per-mode toggle unrelated to state.mode (or even state.mode itself)
+  // being switched off elsewhere on this same screen must never make this
+  // disappear as a side effect. studyDetailCharNow() below picks the actual
+  // mode to teach in from this same set.
+  $('detail-study-now').hidden = pendingStudyModes(study, progress, char, modes).length === 0;
 }
 
 function toggleDetailStudy() {
@@ -767,12 +785,22 @@ function toggleDetailStudyMode(mode) {
 }
 
 /** "Study it now" — see startSession()'s `items` parameter. Jumps straight
- * into a lesson-then-quiz session containing only this one character, in
- * state.mode, rather than waiting for "Add more" to reach it through
- * whatever else happens to be pending ahead of it in course order. */
+ * into a lesson-then-quiz session containing only this one character,
+ * rather than waiting for "Add more" to reach it through whatever else
+ * happens to be pending ahead of it in course order. Studies whichever
+ * enrolled mode is actually pending: state.mode if that's one of them,
+ * otherwise the first pending mode found — so this keeps working even after
+ * the mode it was originally enrolled under gets toggled off elsewhere on
+ * the same screen (see renderDetailStudy() above).
+ */
 function studyDetailCharNow() {
   const course = getAnyCourse(state.detailCourseId);
-  startSession(course.id, 'new', [state.detailChar]);
+  const char = state.detailChar;
+  const { study, progress } = state.profile;
+  const pending = pendingStudyModes(study, progress, char, applicableStudyModes(course, char));
+  if (pending.length === 0) return; // button should be hidden in this case
+  if (!pending.includes(state.mode)) state.mode = pending[0];
+  startSession(course.id, 'new', [char]);
 }
 
 function renderCharacterDetail() {
@@ -790,9 +818,17 @@ function renderCharacterDetail() {
   playButton.hidden = paths.length === 0;
   playButton.onclick = () => animateStrokes(paths);
 
-  const tier = masteryTier(progress[itemKey(state.mode, char)]);
-  $('detail-mastery').textContent = MASTERY_LABELS[tier];
-  $('detail-mastery').className = `mastery-label tier-${tier}`;
+  // Kanji folds mastery into the single study-status button below instead —
+  // see renderDetailStudy(). Kana has no study list, so this stays its own
+  // line, same as ever.
+  if (course.kind === 'kanji') {
+    $('detail-mastery').hidden = true;
+  } else {
+    const tier = masteryTier(progress[itemKey(state.mode, char)]);
+    $('detail-mastery').hidden = false;
+    $('detail-mastery').textContent = MASTERY_LABELS[tier];
+    $('detail-mastery').className = `mastery-label tier-${tier}`;
+  }
 
   renderDetailStudy(course, char);
 
@@ -992,7 +1028,15 @@ function renderReadingChips(containerEl, wordEl, course, kanji, info) {
 }
 
 function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip) {
+  const wasActive = chip.classList.contains('is-active');
   containerEl.querySelectorAll('.reading-chip').forEach((el) => el.classList.remove('is-active'));
+  if (wasActive) {
+    // Tapping the already-selected chip again unselects it, rather than
+    // just re-showing the same example word.
+    wordEl.hidden = true;
+    wordEl.innerHTML = '';
+    return;
+  }
   chip.classList.add('is-active');
 
   const example = readingExample(course, kanji, reading);
@@ -2281,10 +2325,18 @@ async function forceRefresh() {
   window.location.replace(`${window.location.pathname}?fresh=${Date.now()}`);
 }
 
+/** The splash is plain HTML shown before boot() runs at all (see index.html)
+ * — this is what takes it back down once there's a real screen underneath. */
+function hideSplash() {
+  const splash = $('splash');
+  if (splash) splash.hidden = true;
+}
+
 async function boot() {
   wire();
   store.requestPersistence();
   await renderProfiles();
+  hideSplash();
   watchForUpdates();
 }
 

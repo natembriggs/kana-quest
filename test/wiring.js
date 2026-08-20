@@ -1585,9 +1585,11 @@ fire(grade6Tile, 'click');
 await settle();
 
 const modeToggleIds = ['detail-mode-definition', 'detail-mode-recognition', 'detail-mode-writing'];
-check('a never-studied kanji shows "Not studying" on its detail screen',
-  el('detail-study').hidden === false && el('detail-study-toggle').textContent.includes('Not studying'),
+check('a never-studied kanji shows "Not started" on its detail screen',
+  el('detail-study').hidden === false && el('detail-study-toggle').textContent.includes('Not started'),
   el('detail-study-toggle').textContent);
+check('kanji folds mastery into that one button rather than a separate line',
+  el('detail-mastery').hidden === true);
 check('its per-mode toggles all start inactive',
   modeToggleIds.every((id) => !el(id).className.includes('active')),
   modeToggleIds.map((id) => el(id).className).join(' | '));
@@ -1646,10 +1648,16 @@ check('answering the one question ends the session at the summary',
 // teaching it moved it out of "waiting".
 fire(el('summary-list')._children[0], 'click');
 await settle();
-check('after being taught, the kanji is "Learning" rather than "Waiting to learn"',
-  el('detail-study-toggle').textContent.includes('Learning'), el('detail-study-toggle').textContent);
-check('"Study it now" is no longer offered once it has actually been taught',
-  el('detail-study-now').hidden === true);
+check('after being taught in one mode, the kanji is past "Waiting to learn" overall',
+  !el('detail-study-toggle').textContent.includes('Waiting to learn')
+  && !el('detail-study-toggle').textContent.includes('Not started'),
+  el('detail-study-toggle').textContent);
+// It was enrolled in every applicable mode via the headline toggle but only
+// actually taught in Definition just now — Recognition and Writing are
+// still untaught, so "Study it now" must keep offering to teach those,
+// not disappear just because the ONE mode it happened to run in is done.
+check('"Study it now" stays offered while other enrolled modes are still untaught',
+  el('detail-study-now').hidden === false);
 
 // --- Review scope: "This set" vs "Everything I'm studying" -----------------
 // Phase 3, kanji-expansion-plan.md §2.4. grade6Char was just taught in
@@ -1745,15 +1753,15 @@ await settle();
 
 fire(el('detail-mode-writing'), 'click');
 await settle();
-check('a per-mode toggle turns off just that mode, independent of the others — still Learning overall',
+check('a per-mode toggle turns off just that mode, independent of the others — still counted as started overall',
   !el('detail-mode-writing').className.includes('active')
   && el('detail-mode-definition').className.includes('active')
-  && el('detail-study-toggle').textContent.includes('Learning'));
+  && el('detail-study-toggle').textContent.includes('tap to stop studying'));
 
 fire(el('detail-study-toggle'), 'click');
 await settle();
 check('tapping the headline button again un-enrolls every mode at once',
-  el('detail-study-toggle').textContent.includes('Not studying')
+  el('detail-study-toggle').textContent.includes('Not started')
   && modeToggleIds.every((id) => !el(id).className.includes('active')));
 
 const grade6SavedAfter = [...rows.values()][0];
