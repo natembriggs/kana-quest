@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-20f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-20g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2598,13 +2598,13 @@ export function renderInstallBanner() {
   if (isIOSDevice()) {
     // No programmatic install API exists on iOS at all — this is the only
     // way to install there, spelled out since it is genuinely not obvious.
-    // Deliberately no claim about WHERE the Share button is — Safari puts it
-    // in the bottom toolbar, Chrome on iOS puts it at the top next to the
-    // address bar, and other browsers vary again. The 📤 glyph stands in
-    // for its icon (a square with an arrow out of the top) without
-    // committing to a position that would be wrong on at least one browser.
+    // Deliberately no claim about WHERE the Share button is (Safari puts it
+    // in the bottom toolbar, Chrome on iOS puts it at the top) or what it
+    // LOOKS like — no single emoji actually matches every browser's share
+    // icon (reported: 📤 doesn't match Chrome's), and showing the wrong one
+    // reads as more careless than showing none. Plain text only.
     $('install-banner-text').textContent =
-      'Progress may not be saved reliably in a browser tab. Tap Share 📤, then "Add to Home Screen", to keep it safe.';
+      'Progress may not be saved reliably in a browser tab. Tap Share, then "Add to Home Screen", to keep it safe.';
     action.hidden = true;
   } else if (deferredInstallPrompt) {
     $('install-banner-text').textContent =
