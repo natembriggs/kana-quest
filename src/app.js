@@ -9,7 +9,7 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems,
+  deriveStudyList, enrollNext, newItems, introducedItems,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes } from './strokes.js';
 import {
@@ -316,6 +316,30 @@ function setWritingModePreference(pref) {
   renderWritingModePicker();
 }
 
+/**
+ * "N sets left" counts down to the end of the unit — meaningless once a unit
+ * runs to hundreds of sets (see kanji-expansion-plan.md §8), which sets of 5
+ * kanji at a time will once full jōyō coverage lands, so this only ever shows
+ * a countdown, never "set N of M".
+ *
+ * Suppressed entirely once a kanji has been manually added and studied out
+ * of teaching order — detected here as "something beyond the current set is
+ * already introduced", which can only happen via a manual add-and-study,
+ * since ordinary progression always fills sets front to back. At that point
+ * "N sets left" no longer describes a real linear position, so it is better
+ * left unsaid than shown and wrong.
+ */
+function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
+  if (fresh === 0) return '';
+  const introduced = new Set(introducedItems(course, mode, profile));
+  const sequential = course.chunks
+    .slice(setIndex + 1)
+    .every((chunk) => chunk.items.every((item) => !introduced.has(item)));
+  if (!sequential) return '';
+  const remaining = course.chunks.length - setIndex;
+  return ` · ${remaining} set${remaining === 1 ? '' : 's'} left`;
+}
+
 function renderCourse() {
   const profile = state.profile;
   const script = currentScript();
@@ -334,6 +358,7 @@ function renderCourse() {
   const pct = Math.round((stats.started / stats.total) * 100);
   const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
   const settled = readyForMore(course, state.mode, profile);
+  const setsLeft = remainingSetsLabel(course, state.mode, profile, setIndex, stats.fresh);
 
   const card = document.createElement('div');
   card.className = 'card course-card';
@@ -346,7 +371,7 @@ function renderCourse() {
       <div class="course-count">${stats.started}<span>/${stats.total}</span></div>
     </div>
     <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="hint">Current set: <b>${currentChunk.label}</b> · ${setIndex + 1} of ${course.chunks.length} · ★ ${stats.mastered} mastered</div>
+    <div class="hint">Current set: <b>${currentChunk.label}</b>${setsLeft} · ★ ${stats.mastered} mastered</div>
   `;
 
   // A real, clearly-bordered button rather than styled text — that it was

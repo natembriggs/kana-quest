@@ -263,6 +263,12 @@ const courseButtons = buttonsIn(el('course-list')._children[0]);
 const learnButton = courseButtons.find((b) => (b.innerHTML || '').includes('more'));
 check('the course screen offers an "add more" button', !!learnButton,
   courseButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
+// A countdown, not "set N of M" — meaningless once a unit runs to hundreds
+// of sets (kanji-expansion-plan.md §8). A brand-new course has nothing
+// introduced yet, so this is trivially in teaching order and shown.
+check('the course card counts down sets left in the unit, not "N of M"',
+  (el('course-list')._children[0].innerHTML || '').includes(`${getCourse('hiragana').chunks.length} sets left`),
+  el('course-list')._children[0].innerHTML);
 const reviewButton = courseButtons.find((b) => (b.textContent || '') === 'Nothing to review');
 check('a brand-new learner has nothing to review yet', !!reviewButton);
 
