@@ -1,9 +1,10 @@
 # Kanji expansion — implementation plan
 
-Status: phases 0-3 done (example-word ranking fix, study-list model and
-scheduling, enrollment UI, review scope toggle). Phase 4 (kanji search) is
-next. Supersedes the kanji bullet under *What is not built yet* in the
-README.
+Status: phases 0-4 done (example-word ranking fix, study-list model and
+scheduling, enrollment UI, review scope toggle, kanji search). Phase 5 (the
+data-payload split needed before full jōyō coverage) is next — the largest
+and riskiest phase, see §4. Supersedes the kanji bullet under *What is not
+built yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
 
@@ -334,6 +335,49 @@ surfaced immediately in `test/wiring.js`, since the very first check in the
 whole suite looks for an "add more" button by matching the word "more" in
 its label.
 
+### 2.8 How phase 4 actually landed
+
+As designed, plus the tile-building code got a real refactor rather than a
+copy-paste: the set overview's per-tile logic (mastery colour, the pending
+marker from §2.6, the click handler) moved into a shared
+`buildMasteryTile(course, item, returnTo)`, so search results and the
+overview are provably the same tile rather than two implementations that
+could quietly drift apart. The one new parameter, `returnTo`, exists because
+search results and overview tiles now disagree about where "back" should
+go — see below.
+
+**Matching is entirely romaji-normalised, in both directions.** Both the
+query and every candidate reading are run through `wanakana.toRomaji()`
+before comparing, which is a no-op on text that's already romaji. That one
+rule handles kana-typed queries, romaji-typed queries, on'yomi (stored as
+katakana) and kun'yomi (hiragana, with `.`/`-` stripped for okurigana
+markers) uniformly, without needing to detect which script anything is in
+first.
+
+**Search needed its own cross-grade `course.index`**, reusing exactly the
+merged index built for §2.4's review pool (`allKanjiIndex()`) rather than
+duplicating it — the two features turned out to share the same underlying
+problem (something that can't assume a single grade) even though they don't
+otherwise overlap. A small new helper, `kanjiCourseFor(char)`, finds which
+grade's own course object a matched character actually belongs to, since
+`openCharacterDetail()` needs a real course for `kanjiInfo()` to resolve
+later, not just the merged index.
+
+**The detail screen's `returnTo` grew a third destination, `'course'`.**
+Opening a search result and backing out returns to the course screen with
+the query still in the box (the `<input>` element is never removed from the
+DOM, only hidden, so its value simply survives) — not the set overview,
+which would be a different grade's overview for most search results and
+therefore the wrong screen entirely.
+
+**An active search visually replaces the grade card, not just supplements
+it.** Grade picker, review-scope picker, and writing-mode picker all step
+aside while a query is active, since none of them describe something that
+spans every grade the way search results do — showing them alongside search
+results would silently imply the results were scoped to whichever grade
+happened to be selected, which is exactly backwards from the point of not
+needing to know that in the first place.
+
 ---
 
 ## 3. Orderings
@@ -470,7 +514,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 1 | Study list data model, migration, pool refactor in `srs.js` (§1). Pure logic and tests only, no UI. | **Done** — see §1.7 |
 | 2 | Detail screen enrollment UI (§2.1) and clickable summary chips (§2.3). | **Done** — see §2.5 |
 | 3 | Review scope toggle (§2.4) and "N waiting to learn" on the course card (§1.6). | **Done** — see §2.7 |
-| 4 | Kanji search (§2.2). | Not started |
+| 4 | Kanji search (§2.2). | **Done** — see §2.8 |
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | Not started |
 | 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | Not started |
 | 7 | JLPT and frequency orderings, ordering picker (§3). | Not started |

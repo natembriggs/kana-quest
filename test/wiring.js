@@ -1479,6 +1479,84 @@ if (detailChips.length > 0) {
   check('tapping the chip marks it active', detailChips[0].classList.contains('is-active'));
 }
 
+// --- Kanji search ------------------------------------------------------
+// Phase 4 of kanji-expansion-plan.md §2.2. Finds a kanji by character,
+// meaning, or reading (kana or romaji), across every grade at once, without
+// needing to know which one it's in. 一 (grade 1: on イチ/イツ, kun ひと,
+// meaning "one") is used throughout, since its data is simple and fixed.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+check('the kanji search box is offered', el('kanji-search-wrap').hidden === false);
+check('with no query, the grade-scoped course card is shown as normal',
+  el('grade-picker').hidden === false && el('course-list')._children.length > 0);
+
+function typeKanjiSearch(query) {
+  el('kanji-search').value = query;
+  fire(el('kanji-search'), 'input', { target: el('kanji-search') });
+}
+
+typeKanjiSearch('一');
+await settle();
+check('searching by the character itself finds it, and the grade-scoped card steps aside',
+  el('kanji-search-results')._children.some((t) => t.textContent === '一')
+  && el('grade-picker').hidden === true && el('course-list')._children.length === 0,
+  el('kanji-search-results')._children.map((t) => t.textContent).join(''));
+
+typeKanjiSearch('one');
+await settle();
+check('searching by an English meaning also finds it',
+  el('kanji-search-results')._children.some((t) => t.textContent === '一'),
+  el('kanji-search-results')._children.map((t) => t.textContent).join(''));
+
+typeKanjiSearch('ichi');
+await settle();
+check('searching by a romaji reading also finds it',
+  el('kanji-search-results')._children.some((t) => t.textContent === '一'),
+  el('kanji-search-results')._children.map((t) => t.textContent).join(''));
+
+typeKanjiSearch('ひと');
+await settle();
+check('searching by a kana reading also finds it',
+  el('kanji-search-results')._children.some((t) => t.textContent === '一'),
+  el('kanji-search-results')._children.map((t) => t.textContent).join(''));
+
+typeKanjiSearch('zzz-not-a-real-reading');
+await settle();
+check('a query with no matches shows the empty message, not a blank grid',
+  el('kanji-search-empty').hidden === false && el('kanji-search-results')._children.length === 0);
+
+typeKanjiSearch('一');
+await settle();
+const searchTile = el('kanji-search-results')._children.find((t) => t.textContent === '一');
+fire(searchTile, 'click');
+await settle();
+check('tapping a search result opens the detail screen for that character',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === '一');
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('backing out of a detail screen opened from search returns to the course screen, search intact',
+  visible() === 'screen-course' && el('kanji-search').value === '一'
+  && el('kanji-search-results')._children.some((t) => t.textContent === '一'));
+
+typeKanjiSearch('');
+await settle();
+check('clearing the search brings the grade-scoped card back',
+  el('grade-picker').hidden === false && el('kanji-search-results')._children.length === 0);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+check('kana has no study list to search, so the search box never appears there',
+  el('kanji-search-wrap').hidden === true);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+
 // --- Study-list enrollment from the detail screen --------------------------
 // Phase 2 of kanji-expansion-plan.md. Grade 6 is untouched by everything
 // above, so its first kanji is guaranteed never-studied — a clean slate to

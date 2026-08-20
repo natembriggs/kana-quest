@@ -19,15 +19,20 @@ import {
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import * as store from './store.js';
 
+// Search matches a typed reading against romaji regardless of which script
+// it (or the query) is written in — see renderKanjiSearchResults() below.
+const { toRomaji } = window.wanakana;
+
 export const APP_VERSION = '2026-08-19g'; // keep in step with VERSION in sw.js
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
 
 // A merged index spanning every grade's kanji, built lazily and cached —
-// needed only when a session can contain kanji from more than one grade at
-// once (the "everything I'm studying" review scope below), since each
-// grade's own course.index covers just its own kanji. Kyoiku kanji never
-// repeat across grades, so a plain union is exact.
+// needed whenever something can span more than one grade at once (the
+// "everything I'm studying" review scope below, and kanji search, which by
+// definition doesn't know which grade to look in), since each grade's own
+// course.index covers just its own kanji. Kyoiku kanji never repeat across
+// grades, so a plain union is exact.
 let allKanjiIndexCache = null;
 function allKanjiIndex() {
   if (!allKanjiIndexCache) {
@@ -37,6 +42,13 @@ function allKanjiIndex() {
     });
   }
   return allKanjiIndexCache;
+}
+
+/** Which grade's own course a kanji belongs to — needed to open the detail
+ * screen on it (openCharacterDetail wants a real course, not the merged
+ * index), since search results can't assume the currently-selected grade. */
+function kanjiCourseFor(char) {
+  return KANJI_COURSES.find((course) => course.index.has(char));
 }
 
 const STUDY_LIST_POOL_ID = 'study-list';
@@ -405,6 +417,59 @@ function setReviewScope(scope) {
   renderCourse();
 }
 
+// Broad enough that a single common romaji letter could plausibly match
+// dozens of readings; capped so an unrefined query doesn't dump the entire
+// jouyou set into one grid, the way the set overview deliberately can.
+const KANJI_SEARCH_RESULT_LIMIT = 60;
+
+/** True if `char`'s reading `info` matches `query` on its character, any
+ * English meaning, or any reading — kana or romaji, either direction, since
+ * both `query` and each reading are compared as romaji regardless of which
+ * script either was actually written in. */
+function kanjiMatchesSearch(info, char, query, queryRomaji) {
+  if (char === query) return true;
+  if (info.meanings.some((m) => m.toLowerCase().includes(query))) return true;
+  return [...info.on, ...info.kun]
+    .some((reading) => toRomaji(reading.replace(/[-.]/g, '')).toLowerCase().includes(queryRomaji));
+}
+
+/**
+ * Kanji only — finds a kanji by character, English meaning, or reading,
+ * across every grade at once, without needing to know which one it's in
+ * (kanji-expansion-plan.md §2.2). Reuses the exact same tiles as the set
+ * overview (buildMasteryTile), tapping through to the same detail screen —
+ * search has no enrollment UI of its own to keep in sync with §2.1's.
+ */
+function renderKanjiSearchResults(query) {
+  const grid = $('kanji-search-results');
+  const empty = $('kanji-search-empty');
+  const truncated = $('kanji-search-truncated');
+  grid.innerHTML = '';
+  empty.hidden = true;
+  truncated.hidden = true;
+  if (!query) return;
+
+  const queryLower = query.toLowerCase();
+  const queryRomaji = toRomaji(query).toLowerCase();
+  const matches = [];
+  allKanjiIndex().forEach((info, char) => {
+    if (kanjiMatchesSearch(info, char, queryLower, queryRomaji)) matches.push(char);
+  });
+
+  if (matches.length === 0) {
+    empty.hidden = false;
+    return;
+  }
+
+  matches.slice(0, KANJI_SEARCH_RESULT_LIMIT).forEach((char) => {
+    grid.appendChild(buildMasteryTile(kanjiCourseFor(char), char, 'course'));
+  });
+  if (matches.length > KANJI_SEARCH_RESULT_LIMIT) {
+    truncated.textContent = `${matches.length - KANJI_SEARCH_RESULT_LIMIT} more match — try a more specific search.`;
+    truncated.hidden = false;
+  }
+}
+
 function renderCourse() {
   const profile = state.profile;
   const script = currentScript();
@@ -414,8 +479,25 @@ function renderCourse() {
   renderReviewScopePicker(script);
   renderWritingModePicker();
 
-  const course = currentCourse();
+  $('kanji-search-wrap').hidden = script.kind !== 'kanji';
+  const searchQuery = script.kind === 'kanji' ? $('kanji-search').value.trim() : '';
+  renderKanjiSearchResults(searchQuery);
+
   const list = $('course-list');
+  if (searchQuery) {
+    // Search spans every grade at once — the grade-scoped card and pickers
+    // below would be misleading alongside results that aren't limited to
+    // whichever grade happens to be selected, so they step aside entirely
+    // rather than showing two answers to "what should I do next" at once.
+    $('grade-picker').hidden = true;
+    $('review-scope-picker').hidden = true;
+    $('writing-mode-picker').hidden = true;
+    list.innerHTML = '';
+    show('screen-course');
+    return;
+  }
+
+  const course = currentCourse();
   list.innerHTML = '';
 
   const stats = courseStats(course, state.mode, profile);
@@ -525,15 +607,40 @@ function openOverview(course, scrollToChar) {
 }
 
 /**
+ * One overview-style tile for `item`, coloured by mastery and marked pending
+ * where applicable — shared between the set overview and kanji search
+ * (§2.2) so the two never drift out of sync on what a tile means. `course`
+ * must be the item's OWN course (search spans every grade, so it can't
+ * assume the currently-selected one the way the overview always could).
+ */
+function buildMasteryTile(course, item, returnTo) {
+  const progress = state.profile.progress;
+  const tier = masteryTier(progress[itemKey(state.mode, item)]);
+  // masteryTier alone can't tell "never enrolled" apart from "enrolled but
+  // not yet taught" — both have no progress record, so both are tier 0.
+  // Enrolling from the detail screen and coming straight back here was
+  // otherwise indistinguishable from having done nothing at all.
+  const pending = course.kind === 'kanji' && tier === 0
+    && isStudying(state.profile.study, item, state.mode);
+  const tile = document.createElement('button');
+  tile.type = 'button';
+  tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
+  tile.textContent = item;
+  tile.setAttribute('aria-label', `${item}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
+  tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
+  return tile;
+}
+
+/**
  * `scrollToChar`, if given, is scrolled into view after rendering — used
  * both to open on the learner's current set (rather than the top of a course
  * that can run to 200 characters) and, when returning from the detail
  * screen, to land back near whichever character was just being looked at
  * rather than snapping to the top of the list.
  */
+
 function renderOverview(scrollToChar) {
   const course = getAnyCourse(state.overviewCourseId);
-  const progress = state.profile.progress;
   const allItems = course.chunks.flatMap((c) => c.items);
 
   $('overview-title').textContent = course.name;
@@ -544,19 +651,7 @@ function renderOverview(scrollToChar) {
   grid.innerHTML = '';
   let scrollTarget = null;
   allItems.forEach((item) => {
-    const tier = masteryTier(progress[itemKey(state.mode, item)]);
-    // masteryTier alone can't tell "never enrolled" apart from "enrolled but
-    // not yet taught" — both have no progress record, so both are tier 0.
-    // Enrolling from the detail screen and coming straight back here was
-    // otherwise indistinguishable from having done nothing at all.
-    const pending = course.kind === 'kanji' && tier === 0
-      && isStudying(state.profile.study, item, state.mode);
-    const tile = document.createElement('button');
-    tile.type = 'button';
-    tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
-    tile.textContent = item;
-    tile.setAttribute('aria-label', `${item}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
-    tile.addEventListener('click', () => openCharacterDetail(course, item));
+    const tile = buildMasteryTile(course, item, 'overview');
     grid.appendChild(tile);
     if (item === scrollToChar) scrollTarget = tile;
   });
@@ -573,11 +668,12 @@ function renderOverview(scrollToChar) {
 
 /**
  * `returnTo` is which screen the back button (data-action="detail-back")
- * returns to — 'overview' (the set overview, tapping a tile) or 'summary'
- * (the end-of-session summary, tapping a chip — see finishSession()). Kept
- * on state rather than derived from "whichever screen was visible before",
- * since detail can itself be re-entered from detail-adjacent actions with no
- * other screen in between.
+ * returns to — 'overview' (the set overview, tapping a tile), 'summary' (the
+ * end-of-session summary, tapping a chip — see finishSession()), or 'course'
+ * (a kanji search result on the course screen itself — see
+ * renderKanjiSearchResults()). Kept on state rather than derived from
+ * "whichever screen was visible before", since detail can itself be
+ * re-entered from detail-adjacent actions with no other screen in between.
  */
 function openCharacterDetail(course, char, returnTo = 'overview') {
   state.detailCourseId = course.id;
@@ -2006,6 +2102,10 @@ function wire() {
   $('review-scope-set').addEventListener('click', () => setReviewScope('set'));
   $('review-scope-studying').addEventListener('click', () => setReviewScope('studying'));
 
+  // Live filtering as you type — cheap enough over ~1,000 kanji that a
+  // debounce would only add perceived latency for no real benefit.
+  $('kanji-search').addEventListener('input', renderCourse);
+
   // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
   // an answer is revealed, so the two handlers never both act on one tap.
   $('screen-quiz').addEventListener('click', acknowledge);
@@ -2095,6 +2195,7 @@ function wire() {
       // the session summary if that is where its now-tappable chips sent us.
       case 'detail-back':
         if (state.detailReturn === 'summary') show('screen-summary');
+        else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
         else renderOverview(state.detailChar);
         break;
       case 'close-settings':
