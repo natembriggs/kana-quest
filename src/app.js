@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-21c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-21d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -475,15 +475,20 @@ function setWritingModePreference(pref) {
  * since ordinary progression always fills sets front to back. At that point
  * "N sets left" no longer describes a real linear position, so it is better
  * left unsaid than shown and wrong.
+ *
+ * A chunk excluded from this mode entirely (yōon kana in writing mode — see
+ * kana.js) is never reachable as "current" and must not inflate the count
+ * either, so only chunks with something actually eligible in this mode are
+ * counted.
  */
 function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
   if (fresh === 0) return '';
   const introduced = new Set(introducedItems(course, mode, profile));
-  const sequential = course.chunks
-    .slice(setIndex + 1)
-    .every((chunk) => chunk.items.every((item) => !introduced.has(item)));
+  const excluded = (course.excludeForMode && course.excludeForMode[mode]) || new Set();
+  const rest = course.chunks.slice(setIndex + 1);
+  const sequential = rest.every((chunk) => chunk.items.every((item) => !introduced.has(item)));
   if (!sequential) return '';
-  const remaining = course.chunks.length - setIndex;
+  const remaining = 1 + rest.filter((chunk) => chunk.items.some((item) => !excluded.has(item))).length;
   return ` · ${remaining} set${remaining === 1 ? '' : 's'} left`;
 }
 

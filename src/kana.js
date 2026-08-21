@@ -44,6 +44,12 @@ const ALTERNATES = {
   'づ': ['zu'],
 };
 
+/** Every yōon (contracted-sound) character in this script, e.g. きゃ/キャ —
+ * see excludeForMode below. */
+function yoonItems(toScript) {
+  return new Set(YOON.flat().map(toScript));
+}
+
 function buildChunks(courseId, toScript) {
   const groups = [
     ...BASIC.map((row) => Array.from(row)),
@@ -65,6 +71,12 @@ function buildChunks(courseId, toScript) {
   });
 }
 
+// Writing mode has no stroke/guide data for a two-code-point yōon character
+// (きゃ, キャ, ...) — kanjivg-derived src/data/stroke-kana.js only covers
+// single kana — so there is nothing to trace or grade against. Excluded from
+// that mode only, the same excludeForMode mechanism kanji courses use for a
+// reading/meaning a given kanji doesn't have (see kanji.js's
+// buildKanjiCourse); every other mode still teaches and quizzes them.
 export const COURSES = [
   {
     id: 'hiragana',
@@ -72,6 +84,7 @@ export const COURSES = [
     name: 'Hiragana',
     native: 'ひらがな',
     chunks: buildChunks('hiragana', (c) => c),
+    excludeForMode: { writing: yoonItems((c) => c) },
   },
   {
     id: 'katakana',
@@ -79,6 +92,7 @@ export const COURSES = [
     name: 'Katakana',
     native: 'カタカナ',
     chunks: buildChunks('katakana', (c) => toKatakana(c)),
+    excludeForMode: { writing: yoonItems((c) => toKatakana(c)) },
   },
 ];
 

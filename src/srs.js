@@ -325,13 +325,25 @@ export function enrollNext(course, mode, ctx, limit = 5) {
 /**
  * Which set the learner is currently on — the set holding the next character
  * they have not met yet. Used for display only.
+ *
+ * A chunk can be excluded from a mode ENTIRELY (e.g. yōon kana have no
+ * writing-mode guide to draw against, so writing excludes all of them — see
+ * kana.js), not just item by item the way a single kanji is. The "nothing
+ * left" fallback must land on the last chunk that still has something
+ * eligible in this mode, not just the last chunk overall — otherwise it
+ * points at a wholly-excluded trailing chunk that can never actually be
+ * "current".
  */
 export function currentSetIndex(course, mode, ctx) {
   const { progress } = asContext(ctx);
   const excluded = (course.excludeForMode && course.excludeForMode[mode]) || new Set();
-  const index = course.chunks.findIndex((chunk) =>
-    chunk.items.some((kana) => !excluded.has(kana) && !progress[itemKey(mode, kana)]));
-  return index === -1 ? course.chunks.length - 1 : index;
+  const usable = course.chunks
+    .map((chunk, i) => i)
+    .filter((i) => course.chunks[i].items.some((kana) => !excluded.has(kana)));
+  const index = usable.find((i) =>
+    course.chunks[i].items.some((kana) => !excluded.has(kana) && !progress[itemKey(mode, kana)]));
+  if (index !== undefined) return index;
+  return usable.length ? usable[usable.length - 1] : course.chunks.length - 1;
 }
 
 /**
