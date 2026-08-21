@@ -1839,7 +1839,60 @@ check('"Learn next" teaches from the start of the curriculum (grade 1), not whic
   visible() === 'screen-lesson' && kanjiGrade1.chunks.flatMap((c) => c.items).includes(el('lesson-kana').textContent),
   `showing ${visible()}, lesson kanji "${el('lesson-kana').textContent}"`);
 
-fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+// Walk the lesson cards through to the quiz, deliberately missing the very
+// first question, to exercise two things at once: the progress counter must
+// not credit a missed-then-requeued character as done until it is actually
+// put to rest (not just "answered once"), and the end-of-session summary's
+// chips must open the detail screen even though this session's course is
+// the synthetic all-kanji pool, not a single real grade.
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the "Learn next" lesson hands over to the quiz', visible() === 'screen-quiz', visible());
+
+const learnNextCounterAtQ1 = el('quiz-counter').textContent;
+check('the counter starts at 1 of the taught batch', learnNextCounterAtQ1 === '1/5', learnNextCounterAtQ1);
+
+const missedLearnNextKanji = el('quiz-kana').textContent;
+const missedLearnNextAnswer = meaningLabel(kanjiInfo(kanjiGrade1, missedLearnNextKanji));
+const missedLearnNextChoices = el('quiz-choices')._children;
+const missedLearnNextWrong = missedLearnNextChoices.find((c) => c.textContent !== missedLearnNextAnswer);
+const missedLearnNextRight = missedLearnNextChoices.find((c) => c.textContent === missedLearnNextAnswer);
+fire(missedLearnNextWrong, 'click');
+await settle();
+fire(missedLearnNextRight, 'click'); // recover on the second try — still gets requeued regardless (see chooseAnswer())
+await settle();
+runTimers();
+await settle();
+
+check('a miss does not advance the counter past the batch it was in — same "1/5" for question 2, since question 1 is not yet actually done',
+  el('quiz-counter').textContent === '1/5', el('quiz-counter').textContent);
+
+// Answer the rest correctly, including the missed kanji's requeued
+// reappearance, through to the summary.
+for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
+  const kanji = el('quiz-kana').textContent;
+  if (!kanji) break;
+  const answer = meaningLabel(kanjiInfo(kanjiGrade1, kanji));
+  const right = el('quiz-choices')._children.find((c) => c.textContent === answer);
+  fire(right, 'click');
+  await settle();
+  runTimers();
+  await settle();
+}
+check('the "Learn next" session completes at the summary', visible() === 'screen-summary', visible());
+check('the counter reached the full batch by the end, once every distinct kanji was truly resolved',
+  el('quiz-counter').textContent === '5/5', el('quiz-counter').textContent);
+
+fire(el('summary-list')._children[0], 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a summary chip from the all-kanji pool session opens the detail screen too, not a dead tap',
+  visible() === 'screen-character-detail', visible());
+check('the detail screen still names the right unit even though the session course was the synthetic pool',
+  el('detail-unit').textContent === unitLabel('1'), el('detail-unit').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
 await settle();
 
 // Back to the detail screen for the rest of this section's checks.

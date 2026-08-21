@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-21e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-22a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -909,7 +909,14 @@ async function openCharacterDetail(course, char, returnTo = 'overview') {
   state.detailReturn = returnTo;
   if (course.kind === 'kanji') {
     const requestNav = navSeq;
-    await withLoading(ensureUnitReady(course.unit));
+    // kanjiUnitFor(char), not course.unit: `course` can be a synthetic
+    // multi-grade pool (studyListPool/allKanjiPool), which has no `.unit` of
+    // its own — ensureUnitReady(undefined) would try to load a
+    // "kanji-grade-undefined" chunk that doesn't exist, so a chip/tile from
+    // one of those pools would never resolve. The character's own real unit,
+    // resolved from the manifest, is correct either way (see the same
+    // reasoning in renderCharacterDetail() below for `detail-unit`).
+    await withLoading(ensureUnitReady(kanjiUnitFor(char)));
     // The user may have navigated elsewhere (or tapped a different
     // character) while this was loading — only the most recent request
     // should ever paint a screen.
@@ -1187,7 +1194,6 @@ async function startSession(courseId, kind, items) {
     lessonIndex: 0,
     queue: built.quiz,
     position: 0,
-    answered: 0,
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt)
     awaitingAcknowledge: false,
@@ -1337,6 +1343,25 @@ function startQuiz() {
   renderQuestion();
 }
 
+/**
+ * How many of this session's DISTINCT characters are genuinely finished —
+ * i.e. no longer appear anywhere from the current position onward. A miss
+ * reinserts a character a few questions ahead (see chooseAnswer()/
+ * markKanjiError()), so counting "questions already given a first attempt"
+ * would treat a just-missed, about-to-reappear character as done the moment
+ * it's first (wrongly) answered — the counter would then advance past it
+ * and, at the tail end, run out of room against `session.total` (fixed at
+ * the DISTINCT count, not the with-repeats queue length) and get stuck
+ * short of "done" for however many repeats are still pending. Counting
+ * distinct characters missing from the remaining queue instead means a miss
+ * simply doesn't advance the display until it is actually put to rest,
+ * however many extra attempts that takes.
+ */
+function sessionProgress(session) {
+  const remaining = new Set(session.queue.slice(session.position));
+  return { done: session.total - remaining.size, total: session.total };
+}
+
 function renderQuestion() {
   const session = state.session;
   if (session.position >= session.queue.length) {
@@ -1367,9 +1392,9 @@ function renderQuestion() {
   if (course.kind === 'kanji' && state.mode === 'recognition') renderKanjiChoices(course, item);
   else renderSingleChoice(course, item);
 
-  const done = session.answered;
-  $('quiz-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
-  $('quiz-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
+  const { done, total } = sessionProgress(session);
+  $('quiz-counter').textContent = `${Math.min(done + 1, total)}/${total}`;
+  $('quiz-progress').style.width = `${(done / Math.max(total, 1)) * 100}%`;
 }
 
 // --- Single answer (kana reading, kanji definition): tap once, grades
@@ -1421,7 +1446,6 @@ function chooseAnswer(value, button) {
   session.attempt += 1;
 
   if (session.attempt === 1) {
-    session.answered += 1;
     recordResult(item, correct);
   }
 
@@ -1623,9 +1647,9 @@ function renderWritingQuestion(course, item) {
 
   updateWritingStrokeCounter();
 
-  const done = session.answered;
-  $('writing-counter').textContent = `${Math.min(done + 1, session.total)}/${session.total}`;
-  $('writing-progress').style.width = `${(done / Math.max(session.total, 1)) * 100}%`;
+  const { done, total } = sessionProgress(session);
+  $('writing-counter').textContent = `${Math.min(done + 1, total)}/${total}`;
+  $('writing-progress').style.width = `${(done / Math.max(total, 1)) * 100}%`;
 }
 
 /**
@@ -1937,7 +1961,6 @@ function finishWritingCharacter(explicitCorrect) {
   const wasAlreadyRecorded = !!session.writingRecorded; // this finish is a redo, not the first pass
   if (!session.writingRecorded) {
     session.writingRecorded = true;
-    session.answered += 1;
     recordResult(item, correct);
   }
 
@@ -2234,7 +2257,6 @@ function recordKanjiRoundOutcome(kanji, perfect) {
   const session = state.session;
   if (session.kanjiRoundRecorded) return;
   session.kanjiRoundRecorded = true;
-  session.answered += 1;
   if (!session.results.has(kanji)) session.results.set(kanji, perfect);
 }
 
