@@ -115,6 +115,18 @@
     <div class="segmented" role="tablist" id="mode-picker"></div>
     <p id="mode-hint" class="hint"></p>
 
+    <!-- Kanji only: the two things a learner does every day, ahead of all the
+         set-by-set browsing below. "Review all due" spans every grade being
+         studied at once (no separate scope toggle needed — see
+         kanji-expansion-plan.md §2.4's superseded "This set"/"Everything I'm
+         studying" slider); "Learn next" stays scoped to whichever grade is
+         selected below, since new characters are only ever taught in a
+         single grade's course order. See renderQuickActions() in app.js. -->
+    <div id="quick-actions" class="actions" hidden>
+      <button id="quick-review-due" class="btn wide" type="button"></button>
+      <button id="quick-learn-next" class="btn wide" type="button"></button>
+    </div>
+
     <!-- Kanji only: find a kanji by character, meaning, or reading without
          needing to know which grade it's in. Results reuse the set
          overview's tiles and open the same detail screen — search has no
@@ -137,15 +149,6 @@
     </div>
 
     <div id="grade-picker" class="grade-grid" role="group" aria-label="School grade" hidden></div>
-
-    <!-- Kanji only, any mode: which pool "Review"/"Practise" draws from —
-         just the currently-selected grade, or the whole study list across
-         every grade at once. See kanji-expansion-plan.md §2.4. Persisted per
-         profile, so it stays put across grade switches and app restarts. -->
-    <div id="review-scope-picker" class="segmented" role="tablist" aria-label="Review scope" hidden>
-      <button id="review-scope-set" class="segment" type="button">This set</button>
-      <button id="review-scope-studying" class="segment" type="button">Everything I'm studying</button>
-    </div>
 
     <!-- Writing mode only: chosen BEFORE a session starts, so the very first
          character (which is otherwise brand new, and would default to Trace)
@@ -199,6 +202,13 @@
         <button id="detail-play-strokes" class="btn btn-quiet" type="button">▶ Play stroke order</button>
       </div>
     </div>
+
+    <!-- Kanji only: which unit it's taught in (school grade, secondary jōyō
+         sub-unit, or beyond-jōyō "Names & places" set) — every kanji belongs
+         to exactly one, per KANJI_UNITS (kanji-manifest.js), regardless of
+         which screen this detail view was opened from. See
+         renderCharacterDetail() in app.js. -->
+    <p id="detail-unit" class="hint detail-unit" hidden></p>
 
     <p id="detail-mastery" class="mastery-label"></p>
 

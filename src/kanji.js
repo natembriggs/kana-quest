@@ -43,6 +43,30 @@ const ADVANCED_TOTAL_OPTIONS = 15;
 const DEFINITION_OPTIONS = 4;
 const MEANINGS_PER_LABEL = 2;
 
+/**
+ * plain reading -> "stem(okurigana)" for every kun'yomi that has any, e.g.
+ * "まじ.わる" (KANJIDIC's own dot notation, still intact on entry.kun — see
+ * build_kanji_data.py's reading_parts) becomes {"まじわる": "まじ(わる)"}. Only
+ * the part actually READ by the kanji itself is worth memorising; the rest is
+ * just however the word happens to end, so bracketing it tells a learner
+ * which syllables are truly "the reading" at a glance. On'yomi never have
+ * okurigana and are left out entirely — display falls back to the plain
+ * string wherever this map has no entry (see formatReading below).
+ */
+function buildOkuriganaDisplay(kun) {
+  const display = {};
+  kun.forEach((raw) => {
+    const stripped = raw.replace(/-/g, '');
+    const dot = stripped.indexOf('.');
+    if (dot < 0) return;
+    const stem = stripped.slice(0, dot);
+    const okuri = stripped.slice(dot + 1);
+    if (!stem || !okuri) return;
+    display[stem + okuri] = `${stem}(${okuri})`;
+  });
+  return display;
+}
+
 /** Shapes one raw KANJI_ENTRIES record (see build_kanji_data.py) into the
  * form course.index stores — same fields whether this runs eagerly (never,
  * now) or lazily inside ensureKanjiUnitLoaded() below. */
@@ -67,12 +91,23 @@ function normalizeEntry(entry) {
     // aligning the word against its reading in build_kanji_data.py rather
     // than by string-matching. Every quizzed reading has one.
     readingExamples: entry.readingExamples || {},
+    okuriDisplay: buildOkuriganaDisplay(entry.kun),
   };
 }
 
 /** The short English label used as the answer in Definition mode. */
 export function meaningLabel(info) {
   return info.meanings.slice(0, MEANINGS_PER_LABEL).join(', ');
+}
+
+/**
+ * How a reading should actually be SHOWN to a learner — everywhere else in
+ * the app (quiz matching, dataset.reading, readingExamples lookups, the
+ * `correct`/`options` sets) keeps using the plain string; only the label
+ * painted on screen goes through this. See buildOkuriganaDisplay above.
+ */
+export function formatReading(info, reading) {
+  return info.okuriDisplay[reading] || reading;
 }
 
 function buildChunks(courseId, chars) {
@@ -105,7 +140,7 @@ function compareUnits(a, b) {
   return 0;
 }
 
-function unitLabel(unit) {
+export function unitLabel(unit) {
   if (unit.startsWith('9-')) return `Names & places ${unit.slice(2)}`;
   if (unit.startsWith('8-')) return `Secondary ${unit.slice(2)}`;
   return `Grade ${unit}`;

@@ -2,9 +2,9 @@
 
 import { COURSES, romajiFor, buildChoices } from './kana.js';
 import {
-  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
+  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, formatReading,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
-  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded,
+  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, unitLabel,
 } from './kanji.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-21b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-21c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -488,27 +488,68 @@ function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
 }
 
 /**
- * Kanji only — kana has no study list to span. "This set" is the current
- * grade, exactly as review has always worked; "Everything I'm studying" is
- * the synthetic pool from studyListPool() above, spanning every grade at
- * once. Persisted, so it stays put across grade switches.
+ * Kanji only — kana has no study list to span. The two things a learner
+ * actually does every day, ahead of all the grade-by-grade browsing below:
+ * review whatever's due, across every grade being studied at once (the
+ * synthetic pool from studyListPool() above), or learn the next batch of new
+ * characters in whichever grade is currently selected — new kanji are only
+ * ever taught in a single grade's own course order, so that half stays
+ * grade-scoped. Supersedes the old "This set"/"Everything I'm studying"
+ * review-scope toggle: there is no longer a reason to review just one grade
+ * at a time, so that choice is gone rather than hidden somewhere else.
  */
-function renderReviewScopePicker(script) {
-  const picker = $('review-scope-picker');
+function renderQuickActions(script) {
+  const wrap = $('quick-actions');
   if (script.kind !== 'kanji') {
-    picker.hidden = true;
+    wrap.hidden = true;
     return;
   }
-  picker.hidden = false;
-  const scope = state.profile.settings.reviewScope || 'set';
-  $('review-scope-set').className = `segment${scope === 'set' ? ' active' : ''}`;
-  $('review-scope-studying').className = `segment${scope === 'studying' ? ' active' : ''}`;
+  wrap.hidden = false;
+
+  const poolStats = courseStats(getAnyCourse(STUDY_LIST_POOL_ID), state.mode, state.profile);
+  const reviewButton = $('quick-review-due');
+  if (poolStats.due > 0) {
+    reviewButton.disabled = false;
+    reviewButton.innerHTML = `Review <b>${poolStats.due}</b> due`;
+  } else {
+    reviewButton.disabled = true;
+    reviewButton.textContent = 'Nothing due';
+  }
+
+  const course = currentCourse();
+  const stats = courseStats(course, state.mode, state.profile);
+  const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
+  const learnButton = $('quick-learn-next');
+  if (newCount > 0) {
+    learnButton.disabled = false;
+    learnButton.innerHTML = `Learn <b>${newCount}</b> next`;
+  } else {
+    learnButton.disabled = true;
+    learnButton.textContent = 'All caught up';
+  }
+
+  // Whichever is actually actionable reads as the primary action; if both
+  // are (or neither is), review wins — same "due outranks new" precedence
+  // the course card below already uses.
+  reviewButton.className = `btn wide${poolStats.due > 0 ? ' btn-primary' : ''}`;
+  learnButton.className = `btn wide${poolStats.due === 0 && newCount > 0 ? ' btn-primary' : ''}`;
 }
 
-function setReviewScope(scope) {
-  state.profile.settings.reviewScope = scope;
-  store.saveProfile(state.profile);
-  renderCourse();
+// Wired once, not re-bound on every render (unlike the course-card buttons
+// below, which are recreated from scratch each time) — these two live on
+// static HTML elements, so each computes what it needs fresh at click time
+// rather than capturing a pool/course from whichever render last ran.
+function quickReviewDue() {
+  const pool = getAnyCourse(STUDY_LIST_POOL_ID);
+  if (courseStats(pool, state.mode, state.profile).due === 0) return;
+  startSession(pool.id, 'review');
+}
+
+function quickLearnNext() {
+  const course = currentCourse();
+  const stats = courseStats(course, state.mode, state.profile);
+  if (Math.min(stats.fresh, state.profile.settings.newPerSession) === 0) return;
+  startSession(course.id, 'new');
 }
 
 // Broad enough that a single common romaji letter could plausibly match
@@ -596,7 +637,7 @@ function renderCourse() {
   $('course-title').textContent = script.name;
   renderModePicker(script.kind);
   renderGradePicker(script);
-  renderReviewScopePicker(script);
+  renderQuickActions(script);
   renderWritingModePicker();
 
   $('kanji-search-wrap').hidden = script.kind !== 'kanji';
@@ -611,7 +652,6 @@ function renderCourse() {
     // whichever grade happens to be selected, so they step aside entirely
     // rather than showing two answers to "what should I do next" at once.
     $('grade-picker').hidden = true;
-    $('review-scope-picker').hidden = true;
     $('writing-mode-picker').hidden = true;
     list.innerHTML = '';
     show('screen-course');
@@ -628,15 +668,6 @@ function renderCourse() {
   const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
   const settled = readyForMore(course, state.mode, profile);
   const setsLeft = remainingSetsLabel(course, state.mode, profile, setIndex, stats.fresh);
-
-  // Review/Practise draw from a possibly-different pool than everything else
-  // on this card (current set, mastered count, Add more) — those stay scoped
-  // to the selected grade regardless, since "add more" always means "enroll
-  // from THIS grade's course order" and there is no sensible cross-grade
-  // version of that question.
-  const reviewScope = script.kind === 'kanji' ? (profile.settings.reviewScope || 'set') : 'set';
-  const reviewPool = reviewScope === 'studying' ? getAnyCourse(STUDY_LIST_POOL_ID) : course;
-  const reviewStats = reviewPool === course ? stats : courseStats(reviewPool, state.mode, profile);
 
   const card = document.createElement('div');
   card.className = 'card course-card';
@@ -701,13 +732,13 @@ function renderCourse() {
   const review = document.createElement('button');
   review.type = 'button';
   review.className = 'btn btn-primary';
-  if (reviewStats.due > 0) {
-    review.innerHTML = `Review <b>${reviewStats.due}</b>`;
-    review.addEventListener('click', () => startSession(reviewPool.id, 'review'));
-  } else if (reviewStats.started > 0) {
+  if (stats.due > 0) {
+    review.innerHTML = `Review <b>${stats.due}</b>`;
+    review.addEventListener('click', () => startSession(course.id, 'review'));
+  } else if (stats.started > 0) {
     review.className = 'btn';
     review.textContent = 'Practise';
-    review.addEventListener('click', () => startSession(reviewPool.id, 'practice'));
+    review.addEventListener('click', () => startSession(course.id, 'practice'));
   } else {
     review.textContent = 'Nothing to review';
     review.disabled = true;
@@ -716,7 +747,7 @@ function renderCourse() {
 
   const learn = document.createElement('button');
   learn.type = 'button';
-  learn.className = reviewStats.due > 0 ? 'btn' : 'btn btn-primary';
+  learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
   if (newCount > 0) {
     // "Learn" when at least one of this batch is a manual add already
     // waiting its turn — "Add" implies committing to something new, which
@@ -976,6 +1007,17 @@ function renderCharacterDetail() {
   playButton.hidden = paths.length === 0;
   playButton.onclick = () => animateStrokes(paths);
 
+  // Which unit this kanji is taught in — resolved from the manifest rather
+  // than trusting `course` itself, since a detail screen opened from the
+  // "everything I'm studying" review pool (a synthetic multi-grade course,
+  // see studyListPool()) would otherwise show that pool's own name instead
+  // of the kanji's real grade.
+  $('detail-unit').hidden = course.kind !== 'kanji';
+  if (course.kind === 'kanji') {
+    const unit = kanjiUnitFor(char);
+    $('detail-unit').textContent = unit ? unitLabel(unit) : '';
+  }
+
   // Kanji folds mastery into the single study-status button below instead —
   // see renderDetailStudy(). Kana has no study list, so this stays its own
   // line, same as ever.
@@ -1212,7 +1254,7 @@ function renderReadingChips(containerEl, wordEl, course, kanji, info) {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'reading-chip';
-    chip.textContent = reading;
+    chip.textContent = formatReading(info, reading);
     chip.dataset.reading = reading;
     chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip));
     containerEl.appendChild(chip);
@@ -1555,7 +1597,7 @@ function renderWritingQuestion(course, item) {
 function renderWritingKanjiInfo(course, kanji) {
   const info = kanjiInfo(course, kanji);
   const on = info.quizOn.join('・');
-  const kun = info.quizKun.join('・');
+  const kun = info.quizKun.map((r) => formatReading(info, r)).join('・');
   $('writing-kanji-readings').textContent = [on && `On: ${on}`, kun && `Kun: ${kun}`].filter(Boolean).join('   ');
   $('writing-kanji-meanings').textContent = info.meanings.join(', ');
   renderWord($('writing-kanji-word'), info.words[0] ? maskKanjiWord(info.words[0], kanji) : null);
@@ -1990,14 +2032,14 @@ function renderKanjiChoices(course, kanji) {
   $('quiz-advanced').disabled = false;
 
   const choices = $('quiz-choices');
-  options.forEach((reading) => addKanjiChoiceButton(choices, reading));
+  options.forEach((reading) => addKanjiChoiceButton(choices, info, reading));
 }
 
-function addKanjiChoiceButton(choices, reading) {
+function addKanjiChoiceButton(choices, info, reading) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'choice';
-  button.textContent = reading;
+  button.textContent = formatReading(info, reading);
   button.dataset.reading = reading;
   button.addEventListener('click', () => clickKanjiReading(reading, button));
   choices.appendChild(button);
@@ -2088,11 +2130,12 @@ function expandKanjiAdvanced() {
   if (!session || !session.kanjiShown) return;
   const kanji = session.queue[session.position];
   const course = getAnyCourse(state.courseId);
+  const info = kanjiInfo(course, kanji);
   const { additions, newCorrect } = buildAdvancedAdditions(course, kanji, session.kanjiShown);
 
   const choices = $('quiz-choices');
   additions.forEach((reading) => {
-    addKanjiChoiceButton(choices, reading);
+    addKanjiChoiceButton(choices, info, reading);
     session.kanjiShown.add(reading);
   });
 
@@ -2196,7 +2239,7 @@ function showKanjiInfo(course, kanji) {
   const isYomi = state.mode === 'recognition';
   $('quiz-meanings').textContent = isYomi
     ? info.meanings.join(', ')
-    : info.quizReadings.join(' · ');
+    : info.quizReadings.map((r) => formatReading(info, r)).join(' · ');
   renderWord($('quiz-word'), info.words[0]);
   $('quiz-word-hint').textContent = isYomi && state.session.kanjiCorrect.size > 1
     ? 'Tap a green reading above to see a word that uses it.'
@@ -2290,7 +2333,7 @@ function finishSession() {
       const info = kanjiInfo(course, item);
       label = state.mode === 'definition'
         ? meaningLabel(info)
-        : (info.quizReadings[0] || '');
+        : (info.quizReadings[0] ? formatReading(info, info.quizReadings[0]) : '');
     }
     chip.querySelector('.chip-romaji').textContent = label;
     chip.addEventListener('click', () => openCharacterDetail(course, item, 'summary'));
@@ -2412,8 +2455,8 @@ function wire() {
   });
   $('detail-study-now').addEventListener('click', studyDetailCharNow);
 
-  $('review-scope-set').addEventListener('click', () => setReviewScope('set'));
-  $('review-scope-studying').addEventListener('click', () => setReviewScope('studying'));
+  $('quick-review-due').addEventListener('click', quickReviewDue);
+  $('quick-learn-next').addEventListener('click', quickLearnNext);
 
   // Live filtering as you type — cheap enough over ~1,000 kanji that a
   // debounce would only add perceived latency for no real benefit.

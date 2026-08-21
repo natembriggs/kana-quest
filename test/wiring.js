@@ -207,7 +207,9 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 // --- Boot -----------------------------------------------------------------
 
 const { romajiFor, getCourse } = await import('../src/kana.js');
-const { KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel } = await import('../src/kanji.js');
+const {
+  KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel, unitLabel,
+} = await import('../src/kanji.js');
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
@@ -1743,6 +1745,8 @@ check('answering the one question ends the session at the summary',
 // teaching it moved it out of "waiting".
 fire(el('summary-list')._children[0], 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
+check('the detail screen names which unit the kanji is taught in',
+  el('detail-unit').textContent === unitLabel('6'), el('detail-unit').textContent);
 check('after being taught in one mode, the kanji is past "Waiting to learn" overall',
   !el('detail-study-toggle').textContent.includes('Waiting to learn')
   && !el('detail-study-toggle').textContent.includes('Not started'),
@@ -1798,8 +1802,7 @@ await settle();
 
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
 await settle();
-check('the review-scope picker is offered for kanji', el('review-scope-picker').hidden === false);
-check('"This set" is selected by default', el('review-scope-set').className.includes('active'));
+check('the quick-actions row is offered for kanji', el('quick-actions').hidden === false);
 
 const profileForScope = [...rows.values()][0];
 const grade6OnlyStats = courseStats(grade6Course, 'definition', profileForScope);
@@ -1807,36 +1810,23 @@ const studyingPool = {
   chunks: [{ items: studiedKanji(profileForScope.study, 'definition') }], excludeForMode: {},
 };
 const studyingStats = courseStats(studyingPool, 'definition', profileForScope);
-check('"Everything I\'m studying" spans every grade — more started kanji than grade 6 alone',
+check('"Review all due" spans every grade — more started kanji than grade 6 alone',
   studyingStats.started > grade6OnlyStats.started,
   `grade 6 alone: ${grade6OnlyStats.started}, everything: ${studyingStats.started}`);
-check('grade 6 alone has nothing due yet, so it offers Practise rather than Review',
+check('grade 6 alone has nothing due yet, so its own card offers Practise rather than Review',
   buttonsIn(el('course-list')._children[0]).some((b) => b.textContent === 'Practise'),
   buttonsIn(el('course-list')._children[0]).map((b) => b.textContent).join(' | '));
+check('the quick "Review all due" button still surfaces the still-due grade-1 miss while browsing grade 6',
+  (el('quick-review-due').innerHTML || '').includes('Review'), el('quick-review-due').innerHTML);
 
-fire(el('review-scope-studying'), 'click');
-await settle();
-check('choosing the wider scope marks it active and "This set" no longer active',
-  el('review-scope-studying').className.includes('active') && !el('review-scope-set').className.includes('active'));
-
-const studyingButtons = buttonsIn(el('course-list')._children[0]);
-const studyingReviewButton = studyingButtons.find((b) => (b.innerHTML || '').includes('Review'));
-check('the wider scope surfaces the still-due grade-1 miss even while browsing grade 6',
-  !!studyingReviewButton, studyingButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
-
-fire(studyingReviewButton, 'click');
+fire(el('quick-review-due'), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
-check('reviewing in the wider scope actually pulls in a kanji from grade 1, not just grade 6',
+check('reviewing from the quick action actually pulls in a kanji from grade 1, not just grade 6',
   visible() === 'screen-quiz' && kanjiGrade1.chunks.flatMap((c) => c.items).includes(el('quiz-kana').textContent),
   `showing ${visible()}, kanji "${el('quiz-kana').textContent}"`);
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
 await settle();
-fire(el('review-scope-set'), 'click');
-await settle();
-const afterScopeSaved = [...rows.values()][0];
-check('review scope is persisted to the profile, like the other course-screen pickers',
-  afterScopeSaved.settings.reviewScope === 'set', afterScopeSaved.settings.reviewScope);
 
 // Back to the detail screen for the rest of this section's checks.
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
