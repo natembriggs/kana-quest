@@ -1938,6 +1938,80 @@ check('the one kanji actually answered keeps its record after quitting',
   !!placementProfileAfterQuit.progress[`definition:${placementKanji}`]
   && placementProfileAfterQuit.progress[`definition:${placementKanji}`].box === MAX_BOX);
 
+// A miss during a placement test must NOT come back later in the same
+// session — repeating what's already known to be wrong is review, not
+// testing (kanji-expansion-plan.md §2.9.2). Run a fresh placement test over
+// what's left (placementKanji above is now excluded, having a record) and
+// walk every question exactly once, missing the first one on purpose.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+const placementButtonAgain = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Test') && (b.innerHTML || '').includes('unlearned'));
+fire(placementButtonAgain, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+const secondRoundUntested = grade6Untested.filter((k) => k !== placementKanji);
+check('enough grade-6 kanji are still untested to exercise a second placement round',
+  secondRoundUntested.length >= 2, secondRoundUntested.length);
+
+const seenThisRound = [];
+let missedPlacementKanji = null;
+for (let i = 0; i < secondRoundUntested.length && visible() === 'screen-quiz'; i += 1) {
+  const kanji = el('quiz-kana').textContent;
+  if (!kanji) break;
+  check(`placement round-2 question ${i + 1} is not a repeat of one already seen this session`,
+    !seenThisRound.includes(kanji), `${kanji} seen twice — ${seenThisRound.join(',')}`);
+  seenThisRound.push(kanji);
+
+  const answer = meaningLabel(kanjiInfo(grade6Course, kanji));
+  const choices = el('quiz-choices')._children;
+  const right = choices.find((c) => c.textContent === answer);
+  const wrong = choices.find((c) => c.textContent !== answer);
+  if (missedPlacementKanji === null) {
+    // Miss it on purpose, then recover on the second try — recordResult only
+    // locks in the FIRST attempt, so this still counts as a miss for the
+    // summary regardless of the recovery (see recordResult() in app.js).
+    missedPlacementKanji = kanji;
+    fire(wrong, 'click');
+    await settle();
+    check('a wrong placement answer still gets an immediate second try, same as any other quiz',
+      el('quiz-feedback').textContent === 'Try once more', `"${el('quiz-feedback').textContent}"`);
+    fire(right, 'click');
+  } else {
+    fire(right, 'click');
+  }
+  await settle();
+  runTimers();
+  await settle();
+}
+check('the second placement round asked each untested kanji exactly once, not more',
+  seenThisRound.length === secondRoundUntested.length, `${seenThisRound.length} of ${secondRoundUntested.length}`);
+check('the second placement round ends at the summary', visible() === 'screen-summary', visible());
+
+const studyMissedButton = el('summary-study-missed');
+check('the summary offers to study exactly the one kanji missed this placement round',
+  studyMissedButton.hidden === false
+  && studyMissedButton.innerHTML.includes('1')
+  && studyMissedButton.innerHTML.toLowerCase().includes('missed'),
+  studyMissedButton.innerHTML);
+
+// summary-study-missed is a static data-action button (like go-course/
+// quit-session above), routed through the document-level delegated click
+// handler — not its own addEventListener — so it's fired the same way.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'study-missed' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+check('"Study missed" opens the ordinary lesson screen for the missed kanji, not another quiz',
+  visible() === 'screen-lesson', visible());
+check('the lesson is for the kanji actually missed, not some other one',
+  el('lesson-kana').textContent === missedPlacementKanji, el('lesson-kana').textContent);
+
+const beforeStudyMissedAnswer = [...rows.values()][0];
+check('studying the missed kanji enrolled it (an ordinary "new" session, not a placement test)',
+  isStudying(beforeStudyMissedAnswer.study, missedPlacementKanji, 'definition'));
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+
 // Placement testing is not kanji-only — kana gets the same button, drawing
 // on neverSeenItems/recordResult exactly as kanji does (kana just has no
 // study list to lazily enroll into, so only the box-jump behaviour applies).

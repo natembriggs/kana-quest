@@ -453,6 +453,47 @@ This meant reversing the enrollment model, not just tuning it:
   concept in play at all — the button only needed the `course.kind ===
   'kanji'` UI gate removed, nothing in the session/grading logic changed.
 
+#### 2.9.2 A second report: a miss shouldn't come back later in the SAME test
+
+Requested directly: "gauge my level" and "review what I don't know" are
+different activities, and the placement test was quietly doing the second
+one. `chooseAnswer()`'s single-answer path and `markKanjiError()`'s Yomi
+multi-select path both reinsert a missed item a few questions ahead
+(`session.queue.splice(...)`) so it comes back for another attempt later in
+the *same* session — sensible for `new`/`review`/`practice`, where the point
+is to actually learn the thing, but backwards for a placement test: if a
+learner knows 20% of a unit, they end up sitting through most of the other
+80% a second time just to finish, when the entire point of "test unlearned"
+was to find out *quickly* what they don't know yet, not to be taught it on
+the spot.
+
+**Fix:** both reinsert sites now check `session.placementTest` first and
+skip the splice entirely when true. Nothing else about grading changes — a
+miss is still graded as an ordinary first miss (unaffected by this, see
+§2.9's `placement` option), it just doesn't get a second appearance in the
+queue. Verified structurally: running a placement test to completion visits
+every never-seen item in the unit exactly once, whether answered right or
+wrong.
+
+**The other half: testing shouldn't be a dead end.** A test that finds gaps
+and then does nothing with that information just moved the "now what"
+question to the learner. The session summary (§2.3) already lists every
+character attempted with a right/wrong chip; `finishSession()` now also
+collects the wrong ones into `state.summaryMissed` when `session.
+placementTest` is true, and a new button — **Study *N* missed**, shown above
+the existing "Add more"/"Review due" pair and carrying the primary style
+whenever it's offered — starts an ordinary `'new'`-kind session over exactly
+that list (`startSession(courseId, 'new', state.summaryMissed)`). Passing
+`kind: 'new'` rather than `'placement'` is what makes this a real teaching
+session: lesson cards first (unlike a placement test, which has none), and
+ordinary box-by-box grading (unlike a placement-test correct answer's jump
+to the top box) — appropriate now that the point actively is to learn these,
+not test them. Every character reaching this button was already enrolled by
+`ensurePlacementEnrolled()` the moment it was first attempted (§2.9.1), so
+`startSession`'s `items` path — "teach and quiz exactly this list, caller
+guarantees enrollment" — applies unchanged; no new enrollment logic was
+needed.
+
 ---
 
 ## 3. Orderings

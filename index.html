@@ -402,6 +402,13 @@
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>
     <div class="stack">
+      <!-- Placement test ("Test unlearned") only: study exactly what was
+           missed this session, through the ordinary teaching flow (lesson
+           card first, then quiz) — see kanji-expansion-plan.md §2.9.2. Shown
+           above the other two, which is why it (not summary-learn) carries
+           the primary style whenever it's visible — see finishSession() in
+           app.js. -->
+      <button id="summary-study-missed" class="btn btn-primary wide" type="button" data-action="study-missed" hidden></button>
       <button id="summary-learn" class="btn btn-primary wide" type="button" data-action="learn-more" hidden></button>
       <button id="summary-review" class="btn wide" type="button" data-action="review-more" hidden></button>
       <button class="btn wide" type="button" data-action="again">Practise again</button>
