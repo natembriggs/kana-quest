@@ -1828,6 +1828,20 @@ check('reviewing from the quick action actually pulls in a kanji from grade 1, n
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
 await settle();
 
+// "Learn next" must be just as grade-picker-agnostic as "Review all due" —
+// grade 6 is still selected below, but grade 1 (only one of its 80 kanji
+// ever touched, up above) is nowhere near exhausted, so the next few
+// characters in curriculum order still come from grade 1, not grade 6.
+check('the quick "Learn next" button is offered while browsing grade 6', !el('quick-learn-next').disabled);
+fire(el('quick-learn-next'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('"Learn next" teaches from the start of the curriculum (grade 1), not whichever grade the picker has selected (grade 6)',
+  visible() === 'screen-lesson' && kanjiGrade1.chunks.flatMap((c) => c.items).includes(el('lesson-kana').textContent),
+  `showing ${visible()}, lesson kanji "${el('lesson-kana').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+
 // Back to the detail screen for the rest of this section's checks.
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
 await settle();

@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-21d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-21e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -84,8 +84,44 @@ function studyListPool(mode) {
   };
 }
 
+const ALL_KANJI_POOL_ID = 'all-kanji';
+
+/**
+ * A synthetic pool spanning EVERY kanji unit's chunks, back to back in the
+ * same order the grade picker lists them (KANJI_COURSES is already sorted
+ * that way — see compareUnits in kanji.js). This is what "Learn N next"
+ * draws from: new kanji are taught in one continuous curriculum order, not
+ * reset to the start of whichever unit happens to be selected below, so
+ * picking a different grade-picker tile must not change what "next" means.
+ * Contrast with studyListPool just above, which is scoped to what's already
+ * enrolled — this one is the whole teachable set, unenrolled included, since
+ * enrolling the next few is exactly what "Learn next" is for.
+ *
+ * excludeForMode merges every unit's own exclusion set (see buildKanjiCourse
+ * in kanji.js) into one, per mode — a pool spanning several courses can't
+ * reuse any single course's Set, which only ever covered its own kanji.
+ */
+function allKanjiPool() {
+  const excludeForMode = {};
+  KANJI_COURSES.forEach((course) => {
+    Object.entries(course.excludeForMode).forEach(([mode, excluded]) => {
+      (excludeForMode[mode] ??= new Set());
+      excluded.forEach((kanji) => excludeForMode[mode].add(kanji));
+    });
+  });
+  return {
+    id: ALL_KANJI_POOL_ID,
+    kind: 'kanji',
+    name: 'Kanji',
+    chunks: KANJI_COURSES.flatMap((course) => course.chunks),
+    excludeForMode,
+    index: allKanjiIndex(),
+  };
+}
+
 function getAnyCourse(courseId) {
   if (courseId === STUDY_LIST_POOL_ID) return studyListPool(state.mode);
+  if (courseId === ALL_KANJI_POOL_ID) return allKanjiPool();
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
@@ -497,11 +533,12 @@ function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
  * actually does every day, ahead of all the grade-by-grade browsing below:
  * review whatever's due, across every grade being studied at once (the
  * synthetic pool from studyListPool() above), or learn the next batch of new
- * characters in whichever grade is currently selected — new kanji are only
- * ever taught in a single grade's own course order, so that half stays
- * grade-scoped. Supersedes the old "This set"/"Everything I'm studying"
- * review-scope toggle: there is no longer a reason to review just one grade
- * at a time, so that choice is gone rather than hidden somewhere else.
+ * characters in overall curriculum order (allKanjiPool() above) — both are
+ * deliberately agnostic to whichever grade-picker tile happens to be
+ * selected below, which only controls what the browsing card underneath
+ * shows. Supersedes the old "This set"/"Everything I'm studying" review-
+ * scope toggle: there is no longer a reason to review (or learn) just one
+ * grade at a time, so that choice is gone rather than hidden somewhere else.
  */
 function renderQuickActions(script) {
   const wrap = $('quick-actions');
@@ -521,8 +558,7 @@ function renderQuickActions(script) {
     reviewButton.textContent = 'Nothing due';
   }
 
-  const course = currentCourse();
-  const stats = courseStats(course, state.mode, state.profile);
+  const stats = courseStats(getAnyCourse(ALL_KANJI_POOL_ID), state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
   const learnButton = $('quick-learn-next');
   if (newCount > 0) {
@@ -551,10 +587,10 @@ function quickReviewDue() {
 }
 
 function quickLearnNext() {
-  const course = currentCourse();
-  const stats = courseStats(course, state.mode, state.profile);
+  const pool = getAnyCourse(ALL_KANJI_POOL_ID);
+  const stats = courseStats(pool, state.mode, state.profile);
   if (Math.min(stats.fresh, state.profile.settings.newPerSession) === 0) return;
-  startSession(course.id, 'new');
+  startSession(pool.id, 'new');
 }
 
 // Broad enough that a single common romaji letter could plausibly match
