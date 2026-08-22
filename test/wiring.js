@@ -526,7 +526,31 @@ function traceBadStroke() {
 const firstWritingChar = el('screen-writing').dataset.char;
 const firstWritingStrokeCount = strokesFor(firstWritingChar).strokes.length;
 
-for (let i = 0; i < firstWritingStrokeCount; i += 1) {
+// Palm rejection: a second touch landing on the canvas mid-stroke — a palm
+// brushing the glass while drawing with an Apple Pencil, reported from real
+// use — must not hijack the stroke already in progress (see
+// writingPointerDown() in app.js). Traces the character's very first stroke
+// by hand rather than via traceModelStroke(), with an interloping
+// pointerdown from a different pointerId injected partway through; if the
+// interloper were allowed to take over, the rest of THIS pointer's moves
+// would be silently dropped (the existing pointerId-mismatch guard in
+// writingPointerMove), leaving a stroke far too short/wrong-shaped to pass
+// grading.
+{
+  const d = strokesFor(firstWritingChar).strokes[0];
+  const { points } = resample(flattenPath(d), 30);
+  const local = points.map(([mx, my]) => [(mx / 109) * WRITING_BOX, (my / 109) * WRITING_BOX]);
+  fire(writingCanvas, 'pointerdown', { pointerId: 1, clientX: local[0][0], clientY: local[0][1] });
+  fire(writingCanvas, 'pointermove', { pointerId: 1, clientX: local[1][0], clientY: local[1][1] });
+  fire(writingCanvas, 'pointerdown', { pointerId: 2, clientX: 1, clientY: 1 }); // the interloping palm
+  for (let i = 2; i < local.length; i += 1) {
+    fire(writingCanvas, 'pointermove', { pointerId: 1, clientX: local[i][0], clientY: local[i][1] });
+  }
+  fire(writingCanvas, 'pointerup', { pointerId: 1, clientX: local[local.length - 1][0], clientY: local[local.length - 1][1] });
+}
+await settle();
+
+for (let i = 1; i < firstWritingStrokeCount; i += 1) {
   traceModelStroke(firstWritingChar, i);
   await settle();
 }

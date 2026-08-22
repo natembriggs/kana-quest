@@ -83,6 +83,23 @@ body {
      regression (WCAG 1.4.4). touch-action: manipulation leaves pinch-zoom
      alone and only removes the double-tap gesture specifically. */
   touch-action: manipulation;
+  /* Nothing in this app is meant to be selected or copied — every character,
+     reading and button label here is UI, not content a learner would ever
+     want to grab text from. Reported from real use on iPad + Apple Pencil:
+     a palm resting on the glass mid-stroke plus the pencil's own contact
+     reads to iOS as two simultaneous touch points, which it's happy to
+     interpret as "select from here to there" over whatever text sits
+     between them — the resulting blue selection (and, on a plain long
+     press, the Copy/Look Up callout menu) has nothing to do with anything
+     the app itself renders in response to a touch. user-select: none
+     removes the selection gesture itself (this doesn't affect typing or
+     selecting text inside the profile-name/search <input> fields — form
+     controls own their text-editing UI independently of an ancestor's
+     user-select); -webkit-touch-callout: none removes the long-press menu
+     iOS shows even where nothing is selectable. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* --- Splash --------------------------------------------------------------

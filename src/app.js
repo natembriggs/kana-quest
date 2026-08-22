@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-22b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-22c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1790,6 +1790,14 @@ function writingLocalPoint(canvas, event) {
 function writingPointerDown(event) {
   const session = state.session;
   if (!session || !session.writingAttempt || session.writingAttempt.isComplete()) return;
+  // Simple palm rejection: a second touch landing on the canvas while a
+  // stroke is already in progress (a palm brushing the glass mid-stroke
+  // with an Apple Pencil, most often reported) must not hijack it — only
+  // the pointer that actually started the current stroke may continue it.
+  // Without this, whichever pointer touches down LAST simply takes over
+  // (writingPointerId below is otherwise unconditionally overwritten),
+  // which can abandon an in-progress stroke partway through.
+  if (session.writingCurrentPoints && event.pointerId !== session.writingPointerId) return;
   // touch-action: none on the canvas (see styles.css) already suppresses
   // scrolling/panning for touches that start here, but explicitly preventing
   // the default too heads off iOS's compatibility mouse-event/long-press
