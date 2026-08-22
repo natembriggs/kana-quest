@@ -394,8 +394,10 @@ the current unit (grade/sub-unit, or the kana script itself).
   learner stops whenever they want via the ordinary quit action; nothing
   about the session itself is capped.
 - **No lesson step.** `buildSession`'s `'placement'` kind returns
-  `{ lesson: [], quiz: shuffle(neverSeenItems(...)) }` — straight to the
-  quiz, nothing shown first. For Writing mode specifically this also forces
+  `{ lesson: [], quiz: neverSeenItems(...) }` — straight to the quiz, nothing
+  shown first, and (unlike every other session kind) not shuffled: teaching
+  order shows where a learner's knowledge actually runs out, which a
+  scattered order would blur. For Writing mode specifically this also forces
   the session's sub-mode to **Free**, overriding even a fixed Trace/Guided
   preference: Trace shows the whole character before a stroke is drawn and
   Guided reveals each stroke the instant it's accepted, both of which defeat

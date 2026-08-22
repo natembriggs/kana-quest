@@ -1009,6 +1009,14 @@ check('a placement session includes a never-seen item even when not enrolled in 
   placementBuilt.quiz.includes(placementUnseenUnenrolled));
 check('a placement session covers every never-seen item in the unit, not a capped batch',
   placementBuilt.quiz.length === grade1Chars.length - 1, placementBuilt.quiz.length);
+// Unlike 'new'/'review'/'practice', a placement quiz is NOT shuffled: it
+// should run in the same teaching order as the unit itself (grade1Chars,
+// minus the one already-seen character), so the point where a learner
+// starts missing questions actually says something about where their
+// knowledge runs out.
+check('a placement session is in teaching order, not shuffled',
+  JSON.stringify(placementBuilt.quiz) === JSON.stringify(grade1Chars.slice(1)),
+  JSON.stringify(placementBuilt.quiz));
 done('placement test: correct answers jump straight to the top box');
 
 // --- Writing mode: which of Trace/Guided/Free a question defaults to -------

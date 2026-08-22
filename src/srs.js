@@ -424,7 +424,15 @@ export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxRe
     // learn". The caller (app.js) enrolls each one lazily, only once it's
     // actually attempted — see ensurePlacementEnrolled() there. See
     // grade()'s `placement` option for what a correct answer does.
-    return { lesson: [], quiz: shuffle(neverSeenItems(course, mode, ctx)) };
+    //
+    // Deliberately NOT shuffled, unlike every other kind above: a placement
+    // test is meant to find out where a learner's knowledge actually runs
+    // out, which is a much clearer signal in teaching order (neverSeenItems
+    // already returns items in course order — chunk by chunk, unit by unit)
+    // than scattered — a bad run of unlucky misses says less about "where
+    // do I stand" than watching it get harder in the order it was designed
+    // to be learned.
+    return { lesson: [], quiz: neverSeenItems(course, mode, ctx) };
   }
   return { lesson: [], quiz: practiceItems(course, mode, ctx, limit) };
 }
