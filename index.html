@@ -398,13 +398,18 @@
       <button id="quiz-show-answers" class="btn btn-quiet" type="button">Show answers</button>
     </div>
 
-    <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
-
     <!-- Meanings and an example word, shown after a kanji question is graded. -->
     <div id="quiz-info" class="kanji-info" hidden>
       <div id="quiz-meanings" class="kanji-meanings"></div>
       <div id="quiz-word" class="kanji-word"></div>
       <p id="quiz-word-hint" class="hint"></p>
+    </div>
+
+    <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so
+         Next is always in the same reachable spot, not wherever the card
+         above happens to end. -->
+    <div class="bottom-bar">
+      <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
     </div>
   </section>
 
@@ -414,13 +419,18 @@
     <h2 class="screen-title">Session done</h2>
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>
-    <div class="stack">
-      <!-- Placement test ("Test unlearned") only: study exactly what was
-           missed this session, through the ordinary teaching flow (lesson
-           card first, then quiz) — see kanji-expansion-plan.md §2.9.2. Shown
-           above the other two, which is why it (not summary-learn) carries
-           the primary style whenever it's visible — see finishSession() in
-           app.js. -->
+    <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so
+         these stay thumb-reachable regardless of how many chips are above
+         them — a placement test's summary chip grid alone can run to 80+. -->
+    <div class="stack bottom-bar">
+      <!-- Go practise exactly what was missed this session — every kind of
+           session now offers this, not just a placement test ("Test
+           unlearned"): a miss no longer comes back later in the same
+           session's queue (see chooseAnswer()/markKanjiError() in app.js),
+           so this is the other half of that — see kanji-expansion-plan.md
+           §2.9.2. Shown above the other two, which is why it (not
+           summary-learn) carries the primary style whenever it's visible —
+           see finishSession() in app.js. -->
       <button id="summary-study-missed" class="btn btn-primary wide" type="button" data-action="study-missed" hidden></button>
       <button id="summary-learn" class="btn btn-primary wide" type="button" data-action="learn-more" hidden></button>
       <button id="summary-review" class="btn wide" type="button" data-action="review-more" hidden></button>

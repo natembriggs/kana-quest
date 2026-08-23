@@ -496,6 +496,47 @@ not test them. Every character reaching this button was already enrolled by
 guarantees enrollment" — applies unchanged; no new enrollment logic was
 needed.
 
+#### 2.9.3 A third report: the whole app, not just placement, should work this way
+
+Requested directly, and broader than §2.9.2 originally scoped it: silently
+reinserting a miss mid-session isn't only wrong for a placement test — an
+ordinary `new`/`review`/`practice` session doing it meant the visible
+"N of M" progress counter could credit a not-yet-resolved miss as done, and
+a miss just vanished back into the flow with no visible acknowledgement that
+it would need another look. The fix generalizes §2.9.2's placement-only
+behaviour to every session kind:
+
+- **The `session.placementTest` guard around both reinsert sites
+  (`chooseAnswer()`, `markKanjiError()`) is gone outright** — a miss never
+  reinserts, full stop, regardless of session kind. `session.queue` is now
+  always exactly the original, distinct item list; `sessionProgress()` (the
+  shared counter helper) simplifies back down to plain
+  `{ done: session.position, total: session.total }`, since the "distinct
+  characters still pending a repeat" complication it existed for can no
+  longer happen.
+- **`state.summaryMissed` in `finishSession()` is computed for every
+  session**, not gated on `session.placementTest` — any miss, from any
+  session kind, surfaces on the summary.
+- **The follow-up action now branches on what the misses actually need.**
+  A placement miss was never taught at all, so it still gets the lesson
+  step (`kind: 'new'`, unchanged from §2.9.2). Everything else was already
+  taught — either moments earlier in the same session's own lesson step, or
+  long before — so re-showing a "new character" card would be redundant;
+  those go straight to a quiz-only `'practice'` session instead.
+  `startSession()` gained a `{ skipLesson }` option for this (the `items`
+  branch normally always includes a lesson step); `state.
+  summaryMissedIsPlacement`, captured alongside `state.summaryMissed`,
+  is what the 'study-missed' action switches on to pick kind + skipLesson.
+- **Button wording follows the same split**: "Study N missed" (placement,
+  since it teaches) vs. "Practise N missed" (everything else, since it
+  doesn't) — both still outrank "Learn N new" as the summary's primary
+  action whenever anything was missed, exactly as §2.9.2 already had it for
+  placement alone.
+- **"Add N more" became "Learn N new"** (course card and summary alike):
+  "Add" read as accumulation, not learning, and didn't match "Learn N
+  waiting" (the manual-add variant) or the quick-action "Learn N next" it
+  sits next to.
+
 ---
 
 ## 3. Orderings

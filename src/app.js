@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-23a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-23b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -790,15 +790,15 @@ function renderCourse() {
   learn.type = 'button';
   learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
   if (newCount > 0) {
-    // "Learn" when at least one of this batch is a manual add already
-    // waiting its turn — "Add" implies committing to something new, which
-    // isn't accurate for a kanji chosen from the detail screen (§1.6). Kana
-    // has no enrollment step at all, so stats.pending there just means
-    // "never seen yet" and must not trigger this wording — every kana would
-    // otherwise show as "waiting" until the whole course is memorised.
+    // "Waiting" when at least one of this batch is a manual add already
+    // sitting enrolled, rather than "new" — it was chosen from the detail
+    // screen (§1.6), not freshly reached in course order. Kana has no
+    // enrollment step at all, so stats.pending there just means "never seen
+    // yet" and must not trigger this wording — every kana would otherwise
+    // show as "waiting" until the whole course is memorised.
     learn.innerHTML = course.kind === 'kanji' && stats.pending > 0
       ? `Learn <b>${newCount}</b> waiting`
-      : `Add <b>${newCount}</b> more`;
+      : `Learn <b>${newCount}</b> new`;
     learn.addEventListener('click', () => startSession(course.id, 'new'));
   } else {
     learn.textContent = 'All characters started';
@@ -1131,8 +1131,16 @@ function renderGeneralWords(words) {
  * whatever else was already pending ahead of it in course order. The caller
  * is responsible for `items` already being enrolled; this only teaches and
  * quizzes.
+ *
+ * `skipLesson` drops the lesson step even when `items` is given — for
+ * "Practise N missed" (finishSession() below): those characters were
+ * already taught, either moments ago in the same session's own lesson step
+ * or long before, so showing a "here's a new character" card for them again
+ * would be redundant. Placement-test misses are the one case that still
+ * wants the lesson step (they were never taught at all — the placement quiz
+ * skips straight past it), so that caller leaves this false.
  */
-async function startSession(courseId, kind, items) {
+async function startSession(courseId, kind, items, { skipLesson = false } = {}) {
   const requestNav = navSeq;
   state.courseId = courseId;
   state.kind = kind;
@@ -1142,7 +1150,7 @@ async function startSession(courseId, kind, items) {
 
   let built;
   if (items) {
-    built = { lesson: items, quiz: items };
+    built = { lesson: skipLesson ? [] : items, quiz: items };
   } else {
     // "Add more" is now two steps: enroll the next few kanji in the study
     // list, then teach whatever is waiting. Anything added by hand from the
@@ -1344,22 +1352,14 @@ function startQuiz() {
 }
 
 /**
- * How many of this session's DISTINCT characters are genuinely finished —
- * i.e. no longer appear anywhere from the current position onward. A miss
- * reinserts a character a few questions ahead (see chooseAnswer()/
- * markKanjiError()), so counting "questions already given a first attempt"
- * would treat a just-missed, about-to-reappear character as done the moment
- * it's first (wrongly) answered — the counter would then advance past it
- * and, at the tail end, run out of room against `session.total` (fixed at
- * the DISTINCT count, not the with-repeats queue length) and get stuck
- * short of "done" for however many repeats are still pending. Counting
- * distinct characters missing from the remaining queue instead means a miss
- * simply doesn't advance the display until it is actually put to rest,
- * however many extra attempts that takes.
+ * How many questions in this session are genuinely finished. A miss no
+ * longer comes back later in the queue (see chooseAnswer()/
+ * markKanjiError()) — every character is answered exactly once, right or
+ * wrong — so `session.position` alone is always the count of resolved
+ * questions; nothing about a miss needs special-casing here.
  */
 function sessionProgress(session) {
-  const remaining = new Set(session.queue.slice(session.position));
-  return { done: session.total - remaining.size, total: session.total };
+  return { done: session.position, total: session.total };
 }
 
 function renderQuestion() {
@@ -1485,16 +1485,12 @@ function chooseAnswer(value, button) {
   button.disabled = true;
 
   if (session.attempt === 1) {
-    // Missed characters come back later in the same session regardless of
-    // what happens on the second try — EXCEPT during a placement test, where
-    // that would turn "gauge what I already know" into an unplanned review
-    // of everything that came back wrong. See kanji-expansion-plan.md
-    // §2.9.2: a placement test's summary offers to actually go learn the
-    // misses afterward instead, through the ordinary lesson flow.
-    if (!session.placementTest) {
-      const reinsertAt = Math.min(session.position + 4, session.queue.length);
-      session.queue.splice(reinsertAt, 0, item);
-    }
+    // A miss no longer comes back later in the same session — it used to
+    // get silently reinserted a few questions ahead, which meant "how many
+    // are left" kept moving in ways nothing on screen explained. The
+    // session now runs through its queue exactly once regardless of misses;
+    // the summary offers to go practise whatever came back wrong afterward
+    // instead (state.summaryMissed, see finishSession() below).
     $('quiz-card').className = 'quiz-card is-wrong';
     $('quiz-feedback').className = 'feedback bad';
     $('quiz-feedback').textContent = 'Try once more';
@@ -2187,8 +2183,9 @@ function clickKanjiReading(reading, button) {
 }
 
 /** The first wrong click of a round: seals every still-pending reading's
- * record as a miss, and reinserts the kanji for a fresh attempt later —
- * except during a placement test, see the matching note in chooseAnswer(). */
+ * record as a miss. See the matching note in chooseAnswer() — a miss no
+ * longer reinserts the kanji for a fresh attempt later this session; the
+ * summary offers to go practise it afterward instead. */
 function markKanjiError(kanji, course) {
   const session = state.session;
   session.kanjiErrorMade = true;
@@ -2199,10 +2196,6 @@ function markKanjiError(kanji, course) {
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
   $('quiz-feedback').textContent = 'Keep exploring, or tap Show answers';
-  if (!session.placementTest) {
-    const reinsertAt = Math.min(session.position + 4, session.queue.length);
-    session.queue.splice(reinsertAt, 0, kanji);
-  }
 }
 
 /** "Show answers": reveals whatever is still undiscovered. If no error has
@@ -2442,20 +2435,22 @@ function finishSession() {
     list.appendChild(chip);
   });
 
-  // A placement test ("Test unlearned") never re-taught what it found
-  // missing — see chooseAnswer()/markKanjiError() in this file, which skip
-  // the in-session requeue specifically for placementTest sessions, so
-  // testing doesn't turn into an unplanned review of everything not yet
-  // known (kanji-expansion-plan.md §2.9.2). This is the other half: offer to
-  // actually go learn exactly those, through the ordinary lesson-then-quiz
-  // flow, rather than leaving "now what" unanswered. `state.summaryMissed`
-  // is read by the 'study-missed' action below, after `state.session` is
-  // cleared.
-  const missed = session.placementTest ? entries.filter(([, ok]) => !ok).map(([item]) => item) : [];
+  // No session — placement or otherwise — re-teaches what it found missing
+  // in the same breath: a miss no longer comes back later in the queue (see
+  // chooseAnswer()/markKanjiError() above), so the summary is the one place
+  // "now what" gets answered instead. `state.summaryMissed` is read by the
+  // 'study-missed' action below, after `state.session` is cleared;
+  // `state.summaryMissedIsPlacement` decides whether that action needs a
+  // lesson step first — a placement miss was never taught at all (the
+  // placement quiz has no lesson step of its own), everything else was.
+  const missed = entries.filter(([, ok]) => !ok).map(([item]) => item);
   state.summaryMissed = missed;
+  state.summaryMissedIsPlacement = session.placementTest;
   const studyMissedButton = $('summary-study-missed');
   studyMissedButton.hidden = missed.length === 0;
-  studyMissedButton.innerHTML = `Study <b>${missed.length}</b> missed`;
+  studyMissedButton.innerHTML = session.placementTest
+    ? `Study <b>${missed.length}</b> missed`
+    : `Practise <b>${missed.length}</b> missed`;
 
   // Offer the same two choices as the home screen, so carrying on with more
   // new characters does not mean navigating back out first.
@@ -2463,12 +2458,13 @@ function finishSession() {
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
 
   const learnButton = $('summary-learn');
-  // Only one button reads as "the" primary action — study-missed outranks
-  // it when both are offered, since it's exactly what a placement test's
-  // "now what" question is asking.
+  // Only one button reads as "the" primary action — practise-missed outranks
+  // it whenever both are offered, since going over what was just gotten
+  // wrong matters more than starting something new. Learn-more is only ever
+  // the highlighted choice once nothing was missed.
   learnButton.classList.toggle('btn-primary', missed.length === 0);
   learnButton.hidden = newCount === 0;
-  learnButton.innerHTML = `Add <b>${newCount}</b> more`;
+  learnButton.innerHTML = `Learn <b>${newCount}</b> new`;
 
   const reviewButton = $('summary-review');
   reviewButton.hidden = stats.due === 0;
@@ -2696,14 +2692,24 @@ function wire() {
       case 'again': startSession(state.courseId, 'practice'); break;
       case 'learn-more': startSession(state.courseId, 'new'); break;
       case 'review-more': startSession(state.courseId, 'review'); break;
-      // 'new', not 'placement': having just been tested on these, the point
-      // now is to actually learn them — ordinary lesson cards and normal
-      // box-by-box grading, not another blind quiz. Every item here was
-      // already enrolled the moment it was attempted during the test (see
+      // A placement miss ('new', not 'placement': having just been tested on
+      // these, the point now is to actually learn them — ordinary lesson
+      // cards and normal box-by-box grading, not another blind quiz) still
+      // needs the lesson step it never got; every item here was already
+      // enrolled the moment it was attempted during the test (see
       // ensurePlacementEnrolled), so passing `items` straight through is
       // exactly "Study it now" (kanji-expansion-plan.md §2.6) over the
-      // missed set.
-      case 'study-missed': startSession(state.courseId, 'new', state.summaryMissed); break;
+      // missed set. Any other session's misses skip straight to a quiz —
+      // 'practice' matches what they already are, characters already taught
+      // that just need another pass.
+      case 'study-missed':
+        startSession(
+          state.courseId,
+          state.summaryMissedIsPlacement ? 'new' : 'practice',
+          state.summaryMissed,
+          { skipLesson: !state.summaryMissedIsPlacement },
+        );
+        break;
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
       case 'force-refresh': forceRefresh(); break;

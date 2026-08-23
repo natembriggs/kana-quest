@@ -187,6 +187,36 @@ body {
 
 .screen { display: flex; flex-direction: column; gap: 16px; }
 
+/* Every screen switch goes through show() in app.js, which just flips which
+   `.screen` has [hidden] — instant, which reads as abrupt given how fast
+   everything else here is. A plain fade-and-rise on whichever screen just
+   became visible is enough to read as a deliberate transition rather than a
+   cut, without the complexity (and failure modes — see navSeq in app.js) of
+   trying to cross-fade the outgoing screen too. Restarts for free every time
+   [hidden] toggles off, because the element is genuinely re-entering layout
+   (display: none -> flex) rather than just changing a class on something
+   already rendered. */
+@media (prefers-reduced-motion: no-preference) {
+  .screen:not([hidden]) { animation: screen-enter 220ms ease-out; }
+}
+@keyframes screen-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reserves room for the fixed .bottom-bar (see above) so it never overlaps
+   the last bit of real content — a chip in a long summary list, a choice on
+   a short quiz card. Sized generously rather than exactly (the bar's real
+   height varies with how many buttons it holds), which just means some
+   trailing empty space above it on a short screen, not overlap on a tall
+   one. */
+/* Generous rather than exact: #quiz-info (meanings, example word, hint —
+   shown once a Definition/Yomi question resolves) varies enough in height
+   that a tight guess left it peeking out from under the bar on some
+   kanji. */
+#screen-quiz { padding-bottom: 260px; }
+#screen-summary { padding-bottom: 320px; }
+
 h1, h2, h3 { margin: 0; line-height: 1.2; }
 h1 { font-size: 26px; }
 h2 { font-size: 20px; }
@@ -229,6 +259,19 @@ h3 { font-size: 18px; }
   align-items: center;
   gap: 8px;
   min-height: var(--tap);
+  /* Sticks to the top of the viewport on scroll, so the back button and
+     title stay reachable on a long screen (set overview, course list,
+     summary chips) instead of scrolling away with the content under them.
+     Escapes #app's own top/side padding via negative margins and
+     re-applies the same amounts as its own padding, so nothing shifts
+     before the first scroll; background + z-index cover scrolled content
+     once it's actually stuck. */
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  margin: calc(-1 * max(16px, env(safe-area-inset-top))) -16px 0;
+  padding: max(16px, env(safe-area-inset-top)) 16px 0;
 }
 .topbar h2 { text-align: center; }
 .counter { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; font-size: 14px; }
@@ -242,6 +285,29 @@ h3 { font-size: 18px; }
 .stack { display: flex; flex-direction: column; gap: 12px; }
 .row { display: flex; gap: 10px; }
 .row > * { flex: 1; }
+
+/* Pins its content to the bottom of the viewport, thumb-reachable
+   regardless of how tall the screen's own content is — the quiz's Next
+   button and the session summary's action stack, both usually combined
+   with .stack. Collapses to nothing (no bar, no border) whenever every
+   direct child is [hidden], so a screen with nothing to offer yet (Next,
+   before a question is answered) shows no empty bar at the bottom — see
+   the quiz screen in index.html. */
+.bottom-bar { display: none; }
+.bottom-bar:has(> :not([hidden])) {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 620px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+}
 
 /* --- Buttons ------------------------------------------------------------ */
 

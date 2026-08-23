@@ -292,7 +292,7 @@ check('kana writing is enabled — Trace mode is live',
 check('kana has no grade picker', el('grade-picker').hidden === true);
 
 const courseButtons = buttonsIn(el('course-list')._children[0]);
-const learnButton = courseButtons.find((b) => (b.innerHTML || '').includes('more'));
+const learnButton = courseButtons.find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('the course screen offers an "add more" button', !!learnButton,
   courseButtons.map((b) => b.innerHTML || b.textContent).join(' | '));
 // A countdown, not "set N of M" — meaningless once a unit runs to hundreds
@@ -405,8 +405,24 @@ check('the quiz ends at the summary', visible() === 'screen-summary', `showing $
 check('summary reports a score', el('summary-score').textContent.length > 0,
   `"${el('summary-score').textContent}"`);
 check('summary offers more new characters', el('summary-learn').hidden === false);
-check('summary "learn more" is labelled with a count',
+check('summary "learn new" is labelled with a count',
   /\d/.test(el('summary-learn').innerHTML), `"${el('summary-learn').innerHTML}"`);
+check('summary "learn new" says "new", not the old "more" wording',
+  el('summary-learn').innerHTML.includes('new'), el('summary-learn').innerHTML);
+
+// Two misses happened above (recovery + reveal) — the summary should offer
+// to go practise exactly those, as the PRIMARY action (outranking "Learn
+// new"), and NOT via a lesson step (kind: 'practice', not 'new') since both
+// characters were already taught earlier in this same session.
+// summary-study-missed is btn-primary unconditionally in the static HTML —
+// the stub DOM doesn't parse that (classList here only reflects JS-driven
+// changes), so the only DYNAMIC part to check is that summary-learn stops
+// being primary once something was missed, ceding the highlighted spot.
+check('the summary offers to practise exactly what was missed, as the primary action',
+  el('summary-study-missed').hidden === false
+  && el('summary-study-missed').innerHTML === 'Practise <b>2</b> missed'
+  && !el('summary-learn').classList.contains('btn-primary'),
+  el('summary-study-missed').innerHTML);
 
 const saved = [...rows.values()][0];
 const records = Object.entries(saved.progress);
@@ -418,13 +434,13 @@ check('correct answers advanced past box 0', records.some(([, r]) => r.box > 0))
 const recoveryRecord = saved.progress[`recognition:${recoveryKana}`];
 check('a miss recovered on the second try still counts as a lapse',
   !!recoveryRecord && recoveryRecord.lapses >= 1, JSON.stringify(recoveryRecord));
-check('the recovered character was re-drilled later in the session',
-  recoveryRecord && recoveryRecord.history.length > 1);
+check('a miss no longer comes back later in the same session — one history entry, not re-drilled',
+  recoveryRecord && recoveryRecord.history.length === 1, JSON.stringify(recoveryRecord));
 
 const revealRecord = saved.progress[`recognition:${revealKana}`];
 check('a miss wrong both times counts as a lapse', !!revealRecord && revealRecord.lapses >= 1);
-check('it too was re-drilled later in the session',
-  revealRecord && revealRecord.history.length > 1);
+check('it too is not re-drilled later in the same session',
+  revealRecord && revealRecord.history.length === 1, JSON.stringify(revealRecord));
 
 // --- Writing (Trace mode) -----------------------------------------------
 // Drives real pointer events through app.js's actual handlers — not a
@@ -456,7 +472,7 @@ fire(writingModeButton, 'click');
 await settle();
 
 const writingCourseButtons = buttonsIn(el('course-list')._children[0]);
-const writingLearnButton = writingCourseButtons.find((b) => (b.innerHTML || '').includes('more'));
+const writingLearnButton = writingCourseButtons.find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('writing mode offers an "add more" button too', !!writingLearnButton);
 fire(writingLearnButton, 'click');
 for (let i = 0; i < 10; i += 1) await settle();
@@ -991,7 +1007,7 @@ check('switching back to grade 1 works',
   (el('course-list')._children[0].innerHTML || '').includes('小学1年生'));
 
 const kanjiLearnButton = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('more'));
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('the kanji course offers an "add more" button', !!kanjiLearnButton);
 
 fire(kanjiLearnButton, 'click');
@@ -1064,54 +1080,18 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     correctButtons.length > 0 && wrongButtons.length > 0);
   const advancedAvailable = kanjiInfo(kanjiCourse, kanji).quizReadings.length > correct.size;
 
-  if (kAnswered === 0 && !kPerfectDone) {
-    // Perfect run: click only the correct readings. Every one turns green
-    // the instant it's clicked, and finding the last one unlocks Next with
-    // no extra step — no submit button in this model.
-    kPerfectDone = true; kPerfectKanji = kanji;
-    correctButtons.forEach((b) => fire(b, 'click'));
-    await settle();
-    check('a perfect run marks every correct option right immediately',
-      correctButtons.every((b) => b.classList.contains('is-right')));
-    check('a perfect run unlocks Next without a separate submit step',
-      el('quiz-ok').hidden === false);
-    check('a perfect run reveals the meaning/word panel', el('quiz-info').hidden === false);
-    check('show answers / advanced hide themselves once resolved',
-      el('quiz-show-answers').hidden === true && el('quiz-advanced').hidden === true);
-    fire(el('quiz-ok'), 'click'); // Next
-    await settle();
-  } else if (kAnswered === 1 && !kRecoverDone) {
-    // One wrong click, then find everything else by exploring — recovering
-    // still unlocks Next, but the record must already be sealed as a miss.
-    kRecoverDone = true; kRecoverKanji = kanji;
-    fire(wrongButtons[0], 'click');
-    await settle();
-    check('a wrong click turns red on the spot', wrongButtons[0].classList.contains('is-wrong'));
-    check('a wrong click does not reveal any correct option',
-      !correctButtons.some((b) => b.classList.contains('is-right')));
-    check('a wrong click alone does not unlock Next', el('quiz-ok').hidden === true);
-    check('show answers stays offered so exploring is optional', el('quiz-show-answers').hidden === false);
-
-    correctButtons.forEach((b) => fire(b, 'click')); // "learning" — discovered after the miss
-    await settle();
-    check('finding everything after a miss still unlocks Next', el('quiz-ok').hidden === false);
-    check('everything discovered through learning is still shown green',
-      correctButtons.every((b) => b.classList.contains('is-right')));
-    fire(el('quiz-ok'), 'click');
-    await settle();
-  } else if (kAnswered === 2 && !kRevealDone2) {
-    // A wrong click, then give up via Show answers instead of exploring.
-    kRevealDone2 = true; kRevealKanji = kanji;
-    fire(wrongButtons[0], 'click');
-    await settle();
-    fire(el('quiz-show-answers'), 'click');
-    await settle();
-    check('show answers reveals every remaining correct reading',
-      correctButtons.every((b) => b.classList.contains('is-right')));
-    check('show answers unlocks Next', el('quiz-ok').hidden === false);
-    fire(el('quiz-ok'), 'click');
-    await settle();
-  } else if (advancedAvailable && !kAdvancedDone) {
+  // Which scripted behaviour applies to THIS kanji is decided by what it
+  // actually is, not by queue position: the quiz order is shuffled (see
+  // buildSession's 'new' kind), and without the old in-session requeue on a
+  // miss (see chooseAnswer()/markKanjiError() in app.js) there is no second
+  // chance for a kanji that lands in the "wrong" slot — a fixed newPerSession
+  // batch of 5 has to reliably exercise all four paths (advanced/perfect/
+  // recover/reveal) in whatever order they happen to come in. advancedAvailable
+  // is checked first because it can only be satisfied by specific kanji (the
+  // ones with more readings than the base view shows); the other three don't
+  // care which kanji they land on, so they just claim whichever is still
+  // unclaimed.
+  if (advancedAvailable && !kAdvancedDone) {
     // Growing the grid in place: existing buttons must not be replaced.
     kAdvancedDone = true;
     const before = [...choices];
@@ -1131,6 +1111,53 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     await settle();
     check('finding every reading including the newly-added ones unlocks Next',
       el('quiz-ok').hidden === false);
+    fire(el('quiz-ok'), 'click');
+    await settle();
+  } else if (!kPerfectDone) {
+    // Perfect run: click only the correct readings. Every one turns green
+    // the instant it's clicked, and finding the last one unlocks Next with
+    // no extra step — no submit button in this model.
+    kPerfectDone = true; kPerfectKanji = kanji;
+    correctButtons.forEach((b) => fire(b, 'click'));
+    await settle();
+    check('a perfect run marks every correct option right immediately',
+      correctButtons.every((b) => b.classList.contains('is-right')));
+    check('a perfect run unlocks Next without a separate submit step',
+      el('quiz-ok').hidden === false);
+    check('a perfect run reveals the meaning/word panel', el('quiz-info').hidden === false);
+    check('show answers / advanced hide themselves once resolved',
+      el('quiz-show-answers').hidden === true && el('quiz-advanced').hidden === true);
+    fire(el('quiz-ok'), 'click'); // Next
+    await settle();
+  } else if (!kRecoverDone) {
+    // One wrong click, then find everything else by exploring — recovering
+    // still unlocks Next, but the record must already be sealed as a miss.
+    kRecoverDone = true; kRecoverKanji = kanji;
+    fire(wrongButtons[0], 'click');
+    await settle();
+    check('a wrong click turns red on the spot', wrongButtons[0].classList.contains('is-wrong'));
+    check('a wrong click does not reveal any correct option',
+      !correctButtons.some((b) => b.classList.contains('is-right')));
+    check('a wrong click alone does not unlock Next', el('quiz-ok').hidden === true);
+    check('show answers stays offered so exploring is optional', el('quiz-show-answers').hidden === false);
+
+    correctButtons.forEach((b) => fire(b, 'click')); // "learning" — discovered after the miss
+    await settle();
+    check('finding everything after a miss still unlocks Next', el('quiz-ok').hidden === false);
+    check('everything discovered through learning is still shown green',
+      correctButtons.every((b) => b.classList.contains('is-right')));
+    fire(el('quiz-ok'), 'click');
+    await settle();
+  } else if (!kRevealDone2) {
+    // A wrong click, then give up via Show answers instead of exploring.
+    kRevealDone2 = true; kRevealKanji = kanji;
+    fire(wrongButtons[0], 'click');
+    await settle();
+    fire(el('quiz-show-answers'), 'click');
+    await settle();
+    check('show answers reveals every remaining correct reading',
+      correctButtons.every((b) => b.classList.contains('is-right')));
+    check('show answers unlocks Next', el('quiz-ok').hidden === false);
     fire(el('quiz-ok'), 'click');
     await settle();
   } else {
@@ -1226,7 +1253,7 @@ fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), '
 await settle();
 
 const defLearn = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('more'));
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('Definition mode starts with its own separate progress (nothing learned yet)', !!defLearn);
 
 fire(defLearn, 'click');
@@ -1335,7 +1362,7 @@ fire(kanjiWritingModeButton, 'click');
 await settle();
 
 const kanjiWritingLearn = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('more'));
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('kanji writing starts with its own separate progress', !!kanjiWritingLearn);
 fire(kanjiWritingLearn, 'click');
 for (let i = 0; i < 10; i += 1) await settle();
@@ -1483,7 +1510,7 @@ check('the choice is persisted to the profile immediately, before any session ha
   gradeTwoSaved.settings.writingModePreference === 'guided', JSON.stringify(gradeTwoSaved.settings));
 
 const gradeTwoLearn = buttonsIn(el('course-list')._children[0])
-  .find((b) => (b.innerHTML || '').includes('more'));
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
 fire(gradeTwoLearn, 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
@@ -1876,11 +1903,11 @@ check('"Learn next" teaches from the start of the curriculum (grade 1), not whic
   `showing ${visible()}, lesson kanji "${el('lesson-kana').textContent}"`);
 
 // Walk the lesson cards through to the quiz, deliberately missing the very
-// first question, to exercise two things at once: the progress counter must
-// not credit a missed-then-requeued character as done until it is actually
-// put to rest (not just "answered once"), and the end-of-session summary's
-// chips must open the detail screen even though this session's course is
-// the synthetic all-kanji pool, not a single real grade.
+// first question — to prove a miss no longer gets a second, in-session
+// chance (the counter just advances normally, no held-back state to check
+// for), and to prove the end-of-session summary's chips still open the
+// detail screen even though this session's course is the synthetic
+// all-kanji pool, not a single real grade.
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   fire(el('lesson-next'), 'click');
   await settle();
@@ -1897,16 +1924,16 @@ const missedLearnNextWrong = missedLearnNextChoices.find((c) => c.textContent !=
 const missedLearnNextRight = missedLearnNextChoices.find((c) => c.textContent === missedLearnNextAnswer);
 fire(missedLearnNextWrong, 'click');
 await settle();
-fire(missedLearnNextRight, 'click'); // recover on the second try — still gets requeued regardless (see chooseAnswer())
+fire(missedLearnNextRight, 'click'); // recover on the second try — still counts as a miss for the record either way
 await settle();
 fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
 await settle();
 
-check('a miss does not advance the counter past the batch it was in — same "1/5" for question 2, since question 1 is not yet actually done',
-  el('quiz-counter').textContent === '1/5', el('quiz-counter').textContent);
+check('a miss just advances the counter like any other resolved question — no in-session requeue to hold it back',
+  el('quiz-counter').textContent === '2/5', el('quiz-counter').textContent);
 
-// Answer the rest correctly, including the missed kanji's requeued
-// reappearance, through to the summary.
+// Answer the rest correctly through to the summary — exactly 4 more, since
+// the missed kanji above does not come back for a repeat.
 for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
   const kanji = el('quiz-kana').textContent;
   if (!kanji) break;
@@ -1918,8 +1945,12 @@ for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
   await settle();
 }
 check('the "Learn next" session completes at the summary', visible() === 'screen-summary', visible());
-check('the counter reached the full batch by the end, once every distinct kanji was truly resolved',
+check('the counter reached the full batch by the end',
   el('quiz-counter').textContent === '5/5', el('quiz-counter').textContent);
+check('the one miss surfaces on the summary as something to go practise, over the all-kanji pool',
+  el('summary-study-missed').hidden === false
+  && el('summary-study-missed').innerHTML === 'Practise <b>1</b> missed',
+  el('summary-study-missed').innerHTML);
 
 fire(el('summary-list')._children[0], 'click');
 for (let i = 0; i < 10; i += 1) await settle();

@@ -4,7 +4,7 @@
 //       -m test/service-worker.js
 
 const workerEvents = {};
-const cacheNames = ['kana-quest-old', 'kana-quest-2026-08-23a', 'other-app-v4'];
+const cacheNames = ['kana-quest-old', 'kana-quest-2026-08-23b', 'other-app-v4'];
 const deletedCaches = [];
 const cacheEntries = new Map();
 let cachePutBlocker = null;
@@ -62,7 +62,7 @@ function dispatchFetch(request) {
 
 await dispatchWait('activate');
 check('activation removes an obsolete Kana Quest cache', deletedCaches.includes('kana-quest-old'));
-check('activation retains the current Kana Quest cache', !deletedCaches.includes('kana-quest-2026-08-23a'));
+check('activation retains the current Kana Quest cache', !deletedCaches.includes('kana-quest-2026-08-23b'));
 check('activation leaves a sibling app cache untouched', !deletedCaches.includes('other-app-v4'));
 check('activation claims existing clients', self.clients.claimed);
 
