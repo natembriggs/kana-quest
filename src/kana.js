@@ -50,18 +50,27 @@ function yoonItems(toScript) {
   return new Set(YOON.flat().map(toScript));
 }
 
+// Which teaching band a chunk belongs to — used to keep a randomized kana
+// placement test (see srs.js's buildSession) from letting gojuon-order
+// knowledge alone ace it: basic rows first, then voiced/plosive rows, then
+// compound (yōon) rows, shuffled only *within* each band.
+const BAND_BASIC = 'basic';
+const BAND_DAKUTEN = 'dakuten';
+const BAND_YOON = 'yoon';
+
 function buildChunks(courseId, toScript) {
   const groups = [
-    ...BASIC.map((row) => Array.from(row)),
-    ...DAKUTEN.map((row) => Array.from(row)),
-    ...YOON,
+    ...BASIC.map((row) => ({ row: Array.from(row), band: BAND_BASIC })),
+    ...DAKUTEN.map((row) => ({ row: Array.from(row), band: BAND_DAKUTEN })),
+    ...YOON.map((row) => ({ row, band: BAND_YOON })),
   ];
-  return groups.map((group, index) => {
-    const items = group.map(toScript);
+  return groups.map(({ row, band }, index) => {
+    const items = row.map(toScript);
     return {
       id: `${courseId}-${index}`,
       courseId,
       index,
+      band,
       // e.g. "ka – ko", derived rather than hand-labelled.
       label: items.length > 1
         ? `${toRomaji(items[0])} – ${toRomaji(items[items.length - 1])}`

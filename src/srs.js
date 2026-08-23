@@ -424,15 +424,31 @@ export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxRe
     // learn". The caller (app.js) enrolls each one lazily, only once it's
     // actually attempted — see ensurePlacementEnrolled() there. See
     // grade()'s `placement` option for what a correct answer does.
+    const never = neverSeenItems(course, mode, ctx);
+    // Kanji: deliberately NOT shuffled — a placement test is meant to find
+    // out where a learner's knowledge actually runs out, which is a much
+    // clearer signal in teaching order (neverSeenItems already returns items
+    // in course order — chunk by chunk, unit by unit) than scattered — a bad
+    // run of unlucky misses says less about "where do I stand" than watching
+    // it get harder in the order it was designed to be learned.
     //
-    // Deliberately NOT shuffled, unlike every other kind above: a placement
-    // test is meant to find out where a learner's knowledge actually runs
-    // out, which is a much clearer signal in teaching order (neverSeenItems
-    // already returns items in course order — chunk by chunk, unit by unit)
-    // than scattered — a bad run of unlucky misses says less about "where
-    // do I stand" than watching it get harder in the order it was designed
-    // to be learned.
-    return { lesson: [], quiz: neverSeenItems(course, mode, ctx) };
+    // Kana: the opposite problem applies — the gojuon order (a, i, u, e,
+    // o...) is itself something a learner can have memorized without being
+    // able to actually read the characters, so quizzing strict teaching
+    // order would let that alone ace the test. Shuffled instead, but only
+    // *within* each teaching band (see kana.js's BAND_* chunk tagging) —
+    // band order (plain kana, then voiced/plosive, then compound yōon) is
+    // kept, since a learner who has never met dakuten shouldn't be quizzed
+    // on it before the plain set is exhausted.
+    if (course.kind !== 'kana') return { lesson: [], quiz: never };
+    const bandOf = new Map(course.chunks.flatMap((chunk) => chunk.items.map((item) => [item, chunk.band])));
+    const bands = new Map();
+    never.forEach((item) => {
+      const band = bandOf.get(item);
+      if (!bands.has(band)) bands.set(band, []);
+      bands.get(band).push(item);
+    });
+    return { lesson: [], quiz: [...bands.values()].flatMap((items) => shuffle(items)) };
   }
   return { lesson: [], quiz: practiceItems(course, mode, ctx, limit) };
 }
