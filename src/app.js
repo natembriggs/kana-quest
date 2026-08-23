@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-22c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-23a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1422,7 +1422,17 @@ function renderSingleChoice(course, item) {
     button.className = 'choice';
     button.textContent = value;
     button.dataset.value = value;
-    button.addEventListener('click', () => chooseAnswer(value, button));
+    // stopPropagation matters now that a resolving tap can itself set
+    // awaitingAcknowledge (see chooseAnswer): a real click event bubbles
+    // from this button up through #screen-quiz in the same synchronous
+    // dispatch, and acknowledge() is bound there for "tap anywhere to
+    // continue" — without this, the very tap that reveals right/wrong would
+    // immediately count as the acknowledgement too, advancing instantly and
+    // defeating the whole point of waiting for a second, deliberate tap.
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      chooseAnswer(value, button);
+    });
     choices.appendChild(button);
   });
 }
@@ -1434,6 +1444,14 @@ function renderSingleChoice(course, item) {
  * to the *first* attempt, though — a correct recovery on attempt two still
  * counts as a miss for spaced repetition, per the request that a retry not
  * launder the original wrong answer out of the record.
+ *
+ * A resolved question (right, or wrong-out-of-chances) never auto-advances —
+ * the feedback stays up until the learner taps Next (or anywhere on the quiz
+ * screen, via acknowledge() below) to move on themselves. This used to
+ * auto-advance on a timer (550ms right, 2600ms wrong); Yomi mode and Writing
+ * mode never did, and kana/definition now matches them instead of being the
+ * odd one out — a right/wrong result flashing past on its own gives no
+ * chance to actually register it, which was the reported complaint.
  */
 function chooseAnswer(value, button) {
   const session = state.session;
@@ -1455,8 +1473,11 @@ function chooseAnswer(value, button) {
     $('quiz-feedback').className = 'feedback ok';
     $('quiz-feedback').textContent = '✓';
     session.locked = true;
+    disableRemainingChoices();
     if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-    session.pendingAdvance = setTimeout(nextQuestion, 550);
+    session.awaitingAcknowledge = true;
+    $('quiz-ok').hidden = false;
+    $('quiz-ok').textContent = 'Next';
     return;
   }
 
@@ -1488,9 +1509,19 @@ function chooseAnswer(value, button) {
   $('quiz-feedback').className = 'feedback bad';
   $('quiz-feedback').textContent = state.mode === 'definition' ? '✗' : answer;
   session.locked = true;
+  disableRemainingChoices();
   if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-  session.awaitingAcknowledge = true; // wait for a tap, but don't stall forever
-  session.pendingAdvance = setTimeout(nextQuestion, 2600);
+  session.awaitingAcknowledge = true;
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').textContent = 'Next';
+}
+
+/** Once a single-answer question resolves, every remaining option goes
+ * inert — otherwise, with no auto-advance timer to paper over it, an
+ * un-disabled choice would sit there looking tappable (doing nothing if
+ * tapped) for however long the learner takes to hit Next. */
+function disableRemainingChoices() {
+  $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
 }
 
 function revealSingleAnswer(answer) {

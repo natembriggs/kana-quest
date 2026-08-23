@@ -113,7 +113,12 @@ function el(id) {
 }
 
 function fire(element, type, event = {}) {
-  (element._listeners[type] || []).forEach((fn) => fn({ preventDefault() {}, ...event }));
+  // This stub never simulates real DOM bubbling (each fire() call only ever
+  // invokes the target element's own listeners) — stopPropagation is a
+  // harmless no-op here for exactly the same reason preventDefault is: real
+  // app code calls it, so the stub event needs to have it, without needing
+  // to actually model what it does.
+  (element._listeners[type] || []).forEach((fn) => fn({ preventDefault() {}, stopPropagation() {}, ...event }));
 }
 
 const missingIds = new Set();
@@ -357,7 +362,10 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
       await settle();
       check('finding it on the second try still marks it right',
         correctTarget.classList.contains('is-right'));
-      runTimers(); // short pause after landing on the correct answer
+      check('a resolved question does not auto-advance on its own — no timer is even scheduled',
+        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
+      check('Next is offered once the question resolves', el('quiz-ok').hidden === false);
+      fire(el('quiz-ok'), 'click'); // the learner taps Next themselves
       await settle();
     } else {
       revealDone = true;
@@ -370,11 +378,10 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
         `"${el('quiz-feedback').textContent}"`);
       check('a second miss highlights the correct option',
         choices.some((c) => c.textContent === answer && c.classList.contains('is-right')));
-      check('the app waits for a tap after the final reveal',
-        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+      check('the app waits for a tap after the final reveal — no auto-advance timer either',
+        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
       fire(el('screen-quiz'), 'click'); // a tap anywhere on the quiz screen moves on
       await settle();
-      check('acknowledging the reveal cancels the auto-advance timer', timers.size === 0);
     }
   } else {
     const target = choices.find((c) => c.textContent === answer);
@@ -382,7 +389,10 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     if (!target) break;
     fire(target, 'click');
     await settle();
-    runTimers();
+    check('a correct first-try answer does not auto-advance either — Next is offered instead',
+      visible() === 'screen-quiz' && el('quiz-kana').textContent === kana
+      && el('quiz-ok').hidden === false && timers.size === 0);
+    fire(el('quiz-ok'), 'click');
     await settle();
   }
   answered += 1;
@@ -1266,7 +1276,9 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
     check('a correct definition shows the readings as follow-up context',
       el('quiz-info').hidden === false && el('quiz-meanings').textContent.length > 0);
   }
-  runTimers();
+  check('a resolved definition question waits for Next instead of auto-advancing',
+    el('quiz-ok').hidden === false && timers.size === 0);
+  fire(el('quiz-ok'), 'click');
   await settle();
   defAnswered += 1;
 }
@@ -1760,7 +1772,7 @@ const studyNowAnswer = meaningLabel(kanjiInfo(grade6Course, grade6Char));
 const studyNowRight = el('quiz-choices')._children.find((c) => c.textContent === studyNowAnswer);
 fire(studyNowRight, 'click');
 await settle();
-runTimers();
+fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
 await settle();
 check('answering the one question ends the session at the summary',
   visible() === 'screen-summary', `showing ${visible()}`);
@@ -1887,7 +1899,7 @@ fire(missedLearnNextWrong, 'click');
 await settle();
 fire(missedLearnNextRight, 'click'); // recover on the second try — still gets requeued regardless (see chooseAnswer())
 await settle();
-runTimers();
+fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
 await settle();
 
 check('a miss does not advance the counter past the batch it was in — same "1/5" for question 2, since question 1 is not yet actually done',
@@ -1902,7 +1914,7 @@ for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
   const right = el('quiz-choices')._children.find((c) => c.textContent === answer);
   fire(right, 'click');
   await settle();
-  runTimers();
+  fire(el('quiz-ok'), 'click');
   await settle();
 }
 check('the "Learn next" session completes at the summary', visible() === 'screen-summary', visible());
@@ -2062,7 +2074,7 @@ for (let i = 0; i < secondRoundUntested.length && visible() === 'screen-quiz'; i
     fire(right, 'click');
   }
   await settle();
-  runTimers();
+  fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
   await settle();
 }
 check('the second placement round asked each untested kanji exactly once, not more',
