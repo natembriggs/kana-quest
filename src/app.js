@@ -24,7 +24,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-23b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-23c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1139,8 +1139,13 @@ function renderGeneralWords(words) {
  * would be redundant. Placement-test misses are the one case that still
  * wants the lesson step (they were never taught at all — the placement quiz
  * skips straight past it), so that caller leaves this false.
+ *
+ * `carriedResults`, also for "Practise N missed": the summary being left
+ * behind's full (right + wrong) result set, so THIS session's own finish
+ * can show the whole picture merged with whatever happens now, rather than
+ * just this small practice round in isolation. See finishSession().
  */
-async function startSession(courseId, kind, items, { skipLesson = false } = {}) {
+async function startSession(courseId, kind, items, { skipLesson = false, carriedResults } = {}) {
   const requestNav = navSeq;
   state.courseId = courseId;
   state.kind = kind;
@@ -1203,7 +1208,8 @@ async function startSession(courseId, kind, items, { skipLesson = false } = {}) 
     queue: built.quiz,
     position: 0,
     total: built.quiz.length,
-    results: new Map(), // kana -> true/false (first attempt)
+    results: new Map(), // kana -> true/false (first attempt, THIS session only)
+    carriedResults, // prior summary's full result set to merge with, or undefined
     awaitingAcknowledge: false,
     // "Unlearned kanji test": a correct first answer jumps straight to the
     // top box instead of climbing one at a time — see grade()'s `placement`
@@ -2404,11 +2410,23 @@ function recordResult(kana, correct) {
 function finishSession() {
   const session = state.session;
   const course = getAnyCourse(state.courseId);
-  const entries = [...session.results.entries()];
+  // "Practise N missed" (below) carries the PRIOR summary's full result set
+  // forward as session.carriedResults, so a learner who got 9 of 10 right,
+  // then went and practised the one they missed, sees all 10 here — not
+  // just the one just-practised character — and can actually see the
+  // percentage go up rather than a brand new "1 of 1" that throws away the
+  // 9 they already had right. Map#set on an existing key updates the value
+  // in place without moving it, so the just-practised character keeps its
+  // original position in the chip grid; only its colour changes.
+  const merged = session.carriedResults ? new Map(session.carriedResults) : new Map();
+  session.results.forEach((ok, item) => merged.set(item, ok));
+  const entries = [...merged.entries()];
   const right = entries.filter(([, ok]) => ok).length;
 
+  // "First time" stops being accurate once results are carried forward —
+  // some of these are second (or later) attempts by definition.
   $('summary-score').textContent = entries.length
-    ? `${right} of ${entries.length} right first time`
+    ? `${right} of ${entries.length} right${session.carriedResults ? '' : ' first time'}`
     : 'Nothing to review right now.';
 
   const list = $('summary-list');
@@ -2443,8 +2461,13 @@ function finishSession() {
   // `state.summaryMissedIsPlacement` decides whether that action needs a
   // lesson step first — a placement miss was never taught at all (the
   // placement quiz has no lesson step of its own), everything else was.
+  // `state.summaryAllResults` is `merged` itself, carried forward so that if
+  // THIS summary's "practise missed" is used and something is missed again,
+  // the summary after that also shows the whole picture, not just the
+  // latest retry — the carry-forward chains for as many rounds as it takes.
   const missed = entries.filter(([, ok]) => !ok).map(([item]) => item);
   state.summaryMissed = missed;
+  state.summaryAllResults = merged;
   state.summaryMissedIsPlacement = session.placementTest;
   const studyMissedButton = $('summary-study-missed');
   studyMissedButton.hidden = missed.length === 0;
@@ -2707,7 +2730,7 @@ function wire() {
           state.courseId,
           state.summaryMissedIsPlacement ? 'new' : 'practice',
           state.summaryMissed,
-          { skipLesson: !state.summaryMissedIsPlacement },
+          { skipLesson: !state.summaryMissedIsPlacement, carriedResults: state.summaryAllResults },
         );
         break;
       case 'export': exportBackup(); break;

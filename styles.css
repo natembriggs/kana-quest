@@ -329,6 +329,10 @@ h3 { font-size: 18px; }
 .btn-quiet { background: transparent; color: var(--ink-soft); }
 .btn-danger { background: transparent; border-color: var(--bad); color: var(--bad); }
 .btn-icon { width: var(--tap); padding: 0; display: grid; place-items: center; font-size: 20px; }
+/* Drops the ordinary .btn border too — a boxed-in "✕" reads as a peer of
+   the progress bar next to it (see quit-session in the quiz/writing
+   header); a plain, borderless glyph reads as secondary the way it should. */
+.btn-icon.btn-quiet { border-color: transparent; }
 .wide { width: 100%; }
 
 .linkish {
@@ -446,6 +450,12 @@ h3 { font-size: 18px; }
   overflow: hidden;
 }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.25s ease; }
+/* Thicker and more saturated than the quiet exit "✕" beside it in the quiz/
+   writing header (see .btn-icon.btn-quiet below) — progress through the
+   session is the thing worth a learner's attention there, not the way out
+   of it. Scoped to .topbar specifically so the small script-card progress
+   bars on the home screen (script-meta .progress) stay their own size. */
+.topbar .progress { height: 14px; }
 
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .actions .btn { padding: 0 10px; }

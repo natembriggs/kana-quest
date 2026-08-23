@@ -442,6 +442,39 @@ check('a miss wrong both times counts as a lapse', !!revealRecord && revealRecor
 check('it too is not re-drilled later in the same session',
   revealRecord && revealRecord.history.length === 1, JSON.stringify(revealRecord));
 
+// Now actually go practise those 2 — answering both correctly this time —
+// and confirm the resulting summary shows the FULL original 5, not just
+// these 2 in isolation: state.summaryAllResults, carried into the new
+// session as session.carriedResults and merged back in by finishSession(),
+// is what makes "got 3 of 5, then fixed the other 2" read as an improved
+// score instead of a fresh, context-free "2 of 2".
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'study-missed' } }) } });
+await settle();
+check('"Practise missed" goes straight to the quiz — no lesson step, both characters were already taught',
+  visible() === 'screen-quiz', visible());
+
+for (let i = 0; i < 5 && visible() === 'screen-quiz'; i += 1) {
+  const kana = el('quiz-kana').textContent;
+  if (!kana) break;
+  const answer = romajiFor(kana);
+  const right = el('quiz-choices')._children.find((c) => c.textContent === answer);
+  fire(right, 'click');
+  await settle();
+  fire(el('quiz-ok'), 'click');
+  await settle();
+}
+check('practising the misses ends at a summary too', visible() === 'screen-summary', visible());
+check('the merged summary shows the full original set of 5, not just the 2 just practised',
+  el('summary-list')._children.length === 5, el('summary-list')._children.length);
+check('every chip reads right now — both misses were fixed on this pass',
+  el('summary-list')._children.every((c) => c.className.includes('chip-ok')),
+  el('summary-list')._children.map((c) => c.className).join(' | '));
+check('the merged score reads 5 of 5, without "first time" — some of these are second attempts',
+  el('summary-score').textContent === '5 of 5 right', el('summary-score').textContent);
+check('nothing is missed anymore, so "Practise missed" is gone and "Learn new" is primary again',
+  el('summary-study-missed').hidden === true && el('summary-learn').classList.contains('btn-primary'),
+  `study-missed hidden=${el('summary-study-missed').hidden}`);
+
 // --- Writing (Trace mode) -----------------------------------------------
 // Drives real pointer events through app.js's actual handlers — not a
 // shortcut — proving the whole pipeline: pointerdown/move/up -> local pixel
