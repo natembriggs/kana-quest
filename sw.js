@@ -28,7 +28,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-08-23c';
+const VERSION = '2026-08-24a';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -49,6 +49,7 @@ const SHELL = [
   'src/stroke-geometry.js',
   'src/stroke-grader.js',
   'src/writing.js',
+  'src/changelog.js',
 ];
 
 self.addEventListener('install', (event) => {

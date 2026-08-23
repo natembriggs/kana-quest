@@ -364,6 +364,7 @@ newer practice.
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/app.js` | Screen routing, session flow, event wiring |
+| `src/changelog.js` | Hand-maintained, plain-language "what's new" shown in Settings — add an entry here in the same commit as any user-visible `APP_VERSION` bump |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
 | `tools/make_icons.py` | Regenerates the home-screen icons |
 | `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2 + JMdict into `tools/data_src/` (not committed, ~90MB) |

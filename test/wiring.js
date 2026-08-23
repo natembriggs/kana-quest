@@ -226,6 +226,7 @@ const {
 // app.js).
 const { strokesFor } = await import('../src/strokes.js');
 const { flattenPath, resample } = await import('../src/stroke-geometry.js');
+const { CHANGELOG } = await import('../src/changelog.js');
 const appModule = await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -2216,6 +2217,47 @@ await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
 await settle();
 check('opening settings shows the settings screen', visible() === 'screen-settings', `showing ${visible()}`);
+
+// --- Settings: changelog ---------------------------------------------------
+// CHANGELOG[0] (src/changelog.js) is always shown; everything older is
+// built into #changelog-history, collapsed, behind a toggle — see
+// renderChangelog()/toggleChangelogHistory() in app.js.
+
+check('the current changelog date is shown', el('changelog-current-date').textContent === CHANGELOG[0].date,
+  el('changelog-current-date').textContent);
+check('the current changelog entry lists every one of its changes, in order',
+  el('changelog-current-list')._children.map((li) => li.textContent).join('\n')
+    === CHANGELOG[0].changes.join('\n'),
+  el('changelog-current-list')._children.map((li) => li.textContent).join(' | '));
+check('older changelog entries start collapsed', el('changelog-history').hidden === true);
+check('the toggle offers to show them', el('changelog-toggle').textContent === 'Show previous updates',
+  el('changelog-toggle').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'toggle-changelog' } }) } });
+await settle();
+check('tapping the toggle reveals the history', el('changelog-history').hidden === false);
+check('the toggle now offers to hide it', el('changelog-toggle').textContent === 'Hide previous updates',
+  el('changelog-toggle').textContent);
+check('the history holds every older entry, oldest changes still grouped under their own date',
+  el('changelog-history')._children.length === CHANGELOG.length - 1,
+  el('changelog-history')._children.length);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'toggle-changelog' } }) } });
+await settle();
+check('tapping it again re-collapses the history', el('changelog-history').hidden === true);
+
+// Leaving and reopening Settings must not leave yesterday's "expanded" state
+// stuck open, or the toggle out of sync with it.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'toggle-changelog' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await settle();
+check('reopening settings starts the changelog collapsed again, regardless of how it was left',
+  el('changelog-history').hidden === true && el('changelog-toggle').textContent === 'Show previous updates',
+  `hidden=${el('changelog-history').hidden}, toggle="${el('changelog-toggle').textContent}"`);
+
 check('writing strictness defaults to Normal (level 3)',
   Number(el('writing-strictness').value) === 3 && el('writing-strictness-value').textContent === 'Normal',
   `${el('writing-strictness').value} / "${el('writing-strictness-value').textContent}"`);

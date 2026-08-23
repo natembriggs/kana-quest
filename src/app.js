@@ -18,13 +18,14 @@ import {
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
+import { CHANGELOG } from './changelog.js';
 import * as store from './store.js';
 
 // Search matches a typed reading against romaji regardless of which script
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-23c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-24a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2521,7 +2522,57 @@ function renderSettings() {
   }
   $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
+  renderChangelog();
   show('screen-settings');
+}
+
+/** "What's new" (CHANGELOG[0], from the hand-maintained src/changelog.js)
+ * is always shown; everything older is built into #changelog-history,
+ * collapsed, behind the toggle. Rebuilt fresh (and re-collapsed) every time
+ * Settings opens, rather than trying to remember whether it was left
+ * expanded. */
+function renderChangelog() {
+  const [latest, ...previous] = CHANGELOG;
+
+  $('changelog-current-date').textContent = latest.date;
+  const currentList = $('changelog-current-list');
+  currentList.innerHTML = '';
+  latest.changes.forEach((change) => {
+    const li = document.createElement('li');
+    li.textContent = change;
+    currentList.appendChild(li);
+  });
+
+  const history = $('changelog-history');
+  history.innerHTML = '';
+  previous.forEach((entry) => {
+    const block = document.createElement('div');
+    block.className = 'changelog-entry';
+    const date = document.createElement('p');
+    date.className = 'hint changelog-date';
+    date.textContent = entry.date;
+    block.appendChild(date);
+    const list = document.createElement('ul');
+    list.className = 'changelog-list';
+    entry.changes.forEach((change) => {
+      const li = document.createElement('li');
+      li.textContent = change;
+      list.appendChild(li);
+    });
+    block.appendChild(list);
+    history.appendChild(block);
+  });
+  history.hidden = true;
+
+  const toggle = $('changelog-toggle');
+  toggle.hidden = previous.length === 0;
+  toggle.textContent = 'Show previous updates';
+}
+
+function toggleChangelogHistory() {
+  const history = $('changelog-history');
+  history.hidden = !history.hidden;
+  $('changelog-toggle').textContent = history.hidden ? 'Show previous updates' : 'Hide previous updates';
 }
 
 async function exportBackup() {
@@ -2736,6 +2787,7 @@ function wire() {
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
       case 'force-refresh': forceRefresh(); break;
+      case 'toggle-changelog': toggleChangelogHistory(); break;
       case 'delete-profile':
         if (confirm(`Delete ${state.profile.name} and all their progress?`)) {
           await store.deleteProfile(state.profile.id);

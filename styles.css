@@ -226,6 +226,15 @@ h3 { font-size: 18px; }
 .hint { margin: 0; color: var(--ink-soft); font-size: 14px; }
 .footnote { margin: 8px 0 0; color: var(--ink-soft); font-size: 13px; text-align: center; }
 
+/* --- Changelog (Settings > App version, see renderChangelog() in app.js) - */
+
+.changelog-date { font-weight: 600; color: var(--ink); }
+.changelog-list { margin: 4px 0 0; padding-left: 20px; }
+.changelog-list li { margin: 4px 0; font-size: 14px; color: var(--ink-soft); }
+/* One block per prior date inside #changelog-history — same shape as the
+   always-visible "current" block above, just repeated. */
+.changelog-entry + .changelog-entry { margin-top: 14px; }
+
 /* --- Japanese glyphs ---------------------------------------------------- */
 
 .glyph {

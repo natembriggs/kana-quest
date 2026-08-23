@@ -476,6 +476,15 @@
         Progress is not affected.
       </p>
       <button class="btn wide" type="button" data-action="force-refresh">Force refresh</button>
+      <!-- What's new (CHANGELOG[0] from src/changelog.js) is always shown;
+           everything older sits behind the toggle below — see
+           renderChangelog() in app.js. -->
+      <div>
+        <p id="changelog-current-date" class="hint changelog-date"></p>
+        <ul id="changelog-current-list" class="changelog-list"></ul>
+      </div>
+      <button id="changelog-toggle" class="linkish" type="button" data-action="toggle-changelog">Show previous updates</button>
+      <div id="changelog-history" hidden></div>
     </div>
     <div class="card stack profile-only">
       <button class="btn btn-danger wide" type="button" data-action="delete-profile">Delete this learner</button>
