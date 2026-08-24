@@ -309,6 +309,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | --- | --- | --- |
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
+| `sync-plan.md` | Keeping one learner's progress in step across several devices | **Planned** — nothing built yet |
 
 ## What is not built yet
 
@@ -320,6 +321,11 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
+- **Cross-device sync** — progress is per device, and moving it means saving a
+  backup file and loading it on the other device. `sync-plan.md` designs the
+  automatic version: a per-learner *sync code* rather than an account, a small
+  encrypted blob store behind it, and the merge that `src/store.js` already
+  performs on a backup run continuously instead of once.
 
 ## Progress and backups
 
