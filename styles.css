@@ -470,6 +470,21 @@ h3 { font-size: 18px; }
 }
 .color-option.selected { border-color: var(--ink); }
 
+/* --- Sync code display ---------------------------------------------------
+   Monospace and letter-spaced so a hand-typed code is easy to compare
+   character by character against another screen — the same reasoning as
+   the code's own dash-grouping (sync-plan.md §1.2). */
+.sync-code-row { align-items: center; }
+.sync-code {
+  flex: 1;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+  overflow-wrap: break-word;
+}
+
 /* --- Mode picker -------------------------------------------------------- */
 
 .segmented {

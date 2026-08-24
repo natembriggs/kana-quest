@@ -1,12 +1,11 @@
 # Cross-device sync — implementation plan
 
-Status: **phases 0 and 1 done** (§8). Phase 1: the Worker is written,
-deployed, and passing a live compare-and-swap test suite. Phase 0: the
-merge-correctness fixes it depends on — timestamped study-list tombstones,
-per-key settings conflict resolution, `src/merge.js` extracted — are also
-in, ahead of the actual sync client (phase 2), which is not started.
-Supersedes the "Progress is per-device for now" caveat in `src/store.js` and
-the *Progress and backups* section of the README.
+Status: **phases 0, 1 and 2 done** (§8) — sync works end to end, manually.
+A parent can turn it on, pair a second device with a code, and sync on
+demand from Settings; nothing runs automatically yet (phase 3). Supersedes
+the "Progress is per-device for now" caveat in `src/store.js` and the
+*Progress and backups* section of the README, which now documents the
+feature as it stands.
 
 The goal is that a learner's progress follows them: practise 学 on the iPad
 after school, pick up on the phone in the car, and neither device is behind.
@@ -497,6 +496,39 @@ allowed to fail silently, and the service worker already ignores cross-origin
 requests and non-GET methods (`sw.js`, fetch handler) — so sync traffic passes
 through it untouched, with no cache to poison and no change needed there.
 
+**Built 2026-08-24** — `src/sync-protocol.js` (`pull`, `push`, `syncProfile`)
+and `src/sync-transport.js` (codes, PBKDF2/HKDF/AES-GCM, the real
+`{pull, push}` implementation). One deliberate simplification against §4.1's
+original two-function sketch: `createRemote` and `pairWithCode` turned out to
+each just be `syncProfile` called with `knownVersion: null` — pulling a
+docId that (almost always) has nothing there yet is indistinguishable from
+pairing with one that does, so there's one function, not three, and the
+three UI actions in §5 differ only in what `knownVersion` they pass it.
+
+§4.2's IndexedDB shape landed as designed (`DB_VERSION` 1→2, a `sync` store
+keyed by `profileId`). §4.4's mid-session pull deferral and §4.5's retry
+loop are both implemented as designed, but §4.4 has nothing to guard yet in
+practice — phase 2 has no automatic triggers, and Settings isn't reachable
+from inside a running session, so a pull can't currently land mid-question
+regardless. §4.7 (clock correction) and §4.6 (remote delete on profile
+delete) are untouched, on schedule for phase 4.
+
+**Testing note:** JavaScriptCore, what stands in for Node in this repo's
+test suite, has neither `crypto.subtle` nor `fetch` — confirmed directly,
+not assumed. `sync-protocol.js` doesn't need either (§4.1's whole point) and
+is fully covered by `test/sync.js` against a scripted fake transport.
+`sync-transport.js` itself — the actual WebCrypto and wire-format code —
+was instead verified with a throwaway Node script run against the *live*
+deployed Worker: real PBKDF2/HKDF/AES-GCM key derivation, a real
+encrypt→push→pull→decrypt round trip, a tampered-ciphertext rejection, a
+304 on an unchanged conditional pull, and a 412 on a stale push — all
+passed, then the throwaway document was deleted. What that leaves
+unverified is the DOM itself in an actual browser (button clicks, visual
+layout) — no browser-automation tool was available in this environment to
+drive one; `test/wiring.js`'s stub-DOM coverage of the sync card (panel
+toggling, element ids, the status line) is real but is not a substitute for
+that.
+
 ---
 
 ## 5. The UI
@@ -538,6 +570,17 @@ deleted (§4.6).
 Status stays in Settings rather than becoming a permanent header indicator.
 The audience is a child practising kanji, and a sync spinner on the practice
 screen is an invitation to worry about something they cannot act on.
+
+**Built 2026-08-24**, matching this section closely. "Merged. 42 characters
+were further ahead" is approximated rather than named exactly — the real
+message counts progress records with a newer `updatedAt` than before the
+merge ("Connected. Brought in 12 updates from the other device."), which is
+honest about what actually changed without the added complexity of mapping
+each changed key back to a specific character/mode a parent would recognise.
+One addition beyond the mockups: buttons disable and the status line shows
+"Connecting…" / "Syncing…" while a request is in flight, since PBKDF2 at
+200k iterations plus a round trip is enough of a real delay that a second
+tap needs to be a no-op, not a second request.
 
 ---
 
@@ -581,14 +624,23 @@ Extending what exists rather than adding a new style of test:
   enrollment, per-key settings LWW, the array→timestamp study-list migration,
   and the existing assertions passing unchanged through the `merge.js`
   extraction (that last one is the point of doing the refactor separately).
-- **`test/sync.js`** — new. Drives `sync-protocol.js` against a scripted fake
-  transport: clean pull, 304, 404-then-create, 412-then-merge-then-succeed,
-  three-way conflict, offline mid-push, remote deleted, clock offset applied.
-- **`test/wiring.js`** — grows one case: a pull that lands mid-session is
-  deferred and applied at the screen transition (§4.4).
-- **Server** — a small script driving the Worker under `wrangler dev`,
-  asserting the CAS semantics: `If-Match` mismatch is a 412 and does not
-  write; concurrent PUTs produce exactly one winner.
+- **`test/sync.js`** — **built**, 16 checks. Drives `sync-protocol.js` against
+  a scripted fake transport: clean pull, 304, a docId with nothing there yet,
+  create, a single conflict resolving by pull-merge-retry, every retry
+  conflicting until they exhaust, 404-on-push-means-deleted (recreate, no
+  pull needed), an offline transport failure, and both real UI flows ("Sync
+  now" with nothing changed, "Enter a code" merging real data). Clock offset
+  is phase 4's, so not here yet.
+- **`test/wiring.js`** — grew a different case than originally planned: not
+  the mid-session deferral (§4.4 — moot in phase 2, since Settings isn't
+  reachable mid-session and there are no automatic triggers yet to land one),
+  but the sync card itself — panel toggling between "not yet syncing" and
+  "syncing", the code-entry reveal, the status line, turning sync off. Real
+  crypto/network coverage instead came from a throwaway Node script against
+  the live Worker — see §4's "Built" note.
+- **Server** — already covered by `sync-server/test.sh` (§2.1's "Built" note,
+  written during phase 1): the CAS semantics against the live deployment,
+  not `wrangler dev`.
 
 ---
 
@@ -601,7 +653,7 @@ changes anything a learner would notice.
 | --- | --- | --- |
 | **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | **Done** — `src/merge.js`, `src/srs.js`, `src/app.js`, `src/store.js`; all four test files updated and passing |
 | **1** | The Worker: two endpoints, Durable Object, deployed, no client | **Done** — `sync-server/`, live at `kana-quest-sync.natebriggs.workers.dev`, see §2.1 |
-| **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | Real cross-device sync, but only when a parent asks for it. Every failure mode is observed with a human watching |
+| **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | **Done** — see §4's and §5's "Built" notes below |
 | **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | This is the phase that delivers the actual goal |
 | **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | Robustness, once the shape has survived real use |
 | **5** | *Only if needed:* shard the document (§6) | No current user has this problem |

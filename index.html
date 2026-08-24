@@ -465,6 +465,37 @@
       </label>
       <p class="hint">How closely a drawn stroke has to match to be accepted. Lower is more forgiving.</p>
     </div>
+    <div class="card stack profile-only">
+      <h3>Sync across devices</h3>
+      <div id="sync-not-configured" class="stack">
+        <p class="hint">Practice on this device only. Turn on sync to keep this
+          learner's progress the same on every phone and tablet.</p>
+        <div class="row">
+          <button id="sync-turn-on" class="btn btn-primary" type="button" data-action="sync-turn-on">Turn on sync</button>
+          <button id="sync-show-code-entry" class="btn" type="button" data-action="sync-show-code-entry">Enter a code</button>
+        </div>
+        <form id="sync-code-entry" class="stack" hidden>
+          <label class="field">
+            <span>Code from another device</span>
+            <input id="sync-code-input" type="text" inputmode="text" autocapitalize="characters"
+              autocomplete="off" autocorrect="off" spellcheck="false" placeholder="K7QM-3XR9-P2FT" maxlength="14">
+          </label>
+          <button id="sync-pair-submit" class="btn btn-primary wide" type="submit">Connect</button>
+        </form>
+      </div>
+      <div id="sync-configured" class="stack" hidden>
+        <div class="row sync-code-row">
+          <span id="sync-code-value" class="sync-code"></span>
+          <button id="sync-copy-code" class="btn btn-quiet" type="button" data-action="sync-copy-code">Copy code</button>
+        </div>
+        <p class="hint">Enter this code in Settings on another device to keep them in step.</p>
+        <div class="row">
+          <button id="sync-now" class="btn" type="button" data-action="sync-now">Sync now</button>
+          <button id="sync-turn-off" class="btn btn-danger" type="button" data-action="sync-turn-off">Turn off sync</button>
+        </div>
+      </div>
+      <p id="sync-status" class="hint"></p>
+    </div>
     <div class="card stack">
       <h3>Backup &amp; transfer</h3>
       <p class="hint">Progress lives on this device only. Save a backup file to move it to a new phone or tablet.</p>

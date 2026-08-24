@@ -178,7 +178,24 @@ function runTimers() {
 
 // --- Stub IndexedDB (just enough for store.js) ----------------------------
 
-const rows = new Map();
+// Two real object stores now (store.js: 'profiles' keyed by id, 'sync' keyed
+// by profileId) — one shared Map per store name, each respecting its own
+// keyPath, rather than one Map for everything. A single shared Map used to
+// be enough when there was only one store; sync's pairing-state store would
+// silently collide with it (both writing key `undefined`, since sync rows
+// have no `.id`) if that were still true.
+const storeRows = new Map(); // store name -> Map(key -> doc)
+const storeKeyPaths = { profiles: 'id', sync: 'profileId' };
+
+function rowsFor(name) {
+  if (!storeRows.has(name)) storeRows.set(name, new Map());
+  return storeRows.get(name);
+}
+
+// Every existing check below reaches into `rows` expecting the one profile
+// this test file creates and drives — keep that working unchanged by
+// binding it straight to the 'profiles' store specifically.
+const rows = rowsFor('profiles');
 
 function request(resultFn) {
   const req = { result: undefined, onsuccess: null, onerror: null, _run: resultFn };
@@ -191,13 +208,15 @@ globalThis.indexedDB = {
     const db = {
       objectStoreNames: { contains: () => true },
       createObjectStore: () => {},
-      transaction(_name, _mode) {
+      transaction(name, _mode) {
+        const rows = rowsFor(name);
+        const keyPath = storeKeyPaths[name] || 'id';
         const tx = { oncomplete: null, onerror: null, onabort: null, _reqs: [] };
         tx.objectStore = () => ({
           getAll: () => { const r = request(); r.result = [...rows.values()].map(clone); tx._reqs.push(r); return r; },
-          get: (id) => { const r = request(); r.result = rows.has(id) ? clone(rows.get(id)) : undefined; tx._reqs.push(r); return r; },
-          put: (doc) => { rows.set(doc.id, clone(doc)); const r = request(); tx._reqs.push(r); return r; },
-          delete: (id) => { rows.delete(id); const r = request(); tx._reqs.push(r); return r; },
+          get: (key) => { const r = request(); r.result = rows.has(key) ? clone(rows.get(key)) : undefined; tx._reqs.push(r); return r; },
+          put: (doc) => { rows.set(doc[keyPath], clone(doc)); const r = request(); tx._reqs.push(r); return r; },
+          delete: (key) => { rows.delete(key); const r = request(); tx._reqs.push(r); return r; },
         });
         // Complete on a microtask so callers see async behaviour.
         Promise.resolve().then(() => { if (tx.oncomplete) tx.oncomplete(); });
@@ -231,6 +250,7 @@ const {
 const { strokesFor } = await import('../src/strokes.js');
 const { flattenPath, resample } = await import('../src/stroke-geometry.js');
 const { CHANGELOG } = await import('../src/changelog.js');
+const store = await import('../src/store.js');
 const appModule = await import('../src/app.js');
 for (let i = 0; i < 10; i += 1) await settle();
 
@@ -2340,6 +2360,62 @@ check('the chosen strictness level is saved to the profile, same as new-per-sess
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
 await settle();
 check('closing settings leaves the settings screen', visible() !== 'screen-settings', `showing ${visible()}`);
+
+// --- Sync across devices (sync-plan.md §5) ---------------------------------
+// Real key derivation and network calls need crypto.subtle/fetch, which
+// this stub environment has neither of — that side is covered directly in
+// test/sync.js, against a scripted fake transport. What's exercised here is
+// everything the DOM actually depends on: element ids, panel toggling, and
+// the status line, seeding pairing state straight through store.js the way
+// a real sync would leave it, rather than via a real network round trip.
+
+const syncProfileId = [...rows.values()][0].id;
+
+// renderSyncCard() is fired-and-forgotten by renderSettings() (an IndexedDB
+// read shouldn't delay the screen itself appearing — see app.js), and
+// fire() here doesn't await a click listener's returned promise either, so
+// each step below drains several ticks rather than one: just enough to be
+// sure the async chain it just kicked off (open → read sync state → touch
+// the DOM) has actually finished before the next click or check runs.
+async function drain(times = 5) { for (let i = 0; i < times; i += 1) await settle(); }
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await drain();
+check('a profile with no sync state shows the "not yet syncing" panel',
+  el('sync-not-configured').hidden === false && el('sync-configured').hidden === true);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'sync-show-code-entry' } }) } });
+await drain();
+check('"Enter a code" reveals the code-entry form', el('sync-code-entry').hidden === false);
+
+await store.saveSyncState({
+  profileId: syncProfileId,
+  code: 'K7QM-3XR9-P2FT',
+  docId: 'deadbeef',
+  version: '3',
+  lastPulledAt: Date.now() - 5 * 60 * 1000,
+  lastPushedAt: Date.now() - 5 * 60 * 1000,
+});
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await drain();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await drain();
+check('a paired profile shows the code and the "syncing" panel',
+  el('sync-configured').hidden === false && el('sync-not-configured').hidden === true
+  && el('sync-code-value').textContent === 'K7QM-3XR9-P2FT');
+check('the status line reports how long ago it last synced',
+  /\d+ minutes? ago/.test(el('sync-status').textContent), el('sync-status').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'sync-turn-off' } }) } });
+await drain();
+check('turning off sync reverts to the "not yet syncing" panel',
+  el('sync-not-configured').hidden === false && el('sync-configured').hidden === true);
+const syncStateAfterTurnOff = await store.getSyncState(syncProfileId);
+check('turning off sync removes the local pairing record — the profile and remote copy are untouched',
+  syncStateAfterTurnOff === undefined);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await settle();
 
 // --- Force refresh isolation ---------------------------------------------
 // GitHub Pages project sites share an origin. Force refresh must clear only

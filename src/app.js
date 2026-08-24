@@ -21,6 +21,10 @@ import {
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import { CHANGELOG } from './changelog.js';
 import * as store from './store.js';
+import { syncProfile } from './sync-protocol.js';
+import {
+  transport, generateCode, normalizeCode, formatCode, deriveKeys, encryptProfile, decryptProfile,
+} from './sync-transport.js';
 
 // Search matches a typed reading against romaji regardless of which script
 // it (or the query) is written in — see renderKanjiSearchResults() below.
@@ -2612,6 +2616,16 @@ function renderSettings() {
   $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
   renderChangelog();
+  if (hasProfile) {
+    // Reset synchronously, right now — not inside renderSyncCard() below,
+    // which finishes whenever its IndexedDB read happens to resolve and
+    // would otherwise race a tap on "Enter a code" that lands first.
+    $('sync-code-entry').hidden = true;
+    $('sync-code-input').value = '';
+    // Not awaited: the read shouldn't delay the screen itself appearing,
+    // only the rest of the sync card filling in a moment after it does.
+    renderSyncCard();
+  }
   show('screen-settings');
 }
 
@@ -2687,6 +2701,191 @@ async function importBackup(file) {
     if (state.profile) state.profile = await store.getProfile(state.profile.id);
   } catch (error) {
     $('transfer-status').textContent = error.message || 'Could not read that file.';
+  }
+}
+
+// --- Sync across devices ----------------------------------------------------
+// sync-plan.md §5. Phase 2: every action here is something a parent taps —
+// there is no automatic pull-on-launch or push-on-save yet (phase 3), so
+// there is also no risk yet of a pull landing mid-question (§4.4) — Settings
+// is never reachable from inside a running session in the first place.
+
+const SYNC_BUTTON_IDS = ['sync-turn-on', 'sync-show-code-entry', 'sync-pair-submit', 'sync-now', 'sync-turn-off', 'sync-copy-code'];
+
+function setSyncBusy(busy) {
+  SYNC_BUTTON_IDS.forEach((id) => { $(id).disabled = busy; });
+  $('sync-code-input').disabled = busy;
+}
+
+function formatRelativeTime(ms) {
+  const diffSeconds = Math.round((Date.now() - ms) / 1000);
+  if (diffSeconds < 45) return 'just now';
+  const minutes = Math.round(diffSeconds / 60);
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+  const days = Math.round(hours / 24);
+  return `${days} day${days === 1 ? '' : 's'} ago`;
+}
+
+function syncStatusText(syncState) {
+  const last = Math.max(syncState.lastPulledAt || 0, syncState.lastPushedAt || 0);
+  return last ? `Last synced ${formatRelativeTime(last)}.` : 'Not synced yet.';
+}
+
+/** Renders the current pairing state into the two panels the markup already
+ * has (§5's "not yet syncing" / "syncing" mockups) and, unless a caller
+ * passes its own message (a result just worth saying plainly, e.g. "Merged
+ * — brought in 3 updates"), falls back to the default last-synced text. */
+async function renderSyncCard(statusOverride) {
+  if (!state.profile) return;
+  const syncState = await store.getSyncState(state.profile.id);
+  $('sync-configured').hidden = !syncState;
+  $('sync-not-configured').hidden = !!syncState;
+  if (syncState) $('sync-code-value').textContent = syncState.code;
+  $('sync-status').textContent = statusOverride !== undefined ? statusOverride : syncStatusText(syncState);
+}
+
+function syncFailureMessage(outcome) {
+  if (outcome === 'too-large') {
+    return "This learner's progress has grown too large to sync — that shouldn't normally happen. Try again later.";
+  }
+  if (outcome === 'conflict') return 'Could not finish syncing right now — try again in a moment.';
+  return 'Could not reach the sync server. Check the connection and try again.';
+}
+
+const SYNC_FAILURE_OUTCOMES = ['error', 'conflict', 'too-large'];
+
+/** How many progress records actually changed, for the plain-language
+ * "brought in N updates" message — a rough, honest count (sync-plan.md §5),
+ * not an attempt to name every character by hand. */
+function countProgressChanges(before, after) {
+  let count = 0;
+  Object.entries(after).forEach(([key, record]) => {
+    const prior = before[key];
+    if (!prior || (record.updatedAt || 0) !== (prior.updatedAt || 0)) count += 1;
+  });
+  return count;
+}
+
+/** Runs one sync action against `docId`/`aesKey`, persists the resulting
+ * sync-pairing row, and reloads `state.profile` if the merge actually
+ * changed it. Every one of the four UI actions below is this same call with
+ * a different `knownVersion` and a different message for the happy path. */
+async function performSync({
+  code, docId, aesKey, knownVersion, successMessage,
+}) {
+  const profile = state.profile;
+  const result = await syncProfile({
+    transport,
+    encrypt: (p) => encryptProfile(aesKey, p),
+    decrypt: (c) => decryptProfile(aesKey, c),
+    docId,
+    knownVersion,
+    localProfile: profile,
+  });
+  if (SYNC_FAILURE_OUTCOMES.includes(result.outcome)) {
+    await renderSyncCard(syncFailureMessage(result.outcome));
+    return false;
+  }
+  await store.saveSyncState({
+    profileId: profile.id, code, docId, version: result.version,
+    lastPulledAt: Date.now(), lastPushedAt: Date.now(),
+  });
+  if (result.profile !== profile) {
+    state.profile = result.profile;
+    await store.saveProfile(state.profile);
+  }
+  await renderSyncCard(successMessage(result.outcome, profile.progress, result.profile.progress));
+  return true;
+}
+
+async function syncTurnOn() {
+  setSyncBusy(true);
+  $('sync-status').textContent = 'Turning on sync…';
+  try {
+    const code = generateCode();
+    const { docId, aesKey } = await deriveKeys(code);
+    await performSync({
+      code, docId, aesKey, knownVersion: null, successMessage: () => 'Sync turned on.',
+    });
+  } catch {
+    await renderSyncCard(syncFailureMessage('error'));
+  } finally {
+    setSyncBusy(false);
+  }
+}
+
+async function syncEnterCode(event) {
+  event.preventDefault();
+  const code = formatCode(normalizeCode($('sync-code-input').value));
+  if (!code) return;
+  setSyncBusy(true);
+  $('sync-status').textContent = 'Connecting…';
+  try {
+    const { docId, aesKey } = await deriveKeys(code);
+    const ok = await performSync({
+      code,
+      docId,
+      aesKey,
+      knownVersion: null,
+      successMessage: (outcome, before, after) => {
+        if (outcome === 'unchanged') return 'Connected. Nothing to bring over yet.';
+        const count = countProgressChanges(before, after);
+        return count === 0
+          ? 'Connected. Already up to date.'
+          : `Connected. Brought in ${count} update${count === 1 ? '' : 's'} from the other device.`;
+      },
+    });
+    if (ok) $('sync-code-input').value = '';
+  } catch {
+    await renderSyncCard(syncFailureMessage('error'));
+  } finally {
+    setSyncBusy(false);
+  }
+}
+
+async function syncNow() {
+  const syncState = await store.getSyncState(state.profile.id);
+  if (!syncState) return;
+  setSyncBusy(true);
+  $('sync-status').textContent = 'Syncing…';
+  try {
+    const { docId, aesKey } = await deriveKeys(syncState.code);
+    await performSync({
+      code: syncState.code,
+      docId,
+      aesKey,
+      knownVersion: syncState.version,
+      successMessage: (outcome, before, after) => {
+        if (outcome === 'unchanged') return undefined; // falls back to "Last synced just now"
+        const count = countProgressChanges(before, after);
+        return count === 0 ? undefined : `Synced. Brought in ${count} update${count === 1 ? '' : 's'}.`;
+      },
+    });
+  } catch {
+    await renderSyncCard(syncFailureMessage('error'));
+  } finally {
+    setSyncBusy(false);
+  }
+}
+
+/** Stops pushing and forgets the code on this device only — the remote
+ * document is untouched (sync-plan.md §5), so turning sync back on with the
+ * same code, here or elsewhere, picks up exactly where it left off. */
+async function syncTurnOff() {
+  await store.deleteSyncState(state.profile.id);
+  await renderSyncCard();
+}
+
+async function syncCopyCode() {
+  const syncState = await store.getSyncState(state.profile.id);
+  if (!syncState || !navigator.clipboard) return;
+  try {
+    await navigator.clipboard.writeText(syncState.code);
+    $('sync-status').textContent = 'Code copied.';
+  } catch {
+    $('sync-status').textContent = 'Could not copy — select and copy the code by hand.';
   }
 }
 
@@ -2799,6 +2998,8 @@ function wire() {
     event.target.value = '';
   });
 
+  $('sync-code-entry').addEventListener('submit', syncEnterCode);
+
   $('install-banner-dismiss').addEventListener('click', () => {
     $('install-banner').hidden = true;
     try { sessionStorage.setItem(INSTALL_DISMISSED_KEY, '1'); } catch { /* private browsing etc. */ }
@@ -2876,6 +3077,14 @@ function wire() {
           { skipLesson: !state.summaryMissedIsPlacement, carriedResults: state.summaryAllResults },
         );
         break;
+      case 'sync-turn-on': syncTurnOn(); break;
+      case 'sync-show-code-entry':
+        $('sync-code-entry').hidden = false;
+        $('sync-code-input').focus();
+        break;
+      case 'sync-now': syncNow(); break;
+      case 'sync-turn-off': syncTurnOff(); break;
+      case 'sync-copy-code': syncCopyCode(); break;
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
       case 'force-refresh': forceRefresh(); break;

@@ -25,6 +25,7 @@ $JSC -m test/smoke.js     # kana/kanji tables, answer checking, spaced repetitio
 $JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sessions
 $JSC -m test/store.js     # backup validation and conflict-safe profile merging
 $JSC -m test/service-worker.js # cache isolation and offline fallback behaviour
+$JSC -m test/sync.js      # the sync pull/merge/push/retry state machine, against a fake transport
 ```
 
 All four must be run from the repo root.
@@ -309,7 +310,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | --- | --- | --- |
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
-| `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — server deployed (`sync-server/`), client not started |
+| `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — manual sync works end to end; automatic triggers not started |
 
 ## What is not built yet
 
@@ -321,11 +322,13 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
-- **Cross-device sync** — progress is per device, and moving it means saving a
-  backup file and loading it on the other device. `sync-plan.md` designs the
-  automatic version: a per-learner *sync code* rather than an account, a small
-  encrypted blob store behind it, and the merge that `src/merge.js` already
-  performs on a backup run continuously instead of once.
+- **Cross-device sync, the automatic part.** Manual sync is live: a per-learner
+  *sync code* (Settings → Sync across devices) rather than an account, an
+  encrypted blob store on Cloudflare behind it, and the same conflict-safe
+  merge the backup file uses. What's not built yet is doing any of that
+  without being asked — it only runs when a parent taps *Turn on sync*,
+  *Enter a code*, or *Sync now*, not automatically on launch, on save, or
+  when a session ends. See `sync-plan.md`.
 
 ## Progress and backups
 
@@ -351,9 +354,22 @@ sheet on iOS, since no browser exposes a programmatic install trigger there.
 As a second line of defence regardless, **Settings → Save backup file**
 writes a JSON file with every profile on the device. Loading a backup on
 another device merges rather than overwrites: records are resolved by their
-latest grading time, study lists are unioned, and settings already chosen on
-the receiving device win. Restoring an old backup therefore cannot wipe out
-newer practice.
+latest grading time, study-list enrollment and removal are each resolved by
+whichever happened more recently, and settings are resolved per field the
+same way, falling back to whatever's already on the receiving device only
+for a field neither side has actually touched. Restoring an old backup
+therefore cannot wipe out newer practice, and un-enrolling a kanji actually
+sticks rather than being silently undone by an older copy.
+
+**Settings → Sync across devices** does the same merge automatically instead
+of through a file: generate a code on one device (**Turn on sync**), type it
+into Settings on another (**Enter a code**), and progress moves between them
+from then on with a tap of **Sync now**. There's no account — the code itself
+is what a device needs to read or write that learner's progress — and the
+data is encrypted before it ever leaves the device, so the server holds
+opaque bytes, not a name or a record of what's been practised. It's manual
+for now: nothing syncs automatically yet on launch, on save, or when a
+session ends — see `sync-plan.md` for what's built and what's still ahead.
 
 ## Layout
 
@@ -370,6 +386,8 @@ newer practice.
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/merge.js` | Pure profile-merge logic backup import runs on — kept separate from storage so the same merge can run against a synced profile later, see `sync-plan.md` §0.3 |
+| `src/sync-protocol.js` | The pull/merge/push/retry state machine behind Sync across devices — pure, takes a transport and encrypt/decrypt as parameters so it's testable without real crypto or a network. See `sync-plan.md` §4.1 |
+| `src/sync-transport.js` | The real thing `sync-protocol.js` is handed: sync codes, PBKDF2/HKDF key derivation, AES-GCM encrypt/decrypt, and the fetch calls to `sync-server/` |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `src/changelog.js` | Hand-maintained, plain-language "what's new" shown in Settings — add an entry here in the same commit as any user-visible `APP_VERSION` bump |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |

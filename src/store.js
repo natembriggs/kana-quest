@@ -10,8 +10,13 @@ import { DEFAULT_STRICTNESS } from './stroke-grader.js';
 import { mergeProfiles } from './merge.js';
 
 const DB_NAME = 'kana-quest';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE = 'profiles';
+// Sync pairing state (sync-plan.md §4.2), keyed by profile id — deliberately
+// its own object store rather than a field on the profile, so the profile
+// document stays exactly what gets encrypted and uploaded, with nothing to
+// strip out first.
+const SYNC_STORE = 'sync';
 
 let dbPromise = null;
 
@@ -24,6 +29,9 @@ function openDb() {
       if (!db.objectStoreNames.contains(STORE)) {
         db.createObjectStore(STORE, { keyPath: 'id' });
       }
+      if (!db.objectStoreNames.contains(SYNC_STORE)) {
+        db.createObjectStore(SYNC_STORE, { keyPath: 'profileId' });
+      }
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
@@ -31,10 +39,10 @@ function openDb() {
   return dbPromise;
 }
 
-function tx(mode, run) {
+function tx(storeName, mode, run) {
   return openDb().then((db) => new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE, mode);
-    const request = run(transaction.objectStore(STORE));
+    const transaction = db.transaction(storeName, mode);
+    const request = run(transaction.objectStore(storeName));
     transaction.oncomplete = () => resolve(request ? request.result : undefined);
     transaction.onerror = () => reject(transaction.error);
     transaction.onabort = () => reject(transaction.error);
@@ -85,20 +93,39 @@ export function defaultSettings() {
 }
 
 export function listProfiles() {
-  return tx('readonly', (store) => store.getAll())
+  return tx(STORE, 'readonly', (store) => store.getAll())
     .then((rows) => (rows || []).sort((a, b) => a.createdAt - b.createdAt));
 }
 
 export function getProfile(id) {
-  return tx('readonly', (store) => store.get(id));
+  return tx(STORE, 'readonly', (store) => store.get(id));
 }
 
 export function saveProfile(profile) {
-  return tx('readwrite', (store) => store.put(profile));
+  return tx(STORE, 'readwrite', (store) => store.put(profile));
 }
 
 export function deleteProfile(id) {
-  return tx('readwrite', (store) => store.delete(id));
+  return tx(STORE, 'readwrite', (store) => store.delete(id));
+}
+
+// --- Sync pairing state ----------------------------------------------------
+// One row per profile that has ever turned sync on: { profileId, code,
+// docId, version, lastPulledAt, lastPushedAt }. `code` and `docId` are kept
+// together so the key never has to be re-derived from a version-less state,
+// and `version` is the last remote ETag this device knows about — see
+// sync-plan.md §4.2. Absence of a row means "not syncing".
+
+export function getSyncState(profileId) {
+  return tx(SYNC_STORE, 'readonly', (store) => store.get(profileId));
+}
+
+export function saveSyncState(state) {
+  return tx(SYNC_STORE, 'readwrite', (store) => store.put(state));
+}
+
+export function deleteSyncState(profileId) {
+  return tx(SYNC_STORE, 'readwrite', (store) => store.delete(profileId));
 }
 
 export function createProfile(name, emoji) {
