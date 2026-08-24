@@ -244,9 +244,11 @@ Options that are actually consistent:
   correct CAS. Simpler mental model, but a single shared database for every
   user, and a per-value size ceiling (~2 MB) that §6 could eventually reach.
 
-Recommend the Durable Object, with D1 as the fallback if free-tier DO turns
-out not to be available on the account — verify before building, this is
-listed in §9.
+Recommend the Durable Object. **Verified 2026-08-24:** a throwaway Worker
+with a `new_sqlite_classes` Durable Object binding deployed cleanly to this
+account's free (`standard`) plan and answered requests routed through the
+DO instance, no upgrade prompt or plan error. D1 as a fallback is no longer
+needed.
 
 Either way, an `R2` object holding the ciphertext with only the version in the
 consistent store is the escape hatch if payloads grow past what a row wants to
@@ -529,7 +531,7 @@ changes anything a learner would notice.
 | Phase | What | Why here |
 | --- | --- | --- |
 | **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | Improves the *existing* backup path immediately. Everything else depends on it, and it is the only phase that touches scheduling code |
-| **1** | The Worker: two endpoints, Durable Object, deployed, no client | Independently verifiable with `curl`. Confirms the free-tier question in §9 before any client work is committed to it |
+| **1** | The Worker: two endpoints, Durable Object, deployed, no client | Independently verifiable with `curl`. Account and tooling are already set up (below) |
 | **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | Real cross-device sync, but only when a parent asks for it. Every failure mode is observed with a human watching |
 | **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | This is the phase that delivers the actual goal |
 | **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | Robustness, once the shape has survived real use |
@@ -538,6 +540,19 @@ changes anything a learner would notice.
 Phase 0 is worth doing next regardless of whether the rest is ever built: the
 un-enrol bug in §0.1 is reachable today, through the backup file, and is a
 plain bug.
+
+### 8.1 Account and tooling — already done (2026-08-24)
+
+Phase 1 has nothing left to set up before writing the Worker itself:
+
+- Cloudflare account (`natebriggs@gmail.com`, free/`standard` plan), workers.dev
+  subdomain registered as `natebriggs.workers.dev`.
+- Local toolchain: this machine had no Node.js, so `nvm` was installed
+  (`~/.nvm`, no admin password needed, unlike Homebrew) with Node 24 LTS, then
+  `wrangler` 4.125 globally via npm. `wrangler login` is authenticated;
+  credentials live in `~/Library/Preferences/.wrangler/config/default.toml`.
+- SQLite-backed Durable Objects confirmed working on the free plan by
+  deploying and deleting a throwaway probe Worker — see §2.2's note.
 
 ---
 
@@ -588,9 +603,8 @@ the door.
 
 ## 10. Open questions
 
-- **Is the SQLite-backed Durable Object available on the free plan for this
-  account?** Verify before phase 1; D1 is the fallback (§2.2) and the client
-  cannot tell the difference.
+- ~~Is the SQLite-backed Durable Object available on the free plan for this
+  account?~~ **Resolved 2026-08-24** — yes (§2.2).
 - **Should one code be able to cover several children?** §1.5 says no, on the
   grounds that a shared iPad shouldn't force siblings together. But a parent
   setting up two kids on two devices then types two codes. Worth revisiting
