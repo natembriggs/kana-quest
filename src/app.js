@@ -30,7 +30,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-24c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-24d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -343,6 +343,41 @@ function selectedEmoji() {
 }
 
 /**
+ * Settings > Badge. The picker above (#emoji-picker) is a one-shot choice
+ * while creating a profile; this one edits an existing profile's badge, the
+ * same way renderColorPicker() below edits its accent colour.
+ *
+ * Stamping `profileUpdatedAt` is what makes the change actually travel
+ * between devices: mergeIdentity() in merge.js resolves name/emoji by that
+ * timestamp, and until this existed nothing ever wrote it — so every merge
+ * tied at 0 and silently kept whichever copy was local, which is exactly why
+ * a badge chosen on one device never showed up on another.
+ */
+function renderProfileEmojiPicker() {
+  const picker = $('profile-emoji-picker');
+  picker.innerHTML = '';
+  EMOJI_CHOICES.forEach((emoji) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'emoji-option';
+    button.textContent = emoji;
+    button.addEventListener('click', () => {
+      state.profile.emoji = emoji;
+      state.profile.profileUpdatedAt = Date.now();
+      store.saveProfile(state.profile);
+      syncProfileEmojiSelection();
+    });
+    picker.appendChild(button);
+  });
+}
+
+function syncProfileEmojiSelection() {
+  $('profile-emoji-picker').querySelectorAll('.emoji-option').forEach((el) => {
+    el.classList.toggle('selected', el.textContent === state.profile.emoji);
+  });
+}
+
+/**
  * Settings > Theme colour. Unlike the emoji picker above (a one-shot choice
  * for a brand-new profile), this edits an EXISTING profile's setting live —
  * built once here, but which swatch reads .selected is re-synced every time
@@ -409,6 +444,9 @@ function openProfile(profile) {
     store.saveProfile(profile);
   }
   renderHome();
+  // Not awaited: opening a learner must never wait on the network. If this
+  // brings anything in, it re-renders the home screen itself (autoSync).
+  autoSync({ force: true });
 }
 
 // --- Home: pick a script --------------------------------------------------
@@ -2589,6 +2627,9 @@ function finishSession() {
   state.session = null;
   store.saveProfile(state.profile);
   show('screen-summary');
+  // The natural boundary to send a session's work — state.session is
+  // already null above, which is what lets autoSync run at all (§4.4).
+  autoSync({ force: true });
 }
 
 // --- Settings, backup, transfer ------------------------------------------
@@ -2606,6 +2647,7 @@ function renderSettings() {
   state.settingsReturn = current ? current.id : 'screen-home';
   document.querySelectorAll('.profile-only').forEach((el) => { el.hidden = !hasProfile; });
   if (hasProfile) {
+    syncProfileEmojiSelection();
     syncColorPickerSelection();
     $('new-per-session').value = state.profile.settings.newPerSession;
     $('new-per-session-value').textContent = state.profile.settings.newPerSession;
@@ -2772,8 +2814,18 @@ function countProgressChanges(before, after) {
  * sync-pairing row, and reloads `state.profile` if the merge actually
  * changed it. Every one of the four UI actions below is this same call with
  * a different `knownVersion` and a different message for the happy path. */
-async function performSync({
-  code, docId, aesKey, knownVersion, successMessage,
+/**
+ * The one code path every sync goes through, manual or automatic. Returns
+ * the raw result; callers decide what (if anything) to say about it.
+ *
+ * Order matters at the end: the merged profile is saved BEFORE the sync
+ * state is written back, because store.saveProfile() marks the pairing
+ * dirty — doing it the other way round would immediately re-dirty a pairing
+ * that was just successfully pushed, and every later sync would send a
+ * pointless write.
+ */
+async function runSync({
+  code, docId, aesKey, knownVersion, localChanged, adoptIncomingIdentity = false,
 }) {
   const profile = state.profile;
   const result = await syncProfile({
@@ -2783,21 +2835,95 @@ async function performSync({
     docId,
     knownVersion,
     localProfile: profile,
+    localChanged,
+    adoptIncomingIdentity,
   });
-  if (SYNC_FAILURE_OUTCOMES.includes(result.outcome)) {
-    await renderSyncCard(syncFailureMessage(result.outcome));
-    return false;
-  }
-  await store.saveSyncState({
-    profileId: profile.id, code, docId, version: result.version,
-    lastPulledAt: Date.now(), lastPushedAt: Date.now(),
-  });
+  if (SYNC_FAILURE_OUTCOMES.includes(result.outcome)) return { ...result, ok: false };
+
   if (result.profile !== profile) {
     state.profile = result.profile;
     await store.saveProfile(state.profile);
   }
-  await renderSyncCard(successMessage(result.outcome, profile.progress, result.profile.progress));
+  const now = Date.now();
+  await store.saveSyncState({
+    profileId: profile.id,
+    code,
+    docId,
+    version: result.version,
+    lastPulledAt: now,
+    lastPushedAt: result.pushed ? now : undefined,
+    // Anything this device still owes the remote was just sent, unless the
+    // push was skipped precisely because there was nothing to send.
+    dirty: result.pushed ? false : (localChanged && !result.pushed),
+  });
+  return {
+    ...result,
+    ok: true,
+    changeCount: countProgressChanges(profile.progress, result.profile.progress),
+  };
+}
+
+/** runSync plus the Settings card's messaging — the manual actions only. */
+async function performSync({ successMessage, ...options }) {
+  const result = await runSync(options);
+  if (!result.ok) {
+    await renderSyncCard(syncFailureMessage(result.outcome));
+    return false;
+  }
+  await renderSyncCard(successMessage(result.outcome, result.changeCount));
   return true;
+}
+
+// --- Automatic sync (sync-plan.md §4.3) -------------------------------------
+// Deliberately at natural boundaries — opening a learner, finishing a
+// session, leaving or returning to the app — never per answer. A session's
+// worth of practice is one push, not thirty, and a launch that finds nothing
+// new costs a single conditional request that comes back 304.
+
+const SYNC_STALE_MS = 10 * 60 * 1000;
+let autoSyncRunning = false;
+
+/**
+ * Sync in the background if this profile is paired and there's a reason to.
+ * Silent by design: it must never interrupt a learner, so failures (offline,
+ * server down) are swallowed — local IndexedDB is the source of truth and
+ * the next trigger will try again.
+ */
+async function autoSync({ force = false } = {}) {
+  const profile = state.profile;
+  if (!profile || autoSyncRunning) return;
+  // §4.4: a pull mid-question would swap the profile out from under the
+  // answer being graded. Sessions are short; this waits for the end of one.
+  if (state.session) return;
+
+  const syncState = await store.getSyncState(profile.id);
+  if (!syncState) return;
+
+  const since = Date.now() - (syncState.lastPulledAt || 0);
+  if (!force && !syncState.dirty && since < SYNC_STALE_MS) return;
+
+  autoSyncRunning = true;
+  try {
+    const { docId, aesKey } = await deriveKeys(syncState.code);
+    const result = await runSync({
+      code: syncState.code,
+      docId,
+      aesKey,
+      knownVersion: syncState.version,
+      localChanged: !!syncState.dirty,
+    });
+    // A merge that brought in another device's work changes what every
+    // screen should be showing — but only redraw a screen that's actually
+    // idle, never one mid-anything.
+    if (result.ok && result.changeCount > 0 && !state.session) {
+      if (!$('screen-home').hidden) renderHome();
+      else if (!$('screen-settings').hidden) await renderSyncCard();
+    }
+  } catch {
+    // Offline, or the key derivation failed — nothing a learner can act on.
+  } finally {
+    autoSyncRunning = false;
+  }
 }
 
 async function syncTurnOn() {
@@ -2807,7 +2933,8 @@ async function syncTurnOn() {
     const code = generateCode();
     const { docId, aesKey } = await deriveKeys(code);
     await performSync({
-      code, docId, aesKey, knownVersion: null, successMessage: () => 'Sync turned on.',
+      code, docId, aesKey, knownVersion: null, localChanged: true,
+      successMessage: () => 'Sync turned on.',
     });
   } catch {
     await renderSyncCard(syncFailureMessage('error'));
@@ -2829,9 +2956,10 @@ async function syncEnterCode(event) {
       docId,
       aesKey,
       knownVersion: null,
-      successMessage: (outcome, before, after) => {
+      localChanged: true,
+      adoptIncomingIdentity: true,
+      successMessage: (outcome, count) => {
         if (outcome === 'unchanged') return 'Connected. Nothing to bring over yet.';
-        const count = countProgressChanges(before, after);
         return count === 0
           ? 'Connected. Already up to date.'
           : `Connected. Brought in ${count} update${count === 1 ? '' : 's'} from the other device.`;
@@ -2857,11 +2985,13 @@ async function syncNow() {
       docId,
       aesKey,
       knownVersion: syncState.version,
-      successMessage: (outcome, before, after) => {
-        if (outcome === 'unchanged') return undefined; // falls back to "Last synced just now"
-        const count = countProgressChanges(before, after);
-        return count === 0 ? undefined : `Synced. Brought in ${count} update${count === 1 ? '' : 's'}.`;
-      },
+      // Tapping Sync now explicitly is a request to reconcile, so it pushes
+      // whether or not anything changed here — unlike the automatic
+      // triggers, which stay quiet when there's nothing to send.
+      localChanged: true,
+      successMessage: (outcome, count) => (
+        count === 0 ? undefined : `Synced. Brought in ${count} update${count === 1 ? '' : 's'}.`
+      ),
     });
   } catch {
     await renderSyncCard(syncFailureMessage('error'));
@@ -2911,6 +3041,7 @@ async function syncCopyCode() {
 
 function wire() {
   renderEmojiPicker();
+  renderProfileEmojiPicker();
   renderColorPicker();
 
   $('new-profile-form').addEventListener('submit', async (event) => {
@@ -3288,12 +3419,31 @@ function hideSplash() {
   if (splash) splash.hidden = true;
 }
 
+/**
+ * The app-lifecycle half of automatic sync (§4.3). Leaving the app is the
+ * one moment worth pushing outside a session boundary — a phone put down
+ * mid-course is the common way practice would otherwise sit unsent until
+ * next launch. Coming back pulls only if it's been a while (SYNC_STALE_MS),
+ * so flicking between apps doesn't cost a request each time.
+ */
+function watchLifecycleForSync() {
+  // Both directions call the same guarded autoSync: leaving is a no-op when
+  // nothing changed, returning is a no-op when it synced recently.
+  document.addEventListener('visibilitychange', () => autoSync());
+  // Guarded the same way as the install-prompt listeners above — the stub
+  // DOM in test/wiring.js has no window.addEventListener.
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('online', () => autoSync({ force: true }));
+  }
+}
+
 async function boot() {
   wire();
   store.requestPersistence();
   await renderProfiles();
   hideSplash();
   watchForUpdates();
+  watchLifecycleForSync();
   renderInstallBanner(); // iOS has no beforeinstallprompt event, so this is the only call that ever renders it there
 }
 

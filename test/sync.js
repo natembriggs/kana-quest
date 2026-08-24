@@ -245,6 +245,110 @@ function record(updatedAt, correct = true) {
     result.outcome === 'error' && transport.calls.pushes.length === 0);
 }
 
+// --- Not spending requests on nothing (sync-plan.md §4.3) ------------------
+// What makes automatic sync affordable: the common cases cost one request,
+// not two. These are the paths every launch and every app-switch takes.
+
+{
+  // Nothing practised here since the last push, nothing new there: a single
+  // conditional GET that comes back 304, and no push at all.
+  const transport = scriptedTransport([{ status: 'not-modified' }], []);
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: '4',
+    localProfile: profile('p1'), localChanged: false,
+  });
+  check('an unchanged sync with nothing local to send costs one request, not two',
+    result.outcome === 'unchanged' && result.pushed === false
+    && transport.calls.pulls.length === 1 && transport.calls.pushes.length === 0);
+}
+
+{
+  // The other device did the work; this one only catches up. The merge
+  // result is already exactly what the remote holds, so writing it back
+  // would be a pure waste of a request.
+  const remote = profile('p1', { progress: { 'recognition:あ': record(100) } });
+  const transport = scriptedTransport([{ status: 'ok', version: '9', ciphertext: remote }], []);
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: '8',
+    localProfile: profile('p1'), localChanged: false,
+  });
+  check('catching up on another device\'s work needs no write-back',
+    result.outcome === 'merged' && result.pushed === false
+    && transport.calls.pushes.length === 0
+    && result.profile.progress['recognition:あ'].updatedAt === 100);
+}
+
+{
+  // But local work always gets sent, even when the pull found nothing new.
+  const transport = scriptedTransport([{ status: 'not-modified' }], [{ status: 'ok', version: '5' }]);
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: '4',
+    localProfile: profile('p1'), localChanged: true,
+  });
+  check('local practice is still pushed when the pull found nothing new',
+    result.pushed === true && transport.calls.pushes.length === 1);
+}
+
+{
+  // And a document that doesn't exist yet is always created, even with
+  // nothing local to send — that case is "Turn on sync".
+  const transport = scriptedTransport([{ status: 'not-found' }], [{ status: 'ok', version: '1' }]);
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: null,
+    localProfile: profile('p1'), localChanged: false,
+  });
+  check('a remote document that does not exist yet is created regardless',
+    result.pushed === true && transport.calls.pushes.length === 1);
+}
+
+// --- Identity adoption on first pairing (the badge that wouldn't sync) -----
+
+{
+  const local = profile('p1', { name: 'Local', emoji: '🌱' });
+  const remote = profile('p1', { name: 'Kenji', emoji: '🦊' });
+  const transport = scriptedTransport(
+    [{ status: 'ok', version: '2', ciphertext: remote }], [{ status: 'ok', version: '3' }],
+  );
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: null, localProfile: local,
+    adoptIncomingIdentity: true,
+  });
+  check('pairing adopts the other device\'s name and badge when neither was deliberately set',
+    result.profile.emoji === '🦊' && result.profile.name === 'Kenji',
+    `${result.profile.emoji} ${result.profile.name}`);
+}
+
+{
+  // ...but a badge this device deliberately chose is a real preference and
+  // must survive pairing against an unstamped remote.
+  const local = profile('p1', { name: 'Mine', emoji: '🐙', profileUpdatedAt: 5000 });
+  const remote = profile('p1', { name: 'Theirs', emoji: '🦊' });
+  const transport = scriptedTransport(
+    [{ status: 'ok', version: '2', ciphertext: remote }], [{ status: 'ok', version: '3' }],
+  );
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: null, localProfile: local,
+    adoptIncomingIdentity: true,
+  });
+  check('a deliberately chosen badge is not overwritten by pairing',
+    result.profile.emoji === '🐙' && result.profile.name === 'Mine',
+    `${result.profile.emoji} ${result.profile.name}`);
+}
+
+{
+  // Ordinary (non-pairing) sync: newest deliberate edit wins, either way.
+  const local = profile('p1', { emoji: '🐙', profileUpdatedAt: 1000 });
+  const remote = profile('p1', { emoji: '🦉', profileUpdatedAt: 9000 });
+  const transport = scriptedTransport(
+    [{ status: 'ok', version: '2', ciphertext: remote }], [{ status: 'ok', version: '3' }],
+  );
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: '1', localProfile: local,
+  });
+  check('a newer badge change travels between devices on an ordinary sync',
+    result.profile.emoji === '🦉', result.profile.emoji);
+}
+
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);
 print('all sync tests passed');

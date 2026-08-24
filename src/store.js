@@ -101,8 +101,22 @@ export function getProfile(id) {
   return tx(STORE, 'readonly', (store) => store.get(id));
 }
 
-export function saveProfile(profile) {
-  return tx(STORE, 'readwrite', (store) => store.put(profile));
+/**
+ * Saving a profile also marks its sync pairing (if any) as having local
+ * changes to send. This lives here rather than at the ~20 call sites
+ * precisely so none of them can forget it — a missed mark means practice
+ * that silently never reaches the other device.
+ *
+ * The read is cheap and local; the write only happens on the first save
+ * after a successful push, so a whole session of grading costs one extra
+ * sync-store write, not one per answer.
+ */
+export async function saveProfile(profile) {
+  await tx(STORE, 'readwrite', (store) => store.put(profile));
+  const syncState = await tx(SYNC_STORE, 'readonly', (store) => store.get(profile.id));
+  if (syncState && !syncState.dirty) {
+    await tx(SYNC_STORE, 'readwrite', (store) => store.put({ ...syncState, dirty: true }));
+  }
 }
 
 export function deleteProfile(id) {

@@ -191,16 +191,27 @@ function mergeSettings(current, incoming) {
   return { settings, settingsUpdatedAt };
 }
 
-/** name/emoji, last-write-wins by `profileUpdatedAt` — same idea as
- * mergeSettings, but there is no per-field renaming yet (a profile has
- * exactly one name and one emoji at a time), so one timestamp covers both.
- * Undefined on every profile today, since nothing writes it yet — ties, and
- * keeps `current`, exactly what the pre-existing merge always did. */
-function mergeIdentity(current, incoming) {
+/**
+ * name/emoji, last-write-wins by `profileUpdatedAt` — one timestamp covers
+ * both, since a profile has exactly one name and one badge at a time.
+ * `profileUpdatedAt` is written only by a deliberate edit (Settings > Badge,
+ * see renderProfileEmojiPicker in app.js), never at creation, so its absence
+ * means "never deliberately chosen on this device" rather than "old".
+ *
+ * `adoptIncoming` is for first-time pairing (§5's "Enter a code"). Both
+ * sides usually arrive unstamped there — each device made its own profile
+ * with whatever badge the picker defaulted to — and a plain tie would keep
+ * the local one, so the badge a parent actually recognises never crosses
+ * over. Saying "this device is that learner" is exactly the moment the
+ * remote's identity should win. A local badge that WAS deliberately chosen
+ * still beats an unstamped remote, so this can't overwrite a real choice.
+ */
+function mergeIdentity(current, incoming, adoptIncoming) {
   const currentTs = current.profileUpdatedAt || 0;
   const incomingTs = incoming.profileUpdatedAt || 0;
-  if (incomingTs > currentTs) {
-    return { name: incoming.name, emoji: incoming.emoji, profileUpdatedAt: incomingTs };
+  const takeIncoming = incomingTs > currentTs || (adoptIncoming && currentTs === 0);
+  if (takeIncoming) {
+    return { name: incoming.name, emoji: incoming.emoji, profileUpdatedAt: incomingTs || undefined };
   }
   return { name: current.name, emoji: current.emoji, profileUpdatedAt: currentTs || undefined };
 }
@@ -209,14 +220,17 @@ function mergeIdentity(current, incoming) {
  * Merge one incoming profile into the current copy of the same profile
  * (matched by id by the caller — see importAll in store.js). Pure: no
  * storage, no side effects, so it can run identically whether the incoming
- * copy came from a backup file or, later, a decrypted sync document.
+ * copy came from a backup file or a decrypted sync document.
+ *
+ * `adoptIncomingIdentity` — see mergeIdentity above. Off everywhere except
+ * the moment a device pairs with a code for the first time.
  */
-export function mergeProfiles(current, incoming) {
+export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false } = {}) {
   const progress = mergeProgress(current, incoming);
   rebuildYomiRollups(progress);
   const { study, unstudy } = mergeStudy(current, incoming);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
-  const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming);
+  const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
   return {
     ...current,
@@ -224,7 +238,13 @@ export function mergeProfiles(current, incoming) {
     emoji,
     profileUpdatedAt,
     settings,
-    settingsUpdatedAt,
+    // Left off entirely when empty, rather than written as `{}`. Both mean
+    // "no setting has ever been deliberately changed", but only the absent
+    // form matches a profile that predates the field — which is what lets
+    // sync recognise a merged copy as identical to what the remote already
+    // holds, and skip a pointless push (see matchesRemote in
+    // sync-protocol.js).
+    settingsUpdatedAt: Object.keys(settingsUpdatedAt).length ? settingsUpdatedAt : undefined,
     progress,
     study,
     unstudy,

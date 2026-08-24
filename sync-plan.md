@@ -1,8 +1,11 @@
 # Cross-device sync — implementation plan
 
-Status: **phases 0, 1 and 2 done** (§8) — sync works end to end, manually.
-A parent can turn it on, pair a second device with a code, and sync on
-demand from Settings; nothing runs automatically yet (phase 3). Supersedes
+Status: **phases 0-3 done** (§8) — sync works end to end and runs by
+itself. A parent turns it on once and pairs each device with a code;
+after that it syncs on opening a learner, on finishing a session, and on
+leaving or returning to the app, at a measured 1 request when nothing
+changed and 2 when there is real practice to send (§4.3). Phase 4
+(clock correction, remote delete on profile delete) is next. Supersedes
 the "Progress is per-device for now" caveat in `src/store.js` and the
 *Progress and backups* section of the README, which now documents the
 feature as it stands.
@@ -102,6 +105,21 @@ to any real edit — same migration-free fallback as `strictness`,
 
 `name` and `emoji` need the same treatment (`profileUpdatedAt`), for the same
 reason.
+
+**Fixed 2026-08-24 (phase 3), after a user report that the badge did not
+sync.** Phase 0 added `mergeIdentity()` reading `profileUpdatedAt` — but
+nothing ever *wrote* it, so every merge tied at 0 and silently kept whichever
+copy happened to be local. The badge could never travel, and there was no UI
+to change it after profile creation anyway. Both halves fixed: Settings gains
+a **Badge** picker (`renderProfileEmojiPicker` in `app.js`) that stamps
+`profileUpdatedAt` on change, and `mergeProfiles` gains an
+`adoptIncomingIdentity` option used *only* by "Enter a code". That option
+exists because first-time pairing is the one case where both sides are
+legitimately unstamped — each device made its own profile with whatever badge
+the picker defaulted to — and a plain tie would keep the local one, so the
+badge a parent actually recognises would never cross over. A badge that *was*
+deliberately chosen still beats an unstamped remote, so pairing cannot
+overwrite a real choice.
 
 ### 0.3 The merge is welded to the backup envelope
 
@@ -442,6 +460,57 @@ the push is fired eagerly and a loss is simply picked up at next launch. That
 is acceptable precisely because local IndexedDB — not the server — is the
 source of truth.
 
+**Built 2026-08-24**, with the trigger list deliberately trimmed. The table
+above lists "any `saveProfile` → debounced 5 s → push", and that was dropped:
+a session writes the profile after every answer, so even debounced it would
+spend several requests on a single sitting to send progress that the
+session-end push sends anyway. What shipped instead:
+
+| Trigger | Behaviour |
+| --- | --- |
+| Opening a learner | Pull (forced) |
+| Session end | Pull + push (forced) |
+| App hidden / shown | Sync only if there's something to send, or the last sync is older than `SYNC_STALE_MS` (10 min) |
+| `online` | Sync (forced) |
+| Settings → **Sync now** | Unchanged: always pulls and pushes |
+
+Two things keep the cost down, both of which turned out to be load-bearing
+rather than nice-to-have:
+
+- **A `dirty` flag on the pairing row**, set by `store.saveProfile()` itself
+  (one place, so no call site can forget it) and cleared on a successful
+  push. Without something like it, "has this device got anything to send?"
+  is unanswerable without diffing thousands of records.
+- **`syncProfile({ localChanged })` skips the push entirely** when there is
+  nothing local to send *and* the pull brought nothing new — and likewise
+  when a pull's merge result is byte-identical to what the remote already
+  holds (`matchesRemote`), which is the whole "this device is just catching
+  up" case.
+
+Measured against the live Worker rather than estimated:
+
+```
+2 requests  Turn on sync (creates the document)
+1 request   App launch, nothing changed anywhere
+1 request   App backgrounded, nothing changed
+2 requests  Finished a session (real practice to send)
+1 request   App launch again, still nothing new
+```
+
+So a realistic day — three devices, a couple of launches and a few sessions
+each — lands around 30 requests against a **daily** free-tier allowance of
+100,000. Idle syncs cost one request precisely because the pull is
+conditional (`If-None-Match`) and comes back `304` with no body.
+
+`matchesRemote` had a real bug on the way in, worth recording because it
+would have silently disabled half the saving: it compared profiles with
+plain `JSON.stringify`, which is key-order sensitive, and `mergeProfiles()`
+rebuilds a profile by spreading and appending — so an identical profile
+routinely serialised differently and every "catching up" sync pushed anyway.
+Fixed with a key-sorted `stableStringify`, plus dropping `settingsUpdatedAt`
+from the merge result when it is empty (`{}` vs. absent was the other half
+of the same mismatch, against a remote written before that field existed).
+
 ### 4.4 One hard rule: never merge mid-question
 
 `state.profile` in `app.js` is a live object that the session flow holds a
@@ -654,7 +723,7 @@ changes anything a learner would notice.
 | **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | **Done** — `src/merge.js`, `src/srs.js`, `src/app.js`, `src/store.js`; all four test files updated and passing |
 | **1** | The Worker: two endpoints, Durable Object, deployed, no client | **Done** — `sync-server/`, live at `kana-quest-sync.natebriggs.workers.dev`, see §2.1 |
 | **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | **Done** — see §4's and §5's "Built" notes below |
-| **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | This is the phase that delivers the actual goal |
+| **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | **Done** — see §4.3's "Built" note |
 | **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | Robustness, once the shape has survived real use |
 | **5** | *Only if needed:* shard the document (§6) | No current user has this problem |
 

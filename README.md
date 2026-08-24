@@ -28,7 +28,7 @@ $JSC -m test/service-worker.js # cache isolation and offline fallback behaviour
 $JSC -m test/sync.js      # the sync pull/merge/push/retry state machine, against a fake transport
 ```
 
-All four must be run from the repo root.
+All five must be run from the repo root.
 
 To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
 in `tools/build_kanji_data.py`):
@@ -310,7 +310,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | --- | --- | --- |
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
-| `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — manual sync works end to end; automatic triggers not started |
+| `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
 
 ## What is not built yet
 
@@ -322,13 +322,10 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
-- **Cross-device sync, the automatic part.** Manual sync is live: a per-learner
-  *sync code* (Settings → Sync across devices) rather than an account, an
-  encrypted blob store on Cloudflare behind it, and the same conflict-safe
-  merge the backup file uses. What's not built yet is doing any of that
-  without being asked — it only runs when a parent taps *Turn on sync*,
-  *Enter a code*, or *Sync now*, not automatically on launch, on save, or
-  when a session ends. See `sync-plan.md`.
+- **Sync robustness details** — clock-skew correction for a device whose
+  clock is badly wrong, and deleting a learner removing their synced copy
+  too. Sync itself works and runs automatically; see `sync-plan.md` phases
+  4-5.
 
 ## Progress and backups
 
@@ -361,15 +358,21 @@ for a field neither side has actually touched. Restoring an old backup
 therefore cannot wipe out newer practice, and un-enrolling a kanji actually
 sticks rather than being silently undone by an older copy.
 
-**Settings → Sync across devices** does the same merge automatically instead
+**Settings → Sync across devices** does the same merge continuously instead
 of through a file: generate a code on one device (**Turn on sync**), type it
-into Settings on another (**Enter a code**), and progress moves between them
-from then on with a tap of **Sync now**. There's no account — the code itself
-is what a device needs to read or write that learner's progress — and the
-data is encrypted before it ever leaves the device, so the server holds
-opaque bytes, not a name or a record of what's been practised. It's manual
-for now: nothing syncs automatically yet on launch, on save, or when a
-session ends — see `sync-plan.md` for what's built and what's still ahead.
+into Settings on another (**Enter a code**), and from then on the two stay in
+step on their own. There's no account — the code itself is what a device
+needs to read or write that learner's progress — and the data is encrypted
+before it ever leaves the device, so the server holds opaque bytes, not a
+name or a record of what's been practised.
+
+Syncing happens at natural boundaries rather than after every answer: opening
+a learner, finishing a session, and leaving or returning to the app. That is
+deliberately frugal — a sync where nothing changed anywhere costs a single
+conditional request that comes back "not modified", and one carrying real
+practice costs two, so a household's whole day lands in the low tens of
+requests against a daily allowance of 100,000. **Sync now** is still there for
+when you want to force it, but it shouldn't be needed.
 
 ## Layout
 

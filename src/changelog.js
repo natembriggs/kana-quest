@@ -14,6 +14,8 @@ export const CHANGELOG = [
     date: '2026-08-24',
     changes: [
       'Added Sync across devices, under Settings — pair another phone or tablet with a code and keep a learner\'s progress the same on both. No account needed; turn it on, or enter a code from another device, to get started.',
+      'Once sync is on it now runs by itself — when you open a learner, when you finish a session, and when you leave or come back to the app. "Sync now" is still there, but you shouldn\'t need it.',
+      'Your badge now travels between synced devices, and you can change it any time under Settings — Badge.',
       'Added this changelog — see what changed and when, right here in Settings.',
       'Added a theme colour picker in Settings — pick your favourite accent colour for buttons, progress bars and highlights.',
     ],
