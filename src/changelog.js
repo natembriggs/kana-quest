@@ -14,6 +14,7 @@ export const CHANGELOG = [
     date: '2026-08-24',
     changes: [
       'Added this changelog — see what changed and when, right here in Settings.',
+      'Added a theme colour picker in Settings — pick your favourite accent colour for buttons, progress bars and highlights.',
     ],
   },
   {

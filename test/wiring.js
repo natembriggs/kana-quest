@@ -142,6 +142,10 @@ globalThis.document = {
   createElementNS(_ns, _tag) { return makeElement(); },
   addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
   body: makeElement('body'),
+  // applyAccentColor() (app.js) sets data-accent here — just enough of a
+  // real element for that assignment to land somewhere inspectable, not a
+  // full makeElement() (this is never looked up by id/selector).
+  documentElement: { dataset: {} },
 };
 
 globalThis.window = { wanakana: globalThis.wanakana, scrollTo() {} };
@@ -2217,6 +2221,66 @@ await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
 await settle();
 check('opening settings shows the settings screen', visible() === 'screen-settings', `showing ${visible()}`);
+
+// --- Settings: theme colour --------------------------------------------------
+// ACCENT_COLORS (app.js) isn't exported — same as EMOJI_CHOICES, an
+// internal detail of the picker it drives — so this checks structure and
+// behaviour (a default, a change, persistence, and the reset when no
+// profile is open) rather than the exact palette.
+
+const colorSwatches = el('color-picker')._children;
+check('the theme colour picker offers more than one option', colorSwatches.length > 1,
+  colorSwatches.length);
+check('exactly one colour starts selected, and it\'s coral (the documented default)',
+  colorSwatches.filter((b) => b.classList.contains('selected')).length === 1
+  && colorSwatches.find((b) => b.classList.contains('selected')).dataset.color === 'coral',
+  colorSwatches.map((b) => `${b.dataset.color}:${b.classList.contains('selected')}`).join(' | '));
+check('the accent colour actually applied to the page matches — coral, to start',
+  document.documentElement.dataset.accent === 'coral', document.documentElement.dataset.accent);
+
+const otherSwatch = colorSwatches.find((b) => b.dataset.color !== 'coral');
+check('a second, different colour is available to switch to', !!otherSwatch);
+fire(otherSwatch, 'click');
+await settle();
+check('clicking a different colour selects it and deselects coral',
+  otherSwatch.classList.contains('selected')
+  && colorSwatches.filter((b) => b.classList.contains('selected')).length === 1,
+  colorSwatches.map((b) => `${b.dataset.color}:${b.classList.contains('selected')}`).join(' | '));
+check('the change applies to the page immediately, not just on next visit',
+  document.documentElement.dataset.accent === otherSwatch.dataset.color,
+  document.documentElement.dataset.accent);
+
+const afterColorChange = [...rows.values()][0];
+check('the chosen colour is saved to the profile, same as the other settings sliders',
+  afterColorChange.settings.accentColor === otherSwatch.dataset.color,
+  JSON.stringify(afterColorChange.settings));
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await settle();
+check('reopening settings remembers the chosen colour, not just coral again',
+  el('color-picker')._children.find((b) => b.classList.contains('selected')).dataset.color
+    === otherSwatch.dataset.color,
+  el('color-picker')._children.find((b) => b.classList.contains('selected')).dataset.color);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'switch-profile' } }) } });
+for (let i = 0; i < 10; i += 1) await settle(); // renderProfiles() awaits store.listProfiles()
+check('leaving to the profile picker resets to the neutral default, not the last profile\'s colour',
+  document.documentElement.dataset.accent === 'coral', document.documentElement.dataset.accent);
+check('the profile card is there to click back into', el('profile-list')._children.length > 0,
+  el('profile-list')._children.length);
+
+// Back into the same profile for the rest of this section's checks.
+fire(el('profile-list')._children[0], 'click');
+await settle();
+check('reopening the profile re-applies its own chosen colour',
+  document.documentElement.dataset.accent === otherSwatch.dataset.color,
+  document.documentElement.dataset.accent);
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
+await settle();
 
 // --- Settings: changelog ---------------------------------------------------
 // CHANGELOG[0] (src/changelog.js) is always shown; everything older is

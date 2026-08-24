@@ -70,11 +70,17 @@ export function defaultSettings() {
   // fixed 'trace'/'guided'/'free' that applies to every character from the
   // very first one of a session, chosen before starting on the course
   // screen. Same no-migration fallback as strictness.
+  // accentColor is one of ACCENT_COLORS' ids (app.js) — the learner's
+  // chosen brand colour, applied via a data-accent attribute whenever their
+  // profile is open (applyAccentColor() in app.js). Same no-migration
+  // fallback as the two above: an old profile reads as undefined and falls
+  // back to 'coral', the default, wherever it's read.
   return {
     newPerSession: 5,
     maxReviews: 15,
     strictness: DEFAULT_STRICTNESS,
     writingModePreference: 'dynamic',
+    accentColor: 'coral',
   };
 }
 

@@ -25,7 +25,7 @@ import * as store from './store.js';
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-24a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-24b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -196,6 +196,30 @@ function kanjiUnitGroup(unit) {
 
 const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
 
+// Settings > Theme colour. `swatch` is always the LIGHT-mode accent, shown
+// for the picker button regardless of which theme is actually active — see
+// the matching CSS comment above :root[data-accent] in styles.css for why
+// only --accent/--accent-ink move per colour. 'coral' is the default
+// (defaultSettings() in store.js, and also what an old profile with no
+// accentColor at all falls back to — see applyAccentColor()).
+const ACCENT_COLORS = [
+  { id: 'coral', name: 'Coral', swatch: '#e8553d' },
+  { id: 'blue', name: 'Blue', swatch: '#2f6fed' },
+  { id: 'purple', name: 'Purple', swatch: '#8451d6' },
+  { id: 'pink', name: 'Pink', swatch: '#e0559a' },
+  { id: 'teal', name: 'Teal', swatch: '#12968a' },
+  { id: 'amber', name: 'Amber', swatch: '#c9821a' },
+];
+
+/** Applies a learner's chosen accent colour app-wide. Falls back to
+ * 'coral' for `undefined` (a profile saved before this setting existed) and
+ * for anything unrecognised, rather than leaving data-accent pointing at a
+ * colour with no matching CSS rule. */
+function applyAccentColor(id) {
+  const valid = ACCENT_COLORS.some((c) => c.id === id) ? id : 'coral';
+  document.documentElement.dataset.accent = valid;
+}
+
 const MASTERY_LABELS = ['Not started', 'Just started', 'Learning', 'Doing well', 'Well known'];
 
 const state = {
@@ -260,6 +284,7 @@ function show(screenId) {
 // --- Profiles -------------------------------------------------------------
 
 async function renderProfiles() {
+  applyAccentColor('coral'); // no profile active here — the neutral default
   const profiles = await store.listProfiles();
   const list = $('profile-list');
   list.innerHTML = '';
@@ -301,6 +326,41 @@ function selectedEmoji() {
 }
 
 /**
+ * Settings > Theme colour. Unlike the emoji picker above (a one-shot choice
+ * for a brand-new profile), this edits an EXISTING profile's setting live —
+ * built once here, but which swatch reads .selected is re-synced every time
+ * Settings opens (see renderSettings()), the same way writing-strictness's
+ * slider value is. A click applies, saves and re-syncs all in one go, so
+ * the rest of the app re-skins itself immediately, not just on next visit.
+ */
+function renderColorPicker() {
+  const picker = $('color-picker');
+  picker.innerHTML = '';
+  ACCENT_COLORS.forEach((color) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'color-option';
+    button.style.background = color.swatch;
+    button.dataset.color = color.id;
+    button.setAttribute('aria-label', color.name);
+    button.addEventListener('click', () => {
+      state.profile.settings.accentColor = color.id;
+      applyAccentColor(color.id);
+      store.saveProfile(state.profile);
+      syncColorPickerSelection();
+    });
+    picker.appendChild(button);
+  });
+}
+
+function syncColorPickerSelection() {
+  const accentColor = state.profile.settings.accentColor || 'coral';
+  $('color-picker').querySelectorAll('.color-option').forEach((el) => {
+    el.classList.toggle('selected', el.dataset.color === accentColor);
+  });
+}
+
+/**
  * One-time study-list migration, then open the profile. A profile saved
  * before the study list existed has no `study` field at all, and its
  * enrollment is implied by which progress records exist — deriveStudyList()
@@ -313,6 +373,7 @@ function selectedEmoji() {
  */
 function openProfile(profile) {
   state.profile = profile;
+  applyAccentColor(profile.settings.accentColor);
   if (profile.study === undefined) {
     profile.study = deriveStudyList(profile.progress);
     store.saveProfile(profile);
@@ -2514,6 +2575,7 @@ function renderSettings() {
   state.settingsReturn = current ? current.id : 'screen-home';
   document.querySelectorAll('.profile-only').forEach((el) => { el.hidden = !hasProfile; });
   if (hasProfile) {
+    syncColorPickerSelection();
     $('new-per-session').value = state.profile.settings.newPerSession;
     $('new-per-session-value').textContent = state.profile.settings.newPerSession;
     const strictness = state.profile.settings.strictness || DEFAULT_STRICTNESS;
@@ -2605,6 +2667,7 @@ async function importBackup(file) {
 
 function wire() {
   renderEmojiPicker();
+  renderColorPicker();
 
   $('new-profile-form').addEventListener('submit', async (event) => {
     event.preventDefault();

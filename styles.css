@@ -57,6 +57,33 @@
   }
 }
 
+/* --- Accent colour picker (Settings > Theme colour, see ACCENT_COLORS and
+   applyAccentColor() in app.js) -------------------------------------------
+   Only --accent/--accent-ink change per colour — every other token (--ok/
+   --bad/--tier-*/etc.) stays put, since those carry their own meaning
+   (correct/incorrect, mastery level) independent of the learner's chosen
+   brand colour. Per-profile: applyAccentColor() sets data-accent on <html>
+   whenever a profile opens, and resets it on the profile-picker screen —
+   see renderProfiles()/openProfile() in app.js. "coral" is also the
+   unattributed default above, repeated here so every choice, including the
+   one nothing needs to override, is an explicit, equally-real option
+   rather than a special case. */
+:root[data-accent="coral"] { --accent: #e8553d; --accent-ink: #ffffff; }
+:root[data-accent="blue"] { --accent: #2f6fed; --accent-ink: #ffffff; }
+:root[data-accent="purple"] { --accent: #8451d6; --accent-ink: #ffffff; }
+:root[data-accent="pink"] { --accent: #e0559a; --accent-ink: #ffffff; }
+:root[data-accent="teal"] { --accent: #12968a; --accent-ink: #ffffff; }
+:root[data-accent="amber"] { --accent: #c9821a; --accent-ink: #2a1600; }
+
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="coral"] { --accent: #ff6f56; --accent-ink: #21100c; }
+  :root[data-accent="blue"] { --accent: #7aa6ff; --accent-ink: #0b1733; }
+  :root[data-accent="purple"] { --accent: #b794f9; --accent-ink: #221040; }
+  :root[data-accent="pink"] { --accent: #ff8fc4; --accent-ink: #3a0f26; }
+  :root[data-accent="teal"] { --accent: #4fd9c8; --accent-ink: #052925; }
+  :root[data-accent="amber"] { --accent: #f3bb52; --accent-ink: #2a1600; }
+}
+
 * { box-sizing: border-box; }
 
 /* The browser's own [hidden]{display:none} default has the same specificity
@@ -426,6 +453,22 @@ h3 { font-size: 18px; }
   cursor: pointer;
 }
 .emoji-option.selected { border-color: var(--accent); }
+
+/* Settings > Theme colour — one circle per ACCENT_COLORS entry (app.js),
+   filled with that colour's own light-mode accent regardless of the
+   CURRENTLY active theme, so every option stays recognisable as itself
+   even while looking at the app already skinned in a different one. The
+   selected ring is --ink, not --accent, for the same reason: --accent IS
+   the thing being chosen, so it can't also be what marks the choice. */
+.color-picker { display: flex; flex-wrap: wrap; gap: 10px; }
+.color-option {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.color-option.selected { border-color: var(--ink); }
 
 /* --- Mode picker -------------------------------------------------------- */
 
