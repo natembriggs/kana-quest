@@ -541,7 +541,52 @@ plain bug.
 
 ---
 
-## 9. Open questions
+## 9. Scaling beyond one family
+
+Every device that syncs — anyone's, not just family devices — talks to one
+Worker, deployed on one Cloudflare account, that you own and (past the free
+tier) pay for. There is no per-user backend; the Worker's URL is a constant
+compiled into `src/sync-transport.js`, the same one for every install.
+
+**The architecture does not change if this ever goes from "my family" to
+"the public."** That was a deliberate property, not a coincidence: the sync
+code is a bare capability rather than an account tied to anyone's identity,
+the store is a dumb blob keyed by an opaque hash with no notion of "user,"
+and the merge plus the encryption both live entirely on the client. Public
+users are more tenants on the same system, not a different system — nothing
+here is a private-beta shortcut that a public launch would need to unwind.
+
+What *does* need attention, because everything above §9 is tuned for "my
+family," not "adversarial public internet":
+
+- **Cost.** Free tier is a rounding error at family scale and stops being
+  guaranteed at public scale. Set up Cloudflare's spend alerts *before*
+  opening it up — the failure mode to avoid is discovering a bill after the
+  fact, not during. Moving past the free tier is a billing setting, not a
+  code change.
+- **The endpoint is a public target.** It sits in the app's JS bundle, so
+  anyone can read the URL and hit it directly with `curl`, not just through
+  the app. The rate limits and size cap in §2.3 go from "good hygiene" to
+  load-bearing; a Cloudflare Turnstile challenge specifically on document
+  *creation* (not on ordinary sync reads/writes, which need to keep working
+  silently offline-first) is worth adding at that point.
+- **Storage growth from abandoned or spam documents.** The 12-month sweep in
+  §2.3 already bounds this and needs no change.
+- **Privacy is already close to fine, but say so.** No accounts and
+  client-side encryption mean the server never sees a name, an email or a
+  child's progress — which sidesteps most of what makes children's-data
+  hosting fraught in the first place. A public release still wants one
+  short privacy paragraph, since Cloudflare's own request logs see IP
+  addresses regardless of what the payload contains.
+
+Net effect: the transition from private to public is a config and billing
+change — stricter rate limits, a spend alarm, possibly the paid Workers tier
+— made once traffic actually warrants it, not a rewrite triggered by opening
+the door.
+
+---
+
+## 10. Open questions
 
 - **Is the SQLite-backed Durable Object available on the free plan for this
   account?** Verify before phase 1; D1 is the fallback (§2.2) and the client
