@@ -470,9 +470,25 @@ session-end push sends anyway. What shipped instead:
 | --- | --- |
 | Opening a learner | Pull (forced) |
 | Session end | Pull + push (forced) |
+| Quitting a session early (✕) | Pull + push (forced) — see below |
 | App hidden / shown | Sync only if there's something to send, or the last sync is older than `SYNC_STALE_MS` (10 min) |
 | `online` | Sync (forced) |
 | Settings → **Sync now** | Unchanged: always pulls and pushes |
+
+**Fixed 2026-08-24, after a user report** ("tested a placement test on my
+phone, quit partway with ✕, opened the app on desktop, didn't see the
+progress"). The trigger table above originally had only two forced
+triggers — session end and app-lifecycle — on the assumption that a session
+either finishes or the work in it doesn't matter. Both were wrong: quitting
+early is not "no work happened," it's "some of it did." Every answer inside
+a session is graded and saved (`store.saveProfile()`) as it happens, so by
+the time a learner taps ✕, real progress already sits locally with the
+pairing marked dirty — it just had no trigger left to send it, since
+`quit-session` cleared `state.session` and returned to the course screen
+without ever calling `autoSync()`. Reproduced and confirmed fixed against
+the live Worker: pairing a fresh profile, answering a few questions, and
+quitting via ✕ now leaves a real document at that profile's docId within
+seconds, where before nothing had been pushed at all.
 
 Two things keep the cost down, both of which turned out to be load-bearing
 rather than nice-to-have:
@@ -650,6 +666,23 @@ One addition beyond the mockups: buttons disable and the status line shows
 "Connecting…" / "Syncing…" while a request is in flight, since PBKDF2 at
 200k iterations plus a round trip is enough of a real delay that a second
 tap needs to be a no-op, not a second request.
+
+**Fixed 2026-08-24, found while investigating the report above.**
+`renderSyncCard()` fell back to `syncStatusText(syncState)` whenever a
+caller passed no explicit status message — and `renderSettings()` is exactly
+such a caller, run on every Settings open. For a profile that has never
+synced, `syncState` is `undefined`, and `syncStatusText` reads
+`.lastPulledAt` straight off it: a `TypeError` thrown on every Settings open
+for any never-paired profile. It was invisible by accident, not by design —
+the panel-visibility toggles earlier in the function had already run
+correctly by the time it threw, so the screen looked right regardless, and
+`sync-status`'s text just silently stayed at the static markup's empty
+default instead of being explicitly set to `''`. Confirmed via a real
+browser (a headless-Chromium `pageerror` event caught it directly); the
+JavaScriptCore test harness structurally cannot catch this class of bug —
+no `console`, and a fire-and-forget async throw is silently swallowed with
+exit code 0, confirmed directly rather than assumed. Fixed by only calling
+`syncStatusText` when a pairing actually exists.
 
 ---
 

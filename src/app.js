@@ -30,7 +30,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-24d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-24e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2785,7 +2785,14 @@ async function renderSyncCard(statusOverride) {
   $('sync-configured').hidden = !syncState;
   $('sync-not-configured').hidden = !!syncState;
   if (syncState) $('sync-code-value').textContent = syncState.code;
-  $('sync-status').textContent = statusOverride !== undefined ? statusOverride : syncStatusText(syncState);
+  // syncStatusText assumes a real pairing record; a profile that has never
+  // synced has none, and every Settings open runs this path (renderSettings
+  // calls renderSyncCard() unconditionally) — so this was throwing on every
+  // never-paired profile. The panel toggles above already ran by then and
+  // rendered correctly regardless, which is exactly why it went unnoticed.
+  $('sync-status').textContent = statusOverride !== undefined
+    ? statusOverride
+    : (syncState ? syncStatusText(syncState) : '');
 }
 
 function syncFailureMessage(outcome) {
@@ -3204,6 +3211,12 @@ function wire() {
         if (state.session) clearTimeout(state.session.pendingAdvance);
         state.session = null;
         renderCourse();
+        // Whatever was answered before quitting is already graded and
+        // saved locally — finishSession() pushes that; quitting early must
+        // too, or it just sits on this device until some later trigger
+        // happens to fire. state.session is already null above, which is
+        // what lets autoSync run at all (§4.4).
+        autoSync({ force: true });
         break;
       case 'again': startSession(state.courseId, 'practice'); break;
       case 'learn-more': startSession(state.courseId, 'new'); break;
@@ -3367,7 +3380,19 @@ let reloadingForUpdate = false;
 function watchForUpdates() {
   if (!('serviceWorker' in navigator)) return;
 
+  // clients.claim() in sw.js's activate handler makes a brand-new worker
+  // take control immediately — including on this page's very first-ever
+  // visit (or the first load after Force refresh, which unregisters the
+  // worker), when there is no earlier version for it to be "new" relative
+  // to. Reloading in that case throws away real in-progress state — a
+  // profile mid-creation, a session mid-question — for no reason: there is
+  // no newer code to pick up, since this is the only code that has ever run
+  // on this page load. Only a controllerchange that supersedes an
+  // ALREADY-controlling worker is a genuine update worth reloading for.
+  const hadController = !!navigator.serviceWorker.controller;
+
   navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) return; // first-ever activation, not an update
     // A new worker took over: the page is running old code, so reload once.
     if (reloadingForUpdate) return;
     reloadingForUpdate = true;

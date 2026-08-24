@@ -693,7 +693,26 @@ h3 { font-size: 18px; }
   margin: 0 auto;
 }
 .choice {
+  /* iOS Safari can inflate text inside a narrow flex item independently of
+     the rest of the page ("font boosting"/text autosizing) even with
+     text-size-adjust: 100% set on body — the override doesn't reliably
+     reach every nested flex context. Bigger text here raises this item's
+     effective min-content width, which can drop the whole row from 4
+     columns to 2 on a real device without changing anything the desktop
+     Chromium testing above could see, since that heuristic is WebKit/
+     mobile-Safari-only and doesn't exist there. Repeating the override
+     directly on the element most likely to be inflated is the standard,
+     low-cost defence. */
+  -webkit-text-size-adjust: 100%;
   flex: 1 1 78px;
+  /* A flex item's automatic min-width is its own content's min-content
+     size, which can silently override flex-basis and force fewer columns
+     per row than the layout below intends — worse the moment text
+     inflation (above) or an unusually wide reading makes that min-content
+     bigger. min-width: 0 hands sizing entirely to flex-basis/shrink,
+     which is what overflow-wrap: anywhere further down is already there to
+     make safe. */
+  min-width: 0;
   max-width: 130px;
   min-height: 56px;
   padding: 6px 8px;

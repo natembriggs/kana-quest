@@ -2384,6 +2384,18 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-s
 await drain();
 check('a profile with no sync state shows the "not yet syncing" panel',
   el('sync-not-configured').hidden === false && el('sync-configured').hidden === true);
+// NOT a regression check for the bug fixed alongside this comment
+// (renderSyncCard() calling syncStatusText(undefined) on a never-paired
+// profile, since renderSettings() calls it with no override on every
+// settings open): a bare assertion on sync-status.textContent here cannot
+// tell "ran correctly and produced ''" apart from "threw before reaching
+// that assignment, leaving the static HTML's empty default" — both look
+// identical from here. JavaScriptCore has no console and no
+// unhandled-rejection reporting (checked directly: a fire-and-forget async
+// throw is completely silent, exit code 0), so a throw inside
+// renderSyncCard() — called unawaited by design, so opening Settings never
+// waits on an IndexedDB read — is structurally invisible to this harness.
+// That fix was verified against a real browser instead.
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'sync-show-code-entry' } }) } });
 await drain();
