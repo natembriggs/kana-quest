@@ -4,7 +4,12 @@
 //       -m test/service-worker.js
 
 const workerEvents = {};
-const cacheNames = ['kana-quest-old', 'kana-quest-2026-08-24b', 'other-app-v4'];
+// The "current" entry is filled in below, after load('sw.js') — hardcoding
+// a version string here would silently go stale on every VERSION bump in
+// sw.js (exactly what happened the first time: this used to read
+// 'kana-quest-2026-08-24b', which stopped being the current cache the next
+// time sw.js's VERSION was bumped, and the test below started failing).
+let cacheNames = ['kana-quest-old', 'other-app-v4'];
 const deletedCaches = [];
 const cacheEntries = new Map();
 let cachePutBlocker = null;
@@ -40,6 +45,10 @@ globalThis.caches = {
 };
 
 load('sw.js');
+// VERSION is sw.js's own top-level const, and load() shares its lexical
+// scope with the rest of this file — so this is the real, current cache
+// name, not a copy that can drift from it.
+cacheNames = ['kana-quest-old', `kana-quest-${VERSION}`, 'other-app-v4'];
 
 let failures = 0;
 function check(name, condition, detail) {
@@ -62,7 +71,7 @@ function dispatchFetch(request) {
 
 await dispatchWait('activate');
 check('activation removes an obsolete Kana Quest cache', deletedCaches.includes('kana-quest-old'));
-check('activation retains the current Kana Quest cache', !deletedCaches.includes('kana-quest-2026-08-24b'));
+check('activation retains the current Kana Quest cache', !deletedCaches.includes(`kana-quest-${VERSION}`));
 check('activation leaves a sibling app cache untouched', !deletedCaches.includes('other-app-v4'));
 check('activation claims existing clients', self.clients.claimed);
 

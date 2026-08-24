@@ -30,7 +30,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-24b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-24c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2878,12 +2878,30 @@ async function syncTurnOff() {
   await renderSyncCard();
 }
 
+/**
+ * Confirmation happens ON THE BUTTON ITSELF — swapping its label to
+ * "Copied!" for a beat — rather than only in the status line below, which
+ * is easy to miss entirely for a tap that has nothing else to look at.
+ * A real problem (clipboard write failed) still goes to the status line,
+ * since that's worth a message that doesn't disappear on its own.
+ */
 async function syncCopyCode() {
   const syncState = await store.getSyncState(state.profile.id);
   if (!syncState || !navigator.clipboard) return;
+  const button = $('sync-copy-code');
   try {
     await navigator.clipboard.writeText(syncState.code);
-    $('sync-status').textContent = 'Code copied.';
+    button.textContent = 'Copied!';
+    button.classList.add('copied');
+    // Not button.disabled: a rapid second tap should just re-copy and reset
+    // this timer, not be swallowed — and leaving it enabled means it can
+    // never end up stuck disabled by racing setSyncBusy() from another
+    // in-flight sync action.
+    clearTimeout(button._copiedTimer);
+    button._copiedTimer = setTimeout(() => {
+      button.textContent = 'Copy code';
+      button.classList.remove('copied');
+    }, 1500);
   } catch {
     $('sync-status').textContent = 'Could not copy — select and copy the code by hand.';
   }

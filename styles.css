@@ -485,6 +485,22 @@ h3 { font-size: 18px; }
   overflow-wrap: break-word;
 }
 
+/* Copy code: .btn-quiet's plain scale-down :active is too subtle on a
+   transparent-background button to register as "I actually touched this" —
+   a background fill on press is what makes contact register at all, and
+   the same fill stays through the "Copied!" confirmation right after, so
+   feedback and result read as one continuous thing rather than a flash
+   followed by an unrelated label change. */
+#sync-copy-code {
+  transition: background-color 100ms ease, color 100ms ease;
+}
+#sync-copy-code:active,
+#sync-copy-code.copied {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
 /* --- Mode picker -------------------------------------------------------- */
 
 .segmented {

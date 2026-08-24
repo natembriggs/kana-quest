@@ -149,7 +149,8 @@ globalThis.document = {
 };
 
 globalThis.window = { wanakana: globalThis.wanakana, scrollTo() {} };
-globalThis.navigator = {};
+let clipboardText = null;
+globalThis.navigator = { clipboard: { async writeText(text) { clipboardText = text; } } };
 globalThis.confirm = () => true;
 // A real sessionStorage is not part of JavaScriptCore — just enough of the
 // Storage interface for renderInstallBanner()'s per-session dismiss to work.
@@ -2405,6 +2406,12 @@ check('a paired profile shows the code and the "syncing" panel',
   && el('sync-code-value').textContent === 'K7QM-3XR9-P2FT');
 check('the status line reports how long ago it last synced',
   /\d+ minutes? ago/.test(el('sync-status').textContent), el('sync-status').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'sync-copy-code' } }) } });
+await drain();
+check('"Copy code" actually copies the code', clipboardText === 'K7QM-3XR9-P2FT', clipboardText);
+check('the confirmation replaces the button\'s own label, not just a line below it',
+  el('sync-copy-code').textContent === 'Copied!' && el('sync-copy-code').classList.contains('copied'));
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'sync-turn-off' } }) } });
 await drain();
