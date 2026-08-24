@@ -1370,7 +1370,7 @@ check('a new profile starts with an empty study list, not an absent one — abse
   afterDefinition.study && typeof afterDefinition.study === 'object',
   JSON.stringify(afterDefinition.study));
 const studiedDefinition = Object.keys(afterDefinition.study)
-  .filter((k) => afterDefinition.study[k].includes('definition'));
+  .filter((k) => 'definition' in afterDefinition.study[k]);
 check('every kanji taught in a definition session was enrolled in the study list for that mode',
   studiedDefinition.length > 0
   && Object.keys(afterDefinition.progress)
@@ -1801,7 +1801,8 @@ check('tapping the headline button enrolls it in every applicable mode at once',
 
 const grade6Saved = [...rows.values()][0];
 check('enrolling is persisted to the profile immediately, before any session has taught it',
-  Array.isArray(grade6Saved.study[grade6Char]) && grade6Saved.study[grade6Char].length >= 1,
+  typeof grade6Saved.study[grade6Char] === 'object' && !Array.isArray(grade6Saved.study[grade6Char])
+  && Object.keys(grade6Saved.study[grade6Char]).length >= 1,
   JSON.stringify(grade6Saved.study[grade6Char]));
 
 // Bug fix: masteryTier alone can't tell "enrolled, not yet taught" apart

@@ -125,10 +125,30 @@ export function isKanjiChar(ch) {
 }
 
 /**
+ * study[kanji][mode] is the timestamp it was enrolled; unstudy[kanji][mode]
+ * is the timestamp it was deliberately dropped. At most one of the two holds
+ * a given (kanji, mode) pair at a time within one profile — setStudying below
+ * always removes from one map when it writes to the other. Both existing at
+ * once only happens transiently while merging two profiles together, which
+ * mergeStudy in merge.js resolves by keeping whichever timestamp is newer.
+ *
+ * This exists so un-enrolling survives a sync merge. A plain union (the
+ * original model, and still what a bare array-shaped legacy entry means —
+ * see isLegacyStudyShape/migrateStudyShape below) can only ever add: dropping
+ * 龍 from Writing on one device would keep coming back the moment a second
+ * device, still showing it enrolled, synced. See sync-plan.md §0.1.
+ */
+
+/**
  * Build a study list from existing progress keys — the one-time migration for
  * profiles saved before this field existed. Only 2-part keys are considered:
  * the yomi quiz also writes 3-part per-reading keys ("recognition:生:セイ",
  * see yomiKey below) which are not items in their own right.
+ *
+ * A derived entry carries no evidence of *when* it was enrolled, so it reads
+ * as timestamp 0 — the same fallback isLegacyStudyShape/migrateStudyShape use
+ * for an old array-shaped entry. Either way, any real, later removal beats
+ * it, while it survives if nothing ever removes it.
  */
 export function deriveStudyList(progress) {
   const study = {};
@@ -137,32 +157,68 @@ export function deriveStudyList(progress) {
     if (parts.length !== 2) continue;
     const [mode, char] = parts;
     if (!isKanjiChar(char)) continue;
-    if (!study[char]) study[char] = [];
-    if (!study[char].includes(mode)) study[char].push(mode);
+    if (!study[char]) study[char] = {};
+    if (!(mode in study[char])) study[char][mode] = 0;
   }
   return study;
 }
 
+/** True for the pre-timestamp shape (study[kanji] an array of mode ids)
+ * rather than the current one (study[kanji] a {mode: enrolledAt} object).
+ * Only the first entry needs checking — a profile is migrated all at once,
+ * see migrateStudyShape below, so the two shapes never mix within one. */
+export function isLegacyStudyShape(study) {
+  const firstKey = Object.keys(study || {})[0];
+  return firstKey !== undefined && Array.isArray(study[firstKey]);
+}
+
+/** Converts a legacy array-shaped study list to the timestamped shape. Every
+ * entry reads as timestamp 0 for the same reason deriveStudyList's do — a
+ * plain array never recorded *when* each mode was turned on. */
+export function migrateStudyShape(study) {
+  const migrated = {};
+  for (const [kanji, modes] of Object.entries(study || {})) {
+    migrated[kanji] = {};
+    modes.forEach((mode) => { migrated[kanji][mode] = 0; });
+  }
+  return migrated;
+}
+
 export function studyModes(study, kanji) {
-  const list = (study || {})[kanji];
-  return Array.isArray(list) ? list.slice() : [];
+  return Object.keys((study || {})[kanji] || {});
 }
 
 export function isStudying(study, kanji, mode) {
-  return studyModes(study, kanji).includes(mode);
+  const entry = (study || {})[kanji];
+  return !!entry && Object.prototype.hasOwnProperty.call(entry, mode);
 }
 
 /**
- * Enroll or un-enroll one (kanji, mode). Mutates and returns `study`. An
- * entry that ends up with no modes is deleted rather than left as an empty
- * array, so "is this key present" and "is this being studied" never disagree.
+ * Enroll or un-enroll one (kanji, mode). Mutates both `study` and `unstudy`
+ * and returns `study`, so a later sync merge can see not just the current
+ * state but that a removal actually happened and when (see the module note
+ * above). An entry that ends up empty is deleted from its map rather than
+ * left as `{}`, so "is this key present" and "is anything true of it" never
+ * disagree — same rule the old array shape followed.
  */
-export function setStudying(study, kanji, mode, on) {
-  if (!study[kanji]) study[kanji] = [];
-  const at = study[kanji].indexOf(mode);
-  if (on && at === -1) study[kanji].push(mode);
-  if (!on && at !== -1) study[kanji].splice(at, 1);
-  if (study[kanji].length === 0) delete study[kanji];
+export function setStudying(study, unstudy, kanji, mode, on, now = Date.now()) {
+  if (on) {
+    if (!study[kanji]) study[kanji] = {};
+    study[kanji][mode] = now;
+    if (unstudy && unstudy[kanji]) {
+      delete unstudy[kanji][mode];
+      if (Object.keys(unstudy[kanji]).length === 0) delete unstudy[kanji];
+    }
+  } else {
+    if (study[kanji]) {
+      delete study[kanji][mode];
+      if (Object.keys(study[kanji]).length === 0) delete study[kanji];
+    }
+    if (unstudy) {
+      if (!unstudy[kanji]) unstudy[kanji] = {};
+      unstudy[kanji][mode] = now;
+    }
+  }
   return study;
 }
 
@@ -178,8 +234,8 @@ export function studiedKanji(study, mode) {
  * filtering off entirely and reproduces the original behaviour exactly.
  */
 function asContext(ctx) {
-  if (ctx && ctx.progress) return { progress: ctx.progress || {}, study: ctx.study };
-  return { progress: ctx || {}, study: undefined };
+  if (ctx && ctx.progress) return { progress: ctx.progress || {}, study: ctx.study, unstudy: ctx.unstudy };
+  return { progress: ctx || {}, study: undefined, unstudy: undefined };
 }
 
 export function newRecord() {
@@ -318,7 +374,7 @@ export function enrollNext(course, mode, ctx, limit = 5) {
   const c = asContext(ctx);
   if (!c.study) return [];
   const next = unenrolledItems(course, mode, c).slice(0, limit);
-  next.forEach((kanji) => setStudying(c.study, kanji, mode, true));
+  next.forEach((kanji) => setStudying(c.study, c.unstudy || {}, kanji, mode, true));
   return next;
 }
 

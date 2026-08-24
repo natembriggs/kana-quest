@@ -102,13 +102,69 @@ check('the Yomi rollup is rebuilt from the records that survived the merge',
   && merged.progress['recognition:生'].due === Math.min(incomingSei.due, incomingShou.due)
   && merged.progress['recognition:生'].updatedAt === 400,
   JSON.stringify(merged.progress['recognition:生']));
-check('study enrollment is unioned by kanji and mode',
-  merged.study.水.includes('definition') && merged.study.水.includes('writing')
-  && merged.study.山.includes('writing') && merged.study.川.includes('recognition'),
+check('legacy array-shaped study lists on both sides are merged into the timestamped shape',
+  '水' in merged.study && 'definition' in merged.study.水 && 'writing' in merged.study.水
+  && '山' in merged.study && 'writing' in merged.study.山
+  && '川' in merged.study && 'recognition' in merged.study.川,
   JSON.stringify(merged.study));
+check('a legacy enrollment with no evidence of when carries timestamp 0',
+  merged.study.水.definition === 0 && merged.study.水.writing === 0,
+  JSON.stringify(merged.study.水));
 check('settings already chosen on this device win during a merge',
   merged.settings.newPerSession === 8 && merged.settings.strictness === local.settings.strictness,
   JSON.stringify(merged.settings));
+
+// A deliberate un-enrollment (sync-plan.md §0.1) must survive a merge even
+// when the other side's copy still shows the kanji enrolled — the bug a
+// plain union (the pre-timestamp model) could never fix, because it can
+// only ever add.
+srs.setStudying(merged.study, merged.unstudy, '水', 'writing', false, 5000);
+await store.saveProfile(merged);
+const staleReenroll = {
+  ...incoming, progress: {}, unstudy: {},
+  study: { 水: { writing: 1000 } }, // older than the removal just made
+};
+await store.importAll(backup([staleReenroll]));
+let afterRemoval = await store.getProfile('shared');
+check('a removal survives a merge against an older, still-enrolled copy',
+  !srs.isStudying(afterRemoval.study, '水', 'writing')
+  && afterRemoval.unstudy.水 && afterRemoval.unstudy.水.writing === 5000,
+  JSON.stringify({ study: afterRemoval.study.水, unstudy: afterRemoval.unstudy.水 }));
+
+// ...and the reverse: a re-enrollment newer than the removal beats it.
+const freshReenroll = {
+  ...incoming, progress: {}, unstudy: {},
+  study: { 水: { writing: 9000 } }, // newer than the removal above
+};
+await store.importAll(backup([freshReenroll]));
+const afterReenroll = await store.getProfile('shared');
+check('a newer enrollment beats an older removal',
+  srs.isStudying(afterReenroll.study, '水', 'writing'),
+  JSON.stringify(afterReenroll.study.水));
+
+// Per-key settings LWW (sync-plan.md §0.2): a stamped edit only wins the ONE
+// key it's stamped for; an untouched key keeps ticking over to "current
+// wins", exactly as if timestamps didn't exist.
+afterReenroll.settingsUpdatedAt = { newPerSession: 1000 };
+await store.saveProfile(afterReenroll);
+const settingsEdit = {
+  ...incoming, progress: {}, study: {}, unstudy: {},
+  settings: { ...store.defaultSettings(), newPerSession: 2, strictness: 4 },
+  settingsUpdatedAt: { newPerSession: 500, strictness: 9000 },
+};
+await store.importAll(backup([settingsEdit]));
+const afterSettings = await store.getProfile('shared');
+check('an older stamped edit does not override a newer one on the same key',
+  afterSettings.settings.newPerSession === afterReenroll.settings.newPerSession,
+  JSON.stringify(afterSettings.settings));
+check('a newer stamped edit on one key wins while other keys are unaffected',
+  afterSettings.settings.strictness === 4,
+  JSON.stringify(afterSettings.settings));
+
+// The block above did several more merges through the store, not through
+// this `merged` variable — refetch before using it as a save base again, or
+// the save below would silently discard them.
+merged = afterSettings;
 
 // Equal-length capped histories used to be permanently stuck on whichever
 // copy happened to be local. The newest event must decide instead.

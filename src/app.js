@@ -10,7 +10,8 @@ import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
-  deriveStudyList, enrollNext, newItems, introducedItems, isStudying, setStudying, studiedKanji, neverSeenItems,
+  deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
+  isStudying, setStudying, studiedKanji, neverSeenItems,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -220,6 +221,18 @@ function applyAccentColor(id) {
   document.documentElement.dataset.accent = valid;
 }
 
+/**
+ * Records when a settings field actually changed, so a future sync merge
+ * (sync-plan.md §0.2) can tell which of two devices' conflicting choices is
+ * newer instead of always favouring whichever device happens to be on the
+ * receiving end of a merge. Call this at every place `profile.settings.*` is
+ * assigned directly, right before saving.
+ */
+function stampSetting(profile, key) {
+  if (!profile.settingsUpdatedAt) profile.settingsUpdatedAt = {};
+  profile.settingsUpdatedAt[key] = Date.now();
+}
+
 const MASTERY_LABELS = ['Not started', 'Just started', 'Learning', 'Doing well', 'Well known'];
 
 const state = {
@@ -345,6 +358,7 @@ function renderColorPicker() {
     button.setAttribute('aria-label', color.name);
     button.addEventListener('click', () => {
       state.profile.settings.accentColor = color.id;
+      stampSetting(state.profile, 'accentColor');
       applyAccentColor(color.id);
       store.saveProfile(state.profile);
       syncColorPickerSelection();
@@ -361,21 +375,33 @@ function syncColorPickerSelection() {
 }
 
 /**
- * One-time study-list migration, then open the profile. A profile saved
- * before the study list existed has no `study` field at all, and its
- * enrollment is implied by which progress records exist — deriveStudyList()
- * reads exactly that back out. See kanji-expansion-plan.md §1.3.
+ * One-time study-list migration(s), then open the profile. Two independent
+ * profile ages can show up here:
  *
- * `undefined` is the trigger, deliberately, not falsiness: `{}` is a
- * legitimate state (everything removed) and must not re-populate itself from
- * history on the next load. Persisted immediately so the derivation happens
- * once rather than on every open.
+ * - No `study` field at all — before the study list existed, enrollment was
+ *   implied by which progress records exist, and deriveStudyList() reads
+ *   exactly that back out. See kanji-expansion-plan.md §1.3.
+ * - `study` in the pre-timestamp array shape ({kanji: [mode, ...]}), or
+ *   simply missing `unstudy` — before un-enrolling could survive a sync
+ *   merge (sync-plan.md §0.1). migrateStudyShape() converts array entries to
+ *   the timestamped shape; an already-timestamped `study` passes through
+ *   unchanged.
+ *
+ * `undefined` is `study`'s trigger for the first case, deliberately, not
+ * falsiness: `{}` is a legitimate state (everything removed) and must not
+ * re-populate itself from history on the next load. Both migrations persist
+ * immediately so they run once rather than on every open.
  */
 function openProfile(profile) {
   state.profile = profile;
   applyAccentColor(profile.settings.accentColor);
   if (profile.study === undefined) {
     profile.study = deriveStudyList(profile.progress);
+    profile.unstudy = {};
+    store.saveProfile(profile);
+  } else if (isLegacyStudyShape(profile.study) || profile.unstudy === undefined) {
+    profile.study = migrateStudyShape(profile.study);
+    profile.unstudy = profile.unstudy || {};
     store.saveProfile(profile);
   }
   renderHome();
@@ -557,6 +583,7 @@ function renderWritingModePicker() {
  * changed again here or via the in-session toggle (writingSetSubMode). */
 function setWritingModePreference(pref) {
   state.profile.settings.writingModePreference = pref;
+  stampSetting(state.profile, 'writingModePreference');
   store.saveProfile(state.profile);
   renderWritingModePicker();
 }
@@ -1066,10 +1093,10 @@ function renderDetailStudy(course, char) {
 function toggleDetailStudy() {
   const course = getAnyCourse(state.detailCourseId);
   const char = state.detailChar;
-  const { study, progress } = state.profile;
+  const { study, unstudy, progress } = state.profile;
   const modes = applicableStudyModes(course, char);
   const turnOn = studyStatus(study, progress, char, modes) === 'not-studying';
-  modes.forEach((mode) => setStudying(study, char, mode, turnOn));
+  modes.forEach((mode) => setStudying(study, unstudy, char, mode, turnOn));
   store.saveProfile(state.profile);
   renderDetailStudy(course, char);
 }
@@ -1077,8 +1104,8 @@ function toggleDetailStudy() {
 function toggleDetailStudyMode(mode) {
   const course = getAnyCourse(state.detailCourseId);
   const char = state.detailChar;
-  const { study } = state.profile;
-  setStudying(study, char, mode, !isStudying(study, char, mode));
+  const { study, unstudy } = state.profile;
+  setStudying(study, unstudy, char, mode, !isStudying(study, char, mode));
   store.saveProfile(state.profile);
   renderDetailStudy(course, char);
 }
@@ -2337,7 +2364,7 @@ function ensurePlacementEnrolled(item) {
   const course = getAnyCourse(state.courseId);
   if (!course || course.kind !== 'kanji') return;
   if (isStudying(state.profile.study, item, state.mode)) return;
-  setStudying(state.profile.study, item, state.mode, true);
+  setStudying(state.profile.study, state.profile.unstudy, item, state.mode, true);
   store.saveProfile(state.profile);
 }
 
@@ -2754,6 +2781,7 @@ function wire() {
     const value = Number(event.target.value);
     $('new-per-session-value').textContent = value;
     state.profile.settings.newPerSession = value;
+    stampSetting(state.profile, 'newPerSession');
     store.saveProfile(state.profile);
   });
 
@@ -2761,6 +2789,7 @@ function wire() {
     const value = Number(event.target.value);
     $('writing-strictness-value').textContent = strictnessName(value);
     state.profile.settings.strictness = value;
+    stampSetting(state.profile, 'strictness');
     store.saveProfile(state.profile);
   });
 

@@ -1,10 +1,12 @@
 # Cross-device sync — implementation plan
 
-Status: **phase 1 done** (§8) — the Worker is written, deployed, and passing
-a live compare-and-swap test suite. Phases 0 and 2+ (the client side, and the
-merge-correctness fixes it depends on) are not started. Supersedes the
-"Progress is per-device for now" caveat in `src/store.js` and the *Progress
-and backups* section of the README.
+Status: **phases 0 and 1 done** (§8). Phase 1: the Worker is written,
+deployed, and passing a live compare-and-swap test suite. Phase 0: the
+merge-correctness fixes it depends on — timestamped study-list tombstones,
+per-key settings conflict resolution, `src/merge.js` extracted — are also
+in, ahead of the actual sync client (phase 2), which is not started.
+Supersedes the "Progress is per-device for now" caveat in `src/store.js` and
+the *Progress and backups* section of the README.
 
 The goal is that a learner's progress follows them: practise 学 on the iPad
 after school, pick up on the phone in the car, and neither device is behind.
@@ -117,6 +119,21 @@ the property that makes this refactor safe to do first.
 This also leaves the door open to running the identical merge on the server
 later (§2.4) — one implementation, one set of tests, both sides.
 
+**Built 2026-08-24** — `src/merge.js` (the extraction plus §0.1's and §0.2's
+merges), `src/srs.js` (the timestamped study/unstudy model, migration
+helpers), `src/store.js` (`importAll` now just calls `mergeProfiles`),
+`src/app.js` (the two-stage open-time migration, `stampSetting()` wired into
+the four settings writes). All landed together rather than the extraction
+going in first on its own — §0.3's claim that the existing `test/store.js`
+assertions would keep passing *unmodified* didn't quite hold: two assertions
+that inspected `profile.study`'s raw shape directly (`.includes('definition')`
+on what's now an object, not an array) needed updating, since the shape
+itself is what §0.1 changes. Every assertion about *behaviour* — which record
+wins a conflict, which settings win, added-vs-merged counts — did pass
+unmodified. `test/smoke.js` and `test/wiring.js` needed the same handful of
+shape-only fixes; both now also assert the new tombstone behaviour directly
+(a removal records a real timestamp, a migrated entry reads as 0).
+
 ---
 
 ## 1. Identity: a sync code, not an account
@@ -169,6 +186,33 @@ would need `BarcodeDetector`, which Safari does not implement.
 So manual entry is the primary path, not a fallback, and the code is sized for
 typing. Device A gets a **Copy code** button; the practical flow is copy,
 send it to yourself in Messages, paste on device B.
+
+**Revisited 2026-08-24, prompted by a real device mix — a shared iPad plus
+individual Android phones.** Two things worth separating:
+
+- Apple-to-Apple transfer (Mac, iPhone, and a shared iPad, as long as it's
+  signed into the *same* Apple ID — not "your device" specifically, "your
+  iCloud account") already gets Universal Clipboard for free, no code needed.
+- Android has no equivalent, but the Messages-relay flow above already covers
+  it without new code: generate the code, send it to yourself via *any*
+  messaging app already installed (WhatsApp, SMS, email — doesn't have to be
+  iMessage), open that message on the Android phone, copy, paste.
+
+That leaves one real gap: hand-typing when neither of those is convenient —
+reading a code off one screen while typing it into another, which is closer
+to dictating it to yourself than the pure copy-paste this section originally
+optimised for. Grouped base32 (`K7QM-3XR9-P2FT`) is kept over a word list
+regardless — the dash-grouping already gives the "chunk it, don't lose your
+place" benefit words would add, in fewer characters — but the better fix is
+avoiding the typing itself: an **in-app QR scanner**, revisiting the
+rejection above with a narrower design. What failed before was encoding a
+*URL* — scanning that opens Safari, which doesn't share the installed PWA's
+storage. A QR encoding *only the bare code*, decoded by a camera view that
+lives inside the already-open app (a small vendored JS decoder against
+`getUserMedia`, not `BarcodeDetector`, which Safari lacks) never navigates
+anywhere, so that failure mode doesn't apply. Not yet built or committed to —
+flagged here as a phase 2 UI addition (§5) alongside manual code entry, not a
+replacement for it.
 
 ### 1.4 Losing the code
 
@@ -555,7 +599,7 @@ changes anything a learner would notice.
 
 | Phase | What | Why here |
 | --- | --- | --- |
-| **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | Improves the *existing* backup path immediately. Everything else depends on it, and it is the only phase that touches scheduling code |
+| **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | **Done** — `src/merge.js`, `src/srs.js`, `src/app.js`, `src/store.js`; all four test files updated and passing |
 | **1** | The Worker: two endpoints, Durable Object, deployed, no client | **Done** — `sync-server/`, live at `kana-quest-sync.natebriggs.workers.dev`, see §2.1 |
 | **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | Real cross-device sync, but only when a parent asks for it. Every failure mode is observed with a human watching |
 | **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | This is the phase that delivers the actual goal |

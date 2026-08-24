@@ -7,7 +7,7 @@
 // document is read and written at once rather than storing items separately.
 
 import { DEFAULT_STRICTNESS } from './stroke-grader.js';
-import { MAX_BOX, deriveStudyList } from './srs.js';
+import { mergeProfiles } from './merge.js';
 
 const DB_NAME = 'kana-quest';
 const DB_VERSION = 1;
@@ -110,13 +110,17 @@ export function createProfile(name, emoji) {
     settings: defaultSettings(),
     // itemKey ("mode:kana") -> record, see srs.js
     progress: {},
-    // kanji -> [mode, ...]: which kanji are being studied, and in which
-    // modes. Kanji only — see the study-list notes in srs.js. A profile saved
-    // before this field existed has no `study` at all, which is the trigger
-    // for the one-time migration in openProfile() (app.js); a brand-new
-    // profile therefore has to start as {} rather than undefined, or it would
-    // look like an un-migrated one.
+    // kanji -> {mode: enrolledAt}: which kanji are being studied, in which
+    // modes, and since when. Kanji only — see the study-list notes in
+    // srs.js. A profile saved before `study` existed has no field at all,
+    // which is the trigger for the one-time migration in openProfile()
+    // (app.js); a brand-new profile therefore has to start as {} rather than
+    // undefined, or it would look like an un-migrated one.
     study: {},
+    // kanji -> {mode: removedAt}: the tombstone half of the same model —
+    // see the module note above deriveStudyList in srs.js and
+    // sync-plan.md §0.1 for why un-enrolling needs one.
+    unstudy: {},
   };
   return saveProfile(profile).then(() => profile);
 }
@@ -137,84 +141,6 @@ export async function exportAll() {
 
 function isObject(value) {
   return !!value && typeof value === 'object' && !Array.isArray(value);
-}
-
-/** Latest real grading event represented by a record, including records
- * written before `updatedAt` existed. Rollups have no events of their own;
- * they are rebuilt from per-reading records after the merge below. */
-function recordTimestamp(record) {
-  if (!isObject(record)) return -Infinity;
-  if (Number.isFinite(record.updatedAt)) return record.updatedAt;
-  if (Number.isFinite(record.lastReviewed)) return record.lastReviewed;
-  if (Array.isArray(record.history)) {
-    return record.history.reduce((latest, event) => (
-      Array.isArray(event) && Number.isFinite(event[0]) ? Math.max(latest, event[0]) : latest
-    ), -Infinity);
-  }
-  return -Infinity;
-}
-
-function recordAttemptCount(record) {
-  if (!isObject(record)) return -1;
-  if (Array.isArray(record.history)) return record.history.length;
-  if (Number.isFinite(record.correct) || Number.isFinite(record.incorrect)) {
-    return (Number(record.correct) || 0) + (Number(record.incorrect) || 0);
-  }
-  return Number(record.seen) || -1;
-}
-
-/** Prefer the newer copy. Attempt count is only a backward-compatible
- * tie-breaker for old records that have no timestamp, never the primary
- * signal (ordinary histories are capped and Yomi has no history array). */
-function preferIncomingRecord(current, incoming) {
-  if (!isObject(current)) return true;
-  const currentTime = recordTimestamp(current);
-  const incomingTime = recordTimestamp(incoming);
-  if (incomingTime !== currentTime) return incomingTime > currentTime;
-  return recordAttemptCount(incoming) > recordAttemptCount(current);
-}
-
-function mergeStudyLists(currentStudy, incomingStudy) {
-  const merged = {};
-  [currentStudy, incomingStudy].forEach((study) => {
-    if (!isObject(study)) return;
-    Object.entries(study).forEach(([kanji, modes]) => {
-      if (!Array.isArray(modes)) return;
-      if (!merged[kanji]) merged[kanji] = [];
-      modes.forEach((mode) => {
-        if (typeof mode === 'string' && !merged[kanji].includes(mode)) merged[kanji].push(mode);
-      });
-      if (merged[kanji].length === 0) delete merged[kanji];
-    });
-  });
-  return merged;
-}
-
-/** Rebuild the two-part kanji scheduling record from the per-reading records
- * that actually survived the merge. Otherwise a mixed local/incoming result
- * could retain a stale rollup from either device until the next Yomi answer. */
-function rebuildYomiRollups(progress) {
-  const groups = new Map();
-  Object.entries(progress).forEach(([key, record]) => {
-    const parts = key.split(':');
-    if (parts.length !== 3 || !isObject(record) || !Number.isFinite(record.streak)) return;
-    const parentKey = `${parts[0]}:${parts[1]}`;
-    if (!groups.has(parentKey)) groups.set(parentKey, []);
-    groups.get(parentKey).push(record);
-  });
-
-  groups.forEach((records, parentKey) => {
-    progress[parentKey] = {
-      box: Math.min(...records.map((record) => Math.min(record.streak, MAX_BOX))),
-      due: Math.min(...records.map((record) => Number(record.due) || 0)),
-      intervalDays: 0,
-      seen: records.reduce((sum, record) => sum + (Number(record.correct) || 0) + (Number(record.incorrect) || 0), 0),
-      correct: records.reduce((sum, record) => sum + (Number(record.correct) || 0), 0),
-      lapses: records.reduce((sum, record) => sum + (Number(record.incorrect) || 0), 0),
-      history: [],
-      updatedAt: Math.max(...records.map(recordTimestamp)),
-    };
-  });
 }
 
 function validateBackup(data) {
@@ -245,9 +171,11 @@ function normalizedNewProfile(profile) {
 /**
  * Merge a backup into this device. Profiles are matched by id. Missing
  * records are always copied; conflicts keep the copy with the latest real
- * grading timestamp. Study enrollment is unioned so a transfer cannot
- * silently drop a chosen kanji/mode. Settings already chosen on this device
- * win, while missing settings are filled from the backup/defaults.
+ * grading timestamp. Study enrollment is merged per (kanji, mode) so a
+ * deliberate un-enrollment survives just as reliably as a new one (see
+ * mergeProfiles in merge.js and sync-plan.md §0.1). Settings and identity
+ * are merged per field, by whichever side actually edited them more
+ * recently — see the same module for what happens when neither side has.
  */
 export async function importAll(data) {
   validateBackup(data);
@@ -262,25 +190,7 @@ export async function importAll(data) {
       added += 1;
       continue;
     }
-    const progress = { ...(current.progress || {}) };
-    for (const [key, record] of Object.entries(incoming.progress || {})) {
-      if (preferIncomingRecord(progress[key], record)) progress[key] = record;
-    }
-    rebuildYomiRollups(progress);
-
-    // Profiles saved before the explicit study list derive enrollment from
-    // progress. Do that before unioning so importing cannot make their
-    // already-practised kanji disappear from scheduling.
-    const currentStudy = current.study === undefined ? deriveStudyList(current.progress) : current.study;
-    const incomingStudy = incoming.study === undefined ? deriveStudyList(incoming.progress) : incoming.study;
-    const study = mergeStudyLists(currentStudy, incomingStudy);
-    const settings = {
-      ...defaultSettings(),
-      ...(incoming.settings || {}),
-      ...(current.settings || {}),
-    };
-
-    await saveProfile({ ...current, settings, progress, study });
+    await saveProfile(mergeProfiles(current, incoming));
     merged += 1;
   }
   return { added, merged };

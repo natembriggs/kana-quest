@@ -324,7 +324,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 - **Cross-device sync** — progress is per device, and moving it means saving a
   backup file and loading it on the other device. `sync-plan.md` designs the
   automatic version: a per-learner *sync code* rather than an account, a small
-  encrypted blob store behind it, and the merge that `src/store.js` already
+  encrypted blob store behind it, and the merge that `src/merge.js` already
   performs on a backup run continuously instead of once.
 
 ## Progress and backups
@@ -369,6 +369,7 @@ newer practice.
 | `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
 | `src/store.js` | IndexedDB profiles, backup export/import |
+| `src/merge.js` | Pure profile-merge logic backup import runs on — kept separate from storage so the same merge can run against a synced profile later, see `sync-plan.md` §0.3 |
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `src/changelog.js` | Hand-maintained, plain-language "what's new" shown in Settings — add an entry here in the same commit as any user-visible `APP_VERSION` bump |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |

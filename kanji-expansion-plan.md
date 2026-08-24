@@ -107,6 +107,16 @@ record — that is already this app's stated position (see the header comment
 in `srs.js`) — so removing a kanji and re-adding it a month later resumes
 where it left off rather than starting from zero.
 
+**Shape changed 2026-08-24** (sync-plan.md §0.1): each mode's value is now
+the timestamp it was enrolled, not just its presence in an array —
+`"龍": {"writing": 1756...}` rather than `"龍": ["writing"]` — and a second
+field, `unstudy`, holds the same shape for deliberate removals. A plain
+union (this section's original design) can only ever add; the two-way,
+timestamped version exists so un-enrolling a kanji actually survives a sync
+merge instead of being silently undone by a device that still shows it
+enrolled. `isStudying`/`setStudying`/etc. in `srs.js` still read as
+described above — nothing that reads through them changed.
+
 ### 1.3 Migration
 
 Profiles saved before this field exists have no `study`. On load, if
