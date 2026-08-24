@@ -309,7 +309,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | --- | --- | --- |
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
-| `sync-plan.md` | Keeping one learner's progress in step across several devices | **Planned** — nothing built yet |
+| `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — server deployed (`sync-server/`), client not started |
 
 ## What is not built yet
 

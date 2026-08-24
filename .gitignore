@@ -8,3 +8,10 @@ __pycache__/
 # scripts read these and write the much smaller src/kanji-data.js and
 # src/stroke-data.js, which ARE committed.
 tools/data_src/
+
+# sync-server/ (sync-plan.md) is a separate Cloudflare Worker project —
+# its own dependency tree and local dev/deploy state, neither of which
+# belongs in the repo.
+sync-server/node_modules/
+sync-server/.wrangler/
+sync-server/.dev.vars

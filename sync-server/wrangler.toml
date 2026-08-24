@@ -1,0 +1,11 @@
+name = "kana-quest-sync"
+main = "src/index.js"
+compatibility_date = "2026-08-24"
+
+[[durable_objects.bindings]]
+name = "DOCS"
+class_name = "DocumentStore"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DocumentStore"]

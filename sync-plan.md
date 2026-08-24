@@ -1,7 +1,10 @@
 # Cross-device sync — implementation plan
 
-Status: **not started.** Supersedes the "Progress is per-device for now"
-caveat in `src/store.js` and the *Progress and backups* section of the README.
+Status: **phase 1 done** (§8) — the Worker is written, deployed, and passing
+a live compare-and-swap test suite. Phases 0 and 2+ (the client side, and the
+merge-correctness fixes it depends on) are not started. Supersedes the
+"Progress is per-device for now" caveat in `src/store.js` and the *Progress
+and backups* section of the README.
 
 The goal is that a learner's progress follows them: practise 学 on the iPad
 after school, pick up on the phone in the car, and neither device is behind.
@@ -225,6 +228,28 @@ DELETE /v1/doc/:id
 Every response carries `Date`, which the client uses for clock correction
 (§4.7). `:id` must be exactly 64 hex characters or the request is rejected
 before any storage is touched.
+
+**Built 2026-08-24** — `sync-server/`, deployed at
+`https://kana-quest-sync.natebriggs.workers.dev`. `src/document-store.js` is
+the Durable Object (the CAS logic above, essentially verbatim); `src/index.js`
+is routing plus CORS. `test.sh` drives the live deployment through the full
+lifecycle — malformed id, create, conditional GET, conflict-then-retry, the
+413 ceiling, delete, re-create — and passed 8/8 consecutive runs. See
+`sync-server/README.md` for how to run it again.
+
+One thing this section didn't originally cover: **CORS.** The app runs on
+GitHub Pages, a different origin from the Worker, so a browser refuses the
+request entirely without CORS headers on the response — this isn't optional
+polish, phase 2 simply doesn't work without it. `Access-Control-Allow-Origin`
+is set to `*` rather than scoped to the Pages origin, deliberately: the
+64-hex id is already the entire security boundary (§1.1 — holding it *is* the
+authorisation, the same as the sync code it's derived from), so restricting
+the origin would protect nothing a `curl` from anywhere couldn't already do,
+while it would break local dev, which is served from whatever LAN IP and port
+`tools/serve.sh` happens to pick. `Access-Control-Expose-Headers: ETag` is
+also required — browsers hide all but a small allowlist of response headers
+from cross-origin JS by default, and the client needs to read the ETag
+(§4.5).
 
 ### 2.2 Storage: a Durable Object per code, not KV
 
@@ -531,7 +556,7 @@ changes anything a learner would notice.
 | Phase | What | Why here |
 | --- | --- | --- |
 | **0** | Timestamped study list + tombstones, per-key settings LWW, extract `src/merge.js` | Improves the *existing* backup path immediately. Everything else depends on it, and it is the only phase that touches scheduling code |
-| **1** | The Worker: two endpoints, Durable Object, deployed, no client | Independently verifiable with `curl`. Account and tooling are already set up (below) |
+| **1** | The Worker: two endpoints, Durable Object, deployed, no client | **Done** — `sync-server/`, live at `kana-quest-sync.natebriggs.workers.dev`, see §2.1 |
 | **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | Real cross-device sync, but only when a parent asks for it. Every failure mode is observed with a human watching |
 | **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | This is the phase that delivers the actual goal |
 | **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | Robustness, once the shape has survived real use |
