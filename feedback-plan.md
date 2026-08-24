@@ -225,7 +225,8 @@ keeps the privacy promise of sync easy to explain and audit.
 
 ### 1. Submit
 
-1. The learner opens Feedback from the app header or Settings.
+1. The learner opens Feedback from the app header — available on every
+   screen, including mid-session — or from Settings.
 2. They choose **Bug**, **Idea**, **Content correction**, or **Something else**,
    enter a short title and details, and review a clear privacy/publication note.
 3. The client generates:
@@ -606,15 +607,44 @@ maintainer-owned long-lived token.
 
 ### Entry points
 
-- A quiet speech-bubble **Feedback** icon in the persistent app header, with an
-  accessible label and at least the existing minimum touch target.
+- A quiet speech-bubble **Feedback** icon, present on every screen including
+  the quiz/lesson/writing session screens — kana and kanji sessions are
+  untimed and ungraded-under-pressure, so the moment of frustration or an idea
+  *is* the quiz screen, and that is exactly when it should be easy to reach.
+  The only hard rule is placement: it must sit in a header corner, never inside
+  `#quiz-choices` or any other tappable answer control, so a wrong tap can
+  never register as an answer.
 - A full-width **Feedback and ideas** row in Settings for discoverability and as
-  a fallback if the header becomes crowded.
+  a second path once a learner already knows the icon exists.
 - A **My contributions** row in Settings or on the learner home/profile screen.
 
-Do not show the feedback action inside answer controls where it could be tapped
-by accident. If opened during a quiz, include the screen/session context but do
-not discard or mutate the session.
+**Concrete placement, checked against the existing markup:** `.topbar` is a
+fixed three-column grid (`var(--tap) 1fr var(--tap)`) on every screen. On
+`#screen-quiz` the right-hand slot is free today — it holds only the
+`quiz-counter` text, no button — so the Feedback icon fits there directly,
+top-right, mirroring the quit `✕` on the top-left and nowhere near the choice
+grid below. On most other screens (home, course, overview, character-detail,
+lesson, writing) that same right-hand slot is already the ⚙️ Settings icon, so
+"one consistent header corner on every screen" needs one of:
+
+- Pair the two icons in that one slot (a tight icon group, Settings then
+  Feedback), keeping the grid untouched; or
+- Move Feedback to the *left* slot's spare space where a screen has no back
+  button (only `#screen-home`'s switch-profile avatar occupies it, and rarely
+  needs the whole tap target); or
+- Stop fighting the grid: a small `position: fixed` corner affordance layered
+  above the topbar on every screen, sized and positioned identically
+  everywhere, independent of what each screen's topbar grid already contains.
+
+The fixed-position approach is the least invasive of the three — zero changes
+to any screen's existing topbar markup — and is the working assumption unless
+Phase 1 build-out finds it visually competes with the sticky topbar's shadow/
+elevation. Settle this during Phase 1, not at ship time, since it is the one
+piece of chrome that touches every screen in the app.
+
+Session context (screen/mode/route) travels with the report exactly as with any
+other entry point; opening or closing the modal must not discard or mutate the
+in-progress session or its timer-free pacing.
 
 ### Form
 
@@ -1081,8 +1111,10 @@ the learner across devices.
       profile, and that sync and backup are what carry them to another device.
 - [ ] Add optional local milestones such as "first report" and "first shipped
       improvement"; keep them private, non-competitive, and non-streak-based.
-- [ ] User-test whether Feedback belongs permanently in the header or is better
-      as a home/Settings action once discoverability has been established.
+- [ ] User-test the corner icon's final position (paired with Settings, spare
+      grid slot, or fixed-position overlay — see *Entry points*) for whether it
+      ever gets tapped by accident during a session, now that "always visible,
+      every screen" is settled rather than open.
 
 **Exit:** recognition feels celebratory but remains calm, accessible, private,
 and truthful for requests that are not implemented.
@@ -1271,8 +1303,11 @@ implementation trivia:
    public issues with explicit disclosure.
 2. **Public attribution:** omit in v1 (recommended) or allow a separately entered,
    explicitly public alias with adult-facing consent text.
-3. **Header placement:** always-visible Feedback action (recommended for the
-   initial learning period) or Settings/home only.
+3. **Header placement:** always-visible Feedback action on every screen
+   **(decided — recommended and confirmed)**, including quiz/lesson/writing
+   sessions, since those are untimed and are exactly where frustration or an
+   idea happens. Still open: paired icon vs. spare grid slot vs. fixed-position
+   corner affordance — pick during Phase 1 build-out (see *Entry points*).
 4. **Release automation:** manual signed command first, then the Pages workflow
    (lower migration risk), or move Pages to *GitHub Actions* up front in Phase 4.
    Moving up front is recommended — the branch-deploy path runs no tests at all
