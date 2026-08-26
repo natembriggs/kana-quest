@@ -27,6 +27,19 @@ export const STRICTNESS_LEVELS = [
 
 export const DEFAULT_STRICTNESS = 3;
 
+// Below this model length, the bend check (see gradeResampled) never runs at
+// all, regardless of what chordBulge comes out to. A dot or short tick — 19%
+// of all strokes are under 20 units, per §2.3 above — is too short for a
+// hand to reliably reproduce a bend direction in, and too short for its
+// bulge to mean much anyway: a stray wobble that would be unremarkable
+// across 60 units of path becomes a big fraction of a 10-unit one. The
+// significance floor below (Bsig) already excludes every dot in the real
+// data on its own — the shortest model stroke it currently treats as
+// meaningfully bent is ~26 units — but that is this file's absolute-unit
+// floor doing its job incidentally, not a guarantee. This is that guarantee,
+// stated directly rather than left to fall out of an unrelated constant.
+export const MIN_BEND_LENGTH = 20;
+
 export function strictnessMultiplier(level = DEFAULT_STRICTNESS) {
   const found = STRICTNESS_LEVELS.find((l) => l.id === level);
   return found ? found.multiplier : 1.0;
@@ -132,7 +145,7 @@ export function gradeResampled(userPoints, userLength, modelPoints, modelLength,
   // are too forgiving about, since a straight chord's mean distance from a
   // gentle curve's resampled points is often still inside Dmean.
   const modelBulge = chordBulge(modelPoints);
-  if (Math.abs(modelBulge) >= t.Bsig) {
+  if (L >= MIN_BEND_LENGTH && Math.abs(modelBulge) >= t.Bsig) {
     const userBulge = chordBulge(userPoints);
     if (Math.abs(userBulge) < t.curveFrac * Math.abs(modelBulge)) return 'too-straight';
     if (Math.sign(userBulge) !== Math.sign(modelBulge)) return 'wrong-bend';

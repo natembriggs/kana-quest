@@ -84,17 +84,22 @@ Each drawn stroke is compared against the model stroke at the same index —
    strokes badly.
 3. **Start point** within radius `R` of the model's start.
 4. **End point** within radius `R` of the model's end.
-5. **Bend.** Only when the model stroke has a real bend to get right (its
-   `chordBulge` — the average signed perpendicular distance of its points
-   from its own start→end chord — reaches `B_sig`): the attempt's own
-   `chordBulge` must reach `curveFrac` of the model's, and bow to the same
-   side. Added because checks 6–7 below, on their own, let a near-straight
-   line through a broad hiragana curve or a stroke bowed the wrong way
-   through a katakana corner both slip past — a straight chord's *mean*
-   distance from a gentle curve's resampled points is often still inside
-   `D_mean`, even though the shape is clearly wrong. One check covers both
-   cases because a smooth curve and a sharp corner are the same thing here:
-   a path that bows to one side of its own chord.
+5. **Bend.** Only when the model stroke is at least 20 units long AND has a
+   real bend to get right (its `chordBulge` — the average signed
+   perpendicular distance of its points from its own start→end chord —
+   reaches `B_sig`): the attempt's own `chordBulge` must reach `curveFrac` of
+   the model's, and bow to the same side. Added because checks 6–7 below, on
+   their own, let a near-straight line through a broad hiragana curve or a
+   stroke bowed the wrong way through a katakana corner both slip past — a
+   straight chord's *mean* distance from a gentle curve's resampled points is
+   often still inside `D_mean`, even though the shape is clearly wrong. One
+   check covers both cases because a smooth curve and a sharp corner are the
+   same thing here: a path that bows to one side of its own chord.
+   The 20-unit floor is a hard, unconditional cutoff — separate from `B_sig`
+   — so a dot or short tick (19% of all strokes are under 20 units) can never
+   be judged on bend, no matter how its bulge ratio comes out: a hand can't
+   reliably reproduce a bend direction over that short a distance, and a
+   short stroke's bulge is dominated by wobble rather than real shape.
 6. **Mean deviation** across 48 arc-length-resampled point pairs ≤ `D_mean`.
 7. **Max deviation** ≤ `D_max` — a scribble catcher, nothing more.
 8. **Corners** (turning angle > 55° over a 6-point window) — **advisory

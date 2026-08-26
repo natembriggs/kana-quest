@@ -471,6 +471,43 @@ check('a simulated sloppy 12-year-old drawing a bent stroke is still accepted at
   sloppyBentAccepted / bentStrokes.length >= 0.99,
   `${(100 * sloppyBentAccepted / bentStrokes.length).toFixed(1)}% accepted, wanted >= 99%`);
 
+// 9. A dot or other short stroke (e.g. the two short strokes atop 学) must
+// never be judged on bend, however badly its shape is butchered — a hand
+// can't reliably reproduce a bend direction over that short a distance, and
+// the check exists to catch broad curves and sharp corners, not to demand
+// concavity out of a tick mark. Checked directly against 学's own dots, not
+// just via the general MIN_BEND_LENGTH filter below, since that's the
+// concrete case this guard is for.
+const shortStrokes = allModelStrokes.filter(({ model }) => model.length < grader.MIN_BEND_LENGTH);
+check('the real data actually has short strokes to test this guard against',
+  shortStrokes.length > 100, `${shortStrokes.length} strokes under ${grader.MIN_BEND_LENGTH} units`);
+
+let shortBendVerdicts = 0;
+for (const { model } of shortStrokes) {
+  for (const distort of [flattenStroke, mirrorAcrossChord]) {
+    const { points, length } = resample(distort(model.points), grader.RESAMPLE_POINTS);
+    const verdict = grader.gradeResampled(points, length, model.points, model.length, 1.0);
+    if (verdict === 'too-straight' || verdict === 'wrong-bend') shortBendVerdicts += 1;
+  }
+}
+check('a short stroke (under 20 units) is never rejected as too-straight or wrong-bend, however it is distorted',
+  shortBendVerdicts === 0, `${shortBendVerdicts} such verdict(s) on ${shortStrokes.length} short strokes`);
+
+const gakuStrokes = strokesFor('学').strokes.map((d) => grader.prepareModelStroke(d));
+const gakuDots = gakuStrokes.filter((model) => model.length < grader.MIN_BEND_LENGTH);
+check('学 actually has short (dot-like) strokes to check, so this test means something',
+  gakuDots.length >= 2, `found ${gakuDots.length}`);
+let gakuDotBendVerdicts = 0;
+for (const model of gakuDots) {
+  for (const distort of [flattenStroke, mirrorAcrossChord]) {
+    const { points, length } = resample(distort(model.points), grader.RESAMPLE_POINTS);
+    const verdict = grader.gradeResampled(points, length, model.points, model.length, 1.0);
+    if (verdict === 'too-straight' || verdict === 'wrong-bend') gakuDotBendVerdicts += 1;
+  }
+}
+check('学\'s own short strokes are never rejected as too-straight or wrong-bend',
+  gakuDotBendVerdicts === 0, `${gakuDotBendVerdicts} such verdict(s)`);
+
 done('stroke grading');
 
 // --- CSS: [hidden] must actually hide things ------------------------------
