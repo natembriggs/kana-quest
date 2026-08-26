@@ -7,7 +7,9 @@
 // false rejections at the default strictness — see the numbers in
 // writing-mode-plan.md §2.5, which the tests in test/smoke.js pin in place.
 
-import { distance, flattenPath, polylineLength, resample, smooth } from './stroke-geometry.js';
+import {
+  chordBulge, distance, flattenPath, polylineLength, resample, smooth,
+} from './stroke-geometry.js';
 
 export const RESAMPLE_POINTS = 48;
 
@@ -49,6 +51,22 @@ export function strokeTolerances(modelLength, multiplier = 1.0) {
     R: clamp(0.45 * L, 17, 36) * m, // endpoint hit radius
     Dmean: clamp(0.36 * L, 14, 30) * m, // mean deviation across resampled points
     Dmax: clamp(0.90 * L, 36, 74) * m, // worst single deviation — scribble catcher
+    // Minimum |chordBulge| (see stroke-geometry.js) for the MODEL to count as
+    // meaningfully curved or bent at all. Below this floor the model itself
+    // is essentially a straight line, so no bend is required of the
+    // attempt. Deliberately NOT scaled by strictness — whether a stroke has
+    // a shape to get wrong is a property of the model, not something a
+    // difficulty slider should move.
+    Bsig: clamp(0.08 * L, 5, 40),
+    // Fraction of the model's own bulge the attempt must reach to count as
+    // "curved the right amount" — the rest is "too-straight". Scaled the
+    // opposite way from every other tolerance (divided by m, not multiplied)
+    // because a SMALLER fraction is what makes this MORE lenient: Gentle
+    // asks for as little as a fifth of the model's curvature, Strict for
+    // nearly half. Tuned against the same simulated writers as the other
+    // tolerances (see writing-mode-plan.md §2.5) to keep false rejections on
+    // sloppy-but-genuine curves under 1% at every level.
+    curveFrac: 0.3 / m,
   };
 }
 
@@ -70,9 +88,10 @@ export function prepareModelStroke(d) {
  * sets, the same way the tuning script did.
  *
  * Returns one of: 'ok', 'backwards', 'too-short', 'too-long', 'start',
- * 'end', 'shape', 'wild'. Checked in that order — the first failing check
- * wins, so a stroke that is both backwards AND short is reported as
- * backwards, which is the more useful thing to tell a learner.
+ * 'end', 'too-straight', 'wrong-bend', 'shape', 'wild'. Checked in that
+ * order — the first failing check wins, so a stroke that is both backwards
+ * AND short is reported as backwards, which is the more useful thing to
+ * tell a learner.
  */
 export function gradeResampled(userPoints, userLength, modelPoints, modelLength, multiplier = 1.0) {
   const L = modelLength;
@@ -102,6 +121,22 @@ export function gradeResampled(userPoints, userLength, modelPoints, modelLength,
 
   if (distance(u0, m0) > t.R) return 'start';
   if (distance(uN, mN) > t.R) return 'end';
+
+  // Bend: does the drawn stroke bow away from its own start/end the same
+  // way the model does? Only checked when the model itself has a real bend
+  // to get right (see Bsig above) — most strokes are short, straight
+  // segments with nothing here to enforce. This is what catches a stroke
+  // that nails both endpoints but was drawn as a near-straight line through
+  // a broad hiragana curve, or bowed the wrong way through a katakana
+  // corner — exactly the failure mode the per-point deviation checks below
+  // are too forgiving about, since a straight chord's mean distance from a
+  // gentle curve's resampled points is often still inside Dmean.
+  const modelBulge = chordBulge(modelPoints);
+  if (Math.abs(modelBulge) >= t.Bsig) {
+    const userBulge = chordBulge(userPoints);
+    if (Math.abs(userBulge) < t.curveFrac * Math.abs(modelBulge)) return 'too-straight';
+    if (Math.sign(userBulge) !== Math.sign(modelBulge)) return 'wrong-bend';
+  }
 
   let sumDeviation = 0;
   let maxDeviation = 0;

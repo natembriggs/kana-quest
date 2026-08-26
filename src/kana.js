@@ -109,9 +109,29 @@ export function getCourse(courseId) {
   return COURSES.find((c) => c.id === courseId) || COURSES[0];
 }
 
-/** The romaji we show as the answer / as the writing-mode prompt. */
+/** The romaji we show as the answer to a reading question. */
 export function romajiFor(kana) {
   return toRomaji(kana);
+}
+
+// romajiFor(ぢ) and romajiFor(づ) come back as "ji"/"zu" — same as じ/ず —
+// because that's how they're actually pronounced in modern Japanese, and
+// that merge is exactly what ALTERNATES above lets a learner type. But
+// writing mode shows romaji with no kana glyph alongside it (see
+// writing-mode-plan.md's kana-prompt section): shown "zu" in isolation,
+// there's no way to tell ず from づ apart, and nothing in the checker below
+// is meant to resolve that — it's a display problem, not a spelling one.
+// Marked here with an extra "d", the usual hint at ぢ/づ's origin as the
+// dakuten forms of ち/つ rather than a spelling anyone is expected to type.
+const WRITING_DISAMBIGUATE = {
+  'ぢ': 'dji',
+  'づ': 'dzu',
+};
+
+/** The romaji shown as the writing-mode prompt — see WRITING_DISAMBIGUATE
+ * just above for why this can differ from romajiFor(). */
+export function writingPromptFor(kana) {
+  return WRITING_DISAMBIGUATE[toHiragana(kana)] || romajiFor(kana);
 }
 
 /**

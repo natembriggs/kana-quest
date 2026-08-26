@@ -84,9 +84,20 @@ Each drawn stroke is compared against the model stroke at the same index —
    strokes badly.
 3. **Start point** within radius `R` of the model's start.
 4. **End point** within radius `R` of the model's end.
-5. **Mean deviation** across 48 arc-length-resampled point pairs ≤ `D_mean`.
-6. **Max deviation** ≤ `D_max` — a scribble catcher, nothing more.
-7. **Corners** (turning angle > 55° over a 6-point window) — **advisory
+5. **Bend.** Only when the model stroke has a real bend to get right (its
+   `chordBulge` — the average signed perpendicular distance of its points
+   from its own start→end chord — reaches `B_sig`): the attempt's own
+   `chordBulge` must reach `curveFrac` of the model's, and bow to the same
+   side. Added because checks 6–7 below, on their own, let a near-straight
+   line through a broad hiragana curve or a stroke bowed the wrong way
+   through a katakana corner both slip past — a straight chord's *mean*
+   distance from a gentle curve's resampled points is often still inside
+   `D_mean`, even though the shape is clearly wrong. One check covers both
+   cases because a smooth curve and a sharp corner are the same thing here:
+   a path that bows to one side of its own chord.
+6. **Mean deviation** across 48 arc-length-resampled point pairs ≤ `D_mean`.
+7. **Max deviation** ≤ `D_max` — a scribble catcher, nothing more.
+8. **Corners** (turning angle > 55° over a 6-point window) — **advisory
    only, never rejects.** Reported as "watch the corner here" in the
    feedback. 82% of strokes have no corner at all, so this was never going to
    be load-bearing; treating it as a gate would only add false negatives.
@@ -97,11 +108,23 @@ In the 109-unit KanjiVG coordinate space, so they are independent of screen
 size. `L` is the model stroke's arc length; `m` is the strictness multiplier.
 
 ```
-R      = clamp(0.45 · L, 17, 36) · m      # endpoint hit radius
-D_mean = clamp(0.36 · L, 14, 30) · m      # mean deviation
-D_max  = clamp(0.90 · L, 36, 74) · m      # scribble catcher
-slack  = 1 + (m − 1) · 0.5                # milder multiplier, length gate only
+R        = clamp(0.45 · L, 17, 36) · m    # endpoint hit radius
+D_mean   = clamp(0.36 · L, 14, 30) · m    # mean deviation
+D_max    = clamp(0.90 · L, 36, 74) · m    # scribble catcher
+slack    = 1 + (m − 1) · 0.5              # milder multiplier, length gate only
+B_sig    = clamp(0.08 · L, 5, 40)         # bend significance floor — NOT scaled by m
+curveFrac = 0.3 / m                       # required fraction of the model's bend
 ```
+
+`B_sig` is deliberately independent of strictness: whether a stroke has a
+bend to get right is a property of the model, not something a difficulty
+slider should move. `curveFrac` scales the opposite way from everything
+else — dividing by `m`, not multiplying — because a *smaller* required
+fraction is what makes this check more lenient: Gentle asks for only a fifth
+of the model's own bend, Strict for nearly half. Tuned against the same
+simulated writers as every other tolerance here (§2.5) to keep false
+rejections on a sloppy-but-genuine curve under 1% at Normal and under 1% even
+at Strict — see the "flattened"/"mirrored" checks pinned in test/smoke.js.
 
 **The floors are the important part and are deliberately absolute.** A purely
 relative tolerance makes dense kanji impossible: stroke lengths run from 6 to
@@ -313,6 +336,11 @@ are all reused unchanged.
 - Square canvas box with the four quadrants marked by dashed lines.
 - Kana prompt: the romaji, plus an explicit script label — "write this in
   **katakana**" — since romaji alone does not say which script is wanted.
+  ぢ/づ get "dji"/"dzu" here rather than their usual "ji"/"zu" (see
+  `writingPromptFor` in kana.js) — with no kana glyph on screen to tell them
+  apart from じ/ず, plain Hepburn romaji is genuinely ambiguous here, unlike
+  every reading-direction use of romajiFor() where the kana is already on
+  screen.
 - Kanji prompt: on'yomi, kun'yomi, example words in kana, and English
   meanings in a side panel; stacked above the canvas in portrait, beside it
   in landscape.

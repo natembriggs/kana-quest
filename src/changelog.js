@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-26',
+    changes: [
+      'Fixed: in Writing mode, ぢ and づ now show as "dji" and "dzu" instead of "ji" and "zu" — those matched じ and ず exactly before, so there was no way to tell which character to draw.',
+      'Writing mode now catches a stroke that starts and ends in the right place but is drawn straight through a curve, or curved the wrong way — it used to slip through as correct.',
+    ],
+  },
+  {
     date: '2026-08-24',
     changes: [
       'Added Sync across devices, under Settings — pair another phone or tablet with a code and keep a learner\'s progress the same on both. No account needed; turn it on, or enter a code from another device, to get started.',

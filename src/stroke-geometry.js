@@ -188,6 +188,34 @@ export function findCorners(points, { window = 6, thresholdDeg = 55 } = {}) {
 }
 
 /**
+ * Signed average perpendicular distance of a stroke's points from its own
+ * start-to-end chord — how far, and to which side, the path bows away from a
+ * straight line between its own endpoints. Used by stroke-grader.js to catch
+ * a drawn stroke that hits the right start/end but gets the bend wrong: drawn
+ * near-straight when the model curves, or bowed the opposite way.
+ *
+ * Rotation- and translation-invariant by construction (only the component of
+ * each point perpendicular to the chord, in the stroke's own local frame,
+ * contributes), so it compares a model stroke and a differently-placed or
+ * tilted attempt on equal terms. Zero for a dead-straight stroke or a
+ * near-zero-length one (a dot), which returns 0 outright rather than
+ * dividing by a near-zero chord length.
+ */
+export function chordBulge(points) {
+  const p0 = points[0];
+  const pN = points[points.length - 1];
+  const cx = pN[0] - p0[0];
+  const cy = pN[1] - p0[1];
+  const chordLen = Math.hypot(cx, cy);
+  if (chordLen < 1e-6) return 0;
+  const nx = -cy / chordLen;
+  const ny = cx / chordLen;
+  let sum = 0;
+  for (const p of points) sum += (p[0] - p0[0]) * nx + (p[1] - p0[1]) * ny;
+  return sum / points.length;
+}
+
+/**
  * The bounded best-fit translation that would align a whole drawn character
  * onto its model, in the least-squares sense — averaged over every point of
  * every stroke, magnitude clamped to `bound`.

@@ -9,7 +9,9 @@
 load('vendor/wanakana.min.js');
 globalThis.window = { wanakana: globalThis.wanakana };
 
-const { COURSES, romajiFor, checkRomaji, buildChoices } = await import('../src/kana.js');
+const {
+  COURSES, romajiFor, writingPromptFor, checkRomaji, buildChoices,
+} = await import('../src/kana.js');
 const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
@@ -21,7 +23,7 @@ const {
 const { strokesFor, hasStrokes, ensureStrokeUnitLoaded, allStrokeEntries } = await import('../src/strokes.js');
 const srs = await import('../src/srs.js');
 const {
-  flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset,
+  flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset, chordBulge,
 } = await import('../src/stroke-geometry.js');
 const grader = await import('../src/stroke-grader.js');
 
@@ -399,6 +401,76 @@ check('drawing only the first half of a stroke is rejected at least 85% of the t
   (halfTotal - halfAccepted) / halfTotal >= 0.85,
   `${(100 * (halfTotal - halfAccepted) / halfTotal).toFixed(1)}% rejected, wanted >= 85%`);
 
+// 6 & 7. The bend check (writing-mode-plan.md §2.2 step 5): among model
+// strokes with a real bend to get right (chordBulge past Bsig), a stroke
+// drawn as a straight chord between the same endpoints, or bowed the
+// opposite way, must be rejected almost always — this is the exact failure
+// mode ("hit the endpoints, drew a straight line through the curve, or bowed
+// it the wrong way") that motivated the check, since the per-point deviation
+// checks alone let both slip through on a shallow curve.
+function flattenStroke(points) {
+  const p0 = points[0];
+  const pN = points[points.length - 1];
+  return points.map((_, k) => {
+    const t = k / (points.length - 1);
+    return [p0[0] + t * (pN[0] - p0[0]), p0[1] + t * (pN[1] - p0[1])];
+  });
+}
+function mirrorAcrossChord(points) {
+  const p0 = points[0];
+  const pN = points[points.length - 1];
+  const cx = pN[0] - p0[0];
+  const cy = pN[1] - p0[1];
+  const len = Math.hypot(cx, cy) || 1;
+  const nx = -cy / len;
+  const ny = cx / len;
+  return points.map((p) => {
+    const d = (p[0] - p0[0]) * nx + (p[1] - p0[1]) * ny;
+    return [p[0] - 2 * d * nx, p[1] - 2 * d * ny];
+  });
+}
+const bentStrokes = allModelStrokes.filter(({ model }) => {
+  const t = grader.strokeTolerances(model.length, 1.0);
+  return Math.abs(chordBulge(model.points)) >= t.Bsig;
+});
+check('a meaningful share of real strokes have a bend the new check can act on',
+  bentStrokes.length / allModelStrokes.length >= 0.10,
+  `${bentStrokes.length}/${allModelStrokes.length} (${(100 * bentStrokes.length / allModelStrokes.length).toFixed(1)}%)`);
+
+let flatAccepted = 0;
+let mirrorAccepted = 0;
+for (const { model } of bentStrokes) {
+  const flat = flattenStroke(model.points);
+  const { points: flatPoints, length: flatLength } = resample(flat, grader.RESAMPLE_POINTS);
+  if (grader.gradeResampled(flatPoints, flatLength, model.points, model.length, 1.0) === 'ok') flatAccepted += 1;
+
+  const mirrored = mirrorAcrossChord(model.points);
+  const { points: mirrorPoints, length: mirrorLength } = resample(mirrored, grader.RESAMPLE_POINTS);
+  if (grader.gradeResampled(mirrorPoints, mirrorLength, model.points, model.length, 1.0) === 'ok') mirrorAccepted += 1;
+}
+check('a curved/bent stroke drawn as a straight line is rejected at least 99% of the time at Normal strictness',
+  flatAccepted / bentStrokes.length <= 0.01,
+  `${flatAccepted}/${bentStrokes.length} wrongly accepted`);
+check('a curved/bent stroke drawn bowed the opposite way is rejected at least 99% of the time at Normal strictness',
+  mirrorAccepted / bentStrokes.length <= 0.01,
+  `${mirrorAccepted}/${bentStrokes.length} wrongly accepted`);
+
+// 8. The false-negative guard for this check specifically: the same sloppy
+// simulated 12-year-old from check 4, run only against bent strokes, must
+// still be accepted at least 99% of the time — this check must not eat into
+// the false-positive budget the other tolerances were tuned around.
+let sloppyBentRand = mulberry32(555);
+let sloppyBentAccepted = 0;
+for (const { model } of bentStrokes) {
+  const written = smooth(writeStroke(model, SLOPPY_12YO, sloppyBentRand), 2);
+  const writtenLength = polylineLength(written);
+  const verdict = grader.gradeResampled(written, writtenLength, model.points, model.length, grader.strictnessMultiplier(grader.DEFAULT_STRICTNESS));
+  if (verdict === 'ok') sloppyBentAccepted += 1;
+}
+check('a simulated sloppy 12-year-old drawing a bent stroke is still accepted at least 99% of the time at Normal strictness',
+  sloppyBentAccepted / bentStrokes.length >= 0.99,
+  `${(100 * sloppyBentAccepted / bentStrokes.length).toFixed(1)}% accepted, wanted >= 99%`);
+
 done('stroke grading');
 
 // --- CSS: [hidden] must actually hide things ------------------------------
@@ -471,6 +543,27 @@ for (const [typed, target] of rejected) {
   check(`reject "${typed}" for ${target}`, !checkRomaji(typed, target));
 }
 done('alternate spellings');
+
+// --- Writing-mode prompt disambiguation -------------------------------------
+// romajiFor(ぢ)/romajiFor(づ) collide with romajiFor(じ)/romajiFor(ず) — fine
+// for reading questions, where the kana glyph is on screen, but writing mode
+// shows only the romaji, so those four characters need to come back distinct.
+
+const writingPairs = [['じ', 'ぢ'], ['ず', 'づ'], ['ジ', 'ヂ'], ['ズ', 'ヅ']];
+for (const [plain, merged] of writingPairs) {
+  check(
+    `writing prompt distinguishes ${plain} from ${merged}`,
+    writingPromptFor(plain) !== writingPromptFor(merged),
+    `both shown as "${writingPromptFor(plain)}"`,
+  );
+}
+for (const course of COURSES) {
+  for (const kana of course.chunks.flatMap((c) => c.items)) {
+    if (['ぢ', 'づ', 'ヂ', 'ヅ'].includes(kana)) continue;
+    check(`writing prompt unchanged for ${kana}`, writingPromptFor(kana) === romajiFor(kana));
+  }
+}
+done('writing-mode prompt disambiguation');
 
 // --- Multiple-choice options ---------------------------------------------
 // Checked for every character in both courses, because the failure that

@@ -1,6 +1,8 @@
 // Screen routing, session flow and event wiring.
 
-import { COURSES, romajiFor, buildChoices } from './kana.js';
+import {
+  COURSES, romajiFor, writingPromptFor, buildChoices,
+} from './kana.js';
 import {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, formatReading,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
@@ -30,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-24e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-26a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1733,6 +1735,8 @@ const WRITING_FEEDBACK = {
   'too-long': 'A little short of that — try stopping sooner.',
   start: 'Start a little closer to where this stroke begins.',
   end: 'Finish a little closer to where this stroke ends.',
+  'too-straight': 'This stroke should curve more — try bowing it further.',
+  'wrong-bend': 'This stroke bends the other way — check which side it curves toward.',
   shape: 'Close — try following the stroke a bit more closely.',
   wild: 'That strayed quite far from the stroke — give it another go.',
 };
@@ -1765,7 +1769,7 @@ function renderWritingQuestion(course, item) {
 
   const isKanji = course.kind === 'kanji';
   $('writing-romaji').hidden = isKanji;
-  $('writing-romaji').textContent = isKanji ? '' : romajiFor(item);
+  $('writing-romaji').textContent = isKanji ? '' : writingPromptFor(item);
   $('writing-script-label').textContent = isKanji ? '' : `Write it in ${course.name.toLowerCase()}`;
   $('writing-kanji-info').hidden = !isKanji;
   if (isKanji) renderWritingKanjiInfo(course, item);
