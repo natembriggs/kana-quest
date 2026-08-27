@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-27f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1626,7 +1626,10 @@ function chooseAnswer(value, button) {
     button.classList.add('is-right');
     $('quiz-card').className = 'quiz-card is-correct';
     $('quiz-feedback').className = 'feedback ok';
-    $('quiz-feedback').textContent = '✓';
+    // Nothing to say that the card turning green has not already said. The
+    // element collapses when empty (see .feedback:empty in styles.css), so
+    // this is real vertical space handed back to the answers below.
+    $('quiz-feedback').textContent = '';
     session.locked = true;
     disableRemainingChoices();
     if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
@@ -1657,7 +1660,11 @@ function chooseAnswer(value, button) {
   revealSingleAnswer(answer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  $('quiz-feedback').textContent = state.mode === 'definition' ? '✗' : answer;
+  // Kana: the romaji that was being asked for is worth spelling out. A
+  // definition is far too long for this line, and the right option is
+  // already highlighted green among the choices, so that mode says nothing
+  // here and lets the red card carry it.
+  $('quiz-feedback').textContent = state.mode === 'definition' ? '' : answer;
   session.locked = true;
   disableRemainingChoices();
   if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
@@ -2481,7 +2488,7 @@ function finalizeKanjiRound(kanji) {
   const perfect = !session.kanjiErrorMade;
   $('quiz-card').className = `quiz-card ${perfect ? 'is-correct' : 'is-wrong'}`;
   $('quiz-feedback').className = `feedback ${perfect ? 'ok' : 'bad'}`;
-  $('quiz-feedback').textContent = perfect ? '✓' : 'Found them all';
+  $('quiz-feedback').textContent = perfect ? '' : 'Found them all';
   showKanjiInfo(course, kanji);
   store.saveProfile(state.profile);
 }
@@ -2500,8 +2507,11 @@ function showKanjiInfo(course, kanji) {
   renderWord($('quiz-word'), info.words[0]);
   // "below", not "above": this panel now sits directly under the character
   // it describes, with the readings underneath it. See index.html.
+  // Kept to one line: on a short phone this panel, the character above it
+  // and every answer below it all have to fit between the header and the
+  // Next bar, and a second line of hint is the least valuable of them.
   $('quiz-word-hint').textContent = isYomi && state.session.kanjiCorrect.size > 1
-    ? 'Tap a green reading below to see a word that uses it.'
+    ? 'Tap a green reading for its example word.'
     : '';
   $('quiz-info').hidden = false;
 }

@@ -392,6 +392,12 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
       await settle();
       check('finding it on the second try still marks it right',
         correctTarget.classList.contains('is-right'));
+      // The card's own colour is the verdict now — there is no ✓ under the
+      // character, and the empty line collapses (see .feedback:empty) so it
+      // costs no height on a short phone.
+      check('a right answer says so with the card, not a tick',
+        el('quiz-feedback').textContent === '' && el('quiz-card').className.includes('is-correct'),
+        `"${el('quiz-feedback').textContent}" / ${el('quiz-card').className}`);
       check('a resolved question does not auto-advance on its own — no timer is even scheduled',
         visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
       check('Next is offered once the question resolves', el('quiz-ok').hidden === false);
@@ -1208,6 +1214,9 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     check('a perfect run unlocks Next without a separate submit step',
       el('quiz-ok').hidden === false);
     check('a perfect run reveals the meaning/word panel', el('quiz-info').hidden === false);
+    check('a perfect yomi round is marked by the card alone, with no tick over it',
+      el('quiz-feedback').textContent === '' && el('quiz-card').className.includes('is-correct'),
+      `"${el('quiz-feedback').textContent}"`);
     check('show answers / advanced hide themselves once resolved',
       el('quiz-show-answers').hidden === true && el('quiz-advanced').hidden === true);
     fire(el('quiz-ok'), 'click'); // Next
@@ -1385,6 +1394,9 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
     await settle();
     check('a correct definition shows the readings as follow-up context',
       el('quiz-info').hidden === false && el('quiz-meanings').textContent.length > 0);
+    check('a correct definition leaves the feedback line empty — the green card says it',
+      el('quiz-feedback').textContent === '' && el('quiz-card').className.includes('is-correct'),
+      `"${el('quiz-feedback').textContent}"`);
   }
   check('a resolved definition question waits for Next instead of auto-advancing',
     el('quiz-ok').hidden === false && timers.size === 0);

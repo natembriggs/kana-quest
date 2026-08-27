@@ -11,6 +11,14 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-28',
+    changes: [
+      'Fixed: on a small phone the details panel pushed the answer choices down behind the Next button, so you could no longer see which answer you had picked. Everything now fits on one screen without scrolling.',
+      '"Full details" moved up alongside the readings instead of sitting on a line of its own, and the character\'s card is no longer taller than the character in it — the card turning green or red is the tick, so there is no longer a ✓ underneath taking up room.',
+      'Fixed: coming back from "Full details" could leave the Next button needing three or four presses before it would move on.',
+    ],
+  },
+  {
     date: '2026-08-27',
     changes: [
       'Fixed: in a test or review, tapping anywhere on the screen used to count as pressing Next, so a stray tap skipped straight past the answer. Only the Next button moves on now.',

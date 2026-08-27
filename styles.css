@@ -223,12 +223,29 @@ body {
    [hidden] toggles off, because the element is genuinely re-entering layout
    (display: none -> flex) rather than just changing a class on something
    already rendered. */
+/* Two variants, and the split is load-bearing rather than cosmetic. A
+   `transform` — even one only touched by a keyframe, and only for 220ms —
+   makes the element a containing block for its own `position: fixed`
+   descendants. On the quiz and summary screens that descendant is
+   .bottom-bar, which promptly stops being pinned to the VIEWPORT and pins
+   itself to the bottom of the SCREEN box instead: taller than the viewport
+   whenever the content scrolls, so Next slides below the fold and taps at
+   it hit nothing until the animation ends. Reported as needing three or
+   four presses on Next after coming back from "Full details" (which
+   re-triggers the animation with Next already showing — every other way of
+   entering the quiz screen has it hidden, which is why this hid for so
+   long). Those screens therefore fade without rising. */
 @media (prefers-reduced-motion: no-preference) {
   .screen:not([hidden]) { animation: screen-enter 220ms ease-out; }
+  .screen:not([hidden]):has(.bottom-bar) { animation: screen-fade 220ms ease-out; }
 }
 @keyframes screen-enter {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+@keyframes screen-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Reserves room for the fixed .bottom-bar (see above) so it never overlaps
@@ -241,7 +258,9 @@ body {
    (meanings, example word, hint — the tall, variable part) no longer sits
    at the bottom: it moved up under the character, so the last thing above
    the bar is now the fixed-height "Advanced / Show answers" row. What's
-   left is just clearance for the bar itself.
+   left is just clearance for the bar itself — #app's own bottom padding
+   already covers the home-indicator inset that the bar's padding also
+   respects, so this does not need to grow with it.
 
    The min-height + margin-top: auto pair below is the real point. Without
    it the answers ended wherever the card above them happened to stop —
@@ -252,7 +271,12 @@ body {
    screen height. On a short screen the auto margin simply collapses to
    nothing and the layout behaves exactly as it did before. */
 #screen-quiz {
-  padding-bottom: 120px;
+  padding-bottom: 92px;
+  /* A slightly tighter rhythm than the 16px every other screen uses: this
+     is the one screen that has to fit a character, its details and every
+     answer between a sticky header and a fixed bar without scrolling, and
+     4px off each gap is the cheapest 12px there is to find. */
+  gap: 12px;
   min-height: 100vh;
   min-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(24px, env(safe-area-inset-bottom)));
 }
@@ -594,13 +618,23 @@ h3 { font-size: 18px; }
   justify-content: center;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
-/* No keyboard to leave room for, so the prompt can be shorter than the
-   teaching card and the answers stay comfortably above the fold. */
-.quiz-card { min-height: 32vh; }
+/* Sized to the glyph it holds plus its own padding, rather than to a share
+   of the viewport. 32vh used to be right when this card also had to hold a
+   30px ✓/✗ under the character; with the card's own colour carrying that
+   verdict instead, the same 32vh was simply empty space — and on a short
+   phone (iPhone 13 mini) it was enough of it to push the answers down
+   behind the Next bar once the info panel appeared. The floor keeps a
+   narrow screen's clamped-down glyph from looking cramped in it. */
+.quiz-card { min-height: 168px; padding: 20px 16px; }
 .quiz-card.is-correct { border-color: var(--ok); background: var(--ok-bg); }
 .quiz-card.is-wrong { border-color: var(--bad); background: var(--bad-bg); }
 
-.feedback { min-height: 38px; font-size: 30px; font-weight: 700; }
+/* Text only now — "Try once more", or the romaji answer after a second
+   miss. Right and wrong are said by the card's colour, so there is no ✓/✗
+   here to need 30px, and an empty line takes no room at all (display: none
+   removes the flex gap above it too, which min-height: 0 would not). */
+.feedback { font-size: 24px; font-weight: 700; }
+.feedback:empty { display: none; }
 .feedback.ok { color: var(--ok); }
 .feedback.bad { color: var(--bad); }
 
@@ -874,18 +908,29 @@ h3 { font-size: 18px; }
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 12px 16px;
   display: flex; flex-direction: column; gap: 8px;
 }
 .kanji-meanings { font-size: 16px; font-weight: 600; color: var(--ink); }
 
-/* Right-aligned and quiet: an offer, not a step. Full width would read as
-   the thing to press next, which is Next's job. */
+/* Readings/meanings on the left, "Full details" tucked into the top right
+   of the same line. align-items: flex-start keeps the button at the top of
+   a meanings list that wraps to two lines rather than floating to its
+   middle. */
+.kanji-info-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+/* Quiet and small: an offer, not a step. Anything wider or louder would
+   read as the thing to press next, which is Next's job. flex: none stops it
+   being squeezed by a long list of meanings beside it. */
 .quiz-info-more {
-  align-self: flex-end;
-  min-height: 38px;
-  padding: 0 12px;
-  font-size: 14px;
+  flex: none;
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 13px;
 }
 
 /* Reused on the lesson (teach) card, so it needs its own text sizing rather
