@@ -65,7 +65,11 @@ function makeElement(id = '') {
     getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
     remove() {},
     focus() {},
-    click() {},
+    // Dispatches for real, unlike the other no-ops here: app.js's Enter-key
+    // shortcut works by calling .click() on whichever forward button is on
+    // screen, so a no-op stub would let that shortcut "pass" while doing
+    // nothing at all.
+    click() { fire(this, 'click'); },
     // Real SVG elements always have this; strokes.js calls it unconditionally
     // (not inside its try/catch, unlike the stroke-geometry calls) to force a
     // layout flush before starting the draw-in animation.
@@ -406,7 +410,14 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
         choices.some((c) => c.textContent === answer && c.classList.contains('is-right')));
       check('the app waits for a tap after the final reveal — no auto-advance timer either',
         visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
-      fire(el('screen-quiz'), 'click'); // a tap anywhere on the quiz screen moves on
+      // Tapping the background used to count as Next, which made it far too
+      // easy to skip past the revealed answer without meaning to. Only the
+      // button itself advances now.
+      fire(el('screen-quiz'), 'click');
+      await settle();
+      check('a tap on the quiz background does not advance',
+        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+      fire(el('quiz-ok'), 'click');
       await settle();
     }
   } else {
@@ -655,6 +666,13 @@ check('a clean Trace pass offers trying one level harder',
 check('the hint row has nothing left to do once finished, so it is hidden too — Trace never showed it anyway',
   el('writing-hints').hidden === true);
 
+// Enter reaches writing's Next too, and is gated on the result card rather
+// than on the button (which is never hidden itself — the card around it is
+// what appears). Mid-character, there is nothing for Enter to press, so a
+// stray Enter can never skip a character that has not been drawn yet.
+check('the writing Next button lives inside the result card, not hidden on its own',
+  el('writing-next').hidden === false && el('writing-result').hidden === false);
+
 // bindTap() (see app.js): a touch pointerup should fire the handler
 // immediately, without waiting for the click the browser would ordinarily
 // synthesize from it — that's the whole fix for taps needing to land twice
@@ -699,8 +717,14 @@ check('clicking it swaps back to text confirming the correction, without a secon
   && el('writing-result-message').hidden === false
   && el('writing-result-message').textContent === 'Okay — marked for more practice.');
 
-fire(el('writing-next'), 'click');
+const finishedWritingChar = el('screen-writing').dataset.char;
+fire(document, 'keydown', { key: 'Enter' });
 await settle();
+check('Enter moves past a finished character, same as pressing Next',
+  el('screen-writing').dataset.char !== finishedWritingChar || visible() !== 'screen-writing',
+  `still on ${el('screen-writing').dataset.char}`);
+check('the fresh character has no result card for Enter to press next',
+  visible() !== 'screen-writing' || el('writing-result').hidden === true);
 
 // Second character: get one stroke deliberately wrong before completing the
 // rest correctly — proves everyStrokeFirstTry locks correctness to false
@@ -1401,6 +1425,93 @@ check('every kanji taught in a definition session was enrolled in the study list
 check('kana practice never touches the study list — it is kanji-only',
   Object.keys(afterDefinition.study).every((k) => /[㐀-䶿一-鿿]/.test(k)),
   Object.keys(afterDefinition.study).join(''));
+
+// --- Yomi after Definition: the answer grid must not inherit the other -----
+// --- mode's layout ---------------------------------------------------------
+// #quiz-choices is one element reused by every session. renderSingleChoice()
+// leaves 'choice-grid-text' on it — a literal two-column CSS Grid sized for
+// English definitions — and renderKanjiChoices() used not to set the class at
+// all, so a Yomi session started any time after a Definition session laid its
+// ten readings out as two columns of five on a phone with room for four
+// across. Reported from a real device; invisible to this stub except as the
+// class name itself, which is exactly what is asserted here.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+check('the definition session left the text grid class behind on the shared element',
+  el('quiz-choices').className.includes('choice-grid-text'), el('quiz-choices').className);
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'recognition'), 'click');
+await settle();
+const yomiAgain = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Review <b>'))
+  || buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('Learn <b>'));
+check('a yomi session can be started again after a definition session', !!yomiAgain);
+fire(yomiAgain, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('a yomi quiz opened after a definition quiz is back on the adaptive reading grid',
+  visible() === 'screen-quiz' && el('quiz-choices').className === 'choice-grid',
+  `${visible()} / "${el('quiz-choices').className}"`);
+
+// --- "Full details" out of a graded question, and back into it -------------
+// The info panel that appears once a kanji question resolves can expand to
+// the whole character detail screen without ending the session: the quiz
+// screen is left standing, fully graded, and the back button (relabelled
+// "← Back to test") just un-hides it again rather than re-rendering it.
+
+const yomiDetailKanji = el('quiz-kana').textContent;
+const yomiDetailInfo = kanjiInfo(KANJI_COURSES.find((c) => c.id === 'kanji-grade-1'), yomiDetailKanji);
+el('quiz-choices')._children
+  .filter((c) => yomiDetailInfo.quizReadings.includes(c.dataset.reading))
+  .forEach((c) => fire(c, 'click'));
+await settle();
+check('finding every reading resolves the round and offers the info panel',
+  el('quiz-ok').hidden === false && el('quiz-info').hidden === false);
+
+fire(el('quiz-info-more'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('"Full details" opens the character detail screen mid-question',
+  visible() === 'screen-character-detail', `showing ${visible()}`);
+check('detail shows the character that was just answered',
+  el('detail-glyph').textContent === yomiDetailKanji);
+check('the back button says where it goes when a test is waiting behind it',
+  el('detail-back').textContent === '← Back to test'
+  && el('detail-back').getAttribute('aria-label') === 'Back to test',
+  `"${el('detail-back').textContent}"`);
+check('"Study it now" is withheld mid-question — it would start a new session over this one',
+  el('detail-study-now').hidden === true);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('back returns to the very same graded question, not a fresh one',
+  visible() === 'screen-quiz' && el('quiz-kana').textContent === yomiDetailKanji
+  && el('quiz-ok').hidden === false && el('quiz-info').hidden === false,
+  `showing ${visible()}`);
+
+// Enter is the keyboard equivalent of the Next button — mouse in one hand,
+// keyboard in the other. It can only ever press a button already on screen,
+// so it can never answer a question, only move past one already answered.
+fire(document, 'keydown', { key: 'Enter' });
+await settle();
+check('Enter presses Next on a resolved question',
+  visible() !== 'screen-quiz' || el('quiz-kana').textContent !== yomiDetailKanji,
+  `still on ${el('quiz-kana').textContent}`);
+if (visible() === 'screen-quiz') {
+  const unresolvedKanji = el('quiz-kana').textContent;
+  check('Next is not offered on a fresh question', el('quiz-ok').hidden === true);
+  fire(document, 'keydown', { key: 'Enter' });
+  await settle();
+  check('Enter does nothing while a question is still unanswered',
+    visible() === 'screen-quiz' && el('quiz-kana').textContent === unresolvedKanji);
+}
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
 
 // --- Kanji writing (phase 4 of writing-mode-plan.md) -----------------------
 // Kana writing is prompted by its romaji, an unambiguous single clue. A

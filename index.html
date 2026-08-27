@@ -205,9 +205,11 @@
   <section id="screen-character-detail" class="screen" hidden>
     <header class="topbar">
       <!-- Returns wherever this screen was opened from — the set overview
-           normally, but the session summary too now that its chips are
-           tappable (see openCharacterDetail() in app.js). -->
-      <button class="btn btn-icon" type="button" data-action="detail-back" aria-label="Back">←</button>
+           normally, the session summary now that its chips are tappable, or
+           straight back into a quiz question that is still on screen. Its
+           label and width are set in renderCharacterDetail() (app.js): a
+           bare "←" normally, "← Back to test" when a session is waiting. -->
+      <button id="detail-back" class="btn btn-icon" type="button" data-action="detail-back" aria-label="Back">←</button>
       <h2>Detail</h2>
       <span></span>
     </header>
@@ -402,21 +404,34 @@
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 
+    <!-- Meanings and an example word, shown after a kanji question is
+         graded. Deliberately ABOVE the choices rather than below them: it
+         belongs with the character it describes, and keeping it out from
+         under the answers is what lets those answers sit right above the
+         Next button instead of being pushed up the screen by however tall
+         this panel happens to be. -->
+    <div id="quiz-info" class="kanji-info" hidden>
+      <div id="quiz-meanings" class="kanji-meanings"></div>
+      <div id="quiz-word" class="kanji-word"></div>
+      <p id="quiz-word-hint" class="hint"></p>
+      <!-- Opens the full character detail screen (stroke order, every
+           reading, common words) without ending the session — its back
+           button comes straight back to this question. See
+           openCharacterDetail()'s `returnTo` in app.js. -->
+      <button id="quiz-info-more" class="btn btn-quiet quiz-info-more" type="button">Full details →</button>
+    </div>
+
     <!-- Kana: tap one option and it grades instantly.
-         Kanji: click any reading — it turns green or red on the spot. -->
+         Kanji: click any reading — it turns green or red on the spot.
+         margin-top: auto in styles.css pushes this (and the row below it)
+         down to sit just above the fixed Next bar, however short the rest
+         of the screen is. -->
     <div id="quiz-choices" class="choice-grid" role="group" aria-label="Click the readings that apply"></div>
 
     <!-- Kanji only, while the round is still open. -->
     <div id="quiz-kanji-actions" class="row" hidden>
       <button id="quiz-advanced" class="btn" type="button" hidden>Advanced</button>
       <button id="quiz-show-answers" class="btn btn-quiet" type="button">Show answers</button>
-    </div>
-
-    <!-- Meanings and an example word, shown after a kanji question is graded. -->
-    <div id="quiz-info" class="kanji-info" hidden>
-      <div id="quiz-meanings" class="kanji-meanings"></div>
-      <div id="quiz-word" class="kanji-word"></div>
-      <p id="quiz-word-hint" class="hint"></p>
     </div>
 
     <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so

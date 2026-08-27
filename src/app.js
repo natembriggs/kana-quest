@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-27e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-27f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -1033,11 +1033,18 @@ function renderOverview(scrollToChar) {
 /**
  * `returnTo` is which screen the back button (data-action="detail-back")
  * returns to — 'overview' (the set overview, tapping a tile), 'summary' (the
- * end-of-session summary, tapping a chip — see finishSession()), or 'course'
+ * end-of-session summary, tapping a chip — see finishSession()), 'course'
  * (a kanji search result on the course screen itself — see
- * renderKanjiSearchResults()). Kept on state rather than derived from
- * "whichever screen was visible before", since detail can itself be
+ * renderKanjiSearchResults()), or 'quiz' (a graded question still on screen,
+ * via "Full details →" in the info panel). Kept on state rather than derived
+ * from "whichever screen was visible before", since detail can itself be
  * re-entered from detail-adjacent actions with no other screen in between.
+ *
+ * 'quiz' is the only one that returns to something MID-flight: the session
+ * and the whole graded quiz screen are left untouched while detail is open,
+ * so going back just un-hides it again — no re-render, which is what keeps
+ * the revealed answer, the green readings and the feedback exactly as they
+ * were left. See the 'detail-back' case in wire().
  */
 async function openCharacterDetail(course, char, returnTo = 'overview') {
   state.detailCourseId = course.id;
@@ -1134,7 +1141,12 @@ function renderDetailStudy(course, char) {
   // being switched off elsewhere on this same screen must never make this
   // disappear as a side effect. studyDetailCharNow() below picks the actual
   // mode to teach in from this same set.
-  $('detail-study-now').hidden = pendingStudyModes(study, progress, char, modes).length === 0;
+  // ...but never while a quiz question is waiting behind this screen: it
+  // starts a brand new session, which would throw away the one the learner
+  // is standing in the middle of. Every other control here is safe, so only
+  // this one is withheld. See openCharacterDetail()'s 'quiz' returnTo.
+  $('detail-study-now').hidden = state.detailReturn === 'quiz'
+    || pendingStudyModes(study, progress, char, modes).length === 0;
 }
 
 function toggleDetailStudy() {
@@ -1180,6 +1192,15 @@ function renderCharacterDetail() {
   const course = getAnyCourse(state.detailCourseId);
   const char = state.detailChar;
   const progress = state.profile.progress;
+  const fromQuiz = state.detailReturn === 'quiz';
+
+  // Opened mid-question, the bare "←" is genuinely ambiguous — it could
+  // just as easily mean "quit the session". Spelling it out is the whole
+  // point of letting a graded question expand into this screen.
+  const back = $('detail-back');
+  back.className = fromQuiz ? 'btn btn-back-text' : 'btn btn-icon';
+  back.textContent = fromQuiz ? '← Back to test' : '←';
+  back.setAttribute('aria-label', fromQuiz ? 'Back to test' : 'Back');
 
   $('detail-glyph').textContent = char;
 
@@ -1346,7 +1367,6 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt, THIS session only)
     carriedResults, // prior summary's full result set to merge with, or undefined
-    awaitingAcknowledge: false,
     // "Unlearned kanji test": a correct first answer jumps straight to the
     // top box instead of climbing one at a time — see grade()'s `placement`
     // option in srs.js and recordResult()/recordYomiResult() below.
@@ -1523,7 +1543,6 @@ function renderQuestion() {
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
   $('quiz-info').hidden = true;
-  session.awaitingAcknowledge = false;
   session.locked = false;
 
   const choices = $('quiz-choices');
@@ -1564,17 +1583,7 @@ function renderSingleChoice(course, item) {
     button.className = 'choice';
     button.textContent = value;
     button.dataset.value = value;
-    // stopPropagation matters now that a resolving tap can itself set
-    // awaitingAcknowledge (see chooseAnswer): a real click event bubbles
-    // from this button up through #screen-quiz in the same synchronous
-    // dispatch, and acknowledge() is bound there for "tap anywhere to
-    // continue" — without this, the very tap that reveals right/wrong would
-    // immediately count as the acknowledgement too, advancing instantly and
-    // defeating the whole point of waiting for a second, deliberate tap.
-    button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      chooseAnswer(value, button);
-    });
+    button.addEventListener('click', () => chooseAnswer(value, button));
     choices.appendChild(button);
   });
 }
@@ -1588,17 +1597,21 @@ function renderSingleChoice(course, item) {
  * launder the original wrong answer out of the record.
  *
  * A resolved question (right, or wrong-out-of-chances) never auto-advances —
- * the feedback stays up until the learner taps Next (or anywhere on the quiz
- * screen, via acknowledge() below) to move on themselves. This used to
- * auto-advance on a timer (550ms right, 2600ms wrong); Yomi mode and Writing
- * mode never did, and kana/definition now matches them instead of being the
- * odd one out — a right/wrong result flashing past on its own gives no
- * chance to actually register it, which was the reported complaint.
+ * the feedback stays up until the learner presses Next (the button, or the
+ * Enter key on a real keyboard — see the keydown handler in wire()) to move
+ * on themselves. This used to auto-advance on a timer (550ms right, 2600ms
+ * wrong); Yomi mode and Writing mode never did, and kana/definition now
+ * matches them instead of being the odd one out — a right/wrong result
+ * flashing past on its own gives no chance to actually register it, which
+ * was the reported complaint. A tap anywhere ELSE on the quiz screen used
+ * to count as Next too; it no longer does, because it made it far too easy
+ * to skip past the answer panel with a stray tap without meaning to.
  */
 function chooseAnswer(value, button) {
   const session = state.session;
-  // Taps during the pause after a resolved question are handled by acknowledge().
-  if (!session || session.locked || session.awaitingAcknowledge || button.disabled) return;
+  // session.locked is set the moment a question resolves, so nothing here
+  // can re-grade a question that is already sitting on its Next button.
+  if (!session || session.locked || button.disabled) return;
 
   const item = session.queue[session.position];
   const answer = session.singleAnswer;
@@ -1617,7 +1630,6 @@ function chooseAnswer(value, button) {
     session.locked = true;
     disableRemainingChoices();
     if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-    session.awaitingAcknowledge = true;
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
     return;
@@ -1649,7 +1661,6 @@ function chooseAnswer(value, button) {
   session.locked = true;
   disableRemainingChoices();
   if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-  session.awaitingAcknowledge = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
 }
@@ -2275,6 +2286,13 @@ function renderKanjiChoices(course, kanji) {
   $('quiz-advanced').disabled = false;
 
   const choices = $('quiz-choices');
+  // Reset the layout class explicitly. #quiz-choices is a single element
+  // reused by every session, and renderSingleChoice() below leaves
+  // 'choice-grid-text' (a literal two-column CSS Grid, sized for English
+  // definitions) on it. Without this, a Yomi session started after any
+  // Definition session inherited that class and laid ten readings out as
+  // two columns of five on a phone that had room for four across.
+  choices.className = 'choice-grid';
   options.forEach((reading) => addKanjiChoiceButton(choices, info, reading));
 }
 
@@ -2480,10 +2498,22 @@ function showKanjiInfo(course, kanji) {
     ? info.meanings.join(', ')
     : info.quizReadings.map((r) => formatReading(info, r)).join(' · ');
   renderWord($('quiz-word'), info.words[0]);
+  // "below", not "above": this panel now sits directly under the character
+  // it describes, with the readings underneath it. See index.html.
   $('quiz-word-hint').textContent = isYomi && state.session.kanjiCorrect.size > 1
-    ? 'Tap a green reading above to see a word that uses it.'
+    ? 'Tap a green reading below to see a word that uses it.'
     : '';
   $('quiz-info').hidden = false;
+}
+
+/** "Full details →" on the info panel: the whole detail screen (stroke
+ * order, every reading, common words) for the character just answered,
+ * without ending the session — see openCharacterDetail()'s 'quiz' returnTo
+ * and the 'detail-back' case in wire(). */
+function openQuizCharacterDetail() {
+  const session = state.session;
+  if (!session) return;
+  openCharacterDetail(getAnyCourse(state.courseId), session.queue[session.position], 'quiz');
 }
 
 function renderWord(wordEl, word) {
@@ -2512,11 +2542,27 @@ function showReadingExample(reading, button) {
   }
 }
 
-/** A tap anywhere on the quiz screen moves past a revealed kana miss. */
-function acknowledge() {
-  const session = state.session;
-  if (!session || !session.awaitingAcknowledge) return;
-  nextQuestion();
+/**
+ * Whichever "carry on" button is on screen and actually pressable right now,
+ * or null. Drives the Enter-key shortcut wired in wire(); each of these is
+ * hidden by its own screen until it means something, so visibility is the
+ * whole test. Ordered by screen, and at most one screen is ever visible.
+ */
+function primaryAdvanceButton() {
+  const candidates = [
+    // [screen, button, the wrapper that gates it (writing's Next is never
+    // hidden itself — the whole result card it sits in is what appears)]
+    ['screen-quiz', 'quiz-ok', null],                   // graded question -> Next
+    ['screen-writing', 'writing-next', 'writing-result'], // finished character -> Next
+    ['screen-lesson', 'lesson-next', null],             // taught character -> Next / Start quiz
+  ];
+  for (const [screenId, buttonId, wrapperId] of candidates) {
+    if ($(screenId).hidden) continue;
+    if (wrapperId && $(wrapperId).hidden) continue;
+    const button = $(buttonId);
+    if (!button.hidden && !button.disabled) return button;
+  }
+  return null;
 }
 
 function nextQuestion() {
@@ -2524,7 +2570,6 @@ function nextQuestion() {
   if (!session) return;
   clearTimeout(session.pendingAdvance);
   session.pendingAdvance = null;
-  session.awaitingAcknowledge = false;
   session.position += 1;
   // Writing only: a NEW question hasn't been recorded yet. Deliberately not
   // reset in renderWritingQuestion() itself, which also runs for a redo or
@@ -3202,15 +3247,12 @@ function wire() {
     $('kanji-search').focus();
   });
 
-  // Taps on choice buttons bubble up to here; chooseAnswer ignores them while
-  // an answer is revealed, so the two handlers never both act on one tap.
-  $('screen-quiz').addEventListener('click', acknowledge);
-
   // Hidden until a question resolves (kana: correct or second miss; kanji:
   // every reading found or "Show answers" pressed) — always just "Next".
   $('quiz-ok').addEventListener('click', () => { if (state.session) nextQuestion(); });
 
   // Kanji only.
+  $('quiz-info-more').addEventListener('click', openQuizCharacterDetail);
   $('quiz-show-answers').addEventListener('click', showKanjiAnswers);
   $('quiz-advanced').addEventListener('click', expandKanjiAdvanced);
 
@@ -3290,6 +3332,33 @@ function wire() {
     $('install-banner').hidden = true;
   });
 
+  // --- Enter = the primary "carry on" button, on a real keyboard ---------
+  //
+  // For working through a session with a mouse in one hand and a keyboard
+  // in the other: Enter presses whichever forward button the screen is
+  // currently offering. Only ONE is live at a time, because only one of
+  // these three screens is ever visible, and on the quiz/writing screens
+  // the button itself is hidden until the question actually resolves — so
+  // Enter can never answer a question, only move past one already answered.
+  //
+  // Two deliberate exclusions: typing (the kanji search box, the new-profile
+  // name field), where Enter belongs to the field; and a focused button or
+  // link, where the browser already fires a click of its own and acting
+  // here too would advance twice. event.repeat keeps a held-down Enter from
+  // running through several questions at once.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' || event.repeat) return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    const target = event.target;
+    if (target && typeof target.closest === 'function'
+      && target.closest('input, textarea, select, button, a')) return;
+
+    const button = primaryAdvanceButton();
+    if (!button) return;
+    event.preventDefault();
+    button.click();
+  });
+
   document.addEventListener('click', async (event) => {
     const trigger = event.target.closest('[data-action]');
     if (!trigger) return;
@@ -3319,7 +3388,11 @@ function wire() {
       // not the top of a list that can run to 200 characters) normally, or
       // the session summary if that is where its now-tappable chips sent us.
       case 'detail-back':
-        if (state.detailReturn === 'summary') show('screen-summary');
+        // Deliberately show() and not renderQuestion() — the quiz screen is
+        // still sitting there fully graded, and re-rendering it would reset
+        // the very answer panel this screen was opened from.
+        if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
+        else if (state.detailReturn === 'summary') show('screen-summary');
         else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
         else renderOverview(state.detailChar);
         break;

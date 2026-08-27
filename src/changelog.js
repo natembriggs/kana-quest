@@ -13,6 +13,11 @@ export const CHANGELOG = [
   {
     date: '2026-08-27',
     changes: [
+      'Fixed: in a test or review, tapping anywhere on the screen used to count as pressing Next, so a stray tap skipped straight past the answer. Only the Next button moves on now.',
+      'The meaning/reading panel that appears once a kanji question is answered now has a "Full details" button — it opens the whole character page (stroke order, every reading, common words) without ending the session, and its back button says "Back to test".',
+      'The answer choices now sit just above the Next button instead of leaving a long gap between them, and the panel with the kanji\'s details appears directly under the character it describes.',
+      'On a computer, the Enter key now presses Next — in lessons, tests and reviews — so a session can be worked through with the mouse in one hand and the keyboard in the other.',
+      'Fixed: starting a Yomi test after a Definition test squeezed the readings into two columns instead of using the full width of the screen.',
       'A learner who has never turned on sync now sees a reminder on their home screen that their progress lives on this device only, with a one-tap way to turn sync on.',
       'Turning on sync now tells you right away to save the code somewhere safe, since it\'s the only way to get progress back if this device is ever lost.',
       'Added a Share code button next to the sync code in Settings, on devices that support it — sends the code straight to Messages, Notes, email, or wherever you\'d like, instead of needing to retype it.',

@@ -237,11 +237,26 @@ body {
    height varies with how many buttons it holds), which just means some
    trailing empty space above it on a short screen, not overlap on a tall
    one. */
-/* Generous rather than exact: #quiz-info (meanings, example word, hint —
-   shown once a Definition/Yomi question resolves) varies enough in height
-   that a tight guess left it peeking out from under the bar on some
-   kanji. */
-#screen-quiz { padding-bottom: 260px; }
+/* The quiz screen reserves far less than the others because #quiz-info
+   (meanings, example word, hint — the tall, variable part) no longer sits
+   at the bottom: it moved up under the character, so the last thing above
+   the bar is now the fixed-height "Advanced / Show answers" row. What's
+   left is just clearance for the bar itself.
+
+   The min-height + margin-top: auto pair below is the real point. Without
+   it the answers ended wherever the card above them happened to stop —
+   which on a tall screen left a large dead gap between the last choice and
+   the Next button pinned to the bottom, so answering and then advancing
+   meant a long reach across nothing. Now the empty space collects UNDER
+   the character instead, and the answers sit just above Next whatever the
+   screen height. On a short screen the auto margin simply collapses to
+   nothing and the layout behaves exactly as it did before. */
+#screen-quiz {
+  padding-bottom: 120px;
+  min-height: 100vh;
+  min-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(24px, env(safe-area-inset-bottom)));
+}
+#quiz-choices { margin-top: auto; }
 #screen-summary { padding-bottom: 320px; }
 
 h1, h2, h3 { margin: 0; line-height: 1.2; }
@@ -369,6 +384,14 @@ h3 { font-size: 18px; }
    the progress bar next to it (see quit-session in the quiz/writing
    header); a plain, borderless glyph reads as secondary the way it should. */
 .btn-icon.btn-quiet { border-color: transparent; }
+
+/* The character-detail back button when it is spelling out where it goes
+   ("← Back to test", set in renderCharacterDetail) rather than showing a
+   bare arrow. The .topbar rule lets its column size to the text instead of
+   staying a square tap target; the title beside it stays centred in what's
+   left. */
+.btn-back-text { padding: 0 12px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.topbar:has(.btn-back-text) { grid-template-columns: auto 1fr auto; }
 .wide { width: 100%; }
 
 .linkish {
@@ -855,6 +878,15 @@ h3 { font-size: 18px; }
   display: flex; flex-direction: column; gap: 8px;
 }
 .kanji-meanings { font-size: 16px; font-weight: 600; color: var(--ink); }
+
+/* Right-aligned and quiet: an offer, not a step. Full width would read as
+   the thing to press next, which is Next's job. */
+.quiz-info-more {
+  align-self: flex-end;
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+}
 
 /* Reused on the lesson (teach) card, so it needs its own text sizing rather
    than the feedback-panel sizing above. */
