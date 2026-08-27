@@ -11,6 +11,14 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-27',
+    changes: [
+      'A learner who has never turned on sync now sees a reminder on their home screen that their progress lives on this device only, with a one-tap way to turn sync on.',
+      'Turning on sync now tells you right away to save the code somewhere safe, since it\'s the only way to get progress back if this device is ever lost.',
+      'Added a Share code button next to the sync code in Settings, on devices that support it — sends the code straight to Messages, Notes, email, or wherever you\'d like, instead of needing to retype it.',
+    ],
+  },
+  {
     date: '2026-08-26',
     changes: [
       'Fixed: in Writing mode, ぢ and づ now show as "dji" and "dzu" instead of "ji" and "zu" — those matched じ and ず exactly before, so there was no way to tell which character to draw.',

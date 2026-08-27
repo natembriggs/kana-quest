@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-26b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-27a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -457,6 +457,9 @@ function renderHome() {
   const profile = state.profile;
   $('home-avatar').textContent = profile.emoji;
   $('home-greeting').textContent = profile.name;
+  // Not awaited: this reads IndexedDB, and the rest of the home screen must
+  // never wait on it to draw.
+  renderSyncNudge();
 
   const list = $('script-list');
   list.innerHTML = '';
@@ -2756,7 +2759,7 @@ async function importBackup(file) {
 // there is also no risk yet of a pull landing mid-question (§4.4) — Settings
 // is never reachable from inside a running session in the first place.
 
-const SYNC_BUTTON_IDS = ['sync-turn-on', 'sync-show-code-entry', 'sync-pair-submit', 'sync-now', 'sync-turn-off', 'sync-copy-code'];
+const SYNC_BUTTON_IDS = ['sync-turn-on', 'sync-show-code-entry', 'sync-pair-submit', 'sync-now', 'sync-turn-off', 'sync-copy-code', 'sync-share-code'];
 
 function setSyncBusy(busy) {
   SYNC_BUTTON_IDS.forEach((id) => { $(id).disabled = busy; });
@@ -2789,6 +2792,10 @@ async function renderSyncCard(statusOverride) {
   $('sync-configured').hidden = !syncState;
   $('sync-not-configured').hidden = !!syncState;
   if (syncState) $('sync-code-value').textContent = syncState.code;
+  // navigator.share has no reliable feature query beyond its own presence —
+  // desktop browsers mostly lack it, so those learners fall back to Copy
+  // code, which is always shown regardless.
+  $('sync-share-code').hidden = typeof navigator.share !== 'function';
   // syncStatusText assumes a real pairing record; a profile that has never
   // synced has none, and every Settings open runs this path (renderSettings
   // calls renderSyncCard() unconditionally) — so this was throwing on every
@@ -2797,6 +2804,39 @@ async function renderSyncCard(statusOverride) {
   $('sync-status').textContent = statusOverride !== undefined
     ? statusOverride
     : (syncState ? syncStatusText(syncState) : '');
+}
+
+// Dismissing hides the home-screen nudge for the rest of THIS browser
+// session only, per profile — same reasoning as INSTALL_DISMISSED_KEY: the
+// underlying risk (this learner's progress living on one device only) is
+// still there next time the app is opened, so it is not dismissed forever.
+const SYNC_NUDGE_DISMISSED_KEY = 'kana-quest-sync-nudge-dismissed';
+
+function syncNudgeDismissedProfileIds() {
+  try {
+    return new Set(JSON.parse(sessionStorage.getItem(SYNC_NUDGE_DISMISSED_KEY) || '[]'));
+  } catch {
+    return new Set(); // private browsing etc. — err toward still showing it
+  }
+}
+
+function dismissSyncNudge(profileId) {
+  const ids = syncNudgeDismissedProfileIds();
+  ids.add(profileId);
+  try {
+    sessionStorage.setItem(SYNC_NUDGE_DISMISSED_KEY, JSON.stringify([...ids]));
+  } catch { /* private browsing etc. */ }
+}
+
+/** Home screen only, unlike renderSyncCard (Settings) — a plain-language
+ * nudge for the learner who has never turned sync on at all, rather than
+ * status for one who already has. */
+async function renderSyncNudge() {
+  const profile = state.profile;
+  const banner = $('sync-nudge');
+  if (!profile) { banner.hidden = true; return; }
+  const syncState = await store.getSyncState(profile.id);
+  banner.hidden = !!syncState || syncNudgeDismissedProfileIds().has(profile.id);
 }
 
 function syncFailureMessage(outcome) {
@@ -2945,7 +2985,13 @@ async function syncTurnOn() {
     const { docId, aesKey } = await deriveKeys(code);
     await performSync({
       code, docId, aesKey, knownVersion: null, localChanged: true,
-      successMessage: () => 'Sync turned on.',
+      // This code is the only way to restore progress after losing this
+      // device, so the moment it exists is the moment worth saying so —
+      // waiting for the learner to notice the code sitting in the panel
+      // isn't enough.
+      successMessage: () => (typeof navigator.share === 'function'
+        ? "Sync turned on. Tap Share code below and save it somewhere safe — you'll need it to restore progress if this device is ever lost."
+        : "Sync turned on. Copy the code below and save it somewhere safe — you'll need it to restore progress if this device is ever lost."),
     });
   } catch {
     await renderSyncCard(syncFailureMessage('error'));
@@ -3045,6 +3091,28 @@ async function syncCopyCode() {
     }, 1500);
   } catch {
     $('sync-status').textContent = 'Could not copy — select and copy the code by hand.';
+  }
+}
+
+/**
+ * Hands the code to the OS share sheet — Messages, Notes, email, AirDrop,
+ * cloud storage, whatever the learner's family actually uses — so getting a
+ * copy off this device never depends on navigating its file system. Only
+ * wired up where navigator.share exists (see renderSyncCard); elsewhere
+ * Copy code is the only route, which is always available.
+ */
+async function syncShareCode() {
+  const syncState = await store.getSyncState(state.profile.id);
+  if (!syncState || typeof navigator.share !== 'function') return;
+  try {
+    await navigator.share({
+      title: 'Kana Quest sync code',
+      text: `Kana Quest sync code for ${state.profile.name}: ${syncState.code}\n\n`
+        + "Enter this in Settings on another device to keep them in step, or to restore this learner's progress if this device is ever lost.",
+    });
+  } catch {
+    // Cancelled the share sheet, or the share failed — the code is still
+    // sitting right there in the panel either way, nothing to report.
   }
 }
 
@@ -3164,6 +3232,11 @@ function wire() {
     $('install-banner').hidden = true;
     try { sessionStorage.setItem(INSTALL_DISMISSED_KEY, '1'); } catch { /* private browsing etc. */ }
   });
+
+  $('sync-nudge-dismiss').addEventListener('click', () => {
+    $('sync-nudge').hidden = true;
+    if (state.profile) dismissSyncNudge(state.profile.id);
+  });
   $('install-banner-action').addEventListener('click', async () => {
     if (!deferredInstallPrompt) return;
     deferredInstallPrompt.prompt();
@@ -3251,6 +3324,7 @@ function wire() {
       case 'sync-now': syncNow(); break;
       case 'sync-turn-off': syncTurnOff(); break;
       case 'sync-copy-code': syncCopyCode(); break;
+      case 'sync-share-code': syncShareCode(); break;
       case 'export': exportBackup(); break;
       case 'import': $('import-file').click(); break;
       case 'force-refresh': forceRefresh(); break;
