@@ -474,6 +474,12 @@ h3 { font-size: 18px; }
    Monospace and letter-spaced so a hand-typed code is easy to compare
    character by character against another screen — the same reasoning as
    the code's own dash-grouping (sync-plan.md §1.2). */
+/* syncTurnOnFromNudge() (app.js) scrolls this card into view with
+   block: 'start' — without this, that lands the card flush against the
+   viewport top, right behind the sticky .topbar above it, hiding the code
+   and Copy code rather than revealing them. */
+#sync-card { scroll-margin-top: calc(max(16px, env(safe-area-inset-top)) + 52px + 16px); }
+
 .sync-code-row { align-items: center; }
 .sync-code {
   flex: 1;

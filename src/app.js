@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-27c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-27d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2989,9 +2989,13 @@ async function syncTurnOn() {
       // device, so the moment it exists is the moment worth saying so —
       // waiting for the learner to notice the code sitting in the panel
       // isn't enough.
+      // No "above"/"below" here — this message and the code/Share button
+      // don't have a fixed relative position (this same status line is also
+      // shared with the not-yet-synced and pairing states), so a directional
+      // claim can end up pointing the wrong way.
       successMessage: () => (typeof navigator.share === 'function'
-        ? "Sync turned on. Tap Share code below and save it somewhere safe — you'll need it to restore progress if this device is ever lost."
-        : "Sync turned on. Copy the code below and save it somewhere safe — you'll need it to restore progress if this device is ever lost."),
+        ? "Sync turned on. Tap Share code and save it somewhere safe — you'll need it to restore progress if this device is ever lost."
+        : "Sync turned on. Copy the code and save it somewhere safe — you'll need it to restore progress if this device is ever lost."),
     });
   } catch {
     await renderSyncCard(syncFailureMessage('error'));
@@ -3009,8 +3013,12 @@ async function syncTurnOn() {
  */
 async function syncTurnOnFromNudge() {
   renderSettings();
-  $('sync-card').scrollIntoView({ block: 'start' });
+  // Scrolled AFTER, not before: the not-yet-configured panel is much
+  // shorter than the configured one it becomes, so scrolling first landed
+  // the viewport against the panel's old, shorter height — leaving the code
+  // and Copy code above the top edge once syncTurnOn() actually grew it.
   await syncTurnOn();
+  $('sync-card').scrollIntoView({ block: 'start' });
 }
 
 async function syncEnterCode(event) {
