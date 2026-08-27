@@ -98,12 +98,13 @@
       <h2 id="home-greeting">Hello</h2>
       <button class="btn btn-icon" type="button" data-action="open-settings" aria-label="Settings">⚙️</button>
     </header>
-    <h2 class="screen-title">What shall we practise?</h2>
     <!-- Shown only while this profile has never turned on sync — see
          renderSyncNudge() in app.js. Dismissible for the current browser
          session only, same reasoning as #install-banner: the underlying
          risk (progress living on one device only) is still there next time,
-         so it is not dismissed forever. -->
+         so it is not dismissed forever. Sits above the screen title, not
+         below it, so "What shall we practise?" stays attached to the
+         script list it actually introduces. -->
     <div id="sync-nudge" class="card stack" hidden>
       <p id="sync-nudge-text" class="hint">This learner's progress lives on this device only right now — turn on sync to back it up in case this device is ever lost or reset.</p>
       <div class="row">
@@ -111,6 +112,7 @@
         <button id="sync-nudge-dismiss" class="btn btn-quiet" type="button">Not now</button>
       </div>
     </div>
+    <h2 class="screen-title">What shall we practise?</h2>
     <div id="script-list" class="script-grid"></div>
   </section>
 
@@ -510,6 +512,9 @@
         <p class="hint">Enter this code in Settings on another device to keep them in
           step — or use it to restore this learner's progress if this device is ever
           lost. Save it somewhere safe.</p>
+        <p class="hint">If this code is never used again on any device, this backup
+          is deleted after 5 years of inactivity — syncing at any point, on any
+          device, resets that clock.</p>
         <div class="row">
           <button id="sync-now" class="btn" type="button" data-action="sync-now">Sync now</button>
           <button id="sync-turn-off" class="btn btn-danger" type="button" data-action="sync-turn-off">Turn off sync</button>

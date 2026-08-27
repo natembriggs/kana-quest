@@ -346,7 +346,10 @@ hold.
 - Per-IP rate limit (Cloudflare's built-in rate limiting rules, no code).
 - No enumeration surface: ids are hashes, and a wrong id is a 404 that reveals
   nothing.
-- Sweep documents untouched for 12 months.
+- Sweep documents untouched for 5 years — deliberately longer than an
+  ordinary hiatus (language learning routinely has multi-year gaps), since
+  this document is the only backstop for a learner who lost their device
+  and never saved the code. See open question below, resolved 2026-08-27.
 
 A family syncing a handful of profiles a few times a day is three orders of
 magnitude inside every free tier involved. The realistic cost is £0 and the
@@ -808,7 +811,7 @@ family," not "adversarial public internet":
   load-bearing; a Cloudflare Turnstile challenge specifically on document
   *creation* (not on ordinary sync reads/writes, which need to keep working
   silently offline-first) is worth adding at that point.
-- **Storage growth from abandoned or spam documents.** The 12-month sweep in
+- **Storage growth from abandoned or spam documents.** The 5-year sweep in
   §2.3 already bounds this and needs no change.
 - **Privacy is already close to fine, but say so.** No accounts and
   client-side encryption mean the server never sees a name, an email or a
@@ -836,10 +839,13 @@ the door.
   devices at once?** The merge converges, but the *sessions* don't — both
   devices may serve the same due character. Probably acceptable; note it and
   see.
-- **Retention.** A 12-month sweep is proposed in §2.3. A family that stops for
-  a school year and comes back would lose the remote copy, though not local
-  progress on any device that still has it. Is 12 months right, or should it
-  be longer?
+- ~~**Retention.** A 12-month sweep is proposed in §2.3. A family that stops
+  for a school year and comes back would lose the remote copy, though not
+  local progress on any device that still has it. Is 12 months right, or
+  should it be longer?~~ **Resolved 2026-08-27** — 12 months was too short
+  for realistic multi-year hiatuses; raised to 5 years (§2.3). The app also
+  now nudges a learner to turn on sync, and to save the code, so fewer
+  documents end up as the sole copy of anything in the first place.
 - **Does the sync code belong in the backup file?** Including it makes
   restore-and-resume seamless; excluding it means a leaked backup can't be
   turned into ongoing read access to a live document. Leaning exclude.

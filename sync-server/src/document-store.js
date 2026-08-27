@@ -13,8 +13,12 @@
 const MAX_BODY_BYTES = 4 * 1024 * 1024;
 
 // §2.3: a document untouched for this long is swept via Durable Object
-// alarms, reset on every successful write.
-const SWEEP_AFTER_MS = 365 * 24 * 60 * 60 * 1000;
+// alarms, reset on every successful write. Deliberately generous — language
+// learning routinely has multi-year hiatuses, and this is the only backstop
+// a learner who lost their device and forgot to save the code has, so it
+// should outlast an ordinary gap in practice by a wide margin, not just
+// match one.
+const SWEEP_AFTER_MS = 5 * 365 * 24 * 60 * 60 * 1000;
 
 function dateHeader() {
   return new Date().toUTCString();

@@ -42,6 +42,6 @@ npm test          # runs test.sh against the LIVE deployment, not local dev —
 | Path | What it is |
 | --- | --- |
 | `wrangler.toml` | Worker config: the Durable Object binding and the SQLite-backed migration that creates it |
-| `src/document-store.js` | The Durable Object: GET/PUT/DELETE with conditional-request (ETag) compare-and-swap, the 4 MB size ceiling, and the 12-month sweep alarm |
+| `src/document-store.js` | The Durable Object: GET/PUT/DELETE with conditional-request (ETag) compare-and-swap, the 4 MB size ceiling, and the 5-year sweep alarm |
 | `src/index.js` | Routing (`/v1/doc/:id`, id validation) and CORS — see sync-plan.md §2.1 for why CORS is wide open |
 | `test.sh` | Drives the live Worker through the full CAS lifecycle with curl |
