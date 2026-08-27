@@ -19,6 +19,7 @@ export const CHANGELOG = [
       'A synced backup that\'s never touched again now lasts 5 years before it\'s deleted, up from 1 — long enough for a real break from practising. Settings now says so plainly, next to the code.',
       'Tapping "Turn on sync" from the home screen reminder now turns sync on right away and jumps straight to it in Settings, instead of just opening Settings and leaving you to find the button again.',
       'Fixed: that jump could land with the code and Copy code hidden behind the Settings header, and the confirmation message wrongly said Share code was "below" it.',
+      'Turning sync off and back on now reuses the same code instead of generating a new one — so an accidental toggle, or a device paired with another one, doesn\'t end up cut loose from its backup.',
     ],
   },
   {

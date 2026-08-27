@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-27d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-27e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2907,6 +2907,10 @@ async function runSync({
     // push was skipped precisely because there was nothing to send.
     dirty: result.pushed ? false : (localChanged && !result.pushed),
   });
+  // Outlives the pairing row above — see store.js's REMEMBERED_CODE_STORE —
+  // so a later syncTurnOn() for this profile resumes this code instead of
+  // generating a new one.
+  await store.rememberSyncCode(profile.id, code);
   return {
     ...result,
     ok: true,
@@ -2981,10 +2985,27 @@ async function syncTurnOn() {
   setSyncBusy(true);
   $('sync-status').textContent = 'Turning on sync…';
   try {
-    const code = generateCode();
+    // Reuse the code from this profile's last sync, if it had one — turning
+    // sync off and straight back on (a stray tap, a kid poking around
+    // Settings) would otherwise mint a fresh code every time, each one
+    // orphaning the previous document on the server (harmless — the 5-year
+    // sweep cleans it up — but pointless, and the wrong default when
+    // another device may still be paired on the old code).
+    const rememberedCode = await store.getRememberedSyncCode(state.profile.id);
+    const code = rememberedCode || generateCode();
     const { docId, aesKey } = await deriveKeys(code);
     await performSync({
-      code, docId, aesKey, knownVersion: null, localChanged: true,
+      code,
+      docId,
+      aesKey,
+      knownVersion: null,
+      localChanged: true,
+      // Same reasoning as "Enter a code": resuming a remembered code can
+      // pull in changes another device made while this one had sync off,
+      // and adopting its name/badge then is exactly the pairing behaviour
+      // this device already agreed to the first time it used this code.
+      // A no-op for a genuinely new code — nothing exists there to adopt.
+      adoptIncomingIdentity: true,
       // This code is the only way to restore progress after losing this
       // device, so the moment it exists is the moment worth saying so —
       // waiting for the learner to notice the code sitting in the panel
@@ -2993,9 +3014,12 @@ async function syncTurnOn() {
       // don't have a fixed relative position (this same status line is also
       // shared with the not-yet-synced and pairing states), so a directional
       // claim can end up pointing the wrong way.
-      successMessage: () => (typeof navigator.share === 'function'
-        ? "Sync turned on. Tap Share code and save it somewhere safe — you'll need it to restore progress if this device is ever lost."
-        : "Sync turned on. Copy the code and save it somewhere safe — you'll need it to restore progress if this device is ever lost."),
+      successMessage: () => {
+        const action = typeof navigator.share === 'function' ? 'Tap Share code' : 'Copy the code';
+        return rememberedCode
+          ? `Sync back on, using the same code as before. ${action} and save it somewhere safe if you haven't already — you'll need it to restore progress if this device is ever lost.`
+          : `Sync turned on. ${action} and save it somewhere safe — you'll need it to restore progress if this device is ever lost.`;
+      },
     });
   } catch {
     await renderSyncCard(syncFailureMessage('error'));

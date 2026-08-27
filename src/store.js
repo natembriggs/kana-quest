@@ -10,13 +10,21 @@ import { DEFAULT_STRICTNESS } from './stroke-grader.js';
 import { mergeProfiles } from './merge.js';
 
 const DB_NAME = 'kana-quest';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const STORE = 'profiles';
 // Sync pairing state (sync-plan.md §4.2), keyed by profile id — deliberately
 // its own object store rather than a field on the profile, so the profile
 // document stays exactly what gets encrypted and uploaded, with nothing to
 // strip out first.
 const SYNC_STORE = 'sync';
+// The code from the most recent successful sync, kept separately from
+// SYNC_STORE above and never touched by deleteSyncState — the whole point
+// is that it survives sync being turned off. Without this, turning sync
+// back on always minted a brand-new code, silently orphaning the old
+// document on the server (harmless on its own — see the sweep in
+// sync-server/src/document-store.js — but pointless when the same device
+// is very plausibly about to resume the same one).
+const REMEMBERED_CODE_STORE = 'rememberedCode';
 
 let dbPromise = null;
 
@@ -31,6 +39,9 @@ function openDb() {
       }
       if (!db.objectStoreNames.contains(SYNC_STORE)) {
         db.createObjectStore(SYNC_STORE, { keyPath: 'profileId' });
+      }
+      if (!db.objectStoreNames.contains(REMEMBERED_CODE_STORE)) {
+        db.createObjectStore(REMEMBERED_CODE_STORE, { keyPath: 'profileId' });
       }
     };
     request.onsuccess = () => resolve(request.result);
@@ -140,6 +151,19 @@ export function saveSyncState(state) {
 
 export function deleteSyncState(profileId) {
   return tx(SYNC_STORE, 'readwrite', (store) => store.delete(profileId));
+}
+
+// A single string per profile, deliberately outliving deleteSyncState above
+// — see REMEMBERED_CODE_STORE. Written on every successful sync (app.js's
+// runSync), read only when turning sync on, to resume the same document
+// instead of minting a fresh one.
+export function rememberSyncCode(profileId, code) {
+  return tx(REMEMBERED_CODE_STORE, 'readwrite', (store) => store.put({ profileId, code }));
+}
+
+export function getRememberedSyncCode(profileId) {
+  return tx(REMEMBERED_CODE_STORE, 'readonly', (store) => store.get(profileId))
+    .then((row) => row && row.code);
 }
 
 export function createProfile(name, emoji) {

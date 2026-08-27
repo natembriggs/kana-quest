@@ -186,7 +186,7 @@ function runTimers() {
 // silently collide with it (both writing key `undefined`, since sync rows
 // have no `.id`) if that were still true.
 const storeRows = new Map(); // store name -> Map(key -> doc)
-const storeKeyPaths = { profiles: 'id', sync: 'profileId' };
+const storeKeyPaths = { profiles: 'id', sync: 'profileId', rememberedCode: 'profileId' };
 
 function rowsFor(name) {
   if (!storeRows.has(name)) storeRows.set(name, new Map());
