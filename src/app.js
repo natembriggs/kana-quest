@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-27b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-27c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -3000,6 +3000,19 @@ async function syncTurnOn() {
   }
 }
 
+/**
+ * The home-screen nudge's "Turn on sync" already states the intent plainly
+ * — routing through Settings' own identical button first would just be a
+ * second tap of the same label. So this jumps straight to Settings, scrolls
+ * the sync card into view (a long page otherwise leaves the result of the
+ * tap off the bottom of the screen), and turns sync on immediately.
+ */
+async function syncTurnOnFromNudge() {
+  renderSettings();
+  $('sync-card').scrollIntoView({ block: 'start' });
+  await syncTurnOn();
+}
+
 async function syncEnterCode(event) {
   event.preventDefault();
   const code = formatCode(normalizeCode($('sync-code-input').value));
@@ -3317,6 +3330,7 @@ function wire() {
         );
         break;
       case 'sync-turn-on': syncTurnOn(); break;
+      case 'sync-nudge-turn-on': syncTurnOnFromNudge(); break;
       case 'sync-show-code-entry':
         $('sync-code-entry').hidden = false;
         $('sync-code-input').focus();

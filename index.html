@@ -108,7 +108,7 @@
     <div id="sync-nudge" class="card stack" hidden>
       <p id="sync-nudge-text" class="hint">This learner's progress lives on this device only right now — turn on sync to back it up in case this device is ever lost or reset.</p>
       <div class="row">
-        <button class="btn btn-primary" type="button" data-action="open-settings">Turn on sync</button>
+        <button class="btn btn-primary" type="button" data-action="sync-nudge-turn-on">Turn on sync</button>
         <button id="sync-nudge-dismiss" class="btn btn-quiet" type="button">Not now</button>
       </div>
     </div>
@@ -484,7 +484,7 @@
       </label>
       <p class="hint">How closely a drawn stroke has to match to be accepted. Lower is more forgiving.</p>
     </div>
-    <div class="card stack profile-only">
+    <div id="sync-card" class="card stack profile-only">
       <h3>Sync across devices</h3>
       <div id="sync-not-configured" class="stack">
         <p class="hint">Practice on this device only right now — if this device is

@@ -17,6 +17,7 @@ export const CHANGELOG = [
       'Turning on sync now tells you right away to save the code somewhere safe, since it\'s the only way to get progress back if this device is ever lost.',
       'Added a Share code button next to the sync code in Settings, on devices that support it — sends the code straight to Messages, Notes, email, or wherever you\'d like, instead of needing to retype it.',
       'A synced backup that\'s never touched again now lasts 5 years before it\'s deleted, up from 1 — long enough for a real break from practising. Settings now says so plainly, next to the code.',
+      'Tapping "Turn on sync" from the home screen reminder now turns sync on right away and jumps straight to it in Settings, instead of just opening Settings and leaving you to find the button again.',
     ],
   },
   {
