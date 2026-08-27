@@ -2,6 +2,9 @@
 *.log
 __pycache__/
 
+# Claude Code per-user/per-machine settings — not meant to be shared.
+.claude/settings.local.json
+
 # Downloaded by tools/fetch_kanji_sources.sh (KANJIDIC2/JMdict, ~90MB) and
 # tools/fetch_kanjivg.sh (KanjiVG stroke SVGs, ~13MB) — large, regenerable,
 # CC BY-SA data that shouldn't be duplicated into this repo. The build_*.py
