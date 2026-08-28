@@ -297,7 +297,28 @@ let navSeq = 0;
 function show(screenId) {
   navSeq += 1;
   screens().forEach((el) => { el.hidden = el.id !== screenId; });
+  currentScreenId = screenId;
+  updateInstallBannerVisibility();
   window.scrollTo(0, 0);
+}
+
+let currentScreenId = null;
+
+// A lesson, a quiz/writing question, or the session summary all put
+// something the learner needs to reach right at the bottom of the screen —
+// the quiz/summary .bottom-bar is fixed there deliberately (see
+// styles.css), and the install banner is fixed too, so it would sit on top
+// and eat the tap meant for what's under it. Hidden outright rather than
+// merely low z-index, for the same reason: a banner that's still there but
+// unreachable is not actually less in the way. Reappears the moment show()
+// lands anywhere else — settings, the course list, character detail, all
+// fine to cover a corner of.
+const INSTALL_BANNER_BLOCKED_SCREENS = new Set([
+  'screen-lesson', 'screen-quiz', 'screen-writing', 'screen-summary',
+]);
+
+function updateInstallBannerVisibility() {
+  $('install-banner').hidden = !installBannerEligible || INSTALL_BANNER_BLOCKED_SCREENS.has(currentScreenId);
 }
 
 // --- Profiles -------------------------------------------------------------
@@ -3545,19 +3566,26 @@ function installBannerDismissedThisSession() {
   }
 }
 
+// Whether the banner has anything to say at all — platform, dismissal, a
+// captured install prompt. Kept separate from whether it is actually shown:
+// screen-scoped hiding (see updateInstallBannerVisibility() near show()) can
+// leave the banner hidden while this is true, because the current screen
+// has a fixed bar of its own at the bottom that it would sit on top of.
+let installBannerEligible = false;
+
 // Exported so test/wiring.js can exercise the device/standalone/dismissed
 // logic directly — the beforeinstallprompt capture itself isn't testable in
 // a stubbed (non-browser) DOM by design, see the guard above.
 //
-// Always explicitly sets `hidden` on every path, rather than leaving it at
-// whatever the HTML's own `hidden` attribute started it as: this can run
-// more than once as conditions change (a captured install prompt arriving
-// after the first render, a dismissal), so "only ever un-hide it" would
-// leave it stuck shown once a later call decides it shouldn't be.
+// Always explicitly sets installBannerEligible on every path, rather than
+// leaving it at whatever it was before: this can run more than once as
+// conditions change (a captured install prompt arriving after the first
+// render, a dismissal), so "only ever turn it on" would leave the banner
+// eligible forever once some earlier call had decided it was.
 export function renderInstallBanner() {
-  const banner = $('install-banner');
   if (isStandaloneApp() || !isMobileDevice() || installBannerDismissedThisSession()) {
-    banner.hidden = true;
+    installBannerEligible = false;
+    updateInstallBannerVisibility();
     return;
   }
 
@@ -3578,10 +3606,12 @@ export function renderInstallBanner() {
       'Install this app so your progress is saved reliably, instead of in a browser tab.';
     action.hidden = false;
   } else {
-    banner.hidden = true; // Chromium but no captured prompt yet — nothing actionable to show
+    installBannerEligible = false; // Chromium but no captured prompt yet — nothing actionable to show
+    updateInstallBannerVisibility();
     return;
   }
-  banner.hidden = false;
+  installBannerEligible = true;
+  updateInstallBannerVisibility();
 }
 
 // --- Staying up to date ---------------------------------------------------

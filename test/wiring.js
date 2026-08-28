@@ -2622,6 +2622,38 @@ check('the iOS message is instructional, with no action button — no programmat
   && el('install-banner-action').hidden === true,
   el('install-banner-text').textContent);
 
+// The banner is fixed to the bottom of the viewport, same as the quiz/
+// summary Next bar — left up, it sits on top of that bar and eats the tap
+// meant for it. It should disappear entirely (not just visually) while a
+// lesson, a quiz/writing question, or the summary is on screen, and come
+// back the moment none of those is — see updateInstallBannerVisibility()
+// in app.js, driven by every show() call.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+check('the banner is back once nothing at the bottom of the screen needs the room',
+  el('install-banner').hidden === false);
+
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+const installBannerLearn = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
+fire(installBannerLearn, 'click');
+await settle();
+check('a lesson hides the install banner', visible() === 'screen-lesson' && el('install-banner').hidden === true,
+  `showing ${visible()}, banner hidden=${el('install-banner').hidden}`);
+
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the quiz that follows keeps it hidden too — its Next bar is fixed to the same spot',
+  visible() === 'screen-quiz' && el('install-banner').hidden === true);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+check('quitting back to the course screen brings the banner back',
+  el('install-banner').hidden === false);
+
 fire(el('install-banner-dismiss'), 'click');
 await settle();
 check('dismissing hides the banner immediately', el('install-banner').hidden === true);

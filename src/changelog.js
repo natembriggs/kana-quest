@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-28',
     changes: [
+      'The "Install this app" reminder no longer covers the Next button during a lesson, a test or review question, or the end-of-session screen — it now only shows where nothing at the bottom of the screen needs the room.',
       'The end-of-session screen now has a back button in the top corner too, and once there\'s truly nothing left to review or learn, "Back to menu" is the highlighted button instead of "Practise again".',
       'Fixed: on a small phone the details panel pushed the answer choices down behind the Next button, so you could no longer see which answer you had picked. Everything now fits on one screen without scrolling.',
       '"Full details" moved up alongside the readings instead of sitting on a line of its own, and the character\'s card is no longer taller than the character in it — the card turning green or red is the tick, so there is no longer a ✓ underneath taking up room.',
