@@ -1545,6 +1545,91 @@ check('every word ends up with a display it can be asked about',
 
 done('vocab yomi options never contradict the furigana on screen');
 
+// --- Vocabulary: Recall mode (vocab-plan.md §6) ----------------------------
+
+{
+  const densha = vocab.VOCAB_COURSES.find((c) => c.index.has('電車'));
+  const denshaInfo = densha.index.get('電車');
+
+  const recall = vocab.buildRecallChoices(densha, '電車');
+  check('recall stage 1 offers six kana options including the word\'s own reading',
+    recall.options.length === 6 && recall.answer === denshaInfo.r && recall.options.includes(denshaInfo.r),
+    recall.options.join(' '));
+  check('every recall option is written in kana, never kanji',
+    recall.options.every((o) => ![...o].some((ch) => /[㐀-䶿一-鿿]/.test(ch))), recall.options.join(' '));
+
+  // Exhaustive: no duplicate kana string within one question (an unanswerable
+  // homograph pair — see §6.1), and no option that shares a gloss with the
+  // prompt's own answer (it would ALSO be correct — see sharesGloss).
+  let duplicateReadings = 0;
+  let synonymLeaks = 0;
+  let scenarios = 0;
+  for (const course of vocab.VOCAB_COURSES) {
+    for (const info of course.index.values()) {
+      scenarios += 1;
+      const { options, answer } = vocab.buildRecallChoices(course, info.id);
+      if (new Set(options).size !== options.length) duplicateReadings += 1;
+      const glosses = new Set(info.en.map((g) => g.toLowerCase()));
+      for (const reading of options) {
+        if (reading === answer) continue;
+        const match = [...course.index.values()].find((e) => e.id !== info.id && e.r === reading
+          && e.en.some((g) => glosses.has(g.toLowerCase())));
+        if (match) synonymLeaks += 1;
+      }
+    }
+  }
+  check('no recall question ever offers two options with the same kana string',
+    duplicateReadings === 0, `${duplicateReadings} of ${scenarios}`);
+  check('no recall option is itself a correct answer to the same English prompt',
+    synonymLeaks === 0, `${synonymLeaks} scenarios`);
+}
+
+{
+  const uk = [...vocab.VOCAB_COURSES.flatMap((c) => [...c.index.values()])].find((e) => e.uk);
+  check('a `uk` word has no spelling stage', uk && !vocab.recallHasSpellingStage(uk), uk && uk.id);
+  const kanaOnly = [...vocab.VOCAB_COURSES.flatMap((c) => [...c.index.values()])]
+    .find((e) => !vocab.wordHasKanji(e.w));
+  check('a kana-only word has no spelling stage',
+    kanaOnly && !vocab.recallHasSpellingStage(kanaOnly), kanaOnly && kanaOnly.id);
+  const kanjiWord = [...vocab.VOCAB_COURSES.flatMap((c) => [...c.index.values()])]
+    .find((e) => vocab.wordHasKanji(e.w) && !e.uk);
+  check('an ordinary kanji word has a spelling stage',
+    kanjiWord && vocab.recallHasSpellingStage(kanjiWord));
+}
+
+{
+  // A synthetic word/pool (rather than hunting for a naturally-occurring
+  // example) so the mastered-kanji exclusion and the met-before-never-met
+  // ordering (§6.4) can be checked precisely, independent of what happens
+  // to be in the real data. 高/中/小/X/Y/Z are stand-ins, not real readings.
+  const fake = { index: new Map([[
+    'test', {
+      id: 'test', w: '一二', r: 'いちに', en: ['test word'], sp: ['一高', '一中', '一小', '一X', '一Y', '一Z'],
+    },
+  ]]) };
+  const masteryOf = (ch) => ({ 高: 4, 中: 2, 小: 2 }[ch] || 0);
+
+  const full = vocab.buildSpellingChoices(fake, 'test', masteryOf, 6);
+  check('a mastered kanji is never offered as a distractor, however many options are asked for',
+    full && !full.options.includes('一高'), full && full.options.join(' '));
+  check('the correct answer is always included',
+    full && full.options.includes('一二'));
+
+  const narrow = vocab.buildSpellingChoices(fake, 'test', masteryOf, 4);
+  check('met-but-not-mastered kanji are preferred over never-met ones when the pool must be trimmed',
+    narrow && narrow.options.includes('一中') && narrow.options.includes('一小'),
+    narrow && narrow.options.join(' '));
+
+  // Fewer than MIN_SPELLING_OPTIONS survive even the smallest rung of the
+  // fallback ladder once everything is mastered: skip rather than serve a
+  // giveaway question, per §6.4.
+  const allMastered = () => 4;
+  check('the stage is skipped entirely once every candidate contains a mastered kanji',
+    vocab.buildSpellingChoices(fake, 'test', allMastered, 6) === null);
+}
+
+done('vocab Recall mode: kana choices and the spelling-stage exclusion/ordering');
+
 // --- Result ---------------------------------------------------------------
 
 print('');

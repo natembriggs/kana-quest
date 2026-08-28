@@ -75,15 +75,15 @@ export const MODES = {
     name: { vocab: 'Meaning' },
     hint: { vocab: 'See the word, tap what it means' },
   },
-  // Recall (English -> Japanese, vocab-plan.md §6) isn't built yet — see
-  // that section's phase 4. Registered now so the mode picker shows it
-  // (disabled, "soon") rather than only ever offering half the feature.
+  // Recall (English -> Japanese, vocab-plan.md §6): stage 1 (vprod) always
+  // runs; stage 2 (vspell) only when the word has kanji, isn't a `uk` word,
+  // and at least one of its kanji is under study — see
+  // renderVocabRecallQuestion() in app.js.
   vrecall: {
     id: 'vrecall',
     kinds: ['vocab'],
     name: { vocab: 'Recall' },
     hint: { vocab: 'See the English, tap the Japanese' },
-    comingSoon: { vocab: true },
   },
 };
 

@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-29',
     changes: [
+      'New: Vocabulary\'s Recall mode. See the English, pick the Japanese word out of six — always written in kana, so recognising the kanji doesn\'t let you skip actually recalling the sound. Get it right and, if the word is spelled with a kanji you\'re already studying, a second question asks you to pick its kanji spelling out of six real-looking alternatives.',
       'Vocabulary: getting a word\'s reading right, without needing to peek at the furigana, now also counts toward that kanji\'s own Yomi progress — reading 空港 correctly as くうこう credits 空 with くう the same way answering it directly in Kanji would. Only the part you were actually being asked about counts; a kanji whose reading was already showing on screen isn\'t.',
       'Fixed: a single-kanji Vocabulary word (船, 水, and the like) could have its furigana hidden just from adding that WORD to a Vocabulary study list, even though the kanji itself had never been studied — the two were being tracked as if they were the same thing.',
     ],

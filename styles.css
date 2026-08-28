@@ -322,6 +322,16 @@ h3 { font-size: 18px; }
   font-weight: 400;
   user-select: none;
 }
+
+/* Recall mode's prompt (vocab-plan.md §6.1) is an English gloss, not a
+   Japanese glyph — its own class rather than .glyph so it gets a plain sans
+   stack instead of the CJK font list, sized like a short headline rather
+   than a giant character. */
+.quiz-prompt-text {
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+}
 /* The reveal-ladder tap target (vocab-plan.md §5.2/§5.3) — a dotted
    underline is the one affordance telling a learner this word can be
    tapped for help, since nothing else on the card is (a stray tap

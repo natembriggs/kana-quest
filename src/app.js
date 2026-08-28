@@ -12,6 +12,7 @@ import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
   ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices,
   partialFuriganaIsAskable, pronunciationFor,
+  buildRecallChoices, recallHasSpellingStage, buildSpellingChoices,
 } from './vocab.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -40,7 +41,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1555,7 +1556,9 @@ function renderLesson() {
     $('lesson-meanings').textContent = info.en.join(', ');
     $('lesson-word').hidden = true;
     $('lesson-word').innerHTML = '';
-    $('lesson-hint').textContent = 'Remember what it means — the quiz asks you to pick the meaning.';
+    $('lesson-hint').textContent = state.mode === 'vrecall'
+      ? "Remember the word — the quiz gives you the English and asks you to pick it out in Japanese."
+      : 'Remember what it means — the quiz asks you to pick the meaning.';
   } else {
     $('lesson-kana').className = 'glyph glyph-xl';
     $('lesson-romaji').hidden = false;
@@ -1684,8 +1687,14 @@ function renderQuestion() {
 
   // A vocab word can run to several characters, unlike every other kind of
   // prompt this screen shows — glyph-vocab is sized (and allowed to wrap)
-  // for that; see the CSS comment there.
+  // for that; see the CSS comment there. Recall's prod stage overrides both
+  // the class and textContent itself (its prompt is English, not `item`) —
+  // set here first anyway so every OTHER mode need not repeat this line, and
+  // `lang` is reset to 'ja' here for the same reason: Recall's prod stage is
+  // the only one that ever sets it to 'en', and nothing else must inherit
+  // that once the learner moves on to a different question.
   $('quiz-kana').className = `glyph ${course.kind === 'vocab' ? 'glyph-vocab' : 'glyph-xl'}`;
+  $('quiz-kana').lang = 'ja';
   $('quiz-kana').textContent = item;
   $('quiz-prompt-hint').hidden = true;
   $('quiz-prompt-pronunciation').hidden = true;
@@ -1701,6 +1710,7 @@ function renderQuestion() {
   // Yomi on a kanji is the only multi-answer quiz; kana reading and kanji
   // definition are both "one right option out of ten".
   if (course.kind === 'vocab' && state.mode === 'vmeaning') renderVocabMeaningQuestion(course, item);
+  else if (course.kind === 'vocab' && state.mode === 'vrecall') renderVocabRecallQuestion(course, item);
   else if (course.kind === 'kanji' && state.mode === 'recognition') renderKanjiChoices(course, item);
   else renderSingleChoice(course, item);
 
@@ -2320,6 +2330,185 @@ function chooseVocabYomi(value, button) {
   $('quiz-card').className = `quiz-card ${correct ? 'is-correct' : 'is-wrong'}`;
 
   session.vocabStage = 'done';
+  session.locked = true;
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').textContent = 'Next';
+}
+
+// --- Vocabulary: Recall mode (vocab-plan.md §6) ---------------------------
+//
+// English -> Japanese, the mirror image of Meaning. Stage 1 (vprod) always
+// runs: the English gloss is the prompt, six kana options the choices, with
+// a wrong first tap getting one more try before revealing — exactly
+// chooseAnswer()'s pattern. Stage 2 (vspell) is a bonus after a correct
+// stage 1, gated on the word actually having kanji worth asking about (§6.2)
+// — reusing isKanjiKnown, the same "studied in ANY mode" test §5.2 applies
+// to furigana, for the same reason: caring about a kanji at all is enough
+// to be asked how a word using it is spelled.
+
+function recordVocabProd(word, correct) {
+  ensurePlacementEnrolled(word);
+  const session = state.session;
+  const { progress } = state.profile;
+  const key = itemKey('vprod', word);
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
+  recomputeVocabRollup(word, 'vrecall', progress);
+  if (!session.results.has(word)) session.results.set(word, correct);
+  store.saveProfile(state.profile);
+}
+
+function recordVocabSpell(word, correct) {
+  const { progress } = state.profile;
+  const key = itemKey('vspell', word);
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now());
+  recomputeVocabRollup(word, 'vrecall', progress);
+  store.saveProfile(state.profile);
+}
+
+function renderVocabRecallQuestion(course, item) {
+  const session = state.session;
+  const info = vocabInfo(course, item);
+
+  session.attempt = 0;
+  session.vocabRecallStage = 'prod';
+
+  $('quiz-kana').className = 'quiz-prompt-text';
+  $('quiz-kana').lang = 'en';
+  $('quiz-kana').textContent = info.en[0];
+  $('quiz-prompt-hint').hidden = true;
+  $('quiz-prompt-pronunciation').hidden = true;
+  $('quiz-ok').hidden = true;
+  $('quiz-kanji-actions').hidden = true;
+
+  const { options, answer } = buildRecallChoices(course, item);
+  session.vocabAnswer = answer;
+  const choices = $('quiz-choices');
+  choices.className = 'choice-grid';
+  choices.lang = 'ja';
+  options.forEach((value) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = value;
+    button.dataset.value = value;
+    button.addEventListener('click', () => chooseVocabProd(value, button));
+    choices.appendChild(button);
+  });
+}
+
+function chooseVocabProd(value, button) {
+  const session = state.session;
+  if (!session || session.vocabRecallStage !== 'prod' || button.disabled) return;
+  const course = getAnyCourse(state.courseId);
+  const item = session.queue[session.position];
+  const correct = value === session.vocabAnswer;
+  session.attempt += 1;
+
+  if (session.attempt === 1) recordVocabProd(item, correct);
+
+  if (correct) {
+    button.classList.add('is-right');
+    $('quiz-card').className = 'quiz-card is-correct';
+    $('quiz-feedback').textContent = '';
+    disableRemainingChoices();
+    proceedAfterVocabProd(course, item, true);
+    return;
+  }
+
+  button.classList.add('is-wrong');
+  button.disabled = true;
+
+  if (session.attempt === 1) {
+    $('quiz-card').className = 'quiz-card is-wrong';
+    $('quiz-feedback').className = 'feedback bad';
+    $('quiz-feedback').textContent = 'Try once more';
+    return;
+  }
+
+  revealSingleAnswer(session.vocabAnswer);
+  $('quiz-card').className = 'quiz-card is-wrong';
+  $('quiz-feedback').className = 'feedback bad';
+  disableRemainingChoices();
+  proceedAfterVocabProd(course, item, false);
+}
+
+/** After stage 1 resolves: on to the spelling stage (§6.2) only when it was
+ * answered right, the word has kanji worth asking about, and at least one
+ * of them is under study — otherwise the question is simply done. */
+function proceedAfterVocabProd(course, item, correct) {
+  const session = state.session;
+  const info = vocabInfo(course, item);
+  const eligible = correct
+    && recallHasSpellingStage(info)
+    && [...info.w].some((ch) => isKanjiChar(ch) && isKanjiKnown(ch));
+
+  if (eligible) {
+    const masteryOf = (kanji) => masteryTier(state.profile.progress[itemKey('definition', kanji)]);
+    const built = buildSpellingChoices(course, item, masteryOf);
+    if (built) {
+      session.vocabRecallStage = 'spell';
+      renderVocabSpellStage(info, built);
+      return;
+    }
+    // Fewer than MIN_SPELLING_OPTIONS survived the mastered-kanji exclusion
+    // even after the fallback ladder (§6.4) — skip the stage and grade
+    // nothing, rather than serve a question that gives itself away.
+  }
+  session.vocabRecallStage = 'done';
+  session.locked = true;
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').textContent = 'Next';
+}
+
+function renderVocabSpellStage(info, { options, answer }) {
+  state.session.vocabSpellAnswer = answer;
+
+  $('quiz-kana').className = 'glyph glyph-vocab';
+  $('quiz-kana').lang = 'ja';
+  $('quiz-kana').textContent = info.r;
+  // The reading stays on screen (§6.3) — the learner already produced it;
+  // hiding it here would turn one question into two. The English gloss
+  // rides along as a small subtitle, matching the mockup's "reading — gloss"
+  // layout, reusing the pronunciation line's quiet italic styling rather
+  // than adding new markup for a one-off.
+  $('quiz-prompt-pronunciation').hidden = false;
+  $('quiz-prompt-pronunciation').textContent = `"${info.en[0]}"`;
+
+  $('quiz-feedback').textContent = '';
+  $('quiz-feedback').className = 'feedback';
+  $('quiz-card').className = 'quiz-card';
+
+  const choices = $('quiz-choices');
+  choices.className = 'choice-grid';
+  choices.lang = 'ja';
+  choices.innerHTML = '';
+  options.forEach((value) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = value;
+    button.dataset.value = value;
+    button.addEventListener('click', () => chooseVocabSpell(value, button));
+    choices.appendChild(button);
+  });
+}
+
+/** Single attempt, right or wrong grades and ends it either way — stage 1
+ * already produced the word; there is nothing left to protect by giving a
+ * second try (mirrors chooseVocabYomi). */
+function chooseVocabSpell(value, button) {
+  const session = state.session;
+  if (!session || session.vocabRecallStage !== 'spell' || session.locked) return;
+  const item = session.queue[session.position];
+  const correct = value === session.vocabSpellAnswer;
+  recordVocabSpell(item, correct);
+
+  $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
+  button.classList.add(correct ? 'is-right' : 'is-wrong');
+  if (!correct) revealSingleAnswer(session.vocabSpellAnswer);
+  $('quiz-card').className = `quiz-card ${correct ? 'is-correct' : 'is-wrong'}`;
+
+  session.vocabRecallStage = 'done';
   session.locked = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';

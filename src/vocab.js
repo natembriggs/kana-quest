@@ -335,6 +335,133 @@ export function buildYomiChoices(course, wordId, hidden = null) {
   return { options: shuffle([...options]), answer: correct };
 }
 
+// --- Recall: English -> Japanese (vocab-plan.md §6) ------------------------
+
+const RECALL_OPTIONS = 6; // §6.1/§6.2 — short kana/kanji labels, same count as the yomi stage
+const MIN_SPELLING_OPTIONS = 3; // §6.4's fallback ladder floor — below this the stage is skipped
+
+/**
+ * Every reading in `course` that would also correctly answer the English
+ * prompt built from `answerInfo` (vocab-plan.md §6.1: "never an option that
+ * is also a correct answer to the prompt" — e.g. 電車 and 列車 both glossing
+ * "train"). A whole READING is excluded, not just the specific entry that
+ * shares the gloss: 食料 and 食糧 are two different dictionary entries that
+ * happen to share the one reading しょくりょう, and only 食料 glosses "food"
+ * the same way 食品 does — but offering しょくりょう at all is still offering
+ * a string that reads as a correct answer, regardless of which entry the
+ * code thinks it "means". Checked against every gloss on both sides,
+ * case-insensitively — a synonym pair need not agree on which gloss comes
+ * first.
+ */
+function readingsSharingGloss(course, answerInfo) {
+  const glosses = new Set(answerInfo.en.map((g) => g.toLowerCase()));
+  const unsafe = new Set();
+  course.index.forEach((e) => {
+    if (e.id !== answerInfo.id && e.en.some((g) => glosses.has(g.toLowerCase()))) unsafe.add(e.r);
+  });
+  return unsafe;
+}
+
+/**
+ * Options for Recall stage 1 — pick the kana (§6.1): the word's own reading,
+ * always kana even for a kanji word (producing the word means recalling
+ * でんしゃ, not recognising 電車), plus 5 distractors from the same unit.
+ * Ranked by confusability — sharing the first mora, then closest in length —
+ * per §6.1's "sharing the first mora... is better than random". Two hard
+ * exclusions: no duplicate kana string (homographs like はし/はし — bridge vs
+ * chopsticks — would make the question unanswerable) and no option whose
+ * reading is also a correct answer to the English prompt (readingsSharingGloss
+ * above).
+ */
+export function buildRecallChoices(course, wordId, count = RECALL_OPTIONS) {
+  const info = vocabInfo(course, wordId);
+  const answer = info.r;
+  const firstMora = [...answer][0];
+  const targetLength = [...answer].length;
+  const unsafeReadings = readingsSharingGloss(course, info);
+
+  const pool = shuffle([...course.index.values()])
+    .filter((e) => e.id !== wordId && !unsafeReadings.has(e.r));
+  const ranked = pool.sort((a, b) => {
+    const aClose = [...a.r][0] === firstMora ? 0 : 1;
+    const bClose = [...b.r][0] === firstMora ? 0 : 1;
+    if (aClose !== bClose) return aClose - bClose;
+    return Math.abs([...a.r].length - targetLength) - Math.abs([...b.r].length - targetLength);
+  });
+
+  const options = [answer];
+  const used = new Set([answer]);
+  for (const entry of ranked) {
+    if (options.length >= count) break;
+    if (used.has(entry.r)) continue;
+    used.add(entry.r);
+    options.push(entry.r);
+  }
+  return { options: shuffle(options), answer };
+}
+
+/**
+ * Whether Recall stage 2 (the spelling stage) applies to this word at all,
+ * structurally — a kana-only word has no spelling to pick between, and a
+ * `uk` word's kanji spelling exists but nobody uses it (vocab-plan.md §3.3),
+ * so testing it would be testing trivia rather than the word. This is only
+ * the structural half of the gate; the caller also requires at least one of
+ * the word's kanji to be under study in some mode (§6.2), which needs the
+ * study list vocab.js doesn't have access to.
+ */
+export function recallHasSpellingStage(info) {
+  return wordHasKanji(info.w) && !info.uk;
+}
+
+/**
+ * Options for Recall stage 2 — pick the kanji spelling (§6.2/§6.3/§6.4),
+ * from the `sp` pool `build_vocab_data.py` generated (up to 16 candidates,
+ * every one already confirmed at build time not to be a real JMdict word).
+ *
+ * `masteryOf(kanji)` reports a 0-4 tier (srs.js's masteryTier, read off that
+ * kanji's own Definition record) for one character — vocab.js has no
+ * profile to read, so the caller supplies this rather than vocab.js
+ * reaching into app state itself.
+ *
+ * The mastered-kanji exclusion runs first and is absolute (§6.4): a
+ * candidate containing any kanji at masteryOf(k) === 4 is dropped entirely,
+ * never merely deprioritised — offering it would let the question be
+ * answered by recognising the ANSWER's kanji as "the familiar one" rather
+ * than by knowing the spelling. What survives is then ORDERED, not just
+ * filtered, to close the trap that opens right behind that rule: a kanji
+ * met but not yet mastered looks exactly as familiar as the answer's own
+ * kanji and can't be eliminated by that same "which looks familiar" shortcut,
+ * so those candidates come first; a kanji never met at all is weaker but
+ * still fair, and comes second.
+ *
+ * Returns null once the fallback ladder (6 -> 4 -> 3 options) still can't
+ * clear MIN_SPELLING_OPTIONS after the exclusion — the caller skips the
+ * stage entirely rather than serving a giveaway question, per §6.4.
+ */
+export function buildSpellingChoices(course, wordId, masteryOf, count = RECALL_OPTIONS) {
+  const info = vocabInfo(course, wordId);
+  const answer = info.w;
+
+  const survivors = shuffle(info.sp || [])
+    .map((spelling) => {
+      const tiers = [...spelling].filter((ch) => KANJI_RE.test(ch)).map(masteryOf);
+      const mastered = tiers.some((t) => t >= 4);
+      const met = tiers.some((t) => t >= 1 && t <= 3);
+      return { spelling, mastered, met };
+    })
+    .filter((c) => !c.mastered)
+    .sort((a, b) => Number(b.met) - Number(a.met))
+    .map((c) => c.spelling);
+
+  for (const target of [count, 4, MIN_SPELLING_OPTIONS]) {
+    const need = target - 1;
+    if (survivors.length >= need) {
+      return { options: shuffle([answer, ...survivors.slice(0, need)]), answer };
+    }
+  }
+  return null;
+}
+
 // --- Pronunciation: romaji's literal-per-kana spelling can mislead ---------
 //
 // The app's ordinary romaji (wanakana's toRomaji, used everywhere — kana
