@@ -311,6 +311,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
+| `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **Design only** — nothing built yet |
 
 ## What is not built yet
 
