@@ -454,7 +454,11 @@
 
   <!-- ---------------------------------------------------------------- -->
   <section id="screen-summary" class="screen" hidden>
-    <header class="brand"><div class="brand-mark">🎉</div></header>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
+      <div class="brand"><div class="brand-mark">🎉</div></div>
+      <span></span>
+    </header>
     <h2 class="screen-title">Session done</h2>
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>
@@ -474,7 +478,7 @@
       <button id="summary-learn" class="btn btn-primary wide" type="button" data-action="learn-more" hidden></button>
       <button id="summary-review" class="btn wide" type="button" data-action="review-more" hidden></button>
       <button class="btn wide" type="button" data-action="again">Practise again</button>
-      <button class="btn btn-quiet wide" type="button" data-action="go-course">Back to menu</button>
+      <button id="summary-back" class="btn btn-quiet wide" type="button" data-action="go-course">Back to menu</button>
     </div>
   </section>
 

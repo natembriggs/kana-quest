@@ -32,7 +32,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
@@ -2685,6 +2685,17 @@ function finishSession() {
   const reviewButton = $('summary-review');
   reviewButton.hidden = stats.due === 0;
   reviewButton.innerHTML = `Review <b>${stats.due}</b> due`;
+
+  // Nothing else on offer — no miss to go fix, nothing new queued up, and
+  // (this being the case that prompted the request) a review session that
+  // just cleared the due queue to zero. "Practise again" is a plain .btn,
+  // which reads as the de facto highlighted option next to the quieter
+  // "Back to menu" below it even though neither is marked primary — so once
+  // there is truly nothing left to do, promote leaving over restarting.
+  const backButton = $('summary-back');
+  const nothingLeft = missed.length === 0 && newCount === 0 && stats.due === 0;
+  backButton.classList.toggle('btn-primary', nothingLeft);
+  backButton.classList.toggle('btn-quiet', !nothingLeft);
 
   state.session = null;
   store.saveProfile(state.profile);
