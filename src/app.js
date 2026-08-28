@@ -41,7 +41,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1035,8 +1035,17 @@ function renderCourse() {
 // --- Set overview: every character in the whole course, colour-coded by
 // --- mastery, in one scrollable grid ---------------------------------------
 
-function openOverview(course, scrollToChar) {
+async function openOverview(course, scrollToChar) {
   state.overviewCourseId = course.id;
+  // A vocab tile's label is the word's own surface (buildMasteryTile), which
+  // needs that unit's real data — unlike kanji/kana, nothing before this
+  // point guarantees it's loaded (a session starting it does, but the
+  // overview can be opened without ever having started one).
+  if (course.kind === 'vocab') {
+    const requestNav = navSeq;
+    await withLoading(ensureVocabUnitLoaded(course.unit));
+    if (navSeq !== requestNav) return;
+  }
   renderOverview(scrollToChar);
 }
 
@@ -1070,13 +1079,7 @@ function buildMasteryTile(course, item, returnTo) {
   const label = course.kind === 'vocab' ? vocabInfo(course, item).w : item;
   tile.textContent = label;
   tile.setAttribute('aria-label', `${label}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
-  // The word/character detail screen (stroke order, readings, study toggles)
-  // is kanji/kana-shaped throughout and doesn't know about vocab entries yet
-  // — see vocab-plan.md §7, a later phase. Left un-wired rather than sent
-  // into a screen built for a different kind of item.
-  if (course.kind !== 'vocab') {
-    tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
-  }
+  tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
   return tile;
 }
 
@@ -1149,19 +1152,30 @@ async function openCharacterDetail(course, char, returnTo = 'overview') {
     // character) while this was loading — only the most recent request
     // should ever paint a screen.
     if (navSeq !== requestNav) return;
+  } else if (course.kind === 'vocab') {
+    // Belt and braces: every current path here (an overview tile, a summary
+    // chip) already guarantees the unit is loaded before this can be
+    // reached, but a load already done resolves on the same tick anyway —
+    // cheap insurance against a future caller that doesn't.
+    const requestNav = navSeq;
+    await withLoading(ensureVocabUnitLoaded(course.unit));
+    if (navSeq !== requestNav) return;
   }
   renderCharacterDetail();
 }
 
-// The three modes a kanji can be enrolled in, in the order they read best on
-// the detail screen — same order the course mode picker uses.
-const STUDY_MODE_IDS = ['definition', 'recognition', 'writing'];
+// Every mode a kanji or a vocab word can be enrolled in, in the order that
+// reads best on the detail screen — same order the course mode picker uses.
+// The five HTML buttons (index.html's #detail-study-modes) cover both sets
+// at once; renderDetailStudy() below shows only whichever apply to `course`.
+const STUDY_MODE_IDS = [...modesForKind('kanji').map((m) => m.id), ...modesForKind('vocab').map((m) => m.id)];
 
-/** Which of the three modes actually apply to this kanji — a handful (媛/栃/
- * 茨 and friends) have no reading any common word uses, so Yomi has nothing
- * to ask about them; see excludeForMode in kanji.js. */
+/** Which modes actually apply to this item — every vocab mode always does
+ * (vocab.js's excludeForMode is always empty), but a handful of kanji (媛/
+ * 栃/茨 and friends) have no reading any common word uses, so Yomi has
+ * nothing to ask about them; see excludeForMode in kanji.js. */
 function applicableStudyModes(course, char) {
-  return STUDY_MODE_IDS.filter((mode) => {
+  return modesForKind(course.kind).map((m) => m.id).filter((mode) => {
     const excluded = course.excludeForMode && course.excludeForMode[mode];
     return !excluded || !excluded.has(char);
   });
@@ -1184,16 +1198,18 @@ function pendingStudyModes(study, progress, char, modes) {
 }
 
 /**
- * Kanji only. The headline button is a bulk convenience — enrolling turns on
- * every applicable mode, un-enrolling turns all of them off — sitting above
- * three independent per-mode toggles for fine control (I want to write 龍 but
- * don't care about its readings). Both act on the same underlying list, so
- * neither can leave the other looking wrong: toggling one mode by hand always
- * updates what the headline button says next.
+ * Kanji and vocab both have a study list (kana doesn't — see the module note
+ * above deriveStudyList in srs.js). The headline button is a bulk
+ * convenience — enrolling turns on every applicable mode, un-enrolling turns
+ * all of them off — sitting above independent per-mode toggles for fine
+ * control (I want to write 龍 but don't care about its readings; I want
+ * 電車's Meaning but not its Recall). Both act on the same underlying list,
+ * so neither can leave the other looking wrong: toggling one mode by hand
+ * always updates what the headline button says next.
  */
 function renderDetailStudy(course, char) {
-  $('detail-study').hidden = course.kind !== 'kanji';
-  if (course.kind !== 'kanji') return;
+  $('detail-study').hidden = course.kind === 'kana';
+  if (course.kind === 'kana') return;
 
   const { study, progress } = state.profile;
   const modes = applicableStudyModes(course, char);
@@ -1216,7 +1232,8 @@ function renderDetailStudy(course, char) {
   STUDY_MODE_IDS.forEach((mode) => {
     const button = $(`detail-mode-${mode}`);
     button.hidden = !modes.includes(mode);
-    button.textContent = modeName(mode, 'kanji');
+    if (!modes.includes(mode)) return; // modeName(mode, kind) needs a kind this mode actually belongs to
+    button.textContent = modeName(mode, course.kind);
     button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
   });
 
@@ -1287,31 +1304,45 @@ function renderCharacterDetail() {
   back.textContent = fromQuiz ? '← Back to test' : '←';
   back.setAttribute('aria-label', fromQuiz ? 'Back to test' : 'Back');
 
+  // Reset to the kanji/kana sizing unconditionally — the vocab branch below
+  // is the only one that ever changes this, via renderVocabWordGlyph(), and
+  // nothing must inherit that once the learner backs out to a different
+  // kind of item.
+  $('detail-glyph').className = 'glyph glyph-lg';
   $('detail-glyph').textContent = char;
 
-  const strokeContainer = $('detail-stroke');
-  strokeContainer.innerHTML = '';
-  const { svg, paths } = buildStrokeSVG(char);
-  strokeContainer.appendChild(svg);
-  const playButton = $('detail-play-strokes');
-  playButton.hidden = paths.length === 0;
-  playButton.onclick = () => animateStrokes(paths);
+  // No stroke order for a whole word — vocab-plan.md §7 gives it kanji
+  // chips instead (below), which is where "how do I write it" actually
+  // belongs for something longer than one character.
+  $('detail-stroke-wrap').hidden = course.kind === 'vocab';
+  if (course.kind !== 'vocab') {
+    const strokeContainer = $('detail-stroke');
+    strokeContainer.innerHTML = '';
+    const { svg, paths } = buildStrokeSVG(char);
+    strokeContainer.appendChild(svg);
+    const playButton = $('detail-play-strokes');
+    playButton.hidden = paths.length === 0;
+    playButton.onclick = () => animateStrokes(paths);
+  }
 
-  // Which unit this kanji is taught in — resolved from the manifest rather
+  // Which unit this item is taught in — resolved from the manifest rather
   // than trusting `course` itself, since a detail screen opened from the
   // "everything I'm studying" review pool (a synthetic multi-grade course,
   // see studyListPool()) would otherwise show that pool's own name instead
-  // of the kanji's real grade.
-  $('detail-unit').hidden = course.kind !== 'kanji';
+  // of the kanji's real grade. Vocab courses map 1:1 to a unit already, so
+  // `course` itself is fine there.
+  $('detail-unit').hidden = course.kind === 'kana';
   if (course.kind === 'kanji') {
     const unit = kanjiUnitFor(char);
     $('detail-unit').textContent = unit ? unitLabel(unit) : '';
+  } else if (course.kind === 'vocab') {
+    $('detail-unit').textContent = `${vocabUnitGroupLabel(course.unit)} · ${vocabUnitLabel(course.unit)}`;
   }
 
-  // Kanji folds mastery into the single study-status button below instead —
-  // see renderDetailStudy(). Kana has no study list, so this stays its own
-  // line, same as ever.
-  if (course.kind === 'kanji') {
+  // Kanji and vocab both fold mastery into the single study-status button
+  // below instead — see renderDetailStudy(). Kana has no study list, so this
+  // stays its own line, same as ever.
+  if (course.kind === 'kanji' || course.kind === 'vocab') {
     $('detail-mastery').hidden = true;
   } else {
     const tier = masteryTier(progress[itemKey(state.mode, char)]);
@@ -1332,8 +1363,23 @@ function renderCharacterDetail() {
     $('detail-meanings').textContent = info.meanings.join(', ');
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
+    $('detail-word-kanji').hidden = true;
     renderGeneralWords(info.words);
+  } else if (course.kind === 'vocab') {
+    const info = vocabInfo(course, char);
+    renderVocabWordGlyph($('detail-glyph'), info);
+    $('detail-romaji').hidden = true;
+    $('detail-readings').hidden = true;
+    $('detail-readings').innerHTML = '';
+    $('detail-exposure').hidden = true;
+    $('detail-meanings').hidden = false;
+    $('detail-meanings').textContent = info.en.join(', ');
+    $('detail-word').hidden = true;
+    $('detail-word').innerHTML = '';
+    renderWordKanjiChips(info);
+    $('detail-general-words').hidden = true;
   } else {
+    $('detail-word-kanji').hidden = true;
     $('detail-romaji').hidden = false;
     $('detail-romaji').textContent = romajiFor(char);
     $('detail-readings').hidden = true;
@@ -1345,6 +1391,45 @@ function renderCharacterDetail() {
   }
 
   show('screen-character-detail');
+}
+
+/**
+ * A word's own kanji, as tappable chips into the EXISTING kanji detail
+ * screen (vocab-plan.md §7 — "the piece that makes the two halves of the
+ * app one app rather than two"). One chip per unique kanji in the surface
+ * form, in the order they appear; a kana-only word (uk, or plain hiragana/
+ * katakana) has none, and the section hides.
+ */
+function renderWordKanjiChips(info) {
+  const containerEl = $('detail-word-kanji');
+  containerEl.innerHTML = '';
+  const chars = [...new Set([...info.w].filter(isKanjiChar))];
+  chars.forEach((kanji) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'reading-chip';
+    chip.textContent = kanji;
+    chip.addEventListener('click', () => openKanjiFromWord(kanji));
+    containerEl.appendChild(chip);
+  });
+  containerEl.hidden = chars.length === 0;
+}
+
+/**
+ * Opens one of a vocab word's own kanji through to ITS detail screen,
+ * remembering the word so the back button returns here rather than to
+ * wherever the WORD's own screen was opened from — a single level of
+ * "back to the word", not a full navigation stack, which is all this needs.
+ * See the 'word' case in detail-back (wire()).
+ */
+function openKanjiFromWord(kanji) {
+  const unit = kanjiUnitFor(kanji);
+  if (!unit) return; // shouldn't happen — every ruby kanji is a taught kanji
+  state.detailWordBack = {
+    courseId: state.detailCourseId, char: state.detailChar, returnTo: state.detailReturn,
+  };
+  const kanjiCourse = KANJI_COURSES.find((c) => c.unit === unit);
+  openCharacterDetail(kanjiCourse, kanji, 'word');
 }
 
 function renderGeneralWords(words) {
@@ -4257,7 +4342,13 @@ function wire() {
         if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
         else if (state.detailReturn === 'summary') show('screen-summary');
         else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
-        else renderOverview(state.detailChar);
+        else if (state.detailReturn === 'word') {
+          // Back from one of a vocab word's own kanji chips (§7) — return to
+          // that word's own detail screen, not to wherever IT was opened
+          // from, which openCharacterDetail below restores from detailReturn.
+          const { courseId, char, returnTo } = state.detailWordBack;
+          openCharacterDetail(getAnyCourse(courseId), char, returnTo);
+        } else renderOverview(state.detailChar);
         break;
       case 'close-settings':
         if (!state.profile) renderProfiles();

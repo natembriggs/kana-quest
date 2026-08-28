@@ -216,7 +216,7 @@
 
     <div class="detail-head">
       <div id="detail-glyph" class="glyph glyph-lg" lang="ja"></div>
-      <div class="detail-stroke-wrap">
+      <div id="detail-stroke-wrap" class="detail-stroke-wrap">
         <div id="detail-stroke"></div>
         <button id="detail-play-strokes" class="btn btn-quiet" type="button">▶ Play stroke order</button>
       </div>
@@ -231,16 +231,20 @@
 
     <p id="detail-mastery" class="mastery-label"></p>
 
-    <!-- Kanji only: whether this kanji is being studied is now an editable
-         choice, not just a fact — the button below both shows and sets it.
-         See kanji-expansion-plan.md §2.1. Kana keep the implicit model (every
-         character in every applicable mode), so this stays hidden for kana. -->
+    <!-- Kanji and vocab only: whether this item is being studied is now an
+         editable choice, not just a fact — the button below both shows and
+         sets it. See kanji-expansion-plan.md §2.1 and vocab-plan.md §7. Kana
+         keep the implicit model (every character in every applicable mode),
+         so this stays hidden for kana. renderDetailStudy() (app.js) shows
+         only whichever of the five mode buttons apply to the item's kind. -->
     <div id="detail-study" class="stack" hidden>
       <button id="detail-study-toggle" class="btn wide" type="button"></button>
       <div id="detail-study-modes" class="segmented" role="group" aria-label="Which modes to study">
         <button id="detail-mode-definition" class="segment" type="button" data-mode="definition">Definition</button>
         <button id="detail-mode-recognition" class="segment" type="button" data-mode="recognition">Yomi</button>
         <button id="detail-mode-writing" class="segment" type="button" data-mode="writing">Writing</button>
+        <button id="detail-mode-vmeaning" class="segment" type="button" data-mode="vmeaning">Meaning</button>
+        <button id="detail-mode-vrecall" class="segment" type="button" data-mode="vrecall">Recall</button>
       </div>
       <!-- Only when waiting to learn in whichever mode is currently active —
            jumps straight to a lesson-then-quiz session for just this one
@@ -259,6 +263,11 @@
     <p id="detail-exposure" class="hint" hidden></p>
     <div id="detail-meanings" class="kanji-meanings" hidden></div>
     <div id="detail-word" class="kanji-word" hidden></div>
+    <!-- Vocab only: this word's own kanji, tappable through to THEIR OWN
+         detail screen (vocab-plan.md §7 — "the piece that makes the two
+         halves of the app one app rather than two"). See
+         renderWordKanjiChips()/openKanjiFromWord() in app.js. -->
+    <div id="detail-word-kanji" class="reading-chips" lang="ja" hidden></div>
 
     <div id="detail-general-words" class="stack" hidden>
       <h3>Common words</h3>

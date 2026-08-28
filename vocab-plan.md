@@ -1,14 +1,15 @@
 # Vocabulary — implementation plan
 
-Status: **in progress** — phases 0-4, 3a and 3b done (see §12's phase table).
+Status: **in progress** — phases 0-5, 3a and 3b done (see §12's phase table).
 Word selection (`tools/build_vocab_data.py`), courses/lazy loading
 (`src/vocab.js`), Meaning mode (four English options, the reveal ladder, the
 yomi follow-up), Recall mode (kana production, the kanji spelling stage and
-its mastered-kanji exclusion), exposure-based furigana hiding (§5.3), and
+its mastered-kanji exclusion), exposure-based furigana hiding (§5.3),
 crediting a correct unrevealed reading into the kanji course's own records
-(§4.5) are all live behind the fourth "Vocabulary" script on the home
-screen. Not yet built: the word detail screen (phase 5), Higher/A level
-(phases 6-7), and stories.
+(§4.5), and the word detail screen (with kanji chips into the existing kanji
+detail screen, and per-mode study toggles) are all live behind the fourth
+"Vocabulary" script on the home screen. Not yet built: Higher/A level
+(phases 6-7) and stories.
 
 Phase 0 landed on the plan's own fallback (§3.5): JMdict's `nf` frequency
 bands stand in for an official GCSE list, which this session had no way to
@@ -1236,7 +1237,7 @@ the dictionary surface form and nothing cleverer.
 | 3a | **Exposure tracking (§5.3).** The `exposure` map, the one-per-session rule, the threshold, demotion, the merge rule (§8) and its property tests, and the *seen 6×* line on the kanji detail screen. Separable from phase 3 and worth keeping separate — its correctness lives almost entirely in merge behaviour, which is testable without any UI. | 3 | **Done.** `EXPOSURE_THRESHOLD`/`addExposure`/`recordDemotionStrike` in `srs.js`, `mergeExposure` in `merge.js` (property-tested for idempotence, commutativity and tombstone survival in `test/store.js`), `createProfile()`'s `exposure: {}`, the OR-with-enrollment hiding rule and the on-show/on-reveal accrual+demotion wiring in `app.js`, and the reading-chip marker + "seen N× in words" line on the kanji detail screen. |
 | 3b | **Crediting kanji readings (§4.5).** Build-time `credits` targets, and the write on a correct unrevealed yomi answer. | 1, 3 | **Done.** `creditVocabYomi` in `app.js`, credited only for positions actually hidden this question (a visible kanji wasn't being tested); `recomputeYomiRollupFromProgress` in `srs.js` rebuilds the kanji's rollup by scanning `progress` rather than needing that kanji's own course unit loaded — the "no lazy load mid-question" cost saving the plan called for. Found and fixed a pre-existing bug along the way: `isKanjiKnown` was treating a single-kanji vocab word's OWN `vmeaning`/`vrecall` study enrollment as proof the KANJI had been studied, because `study` is keyed by bare surface with no mode namespacing and a one-kanji word's surface equals the kanji itself (船, 水, ...). |
 | 4 | **Recall mode.** Kana options, the kanji spelling stage, the exclusion rule and its fallback ladder. | 2 | **Done.** `buildRecallChoices`/`buildSpellingChoices` in `vocab.js`; `renderVocabRecallQuestion`/`chooseVocabProd`/`chooseVocabSpell` in `app.js`. Found and fixed a real gap while testing against the full corpus: excluding a synonym distractor by checking only the CANDIDATE's own glosses missed homophone pairs where a different entry sharing that exact reading was the one with the matching gloss (食料/食糧 both read しょくりょう, only 食料 glosses "food") — fixed by excluding the whole reading, not just the specific entry. |
-| 5 | **Word detail and overview screens**, including kanji chips linking into the existing kanji detail screen. | 2 |
+| 5 | **Word detail and overview screens**, including kanji chips linking into the existing kanji detail screen. | 2 | **Done.** Overview tiles are clickable for vocab now (they were deliberately inert before this phase); `renderCharacterDetail()` grew a `course.kind === 'vocab'` branch (full furigana via `renderVocabWordGlyph`, glosses, no stroke diagram, the vocab unit's theme label); `renderWordKanjiChips`/`openKanjiFromWord` add the word's own kanji as tappable chips into the existing kanji detail screen, with a single-level "back to the word" (`state.detailWordBack`) rather than a full stack; `applicableStudyModes`/`renderDetailStudy` generalized from kanji-only to `modesForKind(course.kind)`, so the study toggle and its two/three per-mode buttons now work for vocab's Meaning/Recall the same way they already did for kanji's Definition/Yomi/Writing. |
 | 6 | **Higher tier** — same units, added words. Largely a data phase. | 3, 4 |
 | 7 | **A level** — the A-group units from §2.3. Data plus the group labels. | 6 |
 | 8 | **Story hooks** — extract `src/furigana.js` as a standalone component if it hasn't already fallen out of phase 3, and confirm `vocab-lookup.js` answers what stories need. | 3 |

@@ -2667,6 +2667,81 @@ appModule.renderInstallBanner();
 check('a desktop browser is never offered the banner — this is a phone-specific nudge',
   el('install-banner').hidden === true);
 
+// --- Vocabulary word detail: kanji chips into the kanji detail screen -----
+// (vocab-plan.md §7 phase 5) — a themed unit (not Core's mostly-kana spine)
+// so there's a real kanji word to chip through.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1.1'), 'click');
+await settle();
+
+const vocabViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(vocabViewSetButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // ensureVocabUnitLoaded is async
+check('opening a vocab unit\'s overview shows the overview screen',
+  visible() === 'screen-overview', `showing ${visible()}`);
+
+const vocabTiles = el('overview-grid')._children;
+check('vocab overview tiles are labelled with the word itself, not left blank',
+  vocabTiles.length > 0 && vocabTiles.every((t) => t.textContent.length > 0),
+  `${vocabTiles.length} tiles`);
+
+const KANJI_RE = /[㐀-䶿一-鿿]/;
+const kanjiWordTile = vocabTiles.find((t) => KANJI_RE.test(t.textContent));
+check('at least one word in this unit has kanji worth chipping through to', !!kanjiWordTile);
+
+fire(kanjiWordTile, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('tapping a vocab tile opens the character detail screen',
+  visible() === 'screen-character-detail', `showing ${visible()}`);
+check('a vocab detail screen shows the word\'s glosses',
+  el('detail-meanings').hidden === false && el('detail-meanings').textContent.length > 0);
+check('a vocab detail screen has no stroke diagram — nothing here is one character',
+  el('detail-stroke-wrap').hidden === true);
+check('a vocab detail screen has its own study toggle, Meaning/Recall not Definition/Yomi/Writing',
+  el('detail-study').hidden === false
+  && el('detail-mode-vmeaning').hidden === false && el('detail-mode-vrecall').hidden === false
+  && el('detail-mode-definition').hidden === true,
+  `vmeaning hidden=${el('detail-mode-vmeaning').hidden}, definition hidden=${el('detail-mode-definition').hidden}`);
+check('a vocab detail screen offers its own kanji as tappable chips',
+  el('detail-word-kanji').hidden === false && el('detail-word-kanji')._children.length > 0,
+  `hidden=${el('detail-word-kanji').hidden}, chips=${el('detail-word-kanji')._children.length}`);
+
+const kanjiChip = el('detail-word-kanji')._children[0];
+const chippedKanji = kanjiChip.textContent;
+
+fire(kanjiChip, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('tapping a kanji chip opens THAT kanji\'s own detail screen',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === chippedKanji,
+  `glyph now "${el('detail-glyph').textContent}", expected "${chippedKanji}"`);
+check('the kanji reached from a word has its own reading chips and stroke diagram, unlike the word screen',
+  el('detail-readings').hidden === false && el('detail-stroke-wrap').hidden === false);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('backing out of a chipped kanji returns to the WORD\'s own detail screen, not the overview',
+  visible() === 'screen-character-detail' && el('detail-word-kanji').hidden === false,
+  `showing ${visible()}, word-kanji hidden=${el('detail-word-kanji').hidden}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('backing out of the word returns to the vocab overview',
+  visible() === 'screen-overview', `showing ${visible()}`);
+
+// Restore the state every earlier section assumed, in case anything below
+// this point is ever added and depends on it.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+await settle();
+
 // --- data-action coverage -------------------------------------------------
 
 const appSource = readFile('src/app.js');
