@@ -1451,6 +1451,59 @@ check('a single-grade course still only reviews its own grade',
 
 done('study list: enrollment gates scheduling, and survives un-enrolling');
 
+// --- Vocab yomi options vs. the reveal ladder's visible furigana ----------
+//
+// The bug this guards: 質問 shown as 質[しつ]問 (問 already known, so its
+// furigana is hidden) was offered じつもん / たちもん / ちもん as wrong
+// answers — every one of them contradicting the しつ printed on screen, so
+// four of six options fell to a glance and the question never asked what it
+// meant to ask (how 問 is read). See vocab-plan.md §5.4.
+
+const vocab = await import('../src/vocab.js');
+await Promise.all(vocab.VOCAB_COURSES.map((c) => vocab.ensureVocabUnitLoaded(c.unit)));
+
+const shitsumon = vocab.VOCAB_COURSES.find((c) => c.index.has('質問'));
+const monHidden = vocab.buildYomiChoices(shitsumon, '質問', new Set([1]));
+check('every option agrees with the furigana still on screen',
+  monHidden.options.every((o) => o.startsWith('しつ')), monHidden.options.join(' '));
+check('the option that varies the hidden kanji survives the filter',
+  monHidden.options.includes('しつとん'), monHidden.options.join(' '));
+const shitsuHidden = vocab.buildYomiChoices(shitsumon, '質問', new Set([0]));
+check('the mirror case filters on the other side',
+  shitsuHidden.options.every((o) => o.endsWith('もん')), shitsuHidden.options.join(' '));
+check('a word with nothing visible still gets a full set of options',
+  vocab.buildYomiChoices(shitsumon, '質問', new Set([0, 1])).options.length === 6);
+
+// Exhaustive: for every multi-kanji word, hiding exactly one kanji must
+// never produce an option that drops a visible kanji's own kana.
+let contradictions = 0;
+let askable = 0;
+let scenarios = 0;
+for (const course of vocab.VOCAB_COURSES) {
+  for (const info of course.index.values()) {
+    if (!info.ruby || info.ruby.length < 2) continue;
+    for (const [pos] of info.ruby) {
+      scenarios += 1;
+      const { options } = vocab.buildYomiChoices(course, info.id, new Set([pos]));
+      if (options.length >= vocab.MIN_YOMI_OPTIONS) askable += 1;
+      for (const [other, kana] of info.ruby) {
+        if (other === pos) continue;
+        if (options.some((o) => !o.includes(kana))) contradictions += 1;
+      }
+    }
+  }
+}
+check('no partially-revealed word offers an option its visible furigana rules out',
+  contradictions === 0, `${contradictions} of ${scenarios} scenarios`);
+// Not a behaviour requirement so much as a canary: the filter only works
+// because most hidden kanji still have enough plausible misreadings to fill
+// a question. If this collapses, the follow-up has quietly stopped being
+// asked and the option pool needs enriching at build time instead.
+check('most partially-revealed words can still be asked', askable / scenarios > 0.7,
+  `${askable}/${scenarios}`);
+
+done('vocab yomi options never contradict the furigana on screen');
+
 // --- Result ---------------------------------------------------------------
 
 print('');

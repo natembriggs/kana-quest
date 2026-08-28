@@ -822,6 +822,40 @@ Build-time rules for `mis`:
 - Emit up to 8; the runtime picks 5. If fewer than 5 survive, fill from other
   words' readings in the same unit that are close in length.
 
+**Every option must agree with the furigana still on screen.** This is the
+part the first implementation got wrong. §5.2's whole point is that furigana
+hides *per kanji*, so a partly-revealed word is a partly-revealed question:
+質問 shown as 質(しつ)問 — 問 already known, its reading hidden — is asking
+one thing only, whether the learner knows 問 reads もん. But `mis` varies
+*any* position, so the options offered were じつもん, たちもん, ちもん,
+しっもん — four of six contradicting the しつ printed above 質, eliminable
+without knowing a thing about 問, leaving a six-way question that was
+really a two-way one.
+
+So the runtime filters `mis` down to candidates that differ from the correct
+reading only inside a span whose furigana is hidden. `build_mis` splices
+exactly one position and leaves the rest of the reading untouched, which
+makes the test cheap: agree on the leading characters before the hidden
+span and on the trailing ones after it (matched from the *end*, since a
+substitution can change the word's length). The per-position spans are
+re-derived at runtime from `w` + `ruby`, the same split `build_ruby` made at
+build time — so no new data is needed. The cross-word top-up above is also
+skipped whenever anything is visible: another word's reading has no reason
+to match the visible furigana either, and would be one more free
+elimination.
+
+**A question that can't be filled fairly isn't asked.** Filtering this way
+can leave very little — 曜 in 月曜日 has essentially no alternate reading to
+offer, so hiding it yields one distractor. Below three options total the
+yomi stage is skipped and the question simply ends after the definition,
+which is the honest outcome: a two-way guess measures nothing, and padding
+it back out to six is exactly the bug. Across the current data this skips
+about 21% of partially-revealed scenarios and asks the other 79%. If that
+ratio ever collapses, the fix is to enrich `mis` at build time — generating
+and capping it *per position* rather than shuffling one global pool of 8 —
+not to relax the filter. test/smoke.js guards both the invariant and the
+ratio.
+
 Getting it right or wrong grades `vyomi:` and ends the question either way —
 no second chance on the yomi stage, because the definition attempt already
 gave the learner the word.

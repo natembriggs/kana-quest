@@ -10,7 +10,8 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
-  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices, pronunciationFor,
+  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices, MIN_YOMI_OPTIONS,
+  pronunciationFor,
 } from './vocab.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -37,7 +38,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -2063,14 +2064,30 @@ function chooseVocabMeaning(value, button) {
 
 /** After the definition stage resolves: on to the yomi follow-up (§5.4) if
  * it was answered right, something was genuinely hidden, and the learner
- * never revealed it — otherwise the question is simply done. */
+ * never revealed it — otherwise the question is simply done.
+ *
+ * The choices are built HERE rather than in the render, because whether
+ * there is a fair question to ask is itself part of the decision: on a word
+ * showing some of its furigana the option pool is filtered down to readings
+ * that agree with what's on screen (see buildYomiChoices), and a hidden
+ * kanji with almost no plausible misreadings can leave too few to ask with.
+ * Skipping is the honest outcome there — better than a question the learner
+ * answers by elimination. */
 function proceedAfterVocabDefinition(course, item, correct) {
   const session = state.session;
   const qualifies = correct && !session.vocabRevealed && vocabHasHiddenReading(session.vocabHidden);
   if (qualifies) {
-    session.vocabStage = 'yomi';
-    renderVocabYomiStage(course, item);
-    return;
+    const hiddenInfo = session.vocabHidden;
+    const choices = buildYomiChoices(
+      course,
+      item,
+      hiddenInfo.mode === 'perchar' ? hiddenInfo.hidden : null,
+    );
+    if (choices.options.length >= MIN_YOMI_OPTIONS) {
+      session.vocabStage = 'yomi';
+      renderVocabYomiStage(choices);
+      return;
+    }
   }
   session.vocabStage = 'done';
   session.locked = true;
@@ -2078,8 +2095,7 @@ function proceedAfterVocabDefinition(course, item, correct) {
   $('quiz-ok').textContent = 'Next';
 }
 
-function renderVocabYomiStage(course, item) {
-  const { options, answer } = buildYomiChoices(course, item);
+function renderVocabYomiStage({ options, answer }) {
   state.session.vocabYomiAnswer = answer;
 
   $('quiz-feedback').textContent = '';

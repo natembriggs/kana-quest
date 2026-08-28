@@ -25,6 +25,11 @@ const CHUNK_SIZE = 5; // matches kana/kanji — see vocab-plan.md §2.4
 
 const DEFINITION_OPTIONS = 4; // vocab-plan.md §5.1 — short English labels, same count as kanji Definition
 const YOMI_OPTIONS = 6; // vocab-plan.md §5.4 — short kana labels, same count as the kanji Yomi base view
+// Below this the yomi follow-up isn't worth asking: two options is a coin
+// flip and one is no question at all. Reached when the only kanji whose
+// reading is being tested has too few plausible misreadings to fill a
+// question that respects the visible furigana — see buildYomiChoices.
+export const MIN_YOMI_OPTIONS = 3;
 
 const KANJI_RE = /[㐀-䶿一-鿿]/;
 
@@ -190,6 +195,52 @@ export function buildMeaningChoices(course, wordId, count = DEFINITION_OPTIONS) 
 }
 
 /**
+ * Character offsets, within a word's own kana reading, of the segment each
+ * kanji position contributes — derived from `w` + `ruby` by walking the
+ * surface and accumulating (a kana character contributes itself, a kanji
+ * contributes its ruby segment). This is the runtime half of the split
+ * build_ruby did at build time; returns null if the walk doesn't
+ * reconstruct the reading exactly, i.e. the two disagree.
+ */
+function readingSpans(info) {
+  if (!info.ruby) return null;
+  const rubyByPos = new Map(info.ruby.map((r) => [r[0], r[1]]));
+  const spans = new Map();
+  let off = 0;
+  [...info.w].forEach((ch, pos) => {
+    const kana = rubyByPos.get(pos);
+    if (kana === undefined) { off += [...ch].length; return; }
+    spans.set(pos, [off, off + [...kana].length]);
+    off += [...kana].length;
+  });
+  return off === [...info.r].length ? spans : null;
+}
+
+/**
+ * Whether a wrong reading is still consistent with the furigana the learner
+ * can SEE — that is, whether it differs from the correct reading only
+ * inside a span whose furigana is hidden. build_mis splices exactly one
+ * position and leaves the rest of the reading untouched, so "differs only
+ * inside span [s, e)" is exactly "agrees on the leading s characters and on
+ * the trailing (length - e)". Note the trailing run is matched from the END
+ * of each string, since a substituted segment can change the word's length
+ * and shift everything after it along.
+ */
+function variesOnlyWhereHidden(correct, candidate, spans, hidden) {
+  for (const pos of hidden) {
+    const span = spans.get(pos);
+    if (!span) continue;
+    const [start, end] = span;
+    const tail = correct.length - end;
+    if (candidate.length - tail < start) continue;
+    const headOk = correct.slice(0, start).join('') === candidate.slice(0, start).join('');
+    const tailOk = correct.slice(end).join('') === candidate.slice(candidate.length - tail).join('');
+    if (headOk && tailOk) return true;
+  }
+  return false;
+}
+
+/**
  * Options for the Meaning-mode yomi follow-up (§5.4): the word's own kana
  * reading plus up to 5 wrong ones, built at quiz time from `mis` (the
  * build-time-generated near-miss readings — see build_vocab_data.py's
@@ -197,15 +248,36 @@ export function buildMeaningChoices(course, wordId, count = DEFINITION_OPTIONS) 
  * alternate kanji readings), the pool is topped up with OTHER words'
  * readings from the same unit — weaker distractors, but only reached when
  * the good ones run out, per vocab-plan.md §5.4.
+ *
+ * `hidden` is the reveal ladder's set of kanji positions whose furigana is
+ * NOT on screen (null when the whole word's furigana is hidden, e.g. a
+ * jukujikun word in `whole` mode). Whenever some furigana IS on screen, the
+ * options must every one of them agree with it: 質問 shown as 質[しつ]問
+ * only genuinely asks how 問 is read, so an option like じつもん or ちもん
+ * is eliminated by a glance rather than by knowing anything, and a whole
+ * screen of them turns a six-way question into a two-way one. So the pool
+ * is filtered to candidates that vary only where the learner can't see, and
+ * the cross-word top-up is skipped entirely — another word's reading has no
+ * reason to match the visible furigana either. That can leave very few
+ * options; the caller decides whether what's left is still worth asking.
  */
-export function buildYomiChoices(course, wordId) {
+export function buildYomiChoices(course, wordId, hidden = null) {
   const info = vocabInfo(course, wordId);
   const correct = info.r;
+  const spans = hidden ? readingSpans(info) : null;
+  const anyVisible = spans ? [...spans.keys()].some((pos) => !hidden.has(pos)) : false;
+
+  let pool = info.mis || [];
+  if (anyVisible) {
+    const chars = [...correct];
+    pool = pool.filter((m) => variesOnlyWhereHidden(chars, [...m], spans, hidden));
+  }
+
   const options = new Set([correct]);
-  shuffle(info.mis || []).forEach((reading) => {
+  shuffle(pool).forEach((reading) => {
     if (options.size < YOMI_OPTIONS) options.add(reading);
   });
-  if (options.size < YOMI_OPTIONS) {
+  if (!anyVisible && options.size < YOMI_OPTIONS) {
     shuffle([...course.index.values()]).forEach((entry) => {
       if (options.size < YOMI_OPTIONS && entry.id !== wordId) options.add(entry.r);
     });
