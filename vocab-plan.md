@@ -1,13 +1,12 @@
 # Vocabulary — implementation plan
 
-Status: **in progress** — phases 0-3 and 3a done (see §12's phase table). Word
-selection (`tools/build_vocab_data.py`), courses/lazy loading (`src/vocab.js`),
-Meaning mode (four English options, the reveal ladder, the yomi follow-up)
-and exposure-based furigana hiding (§5.3 — the `exposure` profile field,
-one-per-session accrual, the threshold, demotion, and the merge rule) are
+Status: **in progress** — phases 0-3, 3a and 3b done (see §12's phase table).
+Word selection (`tools/build_vocab_data.py`), courses/lazy loading
+(`src/vocab.js`), Meaning mode (four English options, the reveal ladder, the
+yomi follow-up), exposure-based furigana hiding (§5.3), and crediting a
+correct unrevealed reading into the kanji course's own records (§4.5) are
 live behind the fourth "Vocabulary" script on the home screen. Not yet
-built: Recall mode (§6, phase 4), crediting a correct reading into the kanji
-course's own records (§4.5, phase 3b), the word detail screen (phase 5),
+built: Recall mode (§6, phase 4), the word detail screen (phase 5),
 Higher/A level (phases 6-7), and stories.
 
 Phase 0 landed on the plan's own fallback (§3.5): JMdict's `nf` frequency
@@ -1234,7 +1233,7 @@ the dictionary surface form and nothing cleverer.
 | 2 | **The `vocab` kind.** Courses from the manifest, lazy loading, the four modes, the `eligibleItems` gate (§4.3), the shared rollup helper (§4.4), the fourth home card, unit picker. No questions yet — the course screen counts to zero correctly. | 1 | **Done.** `src/vocab.js`, `gatesEnrollment`/`recomputeVocabRollup` in `srs.js`. |
 | 3 | **Meaning mode.** Four English options, the reveal ladder, reveal-grades-yomi, the yomi follow-up stage. Hiding is enrolment-based only at this point. | 2 | **Done**, verified end-to-end in-browser against real IndexedDB state (rollup math, reveal-grades-a-miss, yomi-stage skip-on-reveal all confirmed). Enrolment-only hiding, as scoped — no exposure yet. |
 | 3a | **Exposure tracking (§5.3).** The `exposure` map, the one-per-session rule, the threshold, demotion, the merge rule (§8) and its property tests, and the *seen 6×* line on the kanji detail screen. Separable from phase 3 and worth keeping separate — its correctness lives almost entirely in merge behaviour, which is testable without any UI. | 3 | **Done.** `EXPOSURE_THRESHOLD`/`addExposure`/`recordDemotionStrike` in `srs.js`, `mergeExposure` in `merge.js` (property-tested for idempotence, commutativity and tombstone survival in `test/store.js`), `createProfile()`'s `exposure: {}`, the OR-with-enrollment hiding rule and the on-show/on-reveal accrual+demotion wiring in `app.js`, and the reading-chip marker + "seen N× in words" line on the kanji detail screen. |
-| 3b | **Crediting kanji readings (§4.5).** Build-time `credits` targets, and the write on a correct unrevealed yomi answer. | 1, 3 |
+| 3b | **Crediting kanji readings (§4.5).** Build-time `credits` targets, and the write on a correct unrevealed yomi answer. | 1, 3 | **Done.** `creditVocabYomi` in `app.js`, credited only for positions actually hidden this question (a visible kanji wasn't being tested); `recomputeYomiRollupFromProgress` in `srs.js` rebuilds the kanji's rollup by scanning `progress` rather than needing that kanji's own course unit loaded — the "no lazy load mid-question" cost saving the plan called for. Found and fixed a pre-existing bug along the way: `isKanjiKnown` was treating a single-kanji vocab word's OWN `vmeaning`/`vrecall` study enrollment as proof the KANJI had been studied, because `study` is keyed by bare surface with no mode namespacing and a one-kanji word's surface equals the kanji itself (船, 水, ...). |
 | 4 | **Recall mode.** Kana options, the kanji spelling stage, the exclusion rule and its fallback ladder. | 2 |
 | 5 | **Word detail and overview screens**, including kanji chips linking into the existing kanji detail screen. | 2 |
 | 6 | **Higher tier** — same units, added words. Largely a data phase. | 3, 4 |

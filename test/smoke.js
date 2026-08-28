@@ -1073,6 +1073,34 @@ check('rollup correct/lapses are summed across readings',
 
 done('kanji-level rollup aggregates per-reading records');
 
+// vocab-plan.md §4.5: crediting a kanji reading from vocabulary must not
+// need that kanji's own course unit loaded, so the rollup is rebuilt by
+// scanning progress for `mode:kanji:*` keys rather than from a reading list
+// handed in from kanjiInfo.
+{
+  const progress = {};
+  const key1 = srs.yomiKey('recognition', '電', 'デン');
+  progress[key1] = srs.gradeYomi(srs.newYomiRecord(), true, 1000);
+  srs.recomputeYomiRollupFromProgress(progress, 'recognition', '電', 2000);
+  const rollup1 = progress[srs.itemKey('recognition', '電')];
+  check('a rollup is built from a single credited reading with no kanji course data',
+    rollup1 && rollup1.correct === 1 && rollup1.box === 1, JSON.stringify(rollup1));
+
+  // A second reading credited later re-aggregates across both, exactly as
+  // kanji.js's own recomputeKanjiRollup would from a real quizReadings list.
+  const key2 = srs.yomiKey('recognition', '電', 'コウ'); // not a real reading of 電 — only used to exercise aggregation
+  progress[key2] = srs.gradeYomi(srs.newYomiRecord(), false, 3000);
+  srs.recomputeYomiRollupFromProgress(progress, 'recognition', '電', 4000);
+  const rollup2 = progress[srs.itemKey('recognition', '電')];
+  check('a rollup aggregates every per-reading record already in progress, not just the one just credited',
+    rollup2.box === 0 && rollup2.correct === 1 && rollup2.lapses === 1, JSON.stringify(rollup2));
+
+  check('an uncredited kanji is left with no rollup at all',
+    srs.recomputeYomiRollupFromProgress({}, 'recognition', '車') === undefined
+    && progress[srs.itemKey('recognition', '車')] === undefined);
+}
+done('vocab crediting rebuilds a kanji rollup without needing its course data');
+
 // --- SRS ------------------------------------------------------------------
 
 const DAY = 24 * 60 * 60 * 1000;

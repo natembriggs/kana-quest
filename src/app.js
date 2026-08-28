@@ -21,7 +21,7 @@ import {
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
   recomputeVocabRollup,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted,
-  addExposure, recordDemotionStrike,
+  addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -40,7 +40,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1856,8 +1856,19 @@ function revealSingleAnswer(answer) {
  * purpose, since Yomi itself is the strict, slow way to learn a reading —
  * gating furigana on it would hand the reading to exactly the learner most
  * likely to already be able to produce it unaided. */
+// The three real kanji-course modes — deliberately excludes vmeaning/vrecall.
+// `study` is keyed by bare item id with no mode namespacing (study[item][mode]
+// — see the study-list notes in srs.js), so a single-kanji vocab word (船,
+// 水, ...) shares its very key with the kanji of the same name: enrolling the
+// WORD in vmeaning writes to the exact same study['船'] entry enrolling the
+// KANJI in Definition would. isStudying() below is already safe from this —
+// it checks one specific mode key, and 'vmeaning' is never one of the three
+// checked here — but a bare "any mode at all" test is not, and would read a
+// vocab-only enrollment as proof the kanji itself had been studied.
+const KANJI_STUDY_MODES = new Set(['definition', 'recognition', 'writing']);
+
 function isKanjiKnown(kanji) {
-  return studyModes(state.profile.study, kanji).length > 0;
+  return studyModes(state.profile.study, kanji).some((mode) => KANJI_STUDY_MODES.has(mode));
 }
 
 /** The exposure key a ruby position's reading accrues against — the
@@ -2123,6 +2134,39 @@ function clickVocabWord() {
   updateVocabWordDisplay();
 }
 
+/**
+ * A correct, never-revealed yomi answer also credits the constituent
+ * kanji's OWN reading records (vocab-plan.md §4.5) — vocabulary becomes a
+ * second way a kanji reading gets learned, not just a parallel quiz. Only
+ * the positions actually being TESTED this question — the ones hidden on
+ * screen — are credited; a kanji whose reading was already visible wasn't
+ * being asked about, so answering the word correctly proves nothing new
+ * about it (this is exactly `hiddenInfo.hidden`, the same set the reveal
+ * ladder hides). Two more safeguards fall straight out of the data: a
+ * jukujikun word (`mode !== 'perchar'`) has no per-kanji reading to credit
+ * at all, and a ruby entry with no `credits` (build time couldn't map it to
+ * a real, quizzable reading — vocab-plan.md §3.2/§4.5 safeguard 4) is
+ * skipped rather than guessed at.
+ *
+ * Deliberately does NOT call kanji.js's recomputeKanjiRollup — that needs
+ * kanjiInfo(course, kanji), i.e. that kanji's own course unit already
+ * loaded, which a vocab session has no reason to have done. Grading a
+ * question must not pause to fetch it, so this rebuilds the rollup by
+ * scanning progress instead (recomputeYomiRollupFromProgress in srs.js).
+ */
+function creditVocabYomi(info, hiddenInfo) {
+  if (hiddenInfo.mode !== 'perchar') return;
+  const { progress } = state.profile;
+  info.ruby.forEach((entry) => {
+    const [pos, , credits] = entry;
+    if (!credits || !hiddenInfo.hidden.has(pos)) return;
+    const kanji = info.w[pos];
+    const key = yomiKey('recognition', kanji, credits);
+    progress[key] = gradeYomi(progress[key] || newYomiRecord(), true, Date.now());
+    recomputeYomiRollupFromProgress(progress, 'recognition', kanji);
+  });
+}
+
 function recordVocabYomi(word, correct) {
   const { progress } = state.profile;
   const key = itemKey('vyomi', word);
@@ -2264,6 +2308,11 @@ function chooseVocabYomi(value, button) {
   const item = session.queue[session.position];
   const correct = value === session.vocabYomiAnswer;
   recordVocabYomi(item, correct);
+  if (correct) {
+    const course = getAnyCourse(state.courseId);
+    creditVocabYomi(vocabInfo(course, item), session.vocabHidden);
+    store.saveProfile(state.profile);
+  }
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
   button.classList.add(correct ? 'is-right' : 'is-wrong');

@@ -673,6 +673,40 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
   return rec;
 }
 
+/**
+ * Rebuilds one kanji's Yomi rollup by scanning `progress` for whatever
+ * per-reading records already exist under `mode:kanji:*` — the same
+ * aggregation recomputeKanjiRollup (kanji.js) does, but discovering which
+ * readings to aggregate from the progress keys themselves rather than from
+ * the kanji course's own `quizReadings` list.
+ *
+ * This is what lets vocabulary crediting (vocab-plan.md §4.5) write a correct
+ * kanji-reading answer with no `await` in the middle of grading a vocab
+ * question: the credited kanji's own course unit is very often not loaded
+ * during a vocab session (unlike kanji.js's version, which needs
+ * kanjiInfo(course, kanji) and so needs that unit loaded already), and
+ * loading it just to find the reading list would mean pausing the question
+ * to fetch data no answer here actually depends on.
+ */
+export function recomputeYomiRollupFromProgress(progress, mode, kanji, now = Date.now()) {
+  const prefix = `${mode}:${kanji}:`;
+  const records = Object.keys(progress)
+    .filter((key) => key.startsWith(prefix) && Number.isFinite(progress[key].streak))
+    .map((key) => progress[key]);
+  if (records.length === 0) return;
+
+  progress[itemKey(mode, kanji)] = {
+    box: Math.min(...records.map((r) => Math.min(r.streak, MAX_BOX))),
+    due: Math.min(...records.map((r) => r.due)),
+    intervalDays: 0,
+    seen: records.reduce((sum, r) => sum + r.correct + r.incorrect, 0),
+    correct: records.reduce((sum, r) => sum + r.correct, 0),
+    lapses: records.reduce((sum, r) => sum + r.incorrect, 0),
+    history: [],
+    updatedAt: now,
+  };
+}
+
 export function shuffle(array) {
   const out = [...array];
   for (let i = out.length - 1; i > 0; i -= 1) {

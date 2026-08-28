@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-29',
+    changes: [
+      'Vocabulary: getting a word\'s reading right, without needing to peek at the furigana, now also counts toward that kanji\'s own Yomi progress — reading 空港 correctly as くうこう credits 空 with くう the same way answering it directly in Kanji would. Only the part you were actually being asked about counts; a kanji whose reading was already showing on screen isn\'t.',
+      'Fixed: a single-kanji Vocabulary word (船, 水, and the like) could have its furigana hidden just from adding that WORD to a Vocabulary study list, even though the kanji itself had never been studied — the two were being tracked as if they were the same thing.',
+    ],
+  },
+  {
     date: '2026-08-28',
     changes: [
       'Vocabulary: words you\'ve seen a few times start hiding their own furigana, even before you\'ve added them to a kanji study list. Meet a reading four times across the words you\'re actually reading and the app takes the hint — nothing to turn on, nothing to answer. If it guessed wrong, revealing that word\'s furigana a couple of times puts it back the way it was.',
