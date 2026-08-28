@@ -299,6 +299,35 @@ give the target kanji's shape away before a stroke is drawn.
 See `writing-mode-plan.md` for the full design, including the numbers behind
 the grading tolerances.
 
+### Vocabulary
+
+**A fourth thing to practise, alongside the three scripts above: whole
+words.** Grouped into a "Core" spine of function words (numbers, question
+words, the verbs and adjectives you can't avoid) plus themed units — family,
+school, travel, food, and so on — modelled on how a UK GCSE course is
+organised. The word list itself is not the official specification (see
+`vocab-plan.md` §3.5 for why): it's JMdict's own corpus-frequency ranking,
+so the units are labelled "Common words 1/2" rather than "Foundation" /
+"Higher".
+
+Only **Meaning mode** is built so far (English → Japanese comes later):
+
+- A word is shown with **four English meanings** to choose from, the same
+  count and layout as kanji Definition mode.
+- **The word itself is the tap target.** Furigana over any kanji the learner
+  has any claim on (studied in Definition, Yomi *or* Writing) starts
+  hidden — tap once to reveal it, tap again for romaji if the kana is the
+  problem. A kanji nobody has met yet shows its reading openly from the
+  start, since there's nothing to protect by hiding it.
+- **Revealing a hidden reading grades it as a miss, immediately** — the
+  honest answer to "did you know this" — and a **correct definition
+  answered without ever revealing** anything then asks for the reading too,
+  as a six-option follow-up. Both feed the same word's schedule.
+
+See `vocab-plan.md` for the full design, including exposure-based hiding
+(read a reading enough times without ever tapping for it, and it starts
+hiding itself) and Recall mode, neither of which is built yet.
+
 ## Design documents
 
 Larger pieces of work get a plan document at the repo root before they get
@@ -311,7 +340,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
-| `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **Design only** — nothing built yet |
+| `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning mode ships; Recall mode, exposure-based hiding and Higher/A level remain |
 
 ## What is not built yet
 

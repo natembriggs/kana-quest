@@ -1,6 +1,20 @@
 # Vocabulary — implementation plan
 
-Status: **not started.** This document is the design; no code exists yet.
+Status: **in progress** — phases 0-3 done (see §12's phase table). Word
+selection (`tools/build_vocab_data.py`), courses/lazy loading (`src/vocab.js`),
+and Meaning mode (four English options, the reveal ladder, the yomi
+follow-up) are live behind the fourth "Vocabulary" script on the home
+screen. Not yet built: Recall mode (§6, phase 4), exposure-based hiding
+(§5.3, phase 3a), crediting a correct reading into the kanji course's own
+records (§4.5, phase 3b), the word detail screen (phase 5), Higher/A level
+(phases 6-7), and stories.
+
+Phase 0 landed on the plan's own fallback (§3.5): JMdict's `nf` frequency
+bands stand in for an official GCSE list, which this session had no way to
+obtain and reproduce at the needed scale without exceeding what its
+copyright rules allow. Units are named "Common words 1/2" (`lv: 'f'`/`'h'`)
+accordingly, not "GCSE Foundation/Higher" — see the build script's own
+module docstring for the full reasoning.
 
 A fourth thing to learn, alongside hiragana, katakana and kanji: whole
 **words**. Grouped for UK learners first — GCSE Foundation, GCSE Higher, then
@@ -1163,12 +1177,12 @@ the dictionary surface form and nothing cleverer.
 
 ## 12. Phases
 
-| Phase | What | Depends on |
-| --- | --- | --- |
-| 0 | **Sourcing.** Obtain or decide against the specification list; produce `tools/vocab_src/gcse-foundation.tsv` with themes assigned. The long pole, and mostly not programming. | — |
-| 1 | **Build script.** `tools/build_vocab_data.py`: JMdict lookup, alignment reused from `build_kanji_data.py`, `mis`/`sp` generation with the real-word check, manifest + per-unit files + lookup index. | 0 |
-| 2 | **The `vocab` kind.** Courses from the manifest, lazy loading, the four modes, the `eligibleItems` gate (§4.3), the shared rollup helper (§4.4), the fourth home card, unit picker. No questions yet — the course screen counts to zero correctly. | 1 |
-| 3 | **Meaning mode.** Four English options, the reveal ladder, reveal-grades-yomi, the yomi follow-up stage. Hiding is enrolment-based only at this point. | 2 |
+| Phase | What | Depends on | Status |
+| --- | --- | --- | --- |
+| 0 | **Sourcing.** Obtain or decide against the specification list; produce `tools/vocab_src/gcse-foundation.tsv` with themes assigned. The long pole, and mostly not programming. | — | **Done, on the fallback.** No official list was obtainable within this session's copyright limits, so `tools/build_vocab_data.py` uses JMdict `nf` frequency bands instead — Core hand-specified (113 words), 24 of 25 GCSE-style theme units populated by keyword classification (938 words total; `3.2` came in under `MIN_UNIT_SIZE` and was dropped). |
+| 1 | **Build script.** `tools/build_vocab_data.py`: JMdict lookup, alignment reused from `build_kanji_data.py`, `mis`/`sp` generation with the real-word check, manifest + per-unit files + lookup index. | 0 | **Done.** Ruby/credits, `mis`, and `sp` all generated and invariant-checked (id uniqueness, credit-target validity, label length, no mis/sp equalling the correct answer). |
+| 2 | **The `vocab` kind.** Courses from the manifest, lazy loading, the four modes, the `eligibleItems` gate (§4.3), the shared rollup helper (§4.4), the fourth home card, unit picker. No questions yet — the course screen counts to zero correctly. | 1 | **Done.** `src/vocab.js`, `gatesEnrollment`/`recomputeVocabRollup` in `srs.js`. |
+| 3 | **Meaning mode.** Four English options, the reveal ladder, reveal-grades-yomi, the yomi follow-up stage. Hiding is enrolment-based only at this point. | 2 | **Done**, verified end-to-end in-browser against real IndexedDB state (rollup math, reveal-grades-a-miss, yomi-stage skip-on-reveal all confirmed). Enrolment-only hiding, as scoped — no exposure yet. |
 | 3a | **Exposure tracking (§5.3).** The `exposure` map, the one-per-session rule, the threshold, demotion, the merge rule (§8) and its property tests, and the *seen 6×* line on the kanji detail screen. Separable from phase 3 and worth keeping separate — its correctness lives almost entirely in merge behaviour, which is testable without any UI. | 3 |
 | 3b | **Crediting kanji readings (§4.5).** Build-time `credits` targets, and the write on a correct unrevealed yomi answer. | 1, 3 |
 | 4 | **Recall mode.** Kana options, the kanji spelling stage, the exclusion rule and its fallback ladder. | 2 |
