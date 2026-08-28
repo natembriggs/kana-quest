@@ -33,6 +33,7 @@ globalThis.indexedDB = {
 
 const store = await import('../src/store.js');
 const srs = await import('../src/srs.js');
+const merge = await import('../src/merge.js');
 
 let failures = 0;
 function check(name, condition, detail) {
@@ -201,6 +202,111 @@ try {
   await store.importAll(backup([{ id: 'broken', name: 'Broken', progress: [] }]));
 } catch { invalidRejected = true; }
 check('a malformed learner profile is rejected before writing', invalidRejected && !rows.has('broken'));
+
+// --- Exposure merging (vocab-plan.md §5.3/§8) ------------------------------
+//
+// The whole point of storing timestamps rather than a count (§5.3) is that
+// merging them is idempotent and commutative — a union, deduped, is. These
+// properties matter more than any single example, so they're checked over
+// generated pairs rather than one hand-written case; the hand-written cases
+// below cover the specific behaviours (dedup window, tombstone, no
+// inflation) that a property test alone wouldn't pin down as clearly.
+
+function canonExposure(map) {
+  return JSON.stringify(Object.keys(map).sort().map((k) => [k, map[k]]));
+}
+
+function randomExposureEntry(rng) {
+  const n = Math.floor(rng() * 4);
+  const events = Array.from({ length: n }, () => Math.floor(rng() * 1_000_000));
+  if (rng() < 0.3) return { cleared: Math.floor(rng() * 500_000), events, strikes: Math.floor(rng() * 2) };
+  return events;
+}
+
+function randomExposureMap(rng, keys) {
+  const map = {};
+  keys.forEach((key) => { if (rng() < 0.7) map[key] = randomExposureEntry(rng); });
+  return map;
+}
+
+// A small deterministic PRNG (mulberry32) rather than Math.random, so a
+// failure is reproducible from the seed alone.
+function mulberry32(seed) {
+  let a = seed;
+  return () => {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const exposureKeys = ['電:でん', '車:しゃ', 'word:大人'];
+let idempotentOk = true;
+let commutativeOk = true;
+for (let seed = 0; seed < 40; seed += 1) {
+  const rng = mulberry32(seed * 7919 + 1);
+  const a = randomExposureMap(rng, exposureKeys);
+  const b = randomExposureMap(rng, exposureKeys);
+  const ab = merge.mergeExposure(a, b);
+  const ba = merge.mergeExposure(b, a);
+  const abab = merge.mergeExposure(a, ab);
+  if (canonExposure(ab) !== canonExposure(ba)) commutativeOk = false;
+  if (canonExposure(ab) !== canonExposure(abab)) idempotentOk = false;
+}
+check('merging two exposure maps is commutative over generated pairs', commutativeOk);
+check('merging two exposure maps is idempotent over generated pairs', idempotentOk);
+
+// Two devices each independently cross the threshold before ever syncing —
+// real, distinct encounters, spread well outside the 60s dedup window (each
+// device's own encounters are a session apart, i.e. minutes at the very
+// least — 1_000_000ms steps here, so the dedup window meant to catch the
+// SAME encounter recorded on two devices can't also mistake a single
+// device's own separate sessions for duplicates). The merged count must be
+// the true union (5, not fewer from over-eager dedup and not more from a
+// doubling bug), and merging either original side back in again afterward
+// (simulating that device syncing a second time) must not move it.
+const key = '生:せい';
+const deviceA = { [key]: [1_000_000, 2_000_000] };
+const deviceB = { [key]: [20_000_000, 21_000_000] };
+const deviceC = { [key]: [40_000_000] };
+const abMerged = merge.mergeExposure(deviceA, deviceB);
+const abcMerged = merge.mergeExposure(abMerged, deviceC);
+check('a three-device union has exactly the real distinct encounters',
+  srs.exposureCount(abcMerged, key) === 5, JSON.stringify(abcMerged[key]));
+check('re-merging a device that already synced does not inflate the count',
+  canonExposure(merge.mergeExposure(abcMerged, deviceA)) === canonExposure({ [key]: abcMerged[key] })
+  && srs.exposureCount(merge.mergeExposure(abcMerged, deviceA), key) === 5);
+
+// Timestamps within the same minute are the same real encounter recorded
+// twice (once on each device before they synced), not two.
+const closeTogether = merge.mergeExposure({ [key]: [10_000] }, { [key]: [40_000] }); // 30s apart, in ms
+// (mergeExposure works in whatever unit addExposure was called with — the
+// app uses Date.now() ms; the dedup window is 60_000ms regardless of unit,
+// so express both timestamps in ms here to exercise it honestly.)
+check('two timestamps within the merge dedup window collapse to one encounter',
+  srs.exposureCount(closeTogether, key) === 1, JSON.stringify(closeTogether[key]));
+
+// Demotion (§5.3's "when exposure was not enough") clears the evidence and
+// stamps when — a device still holding the pre-demotion timestamps must not
+// resurrect the promotion when it eventually syncs back in.
+const exposure = {};
+[1_000, 2_000, 3_000, 4_000].forEach((t) => srs.addExposure(exposure, key, t));
+check('four distinct encounters promote a reading', srs.isExposurePromoted(exposure, key));
+srs.recordDemotionStrike(exposure, key, 10_000);
+const demoted = srs.recordDemotionStrike(exposure, key, 20_000);
+check('two unambiguous reveals demote a promoted reading', demoted && !srs.isExposurePromoted(exposure, key));
+
+const staleDevice = { [key]: [1_000, 2_000, 3_000, 4_000] }; // never saw the demotion
+const afterDemotionMerge = merge.mergeExposure(exposure, staleDevice);
+check('a demotion tombstone survives a merge against a device still holding the old timestamps',
+  !srs.isExposurePromoted(afterDemotionMerge, key), JSON.stringify(afterDemotionMerge[key]));
+
+// A genuinely NEW encounter after demotion still counts — the tombstone
+// suppresses only what came before it, not the reading's ability to re-earn
+// the hidden default from scratch.
+srs.addExposure(exposure, key, 25_000);
+check('a reading can accrue a fresh encounter after being demoted', srs.exposureCount(exposure, key) === 1);
 
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);

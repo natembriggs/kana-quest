@@ -252,6 +252,11 @@
     <!-- Kanji only: tappable readings (tap to see the word it's used in),
          meanings, and the word for whichever reading was last tapped. -->
     <div id="detail-readings" class="reading-chips" lang="ja" hidden></div>
+    <!-- Kanji only: the only visible evidence that vocab's passive exposure
+         tracking (vocab-plan.md §5.3) is doing anything — a reading chip
+         above gets a marker once it's been met often enough to hide its
+         furigana by default in words, and this line gives the raw count. -->
+    <p id="detail-exposure" class="hint" hidden></p>
     <div id="detail-meanings" class="kanji-meanings" hidden></div>
     <div id="detail-word" class="kanji-word" hidden></div>
 

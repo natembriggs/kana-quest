@@ -20,6 +20,8 @@ import {
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
   recomputeVocabRollup,
+  exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted,
+  addExposure, recordDemotionStrike,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -38,7 +40,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -476,6 +478,11 @@ function openProfile(profile) {
     profile.unstudy = profile.unstudy || {};
     store.saveProfile(profile);
   }
+  // No migration needed here, unlike study above — a profile predating this
+  // field legitimately has no exposures anywhere yet (vocab-plan.md §3.3),
+  // so it just starts as {} without being persisted until something is
+  // actually recorded into it.
+  if (profile.exposure === undefined) profile.exposure = {};
   renderHome();
   // Not awaited: opening a learner must never wait on the network. If this
   // brings anything in, it re-renders the home screen itself (autoSync).
@@ -1319,6 +1326,7 @@ function renderCharacterDetail() {
     $('detail-romaji').hidden = true;
     $('detail-readings').hidden = false;
     renderReadingChips($('detail-readings'), $('detail-word'), course, char, info);
+    renderExposureSummary(char, info);
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = info.meanings.join(', ');
     $('detail-word').hidden = true;
@@ -1329,6 +1337,7 @@ function renderCharacterDetail() {
     $('detail-romaji').textContent = romajiFor(char);
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
+    $('detail-exposure').hidden = true;
     $('detail-meanings').hidden = true;
     $('detail-word').hidden = true;
     $('detail-general-words').hidden = true;
@@ -1458,6 +1467,10 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     total: built.quiz.length,
     results: new Map(), // kana -> true/false (first attempt, THIS session only)
     carriedResults, // prior summary's full result set to merge with, or undefined
+    // Exposure keys already recorded THIS session (vocab-plan.md §5.3's
+    // "at most one per session per (kanji, reading)") — meeting 電車 five
+    // times in one sitting is one encounter with 電:でん, not five.
+    vocabExposed: new Set(),
     // "Unlearned kanji test": a correct first answer jumps straight to the
     // top box instead of climbing one at a time — see grade()'s `placement`
     // option in srs.js and recordResult()/recordYomiResult() below.
@@ -1583,15 +1596,30 @@ function renderLesson() {
  */
 function renderReadingChips(containerEl, wordEl, course, kanji, info) {
   containerEl.innerHTML = '';
+  const { exposure } = state.profile;
   info.quizReadings.forEach((reading) => {
     const chip = document.createElement('button');
     chip.type = 'button';
-    chip.className = 'reading-chip';
+    const exposed = isExposurePromoted(exposure, exposureKanjiKey(kanji, reading));
+    chip.className = `reading-chip${exposed ? ' is-exposed' : ''}`;
     chip.textContent = formatReading(info, reading);
     chip.dataset.reading = reading;
+    if (exposed) chip.title = 'Seen often enough in words to hide its furigana by default';
     chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip));
     containerEl.appendChild(chip);
   });
+}
+
+/** "seen 6x in words" (vocab-plan.md §5.3) — the total exposure count summed
+ * across every reading this kanji actually quizzes, shown only once there is
+ * something to show. The per-chip marker above says WHICH reading; this
+ * line is the one place the raw count is visible at all. */
+function renderExposureSummary(kanji, info) {
+  const { exposure } = state.profile;
+  const total = info.quizReadings.reduce((sum, reading) => sum + exposureCount(exposure, exposureKanjiKey(kanji, reading)), 0);
+  const el = $('detail-exposure');
+  el.hidden = total === 0;
+  if (total > 0) el.textContent = `Seen ${total}× in words`;
 }
 
 function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip) {
@@ -1832,6 +1860,18 @@ function isKanjiKnown(kanji) {
   return studyModes(state.profile.study, kanji).length > 0;
 }
 
+/** The exposure key a ruby position's reading accrues against — the
+ * build-time-validated `credits` (base reading, rendaku/gemination undone)
+ * when there is one, else the literal kana shown. Falling back to the raw
+ * kana rather than dropping the position entirely means a reading KANJIDIC
+ * doesn't recognise for this kanji (so it never made `quizReadings`, and
+ * `credits` is absent — vocab-plan.md §3.2) can still earn its own hidden
+ * default; it just never surfaces on the kanji detail screen's reading
+ * chips, which only ever iterate `quizReadings`. */
+function vocabExposureReading(rubyEntry) {
+  return rubyEntry[2] || rubyEntry[1];
+}
+
 /** Full furigana, always shown — the lesson (teaching) card's word display,
  * as opposed to updateVocabWordDisplay's quiz-time version, which hides
  * whatever the reveal ladder says to. Introducing a word is not testing it. */
@@ -1867,20 +1907,32 @@ function renderVocabWordGlyph(el, info) {
  *   romaji, same length as the kanji ladder but with no "known" gate.
  * - `whole` — a jukujikun word (build_vocab_data.py couldn't align it to
  *   per-kanji readings, e.g. 大人) — all-or-nothing: hidden only if EVERY
- *   kanji in it is known.
- * - `perchar` — the normal case: each kanji position hides independently.
+ *   kanji in it is known OR the word itself has earned the hidden default by
+ *   exposure (vocab-plan.md §5.3 — jukujikun words accrue against the whole
+ *   word, having no per-kanji reading to key on).
+ * - `perchar` — the normal case: each kanji position hides independently,
+ *   enrolled in any mode OR its specific (kanji, reading) pair promoted by
+ *   exposure — the two rules are an OR, per §5.3.
  */
 function vocabHiddenState(info) {
   if (!wordHasKanji(info.w)) {
     const isKatakana = [...info.w].some((ch) => ch >= 'ァ' && ch <= 'ヶ');
     return { mode: isKatakana ? 'katakana' : 'none' };
   }
+  const { exposure } = state.profile;
   if (!info.ruby) {
     const chars = [...info.w].filter(isKanjiChar);
-    return { mode: 'whole', hidden: chars.length > 0 && chars.every(isKanjiKnown) };
+    const known = chars.length > 0 && chars.every(isKanjiKnown);
+    const promoted = isExposurePromoted(exposure, exposureWordKey(info.w));
+    return { mode: 'whole', hidden: known || promoted };
   }
   const hidden = new Set();
-  info.ruby.forEach(([pos]) => { if (isKanjiKnown(info.w[pos])) hidden.add(pos); });
+  info.ruby.forEach((entry) => {
+    const pos = entry[0];
+    const known = isKanjiKnown(info.w[pos]);
+    const promoted = isExposurePromoted(exposure, exposureKanjiKey(info.w[pos], vocabExposureReading(entry)));
+    if (known || promoted) hidden.add(pos);
+  });
   // Showing SOME of a word's furigana narrows what the yomi follow-up can
   // fairly ask with, since every option then has to agree with what's on
   // screen (§5.4). For a hidden kanji with almost no plausible misreadings
@@ -1908,6 +1960,86 @@ function vocabHasHiddenReading(hiddenInfo) {
   if (hiddenInfo.mode === 'perchar') return hiddenInfo.hidden.size > 0;
   if (hiddenInfo.mode === 'whole') return hiddenInfo.hidden;
   return false;
+}
+
+/**
+ * Every exposure key this word's ruby can accrue against, with whether that
+ * key is CURRENTLY hidden on screen and whether it got there via exposure
+ * promotion specifically (as opposed to study enrollment, or the partial-
+ * furigana fallback in vocabHiddenState forcing everything hidden). Shared
+ * by recordVocabExposureOnShow and recordVocabExposureOnReveal below so the
+ * two can't drift on what counts as "this word's readings".
+ *
+ * Empty for `none`/`katakana` words — there is no kanji reading to earn a
+ * hidden default for either way.
+ */
+function vocabExposureTargets(info, hiddenInfo) {
+  const { exposure } = state.profile;
+  if (hiddenInfo.mode === 'whole') {
+    const key = exposureWordKey(info.w);
+    return [{ key, hidden: hiddenInfo.hidden, promoted: isExposurePromoted(exposure, key) }];
+  }
+  if (hiddenInfo.mode !== 'perchar') return [];
+  return info.ruby.map((entry) => {
+    const pos = entry[0];
+    const key = exposureKanjiKey(info.w[pos], vocabExposureReading(entry));
+    return { key, hidden: hiddenInfo.hidden.has(pos), promoted: isExposurePromoted(exposure, key) };
+  });
+}
+
+/**
+ * Called once when a Meaning question is first built (vocabRevealLevel 0):
+ * every reading NOT hidden is, by definition, being shown right now — the
+ * plain "ruby was shown" half of vocab-plan.md §5.3. A key already promoted
+ * is necessarily hidden at this point (promotion is one of the two things
+ * that can cause `hidden`), so there is nothing here that needs skipping for
+ * being frozen — that only comes up on a later reveal (see the "on reveal"
+ * counterpart below).
+ */
+function recordVocabExposureOnShow(info, hiddenInfo) {
+  const session = state.session;
+  const { exposure } = state.profile;
+  let changed = false;
+  vocabExposureTargets(info, hiddenInfo).forEach(({ key, hidden }) => {
+    if (hidden || session.vocabExposed.has(key)) return;
+    session.vocabExposed.add(key);
+    addExposure(exposure, key, Date.now());
+    changed = true;
+  });
+  if (changed) store.saveProfile(state.profile);
+}
+
+/**
+ * Called on the reveal-ladder's first tap (vocabRevealLevel 0 -> 1): every
+ * reading that WAS hidden just got shown, which is exactly as much an
+ * exposure as one shown by default ("A revealed ruby (the learner tapped)
+ * counts. They saw it; that is what an exposure is.") — UNLESS it is already
+ * promoted, in which case it is frozen (vocab-plan.md §5.3) and the reveal is
+ * evidence for the DIFFERENT mechanism instead: if this word had exactly one
+ * hidden reading and it was the promoted one, the reveal is unambiguously
+ * about it, and counts as a demotion strike ("when exposure was not
+ * enough"). A word with several hidden readings gives no way to tell which
+ * one the learner actually needed, so an ambiguous reveal does nothing here
+ * — it is already recorded against the word's own `vyomi` record instead.
+ */
+function recordVocabExposureOnReveal(info, hiddenInfo) {
+  const { exposure } = state.profile;
+  const targets = vocabExposureTargets(info, hiddenInfo);
+  const hiddenTargets = targets.filter((t) => t.hidden);
+  let changed = false;
+
+  if (hiddenTargets.length === 1 && hiddenTargets[0].promoted) {
+    recordDemotionStrike(exposure, hiddenTargets[0].key, Date.now());
+    changed = true;
+  }
+  const session = state.session;
+  hiddenTargets.forEach(({ key, promoted }) => {
+    if (promoted || session.vocabExposed.has(key)) return;
+    session.vocabExposed.add(key);
+    addExposure(exposure, key, Date.now());
+    changed = true;
+  });
+  if (changed) store.saveProfile(state.profile);
 }
 
 /** Repaints #quiz-kana and #quiz-prompt-hint for the current reveal level —
@@ -1983,6 +2115,9 @@ function clickVocabWord() {
     session.vocabRevealed = true;
     if (vocabHasHiddenReading(hiddenInfo)) {
       recordVocabYomi(session.queue[session.position], false);
+      const course = getAnyCourse(state.courseId);
+      const info = vocabInfo(course, session.queue[session.position]);
+      recordVocabExposureOnReveal(info, hiddenInfo);
     }
   }
   updateVocabWordDisplay();
@@ -2016,6 +2151,7 @@ function renderVocabMeaningQuestion(course, item) {
   session.vocabRevealLevel = 0;
   session.vocabRevealed = false;
   session.vocabHidden = vocabHiddenState(info);
+  recordVocabExposureOnShow(info, session.vocabHidden);
 
   $('quiz-ok').hidden = true;
   $('quiz-kanji-actions').hidden = true;

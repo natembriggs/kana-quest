@@ -9,7 +9,11 @@
 // (sync-plan.md §0.2) — always preferring the newer real edit over
 // whichever side happens to be the one receiving the merge.
 
-import { MAX_BOX, deriveStudyList, isLegacyStudyShape, migrateStudyShape } from './srs.js';
+import {
+  MAX_BOX, deriveStudyList, isLegacyStudyShape, migrateStudyShape, exposureInternals,
+} from './srs.js';
+
+const { exposureEvents, exposureCleared, exposureStrikes } = exposureInternals;
 
 function isObject(value) {
   return !!value && typeof value === 'object' && !Array.isArray(value);
@@ -216,6 +220,58 @@ function mergeIdentity(current, incoming, adoptIncoming) {
   return { name: current.name, emoji: current.emoji, profileUpdatedAt: currentTs || undefined };
 }
 
+// A one-minute window: two timestamps that close together are almost
+// certainly the same real encounter recorded on two devices before they ever
+// synced, not two separate ones. Sorted ascending first so the window is
+// measured against whichever timestamp is actually adjacent.
+const EXPOSURE_MERGE_WINDOW_MS = 60 * 1000;
+const EXPOSURE_KEEP = 8;
+
+function dedupeClose(timestamps) {
+  const sorted = [...timestamps].sort((a, b) => a - b);
+  const out = [];
+  sorted.forEach((t) => {
+    if (out.length === 0 || t - out[out.length - 1] > EXPOSURE_MERGE_WINDOW_MS) out.push(t);
+  });
+  return out;
+}
+
+/**
+ * Union two copies of one exposure key (vocab-plan.md §5.3/§8): timestamps
+ * from both sides, deduped within a minute of each other, dropped if older
+ * than either side's demotion tombstone, and capped to the newest
+ * EXPOSURE_KEEP. Idempotent and commutative by construction — union, dedupe
+ * and max all are — which is what stops a three-device household inflating
+ * its own exposure count just by syncing more than once.
+ *
+ * `strikes` (progress toward the NEXT demotion, since the last clear) is
+ * taken as the max of both sides rather than summed, for the same reason:
+ * two devices independently registering a strike is weaker evidence of two
+ * real, distinct unambiguous reveals than it looks, since both may be
+ * reporting on encounters close enough in time to be the same session's
+ * work echoing back after a sync. Undercounting a strike costs one more
+ * reveal before a wrongly-promoted reading is demoted; overcounting would
+ * demote a reading the learner never actually got wrong twice.
+ */
+function mergeExposureEntry(a, b) {
+  const cleared = Math.max(exposureCleared(a), exposureCleared(b));
+  const events = dedupeClose([...exposureEvents(a), ...exposureEvents(b)])
+    .filter((t) => t > cleared)
+    .slice(-EXPOSURE_KEEP);
+  const strikes = Math.max(exposureStrikes(a), exposureStrikes(b));
+  return (cleared || strikes) ? { cleared, events, strikes } : events;
+}
+
+/** Per-key union of both sides' exposure maps — see mergeExposureEntry. */
+export function mergeExposure(current, incoming) {
+  const keys = new Set([...Object.keys(current || {}), ...Object.keys(incoming || {})]);
+  const exposure = {};
+  keys.forEach((key) => {
+    exposure[key] = mergeExposureEntry((current || {})[key], (incoming || {})[key]);
+  });
+  return exposure;
+}
+
 /**
  * Merge one incoming profile into the current copy of the same profile
  * (matched by id by the caller — see importAll in store.js). Pure: no
@@ -229,6 +285,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const progress = mergeProgress(current, incoming);
   rebuildYomiRollups(progress);
   const { study, unstudy } = mergeStudy(current, incoming);
+  const exposure = mergeExposure(current.exposure, incoming.exposure);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -248,5 +305,6 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     progress,
     study,
     unstudy,
+    exposure,
   };
 }

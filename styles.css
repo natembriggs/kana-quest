@@ -985,6 +985,20 @@ h3 { font-size: 18px; }
 }
 .reading-chip:active { transform: scale(0.96); }
 .reading-chip.is-active { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+/* Marks a reading that vocab exposure (vocab-plan.md §5.3) has promoted to
+   "hidden by default in words" — a small dot rather than a colour change, so
+   it reads as a footnote and never competes with is-active above. */
+.reading-chip.is-exposed { position: relative; }
+.reading-chip.is-exposed::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+}
 
 .kanji-word { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .kanji-word .word-kanji {

@@ -49,7 +49,9 @@ function scriptedTransport(pulls = [], pushes = []) {
 }
 
 function profile(id, overrides = {}) {
-  return { id, name: 'Learner', emoji: '🌱', progress: {}, study: {}, unstudy: {}, settings: {}, ...overrides };
+  return {
+    id, name: 'Learner', emoji: '🌱', progress: {}, study: {}, unstudy: {}, exposure: {}, settings: {}, ...overrides,
+  };
 }
 
 function record(updatedAt, correct = true) {

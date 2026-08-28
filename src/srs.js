@@ -682,6 +682,112 @@ export function shuffle(array) {
   return out;
 }
 
+// --- Exposure: earning the hidden-furigana default by meeting a reading ---
+// (vocab-plan.md §5.3). This lives in srs.js rather than vocab.js because
+// stories (the next feature, §10) accrue against the same counter over a
+// different corpus.
+//
+// Per (kanji, reading), not per kanji — 生 met as せい in 先生/学生/生活/一生
+// says nothing about なま, so the key has to carry the reading. A jukujikun
+// word has no per-kanji reading to key on and accrues against the whole word
+// instead (`exposureWordKey`).
+//
+// An entry is EITHER a plain array of ascending timestamps (the common case —
+// see the shape in the plan's own example), or `{ cleared, events, strikes }`
+// once a demotion has ever touched this key: `cleared` is when the evidence
+// was wiped (so a merge with a device still holding pre-demotion timestamps
+// drops them — see mergeExposure in merge.js), `events` is the timestamp list
+// since then, and `strikes` counts unambiguous reveals since the last clear
+// (see recordDemotionStrike). Both shapes report through the same accessors
+// below so callers never have to branch on which one they were handed.
+
+export const EXPOSURE_THRESHOLD = 4;
+// Kept beyond the threshold, not exactly at it, so a later change to
+// EXPOSURE_THRESHOLD (or a sync round-trip between two devices that each
+// independently reached the threshold before ever syncing) has real evidence
+// to work with rather than history already thrown away.
+const EXPOSURE_KEEP = 8;
+// Two unambiguous reveals of an exposure-promoted reading demote it back to
+// "not yet earned" — see recordDemotionStrike.
+const DEMOTION_STRIKES = 2;
+
+export function exposureKanjiKey(kanji, reading) {
+  return `${kanji}:${reading}`;
+}
+
+export function exposureWordKey(word) {
+  return `word:${word}`;
+}
+
+function exposureEvents(entry) {
+  if (!entry) return [];
+  return Array.isArray(entry) ? entry : (Array.isArray(entry.events) ? entry.events : []);
+}
+
+function exposureCleared(entry) {
+  return entry && !Array.isArray(entry) && Number.isFinite(entry.cleared) ? entry.cleared : 0;
+}
+
+function exposureStrikes(entry) {
+  return entry && !Array.isArray(entry) && Number.isFinite(entry.strikes) ? entry.strikes : 0;
+}
+
+/** How many genuine encounters this key has on record since its last (if
+ * any) demotion. The array can hold up to EXPOSURE_KEEP, but in ordinary,
+ * single-device use it settles at EXPOSURE_THRESHOLD by construction — once
+ * a reading is promoted it is hidden by default, so nothing downstream keeps
+ * calling addExposure for it (see the caller-side gating in app.js). */
+export function exposureCount(exposure, key) {
+  const entry = (exposure || {})[key];
+  const cleared = exposureCleared(entry);
+  return exposureEvents(entry).filter((t) => t > cleared).length;
+}
+
+export function isExposurePromoted(exposure, key) {
+  return exposureCount(exposure, key) >= EXPOSURE_THRESHOLD;
+}
+
+/**
+ * Record one encounter with `key` — the ruby was actually shown, whether by
+ * default or because the learner tapped to reveal it (vocab-plan.md §5.3).
+ * The caller is responsible for the "at most one per session per key" rule
+ * (session.vocabExposed in app.js) and for not calling this once a reading
+ * is already promoted (isExposurePromoted) — that's what makes the count
+ * settle at the threshold rather than needing a cap here.
+ */
+export function addExposure(exposure, key, now = Date.now()) {
+  const entry = exposure[key];
+  const cleared = exposureCleared(entry);
+  const strikes = exposureStrikes(entry);
+  const events = [...exposureEvents(entry), now].filter((t) => t > cleared).sort((a, b) => a - b).slice(-EXPOSURE_KEEP);
+  exposure[key] = (cleared || strikes) ? { cleared, events, strikes } : events;
+  return exposure;
+}
+
+/**
+ * One unambiguous reveal of an exposure-promoted reading (vocab-plan.md
+ * §5.3's "when exposure was not enough") — the caller has already checked
+ * this was the ONLY hidden reading in the word, so the reveal can be blamed
+ * on it specifically. Two strikes clear the evidence (a tombstone, so a
+ * merge with a device still holding the old timestamps drops them — see
+ * mergeExposure) and the reading can re-earn the hidden default from
+ * scratch. Returns whether this call demoted it.
+ */
+export function recordDemotionStrike(exposure, key, now = Date.now()) {
+  const entry = exposure[key];
+  const strikes = exposureStrikes(entry) + 1;
+  if (strikes >= DEMOTION_STRIKES) {
+    exposure[key] = { cleared: now, events: [], strikes: 0 };
+    return true;
+  }
+  exposure[key] = { cleared: exposureCleared(entry), events: exposureEvents(entry), strikes };
+  return false;
+}
+
+// Exported for merge.js, which needs to read both shapes without duplicating
+// the branch above.
+export const exposureInternals = { exposureEvents, exposureCleared, exposureStrikes };
+
 // --- Vocabulary: two-stage records rolled into one schedulable card -------
 //
 // vocab-plan.md §4.2/§4.4: a Meaning question grades TWO things (vdef: did

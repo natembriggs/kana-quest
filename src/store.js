@@ -186,6 +186,12 @@ export function createProfile(name, emoji) {
     // see the module note above deriveStudyList in srs.js and
     // sync-plan.md §0.1 for why un-enrolling needs one.
     unstudy: {},
+    // (kanji, reading) or word -> timestamps a hidden reading was met
+    // (vocab-plan.md §5.3). Starts as {} for the same reason `study` and
+    // `unstudy` do: a profile saved before this field existed has none at
+    // all, which is what tells openProfile() there is nothing to migrate —
+    // only to start counting from here.
+    exposure: {},
   };
   return saveProfile(profile).then(() => profile);
 }
@@ -218,6 +224,7 @@ function validateBackup(data) {
       || typeof profile.name !== 'string' || !isObject(profile.progress)
       || (profile.settings !== undefined && !isObject(profile.settings))
       || (profile.study !== undefined && !isObject(profile.study))
+      || (profile.exposure !== undefined && !isObject(profile.exposure))
       || ids.has(profile.id)) {
       throw new Error('That backup contains an invalid learner profile.');
     }
