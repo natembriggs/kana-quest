@@ -25,10 +25,11 @@ const CHUNK_SIZE = 5; // matches kana/kanji — see vocab-plan.md §2.4
 
 const DEFINITION_OPTIONS = 4; // vocab-plan.md §5.1 — short English labels, same count as kanji Definition
 const YOMI_OPTIONS = 6; // vocab-plan.md §5.4 — short kana labels, same count as the kanji Yomi base view
-// Below this the yomi follow-up isn't worth asking: two options is a coin
-// flip and one is no question at all. Reached when the only kanji whose
-// reading is being tested has too few plausible misreadings to fill a
-// question that respects the visible furigana — see buildYomiChoices.
+// Below this a yomi question isn't worth asking: two options is a coin flip
+// and one is no question at all. Not a skip threshold — it's the test for
+// whether showing only SOME of a word's furigana can be asked about, and a
+// word that fails it has its furigana hidden entirely instead. See
+// partialFuriganaIsAskable.
 export const MIN_YOMI_OPTIONS = 3;
 
 const KANJI_RE = /[㐀-䶿一-鿿]/;
@@ -38,6 +39,12 @@ const KANJI_RE = /[㐀-䶿一-鿿]/;
  * straight to romaji (vocab-plan.md §5.2). */
 export function wordHasKanji(word) {
   return KANJI_RE.test(word);
+}
+
+/** How many kanji a surface form contains — used to prefer distractors of
+ * the same shape as the word being asked about (see buildYomiChoices). */
+function countKanji(word) {
+  return [...word].filter((ch) => KANJI_RE.test(ch)).length;
 }
 
 /** "C" for the Core group, else the numeral before the dot ("1" for "1.4").
@@ -241,6 +248,40 @@ function variesOnlyWhereHidden(correct, candidate, spans, hidden) {
 }
 
 /**
+ * The `mis` candidates usable against a given hidden set, and whether any
+ * furigana is on screen at all. Shared by buildYomiChoices and the display
+ * decision that precedes it, so the two can't drift apart.
+ *
+ * Whenever some furigana IS visible, every option has to agree with it:
+ * 質問 shown as 質[しつ]問 only genuinely asks how 問 is read, so an option
+ * like じつもん or ちもん is eliminated by a glance rather than by knowing
+ * anything, and a screenful of them turns a six-way question into a two-way
+ * one. So the pool drops to candidates that vary only where the learner
+ * can't see.
+ */
+function usablePool(info, hidden) {
+  const spans = hidden ? readingSpans(info) : null;
+  const anyVisible = spans ? [...spans.keys()].some((pos) => !hidden.has(pos)) : false;
+  const mis = info.mis || [];
+  if (!anyVisible) return { pool: mis, anyVisible };
+  const chars = [...info.r];
+  return { pool: mis.filter((m) => variesOnlyWhereHidden(chars, [...m], spans, hidden)), anyVisible };
+}
+
+/**
+ * Whether showing this word with only SOME of its furigana leaves enough
+ * agreeing distractors to ask a real yomi question with (§5.4). When it
+ * doesn't — 曜 in 月曜日 has no alternate reading worth offering, so hiding
+ * it alone yields one usable option — the caller hides the word's furigana
+ * entirely instead, which costs nothing (the learner can still tap to
+ * reveal) and puts every `mis` candidate, plus the cross-word top-up, back
+ * in play. Hiding more is always askable; hiding a little sometimes isn't.
+ */
+export function partialFuriganaIsAskable(info, hidden) {
+  return usablePool(info, hidden).pool.length >= MIN_YOMI_OPTIONS - 1;
+}
+
+/**
  * Options for the Meaning-mode yomi follow-up (§5.4): the word's own kana
  * reading plus up to 5 wrong ones, built at quiz time from `mis` (the
  * build-time-generated near-miss readings — see build_vocab_data.py's
@@ -251,36 +292,45 @@ function variesOnlyWhereHidden(correct, candidate, spans, hidden) {
  *
  * `hidden` is the reveal ladder's set of kanji positions whose furigana is
  * NOT on screen (null when the whole word's furigana is hidden, e.g. a
- * jukujikun word in `whole` mode). Whenever some furigana IS on screen, the
- * options must every one of them agree with it: 質問 shown as 質[しつ]問
- * only genuinely asks how 問 is read, so an option like じつもん or ちもん
- * is eliminated by a glance rather than by knowing anything, and a whole
- * screen of them turns a six-way question into a two-way one. So the pool
- * is filtered to candidates that vary only where the learner can't see, and
- * the cross-word top-up is skipped entirely — another word's reading has no
- * reason to match the visible furigana either. That can leave very few
- * options; the caller decides whether what's left is still worth asking.
+ * jukujikun word in `whole` mode) — see usablePool for what that does to
+ * the candidates. The cross-word top-up only runs when nothing is visible,
+ * both because another word's reading has no reason to match the furigana
+ * on screen and because, by the time a partly-shown word gets here,
+ * partialFuriganaIsAskable has already confirmed its own pool is deep
+ * enough not to need topping up.
  */
 export function buildYomiChoices(course, wordId, hidden = null) {
   const info = vocabInfo(course, wordId);
   const correct = info.r;
-  const spans = hidden ? readingSpans(info) : null;
-  const anyVisible = spans ? [...spans.keys()].some((pos) => !hidden.has(pos)) : false;
-
-  let pool = info.mis || [];
-  if (anyVisible) {
-    const chars = [...correct];
-    pool = pool.filter((m) => variesOnlyWhereHidden(chars, [...m], spans, hidden));
-  }
+  const { pool, anyVisible } = usablePool(info, hidden);
 
   const options = new Set([correct]);
   shuffle(pool).forEach((reading) => {
     if (options.size < YOMI_OPTIONS) options.add(reading);
   });
   if (!anyVisible && options.size < YOMI_OPTIONS) {
-    shuffle([...course.index.values()]).forEach((entry) => {
-      if (options.size < YOMI_OPTIONS && entry.id !== wordId) options.add(entry.r);
-    });
+    // §5.4's "close in length" fallback. With no furigana on screen any
+    // wrong reading is at least a fair option, but one of visibly the wrong
+    // shape — three kanji where the question shows two — is still answerable
+    // without reading it, so prefer the same kanji count first and a similar
+    // number of kana second. Shuffled before sorting, so equally-good
+    // candidates don't always come out in unit order.
+    const targetKanji = countKanji(info.w);
+    const targetLen = [...correct].length;
+    const nearness = (entry) => [
+      Math.abs(countKanji(entry.w) - targetKanji),
+      Math.abs([...entry.r].length - targetLen),
+    ];
+    shuffle([...course.index.values()])
+      .filter((entry) => entry.id !== wordId)
+      .sort((a, b) => {
+        const [ak, al] = nearness(a);
+        const [bk, bl] = nearness(b);
+        return (ak - bk) || (al - bl);
+      })
+      .forEach((entry) => {
+        if (options.size < YOMI_OPTIONS) options.add(entry.r);
+      });
   }
   return { options: shuffle([...options]), answer: correct };
 }

@@ -844,17 +844,32 @@ skipped whenever anything is visible: another word's reading has no reason
 to match the visible furigana either, and would be one more free
 elimination.
 
-**A question that can't be filled fairly isn't asked.** Filtering this way
-can leave very little — 曜 in 月曜日 has essentially no alternate reading to
-offer, so hiding it yields one distractor. Below three options total the
-yomi stage is skipped and the question simply ends after the definition,
-which is the honest outcome: a two-way guess measures nothing, and padding
-it back out to six is exactly the bug. Across the current data this skips
-about 21% of partially-revealed scenarios and asks the other 79%. If that
-ratio ever collapses, the fix is to enrich `mis` at build time — generating
-and capping it *per position* rather than shuffling one global pool of 8 —
-not to relax the filter. test/smoke.js guards both the invariant and the
-ratio.
+**A word that can't be asked about partially is shown with no furigana at
+all.** Filtering this way sometimes leaves very little — 曜 in 月曜日 has
+essentially no alternate reading to offer, so hiding 曜 alone yields one
+distractor. The fix is not to skip the question but to hide *more*: showing
+none of the word's furigana costs the learner nothing (the ladder still
+reveals it on a tap, at the usual price) and puts every `mis` candidate back
+in play, plus the cross-word top-up, so the question is a full six again.
+Hiding more is always askable; hiding a little sometimes isn't.
+
+That decision belongs to `vocabHiddenState`, at question-build time —
+*before* the word is drawn, since it decides what gets drawn — not to the
+yomi stage, which by then has no say in what the learner has already seen.
+Across the current data 79% of partially-known words keep their partial
+furigana and 21% are hidden outright.
+
+The cross-word top-up, when it runs, prefers other words with the **same
+kanji count** and then a similar number of kana. With no furigana on screen
+any wrong reading is at least fair, but one of visibly the wrong shape —
+three kanji offered against a two-kanji word — is still answerable without
+reading anything.
+
+If the 79% ever collapses, the fix is to enrich `mis` at build time —
+generating and capping it *per position* rather than shuffling one global
+pool of 8 — not to relax the filter. test/smoke.js guards the invariant
+(no option ever contradicts visible furigana) and the guarantee (every word
+ends up with one of the two displays it can be asked about).
 
 Getting it right or wrong grades `vyomi:` and ends the question either way —
 no second chance on the yomi stage, because the definition attempt already

@@ -10,8 +10,8 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
-  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices, MIN_YOMI_OPTIONS,
-  pronunciationFor,
+  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices,
+  partialFuriganaIsAskable, pronunciationFor,
 } from './vocab.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -1881,6 +1881,16 @@ function vocabHiddenState(info) {
   }
   const hidden = new Set();
   info.ruby.forEach(([pos]) => { if (isKanjiKnown(info.w[pos])) hidden.add(pos); });
+  // Showing SOME of a word's furigana narrows what the yomi follow-up can
+  // fairly ask with, since every option then has to agree with what's on
+  // screen (§5.4). For a hidden kanji with almost no plausible misreadings
+  // that leaves too few options to ask at all — so hide the word's furigana
+  // outright instead. Nothing is lost: the ladder still reveals it on a tap,
+  // and with nothing showing to contradict, every distractor is back in play.
+  const partial = hidden.size > 0 && hidden.size < info.ruby.length;
+  if (partial && !partialFuriganaIsAskable(info, hidden)) {
+    info.ruby.forEach(([pos]) => hidden.add(pos));
+  }
   return { mode: 'perchar', hidden };
 }
 
@@ -2066,28 +2076,21 @@ function chooseVocabMeaning(value, button) {
  * it was answered right, something was genuinely hidden, and the learner
  * never revealed it — otherwise the question is simply done.
  *
- * The choices are built HERE rather than in the render, because whether
- * there is a fair question to ask is itself part of the decision: on a word
- * showing some of its furigana the option pool is filtered down to readings
- * that agree with what's on screen (see buildYomiChoices), and a hidden
- * kanji with almost no plausible misreadings can leave too few to ask with.
- * Skipping is the honest outcome there — better than a question the learner
- * answers by elimination. */
+ * The options are constrained by whatever furigana stayed on screen (§5.4);
+ * vocabHiddenState already guaranteed back at question-build time that the
+ * display it chose leaves enough of them. */
 function proceedAfterVocabDefinition(course, item, correct) {
   const session = state.session;
   const qualifies = correct && !session.vocabRevealed && vocabHasHiddenReading(session.vocabHidden);
   if (qualifies) {
     const hiddenInfo = session.vocabHidden;
-    const choices = buildYomiChoices(
+    session.vocabStage = 'yomi';
+    renderVocabYomiStage(buildYomiChoices(
       course,
       item,
       hiddenInfo.mode === 'perchar' ? hiddenInfo.hidden : null,
-    );
-    if (choices.options.length >= MIN_YOMI_OPTIONS) {
-      session.vocabStage = 'yomi';
-      renderVocabYomiStage(choices);
-      return;
-    }
+    ));
+    return;
   }
   session.vocabStage = 'done';
   session.locked = true;

@@ -1474,20 +1474,37 @@ check('the mirror case filters on the other side',
 check('a word with nothing visible still gets a full set of options',
   vocab.buildYomiChoices(shitsumon, '質問', new Set([0, 1])).options.length === 6);
 
-// Exhaustive: for every multi-kanji word, hiding exactly one kanji must
-// never produce an option that drops a visible kanji's own kana.
+// A word whose hidden kanji has too few plausible misreadings is shown with
+// NO furigana rather than some, which puts the whole pool back in play —
+// 曜's only alternate readings are its own, so 月曜日 with just 曜 hidden
+// can't be asked about, but with everything hidden it can.
+const getsuyoubi = vocab.VOCAB_COURSES.find((c) => c.index.has('月曜日'));
+const getsuInfo = getsuyoubi && getsuyoubi.index.get('月曜日');
+check('a thin partial reveal is rejected', getsuInfo
+  && !vocab.partialFuriganaIsAskable(getsuInfo, new Set([1])));
+check('hiding the whole word is always askable', getsuInfo
+  && vocab.partialFuriganaIsAskable(getsuInfo, new Set([0, 1, 2])));
+
+// Exhaustive, over exactly the two displays the app can choose between for
+// each word: no option may ever drop a visible kanji's own kana, and every
+// word must end up with one display or the other that can be asked with.
 let contradictions = 0;
-let askable = 0;
+let unaskable = 0;
 let scenarios = 0;
 for (const course of vocab.VOCAB_COURSES) {
   for (const info of course.index.values()) {
     if (!info.ruby || info.ruby.length < 2) continue;
+    const all = new Set(info.ruby.map(([p]) => p));
     for (const [pos] of info.ruby) {
       scenarios += 1;
-      const { options } = vocab.buildYomiChoices(course, info.id, new Set([pos]));
-      if (options.length >= vocab.MIN_YOMI_OPTIONS) askable += 1;
+      // What vocabHiddenState would settle on for a learner who knows only
+      // this one kanji: the partial reveal if it's askable, else the lot.
+      const one = new Set([pos]);
+      const hidden = vocab.partialFuriganaIsAskable(info, one) ? one : all;
+      const { options } = vocab.buildYomiChoices(course, info.id, hidden);
+      if (options.length < vocab.MIN_YOMI_OPTIONS) unaskable += 1;
       for (const [other, kana] of info.ruby) {
-        if (other === pos) continue;
+        if (hidden.has(other)) continue; // hidden — the options may vary it
         if (options.some((o) => !o.includes(kana))) contradictions += 1;
       }
     }
@@ -1495,12 +1512,8 @@ for (const course of vocab.VOCAB_COURSES) {
 }
 check('no partially-revealed word offers an option its visible furigana rules out',
   contradictions === 0, `${contradictions} of ${scenarios} scenarios`);
-// Not a behaviour requirement so much as a canary: the filter only works
-// because most hidden kanji still have enough plausible misreadings to fill
-// a question. If this collapses, the follow-up has quietly stopped being
-// asked and the option pool needs enriching at build time instead.
-check('most partially-revealed words can still be asked', askable / scenarios > 0.7,
-  `${askable}/${scenarios}`);
+check('every word ends up with a display it can be asked about',
+  unaskable === 0, `${unaskable} of ${scenarios} scenarios`);
 
 done('vocab yomi options never contradict the furigana on screen');
 
