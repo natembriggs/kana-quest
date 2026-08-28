@@ -205,7 +205,12 @@ def parse_jmdict():
         glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
         if not glosses:
             continue
-        uk = ("<misc>&uk;</misc>" in e) or keb is None
+        # Scoped to the FIRST sense, not the whole entry: 行く's primary
+        # sense ("to go") is written in kanji, but its entry also has a late
+        # auxiliary/slang sense ("to continue ...", "to have an orgasm")
+        # that IS tagged uk — matching anywhere in `e` picked that up and
+        # wrongly hid 行く's kanji spelling entirely.
+        uk = ("<misc>&uk;</misc>" in fs) or keb is None
         rank = priority_rank(e)
         # uk ("usually written in kana"): per vocab-plan.md §3.3, these words
         # are shown BY their kana form regardless of whether a kanji spelling
@@ -266,7 +271,7 @@ def find_entry(entry_index, keb=None, reb=None):
     fs = first_sense_m.group(0) if first_sense_m else e
     pos_tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", fs)]
     glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
-    uk = ("<misc>&uk;</misc>" in e) or keb is None
+    uk = ("<misc>&uk;</misc>" in fs) or keb is None  # first sense only — see parse_jmdict's note on 行く
     reading = kata_to_hira(rebs_all[0])
     return {
         "surface": reading if uk else keb, "keb": None if uk else keb, "reading": reading,
