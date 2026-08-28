@@ -335,6 +335,19 @@ h3 { font-size: 18px; }
   color: var(--accent);
 }
 
+/* Vocabulary only: how a word is actually SAID, when that differs from its
+   literal romaji spelling (こんばんは "konbanha" vs said "konbanwa"; a long
+   vowel needing a macron, とう -> "tō"). Deliberately smaller and quieter
+   than .romaji, which is still the primary, always-correct answer to "how
+   is this spelled in romaji" — this is a secondary note, not a correction.
+   See pronunciationFor() in vocab.js. */
+.pronunciation {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: -6px;
+}
+
 /* --- Structure ---------------------------------------------------------- */
 
 .brand { display: flex; align-items: center; gap: 12px; justify-content: center; }

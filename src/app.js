@@ -10,7 +10,7 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
-  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices,
+  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices, pronunciationFor,
 } from './vocab.js';
 import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
@@ -37,7 +37,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1501,6 +1501,8 @@ function renderLesson() {
   $('lesson-counter').textContent = `${session.lessonIndex + 1}/${session.lesson.length}`;
   $('lesson-next').textContent = session.lessonIndex === session.lesson.length - 1 ? 'Start quiz' : 'Next';
 
+  $('lesson-pronunciation').hidden = true;
+
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, item);
     $('lesson-kana').className = 'glyph glyph-xl';
@@ -1527,6 +1529,12 @@ function renderLesson() {
     renderVocabWordGlyph($('lesson-kana'), info);
     $('lesson-romaji').hidden = false;
     $('lesson-romaji').textContent = toRomaji(info.r);
+    // Only shown when it genuinely differs from the romaji above — see
+    // pronunciationFor()'s module note in vocab.js (こんばんは vs "konbanha",
+    // long vowels needing a macron rather than a doubled letter).
+    const pronunciation = pronunciationFor(info.r);
+    $('lesson-pronunciation').hidden = !pronunciation;
+    $('lesson-pronunciation').textContent = pronunciation ? `said: ${pronunciation}` : '';
     $('lesson-readings').hidden = true;
     $('lesson-readings').innerHTML = '';
     $('lesson-meanings').hidden = false;
@@ -1651,6 +1659,7 @@ function renderQuestion() {
   $('quiz-kana').className = `glyph ${course.kind === 'vocab' ? 'glyph-vocab' : 'glyph-xl'}`;
   $('quiz-kana').textContent = item;
   $('quiz-prompt-hint').hidden = true;
+  $('quiz-prompt-pronunciation').hidden = true;
   $('quiz-feedback').textContent = '';
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
@@ -1923,8 +1932,18 @@ function updateVocabWordDisplay() {
 
   const romajiLevel = hiddenInfo.mode === 'none' ? 1 : 2;
   const hint = $('quiz-prompt-hint');
+  const pronunciation = $('quiz-prompt-pronunciation');
   hint.hidden = level < romajiLevel;
-  if (!hint.hidden) hint.textContent = toRomaji(info.r);
+  if (!hint.hidden) {
+    hint.textContent = toRomaji(info.r);
+    // Only shown when it genuinely differs — see pronunciationFor()'s module
+    // note in vocab.js.
+    const said = pronunciationFor(info.r);
+    pronunciation.hidden = !said;
+    pronunciation.textContent = said ? `said: ${said}` : '';
+  } else {
+    pronunciation.hidden = true;
+  }
 
   el.classList.toggle('vocab-word-tap', level < vocabMaxRevealLevel(hiddenInfo));
 }

@@ -19,6 +19,8 @@
 
 import { VOCAB_UNITS, VOCAB_GROUP_LABELS, VOCAB_UNIT_LABELS } from './data/vocab-manifest.js';
 
+const { toRomaji } = window.wanakana;
+
 const CHUNK_SIZE = 5; // matches kana/kanji — see vocab-plan.md §2.4
 
 const DEFINITION_OPTIONS = 4; // vocab-plan.md §5.1 — short English labels, same count as kanji Definition
@@ -209,4 +211,105 @@ export function buildYomiChoices(course, wordId) {
     });
   }
   return { options: shuffle([...options]), answer: correct };
+}
+
+// --- Pronunciation: romaji's literal-per-kana spelling can mislead ---------
+//
+// The app's ordinary romaji (wanakana's toRomaji, used everywhere — kana
+// quizzes, writing prompts, the reveal ladder's own romaji rung) is a
+// SPELLING system: は is always "ha", づ is always "du", a long vowel is two
+// separate letters. That is deliberate and must stay exactly as it is
+// everywhere else — the kana quiz literally grades typing "ha" for は. But
+// used as a "how do I SAY this" hint on a whole word, it is sometimes wrong
+// in a way a beginner has no way to catch themselves:
+//
+// - こんばんは spells with は but is SAID "konbanwa" — は as a fossilised
+//   topic particle (今晩は, "as for tonight...") is pronounced わ, same as
+//   the grammatical particle は always is. This can't be derived from the
+//   kana alone (づ、ば etc are always literal); it is a closed, small set of
+//   known words, kept in PRONUNCIATION_OVERRIDES below rather than guessed.
+// - とう/こう/おおきい etc are said with a genuinely long vowel, which
+//   standard romaji spells as two letters ("tou", "ookii") rather than a
+//   macron ("tō", "ōkii"). This one IS derivable from the kana, mora by
+//   mora — see mergesLongVowel below.
+//
+// pronunciationFor() is used ONLY for the vocab hint shown once a learner
+// has tapped past furigana to romaji (vocab-plan.md §5.2) — never for
+// anything graded, and never as a replacement for the literal romaji
+// elsewhere, which teaches the (entirely real, entirely necessary) spelling
+// convention instead.
+
+// A handful of words whose reading is written with は/へ/を functioning as a
+// fossilised grammatical particle, pronounced わ/え/お rather than literally.
+// Add to this as new words surface it — there is no way to detect it from
+// the kana alone (べつ, 母 etc all read は literally, correctly).
+const PRONUNCIATION_OVERRIDES = {
+  こんにちは: 'こんにちわ',
+  こんばんは: 'こんばんわ',
+};
+
+// Every hiragana character's own vowel sound, small combining kana
+// (きゃ/きゅ/きょ and the katakana-loanword ぁぃぅぇぉ) included — needed to
+// track which vowel a long-vowel mark (or an おう-type sequence) is actually
+// extending. ん and っ carry no vowel of their own (absent below), which is
+// exactly right: neither can ever be immediately followed by a genuine long
+// vowel mark in real Japanese, so the gap never needs special-casing.
+const VOWEL_GROUPS = {
+  a: 'あかがさざただなはばぱまやらわゃぁ',
+  i: 'いきぎしじちぢにひびぴみりゐぃ',
+  u: 'うくぐすずつづぬふぶぷむゆるゅぅ',
+  e: 'えけげせぜてでねへべぺめれゑぇ',
+  o: 'おこごそぞとどのほぼぽもよろをょぉ',
+};
+const VOWEL_OF = {};
+Object.entries(VOWEL_GROUPS).forEach(([vowel, chars]) => {
+  [...chars].forEach((ch) => { VOWEL_OF[ch] = vowel; });
+});
+const MACRON = { a: 'ā', i: 'ī', u: 'ū', e: 'ē', o: 'ō' };
+
+/**
+ * Whether `ch`, coming right after a mora whose vowel was `prevVowel`,
+ * lengthens it into a macron. Deliberately narrower than every vowel
+ * sequence that COULD be pronounced long: い+い (いい) and え+い (せんせい)
+ * are left as plain "ii"/"ei" because that is how virtually every
+ * romanization convention actually renders them, and a macron there would
+ * read as unfamiliar rather than helpful to anyone who has seen romaji
+ * before. お+う and お+お (both genuinely common — とう, おおきい) and う+う,
+ * あ+あ, え+え are merged, and the katakana prolonged-sound mark ー always
+ * lengthens whatever vowel precedes it (コーヒー).
+ */
+function mergesLongVowel(prevVowel, ch) {
+  if (ch === 'ー') return prevVowel !== null;
+  if (ch === 'う') return prevVowel === 'u' || prevVowel === 'o';
+  if (ch === 'あ') return prevVowel === 'a';
+  if (ch === 'え') return prevVowel === 'e';
+  if (ch === 'お') return prevVowel === 'o';
+  // い deliberately never merges (いい, せんせい's えい both stay as two
+  // plain letters) — see the docstring above.
+  return false;
+}
+
+/** A pronunciation hint for a hiragana reading — see the module note above.
+ * Returns null when it would be IDENTICAL to the plain romaji, so the
+ * caller can skip showing a redundant second line. */
+export function pronunciationFor(reading) {
+  const plain = toRomaji(reading);
+  const kana = PRONUNCIATION_OVERRIDES[reading] || reading;
+
+  let out = '';
+  let segmentStart = 0;
+  let lastVowel = null;
+  for (let i = 0; i < kana.length; i += 1) {
+    const ch = kana[i];
+    if (mergesLongVowel(lastVowel, ch)) {
+      const segment = toRomaji(kana.slice(segmentStart, i));
+      out += segment ? segment.slice(0, -1) + MACRON[lastVowel] : MACRON[lastVowel];
+      segmentStart = i + 1;
+      continue;
+    }
+    lastVowel = VOWEL_OF[ch] || null;
+  }
+  out += toRomaji(kana.slice(segmentStart));
+
+  return out === plain ? null : out;
 }

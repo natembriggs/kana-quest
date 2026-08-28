@@ -271,6 +271,11 @@
     <div class="teach-card">
       <div id="lesson-kana" class="glyph glyph-xl" lang="ja"></div>
       <div id="lesson-romaji" class="romaji"></div>
+      <!-- Vocabulary only, and only when it actually differs from the literal
+           romaji above (こんばんは reads "konbanha" letter for letter, but is
+           said "konbanwa"; long vowels get a macron: とう -> "tō" not "tou").
+           See pronunciationFor() in vocab.js. -->
+      <p id="lesson-pronunciation" class="pronunciation" hidden></p>
       <!-- Writing mode only: the stroke order animated once. See renderLesson(). -->
       <div id="lesson-stroke-wrap" class="detail-stroke-wrap" hidden>
         <div id="lesson-stroke"></div>
@@ -409,6 +414,9 @@
            past furigana/hiragana — see vocab-plan.md §5.2 and clickVocabWord()
            in app.js. Unused (stays hidden) by every other mode. -->
       <p id="quiz-prompt-hint" class="romaji" hidden></p>
+      <!-- Only shown when it actually differs from the romaji above — see
+           pronunciationFor() in vocab.js. -->
+      <p id="quiz-prompt-pronunciation" class="pronunciation" hidden></p>
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 
