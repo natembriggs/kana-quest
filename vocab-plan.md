@@ -8,6 +8,11 @@ A level — because that is who is using the app, with the grouping axis built
 so that JLPT levels, raw frequency, or a bare thematic list can be added later
 without re-cutting the data.
 
+It is also the app's first piece of **passive** learning: §5.3 lets a reading
+earn its way to "no furigana by default" just by having been met often enough,
+with no enrolment and no quiz, and §4.5 feeds correctly-read words back into
+the kanji course's own reading records. Both work for stories too.
+
 The next feature after this one is **stories** — short graded episodes with
 the same tap-for-furigana, tap-again-for-romaji, tap-for-definition
 interaction. §10 lists the things this plan deliberately builds in a way
@@ -39,6 +44,29 @@ this plan does **not** do is fold them into one "do you know this word"
 score — that is the same mistake the kanji reading quiz already avoids by
 grading per reading rather than per kanji (see *Per-reading spaced
 repetition* in the README).
+
+### 1.1 The second reason this exists
+
+Teaching words is the obvious purpose. The other one shapes half the decisions
+below and should be stated up front:
+
+**Vocabulary is meant to be a second, gentler route into the most common
+readings.** The kanji Yomi course grades per reading and asks for a kanji's
+whole reading list; a learner who knows plenty of common yomi can still be
+stalled early in it by uncommon ones, which is a bad trade — the common
+readings are the ones that pay. Meeting でん inside 電車, 電話 and 電気,
+because those are words you wanted anyway, is how that reading gets learned
+outside an app, and there is no reason the app should be worse at it.
+
+Three parts of this plan follow from that and only from that:
+
+- Furigana defaults to **hidden** wherever the learner has any claim at all on
+  the kanji (§5.2) — a tap is cheap, a missed chance to recall is not.
+- Readings can earn that hidden default purely by **being met often enough**,
+  with no enrolment and no quiz (§5.3).
+- A word's reading, answered correctly, **credits the constituent kanji's own
+  reading records** (§4.5), so the kanji course advances as a by-product of
+  vocabulary work.
 
 Out of scope for now, listed so the data model does not accidentally
 foreclose them: writing a whole word by hand (writing mode is per-character
@@ -213,12 +241,13 @@ totals come from the specification, not from this document — see §3.5.
   w:  '電車',                          // surface form, as normally written
   r:  'でんしゃ',                       // reading, kana
   en: ['train', 'electric train'],     // glosses, [0] is the quiz answer label
-  ruby: [[0, 'でん'], [1, 'しゃ']],     // per-kanji alignment, or null (§3.2)
-  pos: 'n',                            // noun / verb-godan / adj-i / … (§5.4)
+  ruby: [[0, 'でん', 'でん'], [1, 'しゃ', 'シャ']],  // per-kanji alignment + the
+                                       // kanji reading it credits, or null (§3.2, §4.5)
+  pos: 'n',                            // noun / verb-godan / adj-i / … (§5.5)
   uk: false,                           // "usually written in kana" (§3.3)
   lv: 'f',                             // f | h | a
   th: '2.4',                           // theme/unit slug
-  mis: ['でんぐるま', 'てんしゃ', …],    // wrong readings, for the yomi stage (§5.3)
+  mis: ['でんぐるま', 'てんしゃ', …],    // wrong readings, for the yomi stage (§5.4)
   sp:  ['汽車', '電話', '客車', …],      // wrong spellings, for the spelling stage (§6.3)
 }
 ```
@@ -239,7 +268,18 @@ that and loads fine.
 ### 3.2 Furigana has to be per-kanji
 
 `ruby` maps each kanji **position** in the surface form to the kana it
-contributes. 電車 → `[[0,'でん'],[1,'しゃ']]`; 食べる → `[[0,'た']]`.
+contributes, plus the kanji reading that kana should be *credited to* (§4.5).
+電車 → `[[0,'でん','でん'],[1,'しゃ','シャ']]`; 食べる → `[[0,'た','た.べる']]`.
+
+The third element is not redundant with the second. What is *displayed* as
+ruby is the kana actually appearing in this word — が in 学校 would surface as
+が — while what gets *credited* is the kanji's own base reading in KANJIDIC's
+notation, with rendaku and gemination undone and okurigana restored. The build
+script's `credited_reading()` already computes exactly this, and emitting it
+here is what lets a correct answer credit a kanji reading at runtime with no
+lookup, no lazy load, and no chance of the runtime deriving it differently
+from the way the kanji course did. The element is absent where no reading can
+be credited (§4.5 safeguard 4).
 
 This is not a nicety. Two features depend on it:
 
@@ -292,6 +332,19 @@ this ships, because both parse progress keys generically:
   `study['食べる'].vdef`, which is harmless (and arguably right), but it only
   runs on profiles predating study lists entirely. Assert the behaviour in a
   test rather than reasoning about it twice.
+
+`createProfile()` in `store.js` gains `exposure: {}` alongside `study: {}` and
+`unstudy: {}`, and for the same reason those two start as `{}` rather than
+undefined: a missing field is the trigger for a migration, so a brand-new
+profile must not look like an un-migrated one. Profiles saved before this
+feature legitimately have no field, and read as "no exposures anywhere", which
+is correct — there is nothing to migrate, only to start counting.
+
+**Exposure keys** (§5.3) are a third namespace: `電:でん` for a (kanji,
+reading) pair and `word:大人` for a jukujikun word. They live in their own
+`exposure` map, not in `progress`, so they cannot collide with either — and
+must not be moved into `progress` later, because they merge by a completely
+different rule (§8).
 
 `uk` (JMdict's "word usually written in kana" tag) marks entries like ある,
 きれい, たくさん where a kanji spelling exists but nobody uses it. Those words
@@ -396,7 +449,7 @@ Behind them sit **four** record streams, because a question has stages:
 | Key prefix | Graded by | What it means |
 | --- | --- | --- |
 | `vdef:` | Meaning, stage 1 | I know what this word means |
-| `vyomi:` | Meaning, stage 2 (or the reveal, §5.2) | I know how it is read |
+| `vyomi:` | Meaning, stage 2 (or the reveal, §5.4) | I know how it is read |
 | `vprod:` | Recall, stage 1 | I can produce it from English |
 | `vspell:` | Recall, stage 2 | I know which kanji it's written with |
 
@@ -454,6 +507,54 @@ function in `srs.js` that both kanji and vocab call.
 
 The same applies to Meaning: its card is the rollup of `vdef:` and `vyomi:`.
 
+### 4.5 A correct word reading credits the kanji it is made of
+
+This is the mechanism behind §1.1, and it is small: **when the learner reads
+電車 correctly as でんしゃ, write a correct answer to `recognition:電:でん` and
+`recognition:車:しゃ`** — the kanji Yomi mode's own per-reading records, via
+the existing `gradeYomi()` and `recomputeKanjiRollup()`.
+
+Everything needed is already there. `ruby` (§3.2) says which reading each kanji
+contributed; `yomiKey(mode, kanji, reading)` is the existing key shape;
+`quizReadings` on the kanji entry is the list of readings that mode considers
+real. Nothing new is invented — vocabulary simply becomes a second thing that
+can grade a kanji reading.
+
+Five safeguards, each closing a way this could write something false:
+
+1. **Correct answers only.** A missed word reading does not localise blame —
+   でんぐるま tells you the learner failed, not which of the two kanji they
+   failed on. Never credit a miss. The asymmetry is deliberate: this mechanism
+   can only ever help a kanji's record, never hurt it.
+2. **Only when the furigana was hidden and never revealed.** Otherwise the
+   learner read the reading off the screen, and crediting it would be
+   crediting the app.
+3. **Only when `ruby` is non-null.** A jukujikun word (大人) has no per-kanji
+   reading to credit, so it credits nothing.
+4. **Only readings in that kanji's `quizReadings`.** These are KANJIDIC-
+   attested *and* backed by a real example word. The build script's
+   `credited_reading()` already maps rendaku and gemination back to the base
+   reading, and already rejects readings a kanji does not genuinely have — it
+   is what stops お父さん crediting 父 with とう. Reuse it rather than
+   re-deriving the rule at runtime: ship the credit target on the `ruby` entry
+   itself, so a runtime credit is a lookup and not a decision.
+5. **Crediting does not enrol.** Writing `recognition:電:でん` gives 電 a
+   record; it does not put 電 into a kanji session, because `eligibleItems()`
+   gates on the study list, not on having a record. That distinction is the
+   whole point of `kanji-expansion-plan.md` §1.1 and this must not blur it.
+   What it does mean is that a learner who *later* enrols 電 finds it already
+   part-known rather than starting from zero, which is exactly right.
+
+**Cost:** crediting needs the kanji's grade data loaded to check
+`quizReadings`. Point 4's "ship the credit target at build time" removes that
+— the runtime reads `ruby[i].credits` and writes, with no lazy load and no
+`await` in the middle of grading a question.
+
+**Open sub-decision (§11):** whether a reading crossing the exposure threshold
+(§5.3) should *also* credit, at lower weight, or whether only answered
+questions count. The conservative answer — exposure changes what is displayed,
+answers change records — is the one assumed everywhere else in this document.
+
 ---
 
 ## 5. Japanese → English (the Meaning mode)
@@ -468,22 +569,32 @@ The same applies to Meaning: its card is the rollup of `vdef:` and `vyomi:`.
      │    train     │  │   bicycle    │
      ├──────────────┤  ├──────────────┤
      │   station    │  │   airport    │
-     ├──────────────┤  ├──────────────┤
-     │    ticket    │  │    subway    │
      └──────────────┘  └──────────────┘
 ```
 
-**Six** English options, two columns × three rows. Kanji Definition mode uses
-four for a good reason — English glosses are long and ten would not stay
-readable — so six is only safe with a hard cap on gloss length. Enforce it at
-build time: the answer label is `en[0]`, truncated to ~24 characters, and a
-word whose shortest usable gloss is longer than that gets its gloss shortened
-by hand in the seed file rather than wrapping to three lines on a phone.
+**Four** English options, two columns × two rows — the same count and the same
+layout kanji Definition mode already uses, for the same reason: English glosses
+are long, and six of them is exactly the "does it fit on a small phone" gamble
+the last three commits in this repo were all spent losing.
 
-This has to be checked on an actual small phone before the option count is
-settled. The last three commits in this repo are all about things not fitting
-on one; six long options is exactly that risk again. If it doesn't fit, drop
-to four and say so here.
+**The option count follows the label length, not a house style.** Short labels
+can afford more options, and more options mean a lower chance of guessing
+right:
+
+| Question | Labels | Options |
+| --- | --- | --- |
+| Meaning, stage 1 (§5.1) | English glosses | **4** |
+| Meaning, stage 2 — the yomi stage (§5.4) | kana readings | 6 |
+| Recall, stage 1 (§6.1) | kana words | 6 |
+| Recall, stage 2 — the spelling stage (§6.2) | kanji words | 6 |
+
+That is the rule the existing app already follows without having written it
+down — kana Reading offers ten romaji, kanji Definition offers four glosses.
+
+Gloss length still needs a hard cap even at four. Enforce it at build time:
+the answer label is `en[0]`, truncated to ~24 characters, and a word whose
+shortest usable gloss is longer than that gets shortened by hand in the seed
+file rather than wrapping to three lines on a phone.
 
 ### 5.2 The reveal ladder
 
@@ -496,7 +607,7 @@ plus one line of hint text on the first question of a session.
 
 | Tap | Shows |
 | --- | --- |
-| — | 電車 — furigana hidden over every kanji that is on the study list |
+| — | 電車 — furigana hidden over every kanji the learner has any claim on (§5.2, §5.3) |
 | 1 | でんしゃ as ruby over the kanji |
 | 2 | `densha` underneath |
 
@@ -510,14 +621,138 @@ plus one line of hint text on the first question of a session.
 
 **A hiragana word:** one tap, straight to romaji.
 
-Which kanji count as "on the study list" — and therefore get their furigana
-hidden — is enrollment in **Yomi (`recognition`) mode specifically**, not any
-mode. A learner studying 電 only for its meaning has never been asked to
-produce でん and shouldn't have it withheld. This is one constant
-(`FURIGANA_HIDDEN_WHEN_STUDIED_IN = 'recognition'`) so it is a one-line change
-if it turns out to feel wrong in practice. **Open question — see §11.**
+**Furigana is hidden over any kanji on the study list in _any_ mode** —
+Definition, Yomi or Writing. Not Yomi alone.
 
-### 5.3 What a reveal costs, and the yomi stage
+The reasoning is worth writing down, because the narrower rule looks more
+careful and is wrong. Studying a kanji for its *meaning* still means you have
+some claim on it, and the app's Yomi mode is deliberately strict — it grades
+per reading, so a learner who knows plenty of common yomi can still be stalled
+early in that course by uncommon ones. Gating furigana on Yomi enrolment would
+therefore hand the reading to precisely the learner with the best chance of
+producing it.
+
+The governing principle, which §5.3 then extends:
+
+> **Default to hidden wherever there is any reasonable chance the learner
+> would want to think of it themselves.** Furigana is always one tap away, so
+> the cost of hiding it wrongly is one tap; the cost of showing it wrongly is a
+> chance to recall that never happened.
+
+This is also what makes the vocabulary section an *alternative route into the
+common readings* rather than a parallel course: you meet a reading in the
+handful of words you actually care about, instead of grinding a kanji's whole
+reading list in order. §4.5 is the other half of that — those encounters
+feeding the kanji's own reading records.
+
+### 5.3 Earning the hidden default by exposure
+
+The study list is not the only way a reading should stop being handed over.
+Some readings are learned by *meeting them*, repeatedly, in words — no
+enrolment, no quiz, just having seen 電 sitting over でん often enough to have
+a decent stab at it. That is how most reading knowledge is actually acquired,
+and nothing in the app currently makes room for it.
+
+So there is a second rule alongside enrolment:
+
+> **A reading whose furigana you have been shown four times is hidden by
+> default from then on.**
+
+The two rules are an OR. A kanji's ruby is hidden in a word if it is enrolled
+in any mode **or** it has crossed the exposure threshold.
+
+#### What counts as an exposure
+
+Per **(kanji, reading)**, not per kanji. 生 met four times as せい in 先生,
+学生, 生活, 一生 says nothing about なま, and hiding the ruby on 生ビール on
+that basis is exactly the unfair withholding §5.2's principle is not asking
+for. The `ruby` alignment (§3.2) already records which reading each kanji
+contributed, so keying this precisely costs nothing extra.
+
+Rules:
+
+- Only accrues where a **single word is displayed with its ruby visible**: the
+  Meaning-mode prompt, and later a story's running text. Not the Recall stages,
+  where kanji flash past six-at-a-time as answer options.
+- Only while the ruby was **actually shown**. Once a reading crosses the
+  threshold and goes hidden it stops accruing — the counter freezes at four by
+  construction, which is correct behaviour and not a bug to fix.
+- A **revealed** ruby (the learner tapped) counts. They saw it; that is what an
+  exposure is.
+- **At most one per session per (kanji, reading).** Meeting 電車 five times in
+  one sitting is one encounter with 電=でん, not five. A session is the app's
+  natural unit of "an encounter".
+- Jukujikun words (`ruby: null`, §3.2) have no per-kanji reading to key on, so
+  they accrue against the **word** — 大人 is its own exposure key — and are
+  hidden or shown as a unit.
+
+#### Where it is stored, and why as timestamps
+
+A new profile field, alongside `progress` / `study` / `unstudy`:
+
+```js
+exposure: {
+  '電:でん':   [1756300000, 1756390000, 1756550000],
+  'word:大人': [1756310000, 1756480000],
+}
+```
+
+**A list of timestamps, not a count.** The count is `.length`. This looks like
+overkill until sync is considered, and then it is the only shape that works:
+
+- A **counter** merges wrongly in both available ways. Last-write-wins throws
+  away one device's exposures; summing double-counts every exposure already
+  synced once. Neither is fixable without per-device counters and a device id
+  the app does not currently have.
+- A **set of timestamps** merges by union, deduped within a one-minute window
+  and truncated to the newest few. Union is commutative and idempotent, so the
+  same merge run twice, or run in either direction, gives the same answer — the
+  property `sync-plan.md` §0.1 went to real trouble to obtain for the study
+  list, had here for free.
+
+Keep the newest **8** rather than exactly the threshold, so the threshold can be
+raised later without the evidence having already been discarded. Store seconds,
+not milliseconds; the whole map for a heavy user is a few KB.
+
+`EXPOSURE_THRESHOLD = 4`, one constant in `srs.js` — not in the vocab module,
+because stories use the same counter. A per-profile setting is plausible later
+and nothing here blocks it.
+
+#### When exposure was not enough
+
+A reading promoted by exposure is a guess about the learner, and sometimes it is
+wrong. If they now tap for furigana every single time it comes up, the app has
+made them worse off.
+
+**Demotion:** when the learner reveals the ruby on a word in which an
+exposure-promoted reading was the *only* hidden one — so the reveal is
+unambiguously about that reading — count it against that reading. Two such
+reveals demote it: the exposure list is cleared, its ruby shows again, and it
+can re-earn the hidden default from scratch.
+
+Restricting this to unambiguous cases matters. A reveal on a word with three
+hidden readings says one of them failed and gives no way to tell which;
+punishing all three would demote readings the learner actually knew. Ambiguous
+reveals do nothing here — they are already recorded against the word's own
+`vyomi:` (§5.4), which is where blame belongs when it cannot be localised.
+
+**Enrolment-based hiding is never demoted.** That one is the learner's own
+stated intent rather than the app's guess, and it is not the app's place to
+overrule it.
+
+#### Where it shows up
+
+The kanji detail screen gains a line — *seen 6× in words* — under the readings,
+and the reading chips mark which readings have crossed the threshold. It costs
+almost nothing, and it is the only visible evidence that passive practice is
+doing anything, which is worth a great deal for a mechanism whose whole pitch
+is that it works without being asked for.
+
+An obvious follow-on, deliberately left out of the first cut: offering *"add 電
+to your kanji study list?"* on the summary screen when a reading crosses the
+threshold. Good idea, separable, and it should not hold up the rest.
+
+### 5.4 What a reveal costs, and the yomi stage
 
 **Tapping for furigana grades `vyomi:` as a miss, immediately.** Not a
 punishment — it is simply the honest answer to "do you know how this is
@@ -539,11 +774,13 @@ happened to be in コンピューター would be worse than saying nothing.
 - at least one kanji had its furigana hidden, and
 - the learner never revealed it.
 
-Both conditions matter. The first means a word whose kanji are all unstudied
-(furigana shown from the start) never reaches this stage — there is nothing to
-test. The second is what "if you didn't need the furigana" means.
+Both conditions matter. The first means a word whose readings are all still
+being shown — neither enrolled nor past the exposure threshold — never reaches
+this stage, because there is nothing to test. The second is what "if you didn't
+need the furigana" means.
 
-It looks like this — the word, still bare, and six kana readings:
+It looks like this — the word, still bare, and six kana readings (short
+labels, so six of them, per the table in §5.1):
 
 ```
                       電車
@@ -575,19 +812,19 @@ Getting it right or wrong grades `vyomi:` and ends the question either way —
 no second chance on the yomi stage, because the definition attempt already
 gave the learner the word.
 
-### 5.4 The six English options
+### 5.5 The four English options
 
 Runtime, from the unit currently loaded (like `buildDefinitionChoices` in
 `kanji.js`), with three filters:
 
-- **Same part of speech where possible.** A verb among five nouns is the
+- **Same part of speech where possible.** A verb among three nouns is the
   answer by shape alone. `pos` is on the entry for this and nothing else.
 - **No duplicate labels**, and no near-duplicate — build time computes a small
   "don't offer together" set per word for genuine synonym pairs in the same
   unit (電車/汽車 both glossing as "train"), because the runtime has no way to
   tell them apart and an unanswerable question is worse than a repeated one.
 - **Prefer the same unit, fall back to the same level.** A unit of 40 words
-  always has five to spare, so the fallback rarely fires; it exists for the
+  always has three to spare, so the fallback rarely fires; it exists for the
   first session of a small unit where only a handful are enrolled.
 
 ---
@@ -620,18 +857,24 @@ better than random. Two hard rules:
   the same rule the kana quiz already applies for じ/ぢ.
 - **Never an option that is also a correct answer to the prompt.** If the
   English is "train" and the unit contains both 電車 and 列車, one of them has
-  to go. This is the same synonym set §5.4 builds.
+  to go. This is the same synonym set §5.5 builds.
 
 A wrong first tap gets one more try, then reveals — matching `chooseAnswer()`
 exactly. The record is locked to the first attempt.
 
 ### 6.2 Stage 2 — pick the kanji spelling
 
-Runs after a correct stage 1, when the word is written with at least one
-kanji that the learner is studying **in any mode** (`definition`,
-`recognition` or `writing`) — as specified, and deliberately looser than the
-furigana rule in §5.2, because caring about a kanji at all is enough reason to
-be asked how a word using it is spelled.
+Runs after a correct stage 1, when the word is written with at least one kanji
+the learner is studying **in any mode** (`definition`, `recognition` or
+`writing`) — the same test §5.2 applies to furigana, for the same reason:
+caring about a kanji at all is enough reason to be asked how a word using it is
+spelled.
+
+Note what this does *not* include: the exposure threshold (§5.3). Having met 電
+often enough to read it is no evidence at all that you could pick 電車 out of
+six spellings — recognition and production come apart here more sharply than
+anywhere else in the app. Exposure governs what is shown; enrolment governs
+what is demanded.
 
 Skipped entirely for kana-only words and for `uk` words (§3.3).
 
@@ -749,7 +992,8 @@ Mostly reuse. What is new:
 | Quiz | A `choice-grid-vocab` layout for six options; the word is a tap target with a reveal ladder; a stage-2 panel that replaces the choices in place rather than navigating |
 | Overview | Tiles show the **word**, not one character — a 3-column grid rather than the character grid's 6-8 |
 | Word detail | New: the word, its reading, all glosses, its kanji as tappable chips into the existing kanji detail screen, and per-mode study toggles |
-| Summary | Adds the "you needed romaji N times" nudge from §5.2 |
+| Kanji detail | Gains a *seen 6× in words* line, and a marker on reading chips that have crossed the exposure threshold (§5.3) — the only place passive progress is visible |
+| Summary | Adds the "you needed romaji N times" nudge from §5.4 |
 
 The word detail screen linking each kanji through to the existing kanji detail
 screen is the piece that makes the two halves of the app one app rather than
@@ -774,11 +1018,28 @@ Almost free, by construction:
   already calls for.
 - `study` / `unstudy` merge per (item, mode) with no change; the mode ids are
   just new strings.
+- **`exposure` needs a merge rule of its own, and it is the one genuinely new
+  piece of merge code.** Union the two sides' timestamp lists per key, treat
+  two timestamps within 60 seconds of each other as the same event, sort
+  descending and keep the newest 8. That is idempotent and order-independent,
+  so re-running a merge or merging in either direction gives the same list —
+  which is what stops a three-device household inflating its own exposure
+  counts. Note it is a **union, not last-write-wins**: an exposure map is
+  evidence that accumulates, not a setting with a current value, and running
+  `preferIncomingRecord` over it would silently discard practice.
+- Demotion (§5.3) clears a key's list. A cleared list and a never-existed key
+  are indistinguishable after a union with a device that still holds the old
+  timestamps, so **demotion writes a tombstone** — `exposure['電:でん'] = { cleared: <ts> }`
+  — and the union drops every timestamp older than `cleared`. Same shape of
+  problem, and the same solution, as `unstudy` in `sync-plan.md` §0.1.
 - Backup format version stays 1. Old backups load unchanged and simply have no
   vocab records; new backups load into old builds and the vocab keys sit inert.
   Worth confirming rather than assuming — a test.
 
-Profile size grows: ~1,700 words × up to 4 records. Records are small, but
+Profile size grows: ~1,700 words × up to 4 records, plus an exposure map whose
+worst case is one 8-element list per (kanji, reading) pair the learner has ever
+met — bounded by the ~3,400 quizzable readings across the whole kanji set, and
+in practice far smaller. Records are small, but
 this roughly doubles a heavy profile. `MAX_HISTORY` (300 events per record)
 already bounds it, and sync payloads are encrypted blobs whose size nobody is
 paying per byte for. Watch it; don't pre-optimise it.
@@ -802,6 +1063,24 @@ invariants that are expensive to notice by hand:
 - The mastered-kanji exclusion holds for a simulated profile with a large
   mastered set, and the fallback ladder terminates rather than looping.
 - Every unit is between 20 and 70 words, and every word's theme slug exists.
+- Every `ruby` entry's `credits` target is one of that kanji's `quizReadings`,
+  or absent — the §4.5 safeguard, checked over the whole corpus rather than
+  trusted.
+
+And, for exposure (§5.3), the properties that are easy to get subtly wrong and
+impossible to notice by hand:
+
+- Merging two exposure maps is **idempotent** (merge(a, merge(a, b)) ==
+  merge(a, b)) and **commutative** (merge(a, b) == merge(b, a)). Run it over
+  generated pairs, not one hand-written example.
+- A three-device round trip does not inflate a count above the number of real
+  encounters.
+- A demotion tombstone survives a merge with a device still holding the
+  pre-demotion timestamps.
+- One session showing the same word five times accrues exactly one exposure.
+- A reading at the threshold stops accruing, and its ruby is hidden in every
+  word that uses it with that reading — and *not* hidden for the same kanji
+  under a different reading (the 生 せい/なま case).
 
 Plus extensions to the existing suites: `test/wiring.js` plays a full vocab
 session in each mode including both bonus stages; `test/store.js` round-trips
@@ -829,6 +1108,13 @@ and one thing has to be decided now.
    the definition*, without touching the first three.
 4. **Levels as a filter (§2.1).** "A story using only Foundation vocabulary"
    is `lv <= 'f'`, already on every entry.
+5. **The exposure counter (§5.3).** This is the piece stories benefit from
+   most, and the reason it lives in `srs.js` rather than the vocab module.
+   Reading is where passive exposure actually happens at volume: a story
+   episode may put でん in front of the learner three times in a paragraph
+   (once, by the one-per-session rule). A learner who reads a lot should find
+   furigana quietly disappearing from the words they have been reading, having
+   never opened a quiz — which is close to the whole point of adding stories.
 
 **The decision stories force now:** a browser has no morphological analyser,
 so nothing on the phone can tell that 食べました is 食べる. Story text must
@@ -842,18 +1128,33 @@ the dictionary surface form and nothing cleverer.
 
 ## 11. Open questions
 
-1. **Which mode hides furigana?** §5.2 recommends Yomi enrolment only; the
-   original request said "on your study list" without qualifying the mode.
-   One constant either way. **Needs a decision before phase 3.**
-2. **Six options or four?** §5.1. Six is what was asked for; whether six
-   English glosses fit a small phone is an empirical question and the recent
-   commit history says be pessimistic. Test on the actual device.
-3. **Does the official specification list get used, or the frequency-based
+**Settled** (kept here because the reasoning matters more than the answer):
+
+- *Which mode hides furigana?* **Any mode** — see §5.2. An earlier draft
+  recommended Yomi enrolment alone; that was wrong for the reason §1.1 gives.
+- *Four options or six?* **Four for English glosses, six for kana and kanji
+  labels** — see the table in §5.1.
+
+**Still open:**
+
+1. **Is four the right exposure threshold?** §5.3 uses it as specified, as a
+   named constant, and keeps 8 timestamps so it can be raised without losing
+   evidence. It is a guess until it has been lived with; expect to move it.
+   Whether it should differ between a reading first met in a quiz and one
+   first met in a story is a second-order version of the same question.
+2. **Does a demoted reading need a cooling-off period?** §5.3 lets a demoted
+   reading re-earn the hidden default immediately, which risks a reading
+   oscillating between shown and hidden. A simple fix if it happens: require
+   more exposures the second time round.
+3. **Should crossing the exposure threshold also credit the kanji's reading
+   record?** §4.5's sub-decision. Assumed no throughout: exposure changes what
+   is *displayed*, answers change *records*.
+4. **Does the official specification list get used, or the frequency-based
    substitute?** §3.5. Phase 0 decides, and it changes what the units are
    called.
-4. **Should a needed-romaji tap feed the kana courses' records?** §5.2 says no
+5. **Should a needed-romaji tap feed the kana courses' records?** §5.4 says no
    and explains why. Revisit if the summary nudge turns out to be ignored.
-5. **Does Recall need a typing mode later?** Everything here is multiple
+6. **Does Recall need a typing mode later?** Everything here is multiple
    choice, matching the rest of the app (nothing is typed, so no keyboard
    appears and the layout never shifts). A kana-keyboard input for Recall is a
    plausible later addition and nothing here blocks it.
@@ -867,7 +1168,9 @@ the dictionary surface form and nothing cleverer.
 | 0 | **Sourcing.** Obtain or decide against the specification list; produce `tools/vocab_src/gcse-foundation.tsv` with themes assigned. The long pole, and mostly not programming. | — |
 | 1 | **Build script.** `tools/build_vocab_data.py`: JMdict lookup, alignment reused from `build_kanji_data.py`, `mis`/`sp` generation with the real-word check, manifest + per-unit files + lookup index. | 0 |
 | 2 | **The `vocab` kind.** Courses from the manifest, lazy loading, the four modes, the `eligibleItems` gate (§4.3), the shared rollup helper (§4.4), the fourth home card, unit picker. No questions yet — the course screen counts to zero correctly. | 1 |
-| 3 | **Meaning mode.** Six English options, the reveal ladder, reveal-grades-yomi, the yomi follow-up stage. | 2 |
+| 3 | **Meaning mode.** Four English options, the reveal ladder, reveal-grades-yomi, the yomi follow-up stage. Hiding is enrolment-based only at this point. | 2 |
+| 3a | **Exposure tracking (§5.3).** The `exposure` map, the one-per-session rule, the threshold, demotion, the merge rule (§8) and its property tests, and the *seen 6×* line on the kanji detail screen. Separable from phase 3 and worth keeping separate — its correctness lives almost entirely in merge behaviour, which is testable without any UI. | 3 |
+| 3b | **Crediting kanji readings (§4.5).** Build-time `credits` targets, and the write on a correct unrevealed yomi answer. | 1, 3 |
 | 4 | **Recall mode.** Kana options, the kanji spelling stage, the exclusion rule and its fallback ladder. | 2 |
 | 5 | **Word detail and overview screens**, including kanji chips linking into the existing kanji detail screen. | 2 |
 | 6 | **Higher tier** — same units, added words. Largely a data phase. | 3, 4 |
@@ -878,7 +1181,15 @@ Phases 3 and 4 are independent of each other and can land in either order;
 shipping 3 alone is a coherent, useful app on its own, which is the argument
 for doing it first.
 
+3a and 3b are the two halves of §1.1 and are what make this more than a word
+quiz — but both need phase 3's questions to exist before they have anything to
+observe or credit, and both are easier to get right in isolation than folded
+into the phase that introduces the screen. Neither is optional; both are
+separable.
+
 **Per this repo's convention:** every phase that changes what a learner sees
 bumps `APP_VERSION` in `src/app.js` and `VERSION` in `sw.js`, and adds a
 plain-language entry to `src/changelog.js` in the same commit. Phases 0, 1 and
-8 probably don't; 2 through 7 all do.
+8 probably don't; 2 through 7, 3a and 3b all do. 3a in particular deserves a
+plainly-worded entry — *"words you have seen a few times stop showing their
+furigana"* is the kind of change that reads as a bug if it goes unannounced.
