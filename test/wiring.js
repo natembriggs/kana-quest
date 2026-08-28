@@ -283,16 +283,16 @@ for (let i = 0; i < 10; i += 1) await settle();
 check('a profile was persisted', rows.size === 1, `${rows.size} rows`);
 check('lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
 
-// --- Home is a three-way script picker ------------------------------------
+// --- Home is a four-way script picker --------------------------------------
 
 const profile = [...rows.values()][0];
 check('new profile starts with no progress', Object.keys(profile.progress).length === 0);
 
 const scriptCards = el('script-list')._children;
-check('the home screen offers exactly three scripts', scriptCards.length === 3,
+check('the home screen offers exactly four scripts', scriptCards.length === 4,
   scriptCards.map((c) => c.dataset.script).join(', '));
-check('the three scripts are hiragana, katakana and kanji',
-  scriptCards.map((c) => c.dataset.script).join(',') === 'hiragana,katakana,kanji',
+check('the four scripts are hiragana, katakana, kanji and vocab',
+  scriptCards.map((c) => c.dataset.script).join(',') === 'hiragana,katakana,kanji,vocab',
   scriptCards.map((c) => c.dataset.script).join(','));
 check('the home screen no longer lists individual courses — that moved a level down',
   el('course-list')._children.length === 0);

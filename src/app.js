@@ -9,11 +9,16 @@ import {
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, unitLabel,
 } from './kanji.js';
 import {
+  VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
+  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices,
+} from './vocab.js';
+import {
   MODES, modesForKind, modeName, modeHint, defaultModeForKind, isModeComingSoon,
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
-  isStudying, setStudying, studiedKanji, neverSeenItems,
+  isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
+  recomputeVocabRollup,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -32,10 +37,10 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-28c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-28d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
-const ALL_COURSES = [...COURSES, ...KANJI_COURSES];
+const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
 
 /**
  * A merged index spanning every grade's kanji — needed whenever something
@@ -183,6 +188,7 @@ const SCRIPTS = [
   { id: 'hiragana', kind: 'kana', name: 'Hiragana', native: 'ひらがな', sample: 'あ' },
   { id: 'katakana', kind: 'kana', name: 'Katakana', native: 'カタカナ', sample: 'ア' },
   { id: 'kanji', kind: 'kanji', name: 'Kanji', native: '漢字', sample: '学' },
+  { id: 'vocab', kind: 'vocab', name: 'Vocabulary', native: '単語', sample: '語' },
 ];
 
 // Unit ids ("1".."6", "8-1".."8-6", "9-1".."9-N") in teaching order —
@@ -245,6 +251,7 @@ const state = {
   profile: null,
   scriptId: 'hiragana',
   kanjiUnit: KANJI_UNIT_IDS[0],
+  vocabUnit: VOCAB_COURSES[0].unit,
   mode: 'recognition',
   session: null,
   // Set overview / character detail — independent of the session state
@@ -270,16 +277,18 @@ function currentScript() {
 
 /** The course the current script + grade selection resolves to. */
 function currentCourse() {
-  return currentScript().kind === 'kanji'
-    ? getAnyCourse(`kanji-grade-${state.kanjiUnit}`)
-    : getAnyCourse(state.scriptId);
+  const kind = currentScript().kind;
+  if (kind === 'kanji') return getAnyCourse(`kanji-grade-${state.kanjiUnit}`);
+  if (kind === 'vocab') return getAnyCourse(`vocab-${state.vocabUnit}`);
+  return getAnyCourse(state.scriptId);
 }
 
-/** Every course a script covers — one for kana, one per grade for kanji. */
+/** Every course a script covers — one for kana, one per grade for kanji,
+ * one per teaching unit for vocab. */
 function coursesForScript(script) {
-  return script.kind === 'kanji'
-    ? KANJI_COURSES
-    : [getAnyCourse(script.id)];
+  if (script.kind === 'kanji') return KANJI_COURSES;
+  if (script.kind === 'vocab') return VOCAB_COURSES;
+  return [getAnyCourse(script.id)];
 }
 
 const $ = (id) => document.getElementById(id);
@@ -575,9 +584,46 @@ function unitBadge(unit) {
   return unit;
 }
 
+/** vocab-plan.md §2.3: Core spine first, then the five GCSE-style theme
+ * groups — VOCAB_COURSES (vocab.js) is already sorted that way, so this just
+ * needs to notice when the group changes, same shape as the kanji picker
+ * above but with the label coming from unitGroupLabel() instead of a fixed
+ * per-unit test table (vocab groups are baked into the unit id itself). */
+function renderVocabUnitPicker() {
+  const picker = $('grade-picker');
+  picker.hidden = false;
+  let lastGroup = null;
+  VOCAB_COURSES.forEach((course) => {
+    const { unit } = course;
+    const group = vocabUnitGroupLabel(unit);
+    if (group !== lastGroup) {
+      const heading = document.createElement('div');
+      heading.className = 'grade-group-label';
+      heading.textContent = group;
+      picker.appendChild(heading);
+      lastGroup = group;
+    }
+    const stats = courseStats(course, state.mode, state.profile);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `grade${state.vocabUnit === unit ? ' active' : ''}`;
+    button.dataset.grade = unit;
+    button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
+    button.querySelector('.grade-number').textContent = unit;
+    button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
+    button.setAttribute('aria-label', `${vocabUnitLabel(unit)}, ${stats.started} of ${stats.total} started`);
+    button.addEventListener('click', () => { state.vocabUnit = unit; renderCourse(); });
+    picker.appendChild(button);
+  });
+}
+
 function renderGradePicker(script) {
   const picker = $('grade-picker');
   picker.innerHTML = '';
+  if (script.kind === 'vocab') {
+    renderVocabUnitPicker();
+    return;
+  }
   if (script.kind !== 'kanji') {
     picker.hidden = true;
     return;
@@ -1010,9 +1056,18 @@ function buildMasteryTile(course, item, returnTo) {
   const tile = document.createElement('button');
   tile.type = 'button';
   tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
-  tile.textContent = item;
-  tile.setAttribute('aria-label', `${item}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
-  tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
+  // Vocab word ids are the surface form, or surface|reading on a homograph
+  // collision (vocab-plan.md §3.3) — .w is always the plain surface to show.
+  const label = course.kind === 'vocab' ? vocabInfo(course, item).w : item;
+  tile.textContent = label;
+  tile.setAttribute('aria-label', `${label}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
+  // The word/character detail screen (stroke order, readings, study toggles)
+  // is kanji/kana-shaped throughout and doesn't know about vocab entries yet
+  // — see vocab-plan.md §7, a later phase. Left un-wired rather than sent
+  // into a screen built for a different kind of item.
+  if (course.kind !== 'vocab') {
+    tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
+  }
   return tile;
 }
 
@@ -1372,8 +1427,22 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
   // actually touched gets loaded, not just course.unit (which for that pool
   // doesn't even exist as a single grade). Kana courses have no kanji items,
   // so kanjiUnitFor returns null for all of them and this is a no-op.
-  const units = new Set([...built.lesson, ...built.quiz].map(kanjiUnitFor).filter(Boolean));
-  if (units.size) await withLoading(ensureUnitsReady(units));
+  //
+  // A vocab session's items are word ids, not characters — kanjiUnitFor
+  // returns null for every one of them, so they need their own lookup
+  // (vocabUnitFor) and their own loader (ensureVocabUnitLoaded). The two
+  // never collide (a kanji unit id and a vocab unit id are never equal —
+  // "1".."9-6" vs "C1".."5.4"), so both can run off the same combined item
+  // list without needing to know which course kind produced which item.
+  const sessionItems = [...built.lesson, ...built.quiz];
+  const units = new Set(sessionItems.map(kanjiUnitFor).filter(Boolean));
+  const vocabUnits = new Set(sessionItems.map(vocabUnitFor).filter(Boolean));
+  if (units.size || vocabUnits.size) {
+    await withLoading(Promise.all([
+      ensureUnitsReady(units),
+      ...[...vocabUnits].map(ensureVocabUnitLoaded),
+    ]));
+  }
   // The user may have navigated elsewhere while this was loading — only the
   // most recent request should ever commit a session and render it.
   if (navSeq !== requestNav) return;
@@ -1434,6 +1503,7 @@ function renderLesson() {
 
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, item);
+    $('lesson-kana').className = 'glyph glyph-xl';
     $('lesson-romaji').hidden = true;
     // Only the readings that are actually quizzed are taught — showing the
     // full KANJIDIC list would include readings no common word ever uses.
@@ -1449,7 +1519,23 @@ function renderLesson() {
     $('lesson-hint').textContent = state.mode === 'definition'
       ? 'Remember what it means — the quiz asks you to pick the meaning.'
       : 'Tap a reading to see a word that uses it.';
+  } else if (course.kind === 'vocab') {
+    const info = vocabInfo(course, item);
+    // Teaching, not testing — the reveal ladder's hiding rule (§5.2) has no
+    // place here; every reading is shown openly, the same way a kanji's
+    // full reading list is on its own lesson card just above.
+    renderVocabWordGlyph($('lesson-kana'), info);
+    $('lesson-romaji').hidden = false;
+    $('lesson-romaji').textContent = toRomaji(info.r);
+    $('lesson-readings').hidden = true;
+    $('lesson-readings').innerHTML = '';
+    $('lesson-meanings').hidden = false;
+    $('lesson-meanings').textContent = info.en.join(', ');
+    $('lesson-word').hidden = true;
+    $('lesson-word').innerHTML = '';
+    $('lesson-hint').textContent = 'Remember what it means — the quiz asks you to pick the meaning.';
   } else {
+    $('lesson-kana').className = 'glyph glyph-xl';
     $('lesson-romaji').hidden = false;
     $('lesson-romaji').textContent = romajiFor(item);
     $('lesson-readings').hidden = true;
@@ -1559,7 +1645,12 @@ function renderQuestion() {
     return;
   }
 
+  // A vocab word can run to several characters, unlike every other kind of
+  // prompt this screen shows — glyph-vocab is sized (and allowed to wrap)
+  // for that; see the CSS comment there.
+  $('quiz-kana').className = `glyph ${course.kind === 'vocab' ? 'glyph-vocab' : 'glyph-xl'}`;
   $('quiz-kana').textContent = item;
+  $('quiz-prompt-hint').hidden = true;
   $('quiz-feedback').textContent = '';
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
@@ -1571,7 +1662,8 @@ function renderQuestion() {
 
   // Yomi on a kanji is the only multi-answer quiz; kana reading and kanji
   // definition are both "one right option out of ten".
-  if (course.kind === 'kanji' && state.mode === 'recognition') renderKanjiChoices(course, item);
+  if (course.kind === 'vocab' && state.mode === 'vmeaning') renderVocabMeaningQuestion(course, item);
+  else if (course.kind === 'kanji' && state.mode === 'recognition') renderKanjiChoices(course, item);
   else renderSingleChoice(course, item);
 
   const { done, total } = sessionProgress(session);
@@ -1705,6 +1797,309 @@ function revealSingleAnswer(answer) {
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
     if (el.dataset.value === answer) el.classList.add('is-right');
   });
+}
+
+// --- Vocabulary: Meaning mode (vocab-plan.md §5) --------------------------
+//
+// Two stages shown as one question: an English-meaning choice (always), then
+// — only when it was answered right, at least one kanji's furigana was
+// hidden, and it was never revealed — a kana-reading follow-up (§5.4). Both
+// grade separate progress records (vdef/vyomi) that roll up into the single
+// itemKey('vmeaning', word) card the rest of srs.js schedules against; see
+// recomputeVocabRollup in srs.js.
+//
+// The reveal ladder (§5.2/§5.3) is the other half of this: which kanji show
+// their furigana by default is a genuine per-question decision (it depends
+// on the study list, read fresh each time), computed once into
+// session.vocabHidden when the question is built and consulted by every tap.
+
+/** Whether a kanji has any claim on it at all — enrolled in Definition, Yomi
+ * OR Writing. Per vocab-plan.md §5.2: broader than "enrolled in Yomi" on
+ * purpose, since Yomi itself is the strict, slow way to learn a reading —
+ * gating furigana on it would hand the reading to exactly the learner most
+ * likely to already be able to produce it unaided. */
+function isKanjiKnown(kanji) {
+  return studyModes(state.profile.study, kanji).length > 0;
+}
+
+/** Full furigana, always shown — the lesson (teaching) card's word display,
+ * as opposed to updateVocabWordDisplay's quiz-time version, which hides
+ * whatever the reveal ladder says to. Introducing a word is not testing it. */
+function renderVocabWordGlyph(el, info) {
+  el.className = 'glyph glyph-vocab';
+  if (!wordHasKanji(info.w)) {
+    // Kana-only (hiragana or katakana): furigana annotates KANJI, so there
+    // is nothing to show here — just the word itself.
+    el.textContent = info.w;
+    return;
+  }
+  if (!info.ruby) {
+    // Jukujikun (大人, ...) — no per-kanji breakdown exists, so one ruby
+    // spans the whole word (vocab-plan.md §3.2).
+    el.innerHTML = `<ruby>${info.w}<rt>${info.r}</rt></ruby>`;
+    return;
+  }
+  const rubyByPos = new Map(info.ruby.map((r) => [r[0], r]));
+  let html = '';
+  [...info.w].forEach((ch, pos) => {
+    const r = rubyByPos.get(pos);
+    html += r ? `<ruby>${ch}<rt>${r[1]}</rt></ruby>` : ch;
+  });
+  el.innerHTML = html;
+}
+
+/**
+ * How this word's furigana should default (vocab-plan.md §5.2), computed
+ * once per question:
+ * - `none` — no kanji at all, nothing to hide; the ladder skips straight to
+ *   romaji.
+ * - `katakana` — a katakana word; the ladder is katakana -> hiragana ->
+ *   romaji, same length as the kanji ladder but with no "known" gate.
+ * - `whole` — a jukujikun word (build_vocab_data.py couldn't align it to
+ *   per-kanji readings, e.g. 大人) — all-or-nothing: hidden only if EVERY
+ *   kanji in it is known.
+ * - `perchar` — the normal case: each kanji position hides independently.
+ */
+function vocabHiddenState(info) {
+  if (!wordHasKanji(info.w)) {
+    const isKatakana = [...info.w].some((ch) => ch >= 'ァ' && ch <= 'ヶ');
+    return { mode: isKatakana ? 'katakana' : 'none' };
+  }
+  if (!info.ruby) {
+    const chars = [...info.w].filter(isKanjiChar);
+    return { mode: 'whole', hidden: chars.length > 0 && chars.every(isKanjiKnown) };
+  }
+  const hidden = new Set();
+  info.ruby.forEach(([pos]) => { if (isKanjiKnown(info.w[pos])) hidden.add(pos); });
+  return { mode: 'perchar', hidden };
+}
+
+/** How many taps the reveal ladder has for this word — 1 for a kana-only
+ * word (straight to romaji), 2 for everything else (furigana/hiragana, then
+ * romaji). */
+function vocabMaxRevealLevel(hiddenInfo) {
+  return hiddenInfo.mode === 'none' ? 1 : 2;
+}
+
+/** Whether this word's furigana had anything genuinely hidden to test — the
+ * gate on the yomi follow-up stage (§5.4) and on grading a reveal as a miss
+ * (§5.3). A katakana or fully-visible word has nothing to test either way. */
+function vocabHasHiddenReading(hiddenInfo) {
+  if (hiddenInfo.mode === 'perchar') return hiddenInfo.hidden.size > 0;
+  if (hiddenInfo.mode === 'whole') return hiddenInfo.hidden;
+  return false;
+}
+
+/** Repaints #quiz-kana and #quiz-prompt-hint for the current reveal level —
+ * called on every tap, and once up front to establish the starting state. */
+function updateVocabWordDisplay() {
+  const session = state.session;
+  const course = getAnyCourse(state.courseId);
+  const item = session.queue[session.position];
+  const info = vocabInfo(course, item);
+  const hiddenInfo = session.vocabHidden;
+  const level = session.vocabRevealLevel;
+  const el = $('quiz-kana');
+
+  if (hiddenInfo.mode === 'none') {
+    el.textContent = info.w;
+  } else if (hiddenInfo.mode === 'katakana') {
+    el.textContent = level >= 1 ? info.r : info.w;
+  } else if (hiddenInfo.mode === 'whole') {
+    el.innerHTML = (level >= 1 || !hiddenInfo.hidden)
+      ? `<ruby>${info.w}<rt>${info.r}</rt></ruby>`
+      : info.w;
+  } else {
+    const rubyByPos = new Map(info.ruby.map((r) => [r[0], r]));
+    let html = '';
+    [...info.w].forEach((ch, pos) => {
+      const r = rubyByPos.get(pos);
+      if (!r) { html += ch; return; }
+      const shown = level >= 1 || !hiddenInfo.hidden.has(pos);
+      html += shown ? `<ruby>${ch}<rt>${r[1]}</rt></ruby>` : ch;
+    });
+    el.innerHTML = html;
+  }
+
+  const romajiLevel = hiddenInfo.mode === 'none' ? 1 : 2;
+  const hint = $('quiz-prompt-hint');
+  hint.hidden = level < romajiLevel;
+  if (!hint.hidden) hint.textContent = toRomaji(info.r);
+
+  el.classList.toggle('vocab-word-tap', level < vocabMaxRevealLevel(hiddenInfo));
+}
+
+/**
+ * The reveal-ladder tap target. Bound once in wire() to the static #quiz-kana
+ * element; a no-op outside a vocab Meaning question's first (definition)
+ * stage, so nothing needs unbinding between question types.
+ *
+ * Grades `vyomi` as a miss on the FIRST tap that reveals something that was
+ * actually hidden (vocab-plan.md §5.3) — immediately, not at Next, because
+ * that is the honest answer to "did you know this reading" and the record
+ * is locked to what was known before anything was shown, same rule as
+ * everywhere else in this app. A tap that only reaches romaji on a word with
+ * nothing hidden (katakana, or every kanji already known) grades nothing —
+ * there was nothing being tested.
+ */
+function clickVocabWord() {
+  const session = state.session;
+  if (!session || !session.vocabHidden || session.vocabStage !== 'definition') return;
+  const hiddenInfo = session.vocabHidden;
+  if (session.vocabRevealLevel >= vocabMaxRevealLevel(hiddenInfo)) return;
+  const isFirstReveal = session.vocabRevealLevel === 0;
+  session.vocabRevealLevel += 1;
+  if (isFirstReveal && !session.vocabRevealed) {
+    session.vocabRevealed = true;
+    if (vocabHasHiddenReading(hiddenInfo)) {
+      recordVocabYomi(session.queue[session.position], false);
+    }
+  }
+  updateVocabWordDisplay();
+}
+
+function recordVocabYomi(word, correct) {
+  const { progress } = state.profile;
+  const key = itemKey('vyomi', word);
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now());
+  recomputeVocabRollup(word, 'vmeaning', progress);
+  store.saveProfile(state.profile);
+}
+
+function recordVocabDef(word, correct) {
+  ensurePlacementEnrolled(word);
+  const session = state.session;
+  const { progress } = state.profile;
+  const key = itemKey('vdef', word);
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
+  recomputeVocabRollup(word, 'vmeaning', progress);
+  if (!session.results.has(word)) session.results.set(word, correct);
+  store.saveProfile(state.profile);
+}
+
+function renderVocabMeaningQuestion(course, item) {
+  const session = state.session;
+  const info = vocabInfo(course, item);
+
+  session.attempt = 0;
+  session.vocabStage = 'definition';
+  session.vocabRevealLevel = 0;
+  session.vocabRevealed = false;
+  session.vocabHidden = vocabHiddenState(info);
+
+  $('quiz-ok').hidden = true;
+  $('quiz-kanji-actions').hidden = true;
+  updateVocabWordDisplay();
+
+  const { options, answer } = buildMeaningChoices(course, item);
+  session.vocabAnswer = answer;
+  const choices = $('quiz-choices');
+  choices.className = 'choice-grid choice-grid-text';
+  options.forEach((value) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = value;
+    button.dataset.value = value;
+    button.addEventListener('click', () => chooseVocabMeaning(value, button));
+    choices.appendChild(button);
+  });
+}
+
+function chooseVocabMeaning(value, button) {
+  const session = state.session;
+  if (!session || session.vocabStage !== 'definition' || button.disabled) return;
+  const course = getAnyCourse(state.courseId);
+  const item = session.queue[session.position];
+  const correct = value === session.vocabAnswer;
+  session.attempt += 1;
+
+  if (session.attempt === 1) recordVocabDef(item, correct);
+
+  if (correct) {
+    button.classList.add('is-right');
+    $('quiz-card').className = 'quiz-card is-correct';
+    $('quiz-feedback').textContent = '';
+    disableRemainingChoices();
+    proceedAfterVocabDefinition(course, item, true);
+    return;
+  }
+
+  button.classList.add('is-wrong');
+  button.disabled = true;
+
+  if (session.attempt === 1) {
+    $('quiz-card').className = 'quiz-card is-wrong';
+    $('quiz-feedback').className = 'feedback bad';
+    $('quiz-feedback').textContent = 'Try once more';
+    return;
+  }
+
+  revealSingleAnswer(session.vocabAnswer);
+  $('quiz-card').className = 'quiz-card is-wrong';
+  $('quiz-feedback').className = 'feedback bad';
+  disableRemainingChoices();
+  proceedAfterVocabDefinition(course, item, false);
+}
+
+/** After the definition stage resolves: on to the yomi follow-up (§5.4) if
+ * it was answered right, something was genuinely hidden, and the learner
+ * never revealed it — otherwise the question is simply done. */
+function proceedAfterVocabDefinition(course, item, correct) {
+  const session = state.session;
+  const qualifies = correct && !session.vocabRevealed && vocabHasHiddenReading(session.vocabHidden);
+  if (qualifies) {
+    session.vocabStage = 'yomi';
+    renderVocabYomiStage(course, item);
+    return;
+  }
+  session.vocabStage = 'done';
+  session.locked = true;
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').textContent = 'Next';
+}
+
+function renderVocabYomiStage(course, item) {
+  const { options, answer } = buildYomiChoices(course, item);
+  state.session.vocabYomiAnswer = answer;
+
+  $('quiz-feedback').textContent = '';
+  $('quiz-feedback').className = 'feedback';
+  $('quiz-card').className = 'quiz-card';
+
+  const choices = $('quiz-choices');
+  choices.className = 'choice-grid';
+  choices.innerHTML = '';
+  options.forEach((value) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice';
+    button.textContent = value;
+    button.dataset.value = value;
+    button.addEventListener('click', () => chooseVocabYomi(value, button));
+    choices.appendChild(button);
+  });
+}
+
+/** Single attempt, right or wrong grades and ends it either way — the
+ * definition stage already showed the word, so there is nothing left to
+ * protect by giving a second try (vocab-plan.md §5.4). */
+function chooseVocabYomi(value, button) {
+  const session = state.session;
+  if (!session || session.vocabStage !== 'yomi' || session.locked) return;
+  const item = session.queue[session.position];
+  const correct = value === session.vocabYomiAnswer;
+  recordVocabYomi(item, correct);
+
+  $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
+  button.classList.add(correct ? 'is-right' : 'is-wrong');
+  if (!correct) revealSingleAnswer(session.vocabYomiAnswer);
+  $('quiz-card').className = `quiz-card ${correct ? 'is-correct' : 'is-wrong'}`;
+
+  session.vocabStage = 'done';
+  session.locked = true;
+  $('quiz-ok').hidden = false;
+  $('quiz-ok').textContent = 'Next';
 }
 
 // --- Writing (Trace / Guided / Free): draw each stroke against the -------
@@ -2457,7 +2852,7 @@ function ensurePlacementEnrolled(item) {
   const session = state.session;
   if (!session || !session.placementTest) return;
   const course = getAnyCourse(state.courseId);
-  if (!course || course.kind !== 'kanji') return;
+  if (!course || (course.kind !== 'kanji' && course.kind !== 'vocab')) return;
   if (isStudying(state.profile.study, item, state.mode)) return;
   setStudying(state.profile.study, state.profile.unstudy, item, state.mode, true);
   store.saveProfile(state.profile);
@@ -2654,8 +3049,19 @@ function finishSession() {
     chip.type = 'button';
     chip.className = `chip ${ok ? 'chip-ok' : 'chip-bad'}`;
     chip.innerHTML = `<span class="chip-kana"></span><span class="chip-romaji"></span>`;
-    chip.querySelector('.chip-kana').textContent = item;
     let label = romajiFor(item);
+    // Vocab ids are the surface form (or surface|reading on a homograph
+    // collision, vocab-plan.md §3.3) — .w and .en[0] are what a chip
+    // actually shows; the word/character detail screen doesn't understand
+    // vocab entries yet (§7, a later phase), so the chip isn't a link there.
+    if (course.kind === 'vocab') {
+      const info = vocabInfo(course, item);
+      chip.querySelector('.chip-kana').textContent = info.w;
+      chip.querySelector('.chip-romaji').textContent = info.en[0];
+      list.appendChild(chip);
+      return;
+    }
+    chip.querySelector('.chip-kana').textContent = item;
     if (course.kind === 'kanji') {
       const info = kanjiInfo(course, item);
       label = state.mode === 'definition'
@@ -3269,6 +3675,9 @@ function wire() {
   });
 
   $('lesson-next').addEventListener('click', advanceLesson);
+  // Vocabulary's reveal ladder (vocab-plan.md §5.2) — a no-op outside a
+  // vocab Meaning question's definition stage, see clickVocabWord().
+  $('quiz-kana').addEventListener('click', clickVocabWord);
 
   $('detail-study-toggle').addEventListener('click', toggleDetailStudy);
   STUDY_MODE_IDS.forEach((mode) => {

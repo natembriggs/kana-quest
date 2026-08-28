@@ -310,6 +310,23 @@ h3 { font-size: 18px; }
   line-height: 1;
 }
 .glyph-xl { font-size: clamp(96px, 34vw, 168px); }
+/* A vocab word can run to several characters (自動車, こんにちは) where a kana
+   or single kanji glyph never does — glyph-xl's 168px would overflow a
+   phone width immediately. Sized to comfortably fit ~6 characters, and
+   allowed to wrap rather than shrink further, since a fixed-size hint is
+   more useful than a still-too-small one on a long word. */
+.glyph-vocab { font-size: clamp(40px, 10vw, 64px); word-break: keep-all; overflow-wrap: anywhere; }
+.glyph-vocab rt {
+  font-size: 0.4em;
+  color: var(--ink-soft);
+  font-weight: 400;
+  user-select: none;
+}
+/* The reveal-ladder tap target (vocab-plan.md §5.2/§5.3) — a dotted
+   underline is the one affordance telling a learner this word can be
+   tapped for help, since nothing else on the card is (a stray tap
+   elsewhere on the quiz screen deliberately does nothing — see c51d904). */
+.vocab-word-tap { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 8px; }
 
 .romaji {
   font-size: 30px;

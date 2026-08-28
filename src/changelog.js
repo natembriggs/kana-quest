@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-08-28',
     changes: [
+      'New: Vocabulary. A fourth thing to practise alongside hiragana, katakana and kanji — whole words, grouped into a "Core" set of the basics plus themed units (family, school, travel, food and more). Meaning mode shows a word and four English options; tap the word itself to see its reading, tap again for romaji if you need it. If you get the meaning right without needing to peek at the reading, you\'ll then be asked to pick that reading out of six — this only tests you on words made of kanji you\'re already studying.',
+      'The words themselves are drawn from real dictionary frequency data rather than any exam board\'s official list — see vocab-plan.md for why, and what "Common words 1/2" means as a result.',
       'The "Install this app" reminder no longer covers the Next button during a lesson, a test or review question, or the end-of-session screen — it now only shows where nothing at the bottom of the screen needs the room.',
       'The end-of-session screen now has a back button in the top corner too, and once there\'s truly nothing left to review or learn, "Back to menu" is the highlighted button instead of "Practise again".',
       'Fixed: on a small phone the details panel pushed the answer choices down behind the Next button, so you could no longer see which answer you had picked. Everything now fits on one screen without scrolling.',

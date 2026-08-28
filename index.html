@@ -405,6 +405,10 @@
          when it has nothing to add. See chooseAnswer() in app.js. -->
     <div id="quiz-card" class="quiz-card">
       <div id="quiz-kana" class="glyph glyph-xl" lang="ja"></div>
+      <!-- Vocabulary's reveal ladder, third rung: romaji, shown once tapped
+           past furigana/hiragana — see vocab-plan.md §5.2 and clickVocabWord()
+           in app.js. Unused (stays hidden) by every other mode. -->
+      <p id="quiz-prompt-hint" class="romaji" hidden></p>
       <div id="quiz-feedback" class="feedback"></div>
     </div>
 

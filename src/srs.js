@@ -62,6 +62,29 @@ export const MODES = {
       kanji: 'See the readings and meaning, draw the kanji',
     },
   },
+  // Vocabulary (vocab-plan.md §4.2): the picker shows just these two, but
+  // FOUR key prefixes actually get graded — vdef/vyomi under vmeaning,
+  // vprod/vspell under vrecall (see itemKey/VOCAB_SUBKEYS below). Neither
+  // vdef/vyomi/vprod/vspell is itself a MODES entry: they never drive a mode
+  // picker or course scheduling directly, only individual answers: See
+  // recomputeVocabRollup for how they roll up into the itemKey('vmeaning'/
+  // 'vrecall', word) record that dueItems/courseStats/etc. actually read.
+  vmeaning: {
+    id: 'vmeaning',
+    kinds: ['vocab'],
+    name: { vocab: 'Meaning' },
+    hint: { vocab: 'See the word, tap what it means' },
+  },
+  // Recall (English -> Japanese, vocab-plan.md §6) isn't built yet — see
+  // that section's phase 4. Registered now so the mode picker shows it
+  // (disabled, "soon") rather than only ever offering half the feature.
+  vrecall: {
+    id: 'vrecall',
+    kinds: ['vocab'],
+    name: { vocab: 'Recall' },
+    hint: { vocab: 'See the English, tap the Japanese' },
+    comingSoon: { vocab: true },
+  },
 };
 
 export function modesForKind(kind) {
@@ -315,17 +338,33 @@ function allItems(course, mode) {
 }
 
 /**
+ * Whether an item needs deliberate enrollment before it counts as eligible —
+ * true for every kanji (unchanged) and, per vocab-plan.md §4.3, every vocab
+ * word regardless of its own spelling. Kana courses have no study list at
+ * all (see the module note above), so this never actually runs for them;
+ * checking isKanjiChar alone there was fine only because a kana item could
+ * never be mistaken for a word that needs gating — vocab words break that
+ * assumption (食べる should gate, たべる equally should), hence the
+ * course-kind check taking priority.
+ */
+function gatesEnrollment(course, item) {
+  if (course.kind === 'vocab') return true;
+  return isKanjiChar(item);
+}
+
+/**
  * allItems, further restricted to what the learner has actually enrolled —
  * the item list every scheduling decision below is made over.
  *
  * With no study list (kana, and the pure tests) this is exactly allItems.
- * With one, kanji must be enrolled in this mode to be eligible; kana are
- * never filtered, since the study list is kanji-only (see above).
+ * With one, kanji and vocab words must be enrolled in this mode to be
+ * eligible; kana are never filtered, since the study list never gates them
+ * (see gatesEnrollment above).
  */
 function eligibleItems(course, mode, ctx) {
   const items = allItems(course, mode);
   if (!ctx.study) return items;
-  return items.filter((item) => !isKanjiChar(item) || isStudying(ctx.study, item, mode));
+  return items.filter((item) => !gatesEnrollment(course, item) || isStudying(ctx.study, item, mode));
 }
 
 /** Characters that have been introduced, i.e. have a record for this mode. */
@@ -362,7 +401,7 @@ export function unenrolledItems(course, mode, ctx) {
   const c = asContext(ctx);
   if (!c.study) return [];
   return allItems(course, mode)
-    .filter((item) => isKanjiChar(item) && !isStudying(c.study, item, mode));
+    .filter((item) => gatesEnrollment(course, item) && !isStudying(c.study, item, mode));
 }
 
 /**
@@ -641,4 +680,51 @@ export function shuffle(array) {
     [out[i], out[j]] = [out[j], out[i]];
   }
   return out;
+}
+
+// --- Vocabulary: two-stage records rolled into one schedulable card -------
+//
+// vocab-plan.md §4.2/§4.4: a Meaning question grades TWO things (vdef: did
+// they know what it means, vyomi: did they know how it's read — only
+// reached when relevant, see the app's quiz flow) and a Recall question
+// grades another two (vprod:, vspell:) — but the mode picker only shows
+// "Meaning" and "Recall", and every generic scheduling function above
+// (dueItems, courseStats, currentSetIndex, ...) needs ONE record per item
+// per mode to work against, the same as it does for kana and kanji. Unlike
+// kanji's per-reading records (gradeYomi — a different shape, with streak/
+// correct/incorrect rather than box/due), all four vocab sub-keys are
+// ordinary grade() Leitner records: a word has exactly one reading and one
+// spelling, so there is nothing finer-grained to schedule within a sub-key
+// itself, only across the two that make up a mode.
+export const VOCAB_SUBKEYS = {
+  vmeaning: ['vdef', 'vyomi'],
+  vrecall: ['vprod', 'vspell'],
+};
+
+/**
+ * Roll a word's vdef/vyomi (or vprod/vspell) records into the itemKey(mode,
+ * word) card the rest of srs.js reads. `due` is the soonest of the two —
+ * same rule recomputeKanjiRollup (kanji.js) uses and for the same reason: a
+ * word resurfaces as soon as EITHER half looks shaky. `box` is the lower of
+ * the two, so "mastered" means both are solid, not just whichever is asked
+ * more often. A sub-key with no record yet (vyomi before the yomi stage has
+ * ever actually been reached for this word) is simply left out of the
+ * rollup rather than treated as zero — see the module docstring above.
+ */
+export function recomputeVocabRollup(word, mode, progress, now = Date.now()) {
+  const records = VOCAB_SUBKEYS[mode]
+    .map((prefix) => progress[itemKey(prefix, word)])
+    .filter(Boolean);
+  if (records.length === 0) return;
+
+  progress[itemKey(mode, word)] = {
+    box: Math.min(...records.map((r) => r.box)),
+    due: Math.min(...records.map((r) => r.due)),
+    intervalDays: 0,
+    seen: records.reduce((sum, r) => sum + r.seen, 0),
+    correct: records.reduce((sum, r) => sum + r.correct, 0),
+    lapses: records.reduce((sum, r) => sum + r.lapses, 0),
+    history: [],
+    updatedAt: now,
+  };
 }
