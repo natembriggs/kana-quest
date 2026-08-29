@@ -41,7 +41,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -136,9 +136,70 @@ function allKanjiPool() {
   };
 }
 
+/**
+ * The vocab twin of allKanjiIndex above. Each unit's `.index` fills in
+ * lazily (ensureVocabUnitLoaded), so a pool spanning every unit has to union
+ * whatever has loaded so far, rebuilt fresh on every call rather than
+ * cached. Word ids are unique across the whole manifest, so a plain union is
+ * exact.
+ */
+function allVocabIndex() {
+  const merged = new Map();
+  VOCAB_COURSES.forEach((course) => {
+    course.index.forEach((info, id) => merged.set(id, info));
+  });
+  return merged;
+}
+
+const VOCAB_STUDY_POOL_ID = 'vocab-study-list';
+const ALL_VOCAB_POOL_ID = 'all-vocab';
+
+/**
+ * Vocabulary's twin of studyListPool/allKanjiPool above: what the two
+ * quick actions at the top of the course screen draw from, so "Review due"
+ * and "Learn next" mean the same unit-agnostic thing for words as they
+ * already did for kanji. Words are enrolled into the very same study map
+ * kanji use, keyed by word id under a vocab mode ('vmeaning'/'vrecall'), so
+ * studiedKanji reads them back unchanged — the vocabUnitFor filter is only
+ * there so a key that isn't a taught word (which no current code path can
+ * produce) could never reach a session that has nothing to teach for it.
+ */
+function vocabStudyPool(mode) {
+  return {
+    id: VOCAB_STUDY_POOL_ID,
+    kind: 'vocab',
+    name: "Everything you're studying",
+    chunks: [{ items: studiedKanji(state.profile.study, mode).filter(vocabUnitFor) }],
+    excludeForMode: {},
+    index: allVocabIndex(),
+  };
+}
+
+/**
+ * Every vocab unit's chunks back to back in teaching order (Core spine
+ * first, then the theme units — VOCAB_COURSES is already sorted that way),
+ * which is what "Learn N next" walks: new words are taught in one
+ * continuous curriculum order rather than restarting at the top of whichever
+ * unit the browser below happens to be showing. excludeForMode is empty
+ * because every vocab course's own is (see buildVocabCourse in vocab.js) —
+ * no word is unquizzable in a mode it can be enrolled in.
+ */
+function allVocabPool() {
+  return {
+    id: ALL_VOCAB_POOL_ID,
+    kind: 'vocab',
+    name: 'Vocabulary',
+    chunks: VOCAB_COURSES.flatMap((course) => course.chunks),
+    excludeForMode: {},
+    index: allVocabIndex(),
+  };
+}
+
 function getAnyCourse(courseId) {
   if (courseId === STUDY_LIST_POOL_ID) return studyListPool(state.mode);
   if (courseId === ALL_KANJI_POOL_ID) return allKanjiPool();
+  if (courseId === VOCAB_STUDY_POOL_ID) return vocabStudyPool(state.mode);
+  if (courseId === ALL_VOCAB_POOL_ID) return allVocabPool();
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
@@ -256,6 +317,11 @@ const state = {
   scriptId: 'hiragana',
   kanjiUnit: KANJI_UNIT_IDS[0],
   vocabUnit: VOCAB_COURSES[0].unit,
+  // "kanji:Secondary school" -> the unit last selected in that group, so
+  // switching groups and back returns to where you were rather than to the
+  // group's first unit. Session-only on purpose: which grade you last
+  // browsed is not worth persisting, and every group has a sane default.
+  lastUnitByGroup: {},
   mode: 'recognition',
   session: null,
   // Set overview / character detail — independent of the session state
@@ -593,76 +659,133 @@ function unitBadge(unit) {
   return unit;
 }
 
-/** vocab-plan.md §2.3: Core spine first, then the five GCSE-style theme
- * groups — VOCAB_COURSES (vocab.js) is already sorted that way, so this just
- * needs to notice when the group changes, same shape as the kanji picker
- * above but with the label coming from unitGroupLabel() instead of a fixed
- * per-unit test table (vocab groups are baked into the unit id itself). */
-function renderVocabUnitPicker() {
-  const picker = $('grade-picker');
-  picker.hidden = false;
-  let lastGroup = null;
-  VOCAB_COURSES.forEach((course) => {
-    const { unit } = course;
-    const group = vocabUnitGroupLabel(unit);
-    if (group !== lastGroup) {
-      const heading = document.createElement('div');
-      heading.className = 'grade-group-label';
-      heading.textContent = group;
-      picker.appendChild(heading);
-      lastGroup = group;
-    }
-    const stats = courseStats(course, state.mode, state.profile);
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = `grade${state.vocabUnit === unit ? ' active' : ''}`;
-    button.dataset.grade = unit;
-    button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
-    button.querySelector('.grade-number').textContent = unit;
-    button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
-    button.setAttribute('aria-label', `${vocabUnitLabel(unit)}, ${stats.started} of ${stats.total} started`);
-    button.addEventListener('click', () => { state.vocabUnit = unit; renderCourse(); });
-    picker.appendChild(button);
+/**
+ * The unit groups a script's picker splits into, in teaching order:
+ * [{ label, units }]. Kanji groups come from KANJI_UNIT_GROUPS (a per-unit
+ * test table); vocab groups are baked into the unit id itself (§2.3's Core
+ * spine first, then the five GCSE-style theme groups), so vocab.js's
+ * unitGroupLabel answers directly. Both unit lists are already in teaching
+ * order, so grouping consecutive runs is enough — no sorting here.
+ */
+function unitGroupsFor(kind) {
+  const units = kind === 'kanji' ? KANJI_UNIT_IDS : VOCAB_COURSES.map((c) => c.unit);
+  const labelFor = kind === 'kanji'
+    ? (unit) => kanjiUnitGroup(unit).label
+    : (unit) => vocabUnitGroupLabel(unit);
+  const groups = [];
+  units.forEach((unit) => {
+    const label = labelFor(unit);
+    const last = groups[groups.length - 1];
+    if (last && last.label === label) last.units.push(unit);
+    else groups.push({ label, units: [unit] });
   });
+  return groups;
 }
 
+/** The real course behind a unit id, for whichever of the two unit-bearing
+ * kinds is being browsed. */
+function unitCourse(kind, unit) {
+  return getAnyCourse(kind === 'kanji' ? `kanji-grade-${unit}` : `vocab-${unit}`);
+}
+
+function selectedUnit(kind) {
+  return kind === 'kanji' ? state.kanjiUnit : state.vocabUnit;
+}
+
+function selectUnit(kind, unit) {
+  if (kind === 'kanji') state.kanjiUnit = unit;
+  else state.vocabUnit = unit;
+  // So that leaving a group and coming back lands where you left it rather
+  // than at that group's first unit every time.
+  const groups = unitGroupsFor(kind);
+  const group = groups.find((g) => g.units.includes(unit));
+  if (group) state.lastUnitByGroup[`${kind}:${group.label}`] = unit;
+  renderCourse();
+}
+
+/** Tapping a group header selects a unit inside it — the one last looked at
+ * there, or its first. There is deliberately no separate "which group am I
+ * browsing" state: the open group is always the selected unit's own, so the
+ * unit row, the group row and the course card underneath can never disagree
+ * about what is selected. */
+function openUnitGroup(kind, group) {
+  const remembered = state.lastUnitByGroup[`${kind}:${group.label}`];
+  selectUnit(kind, group.units.includes(remembered) ? remembered : group.units[0]);
+}
+
+/**
+ * Kanji grades and vocab units, in two short horizontally-scrolling rows —
+ * the groups, then the units of whichever group holds the selected unit.
+ * Kanji has ~18 units and vocab ~33, which as one wrapped grid (what this
+ * used to be) ran to eight or more rows and pushed the actual buttons —
+ * Review, Learn, Test unlearned, View overview — off the bottom of a phone
+ * screen entirely. Two fixed-height rows cost the same regardless of how
+ * many units a script grows to, so nothing below them moves.
+ *
+ * A dot on a unit means reviews are waiting there; a dot on a GROUP means
+ * they are waiting somewhere inside it, which is what keeps a due unit
+ * findable now that only one group's units are on screen at a time.
+ */
 function renderGradePicker(script) {
+  const groupRow = $('unit-groups');
   const picker = $('grade-picker');
+  groupRow.innerHTML = '';
   picker.innerHTML = '';
-  if (script.kind === 'vocab') {
-    renderVocabUnitPicker();
-    return;
-  }
-  if (script.kind !== 'kanji') {
+  if (script.kind !== 'kanji' && script.kind !== 'vocab') {
+    groupRow.hidden = true;
     picker.hidden = true;
     return;
   }
+
+  const kind = script.kind;
+  const groups = unitGroupsFor(kind);
+  const unit = selectedUnit(kind);
+  const openGroup = groups.find((g) => g.units.includes(unit)) || groups[0];
+
+  // One group is no choice at all — the row would just be a label taking up
+  // space above the only units there are.
+  groupRow.hidden = groups.length < 2;
+  groups.forEach((group) => {
+    const due = group.units.some((u) => courseStats(unitCourse(kind, u), state.mode, state.profile).due > 0);
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = `unit-group${group === openGroup ? ' active' : ''}`;
+    chip.dataset.group = group.label;
+    chip.setAttribute('aria-pressed', group === openGroup ? 'true' : 'false');
+    chip.innerHTML = '<span class="unit-group-name"></span><span class="unit-group-dot"></span>';
+    chip.querySelector('.unit-group-name').textContent = group.label;
+    chip.querySelector('.unit-group-dot').hidden = !due;
+    chip.querySelector('.unit-group-dot').textContent = '•';
+    chip.addEventListener('click', () => openUnitGroup(kind, group));
+    groupRow.appendChild(chip);
+  });
+
   picker.hidden = false;
-  let lastGroup = null;
-  KANJI_UNIT_IDS.forEach((unit) => {
-    const group = kanjiUnitGroup(unit);
-    if (group !== lastGroup) {
-      const heading = document.createElement('div');
-      heading.className = 'grade-group-label';
-      heading.textContent = group.label;
-      picker.appendChild(heading);
-      lastGroup = group;
-    }
-    const course = getAnyCourse(`kanji-grade-${unit}`);
+  let activeTile = null;
+  openGroup.units.forEach((u) => {
+    const course = unitCourse(kind, u);
     const stats = courseStats(course, state.mode, state.profile);
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = `grade${state.kanjiUnit === unit ? ' active' : ''}`;
-    button.dataset.grade = unit;
+    button.className = `grade${u === unit ? ' active' : ''}`;
+    button.dataset.grade = u;
     button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
-    button.querySelector('.grade-number').textContent = unitBadge(unit);
-    // A dot marks a grade with reviews waiting, so the right one to open is
-    // visible without tapping through all of them.
+    button.querySelector('.grade-number').textContent = kind === 'kanji' ? unitBadge(u) : u;
     button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
-    button.setAttribute('aria-label', `${course.name}, ${stats.started} of ${stats.total} started`);
-    button.addEventListener('click', () => { state.kanjiUnit = unit; renderCourse(); });
+    const name = kind === 'kanji' ? course.name : vocabUnitLabel(u);
+    button.setAttribute('aria-label', `${name}, ${stats.started} of ${stats.total} started`);
+    button.addEventListener('click', () => selectUnit(kind, u));
     picker.appendChild(button);
+    if (u === unit) activeTile = button;
   });
+
+  // A group can hold more units than fit the row's width (vocab's themes run
+  // to eight), so the selected one is scrolled to rather than left off the
+  // end where it looks as though nothing is selected. Deferred a frame for
+  // the same reason the overview's scroll is: the row was only just filled.
+  if (activeTile && activeTile.scrollIntoView) {
+    requestAnimationFrame(() => activeTile.scrollIntoView({ block: 'nearest', inline: 'center' }));
+  }
 }
 
 const WRITING_MODE_PREFS = ['dynamic', 'trace', 'guided', 'free'];
@@ -740,27 +863,38 @@ function remainingSetsLabel(course, mode, profile, setIndex, fresh) {
   return ` · ${remaining} set${remaining === 1 ? '' : 's'} left`;
 }
 
+/** The two unit-agnostic pools behind the quick actions, per script kind.
+ * Kana has neither: it is one course with no units to span and no study
+ * list to pool, so its screen shows no quick-action row at all. */
+const QUICK_ACTION_POOLS = {
+  kanji: { due: STUDY_LIST_POOL_ID, next: ALL_KANJI_POOL_ID },
+  vocab: { due: VOCAB_STUDY_POOL_ID, next: ALL_VOCAB_POOL_ID },
+};
+
 /**
- * Kanji only — kana has no study list to span. The two things a learner
- * actually does every day, ahead of all the grade-by-grade browsing below:
- * review whatever's due, across every grade being studied at once (the
- * synthetic pool from studyListPool() above), or learn the next batch of new
- * characters in overall curriculum order (allKanjiPool() above) — both are
- * deliberately agnostic to whichever grade-picker tile happens to be
- * selected below, which only controls what the browsing card underneath
- * shows. Supersedes the old "This set"/"Everything I'm studying" review-
- * scope toggle: there is no longer a reason to review (or learn) just one
- * grade at a time, so that choice is gone rather than hidden somewhere else.
+ * The two things a learner actually does every day, ahead of all the
+ * unit-by-unit browsing below: review whatever's due, across every unit
+ * being studied at once (studyListPool/vocabStudyPool above), or learn the
+ * next batch in overall curriculum order (allKanjiPool/allVocabPool). Both
+ * are deliberately agnostic to whichever unit tile happens to be selected
+ * below, which only controls what the browsing card underneath shows.
+ *
+ * Kanji had this already; vocabulary now has the same pair for the same
+ * reason, and with thirty-odd units it needs them more, not less. Supersedes
+ * the old "This set"/"Everything I'm studying" review-scope toggle: there is
+ * no longer a reason to review (or learn) just one unit at a time, so that
+ * choice is gone rather than hidden somewhere else.
  */
 function renderQuickActions(script) {
   const wrap = $('quick-actions');
-  if (script.kind !== 'kanji') {
+  const pools = QUICK_ACTION_POOLS[script.kind];
+  if (!pools) {
     wrap.hidden = true;
     return;
   }
   wrap.hidden = false;
 
-  const poolStats = courseStats(getAnyCourse(STUDY_LIST_POOL_ID), state.mode, state.profile);
+  const poolStats = courseStats(getAnyCourse(pools.due), state.mode, state.profile);
   const reviewButton = $('quick-review-due');
   if (poolStats.due > 0) {
     reviewButton.disabled = false;
@@ -770,7 +904,7 @@ function renderQuickActions(script) {
     reviewButton.textContent = 'Nothing due';
   }
 
-  const stats = courseStats(getAnyCourse(ALL_KANJI_POOL_ID), state.mode, state.profile);
+  const stats = courseStats(getAnyCourse(pools.next), state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
   const learnButton = $('quick-learn-next');
   if (newCount > 0) {
@@ -793,13 +927,17 @@ function renderQuickActions(script) {
 // static HTML elements, so each computes what it needs fresh at click time
 // rather than capturing a pool/course from whichever render last ran.
 function quickReviewDue() {
-  const pool = getAnyCourse(STUDY_LIST_POOL_ID);
+  const pools = QUICK_ACTION_POOLS[currentScript().kind];
+  if (!pools) return;
+  const pool = getAnyCourse(pools.due);
   if (courseStats(pool, state.mode, state.profile).due === 0) return;
   startSession(pool.id, 'review');
 }
 
 function quickLearnNext() {
-  const pool = getAnyCourse(ALL_KANJI_POOL_ID);
+  const pools = QUICK_ACTION_POOLS[currentScript().kind];
+  if (!pools) return;
+  const pool = getAnyCourse(pools.next);
   const stats = courseStats(pool, state.mode, state.profile);
   if (Math.min(stats.fresh, state.profile.settings.newPerSession) === 0) return;
   startSession(pool.id, 'new');
@@ -904,6 +1042,7 @@ function renderCourse() {
     // below would be misleading alongside results that aren't limited to
     // whichever grade happens to be selected, so they step aside entirely
     // rather than showing two answers to "what should I do next" at once.
+    $('unit-groups').hidden = true;
     $('grade-picker').hidden = true;
     $('writing-mode-picker').hidden = true;
     list.innerHTML = '';
@@ -1153,12 +1292,14 @@ async function openCharacterDetail(course, char, returnTo = 'overview') {
     // should ever paint a screen.
     if (navSeq !== requestNav) return;
   } else if (course.kind === 'vocab') {
-    // Belt and braces: every current path here (an overview tile, a summary
-    // chip) already guarantees the unit is loaded before this can be
-    // reached, but a load already done resolves on the same tick anyway —
-    // cheap insurance against a future caller that doesn't.
+    // vocabUnitFor(char), not course.unit, for the same reason the kanji
+    // branch above uses kanjiUnitFor: `course` can be one of the synthetic
+    // cross-unit vocab pools (vocabStudyPool/allVocabPool), which has no
+    // `.unit` of its own. Belt and braces otherwise — every current path
+    // here already has the word's unit loaded, and a load already done
+    // resolves on the same tick.
     const requestNav = navSeq;
-    await withLoading(ensureVocabUnitLoaded(course.unit));
+    await withLoading(ensureVocabUnitLoaded(vocabUnitFor(char)));
     if (navSeq !== requestNav) return;
   }
   renderCharacterDetail();
@@ -1326,17 +1467,17 @@ function renderCharacterDetail() {
   }
 
   // Which unit this item is taught in — resolved from the manifest rather
-  // than trusting `course` itself, since a detail screen opened from the
-  // "everything I'm studying" review pool (a synthetic multi-grade course,
-  // see studyListPool()) would otherwise show that pool's own name instead
-  // of the kanji's real grade. Vocab courses map 1:1 to a unit already, so
-  // `course` itself is fine there.
+  // than trusting `course` itself, since a detail screen opened from one of
+  // the cross-unit review/learn pools (studyListPool, vocabStudyPool and
+  // friends, which have no unit of their own) would otherwise show that
+  // pool's name instead of the item's real unit.
   $('detail-unit').hidden = course.kind === 'kana';
   if (course.kind === 'kanji') {
     const unit = kanjiUnitFor(char);
     $('detail-unit').textContent = unit ? unitLabel(unit) : '';
   } else if (course.kind === 'vocab') {
-    $('detail-unit').textContent = `${vocabUnitGroupLabel(course.unit)} · ${vocabUnitLabel(course.unit)}`;
+    const unit = vocabUnitFor(char);
+    $('detail-unit').textContent = unit ? `${vocabUnitGroupLabel(unit)} · ${vocabUnitLabel(unit)}` : '';
   }
 
   // Kanji and vocab both fold mastery into the single study-status button

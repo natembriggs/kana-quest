@@ -246,7 +246,7 @@ const {
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
-const { vocabIdForWord } = await import('../src/vocab.js');
+const { vocabIdForWord, VOCAB_COURSES } = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
 // that grade has actually been loaded (kanji-expansion-plan.md §4), which
@@ -1007,22 +1007,39 @@ await settle();
 check('picking kanji opens the course screen', visible() === 'screen-course', `showing ${visible()}`);
 check('kanji shows a grade picker', el('grade-picker').hidden === false);
 
-// The grade picker interleaves a heading div (no dataset.grade) above each
-// group's row (see kanji-expansion-plan.md §5/§8 and renderGradePicker in
-// app.js) — filter those out to get just the real grade buttons, in order.
+// The unit picker no longer lists every unit at once: it shows the units of
+// whichever GROUP holds the selected one, with the groups themselves in
+// their own row above (see renderGradePicker in app.js). Eighteen kanji
+// units — and thirty-odd vocab ones — as a single wrapped grid pushed the
+// screen's actual buttons off the bottom of a phone.
 const gradePickerButtons = () => el('grade-picker')._children.filter((c) => c.dataset.grade !== undefined);
+const unitGroupChips = () => el('unit-groups')._children;
+const openUnitGroup = async (label) => {
+  fire(unitGroupChips().find((c) => c.dataset.group === label), 'click');
+  await settle();
+};
 const gradeButtons = gradePickerButtons();
-check('the grade picker offers all six elementary grades, six secondary sub-units, and six names/places sub-units',
-  gradeButtons.length === 18, gradeButtons.map((b) => b.dataset.grade).join(','));
-check('elementary grades come first numbered 1 to 6, then secondary sub-units 8-1..8-6, then names/places sub-units 9-1..9-6',
-  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6,8-1,8-2,8-3,8-4,8-5,8-6,9-1,9-2,9-3,9-4,9-5,9-6');
+check('the open group\'s units are the six elementary grades, and only those',
+  gradeButtons.map((b) => b.dataset.grade).join(',') === '1,2,3,4,5,6',
+  gradeButtons.map((b) => b.dataset.grade).join(','));
 check('grade 1 is selected by default', gradeButtons[0].className.includes('active'));
+check('the three kanji unit groups are offered, primary first and open',
+  unitGroupChips().map((c) => c.dataset.group).join(' | ')
+    === 'Primary school grade | Secondary school | Names & places'
+  && unitGroupChips()[0].className.includes('active'),
+  unitGroupChips().map((c) => `${c.dataset.group}${c.className.includes('active') ? '*' : ''}`).join(' | '));
 
 // A secondary sub-unit is a real, independently-loadable unit, not just a
 // picker label — select one, open its overview, and open a character on it,
 // proving the lazy load actually resolves to real per-kanji/stroke data the
 // same way an elementary grade's does (see kanji-expansion-plan.md §4.1/§8).
-const secondaryButton = gradeButtons.find((b) => b.dataset.grade === '8-3');
+await openUnitGroup('Secondary school');
+check('opening the secondary group swaps the unit row over to its own sub-units, none of them elementary',
+  gradePickerButtons().map((b) => b.dataset.grade).join(',') === '8-1,8-2,8-3,8-4,8-5,8-6',
+  gradePickerButtons().map((b) => b.dataset.grade).join(','));
+check('opening a group also selects a unit inside it, so the card below always matches the row',
+  gradePickerButtons()[0].className.includes('active'));
+const secondaryButton = gradePickerButtons().find((b) => b.dataset.grade === '8-3');
 fire(secondaryButton, 'click');
 await settle();
 check('selecting a secondary sub-unit shows its own course card',
@@ -1053,6 +1070,10 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail
 await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
+await openUnitGroup('Primary school grade');
+check('returning to the primary group lands back on the grade last selected there, not on a reset',
+  gradePickerButtons().find((b) => b.className.includes('active')).dataset.grade === '1',
+  gradePickerButtons().find((b) => b.className.includes('active')).dataset.grade);
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click'); // back to grade 1
 await settle();
 
@@ -1082,7 +1103,8 @@ check('switching to Yomi selects it', el('mode-picker')._children[1].className.i
 
 // Switching to Yomi re-rendered the grade picker with fresh nodes.
 const yomiGradeButtons = gradePickerButtons();
-check('the grade picker survives the mode switch', yomiGradeButtons.length === 18);
+check('the grade picker survives the mode switch', yomiGradeButtons.length === 6,
+  yomiGradeButtons.map((b) => b.dataset.grade).join(','));
 
 // Switching grade re-renders the card for that grade.
 fire(yomiGradeButtons[2], 'click'); // grade 3
@@ -2676,6 +2698,9 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-hom
 await settle();
 fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
 await settle();
+// Vocabulary's unit row opens on Core; the themed groups sit alongside it in
+// the group row, same as kanji's primary/secondary/names split.
+await openUnitGroup('Identity and culture');
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1.1'), 'click');
 await settle();
 
@@ -2733,6 +2758,68 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail
 await settle();
 check('backing out of the word returns to the vocab overview',
   visible() === 'screen-overview', `showing ${visible()}`);
+
+// --- Vocabulary's quick actions: review/learn across every unit at once ----
+// The same unit-agnostic pair kanji has had (studyListPool/allKanjiPool);
+// vocabulary needs it more, not less, with thirty-odd units to browse. Both
+// buttons must ignore whichever unit tile is selected below them.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
+check('the quick-actions row is offered for vocabulary too, not just kanji',
+  el('quick-actions').hidden === false);
+
+// Deliberately browse a themed unit a long way from the Core spine, so
+// "Learn next" teaching from Core proves it ignores the selection.
+await openUnitGroup('Local area, holiday and travel');
+const travelUnit = el('grade-picker')._children[0].dataset.grade;
+await settle();
+const coreVocabCourse = VOCAB_COURSES[0];
+check('vocabulary opens its unit row on the Core spine, and Core is first in the curriculum',
+  coreVocabCourse.unit.startsWith('C'), coreVocabCourse.unit);
+
+check('the quick "Learn next" button is offered while browsing a themed unit',
+  !el('quick-learn-next').disabled, el('quick-learn-next').innerHTML || el('quick-learn-next').textContent);
+fire(el('quick-learn-next'), 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // ensureVocabUnitLoaded is a real dynamic import
+check('"Learn next" teaches from the start of the vocab curriculum (Core), not the selected themed unit',
+  visible() === 'screen-lesson'
+  && coreVocabCourse.chunks.flatMap((c) => c.items).some((id) => id.split('|')[0] === el('lesson-kana').textContent),
+  `showing ${visible()}, lesson word "${el('lesson-kana').textContent}" while browsing ${travelUnit}`);
+
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the vocab "Learn next" lesson hands over to the quiz', visible() === 'screen-quiz', visible());
+check('the quiz asks about a Core word, drawn from the cross-unit pool rather than one course',
+  el('quiz-choices')._children.length > 0, `${el('quiz-choices')._children.length} choices`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+await settle();
+
+// The enrollment "Learn next" did lands in the same study map kanji use,
+// keyed by word id under a vocab mode — which is exactly what the "Review
+// due" pool reads back, across every unit at once.
+const vocabProfile = [...rows.values()][0];
+const vocabPool = {
+  kind: 'vocab',
+  chunks: [{ items: studiedKanji(vocabProfile.study, 'vmeaning') }],
+  excludeForMode: {},
+};
+const vocabPoolStats = courseStats(vocabPool, 'vmeaning', vocabProfile);
+const travelOnlyStats = courseStats(
+  VOCAB_COURSES.find((c) => c.unit === travelUnit), 'vmeaning', vocabProfile,
+);
+check('"Review due" spans every vocab unit — the themed unit still selected below has nothing enrolled at all',
+  vocabPoolStats.total > 0 && travelOnlyStats.unenrolled === travelOnlyStats.total,
+  `pool holds ${vocabPoolStats.total}, ${travelUnit} has ${travelOnlyStats.total - travelOnlyStats.unenrolled} enrolled`);
+check('browsing a themed unit did not change what "Learn next" enrolled — every enrolled word is a Core one',
+  studiedKanji(vocabProfile.study, 'vmeaning')
+    .every((id) => coreVocabCourse.chunks.flatMap((c) => c.items).includes(id)),
+  studiedKanji(vocabProfile.study, 'vmeaning').join(','));
 
 // --- Kanji detail: "Common words" offers a one-tap add to the vocab list ---
 // A word in a kanji's own common-words list (kanji.js's JMdict-derived list,

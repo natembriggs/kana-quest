@@ -165,7 +165,16 @@
       <p id="kanji-search-loading" class="hint" hidden>Searching…</p>
     </div>
 
-    <div id="grade-picker" class="grade-grid" role="group" aria-label="School grade" hidden></div>
+    <!-- Unit browsing, in two short horizontally-scrolling rows rather than
+         one wrapped grid: the groups a script's units fall into (primary /
+         secondary / names & places for kanji; Core plus the five themes for
+         vocab), then the units of whichever group holds the selected one.
+         The grid this replaces grew a row for every six units, which with
+         thirty-odd vocab units pushed Review, Learn, Test unlearned and View
+         overview off the bottom of a phone screen. See renderGradePicker()
+         in app.js. -->
+    <div id="unit-groups" class="unit-group-row" role="group" aria-label="Unit group" hidden></div>
+    <div id="grade-picker" class="unit-row" role="group" aria-label="Unit" hidden></div>
 
     <!-- Writing mode only: chosen BEFORE a session starts, so the very first
          character (which is otherwise brand new, and would default to Trace)

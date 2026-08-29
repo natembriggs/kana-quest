@@ -907,18 +907,44 @@ h3 { font-size: 18px; }
 
 /* --- Grade picker (kanji only) ------------------------------------------- */
 
-.grade-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
-/* Heading above each row of the grade grid ("Primary school grade",
-   "Secondary school", "Names & places") — a plain grid child spanning every
-   column, interleaved with that group's buttons in DOM order. */
-.grade-group-label {
-  grid-column: 1 / -1;
-  margin: 10px 0 -2px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink-soft);
+/* Two short horizontally-scrolling rows — the unit groups, then the units of
+   whichever group is open — instead of one grid that wrapped to eight rows
+   once vocabulary arrived with thirty-odd units and pushed the screen's
+   actual buttons out of sight. Fixed height regardless of how many units a
+   script grows to. See renderGradePicker() in app.js. */
+.unit-group-row, .unit-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* Room for the tiles' own focus ring, cancelled again by the negative
+     margin so the rows still sit on the screen's normal gutter. */
+  padding: 2px;
+  margin: -2px;
 }
-.grade-group-label:first-child { margin-top: 0; }
+.unit-group-row::-webkit-scrollbar, .unit-row::-webkit-scrollbar { display: none; }
+
+.unit-group {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 3px;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font: inherit; font-size: 14px; font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.unit-group.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+/* Reviews are waiting somewhere in this group — the only way a due unit
+   stays findable now that just one group's units are on screen at a time. */
+.unit-group-dot { font-size: 17px; line-height: 1; color: var(--accent); }
+.unit-group.active .unit-group-dot { color: var(--accent-ink); }
+
+.unit-row .grade { flex: 0 0 auto; min-width: 54px; padding: 0 10px; }
 .grade {
   position: relative;
   min-height: 46px;
