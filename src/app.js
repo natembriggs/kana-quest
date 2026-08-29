@@ -10,7 +10,7 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
-  ensureVocabUnitLoaded, vocabUnitFor, buildMeaningChoices, buildYomiChoices,
+  ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
   partialFuriganaIsAskable, pronunciationFor,
   buildRecallChoices, recallHasSpellingStage, buildSpellingChoices,
 } from './vocab.js';
@@ -41,7 +41,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1432,6 +1432,25 @@ function openKanjiFromWord(kanji) {
   openCharacterDetail(kanjiCourse, kanji, 'word');
 }
 
+/** The vocab course a word id belongs to, or null — vocabUnitFor() only
+ * gives the unit string, same two-step lookup kanji.js's own
+ * kanjiUnitFor -> KANJI_COURSES.find() pairing already uses. */
+function vocabCourseForId(id) {
+  const unit = vocabUnitFor(id);
+  return unit ? VOCAB_COURSES.find((c) => c.unit === unit) : null;
+}
+
+/**
+ * Kanji detail's own "Common words" list — every word JMdict associates with
+ * this kanji, from kanji.js's own list (built independently of vocab.js's
+ * separate, smaller frequency-based curriculum — see vocab-plan.md §3.5).
+ * A word that also happens to be taught there gets an "Add" button, one tap
+ * enrolling it the same way the headline study toggle on that word's own
+ * detail screen would (every applicable mode at once) — this is a shortcut
+ * into that same study list, not a separate one, so it needs no state of its
+ * own beyond study/unstudy. A word with no match in the vocab curriculum (or
+ * already added) stays a plain, non-interactive row.
+ */
 function renderGeneralWords(words) {
   const section = $('detail-general-words');
   const list = $('detail-general-words-list');
@@ -1440,10 +1459,31 @@ function renderGeneralWords(words) {
     section.hidden = true;
     return;
   }
+  const { study, unstudy } = state.profile;
   words.forEach((word) => {
-    const row = document.createElement('div');
-    row.className = 'kanji-word';
+    const id = vocabIdForWord(word.kanji, word.kana);
+    const course = id ? vocabCourseForId(id) : null;
+    const modes = course ? applicableStudyModes(course, id) : [];
+    const added = modes.length > 0 && modes.every((mode) => isStudying(study, id, mode));
+    const addable = modes.length > 0 && !added;
+
+    const row = document.createElement(addable ? 'button' : 'div');
+    if (addable) row.type = 'button';
+    row.className = `kanji-word${added ? ' is-added' : ''}`;
     renderWord(row, word);
+    if (modes.length > 0) {
+      const badge = document.createElement('span');
+      badge.className = 'word-add-badge';
+      badge.textContent = added ? 'Studying' : 'Add';
+      row.appendChild(badge);
+    }
+    if (addable) {
+      row.addEventListener('click', () => {
+        modes.forEach((mode) => setStudying(study, unstudy, id, mode, true));
+        store.saveProfile(state.profile);
+        renderGeneralWords(words); // re-render so this row flips to "Studying"
+      });
+    }
     list.appendChild(row);
   });
   section.hidden = false;

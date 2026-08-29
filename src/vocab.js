@@ -136,6 +136,33 @@ export function vocabUnitFor(id) {
   return unitByWord.get(id) || null;
 }
 
+// Surface form -> every id sharing it — almost always exactly one, except
+// the single homograph collision above (§3.3) — so a kanji detail page's own
+// "common words" list (kanji.js's own JMdict-derived word list, built
+// independently of this file's separate frequency-based curriculum) can
+// check whether one of ITS words is also something taught here, without
+// loading a single vocab unit just to find out.
+const idsBySurface = new Map();
+unitByWord.forEach((_unit, id) => {
+  const surface = id.split('|')[0];
+  if (!idsBySurface.has(surface)) idsBySurface.set(surface, []);
+  idsBySurface.get(surface).push(id);
+});
+
+/**
+ * The vocab word id matching a {kanji, kana} pair from elsewhere in the app,
+ * or null if that exact word isn't part of the taught vocab curriculum at
+ * all. Disambiguates the one homograph collision (市場) by kana; an
+ * unmatched kana on an ambiguous surface falls back to the first id, which
+ * only ever affects that single pair.
+ */
+export function vocabIdForWord(kanji, kana) {
+  const candidates = idsBySurface.get(kanji);
+  if (!candidates) return null;
+  if (candidates.length === 1) return candidates[0];
+  return candidates.find((id) => id.endsWith(`|${kana}`)) || candidates[0];
+}
+
 const loadedUnits = new Set();
 const loadingUnits = new Map(); // unit -> in-flight Promise, dedupes concurrent callers
 

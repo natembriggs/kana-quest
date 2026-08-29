@@ -1545,6 +1545,55 @@ check('every word ends up with a display it can be asked about',
 
 done('vocab yomi options never contradict the furigana on screen');
 
+// --- vocabIdForWord: kanji detail's own "common words" list, cross-checked
+// against the vocab curriculum -----------------------------------------
+// Backs app.js's renderGeneralWords() — "click a common word on a kanji's
+// detail page to add it to the vocab study list". A word from kanji.js's own
+// JMdict-derived word list only gets an Add button when it genuinely matches
+// something taught in vocab.js's separate, smaller curriculum; checked
+// exhaustively so a bad match (silently offering to add the WRONG word)
+// could never sneak in unnoticed.
+
+check('a plain kanji word with a real vocab match resolves to that word\'s own id',
+  vocab.vocabIdForWord('七', 'しち') === '七');
+check('a word with no vocab-curriculum match returns null, not a wrong guess',
+  vocab.vocabIdForWord('一部', 'いちぶ') === null);
+
+// 市場 is the one surface form taught twice with different readings — the
+// only real homograph collision in the whole vocab curriculum (see the
+// comment above idsBySurface in vocab.js).
+const ichiba = vocab.vocabIdForWord('市場', 'いちば');
+const shijou = vocab.vocabIdForWord('市場', 'しじょう');
+check('the one homograph collision resolves by reading, not just by surface',
+  ichiba === '市場|いちば' && shijou === '市場|しじょう' && ichiba !== shijou,
+  `${ichiba} / ${shijou}`);
+
+// Exhaustive: every word every kanji lists must either resolve to nothing,
+// or to a real vocab entry with that SAME surface form — never to some
+// other word's id. Every vocab unit was already loaded up front for the
+// yomi-options checks above, so this can read straight from each matched
+// course's index.
+let vocabWordChecks = 0;
+let vocabWordMismatches = 0;
+for (const course of KANJI_COURSES) {
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    const info = kanjiInfo(course, kanji);
+    for (const word of info.words) {
+      vocabWordChecks += 1;
+      const id = vocab.vocabIdForWord(word.kanji, word.kana);
+      if (id === null) continue;
+      const matchCourse = vocab.VOCAB_COURSES.find((c) => c.unit === vocab.vocabUnitFor(id));
+      const matched = matchCourse && matchCourse.index.get(id);
+      if (!matched || matched.w !== word.kanji) vocabWordMismatches += 1;
+    }
+  }
+}
+check('a matched word is always the SAME word, in the vocab curriculum\'s own data',
+  vocabWordChecks > 0 && vocabWordMismatches === 0,
+  `${vocabWordMismatches} mismatch(es) out of ${vocabWordChecks} words checked`);
+
+done('vocabIdForWord matches kanji-page common words to the vocab curriculum correctly');
+
 // --- Vocabulary: Recall mode (vocab-plan.md §6) ----------------------------
 
 {

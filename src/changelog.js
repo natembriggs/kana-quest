@@ -18,6 +18,7 @@ export const CHANGELOG = [
       'Vocabulary: getting a word\'s reading right, without needing to peek at the furigana, now also counts toward that kanji\'s own Yomi progress — reading 空港 correctly as くうこう credits 空 with くう the same way answering it directly in Kanji would. Only the part you were actually being asked about counts; a kanji whose reading was already showing on screen isn\'t.',
       'Fixed: a single-kanji Vocabulary word (船, 水, and the like) could have its furigana hidden just from adding that WORD to a Vocabulary study list, even though the kanji itself had never been studied — the two were being tracked as if they were the same thing.',
       'Fixed: finishing a session with nothing missed always highlighted "Learn new", even when review was also overdue — "Review due" is now the highlighted choice whenever it applies, same as it already was on the home screen and course list.',
+      'New: a kanji\'s "Common words" now offers an Add button on any word that\'s also part of Vocabulary\'s curriculum — one tap adds it to your vocab study list without leaving the kanji page.',
     ],
   },
   {

@@ -246,6 +246,7 @@ const {
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
+const { vocabIdForWord } = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
 // that grade has actually been loaded (kanji-expansion-plan.md §4), which
@@ -2732,6 +2733,94 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail
 await settle();
 check('backing out of the word returns to the vocab overview',
   visible() === 'screen-overview', `showing ${visible()}`);
+
+// --- Kanji detail: "Common words" offers a one-tap add to the vocab list ---
+// A word in a kanji's own common-words list (kanji.js's JMdict-derived list,
+// built independently of vocab.js's separate, smaller curriculum) that also
+// happens to be taught there gets an "Add" button — clicking it enrolls that
+// word in the vocab study list without leaving the kanji page. See
+// vocabIdForWord() in vocab.js and renderGeneralWords() in app.js.
+
+function findAddableWord(course) {
+  for (const kanji of course.chunks.flatMap((c) => c.items)) {
+    const info = kanjiInfo(course, kanji);
+    for (const word of info.words) {
+      const id = vocabIdForWord(word.kanji, word.kana);
+      if (id) return { kanji, word, id };
+    }
+  }
+  return null;
+}
+const addable = findAddableWord(kanjiGrade1);
+check('grade 1 has at least one kanji whose common-words list matches the vocab curriculum',
+  !!addable, 'none found — test setup problem, not necessarily an app bug');
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+await settle();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === addable.kanji), 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // openCharacterDetail is async
+check('this kanji\'s detail screen shows the Common words section',
+  el('detail-general-words').hidden === false
+  && el('detail-general-words-list')._children.length > 0,
+  `hidden=${el('detail-general-words').hidden}, rows=${el('detail-general-words-list')._children.length}`);
+
+// The badge is a real appended child (app.js's row.appendChild(badge)), so
+// it has to be read with querySelectorAll — the stub's querySelector()
+// fabricates an unrelated placeholder per selector rather than actually
+// inspecting _children (see the stub's own comment above), while
+// querySelectorAll() genuinely filters _children by class.
+function addBadge(row) { return row.querySelectorAll('.word-add-badge')[0] || null; }
+
+const wordRow = el('detail-general-words-list')._children
+  .find((row) => row.querySelector('.word-kanji').textContent === addable.word.kanji);
+// The stub tracks no real tag name (createElement() ignores which tag is
+// asked for — see the stub's own comment), so a click listener actually
+// being wired is the meaningful, checkable half of "this is a real button".
+check('the matched word\'s row has an "Add" badge and a click handler wired to it',
+  !!wordRow && addBadge(wordRow) && addBadge(wordRow).textContent === 'Add'
+  && wordRow._listeners.click && wordRow._listeners.click.length > 0,
+  wordRow ? `badge="${addBadge(wordRow) && addBadge(wordRow).textContent}"` : 'row not found');
+
+const profileBeforeAdd = [...rows.values()][0];
+check('the matched word is not already in the study list before tapping it',
+  !isStudying(profileBeforeAdd.study, addable.id, 'vmeaning'));
+
+fire(wordRow, 'click');
+await settle();
+
+const profileAfterAdd = [...rows.values()][0];
+check('tapping the word enrolls it in every applicable vocab mode',
+  isStudying(profileAfterAdd.study, addable.id, 'vmeaning')
+  && isStudying(profileAfterAdd.study, addable.id, 'vrecall'));
+
+const wordRowAfter = el('detail-general-words-list')._children
+  .find((row) => row.querySelector('.word-kanji').textContent === addable.word.kanji);
+check('the row re-renders to show it\'s now being studied, and stops being clickable',
+  wordRowAfter.className.includes('is-added')
+  && addBadge(wordRowAfter) && addBadge(wordRowAfter).textContent === 'Studying'
+  && (!wordRowAfter._listeners.click || wordRowAfter._listeners.click.length === 0),
+  `class="${wordRowAfter.className}", badge="${addBadge(wordRowAfter) && addBadge(wordRowAfter).textContent}"`);
+
+// A common word with no vocab-curriculum match at all must stay a plain,
+// non-interactive row — nothing to add, nothing to tap.
+const unmatchedWord = kanjiInfo(kanjiGrade1, addable.kanji).words
+  .find((w) => !vocabIdForWord(w.kanji, w.kana));
+if (unmatchedWord) {
+  const unmatchedRow = el('detail-general-words-list')._children
+    .find((row) => row.querySelector('.word-kanji').textContent === unmatchedWord.kanji);
+  check('a common word with no vocab match has no Add badge and no click handler',
+    !!unmatchedRow && !addBadge(unmatchedRow)
+    && (!unmatchedRow._listeners.click || unmatchedRow._listeners.click.length === 0),
+    unmatchedRow ? unmatchedRow.className : 'row not found');
+}
 
 // --- Summary screen: "Review N due" outranks "Learn N new" -----------------
 // A real regression: the button existed and worked, it just never got the

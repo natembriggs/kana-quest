@@ -1018,6 +1018,33 @@ h3 { font-size: 18px; }
 .kanji-word .word-kana { color: var(--ink-soft); font-size: 15px; }
 .kanji-word .word-en { color: var(--ink-soft); font-size: 14px; }
 
+/* A common word that also happens to be in the taught vocab curriculum
+   (renderGeneralWords() in app.js) — either a tappable "Add" row or, once
+   added, a plain informational one with a "Studying" badge instead. Both
+   share .kanji-word's layout; only the addable one is a real <button>. */
+button.kanji-word {
+  width: 100%;
+  padding: 8px 10px;
+  margin: -8px -10px;
+  border: none;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+button.kanji-word:active { background: var(--line); }
+.word-add-badge {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+button.kanji-word .word-add-badge { border: 2px solid var(--accent); color: var(--accent); }
+.kanji-word.is-added .word-add-badge { background: var(--ok-bg); color: var(--ok); }
+
 /* --- Summary ------------------------------------------------------------ */
 
 .score { margin: 0; font-size: 20px; font-weight: 600; text-align: center; }
