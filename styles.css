@@ -677,6 +677,12 @@ h3 { font-size: 18px; }
 .feedback:empty { display: none; }
 .feedback.ok { color: var(--ok); }
 .feedback.bad { color: var(--bad); }
+/* A vocab two-part question announcing its own second part (Meaning's
+   reading follow-up, Recall's spelling follow-up) — not a grading result,
+   so it reads as an instruction rather than a verdict: quieter and smaller
+   than .ok/.bad, matching .hint elsewhere rather than shouting in accent
+   colour the way a right/wrong answer does. */
+.feedback.hint { font-size: 17px; font-weight: 600; color: var(--ink-soft); }
 
 /* --- Writing (Trace / Guided / Free) --------------------------------------- */
 /* See writing-mode-plan.md. The guide is drawn at the character's TRUE

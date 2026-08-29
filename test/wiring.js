@@ -247,7 +247,8 @@ const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
 const {
-  vocabIdForWord, VOCAB_COURSES, unitLabel: vocabUnitLabel, unitGroupLabel: vocabUnitGroupLabel, unitBadge: vocabUnitBadge,
+  vocabIdForWord, vocabInfo, VOCAB_COURSES,
+  unitLabel: vocabUnitLabel, unitGroupLabel: vocabUnitGroupLabel, unitBadge: vocabUnitBadge,
 } = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
@@ -2930,6 +2931,213 @@ await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'overview-back' } }) } });
 await settle();
 await openUnitGroup('Core');
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === 'C1'), 'click');
+await settle();
+
+// --- Vocabulary quiz: the definition/reading and word/spelling follow-ups
+// pause and announce themselves rather than swapping instantly -------------
+//
+// A real user complaint: getting the definition right used to jump straight
+// into the reading follow-up on the SAME click that graded the definition —
+// the choices changed out from under the tap that had just landed, with
+// nothing on screen explaining why. Both of vocabulary's two-part questions
+// (Meaning's definition -> reading, Recall's word -> spelling) now pause on
+// the first part's own green card, offering "Next" — and say what pressing
+// it will do on the button itself — before a SEPARATE press actually shows
+// the second part, itself announced too. See finishVocabDefinitionStage/
+// finishVocabProdStage and nextQuestion()'s vocabNextStage gate in app.js.
+//
+// 質問 (Core/C1) is the word: to reach the reading follow-up at all needs a
+// kanji the learner already has SOME claim on (vocab-plan.md §5.2 hides a
+// known kanji's furigana by default, which is what makes it "askable" per
+// §5.4) — so 問 is enrolled in kanji study first, exactly the state a real
+// learner would be in by the time this question is actually worth asking.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+const monUnit = kanjiUnitFor('問');
+await openUnitGroup(monUnit.startsWith('9-') ? 'Names & places' : monUnit.startsWith('8-') ? 'Secondary school' : 'Primary school grade');
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === monUnit), 'click');
+await settle();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === '問'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+fire(el('detail-study-toggle'), 'click'); // enrolls 問 in every applicable kanji mode
+await settle();
+check('問 is now known, which is what makes its word\'s reading askable below',
+  isStudying([...rows.values()][0].study, '問', 'definition'));
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+// --- Word detail: pronunciation, alongside romaji, when it actually differs
+// こんにちは spells letter-for-letter as "konnichiha" but is SAID
+// "konnichiwa" — the exact case the reveal ladder's pronunciationFor()
+// (vocab.js) exists for, now shown openly on the word's own detail screen
+// too (no reveal ladder here to protect). See renderCharacterDetail() in
+// app.js.
+fire(el('overview-grid')._children.find((t) => t.textContent === 'こんにちは'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('the word detail screen shows the plain romaji spelling',
+  el('detail-romaji').hidden === false && el('detail-romaji').textContent === 'konnichiha',
+  el('detail-romaji').textContent);
+check('...and, since it differs, how it\'s actually said',
+  el('detail-pronunciation').hidden === false && el('detail-pronunciation').textContent === 'said: konnichiwa',
+  el('detail-pronunciation').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === 'はい'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a word whose pronunciation matches its romaji shows no second line',
+  el('detail-romaji').hidden === false && el('detail-pronunciation').hidden === true,
+  `romaji="${el('detail-romaji').textContent}", pronunciation hidden=${el('detail-pronunciation').hidden}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === '質問'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('reached 質問\'s own detail screen', el('detail-glyph').textContent === '質問');
+fire(el('detail-study-toggle'), 'click'); // enrolls 質問 in both vmeaning and vrecall
+await settle();
+
+// --- Meaning: definition -> (pause) -> reading -----------------------------
+
+fire(el('detail-study-now'), 'click'); // studyDetailCharNow() picks vmeaning: it's pending, state.mode isn't
+for (let i = 0; i < 10; i += 1) await settle();
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the single-word "Study it now" session reaches the quiz', visible() === 'screen-quiz', visible());
+check('it opens on the definition stage: four English options, no Next yet',
+  el('quiz-choices')._children.length === 4 && el('quiz-ok').hidden === true,
+  `${el('quiz-choices')._children.length} choices, quiz-ok hidden=${el('quiz-ok').hidden}`);
+
+const vocabCore = VOCAB_COURSES.find((c) => c.unit === 'C1');
+const shitsumonInfo = vocabInfo(vocabCore, '質問');
+const defAnswer = shitsumonInfo.en[0];
+const defChoicesBefore = el('quiz-choices')._children.map((b) => b.textContent);
+const defRight = el('quiz-choices')._children.find((b) => b.textContent === defAnswer);
+check('the correct definition is among the four options', !!defRight, defChoicesBefore.join(' | '));
+fire(defRight, 'click');
+await settle();
+
+check('a correct definition turns the card green immediately',
+  el('quiz-card').className.includes('is-correct'));
+check('...but does NOT swap the choices out — this is the bug: it must wait for Next',
+  el('quiz-choices')._children.map((b) => b.textContent).join('|') === defChoicesBefore.join('|'),
+  el('quiz-choices')._children.map((b) => b.textContent).join('|'));
+check('"Next" appears and says what it will do, rather than a bare "Next"',
+  el('quiz-ok').hidden === false && el('quiz-ok').textContent === 'Next: the reading →',
+  el('quiz-ok').textContent);
+check('the feedback line explains what just happened',
+  el('quiz-feedback').textContent === 'Correct! Next, its reading.', el('quiz-feedback').textContent);
+
+fire(el('quiz-ok'), 'click'); // nextQuestion() -> vocabNextStage -> beginVocabYomiStage
+await settle();
+
+check('pressing Next reveals the reading stage — same word, new choices',
+  el('quiz-kana').textContent === '質問' && el('quiz-ok').hidden === true,
+  `glyph "${el('quiz-kana').textContent}", quiz-ok hidden=${el('quiz-ok').hidden}`);
+check('the reading stage announces itself too',
+  el('quiz-feedback').textContent === "Now choose how it's read.", el('quiz-feedback').textContent);
+check('the reading stage\'s card is plain again — the definition\'s green does not bleed into it',
+  el('quiz-card').className === 'quiz-card', el('quiz-card').className);
+check('the reading choices are a different set from the definition\'s (kana, not English)',
+  el('quiz-choices')._children.length > 0
+  && el('quiz-choices')._children.map((b) => b.textContent).join('|') !== defChoicesBefore.join('|'));
+
+const yomiAnswer = shitsumonInfo.r;
+const yomiRight = el('quiz-choices')._children.find((b) => b.textContent === yomiAnswer);
+check('the correct reading is among the reading stage\'s options', !!yomiRight,
+  el('quiz-choices')._children.map((b) => b.textContent).join('|'));
+fire(yomiRight, 'click');
+await settle();
+
+check('grading the reading clears the "now choose" hint — it is not a lingering banner',
+  el('quiz-feedback').textContent === '', el('quiz-feedback').textContent);
+check('a bare "Next" this time — there is no third stage to announce',
+  el('quiz-ok').hidden === false && el('quiz-ok').textContent === 'Next', el('quiz-ok').textContent);
+
+fire(el('quiz-ok'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('this single-word session is now finished — Next actually advanced, not just re-announced',
+  visible() === 'screen-summary', visible());
+
+// --- Recall: word -> (pause) -> spelling ------------------------------------
+// vrecall is still pending for 質問 (only vmeaning was studied above), so
+// "Study it now" reaches it next automatically — see studyDetailCharNow()'s
+// own pending-mode selection in app.js.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+fire(el('overview-grid')._children.find((t) => t.textContent === '質問'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+fire(el('detail-study-now'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+  fire(el('lesson-next'), 'click');
+  await settle();
+}
+check('the second "Study it now" run opens on Recall, not Meaning again',
+  visible() === 'screen-quiz' && el('quiz-kana').lang === 'en', `showing ${visible()}, lang=${el('quiz-kana').lang}`);
+
+const prodAnswer = shitsumonInfo.r;
+const prodChoicesBefore = el('quiz-choices')._children.map((b) => b.textContent);
+const prodRight = el('quiz-choices')._children.find((b) => b.textContent === prodAnswer);
+check('the correct kana reading is among Recall stage 1\'s options', !!prodRight, prodChoicesBefore.join('|'));
+fire(prodRight, 'click');
+await settle();
+
+const prodQualifies = el('quiz-ok').textContent === 'Next: spell it →';
+check('Recall stage 1 pauses green with an explanatory Next, same as Meaning did',
+  el('quiz-card').className.includes('is-correct') && el('quiz-ok').hidden === false,
+  `card="${el('quiz-card').className}", ok hidden=${el('quiz-ok').hidden}, text="${el('quiz-ok').textContent}"`);
+check('...and does not swap the choices out from under the click that just landed',
+  el('quiz-choices')._children.map((b) => b.textContent).join('|') === prodChoicesBefore.join('|'));
+
+fire(el('quiz-ok'), 'click');
+await settle();
+
+if (prodQualifies) {
+  check('the spelling stage announces itself, same pattern as the reading stage did',
+    el('quiz-feedback').textContent === "Now choose how it's spelled." && el('quiz-ok').hidden === true,
+    `feedback="${el('quiz-feedback').textContent}", ok hidden=${el('quiz-ok').hidden}`);
+  const spellAnswer = shitsumonInfo.w;
+  const spellRight = el('quiz-choices')._children.find((b) => b.textContent === spellAnswer);
+  check('the correct spelling is among the spelling stage\'s options', !!spellRight,
+    el('quiz-choices')._children.map((b) => b.textContent).join('|'));
+  fire(spellRight, 'click');
+  await settle();
+  check('grading the spelling clears the hint and shows a bare Next',
+    el('quiz-feedback').textContent === '' && el('quiz-ok').textContent === 'Next');
+} else {
+  check('no follow-up qualified, so Next is bare and finishes the session directly',
+    el('quiz-ok').textContent === 'Next');
+}
+
+fire(el('quiz-ok'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('the Recall session is finished too', visible() === 'screen-summary', visible());
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === 'C1'), 'click');
 await settle();
 

@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-08-29',
     changes: [
+      'Fixed: in Vocabulary\'s Meaning mode, getting the definition right used to jump straight into the reading question on the very same tap — easy to miss what had just happened. It now pauses on the green "correct" card with a "Next: the reading →" button, and the reading question announces itself ("Now choose how it\'s read") once you tap through. Recall mode\'s word-to-spelling follow-up works the same way now too.',
+      'New: a vocabulary word\'s own page now shows how it\'s actually pronounced, not just its letter-by-letter romaji spelling — こんにちは now clearly shows "konnichiwa", not just "konnichiha", the same hint already offered mid-quiz and on the lesson card.',
       'Words and kanji are now tappable almost everywhere you see them outside an actual question. Tap a word — in a kanji\'s "Common words" list, or the example word under a reading — and it opens up to show its own kanji as buttons, plus a link to its full page. Tap one of those kanji and you go straight to its page: stroke order, readings, the lot. The "Add" button on a word still adds it to your vocabulary list in one tap without opening anything.',
       'Back now steps back one screen at a time however deep you have wandered — kanji to a word to one of its kanji and onwards — instead of getting stuck bouncing between the last two.',
       'The example word on a lesson card is tappable the same way, and a vocabulary lesson now shows the word\'s kanji as buttons underneath it. Looking one up never disturbs the lesson: Back returns you to exactly where you were.',

@@ -42,7 +42,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1508,6 +1508,7 @@ function renderCharacterDetail() {
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, char);
     $('detail-romaji').hidden = true;
+    $('detail-pronunciation').hidden = true;
     $('detail-readings').hidden = false;
     renderReadingChips($('detail-readings'), $('detail-word'), course, char, info, drillIntoDetail);
     renderExposureSummary(char, info);
@@ -1520,7 +1521,17 @@ function renderCharacterDetail() {
   } else if (course.kind === 'vocab') {
     const info = vocabInfo(course, char);
     renderVocabWordGlyph($('detail-glyph'), info);
-    $('detail-romaji').hidden = true;
+    // The furigana above already gives the reading in kana; romaji and,
+    // where it differs, the actual pronunciation (こんにちは spells as
+    // "konnichiha" but is said "konnichiwa") are the two things a learner
+    // can't get from the kana alone — same pair the lesson card shows
+    // (renderLesson()'s lesson-romaji/lesson-pronunciation), shown openly
+    // here too since this screen has no reveal ladder to protect.
+    $('detail-romaji').hidden = false;
+    $('detail-romaji').textContent = toRomaji(info.r);
+    const pronunciation = pronunciationFor(info.r);
+    $('detail-pronunciation').hidden = !pronunciation;
+    $('detail-pronunciation').textContent = pronunciation ? `said: ${pronunciation}` : '';
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
     $('detail-exposure').hidden = true;
@@ -1534,6 +1545,7 @@ function renderCharacterDetail() {
     $('detail-word-kanji').hidden = true;
     $('detail-romaji').hidden = false;
     $('detail-romaji').textContent = romajiFor(char);
+    $('detail-pronunciation').hidden = true;
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
     $('detail-exposure').hidden = true;
@@ -2665,9 +2677,9 @@ function chooseVocabMeaning(value, button) {
   if (correct) {
     button.classList.add('is-right');
     $('quiz-card').className = 'quiz-card is-correct';
-    $('quiz-feedback').textContent = '';
     disableRemainingChoices();
-    proceedAfterVocabDefinition(course, item, true);
+    session.locked = true;
+    finishVocabDefinitionStage(course, item);
     return;
   }
 
@@ -2684,41 +2696,63 @@ function chooseVocabMeaning(value, button) {
   revealSingleAnswer(session.vocabAnswer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
+  $('quiz-feedback').textContent = '';
   disableRemainingChoices();
-  proceedAfterVocabDefinition(course, item, false);
-}
-
-/** After the definition stage resolves: on to the yomi follow-up (§5.4) if
- * it was answered right, something was genuinely hidden, and the learner
- * never revealed it — otherwise the question is simply done.
- *
- * The options are constrained by whatever furigana stayed on screen (§5.4);
- * vocabHiddenState already guaranteed back at question-build time that the
- * display it chose leaves enough of them. */
-function proceedAfterVocabDefinition(course, item, correct) {
-  const session = state.session;
-  const qualifies = correct && !session.vocabRevealed && vocabHasHiddenReading(session.vocabHidden);
-  if (qualifies) {
-    const hiddenInfo = session.vocabHidden;
-    session.vocabStage = 'yomi';
-    renderVocabYomiStage(buildYomiChoices(
-      course,
-      item,
-      hiddenInfo.mode === 'perchar' ? hiddenInfo.hidden : null,
-    ));
-    return;
-  }
   session.vocabStage = 'done';
   session.locked = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
 }
 
+/**
+ * A correct definition answer: the card stays green, "Next" appears, and —
+ * only when a reading follow-up is actually coming (§5.4: something was
+ * genuinely hidden and never revealed) — the feedback line and the Next
+ * button itself both say so, rather than the reading stage's choices
+ * silently replacing the definition's the moment this click landed. See
+ * vocab-plan.md's UX note and nextQuestion() above, which is what actually
+ * runs beginVocabYomiStage on the FOLLOWING press.
+ */
+function finishVocabDefinitionStage(course, item) {
+  const session = state.session;
+  const qualifies = !session.vocabRevealed && vocabHasHiddenReading(session.vocabHidden);
+  if (qualifies) {
+    $('quiz-feedback').className = 'feedback ok';
+    $('quiz-feedback').textContent = "Correct! Next, its reading.";
+    session.vocabNextStage = () => beginVocabYomiStage(course, item);
+    $('quiz-ok').textContent = 'Next: the reading →';
+  } else {
+    $('quiz-feedback').textContent = '';
+    session.vocabStage = 'done';
+    $('quiz-ok').textContent = 'Next';
+  }
+  $('quiz-ok').hidden = false;
+}
+
+/** The options are constrained by whatever furigana stayed on screen
+ * (§5.4); vocabHiddenState already guaranteed back at question-build time
+ * that the display it chose leaves enough of them. */
+function beginVocabYomiStage(course, item) {
+  const session = state.session;
+  const hiddenInfo = session.vocabHidden;
+  session.vocabStage = 'yomi';
+  session.locked = false;
+  renderVocabYomiStage(buildYomiChoices(
+    course,
+    item,
+    hiddenInfo.mode === 'perchar' ? hiddenInfo.hidden : null,
+  ));
+}
+
 function renderVocabYomiStage({ options, answer }) {
   state.session.vocabYomiAnswer = answer;
 
-  $('quiz-feedback').textContent = '';
-  $('quiz-feedback').className = 'feedback';
+  // A fresh question about the same word — announced, not just swapped in.
+  // See finishVocabDefinitionStage above, which is what paused on the
+  // definition's own green card for one "Next" press before this ran.
+  $('quiz-ok').hidden = true;
+  $('quiz-feedback').textContent = "Now choose how it's read.";
+  $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
 
   const choices = $('quiz-choices');
@@ -2752,6 +2786,8 @@ function chooseVocabYomi(value, button) {
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
   button.classList.add(correct ? 'is-right' : 'is-wrong');
+  $('quiz-feedback').className = 'feedback';
+  $('quiz-feedback').textContent = '';
   if (!correct) revealSingleAnswer(session.vocabYomiAnswer);
   $('quiz-card').className = `quiz-card ${correct ? 'is-correct' : 'is-wrong'}`;
 
@@ -2835,9 +2871,9 @@ function chooseVocabProd(value, button) {
   if (correct) {
     button.classList.add('is-right');
     $('quiz-card').className = 'quiz-card is-correct';
-    $('quiz-feedback').textContent = '';
     disableRemainingChoices();
-    proceedAfterVocabProd(course, item, true);
+    session.locked = true;
+    finishVocabProdStage(course, item);
     return;
   }
 
@@ -2854,36 +2890,46 @@ function chooseVocabProd(value, button) {
   revealSingleAnswer(session.vocabAnswer);
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
+  $('quiz-feedback').textContent = '';
   disableRemainingChoices();
-  proceedAfterVocabProd(course, item, false);
-}
-
-/** After stage 1 resolves: on to the spelling stage (§6.2) only when it was
- * answered right, the word has kanji worth asking about, and at least one
- * of them is under study — otherwise the question is simply done. */
-function proceedAfterVocabProd(course, item, correct) {
-  const session = state.session;
-  const info = vocabInfo(course, item);
-  const eligible = correct
-    && recallHasSpellingStage(info)
-    && [...info.w].some((ch) => isKanjiChar(ch) && isKanjiKnown(ch));
-
-  if (eligible) {
-    const masteryOf = (kanji) => masteryTier(state.profile.progress[itemKey('definition', kanji)]);
-    const built = buildSpellingChoices(course, item, masteryOf);
-    if (built) {
-      session.vocabRecallStage = 'spell';
-      renderVocabSpellStage(info, built);
-      return;
-    }
-    // Fewer than MIN_SPELLING_OPTIONS survived the mastered-kanji exclusion
-    // even after the fallback ladder (§6.4) — skip the stage and grade
-    // nothing, rather than serve a question that gives itself away.
-  }
   session.vocabRecallStage = 'done';
   session.locked = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
+}
+
+/**
+ * A correct stage-1 answer: pause here, card still green, before deciding
+ * whether the spelling follow-up (§6.2 — word has kanji worth asking about,
+ * at least one under study) is coming — see finishVocabDefinitionStage
+ * above, same reasoning, same pattern. Nothing survived the mastered-kanji
+ * exclusion even after §6.4's fallback ladder is treated as "not eligible",
+ * same as the caller already did before this split out.
+ */
+function finishVocabProdStage(course, item) {
+  const session = state.session;
+  const info = vocabInfo(course, item);
+  const eligible = recallHasSpellingStage(info) && [...info.w].some((ch) => isKanjiChar(ch) && isKanjiKnown(ch));
+  const masteryOf = (kanji) => masteryTier(state.profile.progress[itemKey('definition', kanji)]);
+  const built = eligible ? buildSpellingChoices(course, item, masteryOf) : null;
+
+  if (built) {
+    $('quiz-feedback').className = 'feedback ok';
+    $('quiz-feedback').textContent = 'Correct! Next, spell it.';
+    session.vocabNextStage = () => beginVocabSpellStage(info, built);
+    $('quiz-ok').textContent = 'Next: spell it →';
+  } else {
+    $('quiz-feedback').textContent = '';
+    session.vocabRecallStage = 'done';
+    $('quiz-ok').textContent = 'Next';
+  }
+  $('quiz-ok').hidden = false;
+}
+
+function beginVocabSpellStage(info, built) {
+  state.session.vocabRecallStage = 'spell';
+  state.session.locked = false;
+  renderVocabSpellStage(info, built);
 }
 
 function renderVocabSpellStage(info, { options, answer }) {
@@ -2900,8 +2946,12 @@ function renderVocabSpellStage(info, { options, answer }) {
   $('quiz-prompt-pronunciation').hidden = false;
   $('quiz-prompt-pronunciation').textContent = `"${info.en[0]}"`;
 
-  $('quiz-feedback').textContent = '';
-  $('quiz-feedback').className = 'feedback';
+  // A fresh question about the same word — announced, not just swapped in.
+  // See finishVocabProdStage above, which paused on stage 1's own green
+  // card for one "Next" press before this ran.
+  $('quiz-ok').hidden = true;
+  $('quiz-feedback').textContent = "Now choose how it's spelled.";
+  $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
 
   const choices = $('quiz-choices');
@@ -2931,6 +2981,8 @@ function chooseVocabSpell(value, button) {
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
   button.classList.add(correct ? 'is-right' : 'is-wrong');
+  $('quiz-feedback').className = 'feedback';
+  $('quiz-feedback').textContent = '';
   if (!correct) revealSingleAnswer(session.vocabSpellAnswer);
   $('quiz-card').className = `quiz-card ${correct ? 'is-correct' : 'is-wrong'}`;
 
@@ -3832,6 +3884,21 @@ function primaryAdvanceButton() {
 function nextQuestion() {
   const session = state.session;
   if (!session) return;
+  // Vocabulary's two-part questions (Meaning's definition -> reading,
+  // Recall's word -> spelling) resolve one part at a time behind this SAME
+  // "Next" button rather than the app's usual one-question-per-press: a
+  // correct first part pauses here, still green, with `vocabNextStage` set
+  // to whatever begins the second part instead of advancing to a new item.
+  // See finishVocabDefinitionStage/finishVocabProdStage — without this
+  // pause the two parts used to swap on the very same click that graded the
+  // first one, changing the question out from under the click that had
+  // just landed.
+  if (session.vocabNextStage) {
+    const beginNextStage = session.vocabNextStage;
+    session.vocabNextStage = null;
+    beginNextStage();
+    return;
+  }
   clearTimeout(session.pendingAdvance);
   session.pendingAdvance = null;
   session.position += 1;

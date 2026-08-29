@@ -262,6 +262,11 @@
     </div>
 
     <div id="detail-romaji" class="romaji" hidden></div>
+    <!-- Vocabulary only: how the word is actually SAID, when that differs
+         from its literal romaji spelling above (こんにちは spells as
+         "konnichiha" but is said "konnichiwa") — mirrors the lesson card's
+         #lesson-pronunciation. See pronunciationFor() in vocab.js. -->
+    <p id="detail-pronunciation" class="pronunciation" hidden></p>
     <!-- Kanji only: tappable readings (tap to see the word it's used in),
          meanings, and the word for whichever reading was last tapped. -->
     <div id="detail-readings" class="reading-chips" lang="ja" hidden></div>
