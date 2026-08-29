@@ -10,11 +10,19 @@ export const VOCAB_ENTRIES = [
     "r": "て",
     "en": [
       "hand",
-      "arm"
+      "arm",
+      "forepaw",
+      "foreleg",
+      "handle"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -23,9 +31,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "た",
       "で",
       "ず",
+      "た",
       "しゅ"
     ],
     "sp": [
@@ -54,8 +62,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "member of an assembly",
       "member of the Diet",
-      "member of parliament",
-      "member of Congress"
+      "member of parliament"
     ],
     "pos": "n",
     "th": "5.4",
@@ -99,11 +106,17 @@ export const VOCAB_ENTRIES = [
       "exercise",
       "physical training",
       "workout",
-      "sports"
+      "appeal",
+      "campaign",
+      "drive"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -165,8 +178,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しゅどう",
-      "じゅのう",
       "くびのう",
+      "じゅのう",
       "しゅのうずる"
     ],
     "sp": [
@@ -193,11 +206,17 @@ export const VOCAB_ENTRIES = [
     "w": "部長",
     "r": "ぶちょう",
     "en": [
-      "head (chief, director) of a section or depar…"
+      "head (chief, director) of a section or depar…",
+      "head of a (school) club",
+      "head of a (school) team"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -211,8 +230,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぶなが",
       "ぶぢょう",
+      "ぶなが",
       "べちょう",
       "ぶおさ"
     ],
@@ -241,11 +260,20 @@ export const VOCAB_ENTRIES = [
     "r": "み",
     "en": [
       "one's body",
-      "one's person"
+      "one's person",
+      "oneself",
+      "one's appearance",
+      "one's place (in society, etc.)",
+      "one's position"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -281,11 +309,18 @@ export const VOCAB_ENTRIES = [
     "r": "そうり",
     "en": [
       "prime minister",
-      "premier"
+      "premier",
+      "leading",
+      "overseeing",
+      "leader"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -299,11 +334,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぞうり",
-      "すべり",
       "ふさり",
+      "すり",
+      "ぞうり",
       "そうことわり",
-      "すり"
+      "すべり"
     ],
     "sp": [
       "総量",
@@ -329,11 +364,21 @@ export const VOCAB_ENTRIES = [
     "w": "体",
     "r": "からだ",
     "en": [
-      "body"
+      "body",
+      "torso",
+      "trunk",
+      "build",
+      "physique",
+      "frame"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -342,8 +387,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がらだ",
-      "かたち"
+      "かたち",
+      "がらだ"
     ],
     "sp": [
       "皺",
@@ -389,10 +434,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "こうむがい",
+      "かぶがい",
       "おおがい",
       "びがい",
-      "かぶがい",
-      "こうむがい",
       "ぴがい"
     ],
     "sp": [
@@ -466,11 +511,20 @@ export const VOCAB_ENTRIES = [
     "r": "しゅせき",
     "en": [
       "head",
-      "chief"
+      "chief",
+      "chairman",
+      "governor",
+      "president",
+      "top student"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -484,14 +538,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じゅせき",
+      "ぬしせき",
+      "しゅぜき",
+      "しゅむしろ",
       "しゅぜっ",
       "しゅせっ",
-      "しゅむしろ",
-      "しゅぜき",
-      "あるじせき",
-      "すせき",
-      "おもせき"
+      "おもせき",
+      "じゅせき",
+      "すせき"
     ],
     "sp": [
       "株主",
@@ -519,8 +573,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "corporation",
       "corporate body",
-      "company",
-      "legal entity"
+      "company"
     ],
     "pos": "n",
     "th": "5.4",
@@ -538,14 +591,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ぼうじん",
       "はっじん",
+      "ほっじん",
+      "ほうにん",
+      "ほうひと",
       "ぽうじん",
       "ふらんじん",
-      "ほうひと",
-      "ほうり",
-      "ほっじん",
-      "のりじん",
-      "ぼうじん"
+      "のりじん"
     ],
     "sp": [
       "二人",
@@ -573,8 +626,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "cooperative body",
       "cooperative system",
-      "collective",
-      "community"
+      "collective"
     ],
     "pos": "n",
     "th": "5.4",
@@ -597,14 +649,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きょうどうてい",
-      "きょうどうだい",
-      "きょうどうからだ",
-      "どもどうたい",
-      "ぎょうどうたい",
       "きょうどうかたち",
+      "きょうどうからだ",
+      "きょうどうてい",
+      "どもどうたい",
+      "ともどうたい",
+      "きょうどうだい",
       "きょうおなたい",
-      "ともどうたい"
+      "ぎょうどうたい"
     ],
     "sp": [
       "同時期",
@@ -632,8 +684,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "member of the Diet",
       "Diet member",
-      "member of parliament",
-      "MP"
+      "member of parliament"
     ],
     "pos": "n",
     "th": "5.4",
@@ -661,13 +712,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こくかいぎいん",
       "くにかいぎいん",
       "ごっかいぎいん",
-      "こっえぎいん",
-      "こっがいぎいん",
+      "こくかいぎいん",
       "こっあつぎいん",
-      "こっあぎいん"
+      "こっあぎいん",
+      "こっえぎいん",
+      "こっがいぎいん"
     ],
     "sp": [
       "航空会社",
@@ -713,10 +764,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いだい",
       "いからだ",
-      "いかたち",
       "いてい",
+      "いだい",
+      "いかたち",
       "のこたい",
       "ゆいたい"
     ],
@@ -765,9 +816,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しゅぐらい",
-      "くびい",
+      "じゅい",
       "しゅくらい",
-      "じゅい"
+      "くびい"
     ],
     "sp": [
       "一首",
@@ -884,11 +935,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "preservation of health",
       "hygiene",
-      "sanitation"
+      "sanitation",
+      "health education (school subject)"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -902,9 +958,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ぼけん",
       "ぽけん",
       "たもけん",
-      "ぼけん",
       "ほすこ",
       "ほうけん",
       "ほげん"
@@ -936,11 +992,17 @@ export const VOCAB_ENTRIES = [
       "medicine",
       "pharmaceuticals",
       "(legal) drugs",
-      "pill"
+      "efficacious chemical",
+      "(pottery) glaze"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -977,8 +1039,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "head (of a line, group, etc.)",
       "front",
-      "lead",
-      "forefront"
+      "lead"
     ],
     "pos": "n",
     "th": "5.4",
@@ -996,14 +1057,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せんかしら",
       "せんどう",
+      "せんあたま",
       "ぜんとう",
       "せんと",
-      "せんあたま",
-      "せんかぶり",
-      "まとう",
-      "せんがしら"
+      "せんず",
+      "せんかしら",
+      "さきとう",
+      "せんかぶり"
     ],
     "sp": [
       "出頭",
@@ -1029,11 +1090,20 @@ export const VOCAB_ENTRIES = [
     "w": "腕",
     "r": "うで",
     "en": [
-      "arm"
+      "arm",
+      "ability",
+      "skill",
+      "talent",
+      "(physical) strength"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -1071,11 +1141,17 @@ export const VOCAB_ENTRIES = [
       "wound",
       "injury",
       "cut",
-      "gash"
+      "chip",
+      "crack",
+      "scratch"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1115,11 +1191,17 @@ export const VOCAB_ENTRIES = [
       "pain",
       "ache",
       "soreness",
-      "grief"
+      "damage",
+      "injury",
+      "wear"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1155,11 +1237,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "leader",
       "head",
-      "chief"
+      "chief",
+      "president (of a bank)",
+      "bank director",
+      "greenroom manager (in a theater)"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -1173,13 +1263,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "とうと",
+      "かしらどり",
       "とうとり",
-      "かぶりどり",
-      "とうど",
+      "がしらどり",
       "ずどり",
       "あたまどり",
-      "どうどり",
-      "とうと",
+      "とうど",
       "とどり"
     ],
     "sp": [
@@ -1224,10 +1314,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いそせい",
+      "ぎゅうせい",
       "せせい",
       "きゅうぜい",
-      "ぎゅうせい",
+      "いそせい",
       "きゅうしょう",
       "きゅうさが"
     ],
@@ -1273,14 +1363,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "からだじゅう",
-      "たいえ",
       "ていじゅう",
-      "たいおも",
-      "だいじゅう",
       "たいちょう",
+      "かたちじゅう",
+      "たいおも",
+      "からだじゅう",
       "たいかさ",
-      "かたちじゅう"
+      "たいえ",
+      "だいじゅう"
     ],
     "sp": [
       "文体",

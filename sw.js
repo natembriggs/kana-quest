@@ -28,7 +28,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-08-29i';
+const VERSION = '2026-08-29j';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 

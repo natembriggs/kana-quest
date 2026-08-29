@@ -27,8 +27,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ことご",
       "いご",
+      "ことご",
       "げんかた"
     ],
     "sp": [
@@ -57,8 +57,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "country",
       "territory",
-      "domain",
-      "realm"
+      "domain"
     ],
     "pos": "n",
     "th": "5.1",
@@ -78,10 +77,10 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "こくつち",
       "こくと",
-      "ごくど",
+      "くにど",
       "ごっど",
-      "こっど",
-      "くにど"
+      "ごくど",
+      "こっど"
     ],
     "sp": [
       "全土",
@@ -125,13 +124,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じこっ",
+      "じごく",
       "じごっ",
+      "じこっ",
+      "しこく",
       "じくに",
       "おのこく",
-      "じごく",
-      "みずかこく",
-      "しこく"
+      "みずかこく"
     ],
     "sp": [
       "自活",
@@ -177,11 +176,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あたげん",
+      "なかげん",
       "ちゅうはら",
-      "ぢゅうげん",
+      "あたげん",
       "うちげん",
-      "なかげん"
+      "ぢゅうげん"
     ],
     "sp": [
       "中身",
@@ -230,14 +229,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にほんいっ",
-      "にぽんいち",
-      "にちほんいち",
-      "かほんいち",
-      "にぼんいち",
       "にほんひと",
-      "じつほんいち",
-      "びほんいち"
+      "にぽんいち",
+      "かほんいち",
+      "びほんいち",
+      "にぼんいち",
+      "にほんいつ",
+      "ひほんいち",
+      "じつほんいち"
     ],
     "sp": [
       "三日月",
@@ -285,14 +284,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にしにちほん",
-      "せいにほん",
+      "にしかほん",
       "さいにほん",
-      "にしひほん",
+      "せいにほん",
+      "にしにちほん",
       "にしにぽん",
       "にしにもと",
       "にしにぼん",
-      "にしかほん"
+      "にしびほん"
     ],
     "sp": [
       "資本金",
@@ -319,11 +318,19 @@ export const VOCAB_ENTRIES = [
     "r": "たこく",
     "en": [
       "foreign country",
-      "another country"
+      "another country",
+      "another province",
+      "strange land",
+      "alien land"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "h",
+    "sn": [
+      2,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -337,11 +344,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だこく",
       "ほかこく",
-      "たごく",
+      "だこく",
       "たくに",
       "たこっ",
+      "たごく",
       "たごっ"
     ],
     "sp": [
@@ -370,8 +377,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "fleeing from one's country",
       "seeking asylum",
-      "defection",
-      "emigration (for political reasons)"
+      "defection"
     ],
     "pos": "n",
     "th": "5.1",
@@ -390,9 +396,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぼういのち",
-      "ほろめい",
-      "なめい",
       "もうめい",
+      "なめい",
+      "ほろめい",
       "ぼうみょう"
     ],
     "sp": [
@@ -437,12 +443,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ちゅうか",
       "ちゅうにっ",
       "ちゅうひ",
-      "ちゅうじつ",
-      "ちゅうか",
+      "ちゅうび",
       "ぢゅうにち",
-      "ちゅうび"
+      "ちゅうじつ"
     ],
     "sp": [
       "後日",
@@ -489,8 +495,8 @@ export const VOCAB_ENTRIES = [
       "にゅうくに",
       "にゅうこっ",
       "いこく",
-      "はいこく",
       "じゅこく",
+      "はいこく",
       "にゅうごっ"
     ],
     "sp": [
@@ -541,12 +547,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ようおでるえん",
+      "ようおくてえん",
       "ようちその",
+      "ようおさないえん",
+      "ようおでるえん",
       "ようぢえん",
       "ようじえん",
-      "ようおくてえん",
-      "ようおさないえん",
       "おさなちえん",
       "よういとけないえん"
     ],
@@ -574,11 +580,19 @@ export const VOCAB_ENTRIES = [
     "w": "国語",
     "r": "こくご",
     "en": [
-      "national language"
+      "national language",
+      "Japanese language",
+      "one's native language",
+      "mother tongue"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "h",
+    "sn": [
+      1,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -592,10 +606,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こっご",
-      "ごっご",
       "ごくご",
+      "ごっご",
       "くにご",
+      "こっご",
       "こくかた"
     ],
     "sp": [
@@ -673,8 +687,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "(understanding or appreciation of) culture",
       "(one's) education",
-      "cultivation",
-      "sophistication"
+      "cultivation"
     ],
     "pos": "n",
     "th": "5.1",
@@ -692,11 +705,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぎょうよう",
-      "おしよう",
       "おそよう",
-      "きょうりょう",
-      "きょうやしな"
+      "おしよう",
+      "ぎょうよう",
+      "きょうやしな",
+      "きょうりょう"
     ],
     "sp": [
       "国教",

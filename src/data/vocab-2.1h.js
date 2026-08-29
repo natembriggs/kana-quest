@@ -28,10 +28,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いっまい",
+      "ひとまい",
       "いちばい",
-      "いつまい",
-      "ひとまい"
+      "いっまい",
+      "いつまい"
     ],
     "sp": [
       "一層",
@@ -77,8 +77,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "あたく",
-      "ざいだく",
       "ざいたっ",
+      "ざいだく",
       "ざいだっ"
     ],
     "sp": [
@@ -105,11 +105,17 @@ export const VOCAB_ENTRIES = [
     "w": "戸",
     "r": "と",
     "en": [
-      "door (esp. Japanese-style)"
+      "door (esp. Japanese-style)",
+      "shutter",
+      "window shutter"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -145,11 +151,16 @@ export const VOCAB_ENTRIES = [
     "r": "きかん",
     "en": [
       "return (home)",
-      "repatriation"
+      "repatriation",
+      "feedback"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -163,12 +174,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おくかん",
       "とつかん",
+      "ぎかん",
       "きかえ",
       "きがん",
       "かえかん",
-      "ぎかん"
+      "おくかん"
     ],
     "sp": [
       "還元",
@@ -212,13 +223,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まことか",
-      "じっいえ",
-      "じっけ",
-      "じっや",
-      "じつか",
       "みのか",
+      "じっけ",
+      "じっうち",
+      "じっいえ",
+      "みちか",
       "みか",
+      "まことか",
       "しつか"
     ],
     "sp": [
@@ -247,11 +258,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "home country",
       "one's own country",
-      "country of origin"
+      "country of origin",
+      "suzerain country",
+      "colonizing country",
+      "country of one's ancestors"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -266,10 +285,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぽんごく",
-      "ほんごっ",
+      "ほんくに",
       "ぼんごく",
       "もとごく",
-      "ほんくに"
+      "ほんごっ"
     ],
     "sp": [
       "本木",
@@ -295,11 +314,17 @@ export const VOCAB_ENTRIES = [
     "w": "出稼ぎ",
     "r": "でかせぎ",
     "en": [
-      "working away from home (esp. abroad)"
+      "working away from home (esp. abroad)",
+      "person working away from home",
+      "migrant worker"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -312,12 +337,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "でがせぎ",
-      "すいかせぎ",
-      "しゅつかせぎ",
+      "でかぎ",
       "いかせぎ",
+      "しゅつかせぎ",
+      "すいかせぎ",
       "だかせぎ",
-      "でかぎ"
+      "でがせぎ"
     ],
     "sp": [
       "照稼ぎ",
@@ -345,11 +370,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "lodging (house)",
       "accommodation",
-      "hotel"
+      "hotel",
+      "housing (for government employees)"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -363,12 +393,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じゅっしゃ",
-      "やどしゃ",
-      "しゅくやど",
       "しゅっしゃ",
-      "しゅくせき",
+      "じゅっしゃ",
+      "しゅくやど",
       "じゅくしゃ",
+      "しゅくせき",
+      "やどしゃ",
       "しゅくじゃ"
     ],
     "sp": [
@@ -395,11 +425,17 @@ export const VOCAB_ENTRIES = [
     "w": "台所",
     "r": "だいどころ",
     "en": [
-      "kitchen"
+      "kitchen",
+      "financial situation",
+      "finances"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -413,13 +449,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "うてなどころ",
       "われどころ",
-      "たいどころ",
       "つかさどころ",
       "だいところ",
-      "うてなどころ",
-      "だいとこ",
-      "だいしょ"
+      "たいどころ",
+      "だいしょ",
+      "だいとこ"
     ],
     "sp": [
       "台場",
@@ -465,11 +501,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ろうにんほーむ",
-      "ろうりほーむ",
-      "ろうひとほーむ",
-      "ふじんほーむ",
       "ろうとほーむ",
+      "ろうひとほーむ",
+      "ろうにんほーむ",
+      "ふじんほーむ",
+      "ろうりほーむ",
       "おじんほーむ"
     ],
     "sp": [
@@ -514,11 +550,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "やぐ",
-      "かそな",
       "いえぐ",
-      "うちぐ",
+      "かそな",
       "けぐ",
+      "やぐ",
+      "うちぐ",
       "がぐ",
       "かつぶさ"
     ],
@@ -546,11 +582,16 @@ export const VOCAB_ENTRIES = [
     "w": "棟",
     "r": "むね",
     "en": [
-      "ridge (of roof)"
+      "ridge (of roof)",
+      "back of a sword"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -604,8 +645,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だんぢ",
       "だんじ",
+      "だんぢ",
       "かたまりち",
       "まるち",
       "とんち"
@@ -652,12 +693,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みんうち",
       "みんや",
       "みんいえ",
+      "みんけ",
       "みんが",
       "たみか",
-      "みんけ"
+      "みんうち"
     ],
     "sp": [
       "民法",
@@ -701,9 +742,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "づいじ",
       "ちくじ",
       "きずじ",
-      "づいじ",
       "ついち"
     ],
     "sp": [
@@ -754,14 +795,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えぎしつ",
-      "かいぎじっ",
       "あつぎしつ",
+      "かいぎしっ",
+      "えぎしつ",
+      "がいぎしつ",
+      "かいぎじつ",
       "あぎしつ",
       "かいぎむろ",
-      "がいぎしつ",
-      "かいぎしっ",
-      "かいぎじつ"
+      "かいぎじっ"
     ],
     "sp": [
       "送別会",
@@ -790,11 +831,17 @@ export const VOCAB_ENTRIES = [
       "dining room",
       "dining hall",
       "cafeteria",
-      "canteen"
+      "restaurant",
+      "eatery",
+      "snack bar"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -809,11 +856,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しょっどう",
-      "はどう",
-      "じょくどう",
-      "じょっどう",
       "たどう",
-      "くどう"
+      "はどう",
+      "じょっどう",
+      "くどう",
+      "じょくどう"
     ],
     "sp": [
       "食後",

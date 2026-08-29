@@ -10,11 +10,18 @@ export const VOCAB_ENTRIES = [
     "r": "かい",
     "en": [
       "buying",
-      "shopping"
+      "shopping",
+      "buyer",
+      "purchase"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -22,8 +29,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がい",
-      "ばいい"
+      "ばいい",
+      "がい"
     ],
     "sp": [
       "厦い",
@@ -51,11 +58,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "foreign currency",
       "foreign money",
-      "foreign exchange"
+      "foreign exchange",
+      "foreign goods",
+      "imported goods"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -69,13 +82,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ほかか",
-      "とか",
-      "そとか",
-      "げか",
-      "がいたから",
       "はずか",
-      "がいが"
+      "とか",
+      "げか",
+      "そとか",
+      "がいが",
+      "ほかか",
+      "がいたから"
     ],
     "sp": [
       "外宮",
@@ -103,8 +116,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "large (amount of money)",
       "huge",
-      "hefty",
-      "expensive"
+      "hefty"
     ],
     "pos": "adj",
     "th": "1.7",
@@ -123,10 +135,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おおがく",
-      "たがっ",
       "たひたい",
-      "だがく",
-      "まさがく"
+      "たがっ",
+      "まさがく",
+      "だがく"
     ],
     "sp": [
       "多様",
@@ -154,8 +166,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "price reduction",
       "price cut",
-      "reduction in price",
-      "markdown"
+      "reduction in price"
     ],
     "pos": "n",
     "th": "1.7",
@@ -172,13 +183,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ねくだげ",
-      "ねもとげ",
-      "ちさげ",
-      "ねおげ",
       "ねしもげ",
-      "ねげげ",
+      "ねしたげ",
+      "ちさげ",
+      "ねくだげ",
       "ねざげ",
+      "ねおげ",
+      "ねかげ",
       "あたいさげ"
     ],
     "sp": [
@@ -274,13 +285,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ごんせん",
+      "かねせん",
+      "きんぜん",
+      "かなせん",
+      "ぎんせん",
       "こんせん",
       "きんすき",
-      "ぎんせん",
-      "かねせん",
-      "かなせん",
-      "きんぜに",
-      "きんぜん"
+      "きんぜに"
     ],
     "sp": [
       "金髪",
@@ -324,10 +335,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かいもつ",
       "かいぶつ",
-      "がいもの",
-      "ばいいもの"
+      "かいもつ",
+      "ばいいもの",
+      "がいもの"
     ],
     "sp": [
       "偽い物",
@@ -356,11 +367,16 @@ export const VOCAB_ENTRIES = [
       "fashion",
       "trend",
       "vogue",
-      "craze"
+      "prevalence (of a disease)",
+      "epidemic"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -375,12 +391,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "りゅういき",
+      "りゅうゆ",
       "りゅうゆき",
-      "りゅうおこな",
       "るこう",
-      "りゅうあん",
+      "りゅうごう",
+      "りゅうおこな",
       "りゅうい",
-      "りゅうおこ",
       "ながこう"
     ],
     "sp": [
@@ -407,11 +423,16 @@ export const VOCAB_ENTRIES = [
     "w": "上げ",
     "r": "あげ",
     "en": [
-      "tuck (e.g. in a dress)"
+      "tuck (e.g. in a dress)",
+      "rise (e.g. in price)"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -419,14 +440,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "のぼげ",
       "うえげ",
-      "たてまつげ",
-      "しゃんげ",
-      "かみげ",
+      "しょうげ",
       "うわげ",
+      "たてまつげ",
+      "のぼげ",
+      "かみげ",
       "じょうげ",
-      "しょうげ"
+      "しゃんげ"
     ],
     "sp": [
       "編げ",
@@ -453,11 +474,20 @@ export const VOCAB_ENTRIES = [
     "r": "あたい",
     "en": [
       "price",
-      "cost"
+      "cost",
+      "value",
+      "worth",
+      "merit",
+      "value"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -492,11 +522,18 @@ export const VOCAB_ENTRIES = [
       "salary",
       "pay",
       "compensation",
-      "allowance (e.g. housing allowance)"
+      "medical care",
+      "treatment",
+      "advance preparation"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -510,12 +547,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "てとう",
-      "てあ",
       "てまさ",
-      "たあて",
-      "しゅあて",
+      "てあ",
       "であて",
-      "ずあて"
+      "しゅあて",
+      "ずあて",
+      "たあて"
     ],
     "sp": [
       "熊手",
@@ -543,8 +580,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "clothing",
       "costume",
-      "outfit",
-      "garment"
+      "outfit"
     ],
     "pos": "n",
     "th": "1.7",
@@ -562,13 +598,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "いじょう",
       "いそう",
-      "いよそお",
-      "えしょう",
-      "きぬしょう",
       "ころもしょう",
       "ぎしょう",
-      "いじょう"
+      "えしょう",
+      "きぬしょう",
+      "いよそお"
     ],
     "sp": [
       "装甲",
@@ -613,10 +649,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まるやす",
+      "まろやす",
       "えんあん",
       "まどやす",
-      "まろやす"
+      "まるやす"
     ],
     "sp": [
       "安定",
@@ -644,8 +680,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "employee (of a store)",
       "shop assistant",
-      "clerk",
-      "salesperson"
+      "clerk"
     ],
     "pos": "n",
     "th": "1.7",
@@ -663,9 +698,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みせいん",
+      "でんいん",
       "たないん",
-      "でんいん"
+      "みせいん"
     ],
     "sp": [
       "委員",
@@ -719,8 +754,8 @@ export const VOCAB_ENTRIES = [
       "えんあいば",
       "まどそうば",
       "えんしょうば",
-      "まるそうば",
       "まろそうば",
+      "まるそうば",
       "えんぞうば"
     ],
     "sp": [
@@ -749,8 +784,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "suspension of business",
       "temporary closure (of a store, school, etc.)",
-      "shutdown",
-      "holiday"
+      "shutdown"
     ],
     "pos": "n",
     "th": "1.7",
@@ -797,11 +831,20 @@ export const VOCAB_ENTRIES = [
     "w": "売る",
     "r": "うる",
     "en": [
-      "to sell"
+      "to sell",
+      "to betray",
+      "to sell out (one's friend, country, etc.)",
+      "to make (oneself) known",
+      "to establish (a reputation) for oneself"
     ],
     "pos": "v",
     "th": "1.7",
     "lv": "h",
+    "sn": [
+      1,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -855,8 +898,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "たかち",
-      "だかね",
       "こうね",
+      "だかね",
       "たかあたい"
     ],
     "sp": [
@@ -901,10 +944,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えりょう",
-      "きぬりょう",
       "ころもりょう",
-      "ぎりょう"
+      "ぎりょう",
+      "えりょう",
+      "きぬりょう"
     ],
     "sp": [
       "有料",
@@ -948,14 +991,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しぱらう",
-      "しふつう",
-      "かはらう",
-      "つかはらう",
-      "しばらう",
+      "しひつう",
+      "しほつう",
       "じはらう",
       "ささはらう",
-      "しひつう"
+      "しぱらう",
+      "つかはらう",
+      "かはらう",
+      "しばらう"
     ],
     "sp": [
       "紫払う",

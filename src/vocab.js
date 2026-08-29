@@ -233,28 +233,168 @@ function shuffle(array) {
   return out;
 }
 
+// --- Glosses: senses, labels, and overlap (vocab-plan.md §5.6) -------------
+//
+// `en` is every kept sense's glosses flattened in sense order, and `sn` — when
+// present — is the size of each sense group, so the flat list reads back as
+// groups. A word with one sense has no `sn` at all (the build script omits it
+// rather than shipping a one-element array 536 times), which is why every
+// reader here defaults to "one group of everything".
+//
+// どうして is the word that forced this: its everyday meaning is "why", but
+// that lives in JMdict's SECOND sense, and the build script only ever read the
+// first — so a learner who knew the word perfectly was shown four options none
+// of which said "why". See §5.6.
+
+/** A gloss as it should be SHOWN and COMPARED: JMdict's bracketed asides
+ * ("which one (esp. of two alternatives)", "(of a person) tall") are
+ * disambiguation for a dictionary reader, not part of the translation, and on
+ * a quiz button they are the difference between a label that fits and one that
+ * wraps to four lines. Dropped from both ends; an interior one ("to make (a
+ * hole)") is left alone, since removing it strands the sentence. */
+function normGloss(gloss) {
+  return gloss
+    .replace(/^\s*\([^()]*\)\s*/, '')
+    .replace(/\s*\([^()]*\)\s*$/, '')
+    .trim() || gloss.trim();
+}
+
+/**
+ * A word's glosses grouped back into their senses, normalised and deduped —
+ * [["why", "for what reason"], ["how", "in what way"]]. Deduping matters after
+ * normalisation, which can collapse two genuinely distinct dictionary glosses
+ * ("to open (a door)" / "to open (for business)") into one word; showing that
+ * word twice on the same button reads as a mistake.
+ */
+export function glossSenses(info) {
+  const sizes = info.sn || [info.en.length];
+  const seen = new Set();
+  const groups = [];
+  let at = 0;
+  for (const size of sizes) {
+    const group = [];
+    for (const raw of info.en.slice(at, at + size)) {
+      const g = normGloss(raw);
+      const key = g.toLowerCase();
+      if (!g || seen.has(key)) continue;
+      seen.add(key);
+      group.push(g);
+    }
+    at += size;
+    if (group.length) groups.push(group);
+  }
+  return groups.length ? groups : [[info.en[0]]];
+}
+
+/** Every normalised gloss a word has, lowercased — the key set both exclusion
+ * rules compare on (§5.6). Normalised, not raw: "to open (a door, etc.)" and
+ * "to open (for business)" are different strings and the same button, and
+ * comparing the raw forms misses exactly the pairs that make a question
+ * unanswerable. */
+export function glossKeys(info) {
+  return new Set(glossSenses(info).flat().map((g) => g.toLowerCase()));
+}
+
+// Roughly two lines of a full-width choice button at 16px — see §5.6. The
+// build script's own MEANING_LABEL_MAX (45) caps a SINGLE gloss; this caps the
+// whole multi-sense label, so it has to be the larger of the two.
+const LABEL_BUDGET = 52;
+const SENSE_SEP = ' / ';
+const GLOSS_SEP = ', ';
+
+function renderLabel(groups) {
+  return groups.map((g) => g.join(GLOSS_SEP)).join(SENSE_SEP);
+}
+
+/**
+ * The English label for a word on a quiz button or as a Recall prompt
+ * (§5.6): the first gloss of EVERY sense, then as many extra within-sense
+ * glosses as the budget allows.
+ *
+ * Sense heads come first and are never traded away for a second gloss of an
+ * earlier sense, because they are the whole point — the learner whose mind
+ * jumps to "why" for どうして has to find "why" on the button, and the "how,
+ * in what way" beside it is the context that says these are one word. Only if
+ * the heads ALONE overflow does a trailing sense get dropped, and never below
+ * one.
+ */
+export function wordMeaningLabel(info) {
+  const senses = glossSenses(info);
+  let heads = senses.map((s) => [s[0]]);
+  while (heads.length > 1 && renderLabel(heads).length > LABEL_BUDGET) heads.pop();
+
+  const picked = heads.map((h) => [...h]);
+  // Round-robin by gloss index, not sense by sense: with a tight budget the
+  // second gloss of sense 1 and of sense 2 are worth the same, and taking
+  // them in that order shares the room out instead of spending it all on the
+  // first sense.
+  const deepest = Math.max(...senses.slice(0, picked.length).map((s) => s.length));
+  for (let i = 1; i < deepest; i += 1) {
+    for (let s = 0; s < picked.length; s += 1) {
+      const gloss = senses[s][i];
+      if (!gloss) continue;
+      picked[s].push(gloss);
+      if (renderLabel(picked).length > LABEL_BUDGET) picked[s].pop();
+    }
+  }
+  return renderLabel(picked);
+}
+
+/**
+ * A word's full meaning for a detail or lesson screen (§5.6): every gloss,
+ * senses separated by " · " and glosses within a sense by ", ".
+ *
+ * Unlike wordMeaningLabel this keeps the RAW glosses, brackets and all, and
+ * has no budget. A quiz button is a label and wants "which one"; a detail
+ * screen is exactly where "which one (esp. of two alternatives)" earns its
+ * keep, and there is room for it.
+ */
+export function wordGlossSummary(info) {
+  const sizes = info.sn || [info.en.length];
+  const groups = [];
+  let at = 0;
+  for (const size of sizes) {
+    const group = info.en.slice(at, at + size);
+    at += size;
+    if (group.length) groups.push(group.join(', '));
+  }
+  return groups.join(' · ');
+}
+
 /**
  * Options for a Meaning-mode stage-1 question: one correct English label
- * (vocab-plan.md §5.1 — already length-capped at build time) plus
- * distractors from other words in the same unit. Same-part-of-speech
- * candidates are tried first (§5.5 — a verb among nouns is the answer by
- * shape alone), falling back to the rest of the unit if there aren't
- * enough. Single-answer, like kanji Definition, so this returns
- * {options, answer} rather than a correct Set.
+ * (vocab-plan.md §5.6 — every sense the word has, budgeted) plus distractors
+ * from other words in the same unit. Same-part-of-speech candidates are tried
+ * first (§5.5 — a verb among nouns is the answer by shape alone), falling back
+ * to the rest of the unit if there aren't enough. Single-answer, like kanji
+ * Definition, so this returns {options, answer} rather than a correct Set.
+ *
+ * The gloss-overlap exclusion is the mirror of readingsSharingGloss on the
+ * Recall side (§6.1), which has guarded this since phase 4 while this
+ * direction went without: an entry sharing ANY gloss with the answer word is
+ * never offered, because どう ("how") against どうして ("how") is not a hard
+ * question, it is an unanswerable one. Deduping on the label string alone —
+ * all this used to do — misses it, since the two labels differ in every part
+ * except the one that matters.
+ *
+ * A unit that can't spare `count` safe distractors returns fewer options
+ * rather than relaxing the rule; a three-way question is still a question.
  */
 export function buildMeaningChoices(course, wordId, count = DEFINITION_OPTIONS) {
   const info = vocabInfo(course, wordId);
-  const answer = info.en[0];
+  const answer = wordMeaningLabel(info);
+  const banned = glossKeys(info);
   const used = new Set([answer]);
   const options = [answer];
 
-  const pool = [...course.index.values()].filter((e) => e.id !== wordId);
+  const pool = [...course.index.values()]
+    .filter((e) => e.id !== wordId && ![...glossKeys(e)].some((g) => banned.has(g)));
   const bySamePos = shuffle(pool.filter((e) => e.pos === info.pos));
   const rest = shuffle(pool.filter((e) => e.pos !== info.pos));
 
   for (const entry of [...bySamePos, ...rest]) {
     if (options.length >= count) break;
-    const label = entry.en[0];
+    const label = wordMeaningLabel(entry);
     if (!label || used.has(label)) continue;
     used.add(label);
     options.push(label);
@@ -411,15 +551,19 @@ const MIN_SPELLING_OPTIONS = 3; // §6.4's fallback ladder floor — below this 
  * happen to share the one reading しょくりょう, and only 食料 glosses "food"
  * the same way 食品 does — but offering しょくりょう at all is still offering
  * a string that reads as a correct answer, regardless of which entry the
- * code thinks it "means". Checked against every gloss on both sides,
- * case-insensitively — a synonym pair need not agree on which gloss comes
- * first.
+ * code thinks it "means". Checked against every gloss on both sides, and on
+ * the NORMALISED form (glossKeys, §5.6) — a synonym pair need not agree on
+ * which gloss comes first, nor on which bracketed aside the dictionary hung
+ * off the end of it.
+ *
+ * This got stricter for free when §5.6 widened `en` to every sense: どちら
+ * glosses "who" now, so 誰 can no longer be offered against it.
  */
 function readingsSharingGloss(course, answerInfo) {
-  const glosses = new Set(answerInfo.en.map((g) => g.toLowerCase()));
+  const glosses = glossKeys(answerInfo);
   const unsafe = new Set();
   course.index.forEach((e) => {
-    if (e.id !== answerInfo.id && e.en.some((g) => glosses.has(g.toLowerCase()))) unsafe.add(e.r);
+    if (e.id !== answerInfo.id && [...glossKeys(e)].some((g) => glosses.has(g))) unsafe.add(e.r);
   });
   return unsafe;
 }

@@ -11,11 +11,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to do",
       "to carry out",
-      "to perform"
+      "to perform",
+      "to cause to become",
+      "to make (into)",
+      "to turn (into)"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -25,11 +32,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to be",
       "to exist",
-      "to live"
+      "to live",
+      "to have",
+      "to be located"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      1
+    ],
     "uk": true
   },
   {
@@ -38,11 +52,18 @@ export const VOCAB_ENTRIES = [
     "r": "いる",
     "en": [
       "to be (of animate objects)",
-      "to exist"
+      "to exist",
+      "to stay",
+      "to be ...-ing"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "uk": true
   },
   {
@@ -53,11 +74,17 @@ export const VOCAB_ENTRIES = [
       "to go",
       "to move (towards)",
       "to head (towards)",
-      "to leave (for)"
+      "to move through",
+      "to travel across",
+      "to walk along (e.g. a road)"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -66,13 +93,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ゆきく",
-      "あんく",
       "こうく",
-      "おこなく",
-      "いきく",
+      "ぎょうく",
       "おこく",
-      "ぎょうく"
+      "ゆきく",
+      "いきく",
+      "あんく",
+      "おこなく"
     ],
     "sp": [
       "委く",
@@ -100,11 +127,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to come (spatially or temporally)",
       "to approach",
-      "to arrive"
+      "to arrive",
+      "to come back",
+      "to do ... and come back",
+      "to come to be"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -113,11 +148,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きる",
-      "らいる",
       "たいる",
+      "ぐる",
       "こる",
-      "ぐる"
+      "らいる",
+      "きる"
     ],
     "sp": [
       "韮る",
@@ -146,11 +181,18 @@ export const VOCAB_ENTRIES = [
       "to return",
       "to come home",
       "to go home",
-      "to go back"
+      "to leave (of a guest, customer, etc.)",
+      "to get home",
+      "to get to home plate"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -159,10 +201,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とつる",
-      "がえる",
       "きる",
-      "おくる"
+      "おくる",
+      "がえる",
+      "とつる"
     ],
     "sp": [
       "却る",
@@ -191,11 +233,17 @@ export const VOCAB_ENTRIES = [
       "to see",
       "to look",
       "to watch",
-      "to view"
+      "to examine",
+      "to look over",
+      "to assess"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -230,11 +278,20 @@ export const VOCAB_ENTRIES = [
     "w": "聞く",
     "r": "きく",
     "en": [
-      "to hear"
+      "to hear",
+      "to listen (e.g. to music)",
+      "to ask",
+      "to enquire",
+      "to query"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      1,
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -243,9 +300,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "もんく",
+      "ぶんく",
       "ぎく",
-      "ぶんく"
+      "もんく"
     ],
     "sp": [
       "熙く",
@@ -274,11 +331,17 @@ export const VOCAB_ENTRIES = [
       "to talk",
       "to speak",
       "to converse",
-      "to chat"
+      "to tell",
+      "to explain",
+      "to narrate"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -287,10 +350,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "わす",
       "はなしす",
-      "ばなす",
-      "ぱなす"
+      "ぱなす",
+      "わす",
+      "ばなす"
     ],
     "sp": [
       "花す",
@@ -316,11 +379,21 @@ export const VOCAB_ENTRIES = [
     "w": "読む",
     "r": "よむ",
     "en": [
-      "to read"
+      "to read",
+      "to recite (e.g. a sutra)",
+      "to chant",
+      "to predict",
+      "to guess",
+      "to forecast"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -329,9 +402,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とくむ",
+      "どくむ",
       "とうむ",
-      "どくむ"
+      "とくむ"
     ],
     "sp": [
       "選む",
@@ -359,11 +432,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to write",
       "to compose",
-      "to pen"
+      "to pen",
+      "to draw",
+      "to paint"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -400,11 +479,18 @@ export const VOCAB_ENTRIES = [
     "w": "食べる",
     "r": "たべる",
     "en": [
-      "to eat"
+      "to eat",
+      "to live on (e.g. a salary)",
+      "to live off",
+      "to subsist on"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -413,11 +499,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だべる",
-      "じきべる",
-      "くべる",
+      "はべる",
       "しょくべる",
-      "はべる"
+      "くべる",
+      "だべる",
+      "じきべる"
     ],
     "sp": [
       "詫べる",
@@ -445,11 +531,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to drink",
       "to swallow",
-      "to take (medicine)"
+      "to take (medicine)",
+      "to smoke (tobacco)",
+      "to swallow up",
+      "to engulf"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -458,8 +552,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おんむ",
-      "いんむ"
+      "いんむ",
+      "おんむ"
     ],
     "sp": [
       "退む",
@@ -486,11 +580,20 @@ export const VOCAB_ENTRIES = [
     "r": "かう",
     "en": [
       "to buy",
-      "to purchase"
+      "to purchase",
+      "to value (highly)",
+      "to think highly of",
+      "to have a high opinion of",
+      "to incur (someone's anger, displeasure, etc.)"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -499,8 +602,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ばいう",
-      "がう"
+      "がう",
+      "ばいう"
     ],
     "sp": [
       "書う",
@@ -529,11 +632,18 @@ export const VOCAB_ENTRIES = [
       "to make",
       "to produce",
       "to manufacture",
-      "to build"
+      "to prepare (food)",
+      "to brew (alcohol)",
+      "to raise"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -543,10 +653,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "つっる",
-      "さくる",
       "さる",
-      "づくる",
-      "づっる"
+      "さくる",
+      "づっる",
+      "づくる"
     ],
     "sp": [
       "啄る",
@@ -574,11 +684,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to use (a tool, method, etc.)",
       "to make use of",
-      "to put to use"
+      "to put to use",
+      "to use (a person, animal, puppet, etc.)",
+      "to employ",
+      "to handle"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -587,8 +704,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しう",
-      "づかう"
+      "づかう",
+      "しう"
     ],
     "sp": [
       "発う",
@@ -616,11 +733,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to hold (in one's hand)",
       "to take",
-      "to carry"
+      "to carry",
+      "to possess",
+      "to have",
+      "to own"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -657,11 +781,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to meet",
       "to encounter",
-      "to see"
+      "to see",
+      "to have an accident",
+      "to have a bad experience"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -671,8 +801,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "えう",
-      "あつう",
-      "かいう"
+      "かいう",
+      "あつう"
     ],
     "sp": [
       "阿う",
@@ -700,8 +830,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to live (of humans)",
       "to reside",
-      "to inhabit",
-      "to dwell"
+      "to inhabit"
     ],
     "pos": "v",
     "th": "C5",
@@ -714,10 +843,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じゅうむ",
       "ぢゅうむ",
-      "ちゅうむ",
-      "ずむ"
+      "ずむ",
+      "じゅうむ",
+      "ちゅうむ"
     ],
     "sp": [
       "壽む",
@@ -745,11 +874,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to work",
       "to labor",
-      "to labour"
+      "to labour",
+      "to function",
+      "to operate",
+      "to be effective"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -758,9 +894,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぱたらく",
+      "ばたらく",
       "どうく",
-      "ばたらく"
+      "ぱたらく"
     ],
     "sp": [
       "北く",
@@ -786,11 +922,19 @@ export const VOCAB_ENTRIES = [
     "w": "寝る",
     "r": "ねる",
     "en": [
-      "to sleep (lying down)"
+      "to sleep (lying down)",
+      "to go to bed",
+      "to lie in bed",
+      "to lie down"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -799,10 +943,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "しんる",
       "やる",
       "みたまやる",
-      "いる",
-      "しんる"
+      "いる"
     ],
     "sp": [
       "禰る",
@@ -830,11 +974,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to get up",
       "to rise",
-      "to blaze up (fire)"
+      "to blaze up (fire)",
+      "to wake up",
+      "to be awake",
+      "to stay awake"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -844,8 +995,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おこきる",
-      "ききる",
-      "たきる"
+      "たきる",
+      "ききる"
     ],
     "sp": [
       "牡きる",
@@ -874,11 +1025,18 @@ export const VOCAB_ENTRIES = [
       "to think",
       "to consider",
       "to believe",
-      "to reckon"
+      "to think (of doing)",
+      "to plan (to do)",
+      "to judge"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -887,8 +1045,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おぼう",
       "おもえらう",
+      "おぼう",
       "しう"
     ],
     "sp": [
@@ -917,11 +1075,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to say",
       "to utter",
-      "to declare"
+      "to declare",
+      "to name",
+      "to call",
+      "to go (e.g. \"the alarm went ping\")"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -961,11 +1127,17 @@ export const VOCAB_ENTRIES = [
       "to know",
       "to be aware (of)",
       "to be conscious (of)",
-      "to learn (of)"
+      "to sense",
+      "to feel",
+      "to notice"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1003,11 +1175,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "to be able to do",
       "to be possible",
-      "to be permitted (to do)"
+      "to be permitted (to do)",
+      "to be good at",
+      "to do well",
+      "to be proficient (in)"
     ],
     "pos": "v",
     "th": "C5",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   }
 ];

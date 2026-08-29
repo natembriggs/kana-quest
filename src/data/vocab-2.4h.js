@@ -9,11 +9,17 @@ export const VOCAB_ENTRIES = [
     "w": "運賃",
     "r": "うんちん",
     "en": [
-      "(passenger) fare"
+      "(passenger) fare",
+      "freight rates",
+      "shipping expenses"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -74,9 +80,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "あさせん",
       "ぎょふね",
-      "ぎょぜん",
+      "ぎょふな",
       "りょうせん",
-      "ぎょふな"
+      "ぎょぜん"
     ],
     "sp": [
       "船倉",
@@ -122,14 +128,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そうゆ",
+      "そうあん",
       "そういき",
-      "そうおこな",
-      "そうごう",
+      "そうゆき",
       "そうおこ",
+      "そうい",
       "そうぎょう",
-      "ぞうこう",
-      "そうい"
+      "はしこう",
+      "そうおこな"
     ],
     "sp": [
       "徳行",
@@ -176,10 +182,10 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "そうわざ",
       "そうごう",
-      "あやつぎょう",
-      "さんぎょう",
       "みさおぎょう",
-      "ぞうぎょう"
+      "ぞうぎょう",
+      "あやつぎょう",
+      "さんぎょう"
     ],
     "sp": [
       "所業",
@@ -233,14 +239,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こもごもつうじこ",
-      "こうかよじこ",
-      "こうつうつかこ",
       "ごうつうじこ",
-      "こうつうことこ",
       "こうつじこ",
+      "こうつうずこ",
+      "かつうじこ",
+      "こうつうつかこ",
       "こうとおじこ",
-      "まじつうじこ"
+      "こうづうじこ",
+      "かわつうじこ"
     ],
     "sp": [
       "後生大事",
@@ -267,11 +273,20 @@ export const VOCAB_ENTRIES = [
     "r": "くだり",
     "en": [
       "down-train",
-      "train heading toward the ending point of its route"
+      "train heading toward the ending point of its…",
+      "down-slope",
+      "downward going",
+      "downstream",
+      "downhill"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "h",
+    "sn": [
+      2,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -279,14 +294,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おり",
       "かり",
-      "げり",
       "もとり",
-      "したり",
+      "おり",
       "さり",
-      "しもり",
-      "ぐだり"
+      "ぐだり",
+      "したり",
+      "げり",
+      "しもり"
     ],
     "sp": [
       "管り",
@@ -330,8 +345,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しゃうち",
       "しゃだい",
+      "しゃうち",
       "じゃない",
       "くるまない"
     ],
@@ -361,8 +376,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "vessel",
       "ship",
-      "shipping",
-      "seacraft"
+      "shipping"
     ],
     "pos": "n",
     "th": "2.4",
@@ -382,8 +396,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "せんはく",
       "ふねぱく",
-      "ぜんぱく",
       "ふなぱく",
+      "ぜんぱく",
       "せんぱっ"
     ],
     "sp": [
@@ -410,11 +424,18 @@ export const VOCAB_ENTRIES = [
     "w": "旅客",
     "r": "りょかく",
     "en": [
-      "passenger"
+      "passenger",
+      "traveller",
+      "traveler",
+      "tourist"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -428,10 +449,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "りょがっ",
-      "たびかく",
       "りょがく",
-      "りょかっ"
+      "たびかく",
+      "りょかっ",
+      "りょがっ"
     ],
     "sp": [
       "客席",
@@ -458,11 +479,18 @@ export const VOCAB_ENTRIES = [
     "r": "せんちょう",
     "en": [
       "ship's captain",
-      "skipper"
+      "skipper",
+      "length of a ship",
+      "boatman"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "h",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -477,11 +505,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ふねちょう",
-      "ぜんちょう",
-      "せんなが",
       "ふなちょう",
+      "せんぢょう",
+      "ぜんちょう",
       "せんおさ",
-      "せんぢょう"
+      "せんなが"
     ],
     "sp": [
       "波長",

@@ -50,11 +50,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "girl",
       "daughter",
-      "baby girl"
+      "baby girl",
+      "young woman"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -69,12 +74,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おんなのご",
-      "おんなのし",
-      "おんなのす",
-      "にょのこ",
-      "じょのこ",
-      "おんなのね",
       "おんなのつ",
+      "おんなのし",
+      "じょのこ",
+      "にょのこ",
+      "おんなのね",
+      "おんなのす",
       "にょうのこ"
     ],
     "sp": [
@@ -183,11 +188,16 @@ export const VOCAB_ENTRIES = [
     "r": "せい",
     "en": [
       "surname",
-      "family name"
+      "family name",
+      "hereditary title"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -223,11 +233,18 @@ export const VOCAB_ENTRIES = [
     "r": "ねこ",
     "en": [
       "cat (esp. the domestic cat, Felis catus)",
-      "feline"
+      "feline",
+      "shamisen",
+      "geisha"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -262,11 +279,18 @@ export const VOCAB_ENTRIES = [
     "w": "母体",
     "r": "ぼたい",
     "en": [
-      "mother's body"
+      "mother's body",
+      "parent body",
+      "parent organization",
+      "base"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -281,11 +305,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "もたい",
-      "ぼてい",
-      "ははたい",
-      "ぼだい",
       "ぼかたち",
-      "ぼからだ"
+      "ははたい",
+      "ぼからだ",
+      "ぼだい",
+      "ぼてい"
     ],
     "sp": [
       "体制",
@@ -312,11 +336,16 @@ export const VOCAB_ENTRIES = [
     "r": "ようじ",
     "en": [
       "young child",
-      "toddler"
+      "toddler",
+      "child over 1 but not yet of school age"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -330,8 +359,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ようこ",
       "ように",
+      "ようこ",
       "ようげい",
       "ようっこ",
       "おさなじ"
@@ -361,11 +390,16 @@ export const VOCAB_ENTRIES = [
     "r": "じんぐう",
     "en": [
       "high-status Shinto shrine with connection to…",
-      "imperial Shinto shrine"
+      "imperial Shinto shrine",
+      "Ise Grand Shrine"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -382,11 +416,11 @@ export const VOCAB_ENTRIES = [
       "じんくう",
       "こうぐう",
       "じんきゅう",
-      "じんみや",
-      "かみぐう",
-      "かんぐう",
       "じんく",
-      "しんぐう"
+      "しんぐう",
+      "かんぐう",
+      "じんみや",
+      "かみぐう"
     ],
     "sp": [
       "失神",
@@ -415,11 +449,15 @@ export const VOCAB_ENTRIES = [
       "father",
       "dad",
       "papa",
-      "pa"
+      "husband"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         1,
@@ -428,8 +466,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おふさん",
-      "おどうさん",
-      "おちちさん"
+      "おちちさん",
+      "おどうさん"
     ],
     "sp": [
       "お沓さん",
@@ -457,11 +495,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "boy",
       "son",
-      "baby boy"
+      "baby boy",
+      "young man"
     ],
     "pos": "n",
     "th": "1.1",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -475,14 +518,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おのこ",
       "なんのこ",
+      "おのこ",
       "おとこのね",
       "だんのこ",
-      "おとこのつ",
       "おとこのす",
+      "おとこのし",
       "おとこのご",
-      "おとこのし"
+      "おとこのつ"
     ],
     "sp": [
       "郎の子",
@@ -526,12 +569,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぼす",
-      "もし",
       "ぼこ",
-      "ははし",
-      "ぼつ",
+      "もし",
       "ぼじ",
+      "ははし",
+      "ぼす",
+      "ぼつ",
       "ぼね"
     ],
     "sp": [
@@ -580,8 +623,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "じんるい",
       "しんたぐ",
-      "おやるい",
-      "したるい"
+      "したるい",
+      "おやるい"
     ],
     "sp": [
       "父親",

@@ -10,11 +10,19 @@ export const VOCAB_ENTRIES = [
     "r": "くに",
     "en": [
       "country",
-      "state"
+      "state",
+      "region",
+      "national government",
+      "central government"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -23,8 +31,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こく",
-      "ぐに"
+      "ぐに",
+      "こく"
     ],
     "sp": [
       "義",
@@ -51,11 +59,20 @@ export const VOCAB_ENTRIES = [
     "r": "ことば",
     "en": [
       "language",
-      "dialect"
+      "dialect",
+      "word",
+      "phrase",
+      "expression",
+      "speech"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -69,11 +86,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "いば",
       "げんば",
-      "ごとば",
       "ことは",
       "ことよう",
-      "いば",
+      "ごとば",
       "ごんば"
     ],
     "sp": [
@@ -120,14 +137,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こっうち",
-      "こくか",
-      "こっけ",
-      "くにか",
-      "こっが",
-      "こっいえ",
       "こっや",
-      "ごっか"
+      "くにか",
+      "こっうち",
+      "ごっか",
+      "こっが",
+      "こっけ",
+      "こっいえ",
+      "こくか"
     ],
     "sp": [
       "米国",
@@ -154,11 +171,20 @@ export const VOCAB_ENTRIES = [
     "r": "しみん",
     "en": [
       "citizen (of a country)",
-      "citizenry"
+      "citizenry",
+      "citizen (of a city)",
+      "resident",
+      "inhabitant",
+      "bourgeoisie"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -202,11 +228,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "culture",
       "civilization",
-      "civilisation"
+      "civilisation",
+      "Bunka era (1804.2.11-1818.4.22)"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -220,13 +251,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ふみか",
-      "ぶんけ",
-      "ぶんふ",
-      "ぶんが",
       "あやか",
+      "ぶんば",
+      "ぶんふ",
+      "ぶんけ",
+      "ふみか",
       "もんか",
-      "ぶんば"
+      "ぶんが"
     ],
     "sp": [
       "化身",
@@ -270,12 +301,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がいくに",
-      "はずこく",
-      "ほかこく",
       "がいこっ",
-      "そとこく",
+      "ほかこく",
+      "はずこく",
       "がいごく",
+      "げこく",
+      "がいくに",
       "とこく",
       "がいごっ"
     ],
@@ -305,8 +336,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "within the country",
       "inside the county",
-      "domestic",
-      "home"
+      "domestic"
     ],
     "pos": "adj",
     "th": "5.1",
@@ -324,12 +354,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こくうち",
       "こくだい",
-      "ごくない",
-      "ごっない",
+      "こくうち",
       "くにない",
-      "こっない"
+      "ごっない",
+      "こっない",
+      "ごくない"
     ],
     "sp": [
       "邸内",
@@ -358,11 +388,15 @@ export const VOCAB_ENTRIES = [
       "people (of a country)",
       "nation",
       "citizen",
-      "national"
+      "Democratic Party for the People"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -376,11 +410,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ごくみん",
       "こっみん",
-      "くにみん",
       "ごっみん",
       "こくたみ",
-      "ごくみん"
+      "くにみん"
     ],
     "sp": [
       "自民",
@@ -426,9 +460,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぼうやさ",
-      "ぼうやす",
       "ぼうい",
+      "ぼうやす",
+      "ぼうやさ",
       "ぼうえっ"
     ],
     "sp": [
@@ -473,10 +507,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぜんくに",
       "ぜんこっ",
-      "まったこく",
       "ぜんごく",
+      "まったこく",
+      "ぜんくに",
       "すべこく",
       "ぜんごっ"
     ],
@@ -506,8 +540,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "foreigner",
       "foreign citizen",
-      "foreign national",
-      "alien"
+      "foreign national"
     ],
     "pos": "n",
     "th": "5.1",
@@ -530,14 +563,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がいこっじん",
-      "がいこくり",
       "がいごくじん",
-      "がいこくと",
+      "がいこくひと",
       "がいくにじん",
+      "がいこくり",
+      "がいこっじん",
       "とこくじん",
-      "ほかこくじん",
-      "げこくじん"
+      "はずこくじん",
+      "そとこくじん"
     ],
     "sp": [
       "外交員",
@@ -563,11 +596,18 @@ export const VOCAB_ENTRIES = [
     "w": "大統領",
     "r": "だいとうりょう",
     "en": [
-      "president (of a country)"
+      "president (of a country)",
+      "big man",
+      "boss",
+      "buddy"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -586,8 +626,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だいどうりょう",
       "だいすりょう",
+      "だいどうりょう",
       "たいとうりょう",
       "だいとうえり",
       "おおとうりょう"
@@ -617,11 +657,18 @@ export const VOCAB_ENTRIES = [
     "r": "こくせき",
     "en": [
       "nationality",
-      "citizenship"
+      "citizenship",
+      "nationality (ship, airplane, etc.)",
+      "registration",
+      "flag"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -635,13 +682,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ごくせき",
+      "くにせき",
       "こくぜっ",
-      "こくせっ",
       "こくぜき",
+      "こくせっ",
       "ごっせき",
-      "こっせき",
-      "くにせき"
+      "ごくせき",
+      "こっせき"
     ],
     "sp": [
       "国士",
@@ -669,11 +716,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "large country",
       "major nation",
-      "great power"
+      "great power",
+      "province of the highest rank"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -687,12 +739,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいくに",
       "たいこっ",
-      "おおこく",
       "たいごく",
+      "だいこく",
+      "たいくに",
       "たいごっ",
-      "だいこく"
+      "おおこく"
     ],
     "sp": [
       "両国",
@@ -719,11 +771,16 @@ export const VOCAB_ENTRIES = [
     "r": "どうこく",
     "en": [
       "same country",
-      "same province"
+      "same province",
+      "the (said) country"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -738,9 +795,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おなこく",
+      "どうこっ",
       "どうくに",
       "どうごく",
-      "どうこっ",
       "どうごっ"
     ],
     "sp": [
@@ -790,12 +847,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "にもとご",
-      "かほんご",
-      "じつほんご",
-      "にちほんご",
-      "にぽんご",
-      "ひほんご",
       "びほんご",
+      "ひほんご",
+      "かほんご",
+      "にぽんご",
+      "にちほんご",
+      "じつほんご",
       "にぼんご"
     ],
     "sp": [
@@ -823,11 +880,17 @@ export const VOCAB_ENTRIES = [
     "r": "くらべる",
     "en": [
       "to compare",
-      "to make a comparison (between)"
+      "to make a comparison (between)",
+      "to compete (on)",
+      "to measure"
     ],
     "pos": "v",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -887,13 +950,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "さきしんこく",
-      "せんじんこく",
       "ましんこく",
-      "せんしんごく",
+      "せんじんこく",
+      "さきしんこく",
+      "せんしんくに",
       "ぜんしんこく",
       "せんすすこく",
-      "せんしんこっ",
+      "せんしんごく",
       "せんしんごっ"
     ],
     "sp": [
@@ -938,11 +1001,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "はずむ",
       "ほかむ",
+      "はずむ",
       "とむ",
-      "そとむ",
       "げむ",
+      "そとむ",
       "がいつと"
     ],
     "sp": [
@@ -987,14 +1050,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "とつこく",
       "おくこく",
+      "きこっ",
       "ぎこく",
       "きくに",
-      "とつこく",
-      "きごく",
       "きごっ",
       "かえこく",
-      "きこっ"
+      "きごく"
     ],
     "sp": [
       "国道",
@@ -1038,14 +1101,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ほうび",
-      "おとずにち",
-      "ほうにっ",
-      "ぽうにち",
       "ほうじつ",
+      "おとずにち",
+      "ほうか",
       "ぼうにち",
+      "ほうひ",
       "たずにち",
-      "ほうひ"
+      "ぽうにち",
+      "ほうにっ"
     ],
     "sp": [
       "月日",
@@ -1091,14 +1154,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいにち",
-      "らいにっ",
-      "らいひ",
-      "きたにち",
       "くにち",
-      "らいび",
-      "こにち",
-      "きにち"
+      "らいか",
+      "らいひ",
+      "きにち",
+      "きたにち",
+      "らいにっ",
+      "たいにち",
+      "こにち"
     ],
     "sp": [
       "半日",
@@ -1143,14 +1206,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいにっ",
-      "つれあにち",
       "たいか",
+      "つれあにち",
+      "たいび",
+      "ついにち",
+      "あいてにち",
+      "だいにち",
       "ならにち",
-      "むかにち",
-      "こたにち",
-      "そろにち",
-      "たいび"
+      "たいじつ"
     ],
     "sp": [
       "元日",
@@ -1199,13 +1262,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とのぼこく",
+      "とあこく",
       "とうわこく",
+      "とうえこく",
       "とたてまつこく",
-      "としゃんこく",
-      "とじょうこっ",
       "とじょうごく",
-      "とかみこく",
+      "とじょうくに",
+      "とのぼこく",
       "とじょうごっ"
     ],
     "sp": [
@@ -1233,7 +1296,7 @@ export const VOCAB_ENTRIES = [
     "r": "とどうふけん",
     "en": [
       "prefectures (of Japan)",
-      "largest administrative divisions of Japan: Tokyo-to, Osaka-fu, Kyoto-fu, Hokkaido and the remaining prefectures"
+      "largest administrative divisions of Japan: T…"
     ],
     "pos": "n",
     "th": "5.1",
@@ -1261,14 +1324,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "みやこどうふけん",
       "どどうふけん",
-      "つどうふけん",
-      "とみちふけん",
-      "とどうふか",
-      "とどうぷけん",
-      "とどうぶけん",
+      "ととうふけん",
       "とどうふげん",
-      "みやこどうふけん"
+      "とどうぶけん",
+      "とどうぷけん",
+      "とどうふか",
+      "つどうふけん"
     ],
     "sp": [
       "高速道路",
@@ -1314,11 +1377,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "あにち",
-      "ざいび",
-      "ざいか",
       "ざいじつ",
-      "ざいにっ",
-      "ざいひ"
+      "ざいび",
+      "ざいひ",
+      "ざいか",
+      "ざいにっ"
     ],
     "sp": [
       "夕日",
@@ -1346,8 +1409,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "external",
       "foreign",
-      "with foreign countries",
-      "towards foreign countries"
+      "with foreign countries"
     ],
     "pos": "adj",
     "th": "5.1",
@@ -1365,14 +1427,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そろがい",
+      "ならがい",
       "つれあがい",
-      "たいそと",
-      "だいがい",
-      "むかがい",
-      "たいはず",
+      "たいげ",
+      "こたがい",
       "あいてがい",
-      "ついがい"
+      "たいほか",
+      "そろがい",
+      "むかがい"
     ],
     "sp": [
       "学外",
@@ -1400,11 +1462,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "(ancient) Japan",
       "Yamato kingdom",
-      "state of Yamato"
+      "state of Yamato",
+      "Yamato",
+      "Yamato (battleship)"
     ],
     "pos": "n",
     "th": "5.1",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      1
+    ],
     "sp": [
       "大師",
       "協和",
@@ -1444,8 +1513,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "わがこく",
-      "わがぐに"
+      "わがぐに",
+      "わがこく"
     ],
     "sp": [
       "わが國",
@@ -1492,13 +1561,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しんはか",
-      "しんほぼ",
+      "しんおさ",
+      "しんはぶ",
       "しんおか",
       "しんりゃっ",
-      "しんはかりごと",
       "おかりゃく",
       "じんりゃく",
-      "しんはぶ"
+      "しんほぼ"
     ],
     "sp": [
       "略取",
@@ -1543,8 +1612,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きゅうじゅう",
-      "ぎゅうしゅう",
       "くしゅう",
+      "ぎゅうしゅう",
       "きゅうす",
       "ここのしゅう"
     ],
@@ -1596,13 +1665,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どくりゅうこく",
-      "どっりつこく",
+      "どくたこく",
+      "とくりつこく",
+      "どくりつごく",
+      "どくだこく",
       "どくりつこっ",
       "どくりっとるこく",
-      "どくりつくに",
       "どくりっこく",
-      "どくだこく",
       "どくりつごっ"
     ],
     "sp": [

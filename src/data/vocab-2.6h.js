@@ -29,8 +29,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ぬくど",
       "あたたど",
-      "おんた",
       "おんたく",
+      "おんた",
       "おんたび",
       "おんと"
     ],
@@ -59,11 +59,16 @@ export const VOCAB_ENTRIES = [
     "r": "かすみ",
     "en": [
       "haze (esp. in spring)",
-      "mist"
+      "mist",
+      "dimness (of sight)"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "uk": true
   },
   {
@@ -111,11 +116,17 @@ export const VOCAB_ENTRIES = [
     "w": "天気",
     "r": "てんき",
     "en": [
-      "weather"
+      "weather",
+      "fair weather",
+      "fine weather"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -130,12 +141,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "あめき",
-      "でんき",
-      "てんいき",
       "あまつき",
       "てんぎ",
+      "あまき",
+      "てんいき",
       "てんけ",
-      "あまき"
+      "でんき"
     ],
     "sp": [
       "気味",
@@ -228,11 +239,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かぶさい",
       "おおさい",
       "こうむさい",
-      "ぴさい",
       "びさい",
+      "ぴさい",
+      "かぶさい",
       "ひざい",
       "ひわざわ"
     ],
@@ -260,11 +271,18 @@ export const VOCAB_ENTRIES = [
     "w": "温泉",
     "r": "おんせん",
     "en": [
-      "hot spring"
+      "hot spring",
+      "onsen",
+      "hot spring resort",
+      "hot spring spa"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -279,8 +297,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "あたたせん",
-      "おんいずみ",
       "おんぜん",
+      "おんいずみ",
       "ぬくせん"
     ],
     "sp": [
@@ -356,11 +374,17 @@ export const VOCAB_ENTRIES = [
     "w": "気象",
     "r": "きしょう",
     "en": [
-      "weather (conditions)"
+      "weather (conditions)",
+      "disposition",
+      "temperament"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -375,11 +399,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "けしょう",
-      "ぎしょう",
+      "いきしょう",
       "きじょう",
       "きかたど",
       "きぞう",
-      "いきしょう"
+      "ぎしょう"
     ],
     "sp": [
       "気化",
@@ -427,9 +451,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ごんしゅう",
       "こんとき",
-      "こんじゅう",
-      "いましゅう",
       "こんあき",
+      "いましゅう",
+      "こんじゅう",
       "きんしゅう"
     ],
     "sp": [
@@ -475,11 +499,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "さくあき",
-      "ざくしゅう",
       "さくじゅう",
       "ざっしゅう",
+      "さくあき",
       "さっしゅう",
+      "ざくしゅう",
       "さくとき"
     ],
     "sp": [
@@ -576,11 +600,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "よむく",
       "よぽう",
       "よぼう",
-      "しゃほう",
-      "あらかじほう"
+      "よむく",
+      "あらかじほう",
+      "しゃほう"
     ],
     "sp": [
       "予感",
@@ -606,11 +630,18 @@ export const VOCAB_ENTRIES = [
     "w": "前線",
     "r": "ぜんせん",
     "en": [
-      "(weather) front"
+      "(weather) front",
+      "front line",
+      "the front",
+      "battlefront"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -670,11 +701,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あまつこう",
-      "あめこう",
       "あまこう",
-      "てんそうろう",
+      "あめこう",
       "でんこう",
+      "てんそうろう",
+      "あまつこう",
       "てんごう"
     ],
     "sp": [

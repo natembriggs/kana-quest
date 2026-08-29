@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "serious",
       "severe",
-      "grave",
-      "acute"
+      "grave"
     ],
     "pos": "adj",
     "th": "1.2",
@@ -30,12 +29,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しんきざ",
-      "ふかこく",
-      "しんこっ",
-      "じんこく",
-      "しんごっ",
       "しんごく",
+      "じんこく",
+      "しんこっ",
+      "ふかこく",
+      "しんごっ",
+      "しんきざ",
       "みこく",
       "ぶかこく"
     ],
@@ -66,11 +65,18 @@ export const VOCAB_ENTRIES = [
       "person",
       "character",
       "figure",
-      "personage"
+      "one's character",
+      "one's personality",
+      "able person"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -84,13 +90,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "りぶつ",
       "とぶつ",
       "にんぶつ",
-      "ひとぶつ",
       "じんぶっ",
-      "じんもつ",
-      "りぶつ",
-      "じんもの"
+      "じんもの",
+      "ひとぶつ",
+      "じんもつ"
     ],
     "sp": [
       "供物",
@@ -117,11 +123,16 @@ export const VOCAB_ENTRIES = [
     "r": "もじ",
     "en": [
       "letter (of an alphabet)",
-      "character"
+      "character",
+      "writing"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -134,12 +145,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "もな",
-      "ふみじ",
       "もあざ",
+      "あやじ",
+      "もな",
       "ぶんじ",
       "もあざな",
-      "あやじ"
+      "ふみじ"
     ],
     "sp": [
       "文学",
@@ -185,8 +196,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ねんごだん",
-      "ごんだん"
+      "ごんだん",
+      "ねんごだん"
     ],
     "sp": [
       "談合",
@@ -215,11 +226,16 @@ export const VOCAB_ENTRIES = [
       "character (of a person)",
       "personality",
       "disposition",
-      "nature"
+      "characteristics",
+      "nature (of a thing, event, etc.)"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -233,14 +249,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "せいがっ",
       "せいごう",
-      "せいかっ",
       "せいがく",
-      "せいこう",
       "せいきゃく",
+      "せいかっ",
       "ぜいかく",
       "しょうかく",
-      "せいがっ"
+      "せいこう"
     ],
     "sp": [
       "格子",
@@ -268,8 +284,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "serious",
       "important",
-      "significant",
-      "grave"
+      "significant"
     ],
     "pos": "adj",
     "th": "1.2",
@@ -288,10 +303,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じゅうたい",
-      "かさだい",
-      "おもだい",
-      "ちょうだい",
       "えだい",
+      "おもだい",
+      "かさだい",
+      "ちょうだい",
       "じゅうおお"
     ],
     "sp": [
@@ -337,13 +352,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "すいえん",
       "いえん",
-      "でえん",
       "じゅっえん",
       "じゅつえん",
+      "でえん",
       "だえん",
-      "しゅっえん",
-      "すいえん"
+      "しゅっえん"
     ],
     "sp": [
       "創出",
@@ -371,8 +386,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "individuality",
       "personality",
-      "quirk",
-      "idiosyncrasy"
+      "quirk"
     ],
     "pos": "n",
     "th": "1.2",
@@ -391,9 +405,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "こさが",
-      "かせい",
-      "こしょう",
       "ごせい",
+      "こしょう",
+      "かせい",
       "こぜい"
     ],
     "sp": [
@@ -438,10 +452,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えかお",
-      "しょうがお",
+      "えがん",
       "わらがお",
-      "えがん"
+      "しょうがお",
+      "えかお"
     ],
     "sp": [
       "朝顔",
@@ -517,11 +531,17 @@ export const VOCAB_ENTRIES = [
       "a kind",
       "a sort",
       "a variety",
-      "a species"
+      "of sorts",
+      "something of a",
+      "a sort of"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -536,11 +556,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ひとしゅ",
-      "いちしゅ",
-      "いっぐさ",
-      "いったね",
       "いつしゅ",
-      "いっじゅ"
+      "いっぐさ",
+      "いっじゅ",
+      "いちしゅ",
+      "いったね"
     ],
     "sp": [
       "一石",
@@ -569,11 +589,17 @@ export const VOCAB_ENTRIES = [
       "funny",
       "amusing",
       "comical",
-      "laughable"
+      "strange",
+      "odd",
+      "funny"
     ],
     "pos": "adj",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -583,8 +609,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "variety",
       "kind",
-      "type",
-      "category"
+      "type"
     ],
     "pos": "n",
     "th": "1.2",
@@ -604,8 +629,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "しゅたぐ",
       "ぐさるい",
-      "たねるい",
-      "じゅるい"
+      "じゅるい",
+      "たねるい"
     ],
     "sp": [
       "類似",
@@ -632,11 +657,18 @@ export const VOCAB_ENTRIES = [
     "r": "とうじょう",
     "en": [
       "entrance (on the stage)",
-      "appearance (in a book, film, etc.)"
+      "appearance (in a book, film, etc.)",
+      "appearance (on the scene)",
+      "arrival (on the market)",
+      "emergence"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -651,13 +683,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "のぼじょう",
-      "どうじょう",
+      "あじょう",
+      "とじょう",
+      "とうば",
+      "ちょうじょう",
       "しょうじょう",
       "とうちょう",
-      "ちょうじょう",
-      "あじょう",
-      "とうば",
-      "とじょう"
+      "どうじょう"
     ],
     "sp": [
       "登院",
@@ -686,11 +718,16 @@ export const VOCAB_ENTRIES = [
       "protagonist",
       "main character",
       "hero",
-      "heroine"
+      "head (of a household)",
+      "proprietor (of a store)"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -709,14 +746,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あるじじんこう",
-      "しゅにんこう",
       "おもじんこう",
+      "しゅとこう",
+      "すじんこう",
+      "しゅじんおおやけ",
       "しゅじんく",
-      "しゅじんごう",
-      "ぬしじんこう",
       "しゅうじんこう",
-      "しゅひとこう"
+      "あるじじんこう",
+      "しゅにんこう"
     ],
     "sp": [
       "世帯主",
@@ -742,11 +779,21 @@ export const VOCAB_ENTRIES = [
     "w": "毛",
     "r": "け",
     "en": [
-      "hair"
+      "hair",
+      "fur",
+      "wool",
+      "down",
+      "plumage",
+      "feathers"
     ],
     "pos": "n",
     "th": "1.2",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      3
+    ],
     "ruby": [
       [
         0,

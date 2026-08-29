@@ -10,11 +10,17 @@ export const VOCAB_ENTRIES = [
     "r": "せきにん",
     "en": [
       "duty",
-      "responsibility (incl. supervision of staff)"
+      "responsibility (incl. supervision of staff)",
+      "liability",
+      "onus"
     ],
     "pos": "n",
     "th": "4.2",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -28,11 +34,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せにん",
-      "せっにん",
       "ぜきにん",
+      "ぜっにん",
+      "せにん",
       "せきまか",
-      "ぜっにん"
+      "せっにん"
     ],
     "sp": [
       "専任",
@@ -59,11 +65,17 @@ export const VOCAB_ENTRIES = [
     "r": "せんむ",
     "en": [
       "special duty",
-      "being in sole charge of a duty"
+      "being in sole charge of a duty",
+      "senior managing director",
+      "executive director"
     ],
     "pos": "n",
     "th": "4.2",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -125,12 +137,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "からくりぜい",
       "せきぜい",
+      "かかぜい",
+      "かんぬきぜい",
       "ぜきぜい",
       "がんぜい",
-      "かんぬきぜい",
-      "かかぜい"
+      "からくりぜい"
     ],
     "sp": [
       "機関",
@@ -159,11 +171,15 @@ export const VOCAB_ENTRIES = [
       "consumer (of a product, service, etc.)",
       "customer",
       "(end) user",
-      "buyer"
+      "consumer (in a food chain)"
     ],
     "pos": "n",
     "th": "4.2",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -183,13 +199,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しょうぴしゃ",
-      "しょうひじゃ",
-      "じょうひしゃ",
-      "しょうついしゃ",
-      "しょうびしゃ",
-      "けひしゃ",
+      "しょうひもの",
       "きひしゃ",
-      "しょうひもの"
+      "しょうびしゃ",
+      "しょうついしゃ",
+      "けひしゃ",
+      "じょうひしゃ",
+      "しょうひじゃ"
     ],
     "sp": [
       "出身者",
@@ -239,11 +255,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "けひぜい",
-      "しょうついぜい",
-      "きひぜい",
+      "しょうびぜい",
       "じょうひぜい",
+      "きひぜい",
       "しょうぴぜい",
-      "しょうびぜい"
+      "しょうついぜい"
     ],
     "sp": [
       "光熱費",
@@ -335,12 +351,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "つとむ",
-      "いそむ",
-      "ごんむ",
       "ぎんむ",
+      "いそむ",
+      "づとむ",
+      "ごんむ",
       "きんつと",
-      "づとむ"
+      "つとむ"
     ],
     "sp": [
       "出勤",
@@ -418,8 +434,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "duty",
       "function",
-      "office",
-      "mission"
+      "office"
     ],
     "pos": "n",
     "th": "4.2",
@@ -465,11 +480,17 @@ export const VOCAB_ENTRIES = [
     "r": "げんえき",
     "en": [
       "active duty",
-      "active service"
+      "active service",
+      "student taking (university) entrance exams w…",
+      "student who passed their university entrance…"
     ],
     "pos": "n",
     "th": "4.2",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -483,11 +504,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "うつつえき",
       "うつえき",
-      "あらわえき",
       "げんえっ",
       "げんやく",
-      "うつつえき"
+      "あらわえき"
     ],
     "sp": [
       "役人",
@@ -532,11 +553,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ぜいこん",
       "ぜいかな",
       "ぜいぎん",
-      "ぜいかね",
       "ぜいごん",
-      "ぜいこん",
+      "ぜいかね",
       "ぜいがね"
     ],
     "sp": [

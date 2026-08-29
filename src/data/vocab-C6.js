@@ -11,11 +11,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "big",
       "large",
-      "great"
+      "great",
+      "loud",
+      "extensive",
+      "spacious"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -24,8 +32,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だいきい",
-      "たいきい"
+      "たいきい",
+      "だいきい"
     ],
     "sp": [
       "仰きい",
@@ -53,11 +61,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "small",
       "little",
-      "tiny"
+      "tiny",
+      "slight",
+      "below average (in degree, amount, etc.)",
+      "minor"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -66,11 +81,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ささい",
-      "こさい",
+      "しょうさい",
       "ぢいさい",
+      "こさい",
       "おさい",
-      "しょうさい"
+      "ささい"
     ],
     "sp": [
       "誌さい",
@@ -99,11 +114,17 @@ export const VOCAB_ENTRIES = [
       "good",
       "excellent",
       "fine",
-      "nice"
+      "sufficient",
+      "enough",
+      "ready"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -141,11 +162,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "bad",
       "poor",
-      "undesirable"
+      "undesirable",
+      "poor (quality)",
+      "inferior",
+      "insufficient"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -154,13 +182,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "にくい",
       "あい",
       "いずくんぞい",
-      "いずくにい",
-      "あくい",
-      "にくい",
       "おい",
-      "ああい"
+      "ああい",
+      "いずくにい",
+      "あくい"
     ],
     "sp": [
       "藁い",
@@ -187,11 +215,20 @@ export const VOCAB_ENTRIES = [
     "r": "たかい",
     "en": [
       "high",
-      "tall"
+      "tall",
+      "expensive",
+      "high-priced",
+      "high (level)",
+      "above average (in degree, quality, etc.)"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -200,8 +237,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だかい",
-      "こうい"
+      "こうい",
+      "だかい"
     ],
     "sp": [
       "鷹い",
@@ -228,11 +265,18 @@ export const VOCAB_ENTRIES = [
     "r": "やすい",
     "en": [
       "cheap",
-      "inexpensive"
+      "inexpensive",
+      "calm",
+      "peaceful",
+      "quiet"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -269,8 +313,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "new",
       "novel",
-      "fresh",
-      "recent"
+      "fresh"
     ],
     "pos": "adj",
     "th": "C6",
@@ -314,11 +357,17 @@ export const VOCAB_ENTRIES = [
       "old",
       "aged",
       "ancient",
-      "antiquated"
+      "long",
+      "since long ago",
+      "time-honored"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -327,9 +376,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぶるい",
       "ぷるい",
-      "こい"
+      "こい",
+      "ぶるい"
     ],
     "sp": [
       "揮い",
@@ -357,8 +406,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "enjoyable",
       "fun",
-      "pleasant",
-      "happy"
+      "pleasant"
     ],
     "pos": "adj",
     "th": "C6",
@@ -371,11 +419,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "らくしい",
-      "がくしい",
-      "このしい",
       "ごうしい",
-      "だのしい"
+      "がくしい",
+      "だのしい",
+      "このしい",
+      "らくしい"
     ],
     "sp": [
       "托しい",
@@ -404,11 +452,18 @@ export const VOCAB_ENTRIES = [
       "difficult",
       "hard",
       "troublesome",
-      "complicated"
+      "impossible",
+      "unfeasible",
+      "fussy"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -417,10 +472,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がたしい",
-      "にくしい",
       "なんしい",
-      "かたしい"
+      "がたしい",
+      "かたしい",
+      "にくしい"
     ],
     "sp": [
       "松しい",
@@ -448,11 +503,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "simple",
       "easy",
-      "uncomplicated"
+      "uncomplicated",
+      "brief",
+      "quick",
+      "light"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -466,12 +528,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "がんたん",
+      "かんだん",
       "えらたん",
       "かんひとえ",
-      "ふだたん",
-      "かんだん",
-      "がんたん",
-      "けんたん"
+      "けんたん",
+      "ふだたん"
     ],
     "sp": [
       "単勝",
@@ -499,11 +561,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "busy",
       "occupied",
-      "hectic"
+      "hectic",
+      "restless",
+      "hurried",
+      "fidgety"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -512,10 +581,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぼうしい",
-      "もうしい",
       "おそしい",
-      "うれえるさましい"
+      "うれえるさましい",
+      "ぼうしい",
+      "もうしい"
     ],
     "sp": [
       "曹しい",
@@ -544,11 +613,17 @@ export const VOCAB_ENTRIES = [
       "lively",
       "full of spirit",
       "energetic",
-      "vigorous"
+      "healthy",
+      "well",
+      "fit"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -565,8 +640,8 @@ export const VOCAB_ENTRIES = [
       "もとき",
       "げんけ",
       "がんき",
-      "げんいき",
-      "げんぎ"
+      "げんぎ",
+      "げんいき"
     ],
     "sp": [
       "親元",
@@ -595,11 +670,17 @@ export const VOCAB_ENTRIES = [
       "liking",
       "being fond of",
       "to one's liking",
-      "to one's taste"
+      "liking (romantically)",
+      "being in love with",
+      "beloved"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -651,9 +732,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "けんい",
       "いやい",
-      "げんい",
-      "けんい"
+      "げんい"
     ],
     "sp": [
       "煌い",
@@ -681,11 +762,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "very",
       "awfully",
-      "exceedingly"
+      "exceedingly",
+      "(not) at all",
+      "by no means",
+      "simply (cannot)"
     ],
     "pos": "adv",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -696,11 +784,17 @@ export const VOCAB_ENTRIES = [
       "a little",
       "a bit",
       "a small amount",
-      "a few"
+      "a little while",
+      "a short time",
+      "a moment"
     ],
     "pos": "adv",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -710,8 +804,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ずこし",
-      "しょうし",
-      "すくし"
+      "すくし",
+      "しょうし"
     ],
     "sp": [
       "健し",
@@ -740,11 +834,16 @@ export const VOCAB_ENTRIES = [
       "a lot",
       "lots",
       "plenty",
-      "many"
+      "enough",
+      "sufficient"
     ],
     "pos": "adj",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "uk": true
   },
   {
@@ -752,11 +851,16 @@ export const VOCAB_ENTRIES = [
     "w": "一寸",
     "r": "いっすん",
     "en": [
-      "one sun (approx. 3 cm)"
+      "one sun (approx. 3 cm)",
+      "little bit (of time, distance, etc.)"
     ],
     "pos": "n",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -770,9 +874,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いちすん",
-      "ひとすん",
       "いつすん",
+      "ひとすん",
+      "いちすん",
       "いっずん"
     ],
     "sp": [
@@ -801,11 +905,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "always",
       "all the time",
-      "at all times"
+      "at all times",
+      "never"
     ],
     "pos": "adv",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "uk": true
   },
   {
@@ -816,11 +925,18 @@ export const VOCAB_ENTRIES = [
       "nicely",
       "properly",
       "well",
-      "skillfully"
+      "frequently",
+      "often",
+      "I'm glad that you ..."
     ],
     "pos": "adv",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "uk": true
   },
   {
@@ -831,11 +947,16 @@ export const VOCAB_ENTRIES = [
       "remainder",
       "remnant",
       "rest",
-      "balance"
+      "more than",
+      "over"
     ],
     "pos": "n",
     "th": "C6",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "uk": true
   }
 ];

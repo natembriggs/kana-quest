@@ -99,11 +99,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "practice",
       "exercise",
-      "drill"
+      "drill",
+      "military exercise",
+      "manoeuvres",
+      "maneuvers"
     ],
     "pos": "n",
     "th": "1.4",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -117,9 +124,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "えんなら",
       "えんじゅ",
-      "えんじゅう",
-      "えんなら"
+      "えんじゅう"
     ],
     "sp": [
       "復習",
@@ -147,11 +154,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "business practice",
       "business method",
-      "commerce"
+      "commerce",
+      "commercial law"
     ],
     "pos": "n",
     "th": "1.4",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -165,13 +177,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょうぼう",
-      "しょうふらん",
-      "しょうぽう",
-      "じょうほう",
-      "しょうほっ",
       "しょうのり",
+      "しょうほっ",
       "しょうはっ",
+      "じょうほう",
+      "しょうぽう",
+      "しょうふらん",
+      "しょうぼう",
       "あきなほう"
     ],
     "sp": [
@@ -258,14 +270,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かんい",
-      "なこう",
-      "かんあん",
       "かんおこな",
-      "かんゆき",
       "がんこう",
       "かんごう",
-      "かんゆ"
+      "かんゆき",
+      "かんゆ",
+      "なこう",
+      "かんおこ",
+      "かんあん"
     ],
     "sp": [
       "挙行",
@@ -293,11 +305,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "practice",
       "putting into practice",
-      "implementation"
+      "implementation",
+      "praxis"
     ],
     "pos": "n",
     "th": "1.4",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -313,11 +330,11 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "じっふ",
       "じっぜん",
-      "じつせん",
-      "みのせん",
+      "みちせん",
       "みせん",
       "まことせん",
-      "みちせん",
+      "みのせん",
+      "じつせん",
       "しつせん"
     ],
     "sp": [
@@ -359,8 +376,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あっめる",
       "しゅうめる",
+      "あっめる",
       "つどめる"
     ],
     "sp": [
@@ -435,11 +452,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "performance (as opposed to practice)",
       "going before an audience or on-air",
-      "take"
+      "take",
+      "game",
+      "match",
+      "high of the season"
     ],
     "pos": "n",
     "th": "1.4",
     "lv": "h",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -501,9 +526,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かんどう",
+      "かんな",
       "がんとう",
-      "かんな"
+      "かんどう"
     ],
     "sp": [
       "完訳",
@@ -567,11 +592,18 @@ export const VOCAB_ENTRIES = [
     "w": "序盤",
     "r": "じょばん",
     "en": [
-      "opening (in a game of go, chess, etc.)"
+      "opening (in a game of go, chess, etc.)",
+      "early stages",
+      "initial phase",
+      "outset"
     ],
     "pos": "n",
     "th": "1.4",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -585,8 +617,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ついばん",
-      "ついでばん"
+      "ついでばん",
+      "ついばん"
     ],
     "sp": [
       "地盤",
@@ -631,14 +663,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょうばん",
-      "とうはん",
       "とばん",
+      "とうはん",
       "どうばん",
+      "あばん",
       "ちょうばん",
       "とういた",
       "のぼばん",
-      "あばん"
+      "しょうばん"
     ],
     "sp": [
       "登用",
@@ -683,10 +715,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たっぎゅう",
+      "たったま",
       "たくきゅう",
       "だっきゅう",
-      "たったま"
+      "たっぎゅう"
     ],
     "sp": [
       "球形",

@@ -10,11 +10,18 @@ export const VOCAB_ENTRIES = [
     "r": "だいがく",
     "en": [
       "university",
-      "college"
+      "college",
+      "former imperial university of Japan",
+      "the Great Learning (one of the Four Books)"
     ],
     "pos": "n",
     "th": "4.3",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -28,8 +35,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だいまな",
       "だいがっ",
+      "だいまな",
       "おおがく",
       "たいがく"
     ],
@@ -59,8 +66,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "faculty (of a university)",
       "school",
-      "college",
-      "department"
+      "college"
     ],
     "pos": "n",
     "th": "4.3",
@@ -78,8 +84,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がっぶ",
       "まなぶ",
+      "がっぶ",
       "がくべ"
     ],
     "sp": [
@@ -108,8 +114,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "use",
       "application",
-      "employment",
-      "utilization"
+      "employment"
     ],
     "pos": "n",
     "th": "4.3",
@@ -127,9 +132,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じよう",
-      "つかよう",
       "づかよう",
+      "つかよう",
+      "じよう",
       "しもち"
     ],
     "sp": [
@@ -158,11 +163,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "president (of a university)",
       "vice-chancellor",
-      "chancellor"
+      "chancellor",
+      "secretary-general",
+      "director",
+      "leader (esp. of a biker gang)"
     ],
     "pos": "n",
     "th": "4.3",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -177,12 +190,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "そうおさ",
-      "すべちょう",
-      "ふさちょう",
+      "すちょう",
       "ぞうちょう",
-      "そうなが",
+      "ふさちょう",
       "そうぢょう",
-      "すちょう"
+      "そうなが",
+      "すべちょう"
     ],
     "sp": [
       "総和",
@@ -210,8 +223,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "application",
       "subscription",
-      "entry (competition, raffle, etc.)",
-      "enlistment"
+      "entry (competition, raffle, etc.)"
     ],
     "pos": "n",
     "th": "4.3",
@@ -230,11 +242,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ようぼ",
-      "こたぼ",
-      "のうぼ",
       "あたぼ",
+      "まさにぼ",
+      "こたぼ",
       "おうつの",
-      "まさにぼ"
+      "のうぼ"
     ],
     "sp": [
       "適応",
@@ -263,11 +275,16 @@ export const VOCAB_ENTRIES = [
       "making use of",
       "application",
       "practical use",
-      "effective management (e.g. of funds)"
+      "operation (esp. of a boat)",
+      "steering"
     ],
     "pos": "n",
     "th": "4.3",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -328,14 +345,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しんう",
-      "もうせい",
-      "じんせい",
-      "さるせい",
-      "しんぜい",
       "しんしょう",
-      "しんこ",
-      "しんしん"
+      "じんせい",
+      "もうせい",
+      "さるせい",
+      "しんう",
+      "しんしん",
+      "しんぜい",
+      "しんこ"
     ],
     "sp": [
       "請託",
@@ -363,8 +380,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "presentation (of documents)",
       "submission (of an application, report, etc.)",
-      "production (e.g. of evidence)",
-      "introduction (e.g. of a bill)"
+      "production (e.g. of evidence)"
     ],
     "pos": "n",
     "th": "4.3",
@@ -382,13 +398,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "でいしゅつ",
-      "ていすい",
-      "ていで",
-      "ていい",
-      "さしゅつ",
-      "ていじゅつ",
+      "ちょうしゅつ",
       "ていしゅっ",
+      "ていい",
+      "ていすい",
+      "でいしゅつ",
+      "ていじゅつ",
+      "ていだ",
       "ていじゅっ"
     ],
     "sp": [
@@ -433,11 +449,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "てっよう",
-      "てきもち",
       "でっよう",
-      "かなよう",
-      "できよう"
+      "てきもち",
+      "てっよう",
+      "できよう",
+      "かなよう"
     ],
     "sp": [
       "所用",
@@ -465,8 +481,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "admission (to a school or university)",
       "entrance",
-      "enrolment",
-      "enrollment"
+      "enrolment"
     ],
     "pos": "n",
     "th": "4.3",
@@ -484,11 +499,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にゅうがっ",
-      "はいがく",
       "にゅうまな",
+      "じゅがく",
+      "にゅうがっ",
       "いがく",
-      "じゅがく"
+      "はいがく"
     ],
     "sp": [
       "薬学",
@@ -516,8 +531,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "application",
       "entry",
-      "request",
-      "subscription"
+      "request"
     ],
     "pos": "n",
     "th": "4.3",
@@ -564,7 +578,7 @@ export const VOCAB_ENTRIES = [
     "r": "たんだい",
     "en": [
       "junior college",
-      "vocationally oriented post-secondary institution offering two or three-year programs"
+      "vocationally oriented post-secondary institu…"
     ],
     "pos": "n",
     "th": "4.3",
@@ -636,13 +650,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じょしおお",
-      "じょこだい",
+      "じょじだい",
       "おんなしだい",
       "じょねだい",
       "にょしだい",
-      "じょじだい",
+      "じょつだい",
       "じょしたい",
-      "めしだい"
+      "にょうしだい"
     ],
     "sp": [
       "大丈夫",

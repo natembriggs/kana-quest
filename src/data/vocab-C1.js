@@ -49,8 +49,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "farewell",
       "adieu",
-      "goodbye",
-      "so long"
+      "goodbye"
     ],
     "pos": "other",
     "th": "C1",
@@ -78,11 +77,17 @@ export const VOCAB_ENTRIES = [
       "excuse me",
       "pardon me",
       "I'm sorry",
-      "I beg your pardon"
+      "thank you",
+      "you shouldn't have",
+      "it's too much"
     ],
     "pos": "other",
     "th": "C1",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -102,8 +107,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おねがいいします",
-      "おがんいします"
+      "おがんいします",
+      "おねがいいします"
     ],
     "sp": [
       "お訳いします",
@@ -130,11 +135,20 @@ export const VOCAB_ENTRIES = [
     "r": "はい",
     "en": [
       "yes",
-      "that is correct"
+      "that is correct",
+      "understood",
+      "I see",
+      "OK",
+      "present"
     ],
     "pos": "other",
     "th": "C1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "uk": true
   },
   {
@@ -142,11 +156,18 @@ export const VOCAB_ENTRIES = [
     "w": "いいえ",
     "r": "いいえ",
     "en": [
-      "no"
+      "no",
+      "you're welcome",
+      "not at all",
+      "don't mention it"
     ],
     "pos": "other",
     "th": "C1",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "uk": true
   },
   {
@@ -157,11 +178,17 @@ export const VOCAB_ENTRIES = [
       "to understand",
       "to comprehend",
       "to grasp",
-      "to see"
+      "to become clear",
+      "to be known",
+      "to be discovered"
     ],
     "pos": "v",
     "th": "C1",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -189,14 +216,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ただもん",
-      "しつとん",
+      "しっもん",
       "しつと",
-      "しちもん",
+      "しつとん",
+      "もともん",
+      "ただもん",
       "じつもん",
-      "わりふもん",
-      "ちもん",
-      "もともん"
+      "じっもん",
+      "ちもん"
     ],
     "sp": [
       "資質",

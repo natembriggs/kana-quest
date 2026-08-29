@@ -29,11 +29,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ことたい",
-      "じわざ",
-      "じだい",
       "つかたい",
-      "ずたい"
+      "じだい",
+      "じわざ",
+      "ずたい",
+      "ことたい"
     ],
     "sp": [
       "理事",
@@ -61,11 +61,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "the present",
       "present time",
-      "now"
+      "now",
+      "as of",
+      "present tense"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -79,10 +86,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "あらわざい",
       "うつつざい",
-      "うつざい",
       "げんあ",
-      "あらわざい"
+      "うつざい"
     ],
     "sp": [
       "在中",
@@ -150,11 +157,17 @@ export const VOCAB_ENTRIES = [
       "commemoration",
       "celebration",
       "remembrance",
-      "memory"
+      "memento",
+      "souvenir",
+      "keepsake"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -215,14 +228,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "げんゆ",
-      "あらわこう",
       "げんあん",
-      "げんい",
-      "げんゆき",
       "うつこう",
+      "げんごう",
+      "げんおこな",
+      "げんゆ",
+      "うつつこう",
       "げんいき",
-      "げんおこな"
+      "げんゆき"
     ],
     "sp": [
       "行動",
@@ -250,11 +263,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "present age",
       "present day",
-      "today"
+      "today",
+      "modern era",
+      "modern times"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -268,14 +287,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "げんか",
-      "うつつだい",
       "げんたい",
-      "げんかわ",
-      "げんしろ",
-      "うつだい",
       "あらわだい",
-      "げんよ"
+      "げんが",
+      "げんよ",
+      "げんしろ",
+      "うつつだい",
+      "うつだい",
+      "げんかわ"
     ],
     "sp": [
       "現出",
@@ -320,13 +339,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "でんどう",
-      "てんとう",
-      "つたとう",
+      "でんす",
       "つてとう",
+      "つたとう",
+      "てんとう",
       "づたとう",
       "つだとう",
-      "でんす"
+      "でんどう"
     ],
     "sp": [
       "統帥",
@@ -354,8 +373,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "present condition",
       "existing state",
-      "status quo",
-      "current state"
+      "status quo"
     ],
     "pos": "n",
     "th": "1.8",
@@ -373,9 +391,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "うつじょう",
       "うつつじょう",
-      "あらわじょう"
+      "あらわじょう",
+      "うつじょう"
     ],
     "sp": [
       "現地",
@@ -403,11 +421,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "present day",
       "modern times",
-      "recent times"
+      "recent times",
+      "early modern period"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -421,14 +444,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きんたい",
-      "きんがわ",
       "きんが",
-      "きんよ",
+      "きんか",
+      "きんがわ",
+      "きんかわ",
       "きんしろ",
+      "ちかだい",
       "ぎんだい",
-      "こんだい",
-      "ちかだい"
+      "こんだい"
     ],
     "sp": [
       "代価",
@@ -474,13 +497,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あらわしょく",
-      "げんしょっ",
       "うつしょく",
       "げんじょっ",
-      "げんそく",
       "うつつしょく",
-      "げんじょく"
+      "げんしょっ",
+      "げんじょく",
+      "あらわしょく",
+      "げんそく"
     ],
     "sp": [
       "現場",
@@ -508,11 +531,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "talent",
       "gift",
-      "function"
+      "function",
+      "noh (theatre)"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -549,11 +577,18 @@ export const VOCAB_ENTRIES = [
     "r": "おくる",
     "en": [
       "to give (as a gift)",
-      "to present"
+      "to present",
+      "to confer",
+      "to bestow",
+      "to award"
     ],
     "pos": "v",
     "th": "1.8",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -562,9 +597,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "そうる",
       "ぞうる",
-      "おっる",
-      "そうる"
+      "おっる"
     ],
     "sp": [
       "後る",
@@ -592,8 +627,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "holiday",
       "vacation",
-      "day off",
-      "time off"
+      "day off"
     ],
     "pos": "n",
     "th": "1.8",
@@ -612,9 +646,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "やすか",
-      "きゅうが",
       "きゅうひま",
       "きゅういとま",
+      "きゅうが",
       "ぎゅうか"
     ],
     "sp": [
@@ -660,10 +694,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じんやしろ",
-      "かみじゃ",
+      "しんじゃ",
       "こうじゃ",
       "かんじゃ",
-      "しんじゃ"
+      "かみじゃ"
     ],
     "sp": [
       "社史",
@@ -707,11 +741,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "がやすみ",
       "げやすみ",
       "なっやすみ",
-      "かやすみ",
       "なつきゅうみ",
-      "がやすみ"
+      "かやすみ"
     ],
     "sp": [
       "捺休み",
@@ -757,12 +791,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きゅうひ",
-      "きゅうび",
-      "きゅうじっ",
-      "ぎゅうじつ",
       "きゅうにち",
+      "きゅうか",
+      "ぎゅうじつ",
+      "きゅうじっ",
       "やすじつ",
-      "きゅうか"
+      "きゅうび"
     ],
     "sp": [
       "日射",

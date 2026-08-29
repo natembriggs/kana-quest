@@ -11,11 +11,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "opinion",
       "view",
-      "comment"
+      "comment",
+      "scolding",
+      "reprimand",
+      "rebuke"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -59,11 +66,16 @@ export const VOCAB_ENTRIES = [
       "result",
       "consequence",
       "outcome",
-      "effect"
+      "bearing fruit",
+      "fruiting"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -77,14 +89,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "けちか",
-      "けっが",
-      "げっか",
-      "けつか",
       "むすか",
       "けっは",
+      "げっか",
+      "ゆか",
+      "けちか",
       "けっはた",
-      "ゆか"
+      "けっが",
+      "けつか"
     ],
     "sp": [
       "結婚",
@@ -112,8 +124,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "investigation",
       "examination",
-      "inquiry",
-      "enquiry"
+      "inquiry"
     ],
     "pos": "n",
     "th": "3.4",
@@ -131,9 +142,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しらさ",
-      "ちょうざ",
       "ぢょうさ",
+      "ちょうざ",
+      "しらさ",
       "ととのさ"
     ],
     "sp": [
@@ -161,11 +172,20 @@ export const VOCAB_ENTRIES = [
     "r": "もんだい",
     "en": [
       "question (e.g. on a test)",
-      "problem"
+      "problem",
+      "problem (e.g. societal, political)",
+      "question",
+      "issue",
+      "question (i.e. doubt)"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -179,8 +199,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とんだい",
-      "とだい"
+      "とだい",
+      "とんだい"
     ],
     "sp": [
       "喚問",
@@ -208,8 +228,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "always",
       "without fail",
-      "invariably",
-      "usually"
+      "invariably"
     ],
     "pos": "adv",
     "th": "3.4",
@@ -251,8 +270,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "inspection (e.g. customs, factory)",
       "examination",
-      "test",
-      "check"
+      "test"
     ],
     "pos": "n",
     "th": "3.4",
@@ -300,11 +318,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "examination",
       "exam",
+      "test",
+      "trial",
+      "experiment",
       "test"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -318,14 +343,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ししるし",
-      "こころけん",
-      "しため",
-      "ためけん",
+      "しためし",
       "じけん",
-      "しあかし",
       "しげん",
-      "しためし"
+      "こころけん",
+      "ためけん",
+      "しあかし",
+      "ししるし",
+      "しため"
     ],
     "sp": [
       "霊験",
@@ -353,8 +378,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "(good) result",
       "outcome",
-      "fruits (of one's labors)",
-      "product"
+      "fruits (of one's labors)"
     ],
     "pos": "n",
     "th": "3.4",
@@ -372,12 +396,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぜいか",
       "なか",
       "じょうか",
+      "ぜいか",
+      "せいはた",
       "せいは",
-      "せいが",
-      "せいはた"
+      "せいが"
     ],
     "sp": [
       "落成",
@@ -405,8 +429,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "public opinion",
       "popular voice",
-      "public sentiment",
-      "consensus"
+      "public sentiment"
     ],
     "pos": "n",
     "th": "3.4",
@@ -453,8 +476,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "consideration",
       "examination",
-      "investigation",
-      "study"
+      "investigation"
     ],
     "pos": "n",
     "th": "3.4",
@@ -472,8 +494,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "けんう",
       "けんどう",
+      "けんう",
       "げんとう",
       "しらとう"
     ],
@@ -522,11 +544,11 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "けんわか",
       "げんかい",
-      "けんと",
-      "けんほど",
-      "けんげ",
       "けんほぐ",
       "けんさと",
+      "けんげ",
+      "けんと",
+      "けんほど",
       "みかい"
     ],
     "sp": [
@@ -571,12 +593,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じゅしるし",
-      "じゅため",
       "じゅためし",
+      "じゅげん",
+      "じゅため",
       "じゅあかし",
       "うけん",
-      "じゅげん"
+      "じゅしるし"
     ],
     "sp": [
       "受容",
@@ -604,8 +626,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "scoring",
       "score",
-      "points made",
-      "marks obtained"
+      "points made"
     ],
     "pos": "n",
     "th": "3.4",
@@ -623,14 +644,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "とってん",
+      "とくさ",
       "どくてん",
-      "とくでん",
-      "えてん",
       "どってん",
       "とくた",
-      "とってん",
+      "えてん",
       "うてん",
-      "とくとも"
+      "とくぼち"
     ],
     "sp": [
       "利得",
@@ -656,11 +677,17 @@ export const VOCAB_ENTRIES = [
     "w": "圧力",
     "r": "あつりょく",
     "en": [
-      "pressure"
+      "pressure",
+      "pressure (e.g. political)",
+      "arm-twisting"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -675,13 +702,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "あつりき",
-      "あっりょく",
+      "えんりょく",
       "おりょく",
-      "あつりい",
-      "おさりょく",
-      "へりょく",
       "あつちから",
-      "えんりょく"
+      "へりょく",
+      "おさりょく",
+      "あつりい",
+      "おうりょく"
     ],
     "sp": [
       "力士",
@@ -709,8 +736,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "same score",
       "deadlock",
-      "tie",
-      "draw"
+      "tie"
     ],
     "pos": "n",
     "th": "3.4",
@@ -728,14 +754,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どうぼち",
       "どうとぼ",
-      "どうでん",
-      "どうた",
+      "どうつ",
       "どうさ",
+      "どうた",
+      "どうでん",
       "おなてん",
-      "どうとも",
-      "どうつ"
+      "どうぼち",
+      "どうとも"
     ],
     "sp": [
       "同局",
@@ -779,12 +805,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にゅうこころ",
-      "いし",
-      "にゅうため",
       "にゅうじ",
-      "はいし",
-      "じゅし"
+      "いし",
+      "にゅうこころ",
+      "にゅうため",
+      "じゅし",
+      "はいし"
     ],
     "sp": [
       "入室",
@@ -813,11 +839,15 @@ export const VOCAB_ENTRIES = [
       "hearing",
       "asking",
       "questioning (e.g. a suspect)",
-      "enquiry"
+      "listening (e.g. to the radio)"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -831,13 +861,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ていしゅ",
-      "ちょうと",
-      "ちょうじゅ",
-      "ちょうど",
-      "きしゅ",
-      "ちょうとり",
       "ぢょうしゅ",
+      "ちょうとり",
+      "ちょうど",
+      "ちょうと",
+      "ていしゅ",
+      "ちょうじゅ",
+      "きしゅ",
       "ゆるしゅ"
     ],
     "sp": [
@@ -886,9 +916,9 @@ export const VOCAB_ENTRIES = [
       "このひ",
       "しひ",
       "ぜあら",
-      "ぜぴ",
-      "ここひ",
       "ぜび",
+      "ここひ",
+      "ぜぴ",
       "これひ"
     ],
     "sp": [
@@ -917,11 +947,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "(school) grade",
       "year",
-      "class"
+      "class",
+      "class",
+      "grade",
+      "rank"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -959,11 +996,17 @@ export const VOCAB_ENTRIES = [
       "passing (an exam)",
       "pass",
       "success",
-      "passing grade"
+      "meeting (specifications, standards, etc.)",
+      "passing (inspection)",
+      "qualification"
     ],
     "pos": "n",
     "th": "3.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -977,14 +1020,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ごうがっ",
+      "ごうこう",
       "ごうがく",
-      "あいかく",
-      "ごうかっ",
-      "ごうきゃく",
-      "がっかく",
       "かっかく",
-      "あかく"
+      "ごうごう",
+      "ごうかっ",
+      "あかく",
+      "あいかく",
+      "がっかく"
     ],
     "sp": [
       "合同",
@@ -1031,8 +1074,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "しんた",
       "しんさだ",
-      "みだん",
       "じんだん",
+      "みだん",
       "しんことわ"
     ],
     "sp": [

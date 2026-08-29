@@ -11,11 +11,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "festival",
       "feast",
-      "matsuri"
+      "matsuri",
+      "harassment by an Internet pitchfork mob",
+      "online shaming",
+      "flaming"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -24,9 +31,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まつりり",
+      "さいり",
       "まっり",
-      "さいり"
+      "まつりり"
     ],
     "sp": [
       "抹り",
@@ -71,12 +78,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しってん",
-      "しきでん",
       "じってん",
-      "しきふみ",
       "しきのり",
-      "じきてん"
+      "じきてん",
+      "しきでん",
+      "しきふみ",
+      "しってん"
     ],
     "sp": [
       "古式",
@@ -103,11 +110,17 @@ export const VOCAB_ENTRIES = [
     "r": "とうぶん",
     "en": [
       "for the present",
-      "for the time being"
+      "for the time being",
+      "for a while (from now)",
+      "for some time (to come)"
     ],
     "pos": "adv",
     "th": "1.8",
     "lv": "h",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -121,12 +134,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とうふん",
-      "とうわ",
-      "どうぶん",
-      "まさぶん",
       "とうぶ",
-      "あぶん"
+      "とうわ",
+      "あぶん",
+      "どうぶん",
+      "とうふん",
+      "まさぶん"
     ],
     "sp": [
       "余分",
@@ -154,8 +167,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "now",
       "the present time",
-      "just now",
-      "soon"
+      "just now"
     ],
     "pos": "n",
     "th": "1.8",
@@ -213,14 +225,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "さんおが",
+      "さんはい",
+      "しんぱい",
       "まじわるぱい",
       "まいぱい",
+      "さんおが",
       "みつぱい",
-      "さんおろが",
       "ざんぱい",
-      "しんぱい",
-      "さんはい"
+      "さんおろが"
     ],
     "sp": [
       "参加",
@@ -249,11 +261,16 @@ export const VOCAB_ENTRIES = [
       "being present",
       "attendance (with)",
       "sitting with",
-      "sitting next to"
+      "same (seating) precedence",
+      "same rank"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -267,11 +284,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どうぜき",
-      "どうむしろ",
-      "おなせき",
       "どうせっ",
-      "どうぜっ"
+      "どうぜっ",
+      "おなせき",
+      "どうむしろ",
+      "どうぜき"
     ],
     "sp": [
       "大同",
@@ -322,12 +339,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "けちこんしき",
-      "けっこんしっ",
+      "むすこんしき",
       "けっこんじっ",
-      "けつこんしき",
-      "ゆこんしき",
       "けっこんじき",
+      "ゆこんしき",
+      "けつこんしき",
+      "けっこんしっ",
       "けっごんしき",
       "げっこんしき"
     ],
@@ -355,11 +372,18 @@ export const VOCAB_ENTRIES = [
     "w": "寺院",
     "r": "じいん",
     "en": [
-      "Buddhist temple"
+      "Buddhist temple",
+      "religious building",
+      "church",
+      "cathedral"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -401,11 +425,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "holiday house",
       "vacation home",
-      "villa"
+      "villa",
+      "prison",
+      "jail"
     ],
     "pos": "n",
     "th": "1.8",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -419,14 +449,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "べっしょう",
       "べっちゃん",
-      "わかそう",
-      "べつそう",
-      "べっほうき",
-      "わそう",
       "べっぞう",
-      "べっおごそ"
+      "わかそう",
+      "わそう",
+      "べっおごそ",
+      "べつそう",
+      "べっしょう",
+      "べっほうき"
     ],
     "sp": [
       "別当",
@@ -477,13 +507,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "げんじた",
-      "げんじさ",
-      "げんときてん",
-      "げんじとぼ",
-      "あらわじてん",
-      "げんどきてん",
       "げんじでん",
-      "うつじてん"
+      "げんどきてん",
+      "げんじつ",
+      "うつじてん",
+      "げんときてん",
+      "げんじさ",
+      "うつつじてん"
     ],
     "sp": [
       "時刻表",

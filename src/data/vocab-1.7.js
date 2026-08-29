@@ -30,12 +30,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "かがく",
-      "かがっ",
+      "かこう",
       "けかく",
-      "かかっ",
-      "あたいかく",
-      "かきゃく",
       "かごう",
+      "あたいかく",
+      "かかっ",
+      "かがっ",
       "がかく"
     ],
     "sp": [
@@ -82,12 +82,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "したな",
-      "しみせ",
-      "ささてん",
-      "じてん",
-      "つかてん",
       "しでん",
-      "かてん"
+      "かてん",
+      "つかてん",
+      "ささてん",
+      "しみせ",
+      "じてん"
     ],
     "sp": [
       "支那",
@@ -132,11 +132,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まろだか",
-      "まどだか",
       "まるだか",
-      "えんたか",
-      "えんこう"
+      "まどだか",
+      "まろだか",
+      "えんこう",
+      "えんたか"
     ],
     "sp": [
       "高温",
@@ -182,12 +182,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "すべがく",
-      "ぞうがく",
       "すがく",
-      "そうがっ",
+      "ふさがく",
+      "すべがく",
       "そうひたい",
-      "ふさがく"
+      "そうがっ",
+      "ぞうがく"
     ],
     "sp": [
       "総括",
@@ -233,8 +233,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ちあたい",
       "ちが",
-      "ぢか",
       "じか",
+      "ぢか",
       "ちけ"
     ],
     "sp": [
@@ -261,11 +261,20 @@ export const VOCAB_ENTRIES = [
     "w": "相場",
     "r": "そうば",
     "en": [
-      "market price"
+      "market price",
+      "speculation (e.g. on stocks)",
+      "reputation (according to conventional wisdom)",
+      "estimation",
+      "esteem"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      1,
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -328,14 +337,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ねかみげ",
+      "ねのぼげ",
       "ちあげ",
       "ねじょうげ",
-      "ねしゃんげ",
-      "ねうえげ",
+      "ねたてまつげ",
       "ねしょうげ",
+      "ねしゃんげ",
       "あたいあげ",
-      "ねたてまつげ"
+      "ねうわげ"
     ],
     "sp": [
       "峯上げ",
@@ -380,14 +389,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きんひたい",
       "きんがっ",
+      "きんひたい",
       "ごんがく",
       "がねがく",
-      "かねがく",
       "ぎんがく",
       "かながく",
-      "こんがく"
+      "こんがく",
+      "かねがく"
     ],
     "sp": [
       "現金",
@@ -415,8 +424,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "cash",
       "ready money",
-      "money on hand",
-      "currency"
+      "money on hand"
     ],
     "pos": "n",
     "th": "1.7",
@@ -434,13 +442,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "げんぎん",
-      "うつきん",
-      "げんごん",
       "げんかな",
-      "げんこん",
       "うつつきん",
+      "げんごん",
+      "げんこん",
       "げんかね",
+      "あらわきん",
+      "げんぎん",
       "げんがね"
     ],
     "sp": [
@@ -468,11 +476,18 @@ export const VOCAB_ENTRIES = [
     "r": "りゅうつう",
     "en": [
       "circulation (of money, goods, etc.)",
-      "distribution"
+      "distribution",
+      "circulation (of air, water, etc.)",
+      "ventilation",
+      "flow"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -487,12 +502,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "るつう",
-      "りゅうかよ",
-      "りゅうとお",
-      "ながつう",
       "りゅうつ",
       "りゅうづう",
-      "りゅうどお"
+      "ながつう",
+      "りゅうとお",
+      "りゅうどお",
+      "りゅうかよ"
     ],
     "sp": [
       "二流",
@@ -542,12 +557,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "びゃっかてん",
-      "ひゃっがてん",
-      "ももかてん",
+      "ひゃったからてん",
+      "びゃくかてん",
       "ぴゃっかてん",
-      "ひゃっかでん",
-      "ひゃっかたな",
       "ひゃっかみせ",
+      "ひゃっかたな",
+      "ひゃっかでん",
       "ひゃくかてん"
     ],
     "sp": [
@@ -576,8 +591,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "clothes (esp. Western clothes)",
       "clothing",
-      "dress",
-      "costume"
+      "dress"
     ],
     "pos": "n",
     "th": "1.7",
@@ -590,8 +604,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぶっ",
       "ぷく",
+      "ぶっ",
       "ぷっ",
       "ふっ"
     ],
@@ -632,11 +646,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おがね",
       "おきん",
-      "おこん",
+      "おがね",
+      "おかな",
       "おごん",
-      "おかな"
+      "おこん"
     ],
     "sp": [
       "お鐘",
@@ -664,8 +678,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "shop",
       "store",
-      "establishment",
-      "restaurant"
+      "establishment"
     ],
     "pos": "n",
     "th": "1.7",
@@ -683,8 +696,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "でんぽ",
       "みせぽ",
+      "でんぽ",
       "てんほ",
       "たなぽ"
     ],
@@ -779,8 +792,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きょひたい",
       "きょがっ",
+      "きょひたい",
       "ぎょがく"
     ],
     "sp": [
@@ -823,12 +836,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おわち",
+      "おわね",
       "おわあたい",
-      "しゅうりね",
-      "ついりね",
       "おりね",
-      "おわね"
+      "ついりね",
+      "しゅうりね",
+      "おわち"
     ],
     "sp": [
       "終息",
@@ -856,11 +869,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "putting money aside",
       "savings",
-      "deposit (e.g. in a bank)"
+      "deposit (e.g. in a bank)",
+      "accumulated surplus of wins",
+      "wins in the bank"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -874,14 +893,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちょこん",
+      "ちょかね",
       "ちょがね",
       "ちょごん",
-      "ぢょきん",
       "たきん",
+      "たくわきん",
+      "ちょかな",
       "ちょぎん",
-      "ちょかね",
-      "ちょかな"
+      "ちょこん"
     ],
     "sp": [
       "成金",
@@ -908,11 +927,16 @@ export const VOCAB_ENTRIES = [
     "r": "ちんぎん",
     "en": [
       "wages",
-      "pay"
+      "pay",
+      "rental payment"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -926,12 +950,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちんかな",
-      "ちんがね",
-      "ぢんぎん",
+      "ちんこん",
       "ちんかね",
+      "ぢんぎん",
+      "ちんがね",
       "ちんごん",
-      "ちんこん"
+      "ちんかな"
     ],
     "sp": [
       "拝金",
@@ -960,11 +984,16 @@ export const VOCAB_ENTRIES = [
       "revival",
       "restoration",
       "return",
-      "comeback"
+      "resurrection",
+      "rebirth"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -978,13 +1007,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぶっかつ",
+      "ふくかつ",
+      "ふっい",
       "ふっがつ",
       "ふっかっ",
-      "ふっい",
-      "ふくかつ",
-      "またかつ",
       "ぷっかつ",
+      "ぶっかつ",
+      "またかつ",
       "ふっがっ"
     ],
     "sp": [
@@ -1032,13 +1061,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しょうがね",
-      "しょうかな",
+      "しょうこん",
       "ほきん",
       "じょうきん",
       "しょうごん",
-      "しょうこん",
       "しょうかね",
-      "しょうぎん"
+      "しょうぎん",
+      "しょうかな"
     ],
     "sp": [
       "金星",
@@ -1064,11 +1093,16 @@ export const VOCAB_ENTRIES = [
     "w": "円",
     "r": "えん",
     "en": [
-      "yen (currency of Japan)"
+      "yen (currency of Japan)",
+      "circle"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -1077,8 +1111,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まる",
       "まろ",
+      "まる",
       "まど"
     ],
     "sp": [
@@ -1107,11 +1141,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "pay",
       "salary",
-      "wages"
+      "wages",
+      "allowance",
+      "grant",
+      "supply"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1126,12 +1167,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きゅうあた",
+      "きゅうともに",
+      "たまよ",
+      "ぎゅうよ",
       "きゅうあずか",
       "たもよ",
-      "たまよ",
-      "きゅうくみ",
-      "ぎゅうよ",
-      "きゅうともに"
+      "きゅうくみ"
     ],
     "sp": [
       "給付",
@@ -1159,8 +1200,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "price",
       "cost",
-      "charge",
-      "payment"
+      "charge"
     ],
     "pos": "n",
     "th": "1.7",
@@ -1178,14 +1218,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "たいきん",
       "かきん",
+      "だいかな",
       "がわきん",
-      "だいぎん",
-      "がきん",
       "しろきん",
-      "だいこん",
-      "かわきん",
-      "たいきん"
+      "だいかね",
+      "よきん",
+      "がきん"
     ],
     "sp": [
       "千代",
@@ -1229,14 +1269,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちんしゃんげ",
-      "ちんうえげ",
+      "ちんたてまつげ",
+      "ちんしょうげ",
       "ちんじょうげ",
-      "ちんのぼげ",
+      "ちんうえげ",
       "ぢんあげ",
+      "ちんのぼげ",
       "ちんかみげ",
-      "ちんうわげ",
-      "ちんしょうげ"
+      "ちんしゃんげ"
     ],
     "sp": [
       "沈上げ",
@@ -1265,11 +1305,18 @@ export const VOCAB_ENTRIES = [
       "head (of a household)",
       "proprietor (of a store)",
       "proprietress",
-      "landlord"
+      "one's husband",
+      "(one's) employer",
+      "(one's) master"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1283,14 +1330,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しゅにん",
-      "あるじじん",
-      "しゅうじん",
-      "じゅじん",
-      "おもじん",
-      "ぬしじん",
       "しゅと",
-      "しゅり"
+      "おもじん",
+      "あるじじん",
+      "ぬしじん",
+      "すじん",
+      "しゅうじん",
+      "しゅり",
+      "しゅひと"
     ],
     "sp": [
       "主催",
@@ -1339,8 +1386,8 @@ export const VOCAB_ENTRIES = [
       "じょうてん",
       "しょうたな",
       "あきなてん",
-      "しょうみせ",
-      "しょうでん"
+      "しょうでん",
+      "しょうみせ"
     ],
     "sp": [
       "商戦",
@@ -1369,11 +1416,17 @@ export const VOCAB_ENTRIES = [
       "acquisition (esp. corporate)",
       "buy-out",
       "takeover",
-      "purchase"
+      "bribery",
+      "buying off",
+      "corruption"
     ],
     "pos": "n",
     "th": "1.7",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1387,9 +1440,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ばいおさ",
+      "ばいじゅう",
       "かしゅう",
-      "ばいじゅう"
+      "ばいおさ"
     ],
     "sp": [
       "収束",
@@ -1417,8 +1470,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "shoe",
       "shoes",
-      "boots",
-      "footwear"
+      "boots"
     ],
     "pos": "n",
     "th": "1.7",
@@ -1431,10 +1483,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぐつ",
-      "くっ",
+      "ぐっ",
       "か",
-      "ぐっ"
+      "ぐつ",
+      "くっ"
     ],
     "sp": [
       "飯",
@@ -1480,11 +1532,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しど",
       "しみち",
-      "づかと",
+      "しど",
+      "じと",
       "つかと",
-      "じと"
+      "づかと"
     ],
     "sp": [
       "使命",

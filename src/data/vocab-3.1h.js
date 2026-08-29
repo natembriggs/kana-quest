@@ -10,11 +10,16 @@ export const VOCAB_ENTRIES = [
     "r": "がっか",
     "en": [
       "subject (of study)",
-      "course of study"
+      "course of study",
+      "department (of a university)"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -28,8 +33,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まなか",
       "がくか",
+      "まなか",
       "がっが"
     ],
     "sp": [
@@ -58,8 +63,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "latter period",
       "second half",
-      "late stage",
-      "third trimester"
+      "late stage"
     ],
     "pos": "n",
     "th": "3.1",
@@ -78,12 +82,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "こうぎ",
-      "おくき",
-      "あとき",
-      "うしき",
+      "ごき",
+      "うしろき",
       "のちき",
       "ごうき",
-      "うしろき",
+      "おくき",
+      "あとき",
       "こうご"
     ],
     "sp": [
@@ -129,13 +133,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だかとう",
+      "ごうとう",
       "こうどう",
       "たかとう",
-      "ごうとう",
+      "だかとう",
+      "こうなど",
       "こうら",
-      "こうひと",
-      "こうなど"
+      "こうひと"
     ],
     "sp": [
       "高価",
@@ -161,11 +165,16 @@ export const VOCAB_ENTRIES = [
     "w": "中期",
     "r": "ちゅうき",
     "en": [
-      "middle period"
+      "middle period",
+      "medium-term"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -181,10 +190,10 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "うちき",
       "ちゅうぎ",
-      "なかき",
+      "ぢゅうき",
       "ちゅうご",
-      "あたき",
-      "ぢゅうき"
+      "なかき",
+      "あたき"
     ],
     "sp": [
       "二期",
@@ -212,8 +221,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "technique",
       "art",
-      "skill",
-      "move"
+      "skill"
     ],
     "pos": "n",
     "th": "3.1",
@@ -251,11 +259,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "work (e.g. of art)",
       "piece",
-      "production"
+      "production",
+      "harvest",
+      "crop",
+      "yield"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -264,12 +279,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "つく",
-      "さ",
       "ざっ",
-      "づく",
       "ざく",
-      "さっ"
+      "さっ",
+      "づく",
+      "さ",
+      "つく"
     ],
     "sp": [
       "鎧",
@@ -298,11 +313,17 @@ export const VOCAB_ENTRIES = [
       "first-class",
       "first-rate",
       "top-flight",
-      "top-ranking"
+      "characteristic (of)",
+      "peculiar (to)",
+      "unique (to)"
     ],
     "pos": "adj",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -316,11 +337,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ひとりゅう",
       "いっりゅう",
-      "いつりゅう",
       "いちなが",
       "いちる",
-      "ひとりゅう"
+      "いつりゅう"
     ],
     "sp": [
       "一軒",
@@ -346,11 +367,17 @@ export const VOCAB_ENTRIES = [
     "w": "階級",
     "r": "かいきゅう",
     "en": [
-      "(social) class"
+      "(social) class",
+      "rank",
+      "grade"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -394,8 +421,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "science",
       "learning",
-      "scholarship",
-      "arts and sciences"
+      "scholarship"
     ],
     "pos": "n",
     "th": "3.1",
@@ -413,10 +439,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がっじゅつ",
-      "がくじゅっ",
       "まなじゅつ",
-      "がくすべ"
+      "がくすべ",
+      "がっじゅつ",
+      "がくじゅっ"
     ],
     "sp": [
       "学士",
@@ -444,8 +470,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "lesson",
       "precept",
-      "teachings",
-      "moral"
+      "teachings"
     ],
     "pos": "n",
     "th": "3.1",
@@ -464,11 +489,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "おしくん",
-      "ぎょうくん",
-      "きょうきん",
-      "きょうおし",
       "おそくん",
       "きょうぐん",
+      "きょうおし",
+      "ぎょうくん",
+      "きょうきん",
       "きょうよ"
     ],
     "sp": [
@@ -495,11 +520,18 @@ export const VOCAB_ENTRIES = [
     "w": "課",
     "r": "か",
     "en": [
-      "lesson"
+      "lesson",
+      "section (in an organization)",
+      "division",
+      "department"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,

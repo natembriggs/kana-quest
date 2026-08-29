@@ -12,11 +12,18 @@ export const VOCAB_ENTRIES = [
       "subject",
       "theme",
       "issue",
-      "matter"
+      "homework",
+      "assignment",
+      "problem (that needs solving)"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -76,13 +83,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きけん",
-      "ごかん",
-      "きあい",
-      "ぎかん",
-      "きあいだ",
       "きま",
-      "きがん"
+      "ごかん",
+      "きあいだ",
+      "ぎかん",
+      "きがん",
+      "きあい",
+      "きけん"
     ],
     "sp": [
       "区間",
@@ -111,11 +118,18 @@ export const VOCAB_ENTRIES = [
       "period",
       "epoch",
       "era",
-      "age"
+      "the times",
+      "those days",
+      "oldness"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -129,14 +143,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どきだい",
-      "じがわ",
-      "じかわ",
-      "じしろ",
       "ときだい",
+      "じか",
       "じよ",
-      "じが",
-      "じたい"
+      "じしろ",
+      "どきだい",
+      "じかわ",
+      "じがわ",
+      "じが"
     ],
     "sp": [
       "次代",
@@ -180,8 +194,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "れっきし",
       "れっし",
+      "れっきし",
       "れきじ"
     ],
     "sp": [
@@ -227,14 +241,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "いくさご",
+      "せんうし",
+      "ぜんご",
       "そよご",
       "せんあと",
-      "いくさご",
       "たたかご",
-      "せんうしろ",
-      "わななご",
-      "せんのち",
-      "せんこう"
+      "せんこう",
+      "せんうしろ"
     ],
     "sp": [
       "作戦",
@@ -260,11 +274,16 @@ export const VOCAB_ENTRIES = [
     "w": "年間",
     "r": "ねんかん",
     "en": [
-      "(period of) a year"
+      "(period of) a year",
+      "during the era (of)"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -279,11 +298,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "としかん",
-      "ねんがん",
       "ねんけん",
-      "ねんあい",
       "ねんま",
-      "ねんあいだ"
+      "ねんあいだ",
+      "ねんあい",
+      "ねんがん"
     ],
     "sp": [
       "年休",
@@ -328,8 +347,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いまな",
       "いがっ",
+      "いまな",
       "くすしがく"
     ],
     "sp": [
@@ -419,8 +438,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かがっ",
       "かまな",
+      "かがっ",
       "ががく"
     ],
     "sp": [
@@ -466,8 +485,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "はなだい",
-      "はなしだい"
+      "はなしだい",
+      "はなだい"
     ],
     "sp": [
       "秘話",
@@ -513,13 +532,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ししゃん",
-      "しうえ",
+      "したてまつ",
+      "ししょう",
+      "しあ",
       "しのぼ",
       "しかみ",
-      "しあ",
       "じじょう",
-      "したてまつ",
+      "しうえ",
       "しうわ"
     ],
     "sp": [
@@ -565,10 +584,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "うつくじゅつ",
-      "びすべ",
+      "みじゅつ",
       "びじゅっ",
-      "みじゅつ"
+      "びすべ",
+      "うつくじゅつ"
     ],
     "sp": [
       "美白",
@@ -613,12 +632,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "げいすべ",
-      "うんじゅつ",
       "げいじゅっ",
-      "のりじゅつ",
+      "わざじゅつ",
+      "げいすべ",
       "うじゅつ",
-      "わざじゅつ"
+      "のりじゅつ",
+      "うんじゅつ"
     ],
     "sp": [
       "芸能",
@@ -645,11 +664,17 @@ export const VOCAB_ENTRIES = [
     "r": "じき",
     "en": [
       "next term",
-      "next period"
+      "next period",
+      "next version",
+      "next release"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -664,9 +689,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じご",
-      "しき",
-      "つぎき",
       "つき",
+      "つぎき",
+      "しき",
       "じぎ"
     ],
     "sp": [
@@ -695,11 +720,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "term",
       "period",
-      "time frame"
+      "time frame",
+      "time limit",
+      "deadline",
+      "cutoff (date)"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -742,11 +774,18 @@ export const VOCAB_ENTRIES = [
     "r": "ていき",
     "en": [
       "fixed period",
-      "fixed term"
+      "fixed term",
+      "fixed-term commuter pass",
+      "fixed-term deposit"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -762,8 +801,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "でいき",
       "ていご",
-      "さだき",
       "じょうき",
+      "さだき",
       "ていぎ"
     ],
     "sp": [
@@ -809,8 +848,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せんごう",
       "せんせ",
+      "せんごう",
       "もっぱこう",
       "ぜんこう"
     ],
@@ -858,13 +897,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいはぐく",
-      "ていいく",
+      "たいそだ",
       "かたちいく",
       "だいいく",
+      "からだいく",
       "たいいっ",
-      "たいそだ",
-      "からだいく"
+      "たいはぐく",
+      "ていいく"
     ],
     "sp": [
       "機体",
@@ -892,8 +931,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "lesson",
       "class",
-      "teaching",
-      "instruction"
+      "teaching"
     ],
     "pos": "n",
     "th": "3.1",
@@ -940,11 +978,20 @@ export const VOCAB_ENTRIES = [
     "r": "どうき",
     "en": [
       "same period",
-      "corresponding period"
+      "corresponding period",
+      "same year",
+      "contemporary",
+      "classmate",
+      "synchronization"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -989,11 +1036,17 @@ export const VOCAB_ENTRIES = [
       "high-class",
       "high-grade",
       "high-quality",
-      "high-end"
+      "high-ranking",
+      "high-level",
+      "senior"
     ],
     "pos": "adj",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1007,9 +1060,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だかきゅう",
-      "こうぎゅう",
       "ごうきゅう",
+      "こうぎゅう",
+      "だかきゅう",
       "たかきゅう"
     ],
     "sp": [
@@ -1062,11 +1115,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きょうがしょ",
-      "きょうかか",
-      "おしかしょ",
       "きょうかじょ",
-      "おそかしょ",
+      "おしかしょ",
+      "きょうかか",
       "ぎょうかしょ",
+      "おそかしょ",
       "きょうかが",
       "きょうかがき"
     ],
@@ -1096,8 +1149,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "art",
       "craft",
-      "accomplishment",
-      "artistic skill"
+      "accomplishment"
     ],
     "pos": "n",
     "th": "3.1",
@@ -1110,10 +1162,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "う",
       "のり",
-      "うん",
-      "わざ"
+      "う",
+      "わざ",
+      "うん"
     ],
     "sp": [
       "米",
@@ -1139,11 +1191,21 @@ export const VOCAB_ENTRIES = [
     "w": "組",
     "r": "くみ",
     "en": [
-      "class (of students)"
+      "class (of students)",
+      "group (of people)",
+      "party",
+      "team",
+      "lot",
+      "bunch"
     ],
     "pos": "n",
     "th": "3.1",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1152,9 +1214,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぐみ",
+      "そ",
       "く",
-      "そ"
+      "ぐみ"
     ],
     "sp": [
       "枠",

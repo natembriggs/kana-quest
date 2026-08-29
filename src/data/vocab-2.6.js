@@ -51,8 +51,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "time",
       "season",
-      "period",
-      "phase"
+      "period"
     ],
     "pos": "n",
     "th": "2.6",
@@ -72,8 +71,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "じご",
       "じぎ",
-      "ときき",
-      "どきき"
+      "どきき",
+      "ときき"
     ],
     "sp": [
       "期末",
@@ -113,9 +112,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "とき",
       "あっ",
-      "しゅう",
-      "とき"
+      "しゅう"
     ],
     "sp": [
       "法",
@@ -142,11 +141,20 @@ export const VOCAB_ENTRIES = [
     "r": "はる",
     "en": [
       "spring",
-      "springtime"
+      "springtime",
+      "New Year",
+      "prime (of life)",
+      "height (of one's prosperity)",
+      "heyday"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -156,8 +164,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぱる",
-      "しゅん",
-      "ばる"
+      "ばる",
+      "しゅん"
     ],
     "sp": [
       "単",
@@ -183,11 +191,19 @@ export const VOCAB_ENTRIES = [
     "w": "雨",
     "r": "あめ",
     "en": [
-      "rain"
+      "rain",
+      "rainy day",
+      "rainy weather",
+      "the November suit (in hanafuda)"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -197,8 +213,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "う",
-      "あま",
-      "さめ"
+      "さめ",
+      "あま"
     ],
     "sp": [
       "斧",
@@ -273,11 +289,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "illness",
       "disease",
-      "sickness"
+      "sickness",
+      "bad habit",
+      "bad behaviour",
+      "weakness"
     ],
     "pos": "n",
     "th": "2.6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -291,12 +314,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "びょういき",
-      "へいき",
-      "やき",
+      "びょうぎ",
       "やまいき",
+      "やき",
+      "へいき",
       "びょうけ",
-      "びょうぎ"
+      "びょういき"
     ],
     "sp": [
       "気味",
@@ -341,14 +364,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "れいたたか",
+      "れいそよ",
       "つめせん",
       "させん",
-      "れいぜん",
       "れいわなな",
+      "れいたたか",
       "ひせん",
       "れいおのの",
-      "れいいくさ"
+      "れいぜん"
     ],
     "sp": [
       "好戦",
@@ -388,8 +411,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ゆっ",
-      "せつ"
+      "せつ",
+      "ゆっ"
     ],
     "sp": [
       "蛇",
@@ -428,9 +451,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とう",
       "ぷゆ",
-      "ぶゆ"
+      "ぶゆ",
+      "とう"
     ],
     "sp": [
       "妻",
@@ -458,8 +481,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "fall",
       "decline",
-      "lowering",
-      "deterioration"
+      "lowering"
     ],
     "pos": "n",
     "th": "2.6",
@@ -478,12 +500,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ひくか",
-      "ていくだ",
-      "ていさ",
-      "ていが",
       "ていもと",
+      "ていしも",
+      "ていさ",
       "ていした",
-      "ていお",
+      "ていくだ",
+      "ていが",
       "でいか"
     ],
     "sp": [
@@ -529,8 +551,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こんじゅん",
       "こんはる",
+      "こんじゅん",
       "いましゅん",
       "ごんしゅん",
       "きんしゅん"
@@ -578,14 +600,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きぜつ",
-      "きのっと",
-      "きぜっ",
-      "ぎせつ",
-      "きせち",
       "きふし",
-      "きぶし",
-      "きせっ"
+      "きぜっ",
+      "きせっ",
+      "ぎせつ",
+      "きのっと",
+      "きぜつ",
+      "きせち",
+      "きぶし"
     ],
     "sp": [
       "節減",
@@ -630,8 +652,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "よろこげい",
       "がんげい",
+      "よろこげい",
       "かんむか"
     ],
     "sp": [
@@ -678,13 +700,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "たいぶう",
-      "われふう",
-      "たいかざ",
       "だいふう",
       "たいぷう",
-      "たいふ",
+      "うてなふう",
       "たいかぜ",
-      "つかさふう"
+      "たいふ",
+      "たいかざ",
+      "われふう"
     ],
     "sp": [
       "高台",
@@ -711,11 +733,17 @@ export const VOCAB_ENTRIES = [
     "r": "らい",
     "en": [
       "next (year, spring, etc.)",
-      "coming"
+      "coming",
+      "since (e.g. last month)",
+      "for (e.g. 20 years)"
     ],
     "pos": "other",
     "th": "2.6",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -724,11 +752,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きた",
-      "く",
       "き",
+      "きた",
       "こ",
-      "たい"
+      "たい",
+      "く"
     ],
     "sp": [
       "権",
@@ -773,9 +801,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "けおん",
-      "いきおん",
-      "きあたた",
       "ぎおん",
+      "きあたた",
+      "いきおん",
       "きぬく"
     ],
     "sp": [
@@ -821,11 +849,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "はるとう",
-      "しゅんあらそ",
+      "じゅんとう",
       "しゅんどう",
+      "しゅんあらそ",
       "しゅんたたか",
-      "じゅんとう"
+      "はるとう"
     ],
     "sp": [
       "乱闘",
@@ -870,11 +898,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "らいじゅん",
-      "たいしゅん",
-      "きたしゅん",
       "くしゅん",
       "きしゅん",
-      "こしゅん"
+      "きたしゅん",
+      "こしゅん",
+      "たいしゅん"
     ],
     "sp": [
       "在来",

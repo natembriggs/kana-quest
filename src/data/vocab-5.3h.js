@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "aid",
       "help",
-      "assistance",
-      "assistant"
+      "assistance"
     ],
     "pos": "n",
     "th": "5.3",
@@ -30,10 +29,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぼさ",
-      "ほざ",
       "おぎなさ",
-      "ぽさ"
+      "ほざ",
+      "ぽさ",
+      "ぼさ"
     ],
     "sp": [
       "補強",
@@ -79,14 +78,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ほろ",
-      "ほとりく",
-      "とらりょ",
-      "とりょ",
-      "つかりょ",
-      "ぽりょ",
       "ほとりこ",
-      "ぼりょ"
+      "ほろ",
+      "とりょ",
+      "ぽりょ",
+      "とらりょ",
+      "ぼりょ",
+      "ほとりく",
+      "つかりょ"
     ],
     "sp": [
       "捕鯨",
@@ -131,10 +130,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かあん",
+      "げんあん",
       "けあん",
       "けんつくえ",
-      "げんあん"
+      "かあん"
     ],
     "sp": [
       "提案",
@@ -162,8 +161,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "bad",
       "poor",
-      "inferior",
-      "defective"
+      "inferior"
     ],
     "pos": "adj",
     "th": "5.3",
@@ -182,8 +180,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ふい",
-      "ぶりょう",
       "ぷりょう",
+      "ぶりょう",
       "ふよ"
     ],
     "sp": [
@@ -211,7 +209,7 @@ export const VOCAB_ENTRIES = [
     "r": "ぼうさい",
     "en": [
       "disaster preparedness",
-      "prevention of damage resulting from a natural disaster",
+      "prevention of damage resulting from a natura…",
       "protection against disaster"
     ],
     "pos": "n",
@@ -260,11 +258,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "war potential",
       "military strength",
-      "fighting power"
+      "fighting power",
+      "ability (to compete)",
+      "capabilities",
+      "valuable asset"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -278,12 +283,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "わななりょく",
-      "そよりょく",
-      "おののりょく",
-      "せんちから",
+      "たたかりょく",
       "いくさりょく",
+      "おののりょく",
+      "せんりい",
       "ぜんりょく",
+      "わななりょく",
       "せんりき",
       "せんりょっ"
     ],
@@ -331,12 +336,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "かいおのの",
-      "かいぜん",
+      "かいわなな",
+      "びらせん",
       "あせん",
+      "かいそよ",
       "がいせん",
       "かいたたか",
-      "びらせん",
-      "かいわなな",
       "ひらせん"
     ],
     "sp": [
@@ -366,11 +371,17 @@ export const VOCAB_ENTRIES = [
       "poverty",
       "penury",
       "need",
-      "destitution"
+      "shortage",
+      "lack",
+      "want"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -384,11 +395,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ひんごん",
-      "まずこん",
-      "ぴんこん",
       "ひんこま",
-      "びんこん"
+      "びんこん",
+      "まずこん",
+      "ひんごん",
+      "ぴんこん"
     ],
     "sp": [
       "貧血",
@@ -416,11 +427,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "poor (at)",
       "weak (in)",
-      "not very good (at)"
+      "not very good (at)",
+      "not one's cup of tea",
+      "not one's favorite"
     ],
     "pos": "adj",
     "th": "5.3",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -433,13 +450,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にがず",
+      "にがた",
       "くて",
       "くるて",
-      "にがで",
+      "にがず",
       "ぐるて",
       "にがしゅ",
-      "にがた"
+      "にがで"
     ],
     "sp": [
       "手中",
@@ -467,11 +484,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "support",
       "help",
-      "backing"
+      "backing",
+      "covering (from enemy attack)",
+      "protection"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -514,11 +537,15 @@ export const VOCAB_ENTRIES = [
       "public peace",
       "public safety",
       "public security",
-      "peace and order"
+      "security police"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -533,9 +560,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "こうやす",
-      "おおやけあん",
       "ごうあん",
-      "くあん"
+      "くあん",
+      "おおやけあん"
     ],
     "sp": [
       "割安",

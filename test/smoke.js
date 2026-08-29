@@ -1594,6 +1594,97 @@ check('a matched word is always the SAME word, in the vocab curriculum\'s own da
 
 done('vocabIdForWord matches kanji-page common words to the vocab curriculum correctly');
 
+// --- Vocabulary: Meaning labels and every sense (vocab-plan.md §5.6) -------
+
+{
+  // The two words that forced §5.6. どうして's everyday meaning is "why",
+  // which lives in JMdict's SECOND sense and used to be absent from the data
+  // entirely; どちら can mean "who", which is its third.
+  const c3 = vocab.VOCAB_COURSES.find((c) => c.index.has('どうして'));
+  const doushite = c3.index.get('どうして');
+  const dochira = c3.index.get('どちら');
+
+  check('どうして carries its "why" sense, not just JMdict\'s first',
+    doushite.en.some((g) => g.toLowerCase() === 'why'), doushite.en.join(' | '));
+  check('どうして\'s label shows "why" AND "how", so either mind-jump finds it',
+    /\bwhy\b/.test(vocab.wordMeaningLabel(doushite)) && /\bhow\b/.test(vocab.wordMeaningLabel(doushite)),
+    vocab.wordMeaningLabel(doushite));
+  check('どちら carries all three of its senses, "who" included',
+    ['which way', 'which one', 'who'].every((g) => vocab.glossSenses(dochira).flat()
+      .some((x) => x.toLowerCase() === g)),
+    JSON.stringify(vocab.glossSenses(dochira)));
+  check('a bracketed aside is stripped from a label but kept in the summary',
+    !vocab.wordMeaningLabel(dochira).includes('(')
+      && vocab.wordGlossSummary(dochira).includes('(esp. of two alternatives)'),
+    `${vocab.wordMeaningLabel(dochira)} // ${vocab.wordGlossSummary(dochira)}`);
+
+  // The bug the tester actually hit: どう ("how") offered as a wrong answer
+  // against どうして ("how"). Exact-label dedup never caught it. Repeated,
+  // because the distractor pool is shuffled and one draw proves nothing —
+  // and asserted on どう's own label rather than on "no option says how",
+  // since どこ ("how much, what extent") shares no gloss with どうして and is
+  // a perfectly fair distractor that a looser check would flag.
+  const douLabel = vocab.wordMeaningLabel(c3.index.get('どう'));
+  let douLeaks = 0;
+  for (let i = 0; i < 200; i += 1) {
+    if (vocab.buildMeaningChoices(c3, 'どうして').options.includes(douLabel)) douLeaks += 1;
+  }
+  check('どう is never offered as a distractor against どうして', douLeaks === 0,
+    `${douLeaks} of 200 draws offered "${douLabel}"`);
+
+  // Exhaustive, every word in the curriculum: a full option count, no two
+  // options sharing a gloss (§5.6's hard rule), the answer always present,
+  // and every group non-empty and within budget.
+  let short = 0, overlaps = 0, missingAnswer = 0, overBudget = 0, emptyLabel = 0, total = 0;
+  for (const course of vocab.VOCAB_COURSES) {
+    for (const info of course.index.values()) {
+      total += 1;
+      const { options, answer } = vocab.buildMeaningChoices(course, info.id);
+      if (options.length < 4) short += 1;
+      if (!options.includes(answer)) missingAnswer += 1;
+      if (options.some((o) => !o || !o.trim())) emptyLabel += 1;
+      // 52 is LABEL_BUDGET in vocab.js; a single gloss longer than that on
+      // its own can't be trimmed further and is allowed through, which is
+      // what the build script's own MEANING_LABEL_MAX=45 exists to bound.
+      if (options.some((o) => o.length > 52 && !o.includes(' / '))) overBudget += 1;
+      const answerKeys = vocab.glossKeys(info);
+      for (const other of course.index.values()) {
+        if (other.id === info.id) continue;
+        const label = vocab.wordMeaningLabel(other);
+        // A true synonym (父/父親, both "father") renders the SAME label as
+        // the answer. It is correctly kept out of the pool; the label is on
+        // screen because the answer put it there, and one option that two
+        // words both justify is not an ambiguous question. Only a label
+        // sitting on a DISTRACTOR button is a leak.
+        if (label === answer || !options.includes(label)) continue;
+        if ([...vocab.glossKeys(other)].some((g) => answerKeys.has(g))) overlaps += 1;
+      }
+    }
+  }
+  check('every meaning question offers a full four options', short === 0, `${short} of ${total}`);
+  check('the correct label is always among the options', missingAnswer === 0, `${missingAnswer} of ${total}`);
+  check('no meaning question offers two options sharing a gloss', overlaps === 0, `${overlaps} of ${total}`);
+  check('no meaning label is empty', emptyLabel === 0, `${emptyLabel} of ${total}`);
+  check('no multi-sense meaning label exceeds the label budget', overBudget === 0, `${overBudget} of ${total}`);
+
+  // `sn` has to describe `en` exactly, or glossSenses silently drops or
+  // duplicates glosses — the kind of data/reader drift that shows up as one
+  // wrong button months later.
+  let badSn = 0, senseTotal = 0;
+  for (const course of vocab.VOCAB_COURSES) {
+    for (const info of course.index.values()) {
+      if (!info.sn) continue;
+      senseTotal += 1;
+      if (info.sn.reduce((a, b) => a + b, 0) !== info.en.length) badSn += 1;
+      if (info.sn.length < 2 || info.sn.some((n) => n < 1)) badSn += 1;
+    }
+  }
+  check('`sn` always sums to the length of `en` and only exists for real multi-sense words',
+    badSn === 0 && senseTotal > 0, `${badSn} bad of ${senseTotal} multi-sense words`);
+
+  done('vocab meaning labels carry every sense, and no two options share one');
+}
+
 // --- Vocabulary: Recall mode (vocab-plan.md §6) ----------------------------
 
 {
@@ -1618,11 +1709,14 @@ done('vocabIdForWord matches kanji-page common words to the vocab curriculum cor
       scenarios += 1;
       const { options, answer } = vocab.buildRecallChoices(course, info.id);
       if (new Set(options).size !== options.length) duplicateReadings += 1;
-      const glosses = new Set(info.en.map((g) => g.toLowerCase()));
+      // Normalised glosses (§5.6), matching what the code compares on —
+      // checking raw `en` here would pass while "to open (a door, etc.)" and
+      // "to open (for business)" still collided on screen.
+      const glosses = vocab.glossKeys(info);
       for (const reading of options) {
         if (reading === answer) continue;
         const match = [...course.index.values()].find((e) => e.id !== info.id && e.r === reading
-          && e.en.some((g) => glosses.has(g.toLowerCase())));
+          && [...vocab.glossKeys(e)].some((g) => glosses.has(g)));
         if (match) synonymLeaks += 1;
       }
     }

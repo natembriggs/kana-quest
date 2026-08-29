@@ -12,11 +12,18 @@ export const VOCAB_ENTRIES = [
       "but",
       "however",
       "though",
-      "nevertheless"
+      "even",
+      "however",
+      "no matter how"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "uk": true
   },
   {
@@ -26,8 +33,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "(not) particularly",
       "(not) especially",
-      "(not) very",
-      "(not) much"
+      "(not) very"
     ],
     "pos": "adv",
     "th": "C4",
@@ -42,11 +48,16 @@ export const VOCAB_ENTRIES = [
       "so",
       "therefore",
       "accordingly",
-      "consequently"
+      "like I said",
+      "I told you already"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "uk": true
   },
   {
@@ -81,11 +92,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぞれから",
-      "きれから",
       "そのれから",
       "それれから",
-      "ごれから",
-      "ぎれから"
+      "ぎれから",
+      "きれから",
+      "ごれから"
     ],
     "sp": [
       "殺れから",
@@ -140,11 +151,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "from",
       "since",
-      "at"
+      "at",
+      "through (e.g. a window, door)",
+      "via",
+      "by"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -155,11 +173,18 @@ export const VOCAB_ENTRIES = [
       "until (a time)",
       "till",
       "to",
-      "up to"
+      "to (a place or person)",
+      "as far as",
+      "to (an extent)"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "uk": true
   },
   {
@@ -168,11 +193,18 @@ export const VOCAB_ENTRIES = [
     "r": "と",
     "en": [
       "if",
-      "when"
+      "when",
+      "and",
+      "with"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "uk": true
   },
   {
@@ -181,11 +213,20 @@ export const VOCAB_ENTRIES = [
     "r": "や",
     "en": [
       "such things as ...",
-      "and ... and"
+      "and ... and",
+      "the minute (that) ...",
+      "no sooner than ...",
+      "as soon as",
+      "be"
     ],
     "pos": "other",
     "th": "C4",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "uk": true
   }
 ];

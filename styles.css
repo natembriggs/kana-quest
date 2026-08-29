@@ -870,9 +870,25 @@ h3 { font-size: 18px; }
   overflow-wrap: anywhere;
 }
 
+/* A vocab Meaning label carries every sense the word has (vocab-plan.md
+   §5.6) — "why, for what reason / how, in what way" is four wrapped lines in
+   half a phone's width. One full-width column instead, and the row minimum
+   drops accordingly since these buttons are now sized by their text rather
+   than padded up to a square. Applied per question by the length of the
+   longest option, so short-gloss units keep the two-column grid. */
+.choice-grid-text.choice-grid-wide {
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(56px, auto);
+}
+.choice-grid-text.choice-grid-wide .choice {
+  text-align: left;
+  overflow-wrap: normal;
+}
+
 @media (max-width: 360px) {
   .choice-grid-text { grid-auto-rows: minmax(80px, auto); }
   .choice-grid-text .choice { font-size: 15px; }
+  .choice-grid-text.choice-grid-wide { grid-auto-rows: minmax(52px, auto); }
 }
 
 /* --- Script picker (home) ------------------------------------------------ */

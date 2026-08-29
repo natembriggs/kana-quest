@@ -29,13 +29,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えいはか",
       "えいかぎ",
-      "えいかく",
+      "えいえが",
+      "えいえ",
       "ばが",
       "えいはかりごと",
-      "えいえ",
-      "えいえが",
+      "えいはか",
+      "えいかく",
       "えいかい"
     ],
     "sp": [
@@ -63,11 +63,17 @@ export const VOCAB_ENTRIES = [
     "r": "でんわ",
     "en": [
       "telephone call",
-      "phone call"
+      "phone call",
+      "telephone (device)",
+      "phone"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -81,8 +87,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "でんはなし",
-      "でんはな"
+      "でんはな",
+      "でんはなし"
     ],
     "sp": [
       "弔電",
@@ -110,8 +116,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "work (e.g. book, film, painting, composition)",
       "piece",
-      "production",
-      "opus"
+      "production"
     ],
     "pos": "n",
     "th": "1.5",
@@ -129,14 +134,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ざくひん",
+      "さひん",
       "さくびん",
+      "つくひん",
       "さっひん",
-      "ざっひん",
-      "さくほん",
+      "さくしな",
       "づくひん",
-      "さくぴん",
-      "さひん"
+      "さくほん",
+      "ざくひん"
     ],
     "sp": [
       "手品",
@@ -211,11 +216,20 @@ export const VOCAB_ENTRIES = [
     "r": "えいぞう",
     "en": [
       "image (on a screen)",
-      "picture (e.g. on a TV)"
+      "picture (e.g. on a TV)",
+      "video",
+      "film",
+      "footage",
+      "reflection"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -230,8 +244,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ばぞう",
-      "はぞう",
-      "うつぞう"
+      "うつぞう",
+      "はぞう"
     ],
     "sp": [
       "想像",
@@ -260,11 +274,18 @@ export const VOCAB_ENTRIES = [
       "one long cylindrical thing",
       "one film, TV show, etc.",
       "one goal, home run, etc.",
-      "one telephone call"
+      "one version",
+      "one book",
+      "a certain book"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -280,8 +301,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "いっほん",
       "ひとぽん",
-      "いつぽん",
       "いちぽん",
+      "いつぽん",
       "いっもと"
     ],
     "sp": [
@@ -308,11 +329,18 @@ export const VOCAB_ENTRIES = [
     "w": "制作",
     "r": "せいさく",
     "en": [
-      "work (film, book)"
+      "work (film, book)",
+      "production",
+      "creation",
+      "turning (something) out"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -327,12 +355,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぜいさく",
-      "せいざっ",
-      "せいつく",
-      "せいさ",
-      "せいづく",
       "せいさっ",
-      "せいざく"
+      "せいざっ",
+      "せいざく",
+      "せいづく",
+      "せいつく",
+      "せいさ"
     ],
     "sp": [
       "制覇",
@@ -359,11 +387,18 @@ export const VOCAB_ENTRIES = [
     "r": "えんしゅつ",
     "en": [
       "direction (of a play, film, etc.)",
-      "production"
+      "production",
+      "organization (of an event)",
+      "arrangement",
+      "staging (for effect)"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -377,12 +412,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えんで",
-      "えんじゅつ",
       "えんい",
+      "えんじゅつ",
       "えんすい",
-      "えんだ",
       "えんしゅっ",
+      "えんで",
+      "えんだ",
       "えんじゅっ"
     ],
     "sp": [
@@ -409,11 +444,20 @@ export const VOCAB_ENTRIES = [
     "w": "画面",
     "r": "がめん",
     "en": [
-      "screen (of a TV, computer, etc.)"
+      "screen (of a TV, computer, etc.)",
+      "image (on a screen)",
+      "picture",
+      "scene",
+      "surface of a painting"
     ],
     "pos": "n",
     "th": "1.5",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -428,12 +472,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "はかりごとめん",
-      "えがめん",
+      "かくめん",
       "がおもて",
       "かいめん",
-      "がおも",
-      "はかめん",
       "がつら",
+      "かぎめん",
+      "がおも",
       "がべん"
     ],
     "sp": [
@@ -485,14 +529,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しちょうしゅつ",
       "しちょうそつ",
-      "みちょうりつ",
+      "しちょうしゅつ",
       "じちょうりつ",
+      "みちょうりつ",
       "しゆるりつ",
+      "しきりつ",
       "しぢょうりつ",
-      "していりつ",
-      "しきりつ"
+      "していりつ"
     ],
     "sp": [
       "聴診器",

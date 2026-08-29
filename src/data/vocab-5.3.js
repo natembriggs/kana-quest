@@ -28,14 +28,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "びょうわ",
+      "べいわ",
       "ぺいわ",
-      "たいわ",
-      "へいお",
+      "びょうわ",
       "へいあ",
-      "ひょうわ",
+      "へいお",
+      "たいわ",
       "ひらわ",
-      "へいやわ"
+      "へいか"
     ],
     "sp": [
       "不平",
@@ -80,12 +80,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "わぺい",
-      "わびょう",
       "わべい",
       "わひょう",
-      "おへい",
-      "かへい",
       "わたい",
+      "あへい",
+      "やわへい",
+      "わびょう",
       "わひら"
     ],
     "sp": [
@@ -112,11 +112,17 @@ export const VOCAB_ENTRIES = [
     "w": "戦争",
     "r": "せんそう",
     "en": [
-      "war"
+      "war",
+      "fighting",
+      "fierce competition"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "f",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -130,14 +136,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せんいか",
       "せんあらそ",
-      "いくさそう",
+      "せんぞう",
       "ぜんそう",
+      "わななそう",
       "おののそう",
+      "いくさそう",
       "そよそう",
-      "たたかそう",
-      "せんぞう"
+      "せんいか"
     ],
     "sp": [
       "合戦",
@@ -228,14 +234,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ないわなな",
-      "うちせん",
       "ないたたか",
-      "ないおのの",
-      "ないそよ",
       "だいせん",
-      "ないぜん",
-      "ないいくさ"
+      "ないそよ",
+      "ないおのの",
+      "ないいくさ",
+      "うちせん",
+      "ないわなな",
+      "ないぜん"
     ],
     "sp": [
       "内心",
@@ -264,11 +270,17 @@ export const VOCAB_ENTRIES = [
       "battle",
       "war",
       "fight",
-      "conflict"
+      "fight (against time, poverty, etc.)",
+      "struggle (for freedom, survival, etc.)",
+      "war (e.g. on drugs)"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -276,11 +288,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せんい",
-      "いくさい",
       "わなない",
+      "せんい",
       "だたかい",
       "そよい",
+      "いくさい",
       "おののい"
     ],
     "sp": [
@@ -325,14 +337,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いくさせん",
       "ぜんせん",
+      "わななせん",
       "せんぜん",
       "おののせん",
-      "わななせん",
+      "たたかせん",
       "せんすじ",
-      "そよせん",
-      "たたかせん"
+      "いくさせん",
+      "そよせん"
     ],
     "sp": [
       "乱戦",
@@ -359,11 +371,16 @@ export const VOCAB_ENTRIES = [
     "r": "たいせん",
     "en": [
       "great war",
-      "great battle"
+      "great battle",
+      "world war"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -377,14 +394,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいいくさ",
-      "たいたたか",
       "たいぜん",
-      "だいせん",
-      "たいわなな",
       "たいそよ",
+      "たいわなな",
+      "おおせん",
+      "たいたたか",
+      "たいいくさ",
       "たいおのの",
-      "おおせん"
+      "だいせん"
     ],
     "sp": [
       "大変",
@@ -412,8 +429,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "the problem (at issue)",
       "the point at issue",
-      "problematic issue",
-      "problem"
+      "problematic issue"
     ],
     "pos": "n",
     "th": "5.3",
@@ -436,14 +452,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "もんだいとも",
-      "もんだいた",
-      "とだいてん",
-      "もんだいさ",
       "もんだいぼち",
+      "もんだいた",
       "とんだいてん",
       "もんだいでん",
-      "もんだいとぼ"
+      "もんだいとぼ",
+      "とだいてん",
+      "もんだいさ",
+      "もんだいつ"
     ],
     "sp": [
       "平均点",
@@ -470,11 +486,16 @@ export const VOCAB_ENTRIES = [
     "r": "ふせ",
     "en": [
       "alms-giving",
-      "charity"
+      "charity",
+      "offerings (usu. money) to a priest"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -488,14 +509,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きれせ",
       "しせ",
-      "ぷせ",
-      "ふぜ",
-      "ふほどこ",
       "ほせ",
+      "きれせ",
+      "ふほどこ",
       "ふし",
-      "ぶせ"
+      "ぶせ",
+      "ふぜ",
+      "ぷせ"
     ],
     "sp": [
       "布地",
@@ -522,11 +543,16 @@ export const VOCAB_ENTRIES = [
     "r": "ほあん",
     "en": [
       "peace preservation",
-      "security"
+      "security",
+      "safety"
     ],
     "pos": "n",
     "th": "5.3",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -541,9 +567,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ほやす",
-      "ぽあん",
       "ぼあん",
-      "たもあん"
+      "たもあん",
+      "ぽあん"
     ],
     "sp": [
       "保革",
@@ -571,8 +597,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "peace of mind",
       "relief",
-      "(sense of) security",
-      "safety"
+      "(sense of) security"
     ],
     "pos": "n",
     "th": "5.3",
@@ -590,9 +615,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あんこころ",
+      "あんごころ",
       "やすしん",
-      "あんごころ"
+      "あんこころ"
     ],
     "sp": [
       "腐心",
@@ -637,12 +662,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たたかぜん",
       "そよぜん",
       "いくさぜん",
       "ぜんぜん",
-      "せんまえ",
       "わななぜん",
+      "せんまえ",
+      "たたかぜん",
       "おののぜん"
     ],
     "sp": [
@@ -688,14 +713,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "おせん",
-      "しゅうそよ",
       "おわせん",
       "しゅういくさ",
-      "しゅうおのの",
       "ついせん",
+      "しゅうぜん",
+      "しゅうおのの",
       "じゅうせん",
-      "しゅうたたか"
+      "おせん",
+      "しゅうそよ"
     ],
     "sp": [
       "合戦",

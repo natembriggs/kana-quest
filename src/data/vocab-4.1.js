@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "office work",
       "clerical work",
-      "administration",
-      "business"
+      "administration"
     ],
     "pos": "n",
     "th": "4.1",
@@ -30,10 +29,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ことむ",
       "ずむ",
-      "つかむ",
       "じつと",
-      "ことむ"
+      "つかむ"
     ],
     "sp": [
       "兼務",
@@ -62,11 +61,15 @@ export const VOCAB_ENTRIES = [
       "work",
       "job",
       "labor",
-      "labour"
+      "work"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -80,12 +83,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "つかごと",
-      "しつか",
-      "しじ",
       "じごと",
-      "しず",
-      "しこと"
+      "しじ",
+      "しつか",
+      "つかごと",
+      "しこと",
+      "しず"
     ],
     "sp": [
       "事象",
@@ -112,11 +115,18 @@ export const VOCAB_ENTRIES = [
     "r": "おおて",
     "en": [
       "major company",
-      "big company"
+      "big company",
+      "front castle gate",
+      "force attacking the front of a castle"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -132,9 +142,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "おおず",
       "おおた",
-      "だいて",
+      "たいて",
       "おおしゅ",
-      "たいて"
+      "だいて"
     ],
     "sp": [
       "先手",
@@ -212,11 +222,15 @@ export const VOCAB_ENTRIES = [
       "work",
       "business",
       "company",
-      "agency"
+      "study"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -250,11 +264,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "company",
       "corporation",
-      "firm"
+      "firm",
+      "one's workplace"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -269,11 +288,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "かいじゃ",
-      "あつしゃ",
-      "あしゃ",
       "えしゃ",
+      "がいしゃ",
+      "あつしゃ",
       "かいやしろ",
-      "がいしゃ"
+      "あしゃ"
     ],
     "sp": [
       "社寺",
@@ -318,11 +337,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かぶじっ",
-      "しゅしき",
-      "がぶしき",
       "かぶじき",
-      "かぶしっ"
+      "がぶしき",
+      "しゅしき",
+      "かぶしっ",
+      "かぶじっ"
     ],
     "sp": [
       "旧式",
@@ -422,14 +441,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ずむしょ",
-      "じつとしょ",
       "ことむしょ",
-      "じむところ",
-      "じむとこ",
+      "じつとしょ",
       "つかむしょ",
-      "じむどころ",
-      "じむじょ"
+      "じむじょ",
+      "じむとこ",
+      "ずむしょ",
+      "じむところ",
+      "じむどころ"
     ],
     "sp": [
       "春場所",
@@ -456,11 +475,17 @@ export const VOCAB_ENTRIES = [
     "r": "どうしゃ",
     "en": [
       "the same company",
-      "the said firm"
+      "the said firm",
+      "the same (Shinto) shrine",
+      "the said shrine"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -505,11 +530,18 @@ export const VOCAB_ENTRIES = [
       "head office",
       "main office",
       "headquarters",
-      "parent company"
+      "main shrine",
+      "this company",
+      "this shrine"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -577,13 +609,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じむぎょっ",
-      "ことむきょく",
-      "じむぎょく",
+      "つかむきょく",
+      "じむつぼね",
       "じむきょっ",
       "じつときょく",
+      "ことむきょく",
       "ずむきょく",
-      "つかむきょく",
-      "じむつぼね"
+      "じむぎょく"
     ],
     "sp": [
       "議事録",
@@ -631,8 +663,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "じゃちょう",
       "やしろちょう",
-      "しゃぢょう",
       "しゃなが",
+      "しゃぢょう",
       "しゃおさ"
     ],
     "sp": [
@@ -661,8 +693,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "staff member",
       "employee",
-      "worker",
-      "personnel"
+      "worker"
     ],
     "pos": "n",
     "th": "4.1",
@@ -680,10 +711,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょっいん",
-      "そくいん",
       "じょっいん",
-      "じょくいん"
+      "じょくいん",
+      "しょっいん",
+      "そくいん"
     ],
     "sp": [
       "公職",
@@ -711,8 +742,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "factory",
       "plant",
-      "mill",
-      "workshop"
+      "mill"
     ],
     "pos": "n",
     "th": "4.1",
@@ -807,11 +837,18 @@ export const VOCAB_ENTRIES = [
     "r": "はく",
     "en": [
       "doctor",
-      "PhD"
+      "PhD",
+      "exposition",
+      "fair",
+      "exhibition"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -820,10 +857,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ばっ",
-      "ぱく",
       "はっ",
-      "ぱっ"
+      "ぱく",
+      "ぱっ",
+      "ばっ"
     ],
     "sp": [
       "札",
@@ -868,11 +905,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぐじ",
-      "こうこと",
+      "こうつか",
       "ごうじ",
       "くじ",
-      "こうず",
-      "こうつか"
+      "こうこと",
+      "こうず"
     ],
     "sp": [
       "荒事",
@@ -900,8 +937,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "business",
       "work",
-      "operations",
-      "service"
+      "operations"
     ],
     "pos": "n",
     "th": "4.1",
@@ -965,14 +1001,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かきょく",
-      "しぎょっ",
-      "つかきょく",
-      "しぎょく",
-      "しきょっ",
-      "しつぼね",
       "じきょく",
-      "ささきょく"
+      "しぎょっ",
+      "ささきょく",
+      "しつぼね",
+      "しきょっ",
+      "しぎょく",
+      "つかきょく",
+      "かきょく"
     ],
     "sp": [
       "結局",
@@ -998,11 +1034,17 @@ export const VOCAB_ENTRIES = [
     "w": "社員",
     "r": "しゃいん",
     "en": [
-      "company employee"
+      "company employee",
+      "member of a corporation",
+      "company stockholder (esp. in legal contexts)"
     ],
     "pos": "n",
     "th": "4.1",
     "lv": "f",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1062,12 +1104,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たんあ",
-      "かつとう",
       "たんまさ",
+      "になとう",
       "たんどう",
+      "たんあ",
       "だんとう",
-      "になとう"
+      "かつとう"
     ],
     "sp": [
       "当夜",
@@ -1117,14 +1159,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "へんごし",
-      "べんごじ",
       "はなびらごし",
-      "かんむりごし",
+      "べんごじ",
+      "あらそごし",
+      "へんごし",
       "わごし",
       "べんごさむらい",
-      "あらそごし",
-      "わきまごし"
+      "わきまごし",
+      "かんむりごし"
     ],
     "sp": [
       "手弁当",
@@ -1152,8 +1194,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "assumption (of office)",
       "taking up (a post)",
-      "inauguration",
-      "installation"
+      "inauguration"
     ],
     "pos": "n",
     "th": "4.1",
@@ -1171,9 +1212,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "つにん",
       "じゅにん",
       "じゅうにん",
-      "つにん",
       "しゅうまか"
     ],
     "sp": [
@@ -1221,10 +1262,10 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "きょくおさ",
       "きょっちょう",
-      "きょくぢょう",
-      "ぎょくちょう",
       "きょくなが",
       "つぼねちょう",
+      "きょくぢょう",
+      "ぎょくちょう",
       "ぎょっちょう"
     ],
     "sp": [
@@ -1271,11 +1312,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "つかぶ",
       "じぶ",
-      "かぶ",
       "しべ",
-      "ささぶ",
-      "つかぶ"
+      "かぶ",
+      "ささぶ"
     ],
     "sp": [
       "大部",
@@ -1321,9 +1362,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じやしろ",
-      "みずかしゃ",
       "おのしゃ",
       "ししゃ",
+      "みずかしゃ",
       "じじゃ"
     ],
     "sp": [
@@ -1371,12 +1412,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "けがしょく",
-      "おしょっ",
-      "よごしょく",
-      "おじょく",
       "おじょっ",
+      "きたなしょく",
       "おそく",
-      "きたなしょく"
+      "おしょっ",
+      "おじょく",
+      "よごしょく"
     ],
     "sp": [
       "職務",
@@ -1422,11 +1463,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょっば",
-      "じょくば",
-      "しょくじょう",
       "じょっば",
       "そくば",
+      "しょくじょう",
+      "しょっば",
+      "じょくば",
       "しょくちょう"
     ],
     "sp": [
@@ -1472,13 +1513,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょぢょう",
+      "しょなが",
       "とこちょう",
       "しょおさ",
+      "じょちょう",
+      "しょぢょう",
       "ところちょう",
-      "しょなが",
-      "どころちょう",
-      "じょちょう"
+      "どころちょう"
     ],
     "sp": [
       "長老",
@@ -1523,13 +1564,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しゅうそく",
       "しゅうじょく",
-      "しゅうしょっ",
-      "じゅうしょく",
+      "しゅうそく",
       "しゅうじょっ",
       "じゅしょく",
-      "つしょく"
+      "しゅうしょっ",
+      "つしょく",
+      "じゅうしょく"
     ],
     "sp": [
       "神職",
@@ -1557,8 +1598,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "occupation",
       "profession",
-      "job",
-      "vocation"
+      "job"
     ],
     "pos": "n",
     "th": "4.1",
@@ -1576,12 +1616,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そくぎょう",
-      "じょっぎょう",
+      "じょくぎょう",
       "しょっぎょう",
+      "じょっぎょう",
       "しょくわざ",
       "しょくごう",
-      "じょくぎょう"
+      "そくぎょう"
     ],
     "sp": [
       "残業",
@@ -1632,13 +1672,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たんまさしゃ",
-      "たんとうじゃ",
-      "たんとうもの",
-      "たんあしゃ",
       "たんどうしゃ",
-      "かつとうしゃ",
+      "たんとうもの",
+      "たんとうじゃ",
+      "たんまさしゃ",
+      "たんあしゃ",
       "になとうしゃ",
+      "かつとうしゃ",
       "だんとうしゃ"
     ],
     "sp": [
@@ -1688,13 +1728,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "どしまりやく",
-      "とりていまりやく",
       "とりじまりやく",
+      "とりていまりやく",
       "しゅしまりやく",
-      "とりしえき",
       "とりしやく",
-      "どりしまりやく",
-      "としまりやく"
+      "とりしまりやっ",
+      "としまりやく",
+      "どりしまりやく"
     ],
     "sp": [
       "証取法",
@@ -1841,12 +1881,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みごふ",
-      "かんまもふ",
       "がんごふ",
+      "かんまもふ",
+      "みごふ",
       "かんごよめ",
-      "かんごぶ",
-      "かんごぷ"
+      "かんごぷ",
+      "かんごぶ"
     ],
     "sp": [
       "婦人科",
@@ -1893,12 +1933,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ちょがき",
-      "ぢょしょ",
-      "ちょじょ",
-      "ちょか",
-      "ちゃくしょ",
       "いちじるしょ",
+      "ちょか",
+      "ちょじょ",
+      "ちゃくしょ",
       "あらわしょ",
+      "ぢょしょ",
       "ちょが"
     ],
     "sp": [
@@ -1990,11 +2030,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "むしょっ",
       "むじょっ",
-      "むそく",
-      "ぶしょく",
+      "むしょっ",
       "むじょく",
+      "ぶしょく",
+      "むそく",
       "なしょく"
     ],
     "sp": [

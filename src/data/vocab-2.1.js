@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "home",
       "household",
-      "family",
-      "hearth"
+      "family"
     ],
     "pos": "n",
     "th": "2.1",
@@ -30,13 +29,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "やてい",
-      "けてい",
-      "かにわ",
-      "うちてい",
-      "がてい",
       "いえてい",
-      "かでい"
+      "うちてい",
+      "かでい",
+      "やてい",
+      "がてい",
+      "けてい",
+      "かにわ"
     ],
     "sp": [
       "王家",
@@ -81,11 +80,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "したく",
-      "じたっ",
       "みずかたく",
       "じだく",
       "おのたく",
+      "じたっ",
+      "したく",
       "じだっ"
     ],
     "sp": [
@@ -132,8 +131,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ちもと",
-      "じげん",
-      "じがん"
+      "じがん",
+      "じげん"
     ],
     "sp": [
       "宅地",
@@ -161,8 +160,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "chair",
       "chairman",
-      "chairperson",
-      "speaker (of an assembly)"
+      "chairperson"
     ],
     "pos": "n",
     "th": "2.1",
@@ -180,8 +178,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぎぢょう",
       "ぎなが",
+      "ぎぢょう",
       "ぎおさ"
     ],
     "sp": [
@@ -210,8 +208,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "chairperson (of a committee)",
       "chair",
-      "chairman",
-      "chairwoman"
+      "chairman"
     ],
     "pos": "n",
     "th": "2.1",
@@ -234,9 +231,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いいんなが",
-      "いいんおさ",
       "いいんぢょう",
+      "いいんおさ",
+      "いいんなが",
       "ゆだいんちょう"
     ],
     "sp": [
@@ -263,11 +260,17 @@ export const VOCAB_ENTRIES = [
     "w": "総選挙",
     "r": "そうせんきょ",
     "en": [
-      "general election (of the lower house)"
+      "general election (of the lower house)",
+      "fan popularity voting (esp. for idols)",
+      "popularity contest"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -286,14 +289,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そうせんこぞ",
-      "ふさせんきょ",
-      "すべせんきょ",
-      "そうぜんきょ",
-      "そうえらきょ",
+      "そうせんぎょ",
       "ぞうせんきょ",
+      "すせんきょ",
+      "そうえらきょ",
+      "そうえきょ",
+      "ふさせんきょ",
       "そうよきょ",
-      "そうせんあ"
+      "そうせんこぞ"
     ],
     "sp": [
       "選手村",
@@ -320,11 +323,20 @@ export const VOCAB_ENTRIES = [
     "r": "へや",
     "en": [
       "room",
-      "chamber"
+      "chamber",
+      "apartment",
+      "flat",
+      "pad",
+      "stable"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -337,9 +349,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぺや",
       "ぶや",
       "べや",
+      "ぺや",
       "へおく"
     ],
     "sp": [
@@ -367,11 +379,20 @@ export const VOCAB_ENTRIES = [
     "r": "かべ",
     "en": [
       "wall",
-      "partition"
+      "partition",
+      "barrier",
+      "obstacle",
+      "hindrance",
+      "Chinese \"Wall\" constellation"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -427,13 +448,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しゅよめ",
+      "しゅうふ",
       "ぬしふ",
+      "おもふ",
       "じゅふ",
-      "あるじふ",
-      "すふ",
-      "しゅぷ",
       "しゅぶ",
-      "おもふ"
+      "しゅぷ",
+      "すふ"
     ],
     "sp": [
       "宿主",
@@ -460,11 +481,17 @@ export const VOCAB_ENTRIES = [
     "r": "かいほう",
     "en": [
       "opening (a door, window, etc.)",
-      "leaving open"
+      "leaving open",
+      "opening up (e.g. to the public)",
+      "allowing (public) access"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -478,14 +505,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がいほう",
+      "あほう",
       "ひらほう",
-      "かいっぱな",
+      "かいぼう",
+      "かいぽう",
       "かいこ",
       "かいはな",
-      "かいぽう",
-      "びらほう",
-      "かいぼう"
+      "がいほう",
+      "かいっぱな"
     ],
     "sp": [
       "疎開",
@@ -530,14 +557,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "したいん",
-      "しもいん",
       "くだいん",
-      "さいん",
-      "がいん",
       "げいん",
+      "もといん",
+      "しもいん",
+      "さいん",
       "おいん",
-      "もといん"
+      "がいん",
+      "したいん"
     ],
     "sp": [
       "書院",
@@ -564,11 +591,20 @@ export const VOCAB_ENTRIES = [
     "r": "きょうしつ",
     "en": [
       "classroom",
-      "lecture room"
+      "lecture room",
+      "department (in a university)",
+      "class",
+      "lessons",
+      "course"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -582,12 +618,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "きょうじつ",
-      "きょうむろ",
-      "おそしつ",
       "きょうじっ",
+      "きょうじつ",
       "ぎょうしつ",
       "きょうしっ",
+      "おそしつ",
+      "きょうむろ",
       "おししつ"
     ],
     "sp": [
@@ -635,13 +671,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じゅうとこ",
-      "じゅうどころ",
       "じゅうところ",
-      "すしょ",
       "じゅうじょ",
-      "ぢゅうしょ",
+      "ずしょ",
+      "じゅうどころ",
       "ちゅうしょ",
-      "ずしょ"
+      "すしょ",
+      "ぢゅうしょ"
     ],
     "sp": [
       "住居",
@@ -687,13 +723,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "うえいん",
-      "しゃんいん",
-      "かみいん",
-      "あいん",
+      "しょういん",
       "たてまついん",
       "のぼいん",
-      "しょういん",
+      "かみいん",
+      "うえいん",
+      "あいん",
+      "しゃんいん",
       "うわいん"
     ],
     "sp": [
@@ -721,11 +757,18 @@ export const VOCAB_ENTRIES = [
     "r": "とこ",
     "en": [
       "bed",
-      "bedding"
+      "bedding",
+      "sickbed",
+      "alcove"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -775,8 +818,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "す",
       "そう",
-      "てんまど",
-      "けむだし"
+      "けむだし",
+      "てんまど"
     ],
     "sp": [
       "宝",
@@ -803,11 +846,19 @@ export const VOCAB_ENTRIES = [
     "r": "たく",
     "en": [
       "house",
-      "home"
+      "home",
+      "one's house",
+      "one's home",
+      "one's husband"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -817,8 +868,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "だっ",
-      "たっ",
-      "だく"
+      "だく",
+      "たっ"
     ],
     "sp": [
       "策",
@@ -864,14 +915,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぐうかん",
-      "くうけん",
       "そらかん",
-      "くうあいだ",
-      "からかん",
+      "くうま",
+      "ぐうかん",
+      "くうがん",
       "すかん",
       "あかん",
-      "くうあい"
+      "むなかん",
+      "くうあいだ"
     ],
     "sp": [
       "間伐",
@@ -898,11 +949,17 @@ export const VOCAB_ENTRIES = [
     "r": "しゃない",
     "en": [
       "within a company",
-      "in-house"
+      "in-house",
+      "within a shrine",
+      "shrine precincts"
     ],
     "pos": "adj",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -917,9 +974,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "やしろない",
-      "しゃうち",
+      "しゃだい",
       "じゃない",
-      "しゃだい"
+      "しゃうち"
     ],
     "sp": [
       "構内",
@@ -948,11 +1005,16 @@ export const VOCAB_ENTRIES = [
       "counter",
       "window",
       "teller window",
-      "ticket window"
+      "contact person",
+      "point of contact"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -967,12 +1029,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "まどく",
-      "まどこう",
-      "そうぐち",
       "まどぐっ",
+      "そうぐち",
+      "まどこう",
       "まどくち",
-      "けむだしぐち",
       "てんまどぐち",
+      "けむだしぐち",
       "すぐち"
     ],
     "sp": [
@@ -1065,10 +1127,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "やでん",
-      "がでん",
+      "うちでん",
       "けでん",
-      "うちでん"
+      "がでん",
+      "やでん"
     ],
     "sp": [
       "電球",
@@ -1115,9 +1177,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "にきざはし",
       "にがい",
-      "じかい",
       "ふたたびかい",
-      "ふたかい"
+      "ふたかい",
+      "じかい"
     ],
     "sp": [
       "階層",
@@ -1144,11 +1206,19 @@ export const VOCAB_ENTRIES = [
     "r": "いっかい",
     "en": [
       "first floor",
-      "ground floor"
+      "ground floor",
+      "one floor",
+      "one storey",
+      "one rank"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -1164,9 +1234,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ひとかい",
       "いっきざはし",
-      "いちかい",
+      "いつかい",
       "いっがい",
-      "いつかい"
+      "いちかい"
     ],
     "sp": [
       "一句",
@@ -1194,8 +1264,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "entrance",
       "front door",
-      "entryway",
-      "entranceway"
+      "entryway"
     ],
     "pos": "n",
     "th": "2.1",
@@ -1213,13 +1282,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "げんからくり",
-      "くろかん",
-      "げんがん",
-      "げんぜき",
-      "げんかか",
       "げんせき",
-      "げんかんぬき"
+      "くろかん",
+      "げんぜき",
+      "げんかんぬき",
+      "げんからくり",
+      "げんかか",
+      "げんがん"
     ],
     "sp": [
       "税関",
@@ -1264,12 +1333,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しつうち",
-      "じっない",
       "しつだい",
       "しっない",
+      "しつうち",
       "むろない",
-      "じつない"
+      "じつない",
+      "じっない"
     ],
     "sp": [
       "内発",
@@ -1321,12 +1390,12 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しゅっぱんじゃ",
-      "だぱんしゃ",
-      "しゅっはんしゃ",
-      "いぱんしゃ",
-      "じゅっぱんしゃ",
       "でぱんしゃ",
-      "すいぱんしゃ",
+      "しゅっはんしゃ",
+      "だぱんしゃ",
+      "じゅっぱんしゃ",
+      "いぱんしゃ",
+      "しゅつぱんしゃ",
       "しゅっぱんやしろ"
     ],
     "sp": [
@@ -1400,11 +1469,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "garden",
       "yard",
-      "courtyard"
+      "courtyard",
+      "field (of action)",
+      "area"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1441,11 +1516,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "space",
       "room",
-      "unused land"
+      "unused land",
+      "room (for reconsideration, doubt, etc.)",
+      "leeway",
+      "margin"
     ],
     "pos": "n",
     "th": "2.1",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1459,10 +1541,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "あまち",
-      "よぢ",
       "あんまち",
-      "よじ"
+      "よじ",
+      "あまち",
+      "よぢ"
     ],
     "sp": [
       "余念",

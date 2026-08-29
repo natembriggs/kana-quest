@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "regulation",
       "(traffic) policing",
-      "control",
-      "restriction"
+      "control"
     ],
     "pos": "n",
     "th": "2.4",
@@ -76,13 +75,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "くうみなと",
-      "ぐうこう",
-      "くうごう",
-      "からこう",
-      "すこう",
       "そらこう",
-      "むなこう",
-      "あこう"
+      "くうごう",
+      "すこう",
+      "あこう",
+      "ぐうこう",
+      "からこう",
+      "むなこう"
     ],
     "sp": [
       "漁港",
@@ -109,11 +108,18 @@ export const VOCAB_ENTRIES = [
     "r": "ろせん",
     "en": [
       "route (bus, train, air, etc.)",
-      "line"
+      "line",
+      "line (taken by a group, organization, etc.)",
+      "policy",
+      "course"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -128,9 +134,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ろぜん",
+      "るせん",
       "じせん",
       "みちせん",
-      "るせん",
       "ろすじ"
     ],
     "sp": [
@@ -158,11 +164,19 @@ export const VOCAB_ENTRIES = [
     "r": "こうつう",
     "en": [
       "traffic",
-      "transportation"
+      "transportation",
+      "communication",
+      "exchange (of ideas, etc.)",
+      "intercourse"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "f",
+    "sn": [
+      2,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -176,14 +190,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こうどお",
-      "まじつう",
-      "こもごもつう",
       "こうかよ",
-      "こうづう",
+      "かわつう",
       "ごうつう",
       "こうつ",
-      "かつう"
+      "こうどお",
+      "かつう",
+      "こうとお",
+      "まつう"
     ],
     "sp": [
       "通夜",
@@ -210,11 +224,17 @@ export const VOCAB_ENTRIES = [
     "r": "ちか",
     "en": [
       "underground",
-      "below the ground"
+      "below the ground",
+      "world of the dead",
+      "the grave"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -228,14 +248,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じか",
-      "ちさ",
-      "ちくだ",
+      "ぢか",
       "ちしも",
-      "ちした",
-      "ちが",
+      "ちもと",
       "ちげ",
-      "ちもと"
+      "ちくだ",
+      "ちさ",
+      "ちお",
+      "ちした"
     ],
     "sp": [
       "下田",
@@ -281,14 +301,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "もとしゃ",
+      "さしゃ",
       "げじゃ",
       "おしゃ",
-      "しもしゃ",
+      "くだしゃ",
       "げくるま",
-      "さしゃ",
-      "かしゃ",
-      "くだしゃ"
+      "したしゃ",
+      "もとしゃ",
+      "しもしゃ"
     ],
     "sp": [
       "車台",
@@ -338,12 +358,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しんがんせん",
+      "しんみきせん",
       "しんかんぜん",
       "にいかんせん",
-      "あたらかんせん",
-      "しんみきせん",
       "あらかんせん",
+      "しんがんせん",
+      "あたらかんせん",
       "じんかんせん",
       "しんかんすじ"
     ],
@@ -396,8 +416,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じょうようじゃ",
-      "のようしゃ",
       "しょうようしゃ",
+      "のようしゃ",
       "じょうもちしゃ",
       "じょうようくるま"
     ],
@@ -428,11 +448,17 @@ export const VOCAB_ENTRIES = [
       "ship",
       "boat",
       "watercraft",
-      "vessel"
+      "tank",
+      "tub",
+      "vat"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -441,9 +467,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "ぷね",
       "ぶね",
-      "ふな",
-      "ぷね"
+      "ふな"
     ],
     "sp": [
       "嘸",
@@ -587,14 +613,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みずかてんしゃ",
-      "じうつしゃ",
-      "じうたたしゃ",
-      "じころしゃ",
-      "じくるしゃ",
       "おのてんしゃ",
+      "じまろしゃ",
+      "じうたたしゃ",
+      "じくるしゃ",
+      "じころしゃ",
+      "してんしゃ",
       "じてんじゃ",
-      "じまろしゃ"
+      "じうつしゃ"
     ],
     "sp": [
       "消防車",
@@ -639,9 +665,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じょうきゃっ",
-      "しょうきゃく",
-      "じょうぎゃく",
       "のきゃく",
+      "じょうぎゃく",
+      "しょうきゃく",
       "じょうぎゃっ"
     ],
     "sp": [
@@ -671,11 +697,18 @@ export const VOCAB_ENTRIES = [
       "ticket",
       "token",
       "check",
-      "receipt"
+      "label",
+      "tag",
+      "sign"
     ],
     "pos": "n",
     "th": "2.4",
     "lv": "f",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -736,14 +769,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちがてつ",
-      "ちもとてつ",
-      "ちしたてつ",
-      "じかてつ",
-      "ちおてつ",
       "ちさてつ",
+      "ちしたてつ",
       "ちくだてつ",
-      "ちげてつ"
+      "ぢかてつ",
+      "ちがてつ",
+      "ちしもてつ",
+      "ちもとてつ",
+      "ちおてつ"
     ],
     "sp": [
       "目的地",
@@ -771,8 +804,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "airplane",
       "aeroplane",
-      "plane",
-      "aircraft"
+      "plane"
     ],
     "pos": "n",
     "th": "2.4",
@@ -795,14 +827,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ひゆきき",
-      "ひこうはた",
       "ひゆき",
-      "ぴこうき",
-      "ひいき",
-      "ひおこなき",
+      "ひこうぎ",
+      "ひあんき",
       "びこうき",
-      "ひごうき"
+      "ひおこなき",
+      "ひゆきき",
+      "とこうき",
+      "ひおこき"
     ],
     "sp": [
       "有機的",

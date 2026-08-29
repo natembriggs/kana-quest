@@ -9,11 +9,21 @@ export const VOCAB_ENTRIES = [
     "w": "何",
     "r": "なに",
     "en": [
-      "what"
+      "what",
+      "you-know-what",
+      "that thing",
+      "whatsit",
+      "whachamacallit",
+      "what's-his-name"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -61,9 +71,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たれ",
+      "た",
       "すい",
-      "た"
+      "たれ"
     ],
     "sp": [
       "同",
@@ -90,11 +100,17 @@ export const VOCAB_ENTRIES = [
     "r": "どこ",
     "en": [
       "where",
-      "what place"
+      "what place",
+      "how much (long, far)",
+      "what extent"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "uk": true
   },
   {
@@ -130,6 +146,9 @@ export const VOCAB_ENTRIES = [
     "w": "どうして",
     "r": "どうして",
     "en": [
+      "why",
+      "for what reason",
+      "for what purpose",
       "how",
       "in what way",
       "by what means"
@@ -137,6 +156,10 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "uk": true
   },
   {
@@ -146,11 +169,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "which way",
       "which direction",
-      "where"
+      "where",
+      "which one (esp. of two alternatives)",
+      "who"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      1
+    ],
     "uk": true
   },
   {
@@ -171,11 +201,20 @@ export const VOCAB_ENTRIES = [
     "w": "この",
     "r": "この",
     "en": [
-      "this"
+      "this",
+      "last (couple of years, etc.)",
+      "these",
+      "past",
+      "you (as in \"you liar\")"
     ],
     "pos": "adj",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      1
+    ],
     "uk": true
   },
   {
@@ -184,11 +223,16 @@ export const VOCAB_ENTRIES = [
     "r": "その",
     "en": [
       "that",
-      "the"
+      "the",
+      "part (as in \"part two\")"
     ],
     "pos": "adj",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "uk": true
   },
   {
@@ -211,11 +255,19 @@ export const VOCAB_ENTRIES = [
     "r": "これ",
     "en": [
       "this",
-      "this one"
+      "this one",
+      "this person",
+      "now",
+      "this point (in time)"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      2
+    ],
     "uk": true
   },
   {
@@ -224,11 +276,18 @@ export const VOCAB_ENTRIES = [
     "r": "それ",
     "en": [
       "that",
-      "it"
+      "it",
+      "then",
+      "that point (in time)",
+      "that time"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      2,
+      3
+    ],
     "uk": true
   },
   {
@@ -237,11 +296,19 @@ export const VOCAB_ENTRIES = [
     "r": "あれ",
     "en": [
       "that",
-      "that thing"
+      "that thing",
+      "that person",
+      "then",
+      "that time"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      2
+    ],
     "uk": true
   },
   {
@@ -249,11 +316,18 @@ export const VOCAB_ENTRIES = [
     "w": "どれ",
     "r": "どれ",
     "en": [
-      "which (of three or more)"
+      "which (of three or more)",
+      "well",
+      "now",
+      "c'mon"
     ],
     "pos": "other",
     "th": "C3",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "uk": true
   }
 ];

@@ -9,11 +9,19 @@ export const VOCAB_ENTRIES = [
     "w": "お茶",
     "r": "おちゃ",
     "en": [
-      "tea (esp. green or barley)"
+      "tea (esp. green or barley)",
+      "tea break",
+      "teatime",
+      "tea ceremony"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "h",
+    "sn": [
+      1,
+      2,
+      1
+    ],
     "ruby": [
       [
         1,
@@ -89,8 +97,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "original plan",
       "original bill",
-      "original motion",
-      "draft"
+      "original motion"
     ],
     "pos": "n",
     "th": "1.6",
@@ -138,11 +145,18 @@ export const VOCAB_ENTRIES = [
       "water supply",
       "water service",
       "waterworks",
-      "tap water"
+      "channel",
+      "strait",
+      "water course"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "h",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -156,9 +170,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "すいいう",
       "すいみち",
       "すいとう",
+      "すいいう",
       "ずいどう",
       "みずどう"
     ],
@@ -205,9 +219,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "すいおもて",
-      "すいおも",
-      "ずいめん",
       "すいつら",
+      "ずいめん",
+      "すいおも",
       "すいべん",
       "みずめん"
     ],
@@ -254,10 +268,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "まんれい",
       "まつりごとれい",
-      "しょうれい",
-      "ぜいれい"
+      "まんれい",
+      "ぜいれい",
+      "しょうれい"
     ],
     "sp": [
       "失政",
@@ -302,14 +316,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いんは",
-      "いんく",
-      "いんじょっ",
       "いんた",
+      "いんじき",
+      "いんじょっ",
+      "いんく",
       "のしょく",
       "おんしょく",
-      "いんじき",
-      "いんじょく"
+      "いんじょく",
+      "いんは"
     ],
     "sp": [
       "腐食",
@@ -356,13 +370,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "はっつ",
-      "はっぢゅう",
-      "あばちゅう",
-      "ばっちゅう",
-      "おこちゅう",
-      "はなちゅう",
       "はっさ",
-      "ぱっちゅう"
+      "ほつちゅう",
+      "たちゅう",
+      "あばちゅう",
+      "はなちゅう",
+      "はっぢゅう",
+      "つかちゅう"
     ],
     "sp": [
       "発案",
@@ -407,14 +421,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ゆうく",
       "ゆうじき",
+      "ゆうじょく",
       "ゆうじょっ",
       "ゆうしょっ",
       "せきしょく",
-      "ゆうは",
       "ゆうた",
-      "ゆうじょく"
+      "ゆうく",
+      "ゆうは"
     ],
     "sp": [
       "食料",
@@ -460,14 +474,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たましょく",
-      "きゅうしょっ",
-      "きゅうた",
-      "きゅうく",
-      "きゅうじょく",
-      "たもしょく",
       "ぎゅうしょく",
-      "きゅうは"
+      "きゅうしょっ",
+      "きゅうく",
+      "きゅうじき",
+      "きゅうは",
+      "たましょく",
+      "たもしょく",
+      "きゅうた"
     ],
     "sp": [
       "会食",
@@ -506,11 +520,19 @@ export const VOCAB_ENTRIES = [
     "r": "はもん",
     "en": [
       "ripple",
-      "ring on the water"
+      "ring on the water",
+      "repercussions",
+      "Japanese slit drum",
+      "instrument made of iron with slits on top; m…"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "h",
+    "sn": [
+      2,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -524,9 +546,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "なみもん",
       "ばもん",
-      "ぱもん",
-      "なみもん"
+      "ぱもん"
     ],
     "sp": [
       "波長",
@@ -553,11 +575,20 @@ export const VOCAB_ENTRIES = [
     "r": "しょく",
     "en": [
       "food",
-      "foodstuff"
+      "foodstuff",
+      "eating",
+      "appetite",
+      "meal",
+      "portion"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "h",
+    "sn": [
+      2,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -568,10 +599,10 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "じょっ",
       "しょっ",
-      "た",
-      "じょく",
+      "く",
       "は",
-      "く"
+      "た",
+      "じょく"
     ],
     "sp": [
       "幸",
@@ -662,8 +693,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "そうつくえ",
-      "くさあん",
       "ぞうあん",
+      "くさあん",
       "ぐさあん"
     ],
     "sp": [
@@ -709,14 +740,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "はなびらとう",
-      "べんあ",
-      "わとう",
-      "かんむりとう",
-      "へんとう",
-      "わきまとう",
       "あらそとう",
-      "べんまさ"
+      "べんまさ",
+      "わとう",
+      "へんとう",
+      "はなびらとう",
+      "かんむりとう",
+      "わきまとう",
+      "べんどう"
     ],
     "sp": [
       "充当",
@@ -807,14 +838,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "のぼでん",
-      "かみでん",
-      "しゃんでん",
-      "じょうた",
-      "しょうでん",
-      "うえでん",
       "あでん",
-      "たてまつでん"
+      "のぼでん",
+      "たてまつでん",
+      "じょうた",
+      "しゃんでん",
+      "しょうでん",
+      "かみでん",
+      "うえでん"
     ],
     "sp": [
       "上等",
@@ -853,9 +884,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "いな",
       "て",
-      "とう",
-      "いな"
+      "とう"
     ],
     "sp": [
       "本",
@@ -884,11 +915,17 @@ export const VOCAB_ENTRIES = [
       "liking",
       "taste",
       "fancy",
-      "fondness"
+      "wish",
+      "desire",
+      "choice"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -898,8 +935,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "いみ",
       "よみ",
-      "こうみ",
-      "すみ"
+      "すみ",
+      "こうみ"
     ],
     "sp": [
       "樂み",

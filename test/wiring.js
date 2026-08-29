@@ -247,7 +247,7 @@ const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
 const {
-  vocabIdForWord, vocabInfo, VOCAB_COURSES,
+  vocabIdForWord, vocabInfo, VOCAB_COURSES, wordMeaningLabel,
   unitLabel: vocabUnitLabel, unitGroupLabel: vocabUnitGroupLabel, unitBadge: vocabUnitBadge,
 } = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
@@ -3025,7 +3025,11 @@ check('it opens on the definition stage: four English options, no Next yet',
 
 const vocabCore = VOCAB_COURSES.find((c) => c.unit === 'C1');
 const shitsumonInfo = vocabInfo(vocabCore, '質問');
-const defAnswer = shitsumonInfo.en[0];
+// The label carries every sense the word has now, not just en[0]
+// (vocab-plan.md §5.6) — 質問 is single-sense, so this is the same
+// string either way, but reading it the way the app does keeps the
+// assertion honest if a future rebuild gives it a second sense.
+const defAnswer = wordMeaningLabel(shitsumonInfo);
 const defChoicesBefore = el('quiz-choices')._children.map((b) => b.textContent);
 const defRight = el('quiz-choices')._children.find((b) => b.textContent === defAnswer);
 check('the correct definition is among the four options', !!defRight, defChoicesBefore.join(' | '));

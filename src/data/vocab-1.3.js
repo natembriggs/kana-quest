@@ -12,11 +12,17 @@ export const VOCAB_ENTRIES = [
       "feeling",
       "sensation",
       "mood",
-      "state of mind"
+      "preparedness",
+      "readiness",
+      "attitude"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -30,9 +36,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぎもち",
-      "きじち",
       "いきもち",
+      "きじち",
+      "ぎもち",
       "けもち"
     ],
     "sp": [
@@ -61,11 +67,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "relation",
       "relationship",
-      "connection"
+      "connection",
+      "participation",
+      "involvement",
+      "concern"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -79,14 +92,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かかけい",
       "からくりけい",
-      "かんぬきけい",
-      "かんがかり",
-      "かんかか",
+      "せきけい",
       "がんけい",
+      "かんがかり",
+      "かんげい",
+      "ぜきけい",
       "かんかかり",
-      "せきけい"
+      "かかけい"
     ],
     "sp": [
       "税関",
@@ -114,11 +127,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "love",
       "affection",
-      "care"
+      "care",
+      "attachment",
+      "craving",
+      "desire"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -127,10 +147,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いと",
-      "かな",
+      "お",
       "め",
-      "お"
+      "かな",
+      "いと"
     ],
     "sp": [
       "鷹",
@@ -217,13 +237,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "せんあらそ",
       "せんどう",
+      "せんあらそ",
       "おののとう",
-      "いくさとう",
-      "そよとう",
-      "わななとう",
       "ぜんとう",
+      "いくさとう",
+      "たたかとう",
+      "わななとう",
       "せんたたか"
     ],
     "sp": [
@@ -269,10 +289,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ともじん",
-      "ゆうり",
-      "ゆうにん",
       "ゆうひと",
-      "ゆうと"
+      "ゆうと",
+      "ゆうにん",
+      "ゆうり"
     ],
     "sp": [
       "野人",
@@ -318,11 +338,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きわ",
-      "きふん",
-      "けぶん",
-      "いきぶん",
       "きぶ",
-      "ぎぶん"
+      "けぶん",
+      "ぎぶん",
+      "きふん",
+      "いきぶん"
     ],
     "sp": [
       "一気",
@@ -351,11 +371,15 @@ export const VOCAB_ENTRIES = [
       "confidence",
       "trust",
       "faith",
-      "reputation"
+      "credit"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -398,8 +422,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "trust (in)",
       "confidence",
-      "faith",
-      "reliance"
+      "faith"
     ],
     "pos": "n",
     "th": "1.3",
@@ -418,8 +441,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じんらい",
-      "しんたよ",
-      "しんたの"
+      "しんたの",
+      "しんたよ"
     ],
     "sp": [
       "信者",
@@ -448,11 +471,17 @@ export const VOCAB_ENTRIES = [
       "fight",
       "dispute",
       "feud",
-      "conflict"
+      "competition",
+      "contest",
+      "rivalry"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -460,8 +489,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いかい",
-      "そうい"
+      "そうい",
+      "いかい"
     ],
     "sp": [
       "弁い",
@@ -505,12 +534,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ゆうごう",
-      "ゆうす",
-      "ゆうよ",
       "ゆうい",
+      "ゆうごう",
+      "ゆうよ",
+      "ゆうこの",
       "ともこう",
-      "ゆうこの"
+      "ゆうす"
     ],
     "sp": [
       "学友",
@@ -539,11 +568,17 @@ export const VOCAB_ENTRIES = [
       "friend",
       "companion",
       "comrade",
-      "pal"
+      "accompaniment",
+      "companion (e.g. book)",
+      "complement"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -579,11 +614,18 @@ export const VOCAB_ENTRIES = [
     "r": "わらい",
     "en": [
       "laugh",
-      "laughter"
+      "laughter",
+      "smile",
+      "sneer"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -591,8 +633,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えい",
-      "しょうい"
+      "しょうい",
+      "えい"
     ],
     "sp": [
       "藁い",
@@ -637,12 +679,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぢじん",
       "しじん",
-      "ちと",
-      "ちひと",
+      "ぢじん",
+      "ちり",
       "ちにん",
-      "ちり"
+      "ちと",
+      "ちひと"
     ],
     "sp": [
       "余人",
@@ -688,11 +730,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しんだく",
-      "しんかこつ",
       "しんかこ",
-      "じんたく",
       "しんたっ",
+      "しんだく",
+      "じんたく",
+      "しんかこつ",
       "しんだっ"
     ],
     "sp": [
@@ -722,11 +764,17 @@ export const VOCAB_ENTRIES = [
       "fight",
       "battle",
       "combat",
-      "conflict"
+      "struggle (for rights, higher wages, etc.)",
+      "strife",
+      "(labor) dispute"
     ],
     "pos": "n",
     "th": "1.3",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -741,11 +789,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "たたかそう",
-      "とうぞう",
-      "どうそう",
-      "とうあらそ",
       "とういか",
-      "あらそそう"
+      "あらそそう",
+      "とうぞう",
+      "とうあらそ",
+      "どうそう"
     ],
     "sp": [
       "闘士",
@@ -773,8 +821,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "emotion",
       "feeling",
-      "feelings",
-      "sentiment"
+      "feelings"
     ],
     "pos": "n",
     "th": "1.3",
@@ -839,12 +886,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どもだち",
+      "ゆうだち",
       "ともだっ",
       "ともだ",
-      "ともたつ",
-      "ゆうだち",
-      "ともたち"
+      "ともたち",
+      "どもだち",
+      "ともたつ"
     ],
     "sp": [
       "戦友",
@@ -883,9 +930,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "れん",
       "ごい",
-      "こ"
+      "こ",
+      "れん"
     ],
     "sp": [
       "略",

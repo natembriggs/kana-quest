@@ -10,11 +10,20 @@ export const VOCAB_ENTRIES = [
     "r": "さゆう",
     "en": [
       "left and right",
-      "right and left"
+      "right and left",
+      "(asserting) control",
+      "influence",
+      "domination",
+      "one's attendants"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      2,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -28,9 +37,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しゃゆう",
-      "さみぎ",
       "ざゆう",
+      "さみぎ",
+      "しゃゆう",
       "ひだりゆう",
       "さう"
     ],
@@ -59,11 +68,16 @@ export const VOCAB_ENTRIES = [
     "r": "せいぶ",
     "en": [
       "western part",
-      "the west (of a region)"
+      "the west (of a region)",
+      "the West (United States)"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -77,10 +91,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "さいぶ",
+      "ぜいぶ",
       "にしぶ",
       "すぶ",
-      "ぜいぶ",
+      "さいぶ",
       "せいべ"
     ],
     "sp": [
@@ -157,11 +171,18 @@ export const VOCAB_ENTRIES = [
       "corner",
       "section",
       "point",
-      "part"
+      "one horn",
+      "pillar (of a group, system, etc.)",
+      "member (of an organization, etc.)"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -175,13 +196,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いっがく",
       "いっかっ",
-      "ひとかく",
       "いっつの",
-      "いちかく",
+      "ひとかく",
+      "いっがく",
+      "いつかく",
       "いっがっ",
-      "いつかく"
+      "いちかく"
     ],
     "sp": [
       "一年",
@@ -209,11 +230,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "direction",
       "district",
-      "area"
+      "area",
+      "field (e.g. of study)",
+      "sphere",
+      "quarter"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -227,14 +255,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ほうおも",
-      "ぼうめん",
       "ほうつら",
+      "かためん",
+      "ほうおも",
       "ほうべん",
-      "ぽうめん",
-      "ほうおもて",
       "がためん",
-      "かためん"
+      "ほうおもて",
+      "ぼうめん",
+      "ぽうめん"
     ],
     "sp": [
       "彼方",
@@ -310,11 +338,17 @@ export const VOCAB_ENTRIES = [
       "direction",
       "orientation",
       "aspect",
-      "exposure"
+      "suited to",
+      "suitable for",
+      "designed for"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -323,9 +357,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こうき",
+      "むかき",
       "むこき",
-      "むかき"
+      "こうき"
     ],
     "sp": [
       "群き",
@@ -369,9 +403,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ざは",
-      "さぱ",
       "しゃは",
+      "さぱ",
+      "ざは",
       "さば",
       "ひだりは"
     ],
@@ -399,11 +433,16 @@ export const VOCAB_ENTRIES = [
     "w": "左腕",
     "r": "ひだりうで",
     "en": [
-      "left arm"
+      "left arm",
+      "left-handed (baseball pitcher)"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -417,10 +456,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "しゃうで",
       "さうで",
       "ぴだりうで",
       "びだりうで",
-      "しゃうで",
       "ひだりわん"
     ],
     "sp": [
@@ -448,11 +487,16 @@ export const VOCAB_ENTRIES = [
     "r": "ちょうきょり",
     "en": [
       "long distance",
-      "long haul"
+      "long haul",
+      "long-distance race"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -473,11 +517,11 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ちょうぎょり",
       "ちょうきょはな",
-      "ながきょり",
-      "おさきょり",
-      "ちょうへだり",
       "ぢょうきょり",
-      "ちょうけづめり"
+      "おさきょり",
+      "ちょうけづめり",
+      "ながきょり",
+      "ちょうへだり"
     ],
     "sp": [
       "長方形",
@@ -503,11 +547,18 @@ export const VOCAB_ENTRIES = [
     "w": "右手",
     "r": "みぎて",
     "en": [
-      "right hand"
+      "right hand",
+      "right-hand side",
+      "right-hand direction",
+      "(on) the right"
     ],
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -521,10 +572,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みぎで",
       "みぎず",
-      "みぎしゅ",
       "みぎた",
+      "みぎしゅ",
+      "みぎで",
       "ゆうて",
       "うて"
     ],
@@ -572,10 +623,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぜいよう",
+      "さいよう",
       "すよう",
       "にしよう",
-      "さいよう"
+      "ぜいよう"
     ],
     "sp": [
       "南洋",

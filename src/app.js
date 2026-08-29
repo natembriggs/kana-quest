@@ -12,6 +12,7 @@ import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
   unitBadge as vocabUnitBadge,
   ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
+  wordMeaningLabel, wordGlossSummary,
   partialFuriganaIsAskable, pronunciationFor,
   buildRecallChoices, recallHasSpellingStage, buildSpellingChoices,
 } from './vocab.js';
@@ -42,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29j'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1536,7 +1537,7 @@ function renderCharacterDetail() {
     $('detail-readings').innerHTML = '';
     $('detail-exposure').hidden = true;
     $('detail-meanings').hidden = false;
-    $('detail-meanings').textContent = info.en.join(', ');
+    $('detail-meanings').textContent = wordGlossSummary(info);
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     renderWordKanjiChips(info);
@@ -1981,7 +1982,7 @@ function renderLesson() {
     // untouched and Back returns straight to this card (openFromLesson).
     fillWordKanjiChips($('lesson-readings'), info.w, openFromLesson);
     $('lesson-meanings').hidden = false;
-    $('lesson-meanings').textContent = info.en.join(', ');
+    $('lesson-meanings').textContent = wordGlossSummary(info);
     $('lesson-word').hidden = true;
     $('lesson-word').innerHTML = '';
     $('lesson-hint').textContent = state.mode === 'vrecall'
@@ -2298,6 +2299,12 @@ function revealSingleAnswer(answer) {
 // their furigana by default is a genuine per-question decision (it depends
 // on the study list, read fresh each time), computed once into
 // session.vocabHidden when the question is built and consulted by every tap.
+
+// Above this many characters a Meaning option stops fitting a half-width
+// column and the grid goes single-column instead (§5.6). Measured, not
+// guessed: at .choice-grid-text's 16px/1.3 on a 360px-wide phone a half
+// column holds about this much before a four-option grid starts scrolling.
+const LONG_MEANING_LABEL = 24;
 
 /** Whether a kanji has any claim on it at all — enrolled in Definition, Yomi
  * OR Writing. Per vocab-plan.md §5.2: broader than "enrolled in Yomi" on
@@ -2652,7 +2659,14 @@ function renderVocabMeaningQuestion(course, item) {
   const { options, answer } = buildMeaningChoices(course, item);
   session.vocabAnswer = answer;
   const choices = $('quiz-choices');
-  choices.className = 'choice-grid choice-grid-text';
+  // vocab-plan.md §5.6: a Meaning label now carries every sense the word has
+  // ("why, for what reason / how, in what way"), which does not fit half a
+  // phone. Drop to one full-width column when any option is long — the same
+  // trade §5.1 made when it chose four options over six, one step further
+  // along. Short-gloss questions (a unit of one-sense nouns) keep the
+  // compact two-column grid.
+  const wide = options.some((o) => o.length > LONG_MEANING_LABEL);
+  choices.className = `choice-grid choice-grid-text${wide ? ' choice-grid-wide' : ''}`;
   options.forEach((value) => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -2836,7 +2850,11 @@ function renderVocabRecallQuestion(course, item) {
 
   $('quiz-kana').className = 'quiz-prompt-text';
   $('quiz-kana').lang = 'en';
-  $('quiz-kana').textContent = info.en[0];
+  // Every sense, not just the first (§5.6). The prompt has to name the word
+  // unambiguously enough that the learner can produce it, and "how" alone
+  // named both どう and どうして; "why, for what reason / how, in what way"
+  // names exactly one of them.
+  $('quiz-kana').textContent = wordMeaningLabel(info);
   $('quiz-prompt-hint').hidden = true;
   $('quiz-prompt-pronunciation').hidden = true;
   $('quiz-ok').hidden = true;
@@ -2944,7 +2962,7 @@ function renderVocabSpellStage(info, { options, answer }) {
   // layout, reusing the pronunciation line's quiet italic styling rather
   // than adding new markup for a one-off.
   $('quiz-prompt-pronunciation').hidden = false;
-  $('quiz-prompt-pronunciation').textContent = `"${info.en[0]}"`;
+  $('quiz-prompt-pronunciation').textContent = `"${wordMeaningLabel(info)}"`;
 
   // A fresh question about the same word — announced, not just swapped in.
   // See finishVocabProdStage above, which paused on stage 1's own green

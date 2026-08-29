@@ -101,6 +101,83 @@ def pos_category(tags):
     return "other"
 
 
+# --- Senses beyond the first (vocab-plan.md §5.6) --------------------------
+#
+# The `glosses` field on a candidate stays FIRST-SENSE-ONLY and keeps driving
+# everything that decides which words exist and where they live — theme
+# classification, the proper-noun screen, `sp` keyword matching. Widening it
+# would reshuffle every unit's word list and orphan learners' existing
+# progress, for no gain: none of those consumers wants sense 7 of あける.
+#
+# `senses` is the new, separate field, and feeds only what the learner READS:
+# the quiz label, the Recall prompt, the detail screen.
+
+# Senses a beginner meeting 500 words has no use for. Note `uk` is NOT here —
+# it is a spelling note, not a register one, and is read off sense 1 for its
+# own purposes elsewhere.
+SKIP_SENSE_MISC = {
+    "arch", "obs", "obsc", "rare", "dated", "sl", "m-sl", "net-sl",
+    "vulg", "derog", "X", "joc",
+}
+
+MAX_SENSES = 3
+MAX_GLOSSES_PER_SENSE = 3
+MAX_GLOSSES = 6
+
+# vocab-plan.md §5.6's editorial override: JMdict orders どうして's senses with
+# "how" first, but the word is overwhelmingly "why" in current use, and sense
+# order decides `en[0]` (the one-line label on chips and lists). Keyed by the
+# entry's reading, valued by 1-based JMdict sense numbers in the order they
+# should be emitted; senses not named keep their relative order after the
+# named ones. Reordering only — a gloss that is not in JMdict never appears.
+SENSE_ORDER_OVERRIDES = {
+    "どうして": [2, 1],  # why, for what reason / how, in what way
+}
+
+
+def extract_senses(entry_xml, reading):
+    """vocab-plan.md §5.6: the glosses of every sense worth teaching, grouped,
+    in sense order. Filtered by register (SKIP_SENSE_MISC) and by coarse part
+    of speech — a word's noun sense and its interjection sense are different
+    words as far as §5.5's "don't offer a verb among nouns" filter is
+    concerned, and mixing them into one label would misdescribe both.
+
+    JMdict omits <pos> on a sense that repeats the previous one's, so the last
+    seen tags carry forward rather than falling through to "other"."""
+    groups = []
+    pos_tags = []
+    primary_pos = None
+    for s in re.findall(r"<sense>.*?</sense>", entry_xml, re.S):
+        tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", s)]
+        if tags:
+            pos_tags = tags
+        pos = pos_category(pos_tags)
+        if primary_pos is None:
+            primary_pos = pos
+        glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", s, re.S)]
+        misc = {t.strip("&;") for t in re.findall(r"<misc>&(.*?);</misc>", s)}
+        groups.append({"glosses": glosses, "pos": pos, "misc": misc})
+
+    order = SENSE_ORDER_OVERRIDES.get(reading)
+    if order:
+        named = [i - 1 for i in order if 0 < i <= len(groups)]
+        groups = [groups[i] for i in named] + [g for i, g in enumerate(groups) if i not in named]
+        # The override moves a sense to the front, so "same pos as sense 1"
+        # has to be judged against the sense that now IS first.
+        primary_pos = groups[0]["pos"] if groups else primary_pos
+
+    out, total = [], 0
+    for g in groups:
+        if len(out) >= MAX_SENSES or total >= MAX_GLOSSES:
+            break
+        if not g["glosses"] or g["misc"] & SKIP_SENSE_MISC or g["pos"] != primary_pos:
+            continue
+        keep = g["glosses"][:MAX_GLOSSES_PER_SENSE][:MAX_GLOSSES - total]
+        out.append(keep)
+        total += len(keep)
+    return out
+
+
 # A handful of JMdict's own inflection-info tags mark a kanji spelling as one
 # nobody should actually be taught: search-only (sK), irregular (iK),
 # out-dated (oK), or rarely-used (rK, e.g. 為る for する, 居る for いる — the
@@ -234,9 +311,14 @@ def parse_jmdict():
         # kana. Either way there is no spelling stage and nothing to hide
         # furigana over (§6.2, §5.2).
         surface = reb if uk else keb
+        reading = kata_to_hira(reb)
         candidates.append({
-            "surface": surface, "keb": None if uk else keb, "reading": kata_to_hira(reb),
-            "glosses": glosses, "pos": pos_category(pos_tags), "uk": uk,
+            "surface": surface, "keb": None if uk else keb, "reading": reading,
+            # First-sense `glosses` and all-sense `senses` are deliberately
+            # both kept — see the comment above extract_senses for why the
+            # word-selection path must not widen.
+            "glosses": glosses, "senses": extract_senses(e, reading),
+            "pos": pos_category(pos_tags), "uk": uk,
             "rank": rank,
         })
 
@@ -289,7 +371,8 @@ def find_entry(entry_index, keb=None, reb=None):
     reading = kata_to_hira(rebs_all[0])
     return {
         "surface": reading if uk else keb, "keb": None if uk else keb, "reading": reading,
-        "glosses": glosses, "pos": pos_category(pos_tags), "uk": uk,
+        "glosses": glosses, "senses": extract_senses(e, reading),
+        "pos": pos_category(pos_tags), "uk": uk,
     }
 
 
@@ -667,7 +750,12 @@ def build_mis(surface, reading, spans, kanjidic, homograph_readings):
         # segment — the でんぐるま-style distractor where the substitution is
         # "this reading, but voiced/unvoiced" rather than a different reading.
         alt_stems |= (stem_variants(seg) - {seg})
-        for alt in alt_stems:
+        # Sorted, not raw set order: Python randomises string hashing per
+        # process, so iterating the set directly fed random.shuffle a
+        # different starting order on every run and `mis` came out reordered
+        # even when nothing had changed — churning hundreds of entries per
+        # rebuild despite the fixed seed at the top of this file.
+        for alt in sorted(alt_stems):
             candidate = reading[:start_j] + alt + reading[end_j:]
             if candidate == reading:
                 continue
@@ -791,17 +879,30 @@ def shorten_label(gloss):
     return gloss[:MEANING_LABEL_MAX - 1].rstrip() + "…"
 
 
-def make_record(unit, level, surface, reading, glosses, pos, uk,
+def make_record(unit, level, surface, reading, glosses, senses, pos, uk,
                  kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
                  reading_to_kanji, taught_kanji, kanji_only_pool):
     ruby = None if uk else build_ruby(surface, reading, kanjidic, stem_index, quiz_readings)
     spans = segment_spans(surface, align_word(surface, reading, stem_index) or []) if ruby else []
     mis = build_mis(surface, reading, spans, kanjidic, readings_by_keb) if spans else []
+    # First-sense glosses only, deliberately — `sp`'s keyword matching wants
+    # what the word mainly means, not its tenth sense (§5.6).
     sp = [] if uk else build_sp(surface, glosses, spans, all_kebs, reading_to_kanji, taught_kanji, kanji_only_pool)
-    en = [shorten_label(glosses[0])] + glosses[1:4]
+    # vocab-plan.md §5.6: `en` is every kept sense's glosses flattened in
+    # sense order, `sn` the size of each group so the flat list reads back as
+    # groups. extract_senses can come back empty (every sense filtered out, or
+    # a pos-only entry) — fall back to the first-sense glosses this has always
+    # used, so no word can end up with no meaning at all.
+    groups = senses or [glosses[:4]]
+    groups = [[shorten_label(g) for g in grp] for grp in groups]
+    en = [g for grp in groups for g in grp]
     record = {
         "w": surface, "r": reading, "en": en, "pos": pos, "th": unit, "lv": level,
     }
+    # Omitted for the single-sense majority — a `sn` of [n] says nothing the
+    # length of `en` doesn't, and these files ship to a phone.
+    if len(groups) > 1:
+        record["sn"] = [len(grp) for grp in groups]
     if uk:
         record["uk"] = True
     if ruby is not None:
@@ -876,7 +977,7 @@ def main():
                 missing_core.append((unit, label))
                 continue
             record = make_record(
-                unit, "f", entry["surface"], entry["reading"], entry["glosses"], entry["pos"], entry["uk"],
+                unit, "f", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
                 kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
                 reading_to_kanji, taught_kanji, kanji_only_pool,
             )
@@ -911,7 +1012,7 @@ def main():
         if level is None:
             continue
         record = make_record(
-            unit, level, c["surface"], c["reading"], c["glosses"], c["pos"], c["uk"],
+            unit, level, c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
             reading_to_kanji, taught_kanji, kanji_only_pool,
         )

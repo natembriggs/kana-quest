@@ -9,11 +9,20 @@ export const VOCAB_ENTRIES = [
     "w": "水",
     "r": "みず",
     "en": [
-      "water (esp. cool or cold)"
+      "water (esp. cool or cold)",
+      "fluid (esp. in an animal tissue)",
+      "liquid",
+      "flood",
+      "floodwaters"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -48,11 +57,17 @@ export const VOCAB_ENTRIES = [
       "order",
       "system",
       "structure",
-      "set-up"
+      "the establishment",
+      "(ruling) regime",
+      "those in power"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -66,10 +81,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "だいせい",
       "からだせい",
       "ていせい",
       "かたちせい",
+      "だいせい",
       "たいぜい"
     ],
     "sp": [
@@ -115,13 +130,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ほっあん",
-      "ほうつくえ",
-      "はっあん",
-      "ぼうあん",
       "ぽうあん",
+      "ほうつくえ",
+      "ぼうあん",
       "のりあん",
-      "ふらんあん"
+      "はっあん",
+      "ふらんあん",
+      "ほっあん"
     ],
     "sp": [
       "療法",
@@ -149,8 +164,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "bond",
       "bill",
-      "certificate",
-      "security"
+      "certificate"
     ],
     "pos": "n",
     "th": "1.6",
@@ -198,11 +212,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "stone (of a fruit)",
       "pit",
-      "pip"
+      "pip",
+      "core (of an organization, team, etc.)",
+      "nucleus",
+      "heart"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -211,9 +232,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "かっ",
       "がく",
-      "がっ",
-      "かっ"
+      "がっ"
     ],
     "sp": [
       "尺",
@@ -242,11 +263,17 @@ export const VOCAB_ENTRIES = [
       "cooking",
       "cookery",
       "cuisine",
-      "food"
+      "dealing with (skillfully)",
+      "handling (well)",
+      "managing"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -287,11 +314,16 @@ export const VOCAB_ENTRIES = [
     "r": "かわせ",
     "en": [
       "money order",
-      "draft"
+      "draft",
+      "exchange (e.g. foreign)"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      2,
+      1
+    ],
     "sp": [
       "営為",
       "両替",
@@ -337,9 +369,9 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "だーすせん",
       "だぜん",
-      "ぶせん",
+      "うせん",
       "だすじ",
-      "うせん"
+      "ぶせん"
     ],
     "sp": [
       "前線",
@@ -383,10 +415,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しょさい",
-      "やざい",
+      "のさい",
       "やな",
-      "のさい"
+      "やざい",
+      "しょさい"
     ],
     "sp": [
       "在野",
@@ -452,11 +484,16 @@ export const VOCAB_ENTRIES = [
     "w": "食事",
     "r": "しょくじ",
     "en": [
-      "meal (e.g. lunch, dinner)"
+      "meal (e.g. lunch, dinner)",
+      "diet"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -470,14 +507,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "くじ",
+      "しょくつか",
+      "じょっじ",
+      "しょくず",
       "たじ",
       "しょくこと",
-      "じょっじ",
-      "しょくつか",
-      "はじ",
-      "しょくず",
       "しょっじ",
-      "じょくじ"
+      "はじ"
     ],
     "sp": [
       "用事",
@@ -505,8 +542,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "order",
       "discipline",
-      "regularity",
-      "system"
+      "regularity"
     ],
     "pos": "n",
     "th": "1.6",
@@ -524,11 +560,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちつついで",
+      "ちつつい",
       "ぢつじょ",
-      "ちっじょ",
       "ぢっじょ",
-      "ちつつい"
+      "ちっじょ",
+      "ちつついで"
     ],
     "sp": [
       "序文",
@@ -575,13 +611,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "しょくびん",
-      "じきひん",
-      "しょくほん",
+      "じょくひん",
+      "しょくしな",
       "しょっひん",
       "じょっひん",
-      "じょくひん",
-      "たひん",
-      "くひん"
+      "はひん",
+      "くひん",
+      "じきひん"
     ],
     "sp": [
       "品数",
@@ -609,8 +645,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "public order",
       "public peace",
-      "public security",
-      "law and order"
+      "public security"
     ],
     "pos": "n",
     "th": "1.6",
@@ -660,11 +695,17 @@ export const VOCAB_ENTRIES = [
       "field",
       "cultivated land",
       "vegetable plot",
-      "kitchen garden"
+      "field (of specialization)",
+      "sphere",
+      "area"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -673,8 +714,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ばたけ",
-      "ぱたけ"
+      "ぱたけ",
+      "ばたけ"
     ],
     "sp": [
       "室",
@@ -703,11 +744,16 @@ export const VOCAB_ENTRIES = [
       "order",
       "command",
       "decree",
-      "directive"
+      "(software) instruction",
+      "statement"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -750,8 +796,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "accepting an order",
       "receiving an order",
-      "orders received",
-      "closed won"
+      "orders received"
     ],
     "pos": "n",
     "th": "1.6",
@@ -770,9 +815,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "じゅそそ",
-      "じゅさ",
-      "じゅつ",
       "じゅぢゅう",
+      "じゅつ",
+      "じゅさ",
       "うちゅう"
     ],
     "sp": [
@@ -799,11 +844,18 @@ export const VOCAB_ENTRIES = [
     "w": "注文",
     "r": "ちゅうもん",
     "en": [
-      "order (for an item)"
+      "order (for an item)",
+      "request",
+      "demand",
+      "condition"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -817,12 +869,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちゅうあや",
+      "ちゅうふみ",
       "つもん",
       "そそもん",
-      "ちゅうふみ",
-      "ぢゅうもん",
-      "さもん"
+      "ちゅうあや",
+      "さもん",
+      "ぢゅうもん"
     ],
     "sp": [
       "文部",
@@ -866,13 +918,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じきりょう",
+      "じょくりょう",
       "しょっりょう",
       "じょっりょう",
-      "じょくりょう",
       "はりょう",
       "たりょう",
-      "くりょう"
+      "くりょう",
+      "じきりょう"
     ],
     "sp": [
       "染料",
@@ -900,8 +952,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "food (esp. staple food such as rice or wheat)",
       "provisions",
-      "rations",
-      "food supply"
+      "rations"
     ],
     "pos": "n",
     "th": "1.6",
@@ -919,12 +970,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じきりょう",
+      "じょくりょう",
       "しょくかて",
+      "じきりょう",
       "くりょう",
       "たりょう",
       "はりょう",
-      "じょくりょう",
       "しょっりょう",
       "じょっりょう"
     ],
@@ -993,11 +1044,18 @@ export const VOCAB_ENTRIES = [
       "eggs",
       "egg",
       "spawn",
-      "roe"
+      "(hen's) egg",
+      "a ... in the making",
+      "future (lawyer, doctor, etc.)"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      3,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1034,8 +1092,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "order",
       "rank",
-      "position (e.g. in a race)",
-      "precedence"
+      "position (e.g. in a race)"
     ],
     "pos": "n",
     "th": "1.6",
@@ -1080,11 +1137,18 @@ export const VOCAB_ENTRIES = [
     "w": "凍結",
     "r": "とうけつ",
     "en": [
-      "freezing (e.g. water)"
+      "freezing (e.g. water)",
+      "freezing (prices, wages, assets, etc.)",
+      "moratorium",
+      "suspension (e.g. investment)"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -1098,14 +1162,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とうゆ",
-      "しけつ",
-      "こおけつ",
-      "とうむす",
-      "こごけつ",
       "とうけっ",
       "どうけつ",
-      "とうげっ"
+      "こおけつ",
+      "とうけち",
+      "しけつ",
+      "とうげつ",
+      "いけつ",
+      "とうむす"
     ],
     "sp": [
       "結団",
@@ -1197,11 +1261,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちゅうじょく",
-      "ちゅうく",
       "ちゅうは",
-      "ちゅうしょっ",
+      "ちゅうじょく",
       "ちゅうた",
+      "ちゅうしょっ",
+      "ちゅうく",
       "ひるしょく",
       "ちゅうじょっ",
       "ぢゅうしょく"
@@ -1230,11 +1294,19 @@ export const VOCAB_ENTRIES = [
     "w": "湯",
     "r": "ゆ",
     "en": [
-      "hot water"
+      "hot water",
+      "hot bath",
+      "hot spring",
+      "molten iron"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -1269,11 +1341,19 @@ export const VOCAB_ENTRIES = [
     "w": "茶",
     "r": "ちゃ",
     "en": [
-      "tea"
+      "tea",
+      "tea plant (Camellia sinensis)",
+      "tea preparation",
+      "making tea"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      1,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -1309,11 +1389,20 @@ export const VOCAB_ENTRIES = [
     "w": "飯",
     "r": "めし",
     "en": [
-      "cooked rice"
+      "cooked rice",
+      "meal",
+      "food",
+      "one's living",
+      "livelihood"
     ],
     "pos": "n",
     "th": "1.6",
     "lv": "f",
+    "sn": [
+      1,
+      2,
+      2
+    ],
     "ruby": [
       [
         0,

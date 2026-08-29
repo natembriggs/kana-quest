@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "dead body",
       "corpse",
-      "cadaver",
-      "carcass"
+      "cadaver"
     ],
     "pos": "n",
     "th": "5.4",
@@ -30,11 +29,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "しかたち",
       "してい",
-      "しからだ",
       "じたい",
-      "しだい",
-      "しかたち"
+      "しからだ",
+      "しだい"
     ],
     "sp": [
       "不死",
@@ -129,10 +128,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ませい",
+      "さきせい",
       "ぜんせい",
       "せんぜい",
-      "さきせい"
+      "ませい"
     ],
     "sp": [
       "優先",
@@ -177,9 +176,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぜんみ",
-      "すべしん",
       "ぜんじん",
+      "すべしん",
+      "ぜんみ",
       "まったしん"
     ],
     "sp": [
@@ -226,13 +225,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "からだちょう",
-      "たいととの",
-      "たいしら",
       "ていちょう",
+      "たいととの",
       "たいぢょう",
       "かたちちょう",
-      "だいちょう"
+      "たいしら",
+      "だいちょう",
+      "からだちょう"
     ],
     "sp": [
       "協調",
@@ -258,11 +257,16 @@ export const VOCAB_ENTRIES = [
     "w": "胃",
     "r": "い",
     "en": [
-      "stomach"
+      "stomach",
+      "Chinese \"stomach\" constellation"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -294,11 +298,16 @@ export const VOCAB_ENTRIES = [
     "w": "外科",
     "r": "げか",
     "en": [
-      "surgery (branch of medicine)"
+      "surgery (branch of medicine)",
+      "department of surgery"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -315,8 +324,8 @@ export const VOCAB_ENTRIES = [
       "とか",
       "がいか",
       "そとか",
-      "ほかか",
       "はずか",
+      "ほかか",
       "げが"
     ],
     "sp": [
@@ -363,11 +372,11 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "せあた",
       "はいなか",
-      "ぜなか",
-      "せうち",
-      "そむなか",
       "せいなか",
-      "せちゅう"
+      "せちゅう",
+      "ぜなか",
+      "そむなか",
+      "せうち"
     ],
     "sp": [
       "夢中",
@@ -395,8 +404,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "disease",
       "illness",
-      "disorder",
-      "condition"
+      "disorder"
     ],
     "pos": "n",
     "th": "5.4",
@@ -417,8 +425,8 @@ export const VOCAB_ENTRIES = [
       "しっがん",
       "しっわずら",
       "しつかん",
-      "はやかん",
-      "じっかん"
+      "じっかん",
+      "はやかん"
     ],
     "sp": [
       "患者",
@@ -491,11 +499,17 @@ export const VOCAB_ENTRIES = [
     "r": "しゅちょう",
     "en": [
       "head (of organization, organisation)",
-      "chief"
+      "chief",
+      "sheikh",
+      "emir"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -509,11 +523,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "しゅなが",
+      "しゅぢょう",
       "しゅおさ",
-      "くびちょう",
       "じゅちょう",
-      "しゅぢょう"
+      "くびちょう",
+      "しゅなが"
     ],
     "sp": [
       "長短",
@@ -562,10 +576,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "みなまたや",
-      "みなまたへい",
+      "みなまたやまい",
       "すいまたびょう",
       "みずまたびょう",
-      "みなまたやまい"
+      "みなまたへい"
     ],
     "sp": [
       "鉄砲水",
@@ -593,11 +607,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "ear (of a cereal plant)",
       "head",
-      "spike"
+      "spike",
+      "point (of a brush, spear, etc.)",
+      "tip",
+      "(pointed) head"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -606,9 +627,9 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "すい",
+      "ぼ",
       "ぽ",
-      "ぼ"
+      "すい"
     ],
     "sp": [
       "豆",
@@ -655,10 +676,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "こうちょう",
-      "くなが",
       "くぢょう",
-      "ぐちょう",
+      "くなが",
       "おうちょう",
+      "ぐちょう",
       "くおさ"
     ],
     "sp": [
@@ -687,8 +708,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "pain",
       "anguish",
-      "distress",
-      "suffering"
+      "distress"
     ],
     "pos": "n",
     "th": "5.4",
@@ -700,8 +720,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "にがしみ",
       "ぐるしみ",
+      "にがしみ",
       "くしみ"
     ],
     "sp": [
@@ -746,12 +766,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "たいだい",
-      "だいない",
       "たいうち",
-      "ていない",
       "からだない",
-      "かたちない"
+      "たいだい",
+      "かたちない",
+      "ていない",
+      "だいない"
     ],
     "sp": [
       "県内",
@@ -778,11 +798,16 @@ export const VOCAB_ENTRIES = [
     "r": "りったい",
     "en": [
       "solid body",
-      "three-dimensional object"
+      "three-dimensional object",
+      "multi-storey car park"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -796,14 +821,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "りっからだ",
-      "たたい",
-      "りっとるたい",
-      "りっかたち",
-      "りっだい",
       "りってい",
-      "りつたい",
-      "たてたい"
+      "だたい",
+      "りっとるたい",
+      "りっだい",
+      "りっからだ",
+      "りっかたち",
+      "たたい",
+      "りゅうたい"
     ],
     "sp": [
       "自立",
@@ -830,11 +855,17 @@ export const VOCAB_ENTRIES = [
     "r": "ほんぶん",
     "en": [
       "text (of a book, document, etc.)",
-      "body (of a letter)"
+      "body (of a letter)",
+      "this passage",
+      "this sentence"
     ],
     "pos": "n",
     "th": "5.4",
     "lv": "h",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -849,10 +880,10 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぽんぶん",
-      "ほんふみ",
+      "ほんあや",
       "ぼんぶん",
       "もとぶん",
-      "ほんあや"
+      "ほんふみ"
     ],
     "sp": [
       "本箱",

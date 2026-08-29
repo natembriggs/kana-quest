@@ -893,6 +893,107 @@ Runtime, from the unit currently loaded (like `buildDefinitionChoices` in
   always has three to spare, so the fallback rarely fires; it exists for the
   first session of a small unit where only a handful are enrolled.
 
+### 5.6 Every meaning, not just the first one
+
+A bilingual tester kept getting Meaning questions "wrong" while being right.
+Two independent causes, both of which this section fixes.
+
+**Cause one: the data only ever held one sense.** The build script scoped its
+gloss extraction to JMdict's *first* `<sense>`. That was correct for `pos` and
+for `uk` (see the note on 行く in `parse_jmdict`) and was then quietly reused
+for the glosses too. For most nouns it is harmless — 電車 has one sense. For
+the function words in the Core units it is wrong in the worst possible way:
+
+| Word | Sense 1 | Sense 2 | Sense 3 |
+| --- | --- | --- | --- |
+| どうして | how, in what way, by what means | **why**, for what reason | cannot possibly |
+| どちら | which way, which direction, where | **which one** | **who** |
+
+どうして's everyday meaning is *why*. It was not in `en` at all, so the learner
+who knew the word perfectly was shown four options none of which said "why".
+That is not an ambiguity to be tolerated — the data was simply missing.
+
+**Cause one's fix:** `en` becomes the glosses of every *kept* sense, in sense
+order, and the record gains `sn` — the size of each sense group, so the flat
+list can be read back as groups. Both quiz directions and the detail screen
+use the groups; nothing else has to know.
+
+Which senses are kept:
+
+- **Not archaic, obsolete, rare, slang, vulgar or derogatory** (JMdict's own
+  `arch`/`obs`/`obsc`/`rare`/`sl`/`vulg`/`derog`/`X` misc tags). A learner
+  meeting 500 words does not need どうして's fourth sense.
+- **Same coarse part of speech as sense 1.** `pos` is on the entry to keep a
+  verb from standing out among nouns (§5.5), and a word's noun sense and its
+  interjection sense are different words as far as that filter is concerned.
+- **At most 3 senses, 3 glosses each, 6 glosses total.** あける has ten senses;
+  a button is not a dictionary.
+
+`en[0]` keeps its old meaning — sense 1's first gloss, still the one-line label
+for chips and lists — so nothing that already reads it changes behaviour.
+
+**Cause two: one gloss on the button, and no overlap check.** Even with the
+data fixed, showing `en[0]` alone means the learner whose mind goes to "why"
+still sees a button reading "how". And `buildMeaningChoices` deduped its
+distractors by exact label string only, so どう ("how") could be offered as a
+wrong answer against どうして ("how") — the Recall side has had
+`readingsSharingGloss` guarding exactly this since phase 4; the Meaning side
+never got its mirror.
+
+**Cause two's fix — the label shows the senses, and overlap is excluded:**
+
+```
+                    どうして
+
+  ┌────────────────────────┐  ┌────────────────────────┐
+  │ how, in what way / why │  │  when, at what time    │
+  ├────────────────────────┤  ├────────────────────────┤
+  │   which / what         │  │  where, what place     │
+  └────────────────────────┘  └────────────────────────┘
+```
+
+The label is built to a character budget, first gloss of *every* kept sense
+first, then extra within-sense glosses while they fit:
+
+1. Take the head gloss of each sense, joined `" / "`. Senses are dropped from
+   the end only if even the heads alone blow the budget — never down to fewer
+   than one.
+2. Then add second glosses, third glosses, sense by sense, keeping any that
+   still fit. Within a sense they join with `", "`.
+
+So the learner reaching for "why" always finds it, and gets "how, in what way"
+next to it as the context that says *these are the same word*. That is the
+point: seeing the alternatives is the lesson, not noise around it.
+
+Glosses are normalised before both display and comparison — trailing and
+leading parentheticals dropped (`which one (esp. of two alternatives)` →
+`which one`), lowercased for comparison only. The same normalisation feeds:
+
+- **The label**, so it stays short.
+- **The overlap exclusion** in `buildMeaningChoices`: an entry sharing *any*
+  normalised gloss with the answer word is never offered as a distractor.
+  This has to run on the normalised form or it misses the pairs that matter —
+  `to open (a door, etc.)` and `to open (for business)` are different strings
+  and the same button.
+- **`readingsSharingGloss`** on the Recall side (§6.1), which gets stricter for
+  free: どちら now glosses "who", so 誰 can no longer be offered against it.
+
+Both exclusions are hard rules. When one leaves too few distractors the
+question is served with fewer options — a three-way question is a real
+question, an unanswerable four-way one is not.
+
+**The option count follows the label length**, per §5.1's own table — and these
+labels are longer. When any option exceeds a threshold the grid drops from two
+columns to one, which is the same trade §5.1 made when it chose four options
+over six.
+
+**One editorial override.** JMdict orders どうして's senses with "how" first;
+current usage is overwhelmingly "why". Sense order is a judgement call the
+build script cannot make, so `SENSE_ORDER_OVERRIDES` holds a small, explicit,
+commented table for the handful of high-frequency function words where the
+dictionary's order is not the learner's. It reorders senses that are already
+there — it never invents a gloss.
+
 ---
 
 ## 6. English → Japanese (the Recall mode)
@@ -1242,6 +1343,7 @@ the dictionary surface form and nothing cleverer.
 | 6 | **Higher tier** — same units, added words. Largely a data phase. | 3, 4 | **Done**, on the phase-0 fallback. `build_vocab_data.py` was already producing `lv: 'h'` words in the same run as `'f'`; the gap was that they were landing in the SAME output unit as their theme's Foundation words instead of a tile of their own. Fixed: a theme's 'h' words now get their own unit id (`"2.4h"`, `th` stays the bare theme id — see the module docstring's phase-6 note), independently MIN_UNIT_SIZE-checked (15 of the 28 themes ended up with one — within the plan's own "maybe 18-22" estimate for a real spec, reasonable for the frequency fallback). All 'h' units browse together as one "Common words 2" group at the end of the unit-group row (`unitGroup()` in `vocab.js`) rather than sitting inside each theme's own group next to its Foundation sibling — mirrors kanji's secondary-school units, and is what let this land with zero changes to `unitGroupsFor()` or the picker markup in `app.js`. `unitLabel()` strips the trailing 'h' before lookup rather than the manifest carrying a duplicate label per theme. One real regression from splitting a previously-merged unit: 2.5 (Holidays) had 6 'f' + 6 'h' words merged (12, above MIN_UNIT_SIZE) but only 6 'f' alone, so it was dropped entirely — consistent with the plan's own "a unit below this is dropped... rather than shipped near-empty" rule, just surfaced one unit later than before.
 | 7 | **A level** — the A-group units from §2.3. Data plus the group labels. | 6 |
 | 8 | **Story hooks** — extract `src/furigana.js` as a standalone component if it hasn't already fallen out of phase 3, and confirm `vocab-lookup.js` answers what stories need. | 3 |
+| 9 | **Every meaning (§5.6).** All-sense glosses in the data (`en` + `sn`), the multi-sense label on both directions' buttons and prompts, and the gloss-overlap exclusion the Meaning side never had. | 1, 3, 4 | **Done.** Found by a bilingual tester answering correctly and being marked wrong. Two independent causes, both real: the build script read only JMdict's first `<sense>`, so どうして's "why" was not in the data at all; and `buildMeaningChoices` deduped distractors by exact label string, so どう ("how") could be offered against どうして ("how") — `readingsSharingGloss` has guarded the Recall direction since phase 4 and the Meaning direction never got its mirror. Word-to-unit assignment is deliberately untouched (the first-sense `glosses` field still drives classification and `sp`) and was diffed entry-by-entry to prove it: 883 words, zero moved. All 883 still get a full 4 (Meaning) / 6 (Recall) options after the stricter exclusion. Fixed a pre-existing reproducibility bug along the way — `build_mis` iterated a `set()` before a seeded `random.shuffle`, and Python's per-process string-hash randomisation meant `mis` came out reordered on every rebuild, churning 682 entries despite the fixed seed. |
 
 Phases 3 and 4 are independent of each other and can land in either order;
 shipping 3 alone is a coherent, useful app on its own, which is the argument

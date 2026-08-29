@@ -11,8 +11,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "plan",
       "project",
-      "schedule",
-      "scheme"
+      "schedule"
     ],
     "pos": "n",
     "th": "4.4",
@@ -30,14 +29,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "けいえが",
+      "けいがっ",
       "けいかっ",
-      "けいかぎ",
+      "けいえが",
       "けいかい",
-      "けいえ",
+      "けいはか",
       "けいはかりごと",
       "はかかく",
-      "けいがく"
+      "けいえ"
     ],
     "sp": [
       "集計",
@@ -65,8 +64,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "purpose",
       "goal",
-      "aim",
-      "objective"
+      "aim"
     ],
     "pos": "n",
     "th": "4.4",
@@ -85,13 +83,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぼくてき",
+      "まてき",
       "めてき",
-      "もってき",
       "もくでっ",
+      "もくてっ",
       "もくでき",
       "もくまと",
-      "もくてっ",
-      "まてき"
+      "もってき"
     ],
     "sp": [
       "項目",
@@ -118,11 +116,20 @@ export const VOCAB_ENTRIES = [
     "r": "しょうらい",
     "en": [
       "future",
-      "(future) prospects"
+      "(future) prospects",
+      "bringing (from abroad, another region, etc.)",
+      "bringing about",
+      "giving rise to",
+      "causing"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      2,
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -136,14 +143,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そうらい",
-      "もってらい",
-      "しょうく",
-      "しょうき",
-      "まさらい",
+      "ひきいらい",
+      "はたらい",
       "しょうきた",
-      "しょうたい",
-      "しょうこ"
+      "しょうこ",
+      "そうらい",
+      "しょうき",
+      "しょうく",
+      "しょうたい"
     ],
     "sp": [
       "従来",
@@ -172,11 +179,17 @@ export const VOCAB_ENTRIES = [
       "goal",
       "target",
       "aim",
-      "objective"
+      "mark",
+      "sign",
+      "landmark"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -190,14 +203,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "もっひょう",
       "めひょう",
+      "まひょう",
       "もくびょう",
       "もくしるべ",
       "ぼくひょう",
-      "もくしるし",
-      "まひょう",
-      "もくぴょう"
+      "もくぴょう",
+      "もっひょう",
+      "もくしるし"
     ],
     "sp": [
       "目安",
@@ -225,8 +238,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "intention",
       "wish",
-      "purpose",
-      "mind (to do)"
+      "purpose"
     ],
     "pos": "n",
     "th": "4.4",
@@ -244,10 +256,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いおも",
-      "いおもえら",
+      "いじ",
       "いおぼ",
-      "いじ"
+      "いおも",
+      "いおもえら"
     ],
     "sp": [
       "犯意",
@@ -273,11 +285,21 @@ export const VOCAB_ENTRIES = [
     "w": "夢",
     "r": "ゆめ",
     "en": [
-      "dream"
+      "dream",
+      "dream",
+      "hope",
+      "wish",
+      "unrealistic aspiration",
+      "daydream"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -286,8 +308,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ぼう",
       "くら",
+      "ぼう",
       "む"
     ],
     "sp": [
@@ -316,8 +338,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "planning",
       "plan",
-      "project",
-      "arrangements"
+      "project"
     ],
     "pos": "n",
     "th": "4.4",
@@ -336,13 +357,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "きかっ",
-      "きはか",
+      "きがく",
       "きかい",
-      "きえ",
+      "きはか",
       "ぎかく",
-      "きえが",
       "きがっ",
-      "くわだかく"
+      "きかぎ",
+      "たくらかく"
     ],
     "sp": [
       "画業",
@@ -370,11 +391,17 @@ export const VOCAB_ENTRIES = [
     "en": [
       "hope",
       "wish",
-      "aspiration"
+      "aspiration",
+      "(bright) prospects",
+      "expectation"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -390,11 +417,11 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ぎぼう",
       "きもう",
-      "けぼう",
-      "こいねがぼう",
-      "きもち",
       "まれぼう",
-      "きのぞ"
+      "けぼう",
+      "きのぞ",
+      "こいねがぼう",
+      "きもち"
     ],
     "sp": [
       "一望",
@@ -420,11 +447,18 @@ export const VOCAB_ENTRIES = [
     "w": "狙い",
     "r": "ねらい",
     "en": [
-      "aim (of a gun, bow, etc.)"
+      "aim (of a gun, bow, etc.)",
+      "aim",
+      "object",
+      "objective"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -462,8 +496,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "plan",
       "plot",
-      "idea",
-      "conception"
+      "idea"
     ],
     "pos": "n",
     "th": "4.4",
@@ -481,10 +514,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こうそ",
+      "こうぞう",
       "ごうそう",
       "こうおも",
-      "こうぞう",
+      "こうそ",
       "かまそう"
     ],
     "sp": [
@@ -512,11 +545,17 @@ export const VOCAB_ENTRIES = [
     "r": "こうけん",
     "en": [
       "contribution (furthering a goal or cause)",
-      "services (to a cause)"
+      "services (to a cause)",
+      "paying tribute",
+      "tribute"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -530,12 +569,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "こうげん",
+      "こうこん",
       "くけん",
       "みつけん",
       "こうたてまつ",
       "ごうけん",
-      "こうこん"
+      "こうげん"
     ],
     "sp": [
       "献身",
@@ -564,11 +603,17 @@ export const VOCAB_ENTRIES = [
       "hope",
       "promise",
       "possibility",
-      "chance"
+      "expectation",
+      "anticipation",
+      "forecast"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -611,11 +656,16 @@ export const VOCAB_ENTRIES = [
       "execution (e.g. of a plan)",
       "carrying out",
       "(putting into) practice",
-      "action"
+      "execution (of a program)",
+      "run"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      3,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -629,14 +679,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "じつこう",
+      "みちこう",
       "じっぎょう",
-      "じっごう",
       "じっおこ",
+      "じっい",
       "じっいき",
       "しつこう",
-      "じっゆ",
-      "じっい"
+      "じっあん",
+      "じっおこな"
     ],
     "sp": [
       "実験",
@@ -683,9 +733,9 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "せっげい",
-      "もうけい",
-      "せっはか",
       "せつけい",
+      "せっはか",
+      "もうけい",
       "ぜっけい"
     ],
     "sp": [
@@ -714,8 +764,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "intention",
       "aim",
-      "preference (for)",
-      "orientation (towards a goal)"
+      "preference (for)"
     ],
     "pos": "n",
     "th": "4.4",
@@ -734,13 +783,13 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "こころざこう",
-      "しりんぐこう",
       "じこう",
-      "しむか",
-      "しごう",
       "こころざしこう",
-      "しむ",
-      "しむこ"
+      "しごう",
+      "しむこ",
+      "しりんぐこう",
+      "しむか",
+      "しむ"
     ],
     "sp": [
       "性向",
@@ -766,11 +815,20 @@ export const VOCAB_ENTRIES = [
     "w": "未来",
     "r": "みらい",
     "en": [
-      "(distant) future"
+      "(distant) future",
+      "future existence",
+      "world beyond the grave",
+      "the world to come",
+      "future (tense)"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      1,
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -784,14 +842,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "みき",
       "みこ",
-      "みきた",
-      "ひつじらい",
+      "みたい",
+      "みき",
+      "まらい",
       "いまらい",
       "びらい",
-      "みく",
-      "みたい"
+      "みきた",
+      "みく"
     ],
     "sp": [
       "未婚",
@@ -836,8 +894,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いちかん",
       "いつかん",
+      "いちかん",
       "ひとかん",
       "いっわ",
       "いっがん"
@@ -886,12 +944,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ざってい",
-      "さくさだ",
-      "さくでい",
       "さってい",
+      "さくじょう",
+      "さくでい",
       "ざくてい",
-      "さくじょう"
+      "ざってい",
+      "さくさだ"
     ],
     "sp": [
       "未定",
@@ -937,10 +995,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いえ",
-      "いど",
       "いはか",
-      "いず"
+      "いど",
+      "いず",
+      "いえ"
     ],
     "sp": [
       "図柄",
@@ -968,11 +1026,18 @@ export const VOCAB_ENTRIES = [
     "en": [
       "desire",
       "wish",
-      "hope"
+      "hope",
+      "request",
+      "entreaty",
+      "plea"
     ],
     "pos": "n",
     "th": "4.4",
     "lv": "f",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -980,8 +1045,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ねがいい",
-      "がんい"
+      "がんい",
+      "ねがいい"
     ],
     "sp": [
       "人い",
@@ -1009,8 +1074,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "making (a report, plan, contract, etc.)",
       "drawing up",
-      "writing out",
-      "preparing"
+      "writing out"
     ],
     "pos": "n",
     "th": "4.4",
@@ -1028,14 +1092,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "さくぜい",
-      "さくじょう",
-      "さっせい",
-      "させい",
       "さくな",
+      "さくぜい",
+      "つくせい",
       "ざくせい",
+      "さくじょう",
+      "させい",
       "づくせい",
-      "つくせい"
+      "ざっせい"
     ],
     "sp": [
       "作業",

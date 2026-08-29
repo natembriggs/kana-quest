@@ -51,11 +51,17 @@ export const VOCAB_ENTRIES = [
       "end (e.g. of street)",
       "tip",
       "point",
-      "edge"
+      "beginning",
+      "start",
+      "first"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      3,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -64,11 +70,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ばた",
-      "は",
       "ぱし",
+      "ばた",
+      "はた",
       "ばし",
-      "はた"
+      "は"
     ],
     "sp": [
       "梅",
@@ -114,8 +120,8 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "ぎぶ",
       "きふ",
-      "ぎふう",
-      "ぎぷ"
+      "ぎぷ",
+      "ぎふう"
     ],
     "sp": [
       "多岐",
@@ -209,11 +215,11 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "とじん",
-      "とごころ",
       "とこころ",
+      "とごころ",
+      "みやこしん",
       "どしん",
-      "つしん",
-      "みやこしん"
+      "つしん"
     ],
     "sp": [
       "専心",
@@ -240,11 +246,16 @@ export const VOCAB_ENTRIES = [
     "r": "ぶんこ",
     "en": [
       "library",
-      "book collection"
+      "book collection",
+      "paperback book"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -259,8 +270,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "ぶんく",
-      "ふみこ",
       "あやこ",
+      "ふみこ",
       "ぶんご",
       "ぶんくら",
       "もんこ"
@@ -353,11 +364,11 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちゅうじま",
-      "なかしま",
-      "あたじま",
       "うちじま",
-      "なかとう"
+      "なかとう",
+      "あたじま",
+      "ちゅうじま",
+      "なかしま"
     ],
     "sp": [
       "意中",
@@ -385,11 +396,16 @@ export const VOCAB_ENTRIES = [
     "en": [
       "on the road",
       "on the street",
-      "in the street"
+      "in the street",
+      "on the way"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      3,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -403,14 +419,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ろのぼ",
       "ろあ",
-      "るじょう",
-      "ろしゃん",
-      "ろうえ",
+      "ろかみ",
+      "みちじょう",
+      "ろたてまつ",
+      "ろしょう",
       "ろうわ",
-      "じじょう",
-      "みちじょう"
+      "るじょう",
+      "じじょう"
     ],
     "sp": [
       "右上",
@@ -436,11 +452,18 @@ export const VOCAB_ENTRIES = [
     "w": "山形",
     "r": "やまがた",
     "en": [
-      "Yamagata (city, prefecture)"
+      "Yamagata (city, prefecture)",
+      "mountain shape",
+      "chevron",
+      "cone"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      1,
+      3
+    ],
     "ruby": [
       [
         0,
@@ -454,13 +477,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
+      "やまぎょう",
+      "やまかたち",
+      "さんがた",
       "やまかた",
       "やまなり",
       "せんがた",
-      "やまけい",
-      "やまぎょう",
-      "さんがた",
-      "やまかたち"
+      "やまけい"
     ],
     "sp": [
       "定形",
@@ -506,8 +529,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "いんぢょう",
       "いんなが",
+      "いんぢょう",
       "いんおさ"
     ],
     "sp": [
@@ -557,14 +580,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "えしょかん",
+      "はかしょかん",
       "とがかん",
-      "とじょかん",
-      "としょやかた",
+      "とかかん",
+      "としょたて",
       "どしょかん",
       "とがきかん",
-      "とかかん",
-      "はかしょかん"
+      "とじょかん",
+      "えしょかん"
     ],
     "sp": [
       "美術館",
@@ -609,8 +632,8 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "どうぢょう",
       "どうまち",
+      "どうぢょう",
       "おなちょう"
     ],
     "sp": [
@@ -639,8 +662,7 @@ export const VOCAB_ENTRIES = [
     "en": [
       "parking lot",
       "car park",
-      "carpark",
-      "parking garage"
+      "carpark"
     ],
     "pos": "n",
     "th": "2.2",
@@ -663,10 +685,10 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "ちゅうしゃば",
+      "ちゅうしゃちょう",
       "ちゅうじゃじょう",
       "ぢゅうしゃじょう",
-      "ちゅうしゃちょう",
+      "ちゅうしゃば",
       "ちゅうくるまじょう"
     ],
     "sp": [
@@ -694,11 +716,17 @@ export const VOCAB_ENTRIES = [
     "r": "がいぶ",
     "en": [
       "outside (e.g. of a building)",
-      "exterior"
+      "exterior",
+      "outside (of a group, company, etc.)",
+      "outside world"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      2,
+      2
+    ],
     "ruby": [
       [
         0,
@@ -712,12 +740,12 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "そとぶ",
       "げぶ",
+      "そとぶ",
       "とぶ",
-      "はずぶ",
+      "ほかぶ",
       "がいべ",
-      "ほかぶ"
+      "はずぶ"
     ],
     "sp": [
       "深部",
@@ -745,11 +773,19 @@ export const VOCAB_ENTRIES = [
     "en": [
       "passing through",
       "passing by (e.g. of a typhoon)",
-      "transit"
+      "transit",
+      "passage (of a bill, e.g. through parliament)",
+      "carriage",
+      "passing (an examination, inspection, etc.)"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      3,
+      2,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -763,14 +799,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "かよか",
-      "つうす",
-      "づうか",
-      "どおか",
       "つか",
-      "つうあやま",
-      "つうよ",
-      "つうよぎ"
+      "つうが",
+      "どおか",
+      "かよか",
+      "とおか",
+      "つうよぎ",
+      "つうす",
+      "つうあやま"
     ],
     "sp": [
       "過密",
@@ -818,12 +854,12 @@ export const VOCAB_ENTRIES = [
     "mis": [
       "とやま",
       "のぼざん",
-      "ちょうざん",
       "とうざん",
-      "しょうざん",
+      "ちょうざん",
       "どざん",
-      "とさん",
-      "あざん"
+      "どうざん",
+      "とせん",
+      "しょうざん"
     ],
     "sp": [
       "登庁",
@@ -849,11 +885,16 @@ export const VOCAB_ENTRIES = [
     "w": "都会",
     "r": "とかい",
     "en": [
-      "city"
+      "city",
+      "Tokyo Metropolitan Assembly"
     ],
     "pos": "n",
     "th": "2.2",
     "lv": "h",
+    "sn": [
+      1,
+      1
+    ],
     "ruby": [
       [
         0,
@@ -867,13 +908,13 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "とあつ",
-      "みやこかい",
-      "とがい",
-      "とあ",
+      "とえ",
       "つかい",
+      "とあ",
+      "とがい",
       "どかい",
-      "とえ"
+      "みやこかい",
+      "とあつ"
     ],
     "sp": [
       "会則",
@@ -962,14 +1003,14 @@ export const VOCAB_ENTRIES = [
       ]
     ],
     "mis": [
-      "がいかしら",
       "がいどう",
-      "かいとう",
-      "まちとう",
-      "がいがしら",
-      "がいかぶり",
       "がいあたま",
-      "がいず"
+      "まちとう",
+      "かいとう",
+      "がいかぶり",
+      "がいかしら",
+      "がいず",
+      "がいがしら"
     ],
     "sp": [
       "店頭",
