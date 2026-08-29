@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-29',
     changes: [
+      'Fixed: Vocabulary\'s "Test unlearned" quizzed words in the same order they\'re listed, which let numbers give themselves away — after answering 三 correctly you could guess 四 was next without knowing either reading. Vocabulary placement tests are now shuffled (kanji and kana were already immune to this, for their own reasons — see the code comments if curious).',
       'Fixed: Vocabulary was marking right answers wrong. Words with more than one meaning only ever carried their first dictionary sense, and どうして is the worst case — it was listed only as "how", when the meaning you actually want is "why". Every word now carries all of its meanings, and a question shows them together on one button: どうして reads "why, for what reason / how, in what way". Whichever translation your mind reaches for first, it\'s there — with the others beside it, so you learn what else the word covers. どちら now shows "which way / which one / who" instead of just the first of those.',
       'Fixed: two answer options could mean the same thing, which made the question unanswerable rather than hard — どう and どうして were both offered as "how" in the same set of four. No two options ever share a meaning now, in either direction.',
       'Meaning questions with longer English now lay their options out one per line instead of squeezing four into two columns.',

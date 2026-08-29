@@ -535,6 +535,14 @@ export function buildSession(course, mode, ctx, kind, { newPerSession = 5, maxRe
     // band order (plain kana, then voiced/plosive, then compound yōon) is
     // kept, since a learner who has never met dakuten shouldn't be quizzed
     // on it before the plain set is exhausted.
+    //
+    // Vocab: same problem as kana, worse — a course is one themed unit
+    // (e.g. C2's numbers 一二三四五...), and unlike kanji's multi-grade
+    // sweep, word order within a unit carries no difficulty gradient to
+    // preserve. Left in manifest order, "Numbers" would let a learner guess
+    // 四 follows a just-answered 三 without knowing either reading. Fully
+    // shuffled, since there's no meaningful order here to protect.
+    if (course.kind === 'vocab') return { lesson: [], quiz: shuffle(never) };
     if (course.kind !== 'kana') return { lesson: [], quiz: never };
     const bandOf = new Map(course.chunks.flatMap((chunk) => chunk.items.map((item) => [item, chunk.band])));
     const bands = new Map();
