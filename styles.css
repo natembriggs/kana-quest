@@ -1003,6 +1003,10 @@ h3 { font-size: 18px; }
    than the feedback-panel sizing above. */
 .teach-card .kanji-meanings { font-size: 16px; text-align: center; }
 .teach-card .kanji-word { justify-content: center; }
+/* The lesson card is a centred column, so its word slot centres too — the
+   tray inside it included. */
+.teach-card .word-line { justify-content: center; }
+.teach-card .word-tray { justify-content: center; }
 
 /* Tappable readings on the lesson card — tapping one shows the example word
    below, same idea as tapping a reading after a Yomi question resolves. */
@@ -1044,12 +1048,16 @@ h3 { font-size: 18px; }
 .kanji-word .word-kana { color: var(--ink-soft); font-size: 15px; }
 .kanji-word .word-en { color: var(--ink-soft); font-size: 14px; }
 
-/* A common word that also happens to be in the taught vocab curriculum
-   (renderGeneralWords() in app.js) — either a tappable "Add" row or, once
-   added, a plain informational one with a "Studying" badge instead. Both
-   share .kanji-word's layout; only the addable one is a real <button>. */
-button.kanji-word {
-  width: 100%;
+/* A drillable word (buildWordRow() in app.js): the word itself opens a tray
+   holding its own kanji as chips and, where the word is taught here too, a
+   link to its full detail screen — while the "Add" badge beside it stays a
+   separate one-tap control that never needs the tray opened. Used by every
+   non-testing surface that shows a word; the quiz and writing panels keep
+   the plain renderWord() output and none of this. */
+.word-row { display: flex; flex-direction: column; gap: 6px; }
+.word-line { display: flex; align-items: baseline; gap: 8px; }
+.word-main { flex: 1; min-width: 0; }
+button.word-main {
   padding: 8px 10px;
   margin: -8px -10px;
   border: none;
@@ -1059,17 +1067,51 @@ button.kanji-word {
   text-align: left;
   cursor: pointer;
 }
-button.kanji-word:active { background: var(--line); }
+button.word-main:active { background: var(--line); }
+/* A caret that turns as the tray opens — the only always-visible hint that
+   the row does anything at all, since the word itself has to keep looking
+   like a word. */
+button.word-main::after {
+  content: '›';
+  margin-left: 6px;
+  color: var(--ink-soft);
+  font-weight: 700;
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.word-row.is-open button.word-main::after { transform: rotate(90deg); }
+
 .word-add-badge {
-  margin-left: auto;
   padding: 3px 10px;
   border-radius: 99px;
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
+  border: 2px solid transparent;
 }
-button.kanji-word .word-add-badge { border: 2px solid var(--accent); color: var(--accent); }
-.kanji-word.is-added .word-add-badge { background: var(--ok-bg); color: var(--ok); }
+button.word-add-badge {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+button.word-add-badge:active { background: var(--accent); color: var(--accent-ink); }
+.word-row.is-added .word-add-badge { background: var(--ok-bg); color: var(--ok); }
+
+.word-tray {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+/* Smaller than a reading chip: these sit inside a row, not on a screen of
+   their own, and a full-size chip per kanji would dwarf the word above. */
+.reading-chip-sm { min-height: 34px; padding: 4px 12px; font-size: 17px; }
+.word-more { padding: 0 12px; min-height: 34px; font-size: 14px; }
+/* Its own line under the chips rather than squeezed alongside them — it is
+   a sentence, and wrapping it into the gap beside a chip reads as clutter. */
+.word-note { margin: 0; flex-basis: 100%; }
 
 /* --- Summary ------------------------------------------------------------ */
 

@@ -42,7 +42,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29h'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -330,6 +330,12 @@ const state = {
   overviewCourseId: null,
   detailCourseId: null,
   detailChar: null,
+  // Detail screens opened on top of one another (drillIntoDetail below):
+  // one frame per level, popped one press at a time by 'detail-back'.
+  // Reset whenever a detail screen is opened from somewhere that ISN'T
+  // another detail screen, so it can never grow without bound across a
+  // session's worth of browsing.
+  detailStack: [],
 };
 
 // The writing lesson card's stroke-order animation loops like a gif (see
@@ -1275,6 +1281,10 @@ function renderOverview(scrollToChar) {
  * were left. See the 'detail-back' case in wire().
  */
 async function openCharacterDetail(course, char, returnTo = 'overview') {
+  // Arriving from anywhere that isn't a detail screen (an overview tile, a
+  // summary chip, a search result, a quiz) starts a fresh chain — only
+  // drillIntoDetail() stacks, and only a 'stack' return unwinds one.
+  if (returnTo !== 'stack') state.detailStack = [];
   state.detailCourseId = course.id;
   state.detailChar = char;
   state.detailReturn = returnTo;
@@ -1499,7 +1509,7 @@ function renderCharacterDetail() {
     const info = kanjiInfo(course, char);
     $('detail-romaji').hidden = true;
     $('detail-readings').hidden = false;
-    renderReadingChips($('detail-readings'), $('detail-word'), course, char, info);
+    renderReadingChips($('detail-readings'), $('detail-word'), course, char, info, drillIntoDetail);
     renderExposureSummary(char, info);
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = info.meanings.join(', ');
@@ -1540,38 +1550,64 @@ function renderCharacterDetail() {
  * screen (vocab-plan.md §7 — "the piece that makes the two halves of the
  * app one app rather than two"). One chip per unique kanji in the surface
  * form, in the order they appear; a kana-only word (uk, or plain hiragana/
- * katakana) has none, and the section hides.
+ * katakana) has none, and the container hides.
+ *
+ * Shared by the word detail screen and the vocabulary lesson card, which
+ * differ only in where Back should land — hence `open` rather than a
+ * hardcoded navigation (drillIntoDetail vs openFromLesson above).
  */
-function renderWordKanjiChips(info) {
-  const containerEl = $('detail-word-kanji');
+function fillWordKanjiChips(containerEl, surface, open) {
   containerEl.innerHTML = '';
-  const chars = [...new Set([...info.w].filter(isKanjiChar))];
+  // Only kanji the app actually teaches: a chip for one outside the
+  // curriculum would have no detail screen to open and just sit there dead.
+  const chars = [...new Set([...surface])].filter((ch) => isKanjiChar(ch) && kanjiCourseFor(ch));
   chars.forEach((kanji) => {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'reading-chip';
     chip.textContent = kanji;
-    chip.addEventListener('click', () => openKanjiFromWord(kanji));
+    chip.setAttribute('aria-label', `Open the kanji ${kanji}`);
+    chip.addEventListener('click', () => open(kanjiCourseFor(kanji), kanji));
     containerEl.appendChild(chip);
   });
   containerEl.hidden = chars.length === 0;
 }
 
+function renderWordKanjiChips(info) {
+  fillWordKanjiChips($('detail-word-kanji'), info.w, drillIntoDetail);
+}
+
 /**
- * Opens one of a vocab word's own kanji through to ITS detail screen,
- * remembering the word so the back button returns here rather than to
- * wherever the WORD's own screen was opened from — a single level of
- * "back to the word", not a full navigation stack, which is all this needs.
- * See the 'word' case in detail-back (wire()).
+ * Opens another item's detail screen ON TOP of the one currently showing,
+ * so the back button returns HERE rather than to wherever this screen was
+ * itself opened from.
+ *
+ * This started life (vocab-plan.md §7) as one remembered frame — a vocab
+ * word's kanji chips were the only way to reach a detail screen from
+ * another one, so "back to the word" only ever needed one level. It is a
+ * real stack now because drilling in is offered nearly everywhere a word or
+ * kanji appears: 電 → the word 電車 → its kanji 車 → a word of 車's → … is
+ * an ordinary path, and a single frame would have 車 sending you back to
+ * 電車 forever instead of unwinding. See the 'stack' case in detail-back
+ * (wire()), which pops one frame per press.
  */
-function openKanjiFromWord(kanji) {
-  const unit = kanjiUnitFor(kanji);
-  if (!unit) return; // shouldn't happen — every ruby kanji is a taught kanji
-  state.detailWordBack = {
+function drillIntoDetail(course, char) {
+  state.detailStack.push({
     courseId: state.detailCourseId, char: state.detailChar, returnTo: state.detailReturn,
-  };
-  const kanjiCourse = KANJI_COURSES.find((c) => c.unit === unit);
-  openCharacterDetail(kanjiCourse, kanji, 'word');
+  });
+  openCharacterDetail(course, char, 'stack');
+}
+
+/**
+ * Drilling in from the LESSON card, which is not a detail screen and so has
+ * no frame to stack: the session is left exactly as it is and 'detail-back'
+ * simply re-shows it, the same trick the quiz's own "Full details" already
+ * uses ('quiz' returnTo) to survive a trip away and back. Teaching, not
+ * testing — a word shown to be learned from is precisely where wanting to
+ * look closer at one of its kanji is reasonable.
+ */
+function openFromLesson(course, item) {
+  openCharacterDetail(course, item, 'lesson');
 }
 
 /** The vocab course a word id belongs to, or null — vocabUnitFor() only
@@ -1582,16 +1618,149 @@ function vocabCourseForId(id) {
   return unit ? VOCAB_COURSES.find((c) => c.unit === unit) : null;
 }
 
+// --- Drilling into a word, and into the kanji inside it --------------------
+//
+// The rule everywhere outside a live question: if you can see a word or a
+// kanji, you can tap it and get somewhere useful. Two levels, because a word
+// made of kanji is genuinely two things at once and guessing which one was
+// meant would be wrong half the time:
+//
+//   tap the word   -> it opens a tray: its own kanji as separate chips, a way
+//                     through to its full detail screen, and a one-tap add to
+//                     the vocabulary study list
+//   tap a chip     -> that kanji's own detail screen
+//
+// The "Add" badge stays on the row itself rather than moving into the tray,
+// so adding a word you already recognise is still one tap and never needs
+// the tray opened at all.
+//
+// Deliberately NOT applied while a question is live: the quiz's own answer
+// panel and the writing screen's prompt panel both show a word as part of
+// the thing being asked (the writing one is even deliberately masked), and
+// both already offer "Full details" once the answer is in. See renderWord(),
+// which stays the plain presentational renderer those two use.
+
+/** The vocab curriculum entry for one of kanji.js's own JMdict-derived
+ * words, or null when that word isn't taught here at all — the two lists
+ * are built independently and kanji.js's is much the wider of the two
+ * (vocab-plan.md §3.5), so most common words have no vocab entry. */
+function vocabTargetForWord(word) {
+  const id = vocabIdForWord(word.kanji, word.kana);
+  if (!id) return null;
+  const course = vocabCourseForId(id);
+  return course ? { id, course } : null;
+}
+
+/**
+ * One tappable word. `open(course, item)` is how this surface navigates —
+ * drillIntoDetail() from another detail screen, a plain openCharacterDetail
+ * with the right `returnTo` from anywhere else — and `rerender` is called
+ * after an add, so the caller can redraw whatever list this row is part of
+ * and flip the badge to "Studying".
+ *
+ * A word with nothing to offer (no taught kanji AND no vocab entry) is
+ * returned as an inert row rather than a button that opens an empty tray.
+ */
+function buildWordRow(word, open, rerender) {
+  const target = vocabTargetForWord(word);
+  const modes = target ? applicableStudyModes(target.course, target.id) : [];
+  const added = modes.length > 0 && modes.every((mode) => isStudying(state.profile.study, target.id, mode));
+  // Only kanji the app actually teaches — a word's surface can contain one
+  // outside the curriculum, which has no detail screen to open.
+  const kanjiChars = [...new Set([...word.kanji])].filter((ch) => isKanjiChar(ch) && kanjiCourseFor(ch));
+  const interactive = kanjiChars.length > 0 || target !== null;
+
+  const row = document.createElement('div');
+  row.className = `word-row${added ? ' is-added' : ''}`;
+
+  const line = document.createElement('div');
+  line.className = 'word-line';
+  row.appendChild(line);
+
+  const main = document.createElement(interactive ? 'button' : 'div');
+  main.className = 'kanji-word word-main';
+  if (interactive) {
+    main.type = 'button';
+    main.setAttribute('aria-expanded', 'false');
+  }
+  renderWord(main, word);
+  line.appendChild(main);
+
+  // One-tap add, kept out of the tray so it works without opening it. A word
+  // already being studied shows the same badge as a plain label instead —
+  // un-enrolling belongs on the word's own detail screen, next to the rest
+  // of its per-mode toggles, not on a one-line row in someone else's list.
+  if (modes.length > 0) {
+    const badge = document.createElement(added ? 'span' : 'button');
+    badge.className = 'word-add-badge';
+    badge.textContent = added ? 'Studying' : 'Add';
+    if (!added) {
+      badge.type = 'button';
+      badge.setAttribute('aria-label', `Add ${word.kanji} to the vocabulary study list`);
+      badge.addEventListener('click', () => {
+        const { study, unstudy } = state.profile;
+        modes.forEach((mode) => setStudying(study, unstudy, target.id, mode, true));
+        store.saveProfile(state.profile);
+        rerender();
+      });
+    }
+    line.appendChild(badge);
+  }
+
+  if (!interactive) return row;
+
+  const tray = document.createElement('div');
+  tray.className = 'word-tray';
+  tray.hidden = true;
+
+  kanjiChars.forEach((kanji) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'reading-chip reading-chip-sm';
+    chip.textContent = kanji;
+    chip.setAttribute('aria-label', `Open the kanji ${kanji}`);
+    chip.addEventListener('click', () => open(kanjiCourseFor(kanji), kanji));
+    tray.appendChild(chip);
+  });
+
+  if (target) {
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'btn btn-quiet word-more';
+    more.textContent = 'Word details ›';
+    more.addEventListener('click', () => open(target.course, target.id));
+    tray.appendChild(more);
+  } else {
+    // Said out loud rather than left as a silently missing button: the
+    // learner has just been offered "Add" on the row above this one and
+    // needs to know why this word doesn't get the same.
+    const note = document.createElement('p');
+    note.className = 'hint word-note';
+    note.textContent = 'Not part of the vocabulary course — tap a kanji instead.';
+    tray.appendChild(note);
+  }
+
+  row.appendChild(tray);
+  main.addEventListener('click', () => {
+    const open_ = tray.hidden;
+    tray.hidden = !open_;
+    main.setAttribute('aria-expanded', open_ ? 'true' : 'false');
+    row.classList.toggle('is-open', open_);
+  });
+  return row;
+}
+
 /**
  * Kanji detail's own "Common words" list — every word JMdict associates with
  * this kanji, from kanji.js's own list (built independently of vocab.js's
  * separate, smaller frequency-based curriculum — see vocab-plan.md §3.5).
- * A word that also happens to be taught there gets an "Add" button, one tap
- * enrolling it the same way the headline study toggle on that word's own
- * detail screen would (every applicable mode at once) — this is a shortcut
- * into that same study list, not a separate one, so it needs no state of its
- * own beyond study/unstudy. A word with no match in the vocab curriculum (or
- * already added) stays a plain, non-interactive row.
+ *
+ * Every row is a drillable word (buildWordRow above): tap it for its kanji
+ * and, where the word is taught here too, a way through to its own detail
+ * screen; the "Add" badge on the row still enrolls in one tap without
+ * opening anything. This is a shortcut into the same study list that word's
+ * own detail screen writes to, not a separate one, so it needs no state
+ * beyond study/unstudy.
  */
 function renderGeneralWords(words) {
   const section = $('detail-general-words');
@@ -1601,32 +1770,8 @@ function renderGeneralWords(words) {
     section.hidden = true;
     return;
   }
-  const { study, unstudy } = state.profile;
   words.forEach((word) => {
-    const id = vocabIdForWord(word.kanji, word.kana);
-    const course = id ? vocabCourseForId(id) : null;
-    const modes = course ? applicableStudyModes(course, id) : [];
-    const added = modes.length > 0 && modes.every((mode) => isStudying(study, id, mode));
-    const addable = modes.length > 0 && !added;
-
-    const row = document.createElement(addable ? 'button' : 'div');
-    if (addable) row.type = 'button';
-    row.className = `kanji-word${added ? ' is-added' : ''}`;
-    renderWord(row, word);
-    if (modes.length > 0) {
-      const badge = document.createElement('span');
-      badge.className = 'word-add-badge';
-      badge.textContent = added ? 'Studying' : 'Add';
-      row.appendChild(badge);
-    }
-    if (addable) {
-      row.addEventListener('click', () => {
-        modes.forEach((mode) => setStudying(study, unstudy, id, mode, true));
-        store.saveProfile(state.profile);
-        renderGeneralWords(words); // re-render so this row flips to "Studying"
-      });
-    }
-    list.appendChild(row);
+    list.appendChild(buildWordRow(word, drillIntoDetail, () => renderGeneralWords(words)));
   });
   section.hidden = false;
 }
@@ -1795,7 +1940,7 @@ function renderLesson() {
     // seeing the word a rare reading actually comes from is exactly what
     // makes it stick on a first encounter, not just at review time.
     $('lesson-readings').hidden = false;
-    renderReadingChips($('lesson-readings'), $('lesson-word'), course, item, info);
+    renderReadingChips($('lesson-readings'), $('lesson-word'), course, item, info, openFromLesson);
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.meanings.join(', ');
     $('lesson-word').hidden = true;
@@ -1817,8 +1962,12 @@ function renderLesson() {
     const pronunciation = pronunciationFor(info.r);
     $('lesson-pronunciation').hidden = !pronunciation;
     $('lesson-pronunciation').textContent = pronunciation ? `said: ${pronunciation}` : '';
-    $('lesson-readings').hidden = true;
-    $('lesson-readings').innerHTML = '';
+    // A word being TAUGHT is exactly where its kanji are worth a closer
+    // look, so the chip row a kanji lesson uses for its readings carries
+    // this word's own kanji instead — same chips as the word detail screen
+    // (§7), reaching the same place. Teaching, not testing: the session is
+    // untouched and Back returns straight to this card (openFromLesson).
+    fillWordKanjiChips($('lesson-readings'), info.w, openFromLesson);
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.en.join(', ');
     $('lesson-word').hidden = true;
@@ -1864,7 +2013,7 @@ function renderLesson() {
  * here rather than duplicated per screen: same data, same behaviour, only
  * the target elements differ.
  */
-function renderReadingChips(containerEl, wordEl, course, kanji, info) {
+function renderReadingChips(containerEl, wordEl, course, kanji, info, open) {
   containerEl.innerHTML = '';
   const { exposure } = state.profile;
   info.quizReadings.forEach((reading) => {
@@ -1875,7 +2024,7 @@ function renderReadingChips(containerEl, wordEl, course, kanji, info) {
     chip.textContent = formatReading(info, reading);
     chip.dataset.reading = reading;
     if (exposed) chip.title = 'Seen often enough in words to hide its furigana by default';
-    chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip));
+    chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip, open));
     containerEl.appendChild(chip);
   });
 }
@@ -1892,7 +2041,17 @@ function renderExposureSummary(kanji, info) {
   if (total > 0) el.textContent = `Seen ${total}× in words`;
 }
 
-function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip) {
+/**
+ * Fills a word slot with one drillable row (buildWordRow), re-rendering
+ * itself in place when the word's study state changes so the "Add" badge
+ * flips to "Studying" without redrawing the screen around it.
+ */
+function showWordInSlot(wordEl, word, open) {
+  wordEl.innerHTML = '';
+  wordEl.appendChild(buildWordRow(word, open, () => showWordInSlot(wordEl, word, open)));
+}
+
+function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip, open) {
   const wasActive = chip.classList.contains('is-active');
   containerEl.querySelectorAll('.reading-chip').forEach((el) => el.classList.remove('is-active'));
   if (wasActive) {
@@ -1906,7 +2065,7 @@ function showChipReadingExample(containerEl, wordEl, course, kanji, reading, chi
 
   const example = readingExample(course, kanji, reading);
   if (example) {
-    renderWord(wordEl, example);
+    showWordInSlot(wordEl, example, open);
   } else {
     wordEl.innerHTML = '';
     wordEl.textContent = `No common example word found for ${reading}.`;
@@ -3731,12 +3890,14 @@ function finishSession() {
     let label = romajiFor(item);
     // Vocab ids are the surface form (or surface|reading on a homograph
     // collision, vocab-plan.md §3.3) — .w and .en[0] are what a chip
-    // actually shows; the word/character detail screen doesn't understand
-    // vocab entries yet (§7, a later phase), so the chip isn't a link there.
+    // actually shows. The word detail screen understands vocab entries as of
+    // §7, so these link through exactly like the kanji/kana chips below
+    // rather than being the one dead chip on the screen.
     if (course.kind === 'vocab') {
       const info = vocabInfo(course, item);
       chip.querySelector('.chip-kana').textContent = info.w;
       chip.querySelector('.chip-romaji').textContent = info.en[0];
+      chip.addEventListener('click', () => openCharacterDetail(course, item, 'summary'));
       list.appendChild(chip);
       return;
     }
@@ -4528,11 +4689,12 @@ function wire() {
         if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
         else if (state.detailReturn === 'summary') show('screen-summary');
         else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
-        else if (state.detailReturn === 'word') {
-          // Back from one of a vocab word's own kanji chips (§7) — return to
-          // that word's own detail screen, not to wherever IT was opened
-          // from, which openCharacterDetail below restores from detailReturn.
-          const { courseId, char, returnTo } = state.detailWordBack;
+        else if (state.detailReturn === 'lesson' && state.session) show('screen-lesson');
+        else if (state.detailReturn === 'stack' && state.detailStack.length) {
+          // One level back up a drill-in chain (drillIntoDetail): return to
+          // the detail screen this one was opened FROM, restoring that
+          // screen's own return so the next press keeps unwinding.
+          const { courseId, char, returnTo } = state.detailStack.pop();
           openCharacterDetail(getAnyCourse(courseId), char, returnTo);
         } else renderOverview(state.detailChar);
         break;

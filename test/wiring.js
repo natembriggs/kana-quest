@@ -241,7 +241,7 @@ const settle = () => new Promise((resolve) => Promise.resolve().then(() => Promi
 
 const { romajiFor, getCourse } = await import('../src/kana.js');
 const {
-  KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel, unitLabel,
+  KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel, unitLabel, kanjiUnitFor,
 } = await import('../src/kanji.js');
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
@@ -1145,6 +1145,21 @@ check('the lesson shows one chip per quizzed reading',
   `${lessonChips.length} chips`);
 check('the example word is hidden until a reading is tapped', el('lesson-word').hidden === true);
 
+// A word is now a drillable row (buildWordRow() in app.js), not a bare
+// .kanji-word: #<slot> > .word-row > .word-line > .word-main, with the tray
+// of kanji chips as the row's second child. The stub's querySelector()
+// fabricates a placeholder per selector rather than walking _children (see
+// its own comment above), so the nesting has to be stepped through by hand —
+// only the innermost .word-kanji/.word-kana/.word-en spans, which renderWord
+// writes via innerHTML + querySelector, can be read by selector.
+const wordRowIn = (slot) => slot._children[0];
+const wordLineOf = (row) => row._children[0];
+const wordMainOf = (row) => wordLineOf(row)._children[0];
+const wordTrayOf = (row) => row._children[1] || null;
+const wordSurfaceOf = (row) => wordMainOf(row).querySelector('.word-kanji').textContent;
+const addBadgeOf = (row) => wordLineOf(row).querySelectorAll('.word-add-badge')[0] || null;
+const hasClick = (node) => !!(node && node._listeners.click && node._listeners.click.length > 0);
+
 const lessonCourse = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
 const firstChip = lessonChips[0];
 fire(firstChip, 'click');
@@ -1154,8 +1169,39 @@ check('tapping a reading chip reveals the example word panel', el('lesson-word')
 const firstExample = readingExample(lessonCourse, lessonKanjiFirst, firstChip.dataset.reading);
 if (firstExample) {
   check('the shown word matches the reading that was tapped',
-    el('lesson-word').querySelector('.word-kanji').textContent === firstExample.kanji,
-    el('lesson-word').querySelector('.word-kanji').textContent);
+    wordSurfaceOf(wordRowIn(el('lesson-word'))) === firstExample.kanji,
+    wordSurfaceOf(wordRowIn(el('lesson-word'))));
+}
+
+// The example word on a LESSON card is drillable too — teaching is not
+// testing, and a word shown to be learned from is exactly where wanting to
+// look closer at one of its kanji is reasonable. The session is left
+// untouched and Back re-shows this very card (openFromLesson in app.js),
+// the same trick the quiz's own "Full details" already uses.
+if (firstExample) {
+  const lessonRow = wordRowIn(el('lesson-word'));
+  const lessonChipsInTray = wordTrayOf(lessonRow).querySelectorAll('.reading-chip');
+  if (lessonChipsInTray.length > 0) {
+    check('the lesson\'s example word starts with its tray closed',
+      wordTrayOf(lessonRow).hidden === true);
+    fire(wordMainOf(lessonRow), 'click');
+    await settle();
+    check('tapping the lesson\'s example word opens its tray of kanji',
+      wordTrayOf(lessonRow).hidden === false);
+
+    const drilled = lessonChipsInTray[0].textContent;
+    fire(lessonChipsInTray[0], 'click');
+    for (let i = 0; i < 10; i += 1) await settle();
+    check('a kanji from the lesson\'s example word opens its own detail screen',
+      visible() === 'screen-character-detail' && el('detail-glyph').textContent === drilled,
+      `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+
+    fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+    await settle();
+    check('Back returns to the lesson card, with the session still running',
+      visible() === 'screen-lesson' && el('lesson-kana').textContent === lessonKanjiFirst,
+      `showing ${visible()}, lesson kanji "${el('lesson-kana').textContent}"`);
+  }
 }
 
 if (lessonChips.length > 1) {
@@ -2925,54 +2971,132 @@ check('this kanji\'s detail screen shows the Common words section',
   && el('detail-general-words-list')._children.length > 0,
   `hidden=${el('detail-general-words').hidden}, rows=${el('detail-general-words-list')._children.length}`);
 
-// The badge is a real appended child (app.js's row.appendChild(badge)), so
-// it has to be read with querySelectorAll — the stub's querySelector()
-// fabricates an unrelated placeholder per selector rather than actually
-// inspecting _children (see the stub's own comment above), while
-// querySelectorAll() genuinely filters _children by class.
-function addBadge(row) { return row.querySelectorAll('.word-add-badge')[0] || null; }
+const findWordRow = (surface) => el('detail-general-words-list')._children
+  .find((row) => wordSurfaceOf(row) === surface);
 
-const wordRow = el('detail-general-words-list')._children
-  .find((row) => row.querySelector('.word-kanji').textContent === addable.word.kanji);
+const wordRow = findWordRow(addable.word.kanji);
 // The stub tracks no real tag name (createElement() ignores which tag is
 // asked for — see the stub's own comment), so a click listener actually
 // being wired is the meaningful, checkable half of "this is a real button".
-check('the matched word\'s row has an "Add" badge and a click handler wired to it',
-  !!wordRow && addBadge(wordRow) && addBadge(wordRow).textContent === 'Add'
-  && wordRow._listeners.click && wordRow._listeners.click.length > 0,
-  wordRow ? `badge="${addBadge(wordRow) && addBadge(wordRow).textContent}"` : 'row not found');
+// The badge carries the add now, NOT the row: tapping the row opens the
+// drill-in tray instead, so both have to be wired independently.
+check('the matched word\'s row has an "Add" badge with its own click handler',
+  !!wordRow && addBadgeOf(wordRow) && addBadgeOf(wordRow).textContent === 'Add'
+  && hasClick(addBadgeOf(wordRow)),
+  wordRow ? `badge="${addBadgeOf(wordRow) && addBadgeOf(wordRow).textContent}"` : 'row not found');
+check('the word itself is separately tappable, for the drill-in tray',
+  hasClick(wordMainOf(wordRow)));
 
 const profileBeforeAdd = [...rows.values()][0];
 check('the matched word is not already in the study list before tapping it',
   !isStudying(profileBeforeAdd.study, addable.id, 'vmeaning'));
 
-fire(wordRow, 'click');
+fire(addBadgeOf(wordRow), 'click');
 await settle();
 
 const profileAfterAdd = [...rows.values()][0];
-check('tapping the word enrolls it in every applicable vocab mode',
+check('tapping Add enrolls the word in every applicable vocab mode',
   isStudying(profileAfterAdd.study, addable.id, 'vmeaning')
   && isStudying(profileAfterAdd.study, addable.id, 'vrecall'));
 
-const wordRowAfter = el('detail-general-words-list')._children
-  .find((row) => row.querySelector('.word-kanji').textContent === addable.word.kanji);
-check('the row re-renders to show it\'s now being studied, and stops being clickable',
+const wordRowAfter = findWordRow(addable.word.kanji);
+check('the row re-renders to show it\'s now being studied, and the badge stops being tappable',
   wordRowAfter.className.includes('is-added')
-  && addBadge(wordRowAfter) && addBadge(wordRowAfter).textContent === 'Studying'
-  && (!wordRowAfter._listeners.click || wordRowAfter._listeners.click.length === 0),
-  `class="${wordRowAfter.className}", badge="${addBadge(wordRowAfter) && addBadge(wordRowAfter).textContent}"`);
+  && addBadgeOf(wordRowAfter) && addBadgeOf(wordRowAfter).textContent === 'Studying'
+  && !hasClick(addBadgeOf(wordRowAfter)),
+  `class="${wordRowAfter.className}", badge="${addBadgeOf(wordRowAfter) && addBadgeOf(wordRowAfter).textContent}"`);
+check('an already-studied word stays drillable — only the Add half goes inert',
+  hasClick(wordMainOf(wordRowAfter)));
 
-// A common word with no vocab-curriculum match at all must stay a plain,
-// non-interactive row — nothing to add, nothing to tap.
+// --- Drilling in: tap the word, then a kanji inside it --------------------
+
+const trayBefore = wordTrayOf(wordRowAfter);
+check('the drill-in tray starts closed', trayBefore.hidden === true);
+fire(wordMainOf(wordRowAfter), 'click');
+await settle();
+check('tapping the word opens its tray', wordTrayOf(wordRowAfter).hidden === false);
+
+const KANJI_RE_WORDS = /[㐀-䶿一-鿿]/;
+const expectedChips = [...new Set([...addable.word.kanji])]
+  .filter((ch) => KANJI_RE_WORDS.test(ch) && kanjiUnitFor(ch));
+const trayChips = trayBefore.querySelectorAll('.reading-chip');
+check('the tray offers one chip per taught kanji in the word',
+  trayChips.length === expectedChips.length
+  && trayChips.every((c, i) => c.textContent === expectedChips[i]),
+  `${trayChips.length} chips (${trayChips.map((c) => c.textContent).join('')}) for ${expectedChips.join('')}`);
+
+const moreButton = trayBefore.querySelectorAll('.word-more')[0];
+check('a word that IS in the vocab curriculum offers a way through to its own detail screen',
+  !!moreButton, trayBefore._children.map((c) => c.className).join(' | '));
+
+fire(trayChips[0], 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('tapping a kanji chip in the tray opens THAT kanji\'s detail screen',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === expectedChips[0],
+  `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+check('backing out returns to the kanji whose Common words list the drill started from',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === addable.kanji,
+  `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+
+// The chain that the old single-frame "back to the word" could not unwind:
+// kanji -> word -> kanji is three detail screens deep, and each Back must
+// step back exactly one of them.
+const wordRowAgain = findWordRow(addable.word.kanji);
+fire(wordMainOf(wordRowAgain), 'click');
+await settle();
+fire(wordTrayOf(wordRowAgain).querySelectorAll('.word-more')[0], 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('"Word details" opens the word\'s own detail screen, with its vocab study toggle',
+  visible() === 'screen-character-detail'
+  && el('detail-mode-vmeaning').hidden === false && el('detail-mode-definition').hidden === true,
+  `showing ${visible()}`);
+
+const wordScreenKanjiChip = el('detail-word-kanji')._children[0];
+fire(wordScreenKanjiChip, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a kanji chip on the word screen goes one level deeper still',
+  visible() === 'screen-character-detail' && el('detail-readings').hidden === false,
+  `showing ${visible()}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+check('Back unwinds one level, to the WORD — not straight out of the chain',
+  visible() === 'screen-character-detail' && el('detail-word-kanji').hidden === false,
+  `showing ${visible()}, word-kanji hidden=${el('detail-word-kanji').hidden}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+check('Back again unwinds to the kanji the chain started from, not into a loop',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === addable.kanji,
+  `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+check('and one more Back finally leaves the detail screens entirely',
+  visible() === 'screen-overview', `showing ${visible()}`);
+
+fire(el('overview-grid')._children.find((t) => t.textContent === addable.kanji), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+// A common word with no vocab-curriculum match has nothing to add and no
+// word screen to open — but its KANJI are still worth drilling into, which
+// is the whole point of making every word tappable rather than only the
+// ones the vocab course happens to teach.
 const unmatchedWord = kanjiInfo(kanjiGrade1, addable.kanji).words
-  .find((w) => !vocabIdForWord(w.kanji, w.kana));
+  .find((w) => !vocabIdForWord(w.kanji, w.kana) && KANJI_RE_WORDS.test(w.kanji));
 if (unmatchedWord) {
-  const unmatchedRow = el('detail-general-words-list')._children
-    .find((row) => row.querySelector('.word-kanji').textContent === unmatchedWord.kanji);
-  check('a common word with no vocab match has no Add badge and no click handler',
-    !!unmatchedRow && !addBadge(unmatchedRow)
-    && (!unmatchedRow._listeners.click || unmatchedRow._listeners.click.length === 0),
+  const unmatchedRow = findWordRow(unmatchedWord.kanji);
+  check('a common word with no vocab match has no Add badge and no "Word details"',
+    !!unmatchedRow && !addBadgeOf(unmatchedRow)
+    && wordTrayOf(unmatchedRow).querySelectorAll('.word-more').length === 0,
     unmatchedRow ? unmatchedRow.className : 'row not found');
+  check('...but it still says so, and still offers its kanji',
+    wordTrayOf(unmatchedRow).querySelectorAll('.word-note').length === 1
+    && wordTrayOf(unmatchedRow).querySelectorAll('.reading-chip').length > 0,
+    unmatchedRow ? wordTrayOf(unmatchedRow)._children.map((c) => c.className).join(' | ') : '');
 }
 
 // --- Summary screen: "Review N due" outranks "Learn N new" -----------------

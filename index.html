@@ -271,11 +271,11 @@
          furigana by default in words, and this line gives the raw count. -->
     <p id="detail-exposure" class="hint" hidden></p>
     <div id="detail-meanings" class="kanji-meanings" hidden></div>
-    <div id="detail-word" class="kanji-word" hidden></div>
+    <div id="detail-word" class="word-slot" hidden></div>
     <!-- Vocab only: this word's own kanji, tappable through to THEIR OWN
          detail screen (vocab-plan.md §7 — "the piece that makes the two
          halves of the app one app rather than two"). See
-         renderWordKanjiChips()/openKanjiFromWord() in app.js. -->
+         renderWordKanjiChips()/fillWordKanjiChips() in app.js. -->
     <div id="detail-word-kanji" class="reading-chips" lang="ja" hidden></div>
 
     <div id="detail-general-words" class="stack" hidden>
@@ -307,7 +307,7 @@
            word for whichever reading was last tapped. See renderLesson(). -->
       <div id="lesson-readings" class="reading-chips" lang="ja" hidden></div>
       <div id="lesson-meanings" class="kanji-meanings" hidden></div>
-      <div id="lesson-word" class="kanji-word" hidden></div>
+      <div id="lesson-word" class="word-slot" hidden></div>
     </div>
     <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
     <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
