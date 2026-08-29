@@ -10,6 +10,7 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
+  unitBadge as vocabUnitBadge,
   ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
   partialFuriganaIsAskable, pronunciationFor,
   buildRecallChoices, recallHasSpellingStage, buildSpellingChoices,
@@ -41,7 +42,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -770,7 +771,7 @@ function renderGradePicker(script) {
     button.className = `grade${u === unit ? ' active' : ''}`;
     button.dataset.grade = u;
     button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
-    button.querySelector('.grade-number').textContent = kind === 'kanji' ? unitBadge(u) : u;
+    button.querySelector('.grade-number').textContent = kind === 'kanji' ? unitBadge(u) : vocabUnitBadge(u);
     button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
     const name = kind === 'kanji' ? course.name : vocabUnitLabel(u);
     button.setAttribute('aria-label', `${name}, ${stats.started} of ${stats.total} started`);

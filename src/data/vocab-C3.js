@@ -62,8 +62,8 @@ export const VOCAB_ENTRIES = [
     ],
     "mis": [
       "たれ",
-      "た",
-      "すい"
+      "すい",
+      "た"
     ],
     "sp": [
       "同",

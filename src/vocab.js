@@ -47,31 +47,66 @@ function countKanji(word) {
   return [...word].filter((ch) => KANJI_RE.test(ch)).length;
 }
 
-/** "C" for the Core group, else the numeral before the dot ("1" for "1.4").
+/**
+ * "C" for the Core group, "H" for a Higher-tier unit regardless of its own
+ * theme (vocab-plan.md §2.1/phase 6 — a theme's 'h' words are their own
+ * unit, "2.4h", but browse under one shared "Common words 2" group rather
+ * than sitting inside 2's group next to 2.4 itself — the same shape kanji's
+ * secondary-school sub-units already use, one tap-away group rather than
+ * interleaved grade by grade), else the numeral before the dot ("1" for
+ * "1.4"). Checked before the Core test only because it's cheap to check
+ * first; Core never has an 'h' unit (build_vocab_data.py never emits one).
  * Matches KANJI_UNIT_GROUPS' role in app.js but the grouping is baked into
  * the unit id itself here, so no separate test table is needed. */
 function unitGroup(unit) {
+  if (unit.endsWith('h')) return 'H';
   return unit.startsWith('C') ? 'C' : unit.split('.')[0];
 }
 
-/** Core first, then group 1..5 in order, sub-unit numerically within a
- * group — VOCAB_UNITS is already written in this order (Python dict
- * insertion order survives into JSON), but sorting explicitly here means
- * this keeps working if a future build ever writes the manifest in a
- * different order. */
+/** Core first, then group 1..5 in theme order, then every Higher-tier unit
+ * last as one block (sub-unit numerically within each group) — VOCAB_UNITS
+ * is already written in this order (Python dict insertion order survives
+ * into JSON, and build_vocab_data.py emits 'f' units before any 'h' one),
+ * but sorting explicitly here means this keeps working if a future build
+ * ever writes the manifest in a different order. */
 function compareUnits(a, b) {
   const ga = unitGroup(a);
   const gb = unitGroup(b);
-  if (ga !== gb) return ga === 'C' ? -1 : gb === 'C' ? 1 : ga.localeCompare(gb, undefined, { numeric: true });
+  if (ga !== gb) {
+    if (ga === 'C') return -1;
+    if (gb === 'C') return 1;
+    if (ga === 'H') return 1;
+    if (gb === 'H') return -1;
+    return ga.localeCompare(gb, undefined, { numeric: true });
+  }
   return a.localeCompare(b, undefined, { numeric: true });
 }
 
+/**
+ * "2.4h" describes the exact same theme as "2.4" — just the rarer-word
+ * tile — so it has no label of its own in VOCAB_UNIT_LABELS; the trailing
+ * 'h' is stripped before lookup rather than the build script duplicating
+ * every theme's description under a second key. Whatever tells the learner
+ * they're looking at the Higher tile is the group context around this
+ * label (the "Common words 2" chip, or unitGroupLabel() below), not the
+ * label text itself — same as a kanji grade card doesn't repeat "Primary
+ * school" inside its own title.
+ */
 export function unitLabel(unit) {
-  return VOCAB_UNIT_LABELS[unit] || unit;
+  const base = unit.endsWith('h') ? unit.slice(0, -1) : unit;
+  return VOCAB_UNIT_LABELS[base] || base;
 }
 
 export function unitGroupLabel(unit) {
   return VOCAB_GROUP_LABELS[unitGroup(unit)] || unitGroup(unit);
+}
+
+/** The short badge text for a unit tile ("2.4" either way) — inside the
+ * "Common words 2" group there is no longer any "2.4" to collide with
+ * (its Foundation sibling lives in a different group entirely), so the
+ * trailing 'h' would only add noise. */
+export function unitBadge(unit) {
+  return unit.endsWith('h') ? unit.slice(0, -1) : unit;
 }
 
 function buildChunks(courseId, ids) {

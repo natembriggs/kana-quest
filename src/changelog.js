@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-29',
     changes: [
+      'New: Vocabulary now has a Higher-tier tile for many of its themes too — rarer words on the same topic, e.g. a second "Me, my family and pets" alongside the everyday one. They\'re grouped together under their own "Common words 2" tab rather than mixed into the tile you already know, so a familiar unit never quietly grows bigger overnight.',
       'The Kanji and Vocabulary screens no longer bury their buttons under a wall of units. Units are now grouped — primary school, secondary school and names & places for kanji; Core plus the five themes for vocabulary — with the groups on one line and that group\'s own units on the line underneath, both swiping sideways. Review, Learn, Test unlearned and View set overview all fit on screen again without scrolling, and a dot on a group means reviews are waiting somewhere inside it.',
       'New: Vocabulary now has the same two buttons at the top of its screen that Kanji already had — review everything that\'s due, and learn the next few words — both spanning every unit at once rather than only whichever one you happen to be browsing.',
       'New: tapping a word in Vocabulary\'s set overview now opens its own detail screen — full reading, every English meaning, and its own kanji shown as chips you can tap through to that kanji\'s full page (stroke order, readings, common words) and back again. Each word also gets its own Meaning/Recall study toggle there, the same way kanji already had Definition/Yomi/Writing.',

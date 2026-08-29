@@ -11,10 +11,23 @@ operates under cap direct reproduction of copyrighted material at a single
 short quote. So this build takes the plan's own stated fallback instead
 (§3.5, "If the official list can't be used or obtained"): JMdict's own `nf`
 corpus-frequency bands, the same signal `tools/build_kanji_data.py` already
-uses for `choose_examples()`. Units are therefore named "Common words 1"
-(`lv: 'f'`) and "Common words 2" (`lv: 'h'`) rather than "GCSE Foundation" /
-"Higher" — per the plan's own naming rule, this is not the GCSE list and
-must not be labelled as such.
+uses for `choose_examples()`. The tier is named "Common words 1" (`lv: 'f'`)
+/ "Common words 2" (`lv: 'h'`) rather than "GCSE Foundation" / "Higher" — per
+the plan's own naming rule, this is not the GCSE list and must not be
+labelled as such.
+
+PHASE 6: a `lv: 'h'` word gets its OWN unit, not a spot in its theme's
+existing (now implicitly 'f') unit — vocab-plan.md §2.1 is explicit that a
+tile must not silently grow from 40 words to 65 overnight. The 'h' unit for
+theme "2.4" is "2.4h", built and size-checked exactly like any other unit
+(dropped below MIN_UNIT_SIZE, same as a whole theme would be) — which is why
+not every theme ends up with one; the plan itself expects "maybe 18-22 of
+the 28". All of them are grouped together under one "Common words 2" browse
+group (GROUP_LABELS["H"]) rather than sitting inside their own theme's group
+next to the 'f' tile, the same way kanji's secondary-school sub-units sit in
+their own group after every primary grade rather than interleaved grade by
+grade — so browsing the harder tier of ANY theme is one tap away, not one
+tap per theme.
 
 The unit/theme STRUCTURE is unchanged from vocab-plan.md §2.3 — a Core
 spine (C1-C6) plus the five GCSE-style theme groups (22 further units). Core
@@ -36,6 +49,7 @@ import json
 import random
 import re
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -357,6 +371,9 @@ GROUP_LABELS = {
     "3": "School",
     "4": "Future aspirations, study and work",
     "5": "International and global dimension",
+    # Every 'h' (Common words 2) unit lives here, regardless of which theme
+    # it belongs to — see unit_group() below and phase 6's comment above.
+    "H": "Common words 2",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -379,6 +396,11 @@ UNIT_LABELS = {
 
 
 def unit_group(unit):
+    # A theme's 'h' unit ("2.4h") is grouped by TIER, not by theme — see
+    # phase 6's module-docstring comment. Checked before the "C" test only
+    # because it's cheap to check first; Core never has an 'h' unit anyway.
+    if unit.endswith("h"):
+        return "H"
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
@@ -836,7 +858,13 @@ def main():
     entry_index = build_entry_index(raw_entries)
     del text, raw_entries
 
-    unit_records = {unit: [] for unit in UNIT_LABELS}
+    # Keyed by OUTPUT unit id, not theme — a theme's 'h' words land under
+    # "<theme>h" (see phase 6's module-docstring comment), a separate id from
+    # its 'f' sibling, created on first use rather than pre-populated here
+    # since not every theme ends up with a Higher unit at all.
+    unit_records = defaultdict(list)
+    for unit in UNIT_LABELS:
+        unit_records[unit] = []
 
     # --- Core: hand-specified, always level 'f' ---
     core_surfaces = set()
@@ -887,7 +915,13 @@ def main():
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
             reading_to_kanji, taught_kanji, kanji_only_pool,
         )
-        unit_records[unit].append(record)
+        # `record["th"]` stays the bare theme id either way — it names what
+        # the word is ABOUT, unaffected by which tile it ends up sorted
+        # into. `out_unit` is the OUTPUT unit id — a theme's 'h' words are a
+        # separate unit ("2.4h") from its 'f' words, see phase 6's
+        # module-docstring comment.
+        out_unit = f"{unit}h" if level == "h" else unit
+        unit_records[out_unit].append(record)
         level_counts[level] += 1
         unit_level_counts[(unit, level)] = unit_level_counts.get((unit, level), 0) + 1
 
@@ -907,11 +941,17 @@ def main():
 
     total_words = sum(len(v) for v in unit_records.values())
     print(f"\n{len(unit_records)} units, {total_words} words total:")
-    for unit in sorted(unit_records, key=lambda u: (unit_group(u), u)):
+    # GROUP_ORDER, not alphabetical: unit_group() already returns a group TAG
+    # ("C", "1".."5", "H"), but sorting tags as plain strings would put "C"
+    # and "H" after the digits — fine for the manifest (compareUnits in
+    # vocab.js sorts for real at runtime) but confusing to read here.
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H"])}
+    for unit in sorted(unit_records, key=lambda u: (group_order[unit_group(u)], u)):
         recs = unit_records[unit]
         f_n = sum(1 for r in recs if r["lv"] == "f")
         h_n = sum(1 for r in recs if r["lv"] == "h")
-        print(f"  {unit:5} {UNIT_LABELS[unit]:40} {len(recs):3} words ({f_n} f / {h_n} h)")
+        label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
+        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h)")
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -922,6 +962,17 @@ def main():
         "// https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project",
         "",
     ]
+
+    # A unit that existed in a PREVIOUS run but not this one (a theme's word
+    # count moved below MIN_UNIT_SIZE, or a level split like phase 6's moved
+    # its words to a new "<unit>h" id) leaves its old vocab-<unit>.js file
+    # behind otherwise — nothing referencing it from the fresh manifest, but
+    # still sitting in the repo as dead weight.
+    for stale in DATA_DIR.glob("vocab-*.js"):
+        stem = stale.stem[len("vocab-"):]
+        if stem not in ("manifest", "lookup") and stem not in unit_records:
+            stale.unlink()
+            print(f"Removed stale {stale.name} (unit no longer produced)")
 
     manifest_units = {}
     lookup = {}
@@ -949,8 +1000,13 @@ def main():
         "",
         "export const VOCAB_GROUP_LABELS = " + json.dumps(GROUP_LABELS, ensure_ascii=False, indent=2) + ";",
         "",
+        # No separate label per 'h' unit — "2.4h" describes the same theme as
+        # "2.4", just the rarer-word tile, and unitLabel() in vocab.js
+        # strips the trailing 'h' before this lookup rather than needing a
+        # duplicate entry here for every theme that has a Higher tile.
         "export const VOCAB_UNIT_LABELS = " + json.dumps(
-            {u: UNIT_LABELS[u] for u in manifest_units}, ensure_ascii=False, indent=2) + ";",
+            {u: UNIT_LABELS[u] for u in manifest_units if not u.endswith("h")},
+            ensure_ascii=False, indent=2) + ";",
         "",
     ]
     manifest_path.write_text("\n".join(manifest_js), encoding="utf-8")

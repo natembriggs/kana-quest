@@ -246,7 +246,9 @@ const {
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
 } = await import('../src/srs.js');
-const { vocabIdForWord, VOCAB_COURSES } = await import('../src/vocab.js');
+const {
+  vocabIdForWord, VOCAB_COURSES, unitLabel: vocabUnitLabel, unitGroupLabel: vocabUnitGroupLabel, unitBadge: vocabUnitBadge,
+} = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
 // frozen snapshot — kanji stroke data for a given grade only exists once
 // that grade has actually been loaded (kanji-expansion-plan.md §4), which
@@ -2820,6 +2822,70 @@ check('browsing a themed unit did not change what "Learn next" enrolled — ever
   studiedKanji(vocabProfile.study, 'vmeaning')
     .every((id) => coreVocabCourse.chunks.flatMap((c) => c.items).includes(id)),
   studiedKanji(vocabProfile.study, 'vmeaning').join(','));
+
+// --- Vocabulary's Higher tier: a theme's harder words get their own tile --
+// vocab-plan.md §2.1/phase 6: a theme's 'h'-tagged words must not silently
+// merge into their theme's existing (now implicitly Foundation) unit — they
+// get their own unit id ("<theme>h") and browse together as one "Common
+// words 2" group at the end of the unit-group row, the same shape kanji's
+// secondary-school units already use rather than sitting inside each
+// theme's own group next to its Foundation tile.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+await settle();
+
+const higherUnits = VOCAB_COURSES.map((c) => c.unit).filter((u) => u.endsWith('h'));
+check('at least one theme produced a Higher-tier unit', higherUnits.length > 0, higherUnits.length);
+
+const vocabGroupChips = () => el('unit-groups')._children;
+check('"Common words 2" is offered as its own unit group, last in the row',
+  vocabGroupChips()[vocabGroupChips().length - 1].dataset.group === 'Common words 2',
+  vocabGroupChips().map((c) => c.dataset.group).join(' | '));
+
+await openUnitGroup('Common words 2');
+const higherGradeButtons = gradePickerButtons();
+check('every tile in the Common words 2 group is a Higher-tier unit, none of its Foundation siblings',
+  higherGradeButtons.length > 0 && higherGradeButtons.every((b) => b.dataset.grade.endsWith('h')),
+  higherGradeButtons.map((b) => b.dataset.grade).join(','));
+check('a Higher-tier tile\'s badge is the bare theme number — no "h" clutter once the group already says so',
+  higherGradeButtons.every((b) => b.querySelector('.grade-number').textContent === vocabUnitBadge(b.dataset.grade))
+  && higherGradeButtons.every((b) => !b.querySelector('.grade-number').textContent.endsWith('h')),
+  higherGradeButtons.map((b) => b.querySelector('.grade-number').textContent).join(','));
+
+const firstHigherUnit = higherGradeButtons[0].dataset.grade;
+const firstHigherCourse = VOCAB_COURSES.find((c) => c.unit === firstHigherUnit);
+check('the Higher tile\'s course card names the SAME theme as its Foundation sibling, not "undefined" or the raw id',
+  (el('course-list')._children[0].innerHTML || '').includes(vocabUnitLabel(firstHigherUnit)),
+  el('course-list')._children[0].innerHTML);
+check('vocabUnitLabel strips the trailing h — the theme label matches its Foundation sibling exactly',
+  vocabUnitLabel(firstHigherUnit) === vocabUnitLabel(firstHigherUnit.slice(0, -1)),
+  `"${vocabUnitLabel(firstHigherUnit)}" vs "${vocabUnitLabel(firstHigherUnit.slice(0, -1))}"`);
+check('vocabUnitGroupLabel resolves a Higher unit to "Common words 2" regardless of its own theme',
+  vocabUnitGroupLabel(firstHigherUnit) === 'Common words 2', vocabUnitGroupLabel(firstHigherUnit));
+
+const higherViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(higherViewSetButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // ensureVocabUnitLoaded is a real dynamic import
+check('the Higher unit\'s overview loads its own real words, not an empty/fallback grid',
+  visible() === 'screen-overview' && el('overview-grid')._children.length === firstHigherCourse.chunks.flatMap((c) => c.items).length,
+  `showing ${visible()}, ${el('overview-grid')._children.length} tiles for ${firstHigherCourse.chunks.flatMap((c) => c.items).length} words`);
+
+fire(el('overview-grid')._children[0], 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // openCharacterDetail is async for vocab
+check('a Higher-tier word\'s detail screen names its group as "Common words 2", crumbed with its real theme',
+  el('detail-unit').textContent === `Common words 2 · ${vocabUnitLabel(firstHigherUnit)}`,
+  el('detail-unit').textContent);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'overview-back' } }) } });
+await settle();
+await openUnitGroup('Core');
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === 'C1'), 'click');
+await settle();
 
 // --- Kanji detail: "Common words" offers a one-tap add to the vocab list ---
 // A word in a kanji's own common-words list (kanji.js's JMdict-derived list,
