@@ -2733,6 +2733,96 @@ await settle();
 check('backing out of the word returns to the vocab overview',
   visible() === 'screen-overview', `showing ${visible()}`);
 
+// --- Summary screen: "Review N due" outranks "Learn N new" -----------------
+// A real regression: the button existed and worked, it just never got the
+// primary style, so a real due count sat next to a highlighted "Learn new"
+// looking like the lesser option — even though "due outranks new" is already
+// the rule the home screen's quick actions and the course card both use.
+// Reproduced here exactly: one hiragana batch with an unpractised miss (left
+// due, on purpose, by moving on instead of fixing it), followed by a second,
+// completely clean batch — nothing missed in THIS session, but the earlier
+// miss is still due in the same course, so Review must still win.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+
+async function stepThroughLesson() {
+  for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
+    fire(el('lesson-next'), 'click');
+    await settle();
+  }
+}
+
+const dueVsNewLearnButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Learn <b>'));
+fire(dueVsNewLearnButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+await stepThroughLesson();
+check('the first due-vs-new batch reaches its quiz', visible() === 'screen-quiz', visible());
+
+// Miss the first question on purpose (locks its due date to right now via a
+// lapse), answer the rest correctly.
+for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
+  const kana = el('quiz-kana').textContent;
+  if (!kana) break;
+  const choices = el('quiz-choices')._children;
+  const answer = romajiFor(kana);
+  const target = i === 0 ? choices.find((c) => c.textContent !== answer) : choices.find((c) => c.textContent === answer);
+  fire(target, 'click');
+  await settle();
+  if (i === 0) {
+    fire(choices.find((c) => c.textContent === answer), 'click'); // recover, but the lapse already stuck
+    await settle();
+  }
+  fire(el('quiz-ok'), 'click');
+  await settle();
+}
+check('the first batch\'s summary shows exactly the one deliberate miss',
+  visible() === 'screen-summary' && el('summary-study-missed').innerHTML === 'Practise <b>1</b> missed',
+  `showing ${visible()}, study-missed says "${el('summary-study-missed').innerHTML}"`);
+
+// Move on to a fresh batch instead of practising that miss — "Learn new" is
+// visible (something was missed, so it isn't primary, but it's still a
+// legitimate thing to tap) and leaves the miss sitting due, unreviewed.
+check('a further new-hiragana batch is on offer to move on to instead',
+  el('summary-learn').hidden === false, el('summary-learn').innerHTML);
+// summary-learn is a static data-action button, wired through the one
+// delegated document-level click listener — not its own addEventListener —
+// so it has to be fired the same way study-missed/quit-session/etc. are
+// fired elsewhere in this file, not as a direct element click.
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'learn-more' } }) } });
+for (let i = 0; i < 10; i += 1) await settle();
+await stepThroughLesson();
+check('the second, clean batch reaches its own quiz', visible() === 'screen-quiz', visible());
+
+// Answer this whole batch correctly, first try — nothing missed this time.
+for (let i = 0; i < 10 && visible() === 'screen-quiz'; i += 1) {
+  const kana = el('quiz-kana').textContent;
+  if (!kana) break;
+  const answer = romajiFor(kana);
+  const target = el('quiz-choices')._children.find((c) => c.textContent === answer);
+  fire(target, 'click');
+  await settle();
+  fire(el('quiz-ok'), 'click');
+  await settle();
+}
+check('the second batch\'s summary shows nothing missed in THIS session',
+  visible() === 'screen-summary' && el('summary-study-missed').hidden === true,
+  `showing ${visible()}, study-missed hidden=${el('summary-study-missed').hidden}`);
+
+// The earlier, unpractised miss is still due, in the same hiragana course —
+// so even with nothing missed in this session, Review must be the
+// highlighted action, not Learn.
+check('"Review N due" is offered here, carrying over the still-due miss from the earlier batch',
+  el('summary-review').hidden === false && /\d/.test(el('summary-review').innerHTML),
+  el('summary-review').innerHTML);
+check('"Review N due" is the primary action once nothing was missed and something is due',
+  el('summary-review').classList.contains('btn-primary'));
+check('"Learn N new" cedes the primary spot to Review whenever review is due, even with nothing missed',
+  !el('summary-learn').classList.contains('btn-primary'));
+
 // Restore the state every earlier section assumed, in case anything below
 // this point is ever added and depends on it.
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });

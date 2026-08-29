@@ -41,7 +41,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-29d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -3597,18 +3597,22 @@ function finishSession() {
   const stats = courseStats(course, state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
 
-  const learnButton = $('summary-learn');
-  // Only one button reads as "the" primary action — practise-missed outranks
-  // it whenever both are offered, since going over what was just gotten
-  // wrong matters more than starting something new. Learn-more is only ever
-  // the highlighted choice once nothing was missed.
-  learnButton.classList.toggle('btn-primary', missed.length === 0);
-  learnButton.hidden = newCount === 0;
-  learnButton.innerHTML = `Learn <b>${newCount}</b> new`;
-
+  // Only one button reads as "the" primary action. Practise-missed outranks
+  // both of the below whenever it's offered, since going over what was just
+  // gotten wrong matters more than starting or continuing anything else.
+  // Below that, review-due outranks learn-new — same "due outranks new"
+  // precedence the home screen's quick actions and the course card already
+  // use — so this no longer leaves a real due count sitting unhighlighted
+  // next to a highlighted "Learn new" just because nothing was missed.
   const reviewButton = $('summary-review');
   reviewButton.hidden = stats.due === 0;
+  reviewButton.classList.toggle('btn-primary', missed.length === 0 && stats.due > 0);
   reviewButton.innerHTML = `Review <b>${stats.due}</b> due`;
+
+  const learnButton = $('summary-learn');
+  learnButton.classList.toggle('btn-primary', missed.length === 0 && stats.due === 0);
+  learnButton.hidden = newCount === 0;
+  learnButton.innerHTML = `Learn <b>${newCount}</b> new`;
 
   // Nothing else on offer — no miss to go fix, nothing new queued up, and
   // (this being the case that prompted the request) a review session that
