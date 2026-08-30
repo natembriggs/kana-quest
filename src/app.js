@@ -43,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -917,7 +917,17 @@ function renderQuickActions(script) {
   const learnButton = $('quick-learn-next');
   if (newCount > 0) {
     learnButton.disabled = false;
-    learnButton.innerHTML = `Learn <b>${newCount}</b> next`;
+    // "Waiting" whenever something here was deliberately enrolled already —
+    // a word added from its own detail screen, or from a kanji page's
+    // "Common words" Add badge, rather than just the next untouched item in
+    // curriculum order — same distinction and wording renderCourse()'s own
+    // per-unit "Learn" button makes. This is the one place that word is
+    // actually findable regardless of which unit it landed in: it can
+    // belong to any of thirty-odd vocab units, and this button already
+    // spans all of them (pools.next), which the per-unit card doesn't.
+    learnButton.innerHTML = stats.pending > 0
+      ? `Learn <b>${newCount}</b> waiting`
+      : `Learn <b>${newCount}</b> next`;
   } else {
     learnButton.disabled = true;
     learnButton.textContent = 'All caught up';
@@ -1173,12 +1183,15 @@ function renderCourse() {
   learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
   if (newCount > 0) {
     // "Waiting" when at least one of this batch is a manual add already
-    // sitting enrolled, rather than "new" — it was chosen from the detail
-    // screen (§1.6), not freshly reached in course order. Kana has no
-    // enrollment step at all, so stats.pending there just means "never seen
-    // yet" and must not trigger this wording — every kana would otherwise
-    // show as "waiting" until the whole course is memorised.
-    learn.innerHTML = course.kind === 'kanji' && stats.pending > 0
+    // sitting enrolled, rather than "new" — it was chosen from a detail
+    // screen (§1.6 for kanji; a word's own page, or a kanji page's "Common
+    // words" Add badge, for vocab), not freshly reached in course order.
+    // Kana has no enrollment step at all, so stats.pending there just means
+    // "never seen yet" and must not trigger this wording — every kana would
+    // otherwise show as "waiting" until the whole course is memorised; kana
+    // never reaches here with a nonzero pending count for real, but the
+    // kind check stays explicit rather than relying on that being true.
+    learn.innerHTML = course.kind !== 'kana' && stats.pending > 0
       ? `Learn <b>${newCount}</b> waiting`
       : `Learn <b>${newCount}</b> new`;
     learn.addEventListener('click', () => startSession(course.id, 'new'));
