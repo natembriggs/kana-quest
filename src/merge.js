@@ -292,6 +292,58 @@ export function mergeMuted(current, incoming) {
 }
 
 /**
+ * profile.stories (stories-plan.md §9.2) — min/max over integers
+ * throughout, never last-write-wins: `first`/`last`/`done`/`passes` are
+ * evidence that accumulates across devices, not a setting with one current
+ * value, same reasoning as mergeExposure above. `passes` is MAX, not a sum
+ * — summing would double-count a pass already synced once, the exact trap
+ * a plain counter would fall into for exposure too (§5.3's own reasoning
+ * for using timestamp lists there instead of a count).
+ */
+function mergeStoryRead(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  return {
+    first: Math.min(a.first, b.first),
+    last: Math.max(a.last, b.last),
+    done: a.done && b.done ? Math.min(a.done, b.done) : (a.done || b.done || null),
+    passes: Math.max(a.passes || 0, b.passes || 0),
+  };
+}
+
+/**
+ * A resume position is a cursor, not evidence — latest write should win,
+ * unlike `read` above. Tie-broken by the FURTHER position (§9.2): a stale
+ * write from a device with a skewed clock could otherwise pull a learner
+ * backwards in a story they've already read past.
+ */
+function mergeStoryPos(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  if (a.at === b.at) return (a.p > b.p || (a.p === b.p && a.s > b.s)) ? a : b;
+  return a.at > b.at ? a : b;
+}
+
+export function mergeStories(current, incoming) {
+  // Left off entirely when neither side ever had the field, same reasoning
+  // and same trick as settingsUpdatedAt below — a profile that predates
+  // stories (or a bare test fixture with no field at all) must merge back
+  // to no field, or a merge result that has genuinely caught up to the
+  // remote and nothing else would stop looking identical to it, and sync
+  // would push a pointless no-op write forever.
+  if (!current && !incoming) return undefined;
+  const a = current || { read: {}, pos: {} };
+  const b = incoming || { read: {}, pos: {} };
+  const readKeys = new Set([...Object.keys(a.read || {}), ...Object.keys(b.read || {})]);
+  const posKeys = new Set([...Object.keys(a.pos || {}), ...Object.keys(b.pos || {})]);
+  const read = {};
+  readKeys.forEach((id) => { read[id] = mergeStoryRead((a.read || {})[id], (b.read || {})[id]); });
+  const pos = {};
+  posKeys.forEach((id) => { pos[id] = mergeStoryPos((a.pos || {})[id], (b.pos || {})[id]); });
+  return { read, pos };
+}
+
+/**
  * Merge one incoming profile into the current copy of the same profile
  * (matched by id by the caller — see importAll in store.js). Pure: no
  * storage, no side effects, so it can run identically whether the incoming
@@ -306,6 +358,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const { study, unstudy } = mergeStudy(current, incoming);
   const exposure = mergeExposure(current.exposure, incoming.exposure);
   const muted = mergeMuted(current.muted, incoming.muted);
+  const stories = mergeStories(current.stories, incoming.stories);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -327,5 +380,6 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     unstudy,
     exposure,
     muted,
+    stories,
   };
 }

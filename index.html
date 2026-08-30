@@ -114,6 +114,102 @@
     </div>
     <h2 class="screen-title">What shall we practise?</h2>
     <div id="script-list" class="script-grid"></div>
+
+    <!-- Not a fifth script card: stories have no modes, no progress bar, no
+         due count and no SRS behind them, and dressing them up as a fifth
+         course card would promise a progress bar that would then have to
+         mean something. One wide card instead — see stories-plan.md §8.1.
+         Subtitle is "continue where you left off" when there is one, since
+         that's the single most useful thing this card can say. -->
+    <button id="read-card" class="card read-card" type="button" data-action="open-stories">
+      <span class="read-card-icon">📖</span>
+      <span class="read-card-text">
+        <span class="read-card-title">Read</span>
+        <span id="read-card-sub" class="hint"></span>
+      </span>
+    </button>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- The story library: level strip, continue-reading, series and
+       standalone stories. See stories-plan.md §8.2. -->
+  <section id="screen-stories" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-home" aria-label="Back">←</button>
+      <h2>Read</h2>
+      <span class="btn-icon" aria-hidden="true"></span>
+    </header>
+    <div id="story-level-strip" class="story-level-strip" role="group" aria-label="Reading level"></div>
+    <p id="story-level-name" class="hint story-level-name"></p>
+    <!-- Only shown while browsing a level that ISN'T the learner's own
+         profile.settings.readingLevel — browsing and committing are
+         different actions on purpose (stories-plan.md §2.4). -->
+    <button id="story-make-level" class="btn btn-quiet" type="button" hidden>Make this my level</button>
+    <div id="story-continue" class="card story-continue" type="button" hidden></div>
+    <div id="story-list" class="stack story-list"></div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- The reader itself. Everything here that isn't the story is a
+       failure of nerve (stories-plan.md §8.3) — a minimal top bar that
+       hides on scroll, a hairline progress line, and the text. The
+       definition card and settings sheet are overlays, never inserted
+       into the flow, so neither can ever reflow the paragraph under a
+       learner's thumb. -->
+  <section id="screen-reader" class="screen" hidden>
+    <header id="reader-topbar" class="topbar reader-topbar">
+      <button class="btn btn-icon" type="button" data-action="reader-back" aria-label="Back">←</button>
+      <h2 id="reader-title"></h2>
+      <button class="btn btn-icon btn-quiet" type="button" data-action="reader-settings" aria-label="Reader settings">⋯</button>
+    </header>
+    <div class="progress reader-progress"><div id="reader-progress-fill" class="progress-fill"></div></div>
+
+    <div id="reader-body" class="reader-body" lang="ja"></div>
+
+    <!-- The end card (stories-plan.md §8.5) — no quiz, just the words
+         actually looked up (a definition tap, the stronger signal — not a
+         pronunciation-only tap), each with a one-tap, entirely optional
+         Add. -->
+    <div id="reader-end" class="card reader-end" hidden>
+      <h3 id="reader-end-title"></h3>
+      <div id="reader-end-words" class="stack"></div>
+      <button id="reader-end-add-all" class="btn btn-quiet" type="button" hidden>Add all</button>
+      <div class="row">
+        <button id="reader-end-next" class="btn btn-primary" type="button" hidden>Next →</button>
+        <button id="reader-end-library" class="btn" type="button">Back to stories</button>
+      </div>
+    </div>
+
+    <!-- Source/licence line (stories-plan.md §4.2) — shown once, at the
+         very end of the text, not buried in a settings screen. -->
+    <p id="reader-source" class="hint reader-source" hidden></p>
+
+    <!-- The definition card (§7.2) — a bottom sheet anchored over the
+         reader, never part of its scroll flow. At most one open at a time. -->
+    <div id="reader-card" class="reader-card" hidden>
+      <div id="reader-card-body" class="reader-card-body"></div>
+    </div>
+
+    <!-- Reader settings (§8.4) — per DEVICE, not synced; a "right now"
+         preference like text size, not a fact about the learner. -->
+    <div id="reader-settings-sheet" class="reader-card" hidden>
+      <div class="reader-card-body stack">
+        <h3>Reading settings</h3>
+        <div class="row">
+          <span class="hint">Text size</span>
+          <input id="reader-text-size" type="range" min="1" max="5" step="1" value="3">
+        </div>
+        <label class="row"><span class="hint">Furigana</span>
+          <select id="reader-furigana-mode">
+            <option value="smart">Smart (default)</option>
+            <option value="always">Always show</option>
+            <option value="never">Never show</option>
+          </select>
+        </label>
+        <label class="row"><input id="reader-show-translations" type="checkbox"><span class="hint">Show every translation</span></label>
+        <button id="reader-settings-close" class="btn btn-primary" type="button">Done</button>
+      </div>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

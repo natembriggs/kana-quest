@@ -27,6 +27,10 @@ import {
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   isFuriganaMuted, muteFuriganaKey,
 } from './srs.js';
+import {
+  renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
+} from './reader.js';
+import { STORIES } from './data/story-manifest.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
@@ -44,7 +48,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30k'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30l'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -338,6 +342,20 @@ const state = {
   // another detail screen, so it can never grow without bound across a
   // session's worth of browsing.
   detailStack: [],
+  // Stories (stories-plan.md) — all session-only; the only things that
+  // outlive one reading sitting are profile.stories/exposure/muted, saved
+  // as they happen (see saveReaderPosition, recordReaderExposure).
+  readerBrowseLevel: null,  // the level strip's current selection in the library
+  readerStoryId: null,
+  readerStory: null,        // the loaded STORY record
+  readerView: null,         // buildReaderView()'s output for the current profile
+  storyRevealLevels: null,  // Map "p:s:i" -> reveal level, reset per story open
+  storyCounted: null,       // Set of exposure keys already counted THIS reading (§6.3)
+  readerLookedUp: null,     // Map surface -> token, for the end card (§8.5)
+  readerCardKey: null,      // the definition card's open token key, or null
+  readerFinished: false,
+  readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
+  readerShowAllTranslations: false,
 };
 
 // The writing lesson card's stroke-order animation loops like a gif (see
@@ -562,6 +580,8 @@ function openProfile(profile) {
   // Same reasoning as exposure above — a profile predating "hide furigana in
   // future" has muted nothing yet.
   if (profile.muted === undefined) profile.muted = {};
+  // Same reasoning again — a profile predating stories has read none of them.
+  if (profile.stories === undefined) profile.stories = { read: {}, pos: {} };
   renderHome();
   // Not awaited: opening a learner must never wait on the network. If this
   // brings anything in, it re-renders the home screen itself (autoSync).
@@ -577,6 +597,7 @@ function renderHome() {
   // Not awaited: this reads IndexedDB, and the rest of the home screen must
   // never wait on it to draw.
   renderSyncNudge();
+  renderReadCard();
 
   const list = $('script-list');
   list.innerHTML = '';
@@ -4890,6 +4911,682 @@ async function syncShareCode() {
   }
 }
 
+// --- Stories: graded reading (stories-plan.md) ----------------------------
+//
+// Not a course: no modes, no SRS, no due dates, nothing scored. A learner
+// opens a story and reads it; the only thing this whole section records is
+// which words got tapped for a definition (§8.5's end card, opt-in) and the
+// exposure counter reading already shares with the vocab quiz (§6).
+//
+// MVP note: tools/build_story_data.py (with a real tokenizer and the level/
+// grammar gates from §4.6) doesn't exist yet — no fugashi/UniDic in this
+// environment. The two stories shipped here were tokenised by hand instead;
+// the data SHAPE is exactly what that future build script would emit, so
+// nothing downstream of src/data/story-*.js needs to change once it exists.
+
+const READING_LEVELS = [
+  { id: 'L1', name: 'First steps' },
+  { id: 'L2', name: 'Getting going' },
+  { id: 'L3', name: 'Everyday' },
+  { id: 'L4', name: 'Wider world' },
+  { id: 'L5', name: 'Confident' },
+  { id: 'L6', name: 'Unabridged' },
+];
+function readingLevelName(id) {
+  return (READING_LEVELS.find((l) => l.id === id) || {}).name || id;
+}
+
+const loadedStories = new Map();
+const loadingStories = new Map();
+/** Mirrors ensureVocabUnitLoaded/ensureKanjiUnitLoaded exactly — memoized,
+ * lazy, one file per story (stories-plan.md §3.4). */
+async function ensureStoryLoaded(id) {
+  if (loadedStories.has(id)) return loadedStories.get(id);
+  if (!loadingStories.has(id)) {
+    loadingStories.set(id, import(`./data/story-${id}.js`).then((mod) => {
+      loadedStories.set(id, mod.STORY);
+      return mod.STORY;
+    }));
+  }
+  return loadingStories.get(id);
+}
+
+/** stories-plan.md §5.1 — 'hira' until katakana has been started, 'kana'
+ * until any kanji has, 'kanji' from there on. Uses studyModes (already
+ * imported from srs.js) over the three real kanji modes, the same
+ * KANJI_STUDY_MODES set isKanjiKnown checks below — never a bare "any study
+ * key at all" test, which the vmeaning/vrecall-key-collision bug phase 3b
+ * of vocab-plan.md found would misread a studied single-kanji WORD (船, 水)
+ * as a studied KANJI. */
+function anyKanjiStarted(profile) {
+  return [...KANJI_STUDY_MODES].some((mode) => studiedKanji(profile.study, mode).length > 0);
+}
+function readerScriptStage(profile) {
+  if (anyKanjiStarted(profile)) return 'kanji';
+  const kata = courseStats(getAnyCourse('katakana'), 'recognition', profile);
+  return kata.started > 0 ? 'kana' : 'hira';
+}
+
+/** The furthest-along kanji unit with anything introduced in any of the
+ * three kanji modes, in teaching order — stories-plan.md §5.1's "frontier
+ * unit". Null if no kanji has been introduced at all (stage isn't 'kanji'
+ * yet, so callers only reach this once it's non-null in practice). */
+function frontierKanjiUnit(profile) {
+  let frontier = null;
+  KANJI_UNIT_IDS.forEach((unit) => {
+    const course = getAnyCourse(`kanji-grade-${unit}`);
+    // Enrolled OR introduced — matches anyKanjiStarted's own criterion for
+    // 'kanji' stage above. Enrollment happens before the first progress
+    // record does (see "Learn N next"), so checking progress alone would
+    // leave frontier null right after enrolling, which windowActive then
+    // misreads as "frontier grade 4+, show every kanji" instead of
+    // restricting to the window — the opposite of what was just started.
+    const started = course.chunks.some((chunk) => chunk.items.some((char) => (
+      ['definition', 'recognition', 'writing'].some((mode) => (
+        isStudying(profile.study, char, mode) || !!profile.progress[itemKey(mode, char)]
+      ))
+    )));
+    if (started) frontier = unit;
+  });
+  return frontier;
+}
+
+/** Builds the `view` object src/reader.js's pure renderer takes — everything
+ * about the current profile that decides how one story renders, computed
+ * fresh (never cached: study state can change mid-story via a detail-screen
+ * chip, see openReaderDetail). */
+function buildReaderView() {
+  const profile = state.profile;
+  const stage = readerScriptStage(profile);
+  let windowActive = false;
+  let windowUnits = null;
+  if (stage === 'kanji') {
+    const frontier = frontierKanjiUnit(profile);
+    // Grades 1-3 only (stories-plan.md §5.4) — from grade 4 on, every kanji
+    // is shown (§5.5). '8-x'/'9-x' (secondary/names) sort after '6' in
+    // KANJI_UNIT_IDS, so they never match here either.
+    if (frontier && ['1', '2', '3'].includes(frontier)) {
+      windowActive = true;
+      const idx = KANJI_UNIT_IDS.indexOf(frontier);
+      windowUnits = new Set([frontier, KANJI_UNIT_IDS[idx + 1]].filter(Boolean));
+    }
+  }
+  return {
+    stage,
+    windowActive,
+    inWindow: (ch) => !!windowUnits && windowUnits.has(kanjiUnitFor(ch)),
+    isKanjiKnown,
+    exposure: profile.exposure,
+    muted: profile.muted,
+  };
+}
+
+/** stories-plan.md §2.4's first-time suggestion — never asked as a
+ * question, just a pre-selected starting point the learner can move off of
+ * freely. Coarse on purpose: it only has to be roughly right. */
+function suggestedReadingLevel(profile) {
+  const stage = readerScriptStage(profile);
+  if (stage === 'hira') return 'L1';
+  if (stage === 'kana') return 'L2';
+  const frontier = frontierKanjiUnit(profile);
+  const idx = frontier ? KANJI_UNIT_IDS.indexOf(frontier) : -1;
+  if (idx < 0 || idx <= 1) return 'L3';
+  if (idx <= 3) return 'L4';
+  return 'L5';
+}
+
+/** The story a learner is mid-way through, most-recently-touched first, or
+ * null if nothing is in progress — shared by the home screen's Read card
+ * and the library's own "Continue reading" card. */
+function continueReadingInfo(profile) {
+  const pos = (profile.stories && profile.stories.pos) || {};
+  const ids = Object.keys(pos).sort((a, b) => (pos[b].at || 0) - (pos[a].at || 0));
+  for (const id of ids) {
+    const entry = STORIES[id];
+    if (entry) return { id, entry, pos: pos[id] };
+  }
+  return null;
+}
+
+function renderReadCard() {
+  const info = continueReadingInfo(state.profile);
+  $('read-card-sub').textContent = info
+    ? `${info.entry.title.ja} — pick up where you left off`
+    : 'Something new to read';
+}
+
+function openStoriesLibrary() {
+  state.readerBrowseLevel = state.profile.settings.readingLevel || suggestedReadingLevel(state.profile);
+  renderStoriesLibrary();
+  show('screen-stories');
+}
+
+function renderStoriesLibrary() {
+  const profile = state.profile;
+  const ownLevel = profile.settings.readingLevel;
+  const browse = state.readerBrowseLevel;
+
+  const strip = $('story-level-strip');
+  strip.innerHTML = '';
+  READING_LEVELS.forEach((lvl) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `segment${browse === lvl.id ? ' active' : ''}`;
+    btn.textContent = lvl.id;
+    btn.addEventListener('click', () => { state.readerBrowseLevel = lvl.id; renderStoriesLibrary(); });
+    strip.appendChild(btn);
+  });
+  $('story-level-name').textContent = readingLevelName(browse);
+  // Browsing and committing are different actions (§2.4) — only offered
+  // while looking at a level that isn't already the learner's own.
+  $('story-make-level').hidden = !!ownLevel && ownLevel === browse;
+
+  const continueInfo = continueReadingInfo(profile);
+  const continueEl = $('story-continue');
+  if (continueInfo) {
+    continueEl.hidden = false;
+    continueEl.innerHTML = '';
+    const label = document.createElement('span');
+    label.className = 'hint';
+    label.textContent = 'Continue reading';
+    const title = document.createElement('div');
+    title.className = 'story-card-title';
+    title.textContent = `${continueInfo.entry.title.ja} `;
+    const sub = document.createElement('span');
+    sub.className = 'hint';
+    sub.textContent = continueInfo.entry.title.en;
+    title.appendChild(sub);
+    continueEl.appendChild(label);
+    continueEl.appendChild(title);
+    continueEl.onclick = () => openStory(continueInfo.id);
+  } else {
+    continueEl.hidden = true;
+    continueEl.onclick = null;
+  }
+
+  const list = $('story-list');
+  list.innerHTML = '';
+  const entries = Object.entries(STORIES).filter(([, s]) => s.level === browse);
+  if (entries.length === 0) {
+    const p = document.createElement('p');
+    p.className = 'hint';
+    p.textContent = 'Nothing at this level yet — more stories are on the way.';
+    list.appendChild(p);
+  }
+  entries.forEach(([id, s]) => {
+    const read = profile.stories && profile.stories.read && profile.stories.read[id];
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'card story-card';
+    const title = document.createElement('div');
+    title.className = 'story-card-title';
+    title.textContent = `${s.title.ja} `;
+    const titleEn = document.createElement('span');
+    titleEn.className = 'hint';
+    titleEn.textContent = s.title.en;
+    title.appendChild(titleEn);
+    const blurb = document.createElement('p');
+    blurb.className = 'hint';
+    blurb.textContent = s.blurb;
+    const meta = document.createElement('p');
+    meta.className = 'hint';
+    const minutes = Math.max(1, Math.ceil(s.length / 60));
+    meta.textContent = `${minutes} min${read && read.done ? ' · read' : ''}`;
+    card.appendChild(title);
+    card.appendChild(blurb);
+    card.appendChild(meta);
+    card.addEventListener('click', () => openStory(id));
+    list.appendChild(card);
+  });
+}
+
+// --- The reader -------------------------------------------------------
+
+function tokenStateKey(p, s, i) { return `${p}:${s}:${i}`; }
+
+/** Applies the reader-settings furigana override (§8.4) on top of what
+ * src/reader.js's own rules decided — a per-device "right now" preference,
+ * not part of the pure hiding rule itself, so it stays out of reader.js. */
+function applyFuriganaOverride(rendered) {
+  const mode = state.readerFuriganaMode;
+  if (rendered.form !== 'kanji' || !mode || mode === 'smart') return rendered;
+  if (mode === 'always') return { ...rendered, hidden: false, maxLevel: 1 };
+  return { ...rendered, hidden: true, maxLevel: rendered.ruby ? 2 : 1 };
+}
+
+function getRenderedSentence(p, s) {
+  const sentence = state.readerStory.body[p][s];
+  return renderSentence(sentence.t, state.readerView).map(applyFuriganaOverride);
+}
+
+function paintTokenElement(el, token, rendered, level) {
+  const at = tokenAtLevel(rendered, level);
+  el.innerHTML = '';
+  if (rendered.form === 'kanji' && rendered.ruby) {
+    const rubyByPos = new Map(rendered.ruby.map((r) => [r[0], r[1]]));
+    [...rendered.text].forEach((ch, idx) => {
+      const reading = rubyByPos.get(idx);
+      if (reading && at.showRuby) {
+        const ruby = document.createElement('ruby');
+        ruby.appendChild(document.createTextNode(ch));
+        const rt = document.createElement('rt');
+        rt.textContent = reading;
+        ruby.appendChild(rt);
+        el.appendChild(ruby);
+      } else {
+        el.appendChild(document.createTextNode(ch));
+      }
+    });
+  } else {
+    el.appendChild(document.createTextNode(at.text));
+  }
+  if (at.showRomaji) {
+    const romaji = document.createElement('span');
+    romaji.className = 'reader-romaji-pop';
+    romaji.textContent = toRomaji(token.k);
+    el.appendChild(romaji);
+  }
+}
+
+function buildTokenElement(token, rendered, p, s) {
+  const el = document.createElement('span');
+  el.dataset.p = p;
+  el.dataset.s = s;
+  el.dataset.i = rendered.i;
+  if (rendered.tappable) {
+    el.className = 'reader-token reader-tap';
+  } else {
+    el.className = 'reader-token';
+  }
+  paintTokenElement(el, token, rendered, 0);
+  return el;
+}
+
+function renderReaderParagraph(para, pIndex) {
+  const p = document.createElement('p');
+  p.className = 'reader-para';
+  p.dataset.p = pIndex;
+  para.forEach((sentence, sIndex) => {
+    const rendered = getRenderedSentence(pIndex, sIndex);
+    const sSpan = document.createElement('span');
+    sSpan.className = 'reader-sentence';
+    sSpan.dataset.s = sIndex;
+    rendered.forEach((r, idx) => {
+      if (r.spaceBefore) sSpan.appendChild(document.createTextNode(' '));
+      const token = sentence.t[idx];
+      const el = buildTokenElement(token, r, pIndex, sIndex);
+      // The sentence's own final punctuation doubles as a translate tap
+      // target (§7.3's second bullet) — no individual word needs picking
+      // first to translate a sentence understood not one word of.
+      if (idx === rendered.length - 1 && token.pos === 'punct') {
+        el.classList.add('reader-translate-tap');
+      }
+      sSpan.appendChild(el);
+    });
+    p.appendChild(sSpan);
+    const tDiv = document.createElement('div');
+    tDiv.className = 'reader-translation';
+    tDiv.dataset.s = sIndex;
+    tDiv.textContent = sentence.en;
+    tDiv.hidden = !state.readerShowAllTranslations;
+    p.appendChild(tDiv);
+  });
+  return p;
+}
+
+function renderReaderBody() {
+  const container = $('reader-body');
+  container.innerHTML = '';
+  state.readerStory.body.forEach((para, pIndex) => {
+    container.appendChild(renderReaderParagraph(para, pIndex));
+  });
+  observeReaderParagraphs();
+}
+
+// --- Exposure (stories-plan.md §6) -----------------------------------
+
+/** Every (kanji, reading) plus the word's own key a shown/revealed token
+ * should accrue against — src/reader.js's exposureTargetsForToken, just
+ * re-exported at the call site for readability. */
+function recordReaderExposure(token, source) {
+  if (!token.ruby) return;
+  const wordKey = exposureWordKey(token.s);
+  const hiddenByDefault = isTokenFuriganaHidden(token, state.readerView);
+  if (source === 'show') {
+    if (hiddenByDefault) return; // nothing was actually shown
+  } else {
+    if (!hiddenByDefault) return; // nothing was hidden to reveal
+    if (isExposurePromoted(state.profile.exposure, wordKey)) {
+      // One unambiguous reveal of an exposure-promoted word — a story
+      // decision is always per-WORD (§5.4/§6.1), so unlike the vocab quiz's
+      // per-kanji case this is never ambiguous about which reading failed.
+      recordDemotionStrike(state.profile.exposure, wordKey, Date.now());
+      store.saveProfile(state.profile);
+      return;
+    }
+  }
+  let changed = false;
+  exposureTargetsForToken(token).forEach((key) => {
+    if (isExposurePromoted(state.profile.exposure, key)) return;
+    if (state.storyCounted.has(key)) return; // at most one per episode (§6.3)
+    state.storyCounted.add(key);
+    addExposure(state.profile.exposure, key, Date.now());
+    changed = true;
+  });
+  if (changed) store.saveProfile(state.profile);
+}
+
+let readerObserver = null;
+const readerDwellTimers = new Map();
+
+/** A paragraph counts as "read" once at least half of it has stayed in view
+ * for 2 seconds (§6.3) — approximate on purpose; the cost of a wrong call
+ * either way is one count out of four. Guarded for environments with no
+ * IntersectionObserver (the headless test harness) — those simply never
+ * accrue reading exposure, which is fine since nothing there opens a story. */
+function observeReaderParagraphs() {
+  if (typeof IntersectionObserver !== 'function') return;
+  if (readerObserver) readerObserver.disconnect();
+  readerDwellTimers.forEach((t) => clearTimeout(t));
+  readerDwellTimers.clear();
+  readerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const el = entry.target;
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        if (readerDwellTimers.has(el)) return;
+        readerDwellTimers.set(el, setTimeout(() => {
+          readerDwellTimers.delete(el);
+          markParagraphExposed(el);
+        }, 2000));
+      } else if (readerDwellTimers.has(el)) {
+        clearTimeout(readerDwellTimers.get(el));
+        readerDwellTimers.delete(el);
+      }
+    });
+  }, { threshold: [0, 0.5, 1] });
+  $('reader-body').querySelectorAll('.reader-para').forEach((el) => readerObserver.observe(el));
+}
+
+function updateReaderProgress(pIndex) {
+  const total = state.readerStory.body.length;
+  $('reader-progress-fill').style.width = `${Math.round(((pIndex + 1) / total) * 100)}%`;
+}
+
+function saveReaderPosition(pIndex, sIndex) {
+  if (!state.profile.stories) state.profile.stories = { read: {}, pos: {} };
+  state.profile.stories.pos[state.readerStoryId] = {
+    p: pIndex, s: sIndex, h: state.readerStory.hash, at: Date.now(),
+  };
+  store.saveProfile(state.profile);
+}
+
+function markParagraphExposed(pEl) {
+  if (pEl.dataset.exposed === '1') return;
+  pEl.dataset.exposed = '1';
+  const pIndex = Number(pEl.dataset.p);
+  const para = state.readerStory.body[pIndex];
+  para.forEach((sentence) => sentence.t.forEach((token) => recordReaderExposure(token, 'show')));
+  updateReaderProgress(pIndex);
+  saveReaderPosition(pIndex, 0);
+  if (pIndex === state.readerStory.body.length - 1 && !state.readerFinished) {
+    state.readerFinished = true;
+    markStoryFinished(state.readerStoryId);
+    showReaderEndCard();
+  }
+}
+
+// --- profile.stories bookkeeping (stories-plan.md §9) ------------------
+
+function ensureStoryReadEntry(id) {
+  if (!state.profile.stories) state.profile.stories = { read: {}, pos: {} };
+  if (!state.profile.stories.read[id]) {
+    state.profile.stories.read[id] = { first: Date.now(), last: Date.now(), done: null, passes: 0 };
+  }
+  return state.profile.stories.read[id];
+}
+function touchStoryOpened(id) {
+  const entry = ensureStoryReadEntry(id);
+  entry.last = Date.now();
+  store.saveProfile(state.profile);
+}
+function markStoryFinished(id) {
+  const entry = ensureStoryReadEntry(id);
+  entry.done = Date.now();
+  entry.last = entry.done;
+  entry.passes = (entry.passes || 0) + 1;
+  store.saveProfile(state.profile);
+}
+
+// --- Tapping (stories-plan.md §7) ---------------------------------------
+
+function handleReaderTokenTap(tokenEl) {
+  const p = Number(tokenEl.dataset.p);
+  const s = Number(tokenEl.dataset.s);
+  const i = Number(tokenEl.dataset.i);
+  const key = tokenStateKey(p, s, i);
+  const sentence = state.readerStory.body[p][s];
+  const token = sentence.t[i];
+  const rendered = getRenderedSentence(p, s)[i];
+  const level = state.storyRevealLevels.get(key) || 0;
+  if (level >= rendered.maxLevel) {
+    if (state.readerCardKey === key) closeReaderCard();
+    else openReaderCard(p, s, i, token);
+    return;
+  }
+  const willReveal = rendered.form === 'kanji' && rendered.hidden && level === 0;
+  const nextLevel = level + 1;
+  state.storyRevealLevels.set(key, nextLevel);
+  paintTokenElement(tokenEl, token, rendered, nextLevel);
+  if (willReveal) recordReaderExposure(token, 'reveal');
+}
+
+function toggleSentenceTranslation(p, s) {
+  const pEl = $('reader-body').querySelector(`.reader-para[data-p="${p}"]`);
+  if (!pEl) return;
+  const tDiv = pEl.querySelector(`.reader-translation[data-s="${s}"]`);
+  if (tDiv) tDiv.hidden = !tDiv.hidden;
+}
+
+function closeReaderCard() {
+  state.readerCardKey = null;
+  $('reader-card').hidden = true;
+  $('reader-card-body').innerHTML = '';
+}
+
+function kanaCourseForChar(ch) {
+  if (ch >= 'ぁ' && ch <= 'ゟ') return getAnyCourse('hiragana');
+  if (ch >= '゠' && ch <= 'ヿ') return getAnyCourse('katakana');
+  return null;
+}
+
+function openReaderDetail(course, char) {
+  closeReaderCard();
+  openCharacterDetail(course, char, 'reader');
+}
+
+/** stories-plan.md §7.2's definition card. `token.d`, when present, is
+ * already the vocab curriculum's own item id (its dictionary-form surface —
+ * vocab-plan.md §3.3), so this needs no lookup step beyond loading that
+ * word's own unit. */
+async function openReaderCard(p, s, i, token) {
+  const key = tokenStateKey(p, s, i);
+  state.readerCardKey = key;
+  state.readerLookedUp.set(token.s, token);
+  const body = $('reader-card-body');
+  body.innerHTML = '<p class="hint">Loading…</p>';
+  $('reader-card').hidden = false;
+
+  let vocabCourseObj = null;
+  let entry = null;
+  if (token.d) {
+    vocabCourseObj = vocabCourseForId(token.d);
+    if (vocabCourseObj) {
+      await ensureVocabUnitLoaded(vocabCourseObj.unit);
+      if (state.readerCardKey !== key) return; // navigated away mid-load
+      entry = vocabInfo(vocabCourseObj, token.d);
+    }
+  }
+
+  body.innerHTML = '';
+  const head = document.createElement('div');
+  head.className = 'reader-card-head';
+  const glyph = document.createElement('span');
+  glyph.className = 'glyph reader-card-glyph';
+  glyph.textContent = token.s;
+  head.appendChild(glyph);
+  const readingLine = document.createElement('div');
+  readingLine.className = 'reader-card-reading';
+  const romaji = toRomaji(token.k);
+  readingLine.textContent = token.k === token.s ? romaji : `${token.k}  ${romaji}`;
+  head.appendChild(readingLine);
+  body.appendChild(head);
+
+  if (token.d && token.d !== token.s) {
+    const infl = document.createElement('p');
+    infl.className = 'hint';
+    infl.textContent = `${token.s} — from ${token.d}`;
+    body.appendChild(infl);
+  }
+
+  const gloss = document.createElement('p');
+  gloss.className = 'reader-card-gloss';
+  gloss.textContent = entry ? wordGlossSummary(entry) : 'not one of the words this app teaches';
+  body.appendChild(gloss);
+
+  const translateBtn = document.createElement('button');
+  translateBtn.type = 'button';
+  translateBtn.className = 'btn btn-quiet';
+  translateBtn.textContent = 'Translate this sentence';
+  translateBtn.addEventListener('click', () => { toggleSentenceTranslation(p, s); closeReaderCard(); });
+  body.appendChild(translateBtn);
+
+  const chips = document.createElement('div');
+  chips.className = 'row reader-card-chips';
+  if (entry && vocabCourseObj) {
+    const wordChip = document.createElement('button');
+    wordChip.type = 'button';
+    wordChip.className = 'btn btn-quiet';
+    wordChip.textContent = 'Word details ›';
+    wordChip.addEventListener('click', () => openReaderDetail(vocabCourseObj, token.d));
+    chips.appendChild(wordChip);
+  }
+  body.appendChild(chips);
+
+  if (tokenHasKanji(token)) {
+    const kanjiChips = document.createElement('div');
+    kanjiChips.className = 'row reader-card-chips';
+    fillWordKanjiChips(kanjiChips, token.s, openReaderDetail);
+    body.appendChild(kanjiChips);
+  } else if (token.pos !== 'punct') {
+    const kanaChips = document.createElement('div');
+    kanaChips.className = 'row reader-card-chips';
+    const chars = [...new Set([...token.k])].filter((ch) => kanaCourseForChar(ch));
+    chars.forEach((ch) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'reading-chip';
+      chip.textContent = ch;
+      chip.addEventListener('click', () => openReaderDetail(kanaCourseForChar(ch), ch));
+      kanaChips.appendChild(chip);
+    });
+    kanaChips.hidden = chars.length === 0;
+    body.appendChild(kanaChips);
+  }
+}
+
+// --- The end card (stories-plan.md §8.5) --------------------------------
+
+function showReaderEndCard() {
+  const story = state.readerStory;
+  $('reader-end-title').textContent = `You finished ${story.title.ja}`;
+  const wordsEl = $('reader-end-words');
+  wordsEl.innerHTML = '';
+  const looked = [...state.readerLookedUp.values()];
+  if (looked.length === 0) {
+    const p = document.createElement('p');
+    p.className = 'hint';
+    p.textContent = 'Nothing looked up this time.';
+    wordsEl.appendChild(p);
+  }
+  looked.forEach((token) => {
+    const row = document.createElement('div');
+    row.className = 'reader-end-word';
+    const label = document.createElement('span');
+    const vocabCourseObj = token.d ? vocabCourseForId(token.d) : null;
+    const entry = vocabCourseObj ? vocabInfo(vocabCourseObj, token.d) : null;
+    label.textContent = entry ? `${token.s} — ${wordMeaningLabel(entry)}` : token.s;
+    row.appendChild(label);
+    if (entry && vocabCourseObj) {
+      const modes = applicableStudyModes(vocabCourseObj, token.d);
+      const already = modes.length > 0 && modes.every((mode) => isStudying(state.profile.study, token.d, mode));
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'btn btn-quiet';
+      addBtn.textContent = already ? 'Studying' : '+ Add';
+      addBtn.disabled = already;
+      addBtn.addEventListener('click', () => {
+        const { study, unstudy } = state.profile;
+        modes.forEach((mode) => setStudying(study, unstudy, token.d, mode, true));
+        store.saveProfile(state.profile);
+        addBtn.textContent = 'Studying';
+        addBtn.disabled = true;
+      });
+      row.appendChild(addBtn);
+    }
+    wordsEl.appendChild(row);
+  });
+  $('reader-end-next').hidden = true; // no series wired up yet — see stories-plan.md §12 phase 9
+  $('reader-end').hidden = false;
+}
+
+function renderReaderSource(story) {
+  const el = $('reader-source');
+  const { source } = story;
+  el.hidden = false;
+  el.textContent = `${source.text}${source.by ? ` — ${source.by}` : ''}. ${source.licence}`;
+}
+
+function scrollToResumePosition(story, id) {
+  const saved = state.profile.stories && state.profile.stories.pos && state.profile.stories.pos[id];
+  if (!saved) return;
+  // A hash mismatch means the story was edited since this position was
+  // saved — clamp to the paragraph rather than trust a sentence index that
+  // may no longer line up (stories-plan.md §3.5).
+  const pIndex = Math.min(saved.h === story.hash ? saved.p : 0, story.body.length - 1);
+  const target = $('reader-body').querySelector(`.reader-para[data-p="${pIndex}"]`);
+  if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+}
+
+async function openStory(id) {
+  const manifestEntry = STORIES[id];
+  if (!manifestEntry) return;
+  const requestNav = navSeq;
+  const story = await withLoading(ensureStoryLoaded(id));
+  if (navSeq !== requestNav) return;
+
+  state.readerStoryId = id;
+  state.readerStory = story;
+  state.readerView = buildReaderView();
+  state.storyRevealLevels = new Map();
+  state.storyCounted = new Set(); // cleared per story open — stories-plan.md §6.3
+  state.readerLookedUp = new Map();
+  state.readerCardKey = null;
+  state.readerFinished = false;
+
+  touchStoryOpened(id);
+  $('reader-title').textContent = story.title.ja;
+  $('reader-end').hidden = true;
+  closeReaderCard();
+  renderReaderBody();
+  renderReaderSource(story);
+  updateReaderProgress(0);
+  // AFTER show(): scrollIntoView on a paragraph inside a still-[hidden]
+  // (display:none) screen is a no-op, since a non-rendered element has no
+  // scroll position to scroll to.
+  show('screen-reader');
+  scrollToResumePosition(story, id);
+}
+
 // --- Wiring ---------------------------------------------------------------
 
 function wire() {
@@ -4918,6 +5615,46 @@ function wire() {
   // clickHideFuriganaButton(). Toggled per-question in
   // updateVocabWordDisplay().
   $('quiz-hide-furigana').addEventListener('click', clickHideFuriganaButton);
+
+  // Stories (stories-plan.md §7/§8) — one delegated listener handles every
+  // tap inside the reader: the reveal ladder, the definition card, and the
+  // sentence-translate target (a word's own tap ladder, or the sentence's
+  // final punctuation) all live under #reader-body, and closing the card on
+  // an outside tap has to run AFTER those checks, in the same listener,
+  // rather than in a second one that would race it.
+  $('reader-body').addEventListener('click', (event) => {
+    const translateEl = event.target.closest('.reader-translate-tap');
+    if (translateEl) {
+      toggleSentenceTranslation(translateEl.dataset.p, translateEl.dataset.s);
+      return;
+    }
+    const tapEl = event.target.closest('.reader-tap');
+    if (tapEl) { handleReaderTokenTap(tapEl); return; }
+    if (state.readerCardKey) closeReaderCard();
+  });
+  $('story-make-level').addEventListener('click', () => {
+    state.profile.settings.readingLevel = state.readerBrowseLevel;
+    stampSetting(state.profile, 'readingLevel');
+    store.saveProfile(state.profile);
+    renderStoriesLibrary();
+  });
+  $('reader-end-library').addEventListener('click', openStoriesLibrary);
+  const READER_TEXT_SIZES = ['14px', '16px', '18px', '21px', '24px'];
+  $('reader-text-size').addEventListener('input', (event) => {
+    $('reader-body').style.fontSize = READER_TEXT_SIZES[Number(event.target.value) - 1] || READER_TEXT_SIZES[2];
+  });
+  $('reader-furigana-mode').addEventListener('change', (event) => {
+    state.readerFuriganaMode = event.target.value;
+    state.storyRevealLevels = new Map(); // starting states just changed under every token
+    closeReaderCard();
+    renderReaderBody();
+  });
+  $('reader-show-translations').addEventListener('change', (event) => {
+    state.readerShowAllTranslations = event.target.checked;
+    $('reader-body').querySelectorAll('.reader-translation').forEach((el) => {
+      el.hidden = !state.readerShowAllTranslations;
+    });
+  });
 
   $('detail-study-toggle').addEventListener('click', toggleDetailStudy);
   STUDY_MODE_IDS.forEach((mode) => {
@@ -5093,11 +5830,24 @@ function wire() {
           // screen's own return so the next press keeps unwinding.
           const { courseId, char, returnTo } = state.detailStack.pop();
           openCharacterDetail(getAnyCourse(courseId), char, returnTo);
-        } else renderOverview(state.detailChar);
+        } else if (state.detailReturn === 'reader' && state.readerStory) show('screen-reader');
+        else renderOverview(state.detailChar);
         break;
       // Opened only from the detail screen, which is still sitting there
       // untouched underneath — no need to re-render it, just show it again.
       case 'open-study-history': openStudyHistory(); break;
+      // stories-plan.md §8 — the Read card, the library, and the reader's
+      // own back/settings controls.
+      case 'open-stories': openStoriesLibrary(); break;
+      case 'reader-back':
+        readerDwellTimers.forEach((t) => clearTimeout(t));
+        readerDwellTimers.clear();
+        if (readerObserver) readerObserver.disconnect();
+        closeReaderCard();
+        openStoriesLibrary();
+        break;
+      case 'reader-settings': $('reader-settings-sheet').hidden = false; break;
+      case 'reader-settings-close': $('reader-settings-sheet').hidden = true; break;
       case 'study-history-back': show('screen-character-detail'); break;
       case 'close-settings':
         if (!state.profile) renderProfiles();

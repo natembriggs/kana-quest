@@ -197,6 +197,11 @@ export function createProfile(name, emoji) {
     // to earning the hidden default by exposure. Same key scheme as
     // `exposure`, same {} starting point, same no-migration story.
     muted: {},
+    // Reading progress (stories-plan.md §9) — `read[id]` is when a story was
+    // first/last opened and finished, `pos[id]` is where to resume it. Same
+    // starting-as-{} reasoning as exposure/muted above: a profile saved
+    // before this existed has read nothing, which needs no migration.
+    stories: { read: {}, pos: {} },
   };
   return saveProfile(profile).then(() => profile);
 }

@@ -1330,3 +1330,115 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .study-history-row-fail { color: var(--bad); }
 .study-history-row-added { color: var(--ink-soft); }
 .study-history-row-mode { color: var(--ink-soft); font-size: 13px; }
+
+/* --- Stories (stories-plan.md) ------------------------------------------
+   Not a fifth course card — see §8.1 for why. Everything below is either
+   the home screen's one wide Read card, the library, or the reader itself,
+   which is deliberately spare: the text is the screen. */
+
+.read-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+.read-card-icon { font-size: 32px; line-height: 1; }
+.read-card-text { display: flex; flex-direction: column; gap: 2px; }
+.read-card-title { font-weight: 700; font-size: 17px; }
+
+.story-level-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+.story-level-strip .segment { flex: 0 0 auto; min-width: 48px; padding: 0 14px; }
+.story-level-name { text-align: center; margin: -4px 0 4px; }
+
+.story-continue { text-align: left; cursor: pointer; }
+.story-list { margin-top: 4px; }
+.story-card { text-align: left; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
+.story-card-title { font-weight: 700; font-size: 17px; }
+
+/* The reader itself — everything that isn't the story is a failure of
+   nerve (§8.3). The top bar and progress line stay minimal on purpose. */
+.reader-topbar h2 { font-size: 16px; }
+.reader-progress { height: 4px; margin: 4px 0 12px; }
+.reader-body {
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+               "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  font-size: 18px;
+  line-height: 2.4;   /* room for furigana, whether or not it's showing */
+  padding-bottom: 40px;
+}
+.reader-para { margin: 0 0 22px; }
+.reader-sentence { display: inline; }
+.reader-token {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.reader-token ruby { ruby-position: over; }
+.reader-token rt { font-size: 0.5em; color: var(--ink-soft); user-select: none; }
+.reader-tap { cursor: pointer; }
+.reader-translate-tap { cursor: pointer; }
+/* A dotted underline under the WORD glyphs only (not any rt already shown),
+   the one hint that a token can be tapped for help — same language
+   .vocab-word-tap already uses in the quiz. */
+.reader-tap:not(:has(rt)) { text-decoration: underline dotted; text-underline-offset: 6px; }
+.reader-romaji-pop {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  font-size: 11px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.reader-translation {
+  margin: 4px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.reader-source { text-align: center; margin: 24px 0; }
+
+/* The definition card and the settings sheet — both overlays, never part of
+   the reader's own scroll flow, so neither can reflow a paragraph under a
+   learner's thumb (stories-plan.md §5.7/§8.3). */
+.reader-card {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 25;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.reader-card-body { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; }
+.reader-card-head { display: flex; align-items: baseline; gap: 12px; }
+.reader-card-glyph { font-size: 32px; }
+.reader-card-reading { color: var(--ink-soft); font-size: 15px; }
+.reader-card-gloss { font-size: 16px; font-weight: 600; }
+.reader-card-chips { flex-wrap: wrap; }
+.reader-card-chips:empty { display: none; }
+
+.reader-end { margin-top: 16px; }
+.reader-end-word {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
