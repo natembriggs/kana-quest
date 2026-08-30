@@ -48,7 +48,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30l'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30m'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -5186,6 +5186,17 @@ function paintTokenElement(el, token, rendered, level) {
     romaji.textContent = toRomaji(token.k);
     el.appendChild(romaji);
   }
+  // Definition card trigger, shown only once something's actually been
+  // revealed — kept off every untouched word so the page doesn't fill up
+  // with dots, and off punctuation (rendered.tappable false, so level never
+  // leaves 0 for it — see handleReaderTokenTap).
+  if (level >= 1) {
+    const info = document.createElement('span');
+    info.className = 'reader-info-tap';
+    info.textContent = 'ⓘ';
+    info.setAttribute('aria-label', 'Word details');
+    el.appendChild(info);
+  }
 }
 
 function buildTokenElement(token, rendered, p, s) {
@@ -5359,6 +5370,16 @@ function markStoryFinished(id) {
 
 // --- Tapping (stories-plan.md §7) ---------------------------------------
 
+/**
+ * A plain tap always shows or hides — cycling forward through the reveal
+ * ladder (furigana, then romaji) and wrapping back to fully hidden once it
+ * runs out, so there is always a next tap that gets a learner back to where
+ * they started rather than getting "stuck" with romaji left showing.
+ * Opening the definition card is a SEPARATE trigger (the small info dot
+ * that appears once something's been revealed — handleReaderInfoTap
+ * below), precisely so it never eats the tap a learner expects to just
+ * hide something again.
+ */
 function handleReaderTokenTap(tokenEl) {
   const p = Number(tokenEl.dataset.p);
   const s = Number(tokenEl.dataset.s);
@@ -5368,16 +5389,26 @@ function handleReaderTokenTap(tokenEl) {
   const token = sentence.t[i];
   const rendered = getRenderedSentence(p, s)[i];
   const level = state.storyRevealLevels.get(key) || 0;
-  if (level >= rendered.maxLevel) {
-    if (state.readerCardKey === key) closeReaderCard();
-    else openReaderCard(p, s, i, token);
-    return;
-  }
   const willReveal = rendered.form === 'kanji' && rendered.hidden && level === 0;
-  const nextLevel = level + 1;
+  const nextLevel = level >= rendered.maxLevel ? 0 : level + 1;
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
+  if (nextLevel === 0 && state.readerCardKey === key) closeReaderCard();
   if (willReveal) recordReaderExposure(token, 'reveal');
+}
+
+/** The info dot's own tap target — opens the definition card independently
+ * of the reveal ladder above, so it never competes with a plain tap for
+ * the same gesture. */
+function handleReaderInfoTap(infoEl) {
+  const tokenEl = infoEl.closest('.reader-token');
+  const p = Number(tokenEl.dataset.p);
+  const s = Number(tokenEl.dataset.s);
+  const i = Number(tokenEl.dataset.i);
+  const key = tokenStateKey(p, s, i);
+  const token = state.readerStory.body[p][s].t[i];
+  if (state.readerCardKey === key) closeReaderCard();
+  else openReaderCard(p, s, i, token);
 }
 
 function toggleSentenceTranslation(p, s) {
@@ -5628,6 +5659,11 @@ function wire() {
       toggleSentenceTranslation(translateEl.dataset.p, translateEl.dataset.s);
       return;
     }
+    // Checked before .reader-tap: the info dot sits INSIDE a tappable
+    // token's own span, so a click on it would otherwise also match the
+    // word's own tap target underneath it.
+    const infoEl = event.target.closest('.reader-info-tap');
+    if (infoEl) { handleReaderInfoTap(infoEl); return; }
     const tapEl = event.target.closest('.reader-tap');
     if (tapEl) { handleReaderTokenTap(tapEl); return; }
     if (state.readerCardKey) closeReaderCard();
@@ -5639,7 +5675,11 @@ function wire() {
     renderStoriesLibrary();
   });
   $('reader-end-library').addEventListener('click', openStoriesLibrary);
-  const READER_TEXT_SIZES = ['14px', '16px', '18px', '21px', '24px'];
+  // Level 3 (the slider's own default) matches .reader-body's CSS default
+  // of 18px, so the slider starts truthful without needing to set it on
+  // load. The top end goes well past a normal reading size on purpose —
+  // large-print territory for anyone who needs it, not just "a bit bigger".
+  const READER_TEXT_SIZES = ['14px', '16px', '18px', '24px', '32px'];
   $('reader-text-size').addEventListener('input', (event) => {
     $('reader-body').style.fontSize = READER_TEXT_SIZES[Number(event.target.value) - 1] || READER_TEXT_SIZES[2];
   });

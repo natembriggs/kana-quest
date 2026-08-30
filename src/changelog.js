@@ -11,6 +11,14 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-31',
+    changes: [
+      'Fixed: in a story, once a word\'s furigana or romaji was showing, there was no way to tap it away again — tapping it just sat there or opened its definition. A tap now always shows or hides, cycling back to fully hidden once it\'s shown everything there is to show. Word details (the meaning, "translate this sentence", the way through to that word\'s or kanji\'s own page) now open from a small ⓘ that appears next to a word once you\'ve tapped it at least once, so showing/hiding and looking something up are two separate, always-available taps instead of competing for the same one.',
+      'Fixed: the reading settings sheet\'s "Done" button did nothing.',
+      'Changed: the reading settings\' text size slider now goes noticeably larger at its top setting.',
+    ],
+  },
+  {
     date: '2026-08-30',
     changes: [
       'New: a "Read" card on the home screen opens graded stories — pick a reading level and just read, tapping any word once for its pronunciation and again for what it means, with a "translate this sentence" option and a way through to that word\'s or kanji\'s own page. Nothing here is tested or scored. Starts with two short stories at the "Getting going" level, rendered in whichever script you\'ve actually reached — all hiragana with spaces if you haven\'t started katakana, mixed kana once you have, and kanji (with furigana) once you start learning it. Furigana you\'ve seen enough times, in stories or in vocabulary quizzes, starts hiding itself here too — the same "seen it enough, no more free furigana" rule now applies across both.',

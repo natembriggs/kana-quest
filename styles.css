@@ -1388,6 +1388,17 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    the one hint that a token can be tapped for help — same language
    .vocab-word-tap already uses in the quiz. */
 .reader-tap:not(:has(rt)) { text-decoration: underline dotted; text-underline-offset: 6px; }
+/* The definition-card trigger — appears only once a word's been tapped at
+   least once (see paintTokenElement in app.js), so an untouched page of
+   text has none of these at all. Small and quiet on purpose: it's a second,
+   optional step, not the main thing a tap on a word does. */
+.reader-info-tap {
+  cursor: pointer;
+  font-size: 0.55em;
+  vertical-align: super;
+  color: var(--accent);
+  margin-left: 1px;
+}
 .reader-romaji-pop {
   position: absolute;
   left: 0;
