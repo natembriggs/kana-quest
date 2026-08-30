@@ -274,6 +274,24 @@ export function mergeExposure(current, incoming) {
 }
 
 /**
+ * Per-key union of both sides' `muted` maps — a mute has no counter or
+ * tombstone to reconcile (unlike exposure), so a key muted on either side is
+ * muted in the result. Keeps the older timestamp when both sides muted the
+ * same key, for no reason stronger than determinism; nothing downstream
+ * reads it for anything but presence.
+ */
+export function mergeMuted(current, incoming) {
+  const keys = new Set([...Object.keys(current || {}), ...Object.keys(incoming || {})]);
+  const muted = {};
+  keys.forEach((key) => {
+    const a = (current || {})[key];
+    const b = (incoming || {})[key];
+    muted[key] = a && b ? Math.min(a, b) : (a || b);
+  });
+  return muted;
+}
+
+/**
  * Merge one incoming profile into the current copy of the same profile
  * (matched by id by the caller — see importAll in store.js). Pure: no
  * storage, no side effects, so it can run identically whether the incoming
@@ -287,6 +305,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   rebuildYomiRollups(progress);
   const { study, unstudy } = mergeStudy(current, incoming);
   const exposure = mergeExposure(current.exposure, incoming.exposure);
+  const muted = mergeMuted(current.muted, incoming.muted);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -307,5 +326,6 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     study,
     unstudy,
     exposure,
+    muted,
   };
 }

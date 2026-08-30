@@ -25,6 +25,7 @@ import {
   recomputeVocabRollup, VOCAB_SUBKEYS,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
+  isFuriganaMuted, muteFuriganaKey,
 } from './srs.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -43,7 +44,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30j'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -558,6 +559,9 @@ function openProfile(profile) {
   // so it just starts as {} without being persisted until something is
   // actually recorded into it.
   if (profile.exposure === undefined) profile.exposure = {};
+  // Same reasoning as exposure above — a profile predating "hide furigana in
+  // future" has muted nothing yet.
+  if (profile.muted === undefined) profile.muted = {};
   renderHome();
   // Not awaited: opening a learner must never wait on the network. If this
   // brings anything in, it re-renders the home screen itself (autoSync).
@@ -914,6 +918,12 @@ function renderQuickActions(script) {
 
   const stats = courseStats(getAnyCourse(pools.next), state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
+  // The number actually waiting, not stats.fresh's count — fresh counts the
+  // whole remaining curriculum (always ≥ newPerSession in practice), so
+  // newCount is always the full per-session batch size regardless of
+  // whether anything is really pending. Capped at newPerSession the same
+  // way: this is what the very next tap teaches, not the total backlog.
+  const waitingCount = Math.min(stats.pending, state.profile.settings.newPerSession);
   const learnButton = $('quick-learn-next');
   if (newCount > 0) {
     learnButton.disabled = false;
@@ -926,7 +936,7 @@ function renderQuickActions(script) {
     // belong to any of thirty-odd vocab units, and this button already
     // spans all of them (pools.next), which the per-unit card doesn't.
     learnButton.innerHTML = stats.pending > 0
-      ? `Learn <b>${newCount}</b> waiting`
+      ? `Learn <b>${waitingCount}</b> waiting`
       : `Learn <b>${newCount}</b> next`;
   } else {
     learnButton.disabled = true;
@@ -1077,6 +1087,9 @@ function renderCourse() {
   const currentChunk = course.chunks[setIndex];
   const pct = Math.round((stats.started / stats.total) * 100);
   const newCount = Math.min(stats.fresh, profile.settings.newPerSession);
+  // The true waiting count, not newCount — see renderQuickActions()'s own
+  // waitingCount for why these can't share one number.
+  const waitingCount = Math.min(stats.pending, profile.settings.newPerSession);
   const settled = readyForMore(course, state.mode, profile);
   const setsLeft = remainingSetsLabel(course, state.mode, profile, setIndex, stats.fresh);
 
@@ -1192,7 +1205,7 @@ function renderCourse() {
     // never reaches here with a nonzero pending count for real, but the
     // kind check stays explicit rather than relying on that being true.
     learn.innerHTML = course.kind !== 'kana' && stats.pending > 0
-      ? `Learn <b>${newCount}</b> waiting`
+      ? `Learn <b>${waitingCount}</b> waiting`
       : `Learn <b>${newCount}</b> new`;
     learn.addEventListener('click', () => startSession(course.id, 'new'));
   } else {
@@ -2383,6 +2396,7 @@ function renderQuestion() {
   $('quiz-kana').textContent = item;
   $('quiz-prompt-hint').hidden = true;
   $('quiz-prompt-pronunciation').hidden = true;
+  $('quiz-hide-furigana').hidden = true;
   $('quiz-feedback').textContent = '';
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
@@ -2608,31 +2622,36 @@ function renderVocabWordGlyph(el, info) {
  *   romaji, same length as the kanji ladder but with no "known" gate.
  * - `whole` — a jukujikun word (build_vocab_data.py couldn't align it to
  *   per-kanji readings, e.g. 大人) — all-or-nothing: hidden only if EVERY
- *   kanji in it is known OR the word itself has earned the hidden default by
+ *   kanji in it is known, OR the word itself has earned the hidden default by
  *   exposure (vocab-plan.md §5.3 — jukujikun words accrue against the whole
- *   word, having no per-kanji reading to key on).
+ *   word, having no per-kanji reading to key on), OR the learner muted it by
+ *   hand ("Hide furigana in future" — clickHideFuriganaButton below).
  * - `perchar` — the normal case: each kanji position hides independently,
- *   enrolled in any mode OR its specific (kanji, reading) pair promoted by
- *   exposure — the two rules are an OR, per §5.3.
+ *   enrolled in any mode, OR its specific (kanji, reading) pair promoted by
+ *   exposure, OR muted by hand — a three-way OR, per §5.3.
  */
 function vocabHiddenState(info) {
   if (!wordHasKanji(info.w)) {
     const isKatakana = [...info.w].some((ch) => ch >= 'ァ' && ch <= 'ヶ');
     return { mode: isKatakana ? 'katakana' : 'none' };
   }
-  const { exposure } = state.profile;
+  const { exposure, muted } = state.profile;
   if (!info.ruby) {
     const chars = [...info.w].filter(isKanjiChar);
     const known = chars.length > 0 && chars.every(isKanjiKnown);
-    const promoted = isExposurePromoted(exposure, exposureWordKey(info.w));
-    return { mode: 'whole', hidden: known || promoted };
+    const key = exposureWordKey(info.w);
+    const promoted = isExposurePromoted(exposure, key);
+    const mutedByChoice = isFuriganaMuted(muted, key);
+    return { mode: 'whole', hidden: known || promoted || mutedByChoice };
   }
   const hidden = new Set();
   info.ruby.forEach((entry) => {
     const pos = entry[0];
+    const key = exposureKanjiKey(info.w[pos], vocabExposureReading(entry));
     const known = isKanjiKnown(info.w[pos]);
-    const promoted = isExposurePromoted(exposure, exposureKanjiKey(info.w[pos], vocabExposureReading(entry)));
-    if (known || promoted) hidden.add(pos);
+    const promoted = isExposurePromoted(exposure, key);
+    const mutedByChoice = isFuriganaMuted(muted, key);
+    if (known || promoted || mutedByChoice) hidden.add(pos);
   });
   // Showing SOME of a word's furigana narrows what the yomi follow-up can
   // fairly ask with, since every option then has to agree with what's on
@@ -2790,6 +2809,17 @@ function updateVocabWordDisplay() {
   }
 
   el.classList.toggle('vocab-word-tap', level < vocabMaxRevealLevel(hiddenInfo));
+
+  // Only worth offering while furigana is actually showing BY DEFAULT — once
+  // the learner has tapped to reveal it (level >= 1) everything is visible
+  // regardless of hidden state, and "hide in future" would mute the wrong
+  // thing: kanji they'd have wanted hidden anyway, not the ones currently
+  // being handed to them for free. See clickHideFuriganaButton below.
+  const hasVisibleDefault = level === 0 && (
+    (hiddenInfo.mode === 'whole' && !hiddenInfo.hidden)
+    || (hiddenInfo.mode === 'perchar' && hiddenInfo.hidden.size < info.ruby.length)
+  );
+  $('quiz-hide-furigana').hidden = !hasVisibleDefault;
 }
 
 /**
@@ -2821,6 +2851,47 @@ function clickVocabWord() {
       recordVocabExposureOnReveal(info, hiddenInfo);
     }
   }
+  updateVocabWordDisplay();
+}
+
+/**
+ * "Hide furigana in future" (vocab-plan.md §5.3) — a manual, permanent
+ * alternative to earning the hidden default by exposure, for whenever the
+ * learner would rather not wait to meet a reading four times. Mutes every
+ * key that is CURRENTLY showing by default (updateVocabWordDisplay only
+ * shows the button when at least one such key exists), never a key already
+ * hidden — this button opts kanji OUT of being shown, it does not un-hide
+ * anything. Bound once in wire() to the static #quiz-hide-furigana element,
+ * a sibling of #quiz-kana rather than a descendant, so it needs no
+ * stopPropagation to avoid also triggering clickVocabWord's reveal.
+ *
+ * Takes effect immediately — the current word's display is recomputed from
+ * the just-updated profile, same as any other quiz screen edit — not only
+ * for the next time this word comes up.
+ */
+function clickHideFuriganaButton() {
+  const session = state.session;
+  if (!session || !session.vocabHidden || session.vocabStage !== 'definition') return;
+  const hiddenInfo = session.vocabHidden;
+  if (session.vocabRevealLevel !== 0) return;
+  const course = getAnyCourse(state.courseId);
+  const info = vocabInfo(course, session.queue[session.position]);
+  const { muted } = state.profile;
+  const now = Date.now();
+  if (hiddenInfo.mode === 'whole') {
+    if (hiddenInfo.hidden) return;
+    muteFuriganaKey(muted, exposureWordKey(info.w), now);
+  } else if (hiddenInfo.mode === 'perchar') {
+    info.ruby.forEach((entry) => {
+      const pos = entry[0];
+      if (hiddenInfo.hidden.has(pos)) return;
+      muteFuriganaKey(muted, exposureKanjiKey(info.w[pos], vocabExposureReading(entry)), now);
+    });
+  } else {
+    return;
+  }
+  store.saveProfile(state.profile);
+  session.vocabHidden = vocabHiddenState(info);
   updateVocabWordDisplay();
 }
 
@@ -4249,6 +4320,9 @@ function finishSession() {
   // new characters does not mean navigating back out first.
   const stats = courseStats(course, state.mode, state.profile);
   const newCount = Math.min(stats.fresh, state.profile.settings.newPerSession);
+  // The true waiting count, not newCount — see renderQuickActions()'s own
+  // waitingCount for why these can't share one number.
+  const waitingCount = Math.min(stats.pending, state.profile.settings.newPerSession);
 
   // Only one button reads as "the" primary action. Practise-missed outranks
   // both of the below whenever it's offered, since going over what was just
@@ -4265,7 +4339,15 @@ function finishSession() {
   const learnButton = $('summary-learn');
   learnButton.classList.toggle('btn-primary', missed.length === 0 && stats.due === 0);
   learnButton.hidden = newCount === 0;
-  learnButton.innerHTML = `Learn <b>${newCount}</b> new`;
+  // "Waiting" for the same reason renderQuickActions()/renderCourse()'s own
+  // Learn buttons say it — a manually-added character or word sitting
+  // enrolled but never taught is a different thing from the next untouched
+  // item in course order, and this screen is exactly where a learner who
+  // just finished a "Learn N waiting" session would next see it mislabelled
+  // "N new" if this weren't here too.
+  learnButton.innerHTML = course.kind !== 'kana' && stats.pending > 0
+    ? `Learn <b>${waitingCount}</b> waiting`
+    : `Learn <b>${newCount}</b> new`;
 
   // Nothing else on offer — no miss to go fix, nothing new queued up, and
   // (this being the case that prompted the request) a review session that
@@ -4832,6 +4914,10 @@ function wire() {
   // Vocabulary's reveal ladder (vocab-plan.md §5.2) — a no-op outside a
   // vocab Meaning question's definition stage, see clickVocabWord().
   $('quiz-kana').addEventListener('click', clickVocabWord);
+  // "Hide furigana in future" (vocab-plan.md §5.3) — see
+  // clickHideFuriganaButton(). Toggled per-question in
+  // updateVocabWordDisplay().
+  $('quiz-hide-furigana').addEventListener('click', clickHideFuriganaButton);
 
   $('detail-study-toggle').addEventListener('click', toggleDetailStudy);
   STUDY_MODE_IDS.forEach((mode) => {

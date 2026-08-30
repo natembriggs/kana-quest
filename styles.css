@@ -338,6 +338,18 @@ h3 { font-size: 18px; }
    elsewhere on the quiz screen deliberately does nothing — see c51d904). */
 .vocab-word-tap { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 8px; }
 
+/* "Hide furigana in future" (vocab-plan.md §5.3) — quiet and small, same
+   reasoning as .quiz-info-more: an offer, not a step, so it must not read as
+   louder than Next. Negative margin-top pulls it up against the glyph above
+   it rather than sitting a full flex gap away, since it's a comment on THAT
+   word specifically. */
+.quiz-hide-furigana {
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 13px;
+  margin-top: -6px;
+}
+
 .romaji {
   font-size: 30px;
   font-weight: 600;

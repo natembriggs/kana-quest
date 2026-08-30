@@ -855,6 +855,24 @@ export function recordDemotionStrike(exposure, key, now = Date.now()) {
 // the branch above.
 export const exposureInternals = { exposureEvents, exposureCleared, exposureStrikes };
 
+// --- Muted: a manual, permanent alternative to earning the hidden default
+// by exposure (vocab-plan.md §5.3) — "Hide furigana in future" on the quiz
+// screen. Keyed exactly like `exposure` (exposureKanjiKey/exposureWordKey),
+// so the same key already earned by passive exposure is the same key a
+// learner can mute outright. Unlike exposure there is nothing to count or
+// demote: presence means muted, permanently, until the field is deleted by
+// hand — so a plain timestamp per key is enough, kept only in case a future
+// screen wants to show "muted since" or offer to undo it.
+
+export function isFuriganaMuted(muted, key) {
+  return !!(muted || {})[key];
+}
+
+export function muteFuriganaKey(muted, key, now = Date.now()) {
+  muted[key] = now;
+  return muted;
+}
+
 // --- Vocabulary: two-stage records rolled into one schedulable card -------
 //
 // vocab-plan.md §4.2/§4.4: a Meaning question grades TWO things (vdef: did

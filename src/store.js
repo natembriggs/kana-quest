@@ -192,6 +192,11 @@ export function createProfile(name, emoji) {
     // all, which is what tells openProfile() there is nothing to migrate —
     // only to start counting from here.
     exposure: {},
+    // (kanji, reading) or word -> when the learner chose "Hide furigana in
+    // future" on it (vocab-plan.md §5.3) — a manual, permanent alternative
+    // to earning the hidden default by exposure. Same key scheme as
+    // `exposure`, same {} starting point, same no-migration story.
+    muted: {},
   };
   return saveProfile(profile).then(() => profile);
 }
@@ -225,6 +230,7 @@ function validateBackup(data) {
       || (profile.settings !== undefined && !isObject(profile.settings))
       || (profile.study !== undefined && !isObject(profile.study))
       || (profile.exposure !== undefined && !isObject(profile.exposure))
+      || (profile.muted !== undefined && !isObject(profile.muted))
       || ids.has(profile.id)) {
       throw new Error('That backup contains an invalid learner profile.');
     }
