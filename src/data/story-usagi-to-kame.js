@@ -20,7 +20,7 @@ export const STORY = {
   "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The fable itself is ancient and has no single identifiable author or copyright holder.",
   "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kana Quest."
  },
- "hash": "398c4e8d",
+ "hash": "c22a0b75",
  "nw": [
   "競争",
   "追い越し",
@@ -35,7 +35,7 @@ export const STORY = {
      {
       "s": "森",
       "k": "もり",
-      "d": null,
+      "d": "森",
       "pos": "n",
       "ruby": [
        [
@@ -54,7 +54,7 @@ export const STORY = {
      {
       "s": "足",
       "k": "あし",
-      "d": null,
+      "d": "足",
       "pos": "n",
       "ruby": [
        [
@@ -92,14 +92,14 @@ export const STORY = {
      {
       "s": "と",
       "k": "と",
-      "d": null,
+      "d": "と",
       "pos": "part",
       "ruby": null
      },
      {
       "s": "足",
       "k": "あし",
-      "d": null,
+      "d": "足",
       "pos": "n",
       "ruby": [
        [
@@ -191,7 +191,7 @@ export const STORY = {
      {
       "s": "いつも",
       "k": "いつも",
-      "d": null,
+      "d": "いつも",
       "pos": "n",
       "ruby": null
      },
@@ -212,7 +212,7 @@ export const STORY = {
      {
       "s": "ばか",
       "k": "ばか",
-      "d": null,
+      "d": "ばか",
       "pos": "n",
       "ruby": null
      },
@@ -346,7 +346,7 @@ export const STORY = {
      {
       "s": "と",
       "k": "と",
-      "d": null,
+      "d": "と",
       "pos": "part",
       "ruby": null
      },
@@ -475,7 +475,7 @@ export const STORY = {
      {
       "s": "と",
       "k": "と",
-      "d": null,
+      "d": "と",
       "pos": "part",
       "ruby": null
      },
@@ -522,7 +522,7 @@ export const STORY = {
      {
       "s": "二人",
       "k": "ふたり",
-      "d": null,
+      "d": "二人",
       "pos": "n",
       "ruby": [
        [
@@ -576,7 +576,7 @@ export const STORY = {
      {
       "s": "まで",
       "k": "まで",
-      "d": null,
+      "d": "まで",
       "pos": "part",
       "ruby": null
      },
@@ -599,7 +599,7 @@ export const STORY = {
      {
       "s": "する",
       "k": "する",
-      "d": null,
+      "d": "する",
       "pos": "n",
       "ruby": null
      },
@@ -725,7 +725,7 @@ export const STORY = {
      {
       "s": "始まり",
       "k": "はじまり",
-      "d": null,
+      "d": "始まり",
       "pos": "n",
       "ruby": [
        [
@@ -936,7 +936,7 @@ export const STORY = {
      {
       "s": "と",
       "k": "と",
-      "d": null,
+      "d": "と",
       "pos": "part",
       "ruby": null
      },
@@ -1009,7 +1009,7 @@ export const STORY = {
      {
       "s": "木",
       "k": "き",
-      "d": null,
+      "d": "木",
       "pos": "n",
       "ruby": [
        [
@@ -1145,7 +1145,7 @@ export const STORY = {
      {
       "s": "でも",
       "k": "でも",
-      "d": null,
+      "d": "でも",
       "pos": "part",
       "ruby": null
      },
@@ -1256,7 +1256,7 @@ export const STORY = {
      {
       "s": "と",
       "k": "と",
-      "d": null,
+      "d": "と",
       "pos": "part",
       "ruby": null
      },
@@ -1385,7 +1385,7 @@ export const STORY = {
      {
       "s": "でも",
       "k": "でも",
-      "d": null,
+      "d": "でも",
       "pos": "n",
       "ruby": null
      },
@@ -1578,7 +1578,7 @@ export const STORY = {
      {
       "s": "でも",
       "k": "でも",
-      "d": null,
+      "d": "でも",
       "pos": "part",
       "ruby": null
      },

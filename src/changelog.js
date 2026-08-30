@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-31',
     changes: [
+      'Fixed: several words in the two starter stories — including 洗濯 (laundry) — were words the app genuinely teaches but showed "not one of the words this app teaches" when tapped, because the story text simply hadn\'t been linked to them yet. About 20 words across both stories are now linked to their real entries.',
       'Fixed: in a story, once a word\'s furigana or romaji was showing, there was no way to tap it away again — tapping it just sat there or opened its definition. A tap now always shows or hides, cycling back to fully hidden once it\'s shown everything there is to show. Word details (the meaning, "translate this sentence", the way through to that word\'s or kanji\'s own page) now open from a small ⓘ that appears next to a word once you\'ve tapped it at least once, so showing/hiding and looking something up are two separate, always-available taps instead of competing for the same one.',
       'Fixed: the reading settings sheet\'s "Done" button did nothing.',
       'Changed: the reading settings\' text size slider now goes noticeably larger at its top setting.',

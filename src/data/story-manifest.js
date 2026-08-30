@@ -13,7 +13,7 @@ export const STORIES = {
   "level": "L2",
   "gram": "G2",
   "blurb": "An old couple find a giant peach in the river, and the boy inside it grows up to fight the ogres of Ogre Island.",
-  "hash": "782b6388",
+  "hash": "59b19702",
   "length": 280,
   "source": {
    "kind": "adapted"
@@ -28,7 +28,7 @@ export const STORIES = {
   "level": "L2",
   "gram": "G2",
   "blurb": "A fast hare mocks a slow tortoise into a race up the mountain -- and learns what happens when you stop to nap.",
-  "hash": "398c4e8d",
+  "hash": "c22a0b75",
   "length": 194,
   "source": {
    "kind": "adapted"
