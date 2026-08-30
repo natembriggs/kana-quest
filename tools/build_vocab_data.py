@@ -516,6 +516,14 @@ GROUP_LABELS = {
     # existing theme; its 13 units (§2.3's second table) are their own
     # group, the same shape Core already is relative to groups 1-5.
     "A": "A level",
+    # "K<n>" units — not part of §2.3's structure at all. See the "Kanji
+    # words" section below main(): words already shown on a primary-school
+    # kanji's own page (its "Common words" list) that have no vocab entry of
+    # their own anywhere above, so tapping "Add" on the kanji page does
+    # nothing today. This group exists purely so those words gain a real
+    # entry to be added TO — optional bonus reinforcement of words already
+    # met, not curriculum.
+    "K": "From kanji pages",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -548,13 +556,15 @@ UNIT_LABELS = {
 
 def unit_group(unit):
     # A theme's 'h' unit ("2.4h") is grouped by TIER, not by theme — see
-    # phase 6's module-docstring comment. Checked before the "C"/"A" tests
-    # only because it's cheap to check first; neither Core nor A level ever
-    # has an 'h' unit of its own.
+    # phase 6's module-docstring comment. Checked before the "C"/"A"/"K"
+    # tests only because it's cheap to check first; none of Core, A level or
+    # the kanji-words group ever has an 'h' unit of its own.
     if unit.endswith("h"):
         return "H"
     if unit.startswith("A") and unit[1:].isdigit():
         return "A"
+    if unit.startswith("K") and unit[1:].isdigit():
+        return "K"
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
@@ -1270,6 +1280,112 @@ def main():
     print(f"A level words: {a_count} at 'a' "
           f"({a_unclassified} remaining candidates matched no A-level theme either)")
 
+    # --- Kanji words (K1, K2, ...): not part of vocab-plan.md §2.3 at all —
+    # a user-requested bonus group, not a curriculum tier. A kanji's own
+    # detail page shows up to EXAMPLES_PER_KANJI "Common words" (see
+    # choose_examples() above; already frequency-ordered), each with a
+    # one-tap Add button in the app — EXCEPT that button only exists when
+    # the word also has a real entry somewhere in the vocab curriculum
+    # (buildWordRow() in app.js gates it on vocabTargetForWord() finding
+    # one). Most don't: of every distinct common word shown across the six
+    # primary-school kanji grades, roughly 2,700 have no vocab entry at all.
+    # This walks those six grades in teaching order (grade 1's 一 before
+    # grade 6's anything), each kanji's own words in their already-chosen
+    # frequency order, skipping anything already claimed above (Core, A12,
+    # 'f'/'h'/'a'), and chunks the result into KANJI_WORD_UNIT_SIZE-word
+    # units — so K1 is the most-common words tied to the earliest grade-1
+    # kanji, working forward from there. No topic to classify by (unlike
+    # every group above), so there is nothing here resembling classify()/
+    # classify_a() — just exhaustion of a fixed, ordered source list.
+    #
+    # A surface here is looked up via find_entry (exact keb match, the same
+    # mechanism CORE_ENTRIES/A12_ENTRIES use) rather than trusting the
+    # {kanji, kana, en} triple kanji-data already carries for it — that
+    # triple lacks the multi-sense breakdown, ruby, and mis/sp distractor
+    # pools every other vocab word gets, and find_entry gives the SAME
+    # record shape as everything else via make_record(). A surface CAN be
+    # a homograph, though (石 is both こく, a unit of measure, and いし,
+    # "stone") — find_entry always resolves to whichever entry's FIRST
+    # k_ele matches, which is occasionally not the reading kanji-data's own
+    # alignment actually credited this word for. Checked against kanji-
+    # data's own `kana` field (ground truth for what that word's kanji page
+    # actually shows) and skipped on a mismatch — about 1% of candidates,
+    # not worth teaching a reading the kanji page itself doesn't display.
+    KANJI_WORD_UNIT_SIZE = 40
+    kanji_manifest = load_js_const("src/data/kanji-manifest.js", "KANJI_UNITS")
+    primary_grades = [g for g in kanji_manifest if g.isdigit() and 1 <= int(g) <= 6]
+
+    already_covered = {r["w"] for recs in unit_records.values() for r in recs}
+    k_seen = set(already_covered)
+    k_unit_labels = {}
+    k_chunk_index = 0
+    k_current = []
+    k_current_grades = set()
+    k_total = 0
+    k_mismatches = 0
+
+    def flush_kanji_words():
+        nonlocal k_chunk_index, k_current, k_current_grades
+        if not k_current:
+            return
+        k_chunk_index += 1
+        uid = f"K{k_chunk_index}"
+        unit_records[uid] = k_current
+        grades_sorted = sorted(k_current_grades, key=int)
+        grade_label = f"Grade {grades_sorted[0]}" if len(grades_sorted) == 1 \
+            else f"Grade {grades_sorted[0]}-{grades_sorted[-1]}"
+        # Base label only — a single grade spans many KANJI_WORD_UNIT_SIZE
+        # chunks (grade 1 alone fills five), so several units share this
+        # exact string; the "(part N)" suffix that disambiguates them is
+        # added in one pass below, once every unit's base label is known.
+        k_unit_labels[uid] = f"{grade_label} kanji words"
+        k_current = []
+        k_current_grades = set()
+
+    for grade in primary_grades:
+        kentries = load_js_const(f"src/data/kanji-grade-{grade}.js", "KANJI_ENTRIES")
+        for kentry in kentries:
+            for w in kentry["words"]:
+                surface = w["kanji"]
+                if surface in k_seen:
+                    continue
+                k_seen.add(surface)
+                entry = find_entry(entry_index, keb=surface)
+                if entry is None or entry["reading"] != w["kana"]:
+                    k_mismatches += 1
+                    continue
+                record = make_record(
+                    f"K{k_chunk_index + 1}", "k", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
+                    kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+                    reading_to_kanji, taught_kanji, kanji_only_pool,
+                )
+                k_current.append(record)
+                k_current_grades.add(grade)
+                k_total += 1
+                if len(k_current) >= KANJI_WORD_UNIT_SIZE:
+                    flush_kanji_words()
+    flush_kanji_words()
+
+    # Disambiguate: "Grade 1 kanji words" alone would be the SAME course
+    # name and native label on 5 different units (grade 1 fills that many
+    # 40-word chunks by itself) — every other unit in this app gets its
+    # label from a distinct theme, but there is no theme here, only a
+    # running position through the grade's own word list. uid order (K1,
+    # K2, ...) is already teaching order, so "(part N)" numbers correctly
+    # without re-deriving anything.
+    by_base_label = defaultdict(list)
+    for uid, label in k_unit_labels.items():
+        by_base_label[label].append(uid)
+    for label, uids in by_base_label.items():
+        if len(uids) == 1:
+            continue
+        for i, uid in enumerate(sorted(uids, key=lambda u: int(u[1:])), start=1):
+            k_unit_labels[uid] = f"{label} (part {i} of {len(uids)})"
+
+    UNIT_LABELS.update(k_unit_labels)
+    print(f"Kanji words: {k_total} words across {k_chunk_index} units "
+          f"({k_mismatches} skipped — find_entry's homograph did not match the kanji page's own reading)")
+
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
@@ -1287,14 +1403,21 @@ def main():
     # ("C", "1".."5", "H", "A"), but sorting tags as plain strings would put
     # "C"/"H"/"A" out of teaching order — fine for the manifest (compareUnits
     # in vocab.js sorts for real at runtime) but confusing to read here.
-    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A"])}
-    for unit in sorted(unit_records, key=lambda u: (group_order[unit_group(u)], u)):
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K"])}
+    # (group order, then the unit's own trailing number — e.g. "1.1" -> 1,
+    # "1.8" -> 8, "K10" -> 10 -- so "K10" sorts after "K2" the way it should;
+    # a plain string sort would put it before, since "1" < "2" character by
+    # character. This is report ordering only — compareUnits() in vocab.js
+    # is what the app itself actually uses to browse.
+    unit_number = lambda u: int(re.search(r"(\d+)h?$", u).group(1))  # noqa: E731
+    for unit in sorted(unit_records, key=lambda u: (group_order[unit_group(u)], unit_number(u))):
         recs = unit_records[unit]
         f_n = sum(1 for r in recs if r["lv"] == "f")
         h_n = sum(1 for r in recs if r["lv"] == "h")
         a_n = sum(1 for r in recs if r["lv"] == "a")
+        k_n = sum(1 for r in recs if r["lv"] == "k")
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
-        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a)")
+        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a / {k_n} k)")
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)

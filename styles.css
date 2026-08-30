@@ -271,11 +271,7 @@ body {
    screen height. On a short screen the auto margin simply collapses to
    nothing and the layout behaves exactly as it did before. */
 #screen-quiz {
-  /* Sized for the bar's TALLEST state — #quiz-exit-save (always shown) plus
-     #quiz-ok (shown once a question resolves), stacked with the .stack gap
-     between them — not its shortest, so the last answer choice never sits
-     under the bar just because Next hasn't appeared yet. */
-  padding-bottom: 152px;
+  padding-bottom: 92px;
   /* A slightly tighter rhythm than the 16px every other screen uses: this
      is the one screen that has to fit a character, its details and every
      answer between a sticky header and a fixed bar without scrolling, and

@@ -1556,8 +1556,15 @@ done('vocab yomi options never contradict the furigana on screen');
 
 check('a plain kanji word with a real vocab match resolves to that word\'s own id',
   vocab.vocabIdForWord('七', 'しち') === '七');
+// 歳出 is a secondary-jōyō (grade 8) kanji's example word — the "Kanji
+// words" bonus group (build_vocab_data.py, phase-7-adjacent) only ever
+// covers primary-school grades 1-6, so a secondary-kanji example is one of
+// the few surfaces guaranteed to stay unmatched regardless of future
+// primary-grade word additions (a primary-grade example, like 一部, is not
+// a safe pick here any more — it's exactly the kind of word that bonus
+// group now deliberately adds a match FOR).
 check('a word with no vocab-curriculum match returns null, not a wrong guess',
-  vocab.vocabIdForWord('一部', 'いちぶ') === null);
+  vocab.vocabIdForWord('歳出', 'さいしゅつ') === null);
 
 // 市場 is the one surface form taught twice with different readings — the
 // only real homograph collision in the whole vocab curriculum (see the

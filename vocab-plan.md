@@ -1364,3 +1364,41 @@ plain-language entry to `src/changelog.js` in the same commit. Phases 0, 1 and
 8 probably don't; 2 through 7, 3a and 3b all do. 3a in particular deserves a
 plainly-worded entry — *"words you have seen a few times stop showing their
 furigana"* is the kind of change that reads as a bug if it goes unannounced.
+
+---
+
+## 13. Kanji words (bonus group, outside this plan's original scope)
+
+Not one of §2.3's themes, not a phase in §12's table — a user-requested
+add-on, done after phase 7. Every kanji's own detail page shows up to
+`EXAMPLES_PER_KANJI` "Common words" (already frequency-ordered — see
+`choose_examples()` in `build_kanji_data.py`), each tappable with a one-tap
+"Add to vocab" badge — *except* the badge only exists when that word already
+has an entry somewhere in the vocab curriculum (`vocabTargetForWord()` in
+`app.js`). Most didn't: across the six primary-school kanji grades, roughly
+2,700 of the words shown on a kanji's own page had no vocab entry anywhere
+above to add.
+
+`build_vocab_data.py` closes that gap with a new "K1".."K67" group
+(`GROUP_LABELS["K"]` = "From kanji pages"), built as the LAST step in
+`main()`, after Core/`f`/`h`/`a` have all claimed what they're going to:
+walk the six primary grades in teaching order, each kanji's own words in
+their already-frequency-chosen order, skip anything already claimed above,
+look the rest up via `find_entry()` (same mechanism `CORE_ENTRIES`/
+`A12_ENTRIES` use) rather than trusting kanji-data's own abbreviated
+`{kanji, kana, en}` triple — that triple lacks the multi-sense breakdown,
+ruby and `mis`/`sp` pools every other vocab word gets. About 1% of
+candidates are homographs where `find_entry`'s exact-keb match doesn't agree
+with kanji-data's own credited reading (石 is both こく and いし) — checked
+against kanji-data's own `kana` field and skipped rather than risking a
+wrong reading. The result is chunked into 40-word units labelled by the
+kanji grade(s) they came from ("Grade 3 kanji words (part 4 of 12)").
+
+No topic to classify by (there's nothing thematic connecting a grade's
+words beyond having met the kanji), so this has no `classify()`-shaped
+function of its own — just exhaustion of a fixed, ordered source list. No
+level split either (`unitLevelLabel()` returns null for it, same as Core
+and A level) — it's ordered, not levelled. `vocab.js` sorts the group last
+of everything, after A level: it's the one group here that isn't
+curriculum at all, purely bonus reinforcement of words already met via
+kanji study.

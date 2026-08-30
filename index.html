@@ -446,6 +446,17 @@
       <span id="quiz-counter" class="counter"></span>
     </header>
 
+    <!-- Above the character being tested, not down by the answers/Next —
+         deliberately far from where a tap actually lands during normal
+         play, so it stays easy to find (it's the first thing under the
+         header) without ever being an accidental tap target the way it was
+         when it sat directly above Next. Never hidden — there to tap before
+         a question is even answered, not just after. Routes through
+         finishSession() (see the 'exit-and-save' case in the click
+         handler), so leaving here shows the same tappable summary a
+         finished session would, not a silent drop back to the course card. -->
+    <button id="quiz-exit-save" class="btn btn-quiet quiz-exit-save" type="button" data-action="exit-and-save">Exit and save progress</button>
+
     <!-- "Test unlearned" only, and only once there IS a previous question —
          a placement quiz has no lesson step, so a character tapped past too
          quickly has never been looked at any other way. Opens that PREVIOUS
@@ -509,18 +520,8 @@
 
     <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so
          Next is always in the same reachable spot, not wherever the card
-         above happens to end. #quiz-exit-save is never hidden — unlike Next,
-         it's there to tap before a question is even answered, not just
-         after — so the bar itself is visible for the whole quiz, not only
-         once graded. Sitting above the highlighted Next button (column
-         layout, this one first in source order) is deliberate: it should
-         read as "leave" one glance below "here's what's happening", not
-         compete with Next for the primary spot. See the 'exit-and-save'
-         case in the click handler — routes through finishSession() so
-         leaving here shows the same tappable summary a finished session
-         would, not a silent drop back to the course card. -->
-    <div class="stack bottom-bar">
-      <button id="quiz-exit-save" class="btn btn-quiet wide" type="button" data-action="exit-and-save">Exit and save progress</button>
+         above happens to end. -->
+    <div class="bottom-bar">
       <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
     </div>
   </section>
@@ -617,6 +618,14 @@
         the same five themes. <b>Writing and arguing</b>, its own Core-equivalent, comes first
         in that group: essay connectives and the abstract nouns that go with them
         (したがって, それゆえ, 客観的...) rather than exam vocabulary in the ordinary sense.
+      </p>
+      <p class="hint">
+        <b>From kanji pages</b> isn't a level or a topic at all &mdash; every kanji's own page
+        shows a few common words that use it, and tapping one used to only offer an "Add"
+        button when that exact word already existed somewhere above. This group exists purely
+        so every primary-school kanji's common words have a real vocab entry to be added TO if
+        you want one &mdash; it's bonus reinforcement of words you've already met via kanji
+        study, ordered by kanji teaching grade, not curriculum content of its own.
       </p>
     </div>
     <div id="sync-card" class="card stack profile-only">

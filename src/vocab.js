@@ -64,30 +64,41 @@ function countKanji(word) {
 function unitGroup(unit) {
   if (unit.endsWith('h')) return 'H';
   if (unit.startsWith('A') && /^\d+$/.test(unit.slice(1))) return 'A';
+  // "K<n>" units — not part of vocab-plan.md §2.3 at all. Words already
+  // shown on a primary-school kanji's own page with no vocab entry of
+  // their own anywhere else, so its "Add" badge previously did nothing —
+  // see the "Kanji words" section in build_vocab_data.py's main(). One
+  // browse group for all of them, the same shape "H" already is.
+  if (unit.startsWith('K') && /^\d+$/.test(unit.slice(1))) return 'K';
   return unit.startsWith('C') ? 'C' : unit.split('.')[0];
 }
 
 /** Numeric sort key per group, lowest browsed first: Core, then the five
- * GCSE-style themes in order, then Common words 2, then A level last — the
- * most advanced content sits furthest along, mirroring Foundation → Higher
- * → A level in real UK curricula even though these levels aren't labelled
- * that way (see unitLevelLabel). Theme groups '1'..'5' sort by their own
- * numeral; a plain Number() on 'C'/'H'/'A' would be NaN, so those are
- * special-cased instead of folded into the same arithmetic. */
+ * GCSE-style themes in order, then Common words 2, then A level, then the
+ * kanji-words bonus group last of all — it's the one group here that isn't
+ * curriculum at all (see unitGroup above), so it trails even A level.
+ * Theme groups '1'..'5' sort by their own numeral; a plain Number() on
+ * 'C'/'H'/'A'/'K' would be NaN, so those are special-cased instead of
+ * folded into the same arithmetic. */
 function groupRank(group) {
   if (group === 'C') return -1;
   if (group === 'H') return 100;
   if (group === 'A') return 101;
+  if (group === 'K') return 102;
   return Number(group);
 }
 
 /** Core first, then group 1..5 in theme order, then every Higher-tier unit,
- * then A level last (sub-unit numerically within each group, except A12 —
- * A level's own Core-equivalent, see vocab-plan.md §2.3 — which leads its
- * group the same way Core leads the whole list). VOCAB_UNITS is already
- * written in roughly this order (Python dict insertion order survives into
- * JSON), but sorting explicitly here means this keeps working if a future
- * build ever writes the manifest in a different order. */
+ * then A level (sub-unit numerically within each group, except A12 — A
+ * level's own Core-equivalent, see vocab-plan.md §2.3 — which leads its
+ * group the same way Core leads the whole list), then the kanji-words
+ * group last, K1..Kn in the same grade-by-grade order they were built in
+ * (no Core-equivalent of its own — nothing in that group is more central
+ * than anything else, it's just a long, ordered list). VOCAB_UNITS is
+ * already written in roughly this order (Python dict insertion order
+ * survives into JSON), but sorting explicitly here means this keeps
+ * working if a future build ever writes the manifest in a different
+ * order. */
 function compareUnits(a, b) {
   const ga = unitGroup(a);
   const gb = unitGroup(b);
@@ -120,10 +131,12 @@ export function unitGroupLabel(unit) {
 
 /**
  * "Common words 1" / "Common words 2" for a GCSE-style themed unit, or null
- * for Core or an A-level unit — neither is levelled: Core is the app's own
- * beyond-the-spec spine, and A level (phase 7) is a single frequency band
- * with no further Foundation/Higher-style split of its own to communicate
- * (unitGroupLabel's "A level" already says everything this would). Kept
+ * for Core, an A-level unit, or a kanji-words unit — none of the three is
+ * levelled: Core is the app's own beyond-the-spec spine, A level (phase 7)
+ * is a single frequency band with no further Foundation/Higher-style split
+ * of its own, and the kanji-words bonus group isn't levelled at all, just
+ * ordered (unitGroupLabel's own label already says everything any of these
+ * three would need to add). Kept
  * named around "level" rather than "tier" in the DOM/CSS sense used
  * elsewhere in this app — kanji and kana mastery already own the word
  * "tier" for Leitner box (0-4), an unrelated axis (matching vocab-plan.md
@@ -137,7 +150,7 @@ export function unitGroupLabel(unit) {
  */
 export function unitLevelLabel(unit) {
   const group = unitGroup(unit);
-  if (group === 'C' || group === 'A') return null;
+  if (group === 'C' || group === 'A' || group === 'K') return null;
   return unit.endsWith('h') ? 'Common words 2' : 'Common words 1';
 }
 
