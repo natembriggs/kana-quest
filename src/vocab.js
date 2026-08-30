@@ -101,6 +101,25 @@ export function unitGroupLabel(unit) {
   return VOCAB_GROUP_LABELS[unitGroup(unit)] || unitGroup(unit);
 }
 
+/**
+ * "Common words 1" / "Common words 2" for a themed unit, or null for Core
+ * (Core isn't levelled at all — it's the app's own beyond-the-spec spine,
+ * not a frequency-fallback stand-in for a GCSE tier). Deliberately not
+ * "level" or "tier" in the DOM/CSS sense used elsewhere in this app — kanji
+ * and kana mastery already own the word "tier" for Leitner box (0-4), an
+ * unrelated axis, so this is exported and named around "level" (matching
+ * vocab-plan.md §2.1's own field name) to keep the two concepts from
+ * colliding in a class name or a bug report.
+ *
+ * Exists because unitGroupLabel alone doesn't surface this for a Foundation
+ * unit — it just returns that theme's name, same as always, since Common
+ * words 1 is the implicit default. A learner browsing has no on-screen way
+ * to tell a themed unit's level apart from its Higher sibling without this.
+ */
+export function unitLevelLabel(unit) {
+  return unitGroup(unit) === 'C' ? null : (unit.endsWith('h') ? 'Common words 2' : 'Common words 1');
+}
+
 /** The short badge text for a unit tile ("2.4" either way) — inside the
  * "Common words 2" group there is no longer any "2.4" to collide with
  * (its Foundation sibling lives in a different group entirely), so the

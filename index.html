@@ -173,6 +173,20 @@
          thirty-odd vocab units pushed Review, Learn, Test unlearned and View
          overview off the bottom of a phone screen. See renderGradePicker()
          in app.js. -->
+    <!-- Vocabulary only: says up front that the groups below follow the UK
+         GCSE topic list but the words inside them don't come from an exam
+         board's own list (see the "Vocabulary word lists" card in Settings
+         for the full reasoning) — without this, nothing on this screen ever
+         uses the word "GCSE", and "Common words 2" reads as an arbitrary
+         seventh group rather than the Higher-ish counterpart of the other
+         five. Toggled in renderCourse() in app.js. -->
+    <p id="vocab-source-hint" class="hint" hidden>
+      Groups below follow the UK GCSE Japanese topic list. Words inside them are picked by
+      real-world frequency, not copied from an exam board's list — a topic's rarer words get
+      their own unit, gathered under <b>Common words 2</b>.
+      <button type="button" class="linkish" data-action="open-settings">Why, and what the levels mean ›</button>
+    </p>
+
     <div id="unit-groups" class="unit-group-row" role="group" aria-label="Unit group" hidden></div>
     <div id="grade-picker" class="unit-row" role="group" aria-label="Unit" hidden></div>
 
@@ -552,6 +566,32 @@
         <input id="writing-strictness" type="range" min="1" max="5" step="1">
       </label>
       <p class="hint">How closely a drawn stroke has to match to be accepted. Lower is more forgiving.</p>
+    </div>
+    <div class="card stack">
+      <h3>Vocabulary word lists</h3>
+      <p class="hint">
+        The five vocabulary groups &mdash; Identity &amp; culture, Local area/holiday/travel,
+        School, Future aspirations/work, and International/global &mdash; follow the topic
+        structure used by UK GCSE Japanese specifications, so a unit's name means something
+        to a teacher or parent. Core is this app's own addition on top: survival phrases
+        (greetings, question words, the verbs you can't avoid) that a specification assumes
+        rather than lists.
+      </p>
+      <p class="hint">
+        The words inside each topic are <b>not</b> transcribed from any exam board's official
+        vocabulary list &mdash; that list is copyrighted and this app can't reproduce it.
+        Instead, words are chosen by real-world usage frequency and split into two levels:
+        <b>Common words 1</b>, the everyday layer every topic starts with, and
+        <b>Common words 2</b>, rarer words on the same topics, gathered into their own units
+        under the "Common words 2" group &mdash; e.g. Travel and transport's rarer words live
+        in their own "Travel and transport" unit inside that group, not mixed into the
+        Travel and transport unit you already know.
+      </p>
+      <p class="hint">
+        These levels approximate, but are not identical to, the GCSE "Foundation" and
+        "Higher" exam tiers &mdash; which is also why they aren't labelled that way here.
+        A-level vocabulary isn't built yet.
+      </p>
     </div>
     <div id="sync-card" class="card stack profile-only">
       <h3>Sync across devices</h3>

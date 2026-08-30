@@ -617,6 +617,21 @@ h3 { font-size: 18px; }
 .course-card { display: flex; flex-direction: column; gap: 12px; }
 .course-head { display: flex; justify-content: space-between; align-items: flex-start; }
 .course-native { color: var(--ink-soft); font-size: 14px; }
+/* Vocab only: which GCSE-style group and frequency level this unit is —
+   e.g. "Common words 2 · Local area, holiday and travel" — so a unit and
+   its Higher-tier sibling don't look identical on this card. Not ".tier-*":
+   that name already belongs to Leitner mastery boxes elsewhere on screen. */
+.course-group {
+  display: inline-block;
+  margin: 2px 0 4px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+}
 .course-count { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .course-count span { font-size: 15px; font-weight: 500; color: var(--ink-soft); }
 

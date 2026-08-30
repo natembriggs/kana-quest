@@ -10,7 +10,7 @@ import {
 } from './kanji.js';
 import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
-  unitBadge as vocabUnitBadge,
+  unitLevelLabel as vocabUnitLevelLabel, unitBadge as vocabUnitBadge,
   ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
   wordMeaningLabel, wordGlossSummary,
   partialFuriganaIsAskable, pronunciationFor,
@@ -43,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-29k'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1038,6 +1038,7 @@ function renderCourse() {
   renderGradePicker(script);
   renderQuickActions(script);
   renderWritingModePicker();
+  $('vocab-source-hint').hidden = script.kind !== 'vocab';
 
   $('kanji-search-wrap').hidden = script.kind !== 'kanji';
   const searchQuery = script.kind === 'kanji' ? $('kanji-search').value.trim() : '';
@@ -1069,12 +1070,34 @@ function renderCourse() {
   const settled = readyForMore(course, state.mode, profile);
   const setsLeft = remainingSetsLabel(course, state.mode, profile, setIndex, stats.fresh);
 
+  // Vocab only: which GCSE-style group this unit falls under, and (for a
+  // themed unit, not Core) which frequency level it is — "Common words 1"
+  // is otherwise invisible on screen, since it's the implicit default and
+  // unitGroupLabel alone only names it for a Higher-tier unit ("Common
+  // words 2"). Without this line the course card looks identical for a
+  // unit and its harder sibling, which is exactly the confusion this fixes
+  // — see the "Vocabulary word lists" card in Settings for what the levels
+  // and groups actually mean and where the words come from.
+  // vocabUnitGroupLabel is called on the level-stripped id, not course.unit
+  // itself — for a Higher unit ("2.4h") it otherwise collapses straight to
+  // "Common words 2" (the browse-tab grouping, which deliberately hides
+  // theme so every Higher unit sits in one tab), which would duplicate the
+  // level label computed alongside it here instead of naming the theme.
+  const vocabLevel = script.kind === 'vocab' ? vocabUnitLevelLabel(course.unit) : null;
+  const vocabTheme = script.kind === 'vocab'
+    ? vocabUnitGroupLabel(course.unit.endsWith('h') ? course.unit.slice(0, -1) : course.unit)
+    : '';
+  const vocabGroupLine = script.kind === 'vocab'
+    ? `<div class="course-group">${vocabLevel ? `${vocabLevel} · ` : ''}${vocabTheme}</div>`
+    : '';
+
   const card = document.createElement('div');
   card.className = 'card course-card';
   card.innerHTML = `
     <div class="course-head">
       <div>
         <h3>${course.name}</h3>
+        ${vocabGroupLine}
         <div class="course-native">${course.native}</div>
       </div>
       <div class="course-count">${stats.started}<span>/${stats.total}</span></div>

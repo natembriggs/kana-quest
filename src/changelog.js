@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-08-30',
+    changes: [
+      'Vocabulary is clearer about what you\'re actually studying. A unit\'s course card now shows its GCSE-style topic group and, for a themed unit, whether it\'s "Common words 1" (the everyday layer) or "Common words 2" (a topic\'s rarer words, previously invisible unless you already knew to look in the "Common words 2" group) — before this, a unit and its Common words 2 sibling looked completely identical. The Vocabulary screen also now says up front that its topics follow the UK GCSE Japanese specification but its actual word lists don\'t come from an exam board (that\'s copyrighted) — full reasoning in Settings\' new "Vocabulary word lists" card.',
+    ],
+  },
+  {
     date: '2026-08-29',
     changes: [
       'Fixed: Vocabulary\'s "Test unlearned" quizzed words in the same order they\'re listed, which let numbers give themselves away — after answering 三 correctly you could guess 四 was next without knowing either reading. Vocabulary placement tests are now shuffled (kanji and kana were already immune to this, for their own reasons — see the code comments if curious).',
