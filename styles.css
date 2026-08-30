@@ -1372,9 +1372,22 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   font-size: 18px;
   line-height: 2.4;   /* room for furigana, whether or not it's showing */
   padding-bottom: 40px;
+  /* The strictest set of Japanese line-breaking prohibitions the browser
+     offers, for what it CAN handle on its own: small kana and the long-vowel
+     mark inside a single token's own text. Across tokens it is powerless
+     (see .reader-run above). `word-break: normal` keeps it from breaking a
+     word anywhere it likes to make the line fit. */
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 .reader-para { margin: 0 0 22px; }
 .reader-sentence { display: inline; }
+/* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
+   may not start a line, or an opening bracket plus what follows it. Built in
+   renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for
+   why the browser's own kinsoku can't do this for us. */
+.reader-run { white-space: nowrap; }
 .reader-token {
   position: relative;
   display: inline-block;

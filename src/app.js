@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -5242,6 +5242,24 @@ function buildTokenElement(token, rendered, p, s) {
   return el;
 }
 
+/**
+ * 禁則処理 (kinsoku shori) — the Japanese line-breaking prohibitions.
+ *
+ * Browsers apply these to ordinary Japanese text on their own, but they
+ * cannot here: every token is its own `display: inline-block`, which the
+ * layout engine treats as an atomic box with a break opportunity on either
+ * side, so a 。 in its own box happily lands at the start of the next line.
+ * The prohibitions therefore have to be reimposed by grouping tokens into
+ * `white-space: nowrap` runs that a break cannot fall inside.
+ *
+ * 行頭禁則 — must never START a line: sentence-ending and separating
+ * punctuation, every closing bracket, the sound marks and iteration marks
+ * that belong to the character before them.
+ */
+const NO_LINE_START = /^[。、，．,.・：；:;？！?!）｝】〕〉》」』〙〗\]｣»…‥ーゝゞ々〻ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ]/;
+/** 行末禁則 — must never END a line: every opening bracket. */
+const NO_LINE_END = /^[（｛［〔〈《「『〖〘\[｢«]/;
+
 function renderReaderParagraph(para, pIndex) {
   const p = document.createElement('p');
   p.className = 'reader-para';
@@ -5251,9 +5269,21 @@ function renderReaderParagraph(para, pIndex) {
     const sSpan = document.createElement('span');
     sSpan.className = 'reader-sentence';
     sSpan.dataset.s = sIndex;
+    // The current unbreakable run. A token joins it when a line break must
+    // not fall before this token (行頭禁則) or after the previous one
+    // (行末禁則); otherwise it starts a fresh run, which is where the line
+    // is then free to break.
+    let run = null;
+    let heldOpen = false;
     rendered.forEach((r, idx) => {
-      if (r.spaceBefore) sSpan.appendChild(document.createTextNode(' '));
       const token = sentence.t[idx];
+      const joinPrevious = run && (NO_LINE_START.test(token.s) || heldOpen);
+      if (!joinPrevious) {
+        run = document.createElement('span');
+        run.className = 'reader-run';
+        sSpan.appendChild(run);
+      }
+      if (r.spaceBefore) run.appendChild(document.createTextNode(' '));
       const el = buildTokenElement(token, r, pIndex, sIndex);
       // The sentence's own final punctuation doubles as a translate tap
       // target (§7.3's second bullet) — no individual word needs picking
@@ -5261,7 +5291,8 @@ function renderReaderParagraph(para, pIndex) {
       if (idx === rendered.length - 1 && token.pos === 'punct') {
         el.classList.add('reader-translate-tap');
       }
-      sSpan.appendChild(el);
+      run.appendChild(el);
+      heldOpen = NO_LINE_END.test(token.s);
     });
     p.appendChild(sSpan);
     const tDiv = document.createElement('div');
@@ -5587,17 +5618,42 @@ async function openReaderCard(p, s, i, token) {
   head.appendChild(readingLine);
   body.appendChild(head);
 
-  if (token.d && token.d !== token.s) {
-    const infl = document.createElement('p');
-    infl.className = 'hint';
-    infl.textContent = `${token.s} — from ${token.d}`;
-    body.appendChild(infl);
-  }
-
+  // The headline is what this word means HERE, in the form it is actually
+  // written in — "went", not "to go" (story-writing-guide.md §4). A story
+  // token always carries one; the curriculum's own gloss is the fallback for
+  // any that doesn't, and the last resort is saying so plainly.
   const gloss = document.createElement('p');
   gloss.className = 'reader-card-gloss';
-  gloss.textContent = entry ? wordGlossSummary(entry) : 'not one of the words this app teaches';
+  gloss.textContent = token.g
+    || (entry ? wordGlossSummary(entry) : 'not one of the words this app teaches');
   body.appendChild(gloss);
+
+  // Then what that form IS, and what it comes from: "polite past of 行く —
+  // to go". The dictionary word's own meaning is appended when this app
+  // teaches it, so the learner sees the connection rather than two
+  // unrelated English phrases.
+  if (token.cf && token.df) {
+    const form = document.createElement('p');
+    form.className = 'hint';
+    form.textContent = entry
+      ? `${token.cf} of ${token.df} (${wordMeaningLabel(entry)})`
+      : `${token.cf} of ${token.df}`;
+    body.appendChild(form);
+  } else if (entry && token.g) {
+    // Not inflected, but taught here — show the curriculum's fuller sense
+    // list under the contextual gloss, but only when it genuinely adds
+    // something. A summary that merely restates the contextual gloss and
+    // then trails off into senses this passage doesn't use ("washing,
+    // laundry · relaxation, rejuvenation…") reads as repetition; the full
+    // entry is one tap away behind "Word details" for anyone who wants it.
+    const full = wordGlossSummary(entry);
+    if (full !== token.g && !full.startsWith(token.g)) {
+      const more = document.createElement('p');
+      more.className = 'hint';
+      more.textContent = full;
+      body.appendChild(more);
+    }
+  }
 
   const translateBtn = document.createElement('button');
   translateBtn.type = 'button';
@@ -5660,7 +5716,10 @@ function showReaderEndCard() {
     const label = document.createElement('span');
     const vocabCourseObj = token.d ? vocabCourseForId(token.d) : null;
     const entry = vocabCourseObj ? vocabInfo(vocabCourseObj, token.d) : null;
-    label.textContent = entry ? `${token.s} — ${wordMeaningLabel(entry)}` : token.s;
+    // The story's own contextual gloss first — it is the meaning the learner
+    // actually met, and unlike the curriculum's it exists for every word.
+    const meaning = token.g || (entry ? wordMeaningLabel(entry) : null);
+    label.textContent = meaning ? `${token.s} — ${meaning}` : token.s;
     row.appendChild(label);
     if (entry && vocabCourseObj) {
       const modes = applicableStudyModes(vocabCourseObj, token.d);

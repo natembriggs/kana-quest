@@ -234,15 +234,19 @@ the unit the reader lays out.
 
 ```js
 {
-  s: '電車',                  // surface, as written in ordinary Japanese
-  k: 'でんしゃ',               // kana form, in NATIVE orthography (§5.3)
-  d: '電車',                  // dictionary/vocab id to look up, or null
-  ruby: [[0,'でん','でん'], [1,'しゃ','シャ']],   // exactly vocab-plan.md §3.2's shape
-  pos: 'n',                  // n | v | adj | adv | part | aux | pn | punct | num
+  s: '行きました',             // surface, as written in ordinary Japanese
+  k: 'いきました',             // kana form, in NATIVE orthography (§5.3)
+  d: '行く',                  // dictionary/vocab id to look up, or null
+  ruby: [[0,'い']],           // per-kanji alignment, vocab-plan.md §3.2's shape
+  pos: 'v',                  // n | v | adj | adv | part | aux | pn | punct | num
+  g: 'went',                 // what it means HERE, in THIS form — always present
+  df: '行く',                 // dictionary form, when this is an inflected form
+  cf: 'polite past',         // what that form is, when df is present
 }
 ```
 
-Six fields, and every one of them earns its place:
+Eight fields, and every one of them earns its place — see
+`story-writing-guide.md` for the authoring rules that produce them:
 
 - **`s`** is what a kanji-stage reader sees. **`k`** is what a kana-stage
   reader sees, and — critically — it is the *native* kana spelling, so
@@ -265,12 +269,26 @@ Six fields, and every one of them earns its place:
   tappable at all (`punct` is not), whether it gets a space in the
   hiragana-only rendering (§5.2), and whether the definition card says "a
   name" rather than looking up a gloss (`pn`).
+- **`g`** is the token's meaning *in this context, in this form* — "went",
+  not "to go". Required on every non-punctuation token, which is what lets a
+  story use words the curriculum has never heard of and still explain every
+  one of them. It is the card's headline, and the reason `d: null` is an
+  ordinary case rather than a dead end.
+- **`df` / `cf`** turn an inflected form into a lesson rather than a
+  mystery: the card reads *"went — polite past of 行く — to go"*. They come
+  as a pair; one without the other fails the build.
 
-Inflected forms carry the surface as written and the dictionary form to look
-up: 食べました is `{ s:'食べました', k:'たべました', d:'食べる', ruby:[[0,'た','た.べる']], pos:'v' }`.
-The reader shows what was written; the card explains what it comes from
-(*食べました — from 食べる, to eat*), which is a genuinely useful thing for a
-learner to be told and falls straight out of the format.
+Inflected forms carry the surface as written, the dictionary form to look up,
+and what the form *is*. The reader shows what was written; the card explains
+the meaning in that form and then where it comes from — *"went / polite past
+of 行く — to go"* — which is a genuinely useful thing for a learner to be told
+and falls straight out of the format.
+
+**Tokens are units a learner would look up, not morphemes.** 住んでいました is
+one token, not 住んで + い + まし + た: four cards where one belongs, three of
+them saying nothing usable. The full tokenisation rules — verb chains,
+suffixes, idioms, proper nouns, and never splitting a word — are in
+`story-writing-guide.md` §2.
 
 ### 3.3 Why the text is pre-tokenised
 

@@ -341,7 +341,8 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
 | `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning mode ships; Recall mode, exposure-based hiding and Higher/A level remain |
-| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **Not started** — see its phase table |
+| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader ships with two stories; see its phase table |
+| `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
 
 ## What is not built yet
 
