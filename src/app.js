@@ -48,7 +48,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30n'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -354,6 +354,7 @@ const state = {
   readerLookedUp: null,     // Map surface -> token, for the end card (§8.5)
   readerCardKey: null,      // the definition card's open token key, or null
   readerFinished: false,
+  readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
   readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
   readerShowAllTranslations: false,
 };
@@ -5288,39 +5289,65 @@ function recordReaderExposure(token, source) {
 }
 
 let readerObserver = null;
-const readerDwellTimers = new Map();
 
-/** A paragraph counts as "read" once at least half of it has stayed in view
- * for 2 seconds (§6.3) — approximate on purpose; the cost of a wrong call
- * either way is one count out of four. Guarded for environments with no
- * IntersectionObserver (the headless test harness) — those simply never
- * accrue reading exposure, which is fine since nothing there opens a story. */
+/**
+ * Two questions about a reader's position, deliberately answered by
+ * different machinery because they are held to different standards
+ * (stories-plan.md §6.3 / §9):
+ *
+ * - **"Where am I?"** — the progress line and the resume cursor. Cheap to
+ *   get wrong, so it is just scroll position (readerScrollSync below).
+ * - **"Did they actually read this?"** — the exposure counter that decides
+ *   whether furigana stops being handed over. Evidence, so the bar is much
+ *   higher, and that is this observer's only job: a paragraph counts ONLY
+ *   once it has been on screen AND then scrolled off the TOP of it, i.e.
+ *   the learner has genuinely moved past it. The last screenful, which by
+ *   definition can never scroll off the top, is counted by the learner
+ *   tapping "Finished reading!" instead.
+ *
+ * An earlier version counted a paragraph after two seconds at half-visible.
+ * That was wrong in the direction that matters: text scrolled past on the
+ * way to somewhere else, or sitting on screen while the phone was put down,
+ * counted as read, and furigana would quietly disappear from words nobody
+ * had looked at. Exposure hides help from a learner, so its evidence should
+ * be the honest kind — "I read past this", "I say I finished" — not a proxy.
+ *
+ * `data-seen` is what stops a jump from counting: a paragraph the learner
+ * flicked past on the way to the bottom, or one ABOVE where a resumed story
+ * reopens, is off the top of the screen without ever having been on it, and
+ * must not count. Only a paragraph actually displayed and then left behind
+ * qualifies.
+ *
+ * Guarded for environments with no IntersectionObserver (the headless test
+ * harness) — those simply never accrue reading exposure, which is fine
+ * since nothing there opens a story.
+ */
 function observeReaderParagraphs() {
   if (typeof IntersectionObserver !== 'function') return;
   if (readerObserver) readerObserver.disconnect();
-  readerDwellTimers.forEach((t) => clearTimeout(t));
-  readerDwellTimers.clear();
   readerObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const el = entry.target;
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-        if (readerDwellTimers.has(el)) return;
-        readerDwellTimers.set(el, setTimeout(() => {
-          readerDwellTimers.delete(el);
-          markParagraphExposed(el);
-        }, 2000));
-      } else if (readerDwellTimers.has(el)) {
-        clearTimeout(readerDwellTimers.get(el));
-        readerDwellTimers.delete(el);
+      if (entry.isIntersecting) { el.dataset.seen = '1'; return; }
+      // Left the viewport — but only off the TOP counts as "read past".
+      // rootBounds is null in a few cross-document cases; the viewport's
+      // own top is 0, which is the right fallback here.
+      const top = entry.rootBounds ? entry.rootBounds.top : 0;
+      if (el.dataset.seen === '1' && entry.boundingClientRect.bottom <= top) {
+        markParagraphExposed(el);
       }
     });
-  }, { threshold: [0, 0.5, 1] });
+  }, { threshold: [0, 1] });
   $('reader-body').querySelectorAll('.reader-para').forEach((el) => readerObserver.observe(el));
 }
 
-function updateReaderProgress(pIndex) {
-  const total = state.readerStory.body.length;
-  $('reader-progress-fill').style.width = `${Math.round(((pIndex + 1) / total) * 100)}%`;
+/** How far down the story the learner has scrolled, 0-1. Scroll position
+ * rather than "furthest paragraph with a pixel on screen" — the latter
+ * reads 100% the moment the last paragraph's first line peeks into view,
+ * which on a short story is most of the way through the first screenful. */
+function updateReaderProgress(fraction) {
+  const pct = Math.round(Math.max(0, Math.min(1, fraction)) * 100);
+  $('reader-progress-fill').style.width = `${pct}%`;
 }
 
 function saveReaderPosition(pIndex, sIndex) {
@@ -5331,19 +5358,68 @@ function saveReaderPosition(pIndex, sIndex) {
   store.saveProfile(state.profile);
 }
 
+/**
+ * The cursor half of §6.3's split: the progress line, and the paragraph a
+ * reopened story comes back to. Both answer "where am I right now", so both
+ * follow scroll position directly — the topmost paragraph still on screen
+ * is the one being read, and scrolling back to re-read something genuinely
+ * does move where you are, unlike exposure, which only ever accumulates.
+ *
+ * Saving to IndexedDB is throttled to actual paragraph changes, not every
+ * scroll frame.
+ */
+let readerScrollFrame = null;
+function readerScrollSync() {
+  if (readerScrollFrame) return;
+  readerScrollFrame = requestAnimationFrame(() => {
+    readerScrollFrame = null;
+    if (currentScreenId !== 'screen-reader' || !state.readerStory) return;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    updateReaderProgress(scrollable > 0 ? window.scrollY / scrollable : 1);
+
+    const paras = [...$('reader-body').querySelectorAll('.reader-para')];
+    // Topmost paragraph not yet fully above the viewport — what's being read.
+    const current = paras.find((el) => el.getBoundingClientRect().bottom > 0) || paras[paras.length - 1];
+    if (!current) return;
+    const pIndex = Number(current.dataset.p);
+    if (pIndex === state.readerCursor) return;
+    state.readerCursor = pIndex;
+    saveReaderPosition(pIndex, 0);
+  });
+}
+
 function markParagraphExposed(pEl) {
   if (pEl.dataset.exposed === '1') return;
   pEl.dataset.exposed = '1';
   const pIndex = Number(pEl.dataset.p);
   const para = state.readerStory.body[pIndex];
   para.forEach((sentence) => sentence.t.forEach((token) => recordReaderExposure(token, 'show')));
-  updateReaderProgress(pIndex);
-  saveReaderPosition(pIndex, 0);
-  if (pIndex === state.readerStory.body.length - 1 && !state.readerFinished) {
-    state.readerFinished = true;
-    markStoryFinished(state.readerStoryId);
-    showReaderEndCard();
-  }
+}
+
+/**
+ * "Finished reading!" — the other half of the rule above, and the only way
+ * the last screenful of a story ever counts, since nothing at the bottom of
+ * a document can scroll off the top of the screen.
+ *
+ * Counts every paragraph the learner actually had on screen (`data-seen`)
+ * and no others: tapping this after flicking straight to the bottom credits
+ * only what genuinely went past, not the whole story. Deliberately the
+ * learner's own declaration rather than something inferred from scroll
+ * position — exposure takes help away, so it should be something they said,
+ * not something the app guessed.
+ */
+function finishReading() {
+  if (state.readerFinished) return;
+  state.readerFinished = true;
+  $('reader-body').querySelectorAll('.reader-para').forEach((el) => {
+    if (el.dataset.seen === '1') markParagraphExposed(el);
+  });
+  const lastIndex = state.readerStory.body.length - 1;
+  updateReaderProgress(1);
+  saveReaderPosition(lastIndex, 0);
+  markStoryFinished(state.readerStoryId);
+  $('reader-finished').hidden = true;
+  showReaderEndCard();
 }
 
 // --- profile.stories bookkeeping (stories-plan.md §9) ------------------
@@ -5603,10 +5679,12 @@ async function openStory(id) {
   state.readerLookedUp = new Map();
   state.readerCardKey = null;
   state.readerFinished = false;
+  state.readerCursor = -1;
 
   touchStoryOpened(id);
   $('reader-title').textContent = story.title.ja;
   $('reader-end').hidden = true;
+  $('reader-finished').hidden = false;
   closeReaderCard();
   renderReaderBody();
   renderReaderSource(story);
@@ -5674,6 +5752,15 @@ function wire() {
     store.saveProfile(state.profile);
     renderStoriesLibrary();
   });
+  $('reader-finished').addEventListener('click', finishReading);
+  // Bound once, for the life of the app, and a no-op off the reader screen
+  // (readerScrollSync checks) — cheaper and less error-prone than binding
+  // and unbinding per story open. Guarded the same way the install-prompt
+  // and lifecycle listeners below are: the stub DOM in test/wiring.js has no
+  // window.addEventListener.
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('scroll', readerScrollSync, { passive: true });
+  }
   $('reader-end-library').addEventListener('click', openStoriesLibrary);
   // Level 3 (the slider's own default) matches .reader-body's CSS default
   // of 18px, so the slider starts truthful without needing to set it on
@@ -5880,8 +5967,6 @@ function wire() {
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;
       case 'reader-back':
-        readerDwellTimers.forEach((t) => clearTimeout(t));
-        readerDwellTimers.clear();
         if (readerObserver) readerObserver.disconnect();
         closeReaderCard();
         openStoriesLibrary();

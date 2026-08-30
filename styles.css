@@ -1444,6 +1444,12 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .reader-card-chips { flex-wrap: wrap; }
 .reader-card-chips:empty { display: none; }
 
+/* Sits at the end of the text rather than pinned to the viewport: it is a
+   thing you arrive at by finishing, not a control hovering over the reading
+   (stories-plan.md §8.3 — everything on this screen that isn't the story is
+   a failure of nerve). */
+.reader-finished { margin: 8px 0 4px; }
+
 .reader-end { margin-top: 16px; }
 .reader-end-word {
   display: flex;

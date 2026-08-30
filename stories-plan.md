@@ -788,12 +788,30 @@ Inherited wholesale from `vocab-plan.md` §5.3, with one deliberate change:
   a genuine second encounter. The app-session dedupe (a `Set` that survives
   until the app is closed) stops a same-sitting re-scroll from counting twice,
   which is the only case worth guarding.
-- **Exposure is recorded when the sentence is actually on screen**, via an
-  `IntersectionObserver` on each paragraph — not when the story loads. A
-  learner who opens an episode and closes it has read nothing and should have
-  accrued nothing. Threshold: the paragraph has been at least half-visible for
-  two seconds. Approximate on purpose; the cost of a wrong call either way is
-  one count out of four.
+- **Exposure is recorded when a paragraph has been *read past*, not merely
+  displayed.** A paragraph counts when it has been on screen **and then
+  scrolled off the top** of it, via an `IntersectionObserver` on each
+  paragraph. Both halves are required: a paragraph flicked past on the way
+  to the bottom, or one sitting above where a resumed story reopens, is off
+  the top of the screen without ever having been on it, and must not count.
+- **The last screenful is counted by a "Finished reading!" button**, at the
+  end of the text. Nothing at the bottom of a document can scroll off the top
+  of the screen, so without this the final paragraphs could never accrue at
+  all. Tapping it credits every paragraph that was actually displayed and no
+  others — flicking to the bottom and tapping it does not credit the middle.
+  It is also what opens the end card (§8.5).
+
+  > **Reversed decision, and why.** The first implementation counted a
+  > paragraph after two seconds at half-visible, on the reasoning that the
+  > cost of a wrong call either way was one count out of four. That was wrong
+  > in the direction that matters. Exposure **takes help away** — it is the
+  > mechanism that stops handing a learner furigana — so its errors are not
+  > symmetric: over-counting silently removes support from words nobody
+  > looked at, while under-counting merely delays a convenience. Text
+  > scrolled past on the way somewhere else, or left on screen while the
+  > phone was put down, both cleared a two-second dwell bar. "I scrolled past
+  > this" and "I say I finished this" are evidence a learner actually
+  > produced; time-on-screen is a proxy for it, and a bad one.
 
 ### 6.4 Storage and merge: none of it is new
 
