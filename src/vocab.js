@@ -53,31 +53,48 @@ function countKanji(word) {
  * unit, "2.4h", but browse under one shared "Common words 2" group rather
  * than sitting inside 2's group next to 2.4 itself — the same shape kanji's
  * secondary-school sub-units already use, one tap-away group rather than
- * interleaved grade by grade), else the numeral before the dot ("1" for
- * "1.4"). Checked before the Core test only because it's cheap to check
- * first; Core never has an 'h' unit (build_vocab_data.py never emits one).
- * Matches KANJI_UNIT_GROUPS' role in app.js but the grouping is baked into
- * the unit id itself here, so no separate test table is needed. */
+ * interleaved grade by grade), "A" for an A-level unit (phase 7 — A1..A12
+ * are their own 13-theme group, the same shape Core already is relative to
+ * groups 1-5, not a second tile for an existing GCSE theme the way "H" is),
+ * else the numeral before the dot ("1" for "1.4"). The 'h' check runs first
+ * because it's cheap; Core and A level never have an 'h' unit of their own
+ * (build_vocab_data.py never emits one for either). Matches
+ * KANJI_UNIT_GROUPS' role in app.js but the grouping is baked into the unit
+ * id itself here, so no separate test table is needed. */
 function unitGroup(unit) {
   if (unit.endsWith('h')) return 'H';
+  if (unit.startsWith('A') && /^\d+$/.test(unit.slice(1))) return 'A';
   return unit.startsWith('C') ? 'C' : unit.split('.')[0];
 }
 
-/** Core first, then group 1..5 in theme order, then every Higher-tier unit
- * last as one block (sub-unit numerically within each group) — VOCAB_UNITS
- * is already written in this order (Python dict insertion order survives
- * into JSON, and build_vocab_data.py emits 'f' units before any 'h' one),
- * but sorting explicitly here means this keeps working if a future build
- * ever writes the manifest in a different order. */
+/** Numeric sort key per group, lowest browsed first: Core, then the five
+ * GCSE-style themes in order, then Common words 2, then A level last — the
+ * most advanced content sits furthest along, mirroring Foundation → Higher
+ * → A level in real UK curricula even though these levels aren't labelled
+ * that way (see unitLevelLabel). Theme groups '1'..'5' sort by their own
+ * numeral; a plain Number() on 'C'/'H'/'A' would be NaN, so those are
+ * special-cased instead of folded into the same arithmetic. */
+function groupRank(group) {
+  if (group === 'C') return -1;
+  if (group === 'H') return 100;
+  if (group === 'A') return 101;
+  return Number(group);
+}
+
+/** Core first, then group 1..5 in theme order, then every Higher-tier unit,
+ * then A level last (sub-unit numerically within each group, except A12 —
+ * A level's own Core-equivalent, see vocab-plan.md §2.3 — which leads its
+ * group the same way Core leads the whole list). VOCAB_UNITS is already
+ * written in roughly this order (Python dict insertion order survives into
+ * JSON), but sorting explicitly here means this keeps working if a future
+ * build ever writes the manifest in a different order. */
 function compareUnits(a, b) {
   const ga = unitGroup(a);
   const gb = unitGroup(b);
-  if (ga !== gb) {
-    if (ga === 'C') return -1;
-    if (gb === 'C') return 1;
-    if (ga === 'H') return 1;
-    if (gb === 'H') return -1;
-    return ga.localeCompare(gb, undefined, { numeric: true });
+  if (ga !== gb) return groupRank(ga) - groupRank(gb);
+  if (ga === 'A') {
+    if (a === 'A12') return -1;
+    if (b === 'A12') return 1;
   }
   return a.localeCompare(b, undefined, { numeric: true });
 }
@@ -102,14 +119,16 @@ export function unitGroupLabel(unit) {
 }
 
 /**
- * "Common words 1" / "Common words 2" for a themed unit, or null for Core
- * (Core isn't levelled at all — it's the app's own beyond-the-spec spine,
- * not a frequency-fallback stand-in for a GCSE tier). Deliberately not
- * "level" or "tier" in the DOM/CSS sense used elsewhere in this app — kanji
- * and kana mastery already own the word "tier" for Leitner box (0-4), an
- * unrelated axis, so this is exported and named around "level" (matching
- * vocab-plan.md §2.1's own field name) to keep the two concepts from
- * colliding in a class name or a bug report.
+ * "Common words 1" / "Common words 2" for a GCSE-style themed unit, or null
+ * for Core or an A-level unit — neither is levelled: Core is the app's own
+ * beyond-the-spec spine, and A level (phase 7) is a single frequency band
+ * with no further Foundation/Higher-style split of its own to communicate
+ * (unitGroupLabel's "A level" already says everything this would). Kept
+ * named around "level" rather than "tier" in the DOM/CSS sense used
+ * elsewhere in this app — kanji and kana mastery already own the word
+ * "tier" for Leitner box (0-4), an unrelated axis (matching vocab-plan.md
+ * §2.1's own field name keeps the two concepts from colliding in a class
+ * name or a bug report).
  *
  * Exists because unitGroupLabel alone doesn't surface this for a Foundation
  * unit — it just returns that theme's name, same as always, since Common
@@ -117,7 +136,9 @@ export function unitGroupLabel(unit) {
  * to tell a themed unit's level apart from its Higher sibling without this.
  */
 export function unitLevelLabel(unit) {
-  return unitGroup(unit) === 'C' ? null : (unit.endsWith('h') ? 'Common words 2' : 'Common words 1');
+  const group = unitGroup(unit);
+  if (group === 'C' || group === 'A') return null;
+  return unit.endsWith('h') ? 'Common words 2' : 'Common words 1';
 }
 
 /** The short badge text for a unit tile ("2.4" either way) — inside the

@@ -37,9 +37,32 @@ too often (see the module comment above CORE_ENTRIES). The 22 theme units
 are populated automatically: JMdict's common-word list, classified by
 English-gloss keyword matching (THEME_KEYWORDS) rather than hand-picked one
 by one, which is the semi-automatic approach the plan calls for and expects
-to need hand-correction later (§3.5). A-level (§2.3's second table) is not
-attempted here — a frequency cut cannot produce exam-appropriate abstract
-vocabulary, and it is a separate phase in the plan (§12 phase 7) regardless.
+to need hand-correction later (§3.5).
+
+PHASE 7: A level (§2.3's second table, group tag "A"). The concern the
+phase-6 comment above raised — "a frequency cut cannot produce exam-
+appropriate abstract vocabulary" — turns out to cut the other way for THIS
+tier: JMdict's `nf` bands come from newspaper corpus frequency, which
+under-represents everyday GCSE topics (food, pets, clothes) but is a
+reasonable proxy for A level's own themes (economy, politics, media,
+environment, health) — those ARE what newspapers write about. So A level
+reuses the exact same mechanism as phase 6 (THEME_KEYWORDS_A, classify_a()),
+just aimed at the next slice of the SAME frequency-ranked candidate list —
+whatever phase 6 didn't already claim for 'f'/'h' — rather than a different
+technique. A12 "Writing and arguing" is the A-level counterpart of Core
+(essay connectives and abstract nouns: したがって, 一方, 客観的...) and is
+hand-authored the same way Core is, for the same reason: automated ranking
+would as often find the wrong homograph as the right essay-register word.
+A13 "The set text and film" is a deliberate stub per the plan (a unit that
+only becomes real once a specific text is chosen) and isn't attempted here
+at all — it would always be empty, so it's simply never emitted rather than
+shipped as a permanently-dead tile.
+
+This is still the plan's fallback, not the exam specification's own list —
+the same honesty rule as phase 0 applies: it's labelled "A level" because
+that's genuinely the axis it approximates (a third, harder tier beyond
+Common words 1/2), but the word SELECTION is JMdict frequency + keyword
+classification, not a transcribed syllabus.
 
 Usage:
     python3 tools/build_vocab_data.py
@@ -65,7 +88,7 @@ JMDICT = SRC / "JMdict_e"
 
 random.seed(20260828)  # reproducible builds — same output until the sources or this script change
 
-WORDS_PER_LEVEL = {"f": 550, "h": 280}  # frequency-classified theme words; Core is always 'f' and uncapped
+WORDS_PER_LEVEL = {"f": 550, "h": 280, "a": 1200}  # frequency-classified theme words; Core/A12 are hand-authored and uncapped
 MAX_PER_UNIT = 40
 MIN_UNIT_SIZE = 10  # a unit below this is dropped with a warning rather than shipped near-empty
 MAX_MIS = 8
@@ -446,6 +469,37 @@ CORE_ENTRIES = {
     ],
 }
 
+# vocab-plan.md §2.3: A12 "Writing and arguing" is A level's Core-equivalent
+# — essay connectives and the abstract nouns that go with them, not exam
+# vocabulary in the ordinary sense. Same hand-authoring rationale as
+# CORE_ENTRIES: automated frequency ranking would find the wrong homograph
+# as often as the right one for a set this idiomatic (もっとも's best keb
+# match by raw frequency is 最も "most", not the conjunction "but then/
+# although" this actually wants — the rK-marked 尤も keb picks the right
+# entry the same way CORE_ENTRIES' keb-not-reb choices do throughout).
+A12_ENTRIES = [
+    # Kana-only in normal use, but NOT kana-only entries in JMdict itself —
+    # each has a rarely-written k_ele, which is exactly why keb (not reb) is
+    # used to find them: find_entry's by-reading index only covers entries
+    # with NO k_ele at all (see its own docstring), so a plain reb lookup on
+    # any of these silently misses (caught by this file's own missing_a12
+    # warning the first time this ran with reb here instead).
+    ("したがって", "従って", None), ("なぜなら", "何故なら", None),
+    ("それゆえ", "それ故", None),
+    ("にもかかわらず", "にも関わらず", None), ("むしろ", "寧ろ", None),
+    ("もっとも", "尤も", None), ("要するに", "要するに", None),
+    ("つまり", "詰まり", None), ("さらに", "更に", None),
+    ("このように", "この様に", None), ("そのため", "その為", None),
+    ("ただし", "但し", None), ("考察", "考察", None),
+    ("主張", "主張", None), ("根拠", "根拠", None),
+    ("結論", "結論", None), ("議論", "議論", None),
+    ("反論", "反論", None), ("論点", "論点", None),
+    ("観点", "観点", None), ("要因", "要因", None),
+    ("傾向", "傾向", None), ("具体的", "具体的", None),
+    ("抽象的", "抽象的", None), ("客観的", "客観的", None),
+    ("主観的", "主観的", None), ("深刻", "深刻", None),
+]
+
 CORE_GROUP_LABEL = "Core"
 GROUP_LABELS = {
     "C": "Core",
@@ -457,6 +511,11 @@ GROUP_LABELS = {
     # Every 'h' (Common words 2) unit lives here, regardless of which theme
     # it belongs to — see unit_group() below and phase 6's comment above.
     "H": "Common words 2",
+    # Every A-level unit (A1..A12) lives here — see phase 7's module-
+    # docstring comment. Unlike "H", A level isn't a second tile for an
+    # existing theme; its 13 units (§2.3's second table) are their own
+    # group, the same shape Core already is relative to groups 1-5.
+    "A": "A level",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -475,15 +534,27 @@ UNIT_LABELS = {
     "4.3": "After school", "4.4": "Ambitions and plans",
     "5.1": "Japan and the UK", "5.2": "Environment and nature",
     "5.3": "Global problems and helping", "5.4": "Health and the body",
+    # A13 "The set text and film" is deliberately absent — see phase 7's
+    # module-docstring comment; it has no keyword list below and would
+    # always be empty.
+    "A1": "Family and society changing", "A2": "Work and the economy",
+    "A3": "Education and young people", "A4": "Media and the digital world",
+    "A5": "Arts and popular culture", "A6": "Regions, cities and depopulation",
+    "A7": "Environment and disaster", "A8": "Politics and civil society",
+    "A9": "Health, welfare and care", "A10": "Immigration and diversity",
+    "A11": "History and memory", "A12": "Writing and arguing",
 }
 
 
 def unit_group(unit):
     # A theme's 'h' unit ("2.4h") is grouped by TIER, not by theme — see
-    # phase 6's module-docstring comment. Checked before the "C" test only
-    # because it's cheap to check first; Core never has an 'h' unit anyway.
+    # phase 6's module-docstring comment. Checked before the "C"/"A" tests
+    # only because it's cheap to check first; neither Core nor A level ever
+    # has an 'h' unit of its own.
     if unit.endswith("h"):
         return "H"
+    if unit.startswith("A") and unit[1:].isdigit():
+        return "A"
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
@@ -649,6 +720,102 @@ THEME_KEYWORDS = {
         "exercise", "diet", "sleep", "injury", "pain",
     ],
 }
+
+
+# A level's own themes (vocab-plan.md §2.3's second table, phase 7) — checked
+# in a SEPARATE pass over whatever THEME_KEYWORDS above didn't already claim
+# (see classify_a() and its call site in main()), so a keyword here can
+# safely overlap one above in spirit (e.g. "environment" vs 5.2's own) since
+# a given candidate word can only ever be classified once, by whichever pass
+# reaches it first. Picked and spot-checked against JMdict's actual gloss
+# wording rather than just semantically-plausible English — e.g. "national
+# diet" (Japan's parliament) was dropped in favour of "parliament"/"cabinet
+# minister" because plain "diet" already belongs to 5.4's food sense above
+# and would misroute every match to Health and the body instead.
+THEME_KEYWORDS_A = {
+    "A1": [
+        "marriage", "married", "divorce", "birth rate", "birthrate",
+        "aging society", "ageing society", "elderly", "nuclear family",
+        "gender equality", "gender role", "child-rearing", "childcare",
+        "pension", "generation gap", "household", "population decline",
+        "unmarried", "spouse", "single-person",
+    ],
+    "A2": [
+        "unemployment", "recession", "inflation", "deflation", "wage",
+        "labor market", "labour market", "lifetime employment", "overtime",
+        "resignation", "retirement", "workforce", "gross domestic product",
+        "export", "import", "trade deficit", "trade surplus",
+        "work-life balance", "corporation", "economic growth",
+    ],
+    "A3": [
+        "cram school", "curriculum", "bullying", "truancy", "truant",
+        "juvenile delinquency", "adolescent", "tutoring", "scholarship",
+        "academic pressure", "entrance examination",
+    ],
+    "A4": [
+        "mass media", "journalism", "broadcast", "misinformation",
+        "fake news", "artificial intelligence", "cyberspace", "cybercrime",
+        "online privacy", "surveillance camera", "algorithm", "censorship",
+        "social networking service", "live streaming",
+    ],
+    "A5": [
+        "novelist", "poetry", "manga artist", "animation", "film director",
+        "fine arts", "exhibition", "subculture", "popular culture",
+        "entertainment industry", "celebrity", "otaku",
+    ],
+    "A6": [
+        "depopulation", "rural area", "urban area", "metropolitan area",
+        "regional revitalization", "migration", "prefecture", "ghost town",
+        "urbanization", "overcrowding",
+    ],
+    "A7": [
+        "tsunami", "natural disaster", "volcanic eruption", "climate change",
+        "global warming", "renewable energy", "nuclear power plant",
+        "carbon dioxide", "taking refuge", "evacuation shelter",
+        "flooding", "drought", "ecosystem",
+    ],
+    "A8": [
+        "parliament", "cabinet minister", "general election",
+        "political party", "democracy", "constitution", "demonstration",
+        "protest", "human rights", "civil rights",
+        "non-governmental organization", "referendum", "diplomacy",
+    ],
+    "A9": [
+        "nursing care", "caregiver", "elderly care", "hospice",
+        "disability", "mental illness", "social security", "health insurance",
+        "nursing home", "life expectancy",
+    ],
+    "A10": [
+        "immigration", "immigrant", "multicultural", "cultural diversity",
+        "refugee", "ethnic minority", "racial discrimination", "xenophobia",
+        "assimilation", "foreign resident", "coexist", "minority group",
+        "ethnic discrimination", "naturalization", "naturalisation",
+        "asylum", "illegal immigration", "migrant worker", "cultural exchange",
+        "internationalization", "internationalisation", "stateless",
+        "prejudice", "prejudiced", "stereotype",
+    ],
+    "A11": [
+        "world war", "postwar", "occupation", "atomic bomb", "colonial",
+        "war memorial", "wartime", "reconstruction", "war crime",
+        "testimony", "legacy",
+    ],
+}
+
+
+def classify_a(candidate):
+    """A-level counterpart of classify() — same shape, own keyword table.
+    Kept separate rather than merged into one dict-of-dicts: the two passes
+    run at different points in main() over different remaining pools (see
+    phase 7's module-docstring comment), and keeping them as two flat dicts
+    means neither classify() nor THEME_KEYWORDS needs to know phase 7
+    exists at all."""
+    if looks_like_proper_noun(candidate["glosses"]):
+        return None
+    text = " ".join(candidate["glosses"][:2]).lower()
+    for unit, keywords in THEME_KEYWORDS_A.items():
+        if any(_kw_re(kw).search(text) for kw in keywords):
+            return unit
+    return None
 
 
 WORD_BOUNDARY_CACHE = {}
@@ -987,13 +1154,33 @@ def main():
         print(f"WARNING: {len(missing_core)} Core lookups failed: {missing_core}")
     print(f"Core: {sum(len(unit_records[u]) for u in CORE_ENTRIES)} words across {len(CORE_ENTRIES)} units")
 
+    # --- A12: hand-specified, always level 'a' (phase 7's Core-equivalent).
+    # Looked up now (its surfaces have to be excluded from the 'f'/'h' pass
+    # below), but make_record() is deliberately DEFERRED to after that pass
+    # — see the comment where it's actually called. ---
+    a12_lookups = []
+    a12_surfaces = set()
+    missing_a12 = []
+    for label, keb, reb in A12_ENTRIES:
+        entry = find_entry(entry_index, keb=keb, reb=reb)
+        if entry is None:
+            missing_a12.append(label)
+            continue
+        a12_lookups.append(entry)
+        a12_surfaces.add(entry["surface"])
+    if missing_a12:
+        print(f"WARNING: {len(missing_a12)} A12 lookups failed: {missing_a12}")
+    print(f"A12: {len(a12_lookups)} words")
+
     # --- Theme units: frequency order, keyword-classified ---
-    candidates = [c for c in candidates if c["surface"] not in core_surfaces]
+    excluded_surfaces = core_surfaces | a12_surfaces
+    candidates = [c for c in candidates if c["surface"] not in excluded_surfaces]
     candidates.sort(key=lambda c: (c["rank"], len(c["reading"])))
 
     level_counts = {"f": 0, "h": 0}
     unit_level_counts = {}
     unclassified = 0
+    used_surfaces = set()
     for c in candidates:
         if level_counts["f"] >= WORDS_PER_LEVEL["f"] and level_counts["h"] >= WORDS_PER_LEVEL["h"]:
             break
@@ -1025,14 +1212,68 @@ def main():
         unit_records[out_unit].append(record)
         level_counts[level] += 1
         unit_level_counts[(unit, level)] = unit_level_counts.get((unit, level), 0) + 1
+        used_surfaces.add(c["surface"])
 
     print(f"Theme words: {level_counts['f']} at 'f', {level_counts['h']} at 'h' "
           f"({unclassified} common candidates matched no theme and were left out of this pass)")
 
+    # --- A12 record-building, deferred until here (see the lookup pass
+    # above): make_record()'s mis/sp distractor pools are built by shuffling
+    # a shared, seeded `random` stream, so calling it any earlier would shift
+    # every GCSE-tier word's own shuffle later in this run. Deferring this
+    # keeps A12 itself from adding to that churn, though excluding its 27
+    # surfaces from the 'f'/'h' candidate pool above (correctly — a word
+    # like 議論 must not also land in some GCSE theme) still shifts later
+    # units' distractor shuffles whenever an excluded surface would otherwise
+    # have consumed one of the 'f'/'h' pass's own random draws. Harmless:
+    # `mis`/`sp` are reshuffled again at quiz time by vocab.js's own
+    # `shuffle()` (buildYomiChoices, buildSpellingChoices), so this is
+    # build-time-only diff noise, not a behaviour change — see those two call
+    # sites if this comment is ever doubted. ---
+    for entry in a12_lookups:
+        record = make_record(
+            "A12", "a", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
+            kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+            reading_to_kanji, taught_kanji, kanji_only_pool,
+        )
+        unit_records["A12"].append(record)
+
+    # --- A level (A1-A11): next slice of the SAME frequency-ranked pool,
+    # picking up wherever the 'f'/'h' pass above left off (its own
+    # WORDS_PER_LEVEL cap, not necessarily having scanned every candidate) —
+    # see phase 7's module-docstring comment for why a frequency signal that
+    # is a poor fit for GCSE topics is a reasonable one for A level's. ---
+    a_count = 0
+    a_unit_counts = {}
+    a_unclassified = 0
+    for c in candidates:
+        if a_count >= WORDS_PER_LEVEL["a"]:
+            break
+        if c["surface"] in used_surfaces:
+            continue
+        unit = classify_a(c)
+        if unit is None:
+            a_unclassified += 1
+            continue
+        if a_unit_counts.get(unit, 0) >= MAX_PER_UNIT:
+            continue
+        record = make_record(
+            unit, "a", c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
+            kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+            reading_to_kanji, taught_kanji, kanji_only_pool,
+        )
+        unit_records[unit].append(record)
+        a_count += 1
+        a_unit_counts[unit] = a_unit_counts.get(unit, 0) + 1
+        used_surfaces.add(c["surface"])
+
+    print(f"A level words: {a_count} at 'a' "
+          f"({a_unclassified} remaining candidates matched no A-level theme either)")
+
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
-        if unit.startswith("C"):
+        if unit.startswith("C") or unit == "A12":
             continue
         if len(unit_records[unit]) < MIN_UNIT_SIZE:
             dropped.append((unit, len(unit_records[unit])))
@@ -1043,16 +1284,17 @@ def main():
     total_words = sum(len(v) for v in unit_records.values())
     print(f"\n{len(unit_records)} units, {total_words} words total:")
     # GROUP_ORDER, not alphabetical: unit_group() already returns a group TAG
-    # ("C", "1".."5", "H"), but sorting tags as plain strings would put "C"
-    # and "H" after the digits — fine for the manifest (compareUnits in
-    # vocab.js sorts for real at runtime) but confusing to read here.
-    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H"])}
+    # ("C", "1".."5", "H", "A"), but sorting tags as plain strings would put
+    # "C"/"H"/"A" out of teaching order — fine for the manifest (compareUnits
+    # in vocab.js sorts for real at runtime) but confusing to read here.
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A"])}
     for unit in sorted(unit_records, key=lambda u: (group_order[unit_group(u)], u)):
         recs = unit_records[unit]
         f_n = sum(1 for r in recs if r["lv"] == "f")
         h_n = sum(1 for r in recs if r["lv"] == "h")
+        a_n = sum(1 for r in recs if r["lv"] == "a")
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
-        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h)")
+        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a)")
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)

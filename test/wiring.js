@@ -2887,8 +2887,11 @@ const higherUnits = VOCAB_COURSES.map((c) => c.unit).filter((u) => u.endsWith('h
 check('at least one theme produced a Higher-tier unit', higherUnits.length > 0, higherUnits.length);
 
 const vocabGroupChips = () => el('unit-groups')._children;
-check('"Common words 2" is offered as its own unit group, last in the row',
-  vocabGroupChips()[vocabGroupChips().length - 1].dataset.group === 'Common words 2',
+check('"Common words 2" is offered as its own unit group, second-to-last (A level, phase 7, is last)',
+  vocabGroupChips()[vocabGroupChips().length - 2].dataset.group === 'Common words 2',
+  vocabGroupChips().map((c) => c.dataset.group).join(' | '));
+check('"A level" is offered as its own unit group, last in the row',
+  vocabGroupChips()[vocabGroupChips().length - 1].dataset.group === 'A level',
   vocabGroupChips().map((c) => c.dataset.group).join(' | '));
 
 await openUnitGroup('Common words 2');
