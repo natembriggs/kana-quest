@@ -43,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -2167,6 +2167,7 @@ function renderQuestion() {
   $('quiz-feedback').className = 'feedback';
   $('quiz-card').className = 'quiz-card';
   $('quiz-info').hidden = true;
+  $('quiz-back-previous').hidden = !(session.placementTest && session.position > 0);
   session.locked = false;
 
   const choices = $('quiz-choices');
@@ -2267,35 +2268,23 @@ function chooseAnswer(value, button) {
   button.classList.add('is-wrong');
   button.disabled = true;
 
-  if (session.attempt === 1) {
-    // A miss no longer comes back later in the same session — it used to
-    // get silently reinserted a few questions ahead, which meant "how many
-    // are left" kept moving in ways nothing on screen explained. The
-    // session now runs through its queue exactly once regardless of misses;
-    // the summary offers to go practise whatever came back wrong afterward
-    // instead (state.summaryMissed, see finishSession() below).
-    $('quiz-card').className = 'quiz-card is-wrong';
-    $('quiz-feedback').className = 'feedback bad';
-    $('quiz-feedback').textContent = 'Try once more';
-    return; // still their turn — no lock, no reveal yet
-  }
-
-  // Second miss: out of chances, reveal the answer and move on. An English
-  // definition is far too long for the big feedback line, and the option
-  // itself is already highlighted green, so it just shows a cross there.
-  revealSingleAnswer(answer);
+  // A miss no longer comes back later in the same session — it used to get
+  // silently reinserted a few questions ahead, which meant "how many are
+  // left" kept moving in ways nothing on screen explained. The session now
+  // runs through its queue exactly once regardless of misses; the summary
+  // offers to go practise whatever came back wrong afterward instead
+  // (state.summaryMissed, see finishSession() below).
+  //
+  // Every wrong tap takes this same branch, not just the first — the
+  // correct option is never auto-highlighted for the learner by elimination
+  // (that used to happen on the second miss). Scoring is unaffected: only
+  // the FIRST attempt (above) is ever recorded, so trying a third or fourth
+  // option costs nothing but does mean they still have to find and tap the
+  // right one themselves before the question resolves — the whole point,
+  // early on, is the tap itself landing on the right answer.
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  // Kana: the romaji that was being asked for is worth spelling out. A
-  // definition is far too long for this line, and the right option is
-  // already highlighted green among the choices, so that mode says nothing
-  // here and lets the red card carry it.
-  $('quiz-feedback').textContent = state.mode === 'definition' ? '' : answer;
-  session.locked = true;
-  disableRemainingChoices();
-  if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').textContent = 'Next';
+  $('quiz-feedback').textContent = 'Try once more';
 }
 
 /** Once a single-answer question resolves, every remaining option goes
@@ -2726,22 +2715,11 @@ function chooseVocabMeaning(value, button) {
   button.classList.add('is-wrong');
   button.disabled = true;
 
-  if (session.attempt === 1) {
-    $('quiz-card').className = 'quiz-card is-wrong';
-    $('quiz-feedback').className = 'feedback bad';
-    $('quiz-feedback').textContent = 'Try once more';
-    return;
-  }
-
-  revealSingleAnswer(session.vocabAnswer);
+  // Every wrong tap takes this branch, not just the first — see chooseAnswer
+  // above for why the correct option is never auto-revealed by elimination.
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  $('quiz-feedback').textContent = '';
-  disableRemainingChoices();
-  session.vocabStage = 'done';
-  session.locked = true;
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').textContent = 'Next';
+  $('quiz-feedback').textContent = 'Try once more';
 }
 
 /**
@@ -2924,22 +2902,11 @@ function chooseVocabProd(value, button) {
   button.classList.add('is-wrong');
   button.disabled = true;
 
-  if (session.attempt === 1) {
-    $('quiz-card').className = 'quiz-card is-wrong';
-    $('quiz-feedback').className = 'feedback bad';
-    $('quiz-feedback').textContent = 'Try once more';
-    return;
-  }
-
-  revealSingleAnswer(session.vocabAnswer);
+  // Every wrong tap takes this branch, not just the first — see chooseAnswer
+  // above for why the correct option is never auto-revealed by elimination.
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
-  $('quiz-feedback').textContent = '';
-  disableRemainingChoices();
-  session.vocabRecallStage = 'done';
-  session.locked = true;
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').textContent = 'Next';
+  $('quiz-feedback').textContent = 'Try once more';
 }
 
 /**
@@ -3876,6 +3843,18 @@ function openQuizCharacterDetail() {
   openCharacterDetail(getAnyCourse(state.courseId), session.queue[session.position], 'quiz');
 }
 
+/** #quiz-back-previous (placement only, see renderQuestion()'s toggle) — a
+ * look at the item just answered, not a rewind: session.position, .attempt
+ * and .results are untouched, so this can never re-grade or re-order
+ * anything already recorded. session.queue is a fixed-order array built
+ * once at session start (never mutated), so the previous slot is always
+ * exactly what was just asked. */
+function openPreviousPlacementDetail() {
+  const session = state.session;
+  if (!session || session.position === 0) return;
+  openCharacterDetail(getAnyCourse(state.courseId), session.queue[session.position - 1], 'quiz');
+}
+
 function renderWord(wordEl, word) {
   wordEl.innerHTML = '';
   if (!word) return;
@@ -4659,6 +4638,7 @@ function wire() {
 
   // Kanji only.
   $('quiz-info-more').addEventListener('click', openQuizCharacterDetail);
+  $('quiz-back-previous').addEventListener('click', openPreviousPlacementDetail);
   $('quiz-show-answers').addEventListener('click', showKanjiAnswers);
   $('quiz-advanced').addEventListener('click', expandKanjiAdvanced);
 
@@ -4825,6 +4805,19 @@ function wire() {
         // happens to fire. state.session is already null above, which is
         // what lets autoSync run at all (§4.4).
         autoSync({ force: true });
+        break;
+      // Quiz screen only (#quiz-exit-save) — everything quit-session already
+      // does (progress was saved as each question was graded; nothing here
+      // is "at risk"), but routed through finishSession() instead of
+      // straight back to the course card, so leaving mid-session shows the
+      // same tappable summary a completed session would — the whole point
+      // being to make "yes, it's saved, here's what you did" visible rather
+      // than trusting a bare ✕ to imply it.
+      case 'exit-and-save':
+        if (state.session) {
+          clearTimeout(state.session.pendingAdvance);
+          finishSession();
+        }
         break;
       case 'again': startSession(state.courseId, 'practice'); break;
       case 'learn-more': startSession(state.courseId, 'new'); break;

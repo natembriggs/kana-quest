@@ -410,23 +410,29 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     } else {
       revealDone = true;
       revealKana = kana;
+      // A second (or third, or...) miss no longer auto-reveals the correct
+      // option for the learner — it behaves exactly like the first miss,
+      // over and over, until they actually find and tap the right one
+      // themselves. Eliminating every other option is not itself an answer.
       const secondWrong = choices.find((c) => c !== wrongTarget && c.textContent !== answer && !c.disabled);
       check('a different wrong option is available for the second try', !!secondWrong);
       fire(secondWrong, 'click');
       await settle();
-      check('a second miss reveals the answer', el('quiz-feedback').textContent === answer,
+      check('a second miss still says "Try once more", not the answer',
+        el('quiz-feedback').textContent === 'Try once more',
         `"${el('quiz-feedback').textContent}"`);
-      check('a second miss highlights the correct option',
-        choices.some((c) => c.textContent === answer && c.classList.contains('is-right')));
-      check('the app waits for a tap after the final reveal — no auto-advance timer either',
-        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
-      // Tapping the background used to count as Next, which made it far too
-      // easy to skip past the revealed answer without meaning to. Only the
-      // button itself advances now.
-      fire(el('screen-quiz'), 'click');
+      check('a second miss disables the option that was tapped', secondWrong.disabled);
+      check('a second miss does not highlight the correct option either',
+        !choices.some((c) => c.classList.contains('is-right')));
+      check('a second miss still does not move on', visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+      check('Next is not offered until the correct option is actually tapped', el('quiz-ok').hidden === true);
+
+      const correctTarget = choices.find((c) => c.textContent === answer);
+      fire(correctTarget, 'click');
       await settle();
-      check('a tap on the quiz background does not advance',
-        visible() === 'screen-quiz' && el('quiz-kana').textContent === kana);
+      check('tapping the actual right answer after two misses still marks it right',
+        correctTarget.classList.contains('is-right'));
+      check('Next is offered once the learner\'s own tap resolves it', el('quiz-ok').hidden === false);
       fire(el('quiz-ok'), 'click');
       await settle();
     }

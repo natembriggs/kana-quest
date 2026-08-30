@@ -446,6 +446,15 @@
       <span id="quiz-counter" class="counter"></span>
     </header>
 
+    <!-- "Test unlearned" only, and only once there IS a previous question —
+         a placement quiz has no lesson step, so a character tapped past too
+         quickly has never been looked at any other way. Opens that PREVIOUS
+         item's own detail screen (stroke order, readings) without touching
+         this question's own state — session.position doesn't move, nothing
+         gets re-graded, this is a look, not a rewind. See
+         openPreviousPlacementDetail() in app.js. Toggled in renderQuestion(). -->
+    <button id="quiz-back-previous" class="btn btn-quiet" type="button" hidden>‹ Look at the previous one</button>
+
     <!-- The card itself turns green or red, which is the whole right/wrong
          signal — #quiz-feedback carries only what the colour cannot say
          ("Try once more", the revealed answer), and collapses to nothing
@@ -500,8 +509,18 @@
 
     <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so
          Next is always in the same reachable spot, not wherever the card
-         above happens to end. -->
-    <div class="bottom-bar">
+         above happens to end. #quiz-exit-save is never hidden — unlike Next,
+         it's there to tap before a question is even answered, not just
+         after — so the bar itself is visible for the whole quiz, not only
+         once graded. Sitting above the highlighted Next button (column
+         layout, this one first in source order) is deliberate: it should
+         read as "leave" one glance below "here's what's happening", not
+         compete with Next for the primary spot. See the 'exit-and-save'
+         case in the click handler — routes through finishSession() so
+         leaving here shows the same tappable summary a finished session
+         would, not a silent drop back to the course card. -->
+    <div class="stack bottom-bar">
+      <button id="quiz-exit-save" class="btn btn-quiet wide" type="button" data-action="exit-and-save">Exit and save progress</button>
       <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
     </div>
   </section>
