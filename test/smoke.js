@@ -1243,6 +1243,35 @@ check('the interval is capped rather than growing without bound',
   longStreak.intervalDays <= 120, `got ${longStreak.intervalDays}`);
 done('per-reading records reward both streak and lifetime correct count');
 
+// --- Grading a record saved before `history` existed -------------------------
+// Regression: newYomiRecord() gained `history` only when the study-history
+// timeline shipped, and nothing migrates profiles already on a device. Every
+// pre-existing yomi record therefore reaches gradeYomi() with no history
+// array, and the unguarded push threw — which surfaced as a vocab Meaning
+// question where tapping the RIGHT reading did nothing and the wrong one
+// worked, since creditVocabYomi() (the only gradeYomi caller on that path)
+// runs solely on the correct branch.
+
+const legacyYomi = {
+  correct: 3, incorrect: 1, streak: 2,
+  lastReviewed: now - DAY, secondLastReviewed: now - 2 * DAY,
+  due: now, intervalDays: 2, updatedAt: now - DAY,
+}; // note: no `history` key at all — exactly the pre-timeline shape
+const legacyGraded = srs.gradeYomi(legacyYomi, true, now);
+check('grading a pre-timeline yomi record does not throw and starts a history',
+  Array.isArray(legacyGraded.history) && legacyGraded.history.length === 1);
+check('the recovered history records this attempt correctly',
+  legacyGraded.history[0][0] === now && legacyGraded.history[0][1] === 1);
+check('the counters it already had are carried forward, not reset',
+  legacyGraded.correct === 4 && legacyGraded.incorrect === 1 && legacyGraded.streak === 3);
+
+const legacyPlain = { box: 2, due: now, intervalDays: 2, seen: 5, correct: 4, lapses: 1, updatedAt: now };
+const legacyPlainGraded = srs.grade(legacyPlain, false, now);
+check('the same guard holds for grade() on a record missing history',
+  Array.isArray(legacyPlainGraded.history) && legacyPlainGraded.history.length === 1
+  && legacyPlainGraded.history[0][1] === 0);
+done('records saved before history existed can still be graded');
+
 // --- Never-missed characters fade out of review -----------------------------
 // The point: a kid who already knew some characters coming in should stop
 // seeing them in review almost entirely, as long as they never get one wrong.

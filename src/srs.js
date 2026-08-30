@@ -283,6 +283,12 @@ export function newRecord() {
  */
 export function grade(record, correct, now = Date.now(), { placement = false } = {}) {
   const rec = record || newRecord();
+  // newRecord() has always carried `history`, so unlike gradeYomi's matching
+  // guard this isn't fixing a known-broken shape — it's holding the same
+  // invariant at the other grading entry point, so an imported or
+  // hand-edited profile missing the field degrades to "history starts now"
+  // instead of throwing mid-answer.
+  if (!Array.isArray(rec.history)) rec.history = [];
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
@@ -664,6 +670,15 @@ export function newYomiRecord() {
  */
 export function gradeYomi(record, correct, now = Date.now(), { placement = false } = {}) {
   const rec = record || newYomiRecord();
+  // Yomi records predating the study-history timeline have no `history` at
+  // all — newYomiRecord() gained it only when that shipped, and nothing
+  // migrates existing profiles. Seed it here rather than at read time: this
+  // is the single point every yomi record passes through on its way to
+  // being written, so one guard covers every caller. Without it the push
+  // below throws on any pre-existing record, which — because the only
+  // caller on a correct vocab answer is creditVocabYomi() — presented as
+  // "the right answer does nothing, the wrong one works".
+  if (!Array.isArray(rec.history)) rec.history = [];
   rec.secondLastReviewed = rec.lastReviewed;
   rec.lastReviewed = now;
 
