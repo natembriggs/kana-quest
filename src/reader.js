@@ -169,3 +169,42 @@ export function tokenAtLevel(rendered, level) {
   const romajiLevel = rendered.hidden ? 2 : 1;
   return { text: rendered.text, showRuby, ruby: showRuby ? rendered.ruby : null, showRomaji: clamped >= romajiLevel };
 }
+
+/**
+ * How many times each kanji-bearing word has already appeared EARLIER in
+ * this story, per token position — `"<p>:<s>:<i>" -> 0-based occurrence
+ * index`. Pure, computed once when a story opens.
+ *
+ * This is what lets a story stop handing over furigana for a word it has
+ * already shown several times *in the text the learner is reading right
+ * now* (stories-plan.md §6.3). It is deliberately separate from the
+ * profile-wide `exposure` counter and answers a different question:
+ *
+ * - `exposure` asks "how many separate occasions have you met this word?"
+ *   and is capped at one per episode, because meeting 鬼 eight times in one
+ *   sitting is one encounter with 鬼, not eight — and because its timestamps
+ *   have to survive a sync merge that collapses same-minute events.
+ * - This asks "how many times have you already been shown this word ON THIS
+ *   PAGE?", where eight really does mean eight. By the fourth printing of 鬼
+ *   in the same story, the reading is on screen three times over just above,
+ *   and reprinting it a fourth time teaches nothing.
+ *
+ * Keyed by the token's own surface, so 鬼 and 鬼が島's 島 count separately,
+ * and an inflected form counts separately from its dictionary form — the
+ * question is about the exact string on the page, not about the lemma.
+ */
+export function storyOccurrenceIndex(body) {
+  const seen = new Map();
+  const index = new Map();
+  body.forEach((para, p) => {
+    para.forEach((sentence, s) => {
+      sentence.t.forEach((token, i) => {
+        if (!token.ruby) return;
+        const n = seen.get(token.s) || 0;
+        index.set(`${p}:${s}:${i}`, n);
+        seen.set(token.s, n + 1);
+      });
+    });
+  });
+  return index;
+}

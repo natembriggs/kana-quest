@@ -784,6 +784,45 @@ Inherited wholesale from `vocab-plan.md` §5.3, with one deliberate change:
   the word, not nine. The dedupe set lives on the reader's own state,
   `reader.counted`, keyed by exposure key and cleared when a different story
   opens.
+
+  There is a second, independent reason this cap has to stay, discovered
+  while trying to lift it: `mergeExposure` (§6.4) collapses timestamps within
+  a minute of each other as one event, because that is what stops two devices
+  double-counting a synced encounter. Nine occurrences recorded seconds apart
+  would therefore survive locally and then silently collapse to one on the
+  first sync — a word promoted before syncing and demoted after it. Whatever
+  in-story repetition earns, it cannot be earned by writing more timestamps.
+
+#### Repetition inside one story
+
+The episode cap above is right about *encounters* and wrong about *this
+page*. Momotarō prints 鬼 eight times; a learner who has just been given
+おに three times in the paragraphs above does not need it a fourth. So there
+is a second rule, running alongside the exposure counter and never touching
+it:
+
+> **The fourth and later printings of a word within one story do not show
+> furigana by default.**
+
+- **Positional, not scroll-based.** The rule is about the *n*th occurrence in
+  the text, computed once when the story opens (`storyOccurrenceIndex` in
+  `reader.js`, pure and testable). So hiding begins on the fourth occurrence
+  at the latest however the learner moves through the story — no dependency
+  on what has been scrolled past, and no possibility of the same word
+  flickering between states as they scroll back and forth.
+- **It only ever adds hiding.** ORed with §6.1's rules: a word already
+  studied, earned or muted is hidden from its *first* appearance, and this
+  never un-hides anything.
+- **Keyed by the exact surface on the page**, not the lemma — 鬼 and 鬼が島's
+  島 count separately, and 帰り does not count toward 帰る.
+- **It is display only.** It writes nothing to the profile and does not
+  advance the exposure counter: a story that repeats a word is not the same
+  as meeting it on four separate occasions, which is the thing §6.1's rule 2
+  is measuring. Reading Momotarō leaves 鬼 with exactly one exposure, as it
+  should.
+- **The reader's own "Always show furigana" setting still wins** (§8.4) — an
+  explicit choice beats an automatic rule.
+- A tap reveals, as everywhere else.
 - **Re-reading counts again.** Coming back to the same episode a week later is
   a genuine second encounter. The app-session dedupe (a `Set` that survives
   until the app is closed) stops a same-sitting re-scroll from counting twice,

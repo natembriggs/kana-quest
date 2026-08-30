@@ -23,12 +23,13 @@ import {
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
   recomputeVocabRollup, VOCAB_SUBKEYS,
-  exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted,
+  exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted, EXPOSURE_THRESHOLD,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   isFuriganaMuted, muteFuriganaKey,
 } from './srs.js';
 import {
   renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
+  storyOccurrenceIndex,
 } from './reader.js';
 import { STORIES } from './data/story-manifest.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
@@ -48,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -350,6 +351,7 @@ const state = {
   readerStory: null,        // the loaded STORY record
   readerView: null,         // buildReaderView()'s output for the current profile
   storyRevealLevels: null,  // Map "p:s:i" -> reveal level, reset per story open
+  storyOccurrence: null,    // Map "p:s:i" -> how many times this word already appeared earlier in the story
   storyCounted: null,       // Set of exposure keys already counted THIS reading (§6.3)
   readerLookedUp: null,     // Map surface -> token, for the end card (§8.5)
   readerCardKey: null,      // the definition card's open token key, or null
@@ -5155,9 +5157,35 @@ function applyFuriganaOverride(rendered) {
   return { ...rendered, hidden: true, maxLevel: rendered.ruby ? 2 : 1 };
 }
 
+/**
+ * The in-story repetition rule (stories-plan.md §6.3): once a word has
+ * already been printed with its furigana EXPOSURE_THRESHOLD times in this
+ * story, later printings of it stop showing it by default. The learner has
+ * the reading three times over just above, on the page in front of them;
+ * a fourth is not teaching anything, and a tap still brings it back.
+ *
+ * Deliberately positional rather than tied to what has been scrolled past:
+ * "the fourth time this word appears" is a rule a reader can actually feel,
+ * and it means hiding begins on the fourth occurrence at the latest however
+ * they move through the text. It ORs with the profile-wide rules in
+ * reader.js — a word already earned, studied or muted is hidden from its
+ * very first appearance, and this only ever adds hiding, never removes it.
+ */
+function applyInStoryRepetition(rendered, p, s) {
+  if (rendered.form !== 'kanji' || rendered.hidden) return rendered;
+  const n = state.storyOccurrence.get(`${p}:${s}:${rendered.i}`);
+  if (n === undefined || n < EXPOSURE_THRESHOLD - 1) return rendered;
+  return { ...rendered, hidden: true, maxLevel: 2 };
+}
+
 function getRenderedSentence(p, s) {
   const sentence = state.readerStory.body[p][s];
-  return renderSentence(sentence.t, state.readerView).map(applyFuriganaOverride);
+  return renderSentence(sentence.t, state.readerView)
+    // Repetition first, then the reader's own explicit setting — an
+    // "Always show furigana" choice should beat an automatic rule, not the
+    // other way round.
+    .map((rendered) => applyInStoryRepetition(rendered, p, s))
+    .map(applyFuriganaOverride);
 }
 
 function paintTokenElement(el, token, rendered, level) {
@@ -5260,10 +5288,18 @@ function renderReaderBody() {
 /** Every (kanji, reading) plus the word's own key a shown/revealed token
  * should accrue against — src/reader.js's exposureTargetsForToken, just
  * re-exported at the call site for readability. */
-function recordReaderExposure(token, source) {
+function recordReaderExposure(token, source, hiddenOnScreen) {
   if (!token.ruby) return;
   const wordKey = exposureWordKey(token.s);
-  const hiddenByDefault = isTokenFuriganaHidden(token, state.readerView);
+  // What the learner was ACTUALLY shown, which is not always what the
+  // profile-wide rules alone would say: the in-story repetition rule
+  // (applyInStoryRepetition) hides a word's fourth-and-later printings too,
+  // and a printing that showed nothing must not be recorded as if it had.
+  // Callers that know the token's position pass it in; the rest fall back
+  // to the profile-wide answer.
+  const hiddenByDefault = hiddenOnScreen !== undefined
+    ? hiddenOnScreen
+    : isTokenFuriganaHidden(token, state.readerView);
   if (source === 'show') {
     if (hiddenByDefault) return; // nothing was actually shown
   } else {
@@ -5393,7 +5429,10 @@ function markParagraphExposed(pEl) {
   pEl.dataset.exposed = '1';
   const pIndex = Number(pEl.dataset.p);
   const para = state.readerStory.body[pIndex];
-  para.forEach((sentence) => sentence.t.forEach((token) => recordReaderExposure(token, 'show')));
+  para.forEach((sentence, sIndex) => {
+    const rendered = getRenderedSentence(pIndex, sIndex);
+    sentence.t.forEach((token, i) => recordReaderExposure(token, 'show', rendered[i].hidden));
+  });
 }
 
 /**
@@ -5470,7 +5509,7 @@ function handleReaderTokenTap(tokenEl) {
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
   if (nextLevel === 0 && state.readerCardKey === key) closeReaderCard();
-  if (willReveal) recordReaderExposure(token, 'reveal');
+  if (willReveal) recordReaderExposure(token, 'reveal', rendered.hidden);
 }
 
 /** The info dot's own tap target — opens the definition card independently
@@ -5675,6 +5714,7 @@ async function openStory(id) {
   state.readerStory = story;
   state.readerView = buildReaderView();
   state.storyRevealLevels = new Map();
+  state.storyOccurrence = storyOccurrenceIndex(story.body);
   state.storyCounted = new Set(); // cleared per story open — stories-plan.md §6.3
   state.readerLookedUp = new Map();
   state.readerCardKey = null;
