@@ -803,12 +803,19 @@ h3 { font-size: 18px; }
    which can exceed what .screen actually has and overflow the screen
    sideways. Flex-wrap has no such chicken-and-egg step: it just lays items
    into the real available width one row at a time. Capped at a max-width so
-   it never sprawls edge-to-edge inside the wider #app shell. Row height is
-   content-sized, not fixed: a reading with real okurigana (see formatReading
-   in kanji.js) can run to 7-8 characters once bracketed, so it wraps onto a
-   second line rather than being squeezed — safe to let rows grow since a
-   button's text never changes after it's rendered, only its colour once the
-   round resolves. */
+   it never sprawls edge-to-edge inside the wider #app shell.
+
+   Each button is sized to its own text (flex-basis: auto, no shrink) rather
+   than forced into equal-width columns — a short reading like ぬ and a long
+   bracketed one like か（う） used to be squeezed into the same column width,
+   which meant the long one wrapped mid-word (すいよ / うじつ). Now a row
+   simply holds fewer, wider buttons once one of them needs more room; only
+   flex-grow still divides up any space a row has left over, so a row of
+   short answers still fills the width evenly. Row height is content-sized,
+   not fixed, so a button that's alone on its own final row can still wrap
+   if it's genuinely wider than the whole container — safe to let rows grow
+   since a button's text never changes after it's rendered, only its colour
+   once the round resolves. */
 .choice-grid {
   display: flex;
   flex-wrap: wrap;
@@ -820,26 +827,23 @@ h3 { font-size: 18px; }
   /* iOS Safari can inflate text inside a narrow flex item independently of
      the rest of the page ("font boosting"/text autosizing) even with
      text-size-adjust: 100% set on body — the override doesn't reliably
-     reach every nested flex context. Bigger text here raises this item's
-     effective min-content width, which can drop the whole row from 4
-     columns to 2 on a real device without changing anything the desktop
-     Chromium testing above could see, since that heuristic is WebKit/
-     mobile-Safari-only and doesn't exist there. Repeating the override
-     directly on the element most likely to be inflated is the standard,
-     low-cost defence. */
+     reach every nested flex context. Repeating the override directly on the
+     element most likely to be inflated is the standard, low-cost defence. */
   -webkit-text-size-adjust: 100%;
-  flex: 1 1 78px;
-  /* A flex item's automatic min-width is its own content's min-content
-     size, which can silently override flex-basis and force fewer columns
-     per row than the layout below intends — worse the moment text
-     inflation (above) or an unusually wide reading makes that min-content
-     bigger. min-width: 0 hands sizing entirely to flex-basis/shrink,
-     which is what overflow-wrap: anywhere further down is already there to
-     make safe. */
-  min-width: 0;
-  max-width: 130px;
+  /* grow: divide up leftover row space; shrink: 0 so a button is never
+     compressed below its own text — that's what used to force a wrap
+     mid-word. basis: auto sizes it to its content (text + padding) first. */
+  flex: 1 0 auto;
+  min-width: 64px;
+  /* A generous ceiling, not a tight fit — no real reading or kana word in
+     this app comes anywhere near it, so this never actually engages;
+     it just stops one pathologically long string from stretching a button
+     across the whole row. white-space: nowrap below means text past this
+     width would overflow the box rather than wrap — an acceptable trade for
+     data that in practice never gets close. */
+  max-width: 260px;
   min-height: 56px;
-  padding: 6px 8px;
+  padding: 6px 14px;
   border-radius: 14px;
   border: 2px solid var(--line);
   background: var(--surface);
@@ -849,8 +853,7 @@ h3 { font-size: 18px; }
   font-weight: 700;
   line-height: 1.2;
   cursor: pointer;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
   transition: background 0.12s ease, border-color 0.12s ease;
 }
 .choice:active { transform: scale(0.96); }
