@@ -1261,8 +1261,10 @@ the vocab course tables.
 
 ## 10. What stories will need from this
 
-Stories are the next feature. Three things in this plan exist partly for them,
-and one thing has to be decided now.
+Stories are the next feature, and are now written out in full in
+`stories-plan.md` — this section stays as the record of what was built here
+on their behalf. Three things in this plan exist partly for them, and one
+thing has to be decided now.
 
 **Built for reuse:**
 

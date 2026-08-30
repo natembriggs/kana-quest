@@ -341,6 +341,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
 | `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning mode ships; Recall mode, exposure-based hiding and Higher/A level remain |
+| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **Not started** — see its phase table |
 
 ## What is not built yet
 
@@ -349,6 +350,10 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
   explicit study list, lazy per-grade data loading, and the beyond-jōyō
   "names & places" set (phase 8) are all done — see that document's phase
   table.
+- **Stories** — graded reading, levelled from a 110-word first-steps tier up
+  to unabridged public-domain literature, rendered into whichever script a
+  learner has actually reached and translated sentence by sentence. Nothing
+  in it is tested or scored. See `stories-plan.md`.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
