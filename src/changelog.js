@@ -14,6 +14,7 @@ export const CHANGELOG = [
     date: '2026-08-30',
     changes: [
       'Vocabulary is clearer about what you\'re actually studying. A unit\'s course card now shows its GCSE-style topic group and, for a themed unit, whether it\'s "Common words 1" (the everyday layer) or "Common words 2" (a topic\'s rarer words, previously invisible unless you already knew to look in the "Common words 2" group) — before this, a unit and its Common words 2 sibling looked completely identical. The Vocabulary screen also now says up front that its topics follow the UK GCSE Japanese specification but its actual word lists don\'t come from an exam board (that\'s copyrighted) — full reasoning in Settings\' new "Vocabulary word lists" card.',
+      'Fixed: a vocabulary word longer than one character could wrap mid-word in its set overview tile — お母さん was splitting across three lines as "お母" / "さ" / "ん". Vocabulary tiles now set the word top-to-bottom instead, the traditional direction for a short label in Japanese, so a word is always one unbroken column regardless of length. Kanji and kana tiles are unchanged.',
     ],
   },
   {

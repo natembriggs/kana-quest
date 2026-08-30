@@ -43,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1243,7 +1243,10 @@ function buildMasteryTile(course, item, returnTo) {
     && studyStatus(state.profile.study, progress, item, applicableStudyModes(course, item)) !== 'not-studying';
   const tile = document.createElement('button');
   tile.type = 'button';
-  tile.className = `overview-tile tier-${tier}${pending ? ' is-pending' : ''}`;
+  // overview-tile-vocab: set the word top-to-bottom instead of wrapping a
+  // multi-character word left-to-right in a square tile (see styles.css) —
+  // a kana/kanji tile is always one glyph, so this only applies to vocab.
+  tile.className = `overview-tile tier-${tier}${course.kind === 'vocab' ? ' overview-tile-vocab' : ''}${pending ? ' is-pending' : ''}`;
   // Vocab word ids are the surface form, or surface|reading on a homograph
   // collision (vocab-plan.md §3.3) — .w is always the plain surface to show.
   const label = course.kind === 'vocab' ? vocabInfo(course, item).w : item;

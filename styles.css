@@ -1192,6 +1192,28 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   font-size: clamp(20px, 6vw, 28px);
   cursor: pointer;
 }
+/* Vocab words, unlike a kana/kanji tile's single glyph, can run to four or
+   five characters — left in horizontal type inside a roughly-square tile,
+   that wrapped at arbitrary character boundaries (see kana-quest issue: a
+   family-words unit rendering 女の子 as "女の" over "子"). Set top-to-bottom
+   instead, the traditional direction for a single word or short label in
+   Japanese, so a word is always one unbroken column no matter its length —
+   no wrap to fix, and it reads as more distinctly Japanese than a cramped
+   horizontal line would. text-orientation is left at its 'mixed' default
+   rather than forced 'upright': that's what lets a chōon (ー) rotate to a
+   vertical stroke the way real tategaki renders it, while kana and kanji
+   stay upright either way. The fixed square gives way to auto height, so a
+   longer word's tile grows taller instead of shrinking its text or wrapping. */
+.overview-tile.overview-tile-vocab {
+  aspect-ratio: auto;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: 10px 4px;
+}
 .overview-tile:active { transform: scale(0.96); }
 .overview-tile.tier-0 { background: var(--tier-0); color: var(--tier-0-ink); }
 .overview-tile.tier-1 { background: var(--tier-1); color: var(--tier-1-ink); border-color: var(--tier-1); }
