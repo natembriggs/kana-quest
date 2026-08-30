@@ -639,6 +639,12 @@ export function newYomiRecord() {
     secondLastReviewed: null,
     due: 0,
     intervalDays: 0,
+    // Per-event [timestamp, 0|1] log, same shape and cap as grade()'s
+    // history — added for the study-history timeline (a kanji's Yomi is
+    // scored per reading, so this is where its pass/fail record actually
+    // lives; recomputeKanjiRollup's own itemKey('recognition', kanji) rollup
+    // has none, see its `history: []`).
+    history: [],
     updatedAt: null,
   };
 }
@@ -676,6 +682,10 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
     rec.streak = 0;
     rec.intervalDays = 0;
     rec.due = now;
+  }
+  rec.history.push([now, correct ? 1 : 0]);
+  if (rec.history.length > MAX_HISTORY) {
+    rec.history.splice(0, rec.history.length - MAX_HISTORY);
   }
   rec.updatedAt = now;
   return rec;

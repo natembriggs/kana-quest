@@ -45,7 +45,8 @@ function recordAttemptCount(record) {
 
 /** Prefer the newer copy. Attempt count is only a backward-compatible
  * tie-breaker for old records that have no timestamp, never the primary
- * signal (ordinary histories are capped and Yomi has no history array). */
+ * signal (histories, Yomi's included, are capped — a fuller one isn't
+ * reliably the more complete record). */
 function preferIncomingRecord(current, incoming) {
   if (!isObject(current)) return true;
   const currentTime = recordTimestamp(current);

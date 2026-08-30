@@ -254,6 +254,8 @@
 
     <p id="detail-mastery" class="mastery-label"></p>
 
+    <button id="detail-history-btn" class="btn btn-quiet wide" type="button" data-action="open-study-history">My study history</button>
+
     <!-- Kanji and vocab only: whether this item is being studied is now an
          editable choice, not just a fact — the button below both shows and
          sets it. See kanji-expansion-plan.md §2.1 and vocab-plan.md §7. Kana
@@ -301,6 +303,24 @@
       <h3>Common words</h3>
       <div id="detail-general-words-list" class="stack"></div>
     </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- Every graded event for one character/word, oldest evidence first the
+       detail screen doesn't have room for. Always opened FROM the detail
+       screen (data-action="open-study-history" there) and always returns
+       straight to it — see openStudyHistory()/'study-history-back' in
+       app.js. -->
+  <section id="screen-study-history" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="study-history-back" aria-label="Back">←</button>
+      <h2>Study history</h2>
+      <span></span>
+    </header>
+    <p class="hint">Every time <span id="study-history-glyph" lang="ja"></span> was reviewed, and how it went.</p>
+    <div id="study-history-graph" class="study-history-graph"></div>
+    <p id="study-history-empty" class="hint" hidden>Nothing yet — this hasn't been reviewed.</p>
+    <div id="study-history-list" class="study-history-list"></div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

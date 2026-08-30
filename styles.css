@@ -1278,3 +1278,40 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .mastery-label.tier-2 { color: var(--tier-2); }
 .mastery-label.tier-3 { color: var(--tier-3); }
 .mastery-label.tier-4 { color: var(--tier-4); }
+
+/* --- Study history (character detail's "My study history", see
+   openStudyHistory()/buildStudyHistory() in app.js) --------------------- */
+
+.study-history-graph {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 4px 0;
+}
+.study-history-svg { width: 100%; height: auto; display: block; }
+.study-history-axis { stroke: var(--line); stroke-width: 1; }
+.study-history-tick-label { font-size: 10px; fill: var(--ink-soft); }
+.study-history-dot { stroke: var(--surface); stroke-width: 1.5; }
+.study-history-dot-pass { fill: var(--ok); }
+.study-history-dot-fail { fill: var(--bad); }
+/* Deliberately --ink-soft, not --accent: the default accent (coral) reads
+   as near-identical to --bad's red, which would make "added" and "failed"
+   indistinguishable at a glance. */
+.study-history-dot-added { fill: var(--ink-soft); }
+
+.study-history-list { display: flex; flex-direction: column; gap: 2px; }
+.study-history-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.study-history-row-date { color: var(--ink-soft); font-size: 14px; flex-shrink: 0; }
+.study-history-row-right { display: flex; align-items: baseline; gap: 8px; text-align: right; }
+.study-history-row-result { font-weight: 700; }
+.study-history-row-pass { color: var(--ok); }
+.study-history-row-fail { color: var(--bad); }
+.study-history-row-added { color: var(--ink-soft); }
+.study-history-row-mode { color: var(--ink-soft); font-size: 13px; }

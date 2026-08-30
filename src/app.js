@@ -22,7 +22,7 @@ import {
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
-  recomputeVocabRollup,
+  recomputeVocabRollup, VOCAB_SUBKEYS,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
 } from './srs.js';
@@ -43,7 +43,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-30e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-30f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1467,6 +1467,213 @@ function studyDetailCharNow() {
   if (pending.length === 0) return; // button should be hidden in this case
   if (!pending.includes(state.mode)) state.mode = pending[0];
   startSession(course.id, 'new', [char]);
+}
+
+/**
+ * Every graded event and study-list addition for one character/word, across
+ * every mode that applies to it, oldest first — the raw material for the
+ * "My study history" screen (openStudyHistory/renderStudyHistory below).
+ *
+ * Most modes score straight into itemKey(mode, char) via grade(), which
+ * keeps its own [timestamp, 0|1] history. Two don't, and need their real
+ * records found elsewhere:
+ *  - Kanji's Yomi (recognition) is scored per reading (yomiKey), so its
+ *    events live on each of the kanji's quizzed readings' own records —
+ *    itemKey('recognition', kanji) is a rollup recomputeKanjiRollup rebuilds
+ *    from scratch on every answer and always leaves history: [].
+ *  - Vocabulary's Meaning/Recall are themselves rollups of two sub-key
+ *    records each (VOCAB_SUBKEYS) for the same reason.
+ * "Added" events come from the study list's per-(char, mode) enrollment
+ * timestamp; a bulk toggle enrolls every mode in the same instant, so those
+ * collapse into one row rather than one per mode. Timestamp 0 is the legacy
+ * "enrolled before this was tracked" sentinel (deriveStudyList/
+ * migrateStudyShape) and carries no real date, so it's left out.
+ */
+function buildStudyHistory(course, char) {
+  const { progress, study } = state.profile;
+  const modes = applicableStudyModes(course, char);
+  const events = [];
+
+  const addFromRecord = (record, label) => {
+    (record?.history || []).forEach(([ts, ok]) => {
+      events.push({ ts, type: ok ? 'pass' : 'fail', label });
+    });
+  };
+
+  modes.forEach((mode) => {
+    if (course.kind === 'kanji' && mode === 'recognition') {
+      kanjiInfo(course, char).quizReadings.forEach((reading) => {
+        addFromRecord(progress[yomiKey('recognition', char, reading)], `Yomi — ${reading}`);
+      });
+    } else if (course.kind === 'vocab' && VOCAB_SUBKEYS[mode]) {
+      VOCAB_SUBKEYS[mode].forEach((prefix) => {
+        addFromRecord(progress[itemKey(prefix, char)], modeName(mode, course.kind));
+      });
+    } else {
+      addFromRecord(progress[itemKey(mode, char)], modeName(mode, course.kind));
+    }
+  });
+
+  if (study && study[char]) {
+    const labelsByTs = new Map();
+    modes.forEach((mode) => {
+      const ts = study[char][mode];
+      if (!ts) return; // absent, or the legacy 0 sentinel — no real date to show
+      if (!labelsByTs.has(ts)) labelsByTs.set(ts, []);
+      labelsByTs.get(ts).push(modeName(mode, course.kind));
+    });
+    labelsByTs.forEach((labels, ts) => events.push({ ts, type: 'added', label: labels.join(', ') }));
+  }
+
+  events.sort((a, b) => a.ts - b.ts);
+  return events;
+}
+
+const STUDY_HISTORY_TYPE_LABEL = { added: 'Added', pass: 'Passed', fail: 'Failed' };
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Local-time calendar-day key, so "same day" groups the way a learner reads
+ * their own timeline rather than by raw UTC offset. */
+function dayKey(ts) {
+  const d = new Date(ts);
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
+
+/**
+ * A small time-axis SVG: one dot per event at its real date, coloured by
+ * outcome. Events sharing a calendar day land at (nearly) the same x, so
+ * they're additionally staggered in y within that day — otherwise a pass and
+ * a fail on the same day would sit on top of one another. See the module
+ * note on buildStudyHistory above for what an event actually is.
+ */
+function buildStudyHistorySVG(events) {
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const W = 600;
+  const H = 130;
+  const PAD_X = 24;
+  const AXIS_Y = H - 28;
+  const LANE_GAP = 13;
+
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.classList.add('study-history-svg');
+
+  let minTs = events[0].ts;
+  let maxTs = events[events.length - 1].ts;
+  if (minTs === maxTs) { minTs -= DAY_MS; maxTs += DAY_MS; }
+  const x = (ts) => PAD_X + ((ts - minTs) / (maxTs - minTs)) * (W - PAD_X * 2);
+
+  const axis = document.createElementNS(SVG_NS, 'line');
+  axis.setAttribute('x1', PAD_X); axis.setAttribute('x2', W - PAD_X);
+  axis.setAttribute('y1', AXIS_Y); axis.setAttribute('y2', AXIS_Y);
+  axis.setAttribute('class', 'study-history-axis');
+  svg.appendChild(axis);
+
+  // A handful of evenly-spaced date labels along the axis, rather than one
+  // per event — with weeks of daily reviews the latter would overlap into
+  // an unreadable smear. Capped to the number of distinct days actually
+  // spanned too, so a history barely a day old doesn't repeat "29 Aug" five
+  // times over.
+  const spanDays = Math.max(1, Math.round((maxTs - minTs) / DAY_MS));
+  const TICKS = Math.max(2, Math.min(5, spanDays + 1));
+  const fmt = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' });
+  let lastLabel = null;
+  for (let i = 0; i < TICKS; i += 1) {
+    const ts = minTs + ((maxTs - minTs) * i) / (TICKS - 1);
+    const text = fmt.format(ts);
+    if (text === lastLabel) continue; // adjacent ticks landed on the same calendar day
+    lastLabel = text;
+    const tickX = x(ts);
+    const tick = document.createElementNS(SVG_NS, 'line');
+    tick.setAttribute('x1', tickX); tick.setAttribute('x2', tickX);
+    tick.setAttribute('y1', AXIS_Y); tick.setAttribute('y2', AXIS_Y + 5);
+    tick.setAttribute('class', 'study-history-axis');
+    svg.appendChild(tick);
+    const label = document.createElementNS(SVG_NS, 'text');
+    label.setAttribute('x', tickX);
+    label.setAttribute('y', AXIS_Y + 18);
+    label.setAttribute('text-anchor', i === 0 ? 'start' : i === TICKS - 1 ? 'end' : 'middle');
+    label.setAttribute('class', 'study-history-tick-label');
+    label.textContent = text;
+    svg.appendChild(label);
+  }
+
+  // Lane assignment: events sharing a day are laid out around a shared
+  // centre, alternating above/below it (0, -1, +1, -2, +2, ...) so the group
+  // grows outward from the axis rather than piling up on one side.
+  const byDay = new Map();
+  events.forEach((event) => {
+    const key = dayKey(event.ts);
+    if (!byDay.has(key)) byDay.set(key, []);
+    byDay.get(key).push(event);
+  });
+  byDay.forEach((dayEvents) => {
+    dayEvents.forEach((event, i) => {
+      const lane = i % 2 === 0 ? -i / 2 : (i + 1) / 2;
+      event.laneY = AXIS_Y - 14 + lane * LANE_GAP;
+    });
+  });
+
+  events.forEach((event) => {
+    const dot = document.createElementNS(SVG_NS, 'circle');
+    dot.setAttribute('cx', x(event.ts));
+    dot.setAttribute('cy', event.laneY);
+    dot.setAttribute('r', event.type === 'added' ? 4 : 5);
+    dot.setAttribute('class', `study-history-dot study-history-dot-${event.type}`);
+    svg.appendChild(dot);
+  });
+
+  return svg;
+}
+
+/** List half of the timeline: one row per event, most recent first, date on
+ * the left and the outcome (plus which mode) on the right. */
+function renderStudyHistoryList(events) {
+  const list = $('study-history-list');
+  list.innerHTML = '';
+  const dateFmt = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  [...events].reverse().forEach((event) => {
+    const row = document.createElement('div');
+    row.className = 'study-history-row';
+    const date = document.createElement('span');
+    date.className = 'study-history-row-date';
+    date.textContent = dateFmt.format(event.ts);
+    const result = document.createElement('span');
+    result.className = `study-history-row-result study-history-row-${event.type}`;
+    result.textContent = STUDY_HISTORY_TYPE_LABEL[event.type];
+    const mode = document.createElement('span');
+    mode.className = 'study-history-row-mode';
+    mode.textContent = event.label;
+    const right = document.createElement('span');
+    right.className = 'study-history-row-right';
+    right.appendChild(result);
+    right.appendChild(mode);
+    row.appendChild(date);
+    row.appendChild(right);
+    list.appendChild(row);
+  });
+}
+
+function openStudyHistory() {
+  renderStudyHistory();
+  show('screen-study-history');
+}
+
+function renderStudyHistory() {
+  const course = getAnyCourse(state.detailCourseId);
+  const char = state.detailChar;
+  $('study-history-glyph').textContent = char;
+  const events = buildStudyHistory(course, char);
+
+  const graph = $('study-history-graph');
+  graph.innerHTML = '';
+  const empty = events.length === 0;
+  graph.hidden = empty;
+  $('study-history-empty').hidden = !empty;
+  if (!empty) graph.appendChild(buildStudyHistorySVG(events));
+
+  renderStudyHistoryList(events);
 }
 
 function renderCharacterDetail() {
@@ -4789,6 +4996,10 @@ function wire() {
           openCharacterDetail(getAnyCourse(courseId), char, returnTo);
         } else renderOverview(state.detailChar);
         break;
+      // Opened only from the detail screen, which is still sitting there
+      // untouched underneath — no need to re-render it, just show it again.
+      case 'open-study-history': openStudyHistory(); break;
+      case 'study-history-back': show('screen-character-detail'); break;
       case 'close-settings':
         if (!state.profile) renderProfiles();
         else if (state.settingsReturn === 'screen-course') renderCourse();
