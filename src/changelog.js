@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-08-31',
     changes: [
+      'New: in a story, tapping a word whose furigana is already showing hides it — and remembers that, for the rest of this story and every one after, the same permanent "I know this one" the vocab quiz already offers. Previously a tap on such a word only offered romaji on top of a reading already on the page, with no way to turn the furigana itself off.',
+      'Changed: tapping the English translation of a sentence now hides it again, the same way tapping the sentence itself shows it. Previously the only way to hide it again was finding your way back to the sentence\'s own closing punctuation.',
       'New: 4 more theme colours (Green, Indigo, Crimson, Sky) and 8 more badge emoji (🐱 🐶 🐼 🦄 🌈 🍉 🎨 🌟) in Settings — 10 colours and 20 badges to choose from now, up from 6 and 12.',
       'Fixed: coming back from a kanji\'s page dropped you at the top of the story instead of where you were reading. It now returns you to the exact spot.',
       'New: tap any empty space — the margins, the gap between paragraphs, below the last line — to clear the highlighted word and close the definition panel together.',

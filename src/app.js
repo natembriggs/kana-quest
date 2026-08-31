@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31h'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -5331,7 +5331,12 @@ function renderReaderParagraph(para, pIndex) {
     });
     p.appendChild(sSpan);
     const tDiv = document.createElement('div');
-    tDiv.className = 'reader-translation';
+    // reader-translate-tap so tapping the English itself, once it's showing,
+    // hides it again — the same class the sentence's own closing punctuation
+    // carries to show it in the first place, so one gesture both opens and
+    // closes it rather than requiring a hunt back to the punctuation mark.
+    tDiv.className = 'reader-translation reader-translate-tap';
+    tDiv.dataset.p = pIndex;
     tDiv.dataset.s = sIndex;
     tDiv.textContent = sentence.en;
     tDiv.hidden = !state.readerShowAllTranslations;
@@ -5390,6 +5395,41 @@ function recordReaderExposure(token, source, hiddenOnScreen) {
     changed = true;
   });
   if (changed) store.saveProfile(state.profile);
+}
+
+/** A learner tapping a word whose furigana is already showing BY DEFAULT
+ * (not yet earned or muted) to hide it — the same permanent opt-out the
+ * vocab quiz's own "Hide furigana in future" offers (clickHideFuriganaButton),
+ * just reached from a story instead. Mutes every key this token's furigana
+ * would otherwise be judged by (isTokenFuriganaHidden in reader.js), so it
+ * renders hidden here for the rest of this story and every one after, not
+ * just this one printing. */
+function muteReaderToken(token) {
+  const { muted } = state.profile;
+  const now = Date.now();
+  exposureTargetsForToken(token).forEach((key) => muteFuriganaKey(muted, key, now));
+  store.saveProfile(state.profile);
+}
+
+/** After muteReaderToken, every OTHER occurrence of the same word already
+ * sitting in the DOM (the whole story is rendered upfront, not paginated —
+ * see renderReaderBody) is still painted from before the mute took effect.
+ * isTokenFuriganaHidden only ever tests the whole-word key (reader.js), so
+ * an exact surface match is enough to find every one of them; each is reset
+ * to reveal-level 0 and repainted so the word reads as hidden everywhere in
+ * this story from this point on, not just where it was tapped. */
+function refreshMutedWordOccurrences(surface) {
+  state.readerStory.body.forEach((para, p) => {
+    para.forEach((sentence, s) => {
+      sentence.t.forEach((tok, i) => {
+        if (tok.s !== surface) return;
+        const key = tokenStateKey(p, s, i);
+        state.storyRevealLevels.set(key, 0);
+        const el = $('reader-body').querySelector(`.reader-token[data-p="${p}"][data-s="${s}"][data-i="${i}"]`);
+        if (el) paintTokenElement(el, tok, getRenderedSentence(p, s)[i], 0);
+      });
+    });
+  });
 }
 
 // --- Reader settings (stories-plan.md §8.4) ------------------------------
@@ -5638,6 +5678,15 @@ function markStoryFinished(id) {
  * there is no separate small button to hunt for. The panel itself starts
  * closed to the definition (openReaderCard) and only shows it on request,
  * so a tap here never blurts out the meaning a learner didn't ask for yet.
+ *
+ * A word whose furigana is showing BY DEFAULT is the one case the ladder
+ * above has nothing useful to do with: rendered.hidden is already false, so
+ * the "reveal" step it would normally take is a no-op, and all a first tap
+ * could otherwise offer is romaji stacked on a reading already on the page.
+ * A learner who already knows a word wants the opposite — to stop being
+ * shown it — so this tap hides it and remembers that choice for good
+ * (muteReaderToken), same as everywhere else in the app a "hide furigana"
+ * choice is offered.
  */
 function handleReaderTokenTap(tokenEl) {
   const p = Number(tokenEl.dataset.p);
@@ -5648,6 +5697,13 @@ function handleReaderTokenTap(tokenEl) {
   const token = sentence.t[i];
   const rendered = getRenderedSentence(p, s)[i];
   const level = state.storyRevealLevels.get(key) || 0;
+  if (rendered.form === 'kanji' && !rendered.hidden && level === 0) {
+    muteReaderToken(token);
+    refreshMutedWordOccurrences(token.s); // every printing of this word, not just the one tapped
+    setReaderActiveToken(key);
+    openReaderCard(p, s, i, token);
+    return;
+  }
   const willReveal = rendered.form === 'kanji' && rendered.hidden && level === 0;
   const nextLevel = level >= rendered.maxLevel ? 0 : level + 1;
   state.storyRevealLevels.set(key, nextLevel);
