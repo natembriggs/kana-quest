@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -57,7 +60,33 @@ export const VOCAB_ENTRIES = [
       "委任",
       "前任",
       "兼任"
-    ]
+    ],
+    "ex": {
+      "j": "けんかは両方に責任がある。",
+      "r": [
+        [
+          4,
+          1,
+          "りょう"
+        ],
+        [
+          5,
+          1,
+          "ほう"
+        ],
+        [
+          7,
+          1,
+          "せき"
+        ],
+        [
+          8,
+          1,
+          "にん"
+        ]
+      ],
+      "en": "It takes two to make a quarrel."
+    }
   },
   {
     "id": "専務",
@@ -110,7 +139,33 @@ export const VOCAB_ENTRIES = [
       "公務",
       "工務",
       "常務"
-    ]
+    ],
+    "ex": {
+      "j": "あの専務はまったくの面食いです。",
+      "r": [
+        [
+          2,
+          1,
+          "せん"
+        ],
+        [
+          3,
+          1,
+          "む"
+        ],
+        [
+          10,
+          1,
+          "めん"
+        ],
+        [
+          11,
+          1,
+          "く"
+        ]
+      ],
+      "en": "The executive director is a real pushover for looks."
+    }
   },
   {
     "id": "関税",
@@ -161,7 +216,48 @@ export const VOCAB_ENTRIES = [
       "印税",
       "増税",
       "税率"
-    ]
+    ],
+    "ex": {
+      "j": "関税申告書が必要になります。",
+      "r": [
+        [
+          0,
+          1,
+          "かん"
+        ],
+        [
+          1,
+          1,
+          "ぜい"
+        ],
+        [
+          2,
+          1,
+          "しん"
+        ],
+        [
+          3,
+          1,
+          "こく"
+        ],
+        [
+          4,
+          1,
+          "しょ"
+        ],
+        [
+          6,
+          1,
+          "ひつ"
+        ],
+        [
+          7,
+          1,
+          "よう"
+        ]
+      ],
+      "en": "A customs declaration is required."
+    }
   },
   {
     "id": "消費者",
@@ -224,7 +320,58 @@ export const VOCAB_ENTRIES = [
       "光熱費",
       "管理者",
       "消耗品"
-    ]
+    ],
+    "ex": {
+      "j": "一般的に、消費者は質よりも量を選ぶ。",
+      "r": [
+        [
+          0,
+          1,
+          "いっ"
+        ],
+        [
+          1,
+          1,
+          "ぱん"
+        ],
+        [
+          2,
+          1,
+          "てき"
+        ],
+        [
+          5,
+          1,
+          "しょう"
+        ],
+        [
+          6,
+          1,
+          "ひ"
+        ],
+        [
+          7,
+          1,
+          "しゃ"
+        ],
+        [
+          9,
+          1,
+          "しつ"
+        ],
+        [
+          13,
+          1,
+          "りょう"
+        ],
+        [
+          15,
+          1,
+          "えら"
+        ]
+      ],
+      "en": "In general, consumers prefer quantity to quality."
+    }
   },
   {
     "id": "消費税",
@@ -278,7 +425,53 @@ export const VOCAB_ENTRIES = [
       "消防庁",
       "運動費",
       "交通費"
-    ]
+    ],
+    "ex": {
+      "j": "政府は近々、消費税を引き上げるつもりなのかしら。",
+      "r": [
+        [
+          0,
+          1,
+          "せい"
+        ],
+        [
+          1,
+          1,
+          "ふ"
+        ],
+        [
+          3,
+          2,
+          "ちかぢか"
+        ],
+        [
+          6,
+          1,
+          "しょう"
+        ],
+        [
+          7,
+          1,
+          "ひ"
+        ],
+        [
+          8,
+          1,
+          "ぜい"
+        ],
+        [
+          10,
+          1,
+          "ひ"
+        ],
+        [
+          12,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "Will the government raise the consumption tax soon?"
+    }
   },
   {
     "id": "義務",
@@ -324,7 +517,28 @@ export const VOCAB_ENTRIES = [
       "教義",
       "義妹",
       "兼務"
-    ]
+    ],
+    "ex": {
+      "j": "このような義務があるなんて知らなかった。",
+      "r": [
+        [
+          5,
+          1,
+          "ぎ"
+        ],
+        [
+          6,
+          1,
+          "む"
+        ],
+        [
+          13,
+          1,
+          "し"
+        ]
+      ],
+      "en": "I never knew about such a duty."
+    }
   },
   {
     "id": "勤務",
@@ -375,7 +589,53 @@ export const VOCAB_ENTRIES = [
       "執務",
       "兼務",
       "党務"
-    ]
+    ],
+    "ex": {
+      "j": "その警備員は一晩中勤務だった。",
+      "r": [
+        [
+          2,
+          1,
+          "けい"
+        ],
+        [
+          3,
+          1,
+          "び"
+        ],
+        [
+          4,
+          1,
+          "いん"
+        ],
+        [
+          6,
+          1,
+          "ひと"
+        ],
+        [
+          7,
+          1,
+          "ばん"
+        ],
+        [
+          8,
+          1,
+          "じゅう"
+        ],
+        [
+          9,
+          1,
+          "きん"
+        ],
+        [
+          10,
+          1,
+          "む"
+        ]
+      ],
+      "en": "The guard was on duty all night."
+    }
   },
   {
     "id": "顧客",
@@ -425,7 +685,48 @@ export const VOCAB_ENTRIES = [
       "客席",
       "浴客",
       "客人"
-    ]
+    ],
+    "ex": {
+      "j": "顧客候補のリストは出来上がりました。",
+      "r": [
+        [
+          0,
+          1,
+          "こ"
+        ],
+        [
+          1,
+          1,
+          "きゃく"
+        ],
+        [
+          2,
+          1,
+          "こう"
+        ],
+        [
+          3,
+          1,
+          "ほ"
+        ],
+        [
+          9,
+          1,
+          "で"
+        ],
+        [
+          10,
+          1,
+          "き"
+        ],
+        [
+          11,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "Potential customers have been listed."
+    }
   },
   {
     "id": "任務",
@@ -472,7 +773,63 @@ export const VOCAB_ENTRIES = [
       "社務",
       "委任",
       "外務"
-    ]
+    ],
+    "ex": {
+      "j": "彼女はその党の指導的任務につくことを承認した。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          5,
+          1,
+          "とう"
+        ],
+        [
+          7,
+          1,
+          "し"
+        ],
+        [
+          8,
+          1,
+          "どう"
+        ],
+        [
+          9,
+          1,
+          "てき"
+        ],
+        [
+          10,
+          1,
+          "にん"
+        ],
+        [
+          11,
+          1,
+          "む"
+        ],
+        [
+          18,
+          1,
+          "しょう"
+        ],
+        [
+          19,
+          1,
+          "にん"
+        ]
+      ],
+      "en": "She has consented to take the leadership of the party."
+    }
   },
   {
     "id": "現役",
@@ -527,7 +884,68 @@ export const VOCAB_ENTRIES = [
       "役場",
       "現実",
       "現物"
-    ]
+    ],
+    "ex": {
+      "j": "現役を引退した後、テレサは孤児の世話に一身をささげた。",
+      "r": [
+        [
+          0,
+          1,
+          "げん"
+        ],
+        [
+          1,
+          1,
+          "えき"
+        ],
+        [
+          3,
+          1,
+          "いん"
+        ],
+        [
+          4,
+          1,
+          "たい"
+        ],
+        [
+          7,
+          1,
+          "あと"
+        ],
+        [
+          13,
+          1,
+          "こ"
+        ],
+        [
+          14,
+          1,
+          "じ"
+        ],
+        [
+          16,
+          1,
+          "せ"
+        ],
+        [
+          17,
+          1,
+          "わ"
+        ],
+        [
+          19,
+          1,
+          "いっ"
+        ],
+        [
+          20,
+          1,
+          "しん"
+        ]
+      ],
+      "en": "After retirement, Teresa devoted herself to caring for orphans."
+    }
   },
   {
     "id": "税金",
@@ -577,6 +995,47 @@ export const VOCAB_ENTRIES = [
       "拝金",
       "金色",
       "公金"
-    ]
+    ],
+    "ex": {
+      "j": "税金に関するあなたの意見に同感です。",
+      "r": [
+        [
+          0,
+          1,
+          "ぜい"
+        ],
+        [
+          1,
+          1,
+          "きん"
+        ],
+        [
+          3,
+          1,
+          "かん"
+        ],
+        [
+          10,
+          1,
+          "い"
+        ],
+        [
+          11,
+          1,
+          "けん"
+        ],
+        [
+          13,
+          1,
+          "どう"
+        ],
+        [
+          14,
+          1,
+          "かん"
+        ]
+      ],
+      "en": "I agree with your opinion about taxes."
+    }
   }
 ];

@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 // surface -> home unit id, for cross-unit lookup with no grade
 // context (word detail links, and later story annotation — see

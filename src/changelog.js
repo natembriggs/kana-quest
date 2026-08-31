@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-01',
     changes: [
+      'New: a vocabulary word\'s own page now ends with a real Japanese sentence using it — furigana over every kanji in the whole sentence, not just over the word, the word itself underlined where it appears, and an English translation of all of it underneath. Knowing that 制作 means "production" is not the same as having seen it in a sentence. About one word in six has none: those are mostly rare newspaper compounds (春闘, 特殊法人) that appear in no sentence in the collection these come from, and their pages simply show nothing rather than an empty heading.',
       'New: once you\'ve answered a kanji, vocabulary or kana question — right before Next — the word or character on screen is tappable again, opening its own page (stroke order, every reading, common words) without losing your place in the session. A kanji or vocab word\'s example word is tappable too, with its own kanji as chips and a one-tap Add if you don\'t study it yet. Writing mode gets the same treatment: the character and its example word, both hidden while you\'re still drawing so the answer can\'t leak, appear and become tappable the moment you finish. Never offered where it would hand over an answer you haven\'t been asked for yet — a vocabulary word with its reading or spelling still to come stays untappable until that\'s answered too.',
     ],
   },

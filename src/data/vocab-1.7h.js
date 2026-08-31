@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -49,7 +52,38 @@ export const VOCAB_ENTRIES = [
       "曾い",
       "代い",
       "彼い"
-    ]
+    ],
+    "ex": {
+      "j": "値段が手ごろなら、その車を買いたい。",
+      "r": [
+        [
+          0,
+          1,
+          "ね"
+        ],
+        [
+          1,
+          1,
+          "だん"
+        ],
+        [
+          3,
+          1,
+          "て"
+        ],
+        [
+          11,
+          1,
+          "くるま"
+        ],
+        [
+          13,
+          1,
+          "か"
+        ]
+      ],
+      "en": "If the price is reasonable, I want to buy the car."
+    }
   },
   {
     "id": "外貨",
@@ -107,7 +141,33 @@ export const VOCAB_ENTRIES = [
       "校外",
       "外周",
       "外的"
-    ]
+    ],
+    "ex": {
+      "j": "どこで外貨の交換をすることができますか。",
+      "r": [
+        [
+          3,
+          1,
+          "がい"
+        ],
+        [
+          4,
+          1,
+          "か"
+        ],
+        [
+          6,
+          1,
+          "こう"
+        ],
+        [
+          7,
+          1,
+          "かん"
+        ]
+      ],
+      "en": "Where can I get my money exchanged?"
+    }
   },
   {
     "id": "多額",
@@ -157,7 +217,28 @@ export const VOCAB_ENTRIES = [
       "多分",
       "多岐",
       "多忙"
-    ]
+    ],
+    "ex": {
+      "j": "１０００ドルというのは、多額の金だ。",
+      "r": [
+        [
+          12,
+          1,
+          "た"
+        ],
+        [
+          13,
+          1,
+          "がく"
+        ],
+        [
+          15,
+          1,
+          "かね"
+        ]
+      ],
+      "en": "A thousand dollars is a large sum."
+    }
   },
   {
     "id": "値下げ",
@@ -209,7 +290,48 @@ export const VOCAB_ENTRIES = [
       "滉下げ",
       "血下げ",
       "毀下げ"
-    ]
+    ],
+    "ex": {
+      "j": "あの店では商品を値下げして値段がつけてある。",
+      "r": [
+        [
+          2,
+          1,
+          "みせ"
+        ],
+        [
+          5,
+          1,
+          "しょう"
+        ],
+        [
+          6,
+          1,
+          "ひん"
+        ],
+        [
+          8,
+          1,
+          "ね"
+        ],
+        [
+          9,
+          1,
+          "さ"
+        ],
+        [
+          13,
+          1,
+          "ね"
+        ],
+        [
+          14,
+          1,
+          "だん"
+        ]
+      ],
+      "en": "They mark down goods at that shop."
+    }
   },
   {
     "id": "改定",
@@ -310,7 +432,33 @@ export const VOCAB_ENTRIES = [
       "針金",
       "金星",
       "成金"
-    ]
+    ],
+    "ex": {
+      "j": "金銭のことで彼と争いになった。",
+      "r": [
+        [
+          0,
+          1,
+          "きん"
+        ],
+        [
+          1,
+          1,
+          "せん"
+        ],
+        [
+          6,
+          1,
+          "かれ"
+        ],
+        [
+          8,
+          1,
+          "あらそ"
+        ]
+      ],
+      "en": "I had a quarrel with him over money."
+    }
   },
   {
     "id": "買い物",
@@ -357,7 +505,33 @@ export const VOCAB_ENTRIES = [
       "靴い物",
       "縣い物",
       "迦い物"
-    ]
+    ],
+    "ex": {
+      "j": "私はこのあたりで少し買い物をしたい。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          8,
+          1,
+          "すこ"
+        ],
+        [
+          10,
+          1,
+          "か"
+        ],
+        [
+          12,
+          1,
+          "もの"
+        ]
+      ],
+      "en": "I want to do some shopping around here."
+    }
   },
   {
     "id": "流行",
@@ -416,7 +590,38 @@ export const VOCAB_ENTRIES = [
       "逆行",
       "代行",
       "流体"
-    ]
+    ],
+    "ex": {
+      "j": "あの種の服が今流行だ。",
+      "r": [
+        [
+          2,
+          1,
+          "しゅ"
+        ],
+        [
+          4,
+          1,
+          "ふく"
+        ],
+        [
+          6,
+          1,
+          "いま"
+        ],
+        [
+          7,
+          1,
+          "りゅう"
+        ],
+        [
+          8,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "That kind of dress is now in fashion."
+    }
   },
   {
     "id": "上げ",
@@ -466,7 +671,38 @@ export const VOCAB_ENTRIES = [
       "窪げ",
       "宛げ",
       "会げ"
-    ]
+    ],
+    "ex": {
+      "j": "追い風の時に帆を上げよ。",
+      "r": [
+        [
+          0,
+          1,
+          "お"
+        ],
+        [
+          2,
+          1,
+          "かぜ"
+        ],
+        [
+          4,
+          1,
+          "とき"
+        ],
+        [
+          6,
+          1,
+          "ほ"
+        ],
+        [
+          8,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "Hoist your sail when the wind is fair."
+    }
   },
   {
     "id": "値",
@@ -512,7 +748,43 @@ export const VOCAB_ENTRIES = [
       "坪",
       "汎",
       "係"
-    ]
+    ],
+    "ex": {
+      "j": "円がドルに対して値を下げる見込みだ。",
+      "r": [
+        [
+          0,
+          1,
+          "えん"
+        ],
+        [
+          5,
+          1,
+          "たい"
+        ],
+        [
+          8,
+          1,
+          "あたい"
+        ],
+        [
+          10,
+          1,
+          "さ"
+        ],
+        [
+          13,
+          1,
+          "み"
+        ],
+        [
+          14,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "The yen is expected to lose value against the dollar."
+    }
   },
   {
     "id": "手当",
@@ -571,7 +843,38 @@ export const VOCAB_ENTRIES = [
       "厚手",
       "穏当",
       "王手"
-    ]
+    ],
+    "ex": {
+      "j": "彼は痛む腕を手当してもらった。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "いた"
+        ],
+        [
+          4,
+          1,
+          "うで"
+        ],
+        [
+          6,
+          1,
+          "て"
+        ],
+        [
+          7,
+          1,
+          "あて"
+        ]
+      ],
+      "en": "He had his sore arm dressed."
+    }
   },
   {
     "id": "衣装",
@@ -623,7 +926,38 @@ export const VOCAB_ENTRIES = [
       "装甲",
       "装具",
       "衣類"
-    ]
+    ],
+    "ex": {
+      "j": "ぬれた衣装が彼女の体にくっついていた。",
+      "r": [
+        [
+          3,
+          1,
+          "い"
+        ],
+        [
+          4,
+          1,
+          "しょう"
+        ],
+        [
+          6,
+          1,
+          "かの"
+        ],
+        [
+          7,
+          1,
+          "じょ"
+        ],
+        [
+          9,
+          1,
+          "からだ"
+        ]
+      ],
+      "en": "Wet clothes clung to her body."
+    }
   },
   {
     "id": "円安",
@@ -671,7 +1005,28 @@ export const VOCAB_ENTRIES = [
       "目安",
       "円弧",
       "安易"
-    ]
+    ],
+    "ex": {
+      "j": "円安が進んでいるね。",
+      "r": [
+        [
+          0,
+          1,
+          "えん"
+        ],
+        [
+          1,
+          1,
+          "やす"
+        ],
+        [
+          3,
+          1,
+          "すす"
+        ]
+      ],
+      "en": "The yen is still low against the dollar."
+    }
   },
   {
     "id": "店員",
@@ -719,7 +1074,33 @@ export const VOCAB_ENTRIES = [
       "座員",
       "客員",
       "人員"
-    ]
+    ],
+    "ex": {
+      "j": "店員はその荷物にラベルをつけた。",
+      "r": [
+        [
+          0,
+          1,
+          "てん"
+        ],
+        [
+          1,
+          1,
+          "いん"
+        ],
+        [
+          5,
+          1,
+          "に"
+        ],
+        [
+          6,
+          1,
+          "もつ"
+        ]
+      ],
+      "en": "The clerk labeled the baggage."
+    }
   },
   {
     "id": "円相場",
@@ -775,7 +1156,33 @@ export const VOCAB_ENTRIES = [
       "村役場",
       "競技場",
       "相続税"
-    ]
+    ],
+    "ex": {
+      "j": "ドルに対する円相場があがった。",
+      "r": [
+        [
+          3,
+          1,
+          "たい"
+        ],
+        [
+          6,
+          1,
+          "えん"
+        ],
+        [
+          7,
+          1,
+          "そう"
+        ],
+        [
+          8,
+          1,
+          "ば"
+        ]
+      ],
+      "en": "The exchange rate for the yen against the dollar has risen."
+    }
   },
   {
     "id": "休業",
@@ -824,7 +1231,68 @@ export const VOCAB_ENTRIES = [
       "官業",
       "休演",
       "業者"
-    ]
+    ],
+    "ex": {
+      "j": "支配人は臨時休業の掲示を貼り出した。",
+      "r": [
+        [
+          0,
+          1,
+          "し"
+        ],
+        [
+          1,
+          1,
+          "はい"
+        ],
+        [
+          2,
+          1,
+          "にん"
+        ],
+        [
+          4,
+          1,
+          "りん"
+        ],
+        [
+          5,
+          1,
+          "じ"
+        ],
+        [
+          6,
+          1,
+          "きゅう"
+        ],
+        [
+          7,
+          1,
+          "ぎょう"
+        ],
+        [
+          9,
+          1,
+          "けい"
+        ],
+        [
+          10,
+          1,
+          "じ"
+        ],
+        [
+          12,
+          1,
+          "は"
+        ],
+        [
+          14,
+          1,
+          "だ"
+        ]
+      ],
+      "en": "The manager put up a notice about the extra holiday."
+    }
   },
   {
     "id": "売る",
@@ -872,7 +1340,28 @@ export const VOCAB_ENTRIES = [
       "失る",
       "謳る",
       "藝る"
-    ]
+    ],
+    "ex": {
+      "j": "ガソリンはリットル単位で売られる。",
+      "r": [
+        [
+          9,
+          1,
+          "たん"
+        ],
+        [
+          10,
+          1,
+          "い"
+        ],
+        [
+          12,
+          1,
+          "う"
+        ]
+      ],
+      "en": "Gasoline is sold by the liter."
+    }
   },
   {
     "id": "高値",
@@ -919,7 +1408,28 @@ export const VOCAB_ENTRIES = [
       "声高",
       "高齢",
       "高位"
-    ]
+    ],
+    "ex": {
+      "j": "イチゴは冬は高値だ。",
+      "r": [
+        [
+          4,
+          1,
+          "ふゆ"
+        ],
+        [
+          6,
+          1,
+          "たか"
+        ],
+        [
+          7,
+          1,
+          "ね"
+        ]
+      ],
+      "en": "Strawberries sell at high prices in winter."
+    }
   },
   {
     "id": "衣料",
@@ -966,7 +1476,28 @@ export const VOCAB_ENTRIES = [
       "浴衣",
       "黒衣",
       "顔料"
-    ]
+    ],
+    "ex": {
+      "j": "衣料品がだぶついている。",
+      "r": [
+        [
+          0,
+          1,
+          "い"
+        ],
+        [
+          1,
+          1,
+          "りょう"
+        ],
+        [
+          2,
+          1,
+          "ひん"
+        ]
+      ],
+      "en": "We have an oversupply of clothing."
+    }
   },
   {
     "id": "支払う",
@@ -1017,6 +1548,37 @@ export const VOCAB_ENTRIES = [
       "歯払う",
       "弛払う",
       "嵯払う"
-    ]
+    ],
+    "ex": {
+      "j": "彼はすぐ支払うことを要求している。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          4,
+          1,
+          "し"
+        ],
+        [
+          5,
+          1,
+          "はら"
+        ],
+        [
+          10,
+          1,
+          "よう"
+        ],
+        [
+          11,
+          1,
+          "きゅう"
+        ]
+      ],
+      "en": "He demands immediate payment."
+    }
   }
 ];

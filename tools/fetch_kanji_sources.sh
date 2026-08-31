@@ -1,6 +1,7 @@
 #!/bin/sh
 # Downloads the KANJIDIC2 and JMdict source dictionaries that
-# build_kanji_data.py reads. Not committed (~90MB uncompressed, and easy to
+# build_kanji_data.py reads, plus the Tanaka Corpus of example sentences
+# that build_vocab_data.py reads. Not committed (~90MB uncompressed, and easy to
 # re-fetch) — run this once before running that script.
 #
 #   ./tools/fetch_kanji_sources.sh
@@ -22,4 +23,8 @@ echo "Fetching JMdict..."
 curl -sL -o JMdict_e.gz "http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz"
 gunzip -f JMdict_e.gz
 
-echo "Done: $DIR/kanjidic2.xml, $DIR/JMdict_e"
+echo "Fetching the Tanaka Corpus (example sentences)..."
+curl -sL -o examples.utf.gz "http://ftp.edrdg.org/pub/Nihongo/examples.utf.gz"
+gunzip -f examples.utf.gz
+
+echo "Done: $DIR/kanjidic2.xml, $DIR/JMdict_e, $DIR/examples.utf"

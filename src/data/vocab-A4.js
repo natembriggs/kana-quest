@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -54,7 +57,33 @@ export const VOCAB_ENTRIES = [
       "送検",
       "送電",
       "伝送"
-    ]
+    ],
+    "ex": {
+      "j": "ニュースは毎時放送しています。",
+      "r": [
+        [
+          5,
+          1,
+          "まい"
+        ],
+        [
+          6,
+          1,
+          "じ"
+        ],
+        [
+          7,
+          1,
+          "ほう"
+        ],
+        [
+          8,
+          1,
+          "そう"
+        ]
+      ],
+      "en": "We broadcast news on the hour."
+    }
   },
   {
     "id": "民放",
@@ -102,7 +131,78 @@ export const VOCAB_ENTRIES = [
       "解放",
       "放熱",
       "民話"
-    ]
+    ],
+    "ex": {
+      "j": "民主党は選挙運動のために民放テレビの放送枠を買いました。",
+      "r": [
+        [
+          0,
+          1,
+          "みん"
+        ],
+        [
+          1,
+          1,
+          "しゅ"
+        ],
+        [
+          2,
+          1,
+          "とう"
+        ],
+        [
+          4,
+          1,
+          "せん"
+        ],
+        [
+          5,
+          1,
+          "きょ"
+        ],
+        [
+          6,
+          1,
+          "うん"
+        ],
+        [
+          7,
+          1,
+          "どう"
+        ],
+        [
+          12,
+          1,
+          "みん"
+        ],
+        [
+          13,
+          1,
+          "ぽう"
+        ],
+        [
+          18,
+          1,
+          "ほう"
+        ],
+        [
+          19,
+          1,
+          "そう"
+        ],
+        [
+          20,
+          1,
+          "わく"
+        ],
+        [
+          22,
+          1,
+          "か"
+        ]
+      ],
+      "en": "The Democrats bought space on commercial television for the campaign."
+    }
   },
   {
     "id": "通信衛星",
@@ -165,7 +265,48 @@ export const VOCAB_ENTRIES = [
       "普通預金",
       "信販会社",
       "精神衛生"
-    ]
+    ],
+    "ex": {
+      "j": "ロケットは通信衛星を軌道に乗せた。",
+      "r": [
+        [
+          5,
+          1,
+          "つう"
+        ],
+        [
+          6,
+          1,
+          "しん"
+        ],
+        [
+          7,
+          1,
+          "えい"
+        ],
+        [
+          8,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "き"
+        ],
+        [
+          11,
+          1,
+          "どう"
+        ],
+        [
+          13,
+          1,
+          "の"
+        ]
+      ],
+      "en": "The rocket put a communications satellite into orbit."
+    }
   },
   {
     "id": "検閲",
@@ -323,7 +464,28 @@ export const VOCAB_ENTRIES = [
       "不衛生",
       "小学生",
       "落花生"
-    ]
+    ],
+    "ex": {
+      "j": "そのコンサートは生中継された。",
+      "r": [
+        [
+          8,
+          1,
+          "なま"
+        ],
+        [
+          9,
+          1,
+          "ちゅう"
+        ],
+        [
+          10,
+          1,
+          "けい"
+        ]
+      ],
+      "en": "The concert was broadcast live."
+    }
   },
   {
     "id": "生放送",
@@ -391,7 +553,33 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "イメージはマスコミの情報に形成される。",
+      "r": [
+        [
+          10,
+          1,
+          "じょう"
+        ],
+        [
+          11,
+          1,
+          "ほう"
+        ],
+        [
+          13,
+          1,
+          "けい"
+        ],
+        [
+          14,
+          1,
+          "せい"
+        ]
+      ],
+      "en": "An image is formed by the information in the media."
+    }
   },
   {
     "id": "アルゴリズム",
@@ -403,7 +591,43 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "このソフトウエアはギブスサンプリングのアルゴリズムによりマルコフ連鎖モンテカルロ法の計算を行います。",
+      "r": [
+        [
+          32,
+          1,
+          "れん"
+        ],
+        [
+          33,
+          1,
+          "さ"
+        ],
+        [
+          40,
+          1,
+          "ほう"
+        ],
+        [
+          42,
+          1,
+          "けい"
+        ],
+        [
+          43,
+          1,
+          "さん"
+        ],
+        [
+          45,
+          1,
+          "おこな"
+        ]
+      ],
+      "en": "This software carries out Markov Chain Monte Carlo calculations by the use of Gibbs Sampling."
+    }
   },
   {
     "id": "マスメディア",
@@ -415,7 +639,33 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "政府はともすればマスメディアを統制したがる。",
+      "r": [
+        [
+          0,
+          1,
+          "せい"
+        ],
+        [
+          1,
+          1,
+          "ふ"
+        ],
+        [
+          15,
+          1,
+          "とう"
+        ],
+        [
+          16,
+          1,
+          "せい"
+        ]
+      ],
+      "en": "The government tends to control the media."
+    }
   },
   {
     "id": "ジャーナリズム",
@@ -427,6 +677,32 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼はジャーナリズム界の大物です。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          9,
+          1,
+          "かい"
+        ],
+        [
+          11,
+          1,
+          "おお"
+        ],
+        [
+          12,
+          1,
+          "もの"
+        ]
+      ],
+      "en": "He is a big man in journalism."
+    }
   }
 ];

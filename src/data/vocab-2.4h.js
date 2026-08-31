@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -53,7 +56,33 @@ export const VOCAB_ENTRIES = [
       "運航",
       "運行",
       "海運"
-    ]
+    ],
+    "ex": {
+      "j": "運賃は片道1ドルです。",
+      "r": [
+        [
+          0,
+          1,
+          "うん"
+        ],
+        [
+          1,
+          1,
+          "ちん"
+        ],
+        [
+          3,
+          1,
+          "かた"
+        ],
+        [
+          4,
+          1,
+          "みち"
+        ]
+      ],
+      "en": "The fare is one dollar each way."
+    }
   },
   {
     "id": "漁船",
@@ -101,7 +130,48 @@ export const VOCAB_ENTRIES = [
       "乗船",
       "船尾",
       "配船"
-    ]
+    ],
+    "ex": {
+      "j": "海岸から約１マイル沖に漁船が見えた。",
+      "r": [
+        [
+          0,
+          1,
+          "かい"
+        ],
+        [
+          1,
+          1,
+          "がん"
+        ],
+        [
+          4,
+          1,
+          "やく"
+        ],
+        [
+          9,
+          1,
+          "おき"
+        ],
+        [
+          11,
+          1,
+          "ぎょ"
+        ],
+        [
+          12,
+          1,
+          "せん"
+        ],
+        [
+          14,
+          1,
+          "み"
+        ]
+      ],
+      "en": "I saw a fishing boat about a mile off the shore."
+    }
   },
   {
     "id": "走行",
@@ -154,7 +224,43 @@ export const VOCAB_ENTRIES = [
       "蛇行",
       "現行",
       "銀行"
-    ]
+    ],
+    "ex": {
+      "j": "走行マイルで料金が加算されますか。",
+      "r": [
+        [
+          0,
+          1,
+          "そう"
+        ],
+        [
+          1,
+          1,
+          "こう"
+        ],
+        [
+          6,
+          1,
+          "りょう"
+        ],
+        [
+          7,
+          1,
+          "きん"
+        ],
+        [
+          9,
+          1,
+          "か"
+        ],
+        [
+          10,
+          1,
+          "さん"
+        ]
+      ],
+      "en": "Is there a mileage charge?"
+    }
   },
   {
     "id": "操業",
@@ -204,7 +310,53 @@ export const VOCAB_ENTRIES = [
       "画業",
       "家業",
       "体操"
-    ]
+    ],
+    "ex": {
+      "j": "その工場は来月から操業を中止する。",
+      "r": [
+        [
+          2,
+          1,
+          "こう"
+        ],
+        [
+          3,
+          1,
+          "じょう"
+        ],
+        [
+          5,
+          1,
+          "らい"
+        ],
+        [
+          6,
+          1,
+          "げつ"
+        ],
+        [
+          9,
+          1,
+          "そう"
+        ],
+        [
+          10,
+          1,
+          "ぎょう"
+        ],
+        [
+          12,
+          1,
+          "ちゅう"
+        ],
+        [
+          13,
+          1,
+          "し"
+        ]
+      ],
+      "en": "The factory will cease operations next month."
+    }
   },
   {
     "id": "交通事故",
@@ -265,7 +417,48 @@ export const VOCAB_ENTRIES = [
       "交感神経",
       "相互交流",
       "商事会社"
-    ]
+    ],
+    "ex": {
+      "j": "私の叔父は、昨日、交通事故にあった。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          2,
+          "おじ"
+        ],
+        [
+          6,
+          2,
+          "きのう"
+        ],
+        [
+          9,
+          1,
+          "こう"
+        ],
+        [
+          10,
+          1,
+          "つう"
+        ],
+        [
+          11,
+          1,
+          "じ"
+        ],
+        [
+          12,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "My uncle met with a traffic accident yesterday."
+    }
   },
   {
     "id": "下り",
@@ -320,7 +513,23 @@ export const VOCAB_ENTRIES = [
       "屯り",
       "囚り",
       "甥り"
-    ]
+    ],
+    "ex": {
+      "j": "夜のとばりが下りつつある。",
+      "r": [
+        [
+          0,
+          1,
+          "よる"
+        ],
+        [
+          6,
+          1,
+          "くだ"
+        ]
+      ],
+      "en": "Darkness is falling."
+    }
   },
   {
     "id": "車内",
@@ -367,7 +576,48 @@ export const VOCAB_ENTRIES = [
       "内局",
       "内国",
       "飛車"
-    ]
+    ],
+    "ex": {
+      "j": "氷のような冷気が車内に忍び込んできた。",
+      "r": [
+        [
+          0,
+          1,
+          "こおり"
+        ],
+        [
+          5,
+          1,
+          "れい"
+        ],
+        [
+          6,
+          1,
+          "き"
+        ],
+        [
+          8,
+          1,
+          "しゃ"
+        ],
+        [
+          9,
+          1,
+          "ない"
+        ],
+        [
+          11,
+          1,
+          "しの"
+        ],
+        [
+          13,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "An icy chill stole into the car."
+    }
   },
   {
     "id": "船舶",
@@ -417,7 +667,103 @@ export const VOCAB_ENTRIES = [
       "黒船",
       "船尾",
       "漁船"
-    ]
+    ],
+    "ex": {
+      "j": "懐中電灯は、船舶同士とか、街の通りを走っている自動車に向けて合図を伝える。",
+      "r": [
+        [
+          0,
+          1,
+          "かい"
+        ],
+        [
+          1,
+          1,
+          "ちゅう"
+        ],
+        [
+          2,
+          1,
+          "でん"
+        ],
+        [
+          3,
+          1,
+          "とう"
+        ],
+        [
+          6,
+          1,
+          "せん"
+        ],
+        [
+          7,
+          1,
+          "ぱく"
+        ],
+        [
+          8,
+          1,
+          "どう"
+        ],
+        [
+          9,
+          1,
+          "し"
+        ],
+        [
+          13,
+          1,
+          "まち"
+        ],
+        [
+          15,
+          1,
+          "とお"
+        ],
+        [
+          18,
+          1,
+          "はし"
+        ],
+        [
+          23,
+          1,
+          "じ"
+        ],
+        [
+          24,
+          1,
+          "どう"
+        ],
+        [
+          25,
+          1,
+          "しゃ"
+        ],
+        [
+          27,
+          1,
+          "む"
+        ],
+        [
+          30,
+          1,
+          "あい"
+        ],
+        [
+          31,
+          1,
+          "ず"
+        ],
+        [
+          33,
+          1,
+          "つた"
+        ]
+      ],
+      "en": "Flashing lights transmit messages between ships and to motorists along city streets."
+    }
   },
   {
     "id": "旅客",
@@ -471,7 +817,58 @@ export const VOCAB_ENTRIES = [
       "旅先",
       "旅行",
       "旅情"
-    ]
+    ],
+    "ex": {
+      "j": "覆面をした男達が旅客を襲って金を奪った。",
+      "r": [
+        [
+          0,
+          1,
+          "ふく"
+        ],
+        [
+          1,
+          1,
+          "めん"
+        ],
+        [
+          5,
+          1,
+          "おとこ"
+        ],
+        [
+          6,
+          1,
+          "たち"
+        ],
+        [
+          8,
+          1,
+          "りょ"
+        ],
+        [
+          9,
+          1,
+          "かく"
+        ],
+        [
+          11,
+          1,
+          "おそ"
+        ],
+        [
+          14,
+          1,
+          "かね"
+        ],
+        [
+          16,
+          1,
+          "うば"
+        ]
+      ],
+      "en": "Masked men held up the passengers and robbed them of their money."
+    }
   },
   {
     "id": "船長",
@@ -528,6 +925,37 @@ export const VOCAB_ENTRIES = [
       "長話",
       "村長",
       "長久"
-    ]
+    ],
+    "ex": {
+      "j": "それで船長は彼の世話をしました。",
+      "r": [
+        [
+          3,
+          1,
+          "せん"
+        ],
+        [
+          4,
+          1,
+          "ちょう"
+        ],
+        [
+          6,
+          1,
+          "かれ"
+        ],
+        [
+          8,
+          1,
+          "せ"
+        ],
+        [
+          9,
+          1,
+          "わ"
+        ]
+      ],
+      "en": "So the captain took care of him."
+    }
   }
 ];

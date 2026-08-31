@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -231,7 +234,43 @@ export const VOCAB_ENTRIES = [
       "舎利",
       "庁舎",
       "青田"
-    ]
+    ],
+    "ex": {
+      "j": "去年の夏、父の田舎に行きました。",
+      "r": [
+        [
+          0,
+          1,
+          "きょ"
+        ],
+        [
+          1,
+          1,
+          "ねん"
+        ],
+        [
+          3,
+          1,
+          "なつ"
+        ],
+        [
+          5,
+          1,
+          "ちち"
+        ],
+        [
+          7,
+          2,
+          "いなか"
+        ],
+        [
+          10,
+          1,
+          "い"
+        ]
+      ],
+      "en": "I visited my father's hometown last summer."
+    }
   },
   {
     "id": "島根",
@@ -379,7 +418,28 @@ export const VOCAB_ENTRIES = [
       "移動",
       "永住",
       "移譲"
-    ]
+    ],
+    "ex": {
+      "j": "彼らはアメリカに移住するつもりです。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          8,
+          1,
+          "い"
+        ],
+        [
+          9,
+          1,
+          "じゅう"
+        ]
+      ],
+      "en": "They are going to emigrate to America."
+    }
   },
   {
     "id": "市街地",
@@ -435,7 +495,53 @@ export const VOCAB_ENTRIES = [
       "市役所",
       "目的地",
       "根拠地"
-    ]
+    ],
+    "ex": {
+      "j": "その市街地図をもう一度よく見て下さい。",
+      "r": [
+        [
+          2,
+          1,
+          "し"
+        ],
+        [
+          3,
+          1,
+          "がい"
+        ],
+        [
+          4,
+          1,
+          "ち"
+        ],
+        [
+          5,
+          1,
+          "ず"
+        ],
+        [
+          9,
+          1,
+          "いち"
+        ],
+        [
+          10,
+          1,
+          "ど"
+        ],
+        [
+          13,
+          1,
+          "み"
+        ],
+        [
+          15,
+          1,
+          "くだ"
+        ]
+      ],
+      "en": "Take another good look at the city map."
+    }
   },
   {
     "id": "過密",
@@ -487,7 +593,63 @@ export const VOCAB_ENTRIES = [
       "密生",
       "過言",
       "密会"
-    ]
+    ],
+    "ex": {
+      "j": "彼は過密スケジュールを都合して、私の舞台を見に来てくれた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "か"
+        ],
+        [
+          3,
+          1,
+          "みつ"
+        ],
+        [
+          11,
+          1,
+          "つ"
+        ],
+        [
+          12,
+          1,
+          "ごう"
+        ],
+        [
+          16,
+          1,
+          "わたし"
+        ],
+        [
+          18,
+          1,
+          "ぶ"
+        ],
+        [
+          19,
+          1,
+          "たい"
+        ],
+        [
+          21,
+          1,
+          "み"
+        ],
+        [
+          23,
+          1,
+          "く"
+        ]
+      ],
+      "en": "He organized his overcrowded schedule and managed to come to see my performance."
+    }
   },
   {
     "id": "県外",
@@ -800,7 +962,33 @@ export const VOCAB_ENTRIES = [
       "鳩",
       "紅",
       "桂"
-    ]
+    ],
+    "ex": {
+      "j": "チューリップは、私たちの県の県花です。",
+      "r": [
+        [
+          8,
+          1,
+          "わたし"
+        ],
+        [
+          12,
+          1,
+          "けん"
+        ],
+        [
+          14,
+          1,
+          "けん"
+        ],
+        [
+          15,
+          1,
+          "か"
+        ]
+      ],
+      "en": "Tulips are our prefecture's official flower."
+    }
   },
   {
     "id": "千葉",
@@ -951,7 +1139,53 @@ export const VOCAB_ENTRIES = [
       "科威都",
       "整理部",
       "下腹部"
-    ]
+    ],
+    "ex": {
+      "j": "大部分の人々は都市部に住んでいる。",
+      "r": [
+        [
+          0,
+          1,
+          "だい"
+        ],
+        [
+          1,
+          1,
+          "ぶ"
+        ],
+        [
+          2,
+          1,
+          "ぶん"
+        ],
+        [
+          4,
+          2,
+          "ひとびと"
+        ],
+        [
+          7,
+          1,
+          "と"
+        ],
+        [
+          8,
+          1,
+          "し"
+        ],
+        [
+          9,
+          1,
+          "ぶ"
+        ],
+        [
+          11,
+          1,
+          "す"
+        ]
+      ],
+      "en": "Most people live in urban areas."
+    }
   },
   {
     "id": "大阪",
@@ -998,7 +1232,28 @@ export const VOCAB_ENTRIES = [
       "大乗",
       "増大",
       "長大"
-    ]
+    ],
+    "ex": {
+      "j": "すぐに大阪に行ってもらいたい。",
+      "r": [
+        [
+          3,
+          1,
+          "おお"
+        ],
+        [
+          4,
+          1,
+          "さか"
+        ],
+        [
+          6,
+          1,
+          "い"
+        ]
+      ],
+      "en": "I want you to go to Osaka right away."
+    }
   },
   {
     "id": "福岡",
@@ -1047,7 +1302,43 @@ export const VOCAB_ENTRIES = [
       "改訂",
       "手段",
       "影絵"
-    ]
+    ],
+    "ex": {
+      "j": "私は１０年前に福岡に訪れた。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "ねん"
+        ],
+        [
+          5,
+          1,
+          "ぜん"
+        ],
+        [
+          7,
+          1,
+          "ふく"
+        ],
+        [
+          8,
+          1,
+          "おか"
+        ],
+        [
+          10,
+          1,
+          "おとず"
+        ]
+      ],
+      "en": "I visited Fukuoka ten years ago."
+    }
   },
   {
     "id": "広島",
@@ -1190,7 +1481,33 @@ export const VOCAB_ENTRIES = [
       "平静",
       "静穏",
       "動静"
-    ]
+    ],
+    "ex": {
+      "j": "静岡で地震があったそうだ。",
+      "r": [
+        [
+          0,
+          1,
+          "しず"
+        ],
+        [
+          1,
+          1,
+          "おか"
+        ],
+        [
+          3,
+          1,
+          "じ"
+        ],
+        [
+          4,
+          1,
+          "しん"
+        ]
+      ],
+      "en": "I hear there was an earthquake in Shizuoka."
+    }
   },
   {
     "id": "新潟",
@@ -1238,7 +1555,38 @@ export const VOCAB_ENTRIES = [
       "新春",
       "新奇",
       "新入"
-    ]
+    ],
+    "ex": {
+      "j": "その列車は新潟行きです。",
+      "r": [
+        [
+          2,
+          1,
+          "れっ"
+        ],
+        [
+          3,
+          1,
+          "しゃ"
+        ],
+        [
+          5,
+          1,
+          "にい"
+        ],
+        [
+          6,
+          1,
+          "がた"
+        ],
+        [
+          7,
+          1,
+          "い"
+        ]
+      ],
+      "en": "The train is bound for Niigata."
+    }
   },
   {
     "id": "長崎",
@@ -1347,6 +1695,37 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A6",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "ほとんどの旅行者はニューヨークのゴーストタウンに立ち寄らなかった。",
+      "r": [
+        [
+          5,
+          1,
+          "りょ"
+        ],
+        [
+          6,
+          1,
+          "こう"
+        ],
+        [
+          7,
+          1,
+          "しゃ"
+        ],
+        [
+          24,
+          1,
+          "た"
+        ],
+        [
+          26,
+          1,
+          "よ"
+        ]
+      ],
+      "en": "Few of the trippers called in at the ghost town of New York."
+    }
   }
 ];

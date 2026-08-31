@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -14,7 +17,28 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.2",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "おすすめの靴屋を教えてくれませんか。",
+      "r": [
+        [
+          5,
+          1,
+          "くつ"
+        ],
+        [
+          6,
+          1,
+          "や"
+        ],
+        [
+          8,
+          1,
+          "おし"
+        ]
+      ],
+      "en": "Can you recommend your favorite shoe store?"
+    }
   },
   {
     "id": "自然",
@@ -63,7 +87,38 @@ export const VOCAB_ENTRIES = [
       "同然",
       "自己",
       "自覚"
-    ]
+    ],
+    "ex": {
+      "j": "われわれは自然の法則に従う。",
+      "r": [
+        [
+          5,
+          1,
+          "し"
+        ],
+        [
+          6,
+          1,
+          "ぜん"
+        ],
+        [
+          8,
+          1,
+          "ほう"
+        ],
+        [
+          9,
+          1,
+          "そく"
+        ],
+        [
+          11,
+          1,
+          "したが"
+        ]
+      ],
+      "en": "We are subject to the laws of nature."
+    }
   },
   {
     "id": "活動",
@@ -113,7 +168,43 @@ export const VOCAB_ENTRIES = [
       "制動",
       "異動",
       "躍動"
-    ]
+    ],
+    "ex": {
+      "j": "テレビを見ることは受動的活動である。",
+      "r": [
+        [
+          4,
+          1,
+          "み"
+        ],
+        [
+          9,
+          1,
+          "じゅ"
+        ],
+        [
+          10,
+          1,
+          "どう"
+        ],
+        [
+          11,
+          1,
+          "てき"
+        ],
+        [
+          12,
+          1,
+          "かつ"
+        ],
+        [
+          13,
+          1,
+          "どう"
+        ]
+      ],
+      "en": "Watching TV is a passive activity."
+    }
   },
   {
     "id": "環境",
@@ -163,7 +254,68 @@ export const VOCAB_ENTRIES = [
       "秘境",
       "越境",
       "老境"
-    ]
+    ],
+    "ex": {
+      "j": "熱帯雨林の破壊は環境に影響を及ぼす。",
+      "r": [
+        [
+          0,
+          1,
+          "ねっ"
+        ],
+        [
+          1,
+          1,
+          "たい"
+        ],
+        [
+          2,
+          1,
+          "う"
+        ],
+        [
+          3,
+          1,
+          "りん"
+        ],
+        [
+          5,
+          1,
+          "は"
+        ],
+        [
+          6,
+          1,
+          "かい"
+        ],
+        [
+          8,
+          1,
+          "かん"
+        ],
+        [
+          9,
+          1,
+          "きょう"
+        ],
+        [
+          11,
+          1,
+          "えい"
+        ],
+        [
+          12,
+          1,
+          "きょう"
+        ],
+        [
+          14,
+          1,
+          "およ"
+        ]
+      ],
+      "en": "The destruction of the rainforests affects our environment."
+    }
   },
   {
     "id": "動物",
@@ -210,7 +362,43 @@ export const VOCAB_ENTRIES = [
       "博物",
       "運動",
       "物件"
-    ]
+    ],
+    "ex": {
+      "j": "私はその動物の名前を知っている。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "どう"
+        ],
+        [
+          5,
+          1,
+          "ぶつ"
+        ],
+        [
+          7,
+          1,
+          "な"
+        ],
+        [
+          8,
+          1,
+          "まえ"
+        ],
+        [
+          10,
+          1,
+          "し"
+        ]
+      ],
+      "en": "I know the name of this animal."
+    }
   },
   {
     "id": "原子力",
@@ -267,7 +455,43 @@ export const VOCAB_ENTRIES = [
       "有力者",
       "求心力",
       "唐辛子"
-    ]
+    ],
+    "ex": {
+      "j": "ウラニウムは原子力製造に用いられる。",
+      "r": [
+        [
+          6,
+          1,
+          "げん"
+        ],
+        [
+          7,
+          1,
+          "し"
+        ],
+        [
+          8,
+          1,
+          "りょく"
+        ],
+        [
+          9,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "ぞう"
+        ],
+        [
+          12,
+          1,
+          "もち"
+        ]
+      ],
+      "en": "Uranium is used in the production of nuclear power."
+    }
   },
   {
     "id": "汚染",
@@ -317,7 +541,38 @@ export const VOCAB_ENTRIES = [
       "儒教",
       "屈伸",
       "白星"
-    ]
+    ],
+    "ex": {
+      "j": "汚染が地球を傷つけている。",
+      "r": [
+        [
+          0,
+          1,
+          "お"
+        ],
+        [
+          1,
+          1,
+          "せん"
+        ],
+        [
+          3,
+          1,
+          "ち"
+        ],
+        [
+          4,
+          1,
+          "きゅう"
+        ],
+        [
+          6,
+          1,
+          "きず"
+        ]
+      ],
+      "en": "Pollution is damaging our earth."
+    }
   },
   {
     "id": "全力",
@@ -367,7 +622,33 @@ export const VOCAB_ENTRIES = [
       "暴力",
       "引力",
       "重力"
-    ]
+    ],
+    "ex": {
+      "j": "私にできるのは全力を尽くすことだけです。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          7,
+          1,
+          "ぜん"
+        ],
+        [
+          8,
+          1,
+          "りょく"
+        ],
+        [
+          10,
+          1,
+          "つ"
+        ]
+      ],
+      "en": "All I can do is to do my best."
+    }
   },
   {
     "id": "公害",
@@ -415,7 +696,33 @@ export const VOCAB_ENTRIES = [
       "公然",
       "公文",
       "公式"
-    ]
+    ],
+    "ex": {
+      "j": "この地域に公害はない。",
+      "r": [
+        [
+          2,
+          1,
+          "ち"
+        ],
+        [
+          3,
+          1,
+          "いき"
+        ],
+        [
+          5,
+          1,
+          "こう"
+        ],
+        [
+          6,
+          1,
+          "がい"
+        ]
+      ],
+      "en": "This district is free from environmental pollution."
+    }
   },
   {
     "id": "尾",
@@ -460,6 +767,47 @@ export const VOCAB_ENTRIES = [
       "網",
       "鎧",
       "指"
-    ]
+    ],
+    "ex": {
+      "j": "雄のくじゃくは尾の羽毛が色彩豊かである。",
+      "r": [
+        [
+          0,
+          1,
+          "おす"
+        ],
+        [
+          7,
+          1,
+          "お"
+        ],
+        [
+          9,
+          1,
+          "う"
+        ],
+        [
+          10,
+          1,
+          "もう"
+        ],
+        [
+          12,
+          1,
+          "しき"
+        ],
+        [
+          13,
+          1,
+          "さい"
+        ],
+        [
+          14,
+          1,
+          "ゆた"
+        ]
+      ],
+      "en": "The male peacock has colorful tail feathers."
+    }
   }
 ];

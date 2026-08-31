@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -41,7 +44,33 @@ export const VOCAB_ENTRIES = [
       "謀",
       "商",
       "題"
-    ]
+    ],
+    "ex": {
+      "j": "あのかわいい少女は私の妹です。",
+      "r": [
+        [
+          6,
+          1,
+          "しょう"
+        ],
+        [
+          7,
+          1,
+          "じょ"
+        ],
+        [
+          9,
+          1,
+          "わたし"
+        ],
+        [
+          11,
+          1,
+          "いもうと"
+        ]
+      ],
+      "en": "That pretty girl is my sister."
+    }
   },
   {
     "id": "女の子",
@@ -99,7 +128,33 @@ export const VOCAB_ENTRIES = [
       "樹の子",
       "遠の子",
       "顯の子"
-    ]
+    ],
+    "ex": {
+      "j": "その女の子達は、とても忙しい。",
+      "r": [
+        [
+          2,
+          1,
+          "おんな"
+        ],
+        [
+          4,
+          1,
+          "こ"
+        ],
+        [
+          5,
+          1,
+          "たち"
+        ],
+        [
+          11,
+          1,
+          "いそが"
+        ]
+      ],
+      "en": "Those girls are very busy."
+    }
   },
   {
     "id": "赤ちゃん",
@@ -140,7 +195,28 @@ export const VOCAB_ENTRIES = [
       "派ちゃん",
       "噛ちゃん",
       "没ちゃん"
-    ]
+    ],
+    "ex": {
+      "j": "その赤ちゃんは歯が生えはじめている。",
+      "r": [
+        [
+          2,
+          1,
+          "あか"
+        ],
+        [
+          7,
+          1,
+          "は"
+        ],
+        [
+          9,
+          1,
+          "は"
+        ]
+      ],
+      "en": "The baby is cutting his teeth."
+    }
   },
   {
     "id": "姉",
@@ -180,7 +256,23 @@ export const VOCAB_ENTRIES = [
       "腫",
       "術",
       "父"
-    ]
+    ],
+    "ex": {
+      "j": "姉は私のズボンにアイロンをかけてくれる。",
+      "r": [
+        [
+          0,
+          1,
+          "あね"
+        ],
+        [
+          2,
+          1,
+          "わたし"
+        ]
+      ],
+      "en": "My sister presses my trousers."
+    }
   },
   {
     "id": "姓",
@@ -225,7 +317,28 @@ export const VOCAB_ENTRIES = [
       "説",
       "疑",
       "稲"
-    ]
+    ],
+    "ex": {
+      "j": "あなたの姓はどう発音するのですか。",
+      "r": [
+        [
+          4,
+          1,
+          "せい"
+        ],
+        [
+          8,
+          1,
+          "はつ"
+        ],
+        [
+          9,
+          1,
+          "おん"
+        ]
+      ],
+      "en": "How do you pronounce your last name?"
+    }
   },
   {
     "id": "猫",
@@ -272,7 +385,38 @@ export const VOCAB_ENTRIES = [
       "雛",
       "左",
       "制"
-    ]
+    ],
+    "ex": {
+      "j": "猫は捕らえたネズミを引き裂き始めた。",
+      "r": [
+        [
+          0,
+          1,
+          "ねこ"
+        ],
+        [
+          2,
+          1,
+          "と"
+        ],
+        [
+          10,
+          1,
+          "ひ"
+        ],
+        [
+          12,
+          1,
+          "さ"
+        ],
+        [
+          14,
+          1,
+          "はじ"
+        ]
+      ],
+      "en": "The cat began to tear at the mouse it caught."
+    }
   },
   {
     "id": "母体",
@@ -328,7 +472,43 @@ export const VOCAB_ENTRIES = [
       "体得",
       "体操",
       "空母"
-    ]
+    ],
+    "ex": {
+      "j": "フランス語はラテン語を母体として発達した。",
+      "r": [
+        [
+          4,
+          1,
+          "ご"
+        ],
+        [
+          9,
+          1,
+          "ご"
+        ],
+        [
+          11,
+          1,
+          "ぼ"
+        ],
+        [
+          12,
+          1,
+          "たい"
+        ],
+        [
+          16,
+          1,
+          "はっ"
+        ],
+        [
+          17,
+          1,
+          "たつ"
+        ]
+      ],
+      "en": "French developed from Latin."
+    }
   },
   {
     "id": "幼児",
@@ -382,7 +562,43 @@ export const VOCAB_ENTRIES = [
       "幼時",
       "誘爆",
       "指針"
-    ]
+    ],
+    "ex": {
+      "j": "彼は幼児虐待で罰せられた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "よう"
+        ],
+        [
+          3,
+          1,
+          "じ"
+        ],
+        [
+          4,
+          1,
+          "ぎゃく"
+        ],
+        [
+          5,
+          1,
+          "たい"
+        ],
+        [
+          7,
+          1,
+          "ばっ"
+        ]
+      ],
+      "en": "He was punished for child abuse."
+    }
   },
   {
     "id": "神宮",
@@ -486,7 +702,38 @@ export const VOCAB_ENTRIES = [
       "お桐さん",
       "お島さん",
       "お陶さん"
-    ]
+    ],
+    "ex": {
+      "j": "お父さんは煙草の煙でたくさん輪を作れる。",
+      "r": [
+        [
+          1,
+          1,
+          "とう"
+        ],
+        [
+          5,
+          2,
+          "たばこ"
+        ],
+        [
+          8,
+          1,
+          "けむり"
+        ],
+        [
+          14,
+          1,
+          "わ"
+        ],
+        [
+          16,
+          1,
+          "つく"
+        ]
+      ],
+      "en": "Dad can blow many smoke rings."
+    }
   },
   {
     "id": "男の子",
@@ -544,7 +791,28 @@ export const VOCAB_ENTRIES = [
       "槇の子",
       "昨の子",
       "容の子"
-    ]
+    ],
+    "ex": {
+      "j": "あのハンサムな男の子を見て。",
+      "r": [
+        [
+          7,
+          1,
+          "おとこ"
+        ],
+        [
+          9,
+          1,
+          "こ"
+        ],
+        [
+          11,
+          1,
+          "み"
+        ]
+      ],
+      "en": "Look at that good-looking boy."
+    }
   },
   {
     "id": "母子",
@@ -594,7 +862,33 @@ export const VOCAB_ENTRIES = [
       "扇子",
       "双子",
       "銚子"
-    ]
+    ],
+    "ex": {
+      "j": "母子ともに健全です。",
+      "r": [
+        [
+          0,
+          1,
+          "ぼ"
+        ],
+        [
+          1,
+          1,
+          "し"
+        ],
+        [
+          5,
+          1,
+          "けん"
+        ],
+        [
+          6,
+          1,
+          "ぜん"
+        ]
+      ],
+      "en": "Mother and child are both doing well."
+    }
   },
   {
     "id": "親類",
@@ -643,7 +937,48 @@ export const VOCAB_ENTRIES = [
       "類推",
       "類似",
       "穀類"
-    ]
+    ],
+    "ex": {
+      "j": "彼は親類の者と意見が合わない。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "しん"
+        ],
+        [
+          3,
+          1,
+          "るい"
+        ],
+        [
+          5,
+          1,
+          "もの"
+        ],
+        [
+          7,
+          1,
+          "い"
+        ],
+        [
+          8,
+          1,
+          "けん"
+        ],
+        [
+          10,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "He disagrees with his relatives."
+    }
   },
   {
     "id": "長短",

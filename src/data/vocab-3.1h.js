@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -54,7 +57,43 @@ export const VOCAB_ENTRIES = [
       "学名",
       "数学",
       "学力"
-    ]
+    ],
+    "ex": {
+      "j": "数学は私の好きな学科です。",
+      "r": [
+        [
+          0,
+          1,
+          "すう"
+        ],
+        [
+          1,
+          1,
+          "がく"
+        ],
+        [
+          3,
+          1,
+          "わたし"
+        ],
+        [
+          5,
+          1,
+          "す"
+        ],
+        [
+          8,
+          1,
+          "がっ"
+        ],
+        [
+          9,
+          1,
+          "か"
+        ]
+      ],
+      "en": "Mathematics is my favorite subject."
+    }
   },
   {
     "id": "後期",
@@ -107,7 +146,43 @@ export const VOCAB_ENTRIES = [
       "前期",
       "期末",
       "初期"
-    ]
+    ],
+    "ex": {
+      "j": "彼の後期の絵はすべて傑作とみなされた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "こう"
+        ],
+        [
+          3,
+          1,
+          "き"
+        ],
+        [
+          5,
+          1,
+          "え"
+        ],
+        [
+          10,
+          1,
+          "けっ"
+        ],
+        [
+          11,
+          1,
+          "さく"
+        ]
+      ],
+      "en": "All his later paintings were considered masterpieces."
+    }
   },
   {
     "id": "高等",
@@ -158,7 +233,53 @@ export const VOCAB_ENTRIES = [
       "高見",
       "高潔",
       "高専"
-    ]
+    ],
+    "ex": {
+      "j": "人類は高等哺乳動物である。",
+      "r": [
+        [
+          0,
+          1,
+          "じん"
+        ],
+        [
+          1,
+          1,
+          "るい"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          4,
+          1,
+          "とう"
+        ],
+        [
+          5,
+          1,
+          "ほ"
+        ],
+        [
+          6,
+          1,
+          "にゅう"
+        ],
+        [
+          7,
+          1,
+          "どう"
+        ],
+        [
+          8,
+          1,
+          "ぶつ"
+        ]
+      ],
+      "en": "Human beings are the higher mammals."
+    }
   },
   {
     "id": "中期",
@@ -250,7 +371,43 @@ export const VOCAB_ENTRIES = [
       "餌",
       "宛",
       "痔"
-    ]
+    ],
+    "ex": {
+      "j": "柔道では力より技のほうが大切である。",
+      "r": [
+        [
+          0,
+          1,
+          "じゅう"
+        ],
+        [
+          1,
+          1,
+          "どう"
+        ],
+        [
+          4,
+          1,
+          "ちから"
+        ],
+        [
+          7,
+          1,
+          "わざ"
+        ],
+        [
+          12,
+          1,
+          "たい"
+        ],
+        [
+          13,
+          1,
+          "せつ"
+        ]
+      ],
+      "en": "In judo, technique is more important than strength."
+    }
   },
   {
     "id": "作",
@@ -303,7 +460,23 @@ export const VOCAB_ENTRIES = [
       "窓",
       "綱",
       "私"
-    ]
+    ],
+    "ex": {
+      "j": "この絵はモネの作とされている。",
+      "r": [
+        [
+          2,
+          1,
+          "え"
+        ],
+        [
+          7,
+          1,
+          "さく"
+        ]
+      ],
+      "en": "This painting is attributed to Monet."
+    }
   },
   {
     "id": "一流",
@@ -360,7 +533,53 @@ export const VOCAB_ENTRIES = [
       "暖流",
       "分流",
       "一夜"
-    ]
+    ],
+    "ex": {
+      "j": "こんな一流選手が相手では勝ち目がない。",
+      "r": [
+        [
+          3,
+          1,
+          "いち"
+        ],
+        [
+          4,
+          1,
+          "りゅう"
+        ],
+        [
+          5,
+          1,
+          "せん"
+        ],
+        [
+          6,
+          1,
+          "しゅ"
+        ],
+        [
+          8,
+          1,
+          "あい"
+        ],
+        [
+          9,
+          1,
+          "て"
+        ],
+        [
+          12,
+          1,
+          "か"
+        ],
+        [
+          14,
+          1,
+          "め"
+        ]
+      ],
+      "en": "We have no chance against those top players."
+    }
   },
   {
     "id": "階級",
@@ -412,7 +631,43 @@ export const VOCAB_ENTRIES = [
       "上級",
       "中級",
       "昇級"
-    ]
+    ],
+    "ex": {
+      "j": "彼は中流階級の出だ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "ちゅう"
+        ],
+        [
+          3,
+          1,
+          "りゅう"
+        ],
+        [
+          4,
+          1,
+          "かい"
+        ],
+        [
+          5,
+          1,
+          "きゅう"
+        ],
+        [
+          7,
+          1,
+          "で"
+        ]
+      ],
+      "en": "He comes from the middle class."
+    }
   },
   {
     "id": "学術",
@@ -461,7 +716,48 @@ export const VOCAB_ENTRIES = [
       "学期",
       "学歴",
       "手術"
-    ]
+    ],
+    "ex": {
+      "j": "彼は学術会議に出席した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "がく"
+        ],
+        [
+          3,
+          1,
+          "じゅつ"
+        ],
+        [
+          4,
+          1,
+          "かい"
+        ],
+        [
+          5,
+          1,
+          "ぎ"
+        ],
+        [
+          7,
+          1,
+          "しゅっ"
+        ],
+        [
+          8,
+          1,
+          "せき"
+        ]
+      ],
+      "en": "He attended the scientific conference."
+    }
   },
   {
     "id": "教訓",
@@ -513,7 +809,33 @@ export const VOCAB_ENTRIES = [
       "宣教",
       "教唆",
       "教務"
-    ]
+    ],
+    "ex": {
+      "j": "実例は教訓にまさる。",
+      "r": [
+        [
+          0,
+          1,
+          "じつ"
+        ],
+        [
+          1,
+          1,
+          "れい"
+        ],
+        [
+          3,
+          1,
+          "きょう"
+        ],
+        [
+          4,
+          1,
+          "くん"
+        ]
+      ],
+      "en": "Example is better than precept."
+    }
   },
   {
     "id": "課",
@@ -559,7 +881,38 @@ export const VOCAB_ENTRIES = [
       "弱",
       "回",
       "鬘"
-    ]
+    ],
+    "ex": {
+      "j": "ウイリアムズ氏がその課を取り仕切っている。",
+      "r": [
+        [
+          6,
+          1,
+          "し"
+        ],
+        [
+          10,
+          1,
+          "か"
+        ],
+        [
+          12,
+          1,
+          "と"
+        ],
+        [
+          14,
+          1,
+          "し"
+        ],
+        [
+          15,
+          1,
+          "き"
+        ]
+      ],
+      "en": "Mr Williams carries that section."
+    }
   },
   {
     "id": "医科",
@@ -652,6 +1005,47 @@ export const VOCAB_ENTRIES = [
       "受胎",
       "講談",
       "受像"
-    ]
+    ],
+    "ex": {
+      "j": "学生はこれらの英語コースの中から１つを受講する。",
+      "r": [
+        [
+          0,
+          1,
+          "がく"
+        ],
+        [
+          1,
+          1,
+          "せい"
+        ],
+        [
+          7,
+          1,
+          "えい"
+        ],
+        [
+          8,
+          1,
+          "ご"
+        ],
+        [
+          13,
+          1,
+          "なか"
+        ],
+        [
+          19,
+          1,
+          "じゅ"
+        ],
+        [
+          20,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "Students will take one of these English courses."
+    }
   }
 ];

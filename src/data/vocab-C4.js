@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -24,7 +27,33 @@ export const VOCAB_ENTRIES = [
       1,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あの男がもう１つでも間違いを犯したらクビにする。",
+      "r": [
+        [
+          2,
+          1,
+          "おとこ"
+        ],
+        [
+          10,
+          1,
+          "ま"
+        ],
+        [
+          11,
+          1,
+          "ちが"
+        ],
+        [
+          14,
+          1,
+          "おか"
+        ]
+      ],
+      "en": "If that man makes one more mistake, I'll fire him."
+    }
   },
   {
     "id": "さして",
@@ -38,7 +67,63 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C4",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "辞任劇は来るべき徴兵事務にはさして影響はないであろう。",
+      "r": [
+        [
+          0,
+          1,
+          "じ"
+        ],
+        [
+          1,
+          1,
+          "にん"
+        ],
+        [
+          2,
+          1,
+          "げき"
+        ],
+        [
+          4,
+          1,
+          "く"
+        ],
+        [
+          8,
+          1,
+          "ちょう"
+        ],
+        [
+          9,
+          1,
+          "へい"
+        ],
+        [
+          10,
+          1,
+          "じ"
+        ],
+        [
+          11,
+          1,
+          "む"
+        ],
+        [
+          17,
+          1,
+          "えい"
+        ],
+        [
+          18,
+          1,
+          "きょう"
+        ]
+      ],
+      "en": "The resignations would have little or no effect on upcoming indications."
+    }
   },
   {
     "id": "だから",
@@ -58,7 +143,33 @@ export const VOCAB_ENTRIES = [
       3,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "自分でやったことだから仕方がないね。",
+      "r": [
+        [
+          0,
+          1,
+          "じ"
+        ],
+        [
+          1,
+          1,
+          "ぶん"
+        ],
+        [
+          11,
+          1,
+          "し"
+        ],
+        [
+          12,
+          1,
+          "かた"
+        ]
+      ],
+      "en": "You brought it on yourself."
+    }
   },
   {
     "id": "しかし",
@@ -71,7 +182,28 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C4",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "しかし、たいへん息子を欲しがっていました。",
+      "r": [
+        [
+          8,
+          1,
+          "むす"
+        ],
+        [
+          9,
+          1,
+          "こ"
+        ],
+        [
+          11,
+          1,
+          "ほ"
+        ]
+      ],
+      "en": "But he wanted a son very much."
+    }
   },
   {
     "id": "其れから",
@@ -115,7 +247,38 @@ export const VOCAB_ENTRIES = [
       "楚れから",
       "疎れから",
       "礎れから"
-    ]
+    ],
+    "ex": {
+      "j": "彼は数秒待ち、それからドアを開けた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "すう"
+        ],
+        [
+          3,
+          1,
+          "びょう"
+        ],
+        [
+          4,
+          1,
+          "ま"
+        ],
+        [
+          14,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "He waited for several seconds and opened the door."
+    }
   },
   {
     "id": "または",
@@ -128,7 +291,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C4",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "紅茶またはコーヒーはいかが？",
+      "r": [
+        [
+          0,
+          1,
+          "こう"
+        ],
+        [
+          1,
+          1,
+          "ちゃ"
+        ]
+      ],
+      "en": "Would you like some tea or coffee?"
+    }
   },
   {
     "id": "もし",
@@ -142,7 +321,33 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C4",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼を批判する人は、もしあってもごくわずかさ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "ひ"
+        ],
+        [
+          3,
+          1,
+          "はん"
+        ],
+        [
+          6,
+          1,
+          "ひと"
+        ]
+      ],
+      "en": "Few, if any, will criticize him."
+    }
   },
   {
     "id": "から",
@@ -163,7 +368,38 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼は単に好奇心からそれをしただけだ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "たん"
+        ],
+        [
+          4,
+          1,
+          "こう"
+        ],
+        [
+          5,
+          1,
+          "き"
+        ],
+        [
+          6,
+          1,
+          "しん"
+        ]
+      ],
+      "en": "He did it simply out of curiosity."
+    }
   },
   {
     "id": "まで",
@@ -185,7 +421,38 @@ export const VOCAB_ENTRIES = [
       2,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼は成功するまで仕事をやりとおした。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "せい"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          8,
+          1,
+          "し"
+        ],
+        [
+          9,
+          1,
+          "ごと"
+        ]
+      ],
+      "en": "He persisted in his work until he succeeded."
+    }
   },
   {
     "id": "と",
@@ -205,7 +472,23 @@ export const VOCAB_ENTRIES = [
       1,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "１２と２４と７と１１の合計は５４です。",
+      "r": [
+        [
+          11,
+          1,
+          "ごう"
+        ],
+        [
+          12,
+          1,
+          "けい"
+        ]
+      ],
+      "en": "The sum of 12, 24, 7 and 11 is 54."
+    }
   },
   {
     "id": "や",
@@ -227,6 +510,47 @@ export const VOCAB_ENTRIES = [
       3,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "これじゃあ、僕は一生結婚なんて出来やしないや。",
+      "r": [
+        [
+          6,
+          1,
+          "ぼく"
+        ],
+        [
+          8,
+          1,
+          "いっ"
+        ],
+        [
+          9,
+          1,
+          "しょう"
+        ],
+        [
+          10,
+          1,
+          "けっ"
+        ],
+        [
+          11,
+          1,
+          "こん"
+        ],
+        [
+          15,
+          1,
+          "で"
+        ],
+        [
+          16,
+          1,
+          "き"
+        ]
+      ],
+      "en": "I guess I'm never going to get married."
+    }
   }
 ];

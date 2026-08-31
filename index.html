@@ -404,6 +404,20 @@
          renderWordKanjiChips()/fillWordKanjiChips() in app.js. -->
     <div id="detail-word-kanji" class="reading-chips" lang="ja" hidden></div>
 
+    <!-- Vocab only: one real sentence using this word, with furigana over
+         every kanji in the whole sentence and a translation of all of it —
+         not just of the word. The word itself is highlighted where it
+         appears. Comes from the Tanaka Corpus at build time (`ex` in
+         src/data/vocab-*.js; see build_examples() in
+         tools/build_vocab_data.py) and is simply absent for the ~16% of
+         words no corpus sentence contains, which is why this hides rather
+         than showing an empty heading. See renderWordExample() in app.js. -->
+    <div id="detail-example" class="detail-example" hidden>
+      <h3>In a sentence</h3>
+      <p id="detail-example-jp" class="example-jp" lang="ja"></p>
+      <p id="detail-example-en" class="example-en"></p>
+    </div>
+
     <div id="detail-general-words" class="stack" hidden>
       <h3>Common words</h3>
       <div id="detail-general-words-list" class="stack"></div>

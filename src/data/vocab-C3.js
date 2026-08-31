@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -51,7 +54,23 @@ export const VOCAB_ENTRIES = [
       "上",
       "版",
       "姉"
-    ]
+    ],
+    "ex": {
+      "j": "今のアナウンスは何だったのですか。",
+      "r": [
+        [
+          0,
+          1,
+          "いま"
+        ],
+        [
+          8,
+          1,
+          "なに"
+        ]
+      ],
+      "en": "What did the announcement just say?"
+    }
   },
   {
     "id": "誰",
@@ -92,7 +111,28 @@ export const VOCAB_ENTRIES = [
       "負",
       "命",
       "鶴"
-    ]
+    ],
+    "ex": {
+      "j": "あそこに立ってる女の人はだれですか。",
+      "r": [
+        [
+          4,
+          1,
+          "た"
+        ],
+        [
+          8,
+          1,
+          "おんな"
+        ],
+        [
+          10,
+          1,
+          "ひと"
+        ]
+      ],
+      "en": "Who is the woman standing there?"
+    }
   },
   {
     "id": "どこ",
@@ -111,7 +151,18 @@ export const VOCAB_ENTRIES = [
       2,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あなたはどこでテレビを見ますか。",
+      "r": [
+        [
+          11,
+          1,
+          "み"
+        ]
+      ],
+      "en": "Where do you watch television?"
+    }
   },
   {
     "id": "いつ",
@@ -125,7 +176,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "いつ旅行においでになりますか。",
+      "r": [
+        [
+          2,
+          1,
+          "りょ"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "When will you go on a journey?"
+    }
   },
   {
     "id": "どう",
@@ -139,7 +206,28 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C3",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あなたはあの車をどう処理したのですか？",
+      "r": [
+        [
+          6,
+          1,
+          "くるま"
+        ],
+        [
+          10,
+          1,
+          "しょ"
+        ],
+        [
+          11,
+          1,
+          "り"
+        ]
+      ],
+      "en": "What did you do with that car?"
+    }
   },
   {
     "id": "どうして",
@@ -160,7 +248,18 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "そのニュースはどうして漏れたのだろう。",
+      "r": [
+        [
+          11,
+          1,
+          "も"
+        ]
+      ],
+      "en": "How did the news get out?"
+    }
   },
   {
     "id": "どちら",
@@ -181,7 +280,28 @@ export const VOCAB_ENTRIES = [
       1,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あの〜郵便局はどちらでしょうか。",
+      "r": [
+        [
+          3,
+          1,
+          "ゆう"
+        ],
+        [
+          4,
+          1,
+          "びん"
+        ],
+        [
+          5,
+          1,
+          "きょく"
+        ]
+      ],
+      "en": "Uh..., where's the post office?"
+    }
   },
   {
     "id": "どの",
@@ -194,7 +314,28 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "C3",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あなたはどの学科が好きですか。",
+      "r": [
+        [
+          6,
+          1,
+          "がっ"
+        ],
+        [
+          7,
+          1,
+          "か"
+        ],
+        [
+          9,
+          1,
+          "す"
+        ]
+      ],
+      "en": "What subject do you like best?"
+    }
   },
   {
     "id": "この",
@@ -215,7 +356,58 @@ export const VOCAB_ENTRIES = [
       3,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "この数年間に彼は不朽の名詩を書いた。",
+      "r": [
+        [
+          2,
+          1,
+          "すう"
+        ],
+        [
+          3,
+          1,
+          "ねん"
+        ],
+        [
+          4,
+          1,
+          "かん"
+        ],
+        [
+          6,
+          1,
+          "かれ"
+        ],
+        [
+          8,
+          1,
+          "ふ"
+        ],
+        [
+          9,
+          1,
+          "きゅう"
+        ],
+        [
+          11,
+          1,
+          "めい"
+        ],
+        [
+          12,
+          1,
+          "し"
+        ],
+        [
+          14,
+          1,
+          "か"
+        ]
+      ],
+      "en": "During these years he wrote immortal poems."
+    }
   },
   {
     "id": "その",
@@ -233,7 +425,68 @@ export const VOCAB_ENTRIES = [
       2,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "毎日、放課後に私はその本屋で彼女を待った。",
+      "r": [
+        [
+          0,
+          1,
+          "まい"
+        ],
+        [
+          1,
+          1,
+          "にち"
+        ],
+        [
+          3,
+          1,
+          "ほう"
+        ],
+        [
+          4,
+          1,
+          "か"
+        ],
+        [
+          5,
+          1,
+          "ご"
+        ],
+        [
+          7,
+          1,
+          "わたし"
+        ],
+        [
+          11,
+          1,
+          "ほん"
+        ],
+        [
+          12,
+          1,
+          "や"
+        ],
+        [
+          14,
+          1,
+          "かの"
+        ],
+        [
+          15,
+          1,
+          "じょ"
+        ],
+        [
+          17,
+          1,
+          "ま"
+        ]
+      ],
+      "en": "Every day I waited for her at the bookstore after school."
+    }
   },
   {
     "id": "あの",
@@ -247,7 +500,43 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "C3",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼は遂にあの山に登ることに成功した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "つい"
+        ],
+        [
+          6,
+          1,
+          "やま"
+        ],
+        [
+          8,
+          1,
+          "のぼ"
+        ],
+        [
+          13,
+          1,
+          "せい"
+        ],
+        [
+          14,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "He finally succeeded in climbing that mountain."
+    }
   },
   {
     "id": "これ",
@@ -268,7 +557,58 @@ export const VOCAB_ENTRIES = [
       1,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "私はこれからは英語を一生懸命勉強します。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          7,
+          1,
+          "えい"
+        ],
+        [
+          8,
+          1,
+          "ご"
+        ],
+        [
+          10,
+          1,
+          "いっ"
+        ],
+        [
+          11,
+          1,
+          "しょう"
+        ],
+        [
+          12,
+          1,
+          "けん"
+        ],
+        [
+          13,
+          1,
+          "めい"
+        ],
+        [
+          14,
+          1,
+          "べん"
+        ],
+        [
+          15,
+          1,
+          "きょう"
+        ]
+      ],
+      "en": "I will study English hard from now on."
+    }
   },
   {
     "id": "それ",
@@ -288,7 +628,33 @@ export const VOCAB_ENTRIES = [
       2,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "万一それが起これば、君はどうしますか。",
+      "r": [
+        [
+          0,
+          1,
+          "まん"
+        ],
+        [
+          1,
+          1,
+          "いち"
+        ],
+        [
+          5,
+          1,
+          "お"
+        ],
+        [
+          10,
+          1,
+          "きみ"
+        ]
+      ],
+      "en": "Should that happen, what will you do?"
+    }
   },
   {
     "id": "あれ",
@@ -309,7 +675,23 @@ export const VOCAB_ENTRIES = [
       1,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あれ、そんなに近いとは知りませんでした。",
+      "r": [
+        [
+          7,
+          1,
+          "ちか"
+        ],
+        [
+          11,
+          1,
+          "し"
+        ]
+      ],
+      "en": "Oh, I didn't know it was that close."
+    }
   },
   {
     "id": "どれ",
@@ -328,6 +710,17 @@ export const VOCAB_ENTRIES = [
       1,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "あなたはそれらのうちのどれを選んでもよい。",
+      "r": [
+        [
+          14,
+          1,
+          "えら"
+        ]
+      ],
+      "en": "You may choose any of them."
+    }
   }
 ];

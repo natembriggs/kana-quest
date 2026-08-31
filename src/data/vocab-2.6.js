@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -42,7 +45,33 @@ export const VOCAB_ENTRIES = [
       "瓦",
       "狸",
       "量"
-    ]
+    ],
+    "ex": {
+      "j": "夏になる前に完成させるべきだったな。",
+      "r": [
+        [
+          0,
+          1,
+          "なつ"
+        ],
+        [
+          4,
+          1,
+          "ぜん"
+        ],
+        [
+          6,
+          1,
+          "かん"
+        ],
+        [
+          7,
+          1,
+          "せい"
+        ]
+      ],
+      "en": "I should have completed it before summer."
+    }
   },
   {
     "id": "時期",
@@ -91,7 +120,63 @@ export const VOCAB_ENTRIES = [
       "一期",
       "毎時",
       "瞬時"
-    ]
+    ],
+    "ex": {
+      "j": "子供時代は、急速な成長の時期です。",
+      "r": [
+        [
+          0,
+          1,
+          "こ"
+        ],
+        [
+          1,
+          1,
+          "ども"
+        ],
+        [
+          2,
+          1,
+          "じ"
+        ],
+        [
+          3,
+          1,
+          "だい"
+        ],
+        [
+          6,
+          1,
+          "きゅう"
+        ],
+        [
+          7,
+          1,
+          "そく"
+        ],
+        [
+          9,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "ちょう"
+        ],
+        [
+          12,
+          1,
+          "じ"
+        ],
+        [
+          13,
+          1,
+          "き"
+        ]
+      ],
+      "en": "Childhood is a period of rapid growth."
+    }
   },
   {
     "id": "秋",
@@ -133,7 +218,43 @@ export const VOCAB_ENTRIES = [
       "荻",
       "弱",
       "免"
-    ]
+    ],
+    "ex": {
+      "j": "秋は私たちが一番勉強できるときです。",
+      "r": [
+        [
+          0,
+          1,
+          "あき"
+        ],
+        [
+          2,
+          1,
+          "わたし"
+        ],
+        [
+          6,
+          1,
+          "いち"
+        ],
+        [
+          7,
+          1,
+          "ばん"
+        ],
+        [
+          8,
+          1,
+          "べん"
+        ],
+        [
+          9,
+          1,
+          "きょう"
+        ]
+      ],
+      "en": "Fall is when we can study best."
+    }
   },
   {
     "id": "春",
@@ -184,7 +305,38 @@ export const VOCAB_ENTRIES = [
       "湖",
       "福",
       "室"
-    ]
+    ],
+    "ex": {
+      "j": "多くの植物は春に花をつける。",
+      "r": [
+        [
+          0,
+          1,
+          "おお"
+        ],
+        [
+          3,
+          1,
+          "しょく"
+        ],
+        [
+          4,
+          1,
+          "ぶつ"
+        ],
+        [
+          6,
+          1,
+          "はる"
+        ],
+        [
+          8,
+          1,
+          "はな"
+        ]
+      ],
+      "en": "Many plants bloom in the spring."
+    }
   },
   {
     "id": "雨",
@@ -233,7 +385,33 @@ export const VOCAB_ENTRIES = [
       "科",
       "勇",
       "蔵"
-    ]
+    ],
+    "ex": {
+      "j": "雨のために彼らは気力をそがれた。",
+      "r": [
+        [
+          0,
+          1,
+          "あめ"
+        ],
+        [
+          5,
+          1,
+          "かれ"
+        ],
+        [
+          8,
+          1,
+          "き"
+        ],
+        [
+          9,
+          1,
+          "りょく"
+        ]
+      ],
+      "en": "The rain dampened their spirits."
+    }
   },
   {
     "id": "今季",
@@ -338,7 +516,28 @@ export const VOCAB_ENTRIES = [
       "気絶",
       "内気",
       "狂気"
-    ]
+    ],
+    "ex": {
+      "j": "あなたの病気がよくなることを願っています。",
+      "r": [
+        [
+          4,
+          1,
+          "びょう"
+        ],
+        [
+          5,
+          1,
+          "き"
+        ],
+        [
+          14,
+          1,
+          "ねが"
+        ]
+      ],
+      "en": "I hope you'll get well soon."
+    }
   },
   {
     "id": "冷戦",
@@ -390,7 +589,43 @@ export const VOCAB_ENTRIES = [
       "停戦",
       "戦略",
       "戦史"
-    ]
+    ],
+    "ex": {
+      "j": "冷戦はソビエトの崩壊と共に終わった。",
+      "r": [
+        [
+          0,
+          1,
+          "れい"
+        ],
+        [
+          1,
+          1,
+          "せん"
+        ],
+        [
+          8,
+          1,
+          "ほう"
+        ],
+        [
+          9,
+          1,
+          "かい"
+        ],
+        [
+          11,
+          1,
+          "とも"
+        ],
+        [
+          13,
+          1,
+          "お"
+        ]
+      ],
+      "en": "The Cold War ended when the Soviet Union collapsed."
+    }
   },
   {
     "id": "雪",
@@ -431,7 +666,33 @@ export const VOCAB_ENTRIES = [
       "積",
       "崎",
       "衆"
-    ]
+    ],
+    "ex": {
+      "j": "たぶん、明日は雪が降るだろう。",
+      "r": [
+        [
+          4,
+          1,
+          "あ"
+        ],
+        [
+          5,
+          1,
+          "した"
+        ],
+        [
+          7,
+          1,
+          "ゆき"
+        ],
+        [
+          9,
+          1,
+          "ふ"
+        ]
+      ],
+      "en": "Probably it will snow tomorrow."
+    }
   },
   {
     "id": "冬",
@@ -472,7 +733,38 @@ export const VOCAB_ENTRIES = [
       "仏",
       "冊",
       "席"
-    ]
+    ],
+    "ex": {
+      "j": "彼は冬が終わるのを待ち焦がれていた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "ふゆ"
+        ],
+        [
+          4,
+          1,
+          "お"
+        ],
+        [
+          9,
+          1,
+          "ま"
+        ],
+        [
+          11,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "He longed for the winter to be over."
+    }
   },
   {
     "id": "低下",
@@ -525,7 +817,68 @@ export const VOCAB_ENTRIES = [
       "上下",
       "真下",
       "下旬"
-    ]
+    ],
+    "ex": {
+      "j": "金利が低下したことが自動車の市場を刺激した。",
+      "r": [
+        [
+          0,
+          1,
+          "きん"
+        ],
+        [
+          1,
+          1,
+          "り"
+        ],
+        [
+          3,
+          1,
+          "てい"
+        ],
+        [
+          4,
+          1,
+          "か"
+        ],
+        [
+          10,
+          1,
+          "じ"
+        ],
+        [
+          11,
+          1,
+          "どう"
+        ],
+        [
+          12,
+          1,
+          "しゃ"
+        ],
+        [
+          14,
+          1,
+          "し"
+        ],
+        [
+          15,
+          1,
+          "じょう"
+        ],
+        [
+          17,
+          1,
+          "し"
+        ],
+        [
+          18,
+          1,
+          "げき"
+        ]
+      ],
+      "en": "Falling interest rates have stimulated the automobile market."
+    }
   },
   {
     "id": "今春",
@@ -626,7 +979,33 @@ export const VOCAB_ENTRIES = [
       "変節",
       "調節",
       "使節"
-    ]
+    ],
+    "ex": {
+      "j": "この季節は卵が安い。",
+      "r": [
+        [
+          2,
+          1,
+          "き"
+        ],
+        [
+          3,
+          1,
+          "せつ"
+        ],
+        [
+          5,
+          1,
+          "たまご"
+        ],
+        [
+          7,
+          1,
+          "やす"
+        ]
+      ],
+      "en": "Eggs are cheap this season."
+    }
   },
   {
     "id": "歓迎",
@@ -673,7 +1052,23 @@ export const VOCAB_ENTRIES = [
       "折半",
       "商魂",
       "世銀"
-    ]
+    ],
+    "ex": {
+      "j": "あなたはうちのクラスで歓迎されています。",
+      "r": [
+        [
+          11,
+          1,
+          "かん"
+        ],
+        [
+          12,
+          1,
+          "げい"
+        ]
+      ],
+      "en": "You are welcomed in our class."
+    }
   },
   {
     "id": "台風",
@@ -725,7 +1120,53 @@ export const VOCAB_ENTRIES = [
       "秋風",
       "順風",
       "昔風"
-    ]
+    ],
+    "ex": {
+      "j": "台風は作物に少なからぬ損害を与えた。",
+      "r": [
+        [
+          0,
+          1,
+          "たい"
+        ],
+        [
+          1,
+          1,
+          "ふう"
+        ],
+        [
+          3,
+          1,
+          "さく"
+        ],
+        [
+          4,
+          1,
+          "もつ"
+        ],
+        [
+          6,
+          1,
+          "すく"
+        ],
+        [
+          11,
+          1,
+          "そん"
+        ],
+        [
+          12,
+          1,
+          "がい"
+        ],
+        [
+          14,
+          1,
+          "あた"
+        ]
+      ],
+      "en": "The typhoon did not a little damage to the crops."
+    }
   },
   {
     "id": "来",
@@ -775,7 +1216,53 @@ export const VOCAB_ENTRIES = [
       "宴",
       "蓮",
       "杏"
-    ]
+    ],
+    "ex": {
+      "j": "今月の終わりに私の事務所に来なさい。",
+      "r": [
+        [
+          0,
+          1,
+          "こん"
+        ],
+        [
+          1,
+          1,
+          "げつ"
+        ],
+        [
+          3,
+          1,
+          "お"
+        ],
+        [
+          7,
+          1,
+          "わたし"
+        ],
+        [
+          9,
+          1,
+          "じ"
+        ],
+        [
+          10,
+          1,
+          "む"
+        ],
+        [
+          11,
+          1,
+          "しょ"
+        ],
+        [
+          13,
+          1,
+          "く"
+        ]
+      ],
+      "en": "Come to my office at the end of this month."
+    }
   },
   {
     "id": "気温",
@@ -823,7 +1310,43 @@ export const VOCAB_ENTRIES = [
       "語気",
       "気骨",
       "湯気"
-    ]
+    ],
+    "ex": {
+      "j": "気温が下がると関節が痛むんだ。",
+      "r": [
+        [
+          0,
+          1,
+          "き"
+        ],
+        [
+          1,
+          1,
+          "おん"
+        ],
+        [
+          3,
+          1,
+          "さ"
+        ],
+        [
+          7,
+          1,
+          "かん"
+        ],
+        [
+          8,
+          1,
+          "せつ"
+        ],
+        [
+          10,
+          1,
+          "いた"
+        ]
+      ],
+      "en": "My joints ache when it gets cold."
+    }
   },
   {
     "id": "春闘",
@@ -921,7 +1444,23 @@ export const VOCAB_ENTRIES = [
       "旧来",
       "来客",
       "家来"
-    ]
+    ],
+    "ex": {
+      "j": "そのコンサートは来春おこなわれる。",
+      "r": [
+        [
+          8,
+          1,
+          "らい"
+        ],
+        [
+          9,
+          1,
+          "しゅん"
+        ]
+      ],
+      "en": "The concert will take place next spring."
+    }
   },
   {
     "id": "雲",
@@ -961,6 +1500,22 @@ export const VOCAB_ENTRIES = [
       "鳥",
       "巴",
       "鯨"
-    ]
+    ],
+    "ex": {
+      "j": "雲がだんだん黒くなっています。",
+      "r": [
+        [
+          0,
+          1,
+          "くも"
+        ],
+        [
+          6,
+          1,
+          "くろ"
+        ]
+      ],
+      "en": "The clouds are getting darker."
+    }
   }
 ];

@@ -138,6 +138,14 @@ globalThis.document = {
     return [];
   },
   createElement() { return makeElement(); },
+  // A text node is not an element, but everything the app does with one
+  // (append it, read it back through the parent's children) works the same
+  // way against the generic stub element — textContent is the whole of it.
+  createTextNode(text) {
+    const node = makeElement();
+    node.textContent = String(text);
+    return node;
+  },
   // Namespace is irrelevant to the stub — same generic element either way.
   // strokes.js's getPointAtLength/getTotalLength calls are already wrapped
   // in try/catch expecting a non-browser environment, so this stub
@@ -2795,6 +2803,26 @@ check('a vocab detail screen has its own study toggle, Meaning/Recall not Defini
 check('a vocab detail screen offers its own kanji as tappable chips',
   el('detail-word-kanji').hidden === false && el('detail-word-kanji')._children.length > 0,
   `hidden=${el('detail-word-kanji').hidden}, chips=${el('detail-word-kanji')._children.length}`);
+
+// The example sentence (`ex` in the vocab data): shown exactly when the word
+// has one — about one word in six appears in no corpus sentence at all, and
+// those correctly show nothing rather than an empty heading.
+const vocabCourse = VOCAB_COURSES.find((c) => c.unit === '1.1');
+const tileId = [...vocabCourse.index.keys()].find((id) => vocabInfo(vocabCourse, id).w === kanjiWordTile.textContent);
+const tileExample = vocabInfo(vocabCourse, tileId).ex;
+check('a vocab detail screen shows an example sentence exactly when the word has one',
+  el('detail-example').hidden === !tileExample,
+  `hidden=${el('detail-example').hidden}, has ex=${!!tileExample}`);
+if (tileExample) {
+  check('the example sentence is glossed character by character and translated whole',
+    el('detail-example-jp')._children.length > 0
+    && el('detail-example-en').textContent === tileExample.en,
+    `nodes=${el('detail-example-jp')._children.length}`);
+  check('every furigana span in an example sentence covers real characters of it',
+    tileExample.r.every(([start, length, kana]) => start >= 0 && length >= 1
+      && start + length <= tileExample.j.length && kana.length > 0),
+    JSON.stringify(tileExample.r));
+}
 
 const kanjiChip = el('detail-word-kanji')._children[0];
 const chippedKanji = kanjiChip.textContent;

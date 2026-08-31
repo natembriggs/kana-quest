@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -52,7 +55,18 @@ export const VOCAB_ENTRIES = [
       "儲り",
       "董り",
       "扱り"
-    ]
+    ],
+    "ex": {
+      "j": "その祭りはつまらないどころではありませんでした。",
+      "r": [
+        [
+          2,
+          1,
+          "まつ"
+        ]
+      ],
+      "en": "The festival was far from dull."
+    }
   },
   {
     "id": "式典",
@@ -102,7 +116,43 @@ export const VOCAB_ENTRIES = [
       "公式",
       "書式",
       "複式"
-    ]
+    ],
+    "ex": {
+      "j": "彼はその式典で堂々と振る舞った。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          4,
+          1,
+          "しき"
+        ],
+        [
+          5,
+          1,
+          "てん"
+        ],
+        [
+          7,
+          2,
+          "どうどう"
+        ],
+        [
+          10,
+          1,
+          "ふ"
+        ],
+        [
+          12,
+          1,
+          "ま"
+        ]
+      ],
+      "en": "He bore himself well at the ceremony."
+    }
   },
   {
     "id": "当分",
@@ -158,7 +208,33 @@ export const VOCAB_ENTRIES = [
       "九分",
       "分与",
       "分家"
-    ]
+    ],
+    "ex": {
+      "j": "これで当分は間に合うでしょう。",
+      "r": [
+        [
+          3,
+          1,
+          "とう"
+        ],
+        [
+          4,
+          1,
+          "ぶん"
+        ],
+        [
+          6,
+          1,
+          "ま"
+        ],
+        [
+          8,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "This will do for the time being."
+    }
   },
   {
     "id": "今",
@@ -199,7 +275,23 @@ export const VOCAB_ENTRIES = [
       "門",
       "紋",
       "約"
-    ]
+    ],
+    "ex": {
+      "j": "今のアナウンスは何だったのですか。",
+      "r": [
+        [
+          0,
+          1,
+          "いま"
+        ],
+        [
+          8,
+          1,
+          "なに"
+        ]
+      ],
+      "en": "What did the announcement just say?"
+    }
   },
   {
     "id": "参拝",
@@ -251,7 +343,63 @@ export const VOCAB_ENTRIES = [
       "人参",
       "参院",
       "参加"
-    ]
+    ],
+    "ex": {
+      "j": "元日に神社へ参拝する日本人は多い。",
+      "r": [
+        [
+          0,
+          1,
+          "がん"
+        ],
+        [
+          1,
+          1,
+          "じつ"
+        ],
+        [
+          3,
+          1,
+          "じん"
+        ],
+        [
+          4,
+          1,
+          "じゃ"
+        ],
+        [
+          6,
+          1,
+          "さん"
+        ],
+        [
+          7,
+          1,
+          "ぱい"
+        ],
+        [
+          10,
+          1,
+          "に"
+        ],
+        [
+          11,
+          1,
+          "ほん"
+        ],
+        [
+          12,
+          1,
+          "じん"
+        ],
+        [
+          14,
+          1,
+          "おお"
+        ]
+      ],
+      "en": "On New Year's Day many Japanese go to the shrine to worship."
+    }
   },
   {
     "id": "同席",
@@ -307,7 +455,43 @@ export const VOCAB_ENTRIES = [
       "同士",
       "同等",
       "同封"
-    ]
+    ],
+    "ex": {
+      "j": "彼とは夕食会で同席した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          3,
+          1,
+          "ゆう"
+        ],
+        [
+          4,
+          1,
+          "しょく"
+        ],
+        [
+          5,
+          1,
+          "かい"
+        ],
+        [
+          7,
+          1,
+          "どう"
+        ],
+        [
+          8,
+          1,
+          "せき"
+        ]
+      ],
+      "en": "I once sat at the same table with him at a dinner party."
+    }
   },
   {
     "id": "結婚式",
@@ -365,7 +549,63 @@ export const VOCAB_ENTRIES = [
       "急降下",
       "広範囲",
       "宅配便"
-    ]
+    ],
+    "ex": {
+      "j": "結婚式の後で盛大な披露宴が催された。",
+      "r": [
+        [
+          0,
+          1,
+          "けっ"
+        ],
+        [
+          1,
+          1,
+          "こん"
+        ],
+        [
+          2,
+          1,
+          "しき"
+        ],
+        [
+          4,
+          1,
+          "あと"
+        ],
+        [
+          6,
+          1,
+          "せい"
+        ],
+        [
+          7,
+          1,
+          "だい"
+        ],
+        [
+          9,
+          1,
+          "ひ"
+        ],
+        [
+          10,
+          1,
+          "ろう"
+        ],
+        [
+          11,
+          1,
+          "えん"
+        ],
+        [
+          13,
+          1,
+          "もよお"
+        ]
+      ],
+      "en": "There was a big reception after the wedding."
+    }
   },
   {
     "id": "寺院",
@@ -416,7 +656,33 @@ export const VOCAB_ENTRIES = [
       "上院",
       "棋院",
       "両院"
-    ]
+    ],
+    "ex": {
+      "j": "この寺院は７８０年に建てられた。",
+      "r": [
+        [
+          2,
+          1,
+          "じ"
+        ],
+        [
+          3,
+          1,
+          "いん"
+        ],
+        [
+          8,
+          1,
+          "ねん"
+        ],
+        [
+          10,
+          1,
+          "た"
+        ]
+      ],
+      "en": "This temple dates back to 780."
+    }
   },
   {
     "id": "別荘",
@@ -475,7 +741,43 @@ export const VOCAB_ENTRIES = [
       "別邸",
       "別個",
       "性別"
-    ]
+    ],
+    "ex": {
+      "j": "その別荘は清潔で整然としていた。",
+      "r": [
+        [
+          2,
+          1,
+          "べっ"
+        ],
+        [
+          3,
+          1,
+          "そう"
+        ],
+        [
+          5,
+          1,
+          "せい"
+        ],
+        [
+          6,
+          1,
+          "けつ"
+        ],
+        [
+          8,
+          1,
+          "せい"
+        ],
+        [
+          9,
+          1,
+          "ぜん"
+        ]
+      ],
+      "en": "The cottage was clean and tidy."
+    }
   },
   {
     "id": "現時点",

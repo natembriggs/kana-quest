@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -51,7 +54,43 @@ export const VOCAB_ENTRIES = [
       "丁度",
       "屹度",
       "今度"
-    ]
+    ],
+    "ex": {
+      "j": "物質は温度によって形を変える。",
+      "r": [
+        [
+          0,
+          1,
+          "ぶっ"
+        ],
+        [
+          1,
+          1,
+          "しつ"
+        ],
+        [
+          3,
+          1,
+          "おん"
+        ],
+        [
+          4,
+          1,
+          "ど"
+        ],
+        [
+          9,
+          1,
+          "かたち"
+        ],
+        [
+          11,
+          1,
+          "か"
+        ]
+      ],
+      "en": "Matter changes its form according to temperature."
+    }
   },
   {
     "id": "かすみ",
@@ -69,7 +108,18 @@ export const VOCAB_ENTRIES = [
       2,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "目がかすみます。",
+      "r": [
+        [
+          0,
+          1,
+          "め"
+        ]
+      ],
+      "en": "I have bleary eyes."
+    }
   },
   {
     "id": "泉",
@@ -109,7 +159,43 @@ export const VOCAB_ENTRIES = [
       "唇",
       "版",
       "制"
-    ]
+    ],
+    "ex": {
+      "j": "泉はおよそ１７０フィートの高さまで温水を吹き出す。",
+      "r": [
+        [
+          0,
+          1,
+          "いずみ"
+        ],
+        [
+          13,
+          1,
+          "たか"
+        ],
+        [
+          17,
+          1,
+          "おん"
+        ],
+        [
+          18,
+          1,
+          "すい"
+        ],
+        [
+          20,
+          1,
+          "ふ"
+        ],
+        [
+          22,
+          1,
+          "だ"
+        ]
+      ],
+      "en": "The fountain sends hot water to a height of 170 feet."
+    }
   },
   {
     "id": "天気",
@@ -165,7 +251,53 @@ export const VOCAB_ENTRIES = [
       "正気",
       "気丈",
       "湯気"
-    ]
+    ],
+    "ex": {
+      "j": "彼は天気のよい日を利用して壁を塗った。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "てん"
+        ],
+        [
+          3,
+          1,
+          "き"
+        ],
+        [
+          7,
+          1,
+          "ひ"
+        ],
+        [
+          9,
+          1,
+          "り"
+        ],
+        [
+          10,
+          1,
+          "よう"
+        ],
+        [
+          13,
+          1,
+          "かべ"
+        ],
+        [
+          15,
+          1,
+          "ぬ"
+        ]
+      ],
+      "en": "He took advantage of the fine weather to paint the wall."
+    }
   },
   {
     "id": "冬季",
@@ -212,7 +344,33 @@ export const VOCAB_ENTRIES = [
       "後世",
       "繁殖",
       "戦前"
-    ]
+    ],
+    "ex": {
+      "j": "冬季のフロリダの気候はアイオワより穏和だ。",
+      "r": [
+        [
+          0,
+          1,
+          "とう"
+        ],
+        [
+          1,
+          1,
+          "き"
+        ],
+        [
+          8,
+          1,
+          "き"
+        ],
+        [
+          9,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "The climate of Florida in the wintertime is milder than that of Iowa."
+    }
   },
   {
     "id": "被災",
@@ -264,7 +422,58 @@ export const VOCAB_ENTRIES = [
       "残暑",
       "旅団",
       "板前"
-    ]
+    ],
+    "ex": {
+      "j": "水害被災者たちは数校に収容された。",
+      "r": [
+        [
+          0,
+          1,
+          "すい"
+        ],
+        [
+          1,
+          1,
+          "がい"
+        ],
+        [
+          2,
+          1,
+          "ひ"
+        ],
+        [
+          3,
+          1,
+          "さい"
+        ],
+        [
+          4,
+          1,
+          "しゃ"
+        ],
+        [
+          8,
+          1,
+          "すう"
+        ],
+        [
+          9,
+          1,
+          "こう"
+        ],
+        [
+          11,
+          1,
+          "しゅう"
+        ],
+        [
+          12,
+          1,
+          "よう"
+        ]
+      ],
+      "en": "The flood victims were housed in several schools."
+    }
   },
   {
     "id": "温泉",
@@ -318,7 +527,28 @@ export const VOCAB_ENTRIES = [
       "常温",
       "気温",
       "泉水"
-    ]
+    ],
+    "ex": {
+      "j": "温泉はあなたに効くでしょう。",
+      "r": [
+        [
+          0,
+          1,
+          "おん"
+        ],
+        [
+          1,
+          1,
+          "せん"
+        ],
+        [
+          7,
+          1,
+          "き"
+        ]
+      ],
+      "en": "The hot spring will do you good."
+    }
   },
   {
     "id": "温暖",
@@ -367,7 +597,38 @@ export const VOCAB_ENTRIES = [
       "水温",
       "温帯",
       "寒暖"
-    ]
+    ],
+    "ex": {
+      "j": "島の天候はとても温暖です。",
+      "r": [
+        [
+          0,
+          1,
+          "しま"
+        ],
+        [
+          2,
+          1,
+          "てん"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          8,
+          1,
+          "おん"
+        ],
+        [
+          9,
+          1,
+          "だん"
+        ]
+      ],
+      "en": "The island has a mild climate."
+    }
   },
   {
     "id": "気象",
@@ -422,7 +683,73 @@ export const VOCAB_ENTRIES = [
       "気味",
       "湿気",
       "鬼気"
-    ]
+    ],
+    "ex": {
+      "j": "環境汚染は、異常な気象状況を引き起こしている。",
+      "r": [
+        [
+          0,
+          1,
+          "かん"
+        ],
+        [
+          1,
+          1,
+          "きょう"
+        ],
+        [
+          2,
+          1,
+          "お"
+        ],
+        [
+          3,
+          1,
+          "せん"
+        ],
+        [
+          6,
+          1,
+          "い"
+        ],
+        [
+          7,
+          1,
+          "じょう"
+        ],
+        [
+          9,
+          1,
+          "き"
+        ],
+        [
+          10,
+          1,
+          "しょう"
+        ],
+        [
+          11,
+          1,
+          "じょう"
+        ],
+        [
+          12,
+          1,
+          "きょう"
+        ],
+        [
+          14,
+          1,
+          "ひ"
+        ],
+        [
+          16,
+          1,
+          "お"
+        ]
+      ],
+      "en": "Environmental pollution is causing abnormal weather conditions."
+    }
   },
   {
     "id": "今秋",
@@ -523,7 +850,38 @@ export const VOCAB_ENTRIES = [
       "酪農",
       "名曲",
       "透析"
-    ]
+    ],
+    "ex": {
+      "j": "昨秋は晴天続きだった。",
+      "r": [
+        [
+          0,
+          1,
+          "さく"
+        ],
+        [
+          1,
+          1,
+          "しゅう"
+        ],
+        [
+          3,
+          1,
+          "せい"
+        ],
+        [
+          4,
+          1,
+          "てん"
+        ],
+        [
+          5,
+          1,
+          "つづ"
+        ]
+      ],
+      "en": "We had a spell of fine weather last autumn."
+    }
   },
   {
     "id": "今夏",
@@ -574,7 +932,48 @@ export const VOCAB_ENTRIES = [
       "盛夏",
       "今時",
       "山元"
-    ]
+    ],
+    "ex": {
+      "j": "あの店では今夏物の特売中です。",
+      "r": [
+        [
+          2,
+          1,
+          "みせ"
+        ],
+        [
+          5,
+          1,
+          "こん"
+        ],
+        [
+          6,
+          1,
+          "か"
+        ],
+        [
+          7,
+          1,
+          "もの"
+        ],
+        [
+          9,
+          1,
+          "とく"
+        ],
+        [
+          10,
+          1,
+          "ばい"
+        ],
+        [
+          11,
+          1,
+          "ちゅう"
+        ]
+      ],
+      "en": "The store is having a sale on summer goods."
+    }
   },
   {
     "id": "予報",
@@ -623,7 +1022,38 @@ export const VOCAB_ENTRIES = [
       "予防",
       "公報",
       "日報"
-    ]
+    ],
+    "ex": {
+      "j": "今夜の予報は雨である。",
+      "r": [
+        [
+          0,
+          1,
+          "こん"
+        ],
+        [
+          1,
+          1,
+          "や"
+        ],
+        [
+          3,
+          1,
+          "よ"
+        ],
+        [
+          4,
+          1,
+          "ほう"
+        ],
+        [
+          6,
+          1,
+          "あめ"
+        ]
+      ],
+      "en": "Rain is forecast for this evening."
+    }
   },
   {
     "id": "前線",
@@ -676,7 +1106,43 @@ export const VOCAB_ENTRIES = [
       "線路",
       "午前",
       "前方"
-    ]
+    ],
+    "ex": {
+      "j": "彼らは兵士として前線に行った。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          3,
+          1,
+          "へい"
+        ],
+        [
+          4,
+          1,
+          "し"
+        ],
+        [
+          8,
+          1,
+          "ぜん"
+        ],
+        [
+          9,
+          1,
+          "せん"
+        ],
+        [
+          11,
+          1,
+          "い"
+        ]
+      ],
+      "en": "As soldiers they went to the front."
+    }
   },
   {
     "id": "天候",
@@ -725,6 +1191,32 @@ export const VOCAB_ENTRIES = [
       "症候",
       "天使",
       "天童"
-    ]
+    ],
+    "ex": {
+      "j": "それはすべて天候に依存している。",
+      "r": [
+        [
+          6,
+          1,
+          "てん"
+        ],
+        [
+          7,
+          1,
+          "こう"
+        ],
+        [
+          9,
+          1,
+          "い"
+        ],
+        [
+          10,
+          1,
+          "ぞん"
+        ]
+      ],
+      "en": "It all depends on the weather."
+    }
   }
 ];

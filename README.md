@@ -34,7 +34,7 @@ To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
 in `tools/build_kanji_data.py`):
 
 ```sh
-./tools/fetch_kanji_sources.sh   # downloads KANJIDIC2 + JMdict, ~90MB, not committed
+./tools/fetch_kanji_sources.sh   # downloads KANJIDIC2 + JMdict + Tanaka Corpus, ~125MB, not committed
 python3 tools/build_kanji_data.py    # writes src/data/kanji-manifest.js + kanji-grade-*.js
 ./tools/fetch_kanjivg.sh             # downloads KanjiVG stroke SVGs, ~13MB, not committed
 python3 tools/build_stroke_data.py   # writes src/data/stroke-kana.js + stroke-grade-*.js
@@ -324,6 +324,35 @@ Only **Meaning mode** is built so far (English → Japanese comes later):
   answered without ever revealing** anything then asks for the reading too,
   as a six-option follow-up. Both feed the same word's schedule.
 
+#### Example sentences
+
+A word's own page ends with **one real sentence using it** — furigana over
+every kanji in the whole sentence, not just the word, and an English
+translation of all of it. The word itself is underlined where it appears.
+
+These come from the [Tanaka
+Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) at build time
+(`build_examples()` in `tools/build_vocab_data.py`), chosen over Tatoeba's
+larger export for one reason: each of its ~148,000 sentences carries an index
+line naming the dictionary form of every word in it, with a reading wherever
+that form is ambiguous. No Japanese tokeniser is available to this build, and
+without one that index is the only way to gloss a whole *sentence*.
+
+A wrong reading taught confidently is worse than no example at all, so a
+reading comes from the index line's own annotation first, then the reading the
+corpus itself uses most often for that written form elsewhere, and only then
+JMdict's first-listed reading — and only counted as certain there if JMdict
+lists just one. Sentences needing a guess are ranked down rather than
+excluded; short ones the corpus flags as good examples of the word rank up.
+Sentences whose English is not for children are skipped (the taught word is
+exempt from its own filter — a word meaning "war" cannot have an example that
+avoids saying "war").
+
+**84% of words have one.** The remaining ~620 appear in no corpus sentence at
+all — almost all of them rare newspaper compounds in the A-level and "From
+kanji pages" units (春闘, 特殊法人, 撚糸) — and their pages simply show nothing
+rather than an empty heading.
+
 See `vocab-plan.md` for the full design, including exposure-based hiding
 (read a reading enough times without ever tapping for it, and it starts
 hiding itself) and Recall mode, neither of which is built yet.
@@ -431,7 +460,7 @@ when you want to force it, but it shouldn't be needed.
 | `src/changelog.js` | Hand-maintained, plain-language "what's new" shown in Settings — add an entry here in the same commit as any user-visible `APP_VERSION` bump |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |
 | `tools/make_icons.py` | Regenerates the home-screen icons |
-| `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2 + JMdict into `tools/data_src/` (not committed, ~90MB) |
+| `tools/fetch_kanji_sources.sh` | Downloads KANJIDIC2, JMdict and the Tanaka Corpus into `tools/data_src/` (not committed, ~125MB) |
 | `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/data/kanji-manifest.js` + `kanji-grade-*.js` |
 | `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
 | `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/` (and the manifest above), writes `src/data/stroke-kana.js` + `stroke-grade-*.js` |
@@ -449,3 +478,7 @@ Kanji readings, meanings and example words are distilled from
 [KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) and
 [JMdict](https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project),
 © The Electronic Dictionary Research and Development Group, CC BY-SA 4.0.
+Vocabulary example sentences come from the [Tanaka
+Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) as distributed
+with WWWJDIC and maintained by the [Tatoeba Project](https://tatoeba.org/),
+CC BY 2.0 FR.

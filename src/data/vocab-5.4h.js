@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -52,7 +55,63 @@ export const VOCAB_ENTRIES = [
       "神体",
       "体力",
       "正体"
-    ]
+    ],
+    "ex": {
+      "j": "死体解剖の結果、絞殺と判明しました。",
+      "r": [
+        [
+          0,
+          1,
+          "し"
+        ],
+        [
+          1,
+          1,
+          "たい"
+        ],
+        [
+          2,
+          1,
+          "かい"
+        ],
+        [
+          3,
+          1,
+          "ぼう"
+        ],
+        [
+          5,
+          1,
+          "けっ"
+        ],
+        [
+          6,
+          1,
+          "か"
+        ],
+        [
+          8,
+          1,
+          "こう"
+        ],
+        [
+          9,
+          1,
+          "さつ"
+        ],
+        [
+          11,
+          1,
+          "はん"
+        ],
+        [
+          12,
+          1,
+          "めい"
+        ]
+      ],
+      "en": "The postmortem showed that she had been strangled."
+    }
   },
   {
     "id": "健全",
@@ -101,7 +160,33 @@ export const VOCAB_ENTRIES = [
       "全廃",
       "完全",
       "全容"
-    ]
+    ],
+    "ex": {
+      "j": "母子ともに健全です。",
+      "r": [
+        [
+          0,
+          1,
+          "ぼ"
+        ],
+        [
+          1,
+          1,
+          "し"
+        ],
+        [
+          5,
+          1,
+          "けん"
+        ],
+        [
+          6,
+          1,
+          "ぜん"
+        ]
+      ],
+      "en": "Mother and child are both doing well."
+    }
   },
   {
     "id": "先制",
@@ -150,7 +235,48 @@ export const VOCAB_ENTRIES = [
       "先祖",
       "禁制",
       "税制"
-    ]
+    ],
+    "ex": {
+      "j": "先制の一撃をすれば半分勝ったようなものだ。",
+      "r": [
+        [
+          0,
+          1,
+          "せん"
+        ],
+        [
+          1,
+          1,
+          "せい"
+        ],
+        [
+          3,
+          1,
+          "いち"
+        ],
+        [
+          4,
+          1,
+          "げき"
+        ],
+        [
+          9,
+          1,
+          "はん"
+        ],
+        [
+          10,
+          1,
+          "ぶん"
+        ],
+        [
+          11,
+          1,
+          "か"
+        ]
+      ],
+      "en": "The first blow is half the battle."
+    }
   },
   {
     "id": "全身",
@@ -198,7 +324,33 @@ export const VOCAB_ENTRIES = [
       "万全",
       "黄身",
       "完全"
-    ]
+    ],
+    "ex": {
+      "j": "彼女は全身ずぶぬれだった。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          3,
+          1,
+          "ぜん"
+        ],
+        [
+          4,
+          1,
+          "しん"
+        ]
+      ],
+      "en": "She was soaked from head to foot."
+    }
   },
   {
     "id": "体調",
@@ -250,7 +402,38 @@ export const VOCAB_ENTRIES = [
       "船体",
       "調度",
       "書体"
-    ]
+    ],
+    "ex": {
+      "j": "最近あまり体調が良くないの。",
+      "r": [
+        [
+          0,
+          1,
+          "さい"
+        ],
+        [
+          1,
+          1,
+          "きん"
+        ],
+        [
+          5,
+          1,
+          "たい"
+        ],
+        [
+          6,
+          1,
+          "ちょう"
+        ],
+        [
+          8,
+          1,
+          "よ"
+        ]
+      ],
+      "en": "I have not felt well recently."
+    }
   },
   {
     "id": "胃",
@@ -291,7 +474,43 @@ export const VOCAB_ENTRIES = [
       "星",
       "嬢",
       "吋"
-    ]
+    ],
+    "ex": {
+      "j": "食物は胃の中で消化される。",
+      "r": [
+        [
+          0,
+          1,
+          "しょく"
+        ],
+        [
+          1,
+          1,
+          "もつ"
+        ],
+        [
+          3,
+          1,
+          "い"
+        ],
+        [
+          5,
+          1,
+          "なか"
+        ],
+        [
+          7,
+          1,
+          "しょう"
+        ],
+        [
+          8,
+          1,
+          "か"
+        ]
+      ],
+      "en": "Food is digested in the stomach."
+    }
   },
   {
     "id": "外科",
@@ -345,7 +564,68 @@ export const VOCAB_ENTRIES = [
       "郊外",
       "外務",
       "除外"
-    ]
+    ],
+    "ex": {
+      "j": "これらの患者には外科的な処置だけでは十分とは言い難い。",
+      "r": [
+        [
+          4,
+          1,
+          "かん"
+        ],
+        [
+          5,
+          1,
+          "じゃ"
+        ],
+        [
+          8,
+          1,
+          "げ"
+        ],
+        [
+          9,
+          1,
+          "か"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ],
+        [
+          12,
+          1,
+          "しょ"
+        ],
+        [
+          13,
+          1,
+          "ち"
+        ],
+        [
+          18,
+          1,
+          "じゅう"
+        ],
+        [
+          19,
+          1,
+          "ぶん"
+        ],
+        [
+          22,
+          1,
+          "い"
+        ],
+        [
+          24,
+          1,
+          "にく"
+        ]
+      ],
+      "en": "For these patients, surgical treatment is far from being satisfactory."
+    }
   },
   {
     "id": "背中",
@@ -395,7 +675,23 @@ export const VOCAB_ENTRIES = [
       "中傷",
       "中越",
       "意中"
-    ]
+    ],
+    "ex": {
+      "j": "このブラウスはボタンが背中にある。",
+      "r": [
+        [
+          11,
+          1,
+          "せ"
+        ],
+        [
+          12,
+          1,
+          "なか"
+        ]
+      ],
+      "en": "This blouse buttons at the back."
+    }
   },
   {
     "id": "疾患",
@@ -491,7 +787,33 @@ export const VOCAB_ENTRIES = [
       "寸劇",
       "無二",
       "腹部"
-    ]
+    ],
+    "ex": {
+      "j": "睡眠は薬に勝る。",
+      "r": [
+        [
+          0,
+          1,
+          "すい"
+        ],
+        [
+          1,
+          1,
+          "みん"
+        ],
+        [
+          3,
+          1,
+          "くすり"
+        ],
+        [
+          5,
+          1,
+          "まさ"
+        ]
+      ],
+      "en": "Sleep is better than medicine."
+    }
   },
   {
     "id": "首長",
@@ -648,7 +970,38 @@ export const VOCAB_ENTRIES = [
       "角",
       "輩",
       "孫"
-    ]
+    ],
+    "ex": {
+      "j": "実るほど頭の下がる稲穂かな。",
+      "r": [
+        [
+          0,
+          1,
+          "みの"
+        ],
+        [
+          4,
+          1,
+          "あたま"
+        ],
+        [
+          6,
+          1,
+          "さ"
+        ],
+        [
+          9,
+          1,
+          "いな"
+        ],
+        [
+          10,
+          1,
+          "ほ"
+        ]
+      ],
+      "en": "The boughs that bear most hang lowest."
+    }
   },
   {
     "id": "区長",
@@ -741,7 +1094,53 @@ export const VOCAB_ENTRIES = [
       "眠しみ",
       "棲しみ",
       "儀しみ"
-    ]
+    ],
+    "ex": {
+      "j": "私は長い間臥薪嘗胆の苦しみをなめた。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          1,
+          "なが"
+        ],
+        [
+          4,
+          1,
+          "あいだ"
+        ],
+        [
+          5,
+          1,
+          "が"
+        ],
+        [
+          6,
+          1,
+          "しん"
+        ],
+        [
+          7,
+          1,
+          "しょう"
+        ],
+        [
+          8,
+          1,
+          "たん"
+        ],
+        [
+          10,
+          1,
+          "くる"
+        ]
+      ],
+      "en": "I have struggled under extreme difficulties for a long time."
+    }
   },
   {
     "id": "体内",
@@ -790,7 +1189,43 @@ export const VOCAB_ENTRIES = [
       "国内",
       "胴体",
       "重体"
-    ]
+    ],
+    "ex": {
+      "j": "血液は体内を循環する。",
+      "r": [
+        [
+          0,
+          1,
+          "けつ"
+        ],
+        [
+          1,
+          1,
+          "えき"
+        ],
+        [
+          3,
+          1,
+          "たい"
+        ],
+        [
+          4,
+          1,
+          "ない"
+        ],
+        [
+          6,
+          1,
+          "じゅん"
+        ],
+        [
+          7,
+          1,
+          "かん"
+        ]
+      ],
+      "en": "Blood circulates through the body."
+    }
   },
   {
     "id": "立体",
@@ -847,7 +1282,53 @@ export const VOCAB_ENTRIES = [
       "樹立",
       "自体",
       "立直"
-    ]
+    ],
+    "ex": {
+      "j": "我々はその問題を立体的に調査した。",
+      "r": [
+        [
+          0,
+          2,
+          "われわれ"
+        ],
+        [
+          5,
+          1,
+          "もん"
+        ],
+        [
+          6,
+          1,
+          "だい"
+        ],
+        [
+          8,
+          1,
+          "りっ"
+        ],
+        [
+          9,
+          1,
+          "たい"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ],
+        [
+          12,
+          1,
+          "ちょう"
+        ],
+        [
+          13,
+          1,
+          "さ"
+        ]
+      ],
+      "en": "We investigated the matter from all angles."
+    }
   },
   {
     "id": "本文",
@@ -902,6 +1383,42 @@ export const VOCAB_ENTRIES = [
       "本草",
       "資本",
       "本数"
-    ]
+    ],
+    "ex": {
+      "j": "この本は本文の部分はそんなに多くない。",
+      "r": [
+        [
+          2,
+          1,
+          "ほん"
+        ],
+        [
+          4,
+          1,
+          "ほん"
+        ],
+        [
+          5,
+          1,
+          "ぶん"
+        ],
+        [
+          7,
+          1,
+          "ぶ"
+        ],
+        [
+          8,
+          1,
+          "ぶん"
+        ],
+        [
+          14,
+          1,
+          "おお"
+        ]
+      ],
+      "en": "There's not so much text in this book."
+    }
   }
 ];

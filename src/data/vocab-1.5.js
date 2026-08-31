@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -55,7 +58,38 @@ export const VOCAB_ENTRIES = [
       "画材",
       "画数",
       "画伯"
-    ]
+    ],
+    "ex": {
+      "j": "その映画をもう一度見たいな。",
+      "r": [
+        [
+          2,
+          1,
+          "えい"
+        ],
+        [
+          3,
+          1,
+          "が"
+        ],
+        [
+          7,
+          1,
+          "いち"
+        ],
+        [
+          8,
+          1,
+          "ど"
+        ],
+        [
+          9,
+          1,
+          "み"
+        ]
+      ],
+      "en": "I want to see the movie again."
+    }
   },
   {
     "id": "電話",
@@ -107,7 +141,38 @@ export const VOCAB_ENTRIES = [
       "電極",
       "電動",
       "電器"
-    ]
+    ],
+    "ex": {
+      "j": "電話は繰り返し鳴っていた。",
+      "r": [
+        [
+          0,
+          1,
+          "でん"
+        ],
+        [
+          1,
+          1,
+          "わ"
+        ],
+        [
+          3,
+          1,
+          "く"
+        ],
+        [
+          5,
+          1,
+          "かえ"
+        ],
+        [
+          7,
+          1,
+          "な"
+        ]
+      ],
+      "en": "The telephone rang repeatedly."
+    }
   },
   {
     "id": "作品",
@@ -160,7 +225,33 @@ export const VOCAB_ENTRIES = [
       "連作",
       "造作",
       "遺品"
-    ]
+    ],
+    "ex": {
+      "j": "これは母の作品の一つです。",
+      "r": [
+        [
+          3,
+          1,
+          "はは"
+        ],
+        [
+          5,
+          1,
+          "さく"
+        ],
+        [
+          6,
+          1,
+          "ひん"
+        ],
+        [
+          8,
+          1,
+          "ひと"
+        ]
+      ],
+      "en": "It is something my mother made."
+    }
   },
   {
     "id": "番組",
@@ -208,7 +299,33 @@ export const VOCAB_ENTRIES = [
       "番頭",
       "組長",
       "本番"
-    ]
+    ],
+    "ex": {
+      "j": "今晩どんな番組がありますか。",
+      "r": [
+        [
+          0,
+          1,
+          "こん"
+        ],
+        [
+          1,
+          1,
+          "ばん"
+        ],
+        [
+          5,
+          1,
+          "ばん"
+        ],
+        [
+          6,
+          1,
+          "ぐみ"
+        ]
+      ],
+      "en": "What's on the air this evening?"
+    }
   },
   {
     "id": "映像",
@@ -264,7 +381,23 @@ export const VOCAB_ENTRIES = [
       "受像",
       "肖像",
       "拝金"
-    ]
+    ],
+    "ex": {
+      "j": "その映像はピントがあっていない。",
+      "r": [
+        [
+          2,
+          1,
+          "えい"
+        ],
+        [
+          3,
+          1,
+          "ぞう"
+        ]
+      ],
+      "en": "The image is not in focus."
+    }
   },
   {
     "id": "一本",
@@ -322,7 +455,33 @@ export const VOCAB_ENTRIES = [
       "一新",
       "本木",
       "本領"
-    ]
+    ],
+    "ex": {
+      "j": "「もう一本くれ」と彼が言った。",
+      "r": [
+        [
+          3,
+          1,
+          "いっ"
+        ],
+        [
+          4,
+          1,
+          "ぽん"
+        ],
+        [
+          9,
+          1,
+          "かれ"
+        ],
+        [
+          11,
+          1,
+          "い"
+        ]
+      ],
+      "en": "\"Give me a fresh bottle,\" he said."
+    }
   },
   {
     "id": "制作",
@@ -379,7 +538,58 @@ export const VOCAB_ENTRIES = [
       "作為",
       "造作",
       "句作"
-    ]
+    ],
+    "ex": {
+      "j": "彼の次の制作は非常に意欲的なミュージカルだった。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "つぎ"
+        ],
+        [
+          4,
+          1,
+          "せい"
+        ],
+        [
+          5,
+          1,
+          "さく"
+        ],
+        [
+          7,
+          1,
+          "ひ"
+        ],
+        [
+          8,
+          1,
+          "じょう"
+        ],
+        [
+          10,
+          1,
+          "い"
+        ],
+        [
+          11,
+          1,
+          "よく"
+        ],
+        [
+          12,
+          1,
+          "てき"
+        ]
+      ],
+      "en": "His next production was a very ambitious musical."
+    }
   },
   {
     "id": "演出",
@@ -437,7 +647,33 @@ export const VOCAB_ENTRIES = [
       "出荷",
       "出現",
       "総出"
-    ]
+    ],
+    "ex": {
+      "j": "その劇は彼によって演出された。",
+      "r": [
+        [
+          2,
+          1,
+          "げき"
+        ],
+        [
+          4,
+          1,
+          "かれ"
+        ],
+        [
+          9,
+          1,
+          "えん"
+        ],
+        [
+          10,
+          1,
+          "しゅつ"
+        ]
+      ],
+      "en": "The play was produced by him."
+    }
   },
   {
     "id": "画面",
@@ -497,7 +733,33 @@ export const VOCAB_ENTRIES = [
       "面会",
       "能面",
       "顔面"
-    ]
+    ],
+    "ex": {
+      "j": "テレビの画面を調節してください。",
+      "r": [
+        [
+          4,
+          1,
+          "が"
+        ],
+        [
+          5,
+          1,
+          "めん"
+        ],
+        [
+          7,
+          1,
+          "ちょう"
+        ],
+        [
+          8,
+          1,
+          "せつ"
+        ]
+      ],
+      "en": "Please adjust the television picture."
+    }
   },
   {
     "id": "視聴率",

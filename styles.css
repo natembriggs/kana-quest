@@ -1325,6 +1325,55 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .mastery-label.tier-3 { color: var(--tier-3); }
 .mastery-label.tier-4 { color: var(--tier-4); }
 
+/* Vocab detail's example sentence: the word in use, furigana over the whole
+   sentence, translation underneath. A card rather than a bare paragraph —
+   it's the one block on this screen that is a quotation from somewhere else
+   rather than a fact about the word. */
+.detail-example {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.detail-example h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink-soft); }
+
+/* line-height has to carry the furigana sitting above the line as well as
+   the line itself — at a normal 1.5 the ruby of one line collides with the
+   descenders of the one above it as soon as the sentence wraps. */
+.example-jp {
+  margin: 0;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+               "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  font-size: 21px;
+  line-height: 2.1;
+  color: var(--ink);
+  /* 禁則処理, the half of it the browser can do unaided — same settings as
+     .reader-body. A sentence here is ordinary inline text (ruby elements,
+     not the reader's inline-block tokens), so unlike there, nothing has to
+     be regrouped by hand to stop a small kana or a 。 starting a line. */
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+.example-jp ruby { ruby-position: over; }
+.example-jp rt {
+  font-size: 0.5em;
+  font-weight: 400;
+  color: var(--ink-soft);
+  user-select: none;
+}
+
+/* The word this sentence is an example OF. Underlined rather than
+   background-filled: a highlight block behind text that already carries
+   furigana above it reads as a second, competing box. */
+.example-hit {
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+.example-hit rt { color: var(--accent); }
+
+.example-en { margin: 8px 0 0; font-size: 15px; color: var(--ink-soft); }
+
 /* --- Study history (character detail's "My study history", see
    openStudyHistory()/buildStudyHistory() in app.js) --------------------- */
 

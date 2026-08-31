@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -16,7 +19,28 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "新しいルールにしたがって試合をした。",
+      "r": [
+        [
+          0,
+          1,
+          "あたら"
+        ],
+        [
+          12,
+          1,
+          "し"
+        ],
+        [
+          13,
+          1,
+          "あい"
+        ]
+      ],
+      "en": "We played the game in accordance with the new rules."
+    }
   },
   {
     "id": "なぜなら",
@@ -30,7 +54,38 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "なぜなら犬の方が猫より忠実ですから。",
+      "r": [
+        [
+          4,
+          1,
+          "いぬ"
+        ],
+        [
+          6,
+          1,
+          "ほう"
+        ],
+        [
+          8,
+          1,
+          "ねこ"
+        ],
+        [
+          11,
+          1,
+          "ちゅう"
+        ],
+        [
+          12,
+          1,
+          "じつ"
+        ]
+      ],
+      "en": "Because dogs are more faithful than cats."
+    }
   },
   {
     "id": "それゆえ",
@@ -44,7 +99,18 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "それゆえここにとどまらざるを得ないだろう。",
+      "r": [
+        [
+          14,
+          1,
+          "え"
+        ]
+      ],
+      "en": "Hence, I shall have to stay here."
+    }
   },
   {
     "id": "にもかかわらず",
@@ -65,7 +131,38 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼は金持ちにもかかわらず不幸でした。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "かね"
+        ],
+        [
+          3,
+          1,
+          "も"
+        ],
+        [
+          12,
+          1,
+          "ふ"
+        ],
+        [
+          13,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "For all his wealth, he was still unhappy."
+    }
   },
   {
     "id": "むしろ",
@@ -79,7 +176,28 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "今日はむしろ外出したくない。",
+      "r": [
+        [
+          0,
+          2,
+          "きょう"
+        ],
+        [
+          6,
+          1,
+          "がい"
+        ],
+        [
+          7,
+          1,
+          "しゅつ"
+        ]
+      ],
+      "en": "I would rather not go out today."
+    }
   },
   {
     "id": "もっとも",
@@ -93,7 +211,38 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼がその画家を尊敬するのはもっともだ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          4,
+          1,
+          "が"
+        ],
+        [
+          5,
+          1,
+          "か"
+        ],
+        [
+          7,
+          1,
+          "そん"
+        ],
+        [
+          8,
+          1,
+          "けい"
+        ]
+      ],
+      "en": "He may well respect the artist."
+    }
   },
   {
     "id": "要するに",
@@ -135,7 +284,28 @@ export const VOCAB_ENTRIES = [
       "栄するに",
       "謠するに",
       "搖するに"
-    ]
+    ],
+    "ex": {
+      "j": "彼女は要するにおしゃべりなんだ。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          3,
+          1,
+          "よう"
+        ]
+      ],
+      "en": "She is, in brief, a chatterbox."
+    }
   },
   {
     "id": "つまり",
@@ -156,7 +326,43 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "つまり彼女は下手な踊り子だ。",
+      "r": [
+        [
+          3,
+          1,
+          "かの"
+        ],
+        [
+          4,
+          1,
+          "じょ"
+        ],
+        [
+          6,
+          1,
+          "へ"
+        ],
+        [
+          7,
+          1,
+          "た"
+        ],
+        [
+          9,
+          1,
+          "おど"
+        ],
+        [
+          11,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "That is, she is a poor dancer."
+    }
   },
   {
     "id": "さらに",
@@ -170,7 +376,18 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "これでさらに困ったことになるだろう。",
+      "r": [
+        [
+          6,
+          1,
+          "こま"
+        ]
+      ],
+      "en": "This will add to our troubles."
+    }
   },
   {
     "id": "このように",
@@ -184,7 +401,18 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "それはこのようにして起きた。",
+      "r": [
+        [
+          10,
+          1,
+          "お"
+        ]
+      ],
+      "en": "This is how it all came about."
+    }
   },
   {
     "id": "そのため",
@@ -197,7 +425,78 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "そのため、派遣労働者は劣悪な労働条件の下で働いている。",
+      "r": [
+        [
+          5,
+          1,
+          "は"
+        ],
+        [
+          6,
+          1,
+          "けん"
+        ],
+        [
+          7,
+          1,
+          "ろう"
+        ],
+        [
+          8,
+          1,
+          "どう"
+        ],
+        [
+          9,
+          1,
+          "しゃ"
+        ],
+        [
+          11,
+          1,
+          "れつ"
+        ],
+        [
+          12,
+          1,
+          "あく"
+        ],
+        [
+          14,
+          1,
+          "ろう"
+        ],
+        [
+          15,
+          1,
+          "どう"
+        ],
+        [
+          16,
+          1,
+          "じょう"
+        ],
+        [
+          17,
+          1,
+          "けん"
+        ],
+        [
+          19,
+          1,
+          "した"
+        ],
+        [
+          21,
+          1,
+          "はたら"
+        ]
+      ],
+      "en": "For that reason, temporary workers are working under inferior conditions."
+    }
   },
   {
     "id": "ただし",
@@ -211,7 +510,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "A12",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "ただし、列をつくって並ばなくてはならないが・・・。",
+      "r": [
+        [
+          4,
+          1,
+          "れつ"
+        ],
+        [
+          10,
+          1,
+          "なら"
+        ]
+      ],
+      "en": "However, you have to queue..."
+    }
   },
   {
     "id": "考察",
@@ -261,7 +576,33 @@ export const VOCAB_ENTRIES = [
       "論考",
       "考案",
       "視察"
-    ]
+    ],
+    "ex": {
+      "j": "動機についてはまったく考察されていない。",
+      "r": [
+        [
+          0,
+          1,
+          "どう"
+        ],
+        [
+          1,
+          1,
+          "き"
+        ],
+        [
+          11,
+          1,
+          "こう"
+        ],
+        [
+          12,
+          1,
+          "さつ"
+        ]
+      ],
+      "en": "No speculation has taken place concerning the motives."
+    }
   },
   {
     "id": "主張",
@@ -314,7 +655,43 @@ export const VOCAB_ENTRIES = [
       "主催",
       "自主",
       "主砲"
-    ]
+    ],
+    "ex": {
+      "j": "私たちはその重要性を主張した。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          6,
+          1,
+          "じゅう"
+        ],
+        [
+          7,
+          1,
+          "よう"
+        ],
+        [
+          8,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "しゅ"
+        ],
+        [
+          11,
+          1,
+          "ちょう"
+        ]
+      ],
+      "en": "We insisted on its importance."
+    }
   },
   {
     "id": "根拠",
@@ -371,7 +748,33 @@ export const VOCAB_ENTRIES = [
       "島根",
       "根気",
       "尾根"
-    ]
+    ],
+    "ex": {
+      "j": "その噂は全く根拠がなかった。",
+      "r": [
+        [
+          2,
+          1,
+          "うわさ"
+        ],
+        [
+          4,
+          1,
+          "まった"
+        ],
+        [
+          6,
+          1,
+          "こん"
+        ],
+        [
+          7,
+          1,
+          "きょ"
+        ]
+      ],
+      "en": "The rumor was completely without foundation."
+    }
   },
   {
     "id": "結論",
@@ -426,7 +829,48 @@ export const VOCAB_ENTRIES = [
       "論壇",
       "論法",
       "論証"
-    ]
+    ],
+    "ex": {
+      "j": "二人は同じ結論に到達した。",
+      "r": [
+        [
+          0,
+          1,
+          "ふた"
+        ],
+        [
+          1,
+          1,
+          "り"
+        ],
+        [
+          3,
+          1,
+          "おな"
+        ],
+        [
+          5,
+          1,
+          "けつ"
+        ],
+        [
+          6,
+          1,
+          "ろん"
+        ],
+        [
+          8,
+          1,
+          "とう"
+        ],
+        [
+          9,
+          1,
+          "たつ"
+        ]
+      ],
+      "en": "The two came to the same conclusion."
+    }
   },
   {
     "id": "議論",
@@ -472,7 +916,28 @@ export const VOCAB_ENTRIES = [
       "論説",
       "議院",
       "論外"
-    ]
+    ],
+    "ex": {
+      "j": "その議論は穴だらけだ。",
+      "r": [
+        [
+          2,
+          1,
+          "ぎ"
+        ],
+        [
+          3,
+          1,
+          "ろん"
+        ],
+        [
+          5,
+          1,
+          "あな"
+        ]
+      ],
+      "en": "The argument is full of holes."
+    }
   },
   {
     "id": "反論",
@@ -525,7 +990,58 @@ export const VOCAB_ENTRIES = [
       "反響",
       "詩論",
       "反省"
-    ]
+    ],
+    "ex": {
+      "j": "彼には彼女に反論する立派な言い分がある。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          3,
+          1,
+          "かの"
+        ],
+        [
+          4,
+          1,
+          "じょ"
+        ],
+        [
+          6,
+          1,
+          "はん"
+        ],
+        [
+          7,
+          1,
+          "ろん"
+        ],
+        [
+          10,
+          1,
+          "りっ"
+        ],
+        [
+          11,
+          1,
+          "ぱ"
+        ],
+        [
+          13,
+          1,
+          "い"
+        ],
+        [
+          15,
+          1,
+          "ぶん"
+        ]
+      ],
+      "en": "He has a good case against her."
+    }
   },
   {
     "id": "論点",
@@ -576,7 +1092,73 @@ export const VOCAB_ENTRIES = [
       "言論",
       "小論",
       "論戦"
-    ]
+    ],
+    "ex": {
+      "j": "「結論」の目的は論文の主要な論点を要約することだ。",
+      "r": [
+        [
+          1,
+          1,
+          "けつ"
+        ],
+        [
+          2,
+          1,
+          "ろん"
+        ],
+        [
+          5,
+          1,
+          "もく"
+        ],
+        [
+          6,
+          1,
+          "てき"
+        ],
+        [
+          8,
+          1,
+          "ろん"
+        ],
+        [
+          9,
+          1,
+          "ぶん"
+        ],
+        [
+          11,
+          1,
+          "しゅ"
+        ],
+        [
+          12,
+          1,
+          "よう"
+        ],
+        [
+          14,
+          1,
+          "ろん"
+        ],
+        [
+          15,
+          1,
+          "てん"
+        ],
+        [
+          17,
+          1,
+          "よう"
+        ],
+        [
+          18,
+          1,
+          "やく"
+        ]
+      ],
+      "en": "The purpose of a conclusion is to sum up the main points of the essay."
+    }
   },
   {
     "id": "観点",
@@ -629,7 +1211,43 @@ export const VOCAB_ENTRIES = [
       "観賞",
       "採点",
       "利点"
-    ]
+    ],
+    "ex": {
+      "j": "彼は私を違った観点から見るようになった。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "ちが"
+        ],
+        [
+          7,
+          1,
+          "かん"
+        ],
+        [
+          8,
+          1,
+          "てん"
+        ],
+        [
+          11,
+          1,
+          "み"
+        ]
+      ],
+      "en": "He came to see me in a different light."
+    }
   },
   {
     "id": "要因",
@@ -677,7 +1295,53 @@ export const VOCAB_ENTRIES = [
       "因習",
       "主要",
       "要望"
-    ]
+    ],
+    "ex": {
+      "j": "私は行動する前に様々な要因を考えた。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          1,
+          "こう"
+        ],
+        [
+          3,
+          1,
+          "どう"
+        ],
+        [
+          6,
+          1,
+          "ぜん"
+        ],
+        [
+          8,
+          2,
+          "さまざま"
+        ],
+        [
+          11,
+          1,
+          "よう"
+        ],
+        [
+          12,
+          1,
+          "いん"
+        ],
+        [
+          14,
+          1,
+          "かんが"
+        ]
+      ],
+      "en": "I thought of various factors before I acted."
+    }
   },
   {
     "id": "傾向",
@@ -730,7 +1394,33 @@ export const VOCAB_ENTRIES = [
       "風向",
       "意向",
       "傾倒"
-    ]
+    ],
+    "ex": {
+      "j": "その傾向はアメリカ人に強いようですね。",
+      "r": [
+        [
+          2,
+          1,
+          "けい"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          9,
+          1,
+          "じん"
+        ],
+        [
+          11,
+          1,
+          "つよ"
+        ]
+      ],
+      "en": "That tendency is strong among Americans."
+    }
   },
   {
     "id": "具体的",
@@ -788,7 +1478,38 @@ export const VOCAB_ENTRIES = [
       "建設的",
       "世界的",
       "模範的"
-    ]
+    ],
+    "ex": {
+      "j": "その警告はわかりやすいし具体的だ。",
+      "r": [
+        [
+          2,
+          1,
+          "けい"
+        ],
+        [
+          3,
+          1,
+          "こく"
+        ],
+        [
+          12,
+          1,
+          "ぐ"
+        ],
+        [
+          13,
+          1,
+          "たい"
+        ],
+        [
+          14,
+          1,
+          "てき"
+        ]
+      ],
+      "en": "The warnings are clear and concrete."
+    }
   },
   {
     "id": "抽象的",
@@ -844,7 +1565,43 @@ export const VOCAB_ENTRIES = [
       "積極的",
       "受動的",
       "対象外"
-    ]
+    ],
+    "ex": {
+      "j": "あなたの説明は私には抽象的すぎます。",
+      "r": [
+        [
+          4,
+          1,
+          "せつ"
+        ],
+        [
+          5,
+          1,
+          "めい"
+        ],
+        [
+          7,
+          1,
+          "わたし"
+        ],
+        [
+          10,
+          1,
+          "ちゅう"
+        ],
+        [
+          11,
+          1,
+          "しょう"
+        ],
+        [
+          12,
+          1,
+          "てき"
+        ]
+      ],
+      "en": "Your explanation is too abstract to me."
+    }
   },
   {
     "id": "客観的",
@@ -900,7 +1657,78 @@ export const VOCAB_ENTRIES = [
       "儀礼的",
       "有機的",
       "男性的"
-    ]
+    ],
+    "ex": {
+      "j": "受け持ちの患者に客観的になる事は看護婦にとって困難だ。",
+      "r": [
+        [
+          0,
+          1,
+          "う"
+        ],
+        [
+          2,
+          1,
+          "も"
+        ],
+        [
+          5,
+          1,
+          "かん"
+        ],
+        [
+          6,
+          1,
+          "じゃ"
+        ],
+        [
+          8,
+          1,
+          "きゃっ"
+        ],
+        [
+          9,
+          1,
+          "かん"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ],
+        [
+          14,
+          1,
+          "こと"
+        ],
+        [
+          16,
+          1,
+          "かん"
+        ],
+        [
+          17,
+          1,
+          "ご"
+        ],
+        [
+          18,
+          1,
+          "ふ"
+        ],
+        [
+          23,
+          1,
+          "こん"
+        ],
+        [
+          24,
+          1,
+          "なん"
+        ]
+      ],
+      "en": "It's hard for nurses to be objective about their patients."
+    }
   },
   {
     "id": "主観的",
@@ -956,7 +1784,43 @@ export const VOCAB_ENTRIES = [
       "副次的",
       "将来的",
       "即物的"
-    ]
+    ],
+    "ex": {
+      "j": "彼の文章はとても主観的だ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "ぶん"
+        ],
+        [
+          3,
+          1,
+          "しょう"
+        ],
+        [
+          8,
+          1,
+          "しゅ"
+        ],
+        [
+          9,
+          1,
+          "かん"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ]
+      ],
+      "en": "His writing is very subjective."
+    }
   },
   {
     "id": "深刻",
@@ -1009,6 +1873,42 @@ export const VOCAB_ENTRIES = [
       "深層",
       "夕刻",
       "深度"
-    ]
+    ],
+    "ex": {
+      "j": "事態は非常に深刻である。",
+      "r": [
+        [
+          0,
+          1,
+          "じ"
+        ],
+        [
+          1,
+          1,
+          "たい"
+        ],
+        [
+          3,
+          1,
+          "ひ"
+        ],
+        [
+          4,
+          1,
+          "じょう"
+        ],
+        [
+          6,
+          1,
+          "しん"
+        ],
+        [
+          7,
+          1,
+          "こく"
+        ]
+      ],
+      "en": "The situation is very serious."
+    }
   }
 ];

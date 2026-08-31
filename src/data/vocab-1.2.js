@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -62,7 +65,38 @@ export const VOCAB_ENTRIES = [
       "人骨",
       "人権",
       "乾物"
-    ]
+    ],
+    "ex": {
+      "j": "あの人はどんな人物か教えて下さい？",
+      "r": [
+        [
+          2,
+          1,
+          "ひと"
+        ],
+        [
+          7,
+          1,
+          "じん"
+        ],
+        [
+          8,
+          1,
+          "ぶつ"
+        ],
+        [
+          10,
+          1,
+          "おし"
+        ],
+        [
+          13,
+          1,
+          "くだ"
+        ]
+      ],
+      "en": "Tell me what that man is like."
+    }
   },
   {
     "id": "文字",
@@ -116,7 +150,33 @@ export const VOCAB_ENTRIES = [
       "仏文",
       "文通",
       "点字"
-    ]
+    ],
+    "ex": {
+      "j": "へー、キーボード見ないで文字打てるんだ。スゴイわねー。",
+      "r": [
+        [
+          8,
+          1,
+          "み"
+        ],
+        [
+          12,
+          1,
+          "も"
+        ],
+        [
+          13,
+          1,
+          "じ"
+        ],
+        [
+          14,
+          1,
+          "う"
+        ]
+      ],
+      "en": "Oh? You can type without looking at the keyboard. That's cool!"
+    }
   },
   {
     "id": "懇談",
@@ -222,7 +282,23 @@ export const VOCAB_ENTRIES = [
       "適格",
       "性別",
       "敵性"
-    ]
+    ],
+    "ex": {
+      "j": "あいつもアバウトな性格だよな。",
+      "r": [
+        [
+          9,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "かく"
+        ]
+      ],
+      "en": "He's not a very meticulous guy."
+    }
   },
   {
     "id": "重大",
@@ -273,7 +349,33 @@ export const VOCAB_ENTRIES = [
       "大字",
       "丁重",
       "重臣"
-    ]
+    ],
+    "ex": {
+      "j": "重大決定がなさなければならないだろう。",
+      "r": [
+        [
+          0,
+          1,
+          "じゅう"
+        ],
+        [
+          1,
+          1,
+          "だい"
+        ],
+        [
+          2,
+          1,
+          "けっ"
+        ],
+        [
+          3,
+          1,
+          "てい"
+        ]
+      ],
+      "en": "There will be grave decisions to be made."
+    }
   },
   {
     "id": "出演",
@@ -324,7 +426,43 @@ export const VOCAB_ENTRIES = [
       "摘出",
       "出版",
       "傑出"
-    ]
+    ],
+    "ex": {
+      "j": "彼はテレビの劇に何度も出演してきた。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          6,
+          1,
+          "げき"
+        ],
+        [
+          8,
+          1,
+          "なん"
+        ],
+        [
+          9,
+          1,
+          "ど"
+        ],
+        [
+          11,
+          1,
+          "しゅつ"
+        ],
+        [
+          12,
+          1,
+          "えん"
+        ]
+      ],
+      "en": "He has acted on TV many times."
+    }
   },
   {
     "id": "個性",
@@ -374,7 +512,33 @@ export const VOCAB_ENTRIES = [
       "悪性",
       "性向",
       "野性"
-    ]
+    ],
+    "ex": {
+      "j": "彼はすばらしい個性を持っている。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          7,
+          1,
+          "こ"
+        ],
+        [
+          8,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "も"
+        ]
+      ],
+      "en": "He has a wonderful personality."
+    }
   },
   {
     "id": "笑顔",
@@ -421,7 +585,58 @@ export const VOCAB_ENTRIES = [
       "通念",
       "開閉",
       "主軸"
-    ]
+    ],
+    "ex": {
+      "j": "彼女の笑顔が感謝の気持ちを表した。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          3,
+          1,
+          "え"
+        ],
+        [
+          4,
+          1,
+          "がお"
+        ],
+        [
+          6,
+          1,
+          "かん"
+        ],
+        [
+          7,
+          1,
+          "しゃ"
+        ],
+        [
+          9,
+          1,
+          "き"
+        ],
+        [
+          10,
+          1,
+          "も"
+        ],
+        [
+          13,
+          1,
+          "あらわ"
+        ]
+      ],
+      "en": "Her smile expressed her thanks."
+    }
   },
   {
     "id": "短期",
@@ -468,7 +683,68 @@ export const VOCAB_ENTRIES = [
       "冬期",
       "漁期",
       "死期"
-    ]
+    ],
+    "ex": {
+      "j": "短期契約社員達は予告なしに解雇された。",
+      "r": [
+        [
+          0,
+          1,
+          "たん"
+        ],
+        [
+          1,
+          1,
+          "き"
+        ],
+        [
+          2,
+          1,
+          "けい"
+        ],
+        [
+          3,
+          1,
+          "やく"
+        ],
+        [
+          4,
+          1,
+          "しゃ"
+        ],
+        [
+          5,
+          1,
+          "いん"
+        ],
+        [
+          6,
+          1,
+          "たち"
+        ],
+        [
+          8,
+          1,
+          "よ"
+        ],
+        [
+          9,
+          1,
+          "こく"
+        ],
+        [
+          13,
+          1,
+          "かい"
+        ],
+        [
+          14,
+          1,
+          "こ"
+        ]
+      ],
+      "en": "The short term contract employees were dismissed without notice."
+    }
   },
   {
     "id": "一種",
@@ -526,7 +802,43 @@ export const VOCAB_ENTRIES = [
       "一所",
       "一色",
       "一掃"
-    ]
+    ],
+    "ex": {
+      "j": "怒りを抑えることは一種の美徳である。",
+      "r": [
+        [
+          0,
+          1,
+          "いか"
+        ],
+        [
+          3,
+          1,
+          "おさ"
+        ],
+        [
+          9,
+          1,
+          "いっ"
+        ],
+        [
+          10,
+          1,
+          "しゅ"
+        ],
+        [
+          12,
+          1,
+          "び"
+        ],
+        [
+          13,
+          1,
+          "とく"
+        ]
+      ],
+      "en": "It's a kind of virtue to keep one's temper."
+    }
   },
   {
     "id": "おかしい",
@@ -547,7 +859,33 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "君のジョークは何度聞いてもおかしい。",
+      "r": [
+        [
+          0,
+          1,
+          "きみ"
+        ],
+        [
+          7,
+          1,
+          "なん"
+        ],
+        [
+          8,
+          1,
+          "ど"
+        ],
+        [
+          9,
+          1,
+          "き"
+        ]
+      ],
+      "en": "Your joke is funny no matter how many times I hear it."
+    }
   },
   {
     "id": "種類",
@@ -596,7 +934,48 @@ export const VOCAB_ENTRIES = [
       "類例",
       "火種",
       "酒類"
-    ]
+    ],
+    "ex": {
+      "j": "動物園にはたくさんの種類の動物がいる。",
+      "r": [
+        [
+          0,
+          1,
+          "どう"
+        ],
+        [
+          1,
+          1,
+          "ぶつ"
+        ],
+        [
+          2,
+          1,
+          "えん"
+        ],
+        [
+          10,
+          1,
+          "しゅ"
+        ],
+        [
+          11,
+          1,
+          "るい"
+        ],
+        [
+          13,
+          1,
+          "どう"
+        ],
+        [
+          14,
+          1,
+          "ぶつ"
+        ]
+      ],
+      "en": "There are many kinds of animals in the zoo."
+    }
   },
   {
     "id": "登場",
@@ -655,7 +1034,58 @@ export const VOCAB_ENTRIES = [
       "登頂",
       "戦場",
       "夏場"
-    ]
+    ],
+    "ex": {
+      "j": "歌手が登場すると観衆は歓声を上げた。",
+      "r": [
+        [
+          0,
+          1,
+          "か"
+        ],
+        [
+          1,
+          1,
+          "しゅ"
+        ],
+        [
+          3,
+          1,
+          "とう"
+        ],
+        [
+          4,
+          1,
+          "じょう"
+        ],
+        [
+          8,
+          1,
+          "かん"
+        ],
+        [
+          9,
+          1,
+          "しゅう"
+        ],
+        [
+          11,
+          1,
+          "かん"
+        ],
+        [
+          12,
+          1,
+          "せい"
+        ],
+        [
+          14,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "The crowd cheered the singer's entrance."
+    }
   },
   {
     "id": "主人公",
@@ -719,7 +1149,48 @@ export const VOCAB_ENTRIES = [
       "人件費",
       "支配人",
       "社会人"
-    ]
+    ],
+    "ex": {
+      "j": "主人公は、本の最後で死んだ。",
+      "r": [
+        [
+          0,
+          1,
+          "しゅ"
+        ],
+        [
+          1,
+          1,
+          "じん"
+        ],
+        [
+          2,
+          1,
+          "こう"
+        ],
+        [
+          5,
+          1,
+          "ほん"
+        ],
+        [
+          7,
+          1,
+          "さい"
+        ],
+        [
+          8,
+          1,
+          "ご"
+        ],
+        [
+          10,
+          1,
+          "し"
+        ]
+      ],
+      "en": "The hero died at the end of the book."
+    }
   },
   {
     "id": "毛",
@@ -768,7 +1239,33 @@ export const VOCAB_ENTRIES = [
       "中",
       "裾",
       "弱"
-    ]
+    ],
+    "ex": {
+      "j": "飼い猫の毛のつやが悪くなった。",
+      "r": [
+        [
+          0,
+          1,
+          "か"
+        ],
+        [
+          2,
+          1,
+          "ねこ"
+        ],
+        [
+          4,
+          1,
+          "け"
+        ],
+        [
+          9,
+          1,
+          "わる"
+        ]
+      ],
+      "en": "Our cat's fur has lost its luster."
+    }
   },
   {
     "id": "髪",
@@ -807,6 +1304,47 @@ export const VOCAB_ENTRIES = [
       "軸",
       "九",
       "店"
-    ]
+    ],
+    "ex": {
+      "j": "その洋服は彼女の赤い髪に合う。",
+      "r": [
+        [
+          2,
+          1,
+          "よう"
+        ],
+        [
+          3,
+          1,
+          "ふく"
+        ],
+        [
+          5,
+          1,
+          "かの"
+        ],
+        [
+          6,
+          1,
+          "じょ"
+        ],
+        [
+          8,
+          1,
+          "あか"
+        ],
+        [
+          10,
+          1,
+          "かみ"
+        ],
+        [
+          12,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "That dress matches her red hair."
+    }
   }
 ];

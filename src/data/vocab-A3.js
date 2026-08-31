@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -43,7 +46,48 @@ export const VOCAB_ENTRIES = [
       "骨",
       "丈",
       "袴"
-    ]
+    ],
+    "ex": {
+      "j": "あの子を無理に塾に通わせるのは反対だね。",
+      "r": [
+        [
+          2,
+          1,
+          "こ"
+        ],
+        [
+          4,
+          1,
+          "む"
+        ],
+        [
+          5,
+          1,
+          "り"
+        ],
+        [
+          7,
+          1,
+          "じゅく"
+        ],
+        [
+          9,
+          1,
+          "かよ"
+        ],
+        [
+          15,
+          1,
+          "はん"
+        ],
+        [
+          16,
+          1,
+          "たい"
+        ]
+      ],
+      "en": "I'm against us forcing the child to go to cram school."
+    }
   },
   {
     "id": "科目",
@@ -100,7 +144,38 @@ export const VOCAB_ENTRIES = [
       "本科",
       "名目",
       "二目"
-    ]
+    ],
+    "ex": {
+      "j": "どの科目が一番好きですか。",
+      "r": [
+        [
+          2,
+          1,
+          "か"
+        ],
+        [
+          3,
+          1,
+          "もく"
+        ],
+        [
+          5,
+          1,
+          "いち"
+        ],
+        [
+          6,
+          1,
+          "ばん"
+        ],
+        [
+          7,
+          1,
+          "す"
+        ]
+      ],
+      "en": "Which subject do you like best?"
+    }
   },
   {
     "id": "課程",
@@ -147,7 +222,83 @@ export const VOCAB_ENTRIES = [
       "行程",
       "過程",
       "課税"
-    ]
+    ],
+    "ex": {
+      "j": "その大学の課程は自然科学と社会科学から成り立っている。",
+      "r": [
+        [
+          2,
+          1,
+          "だい"
+        ],
+        [
+          3,
+          1,
+          "がく"
+        ],
+        [
+          5,
+          1,
+          "か"
+        ],
+        [
+          6,
+          1,
+          "てい"
+        ],
+        [
+          8,
+          1,
+          "し"
+        ],
+        [
+          9,
+          1,
+          "ぜん"
+        ],
+        [
+          10,
+          1,
+          "か"
+        ],
+        [
+          11,
+          1,
+          "がく"
+        ],
+        [
+          13,
+          1,
+          "しゃ"
+        ],
+        [
+          14,
+          1,
+          "かい"
+        ],
+        [
+          15,
+          1,
+          "か"
+        ],
+        [
+          16,
+          1,
+          "がく"
+        ],
+        [
+          19,
+          1,
+          "な"
+        ],
+        [
+          21,
+          1,
+          "た"
+        ]
+      ],
+      "en": "That university's curriculum covers natural science and social science."
+    }
   },
   {
     "id": "学問",
@@ -203,7 +354,63 @@ export const VOCAB_ENTRIES = [
       "学位",
       "詰問",
       "法学"
-    ]
+    ],
+    "ex": {
+      "j": "心理学は心を科学研究する学問である。",
+      "r": [
+        [
+          0,
+          1,
+          "しん"
+        ],
+        [
+          1,
+          1,
+          "り"
+        ],
+        [
+          2,
+          1,
+          "がく"
+        ],
+        [
+          4,
+          1,
+          "こころ"
+        ],
+        [
+          6,
+          1,
+          "か"
+        ],
+        [
+          7,
+          1,
+          "がく"
+        ],
+        [
+          8,
+          1,
+          "けん"
+        ],
+        [
+          9,
+          1,
+          "きゅう"
+        ],
+        [
+          12,
+          1,
+          "がく"
+        ],
+        [
+          13,
+          1,
+          "もん"
+        ]
+      ],
+      "en": "Psychology is the scientific study of the mind."
+    }
   },
   {
     "id": "教科",
@@ -251,7 +458,38 @@ export const VOCAB_ENTRIES = [
       "分科",
       "外科",
       "教頭"
-    ]
+    ],
+    "ex": {
+      "j": "どの教科が一番好きですか。",
+      "r": [
+        [
+          2,
+          1,
+          "きょう"
+        ],
+        [
+          3,
+          1,
+          "か"
+        ],
+        [
+          5,
+          1,
+          "いち"
+        ],
+        [
+          6,
+          1,
+          "ばん"
+        ],
+        [
+          7,
+          1,
+          "す"
+        ]
+      ],
+      "en": "Which subject do you like best?"
+    }
   },
   {
     "id": "学力",
@@ -302,7 +540,48 @@ export const VOCAB_ENTRIES = [
       "弾力",
       "魅力",
       "極力"
-    ]
+    ],
+    "ex": {
+      "j": "しかし、アメリカではふつう、スポーツチームは腕で選ばれ、学業のコースは学力によって選ばれます。",
+      "r": [
+        [
+          22,
+          1,
+          "うで"
+        ],
+        [
+          24,
+          1,
+          "えら"
+        ],
+        [
+          28,
+          1,
+          "がく"
+        ],
+        [
+          29,
+          1,
+          "ぎょう"
+        ],
+        [
+          35,
+          1,
+          "がく"
+        ],
+        [
+          36,
+          1,
+          "りょく"
+        ],
+        [
+          41,
+          1,
+          "えら"
+        ]
+      ],
+      "en": "However, in America, sports teams are generally chosen by skill, and academic courses by ability."
+    }
   },
   {
     "id": "学",
@@ -351,7 +630,48 @@ export const VOCAB_ENTRIES = [
       "小",
       "族",
       "薬"
-    ]
+    ],
+    "ex": {
+      "j": "学のある人はとかく無知な人を軽蔑する。",
+      "r": [
+        [
+          0,
+          1,
+          "がく"
+        ],
+        [
+          4,
+          1,
+          "ひと"
+        ],
+        [
+          9,
+          1,
+          "む"
+        ],
+        [
+          10,
+          1,
+          "ち"
+        ],
+        [
+          12,
+          1,
+          "ひと"
+        ],
+        [
+          14,
+          1,
+          "けい"
+        ],
+        [
+          15,
+          1,
+          "べつ"
+        ]
+      ],
+      "en": "The learned are apt to despise the ignorant."
+    }
   },
   {
     "id": "学識",
@@ -402,7 +722,33 @@ export const VOCAB_ENTRIES = [
       "認識",
       "学力",
       "入学"
-    ]
+    ],
+    "ex": {
+      "j": "学識を自慢している。",
+      "r": [
+        [
+          0,
+          1,
+          "がく"
+        ],
+        [
+          1,
+          1,
+          "しき"
+        ],
+        [
+          3,
+          1,
+          "じ"
+        ],
+        [
+          4,
+          1,
+          "まん"
+        ]
+      ],
+      "en": "He is proud of his scholarship."
+    }
   },
   {
     "id": "奨学金",
@@ -465,7 +811,43 @@ export const VOCAB_ENTRIES = [
       "生理学",
       "準備金",
       "語学力"
-    ]
+    ],
+    "ex": {
+      "j": "彼はその奨学金に応募した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          4,
+          1,
+          "しょう"
+        ],
+        [
+          5,
+          1,
+          "がく"
+        ],
+        [
+          6,
+          1,
+          "きん"
+        ],
+        [
+          8,
+          1,
+          "おう"
+        ],
+        [
+          9,
+          1,
+          "ぼ"
+        ]
+      ],
+      "en": "He applied for the scholarship."
+    }
   },
   {
     "id": "学習指導要領",
@@ -593,7 +975,63 @@ export const VOCAB_ENTRIES = [
       "案内書",
       "申告書",
       "歴史的"
-    ]
+    ],
+    "ex": {
+      "j": "応募者は彼らの履歴書を提出するように求められた。",
+      "r": [
+        [
+          0,
+          1,
+          "おう"
+        ],
+        [
+          1,
+          1,
+          "ぼ"
+        ],
+        [
+          2,
+          1,
+          "しゃ"
+        ],
+        [
+          4,
+          1,
+          "かれ"
+        ],
+        [
+          7,
+          1,
+          "り"
+        ],
+        [
+          8,
+          1,
+          "れき"
+        ],
+        [
+          9,
+          1,
+          "しょ"
+        ],
+        [
+          11,
+          1,
+          "てい"
+        ],
+        [
+          12,
+          1,
+          "しゅつ"
+        ],
+        [
+          18,
+          1,
+          "もと"
+        ]
+      ],
+      "en": "Applicants were requested to submit their resumes."
+    }
   },
   {
     "id": "略歴",
@@ -809,7 +1247,28 @@ export const VOCAB_ENTRIES = [
     "pos": "v",
     "th": "A3",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼らはいつも学校をサボっています。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          6,
+          1,
+          "がっ"
+        ],
+        [
+          7,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "They always escape from school."
+    }
   },
   {
     "id": "いじめ",
@@ -822,7 +1281,58 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A3",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "中学・高校では陰湿ないじめが増える傾向にあるという。",
+      "r": [
+        [
+          0,
+          1,
+          "ちゅう"
+        ],
+        [
+          1,
+          1,
+          "がく"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          4,
+          1,
+          "こう"
+        ],
+        [
+          7,
+          1,
+          "いん"
+        ],
+        [
+          8,
+          1,
+          "しつ"
+        ],
+        [
+          14,
+          1,
+          "ふ"
+        ],
+        [
+          17,
+          1,
+          "けい"
+        ],
+        [
+          18,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "In junior high and high schools, they say insidious forms of bullying are on the rise."
+    }
   },
   {
     "id": "予備校",
@@ -890,7 +1400,33 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A3",
     "lv": "a",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "この学校のカリキュラムは広く浅い。",
+      "r": [
+        [
+          2,
+          1,
+          "がっ"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          12,
+          1,
+          "ひろ"
+        ],
+        [
+          14,
+          1,
+          "あさ"
+        ]
+      ],
+      "en": "The curriculum of this school is wide and shallow."
+    }
   },
   {
     "id": "スカラシップ",
@@ -963,6 +1499,47 @@ export const VOCAB_ENTRIES = [
       "総合大学",
       "経験豊富",
       "大学進学"
-    ]
+    ],
+    "ex": {
+      "j": "彼はきっと入学試験に合格するだろう。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          5,
+          1,
+          "にゅう"
+        ],
+        [
+          6,
+          1,
+          "がく"
+        ],
+        [
+          7,
+          1,
+          "し"
+        ],
+        [
+          8,
+          1,
+          "けん"
+        ],
+        [
+          10,
+          1,
+          "ごう"
+        ],
+        [
+          11,
+          1,
+          "かく"
+        ]
+      ],
+      "en": "He is bound to pass the entrance examination."
+    }
   }
 ];

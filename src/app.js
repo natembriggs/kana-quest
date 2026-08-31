@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1817,6 +1817,7 @@ function renderCharacterDetail() {
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     $('detail-word-kanji').hidden = true;
+    $('detail-example').hidden = true;
     renderGeneralWords(info.words);
   } else if (course.kind === 'vocab') {
     const info = vocabInfo(course, char);
@@ -1840,6 +1841,7 @@ function renderCharacterDetail() {
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     renderWordKanjiChips(info);
+    renderWordExample(info);
     $('detail-general-words').hidden = true;
   } else {
     $('detail-word-kanji').hidden = true;
@@ -1851,6 +1853,7 @@ function renderCharacterDetail() {
     $('detail-exposure').hidden = true;
     $('detail-meanings').hidden = true;
     $('detail-word').hidden = true;
+    $('detail-example').hidden = true;
     $('detail-general-words').hidden = true;
   }
 
@@ -2652,6 +2655,69 @@ function renderVocabWordGlyph(el, info) {
     html += r ? `<ruby>${ch}<rt>${r[1]}</rt></ruby>` : ch;
   });
   el.innerHTML = html;
+}
+
+/**
+ * One real sentence using this word, furigana over every kanji in it and a
+ * translation of the whole sentence underneath — the vocab detail screen's
+ * answer to "yes, but how is it actually used?", which neither a gloss list
+ * nor a kanji breakdown can give.
+ *
+ * `ex.r` is a list of [start, length, kana] over the sentence string: the
+ * same idea as a word's own `ruby`, widened to a span because a sentence
+ * contains readings that don't divide character by character (昨日 is きのう
+ * across both, 人々 is ひとびと across both). Everything not covered by a span
+ * is plain text — kana, punctuation, and the handful of proper nouns the
+ * corpus index doesn't break up.
+ *
+ * The word being studied is marked where it appears, so it can be picked out
+ * of the sentence at a glance. Found by plain search, which finds it in the
+ * form the sentence writes it: the build prefers a sentence using the word as
+ * the learner is taught it, but a verb is often bent (会う taught, 会います
+ * written) and then there is simply nothing to mark.
+ */
+function renderWordExample(info) {
+  const wrap = $('detail-example');
+  const example = info.ex;
+  wrap.hidden = !example;
+  if (!example) return;
+  const jp = $('detail-example-jp');
+  jp.innerHTML = '';
+  const spanByStart = new Map((example.r || []).map((entry) => [entry[0], entry]));
+  const hitAt = example.j.indexOf(info.w);
+  const hitEnd = hitAt < 0 ? -1 : hitAt + info.w.length;
+  // Everything between two of these is one text node rather than one per
+  // character: a run of kana the browser can apply its own line-breaking
+  // rules across (see .example-jp in styles.css), instead of a string of
+  // separate nodes it might break anywhere.
+  const boundaries = new Set([example.j.length, hitAt, hitEnd]);
+  (example.r || []).forEach(([start, length]) => boundaries.add(start).add(start + length));
+  let pos = 0;
+  while (pos < example.j.length) {
+    const span = spanByStart.get(pos);
+    let end;
+    let node;
+    if (span) {
+      end = pos + span[1];
+      node = document.createElement('ruby');
+      node.appendChild(document.createTextNode(example.j.slice(pos, end)));
+      const rt = document.createElement('rt');
+      rt.textContent = span[2];
+      node.appendChild(rt);
+    } else {
+      end = Math.min(...[...boundaries].filter((b) => b > pos));
+      node = document.createTextNode(example.j.slice(pos, end));
+    }
+    if (pos >= hitAt && pos < hitEnd) {
+      const mark = document.createElement('span');
+      mark.className = 'example-hit';
+      mark.appendChild(node);
+      node = mark;
+    }
+    jp.appendChild(node);
+    pos = end;
+  }
+  $('detail-example-en').textContent = example.en;
 }
 
 /**

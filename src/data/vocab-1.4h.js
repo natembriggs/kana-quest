@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -43,7 +46,48 @@ export const VOCAB_ENTRIES = [
       "屍",
       "沼",
       "精"
-    ]
+    ],
+    "ex": {
+      "j": "ダンサーの優美な舞は観衆を魅了した。",
+      "r": [
+        [
+          5,
+          1,
+          "ゆう"
+        ],
+        [
+          6,
+          1,
+          "び"
+        ],
+        [
+          8,
+          1,
+          "まい"
+        ],
+        [
+          10,
+          1,
+          "かん"
+        ],
+        [
+          11,
+          1,
+          "しゅう"
+        ],
+        [
+          13,
+          1,
+          "み"
+        ],
+        [
+          14,
+          1,
+          "りょう"
+        ]
+      ],
+      "en": "The dancer's graceful action charmed the audience."
+    }
   },
   {
     "id": "舞踊",
@@ -90,7 +134,33 @@ export const VOCAB_ENTRIES = [
       "最高",
       "王室",
       "貿易"
-    ]
+    ],
+    "ex": {
+      "j": "舞踊がみたいのですが情報をください。",
+      "r": [
+        [
+          0,
+          1,
+          "ぶ"
+        ],
+        [
+          1,
+          1,
+          "よう"
+        ],
+        [
+          10,
+          1,
+          "じょう"
+        ],
+        [
+          11,
+          1,
+          "ほう"
+        ]
+      ],
+      "en": "I'd like to see some dancing. Do you have any information?"
+    }
   },
   {
     "id": "演習",
@@ -203,7 +273,38 @@ export const VOCAB_ENTRIES = [
       "法的",
       "法理",
       "法事"
-    ]
+    ],
+    "ex": {
+      "j": "商法は企業法といえる。",
+      "r": [
+        [
+          0,
+          1,
+          "しょう"
+        ],
+        [
+          1,
+          1,
+          "ほう"
+        ],
+        [
+          3,
+          1,
+          "き"
+        ],
+        [
+          4,
+          1,
+          "ぎょう"
+        ],
+        [
+          5,
+          1,
+          "ほう"
+        ]
+      ],
+      "en": "Commercial Code can be called an enterprise method."
+    }
   },
   {
     "id": "追っかける",
@@ -296,7 +397,33 @@ export const VOCAB_ENTRIES = [
       "行書",
       "行商",
       "銀行"
-    ]
+    ],
+    "ex": {
+      "j": "その慣行は廃止すべきだ。",
+      "r": [
+        [
+          2,
+          1,
+          "かん"
+        ],
+        [
+          3,
+          1,
+          "こう"
+        ],
+        [
+          5,
+          1,
+          "はい"
+        ],
+        [
+          6,
+          1,
+          "し"
+        ]
+      ],
+      "en": "The practice should be done away with."
+    }
   },
   {
     "id": "実践",
@@ -354,7 +481,38 @@ export const VOCAB_ENTRIES = [
       "実学",
       "誠実",
       "無実"
-    ]
+    ],
+    "ex": {
+      "j": "理論には実践が伴わなければならない。",
+      "r": [
+        [
+          0,
+          1,
+          "り"
+        ],
+        [
+          1,
+          1,
+          "ろん"
+        ],
+        [
+          4,
+          1,
+          "じっ"
+        ],
+        [
+          5,
+          1,
+          "せん"
+        ],
+        [
+          7,
+          1,
+          "ともな"
+        ]
+      ],
+      "en": "A theory must be followed by practice."
+    }
   },
   {
     "id": "集める",
@@ -397,7 +555,38 @@ export const VOCAB_ENTRIES = [
       "蒐める",
       "鍾める",
       "湊める"
-    ]
+    ],
+    "ex": {
+      "j": "趣味は切手を集めることです。",
+      "r": [
+        [
+          0,
+          1,
+          "しゅ"
+        ],
+        [
+          1,
+          1,
+          "み"
+        ],
+        [
+          3,
+          1,
+          "き"
+        ],
+        [
+          4,
+          1,
+          "って"
+        ],
+        [
+          6,
+          1,
+          "あつ"
+        ]
+      ],
+      "en": "My hobby is collecting stamps."
+    }
   },
   {
     "id": "水泳",
@@ -443,7 +632,33 @@ export const VOCAB_ENTRIES = [
       "水生",
       "貯水",
       "水仙"
-    ]
+    ],
+    "ex": {
+      "j": "水泳が私の楽しみの１つです。",
+      "r": [
+        [
+          0,
+          1,
+          "すい"
+        ],
+        [
+          1,
+          1,
+          "えい"
+        ],
+        [
+          3,
+          1,
+          "わたし"
+        ],
+        [
+          5,
+          1,
+          "たの"
+        ]
+      ],
+      "en": "Swimming is one thing I enjoy."
+    }
   },
   {
     "id": "本番",
@@ -500,7 +715,53 @@ export const VOCAB_ENTRIES = [
       "本数",
       "元本",
       "本腰"
-    ]
+    ],
+    "ex": {
+      "j": "咳止めシロップ。本番前に一口飲まないと落ち着かない！",
+      "r": [
+        [
+          0,
+          1,
+          "せき"
+        ],
+        [
+          1,
+          1,
+          "ど"
+        ],
+        [
+          8,
+          1,
+          "ほん"
+        ],
+        [
+          9,
+          1,
+          "ばん"
+        ],
+        [
+          10,
+          1,
+          "ぜん"
+        ],
+        [
+          12,
+          1,
+          "ひと"
+        ],
+        [
+          13,
+          1,
+          "くち"
+        ],
+        [
+          14,
+          1,
+          "の"
+        ]
+      ],
+      "en": "Cough syrup. If I don't drink a mouthful before going on stage I can't settle down!"
+    }
   },
   {
     "id": "完投",
@@ -585,7 +846,23 @@ export const VOCAB_ENTRIES = [
       "拷り",
       "亡り",
       "食り"
-    ]
+    ],
+    "ex": {
+      "j": "私のガールフレンドは踊りがうまい。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          10,
+          1,
+          "おど"
+        ]
+      ],
+      "en": "My girlfriend is a good dancer."
+    }
   },
   {
     "id": "序盤",
@@ -737,6 +1014,42 @@ export const VOCAB_ENTRIES = [
       "投球",
       "初球",
       "電卓"
-    ]
+    ],
+    "ex": {
+      "j": "いくら年を取ってもまだ卓球をやる元気はある。",
+      "r": [
+        [
+          3,
+          1,
+          "とし"
+        ],
+        [
+          5,
+          1,
+          "と"
+        ],
+        [
+          11,
+          1,
+          "たっ"
+        ],
+        [
+          12,
+          1,
+          "きゅう"
+        ],
+        [
+          16,
+          1,
+          "げん"
+        ],
+        [
+          17,
+          1,
+          "き"
+        ]
+      ],
+      "en": "No matter how old I get, I'll still have the energy to play ping-pong."
+    }
   }
 ];

@@ -72,7 +72,7 @@ import json
 import random
 import re
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -85,6 +85,7 @@ from build_kanji_data import (  # noqa: E402
 SRC = ROOT / "data_src"
 DATA_DIR = ROOT.parent / "src" / "data"
 JMDICT = SRC / "JMdict_e"
+EXAMPLES = SRC / "examples.utf"  # Tanaka Corpus, via WWWJDIC — see build_examples()
 
 random.seed(20260828)  # reproducible builds — same output until the sources or this script change
 
@@ -274,6 +275,11 @@ def parse_jmdict():
 
     all_kebs = set()
     readings_by_keb = {}  # keb -> set(reb, hiragana) across every entry sharing that keb
+    # Same information, but ORDERED and for every keb rather than just the
+    # first: JMdict lists an entry's readings commonest-first, which is the
+    # tie-break build_examples() falls back on when neither the corpus nor
+    # the entry itself says how a written form is read.
+    keb_readings = {}
     candidates = []  # priority-tagged, ready for level/theme classification
     kanji_only_pool = {}  # kanji-count -> [(keb, gloss_tokens, rank)]
 
@@ -291,6 +297,12 @@ def parse_jmdict():
         rebs_all = [html.unescape(m.group(1)) for r in r_els for m in [re.search(r"<reb>(.*?)</reb>", r)]]
         if kebs_all and rebs_all:
             readings_by_keb.setdefault(kebs_all[0], set()).update(kata_to_hira(r) for r in rebs_all)
+            for k in kebs_all:
+                ordered = keb_readings.setdefault(k, [])
+                for r in rebs_all:
+                    hira = kata_to_hira(r)
+                    if hira not in ordered:
+                        ordered.append(hira)
 
         if not (("<ke_pri>" in e) or ("<re_pri>" in e)):
             continue
@@ -350,7 +362,7 @@ def parse_jmdict():
             kanji_only_pool.setdefault(len(keb), []).append((keb, tokens, rank))
 
     print(f"  {len(candidates)} priority-tagged candidates, {len(all_kebs)} distinct kanji/kana surfaces")
-    return candidates, all_kebs, readings_by_keb, kanji_only_pool
+    return candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool
 
 
 def build_entry_index(raw_entries):
@@ -1035,6 +1047,298 @@ def build_sp(surface, glosses, spans, all_kebs, reading_to_kanji, taught_kanji, 
     return out[:MAX_SP]
 
 
+# --- Example sentences (Tanaka Corpus) --------------------------------------
+#
+# One real sentence per word, glossed the way this app glosses Japanese
+# everywhere else: furigana over every kanji in it, plus an English
+# translation of the whole sentence. A word's detail screen already says what
+# the word means and how it is read; a sentence is what shows it doing its
+# job.
+#
+# SOURCE: the Tanaka Corpus as distributed with WWWJDIC (examples.utf),
+# ~148,000 Japanese/English pairs, from the same EDRDG family of sources as
+# JMdict and KANJIDIC2 above. Chosen over Tatoeba's own larger export for one
+# reason: every sentence here carries an index line naming the dictionary
+# form of each word in it, with a reading wherever that form is ambiguous. No
+# Japanese tokeniser is available to this build (the story data's own header
+# says the same thing), and without one that index is the only way to put
+# furigana over a whole SENTENCE rather than just over the word being taught.
+#
+# ACCURACY: a wrong reading taught confidently is worse than no example at
+# all, so a reading comes from, in order: the index line's own annotation
+# (which the corpus adds precisely where a written form is ambiguous — 人, 日
+# and 中 carry one on essentially every occurrence); failing that, the reading
+# the corpus itself uses most often for that form elsewhere; failing that,
+# JMdict's first-listed reading, and only then counted as certain if JMdict
+# lists exactly one. A sentence needing a guess is scored down rather than
+# banned; one that leaves any kanji unglossed is used only when nothing better
+# exists — and never when the unglossed kanji is in the taught word itself.
+
+EXAMPLE_LEN_IDEAL = 18  # characters of Japanese: a real sentence, still one phone line
+EXAMPLE_LEN_RANGE = (6, 44)
+EXAMPLE_LEN_RANGE_RELAXED = (6, 70)  # second pass, for a word no short sentence contains
+EXAMPLE_EN_MAX = 110
+EXAMPLE_EN_MAX_RELAXED = 140
+EXAMPLE_CANDIDATE_READINGS = 4  # JMdict readings tried per written form before giving up
+
+# "headword(reading)[sense]{surface as written}~", everything after the
+# headword optional. The reading slot doubles as an entry-id slot on some
+# tokens ("で(#2028980)"), which is not a reading and is ignored.
+B_TOKEN_RE = re.compile(r"^([^()\[\]{}~]+)(?:\(([^)]*)\))?(?:\[(\d+)\])?(?:\{([^}]*)\})?(~)?$")
+
+# A run of characters that one indivisible reading can sit over. Digits and
+# the repeat mark 々 belong to it: ４月 is しがつ across both characters and
+# 人々 is ひとびと across both, and neither divides per character.
+KANJI_RUN_RE = re.compile(r"[㐀-䶿一-鿿々0-9０-９]+")
+
+# This is an app for children (see README). The corpus is a general-purpose
+# translation corpus and has plenty in it that is not for them, so a sentence
+# whose English hits this is passed over. The taught word is exempt from its
+# own filter (see build_examples): 戦争 is in the curriculum, and a word
+# meaning "war" cannot be given an example that avoids saying "war".
+UNSUITABLE_EN = re.compile(
+    r"\b(sex|sexual|rape|raped|porn|nude|naked|breast|breasts|penis|virgin|"
+    r"kill|kills|killed|killing|murder|murdered|suicide|corpse|slaughter|"
+    r"drunk|drunken|beer|whisky|whiskey|wine|liquor|alcohol|cigarette|cigarettes|smoking|"
+    r"drug|drugs|heroin|cocaine|damn|damned|hell|bastard|bitch|shit|fuck|"
+    r"prostitute|prostitution|brothel|mistress|adultery|abortion|"
+    r"gun|guns|pistol|rifle|shoot|bomb|bombs|stabbed|"
+    r"idiot|stupid|fool|ugly|divorce|divorced|hate|hates|hated)\b", re.I)
+
+
+def parse_examples():
+    """(sentences, prior): sentences as (japanese, english, tokens), plus the
+    corpus's own majority reading for every written form it ever annotates."""
+    if not EXAMPLES.exists():
+        raise SystemExit(f"Missing {EXAMPLES} — run tools/fetch_kanji_sources.sh first.")
+    lines = EXAMPLES.read_text(encoding="utf-8").split("\n")
+    sentences = []
+    seen_readings = defaultdict(Counter)
+    i = 0
+    while i < len(lines) - 1:
+        if not lines[i].startswith("A: "):
+            i += 1
+            continue
+        japanese, _, rest = lines[i][3:].partition("\t")
+        english = rest.split("#ID=")[0].strip()
+        tokens = []
+        for raw in lines[i + 1][3:].split(" "):
+            m = B_TOKEN_RE.match(raw) if raw else None
+            if not m:
+                continue
+            head, reading, _sense, surface, good = m.groups()
+            if reading and reading.startswith("#"):
+                reading = None  # an entry id, not a reading
+            reading = kata_to_hira(reading) if reading else None
+            tokens.append({"head": head, "reading": reading,
+                           "surface": surface or head, "good": bool(good)})
+            if reading:
+                seen_readings[head][reading] += 1
+        sentences.append((japanese, english, tokens))
+        i += 2
+    prior = {head: counts.most_common(1)[0][0] for head, counts in seen_readings.items()}
+    print(f"Tanaka Corpus: {len(sentences)} sentences, "
+          f"{len(prior)} written forms with an observed reading")
+    return sentences, prior
+
+
+def resolve_reading(head, annotated, keb_readings, prior):
+    """(reading, certain) for one dictionary form as used here — the three
+    sources of the ACCURACY note above, in that order."""
+    if annotated:
+        return annotated, True
+    if head in prior:
+        return prior[head], True
+    listed = keb_readings.get(head, [])
+    if not listed:
+        return None, False
+    return listed[0], len(listed) == 1
+
+
+def example_token_ruby(head, annotated, surface, keb_readings, prior, stem_index):
+    """([(pos_in_surface, length, kana)], certain) for one word of a sentence,
+    or None when its reading could not be established. An empty list means
+    there was nothing to gloss — the word is written in kana."""
+    if not any(is_kanji(ch) for ch in surface):
+        return [], True
+    head_last = max((i for i, ch in enumerate(head) if is_kanji(ch)), default=-1)
+    surface_last = max((i for i, ch in enumerate(surface) if is_kanji(ch)), default=-1)
+    # Inflection only ever rewrites the okurigana AFTER the last kanji, so
+    # everything up to and including it has to match for the dictionary form's
+    # alignment to carry across to the inflected form unchanged. 書き留める ->
+    # 書き留めた is that same word bent; 召使い -> 召し使い is a different
+    # spelling of it, and lining those two up slides every reading along by a
+    # character.
+    if head_last < 0 or head[:head_last + 1] != surface[:surface_last + 1]:
+        return None
+    first, certain = resolve_reading(head, annotated, keb_readings, prior)
+    listed = keb_readings.get(head, [])[:EXAMPLE_CANDIDATE_READINGS]
+    for reading in [first] + [r for r in listed if r != first]:
+        if not reading:
+            continue
+        # Per kanji wherever the reading divides (生活 -> 生[せい]活[かつ]),
+        # exactly as build_ruby splits a headword for the word screens.
+        for wildcards in (0, 1):
+            alignment = align_word(head, reading, stem_index, wildcards=wildcards)
+            if alignment:
+                return [(pos, 1, kana) for pos, kana in alignment], certain
+        # Jukujikun (風邪 = かぜ, 昨日 = きのう): no per-kanji division exists,
+        # so one reading sits over the whole run — the same fallback the word
+        # screens make when build_ruby comes back None, applied to a word
+        # inside a sentence rather than to the headword itself.
+        runs = [m.span() for m in KANJI_RUN_RE.finditer(head)]
+        if len(runs) == 1:
+            start, end = runs[0]
+            before, after = head[:start], head[end:]
+            if reading.startswith(before) and reading.endswith(after) \
+                    and len(reading) > len(before) + len(after):
+                inner = reading[len(before):len(reading) - len(after)] if after else reading[len(before):]
+                return [(start, end - start, inner)], certain
+        certain = False  # anything past the first candidate is a guess by definition
+    return None
+
+
+def example_ruby(japanese, tokens, keb_readings, prior, stem_index):
+    """(ruby, unglossed, guesses) for a whole sentence. `ruby` is a list of
+    [start, length, kana] over the sentence string — the same shape as a
+    word's own `ruby`, widened to a span because a sentence contains readings
+    that do not divide character by character."""
+    ruby = []
+    guesses = 0
+    cursor = 0
+    for token in tokens:
+        surface = token["surface"]
+        # The index lists tokens in the order they appear, so searching
+        # forward from the end of the last one keeps a word that occurs twice
+        # (は, 人) on its own copy of itself.
+        at = japanese.find(surface, cursor)
+        if at < 0:
+            at = japanese.find(surface)
+            if at < 0:
+                continue  # index line and sentence disagree; that part stays unglossed
+        cursor = at + len(surface)
+        resolved = example_token_ruby(token["head"], token["reading"], surface,
+                                      keb_readings, prior, stem_index)
+        if resolved is None:
+            continue
+        segments, certain = resolved
+        if segments and not certain:
+            guesses += 1
+        for offset, length, kana in segments:
+            ruby.append([at + offset, length, kana])
+    ruby.sort()
+    glossed = {pos for start, length, _ in ruby for pos in range(start, start + length)}
+    unglossed = [i for i, ch in enumerate(japanese) if is_kanji(ch) and i not in glossed]
+    return ruby, unglossed, guesses
+
+
+def example_score(japanese, english, unglossed, guesses, flagged, as_written):
+    """Bigger is better. The ideal being scored against: a fully glossed
+    sentence of about EXAMPLE_LEN_IDEAL characters, flagged by the corpus as a
+    good example of this word, using it in the form the learner is taught."""
+    score = 40.0 if not unglossed else -12.0 * len(unglossed)
+    score -= 6.0 * guesses
+    score += 12.0 if flagged else 0.0
+    score += 10.0 if as_written else 0.0
+    score -= abs(len(japanese) - EXAMPLE_LEN_IDEAL) * 1.2
+    score -= max(0, len(english) - 60) * 0.15
+    return score
+
+
+def build_examples(unit_records, keb_readings, stem_index):
+    """Give every word the `ex` its detail screen shows, wherever the corpus
+    has a sentence for it. Two passes over the same sentences: the first
+    insists on a short one with furigana over every kanji in it; the second,
+    for whatever the first found nothing for, will take a longer sentence, or
+    one with an unglossed kanji elsewhere in it, or the word appearing inside
+    a longer token instead of as one of its own — but never a sentence that
+    fails to gloss the taught word itself."""
+    sentences, prior = parse_examples()
+
+    # (surface, reading) -> every record teaching that word; a word can be
+    # taught in more than one unit, and all of its records get the same
+    # example. Records are held by reference and written into directly.
+    records_for = defaultdict(list)
+    glosses = {}
+    for records in unit_records.values():
+        for record in records:
+            records_for[(record["w"], record["r"])].append(record)
+            glosses[(record["w"], record["r"])] = " ".join(record["en"]).lower()
+    wanted = defaultdict(set)
+    for surface, reading in records_for:
+        wanted[surface].add(reading)
+    total = len(records_for)
+
+    ruby_cache = {}
+
+    def pass_over(relaxed):
+        min_len, max_len = EXAMPLE_LEN_RANGE_RELAXED if relaxed else EXAMPLE_LEN_RANGE
+        max_en = EXAMPLE_EN_MAX_RELAXED if relaxed else EXAMPLE_EN_MAX
+        best = {}
+        for index, (japanese, english, tokens) in enumerate(sentences):
+            if not english or not (min_len <= len(japanese) <= max_len) or len(english) > max_en:
+                continue
+            # (surface, token, token-is-the-dictionary-form). A None token is
+            # the relaxed pass's "the word is in there somewhere" — 予備校
+            # inside a longer token the index never breaks up.
+            hits = []
+            for token in tokens:
+                if token["head"] in wanted:
+                    hits.append((token["head"], token, True))
+                if token["surface"] != token["head"] and token["surface"] in wanted:
+                    hits.append((token["surface"], token, False))
+            if relaxed and not hits:
+                hits = [(w, None, False) for w in wanted if w in japanese]
+            if not hits:
+                continue
+            for surface, token, is_head in hits:
+                for reading in wanted[surface]:
+                    # The sentence has to read the word the way THIS entry
+                    # says it is read: 開く is ひらく in one entry and あく in
+                    # another, and a sentence belongs to only one of them.
+                    if is_head and any(is_kanji(ch) for ch in surface):
+                        used, _certain = resolve_reading(surface, token["reading"], keb_readings, prior)
+                        if used is not None and used != reading:
+                            continue
+                    gloss = glosses[(surface, reading)]
+                    if any(m.group(0).lower() not in gloss for m in UNSUITABLE_EN.finditer(english)):
+                        continue
+                    if index not in ruby_cache:
+                        ruby_cache[index] = example_ruby(japanese, tokens, keb_readings, prior, stem_index)
+                    ruby, unglossed, guesses = ruby_cache[index]
+                    if unglossed:
+                        if not relaxed:
+                            continue
+                        written = token["surface"] if token else surface
+                        at = japanese.find(written)
+                        if at >= 0 and any(at <= pos < at + len(written) for pos in unglossed):
+                            continue
+                    score = example_score(japanese, english, unglossed, guesses,
+                                          bool(token) and token["good"],
+                                          bool(token) and token["surface"] == surface)
+                    current = best.get((surface, reading))
+                    if current is None or score > current[0]:
+                        best[(surface, reading)] = (score, japanese, english, ruby)
+        return best
+
+    strict = pass_over(relaxed=False)
+    print(f"Examples: {len(strict)} words matched a short, fully-glossed sentence")
+    for surface, reading in strict:
+        wanted[surface].discard(reading)
+    wanted = defaultdict(set, {w: r for w, r in wanted.items() if r})
+    relaxed = pass_over(relaxed=True)
+    print(f"          {len(relaxed)} more matched on the relaxed second pass")
+
+    for source in (strict, relaxed):
+        for key, (_score, japanese, english, ruby) in source.items():
+            for record in records_for[key]:
+                record["ex"] = {"j": japanese, "r": ruby, "en": english}
+
+    covered = len(strict) + len(relaxed)
+    print(f"          {covered} of {total} words have an example sentence "
+          f"({100 * covered / total:.1f}%) — the rest appear in no corpus sentence")
+
+
 # --- Assembly ----------------------------------------------------------------
 
 MEANING_LABEL_MAX = 45  # vocab-plan.md §5.1: en[0] is the Meaning-mode answer label
@@ -1128,7 +1432,7 @@ def main():
             for variant in stem_variants(stem):
                 reading_to_kanji.setdefault(variant, set()).add(kanji)
 
-    candidates, all_kebs, readings_by_keb, kanji_only_pool = parse_jmdict()
+    candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool = parse_jmdict()
 
     print("Building entry index for Core lookups...")
     text = JMDICT.read_text(encoding="utf-8")
@@ -1419,6 +1723,9 @@ def main():
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
         print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a / {k_n} k)")
 
+    # --- Example sentences, once every unit's records exist ---
+    build_examples(unit_records, keb_readings, stem_index)
+
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     header = [
@@ -1426,6 +1733,9 @@ def main():
         "// Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the",
         "// frequency-based word-selection approach (vocab-plan.md §3.5 fallback).",
         "// https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project",
+        "// Example sentences (`ex`): the Tanaka Corpus, as distributed with",
+        "// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.",
+        "// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus",
         "",
     ]
 

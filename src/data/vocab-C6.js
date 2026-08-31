@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -52,7 +55,28 @@ export const VOCAB_ENTRIES = [
       "蔽きい",
       "執きい",
       "祝きい"
-    ]
+    ],
+    "ex": {
+      "j": "もっと大きい声で言ってください。",
+      "r": [
+        [
+          3,
+          1,
+          "おお"
+        ],
+        [
+          6,
+          1,
+          "こえ"
+        ],
+        [
+          8,
+          1,
+          "い"
+        ]
+      ],
+      "en": "Louder, please."
+    }
   },
   {
     "id": "小さい",
@@ -104,7 +128,43 @@ export const VOCAB_ENTRIES = [
       "周さい",
       "嫡さい",
       "斧さい"
-    ]
+    ],
+    "ex": {
+      "j": "小さい女の子はたいてい人形が好きだ。",
+      "r": [
+        [
+          0,
+          1,
+          "ちい"
+        ],
+        [
+          3,
+          1,
+          "おんな"
+        ],
+        [
+          5,
+          1,
+          "こ"
+        ],
+        [
+          11,
+          1,
+          "にん"
+        ],
+        [
+          12,
+          1,
+          "ぎょう"
+        ],
+        [
+          14,
+          1,
+          "す"
+        ]
+      ],
+      "en": "Little girls in general are fond of dolls."
+    }
   },
   {
     "id": "良い",
@@ -153,7 +213,43 @@ export const VOCAB_ENTRIES = [
       "醉い",
       "過い",
       "輿い"
-    ]
+    ],
+    "ex": {
+      "j": "彼は私が思っていた通り良い人だった。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "おも"
+        ],
+        [
+          9,
+          1,
+          "とお"
+        ],
+        [
+          11,
+          1,
+          "よ"
+        ],
+        [
+          13,
+          1,
+          "ひと"
+        ]
+      ],
+      "en": "He was as good a man as I had thought."
+    }
   },
   {
     "id": "悪い",
@@ -207,7 +303,33 @@ export const VOCAB_ENTRIES = [
       "卑い",
       "変い",
       "探い"
-    ]
+    ],
+    "ex": {
+      "j": "私のステレオはあなたのより音質が悪い。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          13,
+          1,
+          "おん"
+        ],
+        [
+          14,
+          1,
+          "しつ"
+        ],
+        [
+          16,
+          1,
+          "わる"
+        ]
+      ],
+      "en": "My stereo set is inferior to yours in sound quality."
+    }
   },
   {
     "id": "高い",
@@ -257,7 +379,38 @@ export const VOCAB_ENTRIES = [
       "岡い",
       "橿い",
       "包い"
-    ]
+    ],
+    "ex": {
+      "j": "そんな高い車を買う余裕はありません。",
+      "r": [
+        [
+          3,
+          1,
+          "たか"
+        ],
+        [
+          5,
+          1,
+          "くるま"
+        ],
+        [
+          7,
+          1,
+          "か"
+        ],
+        [
+          9,
+          1,
+          "よ"
+        ],
+        [
+          10,
+          1,
+          "ゆう"
+        ]
+      ],
+      "en": "I can't afford to buy such an expensive car."
+    }
   },
   {
     "id": "安い",
@@ -304,7 +457,33 @@ export const VOCAB_ENTRIES = [
       "黄い",
       "帳い",
       "搜い"
-    ]
+    ],
+    "ex": {
+      "j": "彼はいつも給料が安いとこぼしている。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          5,
+          1,
+          "きゅう"
+        ],
+        [
+          6,
+          1,
+          "りょう"
+        ],
+        [
+          8,
+          1,
+          "やす"
+        ]
+      ],
+      "en": "He is always complaining about his low salary."
+    }
   },
   {
     "id": "新しい",
@@ -347,7 +526,38 @@ export const VOCAB_ENTRIES = [
       "卒しい",
       "猫しい",
       "実しい"
-    ]
+    ],
+    "ex": {
+      "j": "あなたの新しい車は調子よく動いていますか。",
+      "r": [
+        [
+          4,
+          1,
+          "あたら"
+        ],
+        [
+          7,
+          1,
+          "くるま"
+        ],
+        [
+          9,
+          1,
+          "ちょう"
+        ],
+        [
+          10,
+          1,
+          "し"
+        ],
+        [
+          13,
+          1,
+          "うご"
+        ]
+      ],
+      "en": "Is your new car behaving well?"
+    }
   },
   {
     "id": "古い",
@@ -397,7 +607,28 @@ export const VOCAB_ENTRIES = [
       "薪い",
       "呆い",
       "留い"
-    ]
+    ],
+    "ex": {
+      "j": "ケンが使っている机はもう古い。",
+      "r": [
+        [
+          3,
+          1,
+          "つか"
+        ],
+        [
+          8,
+          1,
+          "つくえ"
+        ],
+        [
+          12,
+          1,
+          "ふる"
+        ]
+      ],
+      "en": "The desk that Ken uses is old."
+    }
   },
   {
     "id": "楽しい",
@@ -442,7 +673,43 @@ export const VOCAB_ENTRIES = [
       "依しい",
       "管しい",
       "嘆しい"
-    ]
+    ],
+    "ex": {
+      "j": "孫と一緒にいると彼女はいつも楽しい。",
+      "r": [
+        [
+          0,
+          1,
+          "まご"
+        ],
+        [
+          2,
+          1,
+          "いっ"
+        ],
+        [
+          3,
+          1,
+          "しょ"
+        ],
+        [
+          8,
+          1,
+          "かの"
+        ],
+        [
+          9,
+          1,
+          "じょ"
+        ],
+        [
+          14,
+          1,
+          "たの"
+        ]
+      ],
+      "en": "Being with her grandson always makes her happy."
+    }
   },
   {
     "id": "難しい",
@@ -494,7 +761,43 @@ export const VOCAB_ENTRIES = [
       "呈しい",
       "下しい",
       "逆しい"
-    ]
+    ],
+    "ex": {
+      "j": "私は彼女に難しい質問をした。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          1,
+          "かの"
+        ],
+        [
+          3,
+          1,
+          "じょ"
+        ],
+        [
+          5,
+          1,
+          "むずか"
+        ],
+        [
+          8,
+          1,
+          "しつ"
+        ],
+        [
+          9,
+          1,
+          "もん"
+        ]
+      ],
+      "en": "I asked her a difficult question."
+    }
   },
   {
     "id": "簡単",
@@ -552,7 +855,28 @@ export const VOCAB_ENTRIES = [
       "単複",
       "単語",
       "簡裁"
-    ]
+    ],
+    "ex": {
+      "j": "テニスをすることは私には簡単だ。",
+      "r": [
+        [
+          9,
+          1,
+          "わたし"
+        ],
+        [
+          12,
+          1,
+          "かん"
+        ],
+        [
+          13,
+          1,
+          "たん"
+        ]
+      ],
+      "en": "Playing tennis is easy for me."
+    }
   },
   {
     "id": "忙しい",
@@ -603,7 +927,33 @@ export const VOCAB_ENTRIES = [
       "茜しい",
       "武しい",
       "散しい"
-    ]
+    ],
+    "ex": {
+      "j": "あいつはのらりくらりの仕事にお忙しい事だ。",
+      "r": [
+        [
+          11,
+          1,
+          "し"
+        ],
+        [
+          12,
+          1,
+          "ごと"
+        ],
+        [
+          15,
+          1,
+          "いそが"
+        ],
+        [
+          18,
+          1,
+          "こと"
+        ]
+      ],
+      "en": "He is busy loafing on the job."
+    }
   },
   {
     "id": "元気",
@@ -660,7 +1010,23 @@ export const VOCAB_ENTRIES = [
       "次元",
       "水気",
       "還元"
-    ]
+    ],
+    "ex": {
+      "j": "こんにちは、ロジャー。とっても元気よ。",
+      "r": [
+        [
+          15,
+          1,
+          "げん"
+        ],
+        [
+          16,
+          1,
+          "き"
+        ]
+      ],
+      "en": "Hi, Roger. I'm pretty good!"
+    }
   },
   {
     "id": "好き",
@@ -710,7 +1076,23 @@ export const VOCAB_ENTRIES = [
       "西き",
       "刷き",
       "須き"
-    ]
+    ],
+    "ex": {
+      "j": "「ケーキはお好きですか」「はい、好きです」",
+      "r": [
+        [
+          6,
+          1,
+          "す"
+        ],
+        [
+          16,
+          1,
+          "す"
+        ]
+      ],
+      "en": "\"Do you like cake?\" \"Yes, I do.\""
+    }
   },
   {
     "id": "嫌い",
@@ -753,7 +1135,28 @@ export const VOCAB_ENTRIES = [
       "鄒い",
       "練い",
       "翻い"
-    ]
+    ],
+    "ex": {
+      "j": "ジムくんは行き過ぎの嫌いがある。",
+      "r": [
+        [
+          5,
+          1,
+          "い"
+        ],
+        [
+          7,
+          1,
+          "す"
+        ],
+        [
+          10,
+          1,
+          "きら"
+        ]
+      ],
+      "en": "Jim tends to go too far."
+    }
   },
   {
     "id": "とても",
@@ -774,7 +1177,18 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "「これはとてもおもしろそうだね」とひろしが言います。",
+      "r": [
+        [
+          21,
+          1,
+          "い"
+        ]
+      ],
+      "en": "\"This looks pretty interesting,\" Hiroshi says."
+    }
   },
   {
     "id": "少し",
@@ -824,7 +1238,23 @@ export const VOCAB_ENTRIES = [
       "殊し",
       "心し",
       "浸し"
-    ]
+    ],
+    "ex": {
+      "j": "少しテレビを見てもいいですか。",
+      "r": [
+        [
+          0,
+          1,
+          "すこ"
+        ],
+        [
+          6,
+          1,
+          "み"
+        ]
+      ],
+      "en": "Do you mind if I watch TV for a while?"
+    }
   },
   {
     "id": "たくさん",
@@ -844,7 +1274,33 @@ export const VOCAB_ENTRIES = [
       3,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "彼は私よりもたくさん本を持っている。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "わたし"
+        ],
+        [
+          10,
+          1,
+          "ほん"
+        ],
+        [
+          12,
+          1,
+          "も"
+        ]
+      ],
+      "en": "He has more books than I do."
+    }
   },
   {
     "id": "一寸",
@@ -896,7 +1352,43 @@ export const VOCAB_ENTRIES = [
       "逐一",
       "一向",
       "一軒"
-    ]
+    ],
+    "ex": {
+      "j": "一寸の虫にも五分の魂。",
+      "r": [
+        [
+          0,
+          1,
+          "いっ"
+        ],
+        [
+          1,
+          1,
+          "すん"
+        ],
+        [
+          3,
+          1,
+          "むし"
+        ],
+        [
+          6,
+          1,
+          "ご"
+        ],
+        [
+          7,
+          1,
+          "ぶ"
+        ],
+        [
+          9,
+          1,
+          "たましい"
+        ]
+      ],
+      "en": "The worm turns."
+    }
   },
   {
     "id": "いつも",
@@ -915,7 +1407,28 @@ export const VOCAB_ENTRIES = [
       3,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "いつものところでいつもの人達に会った。",
+      "r": [
+        [
+          12,
+          1,
+          "ひと"
+        ],
+        [
+          13,
+          1,
+          "たち"
+        ],
+        [
+          15,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "I met the usual people at the usual place."
+    }
   },
   {
     "id": "よく",
@@ -937,7 +1450,18 @@ export const VOCAB_ENTRIES = [
       2,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "ジャック、よく来てくれたね。",
+      "r": [
+        [
+          7,
+          1,
+          "く"
+        ]
+      ],
+      "en": "You are welcome, Jack!"
+    }
   },
   {
     "id": "あまり",
@@ -957,6 +1481,27 @@ export const VOCAB_ENTRIES = [
       3,
       2
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "この手の本はあまり読まない。",
+      "r": [
+        [
+          2,
+          1,
+          "て"
+        ],
+        [
+          4,
+          1,
+          "ほん"
+        ],
+        [
+          9,
+          1,
+          "よ"
+        ]
+      ],
+      "en": "I don't read this kind of book much."
+    }
   }
 ];

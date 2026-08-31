@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -50,7 +53,23 @@ export const VOCAB_ENTRIES = [
       "お循",
       "お讓",
       "お屑"
-    ]
+    ],
+    "ex": {
+      "j": "３時はお茶にしよう。",
+      "r": [
+        [
+          1,
+          1,
+          "じ"
+        ],
+        [
+          4,
+          1,
+          "ちゃ"
+        ]
+      ],
+      "en": "Let's have tea at 3:00."
+    }
   },
   {
     "id": "順",
@@ -88,7 +107,38 @@ export const VOCAB_ENTRIES = [
       "式",
       "隙",
       "蟻"
-    ]
+    ],
+    "ex": {
+      "j": "見出し語はアルファベット順に並んでいます。",
+      "r": [
+        [
+          0,
+          1,
+          "み"
+        ],
+        [
+          1,
+          1,
+          "だ"
+        ],
+        [
+          3,
+          1,
+          "ご"
+        ],
+        [
+          12,
+          1,
+          "じゅん"
+        ],
+        [
+          14,
+          1,
+          "なら"
+        ]
+      ],
+      "en": "The entry words are arranged alphabetically."
+    }
   },
   {
     "id": "原案",
@@ -135,7 +185,38 @@ export const VOCAB_ENTRIES = [
       "翻案",
       "湿原",
       "原種"
-    ]
+    ],
+    "ex": {
+      "j": "彼は原案に固執した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "げん"
+        ],
+        [
+          3,
+          1,
+          "あん"
+        ],
+        [
+          5,
+          1,
+          "こ"
+        ],
+        [
+          6,
+          1,
+          "しつ"
+        ]
+      ],
+      "en": "He adhered to the original plan."
+    }
   },
   {
     "id": "水道",
@@ -193,7 +274,33 @@ export const VOCAB_ENTRIES = [
       "水泡",
       "早道",
       "湖水"
-    ]
+    ],
+    "ex": {
+      "j": "昨日水道を止められた。",
+      "r": [
+        [
+          0,
+          2,
+          "きのう"
+        ],
+        [
+          2,
+          1,
+          "すい"
+        ],
+        [
+          3,
+          1,
+          "どう"
+        ],
+        [
+          5,
+          1,
+          "と"
+        ]
+      ],
+      "en": "The water was cut off yesterday."
+    }
   },
   {
     "id": "水面",
@@ -242,7 +349,38 @@ export const VOCAB_ENTRIES = [
       "水産",
       "大水",
       "潜水"
-    ]
+    ],
+    "ex": {
+      "j": "魚が水面から飛び上がった。",
+      "r": [
+        [
+          0,
+          1,
+          "さかな"
+        ],
+        [
+          2,
+          1,
+          "すい"
+        ],
+        [
+          3,
+          1,
+          "めん"
+        ],
+        [
+          6,
+          1,
+          "と"
+        ],
+        [
+          8,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "A fish leaped out of the water."
+    }
   },
   {
     "id": "政令",
@@ -342,7 +480,38 @@ export const VOCAB_ENTRIES = [
       "食指",
       "二食",
       "食事"
-    ]
+    ],
+    "ex": {
+      "j": "好きなだけ飲食していただいて結構です。",
+      "r": [
+        [
+          0,
+          1,
+          "す"
+        ],
+        [
+          5,
+          1,
+          "いん"
+        ],
+        [
+          6,
+          1,
+          "しょく"
+        ],
+        [
+          14,
+          1,
+          "けっ"
+        ],
+        [
+          15,
+          1,
+          "こう"
+        ]
+      ],
+      "en": "You can eat and drink as much as you want."
+    }
   },
   {
     "id": "発注",
@@ -395,7 +564,38 @@ export const VOCAB_ENTRIES = [
       "発車",
       "突発",
       "爆発"
-    ]
+    ],
+    "ex": {
+      "j": "電話でデパートにその本を発注した。",
+      "r": [
+        [
+          0,
+          1,
+          "でん"
+        ],
+        [
+          1,
+          1,
+          "わ"
+        ],
+        [
+          10,
+          1,
+          "ほん"
+        ],
+        [
+          12,
+          1,
+          "はっ"
+        ],
+        [
+          13,
+          1,
+          "ちゅう"
+        ]
+      ],
+      "en": "I ordered the book from the department store by telephone."
+    }
   },
   {
     "id": "夕食",
@@ -447,7 +647,23 @@ export const VOCAB_ENTRIES = [
       "食器",
       "食指",
       "侵食"
-    ]
+    ],
+    "ex": {
+      "j": "なんとおいしい夕食でしょう。",
+      "r": [
+        [
+          7,
+          1,
+          "ゆう"
+        ],
+        [
+          8,
+          1,
+          "しょく"
+        ]
+      ],
+      "en": "How delicious your dinner was!"
+    }
   },
   {
     "id": "給食",
@@ -500,7 +716,23 @@ export const VOCAB_ENTRIES = [
       "減食",
       "食肉",
       "乞食"
-    ]
+    ],
+    "ex": {
+      "j": "給食はあるの？",
+      "r": [
+        [
+          0,
+          1,
+          "きゅう"
+        ],
+        [
+          1,
+          1,
+          "しょく"
+        ]
+      ],
+      "en": "Do you have lunch at school?"
+    }
   },
   {
     "id": "なる",
@@ -512,7 +744,12 @@ export const VOCAB_ENTRIES = [
     "pos": "v",
     "th": "1.6",
     "lv": "h",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "ちまたではインターネットなるものがはやっています。",
+      "r": [],
+      "en": "People are talking about this Internet phenomenon."
+    }
   },
   {
     "id": "波紋",
@@ -567,7 +804,38 @@ export const VOCAB_ENTRIES = [
       "指紋",
       "寒波",
       "波浪"
-    ]
+    ],
+    "ex": {
+      "j": "石が池に波紋を描いた。",
+      "r": [
+        [
+          0,
+          1,
+          "いし"
+        ],
+        [
+          2,
+          1,
+          "いけ"
+        ],
+        [
+          4,
+          1,
+          "は"
+        ],
+        [
+          5,
+          1,
+          "もん"
+        ],
+        [
+          7,
+          1,
+          "えが"
+        ]
+      ],
+      "en": "The stone started ripples in the pond."
+    }
   },
   {
     "id": "食",
@@ -621,7 +889,48 @@ export const VOCAB_ENTRIES = [
       "砂",
       "中",
       "蛇"
-    ]
+    ],
+    "ex": {
+      "j": "あのレストランは毎日二千食準備している。",
+      "r": [
+        [
+          8,
+          1,
+          "まい"
+        ],
+        [
+          9,
+          1,
+          "にち"
+        ],
+        [
+          10,
+          1,
+          "に"
+        ],
+        [
+          11,
+          1,
+          "せん"
+        ],
+        [
+          12,
+          1,
+          "しょく"
+        ],
+        [
+          13,
+          1,
+          "じゅん"
+        ],
+        [
+          14,
+          1,
+          "び"
+        ]
+      ],
+      "en": "That restaurant prepares two thousand meals every day."
+    }
   },
   {
     "id": "水田",
@@ -714,7 +1023,33 @@ export const VOCAB_ENTRIES = [
       "草花",
       "草稿",
       "草創"
-    ]
+    ],
+    "ex": {
+      "j": "草案を添付します。",
+      "r": [
+        [
+          0,
+          1,
+          "そう"
+        ],
+        [
+          1,
+          1,
+          "あん"
+        ],
+        [
+          3,
+          1,
+          "てん"
+        ],
+        [
+          4,
+          1,
+          "ぷ"
+        ]
+      ],
+      "en": "Attached is the draft compilation."
+    }
   },
   {
     "id": "弁当",
@@ -766,7 +1101,48 @@ export const VOCAB_ENTRIES = [
       "担当",
       "当否",
       "当社"
-    ]
+    ],
+    "ex": {
+      "j": "私たちは学校で早めに弁当を食べた。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "がっ"
+        ],
+        [
+          5,
+          1,
+          "こう"
+        ],
+        [
+          7,
+          1,
+          "はや"
+        ],
+        [
+          10,
+          1,
+          "べん"
+        ],
+        [
+          11,
+          1,
+          "とう"
+        ],
+        [
+          13,
+          1,
+          "た"
+        ]
+      ],
+      "en": "We had an early lunch at school."
+    }
   },
   {
     "id": "飲料",
@@ -812,7 +1188,78 @@ export const VOCAB_ENTRIES = [
       "塗料",
       "料金",
       "肥料"
-    ]
+    ],
+    "ex": {
+      "j": "飲料水中の酸性雨は人間の健康に影響する。",
+      "r": [
+        [
+          0,
+          1,
+          "いん"
+        ],
+        [
+          1,
+          1,
+          "りょう"
+        ],
+        [
+          2,
+          1,
+          "すい"
+        ],
+        [
+          3,
+          1,
+          "ちゅう"
+        ],
+        [
+          5,
+          1,
+          "さん"
+        ],
+        [
+          6,
+          1,
+          "せい"
+        ],
+        [
+          7,
+          1,
+          "う"
+        ],
+        [
+          9,
+          1,
+          "にん"
+        ],
+        [
+          10,
+          1,
+          "げん"
+        ],
+        [
+          12,
+          1,
+          "けん"
+        ],
+        [
+          13,
+          1,
+          "こう"
+        ],
+        [
+          15,
+          1,
+          "えい"
+        ],
+        [
+          16,
+          1,
+          "きょう"
+        ]
+      ],
+      "en": "Acid rain in drinking water affects human health."
+    }
   },
   {
     "id": "上田",
@@ -905,7 +1352,43 @@ export const VOCAB_ENTRIES = [
       "竜",
       "肌",
       "数"
-    ]
+    ],
+    "ex": {
+      "j": "稲は雨の多い地域で作られる。",
+      "r": [
+        [
+          0,
+          1,
+          "いね"
+        ],
+        [
+          2,
+          1,
+          "あめ"
+        ],
+        [
+          4,
+          1,
+          "おお"
+        ],
+        [
+          6,
+          1,
+          "ち"
+        ],
+        [
+          7,
+          1,
+          "いき"
+        ],
+        [
+          9,
+          1,
+          "つく"
+        ]
+      ],
+      "en": "Rice is grown in rainy regions."
+    }
   },
   {
     "id": "好み",
@@ -955,6 +1438,27 @@ export const VOCAB_ENTRIES = [
       "欧み",
       "腎み",
       "衣み"
-    ]
+    ],
+    "ex": {
+      "j": "好みについて説明することはできない。",
+      "r": [
+        [
+          0,
+          1,
+          "この"
+        ],
+        [
+          6,
+          1,
+          "せつ"
+        ],
+        [
+          7,
+          1,
+          "めい"
+        ]
+      ],
+      "en": "There is no accounting for tastes."
+    }
   }
 ];

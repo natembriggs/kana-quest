@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -54,7 +57,23 @@ export const VOCAB_ENTRIES = [
       "和英",
       "水平",
       "源平"
-    ]
+    ],
+    "ex": {
+      "j": "ハトは平和のシンボルである。",
+      "r": [
+        [
+          3,
+          1,
+          "へい"
+        ],
+        [
+          4,
+          1,
+          "わ"
+        ]
+      ],
+      "en": "The dove is a symbol of peace."
+    }
   },
   {
     "id": "和平",
@@ -105,7 +124,43 @@ export const VOCAB_ENTRIES = [
       "平壌",
       "和裁",
       "平気"
-    ]
+    ],
+    "ex": {
+      "j": "和平会談はしばらく延期された。",
+      "r": [
+        [
+          0,
+          1,
+          "わ"
+        ],
+        [
+          1,
+          1,
+          "へい"
+        ],
+        [
+          2,
+          1,
+          "かい"
+        ],
+        [
+          3,
+          1,
+          "だん"
+        ],
+        [
+          9,
+          1,
+          "えん"
+        ],
+        [
+          10,
+          1,
+          "き"
+        ]
+      ],
+      "en": "The peace talks have been suspended for a while."
+    }
   },
   {
     "id": "戦争",
@@ -162,7 +217,38 @@ export const VOCAB_ENTRIES = [
       "敗戦",
       "係争",
       "決戦"
-    ]
+    ],
+    "ex": {
+      "j": "その国は戦争で荒廃してしまった。",
+      "r": [
+        [
+          2,
+          1,
+          "くに"
+        ],
+        [
+          4,
+          1,
+          "せん"
+        ],
+        [
+          5,
+          1,
+          "そう"
+        ],
+        [
+          7,
+          1,
+          "こう"
+        ],
+        [
+          8,
+          1,
+          "はい"
+        ]
+      ],
+      "en": "The country was wasted by war."
+    }
   },
   {
     "id": "災害",
@@ -209,7 +295,43 @@ export const VOCAB_ENTRIES = [
       "侵害",
       "病害",
       "公害"
-    ]
+    ],
+    "ex": {
+      "j": "嵐は、多くの災害を引き起こした。",
+      "r": [
+        [
+          0,
+          1,
+          "あらし"
+        ],
+        [
+          3,
+          1,
+          "おお"
+        ],
+        [
+          6,
+          1,
+          "さい"
+        ],
+        [
+          7,
+          1,
+          "がい"
+        ],
+        [
+          9,
+          1,
+          "ひ"
+        ],
+        [
+          11,
+          1,
+          "お"
+        ]
+      ],
+      "en": "The storm caused a lot of damage."
+    }
   },
   {
     "id": "内戦",
@@ -260,7 +382,38 @@ export const VOCAB_ENTRIES = [
       "内地",
       "内偵",
       "国内"
-    ]
+    ],
+    "ex": {
+      "j": "多くの国々で内戦が起きている。",
+      "r": [
+        [
+          0,
+          1,
+          "おお"
+        ],
+        [
+          3,
+          2,
+          "くにぐに"
+        ],
+        [
+          6,
+          1,
+          "ない"
+        ],
+        [
+          7,
+          1,
+          "せん"
+        ],
+        [
+          9,
+          1,
+          "お"
+        ]
+      ],
+      "en": "Civil wars are occurring in many countries."
+    }
   },
   {
     "id": "戦い",
@@ -312,7 +465,38 @@ export const VOCAB_ENTRIES = [
       "致い",
       "塔い",
       "測い"
-    ]
+    ],
+    "ex": {
+      "j": "戦いは人間の獣性をよびおこす。",
+      "r": [
+        [
+          0,
+          1,
+          "たたか"
+        ],
+        [
+          3,
+          1,
+          "にん"
+        ],
+        [
+          4,
+          1,
+          "げん"
+        ],
+        [
+          6,
+          1,
+          "じゅう"
+        ],
+        [
+          7,
+          1,
+          "せい"
+        ]
+      ],
+      "en": "War arouses the animal in man."
+    }
   },
   {
     "id": "戦線",
@@ -363,7 +547,43 @@ export const VOCAB_ENTRIES = [
       "幹線",
       "緒戦",
       "合戦"
-    ]
+    ],
+    "ex": {
+      "j": "その部隊は戦線から撤退させられた。",
+      "r": [
+        [
+          2,
+          1,
+          "ぶ"
+        ],
+        [
+          3,
+          1,
+          "たい"
+        ],
+        [
+          5,
+          1,
+          "せん"
+        ],
+        [
+          6,
+          1,
+          "せん"
+        ],
+        [
+          9,
+          1,
+          "てっ"
+        ],
+        [
+          10,
+          1,
+          "たい"
+        ]
+      ],
+      "en": "The troops were retired from the front lines."
+    }
   },
   {
     "id": "大戦",
@@ -420,7 +640,43 @@ export const VOCAB_ENTRIES = [
       "戦果",
       "回戦",
       "実戦"
-    ]
+    ],
+    "ex": {
+      "j": "あの家の繁栄は大戦中からのことだ。",
+      "r": [
+        [
+          2,
+          1,
+          "いえ"
+        ],
+        [
+          4,
+          1,
+          "はん"
+        ],
+        [
+          5,
+          1,
+          "えい"
+        ],
+        [
+          7,
+          1,
+          "たい"
+        ],
+        [
+          8,
+          1,
+          "せん"
+        ],
+        [
+          9,
+          1,
+          "ちゅう"
+        ]
+      ],
+      "en": "The prosperity of the family dates from the Great War."
+    }
   },
   {
     "id": "問題点",
@@ -478,7 +734,28 @@ export const VOCAB_ENTRIES = [
       "無得点",
       "五人組",
       "動植物"
-    ]
+    ],
+    "ex": {
+      "j": "問題点からそれないようにしましょう。",
+      "r": [
+        [
+          0,
+          1,
+          "もん"
+        ],
+        [
+          1,
+          1,
+          "だい"
+        ],
+        [
+          2,
+          1,
+          "てん"
+        ]
+      ],
+      "en": "We've got to stick to the point."
+    }
   },
   {
     "id": "布施",
@@ -588,7 +865,28 @@ export const VOCAB_ENTRIES = [
       "保証",
       "安置",
       "治安"
-    ]
+    ],
+    "ex": {
+      "j": "ホテルの保安係りにつないでください。",
+      "r": [
+        [
+          4,
+          1,
+          "ほ"
+        ],
+        [
+          5,
+          1,
+          "あん"
+        ],
+        [
+          6,
+          1,
+          "がか"
+        ]
+      ],
+      "en": "Please get me hotel security."
+    }
   },
   {
     "id": "安心",
@@ -636,7 +934,38 @@ export const VOCAB_ENTRIES = [
       "心中",
       "疑心",
       "傷心"
-    ]
+    ],
+    "ex": {
+      "j": "あいつに仕事を任せておけば安心だ。",
+      "r": [
+        [
+          4,
+          1,
+          "し"
+        ],
+        [
+          5,
+          1,
+          "ごと"
+        ],
+        [
+          7,
+          1,
+          "まか"
+        ],
+        [
+          13,
+          1,
+          "あん"
+        ],
+        [
+          14,
+          1,
+          "しん"
+        ]
+      ],
+      "en": "You can trust him with any job."
+    }
   },
   {
     "id": "戦前",
@@ -687,7 +1016,28 @@ export const VOCAB_ENTRIES = [
       "戦士",
       "前日",
       "商戦"
-    ]
+    ],
+    "ex": {
+      "j": "戦前、ヨーロッパへ行きました。",
+      "r": [
+        [
+          0,
+          1,
+          "せん"
+        ],
+        [
+          1,
+          1,
+          "ぜん"
+        ],
+        [
+          9,
+          1,
+          "い"
+        ]
+      ],
+      "en": "I went to Europe before the war."
+    }
   },
   {
     "id": "終戦",
@@ -739,7 +1089,48 @@ export const VOCAB_ENTRIES = [
       "歴戦",
       "挑戦",
       "戦意"
-    ]
+    ],
+    "ex": {
+      "j": "彼は終戦直後に出獄した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "しゅう"
+        ],
+        [
+          3,
+          1,
+          "せん"
+        ],
+        [
+          4,
+          1,
+          "ちょく"
+        ],
+        [
+          5,
+          1,
+          "ご"
+        ],
+        [
+          7,
+          1,
+          "しゅつ"
+        ],
+        [
+          8,
+          1,
+          "ごく"
+        ]
+      ],
+      "en": "He was released from prison immediately after the war."
+    }
   },
   {
     "id": "従軍",
@@ -838,6 +1229,67 @@ export const VOCAB_ENTRIES = [
       "補足",
       "補強",
       "補完"
-    ]
+    ],
+    "ex": {
+      "j": "会社での彼の正式な肩書きは社長補佐である。",
+      "r": [
+        [
+          0,
+          1,
+          "かい"
+        ],
+        [
+          1,
+          1,
+          "しゃ"
+        ],
+        [
+          4,
+          1,
+          "かれ"
+        ],
+        [
+          6,
+          1,
+          "せい"
+        ],
+        [
+          7,
+          1,
+          "しき"
+        ],
+        [
+          9,
+          1,
+          "かた"
+        ],
+        [
+          10,
+          1,
+          "が"
+        ],
+        [
+          13,
+          1,
+          "しゃ"
+        ],
+        [
+          14,
+          1,
+          "ちょう"
+        ],
+        [
+          15,
+          1,
+          "ほ"
+        ],
+        [
+          16,
+          1,
+          "さ"
+        ]
+      ],
+      "en": "His official title at the company is Assistant to the President."
+    }
   }
 ];

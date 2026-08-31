@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -48,7 +51,28 @@ export const VOCAB_ENTRIES = [
       "新語",
       "語録",
       "言質"
-    ]
+    ],
+    "ex": {
+      "j": "ドイツ語はやさしい言語ではありません。",
+      "r": [
+        [
+          3,
+          1,
+          "ご"
+        ],
+        [
+          9,
+          1,
+          "げん"
+        ],
+        [
+          10,
+          1,
+          "ご"
+        ]
+      ],
+      "en": "German is not an easy language."
+    }
   },
   {
     "id": "国土",
@@ -99,7 +123,43 @@ export const VOCAB_ENTRIES = [
       "土着",
       "四国",
       "土足"
-    ]
+    ],
+    "ex": {
+      "j": "アメリカは国土が広く、人々はよく移動する。",
+      "r": [
+        [
+          5,
+          1,
+          "こく"
+        ],
+        [
+          6,
+          1,
+          "ど"
+        ],
+        [
+          8,
+          1,
+          "ひろ"
+        ],
+        [
+          11,
+          2,
+          "ひとびと"
+        ],
+        [
+          16,
+          1,
+          "い"
+        ],
+        [
+          17,
+          1,
+          "どう"
+        ]
+      ],
+      "en": "America is a large country and its people are mobile."
+    }
   },
   {
     "id": "自国",
@@ -149,7 +209,43 @@ export const VOCAB_ENTRIES = [
       "国定",
       "国籍",
       "自制"
-    ]
+    ],
+    "ex": {
+      "j": "イギリス人は自国の詩人を誇りにしている。",
+      "r": [
+        [
+          4,
+          1,
+          "じん"
+        ],
+        [
+          6,
+          1,
+          "じ"
+        ],
+        [
+          7,
+          1,
+          "こく"
+        ],
+        [
+          9,
+          1,
+          "し"
+        ],
+        [
+          10,
+          1,
+          "じん"
+        ],
+        [
+          12,
+          1,
+          "ほこ"
+        ]
+      ],
+      "en": "England is proud of her poets."
+    }
   },
   {
     "id": "中原",
@@ -255,7 +351,43 @@ export const VOCAB_ENTRIES = [
       "一時的",
       "金曜日",
       "一昨日"
-    ]
+    ],
+    "ex": {
+      "j": "カズは日本一のサッカー選手と言われている。",
+      "r": [
+        [
+          3,
+          1,
+          "に"
+        ],
+        [
+          4,
+          1,
+          "ほん"
+        ],
+        [
+          5,
+          1,
+          "いち"
+        ],
+        [
+          11,
+          1,
+          "せん"
+        ],
+        [
+          12,
+          1,
+          "しゅ"
+        ],
+        [
+          14,
+          1,
+          "い"
+        ]
+      ],
+      "en": "It is said that Kazu is the best soccer player in Japan."
+    }
   },
   {
     "id": "西日本",
@@ -368,7 +500,48 @@ export const VOCAB_ENTRIES = [
       "国軍",
       "国策",
       "国風"
-    ]
+    ],
+    "ex": {
+      "j": "いかなる国も他国の内政に干渉してはならない。",
+      "r": [
+        [
+          4,
+          1,
+          "くに"
+        ],
+        [
+          6,
+          1,
+          "た"
+        ],
+        [
+          7,
+          1,
+          "こく"
+        ],
+        [
+          9,
+          1,
+          "ない"
+        ],
+        [
+          10,
+          1,
+          "せい"
+        ],
+        [
+          12,
+          1,
+          "かん"
+        ],
+        [
+          13,
+          1,
+          "しょう"
+        ]
+      ],
+      "en": "No country should interfere in another country's internal affairs."
+    }
   },
   {
     "id": "亡命",
@@ -418,7 +591,58 @@ export const VOCAB_ENTRIES = [
       "懸命",
       "人命",
       "命題"
-    ]
+    ],
+    "ex": {
+      "j": "彼は他の大勢の人達と共に亡命した。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "ほか"
+        ],
+        [
+          4,
+          1,
+          "おお"
+        ],
+        [
+          5,
+          1,
+          "ぜい"
+        ],
+        [
+          7,
+          1,
+          "ひと"
+        ],
+        [
+          8,
+          1,
+          "たち"
+        ],
+        [
+          10,
+          1,
+          "とも"
+        ],
+        [
+          12,
+          1,
+          "ぼう"
+        ],
+        [
+          13,
+          1,
+          "めい"
+        ]
+      ],
+      "en": "Along with thousands of others, he fled the country."
+    }
   },
   {
     "id": "駐日",
@@ -467,7 +691,48 @@ export const VOCAB_ENTRIES = [
       "夕日",
       "本日",
       "明日"
-    ]
+    ],
+    "ex": {
+      "j": "駐日英国大使はだれだか知っていますか。",
+      "r": [
+        [
+          0,
+          1,
+          "ちゅう"
+        ],
+        [
+          1,
+          1,
+          "にち"
+        ],
+        [
+          2,
+          1,
+          "えい"
+        ],
+        [
+          3,
+          1,
+          "こく"
+        ],
+        [
+          4,
+          1,
+          "たい"
+        ],
+        [
+          5,
+          1,
+          "し"
+        ],
+        [
+          11,
+          1,
+          "し"
+        ]
+      ],
+      "en": "Do you know who the British Ambassador to Japan is?"
+    }
   },
   {
     "id": "入国",
@@ -516,7 +781,38 @@ export const VOCAB_ENTRIES = [
       "国史",
       "入校",
       "新入"
-    ]
+    ],
+    "ex": {
+      "j": "入国の目的は何ですか。",
+      "r": [
+        [
+          0,
+          1,
+          "にゅう"
+        ],
+        [
+          1,
+          1,
+          "こく"
+        ],
+        [
+          3,
+          1,
+          "もく"
+        ],
+        [
+          4,
+          1,
+          "てき"
+        ],
+        [
+          6,
+          1,
+          "なに"
+        ]
+      ],
+      "en": "What's the purpose of your visit?"
+    }
   },
   {
     "id": "幼稚園",
@@ -573,7 +869,38 @@ export const VOCAB_ENTRIES = [
       "所有者",
       "長距離",
       "既製服"
-    ]
+    ],
+    "ex": {
+      "j": "しげみちゃんを幼稚園に迎えに行けないの。",
+      "r": [
+        [
+          7,
+          1,
+          "よう"
+        ],
+        [
+          8,
+          1,
+          "ち"
+        ],
+        [
+          9,
+          1,
+          "えん"
+        ],
+        [
+          11,
+          1,
+          "むか"
+        ],
+        [
+          14,
+          1,
+          "い"
+        ]
+      ],
+      "en": "I will not be able to pick up Shigemi at the kindergarten."
+    }
   },
   {
     "id": "国語",
@@ -629,7 +956,43 @@ export const VOCAB_ENTRIES = [
       "帰国",
       "国元",
       "国連"
-    ]
+    ],
+    "ex": {
+      "j": "彼は国語が好きだし得意だ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "こく"
+        ],
+        [
+          3,
+          1,
+          "ご"
+        ],
+        [
+          5,
+          1,
+          "す"
+        ],
+        [
+          9,
+          1,
+          "とく"
+        ],
+        [
+          10,
+          1,
+          "い"
+        ]
+      ],
+      "en": "He likes Japanese, and he's good at it."
+    }
   },
   {
     "id": "全土",
@@ -678,7 +1041,78 @@ export const VOCAB_ENTRIES = [
       "土曜",
       "全容",
       "全集"
-    ]
+    ],
+    "ex": {
+      "j": "米国全土では毎年膨大な数の若者が大学にはいる。",
+      "r": [
+        [
+          0,
+          1,
+          "べい"
+        ],
+        [
+          1,
+          1,
+          "こく"
+        ],
+        [
+          2,
+          1,
+          "ぜん"
+        ],
+        [
+          3,
+          1,
+          "ど"
+        ],
+        [
+          6,
+          1,
+          "まい"
+        ],
+        [
+          7,
+          1,
+          "とし"
+        ],
+        [
+          8,
+          1,
+          "ぼう"
+        ],
+        [
+          9,
+          1,
+          "だい"
+        ],
+        [
+          11,
+          1,
+          "かず"
+        ],
+        [
+          13,
+          1,
+          "わか"
+        ],
+        [
+          14,
+          1,
+          "もの"
+        ],
+        [
+          16,
+          1,
+          "だい"
+        ],
+        [
+          17,
+          1,
+          "がく"
+        ]
+      ],
+      "en": "Throughout the United State large numbers of young people enter college every year."
+    }
   },
   {
     "id": "教養",
@@ -728,6 +1162,37 @@ export const VOCAB_ENTRIES = [
       "教務",
       "国教",
       "教頭"
-    ]
+    ],
+    "ex": {
+      "j": "その医者は教養のある人だ。",
+      "r": [
+        [
+          2,
+          1,
+          "い"
+        ],
+        [
+          3,
+          1,
+          "しゃ"
+        ],
+        [
+          5,
+          1,
+          "きょう"
+        ],
+        [
+          6,
+          1,
+          "よう"
+        ],
+        [
+          10,
+          1,
+          "ひと"
+        ]
+      ],
+      "en": "The doctor is a man of culture."
+    }
   }
 ];

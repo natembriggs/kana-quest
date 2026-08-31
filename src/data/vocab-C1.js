@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -16,7 +19,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "こんにちは、スーザン。お元気ですか。",
+      "r": [
+        [
+          12,
+          1,
+          "げん"
+        ],
+        [
+          13,
+          1,
+          "き"
+        ]
+      ],
+      "en": "Hi, Susan. How are you?"
+    }
   },
   {
     "id": "おはよう",
@@ -28,7 +47,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "おはよう。ご飯をよそっても良いかしら？",
+      "r": [
+        [
+          6,
+          1,
+          "はん"
+        ],
+        [
+          13,
+          1,
+          "よ"
+        ]
+      ],
+      "en": "Morning. Shall I dish up?"
+    }
   },
   {
     "id": "こんばんは",
@@ -54,7 +89,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "では今晩またね、さようなら。",
+      "r": [
+        [
+          2,
+          1,
+          "こん"
+        ],
+        [
+          3,
+          1,
+          "ばん"
+        ]
+      ],
+      "en": "See you tonight, then. Cheers!"
+    }
   },
   {
     "id": "ありがとう",
@@ -67,7 +118,23 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "ありがとう。また、次の日にくるようにします。",
+      "r": [
+        [
+          9,
+          1,
+          "つぎ"
+        ],
+        [
+          11,
+          1,
+          "ひ"
+        ]
+      ],
+      "en": "Thanks. Maybe we'll come back."
+    }
   },
   {
     "id": "すみません",
@@ -88,7 +155,18 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "すみません、この席あいていますか。",
+      "r": [
+        [
+          8,
+          1,
+          "せき"
+        ]
+      ],
+      "en": "Excuse me, is this seat taken?"
+    }
   },
   {
     "id": "お願いします",
@@ -127,7 +205,33 @@ export const VOCAB_ENTRIES = [
       "お笘いします",
       "お楚いします",
       "お難いします"
-    ]
+    ],
+    "ex": {
+      "j": "フライトの再確認をお願いします。",
+      "r": [
+        [
+          5,
+          1,
+          "さい"
+        ],
+        [
+          6,
+          1,
+          "かく"
+        ],
+        [
+          7,
+          1,
+          "にん"
+        ],
+        [
+          10,
+          1,
+          "ねが"
+        ]
+      ],
+      "en": "Flight reconfirmation, please."
+    }
   },
   {
     "id": "はい",
@@ -149,7 +253,53 @@ export const VOCAB_ENTRIES = [
       3,
       1
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "はいどうぞ、君が飛行機の中で読む雑誌です。",
+      "r": [
+        [
+          6,
+          1,
+          "きみ"
+        ],
+        [
+          8,
+          1,
+          "ひ"
+        ],
+        [
+          9,
+          1,
+          "こう"
+        ],
+        [
+          10,
+          1,
+          "き"
+        ],
+        [
+          12,
+          1,
+          "なか"
+        ],
+        [
+          14,
+          1,
+          "よ"
+        ],
+        [
+          16,
+          1,
+          "ざっ"
+        ],
+        [
+          17,
+          1,
+          "し"
+        ]
+      ],
+      "en": "Here's a magazine for you to read in the plane."
+    }
   },
   {
     "id": "いいえ",
@@ -168,7 +318,23 @@ export const VOCAB_ENTRIES = [
       1,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "いいえ、はじめに９番におかけ下さい。",
+      "r": [
+        [
+          9,
+          1,
+          "ばん"
+        ],
+        [
+          14,
+          1,
+          "くだ"
+        ]
+      ],
+      "en": "No, please dial nine first."
+    }
   },
   {
     "id": "わかる",
@@ -189,7 +355,38 @@ export const VOCAB_ENTRIES = [
       3,
       3
     ],
-    "uk": true
+    "uk": true,
+    "ex": {
+      "j": "何人ぐらい音楽がわかると思いますか。",
+      "r": [
+        [
+          0,
+          1,
+          "なん"
+        ],
+        [
+          1,
+          1,
+          "にん"
+        ],
+        [
+          5,
+          1,
+          "おん"
+        ],
+        [
+          6,
+          1,
+          "がく"
+        ],
+        [
+          12,
+          1,
+          "おも"
+        ]
+      ],
+      "en": "How many people do you think have an ear for music?"
+    }
   },
   {
     "id": "質問",
@@ -242,6 +439,37 @@ export const VOCAB_ENTRIES = [
       "素質",
       "慰問",
       "質屋"
-    ]
+    ],
+    "ex": {
+      "j": "その事故について彼に質問した。",
+      "r": [
+        [
+          2,
+          1,
+          "じ"
+        ],
+        [
+          3,
+          1,
+          "こ"
+        ],
+        [
+          8,
+          1,
+          "かれ"
+        ],
+        [
+          10,
+          1,
+          "しつ"
+        ],
+        [
+          11,
+          1,
+          "もん"
+        ]
+      ],
+      "en": "I asked him about the accident."
+    }
   }
 ];

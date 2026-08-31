@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -55,7 +58,68 @@ export const VOCAB_ENTRIES = [
       "発行者",
       "生産者",
       "提供者"
-    ]
+    ],
+    "ex": {
+      "j": "彼女は身体障害者を助けることに人生を捧げた。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          3,
+          1,
+          "しん"
+        ],
+        [
+          4,
+          1,
+          "たい"
+        ],
+        [
+          5,
+          1,
+          "しょう"
+        ],
+        [
+          6,
+          1,
+          "がい"
+        ],
+        [
+          7,
+          1,
+          "しゃ"
+        ],
+        [
+          9,
+          1,
+          "たす"
+        ],
+        [
+          15,
+          1,
+          "じん"
+        ],
+        [
+          16,
+          1,
+          "せい"
+        ],
+        [
+          18,
+          1,
+          "ささ"
+        ]
+      ],
+      "en": "She devoted her life to helping the handicapped."
+    }
   },
   {
     "id": "介護",
@@ -102,7 +166,68 @@ export const VOCAB_ENTRIES = [
       "厄介",
       "加護",
       "援護"
-    ]
+    ],
+    "ex": {
+      "j": "来年から日本では介護保険制度が始まるね。",
+      "r": [
+        [
+          0,
+          1,
+          "らい"
+        ],
+        [
+          1,
+          1,
+          "ねん"
+        ],
+        [
+          4,
+          1,
+          "に"
+        ],
+        [
+          5,
+          1,
+          "ほん"
+        ],
+        [
+          8,
+          1,
+          "かい"
+        ],
+        [
+          9,
+          1,
+          "ご"
+        ],
+        [
+          10,
+          1,
+          "ほ"
+        ],
+        [
+          11,
+          1,
+          "けん"
+        ],
+        [
+          12,
+          1,
+          "せい"
+        ],
+        [
+          13,
+          1,
+          "ど"
+        ],
+        [
+          15,
+          1,
+          "はじ"
+        ]
+      ],
+      "en": "The new national elder-care insurance system starts next year, right?"
+    }
   },
   {
     "id": "社会保障",
@@ -163,7 +288,58 @@ export const VOCAB_ENTRIES = [
       "地方議会",
       "被保険者",
       "地域社会"
-    ]
+    ],
+    "ex": {
+      "j": "お名前と社会保障番号をおっしゃって下さい。",
+      "r": [
+        [
+          1,
+          1,
+          "な"
+        ],
+        [
+          2,
+          1,
+          "まえ"
+        ],
+        [
+          4,
+          1,
+          "しゃ"
+        ],
+        [
+          5,
+          1,
+          "かい"
+        ],
+        [
+          6,
+          1,
+          "ほ"
+        ],
+        [
+          7,
+          1,
+          "しょう"
+        ],
+        [
+          8,
+          1,
+          "ばん"
+        ],
+        [
+          9,
+          1,
+          "ごう"
+        ],
+        [
+          17,
+          1,
+          "くだ"
+        ]
+      ],
+      "en": "State your name and social security number, please."
+    }
   },
   {
     "id": "健康保険",
@@ -224,7 +400,83 @@ export const VOCAB_ENTRIES = [
       "百家争鳴",
       "公明正大",
       "強迫観念"
-    ]
+    ],
+    "ex": {
+      "j": "その会社は全社員に対して健康保険と生命保険をかけている。",
+      "r": [
+        [
+          2,
+          1,
+          "かい"
+        ],
+        [
+          3,
+          1,
+          "しゃ"
+        ],
+        [
+          5,
+          1,
+          "ぜん"
+        ],
+        [
+          6,
+          1,
+          "しゃ"
+        ],
+        [
+          7,
+          1,
+          "いん"
+        ],
+        [
+          9,
+          1,
+          "たい"
+        ],
+        [
+          12,
+          1,
+          "けん"
+        ],
+        [
+          13,
+          1,
+          "こう"
+        ],
+        [
+          14,
+          1,
+          "ほ"
+        ],
+        [
+          15,
+          1,
+          "けん"
+        ],
+        [
+          17,
+          1,
+          "せい"
+        ],
+        [
+          18,
+          1,
+          "めい"
+        ],
+        [
+          19,
+          1,
+          "ほ"
+        ],
+        [
+          20,
+          1,
+          "けん"
+        ]
+      ],
+      "en": "The company provides health and life insurance benefits for all of its employees."
+    }
   },
   {
     "id": "身障者",
@@ -398,7 +650,58 @@ export const VOCAB_ENTRIES = [
       "法律事務所",
       "司法研修所",
       "太平洋戦争"
-    ]
+    ],
+    "ex": {
+      "j": "身体障害者を助けるのが本当に楽しいのです。",
+      "r": [
+        [
+          0,
+          1,
+          "しん"
+        ],
+        [
+          1,
+          1,
+          "たい"
+        ],
+        [
+          2,
+          1,
+          "しょう"
+        ],
+        [
+          3,
+          1,
+          "がい"
+        ],
+        [
+          4,
+          1,
+          "しゃ"
+        ],
+        [
+          6,
+          1,
+          "たす"
+        ],
+        [
+          11,
+          1,
+          "ほん"
+        ],
+        [
+          12,
+          1,
+          "とう"
+        ],
+        [
+          14,
+          1,
+          "たの"
+        ]
+      ],
+      "en": "I really enjoy helping disabled people."
+    }
   },
   {
     "id": "健保",
@@ -565,7 +868,43 @@ export const VOCAB_ENTRIES = [
       "自律神経",
       "心神耗弱",
       "靖国神社"
-    ]
+    ],
+    "ex": {
+      "j": "彼には精神障害が有る。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          3,
+          1,
+          "せい"
+        ],
+        [
+          4,
+          1,
+          "しん"
+        ],
+        [
+          5,
+          1,
+          "しょう"
+        ],
+        [
+          6,
+          1,
+          "がい"
+        ],
+        [
+          8,
+          1,
+          "あ"
+        ]
+      ],
+      "en": "He is mentally handicapped."
+    }
   },
   {
     "id": "精神薄弱",

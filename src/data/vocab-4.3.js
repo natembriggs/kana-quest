@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -57,7 +60,68 @@ export const VOCAB_ENTRIES = [
       "大関",
       "大戦",
       "大志"
-    ]
+    ],
+    "ex": {
+      "j": "合格者の過半数は大学出身者であった。",
+      "r": [
+        [
+          0,
+          1,
+          "ごう"
+        ],
+        [
+          1,
+          1,
+          "かく"
+        ],
+        [
+          2,
+          1,
+          "しゃ"
+        ],
+        [
+          4,
+          1,
+          "か"
+        ],
+        [
+          5,
+          1,
+          "はん"
+        ],
+        [
+          6,
+          1,
+          "すう"
+        ],
+        [
+          8,
+          1,
+          "だい"
+        ],
+        [
+          9,
+          1,
+          "がく"
+        ],
+        [
+          10,
+          1,
+          "しゅっ"
+        ],
+        [
+          11,
+          1,
+          "しん"
+        ],
+        [
+          12,
+          1,
+          "しゃ"
+        ]
+      ],
+      "en": "The majority of the successful candidates were university graduates."
+    }
   },
   {
     "id": "学部",
@@ -105,7 +169,43 @@ export const VOCAB_ENTRIES = [
       "学究",
       "中部",
       "上部"
-    ]
+    ],
+    "ex": {
+      "j": "私たちの大学は８つの学部から成っている。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          4,
+          1,
+          "だい"
+        ],
+        [
+          5,
+          1,
+          "がく"
+        ],
+        [
+          10,
+          1,
+          "がく"
+        ],
+        [
+          11,
+          1,
+          "ぶ"
+        ],
+        [
+          14,
+          1,
+          "な"
+        ]
+      ],
+      "en": "Our university consists of eight departments."
+    }
   },
   {
     "id": "使用",
@@ -154,7 +254,38 @@ export const VOCAB_ENTRIES = [
       "公用",
       "用紙",
       "服用"
-    ]
+    ],
+    "ex": {
+      "j": "使用する前に瓶を振ってください。",
+      "r": [
+        [
+          0,
+          1,
+          "し"
+        ],
+        [
+          1,
+          1,
+          "よう"
+        ],
+        [
+          4,
+          1,
+          "ぜん"
+        ],
+        [
+          6,
+          1,
+          "びん"
+        ],
+        [
+          8,
+          1,
+          "ふ"
+        ]
+      ],
+      "en": "Shake the bottle before using."
+    }
   },
   {
     "id": "総長",
@@ -265,7 +396,43 @@ export const VOCAB_ENTRIES = [
       "呼応",
       "募債",
       "公募"
-    ]
+    ],
+    "ex": {
+      "j": "年齢に関わらず、誰でも応募できます。",
+      "r": [
+        [
+          0,
+          1,
+          "ねん"
+        ],
+        [
+          1,
+          1,
+          "れい"
+        ],
+        [
+          3,
+          1,
+          "かか"
+        ],
+        [
+          8,
+          1,
+          "だれ"
+        ],
+        [
+          11,
+          1,
+          "おう"
+        ],
+        [
+          12,
+          1,
+          "ぼ"
+        ]
+      ],
+      "en": "Regardless of age, anybody can apply for it."
+    }
   },
   {
     "id": "運用",
@@ -318,7 +485,58 @@ export const VOCAB_ENTRIES = [
       "運営",
       "準用",
       "陸運"
-    ]
+    ],
+    "ex": {
+      "j": "もう少し諸規則の弾力的運用はできないか。",
+      "r": [
+        [
+          2,
+          1,
+          "すこ"
+        ],
+        [
+          4,
+          1,
+          "しょ"
+        ],
+        [
+          5,
+          1,
+          "き"
+        ],
+        [
+          6,
+          1,
+          "そく"
+        ],
+        [
+          8,
+          1,
+          "だん"
+        ],
+        [
+          9,
+          1,
+          "りょく"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ],
+        [
+          11,
+          1,
+          "うん"
+        ],
+        [
+          12,
+          1,
+          "よう"
+        ]
+      ],
+      "en": "Can't you apply the rules a little more elastically?"
+    }
   },
   {
     "id": "申請",
@@ -371,7 +589,23 @@ export const VOCAB_ENTRIES = [
       "直訴",
       "町制",
       "矢面"
-    ]
+    ],
+    "ex": {
+      "j": "もうパスポートを申請しましたか。",
+      "r": [
+        [
+          8,
+          1,
+          "しん"
+        ],
+        [
+          9,
+          1,
+          "せい"
+        ]
+      ],
+      "en": "Have you applied for a passport yet?"
+    }
   },
   {
     "id": "提出",
@@ -424,7 +658,43 @@ export const VOCAB_ENTRIES = [
       "嫡出",
       "出題",
       "創出"
-    ]
+    ],
+    "ex": {
+      "j": "あなたに考慮していただくためにこの計画を提出します。",
+      "r": [
+        [
+          4,
+          1,
+          "こう"
+        ],
+        [
+          5,
+          1,
+          "りょ"
+        ],
+        [
+          17,
+          1,
+          "けい"
+        ],
+        [
+          18,
+          1,
+          "かく"
+        ],
+        [
+          20,
+          1,
+          "てい"
+        ],
+        [
+          21,
+          1,
+          "しゅつ"
+        ]
+      ],
+      "en": "I submit this plan for your consideration."
+    }
   },
   {
     "id": "適用",
@@ -472,7 +742,38 @@ export const VOCAB_ENTRIES = [
       "用事",
       "収用",
       "両用"
-    ]
+    ],
+    "ex": {
+      "j": "この法律はすべての人に適用される。",
+      "r": [
+        [
+          2,
+          1,
+          "ほう"
+        ],
+        [
+          3,
+          1,
+          "りつ"
+        ],
+        [
+          9,
+          1,
+          "ひと"
+        ],
+        [
+          11,
+          1,
+          "てき"
+        ],
+        [
+          12,
+          1,
+          "よう"
+        ]
+      ],
+      "en": "This law applies to everybody."
+    }
   },
   {
     "id": "入学",
@@ -522,7 +823,48 @@ export const VOCAB_ENTRIES = [
       "国学",
       "新入",
       "学課"
-    ]
+    ],
+    "ex": {
+      "j": "私の息子は、高校に入学した。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          1,
+          "むす"
+        ],
+        [
+          3,
+          1,
+          "こ"
+        ],
+        [
+          6,
+          1,
+          "こう"
+        ],
+        [
+          7,
+          1,
+          "こう"
+        ],
+        [
+          9,
+          1,
+          "にゅう"
+        ],
+        [
+          10,
+          1,
+          "がく"
+        ]
+      ],
+      "en": "My son entered high school."
+    }
   },
   {
     "id": "申し込み",
@@ -570,7 +912,43 @@ export const VOCAB_ENTRIES = [
       "蒙し込み",
       "帽し込み",
       "毛し込み"
-    ]
+    ],
+    "ex": {
+      "j": "結婚の申し込みが殺到した。",
+      "r": [
+        [
+          0,
+          1,
+          "けっ"
+        ],
+        [
+          1,
+          1,
+          "こん"
+        ],
+        [
+          3,
+          1,
+          "もう"
+        ],
+        [
+          5,
+          1,
+          "こ"
+        ],
+        [
+          8,
+          1,
+          "さっ"
+        ],
+        [
+          9,
+          1,
+          "とう"
+        ]
+      ],
+      "en": "Marriage proposals flooded in."
+    }
   },
   {
     "id": "短大",
@@ -675,6 +1053,42 @@ export const VOCAB_ENTRIES = [
       "大太鼓",
       "大洋州",
       "子午線"
-    ]
+    ],
+    "ex": {
+      "j": "エリオットさんの姪は女子大学に通っている。",
+      "r": [
+        [
+          8,
+          1,
+          "めい"
+        ],
+        [
+          10,
+          1,
+          "じょ"
+        ],
+        [
+          11,
+          1,
+          "し"
+        ],
+        [
+          12,
+          1,
+          "だい"
+        ],
+        [
+          13,
+          1,
+          "がく"
+        ],
+        [
+          15,
+          1,
+          "かよ"
+        ]
+      ],
+      "en": "Mr Eliot's niece goes to a women's college."
+    }
   }
 ];

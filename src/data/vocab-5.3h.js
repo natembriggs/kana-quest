@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -55,7 +58,33 @@ export const VOCAB_ENTRIES = [
       "三体",
       "家紋",
       "付近"
-    ]
+    ],
+    "ex": {
+      "j": "その捕虜には威厳があった。",
+      "r": [
+        [
+          2,
+          1,
+          "ほ"
+        ],
+        [
+          3,
+          1,
+          "りょ"
+        ],
+        [
+          6,
+          1,
+          "い"
+        ],
+        [
+          7,
+          1,
+          "げん"
+        ]
+      ],
+      "en": "The prisoner of war bore himself with great dignity."
+    }
   },
   {
     "id": "懸案",
@@ -152,7 +181,53 @@ export const VOCAB_ENTRIES = [
       "不快",
       "不足",
       "不義"
-    ]
+    ],
+    "ex": {
+      "j": "不良たちは彼を殴り倒して財布を奪った。",
+      "r": [
+        [
+          0,
+          1,
+          "ふ"
+        ],
+        [
+          1,
+          1,
+          "りょう"
+        ],
+        [
+          5,
+          1,
+          "かれ"
+        ],
+        [
+          7,
+          1,
+          "なぐ"
+        ],
+        [
+          9,
+          1,
+          "たお"
+        ],
+        [
+          12,
+          1,
+          "さい"
+        ],
+        [
+          13,
+          1,
+          "ふ"
+        ],
+        [
+          15,
+          1,
+          "うば"
+        ]
+      ],
+      "en": "The delinquents knocked him down and stole his wallet."
+    }
   },
   {
     "id": "防災",
@@ -260,7 +335,113 @@ export const VOCAB_ENTRIES = [
       "戦地",
       "戦跡",
       "魔力"
-    ]
+    ],
+    "ex": {
+      "j": "さらに、即戦力となる政策関連の科学的成果や手段の提供が必要であると強調した。",
+      "r": [
+        [
+          4,
+          1,
+          "そく"
+        ],
+        [
+          5,
+          1,
+          "せん"
+        ],
+        [
+          6,
+          1,
+          "りょく"
+        ],
+        [
+          10,
+          1,
+          "せい"
+        ],
+        [
+          11,
+          1,
+          "さく"
+        ],
+        [
+          12,
+          1,
+          "かん"
+        ],
+        [
+          13,
+          1,
+          "れん"
+        ],
+        [
+          15,
+          1,
+          "か"
+        ],
+        [
+          16,
+          1,
+          "がく"
+        ],
+        [
+          17,
+          1,
+          "てき"
+        ],
+        [
+          18,
+          1,
+          "せい"
+        ],
+        [
+          19,
+          1,
+          "か"
+        ],
+        [
+          21,
+          1,
+          "しゅ"
+        ],
+        [
+          22,
+          1,
+          "だん"
+        ],
+        [
+          24,
+          1,
+          "てい"
+        ],
+        [
+          25,
+          1,
+          "きょう"
+        ],
+        [
+          27,
+          1,
+          "ひつ"
+        ],
+        [
+          28,
+          1,
+          "よう"
+        ],
+        [
+          33,
+          1,
+          "きょう"
+        ],
+        [
+          34,
+          1,
+          "ちょう"
+        ]
+      ],
+      "en": "Moreover, they underscored the need for providing policy relevant ready-to-use scientific results and methodology."
+    }
   },
   {
     "id": "開戦",
@@ -369,7 +550,53 @@ export const VOCAB_ENTRIES = [
       "親方",
       "造船",
       "静脈"
-    ]
+    ],
+    "ex": {
+      "j": "政府は貧困を一掃することを約束した。",
+      "r": [
+        [
+          0,
+          1,
+          "せい"
+        ],
+        [
+          1,
+          1,
+          "ふ"
+        ],
+        [
+          3,
+          1,
+          "ひん"
+        ],
+        [
+          4,
+          1,
+          "こん"
+        ],
+        [
+          6,
+          1,
+          "いっ"
+        ],
+        [
+          7,
+          1,
+          "そう"
+        ],
+        [
+          13,
+          1,
+          "やく"
+        ],
+        [
+          14,
+          1,
+          "そく"
+        ]
+      ],
+      "en": "The government promised to wipe out poverty."
+    }
   },
   {
     "id": "苦手",
@@ -426,7 +653,38 @@ export const VOCAB_ENTRIES = [
       "苦慮",
       "手術",
       "平手"
-    ]
+    ],
+    "ex": {
+      "j": "私は数学は苦手だ。",
+      "r": [
+        [
+          0,
+          1,
+          "わたし"
+        ],
+        [
+          2,
+          1,
+          "すう"
+        ],
+        [
+          3,
+          1,
+          "がく"
+        ],
+        [
+          5,
+          1,
+          "にが"
+        ],
+        [
+          6,
+          1,
+          "て"
+        ]
+      ],
+      "en": "I am out of my element in math."
+    }
   },
   {
     "id": "援護",
@@ -478,7 +736,38 @@ export const VOCAB_ENTRIES = [
       "警護",
       "声援",
       "応援"
-    ]
+    ],
+    "ex": {
+      "j": "彼を援護するのが義務だ。",
+      "r": [
+        [
+          0,
+          1,
+          "かれ"
+        ],
+        [
+          2,
+          1,
+          "えん"
+        ],
+        [
+          3,
+          1,
+          "ご"
+        ],
+        [
+          8,
+          1,
+          "ぎ"
+        ],
+        [
+          9,
+          1,
+          "む"
+        ]
+      ],
+      "en": "It is incumbent on us to support him."
+    }
   },
   {
     "id": "公安",

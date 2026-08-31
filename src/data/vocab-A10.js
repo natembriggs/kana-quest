@@ -2,6 +2,9 @@
 // Source: JMdict (c) EDRDG, CC BY-SA 4.0 — see build script for the
 // frequency-based word-selection approach (vocab-plan.md §3.5 fallback).
 // https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+// Example sentences (`ex`): the Tanaka Corpus, as distributed with
+// WWWJDIC and maintained by the Tatoeba Project, CC BY 2.0 FR.
+// https://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 export const VOCAB_ENTRIES = [
   {
@@ -60,7 +63,38 @@ export const VOCAB_ENTRIES = [
       "平民",
       "民族",
       "難聴"
-    ]
+    ],
+    "ex": {
+      "j": "難民は食べるものをくれと要求した。",
+      "r": [
+        [
+          0,
+          1,
+          "なん"
+        ],
+        [
+          1,
+          1,
+          "みん"
+        ],
+        [
+          3,
+          1,
+          "た"
+        ],
+        [
+          12,
+          1,
+          "よう"
+        ],
+        [
+          13,
+          1,
+          "きゅう"
+        ]
+      ],
+      "en": "The boat people asked for food."
+    }
   },
   {
     "id": "移民",
@@ -112,7 +146,48 @@ export const VOCAB_ENTRIES = [
       "民主",
       "民心",
       "移住"
-    ]
+    ],
+    "ex": {
+      "j": "ドイツの首相は移民問題に悩まされています。",
+      "r": [
+        [
+          4,
+          1,
+          "しゅ"
+        ],
+        [
+          5,
+          1,
+          "しょう"
+        ],
+        [
+          7,
+          1,
+          "い"
+        ],
+        [
+          8,
+          1,
+          "みん"
+        ],
+        [
+          9,
+          1,
+          "もん"
+        ],
+        [
+          10,
+          1,
+          "だい"
+        ],
+        [
+          12,
+          1,
+          "なや"
+        ]
+      ],
+      "en": "The German Chancellor is plagued by immigration problems."
+    }
   },
   {
     "id": "国際化",
@@ -169,7 +244,43 @@ export const VOCAB_ENTRIES = [
       "深刻化",
       "消化器",
       "表面化"
-    ]
+    ],
+    "ex": {
+      "j": "かくて、国際化は日本人にとって今はやりのスローガンになっている。",
+      "r": [
+        [
+          4,
+          1,
+          "こく"
+        ],
+        [
+          5,
+          1,
+          "さい"
+        ],
+        [
+          6,
+          1,
+          "か"
+        ],
+        [
+          8,
+          1,
+          "に"
+        ],
+        [
+          9,
+          1,
+          "ほん"
+        ],
+        [
+          10,
+          1,
+          "じん"
+        ]
+      ],
+      "en": "Thus, internationalization has become a fashionable slogan for the Japanese."
+    }
   },
   {
     "id": "入植",
@@ -225,7 +336,68 @@ export const VOCAB_ENTRIES = [
       "新入",
       "入来",
       "搬入"
-    ]
+    ],
+    "ex": {
+      "j": "学者の中には、アメリカ入植を西ヨーロッパの社会不安のせいにする者もいる。",
+      "r": [
+        [
+          0,
+          1,
+          "がく"
+        ],
+        [
+          1,
+          1,
+          "しゃ"
+        ],
+        [
+          3,
+          1,
+          "なか"
+        ],
+        [
+          11,
+          1,
+          "にゅう"
+        ],
+        [
+          12,
+          1,
+          "しょく"
+        ],
+        [
+          14,
+          1,
+          "にし"
+        ],
+        [
+          21,
+          1,
+          "しゃ"
+        ],
+        [
+          22,
+          1,
+          "かい"
+        ],
+        [
+          23,
+          1,
+          "ふ"
+        ],
+        [
+          24,
+          1,
+          "あん"
+        ],
+        [
+          31,
+          1,
+          "もの"
+        ]
+      ],
+      "en": "Some scholars ascribe the settlement of America to social unrest in Western Europe."
+    }
   },
   {
     "id": "偏見",
@@ -275,7 +447,58 @@ export const VOCAB_ENTRIES = [
       "花見",
       "偏食",
       "発見"
-    ]
+    ],
+    "ex": {
+      "j": "彼女は科学における性的偏見について書いた。",
+      "r": [
+        [
+          0,
+          1,
+          "かの"
+        ],
+        [
+          1,
+          1,
+          "じょ"
+        ],
+        [
+          3,
+          1,
+          "か"
+        ],
+        [
+          4,
+          1,
+          "がく"
+        ],
+        [
+          9,
+          1,
+          "せい"
+        ],
+        [
+          10,
+          1,
+          "てき"
+        ],
+        [
+          11,
+          1,
+          "へん"
+        ],
+        [
+          12,
+          1,
+          "けん"
+        ],
+        [
+          17,
+          1,
+          "か"
+        ]
+      ],
+      "en": "She wrote on gender bias in science."
+    }
   },
   {
     "id": "帰化",
@@ -327,7 +550,78 @@ export const VOCAB_ENTRIES = [
       "回帰",
       "帰郷",
       "悪化"
-    ]
+    ],
+    "ex": {
+      "j": "２番目の議論は日本の外国人労働者の帰化に関するものである。",
+      "r": [
+        [
+          4,
+          1,
+          "ぎ"
+        ],
+        [
+          5,
+          1,
+          "ろん"
+        ],
+        [
+          7,
+          1,
+          "に"
+        ],
+        [
+          8,
+          1,
+          "ほん"
+        ],
+        [
+          10,
+          1,
+          "がい"
+        ],
+        [
+          11,
+          1,
+          "こく"
+        ],
+        [
+          12,
+          1,
+          "じん"
+        ],
+        [
+          13,
+          1,
+          "ろう"
+        ],
+        [
+          14,
+          1,
+          "どう"
+        ],
+        [
+          15,
+          1,
+          "しゃ"
+        ],
+        [
+          17,
+          1,
+          "き"
+        ],
+        [
+          18,
+          1,
+          "か"
+        ],
+        [
+          20,
+          1,
+          "かん"
+        ]
+      ],
+      "en": "The second argument deals with the naturalization of foreign workers in Japan."
+    }
   },
   {
     "id": "密入国",
@@ -441,7 +735,48 @@ export const VOCAB_ENTRIES = [
       "同色",
       "同感",
       "同然"
-    ]
+    ],
+    "ex": {
+      "j": "ある程度は新しい環境に同化しなくてはなりません。",
+      "r": [
+        [
+          2,
+          1,
+          "てい"
+        ],
+        [
+          3,
+          1,
+          "ど"
+        ],
+        [
+          5,
+          1,
+          "あたら"
+        ],
+        [
+          8,
+          1,
+          "かん"
+        ],
+        [
+          9,
+          1,
+          "きょう"
+        ],
+        [
+          11,
+          1,
+          "どう"
+        ],
+        [
+          12,
+          1,
+          "か"
+        ]
+      ],
+      "en": "You must assimilate into new surroundings."
+    }
   },
   {
     "id": "同和",
@@ -557,7 +892,38 @@ export const VOCAB_ENTRIES = [
       "短期大学",
       "半官半民",
       "人工衛星"
-    ]
+    ],
+    "ex": {
+      "j": "既成概念を壊そう！",
+      "r": [
+        [
+          0,
+          1,
+          "き"
+        ],
+        [
+          1,
+          1,
+          "せい"
+        ],
+        [
+          2,
+          1,
+          "がい"
+        ],
+        [
+          3,
+          1,
+          "ねん"
+        ],
+        [
+          5,
+          1,
+          "こわ"
+        ]
+      ],
+      "en": "Let's break stereotypes!"
+    }
   },
   {
     "id": "僻み",
