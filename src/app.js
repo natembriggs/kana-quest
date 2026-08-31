@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -354,7 +354,8 @@ const state = {
   storyOccurrence: null,    // Map "p:s:i" -> how many times this word already appeared earlier in the story
   storyCounted: null,       // Set of exposure keys already counted THIS reading (§6.3)
   readerLookedUp: null,     // Map surface -> token, for the end card (§8.5)
-  readerCardKey: null,      // the definition card's open token key, or null
+  readerCardKey: null,      // the info panel's open token key, or null
+  readerCardRevealed: false, // has the open panel's "Show definition" been tapped
   readerFinished: false,
   readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
   readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
@@ -5253,17 +5254,6 @@ function paintTokenElement(el, token, rendered, level) {
     romaji.textContent = toRomaji(token.k);
     el.appendChild(romaji);
   }
-  // Definition card trigger, shown only once something's actually been
-  // revealed — kept off every untouched word so the page doesn't fill up
-  // with dots, and off punctuation (rendered.tappable false, so level never
-  // leaves 0 for it — see handleReaderTokenTap).
-  if (level >= 1) {
-    const info = document.createElement('span');
-    info.className = 'reader-info-tap';
-    info.textContent = 'ⓘ';
-    info.setAttribute('aria-label', 'Word details');
-    el.appendChild(info);
-  }
 }
 
 function buildTokenElement(token, rendered, p, s) {
@@ -5637,10 +5627,10 @@ function markStoryFinished(id) {
  * ladder (furigana, then romaji) and wrapping back to fully hidden once it
  * runs out, so there is always a next tap that gets a learner back to where
  * they started rather than getting "stuck" with romaji left showing.
- * Opening the definition card is a SEPARATE trigger (the small info dot
- * that appears once something's been revealed — handleReaderInfoTap
- * below), precisely so it never eats the tap a learner expects to just
- * hide something again.
+ * The same tap also opens the bottom info panel for that word (§7.2) —
+ * there is no separate small button to hunt for. The panel itself starts
+ * closed to the definition (openReaderCard) and only shows it on request,
+ * so a tap here never blurts out the meaning a learner didn't ask for yet.
  */
 function handleReaderTokenTap(tokenEl) {
   const p = Number(tokenEl.dataset.p);
@@ -5656,23 +5646,12 @@ function handleReaderTokenTap(tokenEl) {
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
   setReaderActiveToken(key);
-  if (nextLevel === 0 && state.readerCardKey === key) closeReaderCard();
+  if (nextLevel === 0) {
+    if (state.readerCardKey === key) closeReaderCard();
+  } else {
+    openReaderCard(p, s, i, token);
+  }
   if (willReveal) recordReaderExposure(token, 'reveal', rendered.hidden);
-}
-
-/** The info dot's own tap target — opens the definition card independently
- * of the reveal ladder above, so it never competes with a plain tap for
- * the same gesture. */
-function handleReaderInfoTap(infoEl) {
-  const tokenEl = infoEl.closest('.reader-token');
-  const p = Number(tokenEl.dataset.p);
-  const s = Number(tokenEl.dataset.s);
-  const i = Number(tokenEl.dataset.i);
-  const key = tokenStateKey(p, s, i);
-  const token = state.readerStory.body[p][s].t[i];
-  setReaderActiveToken(key);
-  if (state.readerCardKey === key) closeReaderCard();
-  else openReaderCard(p, s, i, token);
 }
 
 function toggleSentenceTranslation(p, s) {
@@ -5684,6 +5663,7 @@ function toggleSentenceTranslation(p, s) {
 
 function closeReaderCard() {
   state.readerCardKey = null;
+  state.readerCardRevealed = false;
   $('reader-card').hidden = true;
   $('reader-card-body').innerHTML = '';
 }
@@ -5707,17 +5687,73 @@ function openReaderDetail(course, char) {
   openCharacterDetail(course, char, 'reader');
 }
 
-/** stories-plan.md §7.2's definition card. `token.d`, when present, is
- * already the vocab curriculum's own item id (its dictionary-form surface —
- * vocab-plan.md §3.3), so this needs no lookup step beyond loading that
- * word's own unit. */
-async function openReaderCard(p, s, i, token) {
+/** The bottom info panel's head — the word itself, large, plus its reading.
+ * Shared by the peek state (openReaderCard) and the fully revealed one
+ * (revealReaderCardDefinition) so it never has to be rebuilt or flash
+ * between the two. */
+function renderReaderCardHead(token) {
+  const head = document.createElement('div');
+  head.className = 'reader-card-head';
+  const glyph = document.createElement('span');
+  glyph.className = 'glyph reader-card-glyph';
+  glyph.textContent = token.s;
+  head.appendChild(glyph);
+  const readingLine = document.createElement('div');
+  readingLine.className = 'reader-card-reading';
+  const romaji = toRomaji(token.k);
+  readingLine.textContent = token.k === token.s ? romaji : `${token.k}  ${romaji}`;
+  head.appendChild(readingLine);
+  return head;
+}
+
+/**
+ * stories-plan.md §7.2's info panel, opened by a plain tap on any word
+ * (handleReaderTokenTap) rather than a separate button — there is nothing
+ * small to aim for. It starts on just the word itself; the definition below
+ * stays hidden until asked for (the "Show definition" button, wired to
+ * revealReaderCardDefinition), so tapping a word to place-mark it or check
+ * the furigana never also blurts out what it means.
+ */
+function openReaderCard(p, s, i, token) {
   const key = tokenStateKey(p, s, i);
+  if (state.readerCardKey === key) return; // already open for this word
   state.readerCardKey = key;
+  state.readerCardRevealed = false;
+  const body = $('reader-card-body');
+  body.innerHTML = '';
+  body.appendChild(renderReaderCardHead(token));
+  $('reader-card').hidden = false;
+  const revealBtn = document.createElement('button');
+  revealBtn.type = 'button';
+  revealBtn.className = 'btn btn-quiet';
+  revealBtn.textContent = 'Show definition';
+  // Stopped here, not left to bubble: revealReaderCardDefinition's first
+  // move is to clear reader-card-body's innerHTML, which detaches this very
+  // button from the document. The delegated listener on `document` (below)
+  // would then find event.target unreachable from `.reader-card` — a
+  // detached node has no path up to it — and read the click as tapping
+  // away, closing the panel it was just asked to fill in.
+  revealBtn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    revealReaderCardDefinition(p, s, i, token);
+  });
+  body.appendChild(revealBtn);
+}
+
+/** `token.d`, when present, is already the vocab curriculum's own item id
+ * (its dictionary-form surface — vocab-plan.md §3.3), so this needs no
+ * lookup step beyond loading that word's own unit. */
+async function revealReaderCardDefinition(p, s, i, token) {
+  const key = tokenStateKey(p, s, i);
+  state.readerCardRevealed = true;
   state.readerLookedUp.set(token.s, token);
   const body = $('reader-card-body');
-  body.innerHTML = '<p class="hint">Loading…</p>';
-  $('reader-card').hidden = false;
+  body.innerHTML = '';
+  body.appendChild(renderReaderCardHead(token));
+  const loading = document.createElement('p');
+  loading.className = 'hint';
+  loading.textContent = 'Loading…';
+  body.appendChild(loading);
 
   let vocabCourseObj = null;
   let entry = null;
@@ -5731,18 +5767,7 @@ async function openReaderCard(p, s, i, token) {
   }
 
   body.innerHTML = '';
-  const head = document.createElement('div');
-  head.className = 'reader-card-head';
-  const glyph = document.createElement('span');
-  glyph.className = 'glyph reader-card-glyph';
-  glyph.textContent = token.s;
-  head.appendChild(glyph);
-  const readingLine = document.createElement('div');
-  readingLine.className = 'reader-card-reading';
-  const romaji = toRomaji(token.k);
-  readingLine.textContent = token.k === token.s ? romaji : `${token.k}  ${romaji}`;
-  head.appendChild(readingLine);
-  body.appendChild(head);
+  body.appendChild(renderReaderCardHead(token));
 
   // The headline is what this word means HERE, in the form it is actually
   // written in — "went", not "to go" (story-writing-guide.md §4). A story
@@ -5903,6 +5928,7 @@ async function openStory(id) {
   state.storyCounted = new Set(); // cleared per story open — stories-plan.md §6.3
   state.readerLookedUp = new Map();
   state.readerCardKey = null;
+  state.readerCardRevealed = false;
   state.readerActiveKey = null;
   state.readerFinished = false;
   state.readerCursor = -1;
@@ -5982,11 +6008,6 @@ function wire() {
       toggleSentenceTranslation(translateEl.dataset.p, translateEl.dataset.s);
       return;
     }
-    // Checked before .reader-tap: the info dot sits INSIDE a tappable
-    // token's own span, so a click on it would otherwise also match the
-    // word's own tap target underneath it.
-    const infoEl = event.target.closest('.reader-info-tap');
-    if (infoEl) { handleReaderInfoTap(infoEl); return; }
     const tapEl = event.target.closest('.reader-tap');
     if (tapEl) { handleReaderTokenTap(tapEl); return; }
     clearReaderFocus();
