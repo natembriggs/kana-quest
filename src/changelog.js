@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-31',
     changes: [
+      'New: reading settings has a "Show romaji" toggle, off by default — most learners reading kanji stories have outgrown it, and a story\'s reveal ladder no longer offers a romaji step at all unless it\'s turned on.',
       'New: in a story, tapping a word whose furigana is already showing hides it — and remembers that, for the rest of this story and every one after, the same permanent "I know this one" the vocab quiz already offers. Previously a tap on such a word only offered romaji on top of a reading already on the page, with no way to turn the furigana itself off.',
       'Changed: tapping the English translation of a sentence now hides it again, the same way tapping the sentence itself shows it. Previously the only way to hide it again was finding your way back to the sentence\'s own closing punctuation.',
       'New: 4 more theme colours (Green, Indigo, Crimson, Sky) and 8 more badge emoji (🐱 🐶 🐼 🦄 🌈 🍉 🎨 🌟) in Settings — 10 colours and 20 badges to choose from now, up from 6 and 12.',

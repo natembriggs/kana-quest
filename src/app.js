@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -366,6 +366,11 @@ const state = {
   readerFinished: false,
   readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
   readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
+  // Off by default: romaji is a beginner's crutch, and most learners who've
+  // reached kanji stories don't want it offered at all, let alone on every
+  // word's reveal ladder. See furiganaMaxLevel in reader.js for how this
+  // shortens the ladder itself, not just what tokenAtLevel paints.
+  readerShowRomaji: false,
   readerShowAllTranslations: false,
   readerTextSize: 3,        // 1-5, index into READER_TEXT_SIZES; persisted per device
   readerScrollY: 0,         // where in the story we were when leaving for a detail screen
@@ -5204,6 +5209,24 @@ function applyFuriganaOverride(rendered) {
 }
 
 /**
+ * Reader settings' "Show romaji" toggle (§8.4), off by default — a learner
+ * reading kanji stories has mostly outgrown the training-wheel romaji a
+ * beginner still wants, and every word's ladder offering it as a matter of
+ * course said otherwise. Strips romaji's step off the END of the ladder
+ * (wherever the maxLevel above landed it) rather than just suppressing its
+ * display once revealed — the latter would leave one tap on the way to
+ * "hidden" that visibly does nothing, which reads as broken rather than off.
+ * Every token's own ladder always ends in a romaji step (renderToken/
+ * applyFuriganaOverride), so trimming exactly one level off the top is
+ * correct regardless of which of those set it.
+ */
+function applyRomajiOverride(rendered) {
+  if (state.readerShowRomaji) return rendered;
+  if (rendered.form === 'kana') return { ...rendered, maxLevel: 0 };
+  return { ...rendered, maxLevel: Math.max(0, rendered.maxLevel - 1) };
+}
+
+/**
  * The in-story repetition rule (stories-plan.md §6.3): once a word has
  * already been printed with its furigana EXPOSURE_THRESHOLD times in this
  * story, later printings of it stop showing it by default. The learner has
@@ -5231,7 +5254,10 @@ function getRenderedSentence(p, s) {
     // "Always show furigana" choice should beat an automatic rule, not the
     // other way round.
     .map((rendered) => applyInStoryRepetition(rendered, p, s))
-    .map(applyFuriganaOverride);
+    .map(applyFuriganaOverride)
+    // Last: it only ever trims the ladder's own final step, whatever the
+    // rules above decided the rest of it should be.
+    .map(applyRomajiOverride);
 }
 
 function paintTokenElement(el, token, rendered, level) {
@@ -5464,6 +5490,9 @@ function loadReaderSettings() {
   if (['smart', 'always', 'never'].includes(saved.furiganaMode)) {
     state.readerFuriganaMode = saved.furiganaMode;
   }
+  // Undefined (never saved before) also falls to the off-by-default above,
+  // same as every other boolean here — only an explicit `true` turns it on.
+  state.readerShowRomaji = !!saved.showRomaji;
   state.readerShowAllTranslations = !!saved.showTranslations;
 }
 
@@ -5472,6 +5501,7 @@ function saveReaderSettings() {
     localStorage.setItem(READER_SETTINGS_KEY, JSON.stringify({
       textSize: state.readerTextSize,
       furiganaMode: state.readerFuriganaMode,
+      showRomaji: state.readerShowRomaji,
       showTranslations: state.readerShowAllTranslations,
     }));
   } catch {
@@ -5505,6 +5535,7 @@ function applyReaderSettings() {
   $('reader-body').style.fontSize = READER_TEXT_SIZES[state.readerTextSize - 1];
   $('reader-text-size').value = String(state.readerTextSize);
   $('reader-furigana-mode').value = state.readerFuriganaMode;
+  $('reader-show-romaji').checked = state.readerShowRomaji;
   $('reader-show-translations').checked = state.readerShowAllTranslations;
 }
 
@@ -5709,7 +5740,11 @@ function handleReaderTokenTap(tokenEl) {
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
   setReaderActiveToken(key);
-  if (nextLevel === 0) {
+  if (rendered.maxLevel === 0) {
+    // A kana word with romaji turned off (§8.4) has nothing left for the
+    // ladder to cycle at all — the tap's only job left is the info panel.
+    openReaderCard(p, s, i, token);
+  } else if (nextLevel === 0) {
     if (state.readerCardKey === key) closeReaderCard();
   } else {
     openReaderCard(p, s, i, token);
@@ -6102,6 +6137,13 @@ function wire() {
     state.readerFuriganaMode = event.target.value;
     saveReaderSettings();
     state.storyRevealLevels = new Map(); // starting states just changed under every token
+    closeReaderCard();
+    renderReaderBody();
+  });
+  $('reader-show-romaji').addEventListener('change', (event) => {
+    state.readerShowRomaji = event.target.checked;
+    saveReaderSettings();
+    state.storyRevealLevels = new Map(); // every ladder just gained or lost its last step
     closeReaderCard();
     renderReaderBody();
   });
