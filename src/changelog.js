@@ -13,6 +13,9 @@ export const CHANGELOG = [
   {
     date: '2026-08-31',
     changes: [
+      'Fixed: coming back from a kanji\'s page dropped you at the top of the story instead of where you were reading. It now returns you to the exact spot.',
+      'New: the word you last tapped stays gently highlighted, so you can see which word the definition panel is about, and find your place again at a glance after looking something up.',
+      'New: your reading text size (and the furigana and translation settings next to it) are remembered — across stories, and next time you open the app. They stay on this device only, so two learners sharing a tablet don\'t change each other\'s.',
       'New: tapping a conjugated word in a story now explains the form. 行きました shows "went" — the meaning in the tense actually on the page — and then "polite past of 行く (to go)", so you get the word in front of you and the dictionary word it comes from, rather than being handed one and left to work out the other.',
       'New: every word in a story now has a definition, including the ones the app doesn\'t teach as vocabulary. Both stories were re-tokenised so that each tap lands on a whole word rather than a fragment — 住んでいました is one word now, not four pieces, and 本当に is no longer split into 本 / 当 / に — and every one of them, particles included, carries its meaning in that sentence.',
       'Fixed: in a story, a line could begin with 。 or 、. Japanese line-breaking rules (禁則処理) are now enforced: sentence punctuation, closing brackets, small kana and the long-vowel mark can never start a line, and an opening bracket can never end one.',

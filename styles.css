@@ -1397,6 +1397,22 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .reader-token rt { font-size: 0.5em; color: var(--ink-soft); user-select: none; }
 .reader-tap { cursor: pointer; }
 .reader-translate-tap { cursor: pointer; }
+/* The last-tapped word (setReaderActiveToken in app.js) — a place-keeper,
+   so the definition sheet at the bottom of the screen is visibly ABOUT
+   something, and so coming back from a kanji's own page is a glance rather
+   than a re-read. Deliberately a soft tint rather than a border or a solid
+   fill: it has to be findable at a glance without competing with the text
+   for attention, and without shifting the line by so much as a pixel. */
+.reader-token-active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+/* color-mix is recent enough to be worth a fallback for older iOS Safari,
+   which would otherwise drop the declaration and show no highlight at all. */
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .reader-token-active { background: var(--ok-bg); box-shadow: 0 0 0 2px var(--ok-bg); }
+}
 /* A dotted underline under the WORD glyphs only (not any rt already shown),
    the one hint that a token can be tapped for help — same language
    .vocab-word-tap already uses in the quiz. */

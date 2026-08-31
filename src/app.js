@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -359,6 +359,9 @@ const state = {
   readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
   readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
   readerShowAllTranslations: false,
+  readerTextSize: 3,        // 1-5, index into READER_TEXT_SIZES; persisted per device
+  readerScrollY: 0,         // where in the story we were when leaving for a detail screen
+  readerActiveKey: null,    // "p:s:i" of the last-tapped token, highlighted as a place marker
 };
 
 // The writing lesson card's stroke-order animation loops like a gif (see
@@ -5147,6 +5150,26 @@ function renderStoriesLibrary() {
 
 function tokenStateKey(p, s, i) { return `${p}:${s}:${i}`; }
 
+/**
+ * Marks the token the learner last tapped, as a place-keeper. Two jobs: it
+ * says which word the definition card is talking about (the card is a bottom
+ * sheet, well away from the word itself), and it is still there when they
+ * come back from a kanji detail screen, so finding their place is looking
+ * rather than re-reading.
+ *
+ * Persists until a different token is tapped — deliberately not cleared when
+ * the card closes, since "where was I?" outlives "what does this mean?".
+ */
+function setReaderActiveToken(key) {
+  state.readerActiveKey = key;
+  const body = $('reader-body');
+  body.querySelectorAll('.reader-token-active').forEach((el) => el.classList.remove('reader-token-active'));
+  if (!key) return;
+  const [p, s, i] = key.split(':');
+  const el = body.querySelector(`.reader-token[data-p="${p}"][data-s="${s}"][data-i="${i}"]`);
+  if (el) el.classList.add('reader-token-active');
+}
+
 /** Applies the reader-settings furigana override (§8.4) on top of what
  * src/reader.js's own rules decided — a per-device "right now" preference,
  * not part of the pure hiding rule itself, so it stays out of reader.js. */
@@ -5311,6 +5334,8 @@ function renderReaderBody() {
   state.readerStory.body.forEach((para, pIndex) => {
     container.appendChild(renderReaderParagraph(para, pIndex));
   });
+  // The DOM was just thrown away and rebuilt — put the place-keeper back.
+  setReaderActiveToken(state.readerActiveKey);
   observeReaderParagraphs();
 }
 
@@ -5353,6 +5378,82 @@ function recordReaderExposure(token, source, hiddenOnScreen) {
     changed = true;
   });
   if (changed) store.saveProfile(state.profile);
+}
+
+// --- Reader settings (stories-plan.md §8.4) ------------------------------
+//
+// Per DEVICE, not per profile, and never synced: text size and the furigana
+// override are "how I want to read on this screen right now", like a font
+// size in a browser, not a fact about the learner worth carrying to their
+// other devices. localStorage rather than the profile for exactly that
+// reason — and because a shared tablet's two learners should not fight over
+// one text size.
+//
+// They do have to outlive one story, though: a learner who needs 32px needs
+// it in the next story too, and being made to set it again every time is the
+// bug this exists to prevent.
+
+const READER_SETTINGS_KEY = 'kana-quest-reader-settings';
+// Step 3 matches .reader-body's own CSS default of 18px, so an untouched
+// slider tells the truth without having to set anything. The top end goes
+// well past a normal reading size on purpose — large-print territory, not
+// just "a bit bigger".
+const READER_TEXT_SIZES = ['14px', '16px', '18px', '24px', '32px'];
+
+function loadReaderSettings() {
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(READER_SETTINGS_KEY) || '{}') || {};
+  } catch {
+    saved = {}; // private browsing, cleared storage — fall back to defaults
+  }
+  const size = Number(saved.textSize);
+  if (size >= 1 && size <= READER_TEXT_SIZES.length) state.readerTextSize = size;
+  if (['smart', 'always', 'never'].includes(saved.furiganaMode)) {
+    state.readerFuriganaMode = saved.furiganaMode;
+  }
+  state.readerShowAllTranslations = !!saved.showTranslations;
+}
+
+function saveReaderSettings() {
+  try {
+    localStorage.setItem(READER_SETTINGS_KEY, JSON.stringify({
+      textSize: state.readerTextSize,
+      furiganaMode: state.readerFuriganaMode,
+      showTranslations: state.readerShowAllTranslations,
+    }));
+  } catch {
+    // Storage unavailable — the setting still applies for this session.
+  }
+}
+
+/**
+ * Puts the learner back where they were in the story after a trip to a
+ * detail screen. show() scrolls every screen it reveals to the top, which
+ * is right for one you are arriving at and wrong for one you are returning
+ * to part-way through.
+ *
+ * The reflow is load-bearing, not superstition: the reader was display:none
+ * a moment ago, so the document still has no scroll height, and a scrollTo
+ * issued before layout runs is silently clamped to 0. Reading scrollHeight
+ * forces layout first. The rAF is a backstop for the case where the reader's
+ * own paragraphs are still settling (web fonts, ruby metrics).
+ */
+function restoreReaderScroll() {
+  const y = state.readerScrollY;
+  if (!y) return;
+  void document.documentElement.scrollHeight;
+  window.scrollTo(0, y);
+  requestAnimationFrame(() => window.scrollTo(0, y));
+}
+
+/** Pushes the current settings onto both the controls and the text, so the
+ * sheet and the story can never disagree about what is set. */
+function applyReaderSettings() {
+  $('reader-body').style.fontSize = READER_TEXT_SIZES[state.readerTextSize - 1];
+  $('reader-text-size').value = String(state.readerTextSize);
+  $('reader-furigana-mode').value = state.readerFuriganaMode;
+  $('reader-show-translations').checked = state.readerShowAllTranslations;
 }
 
 let readerObserver = null;
@@ -5539,6 +5640,7 @@ function handleReaderTokenTap(tokenEl) {
   const nextLevel = level >= rendered.maxLevel ? 0 : level + 1;
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
+  setReaderActiveToken(key);
   if (nextLevel === 0 && state.readerCardKey === key) closeReaderCard();
   if (willReveal) recordReaderExposure(token, 'reveal', rendered.hidden);
 }
@@ -5553,6 +5655,7 @@ function handleReaderInfoTap(infoEl) {
   const i = Number(tokenEl.dataset.i);
   const key = tokenStateKey(p, s, i);
   const token = state.readerStory.body[p][s].t[i];
+  setReaderActiveToken(key);
   if (state.readerCardKey === key) closeReaderCard();
   else openReaderCard(p, s, i, token);
 }
@@ -5576,7 +5679,15 @@ function kanaCourseForChar(ch) {
   return null;
 }
 
+/**
+ * Leaving the reader for a kanji/kana/word detail screen. Remembers where
+ * in the story we were: show() scrolls every screen it reveals back to the
+ * top, which is right for a screen you are arriving at and wrong for one you
+ * are returning to part-way through a story. See the 'reader' branch of
+ * detail-back, which restores this.
+ */
 function openReaderDetail(course, char) {
+  state.readerScrollY = window.scrollY;
   closeReaderCard();
   openCharacterDetail(course, char, 'reader');
 }
@@ -5777,6 +5888,7 @@ async function openStory(id) {
   state.storyCounted = new Set(); // cleared per story open — stories-plan.md §6.3
   state.readerLookedUp = new Map();
   state.readerCardKey = null;
+  state.readerActiveKey = null;
   state.readerFinished = false;
   state.readerCursor = -1;
 
@@ -5861,22 +5973,23 @@ function wire() {
     window.addEventListener('scroll', readerScrollSync, { passive: true });
   }
   $('reader-end-library').addEventListener('click', openStoriesLibrary);
-  // Level 3 (the slider's own default) matches .reader-body's CSS default
-  // of 18px, so the slider starts truthful without needing to set it on
-  // load. The top end goes well past a normal reading size on purpose —
-  // large-print territory for anyone who needs it, not just "a bit bigger".
-  const READER_TEXT_SIZES = ['14px', '16px', '18px', '24px', '32px'];
+  loadReaderSettings();
+  applyReaderSettings();
   $('reader-text-size').addEventListener('input', (event) => {
-    $('reader-body').style.fontSize = READER_TEXT_SIZES[Number(event.target.value) - 1] || READER_TEXT_SIZES[2];
+    state.readerTextSize = Number(event.target.value);
+    saveReaderSettings();
+    applyReaderSettings();
   });
   $('reader-furigana-mode').addEventListener('change', (event) => {
     state.readerFuriganaMode = event.target.value;
+    saveReaderSettings();
     state.storyRevealLevels = new Map(); // starting states just changed under every token
     closeReaderCard();
     renderReaderBody();
   });
   $('reader-show-translations').addEventListener('change', (event) => {
     state.readerShowAllTranslations = event.target.checked;
+    saveReaderSettings();
     $('reader-body').querySelectorAll('.reader-translation').forEach((el) => {
       el.hidden = !state.readerShowAllTranslations;
     });
@@ -6056,7 +6169,10 @@ function wire() {
           // screen's own return so the next press keeps unwinding.
           const { courseId, char, returnTo } = state.detailStack.pop();
           openCharacterDetail(getAnyCourse(courseId), char, returnTo);
-        } else if (state.detailReturn === 'reader' && state.readerStory) show('screen-reader');
+        } else if (state.detailReturn === 'reader' && state.readerStory) {
+          show('screen-reader');
+          restoreReaderScroll();
+        }
         else renderOverview(state.detailChar);
         break;
       // Opened only from the detail screen, which is still sitting there

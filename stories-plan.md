@@ -1102,6 +1102,17 @@ this learner today, and they are **per device**, not per profile, and not
 synced: they are a "right now" preference like text size, not a fact about the
 learner. *Never* does not accrue exposures, since nothing was shown.
 
+They do **persist on that device**, in `localStorage` — a learner who needs
+32-point text needs it in the next story too, and being made to set it again
+every time is a bug, not a fresh start. `localStorage` rather than the profile
+for the same reason they are not synced, plus one more: a shared tablet's two
+learners should not fight over one text size.
+
+The text-size ladder tops out well past a normal reading size (32px) rather
+than at a polite maximum. Large print is the whole point of the setting for
+anyone who needs it, and a slider whose top end is merely "a bit bigger" is
+no use to them.
+
 ### 8.5 The end card
 
 ```
