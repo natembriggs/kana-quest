@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-01',
+    changes: [
+      'New: once you\'ve answered a kanji, vocabulary or kana question — right before Next — the word or character on screen is tappable again, opening its own page (stroke order, every reading, common words) without losing your place in the session. A kanji or vocab word\'s example word is tappable too, with its own kanji as chips and a one-tap Add if you don\'t study it yet. Writing mode gets the same treatment: the character and its example word, both hidden while you\'re still drawing so the answer can\'t leak, appear and become tappable the moment you finish. Never offered where it would hand over an answer you haven\'t been asked for yet — a vocabulary word with its reading or spelling still to come stays untappable until that\'s answered too.',
+    ],
+  },
+  {
     date: '2026-08-31',
     changes: [
       'New: reading settings has a "Show romaji" toggle, off by default — most learners reading kanji stories have outgrown it, and a story\'s reveal ladder no longer offers a romaji step at all unless it\'s turned on.',

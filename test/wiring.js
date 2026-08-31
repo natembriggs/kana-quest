@@ -1345,8 +1345,12 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
       await settle();
       check('a post-round click marks that reading active',
         target.classList.contains('is-active'));
+      // A drillable row (buildWordRow()), same as the lesson card's own
+      // example word above — appended via appendChild, which the stub's
+      // innerHTML/textContent getters don't reflect (see the comment on
+      // wordRowIn above), so _children is what actually proves it landed.
       check('a post-round click shows something in the word panel',
-        el('quiz-word').innerHTML.length > 0 || el('quiz-word').textContent.length > 0);
+        el('quiz-word')._children.length > 0);
     }
     fire(el('quiz-ok'), 'click');
     await settle();

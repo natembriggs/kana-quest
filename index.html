@@ -475,18 +475,31 @@
     <div id="writing-prompt" class="writing-prompt">
       <div id="writing-romaji" class="romaji"></div>
       <p id="writing-script-label" class="hint"></p>
-      <!-- Kanji only: readings and meaning are the clue, same as Yomi/
-           Definition mode — but the example word is MASKED (see
-           renderWritingKanjiInfo() in app.js), since it's spelled with the
-           target kanji drawn in its correct form, which would give the
-           answer away before a single stroke is drawn. -->
-      <div id="writing-kanji-info" class="writing-kanji-info" hidden>
-        <p id="writing-kanji-readings" class="hint" lang="ja"></p>
-        <div id="writing-kanji-meanings" class="kanji-meanings"></div>
-        <div id="writing-kanji-word" class="kanji-word"></div>
-      </div>
+    </div>
+    <!-- A sibling of #writing-prompt, not nested inside it: that div is
+         hidden outright once a character is finished (finishWritingCharacter
+         in app.js), and this needs to survive that to stay visible — its
+         example word switches from masked to a drillable buildWordRow at
+         exactly that point (renderWritingResultWord), it doesn't disappear.
+         Kanji only: readings and meaning are the clue, same as Yomi/
+         Definition mode — but the example word is MASKED to start (see
+         renderWritingKanjiInfo() in app.js), since it's spelled with the
+         target kanji drawn in its correct form, which would give the answer
+         away before a single stroke is drawn. -->
+    <div id="writing-kanji-info" class="writing-kanji-info" hidden>
+      <p id="writing-kanji-readings" class="hint" lang="ja"></p>
+      <div id="writing-kanji-meanings" class="kanji-meanings"></div>
+      <div id="writing-kanji-word" class="kanji-word"></div>
     </div>
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
+    <!-- Revealed only once finished (finishWritingCharacter in app.js) — the
+         answer is already given away by the outcome itself at that point, so
+         showing the plain character and letting it open its own detail
+         screen (stroke order, every reading, common words) is the same
+         "click wherever possible" the quiz screens' answered glyph offers.
+         Never rendered before that: see the section comment above this
+         screen for why the glyph itself is never shown pre-answer. -->
+    <button id="writing-result-glyph" class="glyph glyph-lg quiz-glyph-tap" type="button" lang="ja" hidden></button>
     <p id="writing-result-message" class="writing-result-message" hidden></p>
     <!-- Redo only: replaces the "Nicely done!" text in the same slot, since
          the record is already locked in and Try again no longer touches it

@@ -346,6 +346,29 @@ h3 { font-size: 18px; }
    elsewhere on the quiz screen deliberately does nothing — see c51d904). */
 .vocab-word-tap { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 8px; }
 
+/* Once a question is answered — Next showing, or (Writing) the result panel
+   up — the tested glyph itself becomes a way through to its own detail
+   screen: "click wherever possible" extends to the very thing just
+   answered, not only a separate "Full details" link. A class of its own
+   rather than reusing .vocab-word-tap: that one already means something
+   different (whether the reveal ladder has anything left to show) and the
+   two must be free to disagree, which they do the moment a vmeaning
+   question resolves and the reveal ladder is spent but the glyph itself
+   only now becomes tappable for detail. See clickQuizGlyph() in app.js. */
+.quiz-glyph-tap { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 8px; }
+/* #writing-result-glyph is a <button> (for a real, focusable tap target)
+   carrying .glyph/.glyph-lg on the same element — those already set every
+   font property explicitly (family, weight, size, line-height), so this
+   only strips the browser's own button chrome. Deliberately NOT `font:
+   inherit`: that shorthand resets font-size too, and a <button>'s inherited
+   context is nowhere near .glyph-lg's 56-88px — it would shrink the glyph
+   to whatever tiny size surrounds it instead of leaving .glyph-lg's own
+   font-size alone. */
+button.quiz-glyph-tap {
+  background: none; border: none; padding: 0; color: inherit;
+  display: block; margin: 0 auto;
+}
+
 /* "Hide furigana in future" (vocab-plan.md §5.3) — quiet and small, same
    reasoning as .quiz-info-more: an offer, not a step, so it must not read as
    louder than Next. Negative margin-top pulls it up against the glyph above

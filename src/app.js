@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -2536,6 +2536,7 @@ function chooseAnswer(value, button) {
     if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
+    $('quiz-kana').classList.add('quiz-glyph-tap');
     return;
   }
 
@@ -3070,10 +3071,14 @@ function finishVocabDefinitionStage(course, item) {
     $('quiz-feedback').textContent = "Correct! Next, its reading.";
     session.vocabNextStage = () => beginVocabYomiStage(course, item);
     $('quiz-ok').textContent = 'Next: the reading →';
+    // NOT made tappable here: the reading stage is still coming, and the
+    // word's own detail screen shows every reading it has — opening it now
+    // would hand over the very answer that stage is about to ask for.
   } else {
     $('quiz-feedback').textContent = '';
     session.vocabStage = 'done';
     $('quiz-ok').textContent = 'Next';
+    $('quiz-kana').classList.add('quiz-glyph-tap');
   }
   $('quiz-ok').hidden = false;
 }
@@ -3144,6 +3149,7 @@ function chooseVocabYomi(value, button) {
   session.locked = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
+  $('quiz-kana').classList.add('quiz-glyph-tap');
 }
 
 // --- Vocabulary: Recall mode (vocab-plan.md §6) ---------------------------
@@ -3260,10 +3266,14 @@ function finishVocabProdStage(course, item) {
     $('quiz-feedback').textContent = 'Correct! Next, spell it.';
     session.vocabNextStage = () => beginVocabSpellStage(info, built);
     $('quiz-ok').textContent = 'Next: spell it →';
+    // NOT made tappable here: the spelling stage is still coming, and the
+    // word's own detail screen shows its kanji spelling outright — opening
+    // it now would hand over the very answer that stage is about to ask for.
   } else {
     $('quiz-feedback').textContent = '';
     session.vocabRecallStage = 'done';
     $('quiz-ok').textContent = 'Next';
+    $('quiz-kana').classList.add('quiz-glyph-tap');
   }
   $('quiz-ok').hidden = false;
 }
@@ -3332,6 +3342,7 @@ function chooseVocabSpell(value, button) {
   session.locked = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
+  $('quiz-kana').classList.add('quiz-glyph-tap');
 }
 
 // --- Writing (Trace / Guided / Free): draw each stroke against the -------
@@ -3449,6 +3460,7 @@ function renderWritingQuestion(course, item) {
   // them lives in the same slot — see finishWritingCharacter() below.
   $('writing-prompt').hidden = false;
   $('writing-stroke-counter').hidden = false;
+  $('writing-result-glyph').hidden = true;
   $('writing-result-message').hidden = true;
   $('writing-mark-bad').hidden = true;
   $('writing-result').hidden = true;
@@ -3844,6 +3856,39 @@ function finishWritingCharacter(explicitCorrect) {
   switchButton.textContent = correct ? 'Try harder mode' : 'Switch to easier mode';
 
   $('writing-result').hidden = false;
+
+  // Safe to show now, and safe to make tappable (clickQuizGlyph's writing
+  // equivalent is wired directly to this button) — the outcome above has
+  // already said whether it was right, so there is nothing left here for
+  // the character itself to give away. See the section comment up top for
+  // why it stays hidden right up until this point.
+  const course = getAnyCourse(state.courseId);
+  const glyph = $('writing-result-glyph');
+  glyph.hidden = false;
+  glyph.textContent = item;
+  // The example word was masked (renderWritingKanjiInfo/maskKanjiWord) for
+  // the same reason the glyph itself was hidden — same "answer's already in"
+  // logic applies, so it's rebuilt here unmasked and drillable (buildWordRow),
+  // same upgrade showKanjiInfo gives the quiz screens' own example word.
+  if (course.kind === 'kanji') renderWritingResultWord(course, item);
+}
+
+function renderWritingResultWord(course, kanji) {
+  const wordEl = $('writing-kanji-word');
+  wordEl.innerHTML = '';
+  const info = kanjiInfo(course, kanji);
+  if (info.words[0]) {
+    wordEl.appendChild(buildWordRow(info.words[0], openWritingCharacterDetail, () => renderWritingResultWord(course, kanji)));
+  }
+}
+
+/** buildWordRow's/fillWordKanjiChips' `open` callback for Writing mode's own
+ * post-answer example word, and what #writing-result-glyph itself opens too
+ * (bound in wire()) — a 'writing' returnTo, added alongside 'quiz' in the
+ * 'detail-back' case, so Back lands right back on this still-graded screen
+ * instead of losing the result. */
+function openWritingCharacterDetail(course, char) {
+  openCharacterDetail(course, char, 'writing');
 }
 
 /**
@@ -4132,6 +4177,7 @@ function finalizeKanjiRound(kanji) {
   $('quiz-advanced').hidden = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
+  $('quiz-kana').classList.add('quiz-glyph-tap');
 
   const perfect = !session.kanjiErrorMade;
   $('quiz-card').className = `quiz-card ${perfect ? 'is-correct' : 'is-wrong'}`;
@@ -4152,7 +4198,17 @@ function showKanjiInfo(course, kanji) {
   $('quiz-meanings').textContent = isYomi
     ? info.meanings.join(', ')
     : info.quizReadings.map((r) => formatReading(info, r)).join(' · ');
-  renderWord($('quiz-word'), info.words[0]);
+  const wordEl = $('quiz-word');
+  wordEl.innerHTML = '';
+  // A drillable word row (buildWordRow), not the plain renderWord() this
+  // used before — the question is over, so there's nothing left to protect
+  // by keeping the example word inert. Tap it for its own kanji chips, a
+  // way through to its full word page, and a one-tap Add if it isn't
+  // studied yet — the same "click wherever possible" a kanji detail
+  // screen's own Common words list already offers.
+  if (info.words[0]) {
+    wordEl.appendChild(buildWordRow(info.words[0], openQuizExampleDetail, () => showKanjiInfo(course, kanji)));
+  }
   // "below", not "above": this panel now sits directly under the character
   // it describes, with the readings underneath it. See index.html.
   // Kept to one line: on a short phone this panel, the character above it
@@ -4167,11 +4223,33 @@ function showKanjiInfo(course, kanji) {
 /** "Full details →" on the info panel: the whole detail screen (stroke
  * order, every reading, common words) for the character just answered,
  * without ending the session — see openCharacterDetail()'s 'quiz' returnTo
- * and the 'detail-back' case in wire(). */
+ * and the 'detail-back' case in wire(). Also what the tested glyph itself
+ * opens once answered (clickQuizGlyph). */
 function openQuizCharacterDetail() {
   const session = state.session;
   if (!session) return;
   openCharacterDetail(getAnyCourse(state.courseId), session.queue[session.position], 'quiz');
+}
+
+/** buildWordRow's/fillWordKanjiChips' `open` callback for the quiz
+ * screen's own post-answer info panel — same 'quiz' returnTo as the tested
+ * character's own "Full details", just for a kanji chip or vocab link
+ * inside the EXAMPLE word instead (showKanjiInfo, showReadingExample). */
+function openQuizExampleDetail(course, char) {
+  openCharacterDetail(course, char, 'quiz');
+}
+
+/** The tested glyph/word itself (#quiz-kana), made tappable once a question
+ * is answered — every mode's own post-answer function adds the
+ * .quiz-glyph-tap class right where it reveals Next (chooseAnswer,
+ * finalizeKanjiRound, finishVocabDefinitionStage, chooseVocabYomi,
+ * finishVocabProdStage, chooseVocabSpell), and renderQuestion()'s own
+ * unconditional className reset clears it again for the next question. A
+ * no-op otherwise, so a mid-question tap can never leak or distract from an
+ * answer still being worked out. */
+function clickQuizGlyph() {
+  if (!$('quiz-kana').classList.contains('quiz-glyph-tap')) return;
+  openQuizCharacterDetail();
 }
 
 /** #quiz-back-previous (placement only, see renderQuestion()'s toggle) — a
@@ -4204,11 +4282,14 @@ function showReadingExample(reading, button) {
   button.classList.add('is-active');
 
   const example = readingExample(course, kanji, reading);
+  const wordEl = $('quiz-word');
+  wordEl.innerHTML = '';
+  // Drillable (buildWordRow), same reasoning as showKanjiInfo above — the
+  // round is over, so this example is free to be explored too.
   if (example) {
-    renderWord($('quiz-word'), example);
+    wordEl.appendChild(buildWordRow(example, openQuizExampleDetail, () => showReadingExample(reading, button)));
   } else {
-    $('quiz-word').innerHTML = '';
-    $('quiz-word').textContent = `No common example word found for ${reading}.`;
+    wordEl.textContent = `No common example word found for ${reading}.`;
   }
 }
 
@@ -6070,6 +6151,10 @@ function wire() {
   // Vocabulary's reveal ladder (vocab-plan.md §5.2) — a no-op outside a
   // vocab Meaning question's definition stage, see clickVocabWord().
   $('quiz-kana').addEventListener('click', clickVocabWord);
+  // Post-answer "click wherever possible" (clickQuizGlyph) — a no-op until
+  // the question is over, so it coexists with clickVocabWord's own reveal
+  // ladder above rather than competing with it for the same tap.
+  $('quiz-kana').addEventListener('click', clickQuizGlyph);
   // "Hide furigana in future" (vocab-plan.md §5.3) — see
   // clickHideFuriganaButton(). Toggled per-question in
   // updateVocabWordDisplay().
@@ -6194,6 +6279,14 @@ function wire() {
   writingCanvas.addEventListener('pointerup', writingPointerUp);
   writingCanvas.addEventListener('pointercancel', writingPointerUp);
   bindTap($('writing-next'), () => { if (state.session) nextQuestion(); });
+  // Post-answer "click wherever possible" — see the comment on
+  // #writing-result-glyph in index.html and finishWritingCharacter() above,
+  // which is what reveals and populates it; inert (hidden) until then.
+  bindTap($('writing-result-glyph'), () => {
+    const session = state.session;
+    if (!session) return;
+    openWritingCharacterDetail(getAnyCourse(state.courseId), session.queue[session.position]);
+  });
   bindTap($('writing-retry'), writingRetry);
   bindTap($('writing-mark-bad'), writingMarkBad);
   WRITING_SUB_MODES.forEach((mode) => {
@@ -6320,6 +6413,7 @@ function wire() {
         // still sitting there fully graded, and re-rendering it would reset
         // the very answer panel this screen was opened from.
         if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
+        else if (state.detailReturn === 'writing' && state.session) show('screen-writing');
         else if (state.detailReturn === 'summary') show('screen-summary');
         else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
         else if (state.detailReturn === 'lesson' && state.session) show('screen-lesson');
