@@ -956,6 +956,22 @@ holding:
 - The card is dismissed by tapping anywhere else, and **at most one card is
   open at a time**.
 
+**The word you last tapped stays marked.** A soft tint on the token itself,
+which does two jobs: it says which word the card — a bottom sheet, well away
+from the text — is actually about, and it survives a trip out to a kanji's
+own detail screen, so coming back is a glance rather than a re-read. It
+persists until a different word is tapped, because "where was I?" outlives
+"what does this mean?".
+
+**Tapping away clears both**, together: they go up on the same gesture and a
+learner thinks of them as one thing, so leaving a word marked with no panel
+to explain it would be the wrong half to keep. "Away" means anywhere that
+isn't a word or a control — including the page margins and the empty space
+below the last paragraph, which is exactly where a thumb lands for "never
+mind". That is why the listener sits on `document` behind a
+current-screen guard rather than on the reader section, which does not extend
+into `#app`'s own side padding.
+
 ### 7.3 Translate this sentence
 
 The user's requirement: *"an option next to the definition that pops up to tap

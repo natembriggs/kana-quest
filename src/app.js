@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -5160,6 +5160,21 @@ function tokenStateKey(p, s, i) { return `${p}:${s}:${i}`; }
  * Persists until a different token is tapped — deliberately not cleared when
  * the card closes, since "where was I?" outlives "what does this mean?".
  */
+/**
+ * Tapping away: dismisses the definition card and lets go of the
+ * place-keeper, together. They are put up by the same gesture and a learner
+ * thinks of them as one thing, so one tap on empty space clears both rather
+ * than leaving a word marked with no panel to explain it.
+ *
+ * A no-op when there is nothing to clear, so an idle tap on the page costs
+ * nothing and cannot disturb the reveal levels.
+ */
+function clearReaderFocus() {
+  if (!state.readerCardKey && !state.readerActiveKey) return;
+  closeReaderCard();
+  setReaderActiveToken(null);
+}
+
 function setReaderActiveToken(key) {
   state.readerActiveKey = key;
   const body = $('reader-body');
@@ -5942,7 +5957,26 @@ function wire() {
   // final punctuation) all live under #reader-body, and closing the card on
   // an outside tap has to run AFTER those checks, in the same listener,
   // rather than in a second one that would race it.
-  $('reader-body').addEventListener('click', (event) => {
+  // One delegated listener for the WHOLE reader screen, not just the text:
+  // the reveal ladder, the definition card, the sentence-translate target —
+  // and, crucially, tapping away. "Away" has to include the margins and the
+  // empty space below the last paragraph, which is exactly where a thumb
+  // lands when someone means "never mind"; a listener scoped to #reader-body
+  // alone would never hear those.
+  //
+  // READER_OWNS_ITS_TAPS are the regions that handle their own clicks and
+  // must not be read as tapping away: the definition card and settings sheet
+  // (tapping inside a panel must not dismiss it), the top bar, the end card,
+  // and the Finished button.
+  const READER_OWNS_ITS_TAPS = '.reader-card, .topbar, .reader-end, #reader-finished';
+  // On `document`, not on #screen-reader: the screen section sits inside
+  // #app's own side padding, so a thumb landing in the outer margin — a
+  // natural place to tap for "never mind" — hits <main> and would never
+  // reach a listener bound to the section itself. Guarded by the current
+  // screen so it is inert everywhere else.
+  document.addEventListener('click', (event) => {
+    if (currentScreenId !== 'screen-reader' || !state.readerStory) return;
+    if (event.target.closest(READER_OWNS_ITS_TAPS)) return;
     const translateEl = event.target.closest('.reader-translate-tap');
     if (translateEl) {
       toggleSentenceTranslation(translateEl.dataset.p, translateEl.dataset.s);
@@ -5955,7 +5989,7 @@ function wire() {
     if (infoEl) { handleReaderInfoTap(infoEl); return; }
     const tapEl = event.target.closest('.reader-tap');
     if (tapEl) { handleReaderTokenTap(tapEl); return; }
-    if (state.readerCardKey) closeReaderCard();
+    clearReaderFocus();
   });
   $('story-make-level').addEventListener('click', () => {
     state.profile.settings.readingLevel = state.readerBrowseLevel;
