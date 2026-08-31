@@ -49,7 +49,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-08-31f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-08-31g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -280,7 +280,10 @@ function kanjiUnitGroup(unit) {
   return KANJI_UNIT_GROUPS.find((g) => g.test(unit));
 }
 
-const EMOJI_CHOICES = ['🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄'];
+const EMOJI_CHOICES = [
+  '🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄',
+  '🐱', '🐶', '🐼', '🦄', '🌈', '🍉', '🎨', '🌟',
+];
 
 // Settings > Theme colour. `swatch` is always the LIGHT-mode accent, shown
 // for the picker button regardless of which theme is actually active — see
@@ -295,6 +298,10 @@ const ACCENT_COLORS = [
   { id: 'pink', name: 'Pink', swatch: '#e0559a' },
   { id: 'teal', name: 'Teal', swatch: '#12968a' },
   { id: 'amber', name: 'Amber', swatch: '#c9821a' },
+  { id: 'green', name: 'Green', swatch: '#2f9e44' },
+  { id: 'indigo', name: 'Indigo', swatch: '#4a55d1' },
+  { id: 'crimson', name: 'Crimson', swatch: '#d1273f' },
+  { id: 'sky', name: 'Sky', swatch: '#0891b2' },
 ];
 
 /** Applies a learner's chosen accent colour app-wide. Falls back to

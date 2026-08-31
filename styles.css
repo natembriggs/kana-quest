@@ -74,6 +74,10 @@
 :root[data-accent="pink"] { --accent: #e0559a; --accent-ink: #ffffff; }
 :root[data-accent="teal"] { --accent: #12968a; --accent-ink: #ffffff; }
 :root[data-accent="amber"] { --accent: #c9821a; --accent-ink: #2a1600; }
+:root[data-accent="green"] { --accent: #2f9e44; --accent-ink: #ffffff; }
+:root[data-accent="indigo"] { --accent: #4a55d1; --accent-ink: #ffffff; }
+:root[data-accent="crimson"] { --accent: #d1273f; --accent-ink: #ffffff; }
+:root[data-accent="sky"] { --accent: #0891b2; --accent-ink: #ffffff; }
 
 @media (prefers-color-scheme: dark) {
   :root[data-accent="coral"] { --accent: #ff6f56; --accent-ink: #21100c; }
@@ -82,6 +86,10 @@
   :root[data-accent="pink"] { --accent: #ff8fc4; --accent-ink: #3a0f26; }
   :root[data-accent="teal"] { --accent: #4fd9c8; --accent-ink: #052925; }
   :root[data-accent="amber"] { --accent: #f3bb52; --accent-ink: #2a1600; }
+  :root[data-accent="green"] { --accent: #5cd679; --accent-ink: #062510; }
+  :root[data-accent="indigo"] { --accent: #9aa0ff; --accent-ink: #14163f; }
+  :root[data-accent="crimson"] { --accent: #ff7a90; --accent-ink: #3a0512; }
+  :root[data-accent="sky"] { --accent: #63e0f5; --accent-ink: #052a30; }
 }
 
 * { box-sizing: border-box; }

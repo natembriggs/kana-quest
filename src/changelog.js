@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-08-31',
     changes: [
+      'New: 4 more theme colours (Green, Indigo, Crimson, Sky) and 8 more badge emoji (🐱 🐶 🐼 🦄 🌈 🍉 🎨 🌟) in Settings — 10 colours and 20 badges to choose from now, up from 6 and 12.',
       'Fixed: coming back from a kanji\'s page dropped you at the top of the story instead of where you were reading. It now returns you to the exact spot.',
       'New: tap any empty space — the margins, the gap between paragraphs, below the last line — to clear the highlighted word and close the definition panel together.',
       'New: the word you last tapped stays gently highlighted, so you can see which word the definition panel is about, and find your place again at a glance after looking something up.',
