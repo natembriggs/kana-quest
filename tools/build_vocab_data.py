@@ -80,7 +80,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 from build_kanji_data import (  # noqa: E402
     parse_kanjidic, build_stem_index, align_word, credited_reading,
-    kata_to_hira, priority_rank, is_kanji, reading_parts, stem_variants,
+    kata_to_hira, written_band, is_kanji, reading_parts, stem_variants,
 )
 
 SRC = ROOT / "data_src"
@@ -398,7 +398,7 @@ def parse_jmdict():
         # that IS tagged uk — matching anywhere in `e` picked that up and
         # wrongly hid 行く's kanji spelling entirely.
         uk = ("<misc>&uk;</misc>" in fs) or keb is None
-        rank = priority_rank(e)
+        rank = written_band(e)
         # uk ("usually written in kana"): per vocab-plan.md §3.3, these words
         # are shown BY their kana form regardless of whether a kanji spelling
         # exists in JMdict — for する/いる/この/その/あの and friends, that
