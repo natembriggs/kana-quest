@@ -607,7 +607,7 @@ export const STORY = {
                 "せい"
               ]
             ],
-            "d": null,
+            "d": "完成",
             "pos": "v",
             "g": "was completed",
             "df": "完成する",
@@ -2613,5 +2613,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "40c0ff88"
+  "hash": "53fcb72f"
 };

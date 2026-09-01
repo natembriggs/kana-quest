@@ -4933,7 +4933,7 @@ export const STORY = {
                 "めい"
               ]
             ],
-            "d": null,
+            "d": "説明",
             "pos": "v",
             "g": "explained",
             "df": "説明する",
@@ -8006,7 +8006,7 @@ export const STORY = {
                 "はく"
               ]
             ],
-            "d": null,
+            "d": "告白",
             "pos": "v",
             "g": "confessed",
             "df": "告白する",
@@ -8592,7 +8592,7 @@ export const STORY = {
                 "かい"
               ]
             ],
-            "d": null,
+            "d": "理解",
             "pos": "v",
             "g": "could not understand",
             "df": "理解する",
@@ -13119,5 +13119,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "c2143f4b"
+  "hash": "efd2b3b7"
 };

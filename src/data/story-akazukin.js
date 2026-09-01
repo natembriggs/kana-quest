@@ -650,7 +650,7 @@ export const STORY = {
                 "そく"
               ]
             ],
-            "d": null,
+            "d": "約束",
             "pos": "v",
             "g": "promising; promise and",
             "df": "約束する",
@@ -4017,5 +4017,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "506e60a3"
+  "hash": "1a5405c9"
 };

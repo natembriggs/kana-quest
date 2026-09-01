@@ -66,6 +66,14 @@ function autoLink(token, lookup) {
   let d = token.d;
   if (!d && Object.prototype.hasOwnProperty.call(lookup, token.s)) d = token.s;
   if (!d && token.df && Object.prototype.hasOwnProperty.call(lookup, token.df)) d = token.df;
+  // Noun+する verbs (約束する, 説明する, ...) deconjugate to a df that isn't
+  // itself a vocab entry — only the bare noun is (約束, 説明). Fall back to
+  // that noun so these link like any other vocab word instead of silently
+  // going unlinked.
+  if (!d && token.df && token.df.endsWith('する')) {
+    const noun = token.df.slice(0, -2);
+    if (noun && Object.prototype.hasOwnProperty.call(lookup, noun)) d = noun;
+  }
   return { ...token, d: d || null };
 }
 

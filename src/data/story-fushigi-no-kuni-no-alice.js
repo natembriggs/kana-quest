@@ -850,7 +850,7 @@ export const STORY = {
                 "こく"
               ]
             ],
-            "d": null,
+            "d": "遅刻",
             "pos": "v",
             "g": "will be late",
             "df": "遅刻する",
@@ -2755,7 +2755,7 @@ export const STORY = {
                 "しん"
               ]
             ],
-            "d": null,
+            "d": "感心",
             "pos": "v",
             "g": "would probably admire",
             "df": "感心する",
@@ -2782,7 +2782,7 @@ export const STORY = {
                 "ぞう"
               ]
             ],
-            "d": null,
+            "d": "想像",
             "pos": "v",
             "g": "imagined",
             "df": "想像する",
@@ -3552,7 +3552,7 @@ export const STORY = {
                 "ぱい"
               ]
             ],
-            "d": null,
+            "d": "心配",
             "pos": "v",
             "g": "worried",
             "df": "心配する",
@@ -5189,7 +5189,7 @@ export const STORY = {
                 "けん"
               ]
             ],
-            "d": null,
+            "d": "発見",
             "pos": "v",
             "g": "discovered",
             "df": "発見する",
@@ -6124,7 +6124,7 @@ export const STORY = {
                 "さつ"
               ]
             ],
-            "d": null,
+            "d": "印刷",
             "pos": "v",
             "g": "was printed",
             "df": "印刷する",
@@ -7194,7 +7194,7 @@ export const STORY = {
                 "ぱい"
               ]
             ],
-            "d": null,
+            "d": "失敗",
             "pos": "v",
             "g": "failed",
             "df": "失敗する",
@@ -9188,7 +9188,7 @@ export const STORY = {
                 "れい"
               ]
             ],
-            "d": null,
+            "d": "命令",
             "pos": "v",
             "g": "ordered",
             "df": "命令する",
@@ -11164,7 +11164,7 @@ export const STORY = {
                 "かい"
               ]
             ],
-            "d": null,
+            "d": "後悔",
             "pos": "v",
             "g": "even if she regretted it",
             "df": "後悔する",
@@ -11213,5 +11213,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "28e97a56"
+  "hash": "d75fa228"
 };

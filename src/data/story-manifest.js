@@ -96,7 +96,7 @@ export const STORIES = {
     "level": "L3",
     "gram": "G3",
     "blurb": "Three young pigs build very different houses before a hungry wolf arrives from the forest.",
-    "hash": "40c0ff88",
+    "hash": "53fcb72f",
     "length": 224,
     "source": {
       "kind": "adapted",
@@ -113,7 +113,7 @@ export const STORIES = {
     "level": "L4",
     "gram": "G4",
     "blurb": "A girl carrying food to her grandmother meets a dangerously friendly wolf in the forest.",
-    "hash": "506e60a3",
+    "hash": "1a5405c9",
     "length": 364,
     "source": {
       "kind": "adapted",
@@ -130,7 +130,7 @@ export const STORIES = {
     "level": "L4",
     "gram": "G4",
     "blurb": "Four ageing animals form a band, frighten a houseful of thieves, and discover a home together.",
-    "hash": "789f6908",
+    "hash": "509417a7",
     "length": 444,
     "source": {
       "kind": "adapted",
@@ -147,7 +147,7 @@ export const STORIES = {
     "level": "L5",
     "gram": "G5",
     "blurb": "A poor market worker finds a lamp of impossible power and must outwit the magician who buried it.",
-    "hash": "144d4278",
+    "hash": "aa3c29b1",
     "length": 715,
     "source": {
       "kind": "adapted",
@@ -164,7 +164,7 @@ export const STORIES = {
     "level": "L5",
     "gram": "G5",
     "blurb": "A runaway wooden puppet learns, through costly mistakes, what honesty and responsibility mean.",
-    "hash": "f5431dc9",
+    "hash": "a0ec583b",
     "length": 822,
     "source": {
       "kind": "adapted",
@@ -186,7 +186,7 @@ export const STORIES = {
     "level": "L6",
     "gram": "G6",
     "blurb": "Alice follows a waistcoated White Rabbit underground, where doors, keys, bottles and cakes refuse to be sensible.",
-    "hash": "28e97a56",
+    "hash": "d75fa228",
     "length": 968,
     "source": {
       "kind": "adapted",
@@ -208,7 +208,7 @@ export const STORIES = {
     "level": "L6",
     "gram": "G6",
     "blurb": "A cyclone carries Dorothy from grey Kansas to Oz, where three unlikely companions join her road to the Emerald City.",
-    "hash": "c2143f4b",
+    "hash": "efd2b3b7",
     "length": 1147,
     "source": {
       "kind": "adapted",

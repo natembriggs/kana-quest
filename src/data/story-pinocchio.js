@@ -953,7 +953,7 @@ export const STORY = {
                 "せい"
               ]
             ],
-            "d": null,
+            "d": "完成",
             "pos": "v",
             "g": "was completed",
             "df": "完成する",
@@ -1560,7 +1560,7 @@ export const STORY = {
                 "こく"
               ]
             ],
-            "d": null,
+            "d": "忠告",
             "pos": "v",
             "g": "advised, warned",
             "df": "忠告する",
@@ -1837,7 +1837,7 @@ export const STORY = {
                 "そく"
               ]
             ],
-            "d": null,
+            "d": "約束",
             "pos": "v",
             "g": "promised",
             "df": "約束する",
@@ -2451,7 +2451,7 @@ export const STORY = {
                 "げい"
               ]
             ],
-            "d": null,
+            "d": "歓迎",
             "pos": "v",
             "g": "welcomed",
             "df": "歓迎する",
@@ -2716,7 +2716,7 @@ export const STORY = {
                 "じょう"
               ]
             ],
-            "d": null,
+            "d": "同情",
             "pos": "v",
             "g": "felt sympathy",
             "df": "同情する",
@@ -7554,7 +7554,7 @@ export const STORY = {
                 "ない"
               ]
             ],
-            "d": null,
+            "d": "案内",
             "pos": "v",
             "g": "guided them",
             "df": "案内する",
@@ -8048,7 +8048,7 @@ export const STORY = {
                 "きょう"
               ]
             ],
-            "d": null,
+            "d": "勉強",
             "pos": "v",
             "g": "studied",
             "df": "勉強する",
@@ -9637,5 +9637,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "f5431dc9"
+  "hash": "a0ec583b"
 };
