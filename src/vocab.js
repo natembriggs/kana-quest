@@ -269,6 +269,43 @@ export async function ensureVocabUnitLoaded(unit) {
   await loadingUnits.get(unit);
 }
 
+// --- The example sentences' own vocabulary ---------------------------------
+//
+// Every word appearing in any example sentence (src/data/example-words.js),
+// so a tap on one inside a sentence can answer with its reading and meaning —
+// including the thousands of words the curriculum itself never teaches, and
+// the particles no vocabulary list ever would. One shared file, loaded once
+// and only when a word is actually tapped: the same few thousand words recur
+// across all ~9,000 sentences, so inlining a gloss on every token would
+// repeat は and 私 thousands of times across every unit file.
+
+let exampleWords = null;
+let exampleWordsLoading = null;
+
+export async function ensureExampleWordsLoaded() {
+  if (exampleWords) return;
+  if (!exampleWordsLoading) {
+    exampleWordsLoading = import('./data/example-words.js')
+      .then((mod) => { exampleWords = mod.EXAMPLE_WORDS; });
+  }
+  await exampleWordsLoading;
+}
+
+/**
+ * {word, kana, en} for one word of an example sentence, or null if the
+ * glossary hasn't been loaded yet or has nothing under that key.
+ *
+ * The key is the dictionary form, optionally narrowed by | reading, # JMdict
+ * entry id or @ sense number (see glossary_key in tools/build_vocab_data.py).
+ * None of those three characters occurs in Japanese, so everything up to the
+ * first of them is the form to show.
+ */
+export function exampleWordInfo(key) {
+  const entry = exampleWords && exampleWords[key];
+  if (!entry) return null;
+  return { word: key.split(/[|#@]/)[0], kana: entry[0], en: entry[1] };
+}
+
 export function areAllVocabUnitsLoaded() {
   return VOCAB_COURSES.every((c) => loadedUnits.has(c.unit));
 }

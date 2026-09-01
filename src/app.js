@@ -12,6 +12,7 @@ import {
   VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
   unitLevelLabel as vocabUnitLevelLabel, unitBadge as vocabUnitBadge,
   ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
+  ensureExampleWordsLoaded, exampleWordInfo,
   wordMeaningLabel, wordGlossSummary,
   partialFuriganaIsAskable, pronunciationFor,
   buildRecallChoices, recallHasSpellingStage, buildSpellingChoices,
@@ -49,7 +50,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1841,7 +1842,7 @@ function renderCharacterDetail() {
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     renderWordKanjiChips(info);
-    renderWordExample(info);
+    renderWordExamples(info);
     $('detail-general-words').hidden = true;
   } else {
     $('detail-word-kanji').hidden = true;
@@ -2658,66 +2659,236 @@ function renderVocabWordGlyph(el, info) {
 }
 
 /**
- * One real sentence using this word, furigana over every kanji in it and a
- * translation of the whole sentence underneath — the vocab detail screen's
+ * Up to three real sentences using this word, furigana over every kanji in
+ * them and a translation of each whole sentence — the vocab detail screen's
  * answer to "yes, but how is it actually used?", which neither a gloss list
  * nor a kanji breakdown can give.
  *
- * `ex.r` is a list of [start, length, kana] over the sentence string: the
- * same idea as a word's own `ruby`, widened to a span because a sentence
- * contains readings that don't divide character by character (昨日 is きのう
- * across both, 人々 is ひとびと across both). Everything not covered by a span
- * is plain text — kana, punctuation, and the handful of proper nouns the
- * corpus index doesn't break up.
- *
- * The word being studied is marked where it appears, so it can be picked out
- * of the sentence at a glance. Found by plain search, which finds it in the
- * form the sentence writes it: the build prefers a sentence using the word as
- * the learner is taught it, but a verb is often bent (会う taught, 会います
- * written) and then there is simply nothing to mark.
+ * Three rather than one because one usage is often the least representative
+ * thing about a word: ご招待をありがとうございます is a correct sentence for
+ * 招待 and a set phrase that says nothing about 招待する. The build picks
+ * three that differ from each other — see choose_examples() in
+ * tools/build_vocab_data.py.
  */
-function renderWordExample(info) {
+function renderWordExamples(info) {
   const wrap = $('detail-example');
-  const example = info.ex;
-  wrap.hidden = !example;
-  if (!example) return;
-  const jp = $('detail-example-jp');
-  jp.innerHTML = '';
-  const spanByStart = new Map((example.r || []).map((entry) => [entry[0], entry]));
-  const hitAt = example.j.indexOf(info.w);
-  const hitEnd = hitAt < 0 ? -1 : hitAt + info.w.length;
-  // Everything between two of these is one text node rather than one per
-  // character: a run of kana the browser can apply its own line-breaking
-  // rules across (see .example-jp in styles.css), instead of a string of
-  // separate nodes it might break anywhere.
-  const boundaries = new Set([example.j.length, hitAt, hitEnd]);
+  const examples = info.ex || [];
+  wrap.hidden = examples.length === 0;
+  if (!examples.length) return;
+  $('detail-example-heading').textContent = examples.length > 1 ? 'In sentences' : 'In a sentence';
+  const list = $('detail-example-list');
+  list.innerHTML = '';
+  examples.forEach((example) => list.appendChild(buildExample(example, info.w)));
+}
+
+/**
+ * `example.r` is a list of [start, length, kana] over the sentence string:
+ * the same idea as a word's own `ruby`, widened to a span because a sentence
+ * contains readings that don't divide character by character (昨日 is きのう
+ * across both, 人々 is ひとびと across both).
+ *
+ * Renders one span of the sentence — the whole thing, or just one word of it
+ * for the tapped-word panel — as ruby elements and plain text. Text between
+ * two spans goes in as one node rather than one per character, so the
+ * browser can apply its own line-breaking rules across a run of kana (see
+ * .example-jp in styles.css).
+ */
+function appendSentenceRange(el, example, from, to) {
+  const rubyByStart = new Map((example.r || []).map((span) => [span[0], span]));
+  const boundaries = new Set([to]);
   (example.r || []).forEach(([start, length]) => boundaries.add(start).add(start + length));
-  let pos = 0;
-  while (pos < example.j.length) {
-    const span = spanByStart.get(pos);
-    let end;
-    let node;
+  let pos = from;
+  while (pos < to) {
+    const span = rubyByStart.get(pos);
     if (span) {
-      end = pos + span[1];
-      node = document.createElement('ruby');
-      node.appendChild(document.createTextNode(example.j.slice(pos, end)));
+      const ruby = document.createElement('ruby');
+      ruby.appendChild(document.createTextNode(example.j.slice(pos, pos + span[1])));
       const rt = document.createElement('rt');
       rt.textContent = span[2];
-      node.appendChild(rt);
+      ruby.appendChild(rt);
+      el.appendChild(ruby);
+      pos += span[1];
     } else {
-      end = Math.min(...[...boundaries].filter((b) => b > pos));
-      node = document.createTextNode(example.j.slice(pos, end));
+      const next = Math.min(...[...boundaries].filter((b) => b > pos && b <= to));
+      el.appendChild(document.createTextNode(example.j.slice(pos, next)));
+      pos = next;
     }
-    if (pos >= hitAt && pos < hitEnd) {
-      const mark = document.createElement('span');
-      mark.className = 'example-hit';
-      mark.appendChild(node);
-      node = mark;
+  }
+}
+
+/**
+ * One example sentence: the Japanese, its translation, and — under both, on
+ * demand — whichever word of it was last tapped.
+ *
+ * `example.w` is a list of [start, length] or [start, length, glossary key]
+ * covering every word the corpus index found in the sentence, which is every
+ * word in it bar the punctuation. Each becomes its own tap target, because
+ * the rule everywhere else in this app is that if you can see a word you can
+ * tap it, and a sentence full of untappable words in the middle of a screen
+ * where everything else drills in would be the one place that rule stopped.
+ *
+ * `target` is the word this sentence is an example OF, marked where it
+ * appears. Found by plain search, which finds it in the form the sentence
+ * writes it: the build prefers a sentence using the word as the learner is
+ * taught it, but a verb is often bent (会う taught, 会います written) and then
+ * there is simply nothing to mark.
+ */
+function buildExample(example, target) {
+  const block = document.createElement('div');
+  block.className = 'example';
+
+  if (example.i) {
+    // Kept only where a word has nothing better (一寸 is barely used outside
+    // idioms), and never passed off as ordinary usage: an idiom's English is
+    // an equivalent saying rather than a translation of the words, so a
+    // learner reading one for the grammar would be misled without this.
+    const tag = document.createElement('p');
+    tag.className = 'example-tag';
+    tag.textContent = 'Idiom — the English is the equivalent saying, not a word-for-word translation';
+    block.appendChild(tag);
+  }
+
+  const jp = document.createElement('p');
+  jp.className = 'example-jp';
+  jp.lang = 'ja';
+  const panel = document.createElement('div');
+  panel.className = 'example-word-panel';
+  panel.hidden = true;
+
+  const hitAt = target ? example.j.indexOf(target) : -1;
+  const hitEnd = hitAt < 0 ? -1 : hitAt + target.length;
+  const wordByStart = new Map((example.w || []).map((span) => [span[0], span]));
+  const stops = new Set([example.j.length, hitAt, hitEnd]);
+  (example.w || []).forEach(([start, length]) => stops.add(start).add(start + length));
+
+  // 禁則処理: word buttons are inline-block, which the layout engine treats
+  // as atomic boxes with a break opportunity either side, so a 。 in its own
+  // box would happily start a line. Same fix as the reader's — group into
+  // `white-space: nowrap` runs a break cannot fall inside. See
+  // renderReaderParagraph(), whose NO_LINE_START/NO_LINE_END these are.
+  let run = null;
+  let heldOpen = false;
+  let pos = 0;
+  while (pos < example.j.length) {
+    // `start` and `end` are per-piece constants, not the loop's own cursor:
+    // the tap handler below outlives this iteration and has to remember the
+    // piece it was built for.
+    const start = pos;
+    const word = wordByStart.get(start);
+    const end = word ? start + word[1] : Math.min(...[...stops].filter((b) => b > start));
+    const text = example.j.slice(start, end);
+    if (!run || !(NO_LINE_START.test(text) || heldOpen)) {
+      run = document.createElement('span');
+      run.className = 'example-run';
+      jp.appendChild(run);
     }
-    jp.appendChild(node);
+    const node = document.createElement(word ? 'button' : 'span');
+    node.className = `example-piece${word ? ' example-word' : ''}`
+      + (start >= hitAt && start < hitEnd ? ' example-hit' : '');
+    if (word) {
+      node.type = 'button';
+      node.setAttribute('aria-label', `What does ${text} mean?`);
+      const key = word.length > 2 ? word[2] : text;
+      node.addEventListener('click', () => showExampleWord(jp, panel, example, start, end, key, node));
+    }
+    appendSentenceRange(node, example, start, end);
+    run.appendChild(node);
+    heldOpen = NO_LINE_END.test(text);
     pos = end;
   }
-  $('detail-example-en').textContent = example.en;
+
+  const en = document.createElement('p');
+  en.className = 'example-en';
+  en.textContent = example.en;
+
+  block.appendChild(jp);
+  block.appendChild(en);
+  block.appendChild(panel);
+  return block;
+}
+
+/**
+ * A word inside an example sentence, tapped: what it says, what it comes
+ * from, what it means, and the ways on from it (its kanji, and its own page
+ * where this app teaches it).
+ *
+ * The glossary is one shared file covering every word of every example
+ * sentence — see ensureExampleWordsLoaded() in vocab.js — so this is async
+ * on the first tap of the session and instant afterwards. `sequence` guards
+ * against a second tap landing while the first is still loading.
+ */
+let exampleWordSequence = 0;
+
+async function showExampleWord(sentenceEl, panel, example, from, to, key, button) {
+  const wasActive = button.classList.contains('is-active');
+  sentenceEl.querySelectorAll('.example-word').forEach((b) => b.classList.remove('is-active'));
+  if (wasActive) {
+    panel.hidden = true;
+    return;
+  }
+  button.classList.add('is-active');
+  panel.hidden = false;
+  panel.innerHTML = '';
+  exampleWordSequence += 1;
+  const sequence = exampleWordSequence;
+
+  await ensureExampleWordsLoaded();
+  if (sequence !== exampleWordSequence) return; // another word was tapped while this loaded
+  const entry = exampleWordInfo(key);
+
+  const written = document.createElement('p');
+  written.className = 'example-word-written';
+  written.lang = 'ja';
+  appendSentenceRange(written, example, from, to);
+  panel.innerHTML = '';
+  panel.appendChild(written);
+
+  if (!entry) {
+    const missing = document.createElement('p');
+    missing.className = 'hint';
+    missing.textContent = 'No dictionary entry for this one.';
+    panel.appendChild(missing);
+    return;
+  }
+
+  // "from 行く（いく）" — the dictionary word this written form belongs to,
+  // shown only when the sentence bends it into something else. The meaning
+  // below is that dictionary word's, so without this line an inflected form
+  // would be handed a definition that doesn't obviously belong to it.
+  //
+  // Not when the written form is already the word said out loud, though:
+  // きっと is JMdict's 屹度 spelled the way everybody writes it, not a form
+  // of some other word, and "from 屹度（きっと）" would introduce a kanji
+  // spelling nobody uses as if it were the answer.
+  const surface = example.j.slice(from, to);
+  if (entry.word !== surface && entry.kana !== surface) {
+    const from_ = document.createElement('p');
+    from_.className = 'hint';
+    from_.lang = 'ja';
+    from_.textContent = `from ${entry.word}（${entry.kana}）`;
+    panel.appendChild(from_);
+  }
+
+  const meaning = document.createElement('p');
+  meaning.className = 'example-word-meaning';
+  meaning.textContent = entry.en;
+  panel.appendChild(meaning);
+
+  const chips = document.createElement('div');
+  chips.className = 'reading-chips';
+  chips.lang = 'ja';
+  fillWordKanjiChips(chips, surface, drillIntoDetail);
+  panel.appendChild(chips);
+
+  const taught = vocabTargetForWord({ kanji: entry.word, kana: entry.kana });
+  if (taught) {
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'btn btn-quiet word-more';
+    more.textContent = 'Word details ›';
+    more.addEventListener('click', () => drillIntoDetail(taught.course, taught.id));
+    panel.appendChild(more);
+  }
 }
 
 /**

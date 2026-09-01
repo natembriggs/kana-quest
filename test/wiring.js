@@ -2804,24 +2804,55 @@ check('a vocab detail screen offers its own kanji as tappable chips',
   el('detail-word-kanji').hidden === false && el('detail-word-kanji')._children.length > 0,
   `hidden=${el('detail-word-kanji').hidden}, chips=${el('detail-word-kanji')._children.length}`);
 
-// The example sentence (`ex` in the vocab data): shown exactly when the word
-// has one — about one word in six appears in no corpus sentence at all, and
-// those correctly show nothing rather than an empty heading.
+// The example sentences (`ex` in the vocab data): shown exactly when the
+// word has them — about one word in six appears in no corpus sentence at
+// all, and those correctly show nothing rather than an empty heading.
 const vocabCourse = VOCAB_COURSES.find((c) => c.unit === '1.1');
 const tileId = [...vocabCourse.index.keys()].find((id) => vocabInfo(vocabCourse, id).w === kanjiWordTile.textContent);
-const tileExample = vocabInfo(vocabCourse, tileId).ex;
-check('a vocab detail screen shows an example sentence exactly when the word has one',
-  el('detail-example').hidden === !tileExample,
-  `hidden=${el('detail-example').hidden}, has ex=${!!tileExample}`);
-if (tileExample) {
-  check('the example sentence is glossed character by character and translated whole',
-    el('detail-example-jp')._children.length > 0
-    && el('detail-example-en').textContent === tileExample.en,
-    `nodes=${el('detail-example-jp')._children.length}`);
+const tileExamples = vocabInfo(vocabCourse, tileId).ex || [];
+check('a vocab detail screen shows example sentences exactly when the word has them',
+  el('detail-example').hidden === (tileExamples.length === 0),
+  `hidden=${el('detail-example').hidden}, examples=${tileExamples.length}`);
+if (tileExamples.length) {
+  const blocks = el('detail-example-list')._children;
+  check('every example sentence the word has is rendered, not just the first',
+    blocks.length === tileExamples.length, `${blocks.length} of ${tileExamples.length}`);
+  check('an example sentence is translated whole',
+    blocks[0]._children.some((c) => c.className === 'example-en'
+      && c.textContent === tileExamples[0].en));
   check('every furigana span in an example sentence covers real characters of it',
-    tileExample.r.every(([start, length, kana]) => start >= 0 && length >= 1
-      && start + length <= tileExample.j.length && kana.length > 0),
-    JSON.stringify(tileExample.r));
+    tileExamples.every((ex) => ex.r.every(([start, length, kana]) => start >= 0 && length >= 1
+      && start + length <= ex.j.length && kana.length > 0)),
+    JSON.stringify(tileExamples[0].r));
+  check('every tappable word in an example sentence covers real characters of it',
+    tileExamples.every((ex) => ex.w.every(([start, length]) => start >= 0 && length >= 1
+      && start + length <= ex.j.length)),
+    JSON.stringify(tileExamples[0].w));
+
+  // Tapping any word in a sentence — not just the word being studied — says
+  // what it means. The glossary is a separate lazily-loaded file, so the
+  // first tap of a session is async.
+  const wordButtons = [];
+  const collect = (node) => {
+    if ((node.className || '').split(' ').includes('example-word')) wordButtons.push(node);
+    (node._children || []).forEach(collect);
+  };
+  blocks.forEach(collect);
+  check('every word of an example sentence is its own tap target',
+    wordButtons.length >= tileExamples[0].w.length,
+    `${wordButtons.length} tappable words across ${blocks.length} sentences`);
+  fire(wordButtons[0], 'click');
+  for (let i = 0; i < 10; i += 1) await settle(); // ensureExampleWordsLoaded is async
+  const panel = blocks[0]._children.find((c) => c.className === 'example-word-panel');
+  check('tapping a word in an example sentence opens a panel about that word',
+    panel.hidden === false && panel._children.length > 0,
+    `hidden=${panel.hidden}, children=${panel._children.length}`);
+  check('the panel says what the tapped word means',
+    panel._children.some((c) => c.className === 'example-word-meaning' && c.textContent.length > 0),
+    panel._children.map((c) => `${c.className}:${c.textContent}`).join(' | '));
+  fire(wordButtons[0], 'click');
+  await settle();
+  check('tapping the same word again closes the panel', panel.hidden === true);
 }
 
 const kanjiChip = el('detail-word-kanji')._children[0];

@@ -67,6 +67,7 @@ classification, not a transcribed syllabus.
 Usage:
     python3 tools/build_vocab_data.py
 """
+import heapq
 import html
 import json
 import random
@@ -282,6 +283,26 @@ def parse_jmdict():
     keb_readings = {}
     candidates = []  # priority-tagged, ready for level/theme classification
     kanji_only_pool = {}  # kanji-count -> [(keb, gloss_tokens, rank)]
+    # For the example sentences (build_examples below), which have to say what
+    # ANY word in a sentence means, not just the curriculum's own 3,900:
+    # written form (or form|reading, or form#entry-id — see glossary_key) ->
+    # a short gloss. Built from every entry, not just the priority-tagged
+    # ones, because a sentence contains whatever it contains.
+    example_glosses = {}
+    gloss_is_common = {}  # same keys: whether that gloss came from a priority-tagged entry
+    # Same keys again, but every sense rather than only the first, and only
+    # for the priority-tagged entries. The corpus's index line names a sense
+    # number wherever the word is used in something other than its first
+    # sense — と is "if, when" in sense 1 but "with" in sense 3 — and the
+    # words that happens to are exactly the common, polysemous ones. Rare
+    # entries are left out: they are most of the 990,000 keys here and none
+    # of the ones a sentence index ever disambiguates.
+    example_senses = {}
+    # Written forms JMdict marks as a proverb, idiom, quotation or 四字熟語.
+    # A sentence that IS one of these is a poor example of any word in it
+    # (see IDIOM_PENALTY): idioms are non-literal and often archaic, which is
+    # the opposite of what showing a word in ordinary use is for.
+    idiomatic = set()
 
     stop_tokens = {
         "a", "an", "the", "to", "of", "in", "on", "for", "or", "and", "with",
@@ -304,7 +325,47 @@ def parse_jmdict():
                     if hira not in ordered:
                         ordered.append(hira)
 
-        if not (("<ke_pri>" in e) or ("<re_pri>" in e)):
+        entry_is_common = ("<ke_pri>" in e) or ("<re_pri>" in e)
+
+        # --- Example-sentence glosses and idiom tags, from EVERY entry ---
+        all_senses = re.findall(r"<sense>.*?</sense>", e, re.S)
+        if all_senses and (kebs_all or rebs_all):
+            sense_glosses = [html.unescape(g) for g in
+                             re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", all_senses[0], re.S)]
+            if sense_glosses:
+                short = example_gloss(sense_glosses)
+                by_sense = None
+                if entry_is_common and len(all_senses) > 1:
+                    by_sense = []
+                    for sense in all_senses:
+                        found = [html.unescape(g) for g in
+                                 re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", sense, re.S)]
+                        by_sense.append(example_gloss(found) if found else short)
+                seq_m = re.search(r"<ent_seq>(\d+)</ent_seq>", e)
+                hira_rebs = [kata_to_hira(r) for r in rebs_all]
+                keys = []
+                for form in (kebs_all or rebs_all):
+                    keys.append(form)
+                    keys.extend(f"{form}|{r}" for r in hira_rebs)
+                    if seq_m:
+                        keys.append(f"{form}#{seq_m.group(1)}")
+                for key in keys:
+                    # First entry wins, EXCEPT that a priority-tagged entry
+                    # displaces an unmarked one: JMdict is ordered by entry
+                    # id, not by how common a word is, so the first 彼 to come
+                    # past is not necessarily the pronoun anyone means.
+                    if key not in example_glosses or (entry_is_common and not gloss_is_common.get(key)):
+                        example_glosses[key] = short
+                        gloss_is_common[key] = entry_is_common
+                        if by_sense:
+                            example_senses[key] = by_sense
+                        else:
+                            example_senses.pop(key, None)
+        if re.search(r"<misc>&(proverb|id|quote|yoji);</misc>", e):
+            idiomatic.update(kebs_all)
+            idiomatic.update(rebs_all)
+
+        if not entry_is_common:
             continue
         if not rebs_all:
             continue
@@ -362,7 +423,11 @@ def parse_jmdict():
             kanji_only_pool.setdefault(len(keb), []).append((keb, tokens, rank))
 
     print(f"  {len(candidates)} priority-tagged candidates, {len(all_kebs)} distinct kanji/kana surfaces")
-    return candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool
+    print(f"  {len(example_glosses)} example-sentence gloss keys "
+          f"({len(example_senses)} of them sense-by-sense), "
+          f"{len(idiomatic)} written forms tagged as an idiom, proverb or quotation")
+    return (candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool,
+            example_glosses, example_senses, idiomatic)
 
 
 def build_entry_index(raw_entries):
@@ -1049,11 +1114,18 @@ def build_sp(surface, glosses, spans, all_kebs, reading_to_kanji, taught_kanji, 
 
 # --- Example sentences (Tanaka Corpus) --------------------------------------
 #
-# One real sentence per word, glossed the way this app glosses Japanese
-# everywhere else: furigana over every kanji in it, plus an English
-# translation of the whole sentence. A word's detail screen already says what
-# the word means and how it is read; a sentence is what shows it doing its
-# job.
+# Up to three real sentences per word, glossed the way this app glosses
+# Japanese everywhere else: furigana over every kanji in them, an English
+# translation of the whole sentence, and — since everything in this app that
+# can be tapped is tapped — every word in the sentence its own tap target,
+# with its reading, its dictionary form and what it means.
+#
+# THREE, not one. A single sentence is a single usage, and one usage is often
+# the least representative thing about a word: ご招待をありがとうございます is a
+# correct and useful sentence for 招待, but it is a set phrase and says nothing
+# about 招待する. Three sentences, chosen to differ from each other (see
+# choose_examples), stand a much better chance of covering how a word is
+# actually used.
 #
 # SOURCE: the Tanaka Corpus as distributed with WWWJDIC (examples.utf),
 # ~148,000 Japanese/English pairs, from the same EDRDG family of sources as
@@ -1062,7 +1134,7 @@ def build_sp(surface, glosses, spans, all_kebs, reading_to_kanji, taught_kanji, 
 # form of each word in it, with a reading wherever that form is ambiguous. No
 # Japanese tokeniser is available to this build (the story data's own header
 # says the same thing), and without one that index is the only way to put
-# furigana over a whole SENTENCE rather than just over the word being taught.
+# furigana over a whole SENTENCE — or to make every word in one tappable.
 #
 # ACCURACY: a wrong reading taught confidently is worse than no example at
 # all, so a reading comes from, in order: the index line's own annotation
@@ -1073,23 +1145,67 @@ def build_sp(surface, glosses, spans, all_kebs, reading_to_kanji, taught_kanji, 
 # lists exactly one. A sentence needing a guess is scored down rather than
 # banned; one that leaves any kanji unglossed is used only when nothing better
 # exists — and never when the unglossed kanji is in the taught word itself.
+#
+# WHAT MAKES A GOOD EXAMPLE, in the order these matter:
+#   - it is not an idiom or proverb. 一寸の虫にも五分の魂 ("tread on a worm and
+#     it will turn") is a fine proverb and a terrible example sentence: it is
+#     non-literal, partly archaic, and its English translation teaches nothing
+#     about any word in it. JMdict tags these (proverb/id/quote/yoji) and
+#     IDIOM_PENALTY all but removes them; where one survives because a word
+#     has nothing else (一寸 is itself almost only used idiomatically), it is
+#     marked `"i": 1` so the app can label it as an idiom rather than pass it
+#     off as ordinary usage.
+#   - its translation is literal. A translation far shorter than its Japanese
+#     is usually an idiomatic equivalent rather than a rendering of what the
+#     sentence says, which is no use to a learner trying to match the two.
+#   - the REST of its words are words this app teaches, so the sentence can
+#     actually be pieced together rather than merely read past.
+#   - it is short, and the corpus flags it as a good example of this word.
 
+EXAMPLES_PER_WORD = 3
 EXAMPLE_LEN_IDEAL = 18  # characters of Japanese: a real sentence, still one phone line
 EXAMPLE_LEN_RANGE = (6, 44)
-EXAMPLE_LEN_RANGE_RELAXED = (6, 70)  # second pass, for a word no short sentence contains
+EXAMPLE_LEN_RANGE_RELAXED = (6, 70)  # second pass, for a word few sentences contain
 EXAMPLE_EN_MAX = 110
 EXAMPLE_EN_MAX_RELAXED = 140
 EXAMPLE_CANDIDATE_READINGS = 4  # JMdict readings tried per written form before giving up
+EXAMPLE_SHORTLIST = 20  # candidates kept per word for choose_examples to pick from
+EXAMPLE_GLOSS_MAX = 60  # characters of English per word in the tap-a-word glossary
+
+IDIOM_PENALTY = 60.0     # enough that an idiom is only ever a last resort
+# English characters per Japanese character. A literal translation runs about
+# 2.5; well under that, the English is giving the sentence's SENSE rather than
+# saying what it says ("滑り出しが好調なら事は半ば成就したのに等しい。" = "Well
+# begun is half done."), which is no use to a learner trying to match the two
+# halves up. Penalised below the first, refused below the second.
+LITERAL_MIN_RATIO = 1.6
+LITERAL_FLOOR_RATIO = 1.2
+LITERAL_PENALTY = 25.0
+FAMILIAR_WEIGHT = 20.0   # applied to the share of a sentence's words that this app teaches
+SAME_FORM_PENALTY = 15.0 # a second sentence using the taught word in the same written form as one already picked
+OVERLAP_PENALTY = 25.0   # applied to the share of words a candidate shares with one already picked
 
 # "headword(reading)[sense]{surface as written}~", everything after the
 # headword optional. The reading slot doubles as an entry-id slot on some
-# tokens ("で(#2028980)"), which is not a reading and is ignored.
+# tokens ("で(#2028980)"), which is not a reading but does say exactly which
+# JMdict entry is meant — see glossary_key.
 B_TOKEN_RE = re.compile(r"^([^()\[\]{}~]+)(?:\(([^)]*)\))?(?:\[(\d+)\])?(?:\{([^}]*)\})?(~)?$")
 
 # A run of characters that one indivisible reading can sit over. Digits and
 # the repeat mark 々 belong to it: ４月 is しがつ across both characters and
 # 人々 is ひとびと across both, and neither divides per character.
 KANJI_RUN_RE = re.compile(r"[㐀-䶿一-鿿々0-9０-９]+")
+
+SENTENCE_END_RE = re.compile(r"[。．.!！?？…]+$")
+
+# Quoted dialogue and trailing-off ellipses: a corpus sentence built out of
+# these is usually a fragment of a conversation rather than a sentence that
+# stands on its own, which is what an example has to be.
+FRAGMENTARY_RE = re.compile(r"[「」『』]")
+FRAGMENTARY_PENALTY = 18.0
+# Not a penalty but a rule: a sentence that trails off is not a sentence, and
+# no amount of being the only candidate makes one a good example.
+ELLIPSIS_RE = re.compile(r"・・・|\.\.\.|…|〜$|～$")
 
 # This is an app for children (see README). The corpus is a general-purpose
 # translation corpus and has plenty in it that is not for them, so a sentence
@@ -1102,8 +1218,24 @@ UNSUITABLE_EN = re.compile(
     r"drunk|drunken|beer|whisky|whiskey|wine|liquor|alcohol|cigarette|cigarettes|smoking|"
     r"drug|drugs|heroin|cocaine|damn|damned|hell|bastard|bitch|shit|fuck|"
     r"prostitute|prostitution|brothel|mistress|adultery|abortion|"
-    r"gun|guns|pistol|rifle|shoot|bomb|bombs|stabbed|"
-    r"idiot|stupid|fool|ugly|divorce|divorced|hate|hates|hated)\b", re.I)
+    r"gun|guns|pistol|rifle|shoot|bomb|bombs|stabbed|bullet|bullets|knife|"
+    r"wound|wounded|weapon|weapons|drinking|drank|sake|pub|tavern|tobacco|cigar|"
+    r"idiot|stupid|fool|ugly|divorce|divorced|hate|hates|hated|toilet|toilets)\b", re.I)
+
+
+def example_gloss(glosses):
+    """A word's meaning, short enough to sit under a sentence on a phone.
+    Up to three senses; a trailing parenthetical is dropped before the string
+    is cut, since that usually recovers the plain meaning intact (the same
+    trick shorten_label makes for the quiz's answer labels)."""
+    text = ", ".join(glosses[:3])
+    if len(text) > EXAMPLE_GLOSS_MAX:
+        text = ", ".join(glosses[:2])
+    if len(text) > EXAMPLE_GLOSS_MAX:
+        text = re.sub(r"\s*\([^()]*\)\s*$", "", glosses[0]).strip() or glosses[0]
+    if len(text) > EXAMPLE_GLOSS_MAX:
+        text = text[:EXAMPLE_GLOSS_MAX - 1].rstrip() + "…"
+    return text
 
 
 def parse_examples():
@@ -1126,11 +1258,13 @@ def parse_examples():
             m = B_TOKEN_RE.match(raw) if raw else None
             if not m:
                 continue
-            head, reading, _sense, surface, good = m.groups()
+            head, reading, sense, surface, good = m.groups()
+            seq = None
             if reading and reading.startswith("#"):
-                reading = None  # an entry id, not a reading
+                seq, reading = reading[1:], None  # an entry id, not a reading
             reading = kata_to_hira(reading) if reading else None
-            tokens.append({"head": head, "reading": reading,
+            tokens.append({"head": head, "reading": reading, "seq": seq,
+                           "sense": int(sense) if sense else None,
                            "surface": surface or head, "good": bool(good)})
             if reading:
                 seen_readings[head][reading] += 1
@@ -1198,6 +1332,25 @@ def example_token_ruby(head, annotated, surface, keb_readings, prior, stem_index
     return None
 
 
+def locate_tokens(japanese, tokens):
+    """[(start, token)] — where each word of the index line actually sits in
+    the sentence. The index lists them in the order they appear, so searching
+    forward from the end of the last one keeps a word that occurs twice (は,
+    人) on its own copy of itself. A token the sentence doesn't contain (the
+    two occasionally disagree) is dropped."""
+    placed = []
+    cursor = 0
+    for token in tokens:
+        at = japanese.find(token["surface"], cursor)
+        if at < 0:
+            at = japanese.find(token["surface"])
+            if at < 0:
+                continue
+        cursor = at + len(token["surface"])
+        placed.append((at, token))
+    return placed
+
+
 def example_ruby(japanese, tokens, keb_readings, prior, stem_index):
     """(ruby, unglossed, guesses) for a whole sentence. `ruby` is a list of
     [start, length, kana] over the sentence string — the same shape as a
@@ -1205,19 +1358,8 @@ def example_ruby(japanese, tokens, keb_readings, prior, stem_index):
     that do not divide character by character."""
     ruby = []
     guesses = 0
-    cursor = 0
-    for token in tokens:
-        surface = token["surface"]
-        # The index lists tokens in the order they appear, so searching
-        # forward from the end of the last one keeps a word that occurs twice
-        # (は, 人) on its own copy of itself.
-        at = japanese.find(surface, cursor)
-        if at < 0:
-            at = japanese.find(surface)
-            if at < 0:
-                continue  # index line and sentence disagree; that part stays unglossed
-        cursor = at + len(surface)
-        resolved = example_token_ruby(token["head"], token["reading"], surface,
+    for at, token in locate_tokens(japanese, tokens):
+        resolved = example_token_ruby(token["head"], token["reading"], token["surface"],
                                       keb_readings, prior, stem_index)
         if resolved is None:
             continue
@@ -1228,55 +1370,181 @@ def example_ruby(japanese, tokens, keb_readings, prior, stem_index):
             ruby.append([at + offset, length, kana])
     ruby.sort()
     glossed = {pos for start, length, _ in ruby for pos in range(start, start + length)}
-    unglossed = [i for i, ch in enumerate(japanese) if is_kanji(ch) and i not in glossed]
+    unglossed = tuple(i for i, ch in enumerate(japanese) if is_kanji(ch) and i not in glossed)
     return ruby, unglossed, guesses
 
 
-def example_score(japanese, english, unglossed, guesses, flagged, as_written):
-    """Bigger is better. The ideal being scored against: a fully glossed
-    sentence of about EXAMPLE_LEN_IDEAL characters, flagged by the corpus as a
-    good example of this word, using it in the form the learner is taught."""
+def glossary_key(token, reading, example_glosses, example_senses, keb_readings):
+    """Which entry of the tap-a-word glossary this word of a sentence means,
+    or None if JMdict has nothing for it.
+
+    Built up in layers, each added only when it pins something down: the
+    written form; "開く|ひらく" when that form has more than one reading;
+    "で#2028980" when the corpus names the exact JMdict entry (it does this
+    for the particles, where a bare で would as likely find the copula); and
+    a trailing "@3" when the corpus names a sense other than the first (と is
+    "if, when" in sense 1 and "with" in sense 3, and which one a sentence
+    means is not something a dictionary lookup can recover). The app strips
+    at the first of | # @ to get the dictionary form back to display — none
+    of the three occurs in Japanese, which is what makes them safe.
+    """
+    head = token["head"]
+    key = None
+    if token["seq"] and f"{head}#{token['seq']}" in example_glosses:
+        key = f"{head}#{token['seq']}"
+    elif reading and len(keb_readings.get(head, [])) > 1 and f"{head}|{reading}" in example_glosses:
+        key = f"{head}|{reading}"
+    elif head in example_glosses:
+        key = head
+    if key is None:
+        return None
+    sense = token["sense"]
+    if sense and sense > 1 and len(example_senses.get(key, ())) >= sense:
+        return f"{key}@{sense}"
+    # An unannotated particle is the one case where a single sense is worse
+    # than none of them. と is six senses in one entry — "if", "and", "with",
+    # quoting — the corpus only names which one about a third of the time,
+    # and a learner tapping と wants to know it is that whole range, not to
+    # be told flatly that it means "if". "@*" is every sense at once; see the
+    # glossary construction in build_examples.
+    if not sense and len(example_senses.get(key, ())) > 1 \
+            and len(head) <= 2 and not any(is_kanji(ch) for ch in head):
+        return f"{key}@*"
+    return key
+
+
+def example_words(japanese, tokens, keb_readings, prior, example_glosses, example_senses):
+    """[[start, length] or [start, length, key]] — every word of the sentence
+    the app can make tappable, in order. The key is left off when it is the
+    written form itself, which is the common case and the whole reason this
+    is not simply a list of keys."""
+    spans = []
+    for at, token in locate_tokens(japanese, tokens):
+        surface = token["surface"]
+        reading, _certain = resolve_reading(token["head"], token["reading"], keb_readings, prior)
+        key = glossary_key(token, reading, example_glosses, example_senses, keb_readings)
+        if key is None:
+            continue
+        spans.append([at, len(surface)] if key == surface else [at, len(surface), key])
+    return spans
+
+
+def example_score(japanese, english, unglossed, guesses, flagged, as_written,
+                  is_idiom, familiar):
+    """Bigger is better. The ideal being scored against: a short, fully
+    glossed, literally translated sentence made of words this app teaches,
+    flagged by the corpus as a good example of the word, using it in the form
+    the learner is taught. See the WHAT MAKES A GOOD EXAMPLE note above."""
     score = 40.0 if not unglossed else -12.0 * len(unglossed)
     score -= 6.0 * guesses
     score += 12.0 if flagged else 0.0
     score += 10.0 if as_written else 0.0
     score -= abs(len(japanese) - EXAMPLE_LEN_IDEAL) * 1.2
     score -= max(0, len(english) - 60) * 0.15
+    if is_idiom:
+        score -= IDIOM_PENALTY
+    if FRAGMENTARY_RE.search(japanese):
+        score -= FRAGMENTARY_PENALTY
+    if len(english) / len(japanese) < LITERAL_MIN_RATIO:
+        score -= LITERAL_PENALTY
+    score += FAMILIAR_WEIGHT * familiar
     return score
 
 
-def build_examples(unit_records, keb_readings, stem_index):
-    """Give every word the `ex` its detail screen shows, wherever the corpus
-    has a sentence for it. Two passes over the same sentences: the first
-    insists on a short one with furigana over every kanji in it; the second,
-    for whatever the first found nothing for, will take a longer sentence, or
-    one with an unglossed kanji elsewhere in it, or the word appearing inside
-    a longer token instead of as one of its own — but never a sentence that
-    fails to gloss the taught word itself."""
+def familiar_share(tokens, taught_forms):
+    """What fraction of a sentence's words the learner could already know:
+    words this app teaches, plus the kana-only grammar (particles, copula,
+    する/ある) that no vocabulary list needs to cover for a sentence to be
+    readable. This is what "piece a sentence together from what you know"
+    actually measures."""
+    if not tokens:
+        return 0.0
+    known = sum(1 for t in tokens
+                if t["head"] in taught_forms or not any(is_kanji(ch) for ch in t["head"]))
+    return known / len(tokens)
+
+
+def choose_examples(shortlist, sentences):
+    """Up to EXAMPLES_PER_WORD sentences that are each good AND unlike the
+    others. Greedy: take the best, then re-rank what is left against what has
+    already been taken, penalising a sentence that uses the taught word in the
+    same written form as one already chosen (招待し after 招待し teaches nothing
+    new about 招待する) or that is largely the same words in the same order."""
+    remaining = sorted(shortlist, reverse=True)
+    picked = []
+    seen = set()
+    while remaining and len(picked) < EXAMPLES_PER_WORD:
+        best_index, best_adjusted = None, None
+        for index, (score, sentence_index, written) in enumerate(remaining):
+            # The corpus holds the same pair more than once under different
+            # ids, and two copies of one sentence is not two examples. A
+            # rule rather than a penalty: a duplicate is never acceptable,
+            # however much better than the alternatives it scores.
+            if sentences[sentence_index][0] in seen:
+                continue
+            adjusted = score
+            words = {t["head"] for t in sentences[sentence_index][2]}
+            for _s, picked_index, picked_written in picked:
+                if written == picked_written:
+                    adjusted -= SAME_FORM_PENALTY
+                picked_words = {t["head"] for t in sentences[picked_index][2]}
+                if words and picked_words:
+                    overlap = len(words & picked_words) / min(len(words), len(picked_words))
+                    adjusted -= OVERLAP_PENALTY * overlap
+            if best_adjusted is None or adjusted > best_adjusted:
+                best_index, best_adjusted = index, adjusted
+        if best_index is None:
+            break  # everything left is a copy of something already picked
+        chosen = remaining.pop(best_index)
+        seen.add(sentences[chosen[1]][0])
+        picked.append(chosen)
+    return picked
+
+
+def build_examples(unit_records, keb_readings, stem_index, example_glosses,
+                   example_senses, idiomatic):
+    """Give every word the `ex` sentences its detail screen shows, wherever
+    the corpus has them, and return the glossary the app needs to answer a tap
+    on any word inside one.
+
+    Two passes over the same sentences: the first insists on a short one with
+    furigana over every kanji in it; the second, for a word the first found
+    fewer than EXAMPLES_PER_WORD of, will take a longer sentence, or one with
+    an unglossed kanji elsewhere in it, or the word appearing inside a longer
+    token instead of as one of its own — but never a sentence that fails to
+    gloss the taught word itself."""
     sentences, prior = parse_examples()
 
     # (surface, reading) -> every record teaching that word; a word can be
     # taught in more than one unit, and all of its records get the same
-    # example. Records are held by reference and written into directly.
+    # sentences. Records are held by reference and written into directly.
     records_for = defaultdict(list)
     glosses = {}
     for records in unit_records.values():
         for record in records:
             records_for[(record["w"], record["r"])].append(record)
             glosses[(record["w"], record["r"])] = " ".join(record["en"]).lower()
+    taught_forms = {surface for surface, _reading in records_for}
     wanted = defaultdict(set)
     for surface, reading in records_for:
         wanted[surface].add(reading)
     total = len(records_for)
 
-    ruby_cache = {}
+    ruby_cache = {}   # sentence index -> (unglossed, guesses); the ruby itself is rebuilt for the few that are chosen
+    idiom_cache = {}
+    familiar_cache = {}
+    shortlists = defaultdict(list)
+    shortlist_texts = defaultdict(set)
 
     def pass_over(relaxed):
         min_len, max_len = EXAMPLE_LEN_RANGE_RELAXED if relaxed else EXAMPLE_LEN_RANGE
         max_en = EXAMPLE_EN_MAX_RELAXED if relaxed else EXAMPLE_EN_MAX
-        best = {}
         for index, (japanese, english, tokens) in enumerate(sentences):
             if not english or not (min_len <= len(japanese) <= max_len) or len(english) > max_en:
+                continue
+            if ELLIPSIS_RE.search(japanese):
+                continue
+            if len(english) / len(japanese) < LITERAL_FLOOR_RATIO:
                 continue
             # (surface, token, token-is-the-dictionary-form). A None token is
             # the relaxed pass's "the word is in there somewhere" — 予備校
@@ -1288,7 +1556,31 @@ def build_examples(unit_records, keb_readings, stem_index):
                 if token["surface"] != token["head"] and token["surface"] in wanted:
                     hits.append((token["surface"], token, False))
             if relaxed and not hits:
-                hits = [(w, None, False) for w in wanted if w in japanese]
+                # Whole words only. Unchecked, this finds the noun 買い
+                # ("buying") inside 買う{買いました} and offers three sentences
+                # about buying things as examples of a noun none of them
+                # contains, or the word 宿駅 inside the place name 新宿駅.
+                # The index's own token edges are the only word boundaries
+                # Japanese offers; where a word sits inside a token rather
+                # than at its edge, the character alongside decides. A
+                # hiragana one after it is okurigana continuing a word
+                # (買い|ました); a kanji one before it is the other half of a
+                # compound (新|宿駅). Either way what was found is not the
+                # word being looked for. A kanji after it, on the other hand,
+                # is a compound this word is genuinely part of (予備校|生).
+                edges = locate_tokens(japanese, tokens)
+                starts = {at for at, _t in edges}
+                ends = {at + len(t["surface"]) for at, t in edges}
+                for word in wanted:
+                    at = japanese.find(word)
+                    if at < 0:
+                        continue
+                    end = at + len(word)
+                    if at not in starts and (at == 0 or is_kanji(japanese[at - 1])):
+                        continue
+                    if end not in ends and (end == len(japanese) or KANA_ONLY_RE.match(japanese[end])):
+                        continue
+                    hits.append((word, None, False))
             if not hits:
                 continue
             for surface, token, is_head in hits:
@@ -1300,43 +1592,121 @@ def build_examples(unit_records, keb_readings, stem_index):
                         used, _certain = resolve_reading(surface, token["reading"], keb_readings, prior)
                         if used is not None and used != reading:
                             continue
+                    # Matched on the written form rather than the dictionary
+                    # form, which is right for a spelling variant (今日は
+                    # written こんにちは — the index's own word, read the same)
+                    # and wrong for a collision (the noun 買い, "buying", is
+                    # not what 買う{買い}たい contains). The index's word has
+                    # to be read the way this entry is for it to BE this
+                    # entry.
+                    elif token is not None and not is_head:
+                        head_reading, _certain = resolve_reading(
+                            token["head"], token["reading"], keb_readings, prior)
+                        if head_reading != reading:
+                            continue
                     gloss = glosses[(surface, reading)]
                     if any(m.group(0).lower() not in gloss for m in UNSUITABLE_EN.finditer(english)):
                         continue
                     if index not in ruby_cache:
-                        ruby_cache[index] = example_ruby(japanese, tokens, keb_readings, prior, stem_index)
-                    ruby, unglossed, guesses = ruby_cache[index]
+                        _ruby, unglossed, guesses = example_ruby(
+                            japanese, tokens, keb_readings, prior, stem_index)
+                        ruby_cache[index] = (unglossed, guesses)
+                        idiom_cache[index] = SENTENCE_END_RE.sub("", japanese) in idiomatic
+                        familiar_cache[index] = familiar_share(tokens, taught_forms)
+                    unglossed, guesses = ruby_cache[index]
+                    written = token["surface"] if token else surface
                     if unglossed:
                         if not relaxed:
                             continue
-                        written = token["surface"] if token else surface
                         at = japanese.find(written)
                         if at >= 0 and any(at <= pos < at + len(written) for pos in unglossed):
                             continue
                     score = example_score(japanese, english, unglossed, guesses,
                                           bool(token) and token["good"],
-                                          bool(token) and token["surface"] == surface)
-                    current = best.get((surface, reading))
-                    if current is None or score > current[0]:
-                        best[(surface, reading)] = (score, japanese, english, ruby)
-        return best
+                                          bool(token) and token["surface"] == surface,
+                                          idiom_cache[index], familiar_cache[index])
+                    # A bounded worst-first heap of the best candidates so
+                    # far, kept free of the corpus's duplicate pairs (the
+                    # same sentence appears under several ids) so that 20
+                    # candidates really are 20 different sentences for
+                    # choose_examples to pick three unlike ones from.
+                    shortlist = shortlists[(surface, reading)]
+                    texts = shortlist_texts[(surface, reading)]
+                    if japanese in texts:
+                        continue
+                    candidate = (score, index, written)
+                    if len(shortlist) < EXAMPLE_SHORTLIST:
+                        heapq.heappush(shortlist, candidate)
+                        texts.add(japanese)
+                    elif candidate > shortlist[0]:
+                        texts.discard(sentences[heapq.heapreplace(shortlist, candidate)[1]][0])
+                        texts.add(japanese)
 
-    strict = pass_over(relaxed=False)
-    print(f"Examples: {len(strict)} words matched a short, fully-glossed sentence")
-    for surface, reading in strict:
-        wanted[surface].discard(reading)
-    wanted = defaultdict(set, {w: r for w, r in wanted.items() if r})
-    relaxed = pass_over(relaxed=True)
-    print(f"          {len(relaxed)} more matched on the relaxed second pass")
+    pass_over(relaxed=False)
+    strict_full = sum(1 for lst in shortlists.values() if len(lst) >= EXAMPLES_PER_WORD)
+    print(f"Examples: {len(shortlists)} words matched a short, fully-glossed sentence "
+          f"({strict_full} of them matched at least {EXAMPLES_PER_WORD})")
+    short_of = {key for key, lst in shortlists.items() if len(lst) < EXAMPLES_PER_WORD}
+    short_of |= set(records_for) - set(shortlists)
+    wanted = defaultdict(set)
+    for surface, reading in short_of:
+        wanted[surface].add(reading)
+    pass_over(relaxed=True)
+    print(f"          the relaxed second pass brought {len(shortlists)} words to at least one")
 
-    for source in (strict, relaxed):
-        for key, (_score, japanese, english, ruby) in source.items():
-            for record in records_for[key]:
-                record["ex"] = {"j": japanese, "r": ruby, "en": english}
+    glossary = {}
+    counts = Counter()
+    for key, shortlist in shortlists.items():
+        chosen = []
+        for _score, index, _written in choose_examples(shortlist, sentences):
+            japanese, english, tokens = sentences[index]
+            ruby, _unglossed, _guesses = example_ruby(
+                japanese, tokens, keb_readings, prior, stem_index)
+            words = example_words(japanese, tokens, keb_readings, prior,
+                                  example_glosses, example_senses)
+            example = {"j": japanese, "en": english, "r": ruby, "w": words}
+            if idiom_cache[index]:
+                example["i"] = 1  # labelled as an idiom in the app rather than passed off as ordinary usage
+            chosen.append(example)
+            for span in words:
+                glossary_word = span[2] if len(span) > 2 else japanese[span[0]:span[0] + span[1]]
+                if glossary_word not in glossary:
+                    base, _, sense = glossary_word.partition("@")
+                    dictionary_form = re.split(r"[|#]", base)[0]
+                    reading, _certain = resolve_reading(
+                        dictionary_form, None, keb_readings, prior)
+                    if sense == "*":
+                        # First gloss of each sense, up to four: "if · and ·
+                        # with · used for quoting" rather than one of those
+                        # four presented as the answer.
+                        seen_senses = []
+                        for text in example_senses[base]:
+                            # Parentheticals first, then the comma: splitting
+                            # "used for quoting (thoughts, speech, etc.)" on
+                            # its first comma otherwise cuts it off inside
+                            # the bracket.
+                            first = re.sub(r"\s*\([^()]*\)", "", text).split(",")[0].strip()
+                            if first and first not in seen_senses:
+                                seen_senses.append(first)
+                        meaning = " · ".join(seen_senses[:4])
+                    elif sense:
+                        meaning = example_senses[base][int(sense) - 1]
+                    else:
+                        meaning = example_glosses[base]
+                    glossary[glossary_word] = [reading or dictionary_form, meaning]
+        counts[len(chosen)] += 1
+        for record in records_for[key]:
+            record["ex"] = chosen
 
-    covered = len(strict) + len(relaxed)
-    print(f"          {covered} of {total} words have an example sentence "
-          f"({100 * covered / total:.1f}%) — the rest appear in no corpus sentence")
+    covered = len(shortlists)
+    idioms = sum(1 for records in unit_records.values() for r in records
+                 for e in r.get("ex", []) if e.get("i"))
+    print(f"          {covered} of {total} words have at least one example sentence "
+          f"({100 * covered / total:.1f}%) — "
+          + ", ".join(f"{counts[n]} with {n}" for n in sorted(counts, reverse=True))
+          + f"; {idioms} idioms kept for want of anything better")
+    print(f"          {len(glossary)} distinct words across every sentence, for tap-a-word")
+    return glossary
 
 
 # --- Assembly ----------------------------------------------------------------
@@ -1432,7 +1802,8 @@ def main():
             for variant in stem_variants(stem):
                 reading_to_kanji.setdefault(variant, set()).add(kanji)
 
-    candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool = parse_jmdict()
+    (candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool,
+     example_glosses, example_senses, idiomatic) = parse_jmdict()
 
     print("Building entry index for Core lookups...")
     text = JMDICT.read_text(encoding="utf-8")
@@ -1724,7 +2095,8 @@ def main():
         print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a / {k_n} k)")
 
     # --- Example sentences, once every unit's records exist ---
-    build_examples(unit_records, keb_readings, stem_index)
+    example_glossary = build_examples(unit_records, keb_readings, stem_index,
+                                      example_glosses, example_senses, idiomatic)
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -1750,6 +2122,33 @@ def main():
             stale.unlink()
             print(f"Removed stale {stale.name} (unit no longer produced)")
 
+    def encode_entries(entries_out):
+        """json.dumps(indent=2) with one exception: the [start, length, kana]
+        and [start, length, key] triples inside `ex` are kept on one line
+        each. Spread over five lines apiece they are most of the file — a
+        unit goes from 117 KB to about half that — and a sentence's furigana
+        offsets are no more readable stacked vertically than they are inline.
+        Everything else keeps the shape every other generated file here has.
+        """
+        inline = {}
+
+        def stash(value):
+            token = f"@@{len(inline)}@@"
+            inline[token] = json.dumps(value, ensure_ascii=False)
+            return token
+
+        prepared = []
+        for entry in entries_out:
+            entry = dict(entry)
+            if "ex" in entry:
+                entry["ex"] = [{**example,
+                                "r": [stash(span) for span in example["r"]],
+                                "w": [stash(span) for span in example["w"]]}
+                               for example in entry["ex"]]
+            prepared.append(entry)
+        text = json.dumps(prepared, ensure_ascii=False, indent=2)
+        return re.sub(r'"(@@\d+@@)"', lambda m: inline[m.group(1)], text)
+
     manifest_units = {}
     lookup = {}
     for unit, recs in unit_records.items():
@@ -1760,7 +2159,7 @@ def main():
             lookup[by_id[wid]["w"]] = unit  # last unit wins on a cross-unit surface clash — rare, acceptable for v1
         out_path = DATA_DIR / f"vocab-{unit}.js"
         js = header + [
-            "export const VOCAB_ENTRIES = " + json.dumps(entries_out, ensure_ascii=False, indent=2) + ";",
+            "export const VOCAB_ENTRIES = " + encode_entries(entries_out) + ";",
             "",
         ]
         out_path.write_text("\n".join(js), encoding="utf-8")
@@ -1797,8 +2196,33 @@ def main():
     ]
     lookup_path.write_text("\n".join(lookup_js), encoding="utf-8")
 
-    print(f"\nwrote {manifest_path.name}, {lookup_path.name}, and {len(unit_records)} vocab-<unit>.js files "
-          f"to {DATA_DIR}")
+    # One shared file rather than a gloss inlined on every token of every
+    # sentence: the same few thousand words (は, 私, 行く) recur across all
+    # ~9,000 sentences, so inlining would repeat them thousands of times and
+    # bloat every single lazily-loaded unit file. Loaded once, on the first
+    # tap of a word in a sentence, and cached from then on.
+    words_path = DATA_DIR / "example-words.js"
+    words_js = header + [
+        "// Every distinct word appearing in any example sentence, so a tap on\n"
+        "// one can answer with its reading and meaning: key -> [reading,\n"
+        "// meaning]. The key is the written form, or form|reading, or\n"
+        "// form#entry-id where JMdict needed pinning down; the app strips at\n"
+        "// the first | or # to get the dictionary form back (neither\n"
+        "// character occurs in Japanese). Loaded lazily and once — see\n"
+        "// ensureExampleWordsLoaded() in app.js.",
+        "export const EXAMPLE_WORDS = {",
+        # One line per word: 8,900 entries at four lines each is a 600 KB
+        # file for 300 KB of data, and this one is fetched whole.
+        *(f" {json.dumps(key, ensure_ascii=False)}: {json.dumps(value, ensure_ascii=False)},"
+          for key, value in sorted(example_glossary.items())),
+        "};",
+        "",
+    ]
+    words_path.write_text("\n".join(words_js), encoding="utf-8")
+
+    print(f"\nwrote {manifest_path.name}, {lookup_path.name}, {words_path.name} "
+          f"({words_path.stat().st_size // 1024} KB), and {len(unit_records)} "
+          f"vocab-<unit>.js files to {DATA_DIR}")
 
 
 if __name__ == "__main__":

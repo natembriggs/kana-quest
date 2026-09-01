@@ -1325,10 +1325,10 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .mastery-label.tier-3 { color: var(--tier-3); }
 .mastery-label.tier-4 { color: var(--tier-4); }
 
-/* Vocab detail's example sentence: the word in use, furigana over the whole
-   sentence, translation underneath. A card rather than a bare paragraph —
-   it's the one block on this screen that is a quotation from somewhere else
-   rather than a fact about the word. */
+/* Vocab detail's example sentences: the word in use, furigana over the whole
+   sentence, translation underneath, and every word in it tappable. A card
+   rather than a bare paragraph — these are the one block on this screen that
+   is a quotation from somewhere else rather than a fact about the word. */
 .detail-example {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -1336,6 +1336,10 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   padding: 14px 16px;
 }
 .detail-example h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink-soft); }
+/* Three sentences in one card need dividing, or they read as one paragraph
+   of Japanese with three translations somewhere below it. */
+.example + .example { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.example-tag { margin: 0 0 6px; font-size: 12px; color: var(--ink-soft); font-style: italic; }
 
 /* line-height has to carry the furigana sitting above the line as well as
    the line itself — at a normal 1.5 the ruby of one line collides with the
@@ -1348,12 +1352,27 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   line-height: 2.1;
   color: var(--ink);
   /* 禁則処理, the half of it the browser can do unaided — same settings as
-     .reader-body. A sentence here is ordinary inline text (ruby elements,
-     not the reader's inline-block tokens), so unlike there, nothing has to
-     be regrouped by hand to stop a small kana or a 。 starting a line. */
+     .reader-body. The other half (a 。 in its own inline-block box) is done
+     by the .example-run grouping below, exactly as the reader does it. */
   line-break: strict;
   word-break: normal;
   overflow-wrap: normal;
+}
+.example-run { white-space: nowrap; }
+.example-piece {
+  display: inline-block;
+  vertical-align: bottom;
+  /* A word here is a <button>: strip everything a button brings with it, so
+     a sentence reads as a sentence and not as a row of controls. What marks
+     one as tappable is the underline below, and only on press does it take
+     any colour of its own. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
 }
 .example-jp ruby { ruby-position: over; }
 .example-jp rt {
@@ -1361,6 +1380,17 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   font-weight: 400;
   color: var(--ink-soft);
   user-select: none;
+}
+/* Every word is tappable, so marking each one would underline the whole
+   sentence and say nothing. The affordance is carried by the one word that
+   IS marked (the word being studied, below) plus the tap itself. */
+.example-word { cursor: pointer; }
+.example-word.is-active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 5px;
+}
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .example-word.is-active { background: var(--ok-bg); }
 }
 
 /* The word this sentence is an example OF. Underlined rather than
@@ -1373,6 +1403,29 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .example-hit rt { color: var(--accent); }
 
 .example-en { margin: 8px 0 0; font-size: 15px; color: var(--ink-soft); }
+
+/* The tapped word, under the sentence it was tapped in — near enough that
+   the two are obviously connected, unlike the reader's bottom sheet, which
+   has a whole scrolling story to stay clear of. */
+.example-word-panel {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.example-word-written {
+  margin: 0;
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 24px;
+  line-height: 1.9;
+  color: var(--ink);
+}
+.example-word-written rt { font-size: 0.45em; color: var(--ink-soft); }
+.example-word-panel .hint { margin: 2px 0 0; }
+.example-word-meaning { margin: 4px 0 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+.example-word-panel .reading-chips { margin-top: 8px; }
+.example-word-panel .word-more { margin-top: 6px; }
 
 /* --- Study history (character detail's "My study history", see
    openStudyHistory()/buildStudyHistory() in app.js) --------------------- */

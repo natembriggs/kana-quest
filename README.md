@@ -326,9 +326,19 @@ Only **Meaning mode** is built so far (English → Japanese comes later):
 
 #### Example sentences
 
-A word's own page ends with **one real sentence using it** — furigana over
-every kanji in the whole sentence, not just the word, and an English
-translation of all of it. The word itself is underlined where it appears.
+A word's own page ends with **up to three real sentences using it** — furigana
+over every kanji in each whole sentence, not just over the word, an English
+translation of all of it, and **every word in the sentence its own tap
+target**: tap one for its reading, the dictionary word it comes from, what it
+means, its kanji, and its own page where the app teaches it. The word being
+studied is underlined where it appears.
+
+Three rather than one because one usage is often the least representative
+thing about a word: ご招待をありがとうございます is a correct example of 招待 and
+a set phrase that says nothing about 招待する. The three are chosen to differ
+from each other — a sentence using the word in a written form one already
+picked uses, or made largely of the same words in the same order, is ranked
+down for it.
 
 These come from the [Tanaka
 Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) at build time
@@ -336,22 +346,50 @@ Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) at build time
 larger export for one reason: each of its ~148,000 sentences carries an index
 line naming the dictionary form of every word in it, with a reading wherever
 that form is ambiguous. No Japanese tokeniser is available to this build, and
-without one that index is the only way to gloss a whole *sentence*.
+without one that index is the only way to gloss a whole *sentence* — or to
+make every word in one tappable.
 
-A wrong reading taught confidently is worse than no example at all, so a
-reading comes from the index line's own annotation first, then the reading the
-corpus itself uses most often for that written form elsewhere, and only then
-JMdict's first-listed reading — and only counted as certain there if JMdict
-lists just one. Sentences needing a guess are ranked down rather than
-excluded; short ones the corpus flags as good examples of the word rank up.
-Sentences whose English is not for children are skipped (the taught word is
-exempt from its own filter — a word meaning "war" cannot have an example that
-avoids saying "war").
+**Readings.** A wrong reading taught confidently is worse than no example at
+all, so a reading comes from the index line's own annotation first, then the
+reading the corpus itself uses most often for that written form elsewhere, and
+only then JMdict's first-listed reading — and only counted as certain there if
+JMdict lists just one. Sentences needing a guess are ranked down rather than
+excluded.
 
-**84% of words have one.** The remaining ~620 appear in no corpus sentence at
-all — almost all of them rare newspaper compounds in the A-level and "From
-kanji pages" units (春闘, 特殊法人, 撚糸) — and their pages simply show nothing
-rather than an empty heading.
+**What makes a good example**, in the order these matter:
+
+- **It is not an idiom or proverb.** 一寸の虫にも五分の魂 ("tread on a worm and
+  it will turn") is a fine proverb and a terrible example sentence: non-literal,
+  partly archaic, and its English teaches nothing about any word in it. JMdict
+  tags these (`proverb`/`id`/`quote`/`yoji`) and the penalty all but removes
+  them. Six survive, for words like 千里 and 縄 that are barely used outside
+  one saying, and each is labelled as an idiom in the app rather than passed
+  off as ordinary usage.
+- **Its translation is literal.** English runs about 2.5 characters per
+  Japanese character; well under that, the translation is giving the sense
+  rather than saying what the sentence says, which is no use to someone
+  matching the two halves up. Penalised below 1.6, refused below 1.2.
+- **The rest of its words are words this app teaches**, so the sentence can be
+  pieced together rather than read past.
+- **It is short**, the corpus flags it as a good example of this word, and it
+  is a whole sentence rather than a fragment of dialogue.
+
+**Tapping a word** is answered from `src/data/example-words.js`: every distinct
+word across every example sentence — 9,600 of them, particles included — with
+its reading and meaning. One shared file, fetched once on the first tap of a
+session, rather than a gloss inlined on each of ~80,000 tokens, which would
+repeat は and 私 thousands of times over and bloat every unit file. Its keys
+carry whatever narrowing JMdict needed: `開く|ひらく` for a written form with
+several readings, `で#2028980` where the corpus names the exact entry, `と@3`
+where it names a sense. An unannotated particle is given every sense at once
+("if · and · with · used for quoting") rather than one of six presented as the
+answer.
+
+**83% of words have at least one** (2,661 have three). The remaining ~670
+appear in no corpus sentence at all — almost all rare newspaper compounds in
+the A-level and "From kanji pages" units (春闘, 特殊法人, 撚糸) — and their
+pages show nothing rather than an empty heading. Core is the best covered:
+112 of its 113 words have all three.
 
 See `vocab-plan.md` for the full design, including exposure-based hiding
 (read a reading enough times without ever tapping for it, and it starts
@@ -451,6 +489,7 @@ when you want to force it, but it shouldn't be needed.
 | `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
 | `src/strokes.js` | Builds the numbered stroke-order SVG and its draw-in animation, from `src/data/stroke-*.js` |
 | `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
+| `src/data/example-words.js` | Generated data: every word appearing in any example sentence, with its reading and meaning — one shared file, loaded lazily on the first tap of a word inside a sentence |
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/merge.js` | Pure profile-merge logic backup import runs on — kept separate from storage so the same merge can run against a synced profile later, see `sync-plan.md` §0.3 |

@@ -404,18 +404,21 @@
          renderWordKanjiChips()/fillWordKanjiChips() in app.js. -->
     <div id="detail-word-kanji" class="reading-chips" lang="ja" hidden></div>
 
-    <!-- Vocab only: one real sentence using this word, with furigana over
-         every kanji in the whole sentence and a translation of all of it —
-         not just of the word. The word itself is highlighted where it
-         appears. Comes from the Tanaka Corpus at build time (`ex` in
+    <!-- Vocab only: up to three real sentences using this word, with
+         furigana over every kanji in each whole sentence and a translation
+         of all of it — not just of the word. The word itself is highlighted
+         where it appears, and every OTHER word in the sentence is tappable
+         for its own reading and meaning. Three rather than one because a
+         single sentence is a single usage: ご招待をありがとうございます is a
+         correct example of 招待 and says nothing whatever about 招待する.
+         Comes from the Tanaka Corpus at build time (`ex` in
          src/data/vocab-*.js; see build_examples() in
-         tools/build_vocab_data.py) and is simply absent for the ~16% of
+         tools/build_vocab_data.py) and is simply absent for the ~17% of
          words no corpus sentence contains, which is why this hides rather
-         than showing an empty heading. See renderWordExample() in app.js. -->
+         than showing an empty heading. See renderWordExamples() in app.js. -->
     <div id="detail-example" class="detail-example" hidden>
-      <h3>In a sentence</h3>
-      <p id="detail-example-jp" class="example-jp" lang="ja"></p>
-      <p id="detail-example-en" class="example-en"></p>
+      <h3 id="detail-example-heading">In sentences</h3>
+      <div id="detail-example-list" class="stack"></div>
     </div>
 
     <div id="detail-general-words" class="stack" hidden>
