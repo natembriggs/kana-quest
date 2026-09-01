@@ -50,7 +50,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1968,11 +1968,70 @@ function vocabTargetForWord(word) {
 }
 
 /** Definitions behind the two register badges buildRegisterBadges() renders —
- * shared so the icon and its tap-to-explain caption always agree. */
+ * shared so the icon and its tap-to-explain popover always agree. */
 const WORD_REGISTER_BADGES = [
   ['spoken', '🗣️', 'Spoken', 'Common in everyday conversation.'],
-  ['written', '📰', 'Written', 'Common in newspapers and other formal writing.'],
+  ['written', '🖊️', 'Written', 'Common in newspapers and other formal writing.'],
 ];
+
+/** The one register-badge popover open at a time, or null — module-level
+ * since only one can ever be open regardless of which word row it's for. */
+let openRegisterPopover = null;
+
+function closeRegisterPopover() {
+  if (!openRegisterPopover) return;
+  document.removeEventListener('click', openRegisterPopover.onOutsideClick);
+  window.removeEventListener('scroll', openRegisterPopover.onOutsideClick, true);
+  openRegisterPopover.el.remove();
+  openRegisterPopover = null;
+}
+
+/**
+ * A speech-bubble popover anchored to `badge`, appended to <body> (so it
+ * floats above everything — the row it lives in may be mid-list, inside a
+ * scrolling section, anywhere) with a tail pointing back at the badge that
+ * opened it. `position: fixed` throughout, so no ancestor scroll offset
+ * needs accounting for — only the badge's own viewport rect.
+ *
+ * Dismissal is a single outside click/scroll listener, added AFTER this
+ * click finishes (the badge's own handler below stops propagation, so the
+ * very click that opens this one can never immediately close it): tapping
+ * anywhere else closes it and, because nothing here calls
+ * preventDefault/stopPropagation, still lets that tap's own effect happen
+ * (opening another popover, adding a word, following a link) — tapping the
+ * popover itself or empty space closes it with nothing else to do, since
+ * neither has any handler of its own.
+ */
+function openRegisterPopoverFor(badge, label, text) {
+  const bubble = document.createElement('div');
+  bubble.className = 'word-reg-popover';
+  bubble.setAttribute('role', 'tooltip');
+  bubble.textContent = `${label} — ${text}`;
+  const tail = document.createElement('span');
+  tail.className = 'word-reg-popover-tail';
+  bubble.appendChild(tail);
+  document.body.appendChild(bubble);
+
+  const margin = 8;
+  const gap = 8;
+  const badgeRect = badge.getBoundingClientRect();
+  const above = badgeRect.top > bubble.offsetHeight + gap + margin;
+  let top = above ? badgeRect.top - bubble.offsetHeight - gap : badgeRect.bottom + gap;
+  top = Math.max(margin, Math.min(top, window.innerHeight - bubble.offsetHeight - margin));
+  const badgeCenterX = badgeRect.left + badgeRect.width / 2;
+  const left = Math.max(margin, Math.min(
+    badgeCenterX - bubble.offsetWidth / 2, window.innerWidth - bubble.offsetWidth - margin,
+  ));
+  bubble.style.top = `${top}px`;
+  bubble.style.left = `${left}px`;
+  bubble.classList.add(above ? 'tail-bottom' : 'tail-top');
+  tail.style.left = `${Math.max(10, Math.min(badgeCenterX - left - 5, bubble.offsetWidth - 20))}px`;
+
+  const onOutsideClick = () => closeRegisterPopover();
+  document.addEventListener('click', onOutsideClick);
+  window.addEventListener('scroll', onOutsideClick, true);
+  openRegisterPopover = { el: bubble, badge, onOutsideClick };
+}
 
 /**
  * Small icons noting which register(s) a word is common in — from the
@@ -1981,26 +2040,18 @@ const WORD_REGISTER_BADGES = [
  * built by that script (vocab lookups, EXAMPLE_WORDS, ...), so this quietly
  * renders nothing for those rather than needing a separate code path.
  *
- * Tapping a badge toggles a one-line caption explaining it, appended to
- * `line` (which wraps onto its own row, same trick as .word-tray's own
- * .word-note) rather than `row` — buildWordRow's row._children order
- * (line, [tray]) is relied on elsewhere (see test/wiring.js's wordTrayOf)
- * and must stay put. Dedicated `aria-label`s cover the same explanation for
- * anyone not tapping.
+ * A badge already the popover's owner toggles it closed on a second tap
+ * rather than closing-then-reopening its own popover — otherwise a repeat
+ * tap on the very icon that opened it would look like nothing happened.
  */
-function buildRegisterBadges(word, line) {
+function buildRegisterBadges(word) {
   const defs = WORD_REGISTER_BADGES.filter(([key]) => word[key]);
   if (!defs.length) return null;
 
   const wrap = document.createElement('div');
   wrap.className = 'word-reg-badges';
 
-  const note = document.createElement('p');
-  note.className = 'hint word-reg-note';
-  note.hidden = true;
-  line.appendChild(note);
-
-  defs.forEach(([key, icon, label, text]) => {
+  defs.forEach(([, icon, label, text]) => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'word-reg-badge';
@@ -2008,12 +2059,9 @@ function buildRegisterBadges(word, line) {
     btn.setAttribute('aria-label', `${label}: ${text}`);
     btn.addEventListener('click', (event) => {
       event.stopPropagation();
-      const alreadyShown = !note.hidden && note.dataset.key === key;
-      note.hidden = alreadyShown;
-      if (!alreadyShown) {
-        note.textContent = `${label} — ${text}`;
-        note.dataset.key = key;
-      }
+      const wasOwner = openRegisterPopover && openRegisterPopover.badge === btn;
+      closeRegisterPopover();
+      if (!wasOwner) openRegisterPopoverFor(btn, label, text);
     });
     wrap.appendChild(btn);
   });
@@ -2055,7 +2103,7 @@ function buildWordRow(word, open, rerender) {
   renderWord(main, word);
   line.appendChild(main);
 
-  const registerBadges = buildRegisterBadges(word, line);
+  const registerBadges = buildRegisterBadges(word);
   if (registerBadges) line.appendChild(registerBadges);
 
   // One-tap add, kept out of the tray so it works without opening it. A word

@@ -1138,7 +1138,7 @@ button.quiz-glyph-tap {
    non-testing surface that shows a word; the quiz and writing panels keep
    the plain renderWord() output and none of this. */
 .word-row { display: flex; flex-direction: column; gap: 6px; }
-.word-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.word-line { display: flex; align-items: baseline; gap: 8px; }
 .word-main { flex: 1; min-width: 0; }
 button.word-main {
   padding: 8px 10px;
@@ -1184,7 +1184,10 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 
 /* Spoken/written register badges (buildRegisterBadges() in app.js) — small,
    quiet icons, not another add/studying-style pill, since they're purely
-   informational. Tapping one toggles .word-reg-note below the line. */
+   informational. Tapping one opens .word-reg-popover (openRegisterPopoverFor
+   in app.js): a floating explanation, not inline text, so opening it never
+   reflows the row the badge itself sits in — a reflow would carry the badge
+   out from under a second tap meant to close it. */
 .word-reg-badges { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
 .word-reg-badge {
   border: none;
@@ -1197,7 +1200,33 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 8px;
 }
 .word-reg-badge:active { opacity: 1; background: var(--line); }
-.word-reg-note { margin: 0; flex-basis: 100%; }
+
+/* Positioned in JS (top/left, plus a tail-top/tail-bottom class) relative to
+   the badge that opened it — see openRegisterPopoverFor(). Dark, inverted
+   from the page (var(--ink) background / var(--bg) text) like a native
+   tooltip, and deliberately NOT theme-accent-colored, since it's neutral
+   informational chrome rather than an interactive control. */
+.word-reg-popover {
+  position: fixed;
+  z-index: 1000;
+  max-width: 220px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.word-reg-popover-tail {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.word-reg-popover.tail-top .word-reg-popover-tail { top: -5px; }
+.word-reg-popover.tail-bottom .word-reg-popover-tail { bottom: -5px; }
 
 .word-tray {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
