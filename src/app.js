@@ -51,7 +51,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -6488,11 +6488,28 @@ function showReaderEndCard() {
   $('reader-end').hidden = false;
 }
 
+/**
+ * `source.credit` ("Written by"/"Retold by"/"Adapted by"/"Translated by",
+ * see validateStory in tools/build_story_data.mjs) says WHO did what to this
+ * story, which `source.by` alone does not — "Claude Opus 5.0" gives no hint
+ * whether that's the original author or someone retelling a public-domain
+ * tale, and readers were asking exactly that question with no way to answer
+ * it from this screen. Led with credit + by, ahead of the older `text`/
+ * `licence` sourcing detail, since who wrote it is the more load-bearing
+ * fact for a reader deciding how much to trust the Japanese on screen.
+ */
 function renderReaderSource(story) {
   const el = $('reader-source');
   const { source } = story;
   el.hidden = false;
-  el.textContent = `${source.text}${source.by ? ` — ${source.by}` : ''}. ${source.licence}`;
+  // `credit` always accompanies `by` for anything built by
+  // tools/build_story_data.mjs (validateStory requires both together) — the
+  // plain "— by" form only covers a story from elsewhere that set `by`
+  // without it.
+  const byline = source.by
+    ? (source.credit ? `${source.credit} ${source.by}. ` : `${source.by}. `)
+    : '';
+  el.textContent = `${byline}${source.text}. ${source.licence}`;
 }
 
 function scrollToResumePosition(story, id) {
