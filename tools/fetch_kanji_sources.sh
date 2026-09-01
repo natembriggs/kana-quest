@@ -8,7 +8,9 @@
 #   python3 tools/build_kanji_data.py
 #
 # Source: The Electronic Dictionary Research and Development Group
-# (EDRDG), https://www.edrdg.org/ — CC BY-SA 4.0.
+# (EDRDG), https://www.edrdg.org/ — CC BY-SA 4.0. The word frequency list is
+# from hermitdave/FrequencyWords (github.com/hermitdave/FrequencyWords),
+# derived from the OpenSubtitles2018 corpus — CC BY-SA 4.0.
 
 set -e
 DIR="$(cd "$(dirname "$0")" && pwd)/data_src"
@@ -27,4 +29,8 @@ echo "Fetching the Tanaka Corpus (example sentences)..."
 curl -sL -o examples.utf.gz "http://ftp.edrdg.org/pub/Nihongo/examples.utf.gz"
 gunzip -f examples.utf.gz
 
-echo "Done: $DIR/kanjidic2.xml, $DIR/JMdict_e, $DIR/examples.utf"
+echo "Fetching the OpenSubtitles-derived Japanese word frequency list..."
+curl -sL -o ja_subtitle_freq.txt \
+  "https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/ja/ja_full.txt"
+
+echo "Done: $DIR/kanjidic2.xml, $DIR/JMdict_e, $DIR/examples.utf, $DIR/ja_subtitle_freq.txt"

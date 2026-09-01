@@ -50,7 +50,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
@@ -1967,6 +1967,59 @@ function vocabTargetForWord(word) {
   return course ? { id, course } : null;
 }
 
+/** Definitions behind the two register badges buildRegisterBadges() renders —
+ * shared so the icon and its tap-to-explain caption always agree. */
+const WORD_REGISTER_BADGES = [
+  ['spoken', '🗣️', 'Spoken', 'Common in everyday conversation.'],
+  ['written', '📰', 'Written', 'Common in newspapers and other formal writing.'],
+];
+
+/**
+ * Small icons noting which register(s) a word is common in — from the
+ * `written`/`spoken` flags build_kanji_data.py's choose_examples() computes
+ * per word (see written_band/spoken_signal there). Absent on any word not
+ * built by that script (vocab lookups, EXAMPLE_WORDS, ...), so this quietly
+ * renders nothing for those rather than needing a separate code path.
+ *
+ * Tapping a badge toggles a one-line caption explaining it, appended to
+ * `line` (which wraps onto its own row, same trick as .word-tray's own
+ * .word-note) rather than `row` — buildWordRow's row._children order
+ * (line, [tray]) is relied on elsewhere (see test/wiring.js's wordTrayOf)
+ * and must stay put. Dedicated `aria-label`s cover the same explanation for
+ * anyone not tapping.
+ */
+function buildRegisterBadges(word, line) {
+  const defs = WORD_REGISTER_BADGES.filter(([key]) => word[key]);
+  if (!defs.length) return null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'word-reg-badges';
+
+  const note = document.createElement('p');
+  note.className = 'hint word-reg-note';
+  note.hidden = true;
+  line.appendChild(note);
+
+  defs.forEach(([key, icon, label, text]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'word-reg-badge';
+    btn.textContent = icon;
+    btn.setAttribute('aria-label', `${label}: ${text}`);
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const alreadyShown = !note.hidden && note.dataset.key === key;
+      note.hidden = alreadyShown;
+      if (!alreadyShown) {
+        note.textContent = `${label} — ${text}`;
+        note.dataset.key = key;
+      }
+    });
+    wrap.appendChild(btn);
+  });
+  return wrap;
+}
+
 /**
  * One tappable word. `open(course, item)` is how this surface navigates —
  * drillIntoDetail() from another detail screen, a plain openCharacterDetail
@@ -2001,6 +2054,9 @@ function buildWordRow(word, open, rerender) {
   }
   renderWord(main, word);
   line.appendChild(main);
+
+  const registerBadges = buildRegisterBadges(word, line);
+  if (registerBadges) line.appendChild(registerBadges);
 
   // One-tap add, kept out of the tray so it works without opening it. A word
   // already being studied shows the same badge as a plain label instead —

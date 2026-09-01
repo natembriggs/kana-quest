@@ -32,6 +32,7 @@ Usage:
 """
 import html
 import json
+import math
 import re
 from pathlib import Path
 
@@ -86,6 +87,8 @@ UNICODE_VARIANT_SUBSTITUTIONS = {
 
 KANJIDIC = SRC / "kanjidic2.xml"
 JMDICT = SRC / "JMdict_e"
+TANAKA = SRC / "examples.utf"
+SUBTITLE_FREQ = SRC / "ja_subtitle_freq.txt"
 
 # KANJIDIC lists the radical's *name* as if it were a meaning: "one radical
 # (no.1)", "sun radical (no. 72)". Those are not definitions and shouldn't be
@@ -280,20 +283,46 @@ def credited_reading(kanji_info, segment, keb, pos):
 NF_BAND = re.compile(r"\bnf(\d\d)\b")
 TIER_1 = re.compile(r"\b(?:news1|ichi1|spec1|gai1)\b")
 TIER_2 = re.compile(r"\b(?:news2|ichi2|spec2|gai2)\b")
+NEWS1 = re.compile(r"\bnews1\b")
+CURATED = re.compile(r"\bichi[12]\b")
+
+# Corpus word-frequency counts — nf/news from Mainichi Shimbun, and both of
+# spoken_signal's sources below — are all built by machine tokenizers, which
+# routinely conflate a bound stem with the words derived from it: 具体的
+# ("concrete") and 具体化 ("materialization") are both genuinely common, and
+# a tokenizer that splits off 的/化 as a separate morpheme credits every one
+# of those occurrences to bare 具体 — a word barely used standalone. JMdict's
+# `ichi1`/`ichi2` tags are different in kind: a human-compiled list of
+# everyday vocabulary (the "Ichimango goi bunruishuu"), immune to this
+# specific miscount because it was never derived from raw token counts. This
+# penalty is applied to a word's ORDERING score only (both frequency_bands,
+# in choose_examples) — its written/spoken *badges* still reflect the raw,
+# possibly-inflated corpus signal, since that's a defensible fact about the
+# word's own component forms even when the word itself doesn't carry it.
+STEM_PENALTY = 2.5
 
 
-def priority_rank(entry):
-    """Lower ranks first — how choose_examples() below picks the most
-    familiar word, not just the one with the shortest reading.
+def curated_common(entry):
+    return bool(CURATED.search(entry))
+
+ABSENT_BAND = 60  # a word missing from a frequency source sits mid-pack, not
+                  # last — plenty of real, common words are missing from any
+                  # one source (see load_tanaka_freq/load_subtitle_freq).
+
+
+def written_band(entry):
+    """Lower is more common in written/newspaper Japanese — one half of the
+    two-axis score choose_examples() below sorts by (see spoken_band).
 
     `nf##` is JMdict's finest signal: present on roughly the top 24,000 words
-    by newspaper-corpus frequency, in bands of 500 (nf01 = top 500). Failing
-    that, fall back to the coarser priority-list tags, "1" tier (top half of
-    each list) ranked ahead of "2" tier, which is what that suffix means for
-    every one of news/ichi/spec/gai. Some priority tag is guaranteed on any
-    entry reaching this function — parse_jmdict_words already filtered to
-    entries carrying at least one — so the final fallback never actually
-    fires; it exists only so this can't crash on a tag shape it doesn't know.
+    by newspaper-corpus frequency (Mainichi Shimbun), in bands of 500 (nf01 =
+    top 500). Failing that, fall back to the coarser priority-list tags, "1"
+    tier (top half of each list) ranked ahead of "2" tier, which is what that
+    suffix means for every one of news/ichi/spec/gai. Some priority tag is
+    guaranteed on any entry reaching this function — parse_jmdict_words
+    already filtered to entries carrying at least one — so the final
+    fallback never actually fires; it exists only so this can't crash on a
+    tag shape it doesn't know.
     """
     m = NF_BAND.search(entry)
     if m:
@@ -305,18 +334,112 @@ def priority_rank(entry):
     return 99
 
 
-def parse_jmdict_words(known_kanji, kanjidic, stem_index, require_priority=True, targets=None):
+def is_written_common(entry):
+    """Badge shown on a word: genuinely common in newspaper/formal written
+    Japanese, not just carrying SOME priority tag (ichi1/spec1/gai1 say
+    nothing about register). Top half of the newspaper freq list (nf<=24,
+    i.e. its top ~12,000 words) or explicitly tagged news1."""
+    m = NF_BAND.search(entry)
+    if m:
+        return int(m.group(1)) <= 24
+    return bool(NEWS1.search(entry))
+
+
+def load_tanaka_freq():
+    """Word -> corpus-frequency rank (1 = most common), from how often each
+    word is used across the Tanaka Corpus's ~150,000 example sentences —
+    translated, conversational-register sentences, unlike JMdict's own
+    newspaper-derived nf/news tags. The `B:` line under each sentence gives
+    every word in its dictionary (lemma) form followed by `[sense]`,
+    `{actual-inflected-surface}`, or reading annotations — splitting each
+    token on the first of those characters recovers the lemma even for a
+    conjugated verb/adjective, so this needs no separate stemming pass."""
+    counts = {}
+    for line in TANAKA.read_text(encoding="utf-8").splitlines():
+        if not line.startswith("B: "):
+            continue
+        for token in line[3:].split():
+            lemma = re.split(r"[(\[{|~]", token, maxsplit=1)[0]
+            if lemma:
+                counts[lemma] = counts.get(lemma, 0) + 1
+    ranked = sorted(counts, key=counts.get, reverse=True)
+    return {word: i + 1 for i, word in enumerate(ranked)}
+
+
+def load_subtitle_freq():
+    """Word -> corpus-frequency rank (1 = most common), from an OpenSubtitles-
+    derived Japanese word list (hermitdave/FrequencyWords, CC BY-SA 4.0) —
+    real spoken/dialogue register, a signal missing from both JMdict's
+    newspaper tags and the Tanaka Corpus's translated-textbook sentences.
+    Already sorted by descending frequency, one `word count` pair per line."""
+    ranked = []
+    for line in SUBTITLE_FREQ.read_text(encoding="utf-8").splitlines():
+        word = line.rsplit(" ", 1)[0] if " " in line else None
+        if word:
+            ranked.append(word)
+    return {word: i + 1 for i, word in enumerate(ranked)}
+
+
+def subtitle_lookup(word, table):
+    """Exact match first; failing that, strip trailing kana one character at
+    a time (up to 3) and retry. Unlike the Tanaka Corpus, this list's own
+    tokenizer often splits a conjugated verb/adjective's okurigana off from
+    its kanji stem (助ける -> only 助け, 助 etc. appear, not the dictionary
+    form) — this recovers a match for those without over-matching kana-only
+    words, since stripping stops as soon as no kanji is left in what remains.
+    """
+    if word in table:
+        return table[word]
+    stem = word
+    for _ in range(3):
+        if len(stem) <= 1 or is_kanji(stem[-1]):
+            break
+        stem = stem[:-1]
+        if any(is_kanji(ch) for ch in stem) and stem in table:
+            return table[stem]
+    return None
+
+
+def frequency_band(rank):
+    return ABSENT_BAND if rank is None else min(99, math.ceil(rank / 500))
+
+
+# A word only needs to be common in ONE of these to count as "spoken" — they
+# cover different weaknesses (Tanaka is textbook-translated and under-covers
+# casual/slang; the subtitle list's own tokenizer drops some very common
+# words entirely, e.g. bare 君 attaches to whatever precedes it). Thresholds
+# are each corpus's own top ~20%, past which the subtitle list in particular
+# degrades into single-digit counts and character names.
+SPOKEN_RANK_CUTOFF = 8000
+
+
+def spoken_signal(keb, tanaka_freq, subtitle_freq):
+    tanaka_rank = tanaka_freq.get(keb)
+    subtitle_rank = subtitle_lookup(keb, subtitle_freq)
+    band = min(frequency_band(tanaka_rank), frequency_band(subtitle_rank))
+    is_spoken = (
+        (tanaka_rank is not None and tanaka_rank <= SPOKEN_RANK_CUTOFF)
+        or (subtitle_rank is not None and subtitle_rank <= SPOKEN_RANK_CUTOFF)
+    )
+    return band, is_spoken
+
+
+def parse_jmdict_words(known_kanji, kanjidic, stem_index, tanaka_freq, subtitle_freq,
+                        require_priority=True, targets=None):
     """One pass over JMdict, returning two indexes keyed by kanji character:
 
     - `general`: common words using ONLY characters in `known_kanji` (plus
       kana), capped at MAX_KANJI_PER_WORD kanji — the grade-appropriate pool
       the kanji-level "example word" panel is drawn from.
-    - `by_reading`: {kanji: {reading_display: [(keb, reb, gloss, priority), ...]}} —
-      words credited to one specific reading via align_word, with no grade
+    - `by_reading`: {kanji: {reading_display: [record, ...]}} — words
+      credited to one specific reading via align_word, with no grade
       restriction on the *other* kanji in the word, since a rare reading's
       only common word may pull in a kanji the learner hasn't met (上海 for
       上's シャン needs 海, grade 2). The word is a memory aid for that one
       reading, not something they're expected to fully read yet.
+
+    Each `record` is (keb, reb, gloss, written_band, is_written, spoken_band,
+    is_spoken) — see written_band/is_written_common/spoken_signal above.
 
     `targets`, if given, is used instead of `known_kanji` to decide which
     words are worth aligning at all — `known_kanji` still gates what a
@@ -363,7 +486,13 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index, require_priority=True,
         if not glosses:
             continue
         gloss = html.unescape(glosses[0])
-        record = (keb, reb, gloss, priority_rank(entry))
+        spoken_band, is_spoken = spoken_signal(keb, tanaka_freq, subtitle_freq)
+        order_written, order_spoken = written_band(entry), spoken_band
+        if not curated_common(entry):
+            order_written *= STEM_PENALTY
+            order_spoken *= STEM_PENALTY
+        record = (keb, reb, gloss, order_written, is_written_common(entry),
+                   order_spoken, is_spoken)
 
         for k in relevant:
             if kanji_in_word.issubset(known_kanji) and len(kanji_in_word) <= MAX_KANJI_PER_WORD:
@@ -387,11 +516,18 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index, require_priority=True,
 
 
 def choose_examples(words, limit):
-    # Most familiar first, by JMdict's own corpus-frequency signal (see
-    # priority_rank) — お父さん is a far more useful first example for 父 than
-    # 義父 (father-in-law), even though 義父's reading is shorter. Reading
+    # Most familiar first, blending written commonness (written_band, from
+    # JMdict's newspaper-corpus nf/news tags) with spoken commonness
+    # (spoken_band, from the Tanaka Corpus and an OpenSubtitles-derived word
+    # list — see spoken_signal). The geometric mean rewards a word for
+    # scoring well on BOTH axes and punishes one that's lopsided — 具体
+    # ("concreteness") is a strong nf03 in newspapers but never used as a
+    # freestanding word in speech, so it used to rank above 具合 ("condition")
+    # and 道具 ("tool"), both everyday spoken words with a weaker newspaper
+    # presence. A plain average would let 具体's newspaper strength paper
+    # over its near-total absence from speech; sqrt(a*b) does not. Reading
     # length only breaks a tie among equally common candidates.
-    return sorted(words, key=lambda w: (w[3], len(w[1])))[:limit]
+    return sorted(words, key=lambda w: (math.sqrt(w[3] * w[5]), len(w[1])))[:limit]
 
 
 def split_grade_8(kanjidic):
@@ -516,7 +652,11 @@ def main():
     iteration_order = elementary_order + grade8_order + beyond_order
 
     known = set(graded)
-    general_words, words_by_reading = parse_jmdict_words(known, kanjidic, stem_index)
+    print("Loading Tanaka Corpus and subtitle word-frequency data...")
+    tanaka_freq = load_tanaka_freq()
+    subtitle_freq = load_subtitle_freq()
+    general_words, words_by_reading = parse_jmdict_words(
+        known, kanjidic, stem_index, tanaka_freq, subtitle_freq)
 
     # Every kanji should have SOMETHING to quiz — a reading nobody can ever
     # be asked about is worse than a reading whose only example is obscure.
@@ -536,7 +676,8 @@ def main():
     }
     if needs_uncommon:
         _, uncommon_by_reading = parse_jmdict_words(
-            known, kanjidic, stem_index, require_priority=False, targets=needs_uncommon)
+            known, kanjidic, stem_index, tanaka_freq, subtitle_freq,
+            require_priority=False, targets=needs_uncommon)
         # parse_jmdict_words's `relevant` gate is "ANY target kanji in the
         # word", not "every kanji is a target" — a word like 一葉楓 (found
         # because 楓 ∈ needs_uncommon) also credits 一 and 葉's OWN readings
@@ -597,7 +738,10 @@ def main():
             "on": info["on"],
             "kun": info["kun"],
             "meanings": info["meanings"],
-            "words": [{"kanji": k, "kana": r, "en": g} for k, r, g, _pri in examples],
+            "words": [
+                {"kanji": k, "kana": r, "en": g, "written": w, "spoken": s}
+                for k, r, g, _wb, w, _sb, s in examples
+            ],
             "quizOn": quiz_on,
             "quizKun": quiz_kun,
             "quizReadings": quiz_readings,

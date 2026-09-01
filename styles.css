@@ -1138,7 +1138,7 @@ button.quiz-glyph-tap {
    non-testing surface that shows a word; the quiz and writing panels keep
    the plain renderWord() output and none of this. */
 .word-row { display: flex; flex-direction: column; gap: 6px; }
-.word-line { display: flex; align-items: baseline; gap: 8px; }
+.word-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .word-main { flex: 1; min-width: 0; }
 button.word-main {
   padding: 8px 10px;
@@ -1181,6 +1181,23 @@ button.word-add-badge {
 }
 button.word-add-badge:active { background: var(--accent); color: var(--accent-ink); }
 .word-row.is-added .word-add-badge { background: var(--ok-bg); color: var(--ok); }
+
+/* Spoken/written register badges (buildRegisterBadges() in app.js) — small,
+   quiet icons, not another add/studying-style pill, since they're purely
+   informational. Tapping one toggles .word-reg-note below the line. */
+.word-reg-badges { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
+.word-reg-badge {
+  border: none;
+  background: none;
+  padding: 4px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.6;
+  border-radius: 8px;
+}
+.word-reg-badge:active { opacity: 1; background: var(--line); }
+.word-reg-note { margin: 0; flex-basis: 100%; }
 
 .word-tray {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
