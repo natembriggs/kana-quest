@@ -70,6 +70,7 @@ Usage:
 import heapq
 import html
 import json
+import math
 import random
 import re
 import sys
@@ -81,6 +82,8 @@ sys.path.insert(0, str(ROOT))
 from build_kanji_data import (  # noqa: E402
     parse_kanjidic, build_stem_index, align_word, credited_reading,
     kata_to_hira, written_band, is_kanji, reading_parts, stem_variants,
+    load_tanaka_freq, load_subtitle_freq, spoken_signal, is_written_common,
+    curated_common, STEM_PENALTY,
 )
 
 SRC = ROOT / "data_src"
@@ -93,6 +96,89 @@ random.seed(20260828)  # reproducible builds — same output until the sources o
 WORDS_PER_LEVEL = {"f": 550, "h": 280, "a": 1200}  # frequency-classified theme words; Core/A12 are hand-authored and uncapped
 MAX_PER_UNIT = 40
 MIN_UNIT_SIZE = 10  # a unit below this is dropped with a warning rather than shipped near-empty
+
+# --- The commonness axis (the app's default progression) --------------------
+#
+# Every word gets a "commonness index" (`cx` on the record): the geometric
+# mean of its written and spoken frequency bands, exactly the score
+# build_kanji_data.py's choose_examples() ranks a kanji's example words by.
+# Low is common. See written_band/spoken_signal there for the two inputs and
+# why the geometric mean rather than an average.
+#
+# COMMONNESS_MAX is the inclusion threshold for the word list as a whole: any
+# JMdict entry carrying a priority tag and scoring at or under it earns a real
+# vocabulary entry. At 14 that is ~7,100 words — everything genuinely common
+# in speech OR writing, without the long newspaper-only tail that a purely
+# `nf`-based cut drags in. It exists because the old list was built from
+# per-theme quotas (WORDS_PER_LEVEL above) that capped out long before the
+# common vocabulary was exhausted: 紹介 ("introduction", cx 3.87) had no
+# curriculum entry at all, only a slot in the K kanji-words bonus group.
+COMMONNESS_MAX = 14.0
+
+# Tier boundaries for the commonness progression, as upper bounds on `cx`.
+# Uneven on purpose — commonness is roughly log-distributed, so equal-width
+# bands would put a handful of words in tier 1 and thousands in the last.
+# These are chosen to keep each tier a teachable size (~400-1200 words).
+COMMONNESS_TIERS = [1.5, 2.5, 3.5, 5.0, 7.0, 9.0, 11.0, 14.0]
+COMMON_UNIT_SIZE = 40  # words per commonness unit tile, matching MAX_PER_UNIT
+
+# Learner-facing name per tier (1-based, parallel to COMMONNESS_TIERS plus a
+# trailing "everything above" bucket). Deliberately plain English about how
+# often a word turns up, not a proficiency claim — this ladder is a frequency
+# ranking, not JLPT/CEFR, and must not be read as one.
+COMMONNESS_TIER_LABELS = [
+    "Everyday essentials",     # cx <= 1.5
+    "Very common words",       # <= 2.5
+    "Common words",            # <= 3.5
+    "Familiar words",          # <= 5
+    "Wider vocabulary",        # <= 7
+    "Less common words",       # <= 9
+    "Uncommon words",          # <= 11
+    "Rare words",              # <= 14
+    "Specialist words",        # above COMMONNESS_MAX (K-group words only)
+]
+
+
+def commonness_tier(cx):
+    """1-based tier index for a commonness score — see COMMONNESS_TIERS."""
+    for i, upper in enumerate(COMMONNESS_TIERS):
+        if cx <= upper:
+            return i + 1
+    return len(COMMONNESS_TIERS) + 1
+
+
+# Loaded once on first use rather than at import: the two corpora take a few
+# seconds to read and rank, and every caller below wants the same tables.
+_FREQ_TABLES = None
+
+
+def freq_tables():
+    global _FREQ_TABLES
+    if _FREQ_TABLES is None:
+        print("Loading Tanaka Corpus and subtitle word-frequency data...")
+        _FREQ_TABLES = (load_tanaka_freq(), load_subtitle_freq())
+    return _FREQ_TABLES
+
+
+def commonness_of(entry_xml, surface):
+    """(cx, is_written_common, is_spoken_common) for one JMdict entry.
+
+    Scored on the SURFACE the learner actually sees — a `uk` word is looked
+    up by its kana form, which is what the corpora count for it too. The
+    STEM_PENALTY mirrors build_kanji_data's choose_examples(): a word
+    JMdict's hand-curated everyday list (ichi1/ichi2) doesn't vouch for may
+    owe its corpus counts to derived forms a tokenizer split off (具体 from
+    具体的/具体化), so it is not allowed to rank as if those counts were its
+    own. Returns cx as a float; low is common.
+    """
+    tanaka_freq, subtitle_freq = freq_tables()
+    w_band = written_band(entry_xml)
+    s_band, is_spoken = spoken_signal(surface, tanaka_freq, subtitle_freq)
+    order_w, order_s = w_band, s_band
+    if not curated_common(entry_xml):
+        order_w *= STEM_PENALTY
+        order_s *= STEM_PENALTY
+    return math.sqrt(order_w * order_s), is_written_common(entry_xml), is_spoken
 MAX_MIS = 8
 MAX_SP = 16
 
@@ -273,6 +359,7 @@ def parse_jmdict():
     text = JMDICT.read_text(encoding="utf-8")
     raw_entries = re.findall(r"<entry>.*?</entry>", text, re.S)
     print(f"JMdict: {len(raw_entries)} entries")
+    freq_tables()  # warm the corpora behind every word's `cx`, before the loop
 
     all_kebs = set()
     readings_by_keb = {}  # keb -> set(reb, hiragana) across every entry sharing that keb
@@ -408,8 +495,10 @@ def parse_jmdict():
         # furigana over (§6.2, §5.2).
         surface = reb if uk else keb
         reading = kata_to_hira(reb)
+        cx, is_written, is_spoken = commonness_of(e, surface)
         candidates.append({
             "surface": surface, "keb": None if uk else keb, "reading": reading,
+            "cx": cx, "written": is_written, "spoken": is_spoken,
             # First-sense `glosses` and all-sense `senses` are deliberately
             # both kept — see the comment above extract_senses for why the
             # word-selection path must not widen.
@@ -469,10 +558,13 @@ def find_entry(entry_index, keb=None, reb=None):
     glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
     uk = ("<misc>&uk;</misc>" in fs) or keb is None  # first sense only — see parse_jmdict's note on 行く
     reading = kata_to_hira(rebs_all[0])
+    surface = reading if uk else keb
+    cx, is_written, is_spoken = commonness_of(e, surface)
     return {
-        "surface": reading if uk else keb, "keb": None if uk else keb, "reading": reading,
+        "surface": surface, "keb": None if uk else keb, "reading": reading,
         "glosses": glosses, "senses": extract_senses(e, reading),
         "pos": pos_category(pos_tags), "uk": uk,
+        "cx": cx, "written": is_written, "spoken": is_spoken,
     }
 
 
@@ -601,6 +693,15 @@ GROUP_LABELS = {
     # entry to be added TO — optional bonus reinforcement of words already
     # met, not curriculum.
     "K": "From kanji pages",
+    # "O<n>" units — the rest of the common-word list. Every JMdict entry
+    # under COMMONNESS_MAX that none of the groups above claimed: too far
+    # down the frequency list for a GCSE/A-level theme quota, and not a
+    # kanji-page example word either. Before this group existed those words
+    # had no vocabulary entry at all (紹介, cx 3.87, is the case that
+    # prompted it), which is what made the app's word list look arbitrary to
+    # anyone reading real Japanese. Ordered by commonness, like "K" is by
+    # kanji grade.
+    "O": "Other common words",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -642,6 +743,8 @@ def unit_group(unit):
         return "A"
     if unit.startswith("K") and unit[1:].isdigit():
         return "K"
+    if unit.startswith("O") and unit[1:].isdigit():
+        return "O"
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
@@ -1732,7 +1835,8 @@ def shorten_label(gloss):
 
 def make_record(unit, level, surface, reading, glosses, senses, pos, uk,
                  kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
-                 reading_to_kanji, taught_kanji, kanji_only_pool):
+                 reading_to_kanji, taught_kanji, kanji_only_pool,
+                 cx=None, written=False, spoken=False):
     ruby = None if uk else build_ruby(surface, reading, kanjidic, stem_index, quiz_readings)
     spans = segment_spans(surface, align_word(surface, reading, stem_index) or []) if ruby else []
     mis = build_mis(surface, reading, spans, kanjidic, readings_by_keb) if spans else []
@@ -1750,6 +1854,19 @@ def make_record(unit, level, surface, reading, glosses, senses, pos, uk,
     record = {
         "w": surface, "r": reading, "en": en, "pos": pos, "th": unit, "lv": level,
     }
+    # The commonness axis (see COMMONNESS_MAX). `cx` is rounded to 2dp — it
+    # only ever drives ordering, tier assignment and the story-difficulty
+    # mix, none of which can tell 3.8730 from 3.87, and these files ship to
+    # a phone. `cl` is derived rather than stored twice... except it IS
+    # stored, because the app sorts and filters by tier constantly and
+    # recomputing the boundaries client-side would duplicate the ladder.
+    if cx is not None:
+        record["cx"] = round(cx, 2)
+        record["cl"] = commonness_tier(cx)
+    if written:
+        record["wr"] = True
+    if spoken:
+        record["sk"] = True
     # Omitted for the single-sense majority — a `sn` of [n] says nothing the
     # length of `en` doesn't, and these files ship to a phone.
     if len(groups) > 1:
@@ -1832,6 +1949,7 @@ def main():
                 unit, "f", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
                 kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
                 reading_to_kanji, taught_kanji, kanji_only_pool,
+                cx=entry["cx"], written=entry["written"], spoken=entry["spoken"],
             )
             unit_records[unit].append(record)
             core_surfaces.add(entry["surface"])
@@ -1887,6 +2005,7 @@ def main():
             unit, level, c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
             reading_to_kanji, taught_kanji, kanji_only_pool,
+            cx=c["cx"], written=c["written"], spoken=c["spoken"],
         )
         # `record["th"]` stays the bare theme id either way — it names what
         # the word is ABOUT, unaffected by which tile it ends up sorted
@@ -1920,6 +2039,7 @@ def main():
             "A12", "a", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
             reading_to_kanji, taught_kanji, kanji_only_pool,
+            cx=entry["cx"], written=entry["written"], spoken=entry["spoken"],
         )
         unit_records["A12"].append(record)
 
@@ -1946,6 +2066,7 @@ def main():
             unit, "a", c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
             reading_to_kanji, taught_kanji, kanji_only_pool,
+            cx=c["cx"], written=c["written"], spoken=c["spoken"],
         )
         unit_records[unit].append(record)
         a_count += 1
@@ -2033,6 +2154,7 @@ def main():
                     f"K{k_chunk_index + 1}", "k", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
                     kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
                     reading_to_kanji, taught_kanji, kanji_only_pool,
+                    cx=entry["cx"], written=entry["written"], spoken=entry["spoken"],
                 )
                 k_current.append(record)
                 k_current_grades.add(grade)
@@ -2061,6 +2183,75 @@ def main():
     print(f"Kanji words: {k_total} words across {k_chunk_index} units "
           f"({k_mismatches} skipped — find_entry's homograph did not match the kanji page's own reading)")
 
+    # --- Other common words (O1, O2, ...): everything under COMMONNESS_MAX
+    # that nothing above claimed. The groups above are all quota-shaped —
+    # WORDS_PER_LEVEL caps the theme tiers, MAX_PER_UNIT caps each theme, and
+    # the K group only ever sees words that happen to appear on a primary-
+    # school kanji's page — so between them they ran out long before the
+    # common vocabulary did. That is why 紹介 (cx 3.87, about as common as a
+    # word gets) had no entry: no theme quota reached it and no grade-1-to-6
+    # kanji page happens to list it. This pass exists to make the claim "the
+    # app teaches the common words" actually true; it is ordered by
+    # commonness, so O1 is the most common of what is left. ---
+    already_claimed = {r["w"] for recs in unit_records.values() for r in recs}
+    leftovers = [
+        c for c in candidates
+        if c["surface"] not in already_claimed and c["cx"] <= COMMONNESS_MAX
+    ]
+    leftovers.sort(key=lambda c: (c["cx"], len(c["reading"])))
+
+    o_seen = set()
+    o_chunk = []
+    o_index = 0
+    o_total = 0
+
+    def flush_other_words():
+        nonlocal o_chunk, o_index, o_total
+        if not o_chunk:
+            return
+        o_index += 1
+        uid = f"O{o_index}"
+        for rec in o_chunk:
+            rec["th"] = uid
+        unit_records[uid] = o_chunk
+        # Labelled by the commonness tier its words actually fall in, so the
+        # browse list reads as a ladder ("Very common words", "Common words
+        # ...") rather than 80 identical tiles distinguished only by number.
+        # commonness_tier() is 1-based; COMMONNESS_TIER_LABELS is a plain list.
+        tiers = [r["cl"] for r in o_chunk]
+        UNIT_LABELS[uid] = COMMONNESS_TIER_LABELS[min(tiers) - 1]
+        o_total += len(o_chunk)
+        o_chunk = []
+
+    for c in leftovers:
+        if c["surface"] in o_seen:
+            continue
+        o_seen.add(c["surface"])
+        record = make_record(
+            "O", "o", c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
+            kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+            reading_to_kanji, taught_kanji, kanji_only_pool,
+            cx=c["cx"], written=c["written"], spoken=c["spoken"],
+        )
+        o_chunk.append(record)
+        if len(o_chunk) >= COMMON_UNIT_SIZE:
+            flush_other_words()
+    flush_other_words()
+    # Same "(part N of M)" disambiguation the K group needs, and for the same
+    # reason — a tier fills many 40-word tiles and they cannot all share one
+    # name. Done after the loop so M is the real total per tier, not a
+    # running count.
+    o_by_label = defaultdict(list)
+    for uid in (f"O{i}" for i in range(1, o_index + 1)):
+        o_by_label[UNIT_LABELS[uid]].append(uid)
+    for label, uids in o_by_label.items():
+        if len(uids) == 1:
+            continue
+        for n, uid in enumerate(sorted(uids, key=lambda u: int(u[1:])), start=1):
+            UNIT_LABELS[uid] = f"{label} (part {n} of {len(uids)})"
+    print(f"Other common words: {o_total} words across {o_index} units "
+          f"(everything at cx <= {COMMONNESS_MAX} that no theme, A-level or kanji-page unit claimed)")
+
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
@@ -2078,7 +2269,7 @@ def main():
     # ("C", "1".."5", "H", "A"), but sorting tags as plain strings would put
     # "C"/"H"/"A" out of teaching order — fine for the manifest (compareUnits
     # in vocab.js sorts for real at runtime) but confusing to read here.
-    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K"])}
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K", "O"])}
     # (group order, then the unit's own trailing number — e.g. "1.1" -> 1,
     # "1.8" -> 8, "K10" -> 10 -- so "K10" sorts after "K2" the way it should;
     # a plain string sort would put it before, since "1" < "2" character by
@@ -2091,8 +2282,10 @@ def main():
         h_n = sum(1 for r in recs if r["lv"] == "h")
         a_n = sum(1 for r in recs if r["lv"] == "a")
         k_n = sum(1 for r in recs if r["lv"] == "k")
+        o_n = sum(1 for r in recs if r["lv"] == "o")
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
-        print(f"  {unit:6} {label:40} {len(recs):3} words ({f_n} f / {h_n} h / {a_n} a / {k_n} k)")
+        print(f"  {unit:6} {label:40} {len(recs):3} words "
+              f"({f_n} f / {h_n} h / {a_n} a / {k_n} k / {o_n} o)")
 
     # --- Example sentences, once every unit's records exist ---
     example_glossary = build_examples(unit_records, keb_readings, stem_index,
@@ -2164,6 +2357,50 @@ def main():
         ]
         out_path.write_text("\n".join(js), encoding="utf-8")
 
+    # --- The commonness axis (the app's DEFAULT progression) ---------------
+    #
+    # A second grouping of the SAME words, by how common they are rather than
+    # by exam theme — see COMMONNESS_MAX. Only an ordering: every word's data
+    # still lives in its syllabus unit's own vocab-<unit>.js (its "home
+    # unit", the one VOCAB_LOOKUP names), so this adds a few KB of ids to the
+    # always-loaded manifest and no duplicated word data at all. Opening a
+    # commonness unit therefore loads several home-unit files rather than
+    # one, which is the price of not shipping every word twice.
+    #
+    # Units are COMMON_UNIT_SIZE-word tiles cut from one global
+    # commonness-ordered list, so X1 is the 40 most common words the app
+    # teaches, full stop — no theme quota, no kanji-grade ordering.
+    common_order = []
+    for unit, recs in unit_records.items():
+        by_id = assign_ids(recs)
+        for wid, rec in by_id.items():
+            # A K-group word can sit above COMMONNESS_MAX (it earned its
+            # place by being on a kanji's page, not by frequency); it still
+            # gets a tier so the ladder covers every word the app teaches.
+            common_order.append((rec.get("cx", 99.0), len(rec["r"]), wid))
+    common_order.sort()
+
+    common_units = {}
+    common_unit_labels = {}
+    for i in range(0, len(common_order), COMMON_UNIT_SIZE):
+        chunk = common_order[i:i + COMMON_UNIT_SIZE]
+        uid = f"X{i // COMMON_UNIT_SIZE + 1}"
+        common_units[uid] = [wid for _cx, _len, wid in chunk]
+        tier = commonness_tier(chunk[0][0])
+        common_unit_labels[uid] = COMMONNESS_TIER_LABELS[tier - 1]
+    # Number the repeats within each tier, same reasoning as the K group's
+    # "(part N of M)" — a dozen tiles all called "Common words" is unusable.
+    by_label = defaultdict(list)
+    for uid, label in common_unit_labels.items():
+        by_label[label].append(uid)
+    for label, uids in by_label.items():
+        if len(uids) == 1:
+            continue
+        ordered = sorted(uids, key=lambda u: int(u[1:]))
+        for n, uid in enumerate(ordered, start=1):
+            common_unit_labels[uid] = f"{label} (part {n} of {len(ordered)})"
+    print(f"Commonness axis: {len(common_order)} words across {len(common_units)} units")
+
     manifest_path = DATA_DIR / "vocab-manifest.js"
     manifest_js = header + [
         "// VOCAB_UNITS: ordered word-id list per unit — small enough to load\n"
@@ -2182,6 +2419,26 @@ def main():
         "export const VOCAB_UNIT_LABELS = " + json.dumps(
             {u: UNIT_LABELS[u] for u in manifest_units if not u.endswith("h")},
             ensure_ascii=False, indent=2) + ";",
+        "",
+        "// The commonness progression — the app's default. Same words as\n"
+        "// VOCAB_UNITS above, grouped by how common they are instead of by\n"
+        "// exam theme, most common first. Ids only: a word's DATA still lives\n"
+        "// in its VOCAB_LOOKUP home unit, so a commonness unit may need\n"
+        "// several vocab-<unit>.js files loaded. See COMMONNESS_MAX and\n"
+        "// COMMONNESS_TIERS in tools/build_vocab_data.py.",
+        "export const VOCAB_COMMON_UNITS = " + json.dumps(common_units, ensure_ascii=False, indent=2) + ";",
+        "",
+        "export const VOCAB_COMMON_UNIT_LABELS = " + json.dumps(
+            common_unit_labels, ensure_ascii=False, indent=2) + ";",
+        "",
+        "// Upper bound on `cx` per tier, and the learner-facing name for each.\n"
+        "// A word's own tier is its `cl` field. Exported so the story-level\n"
+        "// mix and the level test can name a tier without re-deriving the\n"
+        "// ladder client-side.",
+        "export const VOCAB_COMMON_TIERS = " + json.dumps(COMMONNESS_TIERS) + ";",
+        "",
+        "export const VOCAB_COMMON_TIER_LABELS = " + json.dumps(
+            COMMONNESS_TIER_LABELS, ensure_ascii=False) + ";",
         "",
     ]
     manifest_path.write_text("\n".join(manifest_js), encoding="utf-8")

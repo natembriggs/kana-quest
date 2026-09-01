@@ -19,6 +19,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 1.73,
+    "cl": 2,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -129,6 +133,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 42.57,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -213,6 +220,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 54.2,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -300,6 +310,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 15.87,
+    "cl": 9,
+    "wr": true,
     "sn": [
       1,
       2
@@ -353,6 +366,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 31.02,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -401,6 +418,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 76.28,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -474,6 +494,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 98.74,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -530,6 +552,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 28.98,
+    "cl": 9,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -568,28 +593,28 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "選挙の結果に及ぼすマスコミの影響力は大きい。",
-        "en": "The media has a lot of influence on the outcome of an election.",
+        "j": "マスコミが彼の婚約の噂を嗅ぎつけ早速駆けつけた。",
+        "en": "The media got wind of a rumor about his engagement and came quickly.",
         "r": [
-          [0, 1, "せん"],
-          [1, 1, "きょ"],
-          [3, 1, "けっ"],
-          [4, 1, "か"],
-          [6, 1, "およ"],
-          [14, 1, "えい"],
-          [15, 1, "きょう"],
-          [16, 1, "りょく"],
-          [18, 1, "おお"]
+          [5, 1, "かれ"],
+          [7, 1, "こん"],
+          [8, 1, "やく"],
+          [10, 1, "うわさ"],
+          [12, 1, "か"],
+          [16, 1, "さっ"],
+          [17, 1, "そく"],
+          [18, 1, "か"]
         ],
         "w": [
-          [0, 2],
-          [3, 2],
-          [5, 1, "に@*"],
-          [6, 3],
-          [9, 4],
-          [14, 3],
-          [17, 1, "は@*"],
-          [18, 3]
+          [0, 4],
+          [4, 1, "が#2028930@*"],
+          [5, 1, "彼|かれ"],
+          [7, 2],
+          [10, 1],
+          [11, 1, "を@*"],
+          [12, 4, "嗅ぎつける"],
+          [16, 2],
+          [18, 5, "駆けつける"]
         ]
       }
     ]
@@ -604,6 +629,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 51.23,
+    "cl": 9,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -642,6 +670,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 107.82,
+    "cl": 9,
     "uk": true,
     "ex": [
       {
@@ -694,6 +724,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A4",
     "lv": "a",
+    "cx": 42.43,
+    "cl": 9,
     "uk": true,
     "ex": [
       {

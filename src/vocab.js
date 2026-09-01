@@ -17,7 +17,10 @@
 // filled in place by ensureVocabUnitLoaded() the first time that unit is
 // actually needed — mirrors ensureKanjiUnitLoaded() in kanji.js exactly.
 
-import { VOCAB_UNITS, VOCAB_GROUP_LABELS, VOCAB_UNIT_LABELS } from './data/vocab-manifest.js';
+import {
+  VOCAB_UNITS, VOCAB_GROUP_LABELS, VOCAB_UNIT_LABELS,
+  VOCAB_COMMON_UNITS, VOCAB_COMMON_UNIT_LABELS,
+} from './data/vocab-manifest.js';
 
 const { toRomaji } = window.wanakana;
 
@@ -70,6 +73,19 @@ function unitGroup(unit) {
   // see the "Kanji words" section in build_vocab_data.py's main(). One
   // browse group for all of them, the same shape "H" already is.
   if (unit.startsWith('K') && /^\d+$/.test(unit.slice(1))) return 'K';
+  // "O<n>" — the rest of the common-word list (build_vocab_data.py's "Other
+  // common words"). One browse group, same shape as "K".
+  if (unit.startsWith('O') && /^\d+$/.test(unit.slice(1))) return 'O';
+  // "X<n>" — the commonness axis. Its browse group is the word's own
+  // COMMONNESS tier rather than a fixed tag, so the group strip reads as the
+  // frequency ladder ("Everyday essentials", "Very common words", ...). The
+  // tier name is already the unit's label; the "(part N of M)" suffix that
+  // distinguishes tiles WITHIN a tier is exactly what has to come off to get
+  // back to the tier they share.
+  if (unit.startsWith('X') && /^\d+$/.test(unit.slice(1))) {
+    const label = VOCAB_COMMON_UNIT_LABELS[unit] || unit;
+    return label.replace(/ \(part \d+ of \d+\)$/, '');
+  }
   return unit.startsWith('C') ? 'C' : unit.split('.')[0];
 }
 
@@ -121,6 +137,7 @@ function compareUnits(a, b) {
  * school" inside its own title.
  */
 export function unitLabel(unit) {
+  if (VOCAB_COMMON_UNIT_LABELS[unit]) return VOCAB_COMMON_UNIT_LABELS[unit];
   const base = unit.endsWith('h') ? unit.slice(0, -1) : unit;
   return VOCAB_UNIT_LABELS[base] || base;
 }
@@ -209,8 +226,53 @@ export const VOCAB_COURSES = Object.keys(VOCAB_UNITS)
   .sort(compareUnits)
   .map(buildVocabCourse);
 
+/**
+ * The commonness progression (the app's default) — the SAME words as
+ * VOCAB_COURSES, re-cut into "X" units by how common each word is rather
+ * than by exam theme. See VOCAB_COMMON_UNITS in the manifest.
+ *
+ * These are a second view, never a second copy: a word's data still lives in
+ * its syllabus unit's file, so an X course's `.index` is filled by loading
+ * the home units of its own words (see ensureVocabUnitLoaded below). The two
+ * lists are deliberately kept apart rather than concatenated into
+ * VOCAB_COURSES — every total the app shows ("1 / 6239") sums over a course
+ * list, and a list holding both axes would count every word twice.
+ */
+function buildCommonCourse(unit) {
+  const ids = VOCAB_COMMON_UNITS[unit];
+  const label = VOCAB_COMMON_UNIT_LABELS[unit] || unit;
+  return {
+    id: `vocab-${unit}`,
+    kind: 'vocab',
+    unit,
+    common: true,
+    name: `Vocabulary · ${label}`,
+    native: label,
+    chunks: buildChunks(`vocab-${unit}`, ids),
+    index: new Map(),
+    excludeForMode: {},
+  };
+}
+
+export const VOCAB_COMMON_COURSES = Object.keys(VOCAB_COMMON_UNITS)
+  // Numeric, not lexicographic: "X10" must follow "X9", and compareUnits
+  // knows nothing about this axis's own id shape.
+  .sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)))
+  .map(buildCommonCourse);
+
+/** Both axes, for anything that resolves a course by id rather than browsing
+ * — session restore, deep links, ALL_COURSES. Browsing and totals must use
+ * one axis or the other, never this. */
+export const VOCAB_ALL_COURSES = [...VOCAB_COURSES, ...VOCAB_COMMON_COURSES];
+
 export function getVocabCourse(courseId) {
-  return VOCAB_COURSES.find((c) => c.id === courseId);
+  return VOCAB_ALL_COURSES.find((c) => c.id === courseId);
+}
+
+/** The course list for the learner's chosen progression — 'common' (default)
+ * or 'syllabus'. See PROGRESSIONS in app.js for where the choice is stored. */
+export function vocabCoursesFor(progression) {
+  return progression === 'syllabus' ? VOCAB_COURSES : VOCAB_COMMON_COURSES;
 }
 
 // word id -> unit, built once from the manifest — needed to open a word's
@@ -259,6 +321,29 @@ const loadingUnits = new Map(); // unit -> in-flight Promise, dedupes concurrent
  * mirrors exactly. */
 export async function ensureVocabUnitLoaded(unit) {
   if (loadedUnits.has(unit)) return;
+  // A commonness ("X") unit has no file of its own — its words are scattered
+  // across the syllabus units they're stored in. Load each of those, then
+  // copy the entries this unit actually lists into its own index. Several
+  // small imports rather than one, which is the cost of not shipping every
+  // word twice; they're requested together and each is cached from then on,
+  // so a second X unit drawing on the same home unit pays nothing.
+  if (VOCAB_COMMON_UNITS[unit]) {
+    if (!loadingUnits.has(unit)) {
+      const ids = VOCAB_COMMON_UNITS[unit];
+      const homes = [...new Set(ids.map((id) => unitByWord.get(id)).filter(Boolean))];
+      loadingUnits.set(unit, Promise.all(homes.map(ensureVocabUnitLoaded)).then(() => {
+        const course = getVocabCourse(`vocab-${unit}`);
+        ids.forEach((id) => {
+          const home = unitByWord.get(id);
+          const entry = home && getVocabCourse(`vocab-${home}`).index.get(id);
+          if (entry) course.index.set(id, entry);
+        });
+        loadedUnits.add(unit);
+      }));
+    }
+    await loadingUnits.get(unit);
+    return;
+  }
   if (!loadingUnits.has(unit)) {
     loadingUnits.set(unit, import(`./data/vocab-${unit}.js`).then((mod) => {
       const course = getVocabCourse(`vocab-${unit}`);

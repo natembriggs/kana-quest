@@ -18,6 +18,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 28.39,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -102,6 +105,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 17.68,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -253,6 +260,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 31.82,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -390,6 +400,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 49.05,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -524,6 +537,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 72.46,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -579,6 +595,10 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "A9",
     "lv": "a",
+    "cx": 33.54,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -631,6 +651,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 45.41,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -781,6 +804,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 82.16,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -831,6 +857,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 82.16,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -887,6 +916,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 67.08,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -970,6 +1002,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 88.74,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -1031,6 +1066,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 88.74,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -1103,6 +1141,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 102.47,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1160,6 +1200,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 117.79,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1231,6 +1273,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 150.0,
+    "cl": 9,
     "uk": true
   },
   {
@@ -1245,6 +1289,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A9",
     "lv": "a",
+    "cx": 150.0,
+    "cl": 9,
     "uk": true
   }
 ];

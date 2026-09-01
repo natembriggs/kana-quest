@@ -292,6 +292,13 @@
       <button type="button" class="linkish" data-action="open-settings">Why, and what the levels mean ›</button>
     </p>
 
+    <!-- Vocabulary only: which order the words are taught in — by how common
+         they are (the default) or by GCSE/A-level theme. The same words
+         either way, so switching keeps every record; see vocabProgression in
+         store.js's defaultSettings(). -->
+    <div id="vocab-progression-picker" class="segmented" role="tablist" aria-label="Vocabulary order" hidden></div>
+    <p id="vocab-progression-hint" class="hint" hidden></p>
+
     <div id="unit-groups" class="unit-group-row" role="group" aria-label="Unit group" hidden></div>
     <div id="grade-picker" class="unit-row" role="group" aria-label="Unit" hidden></div>
 

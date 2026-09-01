@@ -94,12 +94,20 @@ export function defaultSettings() {
   // profile is open (applyAccentColor() in app.js). Same no-migration
   // fallback as the two above: an old profile reads as undefined and falls
   // back to 'coral', the default, wherever it's read.
+  // vocabProgression is which order the vocabulary course is taught in:
+  // 'common' (the default — every word ranked by how often it actually turns
+  // up, commonest first; see COMMONNESS_MAX in tools/build_vocab_data.py) or
+  // 'syllabus' (the GCSE/A-level themes). The same words either way, only
+  // grouped and ordered differently, so switching costs no progress — a
+  // word's records are keyed by the word, not by the unit it was met in.
+  // Same no-migration fallback as the fields above.
   return {
     newPerSession: 5,
     maxReviews: 15,
     strictness: DEFAULT_STRICTNESS,
     writingModePreference: 'dynamic',
     accentColor: 'coral',
+    vocabProgression: 'common',
   };
 }
 

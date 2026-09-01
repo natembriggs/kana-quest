@@ -2765,8 +2765,23 @@ fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-hom
 await settle();
 fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
 await settle();
-// Vocabulary's unit row opens on Core; the themed groups sit alongside it in
-// the group row, same as kanji's primary/secondary/names split.
+
+// Vocabulary now opens in the "By commonness" progression by default (see
+// vocabProgression in store.js) — its units are frequency tiers, not themes.
+// This block is specifically about a THEMED unit, so switch axes first,
+// which also covers the picker actually rebuilding the unit row.
+const progressionSegments = () => el('vocab-progression-picker')._children;
+check('the vocabulary screen offers both progressions, commonness first',
+  progressionSegments().map((b) => b.textContent).join(' | ') === 'By commonness | By topic',
+  progressionSegments().map((b) => b.textContent).join(' | '));
+check('commonness is the selected progression by default',
+  progressionSegments()[0].className.includes('active'));
+fire(progressionSegments().find((b) => b.textContent === 'By topic'), 'click');
+await settle();
+check('switching to By topic rebuilds the unit row from the syllabus axis',
+  unitGroupChips().some((c) => c.dataset.group === 'Identity and culture'),
+  unitGroupChips().map((c) => c.dataset.group).join(' | '));
+
 await openUnitGroup('Identity and culture');
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1.1'), 'click');
 await settle();
@@ -2956,15 +2971,14 @@ const higherUnits = VOCAB_COURSES.map((c) => c.unit).filter((u) => u.endsWith('h
 check('at least one theme produced a Higher-tier unit', higherUnits.length > 0, higherUnits.length);
 
 const vocabGroupChips = () => el('unit-groups')._children;
-check('"Common words 2" is offered as its own unit group, third-to-last (A level, then the kanji-words bonus group, trail it)',
-  vocabGroupChips()[vocabGroupChips().length - 3].dataset.group === 'Common words 2',
-  vocabGroupChips().map((c) => c.dataset.group).join(' | '));
-check('"A level" is offered as its own unit group, second-to-last',
-  vocabGroupChips()[vocabGroupChips().length - 2].dataset.group === 'A level',
-  vocabGroupChips().map((c) => c.dataset.group).join(' | '));
-check('"From kanji pages" (the bonus group of words missing an Add button elsewhere) is last of all',
-  vocabGroupChips()[vocabGroupChips().length - 1].dataset.group === 'From kanji pages',
-  vocabGroupChips().map((c) => c.dataset.group).join(' | '));
+// The four non-curriculum groups trail the five themes, in this order:
+// Common words 2 (the Higher tier of each theme), A level, then the two
+// bonus pools — kanji-page words, and the rest of the common-word list that
+// no theme quota reached ("Other common words", see build_vocab_data.py).
+const groupTail = () => vocabGroupChips().slice(-4).map((c) => c.dataset.group).join(' | ');
+check('the syllabus axis trails its five themes with the two tiers then the two bonus pools',
+  groupTail() === 'Common words 2 | A level | From kanji pages | Other common words',
+  groupTail());
 
 await openUnitGroup('Common words 2');
 const higherGradeButtons = gradePickerButtons();

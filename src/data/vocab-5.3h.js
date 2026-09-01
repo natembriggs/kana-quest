@@ -19,6 +19,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 9.17,
+    "cl": 7,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -79,6 +83,27 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
+        "j": "彼らは捕虜を親切に扱った。",
+        "en": "They dealt with the prisoners kindly.",
+        "r": [
+          [0, 1, "かれ"],
+          [3, 1, "ほ"],
+          [4, 1, "りょ"],
+          [6, 1, "しん"],
+          [7, 1, "せつ"],
+          [9, 1, "あつか"]
+        ],
+        "w": [
+          [0, 2, "彼ら|かれら"],
+          [2, 1, "は@*"],
+          [3, 2],
+          [5, 1, "を@*"],
+          [6, 2],
+          [8, 1, "に@*"],
+          [9, 3, "扱う"]
+        ]
+      },
+      {
         "j": "遅かれ早かれ捕虜達は釈放されるだろう。",
         "en": "Sooner or later, the hostages will be released.",
         "r": [
@@ -99,27 +124,6 @@ export const VOCAB_ENTRIES = [
           [12, 3, "為れる"],
           [15, 3]
         ]
-      },
-      {
-        "j": "彼らは捕虜を親切に扱った。",
-        "en": "They dealt with the prisoners kindly.",
-        "r": [
-          [0, 1, "かれ"],
-          [3, 1, "ほ"],
-          [4, 1, "りょ"],
-          [6, 1, "しん"],
-          [7, 1, "せつ"],
-          [9, 1, "あつか"]
-        ],
-        "w": [
-          [0, 2, "彼ら|かれら"],
-          [2, 1, "は@*"],
-          [3, 2],
-          [5, 1, "を@*"],
-          [6, 2],
-          [8, 1, "に@*"],
-          [9, 3, "扱う"]
-        ]
       }
     ]
   },
@@ -134,6 +138,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 47.43,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -183,6 +190,10 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "5.3",
     "lv": "h",
+    "cx": 5.48,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -307,6 +318,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 11.75,
+    "cl": 8,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -358,6 +372,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 18.37,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       3
@@ -461,6 +479,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 24.75,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -517,6 +539,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 7.0,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       3
@@ -581,29 +607,19 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "少数民族達は偏見や貧困と戦っている。",
-        "en": "Ethnic minorities struggle against prejudice and poverty.",
+        "j": "人々は貧困に苦しんだ。",
+        "en": "People were ground down by poverty.",
         "r": [
-          [0, 1, "しょう"],
-          [1, 1, "すう"],
-          [2, 1, "みん"],
-          [3, 1, "ぞく"],
-          [4, 1, "たち"],
-          [6, 1, "へん"],
-          [7, 1, "けん"],
-          [9, 1, "ひん"],
-          [10, 1, "こん"],
-          [12, 1, "たたか"]
+          [0, 2, "ひとびと"],
+          [3, 1, "ひん"],
+          [4, 1, "こん"],
+          [6, 1, "くる"]
         ],
         "w": [
-          [0, 4],
-          [4, 1],
-          [5, 1, "は@*"],
-          [6, 2],
-          [8, 1, "や@*"],
-          [9, 2],
-          [11, 1, "と@*"],
-          [12, 5, "戦う"]
+          [0, 2, "人々|ひとびと"],
+          [2, 1, "は@*"],
+          [3, 3, "貧困"],
+          [6, 4, "苦しむ"]
         ]
       },
       {
@@ -644,6 +660,10 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "5.3",
     "lv": "h",
+    "cx": 5.66,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       2
@@ -758,6 +778,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 12.25,
+    "cl": 8,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       2
@@ -831,6 +855,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "5.3",
     "lv": "h",
+    "cx": 28.28,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       1

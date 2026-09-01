@@ -21,6 +21,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 3.74,
+    "cl": 4,
+    "wr": true,
+    "sk": true,
     "sn": [
       2,
       3
@@ -145,6 +149,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 6.0,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       2,
       2
@@ -267,6 +275,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 17.49,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -348,6 +359,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 30.0,
+    "cl": 9,
+    "wr": true,
     "sn": [
       2,
       1
@@ -448,7 +462,7 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "新たな入植者達がその広大な広野を開墾した。",
+        "j": "新たな入植者達がその広大な荒野を開拓した。",
         "en": "The newcomers cultivated the immense wilderness.",
         "r": [
           [0, 1, "あら"],
@@ -461,7 +475,7 @@ export const VOCAB_ENTRIES = [
           [13, 1, "こう"],
           [14, 1, "や"],
           [16, 1, "かい"],
-          [17, 1, "こん"]
+          [17, 1, "たく"]
         ],
         "w": [
           [0, 3, "新た"],
@@ -470,7 +484,7 @@ export const VOCAB_ENTRIES = [
           [7, 1, "が#2028930@*"],
           [8, 2, "其の|その"],
           [10, 3, "広大"],
-          [13, 2, "広野|こうや"],
+          [13, 2, "荒野|こうや"],
           [15, 1, "を@*"],
           [16, 2],
           [18, 2, "為る|する"]
@@ -490,6 +504,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 8.37,
+    "cl": 6,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -554,6 +572,25 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
+        "j": "彼はジャズに偏見を持っている。",
+        "en": "He has a prejudice against jazz.",
+        "r": [
+          [0, 1, "かれ"],
+          [6, 1, "へん"],
+          [7, 1, "けん"],
+          [9, 1, "も"]
+        ],
+        "w": [
+          [0, 1, "彼|かれ"],
+          [1, 1, "は@*"],
+          [2, 3],
+          [5, 1, "に@*"],
+          [6, 2],
+          [8, 1, "を@*"],
+          [9, 5, "持つ"]
+        ]
+      },
+      {
         "j": "少数民族達は偏見や貧困と戦っている。",
         "en": "Ethnic minorities struggle against prejudice and poverty.",
         "r": [
@@ -578,25 +615,6 @@ export const VOCAB_ENTRIES = [
           [11, 1, "と@*"],
           [12, 5, "戦う"]
         ]
-      },
-      {
-        "j": "彼はジャズに偏見を持っている。",
-        "en": "He has a prejudice against jazz.",
-        "r": [
-          [0, 1, "かれ"],
-          [6, 1, "へん"],
-          [7, 1, "けん"],
-          [9, 1, "も"]
-        ],
-        "w": [
-          [0, 1, "彼|かれ"],
-          [1, 1, "は@*"],
-          [2, 3],
-          [5, 1, "に@*"],
-          [6, 2],
-          [8, 1, "を@*"],
-          [9, 5, "持つ"]
-        ]
       }
     ]
   },
@@ -611,6 +629,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 21.0,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -695,6 +716,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 36.33,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -755,6 +779,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 21.54,
+    "cl": 9,
+    "sk": true,
     "sn": [
       2,
       1,
@@ -889,6 +916,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 104.28,
+    "cl": 9,
     "sn": [
       2,
       1
@@ -944,6 +973,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 113.8,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1023,6 +1054,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 60.0,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1066,6 +1099,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A10",
     "lv": "a",
+    "cx": 150.0,
+    "cl": 9,
     "sn": [
       1,
       1

@@ -20,6 +20,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 3.87,
+    "cl": 4,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       1
@@ -99,6 +103,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 6.12,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -154,6 +162,26 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
+        "j": "彼の証言は事実に基づいている。",
+        "en": "His testimony stands on facts.",
+        "r": [
+          [0, 1, "かれ"],
+          [2, 1, "しょう"],
+          [3, 1, "げん"],
+          [5, 1, "じ"],
+          [6, 1, "じつ"],
+          [8, 1, "もと"]
+        ],
+        "w": [
+          [0, 2, "彼|かれ"],
+          [2, 2],
+          [4, 1, "は@*"],
+          [5, 2],
+          [7, 1, "に@*"],
+          [8, 6, "基づく"]
+        ]
+      },
+      {
         "j": "あした裁判所で証言しなければならない。",
         "en": "I have to give a testimony in the courtroom tomorrow.",
         "r": [
@@ -171,29 +199,6 @@ export const VOCAB_ENTRIES = [
           [9, 1, "為る|する"],
           [10, 8, "ねばならない"]
         ]
-      },
-      {
-        "j": "彼らを証言台に立たせることはできるのか。",
-        "en": "Can you put them on the witness stand?",
-        "r": [
-          [0, 1, "かれ"],
-          [3, 1, "しょう"],
-          [4, 1, "げん"],
-          [5, 1, "だい"],
-          [7, 1, "た"]
-        ],
-        "w": [
-          [0, 2, "彼ら|かれら"],
-          [2, 1, "を@*"],
-          [3, 2],
-          [5, 1, "台|だい"],
-          [6, 1, "に@*"],
-          [7, 4, "立つ@3"],
-          [11, 2, "事|こと"],
-          [13, 1, "は@*"],
-          [14, 3, "出来る"],
-          [18, 1, "か@*"]
-        ]
       }
     ]
   },
@@ -209,6 +214,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 16.58,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -306,6 +315,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 8.37,
+    "cl": 6,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -423,6 +436,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 6.0,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -509,25 +526,27 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "私はデータによってその事実を証明した。",
-        "en": "I proved the fact on the strength of the data.",
+        "j": "彼は事態が正しいものだと証明しようとした。",
+        "en": "He tried to certify the matter as correct.",
         "r": [
-          [0, 1, "わたし"],
-          [11, 1, "じ"],
-          [12, 1, "じつ"],
-          [14, 1, "しょう"],
-          [15, 1, "めい"]
+          [0, 1, "かれ"],
+          [2, 1, "じ"],
+          [3, 1, "たい"],
+          [5, 1, "ただ"],
+          [12, 1, "しょう"],
+          [13, 1, "めい"]
         ],
         "w": [
-          [0, 1, "私|わたし"],
+          [0, 1, "彼|かれ"],
           [1, 1, "は@*"],
-          [2, 3],
-          [5, 4, "に因って"],
-          [9, 2, "其の|その"],
-          [11, 2],
-          [13, 1, "を@*"],
-          [14, 2],
-          [16, 2, "為る|する"]
+          [2, 2],
+          [4, 1, "が#2028930@*"],
+          [5, 3],
+          [8, 2, "物|もの"],
+          [10, 1],
+          [11, 1, "と@*"],
+          [12, 2],
+          [14, 6, "しようとする"]
         ]
       }
     ]
@@ -542,6 +561,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 20.92,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -667,6 +690,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 33.54,
+    "cl": 9,
+    "wr": true,
     "sn": [
       1,
       3
@@ -749,6 +775,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 37.91,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -854,6 +883,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 26.22,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -974,6 +1007,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 31.02,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -1023,6 +1060,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 43.08,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -1075,6 +1115,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 13.96,
+    "cl": 8,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -1185,6 +1229,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 22.91,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -1294,6 +1342,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 72.46,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -1371,6 +1422,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 49.75,
+    "cl": 9,
+    "wr": true,
     "sn": [
       2,
       3
@@ -1452,6 +1506,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 57.45,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -1579,6 +1636,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 67.45,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1627,6 +1686,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 51.96,
+    "cl": 9,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -1699,6 +1761,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 52.08,
+    "cl": 9,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -1772,28 +1837,6 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "彼らは原子爆弾の作り方を知っている。",
-        "en": "They know how to make an atomic bomb.",
-        "r": [
-          [0, 1, "かれ"],
-          [3, 1, "げん"],
-          [4, 1, "し"],
-          [5, 1, "ばく"],
-          [6, 1, "だん"],
-          [8, 1, "つく"],
-          [10, 1, "かた"],
-          [12, 1, "し"]
-        ],
-        "w": [
-          [0, 2, "彼ら|かれら"],
-          [2, 1, "は@*"],
-          [3, 4],
-          [8, 3],
-          [11, 1, "を@*"],
-          [12, 5, "知る"]
-        ]
-      },
-      {
         "j": "最初の原子爆弾は日本に落とされた。",
         "en": "The first atomic bomb was dropped on Japan.",
         "r": [
@@ -1815,6 +1858,28 @@ export const VOCAB_ENTRIES = [
           [10, 1, "に@*"],
           [11, 5, "落とす"]
         ]
+      },
+      {
+        "j": "彼らは原子爆弾の作り方を知っている。",
+        "en": "They know how to make an atomic bomb.",
+        "r": [
+          [0, 1, "かれ"],
+          [3, 1, "げん"],
+          [4, 1, "し"],
+          [5, 1, "ばく"],
+          [6, 1, "だん"],
+          [8, 1, "つく"],
+          [10, 1, "かた"],
+          [12, 1, "し"]
+        ],
+        "w": [
+          [0, 2, "彼ら|かれら"],
+          [2, 1, "は@*"],
+          [3, 4],
+          [8, 3],
+          [11, 1, "を@*"],
+          [12, 5, "知る"]
+        ]
       }
     ]
   },
@@ -1830,6 +1895,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 72.11,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1921,6 +1988,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 107.47,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -1974,6 +2043,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 76.77,
+    "cl": 9,
     "sn": [
       2,
       1
@@ -2114,6 +2185,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 125.5,
+    "cl": 9,
     "ruby": [
       [
         0,
@@ -2168,6 +2241,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 38.73,
+    "cl": 9,
+    "sk": true,
     "sn": [
       2,
       2,
@@ -2253,6 +2329,8 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "A11",
     "lv": "a",
+    "cx": 150.0,
+    "cl": 9,
     "sn": [
       2,
       3

@@ -22,6 +22,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 6.48,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       2,
       3,
@@ -66,6 +70,28 @@ export const VOCAB_ENTRIES = [
     ],
     "ex": [
       {
+        "j": "彼は怒って首を左右に振った。",
+        "en": "He gave an angry shake of his head.",
+        "r": [
+          [0, 1, "かれ"],
+          [2, 1, "おこ"],
+          [5, 1, "くび"],
+          [7, 1, "さ"],
+          [8, 1, "ゆう"],
+          [10, 1, "ふ"]
+        ],
+        "w": [
+          [0, 1, "彼|かれ"],
+          [1, 1, "は@*"],
+          [2, 3, "怒る|おこる"],
+          [5, 1, "首|くび"],
+          [6, 1, "を@*"],
+          [7, 2, "左右|さゆう"],
+          [9, 1, "に@*"],
+          [10, 3, "振る|ふる"]
+        ]
+      },
+      {
         "j": "大衆の意見が大統領の決定を左右する。",
         "en": "Public opinion governs the president's decisions.",
         "r": [
@@ -90,28 +116,6 @@ export const VOCAB_ENTRIES = [
           [12, 1, "を@*"],
           [13, 2, "左右|さゆう@2"],
           [15, 2, "為る|する"]
-        ]
-      },
-      {
-        "j": "彼は怒って首を左右に振った。",
-        "en": "He gave an angry shake of his head.",
-        "r": [
-          [0, 1, "かれ"],
-          [2, 1, "おこ"],
-          [5, 1, "くび"],
-          [7, 1, "さ"],
-          [8, 1, "ゆう"],
-          [10, 1, "ふ"]
-        ],
-        "w": [
-          [0, 1, "彼|かれ"],
-          [1, 1, "は@*"],
-          [2, 3, "怒る|おこる"],
-          [5, 1, "首|くび"],
-          [6, 1, "を@*"],
-          [7, 2, "左右|さゆう"],
-          [9, 1, "に@*"],
-          [10, 3, "振る|ふる"]
         ]
       },
       {
@@ -156,6 +160,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 6.48,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       2,
       1
@@ -274,6 +282,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 7.35,
+    "cl": 6,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,
@@ -400,6 +412,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 21.21,
+    "cl": 9,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       1,
@@ -505,6 +521,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 6.93,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       3
@@ -635,6 +655,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 38.57,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -687,6 +710,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 5.92,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       3,
       3
@@ -792,6 +819,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 33.07,
+    "cl": 9,
+    "wr": true,
     "ruby": [
       [
         0,
@@ -879,6 +909,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 28.83,
+    "cl": 9,
+    "wr": true,
     "sn": [
       1,
       1
@@ -958,22 +991,22 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "事故で左腕をけがしたんだ。",
-        "en": "I got my left arm hurt in the accident.",
+        "j": "左腕に打撲傷を負った。",
+        "en": "I got my left arm bruised.",
         "r": [
-          [0, 1, "じ"],
-          [1, 1, "こ"],
-          [3, 1, "ひだり"],
-          [4, 1, "うで"]
+          [0, 1, "ひだり"],
+          [1, 1, "うで"],
+          [3, 1, "だ"],
+          [4, 1, "ぼく"],
+          [5, 1, "しょう"],
+          [7, 1, "お"]
         ],
         "w": [
-          [0, 2, "事故|じこ"],
-          [2, 1, "で#2028980@*"],
-          [3, 2, "左腕|ひだりうで"],
-          [5, 1, "を@*"],
-          [6, 2, "怪我"],
-          [8, 2, "為る|する"],
-          [10, 2, "のだ"]
+          [0, 2, "左腕|ひだりうで"],
+          [2, 1, "に@*"],
+          [3, 3],
+          [6, 1, "を@*"],
+          [7, 3, "負う@3"]
         ]
       }
     ]
@@ -990,6 +1023,9 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 28.06,
+    "cl": 9,
+    "wr": true,
     "sn": [
       2,
       1
@@ -1126,6 +1162,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 6.93,
+    "cl": 5,
+    "wr": true,
+    "sk": true,
     "sn": [
       1,
       3
@@ -1241,6 +1281,10 @@ export const VOCAB_ENTRIES = [
     "pos": "n",
     "th": "2.3",
     "lv": "h",
+    "cx": 9.38,
+    "cl": 7,
+    "wr": true,
+    "sk": true,
     "ruby": [
       [
         0,

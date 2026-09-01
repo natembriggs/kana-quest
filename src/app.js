@@ -9,7 +9,8 @@ import {
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, unitLabel,
 } from './kanji.js';
 import {
-  VOCAB_COURSES, vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
+  VOCAB_COURSES, VOCAB_ALL_COURSES, vocabCoursesFor,
+  vocabInfo, wordHasKanji, unitLabel as vocabUnitLabel, unitGroupLabel as vocabUnitGroupLabel,
   unitLevelLabel as vocabUnitLevelLabel, unitBadge as vocabUnitBadge,
   ensureVocabUnitLoaded, vocabUnitFor, vocabIdForWord, buildMeaningChoices, buildYomiChoices,
   ensureExampleWordsLoaded, exampleWordInfo,
@@ -50,10 +51,10 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-01f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
-const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_COURSES];
+const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
 
 /**
  * A merged index spanning every grade's kanji — needed whenever something
@@ -152,6 +153,14 @@ function allKanjiPool() {
  * cached. Word ids are unique across the whole manifest, so a plain union is
  * exact.
  */
+/** The vocab course list for the open profile's chosen progression — see
+ * `vocabProgression` in store.js's defaultSettings(). Every browse list and
+ * every total goes through here; only id lookups use VOCAB_ALL_COURSES. */
+function activeVocabCourses() {
+  const progression = state.profile ? state.profile.settings.vocabProgression : 'common';
+  return vocabCoursesFor(progression);
+}
+
 function allVocabIndex() {
   const merged = new Map();
   VOCAB_COURSES.forEach((course) => {
@@ -198,7 +207,7 @@ function allVocabPool() {
     id: ALL_VOCAB_POOL_ID,
     kind: 'vocab',
     name: 'Vocabulary',
-    chunks: VOCAB_COURSES.flatMap((course) => course.chunks),
+    chunks: activeVocabCourses().flatMap((course) => course.chunks),
     excludeForMode: {},
     index: allVocabIndex(),
   };
@@ -404,7 +413,7 @@ function currentCourse() {
  * one per teaching unit for vocab. */
 function coursesForScript(script) {
   if (script.kind === 'kanji') return KANJI_COURSES;
-  if (script.kind === 'vocab') return VOCAB_COURSES;
+  if (script.kind === 'vocab') return activeVocabCourses();
   return [getAnyCourse(script.id)];
 }
 
@@ -721,7 +730,7 @@ function unitBadge(unit) {
  * order, so grouping consecutive runs is enough — no sorting here.
  */
 function unitGroupsFor(kind) {
-  const units = kind === 'kanji' ? KANJI_UNIT_IDS : VOCAB_COURSES.map((c) => c.unit);
+  const units = kind === 'kanji' ? KANJI_UNIT_IDS : activeVocabCourses().map((c) => c.unit);
   const labelFor = kind === 'kanji'
     ? (unit) => kanjiUnitGroup(unit).label
     : (unit) => vocabUnitGroupLabel(unit);
@@ -742,7 +751,17 @@ function unitCourse(kind, unit) {
 }
 
 function selectedUnit(kind) {
-  return kind === 'kanji' ? state.kanjiUnit : state.vocabUnit;
+  if (kind === 'kanji') return state.kanjiUnit;
+  // The remembered unit belongs to whichever progression was on screen when
+  // it was chosen — switching progressions (or opening a profile that uses
+  // the other one) leaves it pointing at a unit the active axis doesn't
+  // have. Fall back to that axis's first unit rather than rendering a course
+  // screen for a unit no tile on it can select.
+  const active = activeVocabCourses();
+  if (!active.some((c) => c.unit === state.vocabUnit)) {
+    state.vocabUnit = active[0].unit;
+  }
+  return state.vocabUnit;
 }
 
 function selectUnit(kind, unit) {
@@ -876,6 +895,53 @@ function renderWritingModePicker() {
   hint.textContent = current === 'dynamic'
     ? 'Each character starts in whichever mode fits how well you know it.'
     : `Every character starts in ${WRITING_MODE_PREF_LABELS[current]} until you change this.`;
+}
+
+const VOCAB_PROGRESSIONS = ['common', 'syllabus'];
+const VOCAB_PROGRESSION_LABELS = { common: 'By commonness', syllabus: 'By topic' };
+
+/**
+ * Vocabulary only: which order the words are taught in. Both progressions
+ * cover the SAME words — a word's records are keyed by the word itself, not
+ * by the unit it was met in — so switching reorders what is offered next
+ * and loses nothing already learned. That is worth saying on screen, since
+ * a learner mid-way through a course has every reason to assume otherwise.
+ */
+function renderVocabProgressionPicker() {
+  const picker = $('vocab-progression-picker');
+  const hint = $('vocab-progression-hint');
+  const script = SCRIPTS.find((s) => s.id === state.scriptId);
+  if (!script || script.kind !== 'vocab') {
+    picker.hidden = true;
+    hint.hidden = true;
+    return;
+  }
+  picker.hidden = false;
+  hint.hidden = false;
+  const current = state.profile.settings.vocabProgression || 'common';
+  picker.innerHTML = '';
+  VOCAB_PROGRESSIONS.forEach((pref) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `segment${pref === current ? ' active' : ''}`;
+    button.textContent = VOCAB_PROGRESSION_LABELS[pref];
+    button.addEventListener('click', () => setVocabProgression(pref));
+    picker.appendChild(button);
+  });
+  hint.textContent = current === 'common'
+    ? 'Commonest words first, however they are used. Switching keeps everything you have learned.'
+    : 'Grouped by GCSE and A-level topic. Switching keeps everything you have learned.';
+}
+
+function setVocabProgression(pref) {
+  state.profile.settings.vocabProgression = pref;
+  stampSetting(state.profile, 'vocabProgression');
+  store.saveProfile(state.profile);
+  // The remembered unit belongs to the axis being left behind; selectedUnit()
+  // re-homes it on the next read, and the group memory keyed by the old
+  // axis's labels is equally stale.
+  state.lastUnitByGroup = {};
+  renderCourse();
 }
 
 /** Persisted per profile — sticks across sessions, not just this one, until
@@ -1096,10 +1162,17 @@ function renderCourse() {
   const script = currentScript();
   $('course-title').textContent = script.name;
   renderModePicker(script.kind);
+  // Before renderGradePicker: switching progression changes which units
+  // exist, and the picker below must be drawn from the new axis.
+  renderVocabProgressionPicker();
   renderGradePicker(script);
   renderQuickActions(script);
   renderWritingModePicker();
-  $('vocab-source-hint').hidden = script.kind !== 'vocab';
+  // Only in the syllabus progression — it is entirely about how the GCSE/
+  // A-level topic groups were built, and says nothing true of the
+  // commonness ladder, which has no exam-board shape to explain.
+  $('vocab-source-hint').hidden = script.kind !== 'vocab'
+    || (state.profile.settings.vocabProgression || 'common') !== 'syllabus';
 
   $('kanji-search-wrap').hidden = script.kind !== 'kanji';
   const searchQuery = script.kind === 'kanji' ? $('kanji-search').value.trim() : '';
