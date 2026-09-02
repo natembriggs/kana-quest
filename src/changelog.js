@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-02',
+    changes: [
+      'Fixed: finishing a writing session on a phone showed the "Session done" screen for an instant and then started a whole new session on its own, with nobody touching the screen. The tap on Next was being counted twice — once by the button, and once again a moment later by whatever button had appeared underneath your finger by then, which on that screen is the one that starts the next review.',
+    ],
+  },
+  {
     date: '2026-09-01',
     changes: [
       'New: 10 new stories, two each for reading levels L1, L3, L4, L5 and L6 — the library now has two stories at every level instead of just L2. All ten are original Japanese retellings of well-known tales (The Giant Turnip, The North Wind and the Sun, Cinderella, The Three Little Pigs, Little Red Riding Hood, The Bremen Town Musicians, Aladdin, Pinocchio, Alice in Wonderland, and The Wizard of Oz), each fully glossed and furigana-linked the same way the original two stories are, with real katakana practice built into the higher levels.',

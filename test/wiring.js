@@ -118,11 +118,25 @@ function el(id) {
 
 function fire(element, type, event = {}) {
   // This stub never simulates real DOM bubbling (each fire() call only ever
-  // invokes the target element's own listeners) — stopPropagation is a
-  // harmless no-op here for exactly the same reason preventDefault is: real
-  // app code calls it, so the stub event needs to have it, without needing
-  // to actually model what it does.
-  (element._listeners[type] || []).forEach((fn) => fn({ preventDefault() {}, stopPropagation() {}, ...event }));
+  // invokes the target element's own listeners) — preventDefault is a
+  // harmless no-op here: real app code calls it, so the stub event needs to
+  // have it, without needing to model what it does.
+  //
+  // stopPropagation IS modelled, as "no listener registered after this one
+  // runs", which is the one thing about it this stub can meaningfully
+  // reproduce. app.js's ghost-click guard (bindTap in app.js) is a
+  // capture-phase listener on `document` that swallows a click before the
+  // delegated [data-action] handler — also on `document`, but in the bubble
+  // phase — ever sees it. In a real DOM those are two separate steps of the
+  // same event's traversal, so the stop-propagation flag set by the first
+  // does suppress the second; here they are simply two entries in one array,
+  // in registration order, which puts them in the same relative order.
+  let stopped = false;
+  const listeners = [...(element._listeners[type] || [])];
+  listeners.forEach((fn) => {
+    if (stopped) return;
+    fn({ preventDefault() {}, stopPropagation() { stopped = true; }, ...event });
+  });
 }
 
 const missingIds = new Set();
@@ -977,7 +991,28 @@ if (visible() === 'screen-writing') {
   await settle();
 }
 
-fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
+// The ghost-click guard (see bindTap in app.js). iOS still synthesizes a
+// click after a touch pointerup that was preventDefault()ed, and hit-tests
+// it afresh — so when the pointerup handler changes screens, the click can
+// land on a button that wasn't there when the finger went down. Reported
+// from real use: finishing the last character of a writing session showed
+// the summary for an instant, then started a whole new session with no
+// second tap, because the ghost click hit the summary's own bottom bar.
+// A tap through bindTap must therefore swallow the very next click that
+// arrives with no pointerdown of its own behind it.
+const quitClick = { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } };
+const screenBeforeGhost = visible(); // wherever the writing session left off
+fire(el('writing-retry'), 'pointerup', { pointerType: 'touch' }); // arms the guard
+await settle();
+fire(document, 'click', quitClick);
+await settle();
+check('a click with no press of its own behind it is swallowed right after a touch tap',
+  visible() === screenBeforeGhost, `left ${screenBeforeGhost} for ${visible()}`);
+
+// ...and only that one. A real follow-up tap starts with its own
+// pointerdown, which disarms the guard again.
+fire(document, 'pointerdown', {});
+fire(document, 'click', quitClick);
 await settle();
 check('quitting a writing session returns to the course screen', visible() === 'screen-course');
 

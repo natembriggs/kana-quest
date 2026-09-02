@@ -51,7 +51,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-01h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-02'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3989,10 +3989,44 @@ function bindTap(element, handler) {
   element.addEventListener('pointerup', (event) => {
     if (event.pointerType === 'mouse') return;
     event.preventDefault();
+    armGhostClickGuard();
     handler(event);
   });
   element.addEventListener('click', (event) => handler(event));
 }
+
+/**
+ * iOS still synthesizes a `click` after a touch even when the preceding
+ * `pointerup` was preventDefault()ed — preventDefault only suppresses the
+ * compatibility mouse events when it happens on `pointerdown`, and by then
+ * the canvas needs the event. That synthetic click is hit-tested afresh at
+ * the touch point, so if bindTap's own pointerup handler has meanwhile
+ * swapped the screen out from under the finger, the click lands on whatever
+ * button now sits at those coordinates. Finishing the last character of a
+ * writing session was the case that made this visible: tapping Next showed
+ * the summary, and the ghost click then hit one of the summary's own
+ * bottom-bar buttons and started a whole new session with no second tap.
+ *
+ * So the next click is swallowed outright, in the capture phase, before it
+ * reaches anything. A real follow-up tap always begins with its own
+ * `pointerdown`, which disarms the guard (below) — so only a click with no
+ * press of its own behind it, arriving within a beat of the tap that did
+ * the navigating, is ever eaten. Mouse taps never arm it at all
+ * (`pointerType === 'mouse'` returns above), and keyboard/assistive-tech
+ * activation fires a bare `click` with no pointer sequence at all, which
+ * likewise can't arm it.
+ */
+let ghostClickUntil = 0;
+function armGhostClickGuard() { ghostClickUntil = Date.now() + 700; }
+document.addEventListener('pointerdown', () => { ghostClickUntil = 0; }, true);
+document.addEventListener('click', (event) => {
+  if (!ghostClickUntil) return;
+  const armed = Date.now() < ghostClickUntil;
+  ghostClickUntil = 0;
+  if (!armed) return;
+  event.preventDefault();
+  event.stopPropagation();
+}, true);
 
 /**
  * Wires a press-and-hold interaction on `button`: `onChange(true)` fires on
