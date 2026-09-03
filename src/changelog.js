@@ -11,6 +11,14 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-03',
+    changes: [
+      'Changed: it used to be easy to accidentally re-learn things you already half-knew — tapping "Learn new" always walked a character through the slow step-by-step climb, even one you could already get right every time from learning outside the app, and "Test unlearned" (which skips that climb the moment you answer correctly) was easy to miss. Review, Test unlearned, and Learn new are now three clear rows in that order, each with a line saying what it does, with the one worth trying first highlighted — so testing what you already know comes before starting it from scratch.',
+      'New: the home screen now adds up reviews due across every mode for a script, not just whichever one you last had open — a kanji card can no longer show "nothing due" while Yomi or Writing quietly has reviews waiting behind it. When more than one mode has something due, it shows the split (e.g. "Yomi 5 · Writing 2").',
+      'New: switching modes (Reading ↔ Writing, or Definition ↔ Yomi ↔ Writing) now shows how many reviews are due in each one, right on the tab.',
+    ],
+  },
+  {
     date: '2026-09-02',
     changes: [
       'Fixed: finishing a writing session on a phone showed the "Session done" screen for an instant and then started a whole new session on its own, with nobody touching the screen. The tap on Next was being counted twice — once by the button, and once again a moment later by whatever button had appeared underneath your finger by then, which on that screen is the one that starts the next review.',

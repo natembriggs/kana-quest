@@ -323,8 +323,19 @@ check('the four scripts are hiragana, katakana, kanji and vocab',
 check('the home screen no longer lists individual courses — that moved a level down',
   el('course-list')._children.length === 0);
 
-/** Buttons inside a rendered card, flattened one level (actions wrapper). */
-const buttonsIn = (card) => card._children.flatMap((n) => (n._children.length ? n._children : [n]));
+/** Every button inside a rendered card, at any nesting depth — the course
+ * card wraps each study action in its own subtitle-carrying container (see
+ * renderCourse() in app.js), so a shallow one-level flatten no longer finds
+ * them all. Buttons are the only nodes app.js ever sets .type = 'button' on. */
+const buttonsIn = (card) => {
+  const found = [];
+  const walk = (node) => {
+    if (node.type === 'button') found.push(node);
+    node._children.forEach(walk);
+  };
+  card._children.forEach(walk);
+  return found;
+};
 
 // --- Hiragana: modes across the top, no grade picker ----------------------
 

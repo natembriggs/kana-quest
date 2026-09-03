@@ -654,6 +654,16 @@ button.quiz-glyph-tap {
 }
 .segment.active { background: var(--accent); color: var(--accent-ink); }
 .segment small { font-weight: 500; opacity: 0.7; font-size: 11px; }
+/* How many are due in a mode you're not currently viewing — e.g. "Yomi"
+   while looking at Definition. Only appears when nonzero (see
+   renderModePicker() in app.js), so a quiet mode stays quiet. */
+.segment-badge {
+  margin-left: 4px;
+  font-size: 11px; font-weight: 800;
+  padding: 1px 6px; border-radius: 99px;
+  background: var(--accent); color: var(--accent-ink);
+}
+.segment.active .segment-badge { background: var(--accent-ink); color: var(--accent); }
 
 /* --- Course cards ------------------------------------------------------- */
 
@@ -694,6 +704,16 @@ button.quiz-glyph-tap {
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .actions .btn { padding: 0 10px; }
 .actions .btn b { font-weight: 800; }
+
+/* Review / Test unlearned / Learn on the course card: stacked full-width
+   rows rather than actions's 2-up grid, each with room for a one-line
+   subtitle underneath explaining what it does (see renderCourse() and
+   choosePrimaryAction() in app.js) — the discoverability review found the
+   old layout left that distinction to button colour alone. */
+.study-actions { display: flex; flex-direction: column; gap: 10px; }
+.study-action { display: flex; flex-direction: column; gap: 2px; }
+.study-action .btn { width: 100%; }
+.action-subtitle { margin: 0 2px; font-size: 12px; color: var(--ink-soft); }
 
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge {
@@ -985,6 +1005,11 @@ button.quiz-glyph-tap {
 }
 .script-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; width: 92px; }
 .script-count { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+/* Per-mode split of the due count above, e.g. "Yomi 5 · Writing 2" — only
+   shown when the backlog actually spans more than one mode (see
+   renderHome() in app.js), so a single-mode tile stays exactly as quiet as
+   before. */
+.script-breakdown { font-size: 11px; color: var(--ink-soft); text-align: right; }
 .script-meta .progress { width: 100%; display: block; }
 .script-meta .progress-fill { display: block; }
 

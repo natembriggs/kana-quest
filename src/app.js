@@ -51,7 +51,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-02'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -631,16 +631,29 @@ function renderHome() {
   const list = $('script-list');
   list.innerHTML = '';
   SCRIPTS.forEach((script) => {
-    // Progress shown here is for whichever mode applies to the script, summed
-    // over its courses (all six grades, for kanji).
+    // Progress ("started / total") reflects whichever mode applies to the
+    // script, summed over its courses (all six grades, for kanji) — same as
+    // before. Due counts, though, are summed across EVERY mode that applies
+    // to this kind, not just the one currently open — otherwise a tile can
+    // read "nothing due" (or a small number) while a real backlog sits
+    // untouched in, say, Writing while you're viewing Yomi. See the
+    // Discoverability review, 2026-09.
     const mode = MODES[state.mode].kinds.includes(script.kind)
       ? state.mode
       : defaultModeForKind(script.kind);
-    const totals = coursesForScript(script).reduce((acc, course) => {
+    const courses = coursesForScript(script);
+    const progress = courses.reduce((acc, course) => {
       const stats = courseStats(course, mode, profile);
-      return { started: acc.started + stats.started, total: acc.total + stats.total, due: acc.due + stats.due };
-    }, { started: 0, total: 0, due: 0 });
-    const pct = Math.round((totals.started / totals.total) * 100);
+      return { started: acc.started + stats.started, total: acc.total + stats.total };
+    }, { started: 0, total: 0 });
+    const dueByMode = modesForKind(script.kind)
+      .filter((m) => !isModeComingSoon(m, script.kind))
+      .map((m) => ({
+        name: modeName(m.id, script.kind),
+        due: courses.reduce((sum, course) => sum + courseStats(course, m.id, profile).due, 0),
+      }));
+    const totalDue = dueByMode.reduce((sum, m) => sum + m.due, 0);
+    const pct = Math.round((progress.started / progress.total) * 100);
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -654,15 +667,25 @@ function renderHome() {
       </span>
       <span class="script-meta">
         <span class="script-count"></span>
+        <span class="script-breakdown hint"></span>
         <span class="progress"><span class="progress-fill" style="width:${pct}%"></span></span>
       </span>
     `;
     button.querySelector('.script-sample').textContent = script.sample;
     button.querySelector('.script-name').textContent = script.name;
     button.querySelector('.script-native').textContent = script.native;
-    button.querySelector('.script-count').textContent = totals.due > 0
-      ? `${totals.due} to review`
-      : `${totals.started} / ${totals.total}`;
+    button.querySelector('.script-count').textContent = totalDue > 0
+      ? `${totalDue} to review`
+      : `${progress.started} / ${progress.total}`;
+    // Only worth a second line when the backlog is actually split across
+    // more than one mode — a single-mode due count would just repeat the
+    // headline above it.
+    const splitModes = dueByMode.filter((m) => m.due > 0);
+    const breakdown = button.querySelector('.script-breakdown');
+    breakdown.hidden = splitModes.length <= 1;
+    breakdown.textContent = splitModes.length > 1
+      ? splitModes.map((m) => `${m.name} ${m.due}`).join(' · ')
+      : '';
     button.addEventListener('click', () => openScript(script.id));
     list.appendChild(button);
   });
@@ -687,7 +710,10 @@ function openScript(scriptId) {
   renderCourse();
 }
 
-function renderModePicker(kind) {
+// Per-mode due badges use the course currently on screen, not a total
+// across the whole script — so the number next to "Yomi" always matches
+// what the Review button says once you actually switch to it.
+function renderModePicker(kind, course, profile) {
   const picker = $('mode-picker');
   picker.innerHTML = '';
   modesForKind(kind).forEach((mode) => {
@@ -695,7 +721,6 @@ function renderModePicker(kind) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
-    button.textContent = label;
     button.dataset.mode = mode.id;
     // Kanji writing needs its reading/meaning side panel (phase 4 of
     // writing-mode-plan.md), so it's still shown but inert there — kana
@@ -705,6 +730,9 @@ function renderModePicker(kind) {
       button.classList.add('segment-soon');
       button.innerHTML = `${label} <small>soon</small>`;
     } else {
+      const due = courseStats(course, mode.id, profile).due;
+      if (due > 0) button.innerHTML = `${label} <b class="segment-badge">${due}</b>`;
+      else button.textContent = label;
       button.addEventListener('click', () => { state.mode = mode.id; renderCourse(); });
     }
     picker.appendChild(button);
@@ -1157,11 +1185,27 @@ function renderKanjiSearchResults(query) {
   }
 }
 
+/**
+ * Which of Review / Test unlearned / Learn should read as the primary
+ * action for a course, in the order the app wants a learner to reach for
+ * them: clear what's already due, then check whether untouched material is
+ * actually already known before committing to learning it from scratch.
+ * Shared by every screen offering this choice, so the precedence lives in
+ * one place rather than being re-derived per screen.
+ */
+function choosePrimaryAction({ due, untested, started, newCount }) {
+  if (due > 0) return 'review';
+  if (untested > 0 && started === 0) return 'test';
+  if (newCount > 0) return 'learn';
+  return null;
+}
+
 function renderCourse() {
   const profile = state.profile;
   const script = currentScript();
   $('course-title').textContent = script.name;
-  renderModePicker(script.kind);
+  const course = currentCourse();
+  renderModePicker(script.kind, course, profile);
   // Before renderGradePicker: switching progression changes which units
   // exist, and the picker below must be drawn from the new axis.
   renderVocabProgressionPicker();
@@ -1193,7 +1237,6 @@ function renderCourse() {
     return;
   }
 
-  const course = currentCourse();
   list.innerHTML = '';
 
   const stats = courseStats(course, state.mode, profile);
@@ -1253,6 +1296,54 @@ function renderCourse() {
   viewSet.innerHTML = '📋 View set overview';
   viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
 
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.appendChild(viewSet);
+  card.appendChild(row);
+
+  // Review / Test unlearned / Learn, stacked in the order the app wants a
+  // learner to reach for them (see choosePrimaryAction): clear what's
+  // already due, then check whether untouched material is actually already
+  // known, and only then commit to learning it from scratch. Colour still
+  // marks the recommended one, but each also gets a one-line subtitle so
+  // the choice doesn't rely on button colour alone.
+  const untested = neverSeenItems(course, state.mode, profile).length;
+  const primary = choosePrimaryAction({ due: stats.due, untested, started: stats.started, newCount });
+
+  const actionRow = (button, subtitle) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'study-action';
+    wrap.appendChild(button);
+    if (subtitle) {
+      const sub = document.createElement('p');
+      sub.className = 'action-subtitle';
+      sub.textContent = subtitle;
+      wrap.appendChild(sub);
+    }
+    return wrap;
+  };
+
+  const actions = document.createElement('div');
+  actions.className = 'study-actions';
+
+  const review = document.createElement('button');
+  review.type = 'button';
+  review.className = `btn${primary === 'review' ? ' btn-primary' : ''}`;
+  let reviewSubtitle = null;
+  if (stats.due > 0) {
+    review.innerHTML = `Review <b>${stats.due}</b>`;
+    review.addEventListener('click', () => startSession(course.id, 'review'));
+    reviewSubtitle = 'Cards scheduled for today';
+  } else if (stats.started > 0) {
+    review.textContent = 'Practise';
+    review.addEventListener('click', () => startSession(course.id, 'practice'));
+    reviewSubtitle = 'Nothing due — a free round any time';
+  } else {
+    review.textContent = 'Nothing to review';
+    review.disabled = true;
+  }
+  actions.appendChild(actionRow(review, reviewSubtitle));
+
   // "Place in": an already-capable learner tests every not-yet-started item
   // in this unit cold, no lesson step, so nothing is shown before being
   // asked. A correct first answer jumps straight to the top box instead of
@@ -1264,50 +1355,27 @@ function renderCourse() {
   // "waiting to learn" despite never being touched. Enrollment now happens
   // lazily, one item at a time, only once actually attempted (see
   // ensurePlacementEnrolled() below), so there is no longer a single count
-  // to show honestly before the learner has done anything.
-  const row = document.createElement('div');
-  row.className = 'row';
-  row.appendChild(viewSet);
-
-  const untested = neverSeenItems(course, state.mode, profile).length;
+  // to show honestly before the learner has done anything. The subtitle's
+  // "up to N" is safe to show even though the label's count isn't: it's an
+  // upper bound on what's untried, not a promise of what a session covers.
   const placement = document.createElement('button');
   placement.type = 'button';
-  placement.className = 'btn';
+  placement.className = `btn${primary === 'test' ? ' btn-primary' : ''}`;
+  let placementSubtitle = null;
   if (untested > 0) {
     placement.innerHTML = '🎯 Test unlearned';
     placement.addEventListener('click', () => startSession(course.id, 'placement'));
+    placementSubtitle = `Up to ${untested} untried — answer cold, and a correct answer skips straight to mastered`;
   } else {
     placement.textContent = 'Nothing left to test';
     placement.disabled = true;
   }
-  row.appendChild(placement);
-  card.appendChild(row);
-
-  // Learning new characters and reviewing are separate buttons, so adding
-  // more to study is always a decision rather than something that happens
-  // automatically at the start of a session.
-  const actions = document.createElement('div');
-  actions.className = 'actions';
-
-  const review = document.createElement('button');
-  review.type = 'button';
-  review.className = 'btn btn-primary';
-  if (stats.due > 0) {
-    review.innerHTML = `Review <b>${stats.due}</b>`;
-    review.addEventListener('click', () => startSession(course.id, 'review'));
-  } else if (stats.started > 0) {
-    review.className = 'btn';
-    review.textContent = 'Practise';
-    review.addEventListener('click', () => startSession(course.id, 'practice'));
-  } else {
-    review.textContent = 'Nothing to review';
-    review.disabled = true;
-  }
-  actions.appendChild(review);
+  actions.appendChild(actionRow(placement, placementSubtitle));
 
   const learn = document.createElement('button');
   learn.type = 'button';
-  learn.className = stats.due > 0 ? 'btn' : 'btn btn-primary';
+  learn.className = `btn${primary === 'learn' ? ' btn-primary' : ''}`;
+  let learnSubtitle = null;
   if (newCount > 0) {
     // "Waiting" when at least one of this batch is a manual add already
     // sitting enrolled, rather than "new" — it was chosen from a detail
@@ -1322,11 +1390,12 @@ function renderCourse() {
       ? `Learn <b>${waitingCount}</b> waiting`
       : `Learn <b>${newCount}</b> new`;
     learn.addEventListener('click', () => startSession(course.id, 'new'));
+    learnSubtitle = 'Starts from scratch, one step at a time';
   } else {
     learn.textContent = 'All characters started';
     learn.disabled = true;
   }
-  actions.appendChild(learn);
+  actions.appendChild(actionRow(learn, learnSubtitle));
 
   card.appendChild(actions);
 
