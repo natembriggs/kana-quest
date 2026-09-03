@@ -3136,6 +3136,25 @@ function renderQuestion() {
   $('quiz-progress').style.width = `${(done / Math.max(total, 1)) * 100}%`;
 }
 
+/**
+ * The one choice-button DOM shape shared by every quiz layout — single
+ * answer, vocab meaning, vocab yomi, vocab recall/prod, vocab spell, and
+ * kanji yomi (which differs only in its dataset key and label). Extracted
+ * (review-followups.md item 9) so the six call sites can't drift on
+ * className/type/event wiring; output DOM and event wiring are unchanged
+ * from the six inlined copies this replaced.
+ */
+function addChoiceButton(container, text, { datasetKey, datasetValue, onClick }) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'choice';
+  button.textContent = text;
+  button.dataset[datasetKey] = datasetValue;
+  button.addEventListener('click', () => onClick(button));
+  container.appendChild(button);
+  return button;
+}
+
 // --- Single answer (kana reading, kanji definition): tap once, grades
 // --- instantly -------------------------------------------------------
 
@@ -3156,13 +3175,9 @@ function renderSingleChoice(course, item) {
   // two-column layout instead of the five-across kana grid.
   choices.className = isDefinition ? 'choice-grid choice-grid-text' : 'choice-grid';
   options.forEach((value) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = value;
-    button.dataset.value = value;
-    button.addEventListener('click', () => chooseAnswer(value, button));
-    choices.appendChild(button);
+    addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseAnswer(value, button),
+    });
   });
 }
 
@@ -3925,13 +3940,9 @@ function renderVocabMeaningQuestion(course, item) {
   const wide = options.some((o) => o.length > LONG_MEANING_LABEL);
   choices.className = `choice-grid choice-grid-text${wide ? ' choice-grid-wide' : ''}`;
   options.forEach((value) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = value;
-    button.dataset.value = value;
-    button.addEventListener('click', () => chooseVocabMeaning(value, button));
-    choices.appendChild(button);
+    addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseVocabMeaning(value, button),
+    });
   });
 }
 
@@ -4023,13 +4034,9 @@ function renderVocabYomiStage({ options, answer }) {
   choices.className = 'choice-grid';
   choices.innerHTML = '';
   options.forEach((value) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = value;
-    button.dataset.value = value;
-    button.addEventListener('click', () => chooseVocabYomi(value, button));
-    choices.appendChild(button);
+    addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseVocabYomi(value, button),
+    });
   });
 }
 
@@ -4117,13 +4124,9 @@ function renderVocabRecallQuestion(course, item) {
   choices.className = 'choice-grid';
   choices.lang = 'ja';
   options.forEach((value) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = value;
-    button.dataset.value = value;
-    button.addEventListener('click', () => chooseVocabProd(value, button));
-    choices.appendChild(button);
+    addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseVocabProd(value, button),
+    });
   });
 }
 
@@ -4221,13 +4224,9 @@ function renderVocabSpellStage(info, { options, answer }) {
   choices.lang = 'ja';
   choices.innerHTML = '';
   options.forEach((value) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice';
-    button.textContent = value;
-    button.dataset.value = value;
-    button.addEventListener('click', () => chooseVocabSpell(value, button));
-    choices.appendChild(button);
+    addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseVocabSpell(value, button),
+    });
   });
 }
 
@@ -4941,13 +4940,9 @@ function renderKanjiChoices(course, kanji) {
 }
 
 function addKanjiChoiceButton(choices, info, reading) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'choice';
-  button.textContent = formatReading(info, reading);
-  button.dataset.reading = reading;
-  button.addEventListener('click', () => clickKanjiReading(reading, button));
-  choices.appendChild(button);
+  addChoiceButton(choices, formatReading(info, reading), {
+    datasetKey: 'reading', datasetValue: reading, onClick: (button) => clickKanjiReading(reading, button),
+  });
 }
 
 /**
