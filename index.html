@@ -578,7 +578,7 @@
       <canvas id="writing-canvas" class="writing-canvas"></canvas>
     </div>
 
-    <p id="writing-feedback" class="hint writing-feedback"></p>
+    <p id="writing-feedback" class="hint writing-feedback" aria-live="polite"></p>
 
     <!-- Guided/Free only (Trace already shows the whole guide), and only
          while still in progress — gone once finished, see
@@ -632,9 +632,9 @@
     <div class="writing-difficulty">
       <p class="hint writing-difficulty-label">Difficulty level</p>
       <div class="segmented writing-mode-toggle" role="tablist" aria-label="Writing difficulty">
-        <button id="writing-mode-trace" class="segment" type="button">Trace</button>
-        <button id="writing-mode-guided" class="segment" type="button">Guided</button>
-        <button id="writing-mode-free" class="segment" type="button">Free</button>
+        <button id="writing-mode-trace" class="segment" type="button" role="tab" aria-selected="false">Trace</button>
+        <button id="writing-mode-guided" class="segment" type="button" role="tab" aria-selected="false">Guided</button>
+        <button id="writing-mode-free" class="segment" type="button" role="tab" aria-selected="false">Free</button>
       </div>
     </div>
   </section>
@@ -688,7 +688,7 @@
       <!-- Only shown when it actually differs from the romaji above — see
            pronunciationFor() in vocab.js. -->
       <p id="quiz-prompt-pronunciation" class="pronunciation" hidden></p>
-      <div id="quiz-feedback" class="feedback"></div>
+      <div id="quiz-feedback" class="feedback" aria-live="polite"></div>
     </div>
 
     <!-- Meanings and an example word, shown after a kanji question is
@@ -873,7 +873,7 @@
           <button id="sync-turn-off" class="btn btn-danger" type="button" data-action="sync-turn-off">Turn off sync</button>
         </div>
       </div>
-      <p id="sync-status" class="hint"></p>
+      <p id="sync-status" class="hint" aria-live="polite"></p>
     </div>
     <div class="card stack">
       <h3>Backup &amp; transfer</h3>
@@ -881,7 +881,7 @@
       <button class="btn wide" type="button" data-action="export">Save backup file</button>
       <button class="btn wide" type="button" data-action="import">Load backup file</button>
       <input id="import-file" type="file" accept="application/json,.json" hidden>
-      <p id="transfer-status" class="hint"></p>
+      <p id="transfer-status" class="hint" aria-live="polite"></p>
     </div>
     <div class="card stack">
       <h3>App version</h3>

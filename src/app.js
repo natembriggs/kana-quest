@@ -745,6 +745,8 @@ function renderModePicker(script, profile) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', state.mode === mode.id ? 'true' : 'false');
     button.dataset.mode = mode.id;
     // Kanji writing needs its reading/meaning side panel (phase 4 of
     // writing-mode-plan.md), so it's still shown but inert there — kana
@@ -940,6 +942,8 @@ function renderWritingModePicker() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `segment${pref === current ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', pref === current ? 'true' : 'false');
     button.textContent = WRITING_MODE_PREF_LABELS[pref];
     button.addEventListener('click', () => setWritingModePreference(pref));
     picker.appendChild(button);
@@ -976,6 +980,8 @@ function renderVocabProgressionPicker() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `segment${pref === current ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', pref === current ? 'true' : 'false');
     button.textContent = VOCAB_PROGRESSION_LABELS[pref];
     button.addEventListener('click', () => setVocabProgression(pref));
     picker.appendChild(button);
@@ -1553,6 +1559,8 @@ function renderOverviewModePicker(course) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', state.mode === mode.id ? 'true' : 'false');
     button.dataset.mode = mode.id;
     if (isModeComingSoon(mode, course.kind)) {
       button.disabled = true;
@@ -2050,6 +2058,7 @@ function renderDetailStudy(course, char) {
     if (!modes.includes(mode)) return; // modeName(mode, kind) needs a kind this mode actually belongs to
     button.textContent = modeName(mode, course.kind);
     button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
+    button.setAttribute('aria-pressed', isStudying(study, char, mode) ? 'true' : 'false');
   });
 
   // Visible whenever ANY applicable mode is enrolled-but-untaught, not just
@@ -4383,7 +4392,11 @@ function renderWritingQuestion(course, item) {
   // Test hook only — never rendered as text, so it can't give the answer away.
   $('screen-writing').dataset.char = item;
 
-  WRITING_SUB_MODES.forEach((m) => { $(`writing-mode-${m}`).className = `segment${m === mode ? ' active' : ''}`; });
+  WRITING_SUB_MODES.forEach((m) => {
+    const el = $(`writing-mode-${m}`);
+    el.className = `segment${m === mode ? ' active' : ''}`;
+    el.setAttribute('aria-selected', m === mode ? 'true' : 'false');
+  });
 
   session.writingGuidePaths = renderGuide($('writing-guide'), item, mode);
   session.writingAttempt = createAttemptForMode(item, mode);
@@ -6111,6 +6124,7 @@ function renderStoriesLibrary() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = `segment${browse === lvl.id ? ' active' : ''}`;
+    btn.setAttribute('aria-pressed', browse === lvl.id ? 'true' : 'false');
     btn.textContent = lvl.id;
     btn.addEventListener('click', () => { state.readerBrowseLevel = lvl.id; renderStoriesLibrary(); });
     strip.appendChild(btn);
