@@ -2,6 +2,23 @@
 // the library can list every story without fetching the full bodies.
 
 export const STORIES = {
+  "ari-to-hato": {
+    "title": {
+      "ja": "ありとはと",
+      "en": "The Ant and the Dove"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "A dove helps a tiny ant, and the ant soon finds a way to return the kindness.",
+    "hash": "c6cf5ea9",
+    "length": 76,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "kitakaze-to-taiyou": {
     "title": {
       "ja": "北風と太陽",
@@ -53,6 +70,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "ookami-ga-kita": {
+    "title": {
+      "ja": "おおかみが来た",
+      "en": "The Boy Who Cried Wolf"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "A bored shepherd boy learns why a true warning needs the trust of its listeners.",
+    "hash": "38a09600",
+    "length": 165,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "usagi-to-kame": {
     "title": {
       "ja": "うさぎとかめ",
@@ -81,6 +115,23 @@ export const STORIES = {
     "blurb": "A mistreated young woman receives one magical night at the palace and leaves a glass slipper behind.",
     "hash": "7e078832",
     "length": 260,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "goldilocks": {
+    "title": {
+      "ja": "ゴルディロックスと三びきのくま",
+      "en": "Goldilocks and the Three Bears"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Three bears return from a walk to find that a curious visitor has tested everything in their cottage.",
+    "hash": "249c8ee1",
+    "length": 298,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -138,6 +189,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "shirayukihime": {
+    "title": {
+      "ja": "白雪姫",
+      "en": "Snow White"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "A princess escapes a jealous queen and finds an unexpected home beyond the forest.",
+    "hash": "eb64b2d0",
+    "length": 382,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "aladdin-to-mahou-no-lamp": {
     "title": {
       "ja": "アラジンと魔法のランプ",
@@ -166,6 +234,40 @@ export const STORIES = {
     "blurb": "A runaway wooden puppet learns, through costly mistakes, what honesty and responsibility mean.",
     "hash": "a0ec583b",
     "length": 822,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "takarajima": {
+    "title": {
+      "ja": "宝島",
+      "en": "Treasure Island"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "A mysterious map draws young Jim Hawkins into a voyage of mutiny, courage and buried treasure.",
+    "hash": "417f7542",
+    "length": 586,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "frankenstein": {
+    "title": {
+      "ja": "フランケンシュタイン",
+      "en": "Frankenstein"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "Victor Frankenstein pursues the secret of life, then confronts the lonely being his ambition brought into the world.",
+    "hash": "ba53f324",
+    "length": 637,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -208,8 +310,8 @@ export const STORIES = {
     "level": "L6",
     "gram": "G6",
     "blurb": "A cyclone carries Dorothy from grey Kansas to Oz, where three unlikely companions join her road to the Emerald City.",
-    "hash": "efd2b3b7",
-    "length": 1147,
+    "hash": "b5cd31b2",
+    "length": 1146,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",

@@ -1195,7 +1195,7 @@ export const STORY = {
             ],
             "d": "時",
             "pos": "n",
-            "g": "when; time"
+            "g": "time; when"
           },
           {
             "s": "、",
@@ -4148,7 +4148,7 @@ export const STORY = {
             ],
             "d": "時",
             "pos": "n",
-            "g": "when; time"
+            "g": "time; when"
           },
           {
             "s": "、",
@@ -5283,7 +5283,7 @@ export const STORY = {
             "ruby": null,
             "d": "よく",
             "pos": "adv",
-            "g": "well; often; much"
+            "g": "well; much"
           },
           {
             "s": "知らない",
@@ -6055,20 +6055,12 @@ export const STORY = {
         "en": "The Munchkins celebrated their freedom with songs and dancing.",
         "t": [
           {
-            "s": "マンチキン",
-            "k": "マンチキン",
+            "s": "マンチキンたち",
+            "k": "マンチキンたち",
             "ruby": null,
             "d": null,
             "pos": "pn",
-            "g": "Munchkins"
-          },
-          {
-            "s": "たち",
-            "k": "たち",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
+            "g": "the Munchkins"
           },
           {
             "s": "は",
@@ -8883,7 +8875,7 @@ export const STORY = {
             ],
             "d": "自分",
             "pos": "pn",
-            "g": "himself"
+            "g": "oneself; himself"
           },
           {
             "s": "を",
@@ -12028,7 +12020,7 @@ export const STORY = {
             ],
             "d": "自分",
             "pos": "pn",
-            "g": "himself"
+            "g": "oneself; himself"
           },
           {
             "s": "に",
@@ -13119,5 +13111,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "efd2b3b7"
+  "hash": "b5cd31b2"
 };

@@ -51,7 +51,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -5537,7 +5537,7 @@ async function syncShareCode() {
 //
 // MVP note: tools/build_story_data.py (with a real tokenizer and the level/
 // grammar gates from §4.6) doesn't exist yet — no fugashi/UniDic in this
-// environment. The two stories shipped here were tokenised by hand instead;
+// environment. The original two stories shipped here were tokenised by hand instead;
 // the data SHAPE is exactly what that future build script would emit, so
 // nothing downstream of src/data/story-*.js needs to change once it exists.
 
@@ -5748,7 +5748,8 @@ function renderStoriesLibrary() {
     const meta = document.createElement('p');
     meta.className = 'hint';
     const minutes = Math.max(1, Math.ceil(s.length / 60));
-    meta.textContent = `${minutes} min${read && read.done ? ' · read' : ''}`;
+    const byline = s.source?.by ? ` · ${s.source.credit || 'By'} ${s.source.by}` : '';
+    meta.textContent = `${minutes} min${read && read.done ? ' · read' : ''}${byline}`;
     card.appendChild(title);
     card.appendChild(blurb);
     card.appendChild(meta);

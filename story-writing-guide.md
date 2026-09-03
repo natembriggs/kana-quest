@@ -10,6 +10,14 @@ The rule everything below serves:
 > cannot explain.** Every character belongs to a word, every word says what
 > it means *here*, every sentence has an English translation. No dead ends.
 
+Every shipped story must also identify the writer of the exact text the
+learner is reading. Set `source.by` to that person or model and
+`source.credit` to `Written by`, `Retold by`, `Adapted by`, or `Translated
+by`. Put the older tale or source author in `source.text`; do not let that
+stand in for authorship of the Kana Quest version. Human submissions follow
+the same rule and use the contributor's chosen display name. Both the story
+card and the attribution at the end of the story display this credit.
+
 ---
 
 ## 1. Before you write

@@ -208,7 +208,8 @@ theoretical and starts being the reason anybody finishes anything.
   source: {
     kind:  'public-domain',          // public-domain | original | adapted
     text:  'Aozora Bunko #12345',    // where it came from, or 'Kana Quest'
-    by:    'Kusuyama Masao',         // author, or null
+    by:    'Kusuyama Masao',         // writer of this exact text, never silently omitted
+    credit:'Retold by',              // Written by | Retold by | Adapted by | Translated by
     notes: 'Adapted and abridged.',  // what we changed, honestly (§4.2)
     licence: 'Public domain (Japan, author d. 1954). Translation © Kana Quest.',
   },

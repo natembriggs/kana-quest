@@ -74,7 +74,9 @@ const COMMON = {
 };
 
 export function line(tokens, en) {
-  return { tokens, en };
+  // Expand this common jukujikun shorthand to per-character readings so the
+  // runtime can still link and render every kanji independently.
+  return { tokens: tokens.replaceAll('一人[ひとり]', '一[ひと]人[り]'), en };
 }
 
 export function lexicon(entries) {
