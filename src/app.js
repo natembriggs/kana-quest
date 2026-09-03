@@ -51,7 +51,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -710,10 +710,17 @@ function openScript(scriptId) {
   renderCourse();
 }
 
-// Per-mode due badges use the course currently on screen, not a total
-// across the whole script — so the number next to "Yomi" always matches
-// what the Review button says once you actually switch to it.
-function renderModePicker(kind, course, profile) {
+// Per-mode due badges sum across every course for the script — every kanji
+// grade, every vocab unit, not just whichever one the grade picker below
+// happens to have selected. This sits ABOVE that picker, so it reads as a
+// whole-script summary regardless of scope; a per-unit count here would be
+// actively misleading rather than just narrower, and defeats the entire
+// point of an at-a-glance "what's due" overview at the top of the screen.
+// Kana has exactly one course per script, so this is a no-op there. See the
+// discoverability review, 2026-09.
+function renderModePicker(script, profile) {
+  const { kind } = script;
+  const courses = coursesForScript(script);
   const picker = $('mode-picker');
   picker.innerHTML = '';
   modesForKind(kind).forEach((mode) => {
@@ -730,7 +737,7 @@ function renderModePicker(kind, course, profile) {
       button.classList.add('segment-soon');
       button.innerHTML = `${label} <small>soon</small>`;
     } else {
-      const due = courseStats(course, mode.id, profile).due;
+      const due = courses.reduce((sum, c) => sum + courseStats(c, mode.id, profile).due, 0);
       if (due > 0) button.innerHTML = `${label} <b class="segment-badge">${due}</b>`;
       else button.textContent = label;
       button.addEventListener('click', () => { state.mode = mode.id; renderCourse(); });
@@ -1205,7 +1212,7 @@ function renderCourse() {
   const script = currentScript();
   $('course-title').textContent = script.name;
   const course = currentCourse();
-  renderModePicker(script.kind, course, profile);
+  renderModePicker(script, profile);
   // Before renderGradePicker: switching progression changes which units
   // exist, and the picker below must be drawn from the new axis.
   renderVocabProgressionPicker();
