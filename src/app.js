@@ -53,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -4185,9 +4185,9 @@ function finishVocabProdStage(course, item) {
 
   if (built) {
     $('quiz-feedback').className = 'feedback ok';
-    $('quiz-feedback').textContent = 'Correct! Next, spell it.';
+    $('quiz-feedback').textContent = 'Correct! Next, pick the kanji.';
     session.vocabNextStage = () => beginVocabSpellStage(info, built);
-    $('quiz-ok').textContent = 'Next: spell it →';
+    $('quiz-ok').textContent = 'Next: pick the kanji →';
     // NOT made tappable here: the spelling stage is still coming, and the
     // word's own detail screen shows its kanji spelling outright — opening
     // it now would hand over the very answer that stage is about to ask for.
@@ -4224,7 +4224,7 @@ function renderVocabSpellStage(info, { options, answer }) {
   // See finishVocabProdStage above, which paused on stage 1's own green
   // card for one "Next" press before this ran.
   $('quiz-ok').hidden = true;
-  $('quiz-feedback').textContent = "Now choose how it's spelled.";
+  $('quiz-feedback').textContent = 'Now choose the correct kanji.';
   $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
 

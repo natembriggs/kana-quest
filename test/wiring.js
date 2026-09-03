@@ -3243,7 +3243,7 @@ check('the correct kana reading is among Recall stage 1\'s options', !!prodRight
 fire(prodRight, 'click');
 await settle();
 
-const prodQualifies = el('quiz-ok').textContent === 'Next: spell it →';
+const prodQualifies = el('quiz-ok').textContent === 'Next: pick the kanji →';
 check('Recall stage 1 pauses green with an explanatory Next, same as Meaning did',
   el('quiz-card').className.includes('is-correct') && el('quiz-ok').hidden === false,
   `card="${el('quiz-card').className}", ok hidden=${el('quiz-ok').hidden}, text="${el('quiz-ok').textContent}"`);
@@ -3255,7 +3255,7 @@ await settle();
 
 if (prodQualifies) {
   check('the spelling stage announces itself, same pattern as the reading stage did',
-    el('quiz-feedback').textContent === "Now choose how it's spelled." && el('quiz-ok').hidden === true,
+    el('quiz-feedback').textContent === 'Now choose the correct kanji.' && el('quiz-ok').hidden === true,
     `feedback="${el('quiz-feedback').textContent}", ok hidden=${el('quiz-ok').hidden}`);
   const spellAnswer = shitsumonInfo.w;
   const spellRight = el('quiz-choices')._children.find((b) => b.textContent === spellAnswer);
