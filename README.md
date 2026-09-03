@@ -317,12 +317,16 @@ the grading tolerances.
 words.** Grouped into a "Core" spine of function words (numbers, question
 words, the verbs and adjectives you can't avoid) plus themed units — family,
 school, travel, food, and so on — modelled on how a UK GCSE course is
-organised. The word list itself is not the official specification (see
-`vocab-plan.md` §3.5 for why): it's JMdict's own corpus-frequency ranking,
-so the units are labelled "Common words 1/2" rather than "Foundation" /
-"Higher".
+organised, at three cumulative levels ("Common words 1/2" for GCSE
+Foundation/Higher, then "A level"), plus a bonus "From kanji pages" group of
+words already met as example sentences on a kanji's own detail page. The word
+list itself is not the official specification (see `vocab-plan.md` §3.5 for
+why): it's JMdict's own corpus-frequency ranking, so the units are labelled
+"Common words 1/2" rather than "Foundation" / "Higher".
 
-Only **Meaning mode** is built so far (English → Japanese comes later):
+Two modes, both live:
+
+**Meaning** (Japanese → English):
 
 - A word is shown with **four English meanings** to choose from, the same
   count and layout as kanji Definition mode.
@@ -335,6 +339,19 @@ Only **Meaning mode** is built so far (English → Japanese comes later):
   honest answer to "did you know this" — and a **correct definition
   answered without ever revealing** anything then asks for the reading too,
   as a six-option follow-up. Both feed the same word's schedule.
+- Furigana also hides itself automatically once a reading has been *seen*
+  (shown and not revealed) four times, with no enrolment and no quiz —
+  passive exposure earning the same "you probably know this" treatment as
+  active study. A revealed reading that turns out to still be needed knocks
+  that back off after two such reveals. See `vocab-plan.md` §5.3.
+
+**Recall** (English → Japanese): the English meaning is shown, and the
+learner picks the word in kana from six options, then — for a word written
+with kanji the learner is studying in any mode — a second stage asks them to
+pick the correct kanji spelling from among plausible near-misses (a real
+word with a wrong kanji swapped in). A kanji the learner has already mastered
+is excluded from ever appearing as the wrong choice, since eliminating it by
+meaning would test the wrong thing.
 
 #### Example sentences
 
@@ -403,9 +420,40 @@ the A-level and "From kanji pages" units (春闘, 特殊法人, 撚糸) — and 
 pages show nothing rather than an empty heading. Core is the best covered:
 112 of its 113 words have all three.
 
-See `vocab-plan.md` for the full design, including exposure-based hiding
-(read a reading enough times without ever tapping for it, and it starts
-hiding itself) and Recall mode, neither of which is built yet.
+See `vocab-plan.md` for the full design, including how exposure-based hiding
+and Recall mode's distractor selection actually work.
+
+### Reading
+
+**A fifth thing to do, and the first one that isn't practice.** A **Read**
+card on the home screen opens a library of short stories, graded across six
+levels from a ~110-word first-steps tier up to unabridged difficulty. A
+learner opens one and reads it — nothing is asked, nothing is scored, and the
+app forms no opinion about how it went.
+
+Every story is authored once, in ordinary Japanese with kanji, and rendered
+differently for each learner: someone who hasn't started kanji sees an
+all-hiragana, space-separated text; someone partway through the kanji course
+sees a window of kanji they're learning now plus what's next, with everything
+else in kana; a learner further along sees the story as written, with
+furigana. Tapping a word shows its pronunciation, tapping again shows its
+definition (with the sentence's English translation one tap further, and a
+route through to the word's, the kanji's or the kana's own detail screen).
+None of this enrols anything or grades anything — the only place a reading
+session turns into study is an optional **Add** button per word on the end
+card, once the story is finished.
+
+Furigana hides itself the same way vocabulary's does — by study enrolment
+or by having simply been seen often enough — and reading feeds the identical
+exposure counter vocabulary uses, so a word met repeatedly in a story starts
+losing its furigana in the vocabulary quiz too, and vice versa.
+
+24 stories ship today, four at every level, all original retellings of
+traditional or public-domain-motif tales (Momotarō, Cinderella, and others)
+rather than direct imports of an existing text. See `stories-plan.md` for
+the full design, `story-writing-guide.md` for how one is authored, and
+`stories-plan.md` §12.1 for how the actual sourcing differs from the
+document's original plan.
 
 ## Design documents
 
@@ -419,9 +467,11 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `writing-mode-plan.md` | Draw-the-character practice, graded stroke by stroke against KanjiVG | **Complete** — shipped, all phases done |
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
-| `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning mode ships; Recall mode, exposure-based hiding and Higher/A level remain |
-| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader ships with four stories at every level (24 total); see its phase table |
+| `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning, Recall, exposure-based hiding and Higher/A level all ship; extracting a shared `furigana.js` (phase 8, see `stories-plan.md` §5.7) remains |
+| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader, library and 24 standalone stories (four per level) ship; serialized multi-episode series (phase 9) has not started — see its phase table |
 | `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
+| `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **Proposal** — research and design complete, no code written |
+| `external-import-plan.md` | Importing kanji/vocabulary progress from WaniKani, renshuu, Anki and similar apps | **Proposal** — research and scoping complete, no code written |
 
 ## What is not built yet
 
@@ -430,10 +480,12 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
   explicit study list, lazy per-grade data loading, and the beyond-jōyō
   "names & places" set (phase 8) are all done — see that document's phase
   table.
-- **Stories** — graded reading, levelled from a 110-word first-steps tier up
-  to unabridged public-domain literature, rendered into whichever script a
-  learner has actually reached and translated sentence by sentence. Nothing
-  in it is tested or scored. See `stories-plan.md`.
+- **Serialized stories** — every one of the 24 shipped stories is standalone;
+  a multi-episode series that continues from where a learner left off has not
+  been written yet. See `stories-plan.md` phase 9.
+- **A shared furigana component** — the reveal-ladder behaviour (bare → ruby
+  → romaji) is implemented twice, once for vocabulary and once for the story
+  reader, rather than as one component both use. See `vocab-plan.md` phase 8.
 - **Speech input** — planned via the Web Speech API. Note this needs HTTPS, so
   it cannot be tested over a plain `http://` wifi address; it will need
   deploying (GitHub Pages gives free HTTPS) to try on a phone.
@@ -503,6 +555,16 @@ when you want to force it, but it shouldn't be needed.
 | `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
 | `src/data/example-words.js` | Generated data: every word appearing in any example sentence, with its reading and meaning — one shared file, loaded lazily on the first tap of a word inside a sentence |
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
+| `src/stroke-geometry.js` | Bézier parsing, smoothing, resampling and the bounded best-fit offset behind Writing mode's grading — pure, no DOM |
+| `src/stroke-grader.js` | The stroke-by-stroke tolerance formula and strictness ladder behind Writing mode — pure, no DOM. See `writing-mode-plan.md` §2 |
+| `src/writing.js` | The writing-mode canvas widget: pointer capture, ink rendering, the three guide modes (Trace/Guided/Free) |
+| `src/vocab.js` | Vocabulary courses (built from `src/data/vocab-manifest.js`), Meaning/Recall question building, per-mode rollups. See `vocab-plan.md` |
+| `src/data/vocab-manifest.js` | Generated data: unit id → ordered word list, plus group/label metadata — always loaded |
+| `src/data/vocab-*.js` | Generated data: full vocabulary entries (readings, glosses, ruby alignment, distractor pools) per unit — do not hand-edit. Loaded lazily the first time that unit is opened |
+| `src/data/vocab-lookup.js` | Generated data: surface form → vocab unit, for cross-unit lookup — used at story build time, not fetched by the running app |
+| `src/reader.js` | Pure rendering for Stories: per-learner script rendering, the furigana-hiding rules and the exposure-occurrence counter. See `stories-plan.md` §5-§6 |
+| `src/data/story-manifest.js` | Generated data: id → `{title, series, level, blurb, hash, length}` for every story — always loaded, small |
+| `src/data/story-*.js` | Generated data: one full story's tokenised body — do not hand-edit, see `story-writing-guide.md`. Loaded lazily when that story is opened |
 | `src/store.js` | IndexedDB profiles, backup export/import |
 | `src/merge.js` | Pure profile-merge logic backup import runs on — kept separate from storage so the same merge can run against a synced profile later, see `sync-plan.md` §0.3 |
 | `src/sync-protocol.js` | The pull/merge/push/retry state machine behind Sync across devices — pure, takes a transport and encrypt/decrypt as parameters so it's testable without real crypto or a network. See `sync-plan.md` §4.1 |
@@ -515,6 +577,9 @@ when you want to force it, but it shouldn't be needed.
 | `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/data/kanji-manifest.js` + `kanji-grade-*.js` |
 | `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
 | `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/` (and the manifest above), writes `src/data/stroke-kana.js` + `stroke-grade-*.js` |
+| `tools/build_vocab_data.py` | Reads `tools/data_src/` and `tools/vocab_src/`, writes `src/data/vocab-manifest.js` + `vocab-*.js` + `vocab-lookup.js` |
+| `tools/story_src/` | Hand-tokenised story source, one file per story — see `story-writing-guide.md`. No morphological tokenizer is used; the author sets every token boundary and reading directly |
+| `tools/build_story_data.mjs` | Reads `tools/story_src/` and `src/data/vocab-lookup.js` (for `d`, the vocab-id link, at build time only), writes `src/data/story-manifest.js` + `story-*.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
 with `wanakana.toKatakana`, and every romaji prompt is derived with

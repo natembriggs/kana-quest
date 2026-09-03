@@ -2,6 +2,13 @@
 
 Date: 20 August 2026
 
+**This is a historical review, kept as the record of the original audit and
+its fixes.** For the current, actively-maintained punch list of outstanding
+work, see `review-followups.md` (2026-09-03 as of this note) instead — several
+items below (the accessibility pass, the home-screen kanji total) are still
+open, but newer and higher-priority findings from later reviews live there,
+not here.
+
 ## Executive summary
 
 KanaQuest is already a strong, unusually thoughtful learning app. The core flows are clear on a phone, the visual language is consistent, the touch targets are generally generous, and the learning model goes well beyond a toy flashcard app. In particular, first-attempt grading, per-reading Yomi records, deliberate separation of learning and review, and the forgiving handwriting grader are all well reasoned and well tested.

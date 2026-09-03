@@ -7,6 +7,14 @@ reports aren't kept in the repo; this file is the durable reference — read
 it fresh in a new session rather than assuming anything below is still
 accurate without checking the current code first.
 
+**Re-verified against the current codebase 2026-09-03** (same day, a second
+pass) as part of a full documentation review across every plan/evaluation
+file in the repo — items 1-10 below were spot-checked and remain accurate
+(no leech handling or FSRS-style scheduling in `srs.js`, no onboarding
+placement flow, home tiles still show corpus-wide totals, `reader.js` still
+untested directly). Items 11-15 are new, surfaced by that same pass rather
+than by further live use.
+
 ## Shipped this cycle
 
 - `e7ff9f9` — Course screen: Review/Test unlearned/Learn as a labelled
@@ -92,6 +100,46 @@ that basis alone.
     worth picking up if bulk "Mark as known" turns out to be insufficient
     for how advanced users actually arrive with prior knowledge — give it
     real usage first.
+11. **In-app feedback channel** (`feedback-plan.md`, fully designed
+    2026-08-24, zero code — confirmed 2026-09-03, no `feedback-server/`
+    directory exists). Not previously on this list. Worth surfacing now
+    given the stated direction of shifting from building new major features
+    toward responding to broader user feedback — this plan's own "Lean
+    track" recommendation (free tier, `waitUntil` + cron, ~9-17 developer
+    days for the full first release, less for just a submission form and
+    GitHub issue creation) is a reasonable place to start if the goal is
+    "have a way for users to tell us what's wrong" before it is "close the
+    loop and thank them automatically."
+12. **Duplicated furigana reveal-ladder logic.** Confirmed 2026-09-03:
+    `src/vocab.js`/`app.js` (`renderVocabWordGlyph`) and `src/reader.js`
+    (`isTokenFuriganaHidden`) each implement "kanji with optional ruby that
+    reveals on tap" independently — `stories-plan.md` §5.7 called for
+    extracting a shared `src/furigana.js` and it never happened
+    (`vocab-plan.md` phase 8, still unstarted). Minor today; worth doing
+    before either renderer's tap behaviour changes again, per the drift
+    risk both plans already named.
+13. **`src/reader.js` still has no direct unit tests** (confirmed
+    2026-09-03, re-checking item 3 above): `test/stories.js` validates the
+    *data* (24 stories, sentence/token shape, source credit), not the pure
+    rendering functions (`renderSentence`, `tokenAtLevel`,
+    `storyOccurrenceIndex`, `isTokenFuriganaHidden`,
+    `exposureTargetsForToken`) that `stories-plan.md` §10 specifically asked
+    to be unit-testable with no DOM. Same fix as item 3, now confirmed
+    rather than merely suspected.
+14. **Accessibility pass still outstanding**, from `kanaquest-evaluation.md`
+    (20 August 2026) and reconfirmed 2026-09-03: `index.html` has zero
+    `role="tab"`/`aria-selected` elements and effectively no `aria-live`
+    feedback regions, despite several button groups (badge, grade, review
+    scope, writing mode) behaving like tabs or toggles. Low urgency for the
+    current household but worth doing before any wider release, and cheap
+    relative to most items on this list.
+15. **No CI.** Confirmed 2026-09-03: no `.github/` directory exists, so
+    Pages still deploys straight from `main` with no test gate — a
+    regression in any of the five suites ships silently unless someone runs
+    them by hand first. `feedback-plan.md` phase 4 designs this properly
+    (as a prerequisite for its own release-notification feature) but it is
+    also worth doing completely independently of feedback, and is a small,
+    self-contained piece of that larger plan if the rest of it doesn't ship.
 
 ## Decided against / explicitly not needed
 

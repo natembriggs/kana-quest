@@ -1,7 +1,16 @@
 # Stories — implementation plan
 
-Status: **not started.** Named in `vocab-plan.md` §10 as the feature vocabulary
-was partly built for; this is that feature written out.
+Status: **shipped and live** as the fourth thing to do in the app, reached via
+a **Read** card on the home screen. Phases 0–8 (see §12) are done: the reader,
+the library, tap-for-pronunciation/furigana/definition/sentence-translation,
+exposure-based furigana hiding shared with vocabulary, `profile.stories` with
+sync/merge, the end card, and 24 stories — four at every level L1–L6. Phase 9
+(serialized multi-episode series) has not begun — every shipped story is
+currently standalone (`series: null` on all 24). See §12.1 for how sourcing
+actually landed, which differs from this document's original plan.
+
+Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
+this is that feature written out.
 
 A fifth thing to do in the app, and the first one that is not practice.
 A learner opens a short story pitched at their level and **reads it**. They
@@ -1351,16 +1360,67 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 
 | Phase | What | Depends on | Status |
 | --- | --- | --- | --- |
-| 0 | **Sourcing and licence audit.** Confirm the Aozora public-domain subset and its terms in writing; pick the first six imports and the first original series; settle the L1–L3 word ceilings against the real vocab data. Mostly not programming, and the long pole — same shape as `vocab-plan.md` phase 0. | — | |
-| 1 | **The build pipeline.** `tools/build_story_data.py`: fugashi/UniDic tokenisation, `align_word()` reuse, `VOCAB_LOOKUP` resolution, the Aozora ruby cross-check, the level and grammar gates, manifest + per-story files. Prove it on one imported story and one written one. | 0 | |
-| 2 | **The renderer.** `src/reader.js` pure, `src/furigana.js` extracted (`vocab-plan.md` phase 8), all four stages of §5 and the §6.1 hiding rules, unit-tested with no DOM. No screens yet. | 1 | |
-| 3 | **The reader screen.** `screen-reader`, scrolling, the top bar, the progress line, tap-one pronunciation. Readable end to end. First user-visible phase. | 2 | |
-| 4 | **The definition card**, tap two, sentence translation, kanji/kana/word chips through to the detail screens and back (§7). | 3 | |
-| 5 | **The library**, the level strip, series and episodes, the home-screen **Read** card, the level suggestion and the *make this my level* commit. | 3 | |
-| 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | |
-| 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | |
-| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | |
-| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | |
+| 0 | **Sourcing and licence audit.** Confirm the Aozora public-domain subset and its terms in writing; pick the first six imports and the first original series; settle the L1–L3 word ceilings against the real vocab data. Mostly not programming, and the long pole — same shape as `vocab-plan.md` phase 0. | — | **Done, on a different path than planned** — see §12.1. |
+| 1 | **The build pipeline.** `tools/build_story_data.py`: fugashi/UniDic tokenisation, `align_word()` reuse, `VOCAB_LOOKUP` resolution, the Aozora ruby cross-check, the level and grammar gates, manifest + per-story files. Prove it on one imported story and one written one. | 0 | **Done, substantially differently than planned** — `tools/build_story_data.mjs` (Node, not Python) reads **hand-tokenised** source from `tools/story_src/` rather than running a tokeniser: per that file's own header comment, "no morphological tokenizer is involved; the author controls every lookup unit and reading." `align_word()` is not reused either — ruby is authored per token and the build script only validates that ruby positions cover the kanji positions, not that the reading is correct. **The level and grammar gates are weaker than §4.6 specified**: the build script checks sentence-length bounds, a lookup-token-count guide, a coarse no-katakana-at-L1/L2 rule, and that every `d` resolves in the vocab manifest — but there is no automated check that a token's vocabulary is actually within its level's allowance (§2.2), and no whitelist check of `cf`'s inflection/auxiliary against the level's grammar tier (§2.3). Both gates are, in practice, authoring discipline checked by a human, not code. `vocab-lookup.js` resolution (for `d`) is real and works as designed. See §12.1. |
+| 2 | **The renderer.** `src/reader.js` pure, `src/furigana.js` extracted (`vocab-plan.md` phase 8), all four stages of §5 and the §6.1 hiding rules, unit-tested with no DOM. No screens yet. | 1 | **`src/reader.js` done** (`renderSentence`, `tokenAtLevel`, `storyOccurrenceIndex`, `isTokenFuriganaHidden`, `exposureTargetsForToken`), **but has no direct unit tests** — `test/stories.js` checks story data contracts, not these functions, and no test file imports them. **`src/furigana.js` was never extracted**: `app.js`/`vocab.js` (`renderVocabWordGlyph`) and `reader.js` (`isTokenFuriganaHidden`) still carry two independent reveal-ladder implementations. Both gaps are real and worth closing before either renderer changes again. |
+| 3 | **The reader screen.** `screen-reader`, scrolling, the top bar, the progress line, tap-one pronunciation. Readable end to end. First user-visible phase. | 2 | **Done** — `#screen-reader` in `index.html`. |
+| 4 | **The definition card**, tap two, sentence translation, kanji/kana/word chips through to the detail screens and back (§7). | 3 | **Done** — `#reader-card` and its chips in `app.js`. |
+| 5 | **The library**, the level strip, series and episodes, the home-screen **Read** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Read** card. |
+| 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
+| 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
+| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 24 stories shipped (four per level, L1–L6), but as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
+| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **Not started.** Every shipped story has `series: null` — nothing is serialized yet. |
+
+### 12.1 How sourcing actually landed, versus §4's plan
+
+§4 planned two distinct tracks: importing/adapting Aozora Bunko texts for the
+upper levels, and authoring an original serialized series for L1–L3. What
+shipped instead, across all six levels, is a third thing neither section
+anticipated: **24 standalone original retellings of traditional or
+public-domain-motif stories**, and only one of them — Momotarō — is actually
+Japanese in origin. The other 23 are Aesop's fables (The Ant and the Dove,
+The North Wind and the Sun, The Lion and the Mouse, The Town Mouse and the
+Country Mouse, The Boy Who Cried Wolf, The Hare and the Tortoise), a Russian
+folk tale (The Giant Turnip), and Western fairy tales and literature
+(Cinderella, Goldilocks, Hansel and Gretel, The Three Little Pigs, Little Red
+Riding Hood, Beauty and the Beast, The Bremen Town Musicians, Snow White,
+Aladdin, Around the World in Eighty Days, Pinocchio, Treasure Island,
+Dracula, Frankenstein, Alice in Wonderland, The Wonderful Wizard of Oz) —
+told in Japanese, but not drawn from the Japanese-language public domain §4
+was written around. Each carries `source.kind: 'adapted'`, is credited
+`Retold by` an LLM (recorded per-story in `source.by`), and `source.notes`
+states plainly that it is "an original graded retelling based on familiar
+public-domain motifs rather than a particular literary edition."
+
+This is a defensible middle path — the motifs are old enough to carry no
+copyright, and every text and translation is original to Kana Quest, same as
+an authored series would be — but it is not what §4 argued for, and it is
+worth being honest about the gap in what it bought:
+
+- **No Aozora import happened.** The ruby cross-check in §4.6 step 4, which
+  exists specifically to validate a tokeniser's reading of *real* transcribed
+  Japanese, has nothing to check against for a piece with no Aozora source.
+- **"Written to a word list, checked by a person who knows Japanese"
+  (§4.5) still applies**, and nothing here confirms whether that human review
+  step ran for AI-retold content the way it would for a person's own draft.
+  Worth confirming before adding a 25th story on the same pattern.
+- **The build pipeline is a bigger departure from §4.6 than the sourcing
+  alone.** `tools/build_story_data.mjs` does none of fugashi/UniDic
+  tokenisation, `align_word()` reuse, or an automated vocabulary/grammar
+  level gate — its own header says plainly "no morphological tokenizer is
+  involved: the author controls every lookup unit and reading." What it
+  actually checks is structural (translation present, ruby covers every
+  kanji, `d` resolves, sentence-length and token-count bounds, a coarse
+  katakana rule) plus the same story-writer diligence
+  `story-writing-guide.md` asks a human to bring. The stories pass
+  `test/stories.js` because that test checks the same structural properties,
+  not because a tokeniser verified the Japanese.
+
+None of this is a defect that needs fixing before the feature can be used —
+the reader works, the stories read fine, and the licensing is sound. It is a
+plan/reality gap worth knowing about before writing story #25, and before
+citing this document as a description of *where the current 24 stories came
+from*.
 
 Phases 3 and 5 can land in either order, but 3 first makes a better demo of
 itself: one hard-coded story that reads beautifully is more informative about
