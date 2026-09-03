@@ -345,8 +345,11 @@ export function isDue(record, now = Date.now()) {
  * order. A course may exclude some items from a mode — e.g. a kanji with no
  * reading that appears in any common word has no yomi question to ask, but is
  * still taught in the other modes. See buildKanjiCourse in kanji.js.
+ *
+ * Exported for the set overview (app.js), which lists exactly this — a
+ * character a mode never asks about has no business on that mode's grid.
  */
-function allItems(course, mode) {
+export function allItems(course, mode) {
   const excluded = course.excludeForMode && course.excludeForMode[mode];
   const items = course.chunks.flatMap((chunk) => chunk.items);
   return excluded ? items.filter((item) => !excluded.has(item)) : items;

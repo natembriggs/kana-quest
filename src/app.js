@@ -26,7 +26,7 @@ import {
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
   recomputeVocabRollup, VOCAB_SUBKEYS,
   markKnownItems, isSelfAssessable, KNOWN_CLAIM_SURE, KNOWN_CLAIM_THINK,
-  THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS,
+  THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS, allItems,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted, EXPOSURE_THRESHOLD,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   isFuriganaMuted, muteFuriganaKey,
@@ -53,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -465,7 +465,12 @@ const INSTALL_BANNER_BLOCKED_SCREENS = new Set([
 ]);
 
 function updateInstallBannerVisibility() {
-  $('install-banner').hidden = !installBannerEligible || INSTALL_BANNER_BLOCKED_SCREENS.has(currentScreenId);
+  // The set overview only grows a bottom bar while "Mark as known" is
+  // selecting (see updateOverviewSelectBar, which re-runs this), so it's
+  // blocked conditionally rather than listed above.
+  const overviewSelecting = currentScreenId === 'screen-overview' && !!state.overviewSelect;
+  $('install-banner').hidden = !installBannerEligible
+    || INSTALL_BANNER_BLOCKED_SCREENS.has(currentScreenId) || overviewSelecting;
 }
 
 // --- Profiles -------------------------------------------------------------
@@ -1484,14 +1489,13 @@ async function openOverview(course, scrollToChar, { select = false } = {}) {
  * must be the item's OWN course (search spans every grade, so it can't
  * assume the currently-selected one the way the overview always could).
  *
- * `select`, when given (the overview's "Mark as known" select mode — the
- * Set on state.overviewSelect), turns the tile into a toggle: tapping ticks
- * or unticks it instead of opening the detail screen. A tile that can't be
- * marked — already well known in this mode, or something the mode never
- * asks (yōon in kana Writing, a no-reading kanji in Yomi) — is shown dimmed
- * and ignores taps. Search never passes this.
+ * An overview tile (returnTo 'overview') decides what a tap does at tap
+ * time — open the detail screen, or tick/untick under "Mark as known" —
+ * so select mode can be entered and left without rebuilding the grid (see
+ * overviewTileTap / syncOverviewSelection). It also takes a long-press to
+ * enter select mode with itself ticked. Search tiles get neither.
  */
-function buildMasteryTile(course, item, returnTo, select = null) {
+function buildMasteryTile(course, item, returnTo) {
   const progress = state.profile.progress;
   const tier = masteryTier(progress[itemKey(state.mode, item)]);
   // masteryTier alone can't tell "never enrolled" apart from "enrolled but
@@ -1517,22 +1521,59 @@ function buildMasteryTile(course, item, returnTo, select = null) {
   const label = course.kind === 'vocab' ? vocabInfo(course, item).w : item;
   tile.textContent = label;
   tile.setAttribute('aria-label', `${label}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
-  // So select-all/clear can update tiles in place by item (see
+  // So select-all/clear/sync can update tiles in place by item (see
   // syncOverviewSelection) rather than re-rendering the grid — a re-render
   // goes through show(), which scrolls a 200-tile grid back to the top.
   tile.dataset.item = item;
-  if (select) {
-    const eligible = tier < 4 && applicableStudyModes(course, item).includes(state.mode);
-    tile.classList.add(eligible ? 'is-selectable' : 'is-ineligible');
-    if (!eligible) tile.setAttribute('aria-disabled', 'true');
-    const selected = eligible && select.has(item);
-    tile.classList.toggle('is-selected', selected);
-    tile.setAttribute('aria-pressed', String(selected));
-    tile.addEventListener('click', () => { if (eligible) toggleOverviewSelection(item, tile); });
+  if (returnTo === 'overview') {
+    tile.addEventListener('click', () => overviewTileTap(course, item, tile));
+    bindLongPress(tile, () => overviewTileLongPress(item));
   } else {
     tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
   }
   return tile;
+}
+
+/**
+ * The overview's own mode picker — the same segmented control the course
+ * screen has (renderModePicker), pinned above the grid so it's always clear
+ * WHICH mode's progress the colours are showing, and so switching modes
+ * doesn't mean leaving the overview. Scoped to this one course, so the due
+ * badge counts what's due here, not across every unit of the script.
+ * Switching re-lists the grid for the new mode (a character the new mode
+ * never asks about drops out, see renderOverview), recolours every tile,
+ * and drops any half-made selection — a set of ticks made while looking at
+ * Reading must never silently become a claim about Writing.
+ */
+function renderOverviewModePicker(course) {
+  const picker = $('overview-mode-picker');
+  picker.innerHTML = '';
+  modesForKind(course.kind).forEach((mode) => {
+    const label = modeName(mode.id, course.kind);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `segment${state.mode === mode.id ? ' active' : ''}`;
+    button.dataset.mode = mode.id;
+    if (isModeComingSoon(mode, course.kind)) {
+      button.disabled = true;
+      button.classList.add('segment-soon');
+      button.innerHTML = `${label} <small>soon</small>`;
+    } else {
+      const due = courseStats(course, mode.id, state.profile).due;
+      if (due > 0) button.innerHTML = `${label} <b class="segment-badge">${due}</b>`;
+      else button.textContent = label;
+      button.addEventListener('click', () => switchOverviewMode(mode.id));
+    }
+    picker.appendChild(button);
+  });
+}
+
+function switchOverviewMode(modeId) {
+  if (modeId === state.mode) return;
+  state.mode = modeId;
+  state.overviewSelect = null;
+  state.overviewNotice = null;
+  renderOverview();
 }
 
 /**
@@ -1541,43 +1582,34 @@ function buildMasteryTile(course, item, returnTo, select = null) {
  * that can run to 200 characters) and, when returning from the detail
  * screen, to land back near whichever character was just being looked at
  * rather than snapping to the top of the list.
+ *
+ * Lists allItems(course, state.mode) — only what this mode actually asks
+ * about — not every item in the course. A yōon has no Writing question and
+ * a handful of kanji have no Yomi question; showing them anyway made a
+ * learner try to tick them under "Mark as known" and wonder why they
+ * couldn't. The counter follows the same list, and `scrollToChar` (always
+ * the current set's first item, or the tile just returned from) is simply
+ * not scrolled to if the new mode doesn't list it.
  */
-
 function renderOverview(scrollToChar) {
   const course = getAnyCourse(state.overviewCourseId);
-  const allItems = course.chunks.flatMap((c) => c.items);
-  const select = state.overviewSelect;
+  const items = allItems(course, state.mode);
 
   $('overview-title').textContent = course.name;
-  $('overview-counter').textContent = `${allItems.length} characters`;
+  $('overview-counter').textContent = `${items.length} characters`;
   $('legend-pending').hidden = course.kind !== 'kanji';
-
-  // The select-mode chrome — toggle, instructions, shortcuts, and the pinned
-  // action bar — see the "Mark as known" section below. The toggle is
-  // always there, so the feature is findable from the overview itself and
-  // not only via the course card's row.
-  const toggle = $('overview-select-toggle');
-  toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
-  toggle.className = select ? 'btn' : 'btn overview-button';
-  const hint = $('overview-select-hint');
-  if (select) {
-    hint.textContent = `Tap each ${knownNoun(course, 1)} you already know in ${modeName(state.mode, course.kind)}`
-      + ' — tap again to untick. Greyed-out tiles are already well known, or aren\'t asked in this mode.';
-  } else {
-    hint.textContent = state.overviewNotice || '';
-  }
-  hint.hidden = !select && !state.overviewNotice;
-  $('overview-select-shortcuts').hidden = !select;
+  renderOverviewModePicker(course);
 
   const grid = $('overview-grid');
   grid.innerHTML = '';
   let scrollTarget = null;
-  allItems.forEach((item) => {
-    const tile = buildMasteryTile(course, item, 'overview', select);
+  items.forEach((item) => {
+    const tile = buildMasteryTile(course, item, 'overview');
     grid.appendChild(tile);
     if (item === scrollToChar) scrollTarget = tile;
   });
-  updateOverviewSelectBar();
+  renderOverviewChrome();
+  syncOverviewSelection();
 
   show('screen-overview');
   // Deferred a frame: the grid was just unhidden, and scrollIntoView needs
@@ -1611,13 +1643,77 @@ function knownNoun(course, count) {
   return count === 1 ? noun : `${noun}s`;
 }
 
-/** Enter or leave select mode from the overview's own toggle. A full
- * re-render (tiles gain/lose their toggle behaviour), so this is the one
- * select-mode action that does go through show() and back to the top. */
+/** What the select-mode instructions say — restored after any one-off
+ * message (see overviewTileTap) the next time the selection changes. */
+function overviewSelectInstructions(course) {
+  return `Tap each ${knownNoun(course, 1)} you already know in ${modeName(state.mode, course.kind)}`
+    + ' — tap again to untick.';
+}
+
+/**
+ * The select-mode chrome — toggle label, instructions/notice line,
+ * shortcuts row, and (via updateOverviewSelectBar) the pinned action bar —
+ * from state alone, without touching the grid. The toggle is always there,
+ * so the feature is findable from the overview itself and not only via the
+ * course card's row that opens it.
+ */
+function renderOverviewChrome() {
+  const course = getAnyCourse(state.overviewCourseId);
+  const select = state.overviewSelect;
+  const toggle = $('overview-select-toggle');
+  toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
+  toggle.className = select ? 'btn' : 'btn overview-button';
+  const hint = $('overview-select-hint');
+  hint.textContent = select ? overviewSelectInstructions(course) : (state.overviewNotice || '');
+  hint.hidden = !select && !state.overviewNotice;
+  $('overview-select-shortcuts').hidden = !select;
+  updateOverviewSelectBar();
+}
+
+/** Only "already well known in this mode" rules a tile out now that the
+ * grid lists nothing the mode doesn't ask (see renderOverview). */
+function overviewTileEligible(item) {
+  return masteryTier(state.profile.progress[itemKey(state.mode, item)]) < 4;
+}
+
+/**
+ * A tap on an overview tile: browsing, it opens the detail screen; in
+ * select mode it ticks/unticks. A tile that can't be marked keeps exactly
+ * the colour it has outside select mode — the mastery greens are the one
+ * colour language this grid speaks, and fading a well-known tile read as
+ * "poorly known" — so the tap explains itself on the hint line instead.
+ */
+function overviewTileTap(course, item, tile) {
+  if (!state.overviewSelect) {
+    openCharacterDetail(course, item, 'overview');
+    return;
+  }
+  if (!overviewTileEligible(item)) {
+    $('overview-select-hint').textContent = '★ Already well known in this mode — nothing to mark here.';
+    return;
+  }
+  toggleOverviewSelection(item, tile);
+}
+
+/** Long-pressing a tile while browsing enters select mode with that tile
+ * already ticked (if it can be) — the third way in, after the course card
+ * row and the overview's own toggle. Nothing happens if already selecting;
+ * a long press there is just a slow tap, handled by the click. */
+function overviewTileLongPress(item) {
+  if (state.overviewSelect) return;
+  state.overviewSelect = new Set(overviewTileEligible(item) ? [item] : []);
+  state.overviewNotice = null;
+  renderOverviewChrome();
+  syncOverviewSelection();
+}
+
+/** Enter or leave select mode from the overview's own toggle — in place,
+ * so the grid stays where the learner scrolled it. */
 function toggleOverviewSelectMode() {
   state.overviewSelect = state.overviewSelect ? null : new Set();
   state.overviewNotice = null;
-  renderOverview();
+  renderOverviewChrome();
+  syncOverviewSelection();
 }
 
 function toggleOverviewSelection(item, tile) {
@@ -1627,22 +1723,96 @@ function toggleOverviewSelection(item, tile) {
   const on = select.has(item);
   tile.classList.toggle('is-selected', on);
   tile.setAttribute('aria-pressed', String(on));
+  $('overview-select-hint').textContent = overviewSelectInstructions(getAnyCourse(state.overviewCourseId));
   updateOverviewSelectBar();
 }
 
-/** Repaint every tile's ticked state from state.overviewSelect, in place —
- * what select-all and clear use instead of renderOverview(), so the grid
- * stays where the learner scrolled it. */
+/** Repaint every tile's select-mode state from state.overviewSelect, in
+ * place — entering/leaving select mode, select-all and clear all use this
+ * instead of renderOverview(), so the grid never jumps back to the top. */
 function syncOverviewSelection() {
   const select = state.overviewSelect;
-  if (!select) return;
   $('overview-grid').querySelectorAll('.overview-tile').forEach((tile) => {
-    if (!tile.classList.contains('is-selectable')) return;
-    const on = select.has(tile.dataset.item);
+    const item = tile.dataset.item;
+    const selectable = !!select && overviewTileEligible(item);
+    tile.classList.toggle('is-selectable', selectable);
+    const on = selectable && select.has(item);
     tile.classList.toggle('is-selected', on);
-    tile.setAttribute('aria-pressed', String(on));
+    if (select) tile.setAttribute('aria-pressed', String(on));
+    else tile.removeAttribute('aria-pressed');
   });
   updateOverviewSelectBar();
+}
+
+// Press-and-hold on an overview tile. 500ms is long enough that a scroll
+// gesture starting on a tile never fires it (a real scroll moves past the
+// slop well before then, and touch scrolling delivers pointercancel
+// anyway), short enough not to feel like the app is ignoring the press.
+const LONG_PRESS_MS = 500;
+const LONG_PRESS_SLOP_PX = 10;
+
+/**
+ * Wires a long-press on `element`, alongside its ordinary click. Deliberately
+ * built on the same guard the writing screen's bindTap uses (see
+ * armGhostClickGuard below) rather than on a new mechanism: once the hold
+ * has fired, the release that follows still produces a `click` — the real
+ * one on desktop, and on iOS the synthesized one that preventDefault on
+ * pointerup does NOT suppress (commit 32e7fa9's lesson) — which would land
+ * on this same tile and, now that it's in select mode, untick the very
+ * item the hold just ticked. So the release arms the global guard, and the
+ * click that follows is swallowed in the capture phase before it reaches
+ * anything. A genuine next tap starts with its own pointerdown, which
+ * disarms the guard, so nothing after the hold is ever eaten by mistake.
+ *
+ * The element is never rebuilt between the hold firing and the release
+ * (select mode is applied in place — syncOverviewSelection), which is what
+ * lets the pointerup be delivered to this listener at all.
+ */
+function bindLongPress(element, onLongPress) {
+  let timer = null;
+  let fired = false;
+  let startX = 0;
+  let startY = 0;
+  const cancelTimer = () => {
+    if (timer !== null) clearTimeout(timer);
+    timer = null;
+  };
+  element.addEventListener('pointerdown', (event) => {
+    // Primary button/finger only — a right-click is not a long press.
+    if (event.button !== undefined && event.button !== 0) return;
+    fired = false;
+    startX = event.clientX;
+    startY = event.clientY;
+    cancelTimer();
+    timer = setTimeout(() => {
+      timer = null;
+      fired = true;
+      onLongPress();
+    }, LONG_PRESS_MS);
+  });
+  element.addEventListener('pointermove', (event) => {
+    if (timer === null) return;
+    if (Math.abs(event.clientX - startX) > LONG_PRESS_SLOP_PX
+      || Math.abs(event.clientY - startY) > LONG_PRESS_SLOP_PX) cancelTimer();
+  });
+  element.addEventListener('pointerup', (event) => {
+    cancelTimer();
+    if (!fired) return;
+    fired = false;
+    event.preventDefault();
+    armGhostClickGuard();
+  });
+  // An interrupted gesture (the browser took the touch for a scroll, or
+  // Android's own long-press handling) — no click will follow, so there is
+  // nothing to guard; just make sure a stale hold can't fire later.
+  element.addEventListener('pointercancel', () => { cancelTimer(); fired = false; });
+  element.addEventListener('pointerleave', cancelTimer);
+  // Android fires contextmenu on a long touch; left alone it would open a
+  // menu over the tile (and cancel the pointer). Only while a hold is in
+  // progress, so a desktop right-click menu is untouched.
+  element.addEventListener('contextmenu', (event) => {
+    if (timer !== null || fired) event.preventDefault();
+  });
 }
 
 /** "Select all not started": everything in this unit with no record yet in
@@ -1675,12 +1845,18 @@ function updateOverviewSelectBar() {
   const select = state.overviewSelect;
   const sure = $('overview-mark-sure');
   const think = $('overview-mark-think');
+  const course = getAnyCourse(state.overviewCourseId);
+  // The pinned bar and the install banner both sit at the bottom edge; the
+  // banner gives way while the bar is showing, same as on the quiz screen.
+  updateInstallBannerVisibility();
   if (!select) {
     sure.hidden = true;
     think.hidden = true;
+    // Leaving select mode happens in place (no renderOverview), so the
+    // counter has to be put back here too.
+    $('overview-counter').textContent = `${allItems(course, state.mode).length} characters`;
     return;
   }
-  const course = getAnyCourse(state.overviewCourseId);
   const n = select.size;
   const twoTier = !isSelfAssessable(course.kind, state.mode);
   const label = modeName(state.mode, course.kind);

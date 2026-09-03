@@ -1343,13 +1343,38 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    only: any real progress moves a tile off tier-0 and this stops applying. */
 .overview-tile.is-pending { border-color: var(--accent); border-style: dashed; }
 
+/* The overview's pinned head: back/title row plus the mode picker under
+   it, stuck together at the top of the viewport. Takes over the .topbar's
+   own sticky treatment (same negative-margin escape from #app's padding,
+   re-applied as padding) so the two rows travel as one block; the topbar
+   inside is put back to normal flow. */
+.overview-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--bg);
+  margin: calc(-1 * max(16px, env(safe-area-inset-top))) -16px 0;
+  padding: max(16px, env(safe-area-inset-top)) 16px 8px;
+}
+.overview-head .topbar { position: static; margin: 0; padding: 0; }
+
 /* "Mark as known" select mode (see the section of that name in app.js).
    A ticked tile keeps its mastery fill — that's still what the colour
    means — and gains an accent ring plus a corner check, so the two facts
    (how well known, and whether it's selected) never fight over the same
-   channel. A tile that can't be marked (already well known in this mode,
-   or something the mode never asks) is dimmed rather than removed, so the
-   grid keeps its shape and the legend still reads. */
+   channel. A tile that CAN'T be ticked (already well known) is left
+   looking exactly as it does outside select mode — deliberately: dimming
+   it read as "poorly known" in the very colour language the grid teaches,
+   and had learners tapping the bright ones thinking those were the gaps.
+   The tap explains itself on the hint line instead. */
+.overview-tile {
+  /* A long press enters select mode (bindLongPress in app.js) — keep iOS
+     from popping its callout, or selecting the glyph as text, meanwhile. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .overview-tile.is-selectable { position: relative; }
 .overview-tile.is-selected {
   border-color: var(--accent);
@@ -1366,8 +1391,6 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* A vocab tile is set vertically (see .overview-tile-vocab above); pin the
    check to the physical top-right corner regardless. */
 .overview-tile.overview-tile-vocab.is-selected::after { writing-mode: horizontal-tb; }
-.overview-tile.is-ineligible { opacity: 0.35; cursor: default; }
-.overview-tile.is-ineligible:active { transform: none; }
 /* Room for the pinned action bar while it's showing (same reservation the
    summary screen makes — see #screen-summary), so the last row of tiles
    can scroll clear of it. Two stacked buttons at most. */

@@ -318,11 +318,19 @@
   <!-- One set (5 characters): tap a tile, coloured by how well it's known,
        to see its stroke order and readings on screen-character-detail. -->
   <section id="screen-overview" class="screen" hidden>
-    <header class="topbar">
-      <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
-      <h2 id="overview-title">Overview</h2>
-      <span id="overview-counter" class="counter"></span>
-    </header>
+    <!-- Pinned together at the top (.overview-head, styles.css): the back
+         button and title, and under them the same mode picker the course
+         screen has — so however far down a 200-tile grid you are, it is
+         always visible WHICH mode's progress the colours mean, and you can
+         switch without leaving. See renderOverviewModePicker() in app.js. -->
+    <div class="overview-head">
+      <header class="topbar">
+        <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
+        <h2 id="overview-title">Overview</h2>
+        <span id="overview-counter" class="counter"></span>
+      </header>
+      <div id="overview-mode-picker" class="segmented" role="tablist" aria-label="Mode"></div>
+    </div>
     <p class="hint mastery-legend">
       <span class="mastery-swatch tier-0"></span>not started
       <!-- Kanji only — hidden for kana, which has no study list to be

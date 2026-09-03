@@ -63,6 +63,7 @@ function makeElement(id = '') {
     appendChild(child) { this._children.push(child); return child; },
     setAttribute(name, value) { this._attrs[name] = String(value); },
     getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
+    removeAttribute(name) { delete this._attrs[name]; },
     remove() {},
     focus() {},
     // Dispatches for real, unlike the other no-ops here: app.js's Enter-key
@@ -3604,18 +3605,29 @@ const masteredHiragana = hiraganaCourse.chunks.flatMap((c) => c.items)
   .find((k) => profileBeforeMark.progress[`recognition:${k}`] && profileBeforeMark.progress[`recognition:${k}`].box === MAX_BOX);
 check('a hiragana already at the top box exists (from the placement test earlier)', !!masteredHiragana);
 
+check('the overview has its own mode picker, with the current mode active',
+  el('overview-mode-picker')._children.length === 2
+  && el('overview-mode-picker')._children.find((b) => b.dataset.mode === 'recognition').className.includes('active')
+  && !el('overview-mode-picker')._children.find((b) => b.dataset.mode === 'writing').className.includes('active'),
+  el('overview-mode-picker')._children.map((b) => `${b.dataset.mode}:${b.className}`).join(' | '));
+
 const selectTiles = el('overview-grid')._children;
 const masteredTile = selectTiles.find((t) => t.dataset.item === masteredHiragana);
-check('an already well-known tile is dimmed and not selectable',
-  masteredTile.classList.contains('is-ineligible') && !masteredTile.classList.contains('is-selectable'));
+check('an already well-known tile is not selectable — and keeps exactly its normal colour, no dimming class',
+  !masteredTile.classList.contains('is-selectable') && masteredTile.className.includes('tier-4')
+  && !masteredTile.classList.contains('is-ineligible') && masteredTile.getAttribute('aria-disabled') === null,
+  `${masteredTile.className} / ${[...masteredTile.classList._set].join(' ')}`);
 const eligibleTiles = selectTiles.filter((t) => t.classList.contains('is-selectable'));
 check('every untried tile is selectable',
   readingUntried.every((k) => selectTiles.find((t) => t.dataset.item === k).classList.contains('is-selectable')));
-check('select-mode tiles no longer tick through to the detail screen',
+check('a tile has one click handler that decides at tap time — no rebuild to enter select mode',
   masteredTile._listeners.click.length === 1);
 
 fire(masteredTile, 'click');
-check('tapping a dimmed tile does nothing', el('overview-counter').textContent === '0 selected');
+check('tapping a well-known tile ticks nothing and explains why on the hint line',
+  el('overview-counter').textContent === '0 selected' && visible() === 'screen-overview'
+  && el('overview-select-hint').textContent.includes('Already well known'),
+  el('overview-select-hint').textContent);
 fire(eligibleTiles[0], 'click');
 fire(eligibleTiles[1], 'click');
 check('tapping tiles ticks them, in place, without leaving the overview',
@@ -3623,6 +3635,8 @@ check('tapping tiles ticks them, in place, without leaving the overview',
   && eligibleTiles[0].getAttribute('aria-pressed') === 'true'
   && el('overview-counter').textContent === '2 selected' && visible() === 'screen-overview',
   el('overview-counter').textContent);
+check('ticking a tile puts the ordinary instructions back on the hint line',
+  el('overview-select-hint').textContent.includes('tap again to untick'), el('overview-select-hint').textContent);
 check('the action button counts the selection and names the mode',
   el('overview-mark-sure').textContent === 'Mark 2 as known in Reading' && el('overview-mark-sure').disabled === false,
   el('overview-mark-sure').textContent);
@@ -3680,8 +3694,13 @@ check('in Writing, "I think I know these" is the primary action and "I\'m sure" 
   && el('overview-mark-sure').hidden === false && !el('overview-mark-sure').className.includes('btn-primary'),
   `${el('overview-mark-think').className} / ${el('overview-mark-sure').className}`);
 const yoonChar = [...hiraganaCourse.excludeForMode.writing][0];
-check('a yōon, which Writing never asks, is dimmed in the Writing overview',
-  el('overview-grid')._children.find((t) => t.dataset.item === yoonChar).classList.contains('is-ineligible'));
+const writingListed = hiraganaCourse.chunks.flatMap((c) => c.items).filter((k) => !hiraganaCourse.excludeForMode.writing.has(k));
+check('a yōon, which Writing never asks, is not listed on the Writing overview at all',
+  !el('overview-grid')._children.some((t) => t.dataset.item === yoonChar)
+  && el('overview-grid')._children.length === writingListed.length,
+  `${el('overview-grid')._children.length} tiles vs ${writingListed.length} writable`);
+check('the counter counts what is listed, not the whole course',
+  el('overview-counter').textContent === '0 selected');
 fireAction('overview-select-all');
 check('the softer button counts the selection',
   el('overview-mark-think').textContent.startsWith(`I think I know these ${writingUntried.length}`),
@@ -3746,11 +3765,85 @@ await drain(10);
 check('an overview opened for browsing is not in select mode',
   visible() === 'screen-overview' && el('overview-select-hint').hidden === true
   && el('overview-mark-sure').hidden === true && el('overview-select-toggle').textContent.includes('Mark as known'));
+check('the counter is the plain character count while browsing',
+  /^\d+ characters$/.test(el('overview-counter').textContent), el('overview-counter').textContent);
+const browsingTiles = el('overview-grid')._children;
 fireAction('overview-select-toggle');
-check('the overview\'s own toggle enters select mode', el('overview-select-shortcuts').hidden === false
-  && el('overview-select-toggle').textContent.includes('Cancel'));
+check('the overview\'s own toggle enters select mode in place — the grid is not rebuilt',
+  el('overview-select-shortcuts').hidden === false && el('overview-select-toggle').textContent.includes('Cancel')
+  && el('overview-grid')._children === browsingTiles && el('overview-counter').textContent === '0 selected');
 fireAction('overview-select-toggle');
-check('...and leaves it again', el('overview-select-shortcuts').hidden === true);
+check('...and leaves it again, restoring the count', el('overview-select-shortcuts').hidden === true
+  && /^\d+ characters$/.test(el('overview-counter').textContent), el('overview-counter').textContent);
+
+// The pinned mode picker: switching mode on the overview re-lists and
+// recolours the grid for the new mode and drops any selection in progress.
+fireAction('overview-select-toggle');
+const yomiTileToTick = el('overview-grid')._children.find((t) => t.classList.contains('is-selectable'));
+if (yomiTileToTick) fire(yomiTileToTick, 'click');
+check('grade 6 Yomi is now entirely well known, so nothing is selectable there', !yomiTileToTick);
+const kanjiPicker = el('overview-mode-picker')._children;
+check('the kanji overview picker offers Definition / Yomi / Writing with Yomi active',
+  kanjiPicker.map((b) => b.dataset.mode).join(',') === 'definition,recognition,writing'
+  && kanjiPicker[1].className.includes('active'), kanjiPicker.map((b) => `${b.dataset.mode}:${b.className}`).join(' | '));
+fire(kanjiPicker.find((b) => b.dataset.mode === 'writing'), 'click');
+await drain(5);
+check('switching mode on the overview stays on the overview, Writing now active',
+  visible() === 'screen-overview'
+  && el('overview-mode-picker')._children.find((b) => b.dataset.mode === 'writing').className.includes('active'));
+check('...and drops the selection in progress rather than carrying it into the new mode',
+  el('overview-mark-sure').hidden === true && el('overview-select-shortcuts').hidden === true);
+const grade6WritingTiles = el('overview-grid')._children;
+check('...recolouring every tile for the new mode (Writing untouched, so nothing well known)',
+  grade6WritingTiles.length > 0 && !grade6WritingTiles.some((t) => t.className.includes('tier-4')),
+  grade6WritingTiles.filter((t) => t.className.includes('tier-4')).length);
+
+// Long-press on a tile while browsing: the third way into select mode,
+// with that tile already ticked. Routed through the same ghost-click guard
+// bindTap uses (see bindLongPress in app.js): the release still produces a
+// click, which must not untick what the hold just ticked.
+const heldTile = grade6WritingTiles[0];
+fire(heldTile, 'pointerdown', { pointerType: 'touch', clientX: 100, clientY: 100, pointerId: 7 });
+check('merely pressing does not enter select mode', el('overview-select-shortcuts').hidden === true);
+runTimers(); // the hold threshold elapses
+check('holding a tile enters select mode with that tile ticked',
+  el('overview-select-shortcuts').hidden === false && heldTile.classList.contains('is-selected')
+  && el('overview-counter').textContent === '1 selected',
+  `${el('overview-select-shortcuts').hidden} / ${el('overview-counter').textContent}`);
+check('...in place: the held tile is the very element still on screen',
+  el('overview-grid')._children[0] === heldTile);
+fire(heldTile, 'pointerup', { pointerType: 'touch', clientX: 100, clientY: 100, pointerId: 7 });
+// The click the browser fires for that release (real on desktop, synthesized
+// on iOS) is swallowed by the guard's capture-phase listener — modelled here
+// as a delegated click that must not get through to its handler.
+fireAction('go-course');
+check('the click that follows the release is swallowed — the overview is still showing',
+  visible() === 'screen-overview' && heldTile.classList.contains('is-selected'), `showing ${visible()}`);
+fire(document, 'pointerdown', { pointerType: 'touch' }); // a real next tap begins with its own press…
+fireAction('overview-select-none');
+check('…which disarms the guard, so the next genuine tap goes through', el('overview-counter').textContent === '0 selected');
+fire(heldTile, 'click');
+check('a plain tap in select mode still toggles as usual', heldTile.classList.contains('is-selected'));
+fireAction('overview-select-toggle');
+check('back to browsing', el('overview-select-shortcuts').hidden === true);
+
+// A press that turns into a scroll (moves past the slop) never fires.
+fire(heldTile, 'pointerdown', { pointerType: 'touch', clientX: 100, clientY: 100, pointerId: 8 });
+fire(heldTile, 'pointermove', { pointerType: 'touch', clientX: 100, clientY: 140, pointerId: 8 });
+runTimers();
+check('a press that moved on is a scroll, not a hold — select mode is not entered',
+  el('overview-select-shortcuts').hidden === true);
+fire(heldTile, 'pointerup', { pointerType: 'touch', clientX: 100, clientY: 140, pointerId: 8 });
+// A release before the threshold likewise: the ordinary click is left alone.
+fire(heldTile, 'pointerdown', { pointerType: 'touch', clientX: 100, clientY: 100, pointerId: 9 });
+fire(heldTile, 'pointerup', { pointerType: 'touch', clientX: 100, clientY: 100, pointerId: 9 });
+runTimers();
+check('a release before the threshold never enters select mode', el('overview-select-shortcuts').hidden === true);
+fireAction('go-course');
+await settle();
+check('...and that quick tap\'s click is not eaten either', visible() === 'screen-course', `showing ${visible()}`);
+check('the mode chosen on the overview carries back to the course screen',
+  el('mode-picker')._children.find((b) => b.dataset.mode === 'writing').className.includes('active'));
 
 fireAction('go-home');
 await settle();
