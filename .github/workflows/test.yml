@@ -1,0 +1,27 @@
+name: Tests
+
+# There is no build step and no Node for this app (see README.md) — the
+# test suites run directly against macOS's own JavaScriptCore, which is
+# why this has to run on macos-latest rather than the usual ubuntu-latest.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run every test/*.js suite
+        run: |
+          JSC=/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc
+          failed=0
+          for f in test/*.js; do
+            echo "=== $f ==="
+            "$JSC" -m "$f" || failed=1
+          done
+          exit "$failed"
