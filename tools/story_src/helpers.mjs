@@ -76,7 +76,16 @@ const COMMON = {
 export function line(tokens, en) {
   // Expand this common jukujikun shorthand to per-character readings so the
   // runtime can still link and render every kanji independently.
-  return { tokens: tokens.replaceAll('一人[ひとり]', '一[ひと]人[り]'), en };
+  return {
+    tokens: tokens
+      .replaceAll('一人[ひとり]', '一[ひと]人[り]')
+      .replaceAll('田[いなか]舎', '田[いな]舎[か]')
+      .replaceAll('田舎[いなか]', '田[いな]舎[か]')
+      .replaceAll('全部[ぜんぶ]', '全[ぜん]部[ぶ]')
+      .replaceAll('新聞[しんぶん]', '新[しん]聞[ぶん]')
+      .replaceAll('彼女[かのじょ]', '彼[かの]女[じょ]'),
+    en,
+  };
 }
 
 export function lexicon(entries) {

@@ -102,7 +102,7 @@ export function validateStory(story, ids) {
   if (sentences.length < minSentences || sentences.length > maxSentences) {
     errors.push(`${story.id}: ${sentences.length} sentences falls outside ${minSentences}–${maxSentences}`);
   }
-  let katakana = 0;
+  let katakana = [...story.title.ja].filter((ch) => KATAKANA_RE.test(ch)).length;
   story.body?.forEach((paragraph, p) => paragraph.forEach((sentence, s) => {
     if (!sentence.en || !sentence.en.trim()) where(p, s, 'missing English translation');
     if (!Array.isArray(sentence.t) || sentence.t.length === 0) where(p, s, 'has no tokens');
@@ -200,7 +200,7 @@ async function main() {
   const levelCounts = Object.fromEntries([...LEVELS].map((level) => [level, 0]));
   stories.forEach((story) => { levelCounts[story.level] += 1; });
   Object.entries(levelCounts).forEach(([level, count]) => {
-    if (count !== 3) throw new Error(`${level} must contain exactly three stories; found ${count}`);
+    if (count !== 4) throw new Error(`${level} must contain exactly four stories; found ${count}`);
   });
   await Promise.all(stories.map((story) => fs.writeFile(
     path.join(DATA_DIR, `story-${story.id}.js`), runtimeModule(story), 'utf8',

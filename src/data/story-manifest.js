@@ -36,6 +36,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "lion-to-nezumi": {
+    "title": {
+      "ja": "ししとねずみ",
+      "en": "The Lion and the Mouse"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "A lion spares a tiny mouse and later discovers that help can come from anyone.",
+    "hash": "9fe5a6c6",
+    "length": 85,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "ookina-kabu": {
     "title": {
       "ja": "大きなかぶ",
@@ -47,6 +64,23 @@ export const STORIES = {
     "blurb": "A turnip will not come out of the ground until a whole family of helpers pulls together.",
     "hash": "14ee2f46",
     "length": 70,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "machi-no-nezumi-inaka-no-nezumi": {
+    "title": {
+      "ja": "町のねずみと田舎のねずみ",
+      "en": "The Town Mouse and the Country Mouse"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Two mouse cousins compare a quiet country meal with a splendid but dangerous feast.",
+    "hash": "1e9e9e7c",
+    "length": 180,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -138,6 +172,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "hansel-to-gretel": {
+    "title": {
+      "ja": "ヘンゼルとグレーテル",
+      "en": "Hansel and Gretel"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "A brother and sister follow a trail through the forest and outwit the witch in a sweet-covered house.",
+    "hash": "73ad74e6",
+    "length": 334,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "sanbiki-no-kobuta": {
     "title": {
       "ja": "三匹の子ぶた",
@@ -166,6 +217,23 @@ export const STORIES = {
     "blurb": "A girl carrying food to her grandmother meets a dangerously friendly wolf in the forest.",
     "hash": "1a5405c9",
     "length": 364,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "bijoto-yajuu": {
+    "title": {
+      "ja": "美女と野獣",
+      "en": "Beauty and the Beast"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Belle enters an enchanted castle and learns to see beyond its master’s frightening appearance.",
+    "hash": "ed5d444f",
+    "length": 440,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -223,6 +291,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "hachijuu-nichikan-sekai-isshuu": {
+    "title": {
+      "ja": "八十日間世界一周",
+      "en": "Around the World in Eighty Days"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Phileas Fogg wagers that modern transport can carry him around the world in eighty days—but the timetable is only the beginning.",
+    "hash": "979c01c0",
+    "length": 631,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
   "pinocchio": {
     "title": {
       "ja": "ピノキオ",
@@ -251,6 +336,23 @@ export const STORIES = {
     "blurb": "A mysterious map draws young Jim Hawkins into a voyage of mutiny, courage and buried treasure.",
     "hash": "417f7542",
     "length": 586,
+    "source": {
+      "kind": "adapted",
+      "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "dracula": {
+    "title": {
+      "ja": "ドラキュラ",
+      "en": "Dracula"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "Letters and journals trace Count Dracula from his Transylvanian castle to England—and the friends who unite against him.",
+    "hash": "736f9473",
+    "length": 680,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
