@@ -398,6 +398,11 @@ export function recomputeKanjiRollup(course, kanji, mode, progress, now = Date.n
     correct: records.reduce((sum, r) => sum + r.correct, 0),
     lapses: records.reduce((sum, r) => sum + r.incorrect, 0),
     history: [],
+    // Same field the per-reading records and srs.js's own
+    // recomputeYomiRollupFromProgress carry, so merge.js has a real
+    // timestamp to compare rather than falling through to an empty
+    // history (this rollup has none of its own).
+    updatedAt: now,
   };
 }
 

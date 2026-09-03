@@ -98,6 +98,18 @@ at a time), and for kanji, its readings, meanings and example words — tapping
 a reading shows the word it actually comes from, the same interaction as
 after answering a Yomi question.
 
+**✓ Mark as known**, on the overview (and as a row under **Test unlearned**
+on the course card, which opens the overview straight into it), is the
+no-quiz way to say you already know a batch: tick the tiles you know — or
+**Select all not started** — and mark them in one go. In a recognition mode
+(kana Reading, kanji Definition, vocab Meaning) that counts them as mastered
+straight away, exactly as a correct **Test unlearned** answer would. In Yomi,
+Writing and vocab Recall, where a glance can't tell you whether you know
+*every* reading or can really draw the character, the default is the softer
+**I think I know these**: one tier short of mastered, with a quick
+double-check review for each, spread out over the following weeks rather
+than all landing on one day — **I'm sure** sits beside it for when you are.
+
 ## If a phone is stuck on an old version
 
 An iOS home-screen app is stubborn about picking up new code. **Settings →

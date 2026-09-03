@@ -1343,6 +1343,36 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    only: any real progress moves a tile off tier-0 and this stops applying. */
 .overview-tile.is-pending { border-color: var(--accent); border-style: dashed; }
 
+/* "Mark as known" select mode (see the section of that name in app.js).
+   A ticked tile keeps its mastery fill — that's still what the colour
+   means — and gains an accent ring plus a corner check, so the two facts
+   (how well known, and whether it's selected) never fight over the same
+   channel. A tile that can't be marked (already well known in this mode,
+   or something the mode never asks) is dimmed rather than removed, so the
+   grid keeps its shape and the legend still reads. */
+.overview-tile.is-selectable { position: relative; }
+.overview-tile.is-selected {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.overview-tile.is-selected::after {
+  content: '✓';
+  position: absolute;
+  top: 1px; right: 5px;
+  font-family: inherit;
+  font-size: 13px; font-weight: 800; line-height: 1;
+  color: var(--accent);
+}
+/* A vocab tile is set vertically (see .overview-tile-vocab above); pin the
+   check to the physical top-right corner regardless. */
+.overview-tile.overview-tile-vocab.is-selected::after { writing-mode: horizontal-tb; }
+.overview-tile.is-ineligible { opacity: 0.35; cursor: default; }
+.overview-tile.is-ineligible:active { transform: none; }
+/* Room for the pinned action bar while it's showing (same reservation the
+   summary screen makes — see #screen-summary), so the last row of tiles
+   can scroll clear of it. Two stacked buttons at most. */
+#screen-overview:has(.bottom-bar > :not([hidden])) { padding-bottom: 150px; }
+
 .mastery-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
 .mastery-swatch {
   display: inline-block;

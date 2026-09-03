@@ -280,8 +280,14 @@ export function newRecord() {
  * answer would. A miss is graded identically either way — placement testing
  * something you don't actually know should just start it normally, at box 0,
  * the same as any other first-time miss.
+ *
+ * `settle`, when given ({ box, intervalDays }), is the softer "I think I
+ * know this" claim from markKnownItems below: a hit lands on that box (never
+ * lower than the record already is) and is scheduled exactly `intervalDays`
+ * out, rather than climbing one box or jumping to the top. Only one of
+ * `placement`/`settle` is ever passed; `settle` wins if both somehow are.
  */
-export function grade(record, correct, now = Date.now(), { placement = false } = {}) {
+export function grade(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
   const rec = record || newRecord();
   // newRecord() has always carried `history`, so unlike gradeYomi's matching
   // guard this isn't fixing a known-broken shape — it's holding the same
@@ -292,7 +298,10 @@ export function grade(record, correct, now = Date.now(), { placement = false } =
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
-    if (placement) {
+    if (settle) {
+      rec.box = Math.min(Math.max(rec.box, settle.box), MAX_BOX);
+      rec.intervalDays = settle.intervalDays;
+    } else if (placement) {
       rec.box = MAX_BOX;
       rec.intervalDays = BOX_INTERVALS_DAYS[MAX_BOX];
     } else {
@@ -400,6 +409,143 @@ export function pendingItems(course, mode, ctx) {
 export function neverSeenItems(course, mode, ctx) {
   const { progress } = asContext(ctx);
   return allItems(course, mode).filter((item) => !progress[itemKey(mode, item)]);
+}
+
+// --- "Mark as known": claiming knowledge without a quiz -------------------
+//
+// The bulk, no-quiz counterpart of the placement test above, for a learner
+// who already knows a whole unit from elsewhere (an adult picking up an app
+// built for kids, a fluent reader) and shouldn't have to answer 200
+// questions one at a time to say so. Two strengths of claim:
+//
+// - KNOWN_CLAIM_SURE: exactly what a perfect placement round would have
+//   written — grade()/gradeYomi()'s `placement` option, straight to the top
+//   box, back for review at the top interval.
+// - KNOWN_CLAIM_THINK: "I think I know this". A self-assessment from a
+//   static tile grid is trustworthy for recognition — do you know what あ
+//   sounds like, what 犬 means, what 電車 means — but not for anything that
+//   asks for completeness or production: a learner can know two of 生's
+//   readings without noticing there are five (Yomi), and recognising a
+//   character says nothing about being able to draw it (Writing; vocab
+//   Recall is the same shape, English shown and the Japanese produced). So
+//   those modes get this softer default: THINK_KNOWN_BOX, one tier short of
+//   "well known" on masteryTier's scale, and a real double-check review a
+//   week or more out. The `sure` claim stays available in those modes too,
+//   as an explicit override — see isSelfAssessable and app.js's overview
+//   select bar.
+//
+// A batch of "I think I know this" claims is deliberately NOT all scheduled
+// on the same day: forty kanji marked in one tap would otherwise come due
+// as one forty-card pile three weeks later — the very review pile-up the
+// rest of the scheduling here works to avoid. thinkKnownOffsetDays spreads
+// a batch evenly across THINK_KNOWN_WINDOW_DAYS by position in the batch,
+// so it is deterministic (testable, and stable across a re-mark) rather
+// than random.
+
+export const KNOWN_CLAIM_SURE = 'sure';
+export const KNOWN_CLAIM_THINK = 'think';
+// Box 4: masteryTier 3 ("doing well"), the highest tier that is still short
+// of the mastered one — and below MAX_BOX, so courseStats' `mastered` count
+// stays honest about what was actually proven.
+export const THINK_KNOWN_BOX = 4;
+export const THINK_KNOWN_FIRST_DAYS = 7;
+export const THINK_KNOWN_WINDOW_DAYS = 21;
+
+// Which mode, per kind, is safe to self-assess from a glance at the item —
+// the one where the question is pure recognition of the item shown.
+const SELF_ASSESSABLE_MODE = { kana: 'recognition', kanji: 'definition', vocab: 'vmeaning' };
+
+/** Whether a glance at the item is enough to claim you know it in this
+ * mode — if not, "I think I know this" is the default claim and "sure" is
+ * the override. See the section note above. */
+export function isSelfAssessable(kind, mode) {
+  return SELF_ASSESSABLE_MODE[kind] === mode;
+}
+
+/** Days from now until the `index`-th of `count` "I think I know this"
+ * claims comes due: the first at THINK_KNOWN_FIRST_DAYS, the rest spread
+ * evenly across the following THINK_KNOWN_WINDOW_DAYS in batch order. */
+export function thinkKnownOffsetDays(index, count) {
+  return THINK_KNOWN_FIRST_DAYS + Math.floor((index * THINK_KNOWN_WINDOW_DAYS) / Math.max(count, 1));
+}
+
+/** Enrollment for a claimed item, where the kind gates on it — the same
+ * lazy-per-item rule ensurePlacementEnrolled (app.js) applies during a
+ * placement test. A no-op for kana (no study list) and for anything already
+ * enrolled. */
+function enrollClaimed(course, item, mode, c, now) {
+  if (!c.study || !gatesEnrollment(course, item)) return;
+  if (isStudying(c.study, item, mode)) return;
+  setStudying(c.study, c.unstudy || {}, item, mode, true, now);
+}
+
+/**
+ * Mark `items` of `course` as known in `mode`, writing exactly the records a
+ * correct placement answer (claim 'sure') or a softer self-assessment
+ * (claim 'think') would leave behind, enrolling first where the kind
+ * requires it. Anything the mode excludes (yōon kana in Writing, a kanji
+ * with no quizzable reading in Yomi) is skipped. Returns the items actually
+ * marked, in course order.
+ *
+ * Kanji Yomi has no flat per-kanji record — itemKey('recognition', 生) is a
+ * rollup over the per-reading records (recomputeKanjiRollup in kanji.js,
+ * recomputeYomiRollupFromProgress below) whose box is the LOWEST streak of
+ * any reading that has a record. So a claim here writes a record for EVERY
+ * quizzable reading, not just the base few a single question shows: a
+ * reading left unrecorded would be introduced at streak 1 by the very next
+ * ordinary question (pickBaseCorrectReadings favours never-graded readings)
+ * and drag the kanji straight back down to "learning". `readingsFor(kanji)`
+ * supplies that list — kanjiInfo(course, k).quizReadings, which this module
+ * cannot import without a cycle, and which needs the unit's data loaded.
+ *
+ * A vocab mode is a rollup over two sub-keys the same way (VOCAB_SUBKEYS),
+ * so both are written for the same reason — a vyomi/vspell record first
+ * created at box 1 by a later session would otherwise pull a "known" word
+ * back to "just started". A sub-key no question ever reaches for a given
+ * word (vyomi on a kana-only word) is inert at the top box.
+ */
+export function markKnownItems(course, mode, ctx, items, {
+  now = Date.now(), readingsFor = null, claim = KNOWN_CLAIM_SURE,
+} = {}) {
+  const c = asContext(ctx);
+  const { progress } = c;
+  const wanted = new Set(items);
+  // Course order (not selection order), so a staggered batch comes due in
+  // teaching order and re-marking the same set lands on the same dates.
+  const batch = allItems(course, mode).filter((item) => wanted.has(item));
+  const think = claim === KNOWN_CLAIM_THINK;
+  const marked = [];
+
+  batch.forEach((item, index) => {
+    const intervalDays = think ? thinkKnownOffsetDays(index, batch.length) : 0;
+    const leitner = think ? { settle: { box: THINK_KNOWN_BOX, intervalDays } } : { placement: true };
+    const yomi = think ? { settle: { streak: THINK_KNOWN_BOX, intervalDays } } : { placement: true };
+
+    if (course.kind === 'kanji' && mode === 'recognition') {
+      const readings = readingsFor ? readingsFor(item) : [];
+      if (!readings || readings.length === 0) return;
+      enrollClaimed(course, item, mode, c, now);
+      readings.forEach((reading) => {
+        const key = yomiKey(mode, item, reading);
+        progress[key] = gradeYomi(progress[key] || newYomiRecord(), true, now, yomi);
+      });
+      recomputeYomiRollupFromProgress(progress, mode, item, now);
+    } else if (course.kind === 'vocab') {
+      enrollClaimed(course, item, mode, c, now);
+      VOCAB_SUBKEYS[mode].forEach((prefix) => {
+        const key = itemKey(prefix, item);
+        progress[key] = grade(progress[key] || newRecord(), true, now, leitner);
+      });
+      recomputeVocabRollup(item, mode, progress, now);
+    } else {
+      enrollClaimed(course, item, mode, c, now);
+      const key = itemKey(mode, item);
+      progress[key] = grade(progress[key] || newRecord(), true, now, leitner);
+    }
+    marked.push(item);
+  });
+
+  return marked;
 }
 
 /** Course items not yet enrolled at all — the pool "Add N more" draws from. */
@@ -667,8 +813,15 @@ export function newYomiRecord() {
  * placement-correct reading here is what lets a whole kanji's rollup land on
  * "well known" from a single clean round, the same as grade() does for the
  * simpler per-kanji record modes.
+ *
+ * `settle` ({ streak, intervalDays }) is grade()'s option of the same name
+ * for the "I think I know this" claim: the streak lands at that value (never
+ * lower than it already is) and the interval is taken as given, bypassing
+ * the experience multiplier — the point of a claim is that the due date is
+ * chosen deliberately (staggered across a batch, see markKnownItems), not
+ * derived from a track record the reading doesn't yet have.
  */
-export function gradeYomi(record, correct, now = Date.now(), { placement = false } = {}) {
+export function gradeYomi(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
   const rec = record || newYomiRecord();
   // Yomi records predating the study-history timeline have no `history` at
   // all — newYomiRecord() gained it only when that shipped, and nothing
@@ -684,13 +837,18 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
 
   if (correct) {
     rec.correct += 1;
-    rec.streak = placement ? MAX_BOX : rec.streak + 1;
-    const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
-    // Credit for total correct answers, even ones before the current streak
-    // started — e.g. a reading answered right 30 times total that just had
-    // one slip shouldn't need to re-climb from a 1-day interval.
-    const experience = 1 + Math.floor(Math.log2(1 + rec.correct));
-    rec.intervalDays = Math.min(base * experience, YOMI_MAX_INTERVAL_DAYS);
+    if (settle) {
+      rec.streak = Math.max(rec.streak, settle.streak);
+      rec.intervalDays = settle.intervalDays;
+    } else {
+      rec.streak = placement ? MAX_BOX : rec.streak + 1;
+      const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
+      // Credit for total correct answers, even ones before the current
+      // streak started — e.g. a reading answered right 30 times total that
+      // just had one slip shouldn't need to re-climb from a 1-day interval.
+      const experience = 1 + Math.floor(Math.log2(1 + rec.correct));
+      rec.intervalDays = Math.min(base * experience, YOMI_MAX_INTERVAL_DAYS);
+    }
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.incorrect += 1;

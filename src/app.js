@@ -25,6 +25,8 @@ import {
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
   recomputeVocabRollup, VOCAB_SUBKEYS,
+  markKnownItems, isSelfAssessable, KNOWN_CLAIM_SURE, KNOWN_CLAIM_THINK,
+  THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted, EXPOSURE_THRESHOLD,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   isFuriganaMuted, muteFuriganaKey,
@@ -51,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -352,6 +354,16 @@ const state = {
   // Set overview / character detail — independent of the session state
   // above, since they're read-only browsing, reachable with or without one.
   overviewCourseId: null,
+  // "Mark as known" select mode on the overview: null when browsing, a Set
+  // of the items ticked so far while selecting. Session-only — a half-made
+  // selection is not worth persisting, and must never leak into the next
+  // overview opened (see openOverview / the go-course action).
+  overviewSelect: null,
+  // The one-line "✓ 12 marked as known…" confirmation shown on the overview
+  // after a mark, in place of the select-mode hint; cleared on the next
+  // open. Kept on state so the re-render that shows the newly-green tiles
+  // can still say what just happened.
+  overviewNotice: null,
   detailCourseId: null,
   detailChar: null,
   // Detail screens opened on top of one another (drillIntoDetail below):
@@ -1379,6 +1391,30 @@ function renderCourse() {
   }
   actions.appendChild(actionRow(placement, placementSubtitle));
 
+  // "Mark as known": the no-quiz alternative to Test unlearned, for a
+  // learner who already knows most of a unit from elsewhere and shouldn't
+  // have to answer it item by item to say so. Sits directly under the test
+  // row because it addresses the same untried pool, and never takes the
+  // primary colour: testing is the recommended route (it's evidence),
+  // this is the shortcut beside it. Opens the set overview already in
+  // select mode — see openOverview()'s `select` option and the
+  // "Mark as known" section below. Discoverability is the point of this
+  // row existing at all: the overview has its own toggle for the same
+  // thing, but a learner standing on this screen wouldn't know to look.
+  const markKnown = document.createElement('button');
+  markKnown.type = 'button';
+  markKnown.className = 'btn';
+  let markKnownSubtitle = null;
+  if (untested > 0) {
+    markKnown.innerHTML = '✓ Mark as known…';
+    markKnown.addEventListener('click', () => openOverview(course, currentChunk.items[0], { select: true }));
+    markKnownSubtitle = 'Already know some of these? Tick them on the overview — no quiz, done in seconds.';
+  } else {
+    markKnown.textContent = 'Everything here is started';
+    markKnown.disabled = true;
+  }
+  actions.appendChild(actionRow(markKnown, markKnownSubtitle));
+
   const learn = document.createElement('button');
   learn.type = 'button';
   learn.className = `btn${primary === 'learn' ? ' btn-primary' : ''}`;
@@ -1421,8 +1457,14 @@ function renderCourse() {
 // --- Set overview: every character in the whole course, colour-coded by
 // --- mastery, in one scrollable grid ---------------------------------------
 
-async function openOverview(course, scrollToChar) {
+async function openOverview(course, scrollToChar, { select = false } = {}) {
   state.overviewCourseId = course.id;
+  // A fresh open always starts from a clean slate — either browsing, or
+  // (from the course card's "Mark as known…" row) straight into select
+  // mode with nothing ticked yet. Never inherits a selection from an
+  // earlier visit, which could have been a different course or mode.
+  state.overviewSelect = select ? new Set() : null;
+  state.overviewNotice = null;
   // A vocab tile's label is the word's own surface (buildMasteryTile), which
   // needs that unit's real data — unlike kanji/kana, nothing before this
   // point guarantees it's loaded (a session starting it does, but the
@@ -1441,8 +1483,15 @@ async function openOverview(course, scrollToChar) {
  * (§2.2) so the two never drift out of sync on what a tile means. `course`
  * must be the item's OWN course (search spans every grade, so it can't
  * assume the currently-selected one the way the overview always could).
+ *
+ * `select`, when given (the overview's "Mark as known" select mode — the
+ * Set on state.overviewSelect), turns the tile into a toggle: tapping ticks
+ * or unticks it instead of opening the detail screen. A tile that can't be
+ * marked — already well known in this mode, or something the mode never
+ * asks (yōon in kana Writing, a no-reading kanji in Yomi) — is shown dimmed
+ * and ignores taps. Search never passes this.
  */
-function buildMasteryTile(course, item, returnTo) {
+function buildMasteryTile(course, item, returnTo, select = null) {
   const progress = state.profile.progress;
   const tier = masteryTier(progress[itemKey(state.mode, item)]);
   // masteryTier alone can't tell "never enrolled" apart from "enrolled but
@@ -1468,7 +1517,21 @@ function buildMasteryTile(course, item, returnTo) {
   const label = course.kind === 'vocab' ? vocabInfo(course, item).w : item;
   tile.textContent = label;
   tile.setAttribute('aria-label', `${label}: ${pending ? 'Waiting to learn' : MASTERY_LABELS[tier]}`);
-  tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
+  // So select-all/clear can update tiles in place by item (see
+  // syncOverviewSelection) rather than re-rendering the grid — a re-render
+  // goes through show(), which scrolls a 200-tile grid back to the top.
+  tile.dataset.item = item;
+  if (select) {
+    const eligible = tier < 4 && applicableStudyModes(course, item).includes(state.mode);
+    tile.classList.add(eligible ? 'is-selectable' : 'is-ineligible');
+    if (!eligible) tile.setAttribute('aria-disabled', 'true');
+    const selected = eligible && select.has(item);
+    tile.classList.toggle('is-selected', selected);
+    tile.setAttribute('aria-pressed', String(selected));
+    tile.addEventListener('click', () => { if (eligible) toggleOverviewSelection(item, tile); });
+  } else {
+    tile.addEventListener('click', () => openCharacterDetail(course, item, returnTo));
+  }
   return tile;
 }
 
@@ -1483,19 +1546,38 @@ function buildMasteryTile(course, item, returnTo) {
 function renderOverview(scrollToChar) {
   const course = getAnyCourse(state.overviewCourseId);
   const allItems = course.chunks.flatMap((c) => c.items);
+  const select = state.overviewSelect;
 
   $('overview-title').textContent = course.name;
   $('overview-counter').textContent = `${allItems.length} characters`;
   $('legend-pending').hidden = course.kind !== 'kanji';
 
+  // The select-mode chrome — toggle, instructions, shortcuts, and the pinned
+  // action bar — see the "Mark as known" section below. The toggle is
+  // always there, so the feature is findable from the overview itself and
+  // not only via the course card's row.
+  const toggle = $('overview-select-toggle');
+  toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
+  toggle.className = select ? 'btn' : 'btn overview-button';
+  const hint = $('overview-select-hint');
+  if (select) {
+    hint.textContent = `Tap each ${knownNoun(course, 1)} you already know in ${modeName(state.mode, course.kind)}`
+      + ' — tap again to untick. Greyed-out tiles are already well known, or aren\'t asked in this mode.';
+  } else {
+    hint.textContent = state.overviewNotice || '';
+  }
+  hint.hidden = !select && !state.overviewNotice;
+  $('overview-select-shortcuts').hidden = !select;
+
   const grid = $('overview-grid');
   grid.innerHTML = '';
   let scrollTarget = null;
   allItems.forEach((item) => {
-    const tile = buildMasteryTile(course, item, 'overview');
+    const tile = buildMasteryTile(course, item, 'overview', select);
     grid.appendChild(tile);
     if (item === scrollToChar) scrollTarget = tile;
   });
+  updateOverviewSelectBar();
 
   show('screen-overview');
   // Deferred a frame: the grid was just unhidden, and scrollIntoView needs
@@ -1503,6 +1585,168 @@ function renderOverview(scrollToChar) {
   if (scrollTarget && typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(() => scrollTarget.scrollIntoView({ block: 'center' }));
   }
+}
+
+// --- Mark as known: bulk, no-quiz "I already know these" on the overview --
+//
+// The quicker alternative to "Test unlearned" (kanji-expansion-plan.md
+// §2.9), for a learner who knows a whole unit from elsewhere: tick tiles on
+// the set overview, then mark them all at once. The records written are
+// exactly a placement test's (markKnownItems in srs.js) — enrolled where the
+// kind needs it, a real future due date, nothing permanently excluded.
+//
+// Two strengths of claim, by mode (isSelfAssessable in srs.js): in a pure
+// recognition mode (kana Reading, kanji Definition, vocab Meaning) a glance
+// at the tile is a fair basis for "I know this", so there is one action and
+// it jumps straight to mastered. In Yomi, Writing and vocab Recall a glance
+// can't verify completeness or production, so the primary action is the
+// softer "I think I know these" — one tier short of mastered, with a
+// double-check review spread out over the following weeks rather than all
+// on one day — and "I'm sure" sits right beside it as the explicit override.
+
+/** "character"/"kanji"/"word", pluralised for `count`. */
+function knownNoun(course, count) {
+  if (course.kind === 'kanji') return 'kanji';
+  const noun = course.kind === 'vocab' ? 'word' : 'character';
+  return count === 1 ? noun : `${noun}s`;
+}
+
+/** Enter or leave select mode from the overview's own toggle. A full
+ * re-render (tiles gain/lose their toggle behaviour), so this is the one
+ * select-mode action that does go through show() and back to the top. */
+function toggleOverviewSelectMode() {
+  state.overviewSelect = state.overviewSelect ? null : new Set();
+  state.overviewNotice = null;
+  renderOverview();
+}
+
+function toggleOverviewSelection(item, tile) {
+  const select = state.overviewSelect;
+  if (!select) return;
+  if (select.has(item)) select.delete(item); else select.add(item);
+  const on = select.has(item);
+  tile.classList.toggle('is-selected', on);
+  tile.setAttribute('aria-pressed', String(on));
+  updateOverviewSelectBar();
+}
+
+/** Repaint every tile's ticked state from state.overviewSelect, in place —
+ * what select-all and clear use instead of renderOverview(), so the grid
+ * stays where the learner scrolled it. */
+function syncOverviewSelection() {
+  const select = state.overviewSelect;
+  if (!select) return;
+  $('overview-grid').querySelectorAll('.overview-tile').forEach((tile) => {
+    if (!tile.classList.contains('is-selectable')) return;
+    const on = select.has(tile.dataset.item);
+    tile.classList.toggle('is-selected', on);
+    tile.setAttribute('aria-pressed', String(on));
+  });
+  updateOverviewSelectBar();
+}
+
+/** "Select all not started": everything in this unit with no record yet in
+ * this mode — the same pool a placement test draws from (neverSeenItems,
+ * which already honours the mode's exclusions). Adds to whatever is ticked
+ * rather than replacing it. */
+function selectAllUnstarted() {
+  const select = state.overviewSelect;
+  if (!select) return;
+  const course = getAnyCourse(state.overviewCourseId);
+  neverSeenItems(course, state.mode, state.profile).forEach((item) => select.add(item));
+  syncOverviewSelection();
+}
+
+function clearOverviewSelection() {
+  if (!state.overviewSelect) return;
+  state.overviewSelect.clear();
+  syncOverviewSelection();
+}
+
+/**
+ * The counter and the pinned action bar, from the current selection. Which
+ * buttons show, and which is primary, depends on whether this mode can be
+ * self-assessed (see the section note above): one "Mark N as known" for a
+ * recognition mode; "I think I know these" (primary) plus "I'm sure" for
+ * the rest. Both disabled, not hidden, at zero selected — the bar is what
+ * tells a learner what ticking is FOR.
+ */
+function updateOverviewSelectBar() {
+  const select = state.overviewSelect;
+  const sure = $('overview-mark-sure');
+  const think = $('overview-mark-think');
+  if (!select) {
+    sure.hidden = true;
+    think.hidden = true;
+    return;
+  }
+  const course = getAnyCourse(state.overviewCourseId);
+  const n = select.size;
+  const twoTier = !isSelfAssessable(course.kind, state.mode);
+  const label = modeName(state.mode, course.kind);
+  $('overview-counter').textContent = `${n} selected`;
+
+  think.hidden = !twoTier;
+  think.disabled = n === 0;
+  think.className = 'btn btn-primary wide';
+  think.textContent = n > 0 ? `I think I know these ${n} — double-check later` : 'I think I know these';
+
+  sure.hidden = false;
+  sure.disabled = n === 0;
+  sure.className = twoTier ? 'btn wide' : 'btn btn-primary wide';
+  if (twoTier) {
+    sure.textContent = n > 0 ? `I'm sure — mark ${n} fully known` : 'I\'m sure — mark fully known';
+  } else {
+    sure.textContent = n > 0 ? `Mark ${n} as known in ${label}` : 'Mark as known';
+  }
+}
+
+/**
+ * Apply the selection. Confirms first (confirm(), the same as deleting a
+ * profile — this writes many records in one go and there is no undo), and
+ * says in plain words what each claim does to the schedule. Kanji Yomi
+ * needs the unit's real data for each kanji's reading list (see
+ * markKnownItems' `readingsFor`), which the overview itself never loads —
+ * the grid only needs the manifest — so that one case awaits it here.
+ */
+async function markSelectedKnown(claim) {
+  const course = getAnyCourse(state.overviewCourseId);
+  const select = state.overviewSelect;
+  if (!select || select.size === 0) return;
+  const items = course.chunks.flatMap((c) => c.items).filter((item) => select.has(item));
+  const label = modeName(state.mode, course.kind);
+  const what = `${items.length} ${knownNoun(course, items.length)}`;
+  const weeks = Math.round((THINK_KNOWN_FIRST_DAYS + THINK_KNOWN_WINDOW_DAYS) / 7);
+  const think = claim === KNOWN_CLAIM_THINK;
+
+  const message = think
+    ? `Mark ${what} as "I think I know this" in ${label}?\n\n`
+      + 'They\'ll skip the lessons and count as doing well. Each one comes back for a quick '
+      + `double-check, spread out over the next ${weeks} weeks — not all on the same day.`
+    : `Mark ${what} as known in ${label}?\n\n`
+      + 'They\'ll count as mastered and skip the lessons. They still come back for review '
+      + 'in about a month, so nothing is lost if one turns out shaky.';
+  if (!confirm(message)) return;
+
+  if (course.kind === 'kanji' && state.mode === 'recognition') {
+    const requestNav = navSeq;
+    await withLoading(ensureUnitsReady(new Set(items.map(kanjiUnitFor).filter(Boolean))));
+    if (navSeq !== requestNav) return;
+  }
+
+  const marked = markKnownItems(course, state.mode, state.profile, items, {
+    claim,
+    readingsFor: (kanji) => kanjiInfo(course, kanji).quizReadings,
+  });
+  await store.saveProfile(state.profile);
+
+  const done = `${marked.length} ${knownNoun(course, marked.length)}`;
+  state.overviewSelect = null;
+  state.overviewNotice = think
+    ? `✓ ${done} marked "I think I know this" in ${label} — each comes back for a quick double-check, `
+      + `spread out over the next ${weeks} weeks rather than all at once.`
+    : `✓ ${done} marked as known in ${label} — they'll come up for review in about a month.`;
+  renderOverview(marked[0]);
 }
 
 // --- Character detail: stroke order, readings, meanings -------------------
@@ -6944,8 +7188,20 @@ function wire() {
       // Return to the course screen — from a finished session, or from
       // settings opened while on it.
       case 'go-course':
+        // Leaving the overview drops any half-made "Mark as known"
+        // selection — it must not resurface on the next overview opened,
+        // which may be a different course or mode entirely.
+        state.overviewSelect = null;
+        state.overviewNotice = null;
         if (state.profile) renderCourse(); else renderProfiles();
         break;
+      // The set overview's "Mark as known" select mode — see the section of
+      // that name above renderOverview's helpers.
+      case 'overview-select-toggle': toggleOverviewSelectMode(); break;
+      case 'overview-select-all': selectAllUnstarted(); break;
+      case 'overview-select-none': clearOverviewSelection(); break;
+      case 'overview-mark-sure': markSelectedKnown(KNOWN_CLAIM_SURE); break;
+      case 'overview-mark-think': markSelectedKnown(KNOWN_CLAIM_THINK); break;
       // Returns wherever the detail screen was opened from — the set
       // overview (scrolled back to whichever character was being looked at,
       // not the top of a list that can run to 200 characters) normally, or

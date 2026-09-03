@@ -1809,6 +1809,174 @@ done('vocabIdForWord matches kanji-page common words to the vocab curriculum cor
 
 done('vocab Recall mode: kana choices and the spelling-stage exclusion/ordering');
 
+// --- Mark as known: bulk, no-quiz claims (markKnownItems in srs.js) --------
+// The quicker alternative to a placement test. A 'sure' claim writes exactly
+// what a correct placement answer would; the softer 'think' claim (the
+// default in Yomi/Writing/Recall, where a glance can't verify completeness
+// or production) lands one tier short of mastered with a double-check
+// review — and a batch of them is spread out over a window, never piled on
+// one day.
+
+{
+  const DAY = 24 * 60 * 60 * 1000;
+  const hira = COURSES.find((c) => c.id === 'hiragana');
+  const hiraChars = hira.chunks.flatMap((c) => c.items);
+  const yoon = [...hira.excludeForMode.writing][0];
+  const plain = hiraChars.filter((k) => !hira.excludeForMode.writing.has(k));
+  const rk = (progress, mode, item) => progress[srs.itemKey(mode, item)];
+
+  check('self-assessable modes are exactly kana Reading, kanji Definition and vocab Meaning',
+    srs.isSelfAssessable('kana', 'recognition') && srs.isSelfAssessable('kanji', 'definition')
+    && srs.isSelfAssessable('vocab', 'vmeaning')
+    && !srs.isSelfAssessable('kana', 'writing') && !srs.isSelfAssessable('kanji', 'recognition')
+    && !srs.isSelfAssessable('kanji', 'writing') && !srs.isSelfAssessable('vocab', 'vrecall'));
+  check('the "think" box is high but short of the mastered tier',
+    srs.THINK_KNOWN_BOX < srs.MAX_BOX && srs.masteryTier({ box: srs.THINK_KNOWN_BOX }) === 3
+    && srs.masteryTier({ box: srs.MAX_BOX }) === 4);
+
+  // 'sure', kana Reading, against a profile-shaped ctx with no study list.
+  const sureCtx = { progress: {} };
+  const sureMarked = srs.markKnownItems(hira, 'recognition', sureCtx, hiraChars.slice(0, 3), { now });
+  check('a sure claim marks every item asked for', sureMarked.join('') === hiraChars.slice(0, 3).join(''),
+    sureMarked.join(''));
+  check('a sure claim is exactly a correct placement answer: top box, due at the top interval',
+    hiraChars.slice(0, 3).every((k) => {
+      const rec = rk(sureCtx.progress, 'recognition', k);
+      return rec.box === srs.MAX_BOX && rec.due === now + srs.BOX_INTERVALS_DAYS[srs.MAX_BOX] * DAY
+        && rec.seen === 1 && rec.correct === 1 && rec.history.length === 1 && rec.updatedAt === now;
+    }), JSON.stringify(rk(sureCtx.progress, 'recognition', hiraChars[0])));
+  check('kana never gain a study-list entry', sureCtx.study === undefined);
+  const bareProgress = {};
+  srs.markKnownItems(hira, 'recognition', bareProgress, [hiraChars[5]], { now });
+  check('a bare progress map works as the ctx too, like every other scheduling function',
+    rk(bareProgress, 'recognition', hiraChars[5]).box === srs.MAX_BOX);
+
+  // Exclusions: a yōon has no Writing question, so it can't be claimed there.
+  const exclCtx = { progress: {}, study: {}, unstudy: {} };
+  const exclMarked = srs.markKnownItems(hira, 'writing', exclCtx, [yoon, plain[0]], { now });
+  check('an item the mode excludes is skipped, the rest marked', exclMarked.length === 1 && exclMarked[0] === plain[0]
+    && !rk(exclCtx.progress, 'writing', yoon) && !!rk(exclCtx.progress, 'writing', plain[0]),
+    exclMarked.join(''));
+  check('a kana claim never touches the study list even when one is present',
+    Object.keys(exclCtx.study).length === 0 && Object.keys(exclCtx.unstudy).length === 0);
+
+  // 'think': one tier short, and a batch is staggered, deterministically.
+  const batch = plain.slice(0, 40);
+  const thinkCtx = { progress: {} };
+  srs.markKnownItems(hira, 'writing', thinkCtx, batch, { now, claim: srs.KNOWN_CLAIM_THINK });
+  const dues = batch.map((k) => rk(thinkCtx.progress, 'writing', k).due);
+  check('a think claim lands on THINK_KNOWN_BOX, not the top box',
+    batch.every((k) => rk(thinkCtx.progress, 'writing', k).box === srs.THINK_KNOWN_BOX));
+  check('a think claim still counts as a correct answer on the record',
+    batch.every((k) => rk(thinkCtx.progress, 'writing', k).correct === 1 && rk(thinkCtx.progress, 'writing', k).lapses === 0));
+  check('a batch of 40 think claims is NOT all due on the same day', new Set(dues).size > 1, `${new Set(dues).size} distinct due dates`);
+  check('the first of the batch comes due THINK_KNOWN_FIRST_DAYS out',
+    dues[0] === now + srs.THINK_KNOWN_FIRST_DAYS * DAY, `${(dues[0] - now) / DAY} days`);
+  check('the last of the batch comes due at the far end of the window',
+    dues[dues.length - 1] === now + (srs.THINK_KNOWN_FIRST_DAYS + Math.floor(39 * srs.THINK_KNOWN_WINDOW_DAYS / 40)) * DAY,
+    `${(dues[dues.length - 1] - now) / DAY} days`);
+  check('every due date sits inside [first, first + window]',
+    dues.every((d) => d >= now + srs.THINK_KNOWN_FIRST_DAYS * DAY
+      && d <= now + (srs.THINK_KNOWN_FIRST_DAYS + srs.THINK_KNOWN_WINDOW_DAYS) * DAY));
+  check('due dates rise in course order — never a later item due before an earlier one',
+    dues.every((d, i) => i === 0 || d >= dues[i - 1]));
+  const perDay = new Map();
+  dues.forEach((d) => perDay.set(d, (perDay.get(d) || 0) + 1));
+  check('the batch is spread evenly: no single day holds more than ceil(40 / window)',
+    Math.max(...perDay.values()) <= Math.ceil(40 / srs.THINK_KNOWN_WINDOW_DAYS),
+    `busiest day ${Math.max(...perDay.values())}`);
+  check('thinkKnownOffsetDays: a lone item is due at the first day; index 39 of 40 at first + 20',
+    srs.thinkKnownOffsetDays(0, 1) === srs.THINK_KNOWN_FIRST_DAYS
+    && srs.thinkKnownOffsetDays(0, 40) === srs.THINK_KNOWN_FIRST_DAYS
+    && srs.thinkKnownOffsetDays(39, 40) === srs.THINK_KNOWN_FIRST_DAYS + 20);
+  const thinkAgain = { progress: {} };
+  srs.markKnownItems(hira, 'writing', thinkAgain, [...batch].reverse(), { now, claim: srs.KNOWN_CLAIM_THINK });
+  check('the stagger is deterministic and by course order, not selection order',
+    batch.every((k) => rk(thinkAgain.progress, 'writing', k).due === rk(thinkCtx.progress, 'writing', k).due));
+
+  // A claim never lowers what a record has already earned.
+  const higher = { progress: { [srs.itemKey('writing', plain[0])]: { ...srs.newRecord(), box: 5, intervalDays: 16 } } };
+  srs.markKnownItems(hira, 'writing', higher, [plain[0]], { now, claim: srs.KNOWN_CLAIM_THINK });
+  check('a think claim on a record already above THINK_KNOWN_BOX keeps the higher box',
+    rk(higher.progress, 'writing', plain[0]).box === 5, rk(higher.progress, 'writing', plain[0]).box);
+  srs.markKnownItems(hira, 'writing', thinkCtx, [batch[0]], { now: now + DAY });
+  check('a sure claim over an earlier think claim lifts it to the top box',
+    rk(thinkCtx.progress, 'writing', batch[0]).box === srs.MAX_BOX && rk(thinkCtx.progress, 'writing', batch[0]).seen === 2);
+
+  // Kanji Definition: enrolled first, in that mode only, then graded.
+  const defCtx = { progress: {}, study: {}, unstudy: {} };
+  const defKanji = grade1Chars.slice(0, 2);
+  srs.markKnownItems(grade1, 'definition', defCtx, defKanji, { now });
+  check('a kanji claim enrolls the kanji in the claimed mode (and only that mode)',
+    defKanji.every((k) => srs.isStudying(defCtx.study, k, 'definition') && !srs.isStudying(defCtx.study, k, 'writing')
+      && !srs.isStudying(defCtx.study, k, 'recognition')));
+  check('...and grades it like a correct placement answer', defKanji.every((k) => rk(defCtx.progress, 'definition', k).box === srs.MAX_BOX));
+  srs.markKnownItems(grade1, 'definition', defCtx, defKanji, { now: now + DAY });
+  check('claiming the same kanji twice is harmless', defKanji.every((k) => rk(defCtx.progress, 'definition', k).box === srs.MAX_BOX
+    && rk(defCtx.progress, 'definition', k).seen === 2 && defCtx.study[k].definition === now));
+
+  // Kanji Yomi: a record for EVERY quizzable reading, rolled up.
+  const readingsFor = (k) => kanjiInfo(grade1, k).quizReadings;
+  const yomiKanji = grade1Chars.find((k) => readingsFor(k).length >= 2);
+  check('a grade-1 kanji with at least two readings exists to test against', !!yomiKanji);
+  const yomiCtx = { progress: {}, study: {}, unstudy: {} };
+  const yomiMarked = srs.markKnownItems(grade1, 'recognition', yomiCtx, [yomiKanji], { now, readingsFor });
+  check('a sure Yomi claim writes a placement-graded record for every reading, not just the base few',
+    yomiMarked.length === 1 && readingsFor(yomiKanji).every((r) => {
+      const rec = yomiCtx.progress[srs.yomiKey('recognition', yomiKanji, r)];
+      return rec && rec.streak === srs.MAX_BOX && rec.correct === 1;
+    }), JSON.stringify(Object.keys(yomiCtx.progress)));
+  const yomiRollup = rk(yomiCtx.progress, 'recognition', yomiKanji);
+  check('...and the kanji-level rollup lands on the top box with a timestamp',
+    yomiRollup && yomiRollup.box === srs.MAX_BOX && yomiRollup.updatedAt === now && yomiRollup.due > now,
+    JSON.stringify(yomiRollup));
+  check('a Yomi claim enrolls in Yomi', srs.isStudying(yomiCtx.study, yomiKanji, 'recognition'));
+  const yomiThink = { progress: {}, study: {}, unstudy: {} };
+  srs.markKnownItems(grade1, 'recognition', yomiThink, [yomiKanji], { now, readingsFor, claim: srs.KNOWN_CLAIM_THINK });
+  check('a think Yomi claim puts every reading at THINK_KNOWN_BOX and the rollup follows, due a week out',
+    readingsFor(yomiKanji).every((r) => yomiThink.progress[srs.yomiKey('recognition', yomiKanji, r)].streak === srs.THINK_KNOWN_BOX)
+    && rk(yomiThink.progress, 'recognition', yomiKanji).box === srs.THINK_KNOWN_BOX
+    && rk(yomiThink.progress, 'recognition', yomiKanji).due === now + srs.THINK_KNOWN_FIRST_DAYS * DAY,
+    JSON.stringify(rk(yomiThink.progress, 'recognition', yomiKanji)));
+  const noReadings = { progress: {}, study: {}, unstudy: {} };
+  check('a Yomi claim with no reading list marks nothing rather than writing a bare rollup',
+    srs.markKnownItems(grade1, 'recognition', noReadings, [yomiKanji], { now }).length === 0
+    && Object.keys(noReadings.progress).length === 0 && Object.keys(noReadings.study).length === 0);
+  const noYomiCourse = KANJI_COURSES.find((c) => c.excludeForMode.recognition.size > 0);
+  if (noYomiCourse) {
+    const noYomi = [...noYomiCourse.excludeForMode.recognition][0];
+    const noYomiCtx = { progress: {}, study: {}, unstudy: {} };
+    const got = srs.markKnownItems(noYomiCourse, 'recognition', noYomiCtx, [noYomi], { now, readingsFor: () => ['x'] });
+    check('a kanji with no quizzable reading is skipped in Yomi before readingsFor is even consulted',
+      got.length === 0 && Object.keys(noYomiCtx.progress).length === 0);
+  }
+  // The kanji.js rollup now carries the same timestamp srs.js's does.
+  recomputeKanjiRollup(grade1, yomiKanji, 'recognition', yomiCtx.progress, now + 5);
+  check('recomputeKanjiRollup stamps updatedAt like recomputeYomiRollupFromProgress',
+    rk(yomiCtx.progress, 'recognition', yomiKanji).updatedAt === now + 5);
+
+  // Vocab: both sub-keys of the claimed mode, rolled up, enrolled in that mode only.
+  const word = '質問';
+  const vmCtx = { progress: {}, study: {}, unstudy: {} };
+  srs.markKnownItems(shitsumon, 'vmeaning', vmCtx, [word], { now });
+  check('a vocab Meaning claim writes both vdef and vyomi at the top box and rolls them up',
+    rk(vmCtx.progress, 'vdef', word).box === srs.MAX_BOX && rk(vmCtx.progress, 'vyomi', word).box === srs.MAX_BOX
+    && rk(vmCtx.progress, 'vmeaning', word).box === srs.MAX_BOX, JSON.stringify(Object.keys(vmCtx.progress)));
+  check('...enrolled in Meaning, not Recall',
+    srs.isStudying(vmCtx.study, word, 'vmeaning') && !srs.isStudying(vmCtx.study, word, 'vrecall'));
+  const vrCtx = { progress: {}, study: {}, unstudy: {} };
+  srs.markKnownItems(shitsumon, 'vrecall', vrCtx, [word], { now, claim: srs.KNOWN_CLAIM_THINK });
+  check('a think Recall claim writes vprod and vspell at THINK_KNOWN_BOX, rollup due a week out',
+    rk(vrCtx.progress, 'vprod', word).box === srs.THINK_KNOWN_BOX && rk(vrCtx.progress, 'vspell', word).box === srs.THINK_KNOWN_BOX
+    && rk(vrCtx.progress, 'vrecall', word).box === srs.THINK_KNOWN_BOX
+    && rk(vrCtx.progress, 'vrecall', word).due === now + srs.THINK_KNOWN_FIRST_DAYS * DAY
+    && srs.isStudying(vrCtx.study, word, 'vrecall') && !srs.isStudying(vrCtx.study, word, 'vmeaning'),
+    JSON.stringify(rk(vrCtx.progress, 'vrecall', word)));
+  check('a word the course doesn\'t contain is ignored',
+    srs.markKnownItems(shitsumon, 'vmeaning', vrCtx, ['not-a-word'], { now }).length === 0);
+}
+done('mark as known: sure/think claims, staggered batches, per-kind enrollment and rollups');
+
 // --- Result ---------------------------------------------------------------
 
 print('');

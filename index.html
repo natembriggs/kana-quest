@@ -333,7 +333,38 @@
       <span class="mastery-swatch tier-3"></span>doing well
       <span class="mastery-swatch tier-4"></span>well known
     </p>
+
+    <!-- "Mark as known" — bulk, no-quiz "I already know these" (the quicker
+         alternative to the course card's Test unlearned). Always visible
+         here so the feature is findable from the overview itself, not only
+         from the course card row that opens it in select mode. In select
+         mode tiles become tick/untick toggles, the hint below explains,
+         the shortcuts row appears, and the pinned bar at the bottom holds
+         the action(s): one "Mark N as known" for a recognition mode
+         (Reading/Definition/Meaning), or "I think I know these" plus an
+         "I'm sure" override for Yomi/Writing/Recall — see the "Mark as
+         known" section in app.js. The toggle's label and the hint's text
+         are set in renderOverview(). -->
+    <div id="overview-toolbar" class="row">
+      <button id="overview-select-toggle" class="btn overview-button" type="button" data-action="overview-select-toggle">✓ Mark as known</button>
+    </div>
+    <p id="overview-select-hint" class="hint" hidden></p>
+    <div id="overview-select-shortcuts" class="row" hidden>
+      <button class="btn btn-quiet" type="button" data-action="overview-select-all">Select all not started</button>
+      <button class="btn btn-quiet" type="button" data-action="overview-select-none">Clear</button>
+    </div>
+
     <div id="overview-grid" class="overview-grid"></div>
+
+    <!-- Pinned to the bottom (.bottom-bar, see styles.css) so the action
+         is always in reach on a grid that can run to 200 tiles. Collapses
+         to nothing while both buttons are hidden, i.e. outside select mode.
+         Labels and which one is primary are set in updateOverviewSelectBar()
+         (app.js). -->
+    <div class="stack bottom-bar">
+      <button id="overview-mark-think" class="btn btn-primary wide" type="button" data-action="overview-mark-think" hidden></button>
+      <button id="overview-mark-sure" class="btn wide" type="button" data-action="overview-mark-sure" hidden></button>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

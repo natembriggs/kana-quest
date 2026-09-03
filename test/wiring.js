@@ -266,7 +266,7 @@ const {
   KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel, unitLabel, kanjiUnitFor,
 } = await import('../src/kanji.js');
 const {
-  courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX,
+  courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX, THINK_KNOWN_BOX,
 } = await import('../src/srs.js');
 const {
   vocabIdForWord, vocabInfo, VOCAB_COURSES, wordMeaningLabel,
@@ -3539,6 +3539,220 @@ check('"Learn N new" cedes the primary spot to Review whenever review is due, ev
 // Restore the state every earlier section assumed, in case anything below
 // this point is ever added and depends on it.
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+await settle();
+
+// --- Mark as known: bulk, no-quiz claims from the set overview -------------
+// The quicker alternative to Test unlearned: a row on the course card opens
+// the set overview in select mode, tiles tick and untick, "Select all not
+// started" grabs the whole untried pool, and a pinned bar applies the claim.
+// A recognition mode (kana Reading here) gets one full-mastery action;
+// Writing (and Yomi, checked on kanji below) gets the softer "I think I
+// know these" — one tier short, double-check reviews spread over weeks —
+// with "I'm sure" beside it as the override. Runs last on purpose: the
+// hiragana course ends up with nothing left untried in Reading, which the
+// sections above could not have tolerated.
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const cardButtons = () => buttonsIn(el('course-list')._children[0]);
+const cardLabels = () => cardButtons().map((b) => b.innerHTML || b.textContent);
+const markKnownRow = () => cardButtons().find((b) => (b.innerHTML || '').includes('Mark as known'));
+const fireAction = (action) => fire(document, 'click', { target: { closest: () => ({ dataset: { action } }) } });
+
+fireAction('go-home');
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'recognition'), 'click');
+await settle();
+
+check('the course card ladder has a "Mark as known…" row', !!markKnownRow(), cardLabels().join(' | '));
+{
+  const labels = cardLabels();
+  const test = labels.findIndex((t) => t.includes('Test unlearned'));
+  const mark = labels.findIndex((t) => t.includes('Mark as known'));
+  const learn = labels.findIndex((t) => t.startsWith('Learn'));
+  check('it sits directly under Test unlearned and above Learn', test >= 0 && mark === test + 1 && learn > mark,
+    labels.join(' | '));
+}
+check('it is never the highlighted action — testing stays the recommended route',
+  !markKnownRow().className.includes('btn-primary'), markKnownRow().className);
+
+fire(markKnownRow(), 'click');
+await drain(10);
+check('the row opens the set overview already in select mode',
+  visible() === 'screen-overview' && el('overview-select-hint').hidden === false
+  && el('overview-select-shortcuts').hidden === false, `showing ${visible()}`);
+check('the select-mode hint names the mode being claimed', el('overview-select-hint').textContent.includes('Reading'),
+  el('overview-select-hint').textContent);
+check('the overview\'s own toggle now offers to cancel', el('overview-select-toggle').textContent.includes('Cancel'),
+  el('overview-select-toggle').textContent);
+check('kana Reading is self-assessable: one action, no "I think I know" tier',
+  el('overview-mark-think').hidden === true && el('overview-mark-sure').hidden === false);
+check('with nothing ticked the action is disabled and the counter says 0',
+  el('overview-mark-sure').disabled === true && el('overview-counter').textContent === '0 selected',
+  el('overview-counter').textContent);
+
+const hiraganaCourse = getCourse('hiragana');
+const profileBeforeMark = [...rows.values()][0];
+const readingUntried = neverSeenItems(hiraganaCourse, 'recognition', profileBeforeMark);
+check('hiragana still has untried characters in Reading to mark', readingUntried.length > 0, readingUntried.length);
+const masteredHiragana = hiraganaCourse.chunks.flatMap((c) => c.items)
+  .find((k) => profileBeforeMark.progress[`recognition:${k}`] && profileBeforeMark.progress[`recognition:${k}`].box === MAX_BOX);
+check('a hiragana already at the top box exists (from the placement test earlier)', !!masteredHiragana);
+
+const selectTiles = el('overview-grid')._children;
+const masteredTile = selectTiles.find((t) => t.dataset.item === masteredHiragana);
+check('an already well-known tile is dimmed and not selectable',
+  masteredTile.classList.contains('is-ineligible') && !masteredTile.classList.contains('is-selectable'));
+const eligibleTiles = selectTiles.filter((t) => t.classList.contains('is-selectable'));
+check('every untried tile is selectable',
+  readingUntried.every((k) => selectTiles.find((t) => t.dataset.item === k).classList.contains('is-selectable')));
+check('select-mode tiles no longer tick through to the detail screen',
+  masteredTile._listeners.click.length === 1);
+
+fire(masteredTile, 'click');
+check('tapping a dimmed tile does nothing', el('overview-counter').textContent === '0 selected');
+fire(eligibleTiles[0], 'click');
+fire(eligibleTiles[1], 'click');
+check('tapping tiles ticks them, in place, without leaving the overview',
+  eligibleTiles[0].classList.contains('is-selected') && eligibleTiles[1].classList.contains('is-selected')
+  && eligibleTiles[0].getAttribute('aria-pressed') === 'true'
+  && el('overview-counter').textContent === '2 selected' && visible() === 'screen-overview',
+  el('overview-counter').textContent);
+check('the action button counts the selection and names the mode',
+  el('overview-mark-sure').textContent === 'Mark 2 as known in Reading' && el('overview-mark-sure').disabled === false,
+  el('overview-mark-sure').textContent);
+fire(eligibleTiles[0], 'click');
+check('tapping a ticked tile unticks it',
+  !eligibleTiles[0].classList.contains('is-selected') && eligibleTiles[0].getAttribute('aria-pressed') === 'false'
+  && el('overview-counter').textContent === '1 selected');
+
+fireAction('overview-select-all');
+const expectedAll = new Set([...readingUntried, eligibleTiles[1].dataset.item]).size;
+check('"Select all not started" ticks the whole untried pool, keeping what was already ticked',
+  el('overview-counter').textContent === `${expectedAll} selected`
+  && readingUntried.every((k) => selectTiles.find((t) => t.dataset.item === k).classList.contains('is-selected')),
+  el('overview-counter').textContent);
+fireAction('overview-select-none');
+check('"Clear" unticks everything', el('overview-counter').textContent === '0 selected'
+  && !selectTiles.some((t) => t.classList.contains('is-selected')));
+fireAction('overview-select-all');
+
+fireAction('overview-mark-sure');
+await drain(10);
+const profileAfterSure = [...rows.values()][0];
+check('marking as known writes a top-box Reading record for every untried hiragana',
+  readingUntried.every((k) => profileAfterSure.progress[`recognition:${k}`]
+    && profileAfterSure.progress[`recognition:${k}`].box === MAX_BOX),
+  JSON.stringify(profileAfterSure.progress[`recognition:${readingUntried[0]}`]));
+check('kana are never enrolled in a study list', readingUntried.every((k) => !(k in (profileAfterSure.study || {}))));
+check('the overview stays on screen, out of select mode, with the marked tiles now well known',
+  visible() === 'screen-overview' && el('overview-mark-sure').hidden === true
+  && el('overview-select-shortcuts').hidden === true
+  && readingUntried.every((k) => el('overview-grid')._children.find((t) => t.dataset.item === k).className.includes('tier-4')),
+  `showing ${visible()}`);
+check('a confirmation line says what happened and when they come back',
+  el('overview-select-hint').hidden === false && el('overview-select-hint').textContent.includes('marked as known')
+  && el('overview-select-hint').textContent.includes('about a month'), el('overview-select-hint').textContent);
+check('the toggle reads "Mark as known" again', el('overview-select-toggle').textContent.includes('Mark as known'));
+
+fireAction('go-course');
+await settle();
+check('back on the course card, nothing is left to test or to mark',
+  cardLabels().some((t) => t === 'Nothing left to test') && cardLabels().some((t) => t === 'Everything here is started'),
+  cardLabels().join(' | '));
+
+// Writing: a glance can't verify production, so the softer claim leads.
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'writing'), 'click');
+await settle();
+const profileBeforeThink = [...rows.values()][0];
+const writingUntried = neverSeenItems(hiraganaCourse, 'writing', profileBeforeThink);
+check('hiragana has untried characters in Writing to mark', writingUntried.length > 1, writingUntried.length);
+fire(markKnownRow(), 'click');
+await drain(10);
+check('in Writing, "I think I know these" is the primary action and "I\'m sure" sits beside it',
+  visible() === 'screen-overview'
+  && el('overview-mark-think').hidden === false && el('overview-mark-think').className.includes('btn-primary')
+  && el('overview-mark-sure').hidden === false && !el('overview-mark-sure').className.includes('btn-primary'),
+  `${el('overview-mark-think').className} / ${el('overview-mark-sure').className}`);
+const yoonChar = [...hiraganaCourse.excludeForMode.writing][0];
+check('a yōon, which Writing never asks, is dimmed in the Writing overview',
+  el('overview-grid')._children.find((t) => t.dataset.item === yoonChar).classList.contains('is-ineligible'));
+fireAction('overview-select-all');
+check('the softer button counts the selection',
+  el('overview-mark-think').textContent.startsWith(`I think I know these ${writingUntried.length}`),
+  el('overview-mark-think').textContent);
+const thinkStartedAt = Date.now();
+fireAction('overview-mark-think');
+await drain(10);
+const profileAfterThink = [...rows.values()][0];
+const thinkRecords = writingUntried.map((k) => profileAfterThink.progress[`writing:${k}`]);
+check('"I think I know these" writes a Writing record one tier short of mastered for each',
+  thinkRecords.every((r) => r && r.box === THINK_KNOWN_BOX && r.box < MAX_BOX), JSON.stringify(thinkRecords[0]));
+const thinkDues = thinkRecords.map((r) => r.due);
+check('a batch of soft claims is staggered — not one review pile on a single day',
+  new Set(thinkDues).size > 1, `${new Set(thinkDues).size} distinct due dates for ${thinkDues.length} characters`);
+check('none comes due sooner than a week out, none later than four weeks',
+  thinkDues.every((d) => d >= thinkStartedAt + 7 * DAY_MS && d <= thinkStartedAt + 28 * DAY_MS + 5000),
+  `${Math.min(...thinkDues) - thinkStartedAt} .. ${Math.max(...thinkDues) - thinkStartedAt}`);
+check('the yōon got no Writing record', !profileAfterThink.progress[`writing:${yoonChar}`]);
+check('the confirmation line explains the double-check and the spread',
+  el('overview-select-hint').textContent.includes('double-check') && el('overview-select-hint').textContent.includes('spread'),
+  el('overview-select-hint').textContent);
+
+// Kanji Yomi: every quizzable reading gets a record, and the unit's data is
+// loaded for the reading list even though the overview itself never needs it.
+fireAction('go-home');
+await settle();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'recognition'), 'click');
+await settle();
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '6'), 'click');
+await settle();
+const profileBeforeYomi = [...rows.values()][0];
+const yomiUntried = neverSeenItems(grade6Course, 'recognition', profileBeforeYomi);
+check('grade 6 has untried kanji in Yomi to mark', yomiUntried.length > 0, yomiUntried.length);
+fire(markKnownRow(), 'click');
+await drain(10);
+check('Yomi gets the two-tier bar too', el('overview-mark-think').hidden === false && el('overview-mark-sure').hidden === false);
+fireAction('overview-select-all');
+fireAction('overview-mark-sure');
+await drain(20);
+const profileAfterYomi = [...rows.values()][0];
+const yomiSample = yomiUntried[0];
+const sampleReadings = kanjiInfo(grade6Course, yomiSample).quizReadings;
+check('the sample kanji has readings to have been recorded', sampleReadings.length > 0);
+check('"I\'m sure" in Yomi writes a top-streak record for EVERY reading of each kanji',
+  sampleReadings.every((r) => profileAfterYomi.progress[`recognition:${yomiSample}:${r}`]
+    && profileAfterYomi.progress[`recognition:${yomiSample}:${r}`].streak === MAX_BOX),
+  JSON.stringify(sampleReadings.map((r) => profileAfterYomi.progress[`recognition:${yomiSample}:${r}`])));
+check('...and every marked kanji\'s rollup lands on the top box',
+  yomiUntried.every((k) => profileAfterYomi.progress[`recognition:${k}`]
+    && profileAfterYomi.progress[`recognition:${k}`].box === MAX_BOX));
+check('...enrolled in Yomi', yomiUntried.every((k) => isStudying(profileAfterYomi.study, k, 'recognition')));
+check('the overview shows them well known', visible() === 'screen-overview'
+  && yomiUntried.every((k) => el('overview-grid')._children.find((t) => t.dataset.item === k).className.includes('tier-4')));
+
+// Leaving drops select state; the next overview opens clean, browsing.
+fireAction('go-course');
+await settle();
+fire(cardButtons().find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await drain(10);
+check('an overview opened for browsing is not in select mode',
+  visible() === 'screen-overview' && el('overview-select-hint').hidden === true
+  && el('overview-mark-sure').hidden === true && el('overview-select-toggle').textContent.includes('Mark as known'));
+fireAction('overview-select-toggle');
+check('the overview\'s own toggle enters select mode', el('overview-select-shortcuts').hidden === false
+  && el('overview-select-toggle').textContent.includes('Cancel'));
+fireAction('overview-select-toggle');
+check('...and leaves it again', el('overview-select-shortcuts').hidden === true);
+
+fireAction('go-home');
 await settle();
 fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
 await settle();
