@@ -81,11 +81,10 @@ copyrightable, independent of the underlying facts about kanji structure:
 
 1. **The specific keyword assignments.** Many are Heisig's own invention, not
    standard dictionary glosses — famous examples: 女 as "woman" is fine (that
-   is also the dictionary meaning), but 才 as "talent" as a *primitive*
-   standing for "cape" or a assigned meaning like 心 as "heart" used
-   consistently as "heart" even inside compounds where it functions
-   phonetically, or 攵 arbitrarily keyworded "tap" — is Heisig's
-   idiosyncratic choice, not a fact about the character. RTK's keyword list
+   is also the dictionary meaning), but 心 kept rigidly as "heart" even
+   inside compounds where it's really functioning phonetically, or 攵
+   arbitrarily keyworded "tap" with no real etymological basis, are Heisig's
+   idiosyncratic choices, not facts about the characters. RTK's keyword list
    as a *whole, systematic assignment* is the expression that is protected,
    even where any one keyword individually resembles a dictionary meaning.
 2. **The specific per-kanji stories.** "An 田 rice field with 心 heart
@@ -307,6 +306,231 @@ per-kanji prose.**
 
 All three real data sources are ones this repo already fetches and already
 credits (KanjiVG, KANJIDIC2). No new external dependency is introduced.
+
+### 2.6 Deeper legal reasoning (2026-09-04 follow-up research)
+
+The app owner asked three specific follow-up questions after reading §2.1-2.5,
+wanting a genuinely researched answer rather than a confident-sounding one:
+(1) should this feature check Heisig's actual mnemonic for each kanji and
+deliberately write something different; (2) is it better to create mnemonics
+with no reference to his content at all; (3) can Heisig hold copyright over
+the *general idea* of decomposing kanji into parts and building mnemonic
+stories, as opposed to his specific text. §2.1-§2.5 already landed on a
+practical answer (independent data sources, template generation) without
+laying out the legal reasoning behind it or checking that reasoning against
+what similar products actually do in the real world. This subsection does
+both, using web research conducted during this planning session, then
+answers the three questions directly.
+
+**Why this belongs in the plan and not just in a chat reply:** the owner's
+questions are exactly the kind of thing a future contributor (or the owner,
+eighteen months from now) will re-ask. Writing the reasoning down once, next
+to the decision it justifies, is cheaper than re-deriving it.
+
+#### 2.6.1 The idea/expression dichotomy
+
+Copyright protects a particular piece of *expression* — the specific words,
+sentences, and creative choices an author made — not the underlying *idea*,
+method, system, or fact the expression describes or conveys. Two people can
+independently write instructions for the same recipe, the same card game
+rules, or the same accounting method, and each person's specific wording is
+protected against copying, but nobody can own the recipe, the game, or the
+method itself. This is not a fringe or debatable reading of copyright law —
+it is close to the one thing essentially every copyright system in the world
+agrees on. It is written directly into US statute (17 U.S.C. §102(b): "In no
+case does copyright protection...extend to any idea, procedure, process,
+system, method of operation, concept, principle, or discovery, regardless of
+the form in which it is described"), and near-identical language appears in
+the international treaties both the US and UK are signatories to — the Berne
+Convention, TRIPS (Art. 9(2)), and the WIPO Copyright Treaty (Art. 2) all
+say, in effect, that copyright protection extends to expressions, not to
+ideas, procedures, or methods of operation as such. This is why the
+reasoning below, while illustrated with a US case (because it is the
+classic, most-cited illustration and the case law is most developed there),
+is not purely a US-law quirk — the same idea/expression line exists in UK
+law too, it just has less of a single famous "origin case" attached to it.
+
+**The classic illustrative case: *Baker v. Selden* (US Supreme Court, 1879).**
+Charles Selden wrote and copyrighted a book describing a new bookkeeping
+system, including sample blank forms/ledger pages laid out to work with that
+system. Baker later published forms arranged to achieve the same
+bookkeeping result, though not copied page-for-page from Selden's book.
+Selden's estate sued. The Supreme Court held that while Selden's *book* (his
+specific explanatory text) was validly copyrighted, the *bookkeeping system*
+it explained was not something copyright could protect — a system, once
+disclosed to the world in a book, is free for anyone to practice, including
+by making their own forms suited to it, so long as they don't reproduce
+Selden's actual written explanation. This is the standard citation, in both
+US and (by persuasive reference) other common-law jurisdictions, for "the
+system/method itself is not copyrightable even though a particular written
+description of it is." It maps onto this feature almost exactly: Heisig's
+*method* — decompose a kanji into parts, assign each part a memorable
+meaning, build a story that combines those meanings — is the "system."
+Heisig's *book*, with his specific keyword choices and specific story text,
+is Selden's "book." Practicing the system independently, the way this plan
+proposes, is what Baker was found entitled to do.
+
+**Jurisdiction caveat, stated plainly:** this is general legal reasoning, not
+legal advice, and jurisdiction matters. The app owner is UK-based (per this
+repo's context), so UK copyright law (Copyright, Designs and Patents Act
+1988, plus the body of UK/EU-derived case law) is the most directly relevant
+regime, alongside US law if the app has US users or is distributed through
+US-based platforms. The idea/expression principle holds in UK law as well —
+UK courts have applied essentially the same reasoning (e.g. in software
+contexts, that a programming language's functionality and general
+programming ideas are not protected by copyright, only the specific code
+expressing them) — but the fine-grained tests for exactly where "idea" ends
+and "protected expression" begins can differ in detail between
+jurisdictions, and none of this should be treated as a substitute for a
+lawyer's actual review, especially if this feature — or the app generally —
+moves toward a public, commercial, or monetized release. This section is
+careful reasoning, checked against real research; it is not a legal opinion.
+
+#### 2.6.2 Real-world precedent: do comparable products already exist and operate undisputed?
+
+Legal theory is one thing; what similar products have actually gotten away
+with, in public, for years, is more useful evidence of real-world risk. Two
+well-known Japanese-learning tools were researched specifically for this:
+
+**WaniKani** (Tofugu's flagship kanji/vocab SRS product, operating
+commercially since the early 2010s, one of the most widely used
+kanji-learning tools in English) is explicitly a mnemonic system "similar to
+RTK, but with its own order, own set of names," leaning more on wordplay
+than RTK's visualization style. Crucially, WaniKani does not reuse Heisig's
+keywords — it invents its own, often deliberately unlike both Heisig's
+choices *and* standard dictionary/radical names. Tofugu's own published
+teaching material gives concrete examples: WaniKani calls 艹 (the standard
+"grass radical," くさかんむり) "flowers" instead, and assigns some primitives
+outright invented names with no dictionary or traditional basis at all (e.g.
+"viking," "death star"). Tofugu's own article on the method explicitly
+defends this departure from official names, on the grounds that most
+Japanese speakers don't know the official radical names either and a
+mnemonically vivid name teaches better than an accurate-but-forgettable one
+— and frames the general radical-decomposition-plus-mnemonic *technique* as
+something that "has existed in various forms for nearly 50 years," not as
+something Heisig owns. That framing (from the company actually running a
+commercial product built on this technique) is itself evidence of how low
+the community's own risk assessment of the underlying method is.
+
+**KanjiDamage** (a free, long-running kanji-mnemonic site, live since
+roughly 2009) similarly builds its own complete radical-naming and
+mnemonic-story system rather than reusing Heisig's; its own site content
+doesn't credit or discuss RTK at all, describing itself purely in terms of
+its own "1,700 mnemonics" and component breakdowns.
+
+**No public record of legal action.** Searches turned up no lawsuit, cease
+and desist, DMCA claim, or any other public dispute from Heisig, his estate,
+or his publisher (University of Hawai'i Press) against WaniKani, KanjiDamage,
+or — notably — **Kanji Koohii**, a community site that has operated since
+around 2005 and is a *closer* derivative than either of the above: it is
+explicitly built directly on top of Heisig's own primitive/keyword framework
+and adds crowd-sourced *alternate* mnemonic stories for his existing
+keywords, rather than inventing an independent naming system the way
+WaniKani and KanjiDamage do. Wikipedia's own "Remembering the Kanji" article
+links to Kanji Koohii as a legitimate related resource, with no mention of
+any legal friction. Given that RTK is the best-known kanji-mnemonic book in
+the English-speaking learner community, and all three of these tools have
+been prominent, long-running, and easy to find for the better part of two
+decades, the absence of any surfaced legal action is meaningful evidence —
+not airtight proof nothing has ever happened privately, but a strong signal
+that the general method is treated by the market, including by publishers
+and creators who must have been aware of RTK, as free to use. This is the
+single most useful practical data point for the app owner's actual risk
+level: real products, including ones closer to RTK than this plan proposes
+to be, have operated publicly and commercially without incident.
+
+**One more, older data point in the same direction:** Kenneth Henshall's *A
+Guide to Remembering Japanese Characters* is an independently-authored
+mnemonic system (component breakdowns plus per-character mnemonic stories)
+published by a different author and press, covering much the same set of
+kanji, using different component meanings and different stories than
+Heisig's. Two independently-authored, commercially published mnemonic
+systems for the same set of characters existing side by side, decades apart,
+is itself a demonstration that the *technique* is not anyone's exclusive
+property — only each author's specific execution of it is theirs.
+
+#### 2.6.3 What RTK specifically protects
+
+The research above confirms the understanding already stated in §2.1: RTK's
+copyrightable expression is (a) Heisig's specific, often idiosyncratic
+**keyword assignments** to primitives/components — many of which are his own
+invention rather than a dictionary meaning (心 kept rigidly as "heart" in
+every context, 攵 keyworded "tap" with no real etymological basis) — and (b)
+his specific **narrative mnemonic text**, sentence by sentence, for each of
+the ~2,000+ kanji the book covers. Avoiding both of those two things —
+never reusing his specific keyword for a given component, never reusing or
+closely paraphrasing his specific story wording or imagery — is the actual
+safety margin. It is not a large or fragile margin to maintain: it is
+exactly what WaniKani and KanjiDamage already do, successfully, at scale,
+and it is exactly what §2.3 (dictionary/Kangxi meanings, not invented
+keywords) and §2.4 (template sentences, not hand-authored prose) already
+commit this plan to.
+
+#### 2.6.4 Answering the three questions directly
+
+**Q1 — should the build process check Heisig's specific mnemonic for each
+kanji and deliberately write something different?** No, and it's worth
+explaining why this isn't just neutral-but-unnecessary — it's mildly
+counterproductive. The idea/expression doctrine protects independently
+created expression regardless of whether the creator was aware of a prior
+work; deliberately reading Heisig's specific text for each kanji and then
+writing "something different" doesn't add any legal protection that
+independent creation didn't already provide, because the templates in §2.4
+are mechanically generated from KanjiVG/KANJIDIC2/Kangxi data, not
+hand-composed with room for unconscious echo in the first place. What it
+*does* do is create exactly the "had access to the specific protected work,
+produced something in the same space" pattern that clean-room engineering
+practices exist specifically to avoid — not because looking is illegal, but
+because it manufactures a paper trail of access that is the opposite of
+what you want if anyone ever did ask "was this derived from our book." It
+also adds real engineering overhead (manually cross-checking ~1,000+
+kanji against RTK) for a benefit that doesn't materialize. Skip it.
+
+**Q2 — is it better to independently create mnemonics with no reference to
+Heisig's specific content?** Yes — this is the right approach, and it is
+already how this plan is scoped, not a new decision being proposed here.
+§2.2 sources decomposition from KanjiVG (Ulrich Apel's own scholarly work,
+independent lineage from RTK); §2.3 sources component meanings from
+KANJIDIC2's own dictionary data and the 260-years-older-than-RTK traditional
+Kangxi radical table; §2.4 generates mnemonic sentences mechanically from a
+small closed set of arrangement-keyed templates, never hand-authored prose.
+None of that pipeline ever opens RTK, references it, or needs to. That is
+both the legally cleanest posture and — per §2.6.2 — the same posture the
+real, long-running comparable products already operate from.
+
+**Q3 — can Heisig hold copyright over the general idea/method of
+decomposing kanji into parts and building mnemonic stories?** No. That is a
+method/system/technique, exactly the category *Baker v. Selden* and the
+statutory idea/expression rule place outside copyright's reach — and this
+isn't just abstract doctrine here, it's confirmed by direct market evidence:
+WaniKani and KanjiDamage have built entire commercial/public products on
+that same general technique for a decade-plus, with their own independent
+naming, and no surfaced legal challenge from Heisig, his estate, or his
+publisher exists. The technique also isn't even original to Heisig in the
+first place — Henshall published an independent competing mnemonic system,
+and decomposing characters into named radical/component parts is literally
+how Chinese and Japanese dictionaries have organized characters since the
+1716 Kangxi Dictionary, two and a half centuries before RTK. What Heisig
+owns is his specific keywords and his specific stories (§2.6.3) — not the
+technique of having keywords and stories at all.
+
+#### 2.6.5 Trademark — a separate concern from copyright
+
+Worth flagging on its own because it's easy to conflate with the copyright
+question above, even though it's a different area of law with different
+rules: **"Remembering the Kanji" as a title, and "Heisig" as a name, could
+raise trademark or passing-off concerns if used in this app's own marketing,
+naming, or user-facing copy** — e.g. describing this feature as "RTK-style
+mnemonics," "Heisig method hints," or anything that could read as claiming
+endorsement, affiliation, or compatibility with his specific book/brand.
+This has nothing to do with whether the underlying mnemonic *content* is
+safe (§2.6.1-2.6.4 cover that) — it's purely about not using his name or his
+book's title in a way that implies a relationship that doesn't exist.
+Practical takeaway: keep this feature's user-facing name and description
+generic ("component breakdown," "memory hint," "mnemonic," etc.) and never
+reference Heisig or RTK by name in anything a user sees, even as a
+"credit" — internal docs like this plan are the right place for that
+context, not app copy.
 
 ---
 
