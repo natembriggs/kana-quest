@@ -301,6 +301,10 @@ check('the app and service-worker versions stay in step',
 const visible = () => screenIds.find((id) => !el(id).hidden);
 check('boots to the profile screen', visible() === 'screen-profiles', `showing ${visible()}`);
 
+/** Fires the delegated [data-action] click handler for `action`, the same
+ * way a real tap on the button carrying it would. */
+const fireAction = (action) => fire(document, 'click', { target: { closest: () => ({ dataset: { action } }) } });
+
 // --- Create a learner -----------------------------------------------------
 
 el('new-profile-name').value = 'Test Kid';
@@ -308,6 +312,15 @@ fire(el('new-profile-form'), 'submit');
 for (let i = 0; i < 10; i += 1) await settle();
 
 check('a profile was persisted', rows.size === 1, `${rows.size} rows`);
+// First run now stops at the self-placement flow (onboarding-plan.md) before
+// the home screen. The dedicated onboarding checks at the end of this file
+// cover the flow itself; the rest of this run wants the app as an already-
+// placed learner sees it, so it skips straight through.
+check('a brand-new profile meets the placement flow first',
+  visible() === 'screen-onboarding', `showing ${visible()}`);
+fireAction('onboarding-skip');
+for (let i = 0; i < 5; i += 1) await settle();
+
 check('lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
 
 // --- Home is a four-way script picker --------------------------------------
@@ -3561,8 +3574,6 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const cardButtons = () => buttonsIn(el('course-list')._children[0]);
 const cardLabels = () => cardButtons().map((b) => b.innerHTML || b.textContent);
 const markKnownRow = () => cardButtons().find((b) => (b.innerHTML || '').includes('Mark as known'));
-const fireAction = (action) => fire(document, 'click', { target: { closest: () => ({ dataset: { action } }) } });
-
 fireAction('go-home');
 await settle();
 fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');

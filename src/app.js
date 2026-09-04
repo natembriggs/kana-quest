@@ -364,6 +364,10 @@ const state = {
   // open. Kept on state so the re-render that shows the newly-green tiles
   // can still say what just happened.
   overviewNotice: null,
+  // First run only (onboarding-plan.md). Both session-only: the flow runs
+  // once, start to finish, in a single sitting — the only thing that
+  // outlives it is profile.onboarded (and any nudge it arms).
+  onboardingPairing: false, // is Settings' sync pairing being shown FROM the flow
   detailCourseId: null,
   detailChar: null,
   // Detail screens opened on top of one another (drillIntoDetail below):
@@ -628,10 +632,53 @@ function openProfile(profile) {
   if (profile.muted === undefined) profile.muted = {};
   // Same reasoning again — a profile predating stories has read none of them.
   if (profile.stories === undefined) profile.stories = { read: {}, pos: {} };
+  // The same defensive default as the three above, but the useful value is
+  // the opposite one. A profile predating the first-run placement flow
+  // (onboarding-plan.md §2) has no `onboarded` field, and must never be sent
+  // through that flow retroactively — so a missing field reads as "already
+  // onboarded". Only createProfile() ever writes `false`, which is why only
+  // a genuinely new profile reaches renderOnboarding() below. Not persisted,
+  // for the same reason exposure/muted/stories aren't: `undefined` already
+  // means exactly what the default says it does.
+  if (profile.onboarded === undefined) profile.onboarded = true;
+  if (!profile.onboarded) {
+    // Deliberately before renderHome() and before autoSync: a brand-new
+    // profile has no sync pairing to run yet, and the whole point of the
+    // flow is that the home screen is what it lands on afterwards.
+    renderOnboarding();
+    return;
+  }
   renderHome();
   // Not awaited: opening a learner must never wait on the network. If this
   // brings anything in, it re-renders the home screen itself (autoSync).
   autoSync({ force: true });
+}
+
+// --- First run: self-placement (onboarding-plan.md) -----------------------
+//
+// Shown once, to a brand-new profile only, between creating it and the home
+// screen. An advanced adult and a total beginner both used to land on
+// identical grade-1/L1 content with nothing ever asking where they were
+// starting from. Nothing here builds new levelling machinery: it is an entry
+// point onto what already works — the bulk "Mark as known" self-assessment
+// (markKnownItems in srs.js) and the existing sync pairing.
+//
+// Every path out of here ends at renderHome() with `onboarded` true. Skipping
+// is always available and always means "don't ask again" — never "ask me next
+// time" — which is what keeps this from becoming a gate on reaching the app.
+
+/** Every exit from the flow: mark it done, persist, and land on home. */
+function completeOnboarding() {
+  state.profile.onboarded = true;
+  state.onboardingPairing = false;
+  store.saveProfile(state.profile);
+  renderHome();
+}
+
+/** Screen A — the entry choice. */
+function renderOnboarding() {
+  state.onboardingPairing = false;
+  show('screen-onboarding');
 }
 
 // --- Home: pick a script --------------------------------------------------
@@ -7356,6 +7403,10 @@ function wire() {
     if (!trigger) return;
     switch (trigger.dataset.action) {
       case 'cancel-new-profile': $('new-profile-form').hidden = true; break;
+      // First run (onboarding-plan.md §6): always available, always means
+      // "don't ask again", and lands on the home screen with nothing claimed
+      // and no nudge armed — exactly how the app behaved before this flow.
+      case 'onboarding-skip': completeOnboarding(); break;
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
       case 'open-transfer': renderSettings(); break;

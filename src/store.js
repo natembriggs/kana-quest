@@ -210,6 +210,13 @@ export function createProfile(name, emoji) {
     // starting-as-{} reasoning as exposure/muted above: a profile saved
     // before this existed has read nothing, which needs no migration.
     stories: { read: {}, pos: {} },
+    // First-run self-placement (onboarding-plan.md §2). `false` is written
+    // here and nowhere else: a profile saved before this flow existed has no
+    // field at all, which openProfile() (app.js) reads as "already
+    // onboarded" — so an existing learner is never sent through it
+    // retroactively. Only a genuinely brand-new profile carries the explicit
+    // `false` that opens the flow, and completing OR skipping it sets true.
+    onboarded: false,
   };
   return saveProfile(profile).then(() => profile);
 }

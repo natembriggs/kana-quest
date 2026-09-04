@@ -90,6 +90,26 @@
   </section>
 
   <!-- ---------------------------------------------------------------- -->
+  <!-- First run only (onboarding-plan.md §3). Sits between creating a
+       profile and the home screen, and is shown exactly once — every button
+       here sets profile.onboarded and never comes back. See the
+       "First run: self-placement" section in app.js. -->
+  <section id="screen-onboarding" class="screen" hidden>
+    <header class="brand">
+      <div class="brand-mark" lang="ja">かな</div>
+      <h1>Kana Quest</h1>
+    </header>
+    <h2 class="screen-title">Where are you starting from?</h2>
+
+    <!-- A text link, not a fourth button: this is the escape hatch, not a
+         real fourth option, and it must never look like the recommended
+         one. It always works, and always means "don't ask again". -->
+    <p class="footnote">
+      <button class="linkish" type="button" data-action="onboarding-skip">Skip straight to the app</button>
+    </p>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
   <section id="screen-home" class="screen" hidden>
     <header class="topbar">
       <button class="btn btn-icon" type="button" data-action="switch-profile" aria-label="Switch learner">
