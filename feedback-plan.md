@@ -1297,25 +1297,31 @@ Existing files likely touched:
 ## Phase-0 choices to confirm
 
 The plan has recommendations, but these are product decisions rather than
-implementation trivia:
+implementation trivia. **Decided by the app owner, 2026-09-04:**
 
-1. **Issue visibility:** private feedback inbox (recommended for child safety) or
-   public issues with explicit disclosure.
-2. **Public attribution:** omit in v1 (recommended) or allow a separately entered,
-   explicitly public alias with adult-facing consent text.
+1. **Issue visibility: private feedback inbox** (as recommended, for child
+   safety) — submissions are never automatically public; a public GitHub
+   issue is only ever created deliberately after review.
+2. **Public attribution: omitted in v1** (as recommended) — every
+   submission is anonymous, no consent-flow needed.
 3. **Header placement:** always-visible Feedback action on every screen
    **(decided — recommended and confirmed)**, including quiz/lesson/writing
    sessions, since those are untimed and are exactly where frustration or an
    idea happens. Still open: paired icon vs. spare grid slot vs. fixed-position
    corner affordance — pick during Phase 1 build-out (see *Entry points*).
-4. **Release automation:** manual signed command first, then the Pages workflow
-   (lower migration risk), or move Pages to *GitHub Actions* up front in Phase 4.
-   Moving up front is recommended — the branch-deploy path runs no tests at all
-   today, so the workflow is worth having even independently of feedback.
-5. **Track:** Lean (free tier, `waitUntil` + cron) or Full (paid Workers plan,
-   Queues). Lean is recommended; the creation path is one function either way.
-6. **Agent fixes:** enable the Phase 7 fix-drafting workflow, or stop at
-   automated triage and write fixes by hand.
+4. **Release automation: deferred.** Moving Pages' deploy source to GitHub
+   Actions (so a failing test actually blocks the live site, not just flags
+   it) is *not* part of this work, even though CI itself has since shipped
+   (`review-followups.md`, item "No CI") and this would otherwise be a
+   natural time to also flip the switch. Explicitly left for a separate,
+   later task.
+5. **Track: Lean** (free tier, `waitUntil` + cron), as recommended — the
+   creation path is one function either way, no reason to pay for Queues at
+   this scale.
+6. **Agent fixes: triage only for now.** Do not build the Phase 7
+   fix-drafting workflow in this pass — get feedback flowing and
+   categorized first; auto-drafting fixes is a bigger trust step worth
+   taking once triage has proven itself in practice.
 
 None of these choices requires a conventional user account. The receipt model
 supports the requested remembered history and release notification while keeping

@@ -754,34 +754,42 @@ this repo's existing phasing discipline.
 
 ---
 
-## 8. Open questions for a human to decide
+## 8. Decisions (2026-09-04) and remaining open questions
 
-- **Mnemonic tone/voice.** §4.5's draft frames are plain and functional on
-  purpose, as the safe starting point. Whether to push them toward more
-  personality (still template-driven, still arrangement-keyed, just wittier
-  phrasing) is a real editorial choice, and — per §2.4 — the *only* place in
-  this plan where pushing too far in that direction would be worth a second
-  legal look before shipping, since "more vivid template" is exactly the
-  direction that eventually starts to resemble authored stories rather than
-  filled-in sentences. Recommend starting flat (phase 1) and revisiting
-  tone only after real output is visible on a phone screen.
-- **How many kanji to cover in a first pass.** This plan covers the full
-  jōyō set the app already teaches, since the build script has no reason to
-  stop short once written — but it may be worth shipping grade 1-3 first
-  (or even just grade 1) to get real usage feedback on the templates before
-  the full set locks in, the same staged-rollout instinct
-  `kanji-expansion-plan.md` applied to grades generally.
-- **Visual design of the component tiles.** §5.1/§5.2 propose small
-  glyph-over-meaning tiles reusing `.reading-chips`-style flex/wrap CSS, but
-  the actual sizing/spacing/color choice needs an eye on a real phone,
-  not a written spec — same caveat every other plan in this repo (e.g.
-  `writing-mode-plan.md` §7.2's two real-phone layout passes) has needed in
-  practice.
-- **Whether "Show hint" should be visually distinct from "Show answers"/
-  "Show next stroke" enough that a learner doesn't confuse "a nudge" with
-  "the answer."** Proposed as a `btn-quiet` matching the existing hint-tier
-  buttons (§5.3), but the exact wording/icon is a UX call, not a technical
-  one.
+**Decided by the app owner, 2026-09-04:**
+
+- **Mnemonic tone/voice: wittier phrasing, deliberately, not the flat
+  starting point §4.5 recommended.** This is explicitly the one choice in
+  this whole plan with real copyright exposure (§2.4) — "more vivid
+  template" is exactly the direction that can start to resemble Heisig's
+  own authored stories rather than obviously-filled-in sentences. Chosen
+  anyway, which is fine, but it means the actual template output needs a
+  real second look — both the owner's and ideally an independent
+  skim against RTK's actual content for the same kanji — before this
+  ships, not just an assumption of safety because it's template-generated.
+  Build the templates, generate real output for a sample of kanji, and
+  get that review *before* wiring this into the three UI touchpoints, not
+  after.
+- **First-pass coverage: kanji grades 1–3**, not the full jōyō set and not
+  grade 1 alone — a real sample without committing every kanji the app
+  teaches to unreviewed templates on day one.
+- **"Show hint" button: visually distinct but same quiet family** as the
+  existing hint-tier buttons (§5.3) — styled so it clearly reads as "a
+  nudge toward remembering," not "the answer," while still fitting the
+  existing button language rather than introducing a new one.
+
+**Still open — real-phone/editorial calls, not decided yet:**
+
+- Visual design of the component tiles (§5.1/§5.2) — sizing/spacing/color
+  needs an eye on a real phone, not a written spec, same caveat every
+  other plan in this repo (e.g. `writing-mode-plan.md` §7.2's two
+  real-phone layout passes) has needed in practice.
+- Exact styling/icon/label that makes "Show hint" read as distinct from
+  "Show next stroke" etc. — the *that it should be distinct* part is
+  decided; the *how* is a real-phone visual call.
+- Everything in the original plan already deferred as out of scope
+  (atomic-kanji content, cross-referencing with vocab exposure, depth-2
+  decomposition) remains deferred — not reopened by this pass.
 - **Whether atomic kanji (radicals themselves) should eventually get their
   *own* explanatory content** (e.g. "this is one of the 214 traditional
   radicals" framing) rather than simply having no component block at all.
