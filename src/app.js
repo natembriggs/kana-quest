@@ -681,10 +681,75 @@ function renderOnboarding() {
   show('screen-onboarding');
 }
 
-/** Screen B — the beginner's guide. Content is built in JS rather than
- * written into index.html so the sections stay one list to reorder and
- * re-word (§4's content is a rough order, not fixed markup). */
+/**
+ * Screen B's content (onboarding-plan.md §4), in the order it's read. Built
+ * from a list rather than written into index.html so the sections stay one
+ * thing to reorder and re-word — §4 fixes the substance, not the markup.
+ *
+ * Deliberately an explainer and not a quiz: nothing here asks the learner
+ * for anything, and "Skip" is at the top of the screen, so the whole thing
+ * can be walked past by someone who would rather just start.
+ */
+const ONBOARDING_GUIDE = [
+  {
+    title: 'Start with hiragana or katakana',
+    body: [
+      'Japanese has two alphabets before it has any kanji, and either is a fine place to begin — this is not "hiragana first, always".',
+      'Hiragana is what most textbooks open with, and it is what most ordinary Japanese words are written in. But if you are heading to Japan without any Japanese, katakana can be the more motivating start: it is the alphabet borrowed words are written in, so コーヒー, ホテル and タクシー become readable almost immediately. Real words you recognise, on day one.',
+      'Pick either from the home screen. Nothing here locks you in — you can start the other one whenever you like.',
+    ],
+  },
+  {
+    title: 'The three things you can do with a set',
+    body: [
+      'Open a script and you get three buttons, top to bottom, in the order worth reaching for them:',
+      '• Review — whatever is due today. Always do this first if there is anything there.',
+      '• Test unlearned — answer characters you have never been taught, cold. Get one right and it skips straight to "known" instead of climbing the slow way. This is how you avoid re-learning things you already half-know.',
+      '• Learn new — the full step-by-step introduction, one small batch at a time.',
+      'There is also "Mark as known…", which is the no-quiz version of Test unlearned: tick what you already know on the set overview and be done in seconds.',
+    ],
+  },
+  {
+    title: 'The daily habit',
+    body: [
+      'Clear what is due before learning anything new. Reviews are what actually make things stick, and they pile up quietly if new material keeps getting added on top of them.',
+      'If there is time left after that, learn a new batch. If there is not, the review on its own was still a good day.',
+    ],
+  },
+  {
+    title: 'If the pace feels wrong',
+    body: [
+      'Settings (the ⚙️ in the corner) has two sliders worth knowing about. "New characters per session" sets how many never-seen characters get introduced before each quiz — turn it down if new batches feel like a lot, up if they feel slow.',
+      '"Writing strictness" sets how closely a drawn stroke has to match to be accepted. Turn it down if writing practice feels unfairly picky.',
+    ],
+  },
+  {
+    title: 'Reading and vocabulary',
+    body: [
+      'The Read card on the home screen has full stories, at six levels, with every word explained where you tap it. Vocabulary is its own course alongside the three scripts.',
+      'Both are open from the start and you are welcome to dip into either whenever you want. That said, being able to read kana without thinking about it makes everything else easier, so it is the thing worth getting solid first.',
+    ],
+  },
+];
+
+/** Screen B — the beginner's guide. */
 function renderOnboardingGuide() {
+  const body = $('onboarding-guide-body');
+  body.innerHTML = '';
+  ONBOARDING_GUIDE.forEach((section) => {
+    const card = document.createElement('div');
+    card.className = 'card stack onboarding-section';
+    const heading = document.createElement('h3');
+    heading.textContent = section.title;
+    card.appendChild(heading);
+    section.body.forEach((text) => {
+      const p = document.createElement('p');
+      p.className = 'hint';
+      p.textContent = text;
+      card.appendChild(p);
+    });
+    body.appendChild(card);
+  });
   show('screen-onboarding-guide');
 }
 
