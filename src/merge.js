@@ -292,6 +292,35 @@ export function mergeMuted(current, incoming) {
 }
 
 /**
+ * Per-key union of both sides' `milestonesShown` maps (review-followups.md
+ * item 4) — same shape of reasoning as mergeMuted above: a milestone shown
+ * on either device stays shown everywhere, since celebrating it twice is the
+ * exact thing "fires once per set, ever" rules out, and a device that just
+ * hasn't happened to finish a session past the transition yet must not lose
+ * a sibling device's already-shown flag on the next sync. Keeps the older
+ * timestamp when both sides recorded the same milestone, for the same
+ * no-stronger-reason-than-determinism as mergeMuted.
+ *
+ * Left off entirely (returns undefined) when neither side ever had the field
+ * at all — same trick and same reason as mergeStories below: a profile that
+ * predates milestone celebration (or a bare test fixture with no field at
+ * all) must merge back to no field, or a merge result that has genuinely
+ * caught up to the remote and nothing else would stop looking identical to
+ * it, and sync would push a pointless no-op write forever.
+ */
+export function mergeMilestonesShown(current, incoming) {
+  if (!current && !incoming) return undefined;
+  const keys = new Set([...Object.keys(current || {}), ...Object.keys(incoming || {})]);
+  const milestonesShown = {};
+  keys.forEach((key) => {
+    const a = (current || {})[key];
+    const b = (incoming || {})[key];
+    milestonesShown[key] = a && b ? Math.min(a, b) : (a || b);
+  });
+  return milestonesShown;
+}
+
+/**
  * profile.stories (stories-plan.md §9.2) — min/max over integers
  * throughout, never last-write-wins: `first`/`last`/`done`/`passes` are
  * evidence that accumulates across devices, not a setting with one current
@@ -359,6 +388,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const exposure = mergeExposure(current.exposure, incoming.exposure);
   const muted = mergeMuted(current.muted, incoming.muted);
   const stories = mergeStories(current.stories, incoming.stories);
+  const milestonesShown = mergeMilestonesShown(current.milestonesShown, incoming.milestonesShown);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -381,5 +411,6 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     exposure,
     muted,
     stories,
+    milestonesShown,
   };
 }

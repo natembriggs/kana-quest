@@ -4093,6 +4093,211 @@ check('re-opening a skipped profile goes straight home', visible() === 'screen-h
     corpusTotal > tierStats.total, corpusTotal);
 }
 
+// --- Milestone celebration (review-followups.md item 4) --------------------
+// Nothing marked completing a whole kana script, a kanji grade, or all of
+// jōyō before this — only the ordinary "Session done" summary. Checked here
+// against real sessions actually played through the app (not just
+// courseStats math), using the same "one item away from done, via
+// markKnownItems" shortcut the chunk-relative-progress tests above use —
+// reviewing dozens of characters by hand isn't the point of this test.
+
+/** Answers the single quiz question on screen with whichever choice's text
+ * matches `answer`, then taps Next — the shared shape every milestone test
+ * below needs once its course/mode has been fast-forwarded to exactly one
+ * item left. Returns whether a matching choice was actually found. */
+async function answerOneQuestion(answer) {
+  const target = el('quiz-choices')._children.find((c) => c.textContent === answer);
+  if (!target) return false;
+  fire(target, 'click');
+  await settle();
+  fire(el('quiz-ok'), 'click');
+  await settle();
+  return true;
+}
+
+{
+  // --- A kana script's very last character shows the milestone, once -----
+  const hiraProfile = clone([...rows.values()][0]);
+  hiraProfile.id = 'p_hiragana_milestone';
+  hiraProfile.name = 'Hiragana Finisher';
+  hiraProfile.createdAt = 4;
+  hiraProfile.progress = {};
+  hiraProfile.study = {};
+  hiraProfile.unstudy = {};
+  hiraProfile.milestonesShown = {};
+  const hira = getCourse('hiragana');
+  const hiraItems = allItems(hira, 'recognition');
+  const lastKana = hiraItems[hiraItems.length - 1];
+  markKnownItems(hira, 'recognition', hiraProfile, hiraItems.filter((c) => c !== lastKana));
+  rows.set(hiraProfile.id, hiraProfile);
+
+  await reopenLearner('Hiragana Finisher');
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+  await settle();
+  fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'recognition'), 'click');
+  await settle();
+
+  const hiraLearnBtn = buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Learn <b>1</b>'));
+  check('exactly the last hiragana character is offered to learn', !!hiraLearnBtn,
+    buttonsIn(el('course-list')._children[0]).map((b) => b.innerHTML || b.textContent).join(' | '));
+  fire(hiraLearnBtn, 'click');
+  await drain(10);
+  for (let i = 0; i < 5 && visible() === 'screen-lesson'; i += 1) {
+    fire(el('lesson-next'), 'click');
+    await settle();
+  }
+  check('reaches the quiz for the last hiragana character', visible() === 'screen-quiz', visible());
+  const hiraAnswered = await answerOneQuestion(romajiFor(el('quiz-kana').textContent));
+  check('the last hiragana question was answerable', hiraAnswered);
+
+  check('finishing the very last hiragana character shows the milestone screen',
+    visible() === 'screen-summary' && el('summary-milestone').hidden === false
+    && el('summary-milestone-text').textContent === 'All of Hiragana learned.',
+    `hidden=${el('summary-milestone').hidden}, text="${el('summary-milestone-text').textContent}"`);
+  check('the milestone is recorded in profile.milestonesShown, keyed by script',
+    !!rows.get(hiraProfile.id).milestonesShown['kana-hiragana']);
+
+  // --- ...and does not re-fire on a later, ordinary session over the same
+  // now-finished script ("Practise again" — ignores due dates, quizzes
+  // everything already introduced, same as any run-of-the-mill review).
+  fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'again' } }) } });
+  await drain(10);
+  check('"Practise again" goes straight to a quiz — every character is already known',
+    visible() === 'screen-quiz', visible());
+  for (let i = 0; i < 25 && visible() === 'screen-quiz'; i += 1) {
+    const kana = el('quiz-kana').textContent;
+    if (!kana) break;
+    // eslint-disable-next-line no-await-in-loop
+    await answerOneQuestion(romajiFor(kana));
+  }
+  check('a later, ordinary review of the same finished script does not show the milestone again',
+    visible() === 'screen-summary' && el('summary-milestone').hidden === true,
+    `hidden=${el('summary-milestone').hidden}`);
+}
+
+{
+  // --- A non-final jōyō kanji grade shows only its own grade milestone ---
+  const gradeProfile = clone([...rows.values()][0]);
+  gradeProfile.id = 'p_kanji_grade1_milestone';
+  gradeProfile.name = 'Grade One Finisher';
+  gradeProfile.createdAt = 5;
+  gradeProfile.progress = {};
+  gradeProfile.study = {};
+  gradeProfile.unstudy = {};
+  gradeProfile.milestonesShown = {};
+  const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+  const grade1Items = allItems(grade1, 'definition');
+  const lastGrade1Kanji = grade1Items[grade1Items.length - 1];
+  markKnownItems(grade1, 'definition', gradeProfile, grade1Items.filter((k) => k !== lastGrade1Kanji));
+  rows.set(gradeProfile.id, gradeProfile);
+
+  await reopenLearner('Grade One Finisher');
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+  await settle();
+  fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+  await settle();
+  await openUnitGroup('Primary school grade');
+  fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+  await settle();
+
+  const gradeLearnBtn = buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Learn <b>1</b>'));
+  check('exactly the last grade-1 kanji is offered to learn', !!gradeLearnBtn,
+    buttonsIn(el('course-list')._children[0]).map((b) => b.innerHTML || b.textContent).join(' | '));
+  fire(gradeLearnBtn, 'click');
+  await drain(10); // lazy grade data load, same as the earlier definition-mode session above
+  for (let i = 0; i < 5 && visible() === 'screen-lesson'; i += 1) {
+    fire(el('lesson-next'), 'click');
+    await settle();
+  }
+  check('reaches the quiz for the last grade-1 kanji', visible() === 'screen-quiz', visible());
+  const gradeAnswer = meaningLabel(kanjiInfo(grade1, lastGrade1Kanji));
+  const gradeAnswered = await answerOneQuestion(gradeAnswer);
+  check('the last grade-1 question was answerable', gradeAnswered);
+
+  check('finishing a non-final jōyō grade shows only its own grade milestone',
+    visible() === 'screen-summary' && el('summary-milestone').hidden === false
+    && el('summary-milestone-text').textContent === `${unitLabel('1')} kanji complete.`,
+    `hidden=${el('summary-milestone').hidden}, text="${el('summary-milestone-text').textContent}"`);
+  check('...and does NOT also claim all of jōyō is complete — five more grades remain',
+    !rows.get(gradeProfile.id).milestonesShown['kanji-joyo']);
+  check('the grade milestone itself is recorded as shown',
+    !!rows.get(gradeProfile.id).milestonesShown['kanji-grade-1']);
+}
+
+{
+  // --- The actual last remaining jōyō grade shows the bigger jōyō milestone
+  // instead of (not in addition to, on screen) its own grade milestone -----
+  const joyoProfile = clone([...rows.values()][0]);
+  joyoProfile.id = 'p_joyo_milestone';
+  joyoProfile.name = 'Joyo Finisher';
+  joyoProfile.createdAt = 6;
+  joyoProfile.progress = {};
+  joyoProfile.study = {};
+  joyoProfile.unstudy = {};
+  joyoProfile.milestonesShown = {};
+  // Every jōyō unit (every KANJI_COURSES unit except the beyond-jōyō "9-*"
+  // names & places ones) fully known, except the very last one in teaching
+  // order, which is left one kanji short — so completing that last kanji is
+  // simultaneously "this grade is done" AND "jōyō itself is now done".
+  const joyoCourses = KANJI_COURSES.filter((c) => !c.unit.startsWith('9-'));
+  const lastJoyoCourse = joyoCourses[joyoCourses.length - 1];
+  let lastJoyoKanji = null;
+  joyoCourses.forEach((course) => {
+    const items = allItems(course, 'definition');
+    if (course === lastJoyoCourse) {
+      lastJoyoKanji = items[items.length - 1];
+      markKnownItems(course, 'definition', joyoProfile, items.filter((k) => k !== lastJoyoKanji));
+    } else {
+      markKnownItems(course, 'definition', joyoProfile, items);
+    }
+  });
+  rows.set(joyoProfile.id, joyoProfile);
+
+  await reopenLearner('Joyo Finisher');
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+  await settle();
+  fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+  await settle();
+  await openUnitGroup('Secondary school');
+  fire(el('grade-picker')._children.find((b) => b.dataset.grade === lastJoyoCourse.unit), 'click');
+  await settle();
+
+  const joyoLearnBtn = buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Learn <b>1</b>'));
+  check('exactly the last jōyō kanji is offered to learn', !!joyoLearnBtn,
+    buttonsIn(el('course-list')._children[0]).map((b) => b.innerHTML || b.textContent).join(' | '));
+  fire(joyoLearnBtn, 'click');
+  await drain(10);
+  for (let i = 0; i < 5 && visible() === 'screen-lesson'; i += 1) {
+    fire(el('lesson-next'), 'click');
+    await settle();
+  }
+  check('reaches the quiz for the last jōyō kanji', visible() === 'screen-quiz', visible());
+  const joyoAnswer = meaningLabel(kanjiInfo(lastJoyoCourse, lastJoyoKanji));
+  const joyoAnswered = await answerOneQuestion(joyoAnswer);
+  check('the last jōyō question was answerable', joyoAnswered);
+
+  check('finishing the actual last jōyō grade shows the bigger jōyō-complete milestone instead',
+    visible() === 'screen-summary' && el('summary-milestone').hidden === false
+    && el('summary-milestone-text').textContent === 'All jōyō kanji complete.',
+    `hidden=${el('summary-milestone').hidden}, text="${el('summary-milestone-text').textContent}"`);
+  check('both its own grade milestone and the bigger jōyō one are recorded as shown',
+    !!rows.get(joyoProfile.id).milestonesShown[`kanji-grade-${lastJoyoCourse.unit}`]
+    && !!rows.get(joyoProfile.id).milestonesShown['kanji-joyo']);
+
+  // Restore the state later sections assume: the grade picker back on the
+  // primary group (opening "Secondary school" above, unlike anything earlier
+  // in this file, would otherwise leak into openKanjiOverview() below, which
+  // assumes grade 1/2 are directly selectable without opening a group first)
+  // — the same "restore what later sections assume" convention the due-vs-
+  // new section above this one already follows.
+  await openUnitGroup('Primary school grade');
+  fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
+  await settle();
+}
+
 // --- Screen C: the screener's claims and its nudge ------------------------
 
 const placed = await createLearner('Placement Kid');

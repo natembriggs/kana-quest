@@ -837,6 +837,15 @@
       <span></span>
     </header>
     <h2 class="screen-title">Session done</h2>
+    <!-- Milestone celebration (review-followups.md item 4) — hidden unless
+         finishSession() in app.js just detected a whole set (a kana script,
+         a kanji grade, or all of jōyō) transition to fully learned. Sits
+         above the ordinary score line rather than replacing the screen, so
+         the rest of the summary (score, missed chips, what's-next actions)
+         stays exactly as informative as any other session. -->
+    <div id="summary-milestone" class="card milestone-card" hidden>
+      <p id="summary-milestone-text"></p>
+    </div>
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>
     <!-- Pinned to the bottom of the screen (.bottom-bar, see styles.css) so

@@ -1284,6 +1284,14 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* --- Summary ------------------------------------------------------------ */
 
 .score { margin: 0; font-size: 20px; font-weight: 600; text-align: center; }
+
+/* Milestone celebration (review-followups.md item 4) — the same restrained
+   .card surface used throughout, not a new visual language: no confetti,
+   animation, or colour beyond the accent already used for a milestone-worthy
+   character stroke. Centered and a touch larger than plain body text is the
+   entire distinction from an ordinary card. */
+.milestone-card { text-align: center; border-color: var(--accent); }
+.milestone-card p { margin: 0; font-size: 18px; font-weight: 600; }
 .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .chip {
   display: flex; flex-direction: column; align-items: center;

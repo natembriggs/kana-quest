@@ -53,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03j'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03k'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -647,6 +647,9 @@ function openProfile(profile) {
   if (profile.muted === undefined) profile.muted = {};
   // Same reasoning again — a profile predating stories has read none of them.
   if (profile.stories === undefined) profile.stories = { read: {}, pos: {} };
+  // Same reasoning again — a profile predating milestone celebration has had
+  // none shown yet (review-followups.md item 4).
+  if (profile.milestonesShown === undefined) profile.milestonesShown = {};
   // The same defensive default as the three above, but the useful value is
   // the opposite one. A profile predating the first-run placement flow
   // (onboarding-plan.md §2) has no `onboarded` field, and must never be sent
@@ -3367,6 +3370,14 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     // top box instead of climbing one at a time — see grade()'s `placement`
     // option in srs.js and recordResult()/recordYomiResult() below.
     placementTest: kind === 'placement',
+    // Milestone celebration (review-followups.md item 4): a snapshot of this
+    // course/mode's own courseStats, taken before anything in this session
+    // (lesson or quiz) can change it — finishSession() compares this against
+    // the same call made fresh once the session ends to detect a transition
+    // into "started === total" for the whole set, the same "set complete"
+    // moment kanjiHomeProgress() above already treats as the point to switch
+    // its home-tile figure over to the jōyō total.
+    statsBefore: courseStats(course, state.mode, profile),
     // Writing only: null means each question picks Trace/Guided/Free itself
     // from that character's own mastery (autoWritingMode in srs.js) —
     // "Dynamic" on the course-screen picker. A fixed preference chosen there
@@ -5798,6 +5809,28 @@ function recordResult(kana, correct) {
 function finishSession() {
   const session = state.session;
   const course = getAnyCourse(state.courseId);
+
+  // Milestone celebration (review-followups.md item 4) — before anything
+  // else below, since a milestone marks itself shown in profile.
+  // milestonesShown and that has to land in the same save() this function
+  // already does at the end. Never shown for a "practise missed"/"again"
+  // restart with no lesson of its own: session.statsBefore is set fresh by
+  // startSession() every time, so this is exactly the course/mode this one
+  // session actually worked on.
+  const milestones = newlyCompletedMilestones(course, state.mode, session.statsBefore, state.profile);
+  // A kanji grade finishing the whole jōyō set at once carries both its own
+  // grade milestone and the bigger jōyō one — show only the bigger one (the
+  // last entry, see newlyCompletedMilestones), but still record every entry
+  // as shown so the ordinary grade milestone can never surface later.
+  const milestoneToShow = milestones.length ? milestones[milestones.length - 1] : null;
+  if (milestones.length) {
+    const { profile } = state;
+    profile.milestonesShown = profile.milestonesShown || {};
+    milestones.forEach((m) => { profile.milestonesShown[m.id] = Date.now(); });
+  }
+  $('summary-milestone').hidden = !milestoneToShow;
+  $('summary-milestone-text').textContent = milestoneToShow ? milestoneToShow.text : '';
+
   // "Practise N missed" (below) carries the PRIOR summary's full result set
   // forward as session.carriedResults, so a learner who got 9 of 10 right,
   // then went and practised the one they missed, sees all 10 here — not
@@ -6556,6 +6589,79 @@ function currentKanjiUnit(profile) {
  * plaintext jōyō list per that section's own diffing work. */
 function isJoyoUnit(unit) {
   return !unit.startsWith('9-');
+}
+
+/**
+ * Milestone celebration (review-followups.md item 4): the fixed catalogue of
+ * sets this pass recognizes — each kana script, each kanji grade, and jōyō
+ * kanji as a whole. Vocab tiers and story levels are deliberately not
+ * covered. `id` is the key persisted forever in profile.milestonesShown once
+ * shown; `text` is the summary-screen copy, matching the app's own plain,
+ * factual tone (src/changelog.js) rather than exclamation-heavy hype.
+ */
+function kanaMilestone(course) {
+  return { id: `kana-${course.id}`, text: `All of ${course.name} learned.` };
+}
+function kanjiGradeMilestone(unit) {
+  return { id: `kanji-grade-${unit}`, text: `${unitLabel(unit)} kanji complete.` };
+}
+const JOYO_MILESTONE = { id: 'kanji-joyo', text: 'All jōyō kanji complete.' };
+
+/**
+ * Milestone(s) that just completed as of this session, for the single
+ * course/mode finishSession() has in scope. Always [] for vocab and for any
+ * multi-grade/multi-unit pool course ("everything you're studying", "all
+ * kanji") — those span several real sets at once, so one course/mode pair
+ * reaching started === total doesn't mean any single kana script or kanji
+ * grade actually finished; pool courses have no `.unit` of their own, which
+ * is what the kanji branch below checks for.
+ *
+ * `before` is the course/mode's own courseStats, captured at the very start
+ * of the session in startSession() (session.statsBefore) before anything in
+ * it could change the count — compared here against a fresh call over the
+ * post-session profile to catch the transition into "started === total".
+ *
+ * A kanji grade transitioning to complete can also carry the bigger
+ * jōyō-complete milestone in the same result, when that grade was the last
+ * jōyō unit left — checked only once the grade itself has just completed,
+ * per the decision in review-followups.md item 4 ("check per-grade first,
+ * then check whether that grade completing was also the last jōyō grade
+ * remaining"). The caller should show only the LAST entry (the bigger one
+ * when present) — but every entry returned still needs recording as shown,
+ * even the one not displayed, so the ordinary grade milestone can never
+ * surface later on its own once the bigger jōyō one has already been shown.
+ *
+ * Guarded by profile.milestonesShown on top of the before/after transition
+ * check, not the transition check alone, so a lapsed-then-re-earned set
+ * (mastery dropping and climbing back — "started" itself never regresses,
+ * since it only tracks whether an item has ever been introduced, but this
+ * keeps the guarantee explicit rather than relying on that happening to
+ * hold) can never re-fire the celebration — review-followups.md's "fires
+ * once per set, ever".
+ */
+function newlyCompletedMilestones(course, mode, before, profile) {
+  if (!before || before.total === 0) return [];
+  const after = courseStats(course, mode, profile);
+  if (!(before.started < before.total && after.started >= after.total)) return [];
+  const shown = profile.milestonesShown || {};
+  const results = [];
+  if (course.kind === 'kana') {
+    const milestone = kanaMilestone(course);
+    if (!shown[milestone.id]) results.push(milestone);
+    return results;
+  }
+  if (course.kind === 'kanji' && course.unit) {
+    const grade = kanjiGradeMilestone(course.unit);
+    if (!shown[grade.id]) results.push(grade);
+    if (isJoyoUnit(course.unit) && !shown[JOYO_MILESTONE.id]) {
+      const joyoDone = KANJI_COURSES.filter((c) => isJoyoUnit(c.unit)).every((c) => {
+        const stats = courseStats(c, mode, profile);
+        return stats.total > 0 && stats.started >= stats.total;
+      });
+      if (joyoDone) results.push(JOYO_MILESTONE);
+    }
+  }
+  return results;
 }
 
 /**

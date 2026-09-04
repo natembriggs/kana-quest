@@ -210,6 +210,15 @@ export function createProfile(name, emoji) {
     // starting-as-{} reasoning as exposure/muted above: a profile saved
     // before this existed has read nothing, which needs no migration.
     stories: { read: {}, pos: {} },
+    // Milestone celebration (review-followups.md item 4): milestone id (e.g.
+    // 'kana-hiragana', 'kanji-grade-1', 'kanji-joyo') -> when it was first
+    // shown. Same starting-as-{} reasoning as exposure/muted above: a
+    // profile saved before this field existed has had no milestone shown
+    // yet, which needs no migration — only openProfile() (app.js) defaulting
+    // a missing field to {} the same way, and mergeProfiles (merge.js)
+    // unioning both sides' keys rather than last-write-wins, since a
+    // milestone is evidence something happened, not a setting.
+    milestonesShown: {},
     // First-run self-placement (onboarding-plan.md §2). `false` is written
     // here and nowhere else: a profile saved before this flow existed has no
     // field at all, which openProfile() (app.js) reads as "already
