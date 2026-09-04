@@ -267,7 +267,7 @@ const {
   KANJI_COURSES, kanjiInfo, readingExample, buildKanjiOptions, meaningLabel, unitLabel, kanjiUnitFor,
 } = await import('../src/kanji.js');
 const {
-  courseStats, studiedKanji, isStudying, neverSeenItems, MAX_BOX, THINK_KNOWN_BOX,
+  courseStats, studiedKanji, isStudying, neverSeenItems, allItems, MAX_BOX, THINK_KNOWN_BOX,
 } = await import('../src/srs.js');
 const {
   vocabIdForWord, vocabInfo, VOCAB_COURSES, wordMeaningLabel,
@@ -3862,6 +3862,248 @@ fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'cli
 await settle();
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click');
 await settle();
+
+// --- First run: self-placement (onboarding-plan.md) -----------------------
+//
+// Everything below drives BRAND-NEW learners, created through the app's own
+// profile form, because that is the only way to get a profile carrying
+// `onboarded: false`. Runs last so switching away from the learner every
+// section above has been building leaves those checks untouched.
+
+/** A new learner, created the way the app creates one. Leaves the app
+ * wherever the new profile lands — which, for a new profile, is the flow. */
+async function createLearner(name) {
+  fireAction('switch-profile');
+  await drain(10);
+  fire(el('add-profile'), 'click');
+  el('new-profile-name').value = name;
+  fire(el('new-profile-form'), 'submit');
+  await drain(10);
+  return () => [...rows.values()].find((p) => p.name === name);
+}
+
+/** Opens an existing profile from the profile picker, by name. */
+async function reopenLearner(name) {
+  fireAction('switch-profile');
+  await drain(10);
+  const order = [...rows.values()].sort((a, b) => a.createdAt - b.createdAt);
+  fire(el('profile-list')._children[order.findIndex((p) => p.name === name)], 'click');
+  await drain(10);
+}
+
+// --- Screen A, and skipping it -------------------------------------------
+
+const skipper = await createLearner('Skipper');
+check('a brand-new learner reaches the entry choice, not the home screen',
+  visible() === 'screen-onboarding', `showing ${visible()}`);
+
+fireAction('onboarding-beginner');
+await drain();
+check('"complete beginner" opens the guide', visible() === 'screen-onboarding-guide', `showing ${visible()}`);
+check('the guide actually has content, in several sections',
+  el('onboarding-guide-body')._children.length >= 4, el('onboarding-guide-body')._children.length);
+fireAction('onboarding-back');
+await drain();
+check('backing out of the guide returns to the entry choice', visible() === 'screen-onboarding', `showing ${visible()}`);
+
+fireAction('onboarding-connect');
+await drain(10);
+check('"I already use Kana Quest" opens the EXISTING pairing form, not a second one',
+  visible() === 'screen-settings' && el('sync-code-entry').hidden === false, `showing ${visible()}`);
+check('...with the where-to-find-the-code line and a Cancel, which Settings alone never shows',
+  el('sync-onboarding-hint').hidden === false && el('sync-onboarding-cancel').hidden === false);
+fireAction('onboarding-pair-cancel');
+await drain();
+check('Cancel returns to the entry choice', visible() === 'screen-onboarding', `showing ${visible()}`);
+
+fireAction('onboarding-skip');
+await drain(10);
+check('skip lands straight on the home screen', visible() === 'screen-home', `showing ${visible()}`);
+check('skip claims no progress whatsoever', Object.keys(skipper().progress).length === 0,
+  Object.keys(skipper().progress).join(', '));
+check('skip arms no nudge either', !skipper().placementNudge);
+check('skip is remembered, so the flow never comes back', skipper().onboarded === true);
+
+await reopenLearner('Skipper');
+check('re-opening a skipped profile goes straight home', visible() === 'screen-home', `showing ${visible()}`);
+
+// --- A profile saved before this feature existed --------------------------
+// The defensive default in openProfile(): no `onboarded` field at all means
+// "already onboarded", so an existing learner is never sent through the flow
+// retroactively. Written straight into the store, which is the only way to
+// produce a profile the current createProfile() cannot make.
+
+{
+  const legacy = clone([...rows.values()][0]);
+  legacy.id = 'p_legacy';
+  legacy.name = 'Legacy Learner';
+  legacy.createdAt = 1; // sorts to the top of the profile picker
+  delete legacy.onboarded;
+  rows.set(legacy.id, legacy);
+  await reopenLearner('Legacy Learner');
+  check('a profile predating this feature never sees the flow',
+    visible() === 'screen-home', `showing ${visible()}`);
+  check('...and is not given an onboarded flag it never had',
+    rows.get('p_legacy').onboarded === undefined);
+}
+
+// --- Screen C: the screener's claims and its nudge ------------------------
+
+const placed = await createLearner('Placement Kid');
+fireAction('onboarding-learning');
+await drain();
+check('"already learning" opens the screener', visible() === 'screen-onboarding-placement', `showing ${visible()}`);
+
+const scaleCards = el('onboarding-scales')._children;
+check('the screener has four independent scales', scaleCards.length === 4, scaleCards.length);
+const scaleButtons = () => {
+  const found = [];
+  const walk = (node) => { if (node.type === 'button') found.push(node); node._children.forEach(walk); };
+  el('onboarding-scales')._children.forEach(walk);
+  return found;
+};
+const answer = (scale, value) => {
+  const button = scaleButtons().find((b) => b.dataset.scale === scale && b.dataset.answer === value);
+  check(`the ${scale} scale offers "${value}"`, !!button,
+    scaleButtons().filter((b) => b.dataset.scale === scale).map((b) => b.dataset.answer).join(', '));
+  if (button) fire(button, 'click');
+};
+check('kana get four steps and kanji/vocabulary two — nothing claims a whole grade of kanji here',
+  scaleButtons().filter((b) => b.dataset.scale === 'hiragana').length === 4
+  && scaleButtons().filter((b) => b.dataset.scale === 'kanji').length === 2);
+
+answer('hiragana', 'readwrite');
+answer('katakana', 'read');
+answer('kanji', 'some');
+{
+  const chosen = scaleButtons().find((b) => b.dataset.scale === 'hiragana' && b.dataset.answer === 'readwrite');
+  check('the chosen answer is marked active, and announced as selected',
+    chosen.className.includes('active') && chosen.getAttribute('aria-selected') === 'true');
+  const other = scaleButtons().find((b) => b.dataset.scale === 'hiragana' && b.dataset.answer === 'none');
+  check('...and the default it replaced is not', !other.className.includes('active')
+    && other.getAttribute('aria-selected') === 'false');
+}
+check('answering one scale leaves the others alone',
+  scaleButtons().find((b) => b.dataset.scale === 'vocab' && b.dataset.answer === 'none').className.includes('active'));
+check('nothing is written until "Start learning!" — a half-answered screener leaves no trace',
+  Object.keys(placed().progress).length === 0 && !placed().placementNudge);
+
+fireAction('onboarding-start-learning');
+await drain(10);
+check('"Start learning!" lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
+check('the flow is recorded as done', placed().onboarded === true);
+
+const hiragana = getCourse('hiragana');
+const katakana = getCourse('katakana');
+check('"read and write all" claimed every hiragana in Reading, at full mastery',
+  allItems(hiragana, 'recognition').every((k) => (placed().progress[`recognition:${k}`] || {}).box === MAX_BOX),
+  JSON.stringify(placed().progress[`recognition:${allItems(hiragana, 'recognition')[0]}`]));
+check('...and every hiragana Writing asks about, too',
+  allItems(hiragana, 'writing').every((k) => (placed().progress[`writing:${k}`] || {}).box === MAX_BOX));
+check('...without inventing records for the yōon Writing never asks about',
+  Object.keys(placed().progress).filter((k) => k.startsWith('writing:')).length
+  === allItems(hiragana, 'writing').length);
+check('"read all" claimed katakana Reading',
+  allItems(katakana, 'recognition').every((k) => (placed().progress[`recognition:${k}`] || {}).box === MAX_BOX));
+check('...but NOT katakana Writing, which was never claimed',
+  allItems(katakana, 'writing').every((k) => !placed().progress[`writing:${k}`]));
+check('"some" claims nothing at all', !Object.keys(placed().progress).some((k) => k.startsWith('definition:')));
+check('"some kanji" arms a nudge, not yet bound to any one grade',
+  !!placed().placementNudge && !!placed().placementNudge.kanji
+  && placed().placementNudge.kanji.courseId === null,
+  JSON.stringify(placed().placementNudge));
+check('a script answered "none" arms nothing', !placed().placementNudge.vocab);
+
+// The nudge itself: it should be waiting on whichever kanji grade is opened
+// first (§5's scoping note), not on all six at once.
+const openKanjiOverview = async (unit) => {
+  fireAction('go-home');
+  await drain();
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+  await drain(10);
+  fire(el('grade-picker')._children.find((b) => b.dataset.grade === unit), 'click');
+  await drain(10);
+  fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+  await drain(10);
+};
+
+await openKanjiOverview('1');
+check('the first kanji grade opened shows the nudge',
+  visible() === 'screen-overview' && el('overview-nudge').hidden === false, `showing ${visible()}`);
+check('the nudge says why it is there, in the learner\'s own terms',
+  el('overview-nudge-text').textContent.includes('already know some kanji'),
+  el('overview-nudge-text').textContent);
+check('"Mark as known" takes the recommended-action colour while it is up',
+  el('overview-select-toggle').className.includes('btn-primary'), el('overview-select-toggle').className);
+check('the nudge is now bound to that grade alone', placed().placementNudge.kanji.courseId === 'kanji-grade-1',
+  JSON.stringify(placed().placementNudge));
+
+fireAction('nudge-later');
+await drain();
+check('"Maybe later" hides it and drops the highlight',
+  el('overview-nudge').hidden === true && !el('overview-select-toggle').className.includes('btn-primary'));
+check('...and re-arms it for the next five sessions', placed().placementNudge.kanji.remaining === 5,
+  JSON.stringify(placed().placementNudge));
+
+await openKanjiOverview('1');
+check('...so it is back the very next time that overview is opened',
+  el('overview-nudge').hidden === false);
+
+fireAction('go-course');
+await drain();
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('Learn <b>')), 'click');
+await drain(20);
+check('a session in that unit counts against the five', placed().placementNudge.kanji.remaining === 4,
+  JSON.stringify(placed().placementNudge));
+
+fireAction('quit-session');
+await drain(10);
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await drain(10);
+check('the nudge survives a session — it is five of them, not one',
+  el('overview-nudge').hidden === false);
+
+fireAction('nudge-start-fresh');
+await drain();
+check('"Actually, I\'d like to start fresh" hides it', el('overview-nudge').hidden === true);
+check('...and clears it for good', !placed().placementNudge.kanji, JSON.stringify(placed().placementNudge));
+
+await openKanjiOverview('1');
+check('...so it never comes back', el('overview-nudge').hidden === true);
+await openKanjiOverview('2');
+check('and it was never armed on any other grade', el('overview-nudge').hidden === true);
+
+// --- Using "Mark as known" from a nudged overview clears the nudge --------
+// Kana has one overview per script, so its nudge is bound the moment it is
+// armed rather than on first open.
+
+const nudged = await createLearner('Nudge Kid');
+fireAction('onboarding-learning');
+await drain();
+answer('katakana', 'some');
+fireAction('onboarding-start-learning');
+await drain(10);
+check('a kana nudge is bound to its script immediately — there is only one overview',
+  nudged().placementNudge.katakana.courseId === 'katakana',
+  JSON.stringify(nudged().placementNudge));
+
+fire(el('script-list')._children.find((c) => c.dataset.script === 'katakana'), 'click');
+await drain(10);
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await drain(10);
+check('the katakana overview shows the nudge', el('overview-nudge').hidden === false);
+
+fireAction('overview-select-toggle');
+await drain();
+check('entering select mode is acting on the nudge, so it gets out of the way',
+  el('overview-nudge').hidden === true && el('overview-select-shortcuts').hidden === false);
+fireAction('overview-select-all');
+fireAction('overview-mark-sure');
+await drain(10);
+check('having actually marked something known clears the nudge for good',
+  !nudged().placementNudge.katakana, JSON.stringify(nudged().placementNudge));
+check('...and the claim itself went through the ordinary path',
+  allItems(katakana, 'recognition').every((k) => (nudged().progress[`recognition:${k}`] || {}).box === MAX_BOX));
 
 // --- data-action coverage -------------------------------------------------
 

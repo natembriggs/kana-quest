@@ -93,6 +93,14 @@ time:
   which reads like typing when the step is actually picking the right kanji
   spelling from multiple-choice options. Now says "Now choose the correct
   kanji" / "pick the kanji".
+- **Verified 2026-09-04 (real device, no code change)** — long-press on a
+  tile as a third way into select mode (`50675f0`) tested on a real Android
+  device by the app owner and confirmed working. This closes the one
+  open question from the original round-2 review: Chrome's own
+  `contextmenu` timing on a long touch is close enough to the app's own
+  ~500ms long-press threshold that it was flagged as worth an on-device
+  check rather than trusting desktop-Chrome pointer-event semantics alone.
+  No longer a concern.
 
 The `50675f0`/`7299835` pair was implemented by Claude Fable 5.1 as a
 deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5

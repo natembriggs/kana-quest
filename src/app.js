@@ -476,6 +476,11 @@ let currentScreenId = null;
 // fine to cover a corner of.
 const INSTALL_BANNER_BLOCKED_SCREENS = new Set([
   'screen-lesson', 'screen-quiz', 'screen-writing', 'screen-summary',
+  // The two first-run screens with a pinned bottom bar of their own
+  // ("Got it, let's start" / "Start learning!") — same reasoning as the
+  // quiz screen: the banner is fixed to the same edge and would sit on top
+  // of the one button the screen exists to have pressed.
+  'screen-onboarding-guide', 'screen-onboarding-placement',
 ]);
 
 function updateInstallBannerVisibility() {
@@ -2059,8 +2064,11 @@ function renderOverview(scrollToChar) {
 
   show('screen-overview');
   // Deferred a frame: the grid was just unhidden, and scrollIntoView needs
-  // its layout to have actually happened first.
-  if (scrollTarget && typeof requestAnimationFrame === 'function') {
+  // its layout to have actually happened first. Skipped entirely while the
+  // placement nudge is up: scrolling the current set into view pushes the
+  // nudge (and the highlighted button it points at) off the top of the
+  // screen, which defeats the whole point of showing it.
+  if (scrollTarget && !state.overviewNudge && typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(() => scrollTarget.scrollIntoView({ block: 'center' }));
   }
 }
@@ -2115,7 +2123,11 @@ function renderOverviewChrome() {
   // btn-primary is the app's existing "this is the one to reach for" mark
   // (the course screen's ladder uses it for the recommended action) — reused
   // here rather than inventing a second visual language for "look at this".
-  toggle.className = select ? 'btn' : `btn overview-button${nudged ? ' btn-primary' : ''}`;
+  // It REPLACES .overview-button rather than joining it: that class sets an
+  // accent text colour and is declared later in the stylesheet, so the two
+  // together paint accent-on-accent — a solid, empty-looking bar.
+  if (select) toggle.className = 'btn';
+  else toggle.className = nudged ? 'btn btn-primary' : 'btn overview-button';
   const hint = $('overview-select-hint');
   hint.textContent = select ? overviewSelectInstructions(course) : (state.overviewNotice || '');
   hint.hidden = !select && !state.overviewNotice;
