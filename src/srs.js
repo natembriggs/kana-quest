@@ -31,6 +31,23 @@ const BOX_SETTLED = 2;
 // Keep history bounded so a profile document cannot grow without limit.
 const MAX_HISTORY = 300;
 
+// Leech handling (review-followups.md item 5): an item missed this many
+// times in a row is a "leech" — a correct answer clears the miss streak as
+// always, but the record stays capped at a low box/streak (so the interval
+// stays short) for several more correct answers before it is trusted to
+// climb normally again. This is deliberately separate from the lifetime
+// `lapses`/`incorrect` counters, which never reset and already exist for a
+// different purpose (sorting the same-day review queue, dueItems() above).
+// Without this, a character missed 20 times in a row gets exactly the same
+// treatment the moment it's next answered right as one missed only once —
+// it jumps straight back onto the ordinary climb instead of proving itself
+// again first.
+const LEECH_MISS_THRESHOLD = 2; // consecutive misses that mark an item a leech
+const LEECH_RECOVERY_STREAK = 3; // consecutive correct answers to lift the cap
+const LEECH_CAP_BOX = 1; // grade(): box growth capped here while recovering
+const LEECH_CAP_STREAK = 1; // gradeYomi(): streak capped here, and its
+// lifetime-experience multiplier suppressed, while recovering
+
 // `kinds` is which course types a mode applies to: kana has no English
 // definition to quiz, so Definition is offered for kanji only.
 //
@@ -263,7 +280,8 @@ function asContext(ctx) {
 
 export function newRecord() {
   return {
-    box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0, history: [], updatedAt: null,
+    box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0,
+    missStreak: 0, leechRecovery: 0, history: [], updatedAt: null,
   };
 }
 
@@ -286,6 +304,16 @@ export function newRecord() {
  * lower than the record already is) and is scheduled exactly `intervalDays`
  * out, rather than climbing one box or jumping to the top. Only one of
  * `placement`/`settle` is ever passed; `settle` wins if both somehow are.
+ *
+ * Leech handling: `missStreak` counts consecutive misses (reset by any
+ * correct answer, unlike lifetime `lapses`). Once it reaches
+ * LEECH_MISS_THRESHOLD, `leechRecovery` is armed to LEECH_RECOVERY_STREAK —
+ * for that many correct answers afterward, box growth is capped at
+ * LEECH_CAP_BOX rather than climbing normally, so a character that has just
+ * been missed repeatedly has to prove itself several times running before it
+ * is trusted with a long interval again. `placement`/`settle` are explicit
+ * claims of knowledge and bypass/clear this — they are not "an answer", they
+ * are the learner (or a self-assessment) asserting mastery outright.
  */
 export function grade(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
   const rec = record || newRecord();
@@ -295,18 +323,33 @@ export function grade(record, correct, now = Date.now(), { placement = false, se
   // hand-edited profile missing the field degrades to "history starts now"
   // instead of throwing mid-answer.
   if (!Array.isArray(rec.history)) rec.history = [];
+  // Same backward-compat reasoning for the two leech-tracking fields, which
+  // are newer still — a record saved before they existed reaches here with
+  // both undefined.
+  if (!Number.isFinite(rec.missStreak)) rec.missStreak = 0;
+  if (!Number.isFinite(rec.leechRecovery)) rec.leechRecovery = 0;
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
     if (settle) {
       rec.box = Math.min(Math.max(rec.box, settle.box), MAX_BOX);
       rec.intervalDays = settle.intervalDays;
+      rec.missStreak = 0;
+      rec.leechRecovery = 0;
     } else if (placement) {
       rec.box = MAX_BOX;
       rec.intervalDays = BOX_INTERVALS_DAYS[MAX_BOX];
+      rec.missStreak = 0;
+      rec.leechRecovery = 0;
     } else {
+      rec.missStreak = 0;
       const wasAtMax = rec.box >= MAX_BOX;
-      rec.box = Math.min(rec.box + 1, MAX_BOX);
+      let nextBox = Math.min(rec.box + 1, MAX_BOX);
+      if (rec.leechRecovery > 0) {
+        nextBox = Math.min(nextBox, LEECH_CAP_BOX);
+        rec.leechRecovery -= 1;
+      }
+      rec.box = nextBox;
       if (wasAtMax && rec.lapses === 0) {
         // Perfect record, already at the top box: keep spacing it out further
         // instead of asking again every 32 days for the rest of time.
@@ -319,6 +362,8 @@ export function grade(record, correct, now = Date.now(), { placement = false, se
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.lapses += 1;
+    rec.missStreak += 1;
+    if (rec.missStreak >= LEECH_MISS_THRESHOLD) rec.leechRecovery = LEECH_RECOVERY_STREAK;
     rec.box = 0;
     rec.intervalDays = 0;
     rec.due = now; // immediately due again
@@ -790,6 +835,8 @@ export function newYomiRecord() {
     correct: 0,
     incorrect: 0,
     streak: 0,
+    missStreak: 0,
+    leechRecovery: 0,
     lastReviewed: null,
     secondLastReviewed: null,
     due: 0,
@@ -823,6 +870,16 @@ export function newYomiRecord() {
  * the experience multiplier — the point of a claim is that the due date is
  * chosen deliberately (staggered across a batch, see markKnownItems), not
  * derived from a track record the reading doesn't yet have.
+ *
+ * Leech handling (same rule as grade(), see its docstring): `missStreak`
+ * counts consecutive misses; once it reaches LEECH_MISS_THRESHOLD,
+ * `leechRecovery` is armed to LEECH_RECOVERY_STREAK correct answers. While
+ * armed, both the streak used to pick the base interval AND the lifetime-
+ * experience multiplier are suppressed — experience especially, since it is
+ * exactly the mechanism that would otherwise let a reading with a long
+ * correct history jump straight back to a long interval off a single lucky
+ * guess right after a run of misses. `placement`/`settle` bypass and clear
+ * this the same way they do in grade().
  */
 export function gradeYomi(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
   const rec = record || newYomiRecord();
@@ -835,6 +892,9 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
   // caller on a correct vocab answer is creditVocabYomi() — presented as
   // "the right answer does nothing, the wrong one works".
   if (!Array.isArray(rec.history)) rec.history = [];
+  // Same backward-compat reasoning for the two leech-tracking fields.
+  if (!Number.isFinite(rec.missStreak)) rec.missStreak = 0;
+  if (!Number.isFinite(rec.leechRecovery)) rec.leechRecovery = 0;
   rec.secondLastReviewed = rec.lastReviewed;
   rec.lastReviewed = now;
 
@@ -843,18 +903,36 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
     if (settle) {
       rec.streak = Math.max(rec.streak, settle.streak);
       rec.intervalDays = settle.intervalDays;
+      rec.missStreak = 0;
+      rec.leechRecovery = 0;
     } else {
-      rec.streak = placement ? MAX_BOX : rec.streak + 1;
+      rec.missStreak = 0;
+      // An explicit claim (placement) always bypasses AND clears the leech
+      // cap — it asserts mastery outright, so there is nothing left to prove
+      // back gradually. An ordinary organic answer, while capped, has its
+      // streak and lifetime-experience multiplier suppressed instead — see
+      // the docstring above for why experience needs suppressing too.
+      let streak = placement ? MAX_BOX : rec.streak + 1;
+      let experience = 1 + Math.floor(Math.log2(1 + rec.correct));
+      if (placement) {
+        rec.leechRecovery = 0;
+      } else if (rec.leechRecovery > 0) {
+        streak = Math.min(streak, LEECH_CAP_STREAK);
+        experience = 1;
+        rec.leechRecovery -= 1;
+      }
+      rec.streak = streak;
       const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
       // Credit for total correct answers, even ones before the current
       // streak started — e.g. a reading answered right 30 times total that
       // just had one slip shouldn't need to re-climb from a 1-day interval.
-      const experience = 1 + Math.floor(Math.log2(1 + rec.correct));
       rec.intervalDays = Math.min(base * experience, YOMI_MAX_INTERVAL_DAYS);
     }
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.incorrect += 1;
+    rec.missStreak += 1;
+    if (rec.missStreak >= LEECH_MISS_THRESHOLD) rec.leechRecovery = LEECH_RECOVERY_STREAK;
     rec.streak = 0;
     rec.intervalDays = 0;
     rec.due = now;

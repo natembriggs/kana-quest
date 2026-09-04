@@ -1302,6 +1302,116 @@ check('it does not resume growing just because it is passing again',
   onceMissedAgain.intervalDays === 32, `got ${onceMissedAgain.intervalDays}`);
 done('never-missed characters get spaced out further, not reviewed forever');
 
+// --- Leech handling: a run of consecutive misses caps how fast a record ----
+// --- can climb back up once it's finally answered right --------------------
+// (review-followups.md item 5). The lifetime `lapses`/`incorrect` counters
+// above never reset and never affect scheduling on their own — this is a
+// separate, resettable consecutive-miss streak that does.
+
+{
+  // A single miss (below the threshold) is ordinary grading, unaffected —
+  // this is the existing Leitner behaviour, just pinned explicitly now that
+  // a real leech threshold exists to be confused with it.
+  let single = srs.grade(srs.newRecord(), false, now);
+  check('one miss alone does not arm leech recovery',
+    single.missStreak === 1 && single.leechRecovery === 0);
+  single = srs.grade(single, true, now);
+  check('recovering from a single miss climbs normally, box 1, no cap',
+    single.box === 1 && single.leechRecovery === 0);
+
+  // Two consecutive misses does arm it.
+  let leech = srs.grade(srs.newRecord(), false, now);
+  leech = srs.grade(leech, false, now);
+  check('two consecutive misses arm leech recovery',
+    leech.missStreak === 2 && leech.leechRecovery === 3, JSON.stringify(leech));
+
+  // The central claim: from the same starting box (0), a leeched record
+  // climbs more slowly over the same run of correct answers than one that
+  // was never missed.
+  let fresh = srs.newRecord();
+  for (let i = 0; i < 3; i += 1) {
+    leech = srs.grade(leech, true, now);
+    fresh = srs.grade(fresh, true, now);
+  }
+  check('a leeched record climbs to a lower box than a never-missed one over the same 3 correct answers',
+    leech.box < fresh.box, `leech box ${leech.box} vs fresh box ${fresh.box}`);
+  check('and so is scheduled a shorter interval out, not jumping straight back to a long one',
+    leech.intervalDays < fresh.intervalDays,
+    `leech ${leech.intervalDays}d vs fresh ${fresh.intervalDays}d`);
+  check('the cap is fully spent after LEECH_RECOVERY_STREAK correct answers',
+    leech.leechRecovery === 0);
+
+  // Once spent, growth resumes normally from wherever it capped out — the
+  // very next correct answer climbs past the cap.
+  const cappedBox = leech.box;
+  leech = srs.grade(leech, true, now);
+  check('the cap lifts once spent: the next correct answer climbs past it',
+    leech.box > cappedBox, `capped at ${cappedBox}, now ${leech.box}`);
+
+  // A miss during recovery re-arms it (missStreak keeps counting).
+  let relapsed = srs.grade(srs.newRecord(), false, now);
+  relapsed = srs.grade(relapsed, false, now); // leeched
+  relapsed = srs.grade(relapsed, true, now); // one correct into recovery
+  relapsed = srs.grade(relapsed, false, now); // missed again mid-recovery
+  check('a miss always resets missStreak\'s count from scratch and clears the box, same as any miss',
+    relapsed.missStreak === 1 && relapsed.box === 0);
+
+  // Explicit knowledge claims (placement / "mark as known") bypass the cap
+  // outright and clear it — they assert mastery, not another data point to
+  // average in.
+  let leechForPlacement = srs.grade(srs.newRecord(), false, now);
+  leechForPlacement = srs.grade(leechForPlacement, false, now);
+  leechForPlacement = srs.grade(leechForPlacement, true, now, { placement: true });
+  check('a placement claim jumps straight to the top box even mid-leech-recovery',
+    leechForPlacement.box === srs.MAX_BOX && leechForPlacement.leechRecovery === 0);
+
+  let leechForSettle = srs.grade(srs.newRecord(), false, now);
+  leechForSettle = srs.grade(leechForSettle, false, now);
+  leechForSettle = srs.grade(leechForSettle, true, now, { settle: { box: 4, intervalDays: 7 } });
+  check('a settle ("I think I know this") claim is likewise not capped, and clears the leech state',
+    leechForSettle.box === 4 && leechForSettle.leechRecovery === 0);
+}
+done('leech handling: grade() caps how fast a repeatedly-missed item climbs back');
+
+{
+  // Same rule, mirrored for gradeYomi()'s streak/experience-multiplier model
+  // (kanji reading quiz) — a different record shape from grade() above, so
+  // it needs its own pass at the same guarantees.
+  let single = srs.gradeYomi(srs.newYomiRecord(), false, now);
+  check('one miss alone does not arm leech recovery (yomi)',
+    single.missStreak === 1 && single.leechRecovery === 0);
+
+  let leechY = srs.gradeYomi(srs.newYomiRecord(), false, now);
+  leechY = srs.gradeYomi(leechY, false, now);
+  check('two consecutive misses arm leech recovery (yomi)',
+    leechY.missStreak === 2 && leechY.leechRecovery === 3);
+
+  let freshY = srs.newYomiRecord();
+  for (let i = 0; i < 3; i += 1) {
+    leechY = srs.gradeYomi(leechY, true, now);
+    freshY = srs.gradeYomi(freshY, true, now);
+  }
+  check('a leeched yomi record climbs a lower streak than a never-missed one over the same 3 correct answers',
+    leechY.streak < freshY.streak, `leech streak ${leechY.streak} vs fresh streak ${freshY.streak}`);
+  check('and earns a shorter interval, not the usual lifetime-experience jump',
+    leechY.intervalDays < freshY.intervalDays,
+    `leech ${leechY.intervalDays}d vs fresh ${freshY.intervalDays}d`);
+  check('the yomi cap is fully spent after LEECH_RECOVERY_STREAK correct answers',
+    leechY.leechRecovery === 0);
+
+  const cappedStreak = leechY.streak;
+  leechY = srs.gradeYomi(leechY, true, now);
+  check('the yomi cap lifts once spent: the next correct answer climbs past it',
+    leechY.streak > cappedStreak, `capped at ${cappedStreak}, now ${leechY.streak}`);
+
+  let placedY = srs.gradeYomi(srs.newYomiRecord(), false, now);
+  placedY = srs.gradeYomi(placedY, false, now);
+  placedY = srs.gradeYomi(placedY, true, now, { placement: true });
+  check('a placement claim on a yomi record jumps to MAX_BOX even mid-leech-recovery, and clears it',
+    placedY.streak === srs.MAX_BOX && placedY.leechRecovery === 0);
+}
+done('leech handling: gradeYomi() applies the same cap to its own record shape');
+
 // --- Review favours characters that have actually been missed --------------
 // (using the literal mode id here, not the `mode` binding declared further
 // down in this file, to sidestep a temporal-dead-zone reference)
