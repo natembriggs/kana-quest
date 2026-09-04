@@ -935,12 +935,23 @@
           <button id="sync-show-code-entry" class="btn" type="button" data-action="sync-show-code-entry">Enter a code</button>
         </div>
         <form id="sync-code-entry" class="stack" hidden>
+          <!-- Shown only when this form was reached from the first-run flow
+               (onboarding-plan.md §3.1), where the learner has never seen
+               Settings and has no idea where the code comes from. Somebody
+               already in Settings has the context around them. -->
+          <p id="sync-onboarding-hint" class="hint" hidden>On the device that already has this
+            learner's progress, open Settings (⚙️) &rarr; <b>Sync across devices</b>. The code is
+            shown there — type it in below and this device will pick up where that one left off.</p>
           <label class="field">
             <span>Code from another device</span>
             <input id="sync-code-input" type="text" inputmode="text" autocapitalize="characters"
               autocomplete="off" autocorrect="off" spellcheck="false" placeholder="K7QM-3XR9-P2FT" maxlength="14">
           </label>
           <button id="sync-pair-submit" class="btn btn-primary wide" type="submit">Connect</button>
+          <!-- Onboarding only, for the same reason as the hint above: inside
+               Settings there is already a back button out of here, but the
+               first-run flow arrives with nothing to navigate back to. -->
+          <button id="sync-onboarding-cancel" class="btn btn-quiet wide" type="button" data-action="onboarding-pair-cancel" hidden>Cancel</button>
         </form>
       </div>
       <div id="sync-configured" class="stack" hidden>

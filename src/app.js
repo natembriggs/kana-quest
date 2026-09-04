@@ -692,6 +692,30 @@ function renderOnboarding() {
 }
 
 /**
+ * "I already use Kana Quest somewhere else" — straight into the pairing UI
+ * Settings already has (onboarding-plan.md §3.1). Deliberately the same form,
+ * the same submit handler and the same code path as Settings > Sync: a second
+ * pairing implementation is a second thing to get wrong about a feature whose
+ * failure mode is losing somebody's progress.
+ *
+ * Two things are added for this entry point only, both hidden again by
+ * renderSettings(): a line saying where the code comes from (a first-run
+ * learner has never opened Settings on either device), and a Cancel back to
+ * Screen A (Settings' own back button assumes there is a home screen to
+ * return to; there isn't one yet).
+ */
+function startOnboardingPairing() {
+  state.onboardingPairing = true;
+  // renderSettings() resets the form, so everything below has to follow it.
+  renderSettings();
+  $('sync-code-entry').hidden = false;
+  $('sync-onboarding-hint').hidden = false;
+  $('sync-onboarding-cancel').hidden = false;
+  $('sync-code-input').focus();
+  $('sync-card').scrollIntoView({ block: 'start' });
+}
+
+/**
  * Screen B's content (onboarding-plan.md §4), in the order it's read. Built
  * from a list rather than written into index.html so the sections stay one
  * thing to reorder and re-word — §4 fixes the substance, not the markup.
@@ -5904,6 +5928,11 @@ function renderSettings() {
     // would otherwise race a tap on "Enter a code" that lands first.
     $('sync-code-entry').hidden = true;
     $('sync-code-input').value = '';
+    // The two onboarding-only additions to that form (the "where to find the
+    // code" line and the Cancel that leads back to Screen A) reset with it —
+    // startOnboardingPairing() below re-shows them right after this runs.
+    $('sync-onboarding-hint').hidden = true;
+    $('sync-onboarding-cancel').hidden = true;
     // Not awaited: the read shouldn't delay the screen itself appearing,
     // only the rest of the sync card filling in a moment after it does.
     renderSyncCard();
@@ -6301,6 +6330,12 @@ async function syncEnterCode(event) {
       },
     });
     if (ok) $('sync-code-input').value = '';
+    // Paired from the first-run flow: the profile now IS the other device's,
+    // so there is nothing left to place — finish onboarding and go to the
+    // home screen it just filled in. mergeProfiles() spreads the local
+    // profile, so the `onboarded: false` this device created survives the
+    // merge and has to be cleared here explicitly.
+    if (ok && state.onboardingPairing) completeOnboarding();
   } catch {
     await renderSyncCard(syncFailureMessage('error'));
   } finally {
@@ -7798,7 +7833,10 @@ function wire() {
       // is an explainer, so reading it and skipping it end the same way.
       case 'onboarding-guide-done': completeOnboarding(); break;
       case 'onboarding-start-learning': commitOnboardingPlacement(); break;
-      case 'onboarding-connect': completeOnboarding(); break;
+      case 'onboarding-connect': startOnboardingPairing(); break;
+      // Lost the code, or tapped the wrong thing on Screen A — the one bit of
+      // navigation Settings' own pairing form doesn't already have.
+      case 'onboarding-pair-cancel': renderOnboarding(); break;
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
       case 'open-transfer': renderSettings(); break;
@@ -7874,6 +7912,9 @@ function wire() {
       case 'study-history-back': show('screen-character-detail'); break;
       case 'close-settings':
         if (!state.profile) renderProfiles();
+        // Settings reached from the first-run flow has no home screen behind
+        // it yet, so its back button goes where its Cancel does.
+        else if (state.onboardingPairing) renderOnboarding();
         else if (state.settingsReturn === 'screen-course') renderCourse();
         else renderHome();
         break;
