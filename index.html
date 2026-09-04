@@ -100,6 +100,23 @@
       <h1>Kana Quest</h1>
     </header>
     <h2 class="screen-title">Where are you starting from?</h2>
+    <p class="hint">This only comes up once, and nothing here is permanent —
+      you can change anything later.</p>
+
+    <div class="onboarding-choices">
+      <button class="btn wide onboarding-choice" type="button" data-action="onboarding-connect">
+        <b>I already use Kana Quest somewhere else</b>
+        <span class="action-subtitle">Enter the code from your other phone or tablet to bring this learner's progress across</span>
+      </button>
+      <button class="btn wide onboarding-choice" type="button" data-action="onboarding-beginner">
+        <b>I'm a complete beginner</b>
+        <span class="action-subtitle">A quick tour of how the app works, then straight in</span>
+      </button>
+      <button class="btn wide onboarding-choice" type="button" data-action="onboarding-learning">
+        <b>I've learnt some Japanese already</b>
+        <span class="action-subtitle">Four quick questions, so the app doesn't teach you what you already know</span>
+      </button>
+    </div>
 
     <!-- A text link, not a fourth button: this is the escape hatch, not a
          real fourth option, and it must never look like the recommended
@@ -107,6 +124,41 @@
     <p class="footnote">
       <button class="linkish" type="button" data-action="onboarding-skip">Skip straight to the app</button>
     </p>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- Screen B (onboarding-plan.md §4): a skippable explainer, not a quiz.
+       "Skip" sits at the top, next to the back arrow, so it is visible
+       immediately rather than buried under the text it lets you skip. -->
+  <section id="screen-onboarding-guide" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="onboarding-back" aria-label="Back">←</button>
+      <h2>Getting started</h2>
+      <button class="btn btn-quiet" type="button" data-action="onboarding-guide-done">Skip</button>
+    </header>
+    <div id="onboarding-guide-body" class="stack"></div>
+    <div class="stack bottom-bar">
+      <button class="btn btn-primary wide" type="button" data-action="onboarding-guide-done">Got it, let's start</button>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- Screen C (onboarding-plan.md §5): four independent scales. Each is
+       its own small control — an unanswered script must never block
+       answering the others — and one button commits all four at once. -->
+  <section id="screen-onboarding-placement" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="onboarding-back" aria-label="Back">←</button>
+      <h2>What do you know?</h2>
+      <span class="btn-icon" aria-hidden="true"></span>
+    </header>
+    <p class="hint">Rough answers are fine. Say you know something and the app
+      marks it done rather than teaching it from scratch; say you know some of
+      it and it'll offer to let you tick off exactly which, later on.</p>
+    <div id="onboarding-scales" class="stack"></div>
+    <div class="stack bottom-bar">
+      <button class="btn btn-primary wide" type="button" data-action="onboarding-start-learning">Start learning!</button>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

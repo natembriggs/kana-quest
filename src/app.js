@@ -681,6 +681,18 @@ function renderOnboarding() {
   show('screen-onboarding');
 }
 
+/** Screen B — the beginner's guide. Content is built in JS rather than
+ * written into index.html so the sections stay one list to reorder and
+ * re-word (§4's content is a rough order, not fixed markup). */
+function renderOnboardingGuide() {
+  show('screen-onboarding-guide');
+}
+
+/** Screen C — the "already learning" screener. */
+function renderOnboardingPlacement() {
+  show('screen-onboarding-placement');
+}
+
 // --- Home: pick a script --------------------------------------------------
 
 function renderHome() {
@@ -7407,6 +7419,14 @@ function wire() {
       // "don't ask again", and lands on the home screen with nothing claimed
       // and no nudge armed — exactly how the app behaved before this flow.
       case 'onboarding-skip': completeOnboarding(); break;
+      case 'onboarding-back': renderOnboarding(); break;
+      case 'onboarding-beginner': renderOnboardingGuide(); break;
+      case 'onboarding-learning': renderOnboardingPlacement(); break;
+      // Both the top "Skip" and the bottom "Got it, let's start" — the guide
+      // is an explainer, so reading it and skipping it end the same way.
+      case 'onboarding-guide-done': completeOnboarding(); break;
+      case 'onboarding-start-learning': completeOnboarding(); break;
+      case 'onboarding-connect': completeOnboarding(); break;
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
       case 'open-transfer': renderSettings(); break;

@@ -1736,3 +1736,36 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   padding: 8px 0;
   border-bottom: 1px solid var(--line);
 }
+
+/* --- First run: self-placement (onboarding-plan.md) ----------------------
+   Screen A's three choices are tall two-line buttons rather than the app's
+   usual single-line ones: each is a whole route through the app, and the
+   subtitle is what actually distinguishes them. Same .action-subtitle as
+   the course screen's ladder, so the two read as the same kind of thing.
+   Screen C's scales reuse .segmented/.segment wholesale — see
+   renderOnboardingScales() in app.js. */
+.onboarding-choices { display: flex; flex-direction: column; gap: 12px; }
+.onboarding-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  padding: 14px 16px;
+  text-align: left;
+}
+.onboarding-choice .action-subtitle { margin: 0; font-weight: 500; line-height: 1.35; }
+
+.onboarding-section { display: flex; flex-direction: column; gap: 8px; }
+.onboarding-section h3 { margin: 0; font-size: 17px; }
+.onboarding-section p { margin: 0; }
+/* Four scales, each free to wrap onto two rows on a narrow phone: "read and
+   write all of it" will not fit beside three other options at 375px, and
+   squeezing it would make the longest, most specific answer the hardest to
+   read. */
+.onboarding-scale .segmented { flex-wrap: wrap; }
+.onboarding-scale .segment { flex: 1 0 auto; }
+
+/* The set overview's placement nudge (§5) — a card, not a banner, so it
+   scrolls away with the rest of the page rather than covering tiles. */
+.overview-nudge { border-color: var(--accent); }
