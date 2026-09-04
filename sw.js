@@ -54,6 +54,7 @@ const SHELL = [
   'src/writing.js',
   'src/changelog.js',
   'src/reader.js',
+  'src/furigana.js',
   'src/data/story-manifest.js',
 ];
 

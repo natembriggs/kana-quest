@@ -29,8 +29,9 @@ import {
   THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS, allItems,
   exposureKanjiKey, exposureWordKey, exposureCount, isExposurePromoted, EXPOSURE_THRESHOLD,
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
-  isFuriganaMuted, muteFuriganaKey,
+  muteFuriganaKey,
 } from './srs.js';
+import { isReadingHidden } from './furigana.js';
 import {
   renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
   storyOccurrenceIndex,
@@ -4113,18 +4114,14 @@ function vocabHiddenState(info) {
     const chars = [...info.w].filter(isKanjiChar);
     const known = chars.length > 0 && chars.every(isKanjiKnown);
     const key = exposureWordKey(info.w);
-    const promoted = isExposurePromoted(exposure, key);
-    const mutedByChoice = isFuriganaMuted(muted, key);
-    return { mode: 'whole', hidden: known || promoted || mutedByChoice };
+    return { mode: 'whole', hidden: isReadingHidden(key, { exposure, muted, known }) };
   }
   const hidden = new Set();
   info.ruby.forEach((entry) => {
     const pos = entry[0];
     const key = exposureKanjiKey(info.w[pos], vocabExposureReading(entry));
     const known = isKanjiKnown(info.w[pos]);
-    const promoted = isExposurePromoted(exposure, key);
-    const mutedByChoice = isFuriganaMuted(muted, key);
-    if (known || promoted || mutedByChoice) hidden.add(pos);
+    if (isReadingHidden(key, { exposure, muted, known })) hidden.add(pos);
   });
   // Showing SOME of a word's furigana narrows what the yomi follow-up can
   // fairly ask with, since every option then has to agree with what's on

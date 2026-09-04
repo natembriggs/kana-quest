@@ -3,8 +3,9 @@
 // this module's output into spans; nothing here touches document.
 
 import {
-  exposureWordKey, exposureKanjiKey, isExposurePromoted, isFuriganaMuted,
+  exposureWordKey, exposureKanjiKey,
 } from './srs.js';
+import { isReadingHidden } from './furigana.js';
 
 const { toHiragana } = window.wanakana;
 
@@ -59,10 +60,9 @@ export function exposureTargetsForToken(token) {
 export function isTokenFuriganaHidden(token, view) {
   if (!token.ruby) return false;
   const wordKey = exposureWordKey(token.s);
-  if (isExposurePromoted(view.exposure, wordKey)) return true;
-  if (isFuriganaMuted(view.muted, wordKey)) return true;
   const chars = [...token.s].filter((ch) => KANJI_RE.test(ch));
-  return chars.length > 0 && chars.every((ch) => view.isKanjiKnown(ch));
+  const known = chars.length > 0 && chars.every((ch) => view.isKanjiKnown(ch));
+  return isReadingHidden(wordKey, { exposure: view.exposure, muted: view.muted, known });
 }
 
 /**
