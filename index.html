@@ -425,6 +425,21 @@
          "I'm sure" override for Yomi/Writing/Recall — see the "Mark as
          known" section in app.js. The toggle's label and the hint's text
          are set in renderOverview(). -->
+    <!-- The placement nudge (onboarding-plan.md §5). Shown only to a learner
+         who answered "some" on the first-run screener, only on the unit this
+         script's nudge got bound to, and only while browsing — entering
+         select mode is acting on it, so it gets out of the way. The
+         "Mark as known" toggle below takes the primary colour while this is
+         up, the same emphasis the course screen's recommended action uses.
+         See the nudge section in app.js. -->
+    <div id="overview-nudge" class="card stack overview-nudge" hidden>
+      <p id="overview-nudge-text"></p>
+      <div class="row">
+        <button class="btn btn-quiet" type="button" data-action="nudge-start-fresh">Actually, I'd like to start fresh</button>
+        <button class="btn btn-quiet" type="button" data-action="nudge-later">Maybe later</button>
+      </div>
+    </div>
+
     <div id="overview-toolbar" class="row">
       <button id="overview-select-toggle" class="btn overview-button" type="button" data-action="overview-select-toggle">✓ Mark as known</button>
     </div>

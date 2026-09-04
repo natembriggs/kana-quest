@@ -364,6 +364,15 @@ const state = {
   // open. Kept on state so the re-render that shows the newly-green tiles
   // can still say what just happened.
   overviewNotice: null,
+  // The placement nudge showing on the overview right now (onboarding-plan.md
+  // §5), as the script id it belongs to, or null. Session-only, derived from
+  // profile.placementNudge on each render — the persistent half is the
+  // profile's, this is just "is it on screen".
+  overviewNudge: null,
+  // Whether it has been dismissed during THIS visit to the overview — reset
+  // by openOverview, so "Maybe later" hides it now and it is back next time
+  // (for as long as its remaining-sessions count lasts).
+  overviewNudgeDismissed: false,
   // First run only (onboarding-plan.md). Both session-only: the flow runs
   // once, start to finish, in a single sitting — the only thing that
   // outlives it is profile.onboarded (and any nudge it arms).
@@ -939,6 +948,95 @@ function armPlacementNudge(scriptId) {
     courseId: KANA_SCRIPT_IDS.has(scriptId) ? scriptId : null,
     remaining: null,
   };
+}
+
+/** Which of the screener's four scales a course belongs to. Kana courses are
+ * named for their script already; kanji and vocabulary have one scale each,
+ * spanning every one of their units. */
+function nudgeScriptIdFor(course) {
+  if (course.kind === 'kana') return course.id;
+  if (course.kind === 'kanji') return 'kanji';
+  if (course.kind === 'vocab') return 'vocab';
+  return null;
+}
+
+/**
+ * The armed nudge that applies to `course`, or null. `bind` claims an
+ * unbound kanji/vocab nudge for this unit — the "whichever unit they open
+ * first" rule — so only the caller actually about to SHOW the nudge passes
+ * it; a bare lookup must not silently decide which grade the nudge lives on.
+ */
+function placementNudgeFor(course, { bind = false } = {}) {
+  const nudges = state.profile.placementNudge;
+  if (!nudges) return null;
+  const scriptId = nudgeScriptIdFor(course);
+  const entry = scriptId && nudges[scriptId];
+  if (!entry) return null;
+  if (entry.courseId === null) {
+    if (!bind) return null;
+    entry.courseId = course.id;
+    store.saveProfile(state.profile);
+  }
+  return entry.courseId === course.id ? entry : null;
+}
+
+/** Permanently — "Actually, I'd like to start fresh", and having actually
+ * used "Mark as known" here, both mean there is nothing left to nudge about.
+ * A no-op when nothing was armed, so callers need not check first. */
+function clearPlacementNudge(course) {
+  const nudges = state.profile.placementNudge;
+  const scriptId = nudges && nudgeScriptIdFor(course);
+  if (!scriptId || !nudges[scriptId]) return false;
+  delete nudges[scriptId];
+  return true;
+}
+
+/** What the nudge card says. Names the unit's own noun so it reads as being
+ * about what is on screen, rather than as a generic banner. */
+function placementNudgeText(course) {
+  const what = course.kind === 'kana' ? course.name.toLowerCase() : knownNoun(course, 2);
+  return `You said you already know some ${what} — tick what you know below, and the app`
+    + " won't teach it to you from scratch. Everything you tick still comes back for review"
+    + ' later, so there is no risk in being generous.';
+}
+
+/**
+ * One session actually taken in the nudged unit. Only counts down a nudge
+ * that has been deferred ("Maybe later" sets `remaining`); an untouched one
+ * simply waits, since it has never been seen at all. Deleted at zero — five
+ * sessions in is well past the point where "you said you know some of this"
+ * is still news.
+ */
+function notePlacementNudgeSession(courseId) {
+  const nudges = state.profile.placementNudge;
+  if (!nudges) return;
+  const scriptId = Object.keys(nudges).find((id) => nudges[id].courseId === courseId);
+  if (!scriptId) return;
+  const entry = nudges[scriptId];
+  if (typeof entry.remaining !== 'number') return;
+  entry.remaining -= 1;
+  if (entry.remaining <= 0) delete nudges[scriptId];
+  store.saveProfile(state.profile);
+}
+
+/** "Maybe later": gone for this visit, back for the next five sessions. */
+function deferPlacementNudge() {
+  const entry = placementNudgeFor(getAnyCourse(state.overviewCourseId));
+  if (entry) entry.remaining = NUDGE_SESSIONS_AFTER_LATER;
+  dismissOverviewNudge();
+}
+
+/** "Actually, I'd like to start fresh": gone for good. */
+function dropPlacementNudge() {
+  clearPlacementNudge(getAnyCourse(state.overviewCourseId));
+  dismissOverviewNudge();
+}
+
+function dismissOverviewNudge() {
+  state.overviewNudge = null;
+  state.overviewNudgeDismissed = true;
+  store.saveProfile(state.profile);
+  renderOverviewChrome();
 }
 
 // --- Home: pick a script --------------------------------------------------
@@ -1783,6 +1881,9 @@ async function openOverview(course, scrollToChar, { select = false } = {}) {
   // earlier visit, which could have been a different course or mode.
   state.overviewSelect = select ? new Set() : null;
   state.overviewNotice = null;
+  // A fresh open is a fresh chance to see the nudge — "Maybe later" only
+  // dismisses the visit it was tapped in.
+  state.overviewNudgeDismissed = false;
   // A vocab tile's label is the word's own surface (buildMasteryTile), which
   // needs that unit's real data — unlike kanji/kana, nothing before this
   // point guarantees it's loaded (a session starting it does, but the
@@ -1915,6 +2016,12 @@ function renderOverview(scrollToChar) {
   $('legend-pending').hidden = course.kind !== 'kanji';
   renderOverviewModePicker(course);
 
+  // Binds a kanji/vocab nudge to this unit the first time one of that
+  // script's overviews is opened — see placementNudgeFor().
+  const nudge = state.overviewNudgeDismissed ? null : placementNudgeFor(course, { bind: true });
+  state.overviewNudge = nudge ? nudgeScriptIdFor(course) : null;
+  if (nudge) $('overview-nudge-text').textContent = placementNudgeText(course);
+
   const grid = $('overview-grid');
   grid.innerHTML = '';
   let scrollTarget = null;
@@ -1975,9 +2082,16 @@ function overviewSelectInstructions(course) {
 function renderOverviewChrome() {
   const course = getAnyCourse(state.overviewCourseId);
   const select = state.overviewSelect;
+  // Only while browsing: entering select mode IS acting on the nudge, so the
+  // card gets out of the way and the toggle drops back to being a Cancel.
+  const nudged = !!state.overviewNudge && !select;
+  $('overview-nudge').hidden = !nudged;
   const toggle = $('overview-select-toggle');
   toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
-  toggle.className = select ? 'btn' : 'btn overview-button';
+  // btn-primary is the app's existing "this is the one to reach for" mark
+  // (the course screen's ladder uses it for the recommended action) — reused
+  // here rather than inventing a second visual language for "look at this".
+  toggle.className = select ? 'btn' : `btn overview-button${nudged ? ' btn-primary' : ''}`;
   const hint = $('overview-select-hint');
   hint.textContent = select ? overviewSelectInstructions(course) : (state.overviewNotice || '');
   hint.hidden = !select && !state.overviewNotice;
@@ -2229,6 +2343,10 @@ async function markSelectedKnown(claim) {
     claim,
     readingsFor: (kanji) => kanjiInfo(course, kanji).quizReadings,
   });
+  // The nudge asked for exactly this and has now had it (onboarding-plan.md
+  // §5.1). A no-op when none was armed.
+  clearPlacementNudge(course);
+  state.overviewNudge = null;
   await store.saveProfile(state.profile);
 
   const done = `${marked.length} ${knownNoun(course, marked.length)}`;
@@ -3219,6 +3337,12 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     // renders.
     writingSubMode: 'trace',
   };
+
+  // A session in the nudged unit is what the nudge's "Maybe later" counter
+  // counts — the learner is demonstrably getting on with it, so five of these
+  // retire it. Deliberately here and not in finishSession(): quitting a
+  // session early still means the offer was made and passed over.
+  notePlacementNudgeSession(courseId);
 
   if (built.lesson.length) renderLesson();
   else startQuiz();
@@ -7704,6 +7828,9 @@ function wire() {
       case 'overview-select-toggle': toggleOverviewSelectMode(); break;
       case 'overview-select-all': selectAllUnstarted(); break;
       case 'overview-select-none': clearOverviewSelection(); break;
+      // The placement nudge's two dismissals (onboarding-plan.md §5).
+      case 'nudge-start-fresh': dropPlacementNudge(); break;
+      case 'nudge-later': deferPlacementNudge(); break;
       case 'overview-mark-sure': markSelectedKnown(KNOWN_CLAIM_SURE); break;
       case 'overview-mark-think': markSelectedKnown(KNOWN_CLAIM_THINK); break;
       // Returns wherever the detail screen was opened from — the set
