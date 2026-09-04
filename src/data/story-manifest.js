@@ -351,8 +351,8 @@ export const STORIES = {
     "level": "L6",
     "gram": "G6",
     "blurb": "Letters and journals trace Count Dracula from his Transylvanian castle to England—and the friends who unite against him.",
-    "hash": "736f9473",
-    "length": 680,
+    "hash": "6f069005",
+    "length": 1427,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",

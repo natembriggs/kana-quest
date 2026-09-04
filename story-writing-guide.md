@@ -194,7 +194,67 @@ next has to work out they are the same thing.
 
 ---
 
-## 6. What the build checks
+## 6. Narrative continuity
+
+Correct Japanese is not enough. A story can pass every structural check in
+this guide and still read like plot notes with lines missing. The reader must
+be able to understand not only each sentence, but why that sentence follows
+the one before it.
+
+### Plan scenes, not plot points
+
+Before drafting, write a short scene map. Each scene needs:
+
+- a place and time the reader can locate
+- a viewpoint character with an immediate goal
+- an obstacle or change
+- a consequence that leads into the next scene
+
+For a long source novel, **choose a coherent episode rather than squeezing the
+entire plot into the minimum sentence count**. L5 and L6 permit longer texts,
+but length alone is not the cure: the retelling still needs a clear narrative
+spine. A character, object or rule must be introduced before the plot depends
+on it.
+
+### Draft prose before token data
+
+After choosing the level and scene map, draft the complete Japanese as normal
+paragraphs without token separators or glosses. Read that version end to end.
+Only tokenize it after the prose works as a story. Drafting directly as a list
+of `line(...)` calls makes every sentence look locally complete while hiding
+missing transitions between them.
+
+### Run a continuity pass
+
+For every sentence, ask:
+
+1. Does the reader know who is acting, where they are, and how much time has
+   passed?
+2. Does the sentence follow by cause, intention, contrast or a clearly marked
+   change of time or place?
+3. Has every newly named person, place, object or supernatural rule been
+   introduced before it matters?
+4. Is a character's choice motivated on the page, rather than only in the
+   source story or in the writer's memory?
+5. If the previous sentence were removed, would this sentence expose a gap?
+   If so, the missing information belongs in the story.
+6. Does each paragraph develop one scene rather than merely hold an equal
+   number of sentences?
+
+Transitions such as そのため, ところが, その間に and 翌朝 are useful only
+when the causal or temporal relationship is real. Adding conjunctions to a
+plot outline does not turn it into a narrative.
+
+### Review content separately from language
+
+The first human review asks whether a reader unfamiliar with the source can
+retell what happened and why. The second reviews natural Japanese,
+collocation, register, readings and translations. Combining the two passes
+makes it too easy for correct grammar to conceal missing story logic.
+
+---
+
+## 7. What the build checks
 
 The generator refuses to emit a story that fails any of these, so a mistake
 is caught at authoring time rather than found by a learner:
@@ -216,7 +276,7 @@ What it does **not** check, and a human must:
 
 ---
 
-## 7. Sourcing and licence
+## 8. Sourcing and licence
 
 Full reasoning in `stories-plan.md` §4. In short:
 
@@ -241,9 +301,14 @@ knows Japanese before it ships.
 
 ---
 
-## 8. Checklist
+## 9. Checklist
 
 - [ ] Level chosen first; vocabulary and grammar written to it
+- [ ] Scene map has place/time, goal, change and consequence for every scene
+- [ ] Complete un-tokenized Japanese draft reads coherently end to end
+- [ ] Every character, object and rule is introduced before its payoff
+- [ ] Paragraph breaks follow scenes, not an arbitrary sentence count
+- [ ] A reader unfamiliar with the source can explain what happened and why
 - [ ] Ordinary Japanese with kanji (except kana-normal words and onomatopoeia)
 - [ ] No loanwords at L1/L2
 - [ ] Verb chains, suffixes and idioms merged into single tokens
