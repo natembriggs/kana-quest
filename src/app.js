@@ -368,6 +368,7 @@ const state = {
   // once, start to finish, in a single sitting — the only thing that
   // outlives it is profile.onboarded (and any nudge it arms).
   onboardingPairing: false, // is Settings' sync pairing being shown FROM the flow
+  onboardingAnswers: null,  // Screen C's four scales, uncommitted until "Start learning!"
   detailCourseId: null,
   detailChar: null,
   // Detail screens opened on top of one another (drillIntoDetail below):
@@ -753,9 +754,191 @@ function renderOnboardingGuide() {
   show('screen-onboarding-guide');
 }
 
-/** Screen C — the "already learning" screener. */
+/**
+ * Screen C's four scales (onboarding-plan.md §5). Four independent controls,
+ * not one form: a learner who has no idea about kanji must still be able to
+ * answer the hiragana question, so nothing here blocks anything else.
+ *
+ * Kana get four steps because the app can act on all four — reading and
+ * writing are separate modes with separate records. Kanji and vocabulary get
+ * two, because "read all the kanji" is not a claim anyone makes at this
+ * screen and the app's kanji units are per-grade anyway; see the scoping note
+ * on armPlacementNudge() below.
+ */
+const KNOW_NONE = 'none';
+const KNOW_SOME = 'some';
+const KNOW_READ = 'read';
+const KNOW_READ_WRITE = 'readwrite';
+
+const ONBOARDING_SCALES = [
+  {
+    id: 'hiragana',
+    label: 'Hiragana',
+    native: 'ひらがな',
+    options: [
+      { value: KNOW_NONE, label: 'None of it' },
+      { value: KNOW_SOME, label: 'Some of it' },
+      { value: KNOW_READ, label: 'I can read it all' },
+      { value: KNOW_READ_WRITE, label: 'I can read and write it all' },
+    ],
+  },
+  {
+    id: 'katakana',
+    label: 'Katakana',
+    native: 'カタカナ',
+    options: [
+      { value: KNOW_NONE, label: 'None of it' },
+      { value: KNOW_SOME, label: 'Some of it' },
+      { value: KNOW_READ, label: 'I can read it all' },
+      { value: KNOW_READ_WRITE, label: 'I can read and write it all' },
+    ],
+  },
+  {
+    id: 'kanji',
+    label: 'Kanji',
+    native: '漢字',
+    options: [
+      { value: KNOW_NONE, label: 'None' },
+      { value: KNOW_SOME, label: 'Some' },
+    ],
+  },
+  {
+    id: 'vocab',
+    label: 'Vocabulary',
+    native: '単語',
+    options: [
+      { value: KNOW_NONE, label: 'None' },
+      { value: KNOW_SOME, label: 'Some' },
+    ],
+  },
+];
+
+/** Screen C — the "already learning" screener. Answers live on `state` until
+ * "Start learning!" commits all four at once, so a half-answered screener
+ * that gets backed out of leaves no trace on the profile. */
 function renderOnboardingPlacement() {
+  if (!state.onboardingAnswers) {
+    state.onboardingAnswers = Object.fromEntries(ONBOARDING_SCALES.map((s) => [s.id, KNOW_NONE]));
+  }
+  renderOnboardingScales();
   show('screen-onboarding-placement');
+}
+
+/** The four scales, rebuilt whole on every answer — four segmented controls
+ * of at most four buttons each is nothing to redraw, and rebuilding avoids
+ * a second code path for "update the one that changed". */
+function renderOnboardingScales() {
+  const list = $('onboarding-scales');
+  list.innerHTML = '';
+  ONBOARDING_SCALES.forEach((scale) => {
+    const card = document.createElement('div');
+    card.className = 'card stack onboarding-scale';
+
+    const heading = document.createElement('h3');
+    heading.className = 'onboarding-scale-title';
+    heading.textContent = `${scale.label} (${scale.native})`;
+    card.appendChild(heading);
+
+    // The same segmented control the mode pickers use, with the same
+    // tab/aria-selected wiring, so a screen reader announces which answer is
+    // chosen rather than reading four unrelated buttons.
+    const picker = document.createElement('div');
+    picker.className = 'segmented';
+    picker.setAttribute('role', 'tablist');
+    picker.setAttribute('aria-label', scale.label);
+    scale.options.forEach((option) => {
+      const chosen = state.onboardingAnswers[scale.id] === option.value;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `segment${chosen ? ' active' : ''}`;
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-selected', chosen ? 'true' : 'false');
+      button.dataset.scale = scale.id;
+      button.dataset.answer = option.value;
+      button.textContent = option.label;
+      button.addEventListener('click', () => {
+        state.onboardingAnswers[scale.id] = option.value;
+        renderOnboardingScales();
+      });
+      picker.appendChild(button);
+    });
+    card.appendChild(picker);
+    list.appendChild(card);
+  });
+}
+
+/**
+ * Everything the mode asks about, claimed at the strongest tier — the exact
+ * bulk operation the set overview's "Mark as known" performs (markKnownItems
+ * in srs.js), just over a whole script instead of a hand-ticked selection.
+ * Nothing about claiming is reimplemented here.
+ *
+ * Kana only, in practice: `readingsFor` (which kanji Yomi needs) is
+ * deliberately not passed, because no answer on this screen claims a whole
+ * grade of kanji.
+ */
+function claimWholeCourse(courseId, mode) {
+  const course = getAnyCourse(courseId);
+  markKnownItems(course, mode, state.profile, allItems(course, mode), { claim: KNOWN_CLAIM_SURE });
+}
+
+/**
+ * "Start learning!" — commit all four answers at once and go to the home
+ * screen. "Read all" claims the reading-side mode (Reading, for kana); "read
+ * and write all" adds Writing at the same strength. "Some" claims nothing at
+ * all and arms a nudge instead (§5) — a self-assessment of "some of it" says
+ * nothing about WHICH, and marking half a script known on that basis would be
+ * worse than marking none of it.
+ */
+function commitOnboardingPlacement() {
+  ONBOARDING_SCALES.forEach((scale) => {
+    const answer = state.onboardingAnswers[scale.id];
+    if (answer === KNOW_SOME) {
+      armPlacementNudge(scale.id);
+      return;
+    }
+    if (answer !== KNOW_READ && answer !== KNOW_READ_WRITE) return;
+    claimWholeCourse(scale.id, 'recognition');
+    if (answer === KNOW_READ_WRITE) claimWholeCourse(scale.id, 'writing');
+  });
+  // completeOnboarding() persists — one save for the flag, the claimed
+  // records and any armed nudge together.
+  completeOnboarding();
+}
+
+// --- The "some of it" nudge (onboarding-plan.md §5) -----------------------
+//
+// "Some" is not a claim, so nothing is marked. What it records instead is
+// that the FIRST time this learner opens the relevant set overview, the
+// "Mark as known" entry point should be highlighted and explained — because
+// "I know some of these" is precisely what that screen exists to capture, and
+// a learner who has just said so out loud is the one person guaranteed to
+// want it.
+//
+// `profile.placementNudge` is a map of script id -> { courseId, remaining }:
+//
+// - `courseId` is which unit's overview the nudge belongs to. Kana has one
+//   overview per script, so it is known at arming time. Kanji and vocabulary
+//   are asked as a single yes/no but taught per grade / per tier, so theirs
+//   is resolved to whichever unit the learner actually opens first (§5's
+//   scoping note): arming every grade at once would mean offering to claim
+//   grade 6 kanji before the learner has ever reached grade 6.
+// - `remaining` is null while the nudge has simply never been deferred, and a
+//   count of sessions once "Maybe later" has set it. It ticks down once per
+//   session actually taken in that unit — not per screen view — and the whole
+//   entry is deleted at zero, on "Actually, I'd like to start fresh", and as
+//   soon as "Mark as known" is really used from a nudged overview.
+
+const NUDGE_SESSIONS_AFTER_LATER = 5;
+const KANA_SCRIPT_IDS = new Set(['hiragana', 'katakana']);
+
+function armPlacementNudge(scriptId) {
+  const profile = state.profile;
+  if (!profile.placementNudge) profile.placementNudge = {};
+  profile.placementNudge[scriptId] = {
+    courseId: KANA_SCRIPT_IDS.has(scriptId) ? scriptId : null,
+    remaining: null,
+  };
 }
 
 // --- Home: pick a script --------------------------------------------------
@@ -7490,7 +7673,7 @@ function wire() {
       // Both the top "Skip" and the bottom "Got it, let's start" — the guide
       // is an explainer, so reading it and skipping it end the same way.
       case 'onboarding-guide-done': completeOnboarding(); break;
-      case 'onboarding-start-learning': completeOnboarding(); break;
+      case 'onboarding-start-learning': commitOnboardingPlacement(); break;
       case 'onboarding-connect': completeOnboarding(); break;
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
