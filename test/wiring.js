@@ -4105,6 +4105,134 @@ check('having actually marked something known clears the nudge for good',
 check('...and the claim itself went through the ordinary path',
   allItems(katakana, 'recognition').every((k) => (nudged().progress[`recognition:${k}`] || {}).box === MAX_BOX));
 
+// --- Story word-lookups feed spaced review (review-followups.md #2) ------
+//
+// Tapping a word in a story already updated the furigana exposure ladder
+// (recordReaderExposure) but not the real SRS study list — the only bridge
+// was the end-card's own "+ Add", which needs the whole story finished
+// first. This checks the newer one-tap "+ Add" on the gloss card itself,
+// at the moment of lookup.
+
+/** Depth-first search for the first descendant whose dataset matches every
+ * key/value in `want` — the stub's own querySelector fabricates a
+ * placeholder per selector instead of walking real children (see its own
+ * comment above), so an attribute selector like reader.js's own
+ * `.reader-token[data-p=...]` has to be found by hand this way instead. */
+function findByDataset(root, want) {
+  if (root.dataset && Object.keys(want).every((k) => String(root.dataset[k]) === String(want[k]))) return root;
+  for (const child of root._children || []) {
+    const found = findByDataset(child, want);
+    if (found) return found;
+  }
+  return null;
+}
+/** Same idea, by exact textContent — for the reader card's buttons, which
+ * carry no dataset of their own. */
+function findByText(root, text) {
+  for (const child of root._children || []) {
+    if (child.textContent === text) return child;
+    const found = findByText(child, text);
+    if (found) return found;
+  }
+  return null;
+}
+/** The reader's own tap handling is one delegated `document` listener using
+ * event.target.closest('.reader-tap') (READER_OWNS_ITS_TAPS in app.js), not
+ * a per-token listener — mirrors fireAction's synthetic target above, just
+ * for the reader's own selector instead of [data-action]. */
+const fireReaderTap = (tokenEl) => fire(document, 'click', {
+  target: { closest: (sel) => (sel === '.reader-tap' ? tokenEl : null) },
+});
+
+await createLearner('Reader Kid');
+fireAction('onboarding-skip');
+await drain(10);
+check('the new reader lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
+
+fireAction('open-stories');
+await drain();
+check('opens the stories library', visible() === 'screen-stories', `showing ${visible()}`);
+check('a brand-new learner starts browsing at L1, the easiest level',
+  el('story-level-name').textContent === 'First steps', el('story-level-name').textContent);
+
+const ariTitle = 'ありとはと'; // "The Ant and the Dove" — story-ari-to-hato.js, level L1
+const storyCard = el('story-list')._children
+  .find((c) => ((c._children[0] && c._children[0].textContent) || '').startsWith(ariTitle));
+check('the L1 library lists "ありとはと"', !!storyCard);
+
+fire(storyCard, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real dynamic import
+check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
+
+// あり ("ant") is body[0][0].t[2] in story-ari-to-hato.js: a kana-form word
+// (no kanji, ruby: null) carrying a real vocab id (d: "あり"). ある日
+// ("one day") is t[0]: a taught-kanji word whose d is null — nothing this
+// app's vocab curriculum maps it to.
+const antTokenEl = findByDataset(el('reader-body'), { p: 0, s: 0, i: 2 });
+check('found the あり token in the rendered story',
+  !!antTokenEl && antTokenEl.className.includes('reader-tap'), antTokenEl && antTokenEl.className);
+
+fireReaderTap(antTokenEl);
+await drain();
+check('tapping the word opens the reader card', el('reader-card').hidden === false);
+
+const revealBtn = findByText(el('reader-card-body'), 'Show definition');
+check('the peek state offers "Show definition"', !!revealBtn);
+fire(revealBtn, 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // ensureVocabUnitLoaded is a real dynamic import
+
+const readerBefore = () => [...rows.values()].find((p) => p.name === 'Reader Kid');
+check('あり is not already in the study list before tapping +Add',
+  !isStudying(readerBefore().study, 'あり', 'vmeaning'));
+
+const addBtn = findByText(el('reader-card-body'), '+ Add');
+check('the gloss card offers a one-tap "+ Add" for a word the vocab curriculum actually teaches',
+  !!addBtn && hasClick(addBtn));
+
+fire(addBtn, 'click');
+await settle();
+
+check('tapping it enrolls the word in every applicable vocab mode, same as the end-card button',
+  isStudying(readerBefore().study, 'あり', 'vmeaning') && isStudying(readerBefore().study, 'あり', 'vrecall'));
+check('the button flips to "Studying" and disables itself, matching the end-card pattern',
+  !!findByText(el('reader-card-body'), 'Studying') && findByText(el('reader-card-body'), 'Studying').disabled === true);
+check('...and no redundant "+ Add" is left showing',
+  !findByText(el('reader-card-body'), '+ Add'));
+
+// Re-open the very same word fresh (close, then tap again) — an already-
+// enrolled word must not show a redundant "+ Add" on a later lookup either,
+// not just in the moment right after tapping it. あり has no kanji, so with
+// romaji off by default (§8.4) its reveal ladder has nothing left to cycle
+// (renderRomajiOverride trims a kana word's maxLevel to 0) — a tap always
+// just (re)opens the card (handleReaderTokenTap's `maxLevel === 0` branch),
+// same as it did the very first time, rather than ever closing it itself.
+// Closing it is instead a tap AWAY from any word — the delegated listener's
+// own `else { clearReaderFocus(); }` fallback.
+const fireReaderAway = () => fire(document, 'click', { target: { closest: () => null } });
+fireReaderAway();
+await drain();
+check('tapping away from any word closes the card', el('reader-card').hidden === true);
+
+fireReaderTap(antTokenEl); // reopens it, fresh
+await drain();
+fire(findByText(el('reader-card-body'), 'Show definition'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('re-opening an already-studied word shows "Studying", not another "+ Add"',
+  !!findByText(el('reader-card-body'), 'Studying') && !findByText(el('reader-card-body'), '+ Add'));
+
+// A word this app's curriculum has no entry for must not offer an add at
+// all — the same "nothing to add" rule the end-card's own button already
+// follows (it only ever renders inside `if (entry && vocabCourseObj)`).
+const noEntryTokenEl = findByDataset(el('reader-body'), { p: 0, s: 0, i: 0 }); // ある日, d: null
+check('found a tappable word with no vocab curriculum match',
+  !!noEntryTokenEl && noEntryTokenEl.className.includes('reader-tap'));
+fireReaderTap(noEntryTokenEl);
+await drain();
+fire(findByText(el('reader-card-body'), 'Show definition'), 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a word outside the vocab curriculum shows neither "+ Add" nor "Studying" — nothing to add',
+  !findByText(el('reader-card-body'), '+ Add') && !findByText(el('reader-card-body'), 'Studying'));
+
 // --- data-action coverage -------------------------------------------------
 
 const appSource = readFile('src/app.js');

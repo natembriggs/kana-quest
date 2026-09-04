@@ -53,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03h'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -7433,6 +7433,29 @@ async function revealReaderCardDefinition(p, s, i, token) {
     wordChip.textContent = 'Word details ›';
     wordChip.addEventListener('click', () => openReaderDetail(vocabCourseObj, token.d));
     chips.appendChild(wordChip);
+
+    // One-tap enrollment right at the moment of lookup, alongside — not
+    // replacing — the end-card's own "+ Add" (showReaderEndCard above),
+    // which requires finishing the whole story first. Same enrollment
+    // mechanism and "already studying" check as that button, so the two
+    // never disagree about a word's state.
+    const modes = applicableStudyModes(vocabCourseObj, token.d);
+    const already = modes.length > 0 && modes.every((mode) => isStudying(state.profile.study, token.d, mode));
+    if (modes.length > 0) {
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'btn btn-quiet';
+      addBtn.textContent = already ? 'Studying' : '+ Add';
+      addBtn.disabled = already;
+      addBtn.addEventListener('click', () => {
+        const { study, unstudy } = state.profile;
+        modes.forEach((mode) => setStudying(study, unstudy, token.d, mode, true));
+        store.saveProfile(state.profile);
+        addBtn.textContent = 'Studying';
+        addBtn.disabled = true;
+      });
+      chips.appendChild(addBtn);
+    }
   }
   body.appendChild(chips);
 
