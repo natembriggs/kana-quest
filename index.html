@@ -670,8 +670,15 @@
     <!-- Guided/Free only (Trace already shows the whole guide), and only
          while still in progress — gone once finished, see
          finishWritingCharacter() in app.js. Hold to peek: shown only while
-         pressed, released hides it again. -->
-    <div id="writing-hints" class="row writing-hints" hidden>
+         pressed, released hides it again. Stacked on the LEFT (not the
+         shared full-width .row) and deliberately NOT flex:1 — #writing-next
+         flows into this same vertical slot once these hide (see the comment
+         on .writing-hints in styles.css), and a fast tap meant for Next was
+         landing on "Show full character" because .row's flex:1 stretched it
+         out to the same right-hand spot Next appears in. Left-stacking
+         keeps the whole right side, where Next shows up, clear of any
+         button a hasty tap could still catch. -->
+    <div id="writing-hints" class="writing-hints" hidden>
       <button id="writing-peek-next" class="btn btn-quiet" type="button">Show next stroke</button>
       <button id="writing-peek-full" class="btn btn-quiet" type="button">Show full character</button>
     </div>

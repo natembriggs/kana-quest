@@ -850,8 +850,22 @@ button.quiz-glyph-tap {
 .writing-feedback { min-height: 1.4em; text-align: center; }
 .writing-feedback.is-bad { color: var(--bad); }
 
-.writing-hints { margin: 4px 0; }
-.writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; }
+/* Left-stacked, not the shared full-width .row — see the comment on
+   #writing-hints in index.html. #writing-result (Try again / Next) flows
+   into this exact vertical slot once these hide, with Next landing on the
+   right; a fast tap aimed at Next used to land on "Show full character"
+   because .row's flex:1 stretched these across the full width, putting the
+   second button in that same right-hand spot. Stacking them to the left
+   instead, at their own natural (non-stretched) width, leaves the right
+   side — where Next actually appears — clear of both buttons. */
+.writing-hints {
+  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; width: auto; }
 
 .writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }
 
