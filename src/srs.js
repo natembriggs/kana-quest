@@ -1,52 +1,172 @@
-// Spaced repetition: Leitner boxes, plus the rule that decides when a new
-// chunk of characters is allowed to be introduced.
+// Spaced repetition: FSRS (Free Spaced Repetition Scheduler — see fsrs.js),
+// plus the rule that decides when a new chunk of characters is allowed to be
+// introduced.
 //
 // Every grading event is appended to the item's history as [timestamp, 0|1].
-// The box is a derived convenience; the history is the real record, so the
-// scheduling algorithm can be replaced later without losing what a learner
-// has actually done.
+// `box`/`streak` are a derived convenience (see boxFromStability below), not
+// the real scheduling state any more — the history and the FSRS
+// `stability`/`difficulty` pair are. Both record shapes below (grade()'s
+// box/due/lapses shape and gradeYomi()'s streak/correct/incorrect shape,
+// still deliberately parallel rather than unified — see the note before
+// grade() for why) keep exactly the field names and ranges every existing
+// consumer (dueItems, courseStats, masteryTier, autoWritingMode, kanji.js's
+// recomputeKanjiRollup, merge.js's rebuildYomiRollups) already reads, so this
+// migration to FSRS changes what computes `box`/`due`/`intervalDays`, not
+// the shape those downstream readers see.
+//
+// Migration to FSRS-6 (review-followups.md item 9, 2026-09-04): before this,
+// srs.js was a fixed-interval Leitner box scheduler with no per-item
+// difficulty — every item climbed the same [0,1,2,4,8,16,32]-day ladder
+// regardless of how error-prone it had actually been. FSRS instead tracks a
+// per-item `difficulty` (1-10) and `stability` (days until recall decays to
+// 90%) and derives the next interval from both, so two items sitting at
+// "box 4" by very different histories — one clean climb, one dragged there
+// through repeated misses — are no longer scheduled identically.
+//
+// The leech-handling mechanism added earlier the same day (commit 284d9a5,
+// missStreak/leechRecovery — capping how fast a repeatedly-missed item could
+// climb back after finally being answered right) is REMOVED as part of this
+// migration, not kept alongside FSRS. That was a bolted-on state machine
+// answering exactly the question FSRS's own `difficulty` parameter is
+// designed to answer natively: every miss raises difficulty (next_difficulty
+// in fsrs.js), and higher difficulty both shrinks how much a subsequent
+// correct answer grows stability (next_recall_stability) and shrinks how
+// much a lapse's post-forgetting stability recovers (next_forget_stability)
+// — a repeatedly-missed item is *continuously* slower to earn a long
+// interval again, proportional to its actual difficulty, rather than
+// stepping through a fixed miss-threshold/recovery-streak state machine
+// layered on top. Keeping both would mean two separate, overlapping
+// mechanisms fighting over the same "how fast should a hard item's interval
+// grow back" question — belt-and-suspenders was considered and rejected
+// here specifically because FSRS's difficulty isn't an approximation of what
+// the leech cap did, it is a strictly more expressive replacement for it
+// (continuous rather than a 2-miss/3-recovery step function, and it also
+// affects *how much a lapse itself hurts*, which the old cap never touched).
+// See test/smoke.js's "FSRS replaces leech handling" block for the
+// equivalent guarantee (a repeatedly-missed item recovers more slowly than
+// a clean one) demonstrated under the new mechanism.
+import {
+  RATING, DEFAULT_WEIGHTS, S_MIN, nextState, nextIntervalDays, initDifficultyRaw,
+} from './fsrs.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// Box 0 means "ask again in this same session".
+// Box 0 means "ask again in this same session". No longer the actual
+// scheduling ladder (FSRS's continuous `stability` is), but kept as the
+// bucket thresholds `box`/`streak` are derived from — see boxFromStability
+// below — so every existing box-based consumer keeps reading a familiar
+// 0-6 scale, and as the literal `intervalDays` a placement/settle claim (an
+// explicit "I already know this" assertion, not an ordinary graded review)
+// schedules against, unchanged from before this migration.
 export const BOX_INTERVALS_DAYS = [0, 1, 2, 4, 8, 16, 32];
 export const MAX_BOX = BOX_INTERVALS_DAYS.length - 1;
 
-// A character that has reached the top box and has *never once* been missed
-// keeps having its interval doubled rather than settling at 32 days forever.
-// This matters most for a kid who already knew some characters coming in —
-// something they have answered right every single time should fade out of
-// review almost entirely, not keep eating a review slot every month.
-// The moment a character is missed, lapses > 0 and this growth stops; it
-// goes back to the ordinary box schedule like anything else being learned.
-const NEVER_MISSED_GROWTH = 2;
-const NEVER_MISSED_CAP_DAYS = 180;
-
 // When this fraction of the current set has reached BOX_SETTLED, the set is
 // considered consolidated. This only drives a suggestion — the learner
-// decides when to take on more, it is never enforced.
+// decides when to take on more, it is never enforced. BOX_SETTLED is 3, not
+// the pre-FSRS value of 2: FSRS's first-ever GOOD-rated correct answer
+// already lands above the old box-2 threshold (its initial stability
+// estimate is more informed than the old scheme's flat 1-day box-1 gap), so
+// keeping the threshold at 2 would flag a set "consolidated" off a single
+// lucky answer per item — bumped to 3 to keep requiring more than one clean
+// pass before nudging toward "ready for more", matching the old behaviour's
+// actual intent rather than its literal box number.
 const FRACTION_SETTLED = 0.8;
-const BOX_SETTLED = 2;
+const BOX_SETTLED = 3;
 
 // Keep history bounded so a profile document cannot grow without limit.
 const MAX_HISTORY = 300;
 
-// Leech handling (review-followups.md item 5): an item missed this many
-// times in a row is a "leech" — a correct answer clears the miss streak as
-// always, but the record stays capped at a low box/streak (so the interval
-// stays short) for several more correct answers before it is trusted to
-// climb normally again. This is deliberately separate from the lifetime
-// `lapses`/`incorrect` counters, which never reset and already exist for a
-// different purpose (sorting the same-day review queue, dueItems() above).
-// Without this, a character missed 20 times in a row gets exactly the same
-// treatment the moment it's next answered right as one missed only once —
-// it jumps straight back onto the ordinary climb instead of proving itself
-// again first.
-const LEECH_MISS_THRESHOLD = 2; // consecutive misses that mark an item a leech
-const LEECH_RECOVERY_STREAK = 3; // consecutive correct answers to lift the cap
-const LEECH_CAP_BOX = 1; // grade(): box growth capped here while recovering
-const LEECH_CAP_STREAK = 1; // gradeYomi(): streak capped here, and its
-// lifetime-experience multiplier suppressed, while recovering
+/**
+ * The 0-6 `box`/`streak` tier a given FSRS stability (days) buckets into,
+ * using BOX_INTERVALS_DAYS as thresholds — stability and the old fixed
+ * Leitner intervals are both "days", so the same ladder that used to BE the
+ * schedule now just describes it for display and for every consumer that
+ * still reads box/streak directly (masteryTier, autoWritingMode, the
+ * kanji-rollup "lowest streak wins" aggregation, dueItems' same-day sort).
+ */
+function boxFromStability(stability) {
+  let box = 0;
+  for (let i = 0; i < BOX_INTERVALS_DAYS.length; i += 1) {
+    if (stability >= BOX_INTERVALS_DAYS[i]) box = i; else break;
+  }
+  return box;
+}
+
+/** Days since a record's last real touch, floored at 0 — FSRS's `t`. A
+ * record with no prior timestamp (never graded, or a legacy record from
+ * before `updatedAt` existed) has nothing to measure elapsed time from; the
+ * caller treats that the same as a same-session (t=0) review. */
+function elapsedDaysSince(priorMs, now) {
+  if (!Number.isFinite(priorMs) || priorMs <= 0) return 0;
+  return Math.max(0, Math.round((now - priorMs) / DAY_MS));
+}
+
+/** A plausible {stability, difficulty} for an explicit knowledge claim
+ * (placement / "mark as known") landing on box tier `box` — used so a record
+ * written by a claim, not an ordinary graded review, still has SOME FSRS
+ * state to build on the next time it actually is graded, rather than
+ * reading as an untouched, never-reviewed item. Difficulty is left at the
+ * default "Good" starting difficulty (see fsrs.js's initDifficultyRaw) since
+ * a claim carries no evidence either way about how hard the item actually
+ * is for this learner. */
+function seedStateForBox(box) {
+  return {
+    stability: Math.max(BOX_INTERVALS_DAYS[Math.min(Math.max(box, 0), MAX_BOX)], 1),
+    difficulty: initDifficultyRaw(RATING.GOOD, DEFAULT_WEIGHTS),
+  };
+}
+
+/** Whether a record already carries real FSRS state (as opposed to `0/0`,
+ * which both newRecord()/newYomiRecord() default to and migrateLegacyRecord/
+ * migrateLegacyYomiRecord return for a record with no grading history at
+ * all) — the same "treat as a brand-new item" test fsrs.js's own
+ * nextState() uses internally. */
+function hasFsrsState(rec) {
+  return rec.stability > 0 || rec.difficulty > 0;
+}
+
+/**
+ * Seeds `stability`/`difficulty` on a pre-FSRS grade()-shape record (one
+ * with lifetime box/lapses history but no FSRS state yet) from that history,
+ * rather than resetting it to a brand-new item — review-followups.md item 9,
+ * "translate existing history into starting FSRS estimates". `intervalDays`/
+ * `box` are the strongest signal of how well-known the item already was (an
+ * item sitting at box 5 has demonstrably earned a long gap before, whatever
+ * the mechanism); lifetime `lapses` discounts that estimate downward and
+ * pushes the starting difficulty upward, since a fixed Leitner interval
+ * carried no notion of difficulty at all and a heavily-lapsed item's box
+ * overstates how reliably it is actually held. Untouched records (`seen`
+ * 0 — brand new, never graded) are left at 0/0, which grade()'s FSRS branch
+ * already treats identically to a real never-before-seen item.
+ */
+export function migrateLegacyRecord(rec) {
+  if (!rec || !rec.seen) return { stability: 0, difficulty: 0 };
+  const baseDays = Math.max(rec.intervalDays || 0, BOX_INTERVALS_DAYS[Math.min(rec.box || 0, MAX_BOX)] || 0, 1);
+  // Each lifetime lapse discounts the estimate by 15%, capped at 10 lapses
+  // (a floor of roughly 0.85^10 ≈ 20% of the raw interval) so a handful of
+  // old misses can't collapse an otherwise well-established item to nothing.
+  const lapseDiscount = 0.85 ** Math.min(rec.lapses || 0, 10);
+  const stability = Math.max(S_MIN, baseDays * lapseDiscount);
+  const lapseRate = (rec.lapses || 0) / Math.max(rec.seen || 1, 1);
+  const baseDifficulty = initDifficultyRaw(RATING.GOOD, DEFAULT_WEIGHTS);
+  const difficulty = Math.min(10, Math.max(1, baseDifficulty + lapseRate * (10 - baseDifficulty)));
+  return { stability, difficulty };
+}
+
+/** Same idea as migrateLegacyRecord, for gradeYomi()'s streak/correct/
+ * incorrect shape — see its docstring for the reasoning, identical here
+ * modulo which fields the old shape actually carried. */
+export function migrateLegacyYomiRecord(rec) {
+  if (!rec || ((rec.correct || 0) + (rec.incorrect || 0)) === 0) return { stability: 0, difficulty: 0 };
+  const baseDays = Math.max(rec.intervalDays || 0, BOX_INTERVALS_DAYS[Math.min(rec.streak || 0, MAX_BOX)] || 0, 1);
+  const lapseDiscount = 0.85 ** Math.min(rec.incorrect || 0, 10);
+  const stability = Math.max(S_MIN, baseDays * lapseDiscount);
+  const lapseRate = (rec.incorrect || 0) / Math.max((rec.correct || 0) + (rec.incorrect || 0), 1);
+  const baseDifficulty = initDifficultyRaw(RATING.GOOD, DEFAULT_WEIGHTS);
+  const difficulty = Math.min(10, Math.max(1, baseDifficulty + lapseRate * (10 - baseDifficulty)));
+  return { stability, difficulty };
+}
 
 // `kinds` is which course types a mode applies to: kana has no English
 // definition to quiz, so Definition is offered for kanji only.
@@ -281,15 +401,28 @@ function asContext(ctx) {
 export function newRecord() {
   return {
     box: 0, due: 0, intervalDays: 0, seen: 0, correct: 0, lapses: 0,
-    missStreak: 0, leechRecovery: 0, history: [], updatedAt: null,
+    stability: 0, difficulty: 0, history: [], updatedAt: null,
   };
 }
 
 /**
  * Apply a pass/fail result to a record. Returns the updated record.
- * A miss always drops the item to box 0 so it is re-drilled in the same
- * session, and increments `lapses` so a persistently hard character is
- * visible in the stats later.
+ * A miss always drops the item to box 0 and makes it immediately due again,
+ * so it is re-drilled in the same session — this is a pedagogy decision
+ * independent of the scheduling algorithm underneath, unchanged by the
+ * FSRS migration (see the module header), and increments `lapses` so a
+ * persistently hard character is visible in the stats later. FSRS's own
+ * post-lapse stability (fsrs.js's next_forget_stability) is still computed
+ * and stored, so the NEXT correct answer's climb reflects the miss even
+ * though this one's due date doesn't wait for it.
+ *
+ * `rating`, when the caller has a richer signal than a plain correct/
+ * incorrect boolean (currently just writing mode's stroke-accuracy score —
+ * see recordWritingResult in app.js), may be RATING.HARD or RATING.EASY to
+ * use in place of the default RATING.GOOD for a correct answer. Ignored
+ * (and unnecessary) for an incorrect one, which is always graded RATING.AGAIN
+ * — every other call site passes nothing and gets the GOOD/AGAIN default,
+ * which is exactly what a plain correct/incorrect boolean can support.
  *
  * `placement`, when true, is a "test out" answer (kanji-expansion-plan.md
  * §placement test): a NEVER-BEFORE-SEEN item answered correctly means the
@@ -304,18 +437,10 @@ export function newRecord() {
  * lower than the record already is) and is scheduled exactly `intervalDays`
  * out, rather than climbing one box or jumping to the top. Only one of
  * `placement`/`settle` is ever passed; `settle` wins if both somehow are.
- *
- * Leech handling: `missStreak` counts consecutive misses (reset by any
- * correct answer, unlike lifetime `lapses`). Once it reaches
- * LEECH_MISS_THRESHOLD, `leechRecovery` is armed to LEECH_RECOVERY_STREAK —
- * for that many correct answers afterward, box growth is capped at
- * LEECH_CAP_BOX rather than climbing normally, so a character that has just
- * been missed repeatedly has to prove itself several times running before it
- * is trusted with a long interval again. `placement`/`settle` are explicit
- * claims of knowledge and bypass/clear this — they are not "an answer", they
- * are the learner (or a self-assessment) asserting mastery outright.
  */
-export function grade(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
+export function grade(record, correct, now = Date.now(), {
+  placement = false, settle = null, rating = null,
+} = {}) {
   const rec = record || newRecord();
   // newRecord() has always carried `history`, so unlike gradeYomi's matching
   // guard this isn't fixing a known-broken shape — it's holding the same
@@ -323,47 +448,47 @@ export function grade(record, correct, now = Date.now(), { placement = false, se
   // hand-edited profile missing the field degrades to "history starts now"
   // instead of throwing mid-answer.
   if (!Array.isArray(rec.history)) rec.history = [];
-  // Same backward-compat reasoning for the two leech-tracking fields, which
-  // are newer still — a record saved before they existed reaches here with
-  // both undefined.
-  if (!Number.isFinite(rec.missStreak)) rec.missStreak = 0;
-  if (!Number.isFinite(rec.leechRecovery)) rec.leechRecovery = 0;
+  // A record saved before FSRS shipped has box/due/lapses history but no
+  // stability/difficulty yet — seed it from that history once, the same
+  // backward-compat pattern as the history guard above. See
+  // migrateLegacyRecord's own docstring for the reasoning.
+  if (!Number.isFinite(rec.stability) || !Number.isFinite(rec.difficulty)) {
+    const seed = migrateLegacyRecord(rec);
+    rec.stability = seed.stability;
+    rec.difficulty = seed.difficulty;
+  }
+  const elapsedDays = elapsedDaysSince(rec.updatedAt, now);
   rec.seen += 1;
   if (correct) {
     rec.correct += 1;
     if (settle) {
       rec.box = Math.min(Math.max(rec.box, settle.box), MAX_BOX);
       rec.intervalDays = settle.intervalDays;
-      rec.missStreak = 0;
-      rec.leechRecovery = 0;
+      const seeded = seedStateForBox(rec.box);
+      rec.stability = Math.max(rec.stability, seeded.stability);
+      if (rec.difficulty <= 0) rec.difficulty = seeded.difficulty;
     } else if (placement) {
       rec.box = MAX_BOX;
       rec.intervalDays = BOX_INTERVALS_DAYS[MAX_BOX];
-      rec.missStreak = 0;
-      rec.leechRecovery = 0;
+      const seeded = seedStateForBox(MAX_BOX);
+      rec.stability = seeded.stability;
+      rec.difficulty = seeded.difficulty;
     } else {
-      rec.missStreak = 0;
-      const wasAtMax = rec.box >= MAX_BOX;
-      let nextBox = Math.min(rec.box + 1, MAX_BOX);
-      if (rec.leechRecovery > 0) {
-        nextBox = Math.min(nextBox, LEECH_CAP_BOX);
-        rec.leechRecovery -= 1;
-      }
-      rec.box = nextBox;
-      if (wasAtMax && rec.lapses === 0) {
-        // Perfect record, already at the top box: keep spacing it out further
-        // instead of asking again every 32 days for the rest of time.
-        const previous = rec.intervalDays || BOX_INTERVALS_DAYS[MAX_BOX];
-        rec.intervalDays = Math.min(previous * NEVER_MISSED_GROWTH, NEVER_MISSED_CAP_DAYS);
-      } else {
-        rec.intervalDays = BOX_INTERVALS_DAYS[rec.box];
-      }
+      const g = (rating === RATING.HARD || rating === RATING.EASY) ? rating : RATING.GOOD;
+      const prior = hasFsrsState(rec) ? { stability: rec.stability, difficulty: rec.difficulty } : null;
+      const next = nextState(prior, elapsedDays, g);
+      rec.stability = next.stability;
+      rec.difficulty = next.difficulty;
+      rec.box = boxFromStability(rec.stability);
+      rec.intervalDays = nextIntervalDays(rec.stability);
     }
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.lapses += 1;
-    rec.missStreak += 1;
-    if (rec.missStreak >= LEECH_MISS_THRESHOLD) rec.leechRecovery = LEECH_RECOVERY_STREAK;
+    const prior = hasFsrsState(rec) ? { stability: rec.stability, difficulty: rec.difficulty } : null;
+    const next = nextState(prior, elapsedDays, RATING.AGAIN);
+    rec.stability = next.stability;
+    rec.difficulty = next.difficulty;
     rec.box = 0;
     rec.intervalDays = 0;
     rec.due = now; // immediately due again
@@ -814,17 +939,20 @@ export function autoWritingMode(record) {
 // The kanji reading quiz grades each on'yomi/kun'yomi individually rather
 // than the kanji as a whole — a kid can know セイ cold while still shaky on
 // うまれる for the same kanji, and lumping them into one record would hide
-// that. This model is deliberately different from the Leitner boxes above:
-// no fixed box ladder, just two numbers the request asked for directly —
-// current streak (consecutive correct, reset by any miss) and lifetime
-// correct count — both pushing the interval out, so a reading with a long
-// history doesn't fall all the way back to "brand new" spacing after one
-// slip. lastReviewed/secondLastReviewed are kept so the interval actually
-// taken between the last two reviews can be reconstructed later even though
-// scheduling itself only looks at `due`.
-
-const YOMI_STREAK_DAYS = [0, 1, 2, 4, 8, 16, 32];
-const YOMI_MAX_INTERVAL_DAYS = 120;
+// that. This model is kept deliberately parallel to grade()'s above rather
+// than unified into one record shape, same as it was before the FSRS
+// migration (see the module header): `streak` (this module's box-equivalent
+// tier, still derived from FSRS stability via boxFromStability) and lifetime
+// `correct`/`incorrect` are what recomputeKanjiRollup (kanji.js) and
+// rebuildYomiRollups (merge.js) already read directly off these records, and
+// FSRS's stability/difficulty pair doesn't map any more naturally onto "one
+// unified record shape" than the old box/streak split did — unifying now
+// would mean changing those two rollup readers' field access too, for no
+// benefit to the scheduling itself. lastReviewed/secondLastReviewed are kept
+// so the interval actually taken between the last two reviews can be
+// reconstructed later, and doubles as this record's own "when was it last
+// graded" for computing FSRS's elapsed-days input (grade()'s grade-shape
+// records use `updatedAt` for the same purpose).
 
 export function yomiKey(mode, kanji, reading) {
   return `${mode}:${kanji}:${reading}`;
@@ -835,8 +963,8 @@ export function newYomiRecord() {
     correct: 0,
     incorrect: 0,
     streak: 0,
-    missStreak: 0,
-    leechRecovery: 0,
+    stability: 0,
+    difficulty: 0,
     lastReviewed: null,
     secondLastReviewed: null,
     due: 0,
@@ -852,13 +980,19 @@ export function newYomiRecord() {
 }
 
 /**
- * Apply a pass/fail result to a reading's record. A miss resets the streak
- * to zero and makes it due immediately, but — unlike the kana boxes — does
- * not erase the lifetime correct count, so rebuilding the streak afterward
- * earns a longer interval sooner than a reading with no track record would.
+ * Apply a pass/fail result to a reading's record, via the same FSRS engine
+ * grade() above uses (see fsrs.js) — see this module's header for the
+ * migration this replaced (a fixed streak ladder with a lifetime-experience
+ * multiplier) and why the two record shapes stay parallel rather than
+ * unified. A miss resets `streak` to zero and makes the record due
+ * immediately (same pedagogy reasoning as grade()'s miss handling — always
+ * redrill in the same session, independent of the scheduling algorithm),
+ * but — like before — does not erase the lifetime `correct` count.
+ *
+ * `rating`: see grade()'s docstring; same optional HARD/EASY override.
  *
  * `placement` (see grade() above) jumps the streak straight to MAX_BOX
- * instead of incrementing by one — recomputeKanjiRollup in kanji.js derives
+ * instead of climbing normally — recomputeKanjiRollup in kanji.js derives
  * the kanji-level box as min(streak, MAX_BOX) across every reading, so a
  * placement-correct reading here is what lets a whole kanji's rollup land on
  * "well known" from a single clean round, the same as grade() does for the
@@ -866,22 +1000,13 @@ export function newYomiRecord() {
  *
  * `settle` ({ streak, intervalDays }) is grade()'s option of the same name
  * for the "I think I know this" claim: the streak lands at that value (never
- * lower than it already is) and the interval is taken as given, bypassing
- * the experience multiplier — the point of a claim is that the due date is
- * chosen deliberately (staggered across a batch, see markKnownItems), not
- * derived from a track record the reading doesn't yet have.
- *
- * Leech handling (same rule as grade(), see its docstring): `missStreak`
- * counts consecutive misses; once it reaches LEECH_MISS_THRESHOLD,
- * `leechRecovery` is armed to LEECH_RECOVERY_STREAK correct answers. While
- * armed, both the streak used to pick the base interval AND the lifetime-
- * experience multiplier are suppressed — experience especially, since it is
- * exactly the mechanism that would otherwise let a reading with a long
- * correct history jump straight back to a long interval off a single lucky
- * guess right after a run of misses. `placement`/`settle` bypass and clear
- * this the same way they do in grade().
+ * lower than it already is) and the interval is taken as given — the point
+ * of a claim is that the due date is chosen deliberately (staggered across a
+ * batch, see markKnownItems), not derived from FSRS's own estimate.
  */
-export function gradeYomi(record, correct, now = Date.now(), { placement = false, settle = null } = {}) {
+export function gradeYomi(record, correct, now = Date.now(), {
+  placement = false, settle = null, rating = null,
+} = {}) {
   const rec = record || newYomiRecord();
   // Yomi records predating the study-history timeline have no `history` at
   // all — newYomiRecord() gained it only when that shipped, and nothing
@@ -892,9 +1017,18 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
   // caller on a correct vocab answer is creditVocabYomi() — presented as
   // "the right answer does nothing, the wrong one works".
   if (!Array.isArray(rec.history)) rec.history = [];
-  // Same backward-compat reasoning for the two leech-tracking fields.
-  if (!Number.isFinite(rec.missStreak)) rec.missStreak = 0;
-  if (!Number.isFinite(rec.leechRecovery)) rec.leechRecovery = 0;
+  // Same backward-compat reasoning as grade()'s matching guard — a record
+  // saved before FSRS shipped has no stability/difficulty yet.
+  if (!Number.isFinite(rec.stability) || !Number.isFinite(rec.difficulty)) {
+    const seed = migrateLegacyYomiRecord(rec);
+    rec.stability = seed.stability;
+    rec.difficulty = seed.difficulty;
+  }
+  // secondLastReviewed, not updatedAt, is this record's "when was it last
+  // actually graded" — captured BEFORE lastReviewed is overwritten below, so
+  // it still reflects the PRIOR review when computing elapsed days for this
+  // one.
+  const elapsedDays = elapsedDaysSince(rec.secondLastReviewed, now);
   rec.secondLastReviewed = rec.lastReviewed;
   rec.lastReviewed = now;
 
@@ -903,36 +1037,31 @@ export function gradeYomi(record, correct, now = Date.now(), { placement = false
     if (settle) {
       rec.streak = Math.max(rec.streak, settle.streak);
       rec.intervalDays = settle.intervalDays;
-      rec.missStreak = 0;
-      rec.leechRecovery = 0;
+      const seeded = seedStateForBox(rec.streak);
+      rec.stability = Math.max(rec.stability, seeded.stability);
+      if (rec.difficulty <= 0) rec.difficulty = seeded.difficulty;
+    } else if (placement) {
+      rec.streak = MAX_BOX;
+      const seeded = seedStateForBox(MAX_BOX);
+      rec.stability = seeded.stability;
+      rec.difficulty = seeded.difficulty;
+      rec.intervalDays = nextIntervalDays(rec.stability);
     } else {
-      rec.missStreak = 0;
-      // An explicit claim (placement) always bypasses AND clears the leech
-      // cap — it asserts mastery outright, so there is nothing left to prove
-      // back gradually. An ordinary organic answer, while capped, has its
-      // streak and lifetime-experience multiplier suppressed instead — see
-      // the docstring above for why experience needs suppressing too.
-      let streak = placement ? MAX_BOX : rec.streak + 1;
-      let experience = 1 + Math.floor(Math.log2(1 + rec.correct));
-      if (placement) {
-        rec.leechRecovery = 0;
-      } else if (rec.leechRecovery > 0) {
-        streak = Math.min(streak, LEECH_CAP_STREAK);
-        experience = 1;
-        rec.leechRecovery -= 1;
-      }
-      rec.streak = streak;
-      const base = YOMI_STREAK_DAYS[Math.min(rec.streak, YOMI_STREAK_DAYS.length - 1)];
-      // Credit for total correct answers, even ones before the current
-      // streak started — e.g. a reading answered right 30 times total that
-      // just had one slip shouldn't need to re-climb from a 1-day interval.
-      rec.intervalDays = Math.min(base * experience, YOMI_MAX_INTERVAL_DAYS);
+      const g = (rating === RATING.HARD || rating === RATING.EASY) ? rating : RATING.GOOD;
+      const prior = hasFsrsState(rec) ? { stability: rec.stability, difficulty: rec.difficulty } : null;
+      const next = nextState(prior, elapsedDays, g);
+      rec.stability = next.stability;
+      rec.difficulty = next.difficulty;
+      rec.streak = boxFromStability(rec.stability);
+      rec.intervalDays = nextIntervalDays(rec.stability);
     }
     rec.due = now + rec.intervalDays * DAY_MS;
   } else {
     rec.incorrect += 1;
-    rec.missStreak += 1;
-    if (rec.missStreak >= LEECH_MISS_THRESHOLD) rec.leechRecovery = LEECH_RECOVERY_STREAK;
+    const prior = hasFsrsState(rec) ? { stability: rec.stability, difficulty: rec.difficulty } : null;
+    const next = nextState(prior, elapsedDays, RATING.AGAIN);
+    rec.stability = next.stability;
+    rec.difficulty = next.difficulty;
     rec.streak = 0;
     rec.intervalDays = 0;
     rec.due = now;

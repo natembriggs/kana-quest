@@ -144,16 +144,21 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   end-of-session screen both offer *Add 5 more* and *Review N* as separate
   buttons; the app never slips new characters into a review session on its own.
   New characters are taught on their own cards before being quizzed.
-- **Spaced repetition.** Leitner boxes, reviewed after 1, 2, 4, 8, 16 then 32
-  days. A miss drops the character to box 0, so it comes back later in the same
-  session and again the next day. A review session is a capped smattering
-  (15 by default), not a forced march through everything due — and when more
-  is due than fits, characters with a lapse on record are pulled ahead of ones
-  that have never once been missed. A character that reaches the top box
-  having *never* been missed keeps having its interval doubled (32 → 64 → 128
-  → capped at 180 days) instead of settling there forever — useful for a kid
-  who already knew some characters coming in, since those fade out of review
-  almost entirely rather than eating a review slot every month.
+- **Spaced repetition.** FSRS (Free Spaced Repetition Scheduler) — each
+  character or word carries its own `difficulty` (1-10) and `stability` (days
+  until recall probability decays to 90%), both updated from every answer, so
+  two items at the same rough mastery level by very different histories are
+  no longer scheduled identically the way a fixed box ladder would. A miss
+  always drops the character to box 0 and makes it due again immediately, so
+  it comes back later in the same session — that redrill-on-a-miss behavior
+  is a pedagogy choice independent of the scheduling algorithm underneath.
+  A review session is a capped smattering (15 by default), not a forced march
+  through everything due — and when more is due than fits, characters with a
+  lapse on record are pulled ahead of ones that have never once been missed.
+  `box`/`streak` (0-6, shown in the overview grid's colour-coding) are still
+  present on every record, now derived from stability rather than being the
+  schedule themselves — see `src/fsrs.js` for the algorithm and `src/srs.js`
+  for how it plugs in.
 - **The pace suggestion never blocks.** If most of what has been introduced is
   not yet solid, the card shows a *review first* tip — but *Add 5 more* stays
   enabled. The learner decides.
@@ -268,12 +273,15 @@ at.
 ### Per-reading spaced repetition
 
 Each reading of each kanji gets its own record — correct count, incorrect
-count, current streak (consecutive correct, reset by any miss), and the
-timestamps of its last two reviews (so the interval actually taken between
-them can be reconstructed later). Both the streak *and* the lifetime correct
-count push the review interval out — a reading answered right 30 times that
-just had one slip doesn't fall all the way back to "brand new" spacing the
-way a reading with no track record would. See `gradeYomi` in `src/srs.js`.
+count, current streak (0-6, derived from FSRS stability the same way `box`
+is elsewhere), its own FSRS `stability`/`difficulty`, and the timestamps of
+its last two reviews (so the interval actually taken between them, and the
+elapsed-days input FSRS needs, can be reconstructed later). A reading
+answered right 30 times that just had one slip recovers a longer interval
+than a reading with no track record at all, because 30 correct answers leave
+`difficulty` low, and low difficulty is what makes a post-lapse recovery earn
+a bigger jump back — not a separate "lifetime correct count" bonus grafted on
+top the way the pre-FSRS scheduler needed. See `gradeYomi` in `src/srs.js`.
 
 The kanji itself (as a schedulable "card") doesn't have its own real record —
 it's a **rollup**, recomputed from its readings' records after every grading
@@ -550,7 +558,8 @@ when you want to force it, but it shouldn't be needed.
 | `src/kanji.js` | Kanji courses (built from `src/data/kanji-manifest.js`, one grade's real data loaded lazily on demand — see below), reading-choice selection, kanji-level rollup |
 | `src/data/kanji-manifest.js` | Generated data: just the character list per grade — always loaded, enough to build the course skeleton without fetching anything else |
 | `src/data/kanji-grade-*.js` | Generated data: readings/meanings/example words per kanji, one file per grade — do not hand-edit, see below. Fetched lazily the first time that grade is opened, not on startup |
-| `src/srs.js` | Leitner scheduling (kana) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
+| `src/srs.js` | FSRS-backed scheduling (kana/kanji/vocab) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
+| `src/fsrs.js` | The FSRS-6 algorithm itself — difficulty/stability update formulas, retrievability, interval calculation. No app dependencies; srs.js is its only caller |
 | `src/strokes.js` | Builds the numbered stroke-order SVG and its draw-in animation, from `src/data/stroke-*.js` |
 | `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
 | `src/data/example-words.js` | Generated data: every word appearing in any example sentence, with its reading and meaning — one shared file, loaded lazily on the first tap of a word inside a sentence |

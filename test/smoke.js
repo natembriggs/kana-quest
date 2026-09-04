@@ -22,6 +22,7 @@ const {
 // test/wiring.js's stubbed DOM instead, not here.
 const { strokesFor, hasStrokes, ensureStrokeUnitLoaded, allStrokeEntries } = await import('../src/strokes.js');
 const srs = await import('../src/srs.js');
+const fsrs = await import('../src/fsrs.js');
 const {
   flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset, chordBulge,
 } = await import('../src/stroke-geometry.js');
@@ -1049,11 +1050,17 @@ check('rollup does nothing when no reading has been graded yet',
   !rollupProgress[srs.itemKey('recognition', rollupKanji)]);
 
 const [firstReading, secondReading] = rollupInfo.quizReadings;
-rollupProgress[srs.yomiKey('recognition', rollupKanji, firstReading)] =
-  srs.gradeYomi(srs.newYomiRecord(), true, rollupNow); // due soon, streak 1
+const firstReadingRecord = srs.gradeYomi(srs.newYomiRecord(), true, rollupNow); // due soon, one correct
+rollupProgress[srs.yomiKey('recognition', rollupKanji, firstReading)] = firstReadingRecord;
 if (secondReading) {
+  // Spaced out over a realistic review cadence (each grade at its own prior
+  // due date), not six grades at the same instant — FSRS's same-day formula
+  // deliberately keeps a same-day re-review from inflating stability (see
+  // fsrs.js's next_short_term_stability), so six correct answers with no
+  // real time between them would NOT actually climb any higher than one.
   let solid = srs.newYomiRecord();
-  for (let i = 0; i < 6; i += 1) solid = srs.gradeYomi(solid, true, rollupNow); // due much later, streak 6
+  let solidNow = rollupNow;
+  for (let i = 0; i < 6; i += 1) { solid = srs.gradeYomi(solid, true, solidNow); solidNow = solid.due; }
   rollupProgress[srs.yomiKey('recognition', rollupKanji, secondReading)] = solid;
 }
 recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, rollupNow);
@@ -1063,9 +1070,10 @@ check('rollup due date is the EARLIEST due among introduced readings — a kanji
   rollup.due === rollupProgress[srs.yomiKey('recognition', rollupKanji, firstReading)].due);
 if (secondReading) {
   check('rollup box is the LOWEST streak among introduced readings — mastered means every reading tested is solid',
-    rollup.box === 1, `got ${rollup.box}`);
+    rollup.box === firstReadingRecord.streak && rollup.box < rollupProgress[srs.yomiKey('recognition', rollupKanji, secondReading)].streak,
+    `got ${rollup.box}`);
 } else {
-  check('with only one reading, rollup box matches its streak', rollup.box === 1);
+  check('with only one reading, rollup box matches its streak', rollup.box === firstReadingRecord.streak);
 }
 check('rollup correct/lapses are summed across readings',
   rollup.correct === (secondReading ? 7 : 1) && rollup.lapses === 0,
@@ -1084,7 +1092,7 @@ done('kanji-level rollup aggregates per-reading records');
   srs.recomputeYomiRollupFromProgress(progress, 'recognition', '電', 2000);
   const rollup1 = progress[srs.itemKey('recognition', '電')];
   check('a rollup is built from a single credited reading with no kanji course data',
-    rollup1 && rollup1.correct === 1 && rollup1.box === 1, JSON.stringify(rollup1));
+    rollup1 && rollup1.correct === 1 && rollup1.box === progress[key1].streak, JSON.stringify(rollup1));
 
   // A second reading credited later re-aggregates across both, exactly as
   // kanji.js's own recomputeKanjiRollup would from a real quizReadings list.
@@ -1107,25 +1115,64 @@ const DAY = 24 * 60 * 60 * 1000;
 const now = Date.UTC(2026, 0, 1);
 
 let rec = srs.grade(srs.newRecord(), true, now);
-check('pass moves to box 1', rec.box === 1, `box ${rec.box}`);
-check('pass schedules 1 day out', rec.due === now + DAY, `due +${(rec.due - now) / DAY}d`);
+check('a first correct answer earns a real box tier, not just "seen once"',
+  rec.box >= 1, `box ${rec.box}`);
+check('a first correct answer is scheduled out, not immediately again',
+  rec.due > now, `due +${(rec.due - now) / DAY}d`);
 check('history records the pass', rec.history.length === 1 && rec.history[0][1] === 1);
+check('a first correct answer seeds real FSRS state, not left at 0/0',
+  rec.stability > 0 && rec.difficulty >= 1 && rec.difficulty <= 10,
+  `stability ${rec.stability} difficulty ${rec.difficulty}`);
 
-rec = srs.grade(rec, true, now);
-rec = srs.grade(rec, true, now);
-check('three passes reach box 3', rec.box === 3, `box ${rec.box}`);
-check('box 3 is 4 days out', rec.due === now + 4 * DAY);
+// Graded at each of its own successive due dates — a realistic review
+// cadence — rather than three grades back-to-back at the same instant: FSRS
+// treats a same-day (zero-elapsed-time) re-review specially (see fsrs.js's
+// next_short_term_stability, which a masking rule stops from ever SHRINKING
+// stability on a Good-or-better grade, but which also barely grows it — a
+// real review only really informs the model once real time has passed for
+// retrievability to have actually decayed some).
+let t = rec.due;
+const boxAfterOne = rec.box;
+rec = srs.grade(rec, true, t); t = rec.due;
+rec = srs.grade(rec, true, t); t = rec.due;
+check('three passes, spaced realistically, climb well past the first box',
+  rec.box > boxAfterOne, `box ${rec.box} vs after one pass ${boxAfterOne}`);
+check('stability has grown accordingly', rec.stability > 2, `stability ${rec.stability}`);
 
-rec = srs.grade(rec, false, now);
+rec = srs.grade(rec, false, t);
 check('miss drops to box 0', rec.box === 0);
-check('miss is immediately due', srs.isDue(rec, now));
+check('miss is immediately due', srs.isDue(rec, t));
 check('miss counted as a lapse', rec.lapses === 1);
 check('history keeps every attempt', rec.history.length === 4);
+check('a miss still updates FSRS state (lower stability than just before the miss), not left untouched',
+  rec.stability > 0 && rec.stability < 20, `stability ${rec.stability}`);
 
+// Realistic cadence again — grading 20 times at the exact same instant would
+// exercise the same-day short-term formula throughout and never leave it,
+// which is a real but narrow case (see test below), not "many reviews over
+// time".
 let maxed = srs.newRecord();
-for (let i = 0; i < 20; i += 1) maxed = srs.grade(maxed, true, now);
+let tm = now;
+for (let i = 0; i < 20; i += 1) { maxed = srs.grade(maxed, true, tm); tm = maxed.due; }
 check('box is capped', maxed.box === srs.MAX_BOX, `box ${maxed.box}`);
-done('leitner boxes');
+check('interval is capped at the configured ceiling, not unbounded',
+  maxed.intervalDays === fsrs.MAX_INTERVAL_DAYS, `got ${maxed.intervalDays}`);
+done('FSRS-driven boxes: pass/miss mechanics, box tiers, and interval capping');
+
+// A same-day (zero-elapsed) re-review is the one case that stays flat: no
+// real time has passed for retrievability to have decayed, so FSRS's own
+// same-day formula (masked so a Good-or-better grade can never shrink
+// stability, but doesn't grow it much either) intentionally does not treat
+// ten same-instant correct answers as equivalent to ten real reviews spread
+// over weeks. This is expected FSRS behaviour, not a bug — pinned here so a
+// future change is deliberate, not accidental.
+let sameInstant = srs.grade(srs.newRecord(), true, now);
+const stabilityAfterOne = sameInstant.stability;
+for (let i = 0; i < 10; i += 1) sameInstant = srs.grade(sameInstant, true, now);
+check('repeated same-instant reviews do not meaningfully inflate stability',
+  Math.abs(sameInstant.stability - stabilityAfterOne) < 0.5,
+  `${stabilityAfterOne} -> ${sameInstant.stability}`);
+done('same-day re-reviews do not substitute for real spacing');
 
 // --- Placement test: a correct answer on a never-seen item jumps to the --
 // --- top box instead of climbing one at a time --------------------------
@@ -1183,17 +1230,19 @@ done('placement test: correct answers jump straight to the top box');
 // in §2.5 are pinned above.
 check('a character never attempted (no record at all) defaults to Trace',
   srs.autoWritingMode(null) === 'trace');
-let writingRec = srs.grade(srs.newRecord(), true, now); // box 1
+let writingRec = srs.grade(srs.newRecord(), true, now); // one correct answer
 check('a character below box 3 defaults to Guided',
-  srs.autoWritingMode(writingRec) === 'guided', `box ${writingRec.box}`);
+  writingRec.box < 3 && srs.autoWritingMode(writingRec) === 'guided', `box ${writingRec.box}`);
 writingRec = srs.grade(writingRec, false, now); // a miss always drops to box 0
 check('a record reset to box 0 by a miss still defaults to Guided, not back to Trace — it has been attempted before',
   writingRec.box === 0 && srs.autoWritingMode(writingRec) === 'guided');
+// Realistic cadence (see the note above) — enough correct answers, spaced
+// out, to climb past box 3.
 writingRec = srs.grade(srs.newRecord(), true, now);
-writingRec = srs.grade(writingRec, true, now);
-writingRec = srs.grade(writingRec, true, now); // three passes reach box 3
-check('a character that has reached box 3 defaults to Free — the guide is trusted to fade away',
-  writingRec.box === 3 && srs.autoWritingMode(writingRec) === 'free');
+let tw = writingRec.due;
+while (writingRec.box < 3) { writingRec = srs.grade(writingRec, true, tw); tw = writingRec.due; }
+check('a character that has climbed past box 3 defaults to Free — the guide is trusted to fade away',
+  writingRec.box >= 3 && srs.autoWritingMode(writingRec) === 'free', `box ${writingRec.box}`);
 check('a maxed-out character also defaults to Free', srs.autoWritingMode(maxed) === 'free');
 done('writing mode: Trace/Guided/Free is chosen from mastery, not hardcoded');
 
@@ -1203,44 +1252,57 @@ let yrec = srs.newYomiRecord();
 check('a fresh yomi record has no history', yrec.correct === 0 && yrec.incorrect === 0 && yrec.streak === 0);
 
 yrec = srs.gradeYomi(yrec, true, now);
-check('first correct: streak 1', yrec.streak === 1);
+check('first correct: a real box tier, not zero', yrec.streak >= 1, `streak ${yrec.streak}`);
 check('first correct: lifetime correct count is 1', yrec.correct === 1);
 check('lastReviewed is set, secondLastReviewed is not (no prior review)',
   yrec.lastReviewed === now && yrec.secondLastReviewed === null);
 
-const secondNow = now + DAY;
+const secondNow = yrec.due; // graded at its own due date — a realistic cadence
+const streakAfterOne = yrec.streak;
 yrec = srs.gradeYomi(yrec, true, secondNow);
-check('second correct in a row: streak 2', yrec.streak === 2);
+check('second correct in a row, spaced realistically, climbs further',
+  yrec.streak >= streakAfterOne, `${streakAfterOne} -> ${yrec.streak}`);
 check('secondLastReviewed captures the previous review', yrec.secondLastReviewed === now);
 check('the interval taken between the last two reviews is reconstructable',
-  yrec.lastReviewed - yrec.secondLastReviewed === DAY);
+  yrec.lastReviewed - yrec.secondLastReviewed === secondNow - now);
 
-yrec = srs.gradeYomi(yrec, false, secondNow + DAY);
+const thirdNow = yrec.due;
+yrec = srs.gradeYomi(yrec, false, thirdNow);
 check('a miss resets the streak to zero', yrec.streak === 0);
 check('a miss counts as incorrect, not correct', yrec.incorrect === 1 && yrec.correct === 2);
 check('a miss does NOT erase the lifetime correct count — that is the whole point', yrec.correct === 2);
-check('a miss makes the record due right away', yrec.due === secondNow + DAY);
+check('a miss makes the record due right away', yrec.due === thirdNow);
 check('the generic isDue() helper works on a yomi record too (same .due field)',
-  srs.isDue(yrec, secondNow + DAY) && !srs.isDue(yrec, secondNow + DAY - 1));
+  srs.isDue(yrec, thirdNow) && !srs.isDue(yrec, thirdNow - 1));
 
-// The central claim: a reading with a long correct history recovers a longer
-// interval after one slip than a reading with no track record at all, even
-// though both are back to streak 1.
+// The central claim FSRS is supposed to deliver here: a reading with a long,
+// mostly-correct history recovers a longer interval after one slip than a
+// reading with no track record at all — not because of a special "veteran"
+// rule, but because 20 correct answers leave `difficulty` low (see
+// fsrs.js's next_difficulty), and low difficulty is exactly what makes a
+// post-lapse recovery (next_forget_stability, then next_recall_stability)
+// land higher. Spaced at a realistic cadence, same reasoning as above.
 let veteran = srs.newYomiRecord();
-for (let i = 0; i < 20; i += 1) veteran = srs.gradeYomi(veteran, true, now); // 20 lifetime correct
-veteran = srs.gradeYomi(veteran, false, now); // one slip
-veteran = srs.gradeYomi(veteran, true, now); // back to streak 1
+let tv = now;
+for (let i = 0; i < 20; i += 1) { veteran = srs.gradeYomi(veteran, true, tv); tv = veteran.due; } // 20 lifetime correct
+veteran = srs.gradeYomi(veteran, false, tv); // one slip
+check('the slip visibly raises difficulty', veteran.difficulty > 5, `difficulty ${veteran.difficulty}`);
+tv = veteran.due;
+veteran = srs.gradeYomi(veteran, true, tv); // one recovery answer
 let rookie = srs.newYomiRecord();
-rookie = srs.gradeYomi(rookie, true, now); // streak 1, correct 1 — nothing else
-check('both records are at streak 1 for a fair comparison', veteran.streak === 1 && rookie.streak === 1);
-check('a veteran reading earns a longer interval than a rookie at the same streak',
+rookie = srs.gradeYomi(rookie, true, now); // one correct — nothing else, no track record
+check('a veteran reading recovering from one slip earns a longer interval than a rookie\'s first-ever correct answer',
   veteran.intervalDays > rookie.intervalDays,
   `veteran ${veteran.intervalDays}d vs rookie ${rookie.intervalDays}d`);
+check('and a meaningfully higher stability, not just a coincidentally longer rounded interval',
+  veteran.stability > rookie.stability * 5,
+  `veteran ${veteran.stability} vs rookie ${rookie.stability}`);
 
 let longStreak = srs.newYomiRecord();
-for (let i = 0; i < 50; i += 1) longStreak = srs.gradeYomi(longStreak, true, now);
+let tl = now;
+for (let i = 0; i < 50; i += 1) { longStreak = srs.gradeYomi(longStreak, true, tl); tl = longStreak.due; }
 check('the interval is capped rather than growing without bound',
-  longStreak.intervalDays <= 120, `got ${longStreak.intervalDays}`);
+  longStreak.intervalDays <= fsrs.MAX_INTERVAL_DAYS, `got ${longStreak.intervalDays}`);
 done('per-reading records reward both streak and lifetime correct count');
 
 // --- Grading a record saved before `history` existed -------------------------
@@ -1263,7 +1325,9 @@ check('grading a pre-timeline yomi record does not throw and starts a history',
 check('the recovered history records this attempt correctly',
   legacyGraded.history[0][0] === now && legacyGraded.history[0][1] === 1);
 check('the counters it already had are carried forward, not reset',
-  legacyGraded.correct === 4 && legacyGraded.incorrect === 1 && legacyGraded.streak === 3);
+  legacyGraded.correct === 4 && legacyGraded.incorrect === 1 && legacyGraded.streak >= 1);
+check('grading it seeds real FSRS state from its box/lapse history (see migrateLegacyYomiRecord), not from scratch',
+  legacyGraded.stability > 1, `stability ${legacyGraded.stability}`);
 
 const legacyPlain = { box: 2, due: now, intervalDays: 2, seen: 5, correct: 4, lapses: 1, updatedAt: now };
 const legacyPlainGraded = srs.grade(legacyPlain, false, now);
@@ -1272,145 +1336,128 @@ check('the same guard holds for grade() on a record missing history',
   && legacyPlainGraded.history[0][1] === 0);
 done('records saved before history existed can still be graded');
 
-// --- Never-missed characters fade out of review -----------------------------
-// The point: a kid who already knew some characters coming in should stop
-// seeing them in review almost entirely, as long as they never get one wrong.
-
-let neverMissed = srs.newRecord();
-for (let i = 0; i < 6; i += 1) neverMissed = srs.grade(neverMissed, true, now); // reaches box 6
-check('six straight passes reach the top box', neverMissed.box === srs.MAX_BOX);
-check('top box is the ordinary 32-day interval', neverMissed.intervalDays === 32);
-
-const afterOne = srs.grade(neverMissed, true, now);
-check('a further pass with a perfect record grows the interval', afterOne.intervalDays === 64);
-const afterTwo = srs.grade(afterOne, true, now);
-check('it keeps growing', afterTwo.intervalDays === 128, `got ${afterTwo.intervalDays}`);
-const afterThree = srs.grade(afterTwo, true, now);
-check('growth is capped rather than unbounded', afterThree.intervalDays === 180, `got ${afterThree.intervalDays}`);
-check('box stays at the top, only the interval keeps growing', afterThree.box === srs.MAX_BOX);
-
-// The moment a character is missed even once, the extra growth stops for
-// good — it goes back to behaving like anything else being learned.
-let onceMissed = srs.newRecord();
-for (let i = 0; i < 6; i += 1) onceMissed = srs.grade(onceMissed, true, now);
-onceMissed = srs.grade(onceMissed, false, now); // one lapse, box back to 0
-for (let i = 0; i < 6; i += 1) onceMissed = srs.grade(onceMissed, true, now); // climbs back up
-check('recovering to the top box after one lapse stays at the ordinary interval',
-  onceMissed.intervalDays === 32, `got ${onceMissed.intervalDays}`);
-const onceMissedAgain = srs.grade(onceMissed, true, now);
-check('it does not resume growing just because it is passing again',
-  onceMissedAgain.intervalDays === 32, `got ${onceMissedAgain.intervalDays}`);
-done('never-missed characters get spaced out further, not reviewed forever');
-
-// --- Leech handling: a run of consecutive misses caps how fast a record ----
-// --- can climb back up once it's finally answered right --------------------
-// (review-followups.md item 5). The lifetime `lapses`/`incorrect` counters
-// above never reset and never affect scheduling on their own — this is a
-// separate, resettable consecutive-miss streak that does.
+// --- Migration: pre-FSRS box/lapse (and streak/incorrect) history seeds ----
+// --- real starting FSRS estimates, not a reset to a brand-new item --------
+// (review-followups.md item 9 decision 2)
 
 {
-  // A single miss (below the threshold) is ordinary grading, unaffected —
-  // this is the existing Leitner behaviour, just pinned explicitly now that
-  // a real leech threshold exists to be confused with it.
-  let single = srs.grade(srs.newRecord(), false, now);
-  check('one miss alone does not arm leech recovery',
-    single.missStreak === 1 && single.leechRecovery === 0);
-  single = srs.grade(single, true, now);
-  check('recovering from a single miss climbs normally, box 1, no cap',
-    single.box === 1 && single.leechRecovery === 0);
+  const wellEstablished = { box: 5, due: now, intervalDays: 16, seen: 10, correct: 9, lapses: 1, updatedAt: now };
+  const heavilyLapsed = { box: 1, due: now, intervalDays: 1, seen: 8, correct: 3, lapses: 5, updatedAt: now };
+  const untouched = srs.newRecord();
+  const seedEstablished = srs.migrateLegacyRecord(wellEstablished);
+  const seedLapsed = srs.migrateLegacyRecord(heavilyLapsed);
+  const seedUntouched = srs.migrateLegacyRecord(untouched);
+  check('a box-5, mostly-clean item seeds meaningfully higher stability than a box-1 item with many lapses',
+    seedEstablished.stability > seedLapsed.stability * 5,
+    `established ${seedEstablished.stability} vs lapsed ${seedLapsed.stability}`);
+  check('the heavily-lapsed item also seeds a higher starting difficulty',
+    seedLapsed.difficulty > seedEstablished.difficulty,
+    `lapsed ${seedLapsed.difficulty} vs established ${seedEstablished.difficulty}`);
+  check('an untouched (never-graded) record seeds nothing — grade() treats it as a genuinely new item',
+    seedUntouched.stability === 0 && seedUntouched.difficulty === 0);
 
-  // Two consecutive misses does arm it.
-  let leech = srs.grade(srs.newRecord(), false, now);
-  leech = srs.grade(leech, false, now);
-  check('two consecutive misses arm leech recovery',
-    leech.missStreak === 2 && leech.leechRecovery === 3, JSON.stringify(leech));
-
-  // The central claim: from the same starting box (0), a leeched record
-  // climbs more slowly over the same run of correct answers than one that
-  // was never missed.
-  let fresh = srs.newRecord();
-  for (let i = 0; i < 3; i += 1) {
-    leech = srs.grade(leech, true, now);
-    fresh = srs.grade(fresh, true, now);
-  }
-  check('a leeched record climbs to a lower box than a never-missed one over the same 3 correct answers',
-    leech.box < fresh.box, `leech box ${leech.box} vs fresh box ${fresh.box}`);
-  check('and so is scheduled a shorter interval out, not jumping straight back to a long one',
-    leech.intervalDays < fresh.intervalDays,
-    `leech ${leech.intervalDays}d vs fresh ${fresh.intervalDays}d`);
-  check('the cap is fully spent after LEECH_RECOVERY_STREAK correct answers',
-    leech.leechRecovery === 0);
-
-  // Once spent, growth resumes normally from wherever it capped out — the
-  // very next correct answer climbs past the cap.
-  const cappedBox = leech.box;
-  leech = srs.grade(leech, true, now);
-  check('the cap lifts once spent: the next correct answer climbs past it',
-    leech.box > cappedBox, `capped at ${cappedBox}, now ${leech.box}`);
-
-  // A miss during recovery re-arms it (missStreak keeps counting).
-  let relapsed = srs.grade(srs.newRecord(), false, now);
-  relapsed = srs.grade(relapsed, false, now); // leeched
-  relapsed = srs.grade(relapsed, true, now); // one correct into recovery
-  relapsed = srs.grade(relapsed, false, now); // missed again mid-recovery
-  check('a miss always resets missStreak\'s count from scratch and clears the box, same as any miss',
-    relapsed.missStreak === 1 && relapsed.box === 0);
-
-  // Explicit knowledge claims (placement / "mark as known") bypass the cap
-  // outright and clear it — they assert mastery, not another data point to
-  // average in.
-  let leechForPlacement = srs.grade(srs.newRecord(), false, now);
-  leechForPlacement = srs.grade(leechForPlacement, false, now);
-  leechForPlacement = srs.grade(leechForPlacement, true, now, { placement: true });
-  check('a placement claim jumps straight to the top box even mid-leech-recovery',
-    leechForPlacement.box === srs.MAX_BOX && leechForPlacement.leechRecovery === 0);
-
-  let leechForSettle = srs.grade(srs.newRecord(), false, now);
-  leechForSettle = srs.grade(leechForSettle, false, now);
-  leechForSettle = srs.grade(leechForSettle, true, now, { settle: { box: 4, intervalDays: 7 } });
-  check('a settle ("I think I know this") claim is likewise not capped, and clears the leech state',
-    leechForSettle.box === 4 && leechForSettle.leechRecovery === 0);
+  // End-to-end: grading a pre-FSRS record for the first time after this
+  // migration builds on that seed rather than starting from scratch.
+  const graded = srs.grade({ ...wellEstablished }, true, now);
+  check('grading a migrated record schedules it out proportional to its seeded stability, not as a brand-new item',
+    graded.intervalDays > 5, `got ${graded.intervalDays}`);
 }
-done('leech handling: grade() caps how fast a repeatedly-missed item climbs back');
+done('migrateLegacyRecord/migrateLegacyYomiRecord seed real FSRS starting estimates from box/lapse history');
+
+// --- FSRS reference-vector validation ---------------------------------------
+// Confirms this module's fsrs.js is actually correct, not just plausible —
+// checked against open-spaced-repetition/ts-fsrs's OWN published FSRS-6 test
+// vectors (FSRS-6.test.ts in that repo), not values derived from this
+// module's own formulas. See fsrs.js's module header for how these were
+// obtained and cross-checked while building this.
 
 {
-  // Same rule, mirrored for gradeYomi()'s streak/experience-multiplier model
-  // (kanji reading quiz) — a different record shape from grade() above, so
-  // it needs its own pass at the same guarantees.
-  let single = srs.gradeYomi(srs.newYomiRecord(), false, now);
-  check('one miss alone does not arm leech recovery (yomi)',
-    single.missStreak === 1 && single.leechRecovery === 0);
+  // "first repeat": a brand-new item's stability/difficulty for each of the
+  // four grades, from ts-fsrs's own default weights.
+  const again = fsrs.nextState(null, 0, fsrs.RATING.AGAIN);
+  const hard = fsrs.nextState(null, 0, fsrs.RATING.HARD);
+  const good = fsrs.nextState(null, 0, fsrs.RATING.GOOD);
+  const easy = fsrs.nextState(null, 0, fsrs.RATING.EASY);
+  check('reference vector: initial stability per grade matches ts-fsrs exactly',
+    again.stability === 0.212 && hard.stability === 1.2931
+    && good.stability === 2.3065 && easy.stability === 8.2956,
+    JSON.stringify([again.stability, hard.stability, good.stability, easy.stability]));
+  check('reference vector: initial difficulty per grade matches ts-fsrs exactly',
+    again.difficulty === 6.4133 && Math.abs(hard.difficulty - 5.11217071) < 1e-6
+    && Math.abs(good.difficulty - 2.11810397) < 1e-6 && easy.difficulty === 1,
+    JSON.stringify([again.difficulty, hard.difficulty, good.difficulty, easy.difficulty]));
 
-  let leechY = srs.gradeYomi(srs.newYomiRecord(), false, now);
-  leechY = srs.gradeYomi(leechY, false, now);
-  check('two consecutive misses arm leech recovery (yomi)',
-    leechY.missStreak === 2 && leechY.leechRecovery === 3);
-
-  let freshY = srs.newYomiRecord();
-  for (let i = 0; i < 3; i += 1) {
-    leechY = srs.gradeYomi(leechY, true, now);
-    freshY = srs.gradeYomi(freshY, true, now);
-  }
-  check('a leeched yomi record climbs a lower streak than a never-missed one over the same 3 correct answers',
-    leechY.streak < freshY.streak, `leech streak ${leechY.streak} vs fresh streak ${freshY.streak}`);
-  check('and earns a shorter interval, not the usual lifetime-experience jump',
-    leechY.intervalDays < freshY.intervalDays,
-    `leech ${leechY.intervalDays}d vs fresh ${freshY.intervalDays}d`);
-  check('the yomi cap is fully spent after LEECH_RECOVERY_STREAK correct answers',
-    leechY.leechRecovery === 0);
-
-  const cappedStreak = leechY.streak;
-  leechY = srs.gradeYomi(leechY, true, now);
-  check('the yomi cap lifts once spent: the next correct answer climbs past it',
-    leechY.streak > cappedStreak, `capped at ${cappedStreak}, now ${leechY.streak}`);
-
-  let placedY = srs.gradeYomi(srs.newYomiRecord(), false, now);
-  placedY = srs.gradeYomi(placedY, false, now);
-  placedY = srs.gradeYomi(placedY, true, now, { placement: true });
-  check('a placement claim on a yomi record jumps to MAX_BOX even mid-leech-recovery, and clears it',
-    placedY.streak === srs.MAX_BOX && placedY.leechRecovery === 0);
+  // "memory state[short-term]": ratings [Again, Good, Good, Good, Good, Good]
+  // at elapsed days [0, 0, 1, 3, 8, 21] — ts-fsrs expects the final state to
+  // be stability≈53.62691, difficulty≈6.3574867 (toBeCloseTo 4 decimals).
+  const ratings = [fsrs.RATING.AGAIN, fsrs.RATING.GOOD, fsrs.RATING.GOOD,
+    fsrs.RATING.GOOD, fsrs.RATING.GOOD, fsrs.RATING.GOOD];
+  const intervals = [0, 0, 1, 3, 8, 21];
+  let state = null;
+  ratings.forEach((rating, i) => { state = fsrs.nextState(state, intervals[i], rating); });
+  check('reference vector: a 6-review sequence matches ts-fsrs\'s published memory-state test to 4 decimal places',
+    Math.abs(state.stability - 53.62691) < 0.0001 && Math.abs(state.difficulty - 6.3574867) < 0.0001,
+    `stability ${state.stability} difficulty ${state.difficulty}`);
 }
-done('leech handling: gradeYomi() applies the same cap to its own record shape');
+done('fsrs.js matches ts-fsrs\'s own published FSRS-6 reference vectors');
+
+// --- FSRS replaces leech handling --------------------------------------------
+// review-followups.md item 9: a same-day-shipped leech-cap mechanism
+// (missStreak/leechRecovery, commit 284d9a5) is REMOVED as part of this
+// migration rather than kept alongside FSRS — see srs.js's module header for
+// the full reasoning. The guarantee that mechanism existed to provide (a
+// repeatedly-missed item comes back for review sooner, and climbs more
+// slowly, than one that was never missed) still holds — it now falls
+// naturally out of FSRS's own `difficulty` parameter (fsrs.js's
+// next_difficulty), continuously, rather than a fixed miss-count/recovery-
+// count state machine.
+
+{
+  // Three misses — the kind of run the old mechanism specifically targeted —
+  // spaced a day apart, not three taps at the same instant: a learner
+  // retrying the exact same millisecond isn't a real scenario, and FSRS's
+  // same-day formula (see the "same-day re-reviews" test above) behaves
+  // differently from a real, if short, gap between attempts.
+  let leechy = srs.newRecord();
+  let tly = now;
+  for (let i = 0; i < 3; i += 1) { leechy = srs.grade(leechy, false, tly); tly += DAY; }
+  check('repeated misses raise difficulty toward the top of its 1-10 range',
+    leechy.difficulty > 9, `difficulty ${leechy.difficulty}`);
+
+  let clean = srs.newRecord();
+  // A fair comparison needs the SAME kind of run for `clean` too — three
+  // correct answers, spaced realistically — not zero grading events, so both
+  // records have been reviewed the same number of times by this point.
+  let tc = now;
+  for (let i = 0; i < 3; i += 1) { clean = srs.grade(clean, true, tc); tc = clean.due; }
+  check('three clean spaced answers, for comparison, land difficulty at the low end instead',
+    clean.difficulty < 3, `difficulty ${clean.difficulty}`);
+
+  // Now both get the SAME further run of 3 correct answers, spaced
+  // realistically, starting from wherever each one is.
+  tly = leechy.due;
+  for (let i = 0; i < 3; i += 1) { leechy = srs.grade(leechy, true, tly); tly = leechy.due; }
+  tc = clean.due;
+  for (let i = 0; i < 3; i += 1) { clean = srs.grade(clean, true, tc); tc = clean.due; }
+  check('a repeatedly-missed item climbs to a lower box than a clean one after the same run of correct answers',
+    leechy.box < clean.box, `leechy box ${leechy.box} vs clean box ${clean.box}`);
+  check('and to a far lower stability, not straight back to a long interval',
+    leechy.stability < clean.stability / 10,
+    `leechy ${leechy.stability} vs clean ${clean.stability}`);
+
+  // Unlike the old fixed-recovery-streak cap (which fully lifted after
+  // exactly LEECH_RECOVERY_STREAK correct answers, whatever the actual miss
+  // history), difficulty here has no such all-clear moment — the default
+  // weights pull it back toward "average" only very slowly (mean_reversion's
+  // w7 is tiny by design, see fsrs.js's next_difficulty), so a handful of
+  // good answers narrows the gap a little without erasing it outright. This
+  // is deliberately a DIFFERENT shape of guarantee than the old mechanism's,
+  // not a numerically identical one — continuous and proportional to actual
+  // difficulty rather than a fixed miss-count/recovery-count step function.
+  check('difficulty stays visibly elevated rather than snapping back to "average" the moment a counter would have hit zero',
+    leechy.difficulty > 9, `difficulty ${leechy.difficulty}`);
+}
+done('FSRS\'s own difficulty parameter reproduces the leech-recovery guarantee without a separate mechanism');
 
 // --- Review favours characters that have actually been missed --------------
 // (using the literal mode id here, not the `mode` binding declared further
@@ -1421,7 +1468,11 @@ const solidChars = 'あいうえお'.split('');
 const shakyChars = 'かきくけこ'.split('');
 solidChars.forEach((k) => {
   let r = srs.newRecord();
-  r = srs.grade(r, true, now - DAY);
+  // Graded far enough in the past that its FSRS interval (a first-ever Good
+  // answer earns more than the old scheme's flat 1-day box-1 gap — see
+  // fsrs.js's init_stability) has genuinely elapsed by `now`, not just
+  // graded "one day ago" the way the old fixed 1-day box-1 interval allowed.
+  r = srs.grade(r, true, now - 5 * DAY);
   revProgress[srs.itemKey('recognition', k)] = r; // due, zero lapses
 });
 shakyChars.forEach((k) => {
@@ -1450,23 +1501,28 @@ const mode = 'recognition';
 check('starts on the first set', srs.currentSetIndex(hiragana, mode, progress) === 0);
 check('a fresh course is ready for more', srs.readyForMore(hiragana, mode, progress));
 
-// Introduce 4 of the 5 characters in set 0 and get them to box 2.
+// Introduce 4 of the 5 characters in set 0 and get them past BOX_SETTLED,
+// spaced at a realistic cadence (two grades at the same instant would hit
+// FSRS's same-day formula and never climb past box 2 — see the "same-day
+// re-reviews" test above).
 hiragana.chunks[0].items.slice(0, 4).forEach((kana) => {
   let r = srs.newRecord();
   r = srs.grade(r, true, now);
-  r = srs.grade(r, true, now);
+  r = srs.grade(r, true, r.due);
   progress[srs.itemKey(mode, kana)] = r;
 });
 check('still on set 0 while one character is unmet',
   srs.currentSetIndex(hiragana, mode, progress) === 0);
-check('80% at box 2 counts as consolidated', srs.readyForMore(hiragana, mode, progress));
+check('80%, each with more than one correct answer behind it, counts as consolidated',
+  srs.readyForMore(hiragana, mode, progress));
 
 // Adding more is never blocked, even when the current set is shaky.
 const shaky = {};
 hiragana.chunks[0].items.forEach((kana) => {
-  shaky[srs.itemKey(mode, kana)] = srs.grade(srs.newRecord(), true, now); // box 1 only
+  shaky[srs.itemKey(mode, kana)] = srs.grade(srs.newRecord(), true, now); // one answer only
 });
-check('a shaky set is flagged as not consolidated', !srs.readyForMore(hiragana, mode, shaky));
+check('a set with only one answer each is flagged as not consolidated',
+  !srs.readyForMore(hiragana, mode, shaky));
 check('but more characters are still offered',
   srs.newItems(hiragana, mode, shaky, 5).length === 5,
   'adding more must never be blocked — the learner decides');
@@ -1490,7 +1546,11 @@ const reviewNow = srs.buildSession(hiragana, mode, progress, 'review', { now });
 check('nothing is due on the same day', reviewNow.quiz.length === 0, `got ${reviewNow.quiz.length}`);
 check('a review session never teaches', reviewNow.lesson.length === 0);
 
-const later = now + 2 * DAY;
+// Two realistic-cadence correct answers each (see above) earn a longer FSRS
+// interval than the old scheme's fixed 2-day box-2 gap, so `later` has to
+// reach well past it — comfortably past the ~11-day interval two spaced Good
+// answers actually earn under the default FSRS weights.
+const later = now + 15 * DAY;
 const reviewLater = srs.buildSession(hiragana, mode, progress, 'review', { now: later });
 check('reviews come due after the interval', reviewLater.quiz.length === 4, `got ${reviewLater.quiz.length}`);
 check('review sessions exclude never-seen characters',
@@ -1588,7 +1648,7 @@ check('un-enrolling drops it out of review without deleting its record',
 srs.setStudying(p.study, p.unstudy, enrolled[0], 'definition', true);
 check('re-enrolling resumes from the record that was kept, not from zero',
   srs.courseStats(g1, 'definition', p).started === 1
-  && p.progress[srs.itemKey('definition', enrolled[0])].box === 1);
+  && p.progress[srs.itemKey('definition', enrolled[0])].box >= 1);
 
 // excludeForMode still applies through the study list, not just a course.
 const noYomi = [...(g1.excludeForMode.recognition || [])][0];
