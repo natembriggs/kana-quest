@@ -53,7 +53,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-03i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-03j'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -1082,21 +1082,39 @@ function renderHome() {
   const list = $('script-list');
   list.innerHTML = '';
   SCRIPTS.forEach((script) => {
-    // Progress ("started / total") reflects whichever mode applies to the
-    // script, summed over its courses (all six grades, for kanji) — same as
-    // before. Due counts, though, are summed across EVERY mode that applies
-    // to this kind, not just the one currently open — otherwise a tile can
-    // read "nothing due" (or a small number) while a real backlog sits
-    // untouched in, say, Writing while you're viewing Yomi. See the
-    // Discoverability review, 2026-09.
+    // Progress reflects whichever mode applies to the script. Due counts,
+    // though, are summed across EVERY mode that applies to this kind, not
+    // just the one currently open — otherwise a tile can read "nothing due"
+    // (or a small number) while a real backlog sits untouched in, say,
+    // Writing while you're viewing Yomi. See the Discoverability review,
+    // 2026-09.
     const mode = MODES[state.mode].kinds.includes(script.kind)
       ? state.mode
       : defaultModeForKind(script.kind);
     const courses = coursesForScript(script);
-    const progress = courses.reduce((acc, course) => {
-      const stats = courseStats(course, mode, profile);
-      return { started: acc.started + stats.started, total: acc.total + stats.total };
-    }, { started: 0, total: 0 });
+    // Kana has one course per script already (a small, flat set), so its
+    // figure is naturally chunk-relative with no further work. Kanji and
+    // vocab each span many courses (six-plus grades, a dozen-plus tiers),
+    // so "started / total" summed across every one of them reads as e.g.
+    // "0/2825" for a brand-new learner — see review-followups.md's "Chunk-
+    // relative progress on home tiles". homeScriptLabel is non-null only
+    // for those two, and names whichever chunk `progress` is scoped to.
+    let progress;
+    let homeScriptLabel = null;
+    if (script.kind === 'kanji') {
+      const p = kanjiHomeProgress(mode, profile);
+      homeScriptLabel = p.label;
+      progress = { started: p.started, total: p.total };
+    } else if (script.kind === 'vocab') {
+      const p = vocabHomeProgress(mode, profile);
+      homeScriptLabel = p.label;
+      progress = { started: p.started, total: p.total };
+    } else {
+      progress = courses.reduce((acc, course) => {
+        const stats = courseStats(course, mode, profile);
+        return { started: acc.started + stats.started, total: acc.total + stats.total };
+      }, { started: 0, total: 0 });
+    }
     const dueByMode = modesForKind(script.kind)
       .filter((m) => !isModeComingSoon(m, script.kind))
       .map((m) => ({
@@ -1127,7 +1145,9 @@ function renderHome() {
     button.querySelector('.script-native').textContent = script.native;
     button.querySelector('.script-count').textContent = totalDue > 0
       ? `${totalDue} to review`
-      : `${progress.started} / ${progress.total}`;
+      : homeScriptLabel
+        ? `${homeScriptLabel}: ${progress.started} / ${progress.total}`
+        : `${progress.started} / ${progress.total}`;
     // Only worth a second line when the backlog is actually split across
     // more than one mode — a single-mode due count would just repeat the
     // headline above it.
@@ -6519,6 +6539,98 @@ function frontierKanjiUnit(profile) {
     if (started) frontier = unit;
   });
   return frontier;
+}
+
+/** The kanji unit the home tile scopes its figure to: the frontier unit if
+ * anything has been started, else the very first unit — so a brand-new
+ * learner sees "Grade 1: 0/80" rather than nothing scoped at all (see
+ * review-followups.md's "Chunk-relative progress on home tiles"). */
+function currentKanjiUnit(profile) {
+  return frontierKanjiUnit(profile) || KANJI_UNIT_IDS[0];
+}
+
+/** Whether `unit` belongs to the jōyō set (kanji-expansion-plan.md §5) —
+ * every unit except the beyond-jōyō "9-*" names & places sub-units. Grades
+ * "1".."6" plus secondary "8-1".."8-6" sum to exactly the 2,136 jōyō kanji
+ * (kanji-expansion-plan.md §4.2), confirmed against an independent
+ * plaintext jōyō list per that section's own diffing work. */
+function isJoyoUnit(unit) {
+  return !unit.startsWith('9-');
+}
+
+/**
+ * The home tile figure for kanji: chunk-relative to the learner's current
+ * grade/secondary unit while it is still in progress, so a beginner sees
+ * "Grade 1: 12/80" rather than the full multi-thousand-kanji corpus. Once
+ * that chunk is fully introduced (started === total — the same milestone
+ * "Milestone celebration" in review-followups.md item 4 treats as "a set is
+ * complete"), a fixed "80/80" would otherwise just sit there until the next
+ * chunk happens to be started, so this switches to progress toward the
+ * jōyō/common-use total instead — not the full corpus, which also includes
+ * the beyond-jōyō names & places expansion (kanji-expansion-plan.md §5).
+ */
+function kanjiHomeProgress(mode, profile) {
+  const unit = currentKanjiUnit(profile);
+  const course = getAnyCourse(`kanji-grade-${unit}`);
+  const chunk = courseStats(course, mode, profile);
+  if (chunk.started < chunk.total) {
+    return { label: unitLabel(unit), started: chunk.started, total: chunk.total };
+  }
+  const joyo = KANJI_COURSES.filter((c) => isJoyoUnit(c.unit)).reduce((acc, c) => {
+    const stats = courseStats(c, mode, profile);
+    return { started: acc.started + stats.started, total: acc.total + stats.total };
+  }, { started: 0, total: 0 });
+  return { label: 'Jōyō kanji', started: joyo.started, total: joyo.total };
+}
+
+/** The vocab course the home tile scopes its figure to, mirroring
+ * currentKanjiUnit: the furthest-along course (in the learner's active
+ * progression — commonness tiers by default) with anything introduced, or
+ * the very first course if nothing has been started yet. Vocab has no
+ * enrollment gate of its own to check (vocab-plan.md §4.3 gates on the study
+ * list itself, not a separate "claimed" flag), so this only has to look at
+ * progress records, unlike frontierKanjiUnit's enrolled-OR-introduced test. */
+function currentVocabCourse(profile) {
+  const courses = activeVocabCourses();
+  let frontier = null;
+  courses.forEach((course) => {
+    const started = course.chunks.some((chunk) => chunk.items.some((id) => (
+      modesForKind('vocab').some((m) => !!profile.progress[itemKey(m.id, id)])
+    )));
+    if (started) frontier = course;
+  });
+  return frontier || courses[0];
+}
+
+/**
+ * The home tile figure for vocab, mirroring kanjiHomeProgress: chunk-
+ * relative to the learner's current commonness tier ("Everyday essentials:
+ * 34/120") — or GCSE-style theme group, in the syllabus progression — while
+ * it is still in progress. Vocab has no smaller intermediate target the way
+ * kanji has jōyō once a tier is finished (every tier is already part of one
+ * flat list covering the whole taught vocabulary, with no natural
+ * "common-use vocab" subset the way jōyō is a real, named subset of all
+ * kanji), so the finished state just falls back to the full vocab corpus
+ * total for whichever progression is active — see review-followups.md item
+ * 3's build-time note on this.
+ */
+function vocabHomeProgress(mode, profile) {
+  const courses = activeVocabCourses();
+  const current = currentVocabCourse(profile);
+  const groupLabel = vocabUnitGroupLabel(current.unit);
+  const group = courses.filter((c) => vocabUnitGroupLabel(c.unit) === groupLabel);
+  const chunk = group.reduce((acc, c) => {
+    const stats = courseStats(c, mode, profile);
+    return { started: acc.started + stats.started, total: acc.total + stats.total };
+  }, { started: 0, total: 0 });
+  if (chunk.started < chunk.total) {
+    return { label: groupLabel, started: chunk.started, total: chunk.total };
+  }
+  const corpus = courses.reduce((acc, c) => {
+    const stats = courseStats(c, mode, profile);
+    return { started: acc.started + stats.started, total: acc.total + stats.total };
+  }, { started: 0, total: 0 });
+  return { label: 'Vocabulary', started: corpus.started, total: corpus.total };
 }
 
 /** Builds the `view` object src/reader.js's pure renderer takes — everything

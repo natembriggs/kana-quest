@@ -268,9 +268,10 @@ const {
 } = await import('../src/kanji.js');
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, allItems, MAX_BOX, THINK_KNOWN_BOX,
+  markKnownItems,
 } = await import('../src/srs.js');
 const {
-  vocabIdForWord, vocabInfo, VOCAB_COURSES, wordMeaningLabel,
+  vocabIdForWord, vocabInfo, VOCAB_COURSES, VOCAB_COMMON_COURSES, wordMeaningLabel,
   unitLabel: vocabUnitLabel, unitGroupLabel: vocabUnitGroupLabel, unitBadge: vocabUnitBadge,
 } = await import('../src/vocab.js');
 // strokesFor() reads live from strokes.js's lazily-populated store, not a
@@ -336,6 +337,37 @@ check('the four scripts are hiragana, katakana, kanji and vocab',
   scriptCards.map((c) => c.dataset.script).join(','));
 check('the home screen no longer lists individual courses — that moved a level down',
   el('course-list')._children.length === 0);
+
+// --- Chunk-relative home tile progress (review-followups.md item 3) -------
+// A brand-new learner should see a chunk-scoped figure ("Grade 1: 0/80") on
+// the kanji and vocab tiles, not "0/<full corpus>" — demoralizing on day
+// one and uninformative once the learner is advanced. Kana is unaffected:
+// it has no sub-grade of its own, so its one course already IS the whole
+// chunk. Checked here, right after profile creation, while progress is
+// still empty and before anything below has touched state.mode — the
+// kanji tile's mode is state.mode's untouched initial value ('recognition'),
+// the vocab tile's is defaultModeForKind('vocab') ('vmeaning'), since
+// 'recognition' does not apply to vocab.
+{
+  const kanjiCard = scriptCards.find((c) => c.dataset.script === 'kanji');
+  const vocabCard = scriptCards.find((c) => c.dataset.script === 'vocab');
+  const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+  const grade1Total = courseStats(grade1, 'recognition', profile).total;
+  check('a fresh learner\'s kanji tile is scoped to Grade 1, not the whole corpus',
+    kanjiCard.querySelector('.script-count').textContent === `${unitLabel('1')}: 0 / ${grade1Total}`,
+    kanjiCard.querySelector('.script-count').textContent);
+  const firstVocabCourse = VOCAB_COMMON_COURSES[0];
+  const firstVocabGroup = VOCAB_COMMON_COURSES.filter(
+    (c) => vocabUnitGroupLabel(c.unit) === vocabUnitGroupLabel(firstVocabCourse.unit),
+  );
+  const firstVocabTotal = firstVocabGroup.reduce(
+    (sum, c) => sum + courseStats(c, 'vmeaning', profile).total, 0,
+  );
+  check('a fresh learner\'s vocab tile is scoped to their first commonness tier, not the whole corpus',
+    vocabCard.querySelector('.script-count').textContent
+      === `${vocabUnitGroupLabel(firstVocabCourse.unit)}: 0 / ${firstVocabTotal}`,
+    vocabCard.querySelector('.script-count').textContent);
+}
 
 /** Every button inside a rendered card, at any nesting depth — the course
  * card wraps each study action in its own subtitle-carrying container (see
@@ -3945,6 +3977,120 @@ check('re-opening a skipped profile goes straight home', visible() === 'screen-h
     visible() === 'screen-home', `showing ${visible()}`);
   check('...and is not given an onboarded flag it never had',
     rows.get('p_legacy').onboarded === undefined);
+}
+
+// --- Chunk-relative home tile: a finished chunk shows jōyō progress -------
+// review-followups.md item 3: once the learner's current kanji chunk is
+// fully introduced (started === total for that chunk — the same "a whole
+// set is complete" bar item 4's milestone celebration uses), the home tile
+// should stop being stuck at e.g. "Grade 1: 80/80" and switch to progress
+// toward the jōyō/common-use total instead, since the full corpus also
+// includes the beyond-jōyō names & places expansion.
+{
+  const finisher = clone([...rows.values()][0]);
+  finisher.id = 'p_grade1_done';
+  finisher.name = 'Grade One Graduate';
+  finisher.createdAt = 2;
+  finisher.progress = {};
+  finisher.study = {};
+  finisher.unstudy = {};
+  const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+  const grade1Chars = grade1.chunks.flatMap((c) => c.items);
+  // Definition only — home renders whichever mode is forced below, and
+  // markKnownItems for kanji Yomi (recognition) needs per-reading data this
+  // test has no reason to load; Definition alone is enough to drive the
+  // chunk through "started === total".
+  markKnownItems(grade1, 'definition', finisher, grade1Chars);
+  rows.set(finisher.id, finisher);
+
+  await reopenLearner('Grade One Graduate');
+  check('the graduated profile lands on the home screen', visible() === 'screen-home', visible());
+
+  // Force state.mode to 'definition' so the home tile's figure is
+  // predictable regardless of whatever mode earlier sections of this file
+  // left it on.
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+  await settle();
+  fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+  await settle();
+  fireAction('go-home');
+  await settle();
+
+  const joyoCourses = KANJI_COURSES.filter((c) => !c.unit.startsWith('9-'));
+  const joyoTotal = joyoCourses.reduce((sum, c) => sum + courseStats(c, 'definition', finisher).total, 0);
+  const joyoStarted = joyoCourses.reduce((sum, c) => sum + courseStats(c, 'definition', finisher).started, 0);
+  const grade1Stats = courseStats(grade1, 'definition', finisher);
+  check('finishing Grade 1 (definition) marks every one of its kanji as started',
+    grade1Stats.started === grade1Stats.total && grade1Stats.total > 0,
+    JSON.stringify(grade1Stats));
+
+  const kanjiCard = el('script-list')._children.find((c) => c.dataset.script === 'kanji');
+  check('a finished chunk switches the kanji tile to progress toward the jōyō total',
+    kanjiCard.querySelector('.script-count').textContent === `Jōyō kanji: ${joyoStarted} / ${joyoTotal}`,
+    kanjiCard.querySelector('.script-count').textContent);
+  check('...and that jōyō total is smaller than the full extended corpus (excludes beyond-jōyō names & places)',
+    joyoTotal < KANJI_COURSES.reduce((sum, c) => sum + courseStats(c, 'definition', finisher).total, 0),
+    joyoTotal);
+}
+
+// --- Chunk-relative home tile: a finished vocab tier falls back to the
+// full corpus (review-followups.md item 3) ---------------------------------
+// Vocab has no smaller "jōyō"-equivalent target once a commonness tier is
+// finished — every tier is already part of one flat list, with no natural
+// "common-use vocab" subset the way jōyō is a real, named subset of all
+// kanji — so the decided fallback is the full vocab corpus total instead of
+// a stuck "Everyday essentials: 120/120".
+{
+  const vocabFinisher = clone([...rows.values()][0]);
+  vocabFinisher.id = 'p_tier1_done';
+  vocabFinisher.name = 'Tier One Graduate';
+  vocabFinisher.createdAt = 3;
+  vocabFinisher.progress = {};
+  vocabFinisher.study = {};
+  vocabFinisher.unstudy = {};
+  // Forced to 'common', regardless of whatever the shared "Test Kid" profile
+  // this is cloned from currently has — it switched to "By topic" earlier in
+  // this file (see the "By commonness | By topic" checks above) and never
+  // switched back.
+  vocabFinisher.settings = { ...vocabFinisher.settings, vocabProgression: 'common' };
+  const firstTierLabel = vocabUnitGroupLabel(VOCAB_COMMON_COURSES[0].unit);
+  const firstTierCourses = VOCAB_COMMON_COURSES.filter(
+    (c) => vocabUnitGroupLabel(c.unit) === firstTierLabel,
+  );
+  firstTierCourses.forEach((course) => {
+    markKnownItems(course, 'vmeaning', vocabFinisher, course.chunks.flatMap((c) => c.items));
+  });
+  rows.set(vocabFinisher.id, vocabFinisher);
+
+  await reopenLearner('Tier One Graduate');
+  check('the tier-graduated profile lands on the home screen', visible() === 'screen-home', visible());
+
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'vocab'), 'click');
+  await settle();
+  fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'vmeaning'), 'click');
+  await settle();
+  fireAction('go-home');
+  await settle();
+
+  const tierStats = firstTierCourses.reduce((acc, c) => {
+    const s = courseStats(c, 'vmeaning', vocabFinisher);
+    return { started: acc.started + s.started, total: acc.total + s.total };
+  }, { started: 0, total: 0 });
+  check('finishing the first commonness tier marks every one of its words as started',
+    tierStats.started === tierStats.total && tierStats.total > 0, JSON.stringify(tierStats));
+
+  const corpusTotal = VOCAB_COMMON_COURSES.reduce(
+    (sum, c) => sum + courseStats(c, 'vmeaning', vocabFinisher).total, 0,
+  );
+  const corpusStarted = VOCAB_COMMON_COURSES.reduce(
+    (sum, c) => sum + courseStats(c, 'vmeaning', vocabFinisher).started, 0,
+  );
+  const vocabCard = el('script-list')._children.find((c) => c.dataset.script === 'vocab');
+  check('a finished vocab tier falls back to the full vocab corpus total',
+    vocabCard.querySelector('.script-count').textContent === `Vocabulary: ${corpusStarted} / ${corpusTotal}`,
+    vocabCard.querySelector('.script-count').textContent);
+  check('...and the corpus total is bigger than just the finished tier',
+    corpusTotal > tierStats.total, corpusTotal);
 }
 
 // --- Screen C: the screener's claims and its nudge ------------------------
