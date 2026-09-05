@@ -47,31 +47,57 @@ multiple-choice quizzes only ever grade on the first attempt
 (`chooseAnswer` deliberately never re-grades a retry), so "correct after a
 retry = Hard" never fires.
 
-**2026-09-05, `1f08609`: the writing-mode half is now done.**
-`createWritingAttempt()`/`createFreeAttempt()` (`src/writing.js`) track
-each stroke's real accept/reject outcome and expose it as `accuracy()` — a
-0-1 fraction, not the 0-100 score originally assumed, but the same idea. A
-new `ratingForWritingAttempt()`/`recordWritingResult()` in `src/app.js`
-feeds that into `grade()`'s `rating` override: a flawless run (no stroke
-ever rejected) grades Easy, a self-graded-correct Free-mode run with half
-or more of its strokes needing correction grades Hard, everything else
-keeps the Good default. Trace/Guided's own correctness rule already
-requires zero rejections to count as correct at all, so a correct
-automatic answer is always Easy there — only Free mode's self-grade can
-land on Hard, since it's the only mode where "correct" and "clean" can
-disagree. Tested directly (`createWritingAttempt`/`createFreeAttempt`'s
-`accuracy()`, and `grade()`'s `rating` override) in `test/smoke.js`, and
-end-to-end for the Easy path in `test/wiring.js` (a real DOM-driven Guided
-and Free pass now lands on box 4, not the old flat box 2).
+**2026-09-05, `1f08609`, reverted same day: an inferred-signal attempt,
+tried and rejected.** First attempt at the writing-mode half: derived a
+0-1 `accuracy()` fraction from each attempt's real stroke accept/reject
+outcome (`createWritingAttempt()`/`createFreeAttempt()` in
+`src/writing.js`) and mapped it onto Easy/Hard automatically. On review,
+this was judged the wrong shape of fix and dismantled before it reached
+real usage: stroke-grader.js's own tolerances are deliberately loose
+("a false incorrect is far more costly than a false correct" — see its
+module comment) to swallow ordinary motor/touchscreen noise, and that same
+looseness is exactly what a scheduling-difficulty signal cannot afford to
+inherit — a rushed or jittery stroke on a character the learner knows
+perfectly would have counted as evidence of difficulty it never was.
+Worse, Trace mode's guide is fully visible the whole time, so a "flawless"
+Trace pass mostly measures tracing precision, not recall — mapping that to
+Easy every time would have systematically over-promoted the easiest mode's
+reviews. And Free mode's Hard path could silently schedule a
+self-graded-"correct" answer *sooner* than before with nothing on screen
+explaining why, which is the exact "why does this keep coming back"
+confusion spaced-repetition apps are supposed to avoid, not introduce.
 
-**Still open: the retry-grading half.** `chooseAnswer`'s "first attempt
-locks the record" rule means a correct answer is graded before a later
-attempt count could ever inform it — reaching Hard there means either
-deferring the grade to resolution (changing lapse-counting and
-session-summary semantics several existing tests depend on) or some other
-approach that doesn't disturb "first attempt locks the record". Still a
-genuine design decision, not a signal-wiring problem like the writing-mode
-half was — not scheduled.
+**Current plan: explicit self-report, not an inferred proxy, across every
+graded mode.** Rather than guessing at Hard/Easy from indirect signals,
+`grade()`/`gradeYomi()`'s existing `rating` override (unchanged, still
+real, still tested in `test/smoke.js`) will instead be fed by the learner
+directly: the single shared `#quiz-ok` "Next" button (one element,
+`nextQuestion()`, reused across every non-writing quiz mode) becomes a
+three-way bar — Easy / OK / Hard — shown only on a correct answer, with OK
+centered, highlighted, and bound to Enter, matching today's default
+behavior for anyone who just presses through. An incorrect answer keeps a
+plain Next; FSRS's Again isn't a self-report choice, it's automatic. This
+is a bigger change than it looks: every one of the ~8 grade()/gradeYomi()
+call sites (`chooseAnswer`, `recordVocabYomi`, `recordVocabDef`,
+`recordVocabProd`, `recordVocabSpell`, `recordYomiResult`, plus writing's
+own Trace/Guided/Free flows) currently commits its grade the instant the
+answer is chosen, well before Next/quiz-ok ever appears — deferring that
+commit to the button press, for the correct-path only, without disturbing
+the first-attempt-locks-the-record rule, is the real work here, not the
+button itself. Explicitly deferred: any inferred/derived rating signal
+(handwriting accuracy, response time, retry count) — correlating those
+against real explicit ratings, if anonymous usage data is ever collected,
+is future work, not a substitute for asking. Proposed, not yet built —
+still needs the button-bar/deferred-commit design worked through per mode
+before implementation starts.
+
+**Working assumption, to be confirmed: no change to the retry-grading
+question for multiple-choice modes.** `chooseAnswer`'s "first attempt
+locks the record" rule stays as-is — a wrong-then-corrected answer still
+just grades Again, since FSRS's Again has no Hard/Easy variant to self-
+report either way. If that assumption holds, this closes the "retry =
+Hard" half of the original gap by deciding retries stay out of the
+picture, not by wiring anything new for them.
 
 ## Shipped this cycle
 
@@ -183,14 +209,15 @@ half was — not scheduled.
   anyone's progress. **See "Remaining" above for the one real gap this
   surfaced**: two of FSRS's four grade inputs (Hard, Easy) are currently
   unreachable given how quizzes and writing mode actually grade today.
-- `1f08609` (2026-09-05) — **Writing-mode stroke accuracy → FSRS rating**:
-  half of the gap above. `createWritingAttempt()`/`createFreeAttempt()`
-  now expose a real `accuracy()` fraction, fed into `grade()`'s `rating`
-  override via a new `ratingForWritingAttempt()`/`recordWritingResult()`
-  in `src/app.js` — a flawless run grades Easy, a self-graded-correct Free
-  run with a shaky stroke record grades Hard. The multi-choice-quiz-retry
-  half ("correct after a retry = Hard") is still open — see "Remaining"
-  above.
+- `1f08609` (2026-09-05) → **reverted same day, see the "Remaining"
+  section above** — an inferred stroke-accuracy signal for Writing mode's
+  Hard/Easy rating, tried and then judged the wrong approach (conflated
+  motor noise with recall difficulty, over-rewarded Trace mode, and could
+  silently reschedule a self-graded-"correct" Free answer sooner with no
+  on-screen explanation). Superseded by a plan for an explicit Easy/OK/Hard
+  self-report control, replacing the shared `#quiz-ok`/writing-mode Next
+  buttons, across every graded mode — see "Remaining" for the reasoning
+  and current status (proposed, not yet built).
 
 The `50675f0`/`7299835` pair was implemented by Claude Fable 5.1 as a
 deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5

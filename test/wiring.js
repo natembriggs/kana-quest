@@ -1094,24 +1094,6 @@ check('"Try Free" bonus practice on an already-passed character did not write a 
   !!guidedRecord && guidedRecord.seen === 1 && guidedRecord.box > 0,
   JSON.stringify(guidedRecord));
 
-// FSRS `rating` wiring (review-followups.md item 9): a real correct answer
-// no longer always grades Good — see accuracy()/isCorrect() in writing.js
-// and ratingForWritingAttempt()/recordWritingResult() in app.js. A flawless
-// Trace/Guided run always has zero rejections (isCorrect() itself requires
-// it), so it grades Easy — landing on box 4 for a first-ever correct answer,
-// not the flat box 2 the old, unconditional-Good default would have given
-// it. (The Hard side of this — a self-graded "Yes" over a shaky Free-mode
-// review — needs a sixth queued character this session's fixed 5-item
-// lesson batch doesn't have room for, so it's covered directly against
-// createFreeAttempt()/grade() in test/smoke.js instead.)
-check('a flawless first-ever Guided pass grades Easy (box 4), not the old flat Good default (box 2)',
-  guidedRecord.box === 4, JSON.stringify(guidedRecord));
-
-const freeYesRecord = writingSaved.progress[`writing:${freeCharYes}`];
-check('a flawless first-ever Free pass (self-graded "Yes") also grades Easy',
-  !!freeYesRecord && freeYesRecord.seen === 1 && freeYesRecord.box === 4,
-  JSON.stringify(freeYesRecord));
-
 // --- Kanji reading quiz -----------------------------------------------
 // Same "give another chance, but the record is locked to the first
 // attempt" contract as kana, but multi-select: tick every reading that

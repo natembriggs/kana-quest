@@ -31,7 +31,6 @@ import {
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   muteFuriganaKey,
 } from './srs.js';
-import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
 import {
   renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
@@ -58,7 +57,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-05c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-05d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -5372,7 +5371,7 @@ function finishWritingCharacter(explicitCorrect) {
   const wasAlreadyRecorded = !!session.writingRecorded; // this finish is a redo, not the first pass
   if (!session.writingRecorded) {
     session.writingRecorded = true;
-    recordWritingResult(item, session.writingAttempt, correct);
+    recordResult(item, correct);
   }
 
   $('writing-feedback').textContent = '';
@@ -5901,47 +5900,15 @@ function nextQuestion() {
   renderQuestion();
 }
 
-function recordResult(kana, correct, rating = null) {
+function recordResult(kana, correct) {
   ensurePlacementEnrolled(kana);
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey(state.mode, kana);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
-    placement: session.placementTest, rating,
-  });
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
   // The summary reflects the first attempt at each character.
   if (!session.results.has(kana)) session.results.set(kana, correct);
   store.saveProfile(state.profile);
-}
-
-/**
- * Writing mode's richer signal for grade()'s optional `rating` override (see
- * srs.js) — every other mode passes recordResult() a plain correct/incorrect
- * boolean, which can't tell a flawless run from one that only just scraped
- * by. `attempt.accuracy()` (see writing.js) is the fraction of strokes that
- * didn't need correcting: always 1 for a correct Trace/Guided run (isCorrect
- * there already requires zero rejections, so there's nothing left to grade
- * as anything other than an easy recall) and a genuine fraction for a
- * self-graded-correct Free run, where the learner's yes/no is independent of
- * how many strokes the per-stroke review actually flagged.
- *
- * Only called when correct is true — grade() ignores `rating` on a miss
- * anyway (always AGAIN), so there's nothing useful to compute here for one.
- * Thresholds: a perfectly clean run is EASY; needing correction on half or
- * more of the strokes despite still calling it correct is HARD; anywhere in
- * between keeps the default GOOD.
- */
-function ratingForWritingAttempt(attempt, correct) {
-  if (!correct) return null;
-  const accuracy = attempt.accuracy();
-  if (accuracy == null) return null;
-  if (accuracy >= 1) return RATING.EASY;
-  if (accuracy < 0.5) return RATING.HARD;
-  return null;
-}
-
-function recordWritingResult(item, attempt, correct) {
-  recordResult(item, correct, ratingForWritingAttempt(attempt, correct));
 }
 
 function finishSession() {
