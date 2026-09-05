@@ -41,17 +41,37 @@ of this pass, at the app owner's explicit request:
 list, spawned as its own task chip, `task_efdca0ca`, during this pass):
 the FSRS migration's 4-point grading (Again/Hard/Good/Easy) is fully
 implemented and tested in `src/fsrs.js`/`src/srs.js`, but two of its four
-inputs are currently unreachable in practice — Writing mode has no 0-100
-accuracy score to grade Easy/Hard from (grading there is qualitative/
-binary today), and multiple-choice quizzes only ever grade on the first
-attempt (`chooseAnswer` deliberately never re-grades a retry), so "correct
-after a retry = Hard" never actually fires. Functionally, FSRS is live and
-mathematically validated against reference test vectors, but is currently
-operating on Good/Again only, not the full four-point scale it was
-designed for — worth a real decision on whether to add a writing-mode
-accuracy score and/or let retries reach grading, both of which are UX
-questions (does a "Hard" answer need to look different mid-quiz?), not
-pure implementation ones.
+inputs were unreachable in practice — Writing mode had no 0-100 accuracy
+score to grade Easy/Hard from (grading there was qualitative/binary), and
+multiple-choice quizzes only ever grade on the first attempt
+(`chooseAnswer` deliberately never re-grades a retry), so "correct after a
+retry = Hard" never fires.
+
+**2026-09-05, `1f08609`: the writing-mode half is now done.**
+`createWritingAttempt()`/`createFreeAttempt()` (`src/writing.js`) track
+each stroke's real accept/reject outcome and expose it as `accuracy()` — a
+0-1 fraction, not the 0-100 score originally assumed, but the same idea. A
+new `ratingForWritingAttempt()`/`recordWritingResult()` in `src/app.js`
+feeds that into `grade()`'s `rating` override: a flawless run (no stroke
+ever rejected) grades Easy, a self-graded-correct Free-mode run with half
+or more of its strokes needing correction grades Hard, everything else
+keeps the Good default. Trace/Guided's own correctness rule already
+requires zero rejections to count as correct at all, so a correct
+automatic answer is always Easy there — only Free mode's self-grade can
+land on Hard, since it's the only mode where "correct" and "clean" can
+disagree. Tested directly (`createWritingAttempt`/`createFreeAttempt`'s
+`accuracy()`, and `grade()`'s `rating` override) in `test/smoke.js`, and
+end-to-end for the Easy path in `test/wiring.js` (a real DOM-driven Guided
+and Free pass now lands on box 4, not the old flat box 2).
+
+**Still open: the retry-grading half.** `chooseAnswer`'s "first attempt
+locks the record" rule means a correct answer is graded before a later
+attempt count could ever inform it — reaching Hard there means either
+deferring the grade to resolution (changing lapse-counting and
+session-summary semantics several existing tests depend on) or some other
+approach that doesn't disturb "first attempt locks the record". Still a
+genuine design decision, not a signal-wiring problem like the writing-mode
+half was — not scheduled.
 
 ## Shipped this cycle
 
@@ -163,6 +183,14 @@ pure implementation ones.
   anyone's progress. **See "Remaining" above for the one real gap this
   surfaced**: two of FSRS's four grade inputs (Hard, Easy) are currently
   unreachable given how quizzes and writing mode actually grade today.
+- `1f08609` (2026-09-05) — **Writing-mode stroke accuracy → FSRS rating**:
+  half of the gap above. `createWritingAttempt()`/`createFreeAttempt()`
+  now expose a real `accuracy()` fraction, fed into `grade()`'s `rating`
+  override via a new `ratingForWritingAttempt()`/`recordWritingResult()`
+  in `src/app.js` — a flawless run grades Easy, a self-graded-correct Free
+  run with a shaky stroke record grades Hard. The multi-choice-quiz-retry
+  half ("correct after a retry = Hard") is still open — see "Remaining"
+  above.
 
 The `50675f0`/`7299835` pair was implemented by Claude Fable 5.1 as a
 deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5
