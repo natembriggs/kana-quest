@@ -14,6 +14,7 @@ export const CHANGELOG = [
     date: '2026-09-05',
     changes: [
       'New: six more stories to read, one at every level from First steps through Unabridged — The Ant and the Grasshopper, Urashima Tarō, Jack and the Beanstalk, The Little Mermaid, Robinson Crusoe, and The Strange Case of Dr Jekyll and Mr Hyde.',
+      'Changed: in Writing mode, how long until a character comes back now also reflects how clean that particular pass actually was, not just whether it counted as correct. A flawless trace, guided pass, or Free-mode attempt earns a longer gap than before; a Free-mode pass you called correct despite several strokes needing a redo along the way comes back sooner than a clean one would, instead of both being scheduled identically.',
     ],
   },
   {
