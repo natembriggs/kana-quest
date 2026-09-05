@@ -200,7 +200,7 @@ async function main() {
   const levelCounts = Object.fromEntries([...LEVELS].map((level) => [level, 0]));
   stories.forEach((story) => { levelCounts[story.level] += 1; });
   Object.entries(levelCounts).forEach(([level, count]) => {
-    if (count !== 4) throw new Error(`${level} must contain exactly four stories; found ${count}`);
+    if (count !== 5) throw new Error(`${level} must contain exactly five stories; found ${count}`);
   });
   await Promise.all(stories.map((story) => fs.writeFile(
     path.join(DATA_DIR, `story-${story.id}.js`), runtimeModule(story), 'utf8',

@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-05',
+    changes: [
+      'New: six more stories to read, one at every level from First steps through Unabridged — The Ant and the Grasshopper, Urashima Tarō, Jack and the Beanstalk, The Little Mermaid, Robinson Crusoe, and The Strange Case of Dr Jekyll and Mr Hyde.',
+    ],
+  },
+  {
     date: '2026-09-03',
     changes: [
       'Changed: review timing now adapts to how well you actually know each individual character or word, not just a fixed doubling schedule. Something you\'ve consistently gotten right — especially with no history of mistakes — earns a longer gap before it comes back than something you\'ve struggled with, even if both happen to be at the same stage; something you keep getting wrong comes back sooner and climbs more cautiously afterward, without needing a set number of "prove it" answers first — it simply reflects how shaky that specific item still is. Under the hood, this replaces the old fixed-step schedule (and the two-miss "come back sooner" rule from earlier today, now folded into the same underlying model) with a well-established spaced-repetition algorithm; existing progress carries over based on each item\'s own history rather than starting over.',

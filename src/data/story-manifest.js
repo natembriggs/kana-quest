@@ -19,6 +19,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "ari-to-kirigirisu": {
+    "title": {
+      "ja": "蟻ときりぎりす",
+      "en": "The Ant and the Grasshopper"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "A grasshopper sings all summer long while an ant carries food home day after day.",
+    "hash": "6f8ed185",
+    "length": 99,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
+      "credit": "Retold by"
+    }
+  },
   "kitakaze-to-taiyou": {
     "title": {
       "ja": "北風と太陽",
@@ -121,6 +138,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "urashima-tarou": {
+    "title": {
+      "ja": "浦島太郎",
+      "en": "Urashima Tarō"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "A young fisherman rescues a turtle, visits a palace under the sea, and comes home to a village he no longer knows.",
+    "hash": "23ed476c",
+    "length": 310,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
+      "credit": "Retold by"
+    }
+  },
   "usagi-to-kame": {
     "title": {
       "ja": "うさぎとかめ",
@@ -186,6 +220,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "jack-to-mame-no-ki": {
+    "title": {
+      "ja": "ジャックと豆の木",
+      "en": "Jack and the Beanstalk"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "A poor boy trades the family cow for a handful of beans and climbs the vine that grows from them.",
+    "hash": "dd8d645f",
+    "length": 466,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -257,6 +308,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "ningyo-hime": {
+    "title": {
+      "ja": "人魚姫",
+      "en": "The Little Mermaid"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The youngest daughter of the sea king trades her voice for legs so she can walk beside the prince she saved.",
+    "hash": "8eb3f325",
+    "length": 768,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
+      "credit": "Retold by"
+    }
+  },
   "shirayukihime": {
     "title": {
       "ja": "白雪姫",
@@ -322,6 +390,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "robinson-crusoe": {
+    "title": {
+      "ja": "ロビンソン・クルーソー",
+      "en": "Robinson Crusoe"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "A young man ignores his father and goes to sea, and a shipwreck leaves him alone on an island with only what he can save from the waves.",
+    "hash": "fb226830",
+    "length": 1446,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -395,6 +480,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "jekyll-to-hyde": {
+    "title": {
+      "ja": "ジキル博士とハイド氏",
+      "en": "The Strange Case of Dr Jekyll and Mr Hyde"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "A London lawyer traces the brutal Mr Hyde back to a locked laboratory door and the respectable friend who wrote him into his will.",
+    "hash": "cda112d6",
+    "length": 2644,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
