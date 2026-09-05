@@ -478,6 +478,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning, Recall, exposure-based hiding and Higher/A level all ship; extracting a shared `furigana.js` (phase 8, see `stories-plan.md` §5.7) remains |
 | `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader, library and 24 standalone stories (four per level) ship; serialized multi-episode series (phase 9) has not started — see its phase table |
 | `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
+| `kanji-mnemonic-plan.md` | Breaking compound kanji into their component parts, with a standardized meaning per component and a mnemonic that accounts for how the parts are arranged | **In progress** — shipped for grades 1-3 (detail screen, lesson card, and a Hint button in the Yomi/Definition and Writing quizzes); the remaining grades need authored mnemonics. See its §9 for where the shipped version departs from the plan |
 | `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **Proposal** — research and design complete, no code written |
 | `external-import-plan.md` | Importing kanji/vocabulary progress from WaniKani, renshuu, Anki and similar apps | **Proposal** — research and scoping complete, no code written |
 
@@ -564,6 +565,9 @@ when you want to force it, but it shouldn't be needed.
 | `src/data/stroke-kana.js` | Generated data: kana stroke paths from KanjiVG — always loaded (small, and needed by every writing screen) |
 | `src/data/example-words.js` | Generated data: every word appearing in any example sentence, with its reading and meaning — one shared file, loaded lazily on the first tap of a word inside a sentence |
 | `src/data/stroke-grade-*.js` | Generated data: kanji stroke paths per grade, from KanjiVG — do not hand-edit, see below. Loaded lazily alongside that grade's kanji data |
+| `src/kanji-components.js` | Component breakdowns: the lazy per-grade loader, the lookup, and the shared tile/mnemonic renderer used by the detail screen, lesson card and both quiz hint panels. See `kanji-mnemonic-plan.md` |
+| `src/data/components.js` | Generated data: component character → the one standardized English keyword it carries everywhere — always loaded (small, shared across grades so a meaning cannot drift between them) |
+| `src/data/kanji-components-*.js` | Generated data: per-kanji component breakdown, arrangement and mnemonic, one file per grade — do not hand-edit. Loaded lazily alongside that grade's kanji data. Grades 1-3 only so far |
 | `src/stroke-geometry.js` | Bézier parsing, smoothing, resampling and the bounded best-fit offset behind Writing mode's grading — pure, no DOM |
 | `src/stroke-grader.js` | The stroke-by-stroke tolerance formula and strictness ladder behind Writing mode — pure, no DOM. See `writing-mode-plan.md` §2 |
 | `src/writing.js` | The writing-mode canvas widget: pointer capture, ink rendering, the three guide modes (Trace/Guided/Free) |
@@ -586,6 +590,9 @@ when you want to force it, but it shouldn't be needed.
 | `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/data/kanji-manifest.js` + `kanji-grade-*.js` |
 | `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
 | `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/` (and the manifest above), writes `src/data/stroke-kana.js` + `stroke-grade-*.js` |
+| `tools/build_kanji_components.py` | Reads `tools/data_src/kanjivg/` (for KanjiVG's `kvg:element`/`kvg:position` component metadata), KANJIDIC2, and the two hand-maintained seed files below; writes `src/data/components.js` + `kanji-components-*.js` |
+| `tools/kanji_src/component-keywords.tsv` | Hand-maintained: the standardized English keyword for each kanji component, where KANJIDIC's own first gloss is wrong for the job (亻 is "person", not "radical number 9") or missing entirely. Every entry is a dictionary meaning, a traditional Kangxi radical name, or the attested etymological sense — see the file's own header |
+| `tools/kanji_src/kanji-mnemonics.tsv` | Hand-maintained: one mnemonic per compound kanji, written from the component keywords and their arrangement. The build script warns about any line that fails to use one of its own kanji's components |
 | `tools/build_vocab_data.py` | Reads `tools/data_src/` and `tools/vocab_src/`, writes `src/data/vocab-manifest.js` + `vocab-*.js` + `vocab-lookup.js` |
 | `tools/story_src/` | Hand-tokenised story source, one file per story — see `story-writing-guide.md`. No morphological tokenizer is used; the author sets every token boundary and reading directly |
 | `tools/build_story_data.mjs` | Reads `tools/story_src/` and `src/data/vocab-lookup.js` (for `d`, the vocab-id link, at build time only), writes `src/data/story-manifest.js` + `story-*.js` |
@@ -603,6 +610,12 @@ Kanji readings, meanings and example words are distilled from
 [KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) and
 [JMdict](https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project),
 © The Electronic Dictionary Research and Development Group, CC BY-SA 4.0.
+Kanji stroke order, and the component decomposition and arrangement behind
+the breakdowns shown on kanji detail and lesson screens, come from
+[KanjiVG](https://kanjivg.tagaini.net/) by Ulrich Apel, CC BY-SA 3.0.
+Component meanings come from those components' own KANJIDIC2 entries where
+they have one, and otherwise from the traditional Kangxi 214-radical names;
+the mnemonic sentences themselves are this project's own.
 Vocabulary example sentences come from the [Tanaka
 Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) as distributed
 with WWWJDIC and maintained by the [Tatoeba Project](https://tatoeba.org/),

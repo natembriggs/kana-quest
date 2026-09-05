@@ -40,6 +40,9 @@ import {
 import { STORIES } from './data/story-manifest.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
+  ensureComponentUnitLoaded, kanjiComponents, renderComponentBreakdown,
+} from './kanji-components.js';
+import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
@@ -55,7 +58,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-05b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-05c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -237,7 +240,16 @@ function getAnyCourse(courseId) {
  * dedupe their own fetch, so calling this repeatedly for an already-loaded
  * unit is just two resolved-Promise checks. */
 async function ensureUnitReady(unit) {
-  await Promise.all([ensureKanjiUnitLoaded(unit), ensureStrokeUnitLoaded(unit)]);
+  await Promise.all([
+    ensureKanjiUnitLoaded(unit),
+    ensureStrokeUnitLoaded(unit),
+    // Component breakdowns ride along here rather than being awaited
+    // separately by each of the four screens that show them: they are the
+    // same "one grade's real data" the other two are, they exist for only
+    // some grades (ensureComponentUnitLoaded resolves immediately for the
+    // rest), and they are an order of magnitude smaller than either.
+    ensureComponentUnitLoaded(unit),
+  ]);
 }
 async function ensureUnitsReady(units) {
   await Promise.all([...units].map(ensureUnitReady));
@@ -2831,6 +2843,11 @@ function renderCharacterDetail() {
   // No stroke order for a whole word — vocab-plan.md §7 gives it kanji
   // chips instead (below), which is where "how do I write it" actually
   // belongs for something longer than one character.
+  // Kanji only, and only compound ones — the kanji branch below turns it
+  // back on when there is something to show, exactly as detail-stroke-wrap
+  // is switched by kind here.
+  $('detail-components-wrap').hidden = true;
+
   $('detail-stroke-wrap').hidden = course.kind === 'vocab';
   if (course.kind !== 'vocab') {
     const strokeContainer = $('detail-stroke');
@@ -2879,6 +2896,8 @@ function renderCharacterDetail() {
     renderExposureSummary(char, info);
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = info.meanings.join(', ');
+    paintComponents('detail-components-wrap', 'detail-components', 'detail-mnemonic',
+      course, char, drillIntoDetail);
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     $('detail-word-kanji').hidden = true;
@@ -2955,6 +2974,61 @@ function fillWordKanjiChips(containerEl, surface, open) {
 
 function renderWordKanjiChips(info) {
   fillWordKanjiChips($('detail-word-kanji'), info.w, drillIntoDetail);
+}
+
+/**
+ * The component breakdown for one kanji, or null — for kana, vocab, an
+ * atomic kanji, or a grade with no breakdowns yet. One lookup used by every
+ * screen that shows components, so none of them has to know which of those
+ * four reasons applies.
+ */
+function componentsFor(course, char) {
+  if (course.kind !== 'kanji') return null;
+  return kanjiComponents(kanjiUnitFor(char), char);
+}
+
+/**
+ * Paints one breakdown into a wrapper/row/mnemonic trio and shows or hides
+ * the wrapper accordingly. `open` is the drill-in handler for tiles whose
+ * component this app teaches as a kanji in its own right — the same
+ * drillIntoDetail/openFromLesson split every other tappable glyph in the
+ * app already makes. Passing no handler leaves every tile inert, which is
+ * what a live question wants.
+ */
+/**
+ * Arms (or hides) a "Show hint" button and its panel for one question. The
+ * panel starts closed on every question — a hint is a decision the learner
+ * makes about THIS character, not a preference that carries forward — and
+ * the button is hidden entirely when there is no breakdown to show, rather
+ * than offered and then disappointing.
+ *
+ * Tiles here are deliberately inert: mid-question is the one place drilling
+ * into a component's own detail screen would be a way out of the question
+ * rather than a way into it.
+ */
+function armHintButton(buttonId, wrapId, rowId, mnemonicId, course, char) {
+  const button = $(buttonId);
+  const entry = componentsFor(course, char);
+  $(wrapId).hidden = true;
+  button.hidden = !entry;
+  if (!entry) return;
+  button.onclick = () => {
+    paintComponents(wrapId, rowId, mnemonicId, course, char, null);
+    button.hidden = true; // one-way: once shown it stays, there is nothing to re-hide
+  };
+}
+
+function paintComponents(wrapId, rowId, mnemonicId, course, char, open) {
+  const entry = componentsFor(course, char);
+  const shown = renderComponentBreakdown($(rowId), $(mnemonicId), entry, open ? {
+    // A tile only opens if the component is itself taught here, and is not
+    // the character already on screen — 田 inside 番 opens 田's own detail
+    // screen; 氵, which this app never teaches alone, stays a plain tile.
+    canOpen: (component) => component !== char && Boolean(kanjiCourseFor(component)),
+    onOpen: (component) => open(kanjiCourseFor(component), component),
+  } : {});
+  $(wrapId).hidden = !shown;
+  return shown;
 }
 
 /**
@@ -3427,6 +3501,7 @@ function renderLesson() {
   $('lesson-next').textContent = session.lessonIndex === session.lesson.length - 1 ? 'Start quiz' : 'Next';
 
   $('lesson-pronunciation').hidden = true;
+  $('lesson-components-wrap').hidden = true;
 
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, item);
@@ -3441,6 +3516,13 @@ function renderLesson() {
     renderReadingChips($('lesson-readings'), $('lesson-word'), course, item, info, openFromLesson);
     $('lesson-meanings').hidden = false;
     $('lesson-meanings').textContent = info.meanings.join(', ');
+    // Shown openly, not behind a reveal: a brand-new character is the one
+    // moment a memory aid is doing real work rather than decorating
+    // something already half-known. openFromLesson, not drillIntoDetail —
+    // the lesson card is not a detail screen and has no frame to stack, so
+    // Back returns straight here (see openFromLesson's own comment).
+    paintComponents('lesson-components-wrap', 'lesson-components', 'lesson-mnemonic',
+      course, item, openFromLesson);
     $('lesson-word').hidden = true;
     $('lesson-word').innerHTML = '';
     $('lesson-hint').textContent = state.mode === 'definition'
@@ -3671,7 +3753,21 @@ function renderSingleChoice(course, item) {
   const session = state.session;
   session.attempt = 0;
   $('quiz-ok').hidden = true;
+  // Definition mode has no Advanced/Show answers row of its own — a
+  // single-choice question resolves on the first click — so the row appears
+  // here only to carry the hint, and only when there is a hint to carry.
+  $('quiz-hint-panel').hidden = true;
+  $('quiz-show-hint').hidden = true;
   $('quiz-kanji-actions').hidden = true;
+  if (course.kind === 'kanji') {
+    armHintButton('quiz-show-hint', 'quiz-hint-panel', 'quiz-hint-components',
+      'quiz-hint-mnemonic', course, item);
+    if (!$('quiz-show-hint').hidden) {
+      $('quiz-kanji-actions').hidden = false;
+      $('quiz-show-answers').hidden = true;
+      $('quiz-advanced').hidden = true;
+    }
+  }
 
   const isDefinition = state.mode === 'definition';
   const { options, answer } = isDefinition
@@ -4866,7 +4962,13 @@ function renderWritingQuestion(course, item) {
   $('writing-romaji').textContent = isKanji ? '' : writingPromptFor(item);
   $('writing-script-label').textContent = isKanji ? '' : `Write it in ${course.name.toLowerCase()}`;
   $('writing-kanji-info').hidden = !isKanji;
-  if (isKanji) renderWritingKanjiInfo(course, item);
+  $('writing-hint-panel').hidden = true;
+  $('writing-show-hint').hidden = true;
+  if (isKanji) {
+    renderWritingKanjiInfo(course, item);
+    armHintButton('writing-show-hint', 'writing-hint-panel', 'writing-hint-components',
+      'writing-hint-mnemonic', course, item);
+  }
   $('writing-peek-full').textContent = `Show full ${isKanji ? 'kanji' : 'kana'}`;
   $('writing-feedback').textContent = '';
   $('writing-feedback').className = 'hint writing-feedback';
@@ -5436,6 +5538,8 @@ function renderKanjiChoices(course, kanji) {
   const info = kanjiInfo(course, kanji);
   $('quiz-advanced').hidden = info.quizReadings.length <= correct.size;
   $('quiz-advanced').disabled = false;
+  armHintButton('quiz-show-hint', 'quiz-hint-panel', 'quiz-hint-components',
+    'quiz-hint-mnemonic', course, kanji);
 
   const choices = $('quiz-choices');
   // Reset the layout class explicitly. #quiz-choices is a single element
@@ -5623,6 +5727,10 @@ function finalizeKanjiRound(kanji) {
   $('quiz-kanji-actions').hidden = true;
   $('quiz-show-answers').hidden = true;
   $('quiz-advanced').hidden = true;
+  // The hint's own panel stays put once opened — the components are still
+  // worth looking at while reviewing the answer — but the button goes with
+  // the rest of the mid-question controls.
+  $('quiz-show-hint').hidden = true;
   $('quiz-ok').hidden = false;
   $('quiz-ok').textContent = 'Next';
   $('quiz-kana').classList.add('quiz-glyph-tap');

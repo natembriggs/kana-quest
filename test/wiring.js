@@ -2017,6 +2017,56 @@ if (detailChips.length > 0) {
   check('tapping the chip marks it active', detailChips[0].classList.contains('is-active'));
 }
 
+// --- Component breakdown on the detail screen ---------------------------
+// 一 (the first grade-1 tile, still open above) is atomic; 休 is 亻+木. Both
+// halves matter: a breakdown where there is one, and no empty box where
+// there isn't.
+
+check('an atomic kanji shows no component breakdown',
+  el('detail-components-wrap').hidden === true,
+  `glyph "${el('detail-glyph').textContent}"`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+const restTile = el('overview-grid')._children.find((t) => t.textContent === '休');
+check('the grade-1 overview contains 休', !!restTile);
+fire(restTile, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+
+const componentTiles = el('detail-components')._children;
+check('a compound kanji shows its component breakdown',
+  el('detail-components-wrap').hidden === false && componentTiles.length === 2,
+  `hidden ${el('detail-components-wrap').hidden}, ${componentTiles.length} tiles`);
+check('each component tile carries its glyph and its standardized meaning',
+  componentTiles.every((t) => t._children.length === 2 && t._children[0].textContent.length > 0
+    && t._children[1].textContent.length > 0),
+  componentTiles.map((t) => t._children.map((c) => c.textContent).join('=')).join(' | '));
+check('the mnemonic is shown alongside the components',
+  el('detail-mnemonic').hidden === false && el('detail-mnemonic').textContent.length > 20,
+  `"${el('detail-mnemonic').textContent}"`);
+check('the mnemonic names both components by their tile meanings',
+  componentTiles.length === 2 && componentTiles.every((t) => el('detail-mnemonic').textContent
+    .toLowerCase().includes(t._children[1].textContent.toLowerCase())),
+  `"${el('detail-mnemonic').textContent}"`);
+
+// 木 is taught as a kanji in its own right, so its tile drills through to its
+// own detail screen — the same stacked drill-in a vocab word's kanji chips
+// use. 亻 is not taught alone and stays a plain, inert tile.
+const treeTile = componentTiles.find((t) => t._children[0].textContent === '木');
+check('a component this app teaches becomes a tappable tile',
+  !!treeTile && treeTile.classList.contains('component-tile-link'));
+if (treeTile) {
+  fire(treeTile, 'click');
+  for (let i = 0; i < 10; i += 1) await settle();
+  check('tapping a component tile opens that component\u2019s own detail screen',
+    visible() === 'screen-character-detail' && el('detail-glyph').textContent === '木',
+    `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+  fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+  for (let i = 0; i < 10; i += 1) await settle();
+  check('backing out of a component returns to the kanji it came from',
+    el('detail-glyph').textContent === '休', `glyph "${el('detail-glyph').textContent}"`);
+}
+
 // --- Kanji search ------------------------------------------------------
 // Phase 4 of kanji-expansion-plan.md §2.2. Finds a kanji by character,
 // meaning, or reading (kana or romaji), across every grade at once, without

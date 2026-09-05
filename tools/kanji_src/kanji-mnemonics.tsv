@@ -1,0 +1,282 @@
+# Hand-authored mnemonics, one per compound kanji.
+#
+# Read by tools/build_kanji_components.py, which checks that every line here
+# actually uses each of its kanji's component keywords and warns about any
+# that don't. A kanji with no line here falls back to the mechanical
+# arrangement template in that script.
+#
+# House rules for writing one:
+#   * Name every component by the keyword it carries in
+#     component-keywords.tsv, spelled exactly the same way, so a learner
+#     meets the same word for that shape everywhere it appears.
+#   * Say where the parts sit — above, below, beside, inside, wrapped
+#     around, hanging over. The arrangement is half of what is being learnt.
+#   * Land on the kanji's own meaning. One or two sentences, no more.
+#   * Written from the component keywords and nothing else. No mnemonic
+#     source was consulted for any line in this file — see
+#     kanji-mnemonic-plan.md §2.4 and §2.6.4.
+#
+# Columns: kanji <TAB> mnemonic
+#
+# ---- grade 1 ----
+休	A person has stopped beside a tree, back against the bark. That is what rest looks like.
+六	A lid clamped down over eight: squash two out and six is what is left.
+千	One slash laid across ten, and ten swells into a thousand.
+名	Evening falls, too dark to see a face, so the mouth underneath calls out a name.
+四	An enclosure with legs kicking about inside it — four walls, four legs, four.
+天	One flat line resting on top of someone big: even the biggest of us has sky above.
+字	A child under a roof, bent over a desk, practising one character at a time.
+文	A lid, and under it a cut scratched into the surface. That scratch is writing.
+早	The sun is already ten hands above the horizon, so you are up early.
+村	Trees on the left, measure on the right: pace out the trees and you have a village.
+校	A tree on the left, mix on the right: wooden desks where children mix together all day. School.
+森	One tree standing over a whole grove below it — a forest.
+気	Steam curling round a cut in the lid — the invisible spirit rising out of the pot.
+男	A rice field, and beneath it the strength that works it: the man in the fields.
+町	Rice fields on the left, a nail on the right, pinning them into neat blocks. A town.
+百	One stroke laid on top of white: a hundred blank pages waiting.
+空	Craft a hole wide enough and what is left above you is empty sky.
+花	Grass on top, and underneath it change: grass that has changed into a flower.
+草	Grass on top and early below — grass is up first thing every morning.
+見	An eye up on two legs, walking about to see.
+貝	An eye with eight little legs scuttling under it: a shellfish.
+足	A mouth above, stop below. The foot carries you and knows when to halt.
+青	A sprout below the moon takes on a cold blue.
+音	Stand up in the sun and let out a sound.
+# ---- grade 2 ----
+交	A lid over father, and the whole household gathers underneath to mingle.
+会	One person standing above a cloud of others — a meeting.
+体	A person beside their own origin: the body you started out in.
+何	A person on the left, can on the right. A person asking whether they can — what?
+作	A person who suddenly starts making things.
+元	Two lines resting on a pair of legs: stand up straight at the beginning.
+兄	A mouth up on legs, telling you what to do. Your elder brother.
+光	Small sparks scattered over something lofty: light.
+公	Eight arms prying open what is private below, and it becomes public.
+冬	A winter's foot dragging over two chips of ice.
+分	Eight above, a sword below. Everything gets cut into parts.
+切	Seven strokes beside a sword: cut.
+友	One hand reaching round to clasp another hand inside it. Friends.
+古	A story ten mouths have passed along — it has to be old by now.
+台	Something private held up over a mouth: set it on a pedestal.
+同	An open box enclosing one mouth, and everyone in it says the same thing.
+回	A mouth inside an enclosure, going round and round: one more time.
+図	Small cuts scratched inside an enclosure. That is a map.
+国	A jewel walled up inside an enclosure: a country.
+園	An enclosure you stroll around in a long robe. The garden.
+地	Earth on the left, a snake sliding over it on the right: the ground.
+場	Earth with sunbeams falling across it — an open place.
+外	Evening on the left, fortune-telling on the right: read the omens outside.
+太	Big already, and one dot more underneath. Plump.
+妹	A woman not yet grown: your younger sister.
+姉	The woman who takes you to market. Your elder sister.
+室	Arrive under a roof and you have reached the room.
+家	A pig under the roof. That, historically, is a house.
+寺	Earth measured out by the inch: the temple grounds.
+岩	A mountain sitting on top of a stone. A boulder.
+市	A lid over a cloth stall: the market.
+帰	Put down the knife, pick up the broom. You have come home.
+広	A lean-to hanging over something private, with room to spare underneath. Wide.
+店	Divination under a lean-to roof: a shop with a fortune-teller out front.
+引	A bow on the left, a straight line on the right, drawn back. Pull.
+当	Small marks over a hand, and the hand lands on the right one. A hit.
+形	Level lines on the left, hair strokes trailing on the right: shape.
+思	A rice field above a heart, ploughing the same row over and over. Think.
+教	Filial piety on the left, a light strike on the right. That is teaching.
+数	Strike an entangled heap apart and count what falls out. Number.
+明	Sun beside moon. Nothing is brighter.
+星	A little sun that comes to life only at night: a star.
+時	The sun beside the Buddhist temple bell — that is how you tell the time.
+晴	Sun beside blue and the weather clears up.
+曜	The sun with a pheasant beside it, one bird for each weekday.
+書	A brush above the sun: write until the light goes.
+歩	Stop on top, a few more below. Stop, a few more, stop again. Walking.
+池	Water with a snake winding through it: the pond.
+汽	Water on the left, steam on the right. Vapour.
+活	Water on the tongue and suddenly you are lively again.
+海	Every drop of water there is, gathered in one place: the sea.
+点	Divination over a fire, and the flame leaves little scorch spots.
+理	A king beside his village, putting everything in its place. Logic.
+番	Divide the rice field below and everyone takes a turn on their strip.
+知	An arrow flying straight out of the mouth: you know it.
+社	An altar beside earth, and everyone in the district belongs to it. A company.
+秋	Grain on the left, fire on the right, burning off the stubble. Autumn.
+科	Grain measured out with a dipper and sorted into departments.
+答	Bamboo slips joined together underneath: the answer.
+紙	Thread beaten flat for the whole clan to write on. Paper.
+細	Thread laid across a rice field, and every furrow looks thin beside it.
+組	Thread beside a pile of it, braided together into a group.
+絵	Threads meeting on cloth: a picture.
+線	Thread running on and on like a spring: a line.
+聞	An ear inside the gate, listening to everyone who comes through.
+船	A boat beside the marsh: a ship.
+色	A bending person over a coil, and the colour rises in their face.
+計	Words beside ten: count it out and you have a plan.
+記	Words beside self: write down what happened to you.
+話	Words and a tongue together: a tale.
+語	Words for I, words for you — language.
+読	Words beside sell: read the label before you buy.
+買	A net thrown over shells, and shells are money. Buy.
+走	Earth above, stop below. Run across the ground until you stop.
+近	A road wrapped round an axe, close enough to fetch it. Near.
+通	A road wrapped round a walled path — go straight through.
+週	A road wrapped round a circuit: seven days, and back where you started. A week.
+道	A road wrapping round a neck, leading you on. The way.
+遠	A road wrapped round a long robe, the hem trailing off into the distance. Far.
+野	Village on the left, beforehand on the right: what was there before the village. Open plains.
+間	Sun in the gateway, and light in the gap is the interval itself.
+雪	Rain above a hand: rain you can hold. Snow.
+雲	Rain on top and cloud below, because rain has to come from somewhere.
+頭	A bean beside a head, and the head is about that size. The head.
+顔	A youth beside a head: the face you look at.
+鳴	A mouth beside a bird: the chirp.
+麦	A sprout above a winter's foot, pushing up through the frost. Barley.
+黒	A village over a fire, and the soot turns everything black.
+# ---- grade 3 ----
+主	A lid resting on the king below: the master of the house.
+仕	A person beside a scholar, attending on them.
+他	A person on the left, a snake on the right — somebody else entirely. Other.
+代	A person beside a stake driven in to mark their place while they are away. A substitute.
+住	A person beside the master of the house, living under the same roof. Dwell.
+使	A person beside an official, sent out on an errand. Use.
+係	A person beside a lineage, holding the thread of it. The one in charge.
+倍	A person beside spit, saying it twice over. Double.
+全	One person above the king, and together that is everyone. Whole.
+写	A cover on top, give underneath: copy it out and hand it over.
+列	Bone on the left, knife on the right: laid out in a row.
+助	A pile on the left, strength on the right, shifting it. Help.
+勉	Excuse wrapped round strength — no excuse left, so put your back into it. Exertion.
+動	Heavy on the left, strength on the right: move it.
+勝	Moon on the left, weary on the right — outlast them and win.
+化	A person beside a spoon, stirred into something else. Change.
+区	A hiding box with a cut inside it, dividing the town into wards.
+医	A hiding box with an arrow inside: pull the arrow out and treat the wound. Doctor.
+去	Earth on top, private below — bury it and it is gone.
+取	An ear on the left, a hand on the right, taking hold of it.
+君	A governor hanging over a mouth, giving the orders. Mister, ruler.
+味	A mouth on the left, not yet on the right: not tasted yet. Flavour.
+和	Grain on the left, a mouth on the right, and everyone fed. Harmony.
+員	A mouth above a shell — one mouth to pay for, one member of staff.
+商	Stand on top, bright below: set out your stall and make a deal.
+問	A mouth inside the gate, calling in a question.
+坂	Earth on the left, turn back on the right: too steep, turn back. A slope.
+始	A woman beside a pedestal: everything begins here.
+委	Grain on top, a woman below, entrusted with the harvest.
+守	A roof over measure: guard every inch of what is under it.
+安	A woman under a roof, and the household relaxes.
+定	A roof over a foot, planted and settled. Determine.
+客	A roof over each and every arrival: a guest.
+宮	A roof over a spine of linked rooms: a palace.
+宿	A roof over a hundred travellers: an inn.
+対	Writing on the left, measure on the right, set opposite each other.
+局	A body hanging over a phrase, hunched at a desk. The bureau.
+屋	A body hanging over arrive — you have arrived under the roof. A house.
+帳	Cloth on the left, long on the right: a long roll of cloth to write on. A notebook.
+庫	A lean-to hanging over a cart: the warehouse it is parked in.
+庭	A lean-to hanging over a court: the courtyard.
+式	A stake enclosing craft, and the craft is done the same way every time. A ceremony.
+役	A step on the left, a weapon on the right: marched off on duty.
+待	A step on the left, a Buddhist temple on the right: pace the temple yard and wait.
+息	Self on top, heart below: your own heart, and the breath it drives.
+悪	Second above a heart: a heart that comes second. Bad.
+悲	Not above a heart: the heart says no. Grief.
+想	Mutual above a heart: two hearts thinking the same thought. An idea.
+意	Sound above a heart: what the heart is trying to say. Meaning.
+感	All above a heart, all at once. Feeling.
+所	A door on the left, an axe on the right — the place they are kept.
+打	A hand on the left, a nail on the right. Strike.
+投	A hand on the left, a weapon on the right, hurled. Throw.
+拾	A hand on the left, join on the right: gather it up.
+持	A hand on the left, a Buddhist temple on the right, holding the whole thing steady.
+指	A hand on the left, delicious on the right — the finger that points at the best dish.
+放	Direction on the left, a strike on the right: strike out in any direction. Set free.
+整	An imperial order on top, correct below: everything put in order.
+昭	The sun on the left, summon on the right: call the sun out and it shines.
+暑	The sun above a person, beating down. Sultry.
+暗	The sun on the left, sound on the right — you can hear it but not see it. Darkness.
+期	That on the left, moon on the right: that moon, that date. A period.
+板	A tree on the left, turn back on the right: sawn and turned over. A plank.
+柱	A tree on the left, the master on the right: the tree the whole house leans on. A pillar.
+根	A tree on the left, stopping on the right — where the tree stops going down. The root.
+植	A tree on the left, straight on the right: stand it up straight and plant it.
+横	A tree on the left, yellow on the right, felled and lying sideways.
+橋	A tree on the left, tall on the right: tall timber laid across. A bridge.
+次	Ice on the left, a yawn on the right — cold and bored, waiting for the next one.
+決	Water on the left, decide on the right: the water has to go one way. Decide.
+油	Water on the left, reason on the right — water that will not mix. Oil.
+波	Water on the left, skin on the right: the skin of the water. Waves.
+注	Water on the left, the master on the right: pour for the master.
+泳	Water on the left, eternity on the right: swim on and on.
+洋	Water on the left, a sheep on the right, drifting off overseas. The ocean.
+流	Water on the left, a pennant on the right, streaming out. Flow.
+消	Water on the left, resemblance on the right: pour water on it until it no longer resembles itself. Extinguish.
+温	Water on the left, warm on the right. Warm water.
+港	Water on the left, an alley on the right: an alley of water. The harbour.
+湖	Water on the left, a barbarian on the right, camped at the water's edge. A lake.
+湯	Water on the left, sunbeams on the right, heating it. Hot water.
+炭	A mountain above ashes: dig into the hillside and bring out coal.
+物	A cow on the left, not on the right — a cow and not-a-cow, and between them, everything. A thing.
+球	The king on the left, seek on the right: the jewel everyone is chasing. A ball.
+界	A rice field above mediate: something has to sit between the fields. A boundary.
+畑	Fire on the left, a rice field on the right: burn it off and it becomes dry field.
+病	Sickness hanging over third: taken ill and third in the queue.
+登	A tent on top, a bean below: climb up to pitch it.
+相	A tree on the left, an eye on the right, looking each other over. Mutual.
+真	Ten above a tool: ten tools all agreeing. True.
+短	An arrow on the left, a bean on the right: as long as an arrow, as short as a bean.
+研	Stone on the left, level on the right: grind it level. Polish.
+礼	An altar on the left, a hook on the right, bowing low. A salute.
+神	An altar on the left, state on the right: what is stated at the altar. The gods.
+福	An altar on the left, full on the right: a full jar set at the altar. Blessing.
+秒	Grain on the left, few on the right — a few grains through the glass. A second.
+究	A hole on top, nine below: dig nine holes and you are doing research.
+章	Sound above early: the first sound, and the chapter it opens.
+童	Stand above a village: the child standing about in the village.
+笛	Bamboo on top, reason below: bamboo with a reason to be hollow. A flute.
+筆	Bamboo above a brush: the bamboo handle of the writing brush.
+等	Bamboo above a Buddhist temple: bamboo slips in the temple, all cut to one length. Class, and so forth.
+箱	Bamboo above mutual: bamboo sides facing each other. A box.
+級	Thread on the left, reach on the right: how far up the thread you have reached. A grade.
+終	Thread on the left, winter on the right: the thread runs out in winter. The end.
+緑	Thread on the left, carve on the right: carved and dyed. Green.
+練	Thread on the left, east on the right: work the thread until the sun is up. Practice.
+美	A sheep above big: a big sheep. Beauty.
+習	Feathers above white: a white-feathered fledgling flapping until it learns.
+者	Old hanging over the sun: someone who has seen many days. A person.
+苦	Grass above old: old grass, bitter to chew. Suffering.
+荷	Grass above what: grass and what else is on your back? A load.
+落	Grass above the capital: the leaves come down all over town. Fall.
+葉	Grass above a flat board: pressed flat. A leaf.
+薬	Grass above music: the grass that makes you well enough to sing. Medicine.
+詩	Words on the left, a Buddhist temple on the right: words with temple weight. A poem.
+調	Words on the left, a circuit on the right: run the words round until they are in tune.
+談	Words on the left, flames on the right: talk around the fire.
+負	A bending person above a shell: bent under the debt. Defeat.
+起	Run wrapped round self: get yourself up and running.
+路	A foot on the left, each on the right: each foot in turn along the path.
+転	A cart on the left, a cloud on the right, wheels turning like cloud.
+軽	A cart on the left, holy on the right: light enough for anyone to pull.
+農	Bend above a dragon: bend your back from dawn. Agriculture.
+返	A road wrapped round turn back: turn back along the road. Return.
+追	A road wrapped round a heap: follow the heaped tracks. Chase.
+送	A road wrapped round a frontier pass: see them off at the pass. Escort.
+速	A road wrapped round a bundle: bundle it up and go. Quick.
+進	A road wrapped round a small bird: birds go forward and never back. Advance.
+遊	A road wrapped round roam: wander wherever it goes. Play.
+運	A road wrapped round an army, moving it. Carry, and the luck it takes.
+部	Spit on the left, a village on the right: the village split into sections.
+都	A person on the left, a village on the right: village upon village. The metropolis.
+配	A wine jar on the left, self on the right: pour yourself a cup and hand the rest round. Distribute.
+酒	Water on the left, a wine jar on the right. Sake.
+鉄	Metal on the left, lose on the right: the metal you can afford to lose. Iron.
+銀	Metal on the left, stopping on the right: metal one stop below gold. Silver.
+開	Level inside the gate: pull the bar level and the gate opens.
+院	A hill on the left, complete on the right: the completed building on the hill. An institution.
+陽	A hill on the left, sunbeams on the right: the sunny side of the hill.
+階	A hill on the left, all on the right — a hill for everybody, cut into steps. A storey.
+集	A small bird above a tree, and then another, and another. Gather.
+題	Correct wrapped round a head: get the heading right. A topic.
+飲	Food on the left, a yawn on the right: mouth open. Drink.
+館	Food on the left, an official on the right: the official building where you are fed. A mansion.
+駅	A horse on the left, a ruler on the right: horses measured out along the road. A station.
+鼻	Self above give: the part of yourself that gives you away. The nose.

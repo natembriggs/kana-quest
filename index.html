@@ -483,6 +483,21 @@
       </div>
     </div>
 
+    <!-- Kanji only, compound kanji only: what the character is built out of,
+         which way round the parts sit, and a mnemonic tying the two
+         together. Placed right after the stroke box because stroke order and
+         component structure answer the same "what does this look like and
+         how is it built" question — the reading/meaning content below is a
+         different question. Each tile is tappable through to that
+         component's OWN detail screen when the app teaches it as a kanji in
+         its own right, the same drill-in a vocab word's kanji chips already
+         offer. Hidden entirely for atomic kanji, kana and vocab. See
+         renderComponentBreakdown() in kanji-components.js. -->
+    <div id="detail-components-wrap" class="components-wrap" hidden>
+      <div id="detail-components" class="component-row"></div>
+      <p id="detail-mnemonic" class="mnemonic-text" hidden></p>
+    </div>
+
     <!-- Kanji only: which unit it's taught in (school grade, secondary jōyō
          sub-unit, or beyond-jōyō "Names & places" set) — every kanji belongs
          to exactly one, per KANJI_UNITS (kanji-manifest.js), regardless of
@@ -601,6 +616,16 @@
            word for whichever reading was last tapped. See renderLesson(). -->
       <div id="lesson-readings" class="reading-chips" lang="ja" hidden></div>
       <div id="lesson-meanings" class="kanji-meanings" hidden></div>
+      <!-- Kanji lessons only, compound kanji only: the component breakdown
+           and its mnemonic, shown openly like the readings and meanings
+           above — this is teaching, not testing, so nothing here is worth
+           hiding behind a reveal. A brand-new character is the one moment a
+           memory aid is doing real work rather than decorating something the
+           learner already half-knows. -->
+      <div id="lesson-components-wrap" class="components-wrap" hidden>
+        <div id="lesson-components" class="component-row"></div>
+        <p id="lesson-mnemonic" class="mnemonic-text" hidden></p>
+      </div>
       <div id="lesson-word" class="word-slot" hidden></div>
     </div>
     <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
@@ -640,6 +665,13 @@
       <p id="writing-kanji-readings" class="hint" lang="ja"></p>
       <div id="writing-kanji-meanings" class="kanji-meanings"></div>
       <div id="writing-kanji-word" class="kanji-word"></div>
+      <!-- Appended to the existing kanji-info panel rather than given a panel
+           of its own: this is more of the same clue material that panel
+           already holds. Revealed by #writing-show-hint. -->
+      <div id="writing-hint-panel" class="components-wrap" hidden>
+        <div id="writing-hint-components" class="component-row"></div>
+        <p id="writing-hint-mnemonic" class="mnemonic-text" hidden></p>
+      </div>
     </div>
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
     <!-- Revealed only once finished (finishWritingCharacter in app.js) — the
@@ -681,6 +713,11 @@
     <div id="writing-hints" class="writing-hints" hidden>
       <button id="writing-peek-next" class="btn btn-quiet" type="button">Show next stroke</button>
       <button id="writing-peek-full" class="btn btn-quiet" type="button">Show full character</button>
+      <!-- Unlike its two neighbours this is an ordinary tap-to-toggle, not
+           hold-to-peek: a mnemonic sentence has to be READ, not glanced at.
+           Like "Show me", using it costs the clean-first-attempt condition —
+           see finishWritingCharacter() in app.js. -->
+      <button id="writing-show-hint" class="btn btn-hint" type="button" hidden>💡 Hint</button>
     </div>
 
     <!-- Free mode only: appears once at least one stroke is drawn: no guide
@@ -815,8 +852,21 @@
          of the screen is. -->
     <div id="quiz-choices" class="choice-grid" role="group" aria-label="Click the readings that apply"></div>
 
-    <!-- Kanji only, while the round is still open. -->
+    <!-- Revealed in place by "Show hint" below, and never navigated away
+         from: the whole point is a nudge without leaving the question, which
+         is what separates it from #quiz-info-more's "Full details →" (that
+         one is post-answer review and does navigate). -->
+    <div id="quiz-hint-panel" class="components-wrap quiz-hint-panel" hidden>
+      <div id="quiz-hint-components" class="component-row"></div>
+      <p id="quiz-hint-mnemonic" class="mnemonic-text" hidden></p>
+    </div>
+
+    <!-- Kanji only, while the round is still open. "Show hint" comes first:
+         a learner who is stuck wants a nudge before they want the answer
+         outright. It only appears for a compound kanji that has a
+         breakdown to show. -->
     <div id="quiz-kanji-actions" class="row" hidden>
+      <button id="quiz-show-hint" class="btn btn-hint" type="button" hidden>💡 Hint</button>
       <button id="quiz-advanced" class="btn" type="button" hidden>Advanced</button>
       <button id="quiz-show-answers" class="btn btn-quiet" type="button">Show answers</button>
     </div>

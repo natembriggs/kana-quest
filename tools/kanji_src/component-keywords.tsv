@@ -1,0 +1,221 @@
+# Standardized component keywords — one short English keyword per kanji
+# component, used identically everywhere that component appears.
+#
+# Read by tools/build_kanji_components.py. A component NOT listed here falls
+# back to its own KANJIDIC2 entry's first English gloss (see
+# resolve_keyword()); a component with neither is dropped, and any kanji with
+# a dropped part gets no component record at all rather than a partial one.
+#
+# Every keyword here is either (a) the component's own dictionary meaning,
+# (b) its traditional Kangxi radical name, or (c) the well-attested
+# etymological sense of the graphic element. Nothing is invented for
+# mnemonic effect — see kanji-mnemonic-plan.md §2.3.
+#
+# Columns: component <TAB> keyword <TAB> why this rather than the raw gloss
+#
+# --- radicals with no usable KANJIDIC gloss of their own ---
+亻	person	KANJIDIC has only "radical number 9"; 亻 is the standing form of 人
+氵	water	three-drop form of 水
+扌	hand	standing form of 手
+艹	grass	KANJIDIC appends "radical number 140"
+宀	roof	KANJIDIC's "shaped crown" is a truncated radical name; Kangxi 40 is the roof radical
+囗	enclosure	Kangxi 31, the enclosing box; "box" collides with 箱/凾
+彳	step	Kangxi 60, the "step" radical; KANJIDIC's "linger, loiter" is the standalone verb
+亠	lid	Kangxi 8, なべぶた / "kettle lid"
+儿	legs	Kangxi 10
+禾	grain	Kangxi 115, the growing-grain radical
+广	lean-to	Kangxi 53, a roof open at one side
+匸	hiding box	Kangxi 23
+冂	open box	Kangxi 13
+冖	cover	Kangxi 14
+冫	ice	Kangxi 15
+刂	knife	standing form of 刀
+礻	altar	Kangxi 113 示, the altar radical; KANJIDIC's "cult" reads oddly on a tile
+衤	clothes	standing form of 衣
+罒	net	Kangxi 122 variant
+耂	old	Kangxi 125, the "old" radical
+灬	fire	four-dot form of 火
+疒	sickness	Kangxi 104
+飠	food	standing form of 食
+癶	tent	Kangxi 105, the outspread-feet / "dotted tent" radical
+殳	weapon	Kangxi 79, a hand holding a weapon
+丿	slash	Kangxi 4
+丨	line	Kangxi 2; KANJIDIC's "number one" collides with 一
+丶	dot	Kangxi 3
+攵	strike	Kangxi 66 variant; the standalone gloss trails a radical name
+# --- components KanjiVG names with non-KANJIDIC code points ---
+⻌	road	the 辵/辶 road radical, Kangxi 162
+⻖	hill	left-hand 阝, from 阜 (Kangxi 170)
+⻏	village	right-hand 阝, from 邑 (Kangxi 163)
+⺌	small	variant top form of 小
+⺍	small	variant top form of 小
+⺕	hand	the 彐 element as it appears in 雪/当, historically a hand
+⺷	sheep	top form of 羊
+龰	stop	variant foot form of 止
+𠂇	hand	the hand element at the top of 友
+𠂊	bending person	the crouching-person element atop 色/負
+龶	sprout	the growing element atop 青, from 生
+# --- components whose KANJIDIC first gloss is wrong or unhelpful here ---
+日	sun	"day" is the calendar sense; as a component it draws the sun
+月	moon	"month" is the calendar sense
+田	rice field	KANJIDIC leads with "rice field" already, pinned so it never drifts to "rice paddy"
+土	earth	first gloss "soil" is fine but "earth" reads better beside 地/場
+言	words	"say" is the verb; as a component it is the speech element
+心	heart	pinned against "mind, spirit"
+里	village	KANJIDIC leads with the unit of distance, "ri"
+王	king	pinned against "rule, magnate"
+寸	measure	KANJIDIC's "measurement, tenth of a shaku" is too long for a tile
+力	strength	pinned against "power"
+厶	private	Kangxi 28 私; KANJIDIC's "I, myself" is the pronoun sense
+貝	shell	the cowrie shell used as money
+頁	head	Kangxi 181; "page" is the borrowed modern sense
+目	eye	pinned against "class, look"
+立	stand	pinned against "rise, set up"
+門	gate	pinned against "counter for cannons"
+車	cart	"car" is the modern sense; the element draws a cart
+糸	thread	pinned
+矢	arrow	pinned against "dart"
+豆	bean	pinned against "midget"
+又	hand	Kangxi 29, the right hand; KANJIDIC's "or again" is the adverb
+尸	body	Kangxi 44; "corpse" overstates it in 屋/局
+巾	cloth	Kangxi 50; pinned against "hanging scroll"
+斤	axe	pinned against the weight measure
+自	self	pinned
+耳	ear	pinned
+舌	tongue	pinned against "reed, clapper"
+隹	small bird	Kangxi 172, the short-tailed bird
+鳥	bird	pinned against "chicken"
+酉	wine jar	Kangxi 164; KANJIDIC's "west, bird" is the zodiac sense
+金	metal	"gold" is the narrow sense; 鉄/銀 are metals
+石	stone	pinned
+山	mountain	pinned
+火	fire	pinned
+水	water	pinned
+木	tree	pinned against "wood"
+竹	bamboo	pinned
+羊	sheep	pinned
+牛	cow	pinned
+馬	horse	pinned
+魚	fish	pinned
+虫	insect	pinned
+雨	rain	pinned
+子	child	KANJIDIC trails zodiac senses
+女	woman	pinned against "female"
+大	big	pinned against "large"
+小	small	pinned
+人	person	pinned
+口	mouth	pinned
+手	hand	pinned
+足	foot	pinned against "be sufficient"
+弓	bow	pinned against the archery/violin gloss
+刀	sword	pinned against "saber, knife"
+玉	jewel	pinned against "ball"
+白	white	pinned
+青	blue	pinned against "green"
+黄	yellow	pinned
+生	life	pinned against "genuine, birth"
+止	stop	pinned against "halt"
+走	run	pinned
+歩	walk	pinned
+反	turn back	KANJIDIC's "anti-" is the modern prefix
+乂	cut	pinned against "mow, subdue"
+七	seven	pinned
+九	nine	pinned
+十	ten	pinned
+八	eight	pinned
+二	two	pinned
+一	one	pinned
+乙	hook	Kangxi 5; KANJIDIC's "the latter" is the ordinal sense
+匕	spoon	pinned
+卜	fortune-telling	pinned
+工	craft	pinned against "construction"
+干	dry	pinned against "parch, ebb"
+才	talent	pinned
+士	scholar	pinned against "gentleman, samurai"
+夕	evening	pinned
+夂	winter's foot	Kangxi 34; KANJIDIC's "late, delayed" is the standalone sense
+文	writing	KANJIDIC's "sentence, literature" is the compound sense
+方	direction	pinned
+欠	yawn	Kangxi 76, an open mouth; KANJIDIC's "lack, gap" is the modern sense
+毋	do not	pinned
+氏	clan	pinned against "family name, surname"
+气	steam	Kangxi 84; KANJIDIC's "spirit" is 気's modern sense
+穴	hole	pinned against "aperture, slit"
+羽	feathers	pinned
+聿	brush	pinned against "finally, self"
+艮	stopping	pinned against the zodiac gloss
+釆	divide	pinned against "separate"
+長	long	pinned against "leader, superior"
+非	not	KANJIDIC's "un-, mistake, negative" is a list of prefixes
+首	neck	pinned against "counter for songs"
+香	fragrance	pinned
+高	tall	pinned
+# --- components whose KANJIDIC first gloss reads badly on a tile ---
+# Where a component is purely phonetic and has no clear semantic sense, the
+# dictionary gloss is left alone rather than dressed up.
+云	cloud	the original form of 雲, before the rain radical was added
+也	snake	the graph depicts a coiled snake; "to be (classical)" is the borrowed use
+昜	sunbeams	sun with rays below it — the element 陽/湯 share
+开	level	the 幵 "level" element; KANJIDIC's "open" is 開's sense
+主	master	pinned against "lord, chief"
+丁	nail	the graph depicts a nail head; "street, ward" is the borrowed use
+袁	long robe	KANJIDIC's "long kimono"
+未	not yet	KANJIDIC's "un-" is a prefix, not a tile keyword
+至	arrive	pinned against "climax"
+占	divination	KANJIDIC's "fortune-telling, divining, forecasting"
+合	join	pinned against "fit, suit"
+且	pile	the graph depicts a stacked stand; "moreover" is the borrowed use
+周	circuit	pinned against "circumference"
+弋	stake	a stake driven in; KANJIDIC's "piling"
+咅	spit	KANJIDIC's "to spit out"
+相	mutual	KANJIDIC's "inter-" is a prefix
+者	person	pinned against "someone"
+由	reason	KANJIDIC's "wherefore"
+交	mix	pinned against "mingle, association"
+本	origin	the root of a tree, marked at the base; "book" is the borrowed use
+乍	suddenly	pinned against "though, notwithstanding"
+兀	lofty	pinned against "high & level, bald"
+彡	hair	Kangxi 59, the bristle/hair strokes; "three" is the shape, not the sense
+娄	entangle	the 婁 element, "to drag, trail"
+翟	pheasant	KANJIDIC's "surname, kind of pheasant"
+斗	dipper	a measuring dipper; "Big Dipper" is the constellation sense
+㕣	marsh	KANJIDIC's "a marsh at the foot of the hills"
+巴	coil	a coiled snake; KANJIDIC's "comma-design" describes the shape
+彦	youth	pinned against "lad, fine young man"
+吏	official	pinned against "officer"
+与	give	pinned against "bestow, participate in"
+歹	bone	Kangxi 78, the bare-bone/death radical
+劵	weary	KANJIDIC's "become fatigued"
+冏	bright	pinned against "light, clear"
+疋	foot	Kangxi 103; KANJIDIC's "head, counter for animals" is a different sense
+亜	second	pinned against "Asia"; the element means "rank next"
+召	summon	pinned against "seduce, call, send for"
+直	straight	pinned against "straightaway, honesty"
+喬	tall	pinned against "high, boasting"
+皮	skin	pinned against "pelt, hide"
+㐬	pennant	KANJIDIC's "a cup with pendants, a pennant"
+昷	warm	the original form of 温
+巷	alley	pinned against "fork in road, scene"
+勿	not	pinned
+求	seek	pinned against "request, want"
+介	mediate	pinned against "jammed in, shellfish"
+丙	third	pinned against "third class, 3rd calendar sign"
+申	state	pinned against the zodiac sense
+畐	full	KANJIDIC's "to fill, roll of cloth"
+及	reach	pinned against "exert, exercise"
+彔	carve	KANJIDIC's "to carve wood"
+洛	capital	KANJIDIC's "Kyoto, the capital"
+枼	flat board	KANJIDIC's "table, flat pieces of wood, slip"
+炎	flames	pinned against "inflammation, blaze"
+辰	dragon	pinned against "sign of the dragon, 7-9AM"
+𠂤	heap	the piled-earth element in 追/師
+斿	roam	pinned against "to swim, to move freely"
+完	complete	pinned against "perfect, end"
+是	correct	pinned against "just so, this, right"
+官	official	pinned against "bureaucrat, the government"
+尺	ruler	the measuring rule; "shaku, Japanese foot" is the unit
+畀	give	KANJIDIC's "to give"
+甬	walled path	KANJIDIC's "road with walls on both sides" is too long for a tile
+敕	imperial order	KANJIDIC's "an imperial order or decree"
+尹	governor	KANJIDIC's "an official rank" is a description, not a keyword
+廷	court	pinned against "courts, imperial court, government office"

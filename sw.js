@@ -21,14 +21,15 @@
 //      populates the cache as pages are used anyway.
 //
 // The heavy per-kanji data (kanji-expansion-plan.md §4) is deliberately NOT
-// listed below: src/data/kanji-grade-*.js and stroke-grade-*.js (well over
+// listed below: src/data/kanji-grade-*.js, stroke-grade-*.js and
+// kanji-components-*.js (well over
 // 1MB apiece once every jōyō grade is loaded) are fetched lazily, on demand,
 // per grade — precaching all of them here would defeat the whole point.
 // They still end up cached, just opportunistically, the first time the
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-05b';
+const VERSION = '2026-09-05c';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -42,6 +43,11 @@ const SHELL = [
   'src/kana.js',
   'src/kanji.js',
   'src/data/kanji-manifest.js',
+  'src/kanji-components.js',
+  // The shared component->keyword map only; the per-grade breakdowns
+  // (kanji-components-*.js) are lazy, like the kanji and stroke data they
+  // load alongside.
+  'src/data/components.js',
   'src/srs.js',
   'src/store.js',
   'src/merge.js',

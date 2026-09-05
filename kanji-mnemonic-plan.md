@@ -1,7 +1,8 @@
 # Kanji component mnemonics — implementation plan
 
-Status: **not started — planning only.** No code has been written against
-this plan. It proposes: breaking compound kanji into their component parts,
+Status: **shipped for grades 1-3 (2026-09-05).** All seven phases in §7 are
+done, with two deliberate departures from what was written here — see §9.
+It proposes: breaking compound kanji into their component parts,
 showing those parts and their meanings on the kanji detail page, generating
 an original arrangement-aware mnemonic for the whole kanji, surfacing that
 mnemonic in the lesson/introduction flow, and adding an on-demand "Show hint"
@@ -1029,3 +1030,90 @@ this repo's existing phasing discipline.
   sub-components, available in KanjiVG's nesting per §2.2 but not surfaced
   by this plan) as a future drill-down. Deliberately left for later; the
   top-level breakdown is very likely sufficient for the stated goal.
+
+---
+
+## 9. What actually shipped (2026-09-05), and where it departs from the plan
+
+Phases 0-5 (§7) are complete for grades 1-3: 259 compound kanji, 239 distinct
+components, breakdowns and mnemonics on the detail screen, the lesson card,
+and behind a new "💡 Hint" button in the Yomi/Definition and Writing quizzes.
+`tools/build_kanji_components.py` regenerates everything; `test/smoke.js` and
+`test/wiring.js` cover it.
+
+Two things ended up different from what §2-§5 specify, both worth recording.
+
+### 9.1 Mnemonics are hand-authored, not template-generated
+
+§2.4 committed to mechanical templates and explicitly rejected hand-authored
+prose. The app owner overrode that on 2026-09-05, on the reasoning in §2.6.1
+that the risk §2.4 was hedging against is not real: Heisig owns his specific
+sentences, not the idea of writing sentences, so an independently written
+mnemonic is fine as long as it is genuinely independent. Vivid, hand-written
+lines were chosen over flat templates for the obvious pedagogical reason.
+
+What that changed in practice:
+
+- `tools/kanji_src/kanji-mnemonics.tsv` holds one authored line per compound
+  kanji. Written from the component keywords and their arrangement, with no
+  mnemonic source of any kind consulted — the posture §2.6.4's Q2 endorses.
+- The mechanical frames of §4.3 survive as a **fallback**, not the product:
+  any kanji with no authored line still gets a template sentence, so the
+  pipeline always emits a complete dataset. Nothing currently uses it.
+- The §2.4 objection that hand text "does not regenerate when the pipeline
+  re-runs" is handled by making the authored text an **input** to the build
+  rather than something maintained beside it. The build script checks every
+  authored line against its own kanji's components and warns about any that
+  skips one; `test/smoke.js` asserts the same property against the shipped
+  data, so text and breakdown cannot drift apart silently.
+
+### 9.2 The writing-mode grading change was NOT made
+
+§5.3 says a hint tap in Writing mode should cost the clean-first-attempt
+condition, "mirroring writing mode's own precedent exactly" — the claim being
+that `Show me` already costs it per `writing-mode-plan.md` §4.1.
+
+**That precedent does not exist in the code.** `isCorrect()` in
+`src/writing.js` is `done && everyStrokeFirstTry`, and `everyStrokeFirstTry`
+is cleared only by a rejected stroke. Neither "Show next stroke" nor "Show
+full character" touches it — both are free. So implementing §5.3's penalty
+would have made *reading a mnemonic* cost something that *being shown the
+actual answer strokes* does not, which is backwards.
+
+The hint was therefore wired up with no grading effect, matching every other
+hint in Writing mode. If hints should cost the clean pass, that is a change
+worth making to all three together, deliberately, rather than to the newest
+one alone.
+
+### 9.3 Smaller decisions made during implementation
+
+- **KanjiVG's `tarec`/`nyoc`/`kamaec` positions** (the enclosed half of an
+  enclosure pair) are not in §4.2's table but are in the data; they fold into
+  the `tare`/`nyo`/`enclosure` arrangements. KanjiVG also splits an enclosure
+  into two same-element groups (回 is 囗, 口, 囗) — those are merged so a
+  breakdown names the enclosure once.
+- **35 kanji were dropped as unreliable decompositions.** KanjiVG leaves
+  `kvg:position` off every part of some entries, and that flag turns out to
+  mark stroke-grouping artifacts rather than real structure: 五 = 二+二,
+  州 = 丶+川 three times, 東 = 木+日+木, 母 = 毋+毋. Suppressing them costs
+  little (they are mostly simple early kanji) and avoids teaching nonsense.
+  Also dropped: 原 (a part with no Unicode character to draw on a tile), 林
+  and 多 (one repeated component, nothing to relate), and 8 kanji whose parts
+  have no defensible keyword (春, 朝, 毎, 考, 黄, 予, 実, 幸).
+- **Component keywords needed real curation.** §2.3's "just use KANJIDIC's
+  own gloss" is right in principle but wrong about 50 times out of 259:
+  亻 glosses as "radical number 9", 宀 as "shaped crown", 里 as "ri", 丨 as
+  "number one", and 18 components have no KANJIDIC entry at all.
+  `tools/kanji_src/component-keywords.tsv` pins one keyword per component,
+  every entry traceable to a dictionary meaning, a Kangxi radical name, or
+  the attested etymological sense of the graphic element, with the reason in
+  a third column. `test/smoke.js` asserts a component means the same thing in
+  every kanji that uses it.
+- **Loading rides on `ensureUnitReady()`** rather than being awaited
+  separately by each screen, as §3.4 suggested. The data model stayed
+  separate (its own module, its own files, per §3.4's real argument); only
+  the fetch was grouped, alongside the stroke data it is an order of
+  magnitude smaller than.
+- **Hint tiles are inert mid-question.** §5.1's drill-in works on the detail
+  screen and lesson card; in a live question, opening a component's own
+  detail screen would be a way out of the question rather than into it.

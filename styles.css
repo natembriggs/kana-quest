@@ -1132,6 +1132,80 @@ button.quiz-glyph-tap {
 
 /* Tappable readings on the lesson card — tapping one shows the example word
    below, same idea as tapping a reading after a Yomi question resolves. */
+/* --- Component breakdown and mnemonic ----------------------------------
+   Shown on the character detail screen, the lesson card, and behind the
+   "Hint" button in the Yomi/Definition and Writing quizzes. Everything here
+   is deliberately quieter than the reading chips it sits near: a breakdown
+   is supporting evidence for the character above it, never the thing being
+   answered. */
+
+.components-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+}
+
+/* Same wrap-and-centre behaviour as .reading-chips — 2-4 tiles sit on one
+   row on a phone, and the rare five-part kanji wraps rather than shrinking
+   its glyphs below reading size. */
+.component-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+
+.component-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 56px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--surface);
+  font-family: inherit;
+  text-align: center;
+}
+.component-glyph { font-size: 28px; line-height: 1.1; color: var(--ink); }
+/* Wraps rather than truncating: "rice field" and "bending person" are real
+   keywords, and a clipped one teaches the wrong word. */
+.component-meaning {
+  font-size: 12px;
+  line-height: 1.25;
+  color: var(--ink-soft);
+  max-width: 84px;
+}
+/* Only components this app teaches as kanji in their own right are tappable
+   (see paintComponents in app.js) — the border is the only signal that one
+   of a row's tiles goes somewhere and another doesn't. */
+.component-tile-link { border-color: var(--line); color: inherit; cursor: pointer; }
+.component-tile-link .component-glyph { color: var(--accent); }
+.component-tile-link:active { transform: scale(0.96); }
+
+.mnemonic-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+  text-align: center;
+  max-width: 34em;
+}
+
+/* The mid-question "Hint" button, in both quiz surfaces. Visibly its own
+   thing rather than another .btn-quiet — a nudge toward remembering, not a
+   route to the answer, which is what its neighbours ("Show answers",
+   "Show full character") offer. Accent-tinted and outlined, but never
+   filled: a filled button in either row would read as the step to take
+   next, which is Next's job. */
+.btn-hint {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .reading-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .reading-chip {
   min-height: 40px;

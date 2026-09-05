@@ -21,6 +21,11 @@ const {
 // time); buildStrokeSVG/animateStrokes touch `document` and are exercised in
 // test/wiring.js's stubbed DOM instead, not here.
 const { strokesFor, hasStrokes, ensureStrokeUnitLoaded, allStrokeEntries } = await import('../src/strokes.js');
+// renderComponentBreakdown touches the DOM and is exercised in
+// test/wiring.js's stubbed DOM instead; the loader and lookups here are pure.
+const {
+  ensureComponentUnitLoaded, kanjiComponents, unitHasComponents, COMPONENT_MEANINGS,
+} = await import('../src/kanji-components.js');
 const srs = await import('../src/srs.js');
 const fsrs = await import('../src/fsrs.js');
 const {
@@ -52,6 +57,7 @@ const indexBefore = KANJI_COURSES[0].index; // same Map object, checked below
 await Promise.all(kanjiUnits.map((unit) => Promise.all([
   ensureKanjiUnitLoaded(unit),
   ensureStrokeUnitLoaded(unit),
+  ensureComponentUnitLoaded(unit),
 ])));
 // Reconstructs the same shape the old, monolithic src/stroke-data.js used to
 // export — everything below this point that iterates STROKES is unchanged.
@@ -2227,6 +2233,76 @@ done('vocab Recall mode: kana choices and the spelling-stage exclusion/ordering'
     srs.markKnownItems(shitsumon, 'vmeaning', vrCtx, ['not-a-word'], { now }).length === 0);
 }
 done('mark as known: sure/think claims, staggered batches, per-kind enrollment and rollups');
+
+// --- Component breakdowns and mnemonics ------------------------------------
+//
+// Guards the two properties the data pipeline exists to hold up, both of
+// which are silent failures rather than crashes if they slip:
+//   1. A component means the same thing everywhere it appears, so a learner
+//      who meets 氵 in 池 and again in 海 is taught one keyword, not two.
+//   2. Every mnemonic actually uses the components it is shown beneath.
+//      Text that names a part the breakdown does not have (or ignores one it
+//      does) teaches a decomposition the picture contradicts.
+// See kanji-mnemonic-plan.md §7 phase 1 and tools/build_kanji_components.py.
+
+{
+  const covered = kanjiUnits.filter(unitHasComponents);
+  check('some grades have component data at all', covered.length > 0, 'none');
+
+  let compound = 0;
+  let atomic = 0;
+  const badArrangement = [];
+  const driftedMeaning = [];
+  const unusedKeyword = [];
+  const unrenderableGlyph = [];
+  const ARRANGEMENTS = new Set([
+    'top-bottom', 'left-right', 'enclosure', 'tare', 'nyo',
+    'stacked', 'side-by-side', 'other',
+  ]);
+
+  for (const course of KANJI_COURSES) {
+    for (const kanji of course.chunks.flatMap((c) => c.items)) {
+      const entry = kanjiComponents(course.unit, kanji);
+      if (!entry) { atomic += 1; continue; }
+      compound += 1;
+      if (!ARRANGEMENTS.has(entry.arrangement)) badArrangement.push(kanji);
+      if (entry.parts.length < 2) badArrangement.push(kanji);
+      for (const part of entry.parts) {
+        // One character per tile — a multi-character or placeholder element
+        // has nothing to render and must never reach the data.
+        if ([...part.c].length !== 1) unrenderableGlyph.push(`${kanji}(${part.c})`);
+        if (COMPONENT_MEANINGS[part.c] !== part.meaning) {
+          driftedMeaning.push(`${kanji}/${part.c}`);
+        }
+        if (!entry.mnemonic.toLowerCase().includes(part.meaning.toLowerCase())) {
+          unusedKeyword.push(`${kanji}(${part.meaning})`);
+        }
+      }
+    }
+  }
+
+  check('compound kanji were actually found, not vacuously zero',
+    compound > 200, `only ${compound}`);
+  check('atomic kanji (and uncovered grades) have no component record',
+    atomic > compound, `${atomic} atomic vs ${compound} compound`);
+  check('every breakdown has a known arrangement and at least two parts',
+    badArrangement.length === 0, badArrangement.join(' '));
+  check('every component is a single renderable character',
+    unrenderableGlyph.length === 0, unrenderableGlyph.join(' '));
+  check('a component carries the same meaning in every kanji that uses it',
+    driftedMeaning.length === 0, driftedMeaning.slice(0, 8).join(' '));
+  check('every mnemonic uses each of its own components\u2019 keywords',
+    unusedKeyword.length === 0, unusedKeyword.slice(0, 8).join(' '));
+  check('the shared component map is not larger than what is actually used',
+    Object.keys(COMPONENT_MEANINGS).length < 400,
+    `${Object.keys(COMPONENT_MEANINGS).length} components`);
+
+  // A grade with no data must answer "no breakdown", not throw — that is how
+  // every screen distinguishes "atomic" from "not covered yet": it doesn't.
+  check('an uncovered grade returns no breakdown rather than failing',
+    kanjiComponents('8-1', KANJI_COURSES.find((c) => c.unit === '8-1').chunks[0].items[0]) === null);
+}
+done('component breakdowns: arrangement, standardized meanings, mnemonic coverage');
 
 // --- Result ---------------------------------------------------------------
 
