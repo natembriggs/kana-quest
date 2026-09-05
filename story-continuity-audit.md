@@ -122,10 +122,17 @@ target. The manual continuity checklist now lives in `story-writing-guide.md`.
 
 ## Dracula implementation
 
-The revised Dracula uses ten scene-based paragraphs and 112 sentences instead
-of six equal paragraphs and 60 sentences. It now:
+The revised Dracula uses eleven scene-based paragraphs and 120 sentences
+instead of six equal paragraphs and 60 sentences. It now:
 
 - establishes Jonathan's reason for accepting the danger;
+- establishes the village inn before its guests warn Jonathan about the Count;
+- makes the mirror incident explicit about who acts, why Dracula reacts, and
+  why that incident increases Jonathan's suspicions;
+- places the locked exits and sheer drop before Jonathan concludes that he is
+  a prisoner;
+- gives the three coerced letters their contents and dates, then explains how
+  they would conceal his disappearance and why 29 June becomes his deadline;
 - connects the castle's earth boxes directly to the ship at Whitby;
 - shows what Mina sees and why Lucy's decline becomes suspicious;
 - introduces Arthur, Quincey and Renfield before their actions matter;
@@ -135,3 +142,8 @@ of six equal paragraphs and 60 sentences. It now:
 - corrects the origin of Mina's forehead mark and the method of Dracula's
   death.
 
+It remains one standalone L6 story for now because linked episode navigation
+is still Phase 9 work. The internal paragraph breaks therefore carry the scene
+structure. Once serialization is implemented, the natural episode boundaries
+are Jonathan at the castle, Dracula's arrival and Lucy's death, the London
+hunt, and the pursuit back to Transylvania.
