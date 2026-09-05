@@ -453,8 +453,8 @@ export const STORIES = {
     "level": "L6",
     "gram": "G6",
     "blurb": "Victor Frankenstein pursues the secret of life, then confronts the lonely being his ambition brought into the world.",
-    "hash": "ba53f324",
-    "length": 637,
+    "hash": "4aa379a1",
+    "length": 1663,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",

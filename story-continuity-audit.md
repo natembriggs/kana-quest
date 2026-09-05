@@ -39,7 +39,7 @@ The ratings describe narrative continuity, not grammatical correctness:
 | L5 | `hachijuu-nichikan-sekai-isshuu` | Major | The middle is a travel montage. Fix's interference, Passepartout's separations, Aouda's developing relationship with Fogg and several transport solutions are reported without enough setup or consequence. |
 | L6 | `fushigi-no-kuni-no-alice` | Light | This succeeds because it adapts one continuous opening episode rather than the entire novel. Physical space, Alice's intentions and each object's effect remain visible from sentence to sentence. |
 | L6 | `oz-no-mahoutsukai` | Light | This also succeeds by stopping after one coherent opening journey. New companions are introduced through complete miniature scenes with a problem, response and decision. |
-| L6 | `frankenstein` | Major | The framing works, but the middle assumes knowledge of the novel: the innocent person who is punished is unnamed, the creature's education and rejection are compressed, and Henry and Elizabeth become victims without adequate reintroduction. There is also a `語語` typo. |
+| L6 | `frankenstein` | Major before revision | The framing works, but the middle assumes knowledge of the novel: the innocent person who is punished is unnamed, the creature's education and rejection are compressed, and Henry and Elizabeth become victims without adequate reintroduction. There is also a `語語` typo. Revised as described below. |
 | L6 | `dracula` | Critical before revision | The ship was not explicitly connected to Dracula, Lucy's attacker was implicit, Quincey and Renfield appeared just before their payoffs, the hunters' method was unexplained, and the climax misstated how Dracula died. Revised as the worked example below. |
 
 ## Corpus-level diagnosis
@@ -72,7 +72,7 @@ contextually incomplete.
 Recommended order:
 
 1. `dracula` — completed as the worked example.
-2. `frankenstein`, including the `語語` typo.
+2. `frankenstein`, including the `語語` typo — completed.
 3. `takarajima`.
 4. `hachijuu-nichikan-sekai-isshuu`.
 5. `hansel-to-gretel`.
@@ -119,6 +119,37 @@ sentences otherwise distract from missing narrative logic.
 The existing build checks remain valuable for structure. They cannot certify
 coherence. Sentence count should stay a range and never become the drafting
 target. The manual continuity checklist now lives in `story-writing-guide.md`.
+
+## Frankenstein implementation
+
+The revised Frankenstein uses thirteen scene-based paragraphs and 125
+sentences instead of six equal paragraphs and 60 sentences. It now:
+
+- introduces Elizabeth and Henry during Victor's childhood, before either
+  relationship becomes important to the ending;
+- names William and Justine, explains Justine's place in the family, identifies
+  the planted portrait locket, and shows why Victor remains silent during her
+  trial;
+- gives the creature a sustained learning arc through sensation, observation,
+  Safie's language lessons, books and Victor's journal;
+- connects the De Lacey family's rejection, the shooting after the river
+  rescue, William's murder and the framing of Justine as successive causes and
+  consequences;
+- establishes the terms of the companion bargain and Victor's reasons for
+  breaking it;
+- keeps Henry present through the journey to Britain before revealing his body
+  in Ireland;
+- returns to Elizabeth's fears and Victor's mistaken reading of the
+  wedding-night threat before her murder;
+- makes the pursuit lead geographically and causally back to Walton's ship;
+- connects Walton's decision to turn south to the fate he has just witnessed;
+  and
+- replaces the malformed `語語` token and corrects several other readings and
+  word boundaries found during retokenisation.
+
+It remains one standalone L6 story pending linked episode navigation. Its
+natural episode boundaries are the creation and William's murder, the
+creature's account, the broken companion bargain, and the final pursuit.
 
 ## Dracula implementation
 
