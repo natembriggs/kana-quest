@@ -27,6 +27,10 @@ const {
   flattenPath, polylineLength, resample, smooth, distance, findCorners, boundedOffset, chordBulge,
 } = await import('../src/stroke-geometry.js');
 const grader = await import('../src/stroke-grader.js');
+// createWritingAttempt/createFreeAttempt are DOM-free (see writing.js's
+// module comment) — only buildStrokeSVG/canvas helpers from this module need
+// the stubbed DOM in test/wiring.js.
+const { createWritingAttempt, createFreeAttempt } = await import('../src/writing.js');
 
 let failures = 0;
 function check(name, condition, detail) {
@@ -510,6 +514,55 @@ check('学\'s own short strokes are never rejected as too-straight or wrong-bend
   gakuDotBendVerdicts === 0, `${gakuDotBendVerdicts} such verdict(s)`);
 
 done('stroke grading');
+
+// --- Writing attempts: accuracy() feeds grade()'s `rating` override --------
+// Kana stroke data is always loaded (see strokes.js's module comment), so
+// this needs no unit-loading setup, unlike the kanji-based checks above.
+
+const accChar = 'あ';
+const accStrokes = strokesFor(accChar).strokes;
+check('the accuracy test character has more than one stroke, so partial credit is distinguishable',
+  accStrokes.length > 1, `${accStrokes.length} strokes`);
+function accPoints(index) {
+  return resample(flattenPath(accStrokes[index]), 30).points;
+}
+// Far too short to pass any model stroke's length gate (see stroke-grader.js)
+// — the same kind of junk test/wiring.js's traceBadStroke() fires at a real
+// canvas, just already in model space here.
+const accJunk = [[4, 4], [5, 5]];
+
+const cleanTrace = createWritingAttempt(accChar);
+accStrokes.forEach((_, i) => cleanTrace.submitStroke(accPoints(i)));
+check('a perfectly traced Trace/Guided attempt is correct', cleanTrace.isCorrect());
+check('a perfectly traced attempt has full accuracy — no stroke needed a retry',
+  cleanTrace.accuracy() === 1, `accuracy ${cleanTrace.accuracy()}`);
+
+const taintedTrace = createWritingAttempt(accChar);
+taintedTrace.submitStroke(accJunk); // rejected — stroke 0 needs a retry
+accStrokes.forEach((_, i) => taintedTrace.submitStroke(accPoints(i)));
+check('a retry-tainted attempt is still incorrect — one reject anywhere fails the whole character',
+  taintedTrace.isComplete() && !taintedTrace.isCorrect());
+check('but its accuracy sits strictly between 0 and 1, not floored to what an all-wrong attempt would get',
+  taintedTrace.accuracy() > 0 && taintedTrace.accuracy() < 1,
+  `accuracy ${taintedTrace.accuracy()}`);
+done("createWritingAttempt: accuracy() reflects retries even though isCorrect() is all-or-nothing");
+
+const cleanFree = createFreeAttempt(accChar);
+accStrokes.forEach((_, i) => cleanFree.submitStroke(accPoints(i)));
+cleanFree.finish();
+check('a perfectly drawn Free attempt suggests correct and has full accuracy',
+  cleanFree.isCorrect() && cleanFree.accuracy() === 1, `accuracy ${cleanFree.accuracy()}`);
+
+const partialFree = createFreeAttempt(accChar);
+partialFree.submitStroke(accJunk); // stroke 0 will review as 'wrong'
+for (let i = 1; i < accStrokes.length; i += 1) partialFree.submitStroke(accPoints(i));
+partialFree.finish();
+check("a Free attempt with one bad stroke out of several has fractional accuracy",
+  partialFree.accuracy() > 0 && partialFree.accuracy() < 1,
+  `accuracy ${partialFree.accuracy()} over ${accStrokes.length} strokes`);
+check('accuracy() does not depend on the learner\'s own self-grade — it is not suggestedCorrect',
+  !partialFree.isCorrect() && partialFree.accuracy() < 1);
+done("createFreeAttempt: accuracy() varies independently of the learner's self-grade");
 
 // --- CSS: [hidden] must actually hide things ------------------------------
 // A real, shipped bug: several component classes (.kanji-info, .row, .stack)
@@ -1223,6 +1276,34 @@ check('a placement session is in teaching order, not shuffled',
   JSON.stringify(placementBuilt.quiz) === JSON.stringify(grade1Chars.slice(1)),
   JSON.stringify(placementBuilt.quiz));
 done('placement test: correct answers jump straight to the top box');
+
+// --- `rating` override: writing mode's stroke-accuracy signal (see -------
+// --- recordWritingResult in app.js) can tell grade() to use HARD or EASY --
+// --- for a correct answer instead of the GOOD every other mode defaults to
+
+const ratingGood = srs.grade(srs.newRecord(), true, now);
+const ratingHard = srs.grade(srs.newRecord(), true, now, { rating: fsrs.RATING.HARD });
+const ratingEasy = srs.grade(srs.newRecord(), true, now, { rating: fsrs.RATING.EASY });
+check('an explicit GOOD rating grades identically to passing no rating at all',
+  ratingGood.stability === srs.grade(srs.newRecord(), true, now, { rating: fsrs.RATING.GOOD }).stability);
+check('HARD earns less stability than the default GOOD on a first correct answer',
+  ratingHard.stability < ratingGood.stability,
+  `HARD ${ratingHard.stability} vs GOOD ${ratingGood.stability}`);
+check('EASY earns more stability than the default GOOD on a first correct answer',
+  ratingEasy.stability > ratingGood.stability,
+  `EASY ${ratingEasy.stability} vs GOOD ${ratingGood.stability}`);
+check('the three ratings land in different box tiers, not just different stability numbers',
+  new Set([ratingHard.box, ratingGood.box, ratingEasy.box]).size === 3,
+  `HARD box ${ratingHard.box}, GOOD box ${ratingGood.box}, EASY box ${ratingEasy.box}`);
+
+const ratingIgnoredOnMiss = srs.grade(srs.newRecord(), false, now, { rating: fsrs.RATING.EASY });
+check('rating is ignored on an incorrect answer — a miss always grades AGAIN regardless',
+  ratingIgnoredOnMiss.box === 0 && ratingIgnoredOnMiss.lapses === 1);
+
+const ratingUnrecognized = srs.grade(srs.newRecord(), true, now, { rating: 999 });
+check('an unrecognized rating value falls back to the default GOOD, not something undefined',
+  ratingUnrecognized.stability === ratingGood.stability);
+done("grade()'s rating override changes how much a correct answer grows stability");
 
 // --- Writing mode: which of Trace/Guided/Free a question defaults to -------
 // See writing-mode-plan.md §3 — this is the mapping the whole auto-selection

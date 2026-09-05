@@ -39,6 +39,7 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
   const multiplier = strictnessMultiplier(strictness);
   let strokeIndex = 0;
   let everyStrokeFirstTry = true;
+  let rejectionCount = 0;
   let done = false;
 
   function submitStroke(modelSpacePoints) {
@@ -54,6 +55,7 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
     }
 
     everyStrokeFirstTry = false;
+    rejectionCount += 1;
     // Out-of-order hint: does this attempt actually fit a LATER stroke
     // better than the one it was just scored against? Advisory only — the
     // rejection above still stands, this only changes what the learner is
@@ -84,6 +86,19 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
     // Correct per the same first-attempt-locks-the-record rule every other
     // mode in this app uses (see README, "A wrong tap gets one more try").
     isCorrect: () => done && everyStrokeFirstTry,
+    // Fraction of stroke submissions accepted on the first try — see
+    // recordWritingResult() in app.js, which feeds this into grade()'s
+    // optional `rating` override. Always exactly 1 whenever isCorrect() is
+    // true, since isCorrect() itself already requires zero rejections
+    // (above) — a clean Trace/Guided run has nothing left to distinguish a
+    // Hard pass from an Easy one, so it always reads as the latter. This
+    // exists mainly so createFreeAttempt's version below (which DOES vary on
+    // a correct result) can share one call shape with app.js.
+    accuracy: () => {
+      const total = modelStrokes ? modelStrokes.length : 0;
+      if (!done || total === 0) return null;
+      return total / (total + rejectionCount);
+    },
     hasModel: () => !!modelStrokes && modelStrokes.length > 0,
   };
 }
@@ -173,6 +188,21 @@ export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}
     // Only meaningful as a fallback — app.js always has the learner's
     // explicit self-grade by the time a Free attempt finishes.
     isCorrect: () => !!(review && review.suggestedCorrect),
+    // Fraction of MODEL strokes the review graded 'ok' — see
+    // recordWritingResult() in app.js. Unlike isCorrect() above, this can
+    // vary even on a self-graded-correct attempt: the learner's yes/no is
+    // independent of the per-stroke verdicts (suggestedCorrect is only ever
+    // a suggestion, see finish()'s docstring), so a "yes" after a review
+    // with a couple of corrected strokes is a shakier recall than a clean
+    // one, and this is what lets grade() tell the difference. 'extra'
+    // strokes beyond the model's own count aren't counted against it — they
+    // don't map to a model stroke to have failed.
+    accuracy: () => {
+      if (!review || !modelStrokes || modelStrokes.length === 0) return null;
+      const relevant = review.perStroke.slice(0, modelStrokes.length);
+      const okCount = relevant.filter((s) => s.status === 'ok').length;
+      return okCount / modelStrokes.length;
+    },
     hasModel: () => !!modelStrokes && modelStrokes.length > 0,
   };
 }
