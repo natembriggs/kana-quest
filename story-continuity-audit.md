@@ -21,22 +21,22 @@ The ratings describe narrative continuity, not grammatical correctness:
 | --- | --- | --- | --- |
 | L1 | `ari-to-hato` | Moderate | Thirteen isolated clauses sit in one paragraph. The hunter appears without scene-setting, so the return of the favour feels attached rather than developed. |
 | L1 | `ookina-kabu` | Light | The repeated attempts form a clear chain. The helpers could be introduced with slightly more motivation, but the story is self-contained. |
-| L1 | `kitakaze-to-taiyou` | Major | The wind and sun never argue, set a challenge or state what they are trying to prove. A man simply appears and the actions begin, so there is no narrative question or resolution. |
+| L1 | `kitakaze-to-taiyou` | Major before revision | The wind and sun never argued, set a challenge or stated what they were trying to prove. Revised as described below. |
 | L1 | `lion-to-nezumi` | Moderate | The rescue chain is clear, but the lion never responds to the mouse's return and the final moral changes suddenly from story action to a generic present-tense claim. |
 | L2 | `ookami-ga-kita` | Moderate | The sequence is coherent. The safe ending, in which the boy saves every sheep himself, weakens the consequence that is meant to connect the lie to the lesson. |
 | L2 | `machi-no-nezumi-inaka-no-nezumi` | Light | Cause and contrast are clear. Dialogue tags and the town mouse's reaction to the final choice need a little more connective tissue. |
 | L3 | `goldilocks` | Moderate | The three tests are easy to follow but mechanical. The bears abruptly forgive Goldilocks, repair the chair and share a meal without enough emotional transition. |
 | L3 | `sanbiki-no-kobuta` | Light | The houses, danger and payoff are introduced in order. Only the reconciliation at the end is compressed. |
 | L3 | `cinderella` | Moderate | The main chain survives, but the magical helper appears without context and the prince's search and Cinderella's new life are resolved as summary rather than scene. |
-| L3 | `hansel-to-gretel` | Major | The father's reason for taking the children into the forest is unclear, the second abandonment is skipped over, the witch suddenly becomes an apologetic ordinary woman, and the duck, old stone trail and treasure arrive without setup. |
+| L3 | `hansel-to-gretel` | Major before revision | The father's reason for taking the children into the forest was unclear, the second abandonment was skipped, and several ending elements lacked setup. Revised as described below. |
 | L4 | `akazukin` | Light | It is linear and self-contained. Frequent short subject–verb sentences make it sound staccato, especially in the escape, but few facts are actually missing. |
 | L4 | `bremen-no-ongakutai` | Light | Goals and consequences connect well. The travellers hearing forest concerts is an unsupported late addition, and the final choice to stay could be made more explicit. |
-| L4 | `shirayukihime` | Major | It reads as a checklist of familiar incidents. The prince has no narrative role before the accidental awakening, the resolution is abrupt, and the final mirror moral is asserted rather than earned. |
+| L4 | `shirayukihime` | Major before revision | The prince had no narrative role before the accidental awakening, the resolution was abrupt, and the final mirror moral was asserted rather than earned. Revised as described below. |
 | L4 | `bijoto-yajuu` | Moderate | The plot is mostly intelligible, but Belle and the Beast's friendship and love are compressed into statements. The sisters' delay and the curse explanation arrive mainly to trigger the ending. |
 | L5 | `aladdin-to-mahou-no-lamp` | Moderate | Individual scenes connect better than most long retellings, but the courtship, palace condition, theft and final social reforms pass too quickly. Several sentences also need a separate natural-Japanese pass. |
 | L5 | `pinocchio` | Moderate | The episodic structure works, but the letter about Geppetto, the whale encounter and the fairy's illness appear as convenient plot triggers with little preparation. |
-| L5 | `takarajima` | Major | A complete novel is reduced to a sequence of outcomes. The black spot, map, mutiny, Ben Gunn, loss of the fort and removal of the treasure are not given enough cause-and-effect explanation for a new reader. |
-| L5 | `hachijuu-nichikan-sekai-isshuu` | Major | The middle is a travel montage. Fix's interference, Passepartout's separations, Aouda's developing relationship with Fogg and several transport solutions are reported without enough setup or consequence. |
+| L5 | `takarajima` | Major before revision | The black spot, map, mutiny, Ben Gunn, loss of the fort and removal of the treasure lacked enough cause-and-effect explanation. Revised as described below. |
+| L5 | `hachijuu-nichikan-sekai-isshuu` | Major before revision | Fix's interference, Passepartout's separation, Aouda's developing relationship with Fogg and several transport solutions lacked setup or consequence. Revised as described below. |
 | L6 | `fushigi-no-kuni-no-alice` | Light | This succeeds because it adapts one continuous opening episode rather than the entire novel. Physical space, Alice's intentions and each object's effect remain visible from sentence to sentence. |
 | L6 | `oz-no-mahoutsukai` | Light | This also succeeds by stopping after one coherent opening journey. New companions are introduced through complete miniature scenes with a problem, response and decision. |
 | L6 | `frankenstein` | Major before revision | The framing works, but the middle assumes knowledge of the novel: the innocent person who is punished is unnamed, the creature's education and rejection are compressed, and Henry and Elizabeth become victims without adequate reintroduction. There is also a `語語` typo. Revised as described below. |
@@ -73,11 +73,11 @@ Recommended order:
 
 1. `dracula` — completed as the worked example.
 2. `frankenstein`, including the `語語` typo — completed.
-3. `takarajima`.
-4. `hachijuu-nichikan-sekai-isshuu`.
-5. `hansel-to-gretel`.
-6. `shirayukihime`.
-7. `kitakaze-to-taiyou`.
+3. `takarajima` — completed.
+4. `hachijuu-nichikan-sekai-isshuu` — completed.
+5. `hansel-to-gretel` — completed.
+6. `shirayukihime` — completed.
+7. `kitakaze-to-taiyou` — completed.
 
 Then revise the moderate stories and finish with local smoothing of the light
 group. This order addresses the texts most likely to lose a reader before
@@ -150,6 +150,37 @@ sentences instead of six equal paragraphs and 60 sentences. It now:
 It remains one standalone L6 story pending linked episode navigation. Its
 natural episode boundaries are the creation and William's murder, the
 creature's account, the broken companion bargain, and the final pursuit.
+
+## Major-story implementations 3–7
+
+The five remaining major stories were revised without changing their levels,
+source credits or scope:
+
+- `takarajima` now connects the black-spot deadline to Jim's escape, makes
+  Trelawney's information leak the reason Silver can recruit Flint's former
+  crew, states the mutineers' timing, establishes Ben Gunn's motive and boat,
+  explains the choice and surrender of the stockade, and links the moved
+  treasure to the otherwise useless map and final ambush. It has 73 sentences.
+- `hachijuu-nichikan-sekai-isshuu` now establishes the limit on Fix's warrant,
+  gives the temple intrusion a legal consequence, explains the incomplete
+  railway and the Hong Kong separation, develops Aouda's reason to continue
+  and her trust in Fogg, and motivates both the American rescue delay and the
+  Henrietta's change of course. It has 74 sentences.
+- `hansel-to-gretel` now shows the famine, the parents' disagreement and both
+  abandonments. The witch remains the antagonist, the cage key and treasure
+  are placed before use, and the children follow their father's axe home. The
+  unexplained duck and surviving old-stone trail are gone. It has 40 sentences.
+- `shirayukihime` introduces the prince during Snow White's life with the
+  dwarfs and gives him a promise and purpose before his return. The huntsman
+  and dwarfs provide evidence at the castle, and the mirror is turned away in
+  a concrete closing action. It has 46 sentences.
+- `kitakaze-to-taiyou` now begins with competing claims, defines the coat as
+  the contest, marks each turn and ends with an acknowledged winner. It uses
+  the L1 maximum of 15 sentences, with no sentence exceeding eight lookup
+  units.
+
+All five continue to satisfy their level sentence ranges and lookup-unit
+ceilings. Their generated data passes the complete story contract test.
 
 ## Dracula implementation
 

@@ -28,7 +28,7 @@ export const STORY = {
   "body": [
     [
       {
-        "en": "The North Wind and the Sun met.",
+        "en": "The North Wind said, “I am the strongest.”",
         "t": [
           {
             "s": "北風",
@@ -48,6 +48,77 @@ export const STORY = {
             "g": "North Wind"
           },
           {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "わたし",
+            "k": "わたし",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "I, me"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "一番強い",
+            "k": "いちばんつよい",
+            "ruby": [
+              [
+                0,
+                "いち"
+              ],
+              [
+                1,
+                "ばん"
+              ],
+              [
+                2,
+                "つよ"
+              ]
+            ],
+            "d": null,
+            "pos": "adj",
+            "g": "strongest"
+          },
+          {
+            "s": "です",
+            "k": "です",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is; it is",
+            "df": "だ",
+            "cf": "polite present"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
             "s": "と",
             "k": "と",
             "ruby": null,
@@ -55,6 +126,34 @@ export const STORY = {
             "pos": "part",
             "g": "and / with — joins nouns, or marks a quote"
           },
+          {
+            "s": "言いました",
+            "k": "いいました",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "言う",
+            "pos": "v",
+            "g": "said",
+            "df": "言う",
+            "cf": "polite past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The Sun said, “No, I am strong too.”",
+        "t": [
           {
             "s": "太陽",
             "k": "たいよう",
@@ -81,65 +180,36 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "会いました",
-            "k": "あいました",
-            "ruby": [
-              [
-                0,
-                "あ"
-              ]
-            ],
-            "d": "会う",
-            "pos": "v",
-            "g": "met",
-            "df": "会う",
-            "cf": "polite past"
-          },
-          {
-            "s": "。",
-            "k": "。",
+            "s": "「",
+            "k": "「",
             "d": null,
             "pos": "punct",
             "ruby": null,
             "g": null
-          }
-        ]
-      },
-      {
-        "en": "The North Wind was very strong.",
-        "t": [
+          },
           {
-            "s": "北風",
-            "k": "きたかぜ",
-            "ruby": [
-              [
-                0,
-                "きた"
-              ],
-              [
-                1,
-                "かぜ"
-              ]
-            ],
+            "s": "いいえ",
+            "k": "いいえ",
+            "ruby": null,
+            "d": "いいえ",
+            "pos": "int",
+            "g": "no"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "わたしも",
+            "k": "わたしも",
+            "ruby": null,
             "d": null,
             "pos": "pn",
-            "g": "North Wind"
-          },
-          {
-            "s": "は",
-            "k": "は",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "topic marker — \"as for ...\""
-          },
-          {
-            "s": "とても",
-            "k": "とても",
-            "ruby": null,
-            "d": "とても",
-            "pos": "adv",
-            "g": "very"
+            "g": "me too; I am"
           },
           {
             "s": "強い",
@@ -165,73 +235,35 @@ export const STORY = {
             "cf": "polite present"
           },
           {
-            "s": "。",
-            "k": "。",
+            "s": "」",
+            "k": "」",
             "d": null,
             "pos": "punct",
             "ruby": null,
             "g": null
-          }
-        ]
-      },
-      {
-        "en": "The Sun was very bright.",
-        "t": [
-          {
-            "s": "太陽",
-            "k": "たいよう",
-            "ruby": [
-              [
-                0,
-                "たい"
-              ],
-              [
-                1,
-                "よう"
-              ]
-            ],
-            "d": "太陽",
-            "pos": "pn",
-            "g": "Sun"
           },
           {
-            "s": "は",
-            "k": "は",
+            "s": "と",
+            "k": "と",
             "ruby": null,
-            "d": null,
+            "d": "と",
             "pos": "part",
-            "g": "topic marker — \"as for ...\""
+            "g": "and / with — joins nouns, or marks a quote"
           },
           {
-            "s": "とても",
-            "k": "とても",
-            "ruby": null,
-            "d": "とても",
-            "pos": "adv",
-            "g": "very"
-          },
-          {
-            "s": "明るい",
-            "k": "あかるい",
+            "s": "言いました",
+            "k": "いいました",
             "ruby": [
               [
                 0,
-                "あか"
+                "い"
               ]
             ],
-            "d": "明るい",
-            "pos": "adj",
-            "g": "bright"
-          },
-          {
-            "s": "です",
-            "k": "です",
-            "ruby": null,
-            "d": null,
-            "pos": "aux",
-            "g": "is; it is",
-            "df": "だ",
-            "cf": "polite present"
+            "d": "言う",
+            "pos": "v",
+            "g": "said",
+            "df": "言う",
+            "cf": "polite past"
           },
           {
             "s": "。",
@@ -246,7 +278,7 @@ export const STORY = {
     ],
     [
       {
-        "en": "Below them, there was a man.",
+        "en": "Below them was a man wearing a coat.",
         "t": [
           {
             "s": "下",
@@ -268,6 +300,29 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "上着を着た",
+            "k": "うわぎをきた",
+            "ruby": [
+              [
+                0,
+                "うわ"
+              ],
+              [
+                1,
+                "ぎ"
+              ],
+              [
+                3,
+                "き"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "wearing a coat",
+            "df": "上着を着る",
+            "cf": "plain past attributive"
           },
           {
             "s": "男の人",
@@ -315,33 +370,8 @@ export const STORY = {
         ]
       },
       {
-        "en": "The man put on a coat.",
+        "en": "Whoever makes him take off his coat wins.",
         "t": [
-          {
-            "s": "男の人",
-            "k": "おとこのひと",
-            "ruby": [
-              [
-                0,
-                "おとこ"
-              ],
-              [
-                2,
-                "ひと"
-              ]
-            ],
-            "d": null,
-            "pos": "n",
-            "g": "man"
-          },
-          {
-            "s": "は",
-            "k": "は",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "topic marker — \"as for ...\""
-          },
           {
             "s": "上着",
             "k": "うわぎ",
@@ -368,18 +398,169 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "着ました",
-            "k": "きました",
+            "s": "脱がせた方",
+            "k": "ぬがせたほう",
             "ruby": [
               [
                 0,
-                "き"
+                "ぬ"
+              ],
+              [
+                4,
+                "ほう"
               ]
             ],
-            "d": "着る",
+            "d": null,
             "pos": "v",
-            "g": "put on; wore",
-            "df": "着る",
+            "g": "the one who makes someone remove",
+            "df": "脱がせる",
+            "cf": "plain past causative + 方"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "勝ち",
+            "k": "かち",
+            "ruby": [
+              [
+                0,
+                "か"
+              ]
+            ],
+            "d": "勝ち",
+            "pos": "n",
+            "g": "winner; victory"
+          },
+          {
+            "s": "です",
+            "k": "です",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is; it is",
+            "df": "だ",
+            "cf": "polite present"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The North Wind said, “I will go first.”",
+        "t": [
+          {
+            "s": "北風",
+            "k": "きたかぜ",
+            "ruby": [
+              [
+                0,
+                "きた"
+              ],
+              [
+                1,
+                "かぜ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "North Wind"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "わたし",
+            "k": "わたし",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "I, me"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "先",
+            "k": "さき",
+            "ruby": [
+              [
+                0,
+                "さき"
+              ]
+            ],
+            "d": "先",
+            "pos": "n",
+            "g": "first"
+          },
+          {
+            "s": "です",
+            "k": "です",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is; it is",
+            "df": "だ",
+            "cf": "polite present"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "言いました",
+            "k": "いいました",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "言う",
+            "pos": "v",
+            "g": "said",
+            "df": "言う",
             "cf": "polite past"
           },
           {
@@ -658,6 +839,54 @@ export const STORY = {
             "g": null
           }
         ]
+      },
+      {
+        "en": "The North Wind could not do it.",
+        "t": [
+          {
+            "s": "北風",
+            "k": "きたかぜ",
+            "ruby": [
+              [
+                0,
+                "きた"
+              ],
+              [
+                1,
+                "かぜ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "North Wind"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "できませんでした",
+            "k": "できませんでした",
+            "ruby": null,
+            "d": "できる",
+            "pos": "v",
+            "g": "could not do it",
+            "df": "できる",
+            "cf": "polite past negative"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
       }
     ],
     [
@@ -780,59 +1009,6 @@ export const STORY = {
         ]
       },
       {
-        "en": "The man became hot.",
-        "t": [
-          {
-            "s": "男の人",
-            "k": "おとこのひと",
-            "ruby": [
-              [
-                0,
-                "おとこ"
-              ],
-              [
-                2,
-                "ひと"
-              ]
-            ],
-            "d": null,
-            "pos": "n",
-            "g": "man"
-          },
-          {
-            "s": "は",
-            "k": "は",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "topic marker — \"as for ...\""
-          },
-          {
-            "s": "暑くなりました",
-            "k": "あつくなりました",
-            "ruby": [
-              [
-                0,
-                "あつ"
-              ]
-            ],
-            "d": null,
-            "pos": "v",
-            "g": "became hot",
-            "df": "暑くなる",
-            "cf": "polite past"
-          },
-          {
-            "s": "。",
-            "k": "。",
-            "d": null,
-            "pos": "punct",
-            "ruby": null,
-            "g": null
-          }
-        ]
-      },
-      {
         "en": "The man took off his coat.",
         "t": [
           {
@@ -911,8 +1087,94 @@ export const STORY = {
         ]
       },
       {
-        "en": "The Sun smiled warmly.",
+        "en": "The Sun won.",
         "t": [
+          {
+            "s": "太陽",
+            "k": "たいよう",
+            "ruby": [
+              [
+                0,
+                "たい"
+              ],
+              [
+                1,
+                "よう"
+              ]
+            ],
+            "d": "太陽",
+            "pos": "pn",
+            "g": "Sun"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "勝ちました",
+            "k": "かちました",
+            "ruby": [
+              [
+                0,
+                "か"
+              ]
+            ],
+            "d": "勝つ",
+            "pos": "v",
+            "g": "won",
+            "df": "勝つ",
+            "cf": "polite past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The North Wind said, “The Sun is strong.”",
+        "t": [
+          {
+            "s": "北風",
+            "k": "きたかぜ",
+            "ruby": [
+              [
+                0,
+                "きた"
+              ],
+              [
+                1,
+                "かぜ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "North Wind"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
           {
             "s": "太陽",
             "k": "たいよう",
@@ -939,18 +1201,57 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "にっこり笑いました",
-            "k": "にっこりわらいました",
+            "s": "強い",
+            "k": "つよい",
             "ruby": [
               [
-                4,
-                "わら"
+                0,
+                "つよ"
               ]
             ],
+            "d": "強い",
+            "pos": "adj",
+            "g": "strong"
+          },
+          {
+            "s": "です",
+            "k": "です",
+            "ruby": null,
             "d": null,
+            "pos": "aux",
+            "g": "is; it is",
+            "df": "だ",
+            "cf": "polite present"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "言いました",
+            "k": "いいました",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "言う",
             "pos": "v",
-            "g": "smiled warmly",
-            "df": "にっこり笑う",
+            "g": "said",
+            "df": "言う",
             "cf": "polite past"
           },
           {
@@ -965,5 +1266,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "1e7ffcae"
+  "hash": "cfa96ebe"
 };
