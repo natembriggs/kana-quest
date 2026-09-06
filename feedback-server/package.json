@@ -1,0 +1,19 @@
+{
+  "name": "kana-quest-feedback",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "migrate": "wrangler d1 migrations apply kana-quest-feedback --remote",
+    "migrate:local": "wrangler d1 migrations apply kana-quest-feedback --local",
+    "test": "node --test 'test/**/*.test.mjs'"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "workerd": true
+  }
+}

@@ -18,3 +18,13 @@ tools/data_src/
 sync-server/node_modules/
 sync-server/.wrangler/
 sync-server/.dev.vars
+
+# feedback-server/ (feedback-plan.md) — a second Cloudflare Worker project,
+# same reasoning as sync-server/ above. `.dev.vars` in particular holds the
+# GitHub token, the receipt pepper and the webhook/release secrets.
+feedback-server/node_modules/
+feedback-server/.wrangler/
+feedback-server/.dev.vars
+
+# Wrangler scratch state from running d1/deploy commands at the repo root.
+.wrangler/

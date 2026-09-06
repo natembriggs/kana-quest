@@ -1,0 +1,76 @@
+name = "kana-quest-feedback"
+main = "src/index.js"
+compatibility_date = "2026-08-24"
+compatibility_flags = ["nodejs_compat"]
+
+# Every five minutes, re-drive any row that was accepted but whose GitHub
+# issue never got created (feedback-plan.md, "Create the GitHub issue"). On
+# the Lean track this is not a backstop for an exotic failure — an evicted
+# `waitUntil` is the *normal* way a row gets stranded, so the sweep is what
+# actually guarantees delivery. It is also the path that files everything
+# that arrived while GITHUB_TOKEN was unset.
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kana-quest-feedback"
+database_id = "6b67e82a-a5e1-4123-8602-eb4c8a51c27e"
+migrations_dir = "migrations"
+
+# Short-burst protection, keyed by the caller's random install id rather than
+# by IP alone — Cloudflare warns that IP-only limits punish shared school and
+# household networks, which is most of this app's audience. Eventually
+# consistent and deliberately permissive; the D1 daily circuit breaker in
+# src/limits.js is the slow, exact half of the same job.
+[[unsafe.bindings]]
+name = "SUBMIT_LIMIT"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+[[unsafe.bindings]]
+name = "STATUS_LIMIT"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 30, period = 60 }
+
+[vars]
+# Where issues are filed. Private by default — see the Phase-0 decisions in
+# feedback-plan.md: submissions from a child-facing app are never
+# automatically public.
+GITHUB_OWNER = "natembriggs"
+GITHUB_REPO = "kana-quest-feedback"
+ISSUES_ARE_PUBLIC = "false"
+
+# Browser origins allowed to POST /v1/feedback. Unlike the sync Worker —
+# where possession of the capability *is* the authorization boundary and
+# broad CORS is deliberate — this endpoint creates GitHub issues, so it gets
+# a real allowlist. Comma-separated; the app's GitHub Pages origin plus the
+# two local dev servers from tools/serve.sh.
+ALLOWED_ORIGINS = "https://natembriggs.github.io,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://127.0.0.1:8080"
+
+# Hostnames Turnstile is allowed to report having solved the challenge on.
+# Blank disables the check (needed while running on the always-pass test
+# keys, which report whatever hostname asked).
+TURNSTILE_HOSTNAMES = ""
+
+# Turnstile's documented always-passes test secret. Replaced by a real
+# secret with `wrangler secret put TURNSTILE_SECRET`, which takes precedence
+# over this var — see README.md, "Going live".
+TURNSTILE_SECRET_FALLBACK = "1x0000000000000000000000000000000AA"
+
+# Kill switch (feedback-plan.md, Operations): stops new submissions while
+# leaving status reads, the webhook and the release endpoint working, so a
+# learner mid-flow still sees their existing history.
+ACCEPTING_SUBMISSIONS = "true"
+
+[observability]
+enabled = true
+
+# Staging is deliberately NOT configured here yet. Adding it means a second
+# D1 (`wrangler d1 create kana-quest-feedback-staging`), a second private
+# GitHub repo, and a second set of secrets; a half-declared `[env.staging]`
+# with a placeholder database_id fails config validation for the production
+# deploy too, so it is left out rather than stubbed. README.md, "Adding a
+# staging environment", has the exact block to paste back in.
