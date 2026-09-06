@@ -53,7 +53,6 @@ import {
   acknowledgeCelebrations, applyStatusResult, CATEGORY_LABEL as CONTRIBUTION_KIND,
   contributionSummary, normalizeContribution, pendingCelebrations,
   refreshableContributions, sortedContributions, STATUS_STAGE, STATUS_TEXT,
-  unsentContributions,
 } from './contributions.js';
 import {
   collectDiagnostics, describeDiagnostics, errorText, FEEDBACK_CATEGORIES,
@@ -9017,10 +9016,68 @@ function openFeedback() {
   $('feedback-turnstile').innerHTML = '';
   sheet.hidden = false;
   updateFeedbackCount();
+  openDialog(sheet);
+}
+
+// Where focus was before a dialog opened, so it can be handed back.
+let dialogReturnFocus = null;
+let dialogTrap = null;
+
+/**
+ * Minimal focus management for the two dialogs in this feature. Not a
+ * framework: move focus in, keep Tab inside while it is open, and put focus
+ * back where it came from on close. Without it a keyboard or screen-reader
+ * user tabs straight through the scrim into the screen behind, which both
+ * reads as broken and lets them operate controls the dialog is covering.
+ */
+function openDialog(root) {
+  dialogReturnFocus = document.activeElement;
+  const focusable = () => [...root.querySelectorAll(
+    'button, [href], input:not([type="hidden"]), textarea, select, [tabindex]:not([tabindex="-1"])',
+  )].filter((el) => !el.hidden && !el.disabled && el.offsetParent !== null);
+
+  const first = focusable()[0];
+  if (first && typeof first.focus === 'function') first.focus();
+
+  // Escape is handled once, globally, in wire() — a keydown in here bubbles
+  // to document, so closing it from both places would fire twice.
+  dialogTrap = (event) => {
+    if (event.key !== 'Tab') return;
+    const items = focusable();
+    if (!items.length) return;
+    const edge = event.shiftKey ? items[0] : items[items.length - 1];
+    if (document.activeElement === edge) {
+      event.preventDefault();
+      (event.shiftKey ? items[items.length - 1] : items[0]).focus();
+    }
+  };
+  root.addEventListener('keydown', dialogTrap);
+}
+
+/**
+ * Call this AFTER hiding `root`. Focus goes back where it came from, but only
+ * if that element can still actually take it — the Feedback icon lives in
+ * every screen's header, so the one that opened the sheet may well be inside
+ * a screen that is no longer showing. When it cannot, anything still focused
+ * inside the hidden dialog is blurred instead: focus stranded on a hidden
+ * control is the exact problem this is here to prevent.
+ */
+function closeDialog(root) {
+  if (dialogTrap) root.removeEventListener('keydown', dialogTrap);
+  dialogTrap = null;
+  const target = dialogReturnFocus;
+  dialogReturnFocus = null;
+  if (target && target.isConnected && typeof target.focus === 'function' && target.offsetParent !== null) {
+    target.focus();
+  }
+  if (root.contains(document.activeElement) && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur();
+  }
 }
 
 function closeFeedback() {
   $('feedback-sheet').hidden = true;
+  closeDialog($('feedback-sheet'));
   $('feedback-turnstile').innerHTML = '';
   state.feedbackDraft = null;
   // If My contributions is the screen underneath, it is now out of date —
@@ -9193,7 +9250,6 @@ async function catchUpOnContributions({ force = false } = {}) {
 
   contributionRefreshRunning = true;
   try {
-    await retryUnsentContributions();
     const results = await fetchStatuses(refreshableContributions(state.profile.contributions || {}));
     // null means the request could not be made at all. "No news" — never
     // "everything reverted".
@@ -9219,30 +9275,6 @@ async function catchUpOnContributions({ force = false } = {}) {
   maybeCelebrate();
 }
 
-/**
- * Re-drive drafts that never made it. Same id and receipt every time, which
- * is what makes this safe rather than duplicating. A fresh Turnstile token
- * is needed per attempt and the widget needs somewhere to render, so this
- * only runs while the sheet or the contributions screen can host it —
- * otherwise the learner is asked to reopen the draft and tap Send, which is
- * exactly what the plan says not to over-promise about.
- */
-async function retryUnsentContributions() {
-  const unsent = unsentContributions(state.profile.contributions || {});
-  if (!unsent.length) return;
-  const host = $('feedback-turnstile');
-  if (!host || $('feedback-sheet').hidden) return;
-  for (const contribution of unsent) {
-    let token;
-    try {
-      token = await getTurnstileToken(host);
-    } catch {
-      return; // no challenge, no send; the draft keeps waiting
-    }
-    const result = await submitFeedback(contribution, { turnstileToken: token });
-    if (result.ok) await acceptContribution(contribution.id, result.status);
-  }
-}
 
 /**
  * The one-time thank-you. Three conditions, each ruling out a specific way
@@ -9276,10 +9308,12 @@ function maybeCelebrate() {
   });
   state.celebrating = pending.map((contribution) => contribution.id);
   $('celebration').hidden = false;
+  openDialog($('celebration'));
 }
 
 async function dismissCelebration() {
   $('celebration').hidden = true;
+  closeDialog($('celebration'));
   const ids = state.celebrating || [];
   state.celebrating = null;
   if (!ids.length || !state.profile) return;
