@@ -55,6 +55,87 @@
   </div>
 </div>
 
+<!-- ------------------------------------------------------------------ -->
+<!-- Feedback (feedback-plan.md). A fixed sheet rather than a screen, so
+     opening it mid-quiz cannot disturb the session underneath: nothing is
+     re-rendered, no timer exists to reset, and closing it puts the learner
+     back exactly where they were. Lives outside <main> for the same reason
+     #install-banner does — it belongs to the app, not to any one screen. -->
+<div id="feedback-sheet" class="sheet" hidden>
+  <div class="sheet-scrim" data-action="feedback-close"></div>
+  <div class="sheet-body" role="dialog" aria-modal="true" aria-labelledby="feedback-heading">
+    <div class="sheet-head">
+      <h3 id="feedback-heading">Tell us something</h3>
+      <button class="btn btn-icon btn-quiet" type="button" data-action="feedback-close" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Step 1: what kind of thing is this. Rendered from
+         FEEDBACK_CATEGORIES in src/feedback.js so the enum has one home. -->
+    <div id="feedback-step-category" class="stack">
+      <p class="hint">What would you like to tell us about?</p>
+      <div id="feedback-categories" class="feedback-categories"></div>
+    </div>
+
+    <!-- Step 2: the report itself. -->
+    <div id="feedback-step-form" class="stack" hidden>
+      <button id="feedback-back" class="linkish" type="button" data-action="feedback-back">← Pick something else</button>
+      <p id="feedback-category-label" class="feedback-chosen"></p>
+      <label class="field">
+        <span>In a few words</span>
+        <input id="feedback-title" type="text" maxlength="100" autocomplete="off"
+               placeholder="What is it about?">
+      </label>
+      <label class="field">
+        <span>Tell us more</span>
+        <textarea id="feedback-details" rows="5" maxlength="4000"
+                  placeholder="What happened? What were you doing?"></textarea>
+      </label>
+      <p id="feedback-count" class="hint feedback-count"></p>
+
+      <label class="row feedback-diag-toggle">
+        <input id="feedback-include-details" type="checkbox" checked>
+        <span class="hint">Include app details to help work out what went wrong</span>
+      </label>
+      <button id="feedback-diag-toggle" class="linkish" type="button" data-action="feedback-diag-toggle">Show exactly what that sends</button>
+      <ul id="feedback-diag-list" class="feedback-diag-list" hidden></ul>
+
+      <p class="hint feedback-privacy">
+        Your report goes to a private list that only the people who make this
+        app can see. Please don’t include your name, your school, or an email
+        address — we don’t need them, and they’d be stored with your report.
+      </p>
+
+      <div id="feedback-turnstile" class="feedback-turnstile"></div>
+      <p id="feedback-error" class="feedback-error" role="alert" hidden></p>
+      <button id="feedback-send" class="btn btn-primary wide" type="button" data-action="feedback-send">Send</button>
+    </div>
+
+    <!-- Step 3: the receipt. Success closes to this, not to an empty form. -->
+    <div id="feedback-step-done" class="stack" hidden>
+      <p class="feedback-done-mark" aria-hidden="true">🌱</p>
+      <h4 id="feedback-done-title">Thank you!</h4>
+      <p id="feedback-done-text" class="hint"></p>
+      <button class="btn btn-primary wide" type="button" data-action="feedback-close">Done</button>
+      <button class="linkish" type="button" data-action="open-contributions">See everything I have sent</button>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------ -->
+<!-- The one-time thank-you when a report a learner made is in the version
+     they are actually running (feedback-plan.md, "Notify on the first
+     eligible load"). One combined celebration covers several fixes; it
+     never stacks. -->
+<div id="celebration" class="sheet" hidden>
+  <div class="sheet-scrim" data-action="celebration-dismiss"></div>
+  <div class="sheet-body celebration-body" role="dialog" aria-modal="true" aria-labelledby="celebration-heading">
+    <p class="celebration-mark" aria-hidden="true">🌸</p>
+    <h3 id="celebration-heading">You helped improve Kana Quest</h3>
+    <ul id="celebration-list" class="celebration-list"></ul>
+    <button class="btn btn-primary wide" type="button" data-action="celebration-dismiss">Thank you!</button>
+  </div>
+</div>
+
 <main id="app">
 
   <!-- ---------------------------------------------------------------- -->
@@ -135,6 +216,7 @@
       <button class="btn btn-icon" type="button" data-action="onboarding-back" aria-label="Back">←</button>
       <h2>Getting started</h2>
       <button class="btn btn-quiet onboarding-skip-top" type="button" data-action="onboarding-guide-done">Skip</button>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <div id="onboarding-guide-body" class="stack"></div>
     <div class="stack bottom-bar">
@@ -151,6 +233,7 @@
       <button class="btn btn-icon" type="button" data-action="onboarding-back" aria-label="Back">←</button>
       <h2>What do you know?</h2>
       <span class="btn-icon" aria-hidden="true"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <p class="hint">Rough answers are fine. Say you know something and the app
       marks it done rather than teaching it from scratch; say you know some of
@@ -169,6 +252,7 @@
       </button>
       <h2 id="home-greeting">Hello</h2>
       <button class="btn btn-icon" type="button" data-action="open-settings" aria-label="Settings">⚙️</button>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <!-- Shown only while this profile has never turned on sync — see
          renderSyncNudge() in app.js. Dismissible for the current browser
@@ -210,6 +294,7 @@
       <button class="btn btn-icon" type="button" data-action="go-home" aria-label="Back">←</button>
       <h2>Read</h2>
       <span class="btn-icon" aria-hidden="true"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <div id="story-level-strip" class="story-level-strip" role="group" aria-label="Reading level"></div>
     <p id="story-level-name" class="hint story-level-name"></p>
@@ -233,6 +318,7 @@
       <button class="btn btn-icon" type="button" data-action="reader-back" aria-label="Back">←</button>
       <h2 id="reader-title"></h2>
       <button class="btn btn-icon btn-quiet" type="button" data-action="reader-settings" aria-label="Reader settings">⋯</button>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <div class="progress reader-progress"><div id="reader-progress-fill" class="progress-fill"></div></div>
 
@@ -301,6 +387,7 @@
       <button class="btn btn-icon" type="button" data-action="go-home" aria-label="Back">←</button>
       <h2 id="course-title">Practice</h2>
       <button class="btn btn-icon" type="button" data-action="open-settings" aria-label="Settings">⚙️</button>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
 
     <div class="segmented" role="tablist" id="mode-picker"></div>
@@ -400,6 +487,7 @@
         <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
         <h2 id="overview-title">Overview</h2>
         <span id="overview-counter" class="counter"></span>
+        <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
       </header>
       <div id="overview-mode-picker" class="segmented" role="tablist" aria-label="Mode"></div>
     </div>
@@ -473,6 +561,7 @@
       <button id="detail-back" class="btn btn-icon" type="button" data-action="detail-back" aria-label="Back">←</button>
       <h2>Detail</h2>
       <span></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
 
     <div class="detail-head">
@@ -595,6 +684,7 @@
       <button class="btn btn-icon" type="button" data-action="study-history-back" aria-label="Back">←</button>
       <h2>Study history</h2>
       <span></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <p class="hint">Every time <span id="study-history-glyph" lang="ja"></span> was reviewed, and how it went.</p>
     <div id="study-history-graph" class="study-history-graph"></div>
@@ -608,6 +698,7 @@
       <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>
       <h2>New characters</h2>
       <span id="lesson-counter" class="counter"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <div class="teach-card">
       <div id="lesson-kana" class="glyph glyph-xl" lang="ja"></div>
@@ -652,6 +743,7 @@
       <button class="btn btn-icon btn-quiet" type="button" data-action="quit-session" aria-label="Back">✕</button>
       <div class="progress"><div id="writing-progress" class="progress-fill"></div></div>
       <span id="writing-counter" class="counter"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
 
     <!-- In progress: the prompt and stroke count. Finished: replaced by the
@@ -806,6 +898,7 @@
       <button class="btn btn-icon btn-quiet" type="button" data-action="quit-session" aria-label="Back">✕</button>
       <div class="progress"><div id="quiz-progress" class="progress-fill"></div></div>
       <span id="quiz-counter" class="counter"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
 
     <!-- Above the character being tested, not down by the answers/Next —
@@ -936,6 +1029,7 @@
       <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
       <div class="brand"><div class="brand-mark">🎉</div></div>
       <span></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <h2 class="screen-title">Session done</h2>
     <!-- Milestone celebration (review-followups.md item 4) — hidden unless
@@ -969,12 +1063,56 @@
     </div>
   </section>
 
+
+  <!-- ---------------------------------------------------------------- -->
+  <!-- My contributions (feedback-plan.md). A profile-level screen, not an
+       account: everything on it comes from the encrypted profile plus
+       receipt-authenticated status refreshes. -->
+  <section id="screen-contributions" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="contributions-back" aria-label="Back">←</button>
+      <h2>What I have sent</h2>
+      <span class="btn-icon" aria-hidden="true"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
+    </header>
+
+    <div class="card stack contributions-header">
+      <p class="contributions-hello"><span id="contributions-avatar" class="avatar">🌱</span> <b id="contributions-name">You</b> help Kana Quest grow.</p>
+      <!-- Decorative: the real information is in the cards below, so a
+           screen reader gets the totals and the timeline rather than a
+           description of flowers. -->
+      <div id="contributions-garden" class="garden" aria-hidden="true"></div>
+      <div class="contributions-totals">
+        <div><b id="contributions-shared">0</b><span class="hint">shared</span></div>
+        <div><b id="contributions-progress">0</b><span class="hint">with the team</span></div>
+        <div><b id="contributions-shipped">0</b><span class="hint">in the app now</span></div>
+      </div>
+    </div>
+
+    <p id="contributions-empty" class="hint contributions-empty" hidden>
+      Nothing yet. If something looks wrong, or you think of something the app
+      should do, tap 💬 at the top of any screen and tell us.
+    </p>
+
+    <div id="contributions-list" class="stack"></div>
+
+    <p id="contributions-status" class="hint" aria-live="polite"></p>
+    <button id="contributions-refresh" class="btn wide" type="button" data-action="contributions-refresh">Check for news</button>
+
+    <p class="hint contributions-footnote">
+      What you have sent lives in this learner’s profile on this device. Sync
+      and backup are what carry it to another phone or tablet — there is no
+      account and no password, so nothing else can.
+    </p>
+  </section>
+
   <!-- ---------------------------------------------------------------- -->
   <section id="screen-settings" class="screen" hidden>
     <header class="topbar">
       <button class="btn btn-icon" type="button" data-action="close-settings" aria-label="Back">←</button>
       <h2>Settings</h2>
       <span></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
     </header>
     <div class="card stack profile-only">
       <h3>Badge</h3>
@@ -1099,8 +1237,15 @@
       <p id="transfer-status" class="hint" aria-live="polite"></p>
     </div>
     <div class="card stack">
+      <h3>Feedback and ideas</h3>
+      <p class="hint">Something broken, something missing, or a reading that looks wrong? Tell us — it goes to a private list only the people who make this app can see.</p>
+      <button class="btn wide" type="button" data-action="open-feedback">Tell us something</button>
+      <button class="btn wide profile-only" type="button" data-action="open-contributions">What I have sent</button>
+    </div>
+    <div class="card stack">
       <h3>App version</h3>
       <p class="hint">
+
         Version <b id="app-version"></b>. If the app on a phone is behaving like
         an older version, this forces it to reload everything from the server.
         Progress is not affected.

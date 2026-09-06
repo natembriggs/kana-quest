@@ -47,8 +47,9 @@ ISSUES_ARE_PUBLIC = "false"
 # where possession of the capability *is* the authorization boundary and
 # broad CORS is deliberate — this endpoint creates GitHub issues, so it gets
 # a real allowlist. Comma-separated; the app's GitHub Pages origin plus the
-# two local dev servers from tools/serve.sh.
-ALLOWED_ORIGINS = "https://natembriggs.github.io,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://127.0.0.1:8080"
+# local dev server from .claude/launch.json (8744) and the ports tools/
+# serve.sh and the verification copy use.
+ALLOWED_ORIGINS = "https://natembriggs.github.io,http://localhost:8744,http://127.0.0.1:8744,http://localhost:8751,http://127.0.0.1:8751,http://localhost:8000,http://127.0.0.1:8000"
 
 # Hostnames Turnstile is allowed to report having solved the challenge on.
 # Blank disables the check (needed while running on the always-pass test

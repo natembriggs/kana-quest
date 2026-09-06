@@ -49,6 +49,16 @@ import {
 } from './writing.js';
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import { CHANGELOG } from './changelog.js';
+import {
+  acknowledgeCelebrations, applyStatusResult, CATEGORY_LABEL as CONTRIBUTION_KIND,
+  contributionSummary, normalizeContribution, pendingCelebrations,
+  refreshableContributions, sortedContributions, STATUS_STAGE, STATUS_TEXT,
+  unsentContributions,
+} from './contributions.js';
+import {
+  collectDiagnostics, describeDiagnostics, errorText, FEEDBACK_CATEGORIES,
+  fetchStatuses, getTurnstileToken, newFeedbackId, newReceiptToken, submitFeedback,
+} from './feedback.js';
 import * as store from './store.js';
 import { syncProfile } from './sync-protocol.js';
 import {
@@ -59,7 +69,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -391,6 +401,13 @@ const state = {
   // First run only (onboarding-plan.md). Both session-only: the flow runs
   // once, start to finish, in a single sitting — the only thing that
   // outlives it is profile.onboarded (and any nudge it arms).
+  // Feedback (feedback-plan.md). All session-only: the durable half of a
+  // contribution lives in the profile, and a half-typed report that was
+  // never sent is not worth resurrecting after a reload.
+  feedbackDraft: null,        // id/receipt/category/diagnostics, minted when a kind is picked
+  contributionsReturn: null,  // where the back button on My contributions goes
+  contributionsCheckedAt: 0,  // last successful status refresh, for the staleness window
+  celebrating: null,          // ids currently shown in the thank-you, pending acknowledgement
   onboardingPairing: false, // is Settings' sync pairing being shown FROM the flow
   onboardingAnswers: null,  // Screen C's four scales, uncommitted until "Start learning!"
   detailCourseId: null,
@@ -669,6 +686,10 @@ function openProfile(profile) {
   // (kanji-mnemonic-plan.md §10) has written none of its own, and every
   // kanji simply falls back to its built-in wording.
   if (profile.mnemonics === undefined) profile.mnemonics = {};
+  // Same reasoning again — a profile predating the feedback loop
+  // (feedback-plan.md) has sent nothing and removed nothing.
+  if (profile.contributions === undefined) profile.contributions = {};
+  if (profile.forgottenContributions === undefined) profile.forgottenContributions = {};
   // The same defensive default as the three above, but the useful value is
   // the opposite one. A profile predating the first-run placement flow
   // (onboarding-plan.md §2) has no `onboarded` field, and must never be sent
@@ -689,6 +710,11 @@ function openProfile(profile) {
   // Not awaited: opening a learner must never wait on the network. If this
   // brings anything in, it re-renders the home screen itself (autoSync).
   autoSync({ force: true });
+  // Likewise not awaited, and deliberately after renderHome(): the
+  // thank-you waits for a stable home screen and must never block startup
+  // or delay a learner reaching their practice (feedback-plan.md, "Notify
+  // on the first eligible load").
+  catchUpOnContributions();
 }
 
 // --- First run: self-placement (onboarding-plan.md) -----------------------
@@ -8478,6 +8504,7 @@ function wire() {
     try { sessionStorage.setItem(INSTALL_DISMISSED_KEY, '1'); } catch { /* private browsing etc. */ }
   });
 
+  $('feedback-details').addEventListener('input', updateFeedbackCount);
   $('sync-nudge-dismiss').addEventListener('click', () => {
     $('sync-nudge').hidden = true;
     if (state.profile) dismissSyncNudge(state.profile.id);
@@ -8504,6 +8531,12 @@ function wire() {
   // link, where the browser already fires a click of its own and acting
   // here too would advance twice. event.repeat keeps a held-down Enter from
   // running through several questions at once.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (!$('celebration').hidden) { dismissCelebration(); return; }
+    if (!$('feedback-sheet').hidden) closeFeedback();
+  });
+
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' || event.repeat) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -8539,6 +8572,35 @@ function wire() {
       case 'onboarding-pair-cancel': renderOnboarding(); break;
       case 'switch-profile': state.profile = null; renderProfiles(); break;
       case 'open-settings': renderSettings(); break;
+      // Feedback (feedback-plan.md). Available from every screen's header,
+      // including mid-session — opening the sheet mounts nothing and
+      // re-renders nothing, so the session underneath is untouched.
+      case 'open-feedback': openFeedback(); break;
+      case 'feedback-close': closeFeedback(); break;
+      case 'feedback-back':
+        $('feedback-step-form').hidden = true;
+        $('feedback-step-category').hidden = false;
+        break;
+      case 'feedback-diag-toggle': {
+        const list = $('feedback-diag-list');
+        list.hidden = !list.hidden;
+        trigger.textContent = list.hidden ? 'Show exactly what that sends' : 'Hide the details';
+        break;
+      }
+      case 'feedback-send': await sendFeedback(); break;
+      case 'open-contributions': openContributions(); break;
+      case 'contributions-refresh':
+        $('contributions-status').textContent = 'Checking…';
+        await catchUpOnContributions({ force: true });
+        $('contributions-status').textContent = state.contributionsCheckedAt
+          ? 'Up to date.'
+          : 'Could not check just now — you may be offline.';
+        break;
+      case 'contributions-back':
+        if (state.contributionsReturn === 'screen-settings') renderSettings();
+        else renderHome();
+        break;
+      case 'celebration-dismiss': await dismissCelebration(); break;
       case 'open-transfer': renderSettings(); break;
       // Back out one level: the course screen returns to the script picker.
       // But if a kanji search is active, back out of search first — otherwise
@@ -8874,6 +8936,468 @@ export async function forceRefresh() {
   window.location.replace(`${window.location.pathname}?fresh=${Date.now()}`);
 }
 
+// --- Feedback and My contributions (feedback-plan.md) ---------------------
+//
+// The sheet is deliberately not a screen. Opening it mid-quiz mounts nothing
+// and re-renders nothing, so the session underneath is untouched and closing
+// it puts the learner back exactly where they were — which is the whole
+// reason the icon can be on the quiz screen at all.
+//
+// The receipt token minted here is a CAPABILITY: it is the only thing that
+// proves a report belongs to this learner, since there is no account. It
+// lives in the encrypted profile, travels by sync and backup, and goes
+// nowhere else.
+
+/** Which screen name to attach to a report, from a fixed set of our own. */
+function feedbackRoute() {
+  const screen = (currentScreenId || 'screen-home').replace(/^screen-/, '');
+  const course = state.session ? state.session.courseId
+    : (state.overviewCourseId || state.detailCourseId || null);
+  return { screen, course: course || null, mode: state.mode || null };
+}
+
+function openFeedback() {
+  const sheet = $('feedback-sheet');
+  state.feedbackDraft = null;
+  renderFeedbackCategories();
+  $('feedback-step-category').hidden = false;
+  $('feedback-step-form').hidden = true;
+  $('feedback-step-done').hidden = true;
+  $('feedback-error').hidden = true;
+  $('feedback-title').value = '';
+  $('feedback-details').value = '';
+  $('feedback-include-details').checked = true;
+  $('feedback-diag-list').hidden = true;
+  $('feedback-turnstile').innerHTML = '';
+  sheet.hidden = false;
+  updateFeedbackCount();
+}
+
+function closeFeedback() {
+  $('feedback-sheet').hidden = true;
+  $('feedback-turnstile').innerHTML = '';
+  state.feedbackDraft = null;
+}
+
+function renderFeedbackCategories() {
+  const list = $('feedback-categories');
+  list.innerHTML = '';
+  FEEDBACK_CATEGORIES.forEach((category) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'feedback-category';
+    button.innerHTML = `<span class="feedback-category-emoji">${category.emoji}</span>`
+      + `<span class="feedback-category-label">${category.label}`
+      + `<span class="feedback-category-hint">${category.hint}</span></span>`;
+    button.addEventListener('click', () => chooseFeedbackCategory(category));
+    list.appendChild(button);
+  });
+}
+
+function chooseFeedbackCategory(category) {
+  // The id and receipt are minted HERE, before any request, and reused for
+  // every retry. That is what makes retrying safe: the server resolves a
+  // repeat id to the existing row instead of filing a second issue.
+  state.feedbackDraft = {
+    id: newFeedbackId(),
+    receiptToken: newReceiptToken(),
+    category: category.id,
+    diagnostics: collectDiagnostics({ appVersion: APP_VERSION, ...feedbackRoute() }),
+  };
+  $('feedback-category-label').textContent = `${category.emoji} ${category.label}`;
+  $('feedback-step-category').hidden = true;
+  $('feedback-step-form').hidden = false;
+  renderFeedbackDiagnostics();
+  $('feedback-title').focus();
+}
+
+function renderFeedbackDiagnostics() {
+  const list = $('feedback-diag-list');
+  list.innerHTML = '';
+  describeDiagnostics(state.feedbackDraft.diagnostics).forEach((line) => {
+    const li = document.createElement('li');
+    li.textContent = line;
+    list.appendChild(li);
+  });
+}
+
+function updateFeedbackCount() {
+  const used = [...$('feedback-details').value].length;
+  $('feedback-count').textContent = used ? `${used} / 4000` : '';
+}
+
+function feedbackError(message) {
+  const el = $('feedback-error');
+  el.textContent = message;
+  el.hidden = !message;
+}
+
+/**
+ * Save the draft into the profile before the request goes out, so a tab
+ * closed or a network lost mid-send does not throw away what the learner
+ * wrote. Acceptance clears `pendingDetails`; nothing else does.
+ */
+async function stashFeedbackDraft(draft, title, details) {
+  const contribution = normalizeContribution(draft.id, {
+    receiptToken: draft.receiptToken,
+    category: draft.category,
+    title,
+    pendingDetails: details,
+    pendingDiagnostics: $('feedback-include-details').checked ? draft.diagnostics : {},
+    createdAt: Date.now(),
+    status: 'sending',
+    statusUpdatedAt: Date.now(),
+    localUpdatedAt: Date.now(),
+  });
+  state.profile.contributions[draft.id] = contribution;
+  await store.saveProfile(state.profile);
+  return contribution;
+}
+
+async function sendFeedback() {
+  const draft = state.feedbackDraft;
+  if (!draft || !state.profile) return;
+  const title = $('feedback-title').value.trim();
+  const details = $('feedback-details').value.trim();
+
+  // Checked here as well as on the server so a learner gets a useful nudge
+  // instead of a round trip and a rejection.
+  if ([...title].length < 4) { feedbackError('Give it a slightly longer title.'); return; }
+  if ([...details].length < 4) { feedbackError('Tell us a little more than that.'); return; }
+
+  const send = $('feedback-send');
+  send.disabled = true;
+  send.textContent = 'Sending…';
+  feedbackError('');
+
+  const contribution = await stashFeedbackDraft(draft, title, details);
+
+  // Turnstile runs at SEND time, not at open time: tokens expire after five
+  // minutes and are single-use, so one minted when the sheet opened would
+  // often be dead by the time a child finished typing.
+  let token = '';
+  try {
+    token = await getTurnstileToken($('feedback-turnstile'));
+  } catch (error) {
+    send.disabled = false;
+    send.textContent = 'Send';
+    feedbackError(errorText(error.message));
+    return;
+  }
+
+  const result = await submitFeedback({ id: draft.id, ...contribution }, { turnstileToken: token });
+  send.disabled = false;
+  send.textContent = 'Send';
+
+  if (!result.ok) {
+    if (!result.retryable) {
+      // No point keeping a draft the server will refuse identically forever.
+      delete state.profile.contributions[draft.id];
+      await store.saveProfile(state.profile);
+    }
+    feedbackError(errorText(result.code));
+    return;
+  }
+
+  await acceptContribution(draft.id, result.status);
+  $('feedback-step-form').hidden = true;
+  $('feedback-step-done').hidden = false;
+  $('feedback-done-text').textContent = 'It has reached the team. You can see what happens to it '
+    + 'any time under "What I have sent" in Settings.';
+}
+
+/** The report is the server's now, so the body stops being kept here. */
+async function acceptContribution(id, status) {
+  const existing = state.profile.contributions[id];
+  if (!existing) return;
+  state.profile.contributions[id] = {
+    ...existing,
+    status: status || 'accepted',
+    statusUpdatedAt: Date.now(),
+    localUpdatedAt: Date.now(),
+    // Cleared deliberately: GitHub is the canonical copy from here on, and
+    // this field would otherwise sit in every plaintext backup export.
+    pendingDetails: null,
+    pendingDiagnostics: null,
+  };
+  await store.saveProfile(state.profile);
+}
+
+// --- Status refresh, retry, and the thank-you -----------------------------
+
+const CONTRIBUTION_STALE_MS = 6 * 60 * 60 * 1000;
+let contributionRefreshRunning = false;
+
+/**
+ * Retry anything unsent, refresh what might have moved, then celebrate
+ * anything that has actually shipped. Silent throughout: a learner must
+ * never be interrupted by this, and being offline is not an error worth
+ * reporting — the next load tries again.
+ */
+async function catchUpOnContributions({ force = false } = {}) {
+  if (!state.profile || contributionRefreshRunning) return;
+  const contributions = state.profile.contributions || {};
+  const items = refreshableContributions(contributions);
+  const since = Date.now() - (state.contributionsCheckedAt || 0);
+  if (!force && !items.length) { maybeCelebrate(); return; }
+  if (!force && since < CONTRIBUTION_STALE_MS) { maybeCelebrate(); return; }
+
+  contributionRefreshRunning = true;
+  try {
+    await retryUnsentContributions();
+    const results = await fetchStatuses(refreshableContributions(state.profile.contributions || {}));
+    // null means the request could not be made at all. "No news" — never
+    // "everything reverted".
+    if (results) {
+      state.contributionsCheckedAt = Date.now();
+      let changed = false;
+      Object.entries(results).forEach(([id, result]) => {
+        const current = state.profile.contributions[id];
+        if (!current) return;
+        const updated = applyStatusResult(current, result);
+        if (updated !== current) { state.profile.contributions[id] = updated; changed = true; }
+      });
+      if (changed) {
+        await store.saveProfile(state.profile);
+        if (!$('screen-contributions').hidden) renderContributions();
+      }
+    }
+  } catch {
+    // Offline, or the server is unwell. Local state is the source of truth.
+  } finally {
+    contributionRefreshRunning = false;
+  }
+  maybeCelebrate();
+}
+
+/**
+ * Re-drive drafts that never made it. Same id and receipt every time, which
+ * is what makes this safe rather than duplicating. A fresh Turnstile token
+ * is needed per attempt and the widget needs somewhere to render, so this
+ * only runs while the sheet or the contributions screen can host it —
+ * otherwise the learner is asked to reopen the draft and tap Send, which is
+ * exactly what the plan says not to over-promise about.
+ */
+async function retryUnsentContributions() {
+  const unsent = unsentContributions(state.profile.contributions || {});
+  if (!unsent.length) return;
+  const host = $('feedback-turnstile');
+  if (!host || $('feedback-sheet').hidden) return;
+  for (const contribution of unsent) {
+    let token;
+    try {
+      token = await getTurnstileToken(host);
+    } catch {
+      return; // no challenge, no send; the draft keeps waiting
+    }
+    const result = await submitFeedback(contribution, { turnstileToken: token });
+    if (result.ok) await acceptContribution(contribution.id, result.status);
+  }
+}
+
+/**
+ * The one-time thank-you. Three conditions, each ruling out a specific way
+ * of misleading a learner — see pendingCelebrations() in contributions.js.
+ * Never shown over a session or a first run.
+ */
+function maybeCelebrate() {
+  if (!state.profile) return;
+  if (state.session) return;
+  if (!$('feedback-sheet').hidden || !$('celebration').hidden) return;
+  // Only from a settled home screen: a celebration that lands on top of the
+  // onboarding flow or mid-navigation is a jump-scare, not a thank-you.
+  if ($('screen-home').hidden) return;
+
+  const pending = pendingCelebrations(state.profile.contributions || {}, APP_VERSION);
+  if (!pending.length) return;
+
+  const list = $('celebration-list');
+  list.innerHTML = '';
+  pending.forEach((contribution) => {
+    const li = document.createElement('li');
+    const title = document.createElement('b');
+    // The learner's own words for what they reported, not a generic
+    // "your feedback shipped".
+    title.textContent = contribution.title || 'Something you told us about';
+    li.appendChild(title);
+    li.appendChild(document.createTextNode(
+      contribution.releaseMessage || 'It is fixed, and it is in the app you are using right now.',
+    ));
+    list.appendChild(li);
+  });
+  state.celebrating = pending.map((contribution) => contribution.id);
+  $('celebration').hidden = false;
+}
+
+async function dismissCelebration() {
+  $('celebration').hidden = true;
+  const ids = state.celebrating || [];
+  state.celebrating = null;
+  if (!ids.length || !state.profile) return;
+  state.profile.contributions = acknowledgeCelebrations(
+    state.profile.contributions, ids, APP_VERSION,
+  );
+  // An ordinary profile save, so sync carries the acknowledgement to the
+  // learner's other devices and it is normally not celebrated twice.
+  await store.saveProfile(state.profile);
+}
+
+// --- The My contributions screen ------------------------------------------
+
+/** Five stage drawings in currentColor. Decorative — see the garden note in styles.css. */
+const GARDEN_SVG = {
+  seed: '<ellipse cx="17" cy="34" rx="6" ry="8" fill="currentColor" opacity=".8" transform="rotate(-15 17 34)"/>'
+    + '<path d="M6 42h22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>',
+  sprout: '<path d="M17 42V26" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    + '<path d="M17 30C11 30 7 27 7 22c6 0 10 3 10 8z" fill="currentColor" opacity=".75"/>'
+    + '<path d="M17 34c5 0 9-3 9-7-5 0-9 3-9 7z" fill="currentColor" opacity=".55"/>'
+    + '<path d="M6 42h22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>',
+  plant: '<path d="M17 42V16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    + '<path d="M17 28C9 28 4 24 4 17c8 0 13 4 13 11z" fill="currentColor" opacity=".75"/>'
+    + '<path d="M17 34c8 0 13-4 13-11-8 0-13 4-13 11z" fill="currentColor" opacity=".55"/>'
+    + '<path d="M6 42h22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>',
+  bud: '<path d="M17 42V20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    + '<path d="M17 32C10 32 6 28 6 22c7 0 11 4 11 10z" fill="currentColor" opacity=".6"/>'
+    + '<path d="M17 20c-4 0-6-4-6-8s2-8 6-8 6 4 6 8-2 8-6 8z" fill="currentColor" opacity=".9"/>'
+    + '<path d="M6 42h22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>',
+  flower: '<path d="M17 42V22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    + '<path d="M17 34C10 34 6 30 6 24c7 0 11 4 11 10z" fill="currentColor" opacity=".55"/>'
+    + '<circle cx="17" cy="7" r="5.5" fill="currentColor" opacity=".7"/>'
+    + '<circle cx="9.5" cy="12.5" r="5.5" fill="currentColor" opacity=".7"/>'
+    + '<circle cx="24.5" cy="12.5" r="5.5" fill="currentColor" opacity=".7"/>'
+    + '<circle cx="12.5" cy="20" r="5.5" fill="currentColor" opacity=".7"/>'
+    + '<circle cx="21.5" cy="20" r="5.5" fill="currentColor" opacity=".7"/>'
+    + '<circle cx="17" cy="14" r="4.5" fill="currentColor"/>'
+    + '<path d="M6 42h22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>',
+};
+
+function openContributions() {
+  state.contributionsReturn = currentScreenId === 'screen-settings' ? 'screen-settings' : 'screen-home';
+  closeFeedback();
+  renderContributions();
+  // Opening the screen is the moment a learner is explicitly asking for
+  // news, so it always refreshes rather than waiting out the staleness
+  // window the boot-time check uses.
+  catchUpOnContributions({ force: true });
+}
+
+function renderContributions() {
+  const profile = state.profile;
+  if (!profile) { renderProfiles(); return; }
+  const contributions = profile.contributions || {};
+  const list = sortedContributions(contributions);
+  const totals = contributionSummary(contributions);
+
+  $('contributions-avatar').textContent = profile.emoji || '🌱';
+  $('contributions-name').textContent = profile.name || 'You';
+  $('contributions-shared').textContent = String(totals.shared);
+  $('contributions-progress').textContent = String(totals.inProgress);
+  $('contributions-shipped').textContent = String(totals.shipped);
+  $('contributions-empty').hidden = list.length > 0;
+
+  // The plot grows with the number of contributions rather than being a
+  // fixed grid, so one report looks intentional rather than like an empty
+  // field.
+  const garden = $('contributions-garden');
+  garden.innerHTML = '';
+  list.slice(0, 24).forEach((contribution) => {
+    const stage = STATUS_STAGE[contribution.status] || 'seed';
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 34 44');
+    svg.setAttribute('class', 'garden-plant');
+    svg.innerHTML = GARDEN_SVG[stage];
+    garden.appendChild(svg);
+  });
+
+  const container = $('contributions-list');
+  container.innerHTML = '';
+  list.forEach((contribution) => container.appendChild(contributionCard(contribution)));
+
+  show('screen-contributions');
+}
+
+function contributionCard(contribution) {
+  const card = document.createElement('div');
+  card.className = 'card stack contribution-card';
+  if (contribution.status === 'released') card.classList.add('is-released');
+  if (contribution.status === 'delivery_failed') card.classList.add('is-failed');
+
+  const head = document.createElement('div');
+  head.className = 'contribution-head';
+  const kind = document.createElement('span');
+  kind.className = 'contribution-kind';
+  kind.textContent = CONTRIBUTION_KIND[contribution.category] || 'Feedback';
+  const date = document.createElement('span');
+  date.className = 'contribution-date';
+  date.textContent = contribution.createdAt
+    ? new Date(contribution.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+    : '';
+  head.appendChild(kind);
+  head.appendChild(date);
+  card.appendChild(head);
+
+  const title = document.createElement('p');
+  title.className = 'contribution-title';
+  title.textContent = contribution.title || 'Your report';
+  card.appendChild(title);
+
+  const status = document.createElement('p');
+  status.className = 'contribution-status';
+  // A shipped card says what changed and in which version, in the learner's
+  // own terms — it credits them here, locally, and publishes nothing.
+  status.textContent = contribution.status === 'released' && contribution.releaseMessage
+    ? contribution.releaseMessage
+    : (STATUS_TEXT[contribution.status] || '');
+  card.appendChild(status);
+
+  if (contribution.status === 'released' && contribution.releasedIn) {
+    const version = document.createElement('p');
+    version.className = 'hint';
+    version.textContent = `Arrived in version ${contribution.releasedIn}.`;
+    card.appendChild(version);
+  }
+
+  const actions = document.createElement('div');
+  actions.className = 'contribution-actions';
+  // Only ever offered for a tracker the learner can actually open. A private
+  // inbox would hand them a 404, which reads as being shut out of their own
+  // report rather than as the privacy measure it is.
+  if (contribution.issueUrl) {
+    const link = document.createElement('a');
+    link.className = 'btn';
+    link.href = contribution.issueUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Open on GitHub';
+    actions.appendChild(link);
+  }
+  const forget = document.createElement('button');
+  forget.type = 'button';
+  forget.className = 'btn btn-quiet';
+  forget.textContent = 'Remove from this list';
+  forget.addEventListener('click', () => forgetContribution(contribution.id, contribution.title));
+  actions.appendChild(forget);
+  card.appendChild(actions);
+
+  return card;
+}
+
+/**
+ * Removing writes a TOMBSTONE rather than deleting the key, so a device that
+ * has been switched off cannot resurrect it on the next sync. It does not
+ * delete the GitHub issue, which the confirmation says plainly — quietly
+ * implying otherwise would be the more comfortable lie.
+ */
+async function forgetContribution(id, title) {
+  const ok = confirm(`Remove "${title || 'this report'}" from your list?\n\n`
+    + 'It stays with the team — this only stops it showing here, on all your devices.');
+  if (!ok) return;
+  delete state.profile.contributions[id];
+  state.profile.forgottenContributions[id] = Date.now();
+  await store.saveProfile(state.profile);
+  renderContributions();
+}
+
 /** The splash is plain HTML shown before boot() runs at all (see index.html)
  * — this is what takes it back down once there's a real screen underneath. */
 function hideSplash() {
@@ -8896,8 +9420,10 @@ function watchLifecycleForSync() {
   // DOM in test/wiring.js has no window.addEventListener.
   if (typeof window.addEventListener === 'function') {
     window.addEventListener('online', () => autoSync({ force: true }));
+    window.addEventListener('online', () => catchUpOnContributions({ force: true }));
   }
 }
+
 
 async function boot() {
   wire();
