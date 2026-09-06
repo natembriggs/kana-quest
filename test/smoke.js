@@ -13,7 +13,7 @@ const {
   COURSES, romajiFor, writingPromptFor, checkRomaji, buildChoices,
 } = await import('../src/kana.js');
 const {
-  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel,
+  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, meaningKeys,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded,
 } = await import('../src/kanji.js');
@@ -1044,6 +1044,39 @@ check('the definition answer is English prose, not a reading',
   /[a-z]/i.test(defOne.answer), defOne.answer);
 check('definition options carry no radical-name text',
   defOne.options.every((o) => !/radical\s*\(no/i.test(o)));
+
+// The bug the tester actually hit: 内 ("inside, within") and 中 ("in,
+// inside") on the same question — different labels, sharing "inside", so
+// "they both are 'in'" is a fair complaint rather than a hard question. The
+// two live in different grades (内 is grade 2, 中 is grade 1) and can only
+// meet in the "all kanji" review pool, which merges every grade's index
+// into one for review sessions (allKanjiPool() in app.js) — so the check
+// below rebuilds that same merge rather than testing one grade at a time.
+const allKanjiIndex = new Map();
+for (const course of KANJI_COURSES) for (const [k, v] of course.index) allKanjiIndex.set(k, v);
+const allKanjiCourse = { index: allKanjiIndex };
+let crossGradeOverlap = 0, crossGradeTotal = 0;
+for (const kanji of allKanjiIndex.keys()) {
+  crossGradeTotal += 1;
+  const answerKeys = meaningKeys(kanjiInfo(allKanjiCourse, kanji));
+  const { options, answer } = buildDefinitionChoices(allKanjiCourse, kanji);
+  for (const label of options) {
+    if (label === answer) continue;
+    const other = [...allKanjiIndex.values()].find((e) => meaningLabel(e) === label);
+    if (other && [...meaningKeys(other)].some((m) => answerKeys.has(m))) crossGradeOverlap += 1;
+  }
+}
+check('内 and 中 no longer share a Definition question in the all-kanji review pool',
+  (() => {
+    const naiLabel = meaningLabel(kanjiInfo(allKanjiCourse, '内'));
+    let leaks = 0;
+    for (let i = 0; i < 200; i += 1) {
+      if (buildDefinitionChoices(allKanjiCourse, '中').options.includes(naiLabel)) leaks += 1;
+    }
+    return leaks === 0;
+  })());
+check('no Definition question in the all-kanji pool offers two options sharing a meaning',
+  crossGradeOverlap === 0, `${crossGradeOverlap} of ${crossGradeTotal}`);
 done('definition mode choices');
 
 // --- Kanji-level rollup, aggregated from per-reading records ---------------

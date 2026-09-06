@@ -100,6 +100,16 @@ export function meaningLabel(info) {
   return info.meanings.slice(0, MEANINGS_PER_LABEL).join(', ');
 }
 
+/** Every meaning a kanji has, lowercased — the key set buildDefinitionChoices
+ * excludes distractors on. Two kanji can share a meaning without their
+ * labels matching as strings (内 "inside, within" vs 中 "in, inside"), and
+ * offering one as a wrong answer to the other makes the question
+ * unanswerable rather than hard. Mirrors glossKeys() in vocab.js, which
+ * fixed the same class of bug there first. */
+export function meaningKeys(info) {
+  return new Set(info.meanings.map((m) => m.toLowerCase()));
+}
+
 /**
  * How a reading should actually be SHOWN to a learner — everywhere else in
  * the app (quiz matching, dataset.reading, readingExamples lookups, the
@@ -327,19 +337,30 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
  * is one option rather than each meaning separately, so there is exactly one
  * defensible answer instead of several overlapping ones.
  *
+ * A candidate sharing ANY meaning with the answer kanji is excluded outright
+ * (meaningKeys above), not just one with an identical label — 内 "inside,
+ * within" and 中 "in, inside" are different strings and the same button.
+ * Deduping on the label string alone used to be all this did, which is
+ * exactly how those two ended up on the same question. A grade that can't
+ * spare `count` safe distractors returns fewer options rather than relaxing
+ * the rule; a three-way question is still a question.
+ *
  * Returns { options, answer }.
  */
 export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS) {
-  const answer = meaningLabel(kanjiInfo(course, kanji));
+  const info = kanjiInfo(course, kanji);
+  const answer = meaningLabel(info);
+  const banned = meaningKeys(info);
   const used = new Set([answer]);
   const options = [answer];
 
-  for (const entry of shuffle([...course.index.values()])) {
+  const pool = shuffle([...course.index.values()])
+    .filter((entry) => entry.kanji !== kanji
+      && ![...meaningKeys(entry)].some((m) => banned.has(m)));
+
+  for (const entry of pool) {
     if (options.length >= count) break;
-    if (entry.kanji === kanji) continue;
     const label = meaningLabel(entry);
-    // Different kanji can share a meaning; an identical label would make the
-    // question unanswerable.
     if (!label || used.has(label)) continue;
     used.add(label);
     options.push(label);
