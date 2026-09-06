@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06j'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -1463,7 +1463,7 @@ function renderWritingModePicker() {
   }
   picker.hidden = false;
   hint.hidden = false;
-  const current = state.profile.settings.writingModePreference || 'dynamic';
+  const current = state.profile.settings.writingModePreference || 'guided';
   picker.innerHTML = '';
   WRITING_MODE_PREFS.forEach((pref) => {
     const button = document.createElement('button');
@@ -3597,6 +3597,24 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     return;
   }
 
+  // Writing mode's first-ever look at a new kanji gets a fixed drill —
+  // Trace, Trace, then Guided, back to back for that same kanji — before
+  // moving on to the next new kanji's own Trace-Trace-Guided run. This wins
+  // over both writingModePreference and autoWritingMode's per-question
+  // mastery pick (see writingIntroModeByPosition's use in
+  // renderWritingQuestion below): a first look at a kanji's strokes needs
+  // the whole guide walked through twice before being tested even partly
+  // blind, which neither a fixed pref nor mastery-based Dynamic would
+  // otherwise guarantee. Scoped to kind 'new' (this only ever teaches
+  // characters not yet introduced in writing mode) and to kanji specifically
+  // — kana have no equivalent "introducing a new character" moment worth
+  // singling out this way.
+  let writingIntroModeByPosition = null;
+  if (kind === 'new' && state.mode === 'writing' && course.kind === 'kanji') {
+    writingIntroModeByPosition = built.quiz.flatMap(() => ['trace', 'trace', 'guided']);
+    built = { lesson: built.lesson, quiz: built.quiz.flatMap((k) => [k, k, k]) };
+  }
+
   // The item list can span several grades — the "everything I'm studying"
   // pool (§2.4) is the whole study list, not one grade — so every grade
   // actually touched gets loaded, not just course.unit (which for that pool
@@ -3673,6 +3691,11 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     // initialized here so it has a sane value before the first question
     // renders.
     writingSubMode: 'trace',
+    // Trace/Trace/Guided per new kanji, keyed by queue position rather than
+    // by character (the same kanji occupies three consecutive positions) —
+    // see the module comment above where this is built, and its use in
+    // renderWritingQuestion below. null outside a new-kanji writing session.
+    writingIntroModeByPosition,
   };
 
   // A session in the nudged unit is what the nudge's "Maybe later" counter
@@ -5206,14 +5229,18 @@ function createAttemptForMode(item, mode) {
 
 function renderWritingQuestion(course, item) {
   const session = state.session;
-  // writingModeOverride is set either from a fixed practice-mode choice made
-  // before the session started (the course-screen picker) or from touching
-  // the in-session toggle/a difficulty-ladder button (writingSetSubMode()) —
-  // either way it wins outright. Left null ("Dynamic"), each question picks
-  // its own mode fresh from THIS character's own mastery instead — see
-  // autoWritingMode() in srs.js.
+  // writingIntroModeByPosition (set in startSession()) wins outright over
+  // everything else — a brand-new kanji's fixed Trace/Trace/Guided drill is
+  // not something a practice-mode preference or the in-session toggle should
+  // be able to skip past. Failing that, writingModeOverride is set either
+  // from a fixed practice-mode choice made before the session started (the
+  // course-screen picker) or from touching the in-session toggle/a
+  // difficulty-ladder button (writingSetSubMode()). Left null ("Dynamic"),
+  // each question picks its own mode fresh from THIS character's own mastery
+  // instead — see autoWritingMode() in srs.js.
   const record = state.profile.progress[itemKey('writing', item)];
-  const mode = session.writingModeOverride || autoWritingMode(record);
+  const introMode = session.writingIntroModeByPosition && session.writingIntroModeByPosition[session.position];
+  const mode = introMode || session.writingModeOverride || autoWritingMode(record);
   session.writingSubMode = mode;
 
   const isKanji = course.kind === 'kanji';
@@ -5248,6 +5275,10 @@ function renderWritingQuestion(course, item) {
   $('writing-self-grade').hidden = true;
   $('writing-free-actions').hidden = true;
   $('writing-switch-mode').hidden = true;
+  // Hidden for the length of a new kanji's forced Trace/Trace/Guided drill —
+  // introMode already overrides whatever this picked, so offering it here
+  // would just be a control that visibly does nothing.
+  $('writing-difficulty').hidden = !!introMode;
   // Trace already shows the whole guide — the hint row only makes sense
   // where something is actually being hidden, and only while still in
   // progress (finishWritingCharacter hides it again once finished).
@@ -5697,8 +5728,15 @@ function finishWritingCharacter(explicitCorrect) {
     : 'Okay — marked for more practice.';
 
   // One button whose label/target adapts to the outcome, never both — see
-  // the module comment above #writing-result in index.html.
-  const target = correct ? nextHarderMode(session.writingSubMode) : nextEasierMode(session.writingSubMode);
+  // the module comment above #writing-result in index.html. Suppressed
+  // during a new kanji's forced Trace/Trace/Guided drill (see
+  // writingIntroModeByPosition in startSession()) — introMode overrules
+  // whatever this would switch to, so offering it would just be a dead
+  // button.
+  const introLocked = !!(session.writingIntroModeByPosition && session.writingIntroModeByPosition[session.position]);
+  const target = introLocked
+    ? null
+    : (correct ? nextHarderMode(session.writingSubMode) : nextEasierMode(session.writingSubMode));
   const switchButton = $('writing-switch-mode');
   switchButton.hidden = !target;
   switchButton.textContent = correct ? 'Try harder mode' : 'Switch to easier mode';

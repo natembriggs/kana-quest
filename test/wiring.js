@@ -694,6 +694,20 @@ check('the writing mode button is enabled', !!writingModeButton && writingModeBu
 fire(writingModeButton, 'click');
 await settle();
 
+// A fresh profile's writing practice-mode preference defaults to Guided,
+// not Dynamic — Dynamic's per-character switching was judged too confusing
+// to be the default (see store.js's defaultSettings). Checked here, before
+// anything below touches the setting.
+check('a fresh profile\'s writing practice-mode picker defaults to Guided',
+  el('writing-mode-picker')._children.find((b) => b.textContent === 'Guided').className.includes('active'));
+
+// This section exercises Trace/Guided/Free's own intrinsic behaviour, not
+// whatever writingModePreference happens to default to — so it fixes the
+// preference to Trace explicitly, exactly as the later course-screen-picker
+// section (below) does for Guided.
+fire(el('writing-mode-picker')._children.find((b) => b.textContent === 'Trace'), 'click');
+await settle();
+
 const writingCourseButtons = buttonsIn(el('course-list')._children[0]);
 const writingLearnButton = writingCourseButtons.find((b) => (b.innerHTML || '').includes('Learn <b>'));
 check('writing mode offers an "add more" button too', !!writingLearnButton);
@@ -1824,12 +1838,45 @@ check('every character in a brand-new writing session defaults to Trace — none
 fire(writingContinueButton(), 'click');
 await settle();
 
+// New-kanji writing drill: the same kanji comes back for a second Trace
+// pass, then jumps to Guided, before the NEXT new kanji starts its own
+// Trace/Trace/Guided run — regardless of writingModePreference (still fixed
+// to Trace here, carried over from the kana section above). This wins over
+// even a fixed preference; see writingIntroModeByPosition in startSession()
+// (app.js).
+check('the same new kanji comes back for a second Trace pass, not a different one',
+  el('screen-writing').dataset.char === kanjiWritingChar
+  && el('writing-guide').className.includes('mode-trace'),
+  `char ${el('screen-writing').dataset.char}, guide ${el('writing-guide').className}`);
+for (let i = 0; i < kanjiWritingStrokeCount; i += 1) {
+  traceModelStroke(kanjiWritingChar, i);
+  await settle();
+}
+fire(writingContinueButton(), 'click');
+await settle();
+check('the third pass on that same new kanji jumps straight to Guided',
+  el('screen-writing').dataset.char === kanjiWritingChar
+  && el('writing-guide').className.includes('mode-guided'),
+  `char ${el('screen-writing').dataset.char}, guide ${el('writing-guide').className}`);
+for (let i = 0; i < kanjiWritingStrokeCount; i += 1) {
+  traceModelStroke(kanjiWritingChar, i);
+  await settle();
+}
+fire(writingContinueButton(), 'click');
+await settle();
+check('the next new kanji starts its own drill back at Trace, not wherever Guided left off',
+  el('screen-writing').dataset.char !== kanjiWritingChar
+  && el('writing-guide').className.includes('mode-trace'),
+  `char ${el('screen-writing').dataset.char}, guide ${el('writing-guide').className}`);
+
 // Every other mode's quiz is driven all the way to the summary screen and
 // checked there (see the recognition/Yomi/Definition sections above) —
 // writing mode never had been, so this is also the first proof that
 // finishSession()/the summary chips work correctly for it, not just that a
-// single question does.
-for (let i = 0; i < 10 && visible() === 'screen-writing'; i += 1) {
+// single question does. The cap is generous (not just newPerSession's 5)
+// because the new-kanji drill above triples every remaining character into
+// three queue positions (Trace, Trace, Guided).
+for (let i = 0; i < 20 && visible() === 'screen-writing'; i += 1) {
   const char = el('screen-writing').dataset.char;
   const strokeCount = strokesFor(char).strokes.length;
   for (let s = 0; s < strokeCount; s += 1) {
@@ -1907,6 +1954,14 @@ await settle();
 // in Trace, one question too late for a learner who wants Guided from the
 // very start. Uses grade 2, untouched by any earlier section, so its first
 // character is guaranteed to have no mastery record at all.
+//
+// Kanji specifically carves out an exception to "a fixed preference applies
+// from the very first character" though: a brand-new kanji's own forced
+// Trace/Trace/Guided drill (see the grade-1 section above and
+// writingIntroModeByPosition in startSession(), app.js) wins over even a
+// deliberately chosen fixed preference — this section proves that by
+// choosing Guided here and then watching the first character start in Trace
+// anyway.
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
@@ -1919,14 +1974,18 @@ const modePrefButtons = el('writing-mode-picker')._children;
 check('the writing practice-mode picker offers Dynamic, Trace, Guided, Free, in that order',
   modePrefButtons.map((b) => b.textContent).join(',') === 'Dynamic,Trace,Guided,Free',
   modePrefButtons.map((b) => b.textContent).join(','));
-check('it defaults to Dynamic', modePrefButtons[0].className.includes('active'));
+// writingModePreference is one shared setting, not per-course — this reads
+// back the Trace choice made for kana earlier in this file, not a fresh
+// default (that was already checked, before anything touched the setting).
+check('the Trace choice made for kana above is still active here',
+  modePrefButtons.find((b) => b.textContent === 'Trace').className.includes('active'));
 
 fire(modePrefButtons.find((b) => b.textContent === 'Guided'), 'click');
 await settle();
 const modePrefButtonsAfter = el('writing-mode-picker')._children;
-check('choosing Guided marks it active and Dynamic no longer active',
+check('choosing Guided marks it active and Trace no longer active',
   modePrefButtonsAfter.find((b) => b.textContent === 'Guided').className.includes('active')
-  && !modePrefButtonsAfter.find((b) => b.textContent === 'Dynamic').className.includes('active'));
+  && !modePrefButtonsAfter.find((b) => b.textContent === 'Trace').className.includes('active'));
 
 const gradeTwoSaved = [...rows.values()][0];
 check('the choice is persisted to the profile immediately, before any session has started',
@@ -1941,10 +2000,10 @@ for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   await settle();
 }
 check('the fixed-preference session reaches the writing screen', visible() === 'screen-writing', `showing ${visible()}`);
-check('a Guided preference applies from the very first character, even though it is brand new — Dynamic would have picked Trace for it',
-  el('writing-guide').className.includes('mode-guided')
-  && el('writing-mode-guided').className.includes('active')
-  && el('writing-hints').hidden === false,
+check('a brand-new kanji starts in Trace even with a Guided preference chosen — the new-kanji drill overrides it',
+  el('writing-guide').className.includes('mode-trace')
+  && el('writing-mode-trace').className.includes('active')
+  && el('writing-difficulty').hidden === true,
   el('writing-guide').className);
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });

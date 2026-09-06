@@ -84,11 +84,13 @@ export function defaultSettings() {
   // two children sharing a device can set it differently. A profile saved
   // before this field existed just reads as undefined and falls back to
   // DEFAULT_STRICTNESS wherever it's used — no migration needed.
-  // writingModePreference is 'dynamic' (Trace/Guided/Free chosen per
-  // character from its own mastery — see autoWritingMode in srs.js) or a
-  // fixed 'trace'/'guided'/'free' that applies to every character from the
-  // very first one of a session, chosen before starting on the course
-  // screen. Same no-migration fallback as strictness.
+  // writingModePreference is a fixed 'trace'/'guided'/'free' that applies to
+  // every character from the very first one of a session, chosen before
+  // starting on the course screen, or 'dynamic' (Trace/Guided/Free chosen per
+  // character from its own mastery — see autoWritingMode in srs.js). Defaults
+  // to 'guided' rather than 'dynamic': dynamic's per-character switching was
+  // judged too confusing to be the default. Same no-migration fallback as
+  // strictness.
   // accentColor is one of ACCENT_COLORS' ids (app.js) — the learner's
   // chosen brand colour, applied via a data-accent attribute whenever their
   // profile is open (applyAccentColor() in app.js). Same no-migration
@@ -105,7 +107,7 @@ export function defaultSettings() {
     newPerSession: 5,
     maxReviews: 15,
     strictness: DEFAULT_STRICTNESS,
-    writingModePreference: 'dynamic',
+    writingModePreference: 'guided',
     accentColor: 'coral',
     vocabProgression: 'common',
   };
