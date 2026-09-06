@@ -1219,7 +1219,26 @@ button.quiz-glyph-tap {
   color: var(--ink);
   text-align: center;
   max-width: 34em;
+  /* It is a <button>, but it has to read as the sentence it is — the tap
+     target is the whole hint, not a control sitting next to one. Everything
+     here is undoing the browser's button chrome; the only thing that says
+     "this does something" is the press state below, plus the explicit
+     Add/Edit button underneath it. */
+  display: block;
+  width: 100%;
+  padding: 4px 6px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  border-radius: 8px;
 }
+/* The whole point of making the sentence tappable: the moment you decide you
+   don't like a hint, changing it is one tap on the thing you are objecting
+   to, not a hunt for a control. */
+.mnemonic-text:active { background: var(--surface); }
+.mnemonic-text:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* A hint the learner wrote themselves, rather than the built-in one. Marked
    quietly — an accent bar down the side rather than a colour change on the

@@ -2130,6 +2130,24 @@ check('the edit button offers to ADD when nothing has been written yet',
 const editorButtons = (node) => node._children
   .flatMap((c) => (c.className.includes('row') ? c._children : [c]));
 
+// The hint sentence itself is the low-friction route into the editor — the
+// tap lands on the thing you are objecting to, rather than on a control
+// beside it. The explicit button below is the discoverable route to the
+// same place, and both are checked.
+fire(el('detail-mnemonic'), 'click');
+await settle();
+check('tapping the hint text itself opens the editor',
+  el('detail-mnemonic-editor').hidden === false
+  && el('detail-mnemonic-editor')._children.length > 0);
+const openedByText = editorButtons(el('detail-mnemonic-editor'))
+  .find((c) => c.textContent === 'Cancel');
+check('the editor opened that way offers Cancel', !!openedByText);
+fire(openedByText, 'click');
+await settle();
+check('cancelling closes it again and restores the hint',
+  el('detail-mnemonic-editor').hidden === true
+  && el('detail-mnemonic').hidden === false);
+
 fire(el('detail-edit-mnemonic'), 'click');
 await settle();
 const editor = el('detail-mnemonic-editor');

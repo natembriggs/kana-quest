@@ -69,7 +69,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3052,7 +3052,15 @@ function armHintButton(buttonId, wrapId, rowId, mnemonicId, editButtonId, editor
   button.hidden = !(hint || (entry && entry.parts.length));
   if (button.hidden) return;
   button.onclick = () => {
-    paintComponents(wrapId, rowId, mnemonicId, course, char, null);
+    const reveal = () => {
+      paintComponents(wrapId, rowId, mnemonicId, course, char, null);
+      // visible:false keeps the Add/Edit button out of a live question —
+      // but the hint sentence itself is armed, so it can still be rewritten
+      // on the spot by tapping it.
+      armMnemonicEditor(editButtonId, mnemonicId, editorId, course, char,
+        { visible: false, repaint: reveal });
+    };
+    reveal();
     button.hidden = true; // one-way: once shown it stays, there is nothing to re-hide
   };
 }
@@ -3073,7 +3081,7 @@ function offerMnemonicAfterFailure(wrapId, rowId, mnemonicId, editButtonId, edit
   const repaint = () => {
     paintComponents(wrapId, rowId, mnemonicId, course, char, null);
     $(wrapId).hidden = false;
-    armMnemonicEditor(editButtonId, editorId, course, char, { repaint });
+    armMnemonicEditor(editButtonId, mnemonicId, editorId, course, char, { repaint });
   };
   repaint();
 }
@@ -3115,17 +3123,23 @@ function ownsMnemonic(char) {
  * never claims to edit something they didn't write. `visible` is what lets
  * the quiz surfaces hold it back until a question has actually been failed.
  */
-function armMnemonicEditor(buttonId, editorId, course, char, { visible = true, repaint }) {
+function armMnemonicEditor(buttonId, mnemonicId, editorId, course, char, { visible = true, repaint }) {
   const button = $(buttonId);
   const editor = $(editorId);
+  const hint = $(mnemonicId);
   editor.hidden = true;
   editor.innerHTML = '';
+  hint.onclick = null;
   const editable = course.kind === 'kanji';
   button.hidden = !editable || !visible;
   if (!editable) return;
   button.textContent = ownsMnemonic(char) ? 'Edit this hint' : 'Add your own hint';
-  button.onclick = () => {
+  const open = () => {
     button.hidden = true;
+    // No re-entry while the editor is open: the hint stays on screen above
+    // the field (it is what you are rewriting), and a second tap on it would
+    // rebuild the editor and throw away whatever had been typed.
+    hint.onclick = null;
     editor.hidden = false;
     const own = (state.profile.mnemonics || {})[char];
     renderMnemonicEditor(editor, {
@@ -3140,6 +3154,14 @@ function armMnemonicEditor(buttonId, editorId, course, char, { visible = true, r
       onCancel: () => repaint(),
     });
   };
+  button.onclick = open;
+  // The hint text itself is the low-friction route to the same editor, and
+  // the one that matters: you realise you don't like a hint while you are
+  // reading it, so that is where the tap should land. Armed even where the
+  // Add/Edit button is deliberately held back (mid-question, see
+  // armHintButton) — seeing a hint is enough reason to be able to fix it.
+  hint.onclick = open;
+  hint.title = ownsMnemonic(char) ? 'Tap to edit your hint' : 'Tap to write your own hint';
 }
 
 /** The lesson card's components block. Same repaint contract as the detail
@@ -3148,9 +3170,8 @@ function armMnemonicEditor(buttonId, editorId, course, char, { visible = true, r
 function paintLessonComponents(course, item) {
   paintComponents('lesson-components-wrap', 'lesson-components', 'lesson-mnemonic',
     course, item, openFromLesson);
-  armMnemonicEditor('lesson-edit-mnemonic', 'lesson-mnemonic-editor', course, item, {
-    repaint: () => paintLessonComponents(course, item),
-  });
+  armMnemonicEditor('lesson-edit-mnemonic', 'lesson-mnemonic', 'lesson-mnemonic-editor',
+    course, item, { repaint: () => paintLessonComponents(course, item) });
   if (course.kind === 'kanji') $('lesson-components-wrap').hidden = false;
 }
 
@@ -3160,9 +3181,8 @@ function paintLessonComponents(course, item) {
 function paintDetailComponents(course, char) {
   paintComponents('detail-components-wrap', 'detail-components', 'detail-mnemonic',
     course, char, drillIntoDetail);
-  armMnemonicEditor('detail-edit-mnemonic', 'detail-mnemonic-editor', course, char, {
-    repaint: () => paintDetailComponents(course, char),
-  });
+  armMnemonicEditor('detail-edit-mnemonic', 'detail-mnemonic', 'detail-mnemonic-editor',
+    course, char, { repaint: () => paintDetailComponents(course, char) });
   // The wrapper hides itself when there are no parts and no hint — but the
   // editor button has to stay reachable in exactly that case, since a kanji
   // with nothing to say about it yet is the one most worth writing a hint

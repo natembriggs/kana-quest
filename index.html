@@ -584,7 +584,7 @@
          renderComponentBreakdown() in kanji-components.js. -->
     <div id="detail-components-wrap" class="components-wrap" hidden>
       <div id="detail-components" class="component-row"></div>
-      <p id="detail-mnemonic" class="mnemonic-text" hidden></p>
+      <button id="detail-mnemonic" class="mnemonic-text" type="button" hidden></button>
       <!-- The hint above is only a default. Anyone who thinks of a better
            hook for this character can write it here instead, and theirs is
            what every screen shows from then on — kept per learner and synced
@@ -724,7 +724,7 @@
            learner already half-knows. -->
       <div id="lesson-components-wrap" class="components-wrap" hidden>
         <div id="lesson-components" class="component-row"></div>
-        <p id="lesson-mnemonic" class="mnemonic-text" hidden></p>
+        <button id="lesson-mnemonic" class="mnemonic-text" type="button" hidden></button>
         <button id="lesson-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button"></button>
         <div id="lesson-mnemonic-editor" class="mnemonic-editor" hidden></div>
       </div>
@@ -773,7 +773,7 @@
            already holds. Revealed by #writing-show-hint. -->
       <div id="writing-hint-panel" class="components-wrap" hidden>
         <div id="writing-hint-components" class="component-row"></div>
-        <p id="writing-hint-mnemonic" class="mnemonic-text" hidden></p>
+        <button id="writing-hint-mnemonic" class="mnemonic-text" type="button" hidden></button>
         <!-- Same rule as the quiz's: offered once the character has been
              drawn wrong, and not before. -->
         <button id="writing-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button" hidden></button>
@@ -981,7 +981,7 @@
          one is post-answer review and does navigate). -->
     <div id="quiz-hint-panel" class="components-wrap quiz-hint-panel" hidden>
       <div id="quiz-hint-components" class="component-row"></div>
-      <p id="quiz-hint-mnemonic" class="mnemonic-text" hidden></p>
+      <button id="quiz-hint-mnemonic" class="mnemonic-text" type="button" hidden></button>
       <!-- Shown once the round resolves badly, not while it is still open:
            getting a character wrong is the moment a learner actually knows
            what would have helped them, and making them leave for the detail
