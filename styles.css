@@ -591,6 +591,36 @@ button.quiz-glyph-tap {
   resize: vertical;
 }
 
+/* Lets a mic button sit inside the title input / details textarea instead of
+   competing with it for a row of its own. Hidden by setupFeedbackVoiceButtons
+   in app.js when the browser has no SpeechRecognition to offer. */
+.field-with-mic { position: relative; }
+.field-with-mic input, .field-with-mic textarea { padding-right: 44px; width: 100%; }
+.mic-btn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.field-with-mic input ~ .mic-btn { top: 50%; transform: translateY(-50%); }
+.mic-btn:hover, .mic-btn:active { background: var(--line); }
+.mic-btn.listening { color: #fff; background: #e5484d; animation: mic-pulse 1.4s ease-in-out infinite; }
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.45); }
+  50% { box-shadow: 0 0 0 6px rgba(229, 72, 77, 0); }
+}
+
 .search-field { position: relative; }
 .search-input {
   min-height: var(--tap);

@@ -82,13 +82,21 @@
       <p id="feedback-category-label" class="feedback-chosen"></p>
       <label class="field">
         <span>In a few words</span>
-        <input id="feedback-title" type="text" maxlength="100" autocomplete="off"
-               placeholder="What is it about?">
+        <div class="field-with-mic">
+          <input id="feedback-title" type="text" maxlength="100" autocomplete="off"
+                 placeholder="What is it about?">
+          <button id="feedback-title-mic" class="mic-btn" type="button"
+                  data-voice-for="feedback-title" aria-label="Use voice instead of typing">🎤</button>
+        </div>
       </label>
       <label class="field">
         <span>Tell us more</span>
-        <textarea id="feedback-details" rows="5" maxlength="4000"
-                  placeholder="What happened? What were you doing?"></textarea>
+        <div class="field-with-mic">
+          <textarea id="feedback-details" rows="5" maxlength="4000"
+                    placeholder="What happened? What were you doing?"></textarea>
+          <button id="feedback-details-mic" class="mic-btn" type="button"
+                  data-voice-for="feedback-details" aria-label="Use voice instead of typing">🎤</button>
+        </div>
       </label>
       <p id="feedback-count" class="hint feedback-count"></p>
 

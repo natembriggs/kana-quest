@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-06',
     changes: [
+      'New: the feedback form now has a \u{1F3A4} button on both the title and the "Tell us more" box, so you can dictate a report instead of typing it — tap it, talk, and tap again to stop. Uses your browser’s own speech-to-text, so it only shows up where that’s available (Chrome and Safari, on phone or computer); nothing is sent anywhere until you press Send.',
       'Changed: the "Feedback and ideas" card in Settings is now "My contributions", moved up next to Writing strictness. If you’ve sent a report, it now shows as two tappable badges — how many reports you’ve sent, and (once you have one) how many of your ideas have shipped — that open a scrollable list of everything you’ve told us. Reports that are settled read in green and sort to the top; tap a title to see what happened to it, and closed ones get a \u{1F389} you can tap for the thank-you message.',
       'Fixed: in Writing mode, the Next button (or the Easy/OK/Hard choice that replaces it) used to end up below the bottom of the screen on shorter phones, so you had to scroll down to tap it after finishing every kanji. It now stays pinned in reach at the bottom, the same way the quiz screens already work.',
       'Fixed: a kanji Definition question could offer two answers that mean the same thing in English — like 内 ("inside, within") next to 中 ("in, inside") — making it a coin flip instead of a real question. Found and fixed everywhere it happened: 5,616 pairs like it, across every kanji the app teaches.',

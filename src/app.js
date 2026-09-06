@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8551,6 +8551,7 @@ function wire() {
   });
 
   $('feedback-details').addEventListener('input', updateFeedbackCount);
+  setupFeedbackVoiceButtons();
   $('sync-nudge-dismiss').addEventListener('click', () => {
     $('sync-nudge').hidden = true;
     if (state.profile) dismissSyncNudge(state.profile.id);
@@ -8625,6 +8626,7 @@ function wire() {
       case 'open-feedback': openFeedback(); break;
       case 'feedback-close': closeFeedback(); break;
       case 'feedback-back':
+        stopFeedbackVoice();
         $('feedback-step-form').hidden = true;
         $('feedback-step-category').hidden = false;
         break;
@@ -9007,6 +9009,7 @@ function feedbackRoute() {
 
 function openFeedback() {
   const sheet = $('feedback-sheet');
+  stopFeedbackVoice();
   state.feedbackDraft = null;
   renderFeedbackCategories();
   $('feedback-step-category').hidden = false;
@@ -9080,6 +9083,7 @@ function closeDialog(root) {
 }
 
 function closeFeedback() {
+  stopFeedbackVoice();
   $('feedback-sheet').hidden = true;
   closeDialog($('feedback-sheet'));
   $('feedback-turnstile').innerHTML = '';
@@ -9136,6 +9140,83 @@ function updateFeedbackCount() {
   $('feedback-count').textContent = used ? `${used} / 4000` : '';
 }
 
+// Voice input for the feedback form (title + details). Only Chrome/Safari
+// implement SpeechRecognition today, so the mic buttons are hidden entirely
+// where it doesn't exist rather than shown-then-broken. One recognition
+// session runs at a time — starting one field's mic stops the other's.
+let feedbackRecognition = null;
+let feedbackVoiceButton = null;
+
+function getSpeechRecognitionCtor() {
+  return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+}
+
+function setupFeedbackVoiceButtons() {
+  const Ctor = getSpeechRecognitionCtor();
+  const buttons = [$('feedback-title-mic'), $('feedback-details-mic')];
+  if (!Ctor) {
+    buttons.forEach((button) => { button.hidden = true; });
+    return;
+  }
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (feedbackVoiceButton === button) stopFeedbackVoice();
+      else startFeedbackVoice(button);
+    });
+  });
+}
+
+function stopFeedbackVoice() {
+  if (feedbackRecognition) {
+    const recognition = feedbackRecognition;
+    feedbackRecognition = null;
+    recognition.onend = null;
+    recognition.stop();
+  }
+  if (feedbackVoiceButton) {
+    feedbackVoiceButton.classList.remove('listening');
+    feedbackVoiceButton.setAttribute('aria-label', 'Use voice instead of typing');
+    feedbackVoiceButton = null;
+  }
+}
+
+function startFeedbackVoice(button) {
+  const Ctor = getSpeechRecognitionCtor();
+  if (!Ctor) return;
+  stopFeedbackVoice();
+
+  const field = $(button.dataset.voiceFor);
+  const baseValue = field.value;
+  const needsSpace = baseValue.length > 0 && !/\s$/.test(baseValue);
+  const recognition = new Ctor();
+  recognition.lang = navigator.language || 'en-US';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = 0; i < event.results.length; i += 1) transcript += event.results[i][0].transcript;
+    field.value = transcript ? `${baseValue}${needsSpace ? ' ' : ''}${transcript}` : baseValue;
+    if (field.id === 'feedback-details') updateFeedbackCount();
+  };
+  recognition.onerror = (event) => {
+    if (event.error !== 'no-speech' && event.error !== 'aborted') {
+      feedbackError("Couldn't hear you through the microphone — you can still type.");
+    }
+  };
+  recognition.onend = () => { if (feedbackRecognition === recognition) stopFeedbackVoice(); };
+
+  feedbackRecognition = recognition;
+  feedbackVoiceButton = button;
+  button.classList.add('listening');
+  button.setAttribute('aria-label', 'Stop voice input');
+  try {
+    recognition.start();
+  } catch {
+    stopFeedbackVoice();
+  }
+}
+
 function feedbackError(message) {
   const el = $('feedback-error');
   el.textContent = message;
@@ -9167,6 +9248,7 @@ async function stashFeedbackDraft(draft, title, details) {
 async function sendFeedback() {
   const draft = state.feedbackDraft;
   if (!draft || !state.profile) return;
+  stopFeedbackVoice();
   const title = $('feedback-title').value.trim();
   const details = $('feedback-details').value.trim();
 
