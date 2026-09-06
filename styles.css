@@ -565,6 +565,21 @@ button.quiz-glyph-tap {
   border-radius: 12px;
 }
 .field input[type="range"] { accent-color: var(--accent); height: 32px; }
+/* A <textarea> inherits none of the above and defaults to a white ground and
+   a monospace face, which in dark mode is a glaring white box. The feedback
+   form is the only textarea in the app, but the rule belongs with its
+   siblings rather than off in the feedback section. */
+.field textarea {
+  padding: 12px 14px;
+  font-size: 17px;
+  font-family: inherit;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  resize: vertical;
+}
 
 .search-field { position: relative; }
 .search-input {

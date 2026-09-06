@@ -730,6 +730,32 @@ function openProfile(profile) {
 // is always available and always means "don't ask again" — never "ask me next
 // time" — which is what keeps this from becoming a gate on reaching the app.
 
+/**
+ * Put an unsent draft back in the form. Crucially it reuses the existing id
+ * and receipt rather than minting new ones: the server resolves a repeat id
+ * to the row it already has, so a learner tapping this five times still
+ * produces one issue.
+ */
+function reopenDraft(contribution) {
+  openFeedback();
+  const category = FEEDBACK_CATEGORIES.find((c) => c.id === contribution.category)
+    || FEEDBACK_CATEGORIES[FEEDBACK_CATEGORIES.length - 1];
+  state.feedbackDraft = {
+    id: contribution.id,
+    receiptToken: contribution.receiptToken,
+    category: contribution.category,
+    diagnostics: contribution.pendingDiagnostics || {},
+  };
+  $('feedback-category-label').textContent = `${category.emoji} ${category.label}`;
+  $('feedback-step-category').hidden = true;
+  $('feedback-step-form').hidden = false;
+  $('feedback-title').value = contribution.title || '';
+  $('feedback-details').value = contribution.pendingDetails || '';
+  $('feedback-include-details').checked = Object.keys(state.feedbackDraft.diagnostics).length > 0;
+  renderFeedbackDiagnostics();
+  updateFeedbackCount();
+}
+
 /** Every exit from the flow: mark it done, persist, and land on home. */
 function completeOnboarding() {
   state.profile.onboarded = true;
@@ -8997,6 +9023,9 @@ function closeFeedback() {
   $('feedback-sheet').hidden = true;
   $('feedback-turnstile').innerHTML = '';
   state.feedbackDraft = null;
+  // If My contributions is the screen underneath, it is now out of date —
+  // a report was just added, or a stuck draft just went out.
+  if (state.profile && !$('screen-contributions').hidden) renderContributions();
 }
 
 function renderFeedbackCategories() {
@@ -9379,6 +9408,19 @@ function contributionCard(contribution) {
 
   const actions = document.createElement('div');
   actions.className = 'contribution-actions';
+  // A draft that never reached the server needs a way back to the form. A
+  // fresh Turnstile token has to be minted per attempt and the widget needs
+  // somewhere visible to render, so retrying genuinely cannot be silent —
+  // this is the "reopen the saved draft and tap Send" the plan calls for,
+  // rather than a promise of background delivery that would not be kept.
+  if (contribution.pendingDetails) {
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'btn btn-primary';
+    retry.textContent = 'Try sending again';
+    retry.addEventListener('click', () => reopenDraft(contribution));
+    actions.appendChild(retry);
+  }
   // Only ever offered for a tracker the learner can actually open. A private
   // inbox would hand them a 404, which reads as being shut out of their own
   // report rather than as the privacy measure it is.

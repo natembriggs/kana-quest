@@ -61,7 +61,11 @@ export const STATUS_STAGE = {
  * are all genuinely useful, and none of them require the idea to be built.
  */
 export const STATUS_TEXT = {
-  sending: 'Sending…',
+  // Only ever read on the My contributions screen, and a genuinely
+  // in-flight send is not visible there (the sheet is covering it). So
+  // this is what a STUCK draft says — one that never got out, usually
+  // because the device was offline when Send was tapped.
+  sending: 'Not sent yet — saved on this device.',
   accepted: 'Received — getting it to the team.',
   submitted: 'Thank you — it reached the team.',
   under_review: 'It is being looked at.',
