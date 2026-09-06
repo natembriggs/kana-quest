@@ -110,6 +110,25 @@ Writing and vocab Recall, where a glance can't tell you whether you know
 double-check review for each, spread out over the following weeks rather
 than all landing on one day — **I'm sure** sits beside it for when you are.
 
+## Starting from somewhere other than zero
+
+A brand-new learner is asked **where are you starting from?** before anything
+else: bring a profile across from another device, take a short beginner's
+guide, or answer four quick questions about how much hiragana, katakana,
+kanji and vocabulary you already know. Say you can read a whole script and it
+is marked known on the spot. Say you know *some* of something — which can't
+say *which* — and the app opens **What do you know?**, a checklist with one
+row per unit and mode: tap a row, tick what you know on that grid, and it
+hands straight back to the list with the next row queued. Kanji and
+vocabulary start at their first unit and grow one unit at a time, on request,
+so twenty kanji doesn't mean walking eighteen grades.
+
+None of it is a gate — every screen has a way out to the app, and an
+unfinished list waits on the home screen (and on the course screen of any
+script still on it, where **Mark as known** takes the highlight that would
+otherwise be on **Learn new**) until it is finished or waved away for good.
+The whole flow only ever appears for a brand-new profile.
+
 ## If a phone is stuck on an old version
 
 An iOS home-screen app is stubborn about picking up new code. **Settings →
@@ -480,6 +499,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
 | `kanji-mnemonic-plan.md` | Kanji memory hints: breaking a kanji into its component parts with a standardized meaning per part, a hint that accounts for how those parts are arranged, and a way for a learner to rewrite any hint in their own words | **In progress** — shipped for grades 1-6 (detail screen, lesson card, and a Hint button in the Yomi/Definition and Writing quizzes, plus editable per-learner hints on all four); grades 7-9 need authored hints. See §9 for where the shipped version departs from the plan, and §10 for the editable layer |
 | `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **In progress** — phases 1, 2, 3 and 5 ship: the 💬 button, the form, `feedback-server/`, My contributions, the GitHub status bridge and the release thank-you. Phase 4 (moving Pages onto Actions) is deferred by decision; phase 6 (recognition polish) and phase 7 (agent triage) have not started |
+| `onboarding-plan.md` | Where a brand-new learner is starting from: the entry choice, the beginner's guide, the four-scale screener, and the guided "tick what you already know" walkthrough it hands to | **Complete** — all screens ship; see §10 for the walkthrough that superseded §5's overview-only nudge |
 | `external-import-plan.md` | Importing kanji/vocabulary progress from WaniKani, renshuu, Anki and similar apps | **Proposal** — research and scoping complete, no code written |
 
 ## What is not built yet

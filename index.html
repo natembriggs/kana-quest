@@ -270,6 +270,39 @@
   </section>
 
   <!-- ---------------------------------------------------------------- -->
+  <!-- Screen D: the guided "tick what you already know" walkthrough.
+       Answering "some" on Screen C used to arm a single nudge on a single
+       unit's overview, three taps deep, with nothing on the way there
+       saying it existed — a learner who said "I know some kanji" was shown
+       "Learn 5 next" in the accent colour instead. This screen is the
+       missing middle: one row per unit-and-mode the learner said they know
+       some of, ticked off one at a time, in any order, stopping whenever
+       they like. Built by renderKnownCheck() in app.js. -->
+  <section id="screen-known-check" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="known-check-home" aria-label="Back">&#8592;</button>
+      <h2>What do you know?</h2>
+      <span class="btn-icon" aria-hidden="true"></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">&#128172;</button>
+    </header>
+    <p id="known-check-intro" class="hint"></p>
+    <!-- The one-off "&#10003; 12 marked as known" line, shown here rather than
+         on the overview when a mark was made from inside this walkthrough
+         (the overview hands control straight back). -->
+    <p id="known-check-notice" class="hint known-check-notice" hidden></p>
+    <div id="known-check-list" class="stack"></div>
+    <div class="stack bottom-bar">
+      <button id="known-check-done" class="btn btn-primary wide" type="button" data-action="known-check-home"></button>
+      <!-- The permanent dismissal. Deliberately a text link and not a
+           button: leaving for now is the ordinary exit (the button above),
+           and this one cannot be undone. -->
+      <p class="footnote">
+        <button id="known-check-finish" class="linkish" type="button" data-action="known-check-finish">I&#8217;ve ticked everything I know &#8212; don&#8217;t ask again</button>
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
   <section id="screen-home" class="screen" hidden>
     <header class="topbar">
       <button class="btn btn-icon" type="button" data-action="switch-profile" aria-label="Switch learner">
@@ -293,6 +326,23 @@
         <button id="sync-nudge-dismiss" class="btn btn-quiet" type="button">Not now</button>
       </div>
     </div>
+    <!-- The way back into the first-run "tick what you already know"
+         walkthrough, for a learner who said they know some of something and
+         then left the checklist unfinished (or never opened it). Shown only
+         while there is something left on that list — see
+         renderKnownCheckCard() in app.js. "Not now" hides it for this
+         browser session only, the same as #sync-nudge above: the list is
+         still unfinished next time. The permanent "no thanks" lives on the
+         checklist screen itself, where the learner can see what they'd be
+         giving up. -->
+    <div id="known-check-card" class="card stack" hidden>
+      <p id="known-check-card-text" class="hint"></p>
+      <div class="row">
+        <button class="btn btn-primary" type="button" data-action="known-check-open">Tick off what I know</button>
+        <button id="known-check-card-dismiss" class="btn btn-quiet" type="button">Not now</button>
+      </div>
+    </div>
+
     <h2 class="screen-title">What shall we practise?</h2>
     <div id="script-list" class="script-grid"></div>
 
@@ -417,6 +467,21 @@
 
     <div class="segmented" role="tablist" id="mode-picker"></div>
     <p id="mode-hint" class="hint"></p>
+
+    <!-- The placement nudge, on the screen the learner actually lands on.
+         It used to live only on the set overview, two taps further in, so a
+         learner who had just said "I know some kanji" was met here by
+         "Learn 5 next" in the accent colour and nothing at all about
+         ticking off what they know. While this is up, "&#10003; Mark as known&#8230;"
+         in the ladder below takes the recommended-action colour and Learn
+         gives it up. See renderCourseNudge() in app.js. -->
+    <div id="course-nudge" class="card stack overview-nudge" hidden>
+      <p id="course-nudge-text"></p>
+      <div class="row">
+        <button class="btn btn-primary" type="button" data-action="known-check-open">Tick off what I know</button>
+        <button class="btn btn-quiet" type="button" data-action="course-nudge-start-fresh">Actually, I&#8217;d like to start fresh</button>
+      </div>
+    </div>
 
     <!-- Kanji only: the two things a learner does every day, ahead of all the
          set-by-set browsing below. Both are deliberately agnostic to
@@ -550,6 +615,18 @@
       <div class="row">
         <button class="btn btn-quiet" type="button" data-action="nudge-start-fresh">Actually, I'd like to start fresh</button>
         <button class="btn btn-quiet" type="button" data-action="nudge-later">Maybe later</button>
+      </div>
+    </div>
+
+    <!-- Shown only while this overview is one step of the guided
+         "tick what you already know" walkthrough (screen-known-check):
+         which step this is, and the way on to the next one without having
+         to mark anything. renderKnownCheckBar() in app.js. -->
+    <div id="overview-check-bar" class="card stack known-check-bar" hidden>
+      <p id="overview-check-step" class="hint"></p>
+      <div class="row">
+        <button class="btn btn-quiet" type="button" data-action="known-check-skip">Nothing here &#8212; next &#8594;</button>
+        <button class="btn btn-quiet" type="button" data-action="known-check-back">Back to the list</button>
       </div>
     </div>
 

@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06j'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06k'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -409,6 +409,10 @@ const state = {
   celebrating: null,          // ids currently shown in the thank-you, pending acknowledgement
   onboardingPairing: false, // is Settings' sync pairing being shown FROM the flow
   onboardingAnswers: null,  // Screen C's four scales, uncommitted until "Start learning!"
+  // Screen D, the guided "tick what you already know" walkthrough. Both
+  // session-only; the durable half is profile.knownCheck.
+  knownCheckTask: null,   // key of the step the OVERVIEW is currently serving, or null
+  knownCheckNotice: null, // the "✓ 12 marked as known" line to show on the checklist
   detailCourseId: null,
   detailChar: null,
   // Detail screens opened on top of one another (drillIntoDetail below):
@@ -512,6 +516,8 @@ const INSTALL_BANNER_BLOCKED_SCREENS = new Set([
   // quiz screen: the banner is fixed to the same edge and would sit on top
   // of the one button the screen exists to have pressed.
   'screen-onboarding-guide', 'screen-onboarding-placement',
+  // Same again for the walkthrough's "Start learning →".
+  'screen-known-check',
 ]);
 
 function updateInstallBannerVisibility() {
@@ -755,12 +761,23 @@ function reopenDraft(contribution) {
   updateFeedbackCount();
 }
 
-/** Every exit from the flow: mark it done, persist, and land on home. */
-function completeOnboarding() {
+/**
+ * Every exit from the flow: mark it done, persist, and land on `to` — the
+ * home screen, or the "tick what you already know" walkthrough when the
+ * screener turned up something to tick.
+ *
+ * Clearing `onboardingAnswers` here matters: the screener only initialises
+ * it when it is null, so without this a SECOND learner created in the same
+ * session (switch learner → add another) opened Screen C with the previous
+ * learner's answers already selected, and "Start learning!" would have
+ * claimed a script for them that nobody had said they knew.
+ */
+function completeOnboarding({ to = renderHome } = {}) {
   state.profile.onboarded = true;
   state.onboardingPairing = false;
+  state.onboardingAnswers = null;
   store.saveProfile(state.profile);
-  renderHome();
+  to();
 }
 
 /** Screen A — the entry choice. */
@@ -1002,19 +1019,29 @@ function claimWholeCourse(courseId, mode) {
  * worse than marking none of it.
  */
 function commitOnboardingPlacement() {
+  const some = [];
   ONBOARDING_SCALES.forEach((scale) => {
     const answer = state.onboardingAnswers[scale.id];
     if (answer === KNOW_SOME) {
       armPlacementNudge(scale.id);
+      some.push(scale.id);
       return;
     }
     if (answer !== KNOW_READ && answer !== KNOW_READ_WRITE) return;
     claimWholeCourse(scale.id, 'recognition');
     if (answer === KNOW_READ_WRITE) claimWholeCourse(scale.id, 'writing');
   });
+  // "Some of it" now goes somewhere. This screen promises the learner they
+  // will get to "tick off exactly which, later on" — landing them on the
+  // home screen instead, with that offer buried three taps away on one
+  // unit's set overview, was the promise being made and not kept. So the
+  // walkthrough (Screen D) is what "Start learning!" opens whenever
+  // anything was answered "some"; it has its own way out to the home
+  // screen on every screenful, so it is a signpost and not a gate.
+  if (some.length) armKnownCheck(some);
   // completeOnboarding() persists — one save for the flag, the claimed
-  // records and any armed nudge together.
-  completeOnboarding();
+  // records, any armed nudge and the walkthrough together.
+  completeOnboarding({ to: some.length ? renderKnownCheck : renderHome });
 }
 
 // --- The "some of it" nudge (onboarding-plan.md §5) -----------------------
@@ -1141,12 +1168,363 @@ function dismissOverviewNudge() {
   renderOverviewChrome();
 }
 
+// --- Screen D: the guided "tick what you already know" walkthrough --------
+//
+// The nudge above was the whole of the answer to "some of it" for one
+// release, and it was not enough. It surfaces on ONE unit's set overview,
+// in ONE mode, three taps in from the home screen — and a learner who had
+// just said "I know some kanji" was met on the way there by "Learn 5 next"
+// in the accent colour, with "Mark as known…" fourth in the ladder and
+// below the fold. So the promise made on the screener ("it'll offer to let
+// you tick off exactly which, later on") was kept somewhere they had no
+// reason to look, and the flow they were actually pointed at — Learn new —
+// is precisely the wrong one for somebody who already knows some of it.
+//
+// This screen is the missing middle, and it is where "Start learning!" now
+// lands whenever anything was answered "some": a checklist with one row per
+// unit-and-mode, ticked off one at a time, in any order, stopped whenever
+// the learner likes. Every row hands over to the set overview's existing
+// select mode and comes straight back — no claim logic lives here.
+//
+// `profile.knownCheck` is `{ scripts, done, reach }`:
+//
+// - `scripts` — the screener ids answered "some". A script dropped from
+//   here ("Actually, I'd like to start fresh") never comes back.
+// - `done` — `"<courseId>|<mode>": true` for each step the learner has been
+//   through, whether or not anything was actually ticked in it. A step with
+//   nothing left untried counts as done without needing a flag.
+// - `reach` — how many units deep into kanji/vocabulary the learner has
+//   asked to go, defaulting to one. The list grows a unit at a time, on
+//   request: somebody who knows twenty kanji must not be walked through
+//   eighteen grades, and somebody who knows eight hundred must be able to
+//   keep going for as long as they want to. Kana has a single unit and no
+//   reach at all.
+//
+// Nothing here is ever a gate: the bottom button always leaves for the home
+// screen, and everything on the list is still waiting next time.
+
+const KNOWN_CHECK_DEFAULT_UNITS = 1;
+
+// What each screener answer is called in a sentence — script.name works for
+// kana, but "Kanji"/"Vocabulary" want lowercasing and the latter wants its
+// full word rather than the tab's abbreviation.
+const KNOWN_CHECK_NOUNS = {
+  hiragana: 'hiragana', katakana: 'katakana', kanji: 'kanji', vocab: 'vocabulary',
+};
+
+function knownCheckState() {
+  return (state.profile && state.profile.knownCheck) || null;
+}
+
+/** Set up the walkthrough from the screener's "some" answers. */
+function armKnownCheck(scriptIds) {
+  state.profile.knownCheck = { scripts: [...scriptIds], done: {}, reach: {} };
+}
+
+/**
+ * The units this walkthrough currently covers for one script: a kana
+ * script's single course, or the first `reach` units of kanji/vocabulary in
+ * teaching order. Deliberately NOT every unit — see the section note.
+ */
+function knownCheckCourses(scriptId) {
+  const script = SCRIPTS.find((s) => s.id === scriptId);
+  if (!script) return [];
+  const courses = coursesForScript(script);
+  if (script.kind === 'kana') return courses;
+  const check = knownCheckState();
+  const reach = Math.max(1, (check && check.reach && check.reach[scriptId]) || KNOWN_CHECK_DEFAULT_UNITS);
+  return courses.slice(0, reach);
+}
+
+/** The next unit that isn't on the list yet, or null at the end of a
+ * script — what the "＋ Also check…" row offers. */
+function knownCheckNextUnit(scriptId) {
+  const script = SCRIPTS.find((s) => s.id === scriptId);
+  if (!script || script.kind === 'kana') return null;
+  const all = coursesForScript(script);
+  const shown = knownCheckCourses(scriptId).length;
+  return shown < all.length ? all[shown] : null;
+}
+
+function extendKnownCheck(scriptId) {
+  const check = knownCheckState();
+  if (!check || !knownCheckNextUnit(scriptId)) return;
+  if (!check.reach) check.reach = {};
+  check.reach[scriptId] = knownCheckCourses(scriptId).length + 1;
+  store.saveProfile(state.profile);
+  renderKnownCheck();
+}
+
+function knownCheckTaskKey(courseId, mode) {
+  return `${courseId}|${mode}`;
+}
+
+/**
+ * Every step of the walkthrough, flattened, in the order it is shown —
+ * scripts in home-screen order, units in teaching order, modes in the same
+ * order their picker shows them. `remaining` is how much of that unit the
+ * mode has never asked about, which is exactly the pool "Mark as known"
+ * can act on; a step with none left is already done by definition.
+ */
+function knownCheckTasks() {
+  const check = knownCheckState();
+  if (!check) return [];
+  const done = check.done || {};
+  const tasks = [];
+  SCRIPTS.forEach((script) => {
+    if (!check.scripts.includes(script.id)) return;
+    knownCheckCourses(script.id).forEach((course) => {
+      modesForKind(script.kind)
+        .filter((mode) => !isModeComingSoon(mode, script.kind))
+        .forEach((mode) => {
+          const key = knownCheckTaskKey(course.id, mode.id);
+          const remaining = neverSeenItems(course, mode.id, state.profile).length;
+          tasks.push({
+            key,
+            scriptId: script.id,
+            course,
+            mode: mode.id,
+            modeLabel: modeName(mode.id, script.kind),
+            remaining,
+            done: !!done[key] || remaining === 0,
+          });
+        });
+    });
+  });
+  return tasks;
+}
+
+/** Whether this script still has a step waiting — what decides if the
+ * course screen nudges about it, and (across every script) whether the home
+ * screen offers the way back in. */
+function knownCheckHasWork(scriptId) {
+  return knownCheckTasks().some((task) => !task.done && (!scriptId || task.scriptId === scriptId));
+}
+
+function markKnownCheckTaskDone(key) {
+  const check = knownCheckState();
+  if (!check) return;
+  if (!check.done) check.done = {};
+  check.done[key] = true;
+}
+
+/** "hiragana, kanji and vocabulary" — the scripts still on the list, named
+ * the way the learner answered for them. */
+function knownCheckScriptNames() {
+  const check = knownCheckState();
+  if (!check) return '';
+  const names = check.scripts.map((id) => KNOWN_CHECK_NOUNS[id]).filter(Boolean);
+  if (names.length < 2) return names.join('');
+  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+}
+
+/** Drop one script from the walkthrough for good — "Actually, I'd like to
+ * start fresh", from wherever it is offered. Clears that script's overview
+ * nudge too, so the two prompts can never disagree. */
+function dropKnownCheckScript(scriptId) {
+  const check = knownCheckState();
+  if (check) {
+    check.scripts = check.scripts.filter((id) => id !== scriptId);
+    if (!check.scripts.length) state.profile.knownCheck = null;
+  }
+  if (state.profile.placementNudge) delete state.profile.placementNudge[scriptId];
+  store.saveProfile(state.profile);
+}
+
+/** "I've ticked everything I know" — the walkthrough is over, for good. */
+function finishKnownCheck() {
+  const check = knownCheckState();
+  if (check && state.profile.placementNudge) {
+    check.scripts.forEach((id) => { delete state.profile.placementNudge[id]; });
+  }
+  state.profile.knownCheck = null;
+  state.knownCheckNotice = null;
+  store.saveProfile(state.profile);
+  renderHome();
+}
+
+/** Screen D itself. */
+function renderKnownCheck() {
+  // Arriving here always means the overview is no longer serving a step.
+  state.knownCheckTask = null;
+  state.overviewSelect = null;
+  const check = knownCheckState();
+  if (!check) { renderHome(); return; }
+
+  const tasks = knownCheckTasks();
+  const outstanding = tasks.filter((task) => !task.done).length;
+  const next = tasks.find((task) => !task.done) || null;
+
+  $('known-check-intro').textContent = outstanding
+    ? `You said you already know some ${knownCheckScriptNames()}. Tick off what you know and`
+      + " the app won't teach you those from scratch. Everything you tick still comes back for"
+      + ' review later, so there is no risk in being generous — and you can stop at any point.'
+    : 'Everything on this list has been through. Add another unit below if you know more, or'
+      + ' start learning.';
+
+  const notice = $('known-check-notice');
+  notice.textContent = state.knownCheckNotice || '';
+  notice.hidden = !state.knownCheckNotice;
+  // A one-off line about the mark that was just made — gone the next time
+  // this screen is drawn from anywhere else.
+  state.knownCheckNotice = null;
+
+  const list = $('known-check-list');
+  list.innerHTML = '';
+  check.scripts.forEach((scriptId) => {
+    knownCheckCourses(scriptId).forEach((course) => {
+      const card = document.createElement('div');
+      card.className = 'card stack known-check-unit';
+      const heading = document.createElement('h3');
+      heading.textContent = course.name;
+      card.appendChild(heading);
+
+      tasks.filter((task) => task.course.id === course.id).forEach((task) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        // The next step waiting is the one wearing the recommended-action
+        // colour — the same single mark the course screen's ladder uses, so
+        // there is never more than one "start here" on screen at once.
+        button.className = `btn wide known-check-row${next && next.key === task.key ? ' btn-primary' : ''}${task.done ? ' is-done' : ''}`;
+        button.dataset.task = task.key;
+        const name = document.createElement('b');
+        name.textContent = task.modeLabel;
+        const status = document.createElement('span');
+        status.className = 'known-check-status';
+        status.textContent = task.done ? '✓ checked' : `${task.remaining} to check`;
+        button.appendChild(name);
+        button.appendChild(status);
+        button.addEventListener('click', () => openKnownCheckTask(task.key));
+        card.appendChild(button);
+      });
+      list.appendChild(card);
+    });
+
+    // One unit at a time, on request — see the section note.
+    const nextUnit = knownCheckNextUnit(scriptId);
+    if (nextUnit) {
+      const more = document.createElement('button');
+      more.type = 'button';
+      more.className = 'btn btn-quiet wide known-check-more';
+      more.dataset.extend = scriptId;
+      more.textContent = `＋ Also check ${nextUnit.name}`;
+      more.addEventListener('click', () => extendKnownCheck(scriptId));
+      list.appendChild(more);
+    }
+  });
+
+  $('known-check-done').textContent = outstanding
+    ? 'Start learning →'
+    : "That's everything — start learning!";
+  show('screen-known-check');
+}
+
+/**
+ * Hand one step over to the set overview, already in select mode and on the
+ * right mode's grid. Everything about claiming stays where it already
+ * lives; this only decides which grid the learner is looking at, and
+ * markSelectedKnown / the step bar bring them back here afterwards.
+ */
+async function openKnownCheckTask(key) {
+  const task = knownCheckTasks().find((t) => t.key === key);
+  if (!task) return;
+  state.mode = task.mode;
+  // Deliberately no scroll target. An ordinary overview opens on whichever
+  // set the learner is working through, but a step of this walkthrough is a
+  // sweep of the whole unit from the top — and scrolling the grid would push
+  // the step bar (and the instructions under it) off the top of the screen,
+  // which is exactly what it is there to say.
+  await openOverview(task.course, null, { select: true, checkTask: key });
+}
+
+/** The step bar pinned above the grid while the overview is serving one
+ * step of the walkthrough. Returns whether it is showing — the placement
+ * nudge stands down while it is, since two prompts about the same thing on
+ * one screen is worse than either alone. */
+function renderKnownCheckBar() {
+  const bar = $('overview-check-bar');
+  const key = state.knownCheckTask;
+  const tasks = key ? knownCheckTasks() : [];
+  const index = tasks.findIndex((task) => task.key === key);
+  bar.hidden = index < 0;
+  if (index < 0) return false;
+  const task = tasks[index];
+  $('overview-check-step').textContent = `Step ${index + 1} of ${tasks.length} — ${task.course.name},`
+    + ` ${task.modeLabel}. Tap everything you already know, then mark them at the bottom.`;
+  return true;
+}
+
+/** "Nothing here — next →": this step has been seen, which is all the list
+ * ever claimed for it. */
+function skipKnownCheckTask() {
+  if (!state.knownCheckTask) { renderKnownCheck(); return; }
+  markKnownCheckTaskDone(state.knownCheckTask);
+  store.saveProfile(state.profile);
+  renderKnownCheck();
+}
+
+// Dismissing the home-screen card hides it for the rest of THIS browser
+// session only, per profile — exactly the reasoning SYNC_NUDGE_DISMISSED_KEY
+// carries: there is still a half-finished list next time the app opens. The
+// dismissal that lasts is on the checklist itself, where the learner can see
+// what they would be giving up.
+const KNOWN_CHECK_DISMISSED_KEY = 'kana-quest-known-check-dismissed';
+
+function knownCheckDismissedProfileIds() {
+  try {
+    return new Set(JSON.parse(sessionStorage.getItem(KNOWN_CHECK_DISMISSED_KEY) || '[]'));
+  } catch {
+    return new Set(); // private browsing etc. — err toward still offering it
+  }
+}
+
+function dismissKnownCheckCard(profileId) {
+  const ids = knownCheckDismissedProfileIds();
+  ids.add(profileId);
+  try {
+    sessionStorage.setItem(KNOWN_CHECK_DISMISSED_KEY, JSON.stringify([...ids]));
+  } catch { /* private browsing etc. */ }
+}
+
+/** The home screen's way back into an unfinished walkthrough — the answer
+ * to "no way of knowing there's a way to select what you know" for a
+ * learner who skipped past it on the first run. */
+function renderKnownCheckCard() {
+  const card = $('known-check-card');
+  const profile = state.profile;
+  const showing = !!profile && knownCheckHasWork(null)
+    && !knownCheckDismissedProfileIds().has(profile.id);
+  card.hidden = !showing;
+  if (!showing) return;
+  $('known-check-card-text').textContent = `You said you already know some ${knownCheckScriptNames()}`
+    + " — tick off what you know, and the app won't start you from scratch on it.";
+}
+
+/** The same offer on the course screen, where a learner heading for
+ * "Learn new" is about to do the one thing they shouldn't yet. Returns
+ * whether it is showing, which is what demotes Learn below "Mark as
+ * known…" in the ladder underneath. */
+function renderCourseNudge(script) {
+  const card = $('course-nudge');
+  const check = knownCheckState();
+  const showing = !!check && check.scripts.includes(script.id) && knownCheckHasWork(script.id);
+  card.hidden = !showing;
+  if (showing) {
+    $('course-nudge-text').textContent = `You said you already know some ${KNOWN_CHECK_NOUNS[script.id]}`
+      + " — tick off what you know first, and the app won't teach you those from scratch."
+      + ' Everything you tick still comes back for review later.';
+  }
+  return showing;
+}
+
 // --- Home: pick a script --------------------------------------------------
 
 function renderHome() {
   const profile = state.profile;
   $('home-avatar').textContent = profile.emoji;
   $('home-greeting').textContent = profile.name;
+  // Before renderSyncNudge, which yields to it — see that function.
+  renderKnownCheckCard();
   // Not awaited: this reads IndexedDB, and the rest of the home screen must
   // never wait on it to draw.
   renderSyncNudge();
@@ -1589,7 +1967,7 @@ const QUICK_ACTION_POOLS = {
  * no longer a reason to review (or learn) just one unit at a time, so that
  * choice is gone rather than hidden somewhere else.
  */
-function renderQuickActions(script) {
+function renderQuickActions(script, nudged = false) {
   const wrap = $('quick-actions');
   const pools = QUICK_ACTION_POOLS[script.kind];
   if (!pools) {
@@ -1637,9 +2015,14 @@ function renderQuickActions(script) {
 
   // Whichever is actually actionable reads as the primary action; if both
   // are (or neither is), review wins — same "due outranks new" precedence
-  // the course card below already uses.
+  // the course card below already uses. With one exception: while this
+  // script is still waiting to be ticked off (renderCourseNudge), Learn
+  // gives the accent up entirely. This button was the first thing a
+  // brand-new learner who had just said "I know some kanji" saw on the
+  // screen, in the accent colour, telling them to start from scratch — the
+  // exact opposite of what the screener had just been told.
   reviewButton.className = `btn wide${poolStats.due > 0 ? ' btn-primary' : ''}`;
-  learnButton.className = `btn wide${poolStats.due === 0 && newCount > 0 ? ' btn-primary' : ''}`;
+  learnButton.className = `btn wide${poolStats.due === 0 && newCount > 0 && !nudged ? ' btn-primary' : ''}`;
 }
 
 // Wired once, not re-bound on every render (unlike the course-card buttons
@@ -1750,8 +2133,14 @@ function renderKanjiSearchResults(query) {
  * Shared by every screen offering this choice, so the precedence lives in
  * one place rather than being re-derived per screen.
  */
-function choosePrimaryAction({ due, untested, started, newCount }) {
+function choosePrimaryAction({ due, untested, started, newCount, nudged }) {
   if (due > 0) return 'review';
+  // A learner who has just said they already know some of this must not be
+  // pointed at Learn new, or even at Test unlearned — the whole point of
+  // "Mark as known" is that neither is necessary for what they already
+  // have. This outranks the ordinary ladder for exactly as long as the
+  // walkthrough still has a step waiting for this script.
+  if (nudged && untested > 0) return 'mark';
   if (untested > 0 && started === 0) return 'test';
   if (newCount > 0) return 'learn';
   return null;
@@ -1767,7 +2156,10 @@ function renderCourse() {
   // exist, and the picker below must be drawn from the new axis.
   renderVocabProgressionPicker();
   renderGradePicker(script);
-  renderQuickActions(script);
+  // Before renderQuickActions: whether this script is still waiting to be
+  // ticked off decides which of these buttons gets to wear the accent.
+  const nudged = renderCourseNudge(script);
+  renderQuickActions(script, nudged);
   renderWritingModePicker();
   // Only in the syllabus progression — it is entirely about how the GCSE/
   // A-level topic groups were built, and says nothing true of the
@@ -1865,7 +2257,9 @@ function renderCourse() {
   // marks the recommended one, but each also gets a one-line subtitle so
   // the choice doesn't rely on button colour alone.
   const untested = neverSeenItems(course, state.mode, profile).length;
-  const primary = choosePrimaryAction({ due: stats.due, untested, started: stats.started, newCount });
+  const primary = choosePrimaryAction({
+    due: stats.due, untested, started: stats.started, newCount, nudged,
+  });
 
   const actionRow = (button, subtitle) => {
     const wrap = document.createElement('div');
@@ -1941,7 +2335,7 @@ function renderCourse() {
   // thing, but a learner standing on this screen wouldn't know to look.
   const markKnown = document.createElement('button');
   markKnown.type = 'button';
-  markKnown.className = 'btn';
+  markKnown.className = `btn${primary === 'mark' ? ' btn-primary' : ''}`;
   let markKnownSubtitle = null;
   if (untested > 0) {
     markKnown.innerHTML = '✓ Mark as known…';
@@ -1995,8 +2389,12 @@ function renderCourse() {
 // --- Set overview: every character in the whole course, colour-coded by
 // --- mastery, in one scrollable grid ---------------------------------------
 
-async function openOverview(course, scrollToChar, { select = false } = {}) {
+async function openOverview(course, scrollToChar, { select = false, checkTask = null } = {}) {
   state.overviewCourseId = course.id;
+  // Which step of the "tick what you already know" walkthrough this open is
+  // serving, if any — set on every open, so an ordinary browse can never
+  // inherit a step left over from an earlier one.
+  state.knownCheckTask = checkTask;
   // A fresh open always starts from a clean slate — either browsing, or
   // (from the course card's "Mark as known…" row) straight into select
   // mode with nothing ticked yet. Never inherits a selection from an
@@ -2139,8 +2537,12 @@ function renderOverview(scrollToChar) {
   renderOverviewModePicker(course);
 
   // Binds a kanji/vocab nudge to this unit the first time one of that
-  // script's overviews is opened — see placementNudgeFor().
-  const nudge = state.overviewNudgeDismissed ? null : placementNudgeFor(course, { bind: true });
+  // script's overviews is opened — see placementNudgeFor(). Stands down
+  // entirely while the walkthrough's own step bar is up: both say the same
+  // thing, and two prompts about one job is worse than either alone.
+  const inWalkthrough = renderKnownCheckBar();
+  const nudge = (inWalkthrough || state.overviewNudgeDismissed)
+    ? null : placementNudgeFor(course, { bind: true });
   state.overviewNudge = nudge ? nudgeScriptIdFor(course) : null;
   if (nudge) $('overview-nudge-text').textContent = placementNudgeText(course);
 
@@ -2211,6 +2613,11 @@ function renderOverviewChrome() {
   // card gets out of the way and the toggle drops back to being a Cancel.
   const nudged = !!state.overviewNudge && !select;
   $('overview-nudge').hidden = !nudged;
+  // Inside the walkthrough the grid is ALWAYS ticking — the step bar above
+  // it carries both exits ("Nothing here — next →" and "Back to the list"),
+  // so this toggle would only offer a way of turning select mode off and
+  // stranding the learner on a grid the step exists to have ticked.
+  $('overview-toolbar').hidden = !!state.knownCheckTask;
   const toggle = $('overview-select-toggle');
   toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
   // btn-primary is the app's existing "this is the one to reach for" mark
@@ -2480,10 +2887,24 @@ async function markSelectedKnown(claim) {
 
   const done = `${marked.length} ${knownNoun(course, marked.length)}`;
   state.overviewSelect = null;
-  state.overviewNotice = think
+  const notice = think
     ? `✓ ${done} marked "I think I know this" in ${label} — each comes back for a quick double-check, `
       + `spread out over the next ${weeks} weeks rather than all at once.`
     : `✓ ${done} marked as known in ${label} — they'll come up for review in about a month.`;
+  // Inside the walkthrough, this step is finished the moment its claim goes
+  // through: hand straight back to the checklist with the next step already
+  // marked as the one to reach for, rather than leaving the learner on a
+  // grid they have just dealt with wondering where the rest of the list
+  // went. That "and then the next one" is the whole of what the report
+  // asked for — a way to go through every unit and mode until done.
+  if (state.knownCheckTask) {
+    markKnownCheckTaskDone(state.knownCheckTask);
+    await store.saveProfile(state.profile);
+    state.knownCheckNotice = notice;
+    renderKnownCheck();
+    return;
+  }
+  state.overviewNotice = notice;
   renderOverview(marked[0]);
 }
 
@@ -6708,7 +7129,14 @@ async function renderSyncNudge() {
   const banner = $('sync-nudge');
   if (!profile) { banner.hidden = true; return; }
   const syncState = await store.getSyncState(profile.id);
-  banner.hidden = !!syncState || syncNudgeDismissedProfileIds().has(profile.id);
+  // Stands aside while the "tick what you already know" card is up. Both are
+  // cards at the top of the home screen, and two of them together push the
+  // script list off a phone screen entirely — so the one that is about what
+  // the learner should do NEXT wins, and this one (about progress that, for
+  // a learner who has just finished the screener, barely exists yet) comes
+  // back the moment that list is finished or waved away.
+  banner.hidden = !!syncState || syncNudgeDismissedProfileIds().has(profile.id)
+    || !$('known-check-card').hidden;
 }
 
 function syncFailureMessage(outcome) {
@@ -8594,6 +9022,10 @@ function wire() {
     $('sync-nudge').hidden = true;
     if (state.profile) dismissSyncNudge(state.profile.id);
   });
+  $('known-check-card-dismiss').addEventListener('click', () => {
+    $('known-check-card').hidden = true;
+    if (state.profile) dismissKnownCheckCard(state.profile.id);
+  });
   $('install-banner-action').addEventListener('click', async () => {
     if (!deferredInstallPrompt) return;
     deferredInstallPrompt.prompt();
@@ -8710,7 +9142,11 @@ function wire() {
         // which may be a different course or mode entirely.
         state.overviewSelect = null;
         state.overviewNotice = null;
-        if (state.profile) renderCourse(); else renderProfiles();
+        // An overview opened as a step of the walkthrough belongs to the
+        // checklist, not to whichever course screen happens to be behind it
+        // — that could be a different unit entirely.
+        if (state.profile && state.knownCheckTask) renderKnownCheck();
+        else if (state.profile) renderCourse(); else renderProfiles();
         break;
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
@@ -8720,6 +9156,21 @@ function wire() {
       // The placement nudge's two dismissals (onboarding-plan.md §5).
       case 'nudge-start-fresh': dropPlacementNudge(); break;
       case 'nudge-later': deferPlacementNudge(); break;
+      // The guided "tick what you already know" walkthrough (Screen D).
+      // Reachable from the end of the screener, the home-screen card, and
+      // the course screen's nudge — the three places a learner who said
+      // "some of it" actually looks.
+      case 'known-check-open': renderKnownCheck(); break;
+      case 'known-check-back': renderKnownCheck(); break;
+      case 'known-check-skip': skipKnownCheckTask(); break;
+      // Leaving for now: everything still unticked is still waiting, and the
+      // home-screen card offers the way back.
+      case 'known-check-home': renderHome(); break;
+      case 'known-check-finish': finishKnownCheck(); break;
+      case 'course-nudge-start-fresh':
+        dropKnownCheckScript(currentScript().id);
+        renderCourse();
+        break;
       case 'overview-mark-sure': markSelectedKnown(KNOWN_CLAIM_SURE); break;
       case 'overview-mark-think': markSelectedKnown(KNOWN_CLAIM_THINK); break;
       // Returns wherever the detail screen was opened from — the set

@@ -205,3 +205,61 @@ in case").
   emphasis pattern (see §5), but the specific implementation (CSS class,
   animation, placement of the dismiss buttons) needs an eye on a real
   screen.
+
+## 10. Screen D — the guided "tick what you already know" walkthrough
+
+Added 2026-09-06, after a learner reported (feedback issue #5, "Onboarding
+flow improvements") that *"after selecting I know some kanji the flow to
+selecting known kanji should be much more clearly guided. Preferably a
+dedicated screen where I can go through all the units and mode til I'm
+done."* Walking a fresh profile through the shipped flow confirmed three
+distinct failures, all of them in §5's answer to "some of it":
+
+1. **The offer was made and then not kept.** Screen C says the app "will
+   offer to let you tick off exactly which, later on", then lands on the
+   home screen. The offer existed only on one unit's set overview, three
+   navigations in, with nothing on the route there naming it.
+2. **The route there pointed the other way.** On the course screen a nudged,
+   brand-new learner's accent-coloured button was "Learn 5 next", at the top
+   of the screen; "✓ Mark as known…" was fourth in the ladder and below the
+   fold, and the nudge card did not render on that screen at all. Learning
+   from scratch is the one thing this learner should not have been doing
+   first.
+3. **The nudge was one unit, one mode, one shot.** `clearPlacementNudge`
+   deletes a script's whole nudge the first time anything is marked, so
+   kanji grades 2-6, Yomi and Writing were never offered, and kana got
+   Reading but never Writing.
+
+**What shipped.** A checklist screen (`screen-known-check`, built by
+`renderKnownCheck()`), which is where "Start learning!" now lands whenever
+any scale was answered "some". One card per unit, one row per mode inside
+it, each row showing how much of that unit the mode has never asked about.
+A row hands over to the set overview in select mode, on that mode's grid,
+with a step bar ("Step 3 of 5 — Kanji · Grade 1, Definition") carrying two
+exits; marking known ticks the row and returns to the list with the next one
+already wearing the recommended-action colour. Nothing about claiming is
+new — it is `markSelectedKnown` and `markKnownItems` throughout.
+
+`profile.knownCheck` is `{ scripts, done, reach }`; `reach` is how many units
+deep into kanji/vocabulary the learner has asked to go, defaulting to one and
+growing one unit at a time from an explicit "＋ Also check …" row. §5's
+per-overview nudge is unchanged and still runs — it is now the fallback for a
+learner who left the list, not the whole of the answer.
+
+Three entry points, none of them a gate: the end of the screener, a
+home-screen card while the list has anything outstanding (which the sync
+nudge yields to), and the course screen's own nudge card, which also makes
+"Mark as known…" the ladder's recommended action and takes the accent off
+both Learn buttons for as long as that script has a step waiting.
+
+**§7 is still respected.** There is no Settings re-entry point and no way to
+re-run the screener. The home card and the course nudge both disappear the
+moment the list is finished or dropped, so nothing here is a permanent
+"change my level" affordance — they are the same one-time flow, made
+findable for as long as it is still unfinished.
+
+Fixed alongside it: `state.onboardingAnswers` was never cleared on the way
+out of the flow, and the screener only seeds it when it is null — so a
+second learner created in the same sitting opened Screen C with the first
+learner's answers already selected, and "Start learning!" would have claimed
+a whole script for somebody who had never said they knew it.

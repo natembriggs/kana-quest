@@ -4605,8 +4605,19 @@ check('nothing is written until "Start learning!" — a half-answered screener l
 
 fireAction('onboarding-start-learning');
 await drain(10);
-check('"Start learning!" lands on the home screen', visible() === 'screen-home', `showing ${visible()}`);
+// Not the home screen any more: anything answered "some" now hands straight
+// over to the guided walkthrough, because the promise this screener makes
+// ("it'll offer to let you tick off exactly which, later on") used to be
+// kept only on one unit's set overview, three taps away, with nothing on the
+// route there saying so.
+check('"Start learning!" opens the walkthrough when something was answered "some"',
+  visible() === 'screen-known-check', `showing ${visible()}`);
 check('the flow is recorded as done', placed().onboarded === true);
+check('...and the walkthrough knows which scripts it is for',
+  placed().knownCheck.scripts.join(',') === 'kanji', JSON.stringify(placed().knownCheck));
+fireAction('known-check-home');
+await drain(10);
+check('"Start learning →" leaves for the home screen', visible() === 'screen-home', `showing ${visible()}`);
 
 const hiragana = getCourse('hiragana');
 const katakana = getCourse('katakana');
@@ -4719,6 +4730,198 @@ check('having actually marked something known clears the nudge for good',
   !nudged().placementNudge.katakana, JSON.stringify(nudged().placementNudge));
 check('...and the claim itself went through the ordinary path',
   allItems(katakana, 'recognition').every((k) => (nudged().progress[`recognition:${k}`] || {}).box === MAX_BOX));
+
+// --- Screen D: the guided "tick what you already know" walkthrough --------
+//
+// The nudge checked above answers "some of it" on ONE unit's overview in ONE
+// mode, three taps from the home screen — and the route there ran past
+// "Learn 5 next" in the accent colour, which is the one thing a learner who
+// has just said they already know some of this should not be doing. These
+// checks cover the walkthrough that now stands between the screener and the
+// home screen: that it lists every unit and mode, that each row hands over
+// to the existing "Mark as known" machinery and comes straight back, that it
+// grows a unit at a time on request, and that every way out of it works.
+
+const walker = await createLearner('Walkthrough Kid');
+fireAction('onboarding-learning');
+await drain();
+answer('hiragana', 'some');
+answer('kanji', 'some');
+fireAction('onboarding-start-learning');
+await drain(10);
+check('answering "some" opens the walkthrough, not the home screen',
+  visible() === 'screen-known-check', `showing ${visible()}`);
+check('the intro names what the learner actually said they know',
+  el('known-check-intro').textContent.includes('some hiragana and kanji'),
+  el('known-check-intro').textContent);
+
+/** Every step row on the checklist, in the order it is shown. */
+const checkRows = () => {
+  const found = [];
+  const walk = (node) => {
+    if (node.dataset && node.dataset.task) found.push(node);
+    node._children.forEach(walk);
+  };
+  el('known-check-list')._children.forEach(walk);
+  return found;
+};
+const checkRow = (key) => checkRows().find((r) => r.dataset.task === key);
+/** A row's "12 to check" / "✓ checked" half. */
+const rowStatus = (row) => (row._children.find((c) => c.className === 'known-check-status') || {}).textContent;
+
+check('every mode of every unit reached gets its own row — the whole point of the screen',
+  checkRows().map((r) => r.dataset.task).join(' ')
+  === 'hiragana|recognition hiragana|writing kanji-grade-1|definition'
+  + ' kanji-grade-1|recognition kanji-grade-1|writing',
+  checkRows().map((r) => r.dataset.task).join(' '));
+check('a script answered "none" contributes no rows at all',
+  !checkRows().some((r) => r.dataset.task.startsWith('katakana')));
+check('the first step waiting wears the recommended-action colour, and only it',
+  checkRows().filter((r) => r.className.includes('btn-primary')).length === 1
+  && checkRow('hiragana|recognition').className.includes('btn-primary'));
+check('a row says how much of that unit the mode has never asked about',
+  rowStatus(checkRow('hiragana|recognition')) === `${allItems(hiragana, 'recognition').length} to check`,
+  rowStatus(checkRow('hiragana|recognition')));
+check('kanji offers the next grade, one unit at a time — eighteen at once helps nobody',
+  el('known-check-list')._children.some((c) => c.dataset.extend === 'kanji'));
+check('...but kana does not, having exactly one unit',
+  !el('known-check-list')._children.some((c) => c.dataset.extend === 'hiragana'));
+
+// A step hands over to the set overview's existing select mode — no second
+// claim path, and no second grid.
+fire(checkRow('hiragana|writing'), 'click');
+await drain(10);
+check('opening a step opens that unit\'s overview', visible() === 'screen-overview', `showing ${visible()}`);
+check('...on the step\'s own mode, already ticking rather than browsing',
+  el('overview-title').textContent === getCourse('hiragana').name
+  && el('overview-select-shortcuts').hidden === false);
+check('...with a step counter saying where in the list this is',
+  el('overview-check-bar').hidden === false
+  && el('overview-check-step').textContent.startsWith('Step 2 of 5'),
+  el('overview-check-step').textContent);
+check('the older overview nudge stands down while the step bar is up — one prompt, not two',
+  el('overview-nudge').hidden === true);
+
+fireAction('go-course');
+await drain(10);
+check('backing out of a step returns to the list, not to whichever course screen was behind it',
+  visible() === 'screen-known-check', `showing ${visible()}`);
+check('...and backing out claims nothing, so the step is still waiting',
+  rowStatus(checkRow('hiragana|writing')) !== '✓ checked', rowStatus(checkRow('hiragana|writing')));
+
+// Marking known from inside the walkthrough ticks the step and hands back,
+// which is the "and then the next one" the whole screen exists for.
+fire(checkRow('hiragana|recognition'), 'click');
+await drain(10);
+fireAction('overview-select-all');
+fireAction('overview-mark-sure');
+await drain(10);
+check('marking known returns to the list rather than leaving the learner on the grid',
+  visible() === 'screen-known-check', `showing ${visible()}`);
+check('...says what just happened', el('known-check-notice').hidden === false
+  && el('known-check-notice').textContent.includes('marked as known'),
+  el('known-check-notice').textContent);
+check('...ticks that step off', rowStatus(checkRow('hiragana|recognition')) === '✓ checked');
+check('...and moves the recommended colour on to the next one waiting',
+  checkRow('hiragana|writing').className.includes('btn-primary'));
+check('...through the ordinary claim path, so the records are a placement test\'s',
+  allItems(hiragana, 'recognition').every((k) => (walker().progress[`recognition:${k}`] || {}).box === MAX_BOX));
+check('the notice is a one-off — it does not follow the learner back later',
+  (fireAction('known-check-open'), el('known-check-notice').hidden === true));
+
+// "Nothing here — next →": been through it, claimed nothing.
+fire(checkRow('hiragana|writing'), 'click');
+await drain(10);
+fireAction('known-check-skip');
+await drain(10);
+check('"Nothing here" ticks the step without claiming anything',
+  rowStatus(checkRow('hiragana|writing')) === '✓ checked'
+  && allItems(hiragana, 'writing').every((k) => !walker().progress[`writing:${k}`]));
+
+fire(el('known-check-list')._children.find((c) => c.dataset.extend === 'kanji'), 'click');
+await drain(10);
+check('"Also check Kanji · Grade 2" adds that unit\'s rows',
+  checkRows().some((r) => r.dataset.task === 'kanji-grade-2|definition'),
+  checkRows().map((r) => r.dataset.task).join(' '));
+check('...and the list keeps growing on request rather than all at once',
+  walker().knownCheck.reach.kanji === 2, JSON.stringify(walker().knownCheck));
+
+// The course screen, which is where the report's complaint actually landed:
+// a learner who had said "some" was met by Learn in the accent colour.
+fireAction('known-check-home');
+await drain(10);
+check('the home screen offers the way back into an unfinished list',
+  el('known-check-card').hidden === false);
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await drain(10);
+check('the course screen says why it is nudging, without needing the overview',
+  el('course-nudge').hidden === false
+  && el('course-nudge-text').textContent.includes('already know some kanji'),
+  el('course-nudge-text').textContent);
+check('"Mark as known…" takes the recommended colour, not Learn',
+  buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Mark as known')).className.includes('btn-primary'));
+check('...and the ladder\'s Learn row gives it up',
+  !buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Learn <b>')).className.includes('btn-primary'));
+check('...as does the quick-action Learn at the very top of the screen, which is seen first',
+  !el('quick-learn-next').className.includes('btn-primary'), el('quick-learn-next').className);
+
+fireAction('course-nudge-start-fresh');
+await drain(10);
+check('"Actually, I\'d like to start fresh" drops that script from the walkthrough for good',
+  !walker().knownCheck.scripts.includes('kanji'), JSON.stringify(walker().knownCheck));
+check('...and clears its older overview nudge too, so the two can never disagree',
+  !(walker().placementNudge || {}).kanji, JSON.stringify(walker().placementNudge));
+check('...and hands the accent straight back to Learn', el('course-nudge').hidden === true
+  && el('quick-learn-next').className.includes('btn-primary'));
+
+fireAction('go-home');
+await drain(10);
+check('with hiragana finished and kanji dropped, the home card goes quiet',
+  el('known-check-card').hidden === true);
+
+// The permanent dismissal, on a learner who still has something outstanding.
+const finisher = await createLearner('Finished Kid');
+fireAction('onboarding-learning');
+await drain();
+answer('katakana', 'some');
+fireAction('onboarding-start-learning');
+await drain(10);
+fireAction('known-check-finish');
+await drain(10);
+check('"I\'ve ticked everything I know" ends the walkthrough and leaves for the app',
+  visible() === 'screen-home' && !finisher().knownCheck, JSON.stringify(finisher().knownCheck));
+check('...and takes the overview nudge with it', !(finisher().placementNudge || {}).katakana,
+  JSON.stringify(finisher().placementNudge));
+check('...so the home screen stops offering it', el('known-check-card').hidden === true);
+
+// And a learner who claimed nothing partial never meets any of it.
+const certain = await createLearner('Certain Kid');
+fireAction('onboarding-learning');
+await drain();
+answer('hiragana', 'read');
+fireAction('onboarding-start-learning');
+await drain(10);
+check('with nothing answered "some" the screener still goes straight to the app',
+  visible() === 'screen-home' && !certain().knownCheck, `showing ${visible()}`);
+check('...and the home screen has nothing to offer', el('known-check-card').hidden === true);
+
+// A second learner created in the same sitting starts from scratch. The
+// screener only seeds its answers when it has none, so before this the next
+// new learner opened Screen C with the previous one's answers selected — and
+// "Start learning!" would then have claimed a whole script for somebody who
+// had never said they knew it.
+await createLearner('Second Kid');
+fireAction('onboarding-learning');
+await drain();
+check('a second learner\'s screener does not inherit the first learner\'s answers',
+  scaleButtons().filter((b) => b.dataset.answer === 'none')
+    .every((b) => b.className.includes('active')),
+  scaleButtons().filter((b) => b.className.includes('active'))
+    .map((b) => `${b.dataset.scale}=${b.dataset.answer}`).join(' '));
+fireAction('onboarding-skip');
+await drain(10);
 
 // --- Story word-lookups feed spaced review (review-followups.md #2) ------
 //
