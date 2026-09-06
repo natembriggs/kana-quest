@@ -1,6 +1,7 @@
 # Kanji component mnemonics — implementation plan
 
-Status: **shipped for grades 1-3 (2026-09-05).** All seven phases in §7 are
+Status: **shipped for grades 1-3 (2026-09-05), extended to grades 4-6
+(2026-09-06).** All seven phases in §7 are
 done, with deliberate departures from what was written here — see §9 — and
 one feature this plan never contemplated at all: every hint is editable by
 the learner, and their wording replaces the built-in one everywhere. See
@@ -1000,7 +1001,9 @@ this repo's existing phasing discipline.
   after.
 - **First-pass coverage: kanji grades 1–3**, not the full jōyō set and not
   grade 1 alone — a real sample without committing every kanji the app
-  teaches to unreviewed templates on day one.
+  teaches to unreviewed templates on day one. Extended to **grades 4-6** on
+  2026-09-06 by the same hand-authoring route §9.1 describes; grades 7-9 are
+  the remaining gap.
 - **"Show hint" button: visually distinct but same quiet family** as the
   existing hint-tier buttons (§5.3) — styled so it clearly reads as "a
   nudge toward remembering," not "the answer," while still fitting the
@@ -1149,6 +1152,35 @@ written by hand alongside the component-based ones.
 
 Callers must therefore check `parts.length` before expecting tiles, and must
 not read an empty breakdown as "nothing to show".
+
+### 9.5 Grades 4-6 (2026-09-06)
+
+Same job again for 586 more kanji, by the same route: `UNITS` in the build
+script and `COMPONENT_UNITS` in `src/kanji-components.js` gained 4, 5 and 6,
+and every kanji the build then reported as missing got a hand-written line in
+`kanji-mnemonics.tsv`. **All 1026 kanji in grades 1-6 now carry a hint**, 774
+of them with a breakdown; 486 distinct components. Per grade, breakdown /
+appearance-only: 4 → 162/40, 5 → 167/26, 6 → 146/45.
+
+39 new component keywords were needed. Thirteen were components with no
+usable KANJIDIC entry at all (⺨, ⺦, 廴, 覀, 㑒, 戋, 巛, 韋, 壴, 劦, 氐, 𦥑, 㔾);
+the rest were first glosses that were wrong (耒 "come" for the plough radical,
+戠 "sword"), a borrowed sense rather than the element's own (角 "angle" for the
+horn, 采 "dice" for a hand plucking, 卯/寅 given as clock hours rather than the
+zodiac animals), or a collision with a keyword another component already
+carried (矛 and 戈 both "halberd"; 扁 and 开 both "level"). Two components
+still have no defensible keyword and their kanji get appearance hints instead:
+兹 (滋, 磁), whose only gloss is the demonstrative "this", and 电 (縄), which
+KanjiVG names with the simplified form of 電 where the character actually has
+黽.
+
+`HAND_SUPPRESSED` grew from 4 to 39, in four groups the comment there sets
+out: breakdowns that leave strokes out (徳 = 彳+心), the same element named
+twice where KanjiVG splits it round its contents (修, 準, 術, 蔵, 裏, 興), pure
+stroke bookkeeping (兆 = 儿+冫+儿), and a part whose only honest keyword is
+useless or off-tone on a tile (任's 壬 "9th calendar sign", 接's 妾
+"concubine"). All 35 of the new ones still get an appearance hint, per
+§9.4.
 
 ---
 

@@ -2258,8 +2258,11 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
     driftedMeaning.length === 0, driftedMeaning.slice(0, 8).join(' '));
   check('every mnemonic uses each of its own components\u2019 keywords',
     unusedKeyword.length === 0, unusedKeyword.slice(0, 8).join(' '));
+  // A ceiling, not a target: the map is built from the components actually
+  // used, so this only catches it blowing up. Grades 1-6 use 486; raise the
+  // bound when a new grade is covered, not to make a failure go away.
   check('the shared component map is not larger than what is actually used',
-    Object.keys(COMPONENT_MEANINGS).length < 400,
+    Object.keys(COMPONENT_MEANINGS).length < 600,
     `${Object.keys(COMPONENT_MEANINGS).length} components`);
 
   // Every kanji in a covered grade has a hint of some kind — that is the

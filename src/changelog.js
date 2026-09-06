@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-06',
     changes: [
+      'New: memory hints now cover kanji grades 4, 5 and 6 as well as 1 to 3 \u2014 586 more characters, every one of them with a hint. Most show their parts and where each part sits (\u7d79 is thread beside a small worm, \u707d is a stream over a fire); the ones that don\u2019t come apart cleanly get a hint about what the character looks like instead. As always, you can replace any of them with your own wording.',
       'New: every kanji hint can now be rewritten in your own words. Tap "Add your own hint" on a kanji\u2019s detail screen \u2014 or, when you get one wrong in a quiz, right there on the question without leaving it \u2014 and whatever you write replaces the built-in wording everywhere that kanji appears, marked with a line down the side so you can tell your words from the app\u2019s. "Use the built-in hint instead" puts the original back. Your hints are saved with your learner profile and travel to your other devices along with the rest of your progress.',
       'New: every kanji in grades 1 to 3 now has a memory hint, not just the ones built out of nameable parts. A kanji like \u72ac or \u6bcd, which doesn\u2019t come apart into pieces, gets a hint about what the character actually looks like instead \u2014 and 50 more kanji, \u5b66 and \u96fb and \u9ad8 among them, now show their parts properly where before they showed none.',
     ],

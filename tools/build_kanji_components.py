@@ -67,7 +67,7 @@ MNEMONICS_TSV = ROOT / "tools" / "kanji_src" / "kanji-mnemonics.tsv"
 # rest of the jōyō set is a one-line change here plus authored mnemonics for
 # the new units in kanji-mnemonics.tsv — the rest of the pipeline is
 # unit-agnostic.
-UNITS = ("1", "2", "3")
+UNITS = ("1", "2", "3", "4", "5", "6")
 
 # Kanji whose KanjiVG decomposition is structurally valid but useless to a
 # learner, and which the automatic guards below don't catch. Each was read
@@ -76,8 +76,31 @@ UNITS = ("1", "2", "3")
 # 宀+三+三+八+冫, both of which are stroke bookkeeping rather than parts
 # anyone would name; 午 as 丿+干+干 says nothing about a character that is
 # three strokes and a vertical. These still get an appearance-based hint
-# like any other kanji with no breakdown — they just get no tiles.
-HAND_SUPPRESSED = set("漢表寒午")
+# like any other kanji with no breakdown — they just get no tiles. The
+# grades 4-6 additions below were read and rejected the same way.
+HAND_SUPPRESSED = set(
+    # grades 1-3
+    "漢表寒午"
+    # grades 4-6: parts that do not cover the whole character, so the tiles
+    # teach a character with pieces missing — 徳 comes apart as just 彳+心,
+    # 散 as 月+攵, 官 as 宀+口, 倉 as 人+口, 存 as 亻+子, 展 as 尸+廾, 従 as
+    # 彳+疋, 穀 as 禾+殳, 衆 as 血+亻, 覧 as 臣+見, 革 as 廿+口, 鹿 as 广+比.
+    "徳散官倉存展従穀衆覧革鹿"
+    # the same element named twice where KanjiVG splits it around what it
+    # encloses: 修 (攸 left AND right), 準 (隼 twice), 術 (行 twice), 蔵 (戈
+    # twice), 裏 (衣 twice), 興 (𦥑 twice). 常 is worse than twice — its 尚
+    # and 吊 overlap on the same 口.
+    "修準術蔵裏興常"
+    # stroke bookkeeping rather than parts anyone would name: 兆 = 儿+冫+儿,
+    # 以 = 丶+人, 低 = 亻+氏+一, 候 = 亻+丨+矢, 別 = 口+勹+刂, 印 = 丿+丨+卩,
+    # 無 = 丿+一+灬, 専 = 由+寸 (its top is 叀, not 由), 難 = 艹+口+夫+隹.
+    "兆以低候別印無専難"
+    # a part whose only defensible keyword is useless or wrong in tone:
+    # 任 (壬 "9th calendar sign"), 就 (尤 "reasonable"), 敬 (苟 "any"),
+    # 熟 (孰 "which"), 保 (呆 "be amazed"), 補 (甫 "for the first time"),
+    # 接 (妾 "concubine").
+    "任就敬熟保補接"
+)
 
 # KANJIDIC lists a radical's own NAME as if it were a meaning ("one radical
 # (no.1)"). Same regex, same reason, as build_kanji_data.py:93.

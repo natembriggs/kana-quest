@@ -30,7 +30,7 @@ import { COMPONENT_MEANINGS } from './data/components.js';
  * with UNITS in tools/build_kanji_components.py — a unit listed here with no
  * data file would throw on import, so the loader treats a failed import as
  * "no components" rather than an error (see ensureComponentUnitLoaded). */
-const COMPONENT_UNITS = new Set(['1', '2', '3']);
+const COMPONENT_UNITS = new Set(['1', '2', '3', '4', '5', '6']);
 
 const byUnit = new Map();       // unit -> { kanji: entry }
 const loadedUnits = new Set();
