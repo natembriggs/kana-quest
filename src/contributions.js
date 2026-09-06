@@ -81,6 +81,15 @@ export const STATUS_TEXT = {
 /** Statuses where nothing further will happen, for the "waiting on" count. */
 const SETTLED = new Set(['released', 'not_planned', 'duplicate']);
 
+/**
+ * Statuses that read as "closed" in the My contributions list — the team has
+ * finished deciding what happens, whether or not a fix has shipped yet.
+ * Deliberately includes `fixed` (unlike SETTLED above): a fixed-but-
+ * unreleased report is done from the learner's point of view even though it
+ * still has a shipped-celebration ahead of it.
+ */
+export const CLOSED_STATUSES = new Set(['released', 'fixed', 'duplicate', 'not_planned']);
+
 // --- Version comparison -----------------------------------------------------
 //
 // Mirrors feedback-server/src/version.js. Duplicated rather than shared

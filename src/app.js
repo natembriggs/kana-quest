@@ -51,7 +51,7 @@ import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
 import { CHANGELOG } from './changelog.js';
 import {
   acknowledgeCelebrations, applyStatusResult, CATEGORY_LABEL as CONTRIBUTION_KIND,
-  contributionSummary, normalizeContribution, pendingCelebrations,
+  CLOSED_STATUSES, contributionSummary, normalizeContribution, pendingCelebrations,
   refreshableContributions, sortedContributions, STATUS_STAGE, STATUS_TEXT,
 } from './contributions.js';
 import {
@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06h'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -6489,6 +6489,7 @@ function renderSettings() {
     const strictness = state.profile.settings.strictness || DEFAULT_STRICTNESS;
     $('writing-strictness').value = strictness;
     $('writing-strictness-value').textContent = strictnessName(strictness);
+    renderContributionBadges();
   }
   $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
@@ -8578,6 +8579,7 @@ function wire() {
   // running through several questions at once.
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
+    if (!$('contributions-list-sheet').hidden) { closeContributionsList(); return; }
     if (!$('celebration').hidden) { dismissCelebration(); return; }
     if (!$('feedback-sheet').hidden) closeFeedback();
   });
@@ -8634,6 +8636,8 @@ function wire() {
       }
       case 'feedback-send': await sendFeedback(); break;
       case 'open-contributions': openContributions(); break;
+      case 'open-contributions-list': openContributionsList(); break;
+      case 'contributions-list-close': closeContributionsList(); break;
       case 'contributions-refresh':
         $('contributions-status').textContent = 'Checking…';
         await catchUpOnContributions({ force: true });
@@ -9285,6 +9289,7 @@ function maybeCelebrate() {
   if (!state.profile) return;
   if (state.session) return;
   if (!$('feedback-sheet').hidden || !$('celebration').hidden) return;
+  if (!$('contributions-list-sheet').hidden) return;
   // Only from a settled home screen: a celebration that lands on top of the
   // onboarding flow or mid-navigation is a jump-scare, not a thank-you.
   if ($('screen-home').hidden) return;
@@ -9323,6 +9328,99 @@ async function dismissCelebration() {
   // An ordinary profile save, so sync carries the acknowledgement to the
   // learner's other devices and it is normally not celebrated twice.
   await store.saveProfile(state.profile);
+}
+
+/**
+ * The two badges under My contributions in Settings — a count of shipped
+ * fixes and a count of reports sent, each opening the compact list below.
+ * The "improvements made" badge hides at zero (nothing to show off yet);
+ * "reports sent" stays visible so it doubles as an honest zero-state.
+ */
+function renderContributionBadges() {
+  const totals = contributionSummary(state.profile.contributions || {});
+  const improvements = $('badge-improvements');
+  improvements.hidden = totals.shipped === 0;
+  $('badge-improvements-count').textContent = String(totals.shipped);
+  $('badge-improvements-label').textContent = totals.shipped === 1 ? 'improvement made' : 'improvements made';
+  $('badge-reports-count').textContent = String(totals.shared);
+  $('badge-reports-label').textContent = totals.shared === 1 ? 'report sent' : 'reports sent';
+}
+
+/**
+ * One row in the compact contributions list — just a title and, tapped, the
+ * same status line the full "What I have sent" screen shows under it. Closed
+ * reports (see CLOSED_STATUSES) also get a celebration icon: for most of
+ * them that status line already reads as a thank-you (see STATUS_TEXT in
+ * contributions.js), so the icon is a second, more inviting way to reach the
+ * same text rather than a different message.
+ */
+function contributionListRow(contribution) {
+  const closed = CLOSED_STATUSES.has(contribution.status);
+  const row = document.createElement('div');
+  row.className = closed ? 'contribution-row is-closed' : 'contribution-row';
+
+  const head = document.createElement('div');
+  head.className = 'contribution-row-head';
+
+  const title = document.createElement('button');
+  title.type = 'button';
+  title.className = 'contribution-row-title';
+  title.textContent = contribution.title || 'Your report';
+  head.appendChild(title);
+
+  const detail = document.createElement('p');
+  detail.className = 'hint contribution-row-detail';
+  detail.textContent = contribution.status === 'released' && contribution.releaseMessage
+    ? contribution.releaseMessage
+    : (STATUS_TEXT[contribution.status] || '');
+  detail.hidden = true;
+  const toggle = () => { detail.hidden = !detail.hidden; };
+  title.addEventListener('click', toggle);
+
+  if (closed) {
+    const celebrate = document.createElement('button');
+    celebrate.type = 'button';
+    celebrate.className = 'contribution-row-celebrate';
+    celebrate.setAttribute('aria-label', 'See the thank-you message');
+    celebrate.textContent = '🎉';
+    celebrate.addEventListener('click', toggle);
+    head.appendChild(celebrate);
+  }
+
+  row.appendChild(head);
+  row.appendChild(detail);
+  return row;
+}
+
+/** Closed reports first (and green, via .is-closed), newest first within
+ * each group — see the comment on #contributions-list-sheet in index.html. */
+function renderContributionsList() {
+  const contributions = (state.profile && state.profile.contributions) || {};
+  const list = sortedContributions(contributions);
+  const container = $('contributions-list-rows');
+  container.innerHTML = '';
+  if (!list.length) {
+    const empty = document.createElement('p');
+    empty.className = 'hint';
+    empty.textContent = 'Nothing yet — tap "Tell us something" above to send your first report.';
+    container.appendChild(empty);
+    return;
+  }
+  const closed = list.filter((c) => CLOSED_STATUSES.has(c.status));
+  const open = list.filter((c) => !CLOSED_STATUSES.has(c.status));
+  [...closed, ...open].forEach((c) => container.appendChild(contributionListRow(c)));
+}
+
+function openContributionsList() {
+  if (!state.profile) return;
+  renderContributionsList();
+  $('contributions-list-sheet').hidden = false;
+  openDialog($('contributions-list-sheet'));
+}
+
+function closeContributionsList() {
+  $('contributions-list-sheet').hidden = true;
+  closeDialog($('contributions-list-sheet'));
 }
 
 // --- The My contributions screen ------------------------------------------

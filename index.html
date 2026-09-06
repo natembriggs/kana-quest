@@ -136,6 +136,23 @@
   </div>
 </div>
 
+<!-- ------------------------------------------------------------------ -->
+<!-- The compact scrollable list opened from either badge under My
+     contributions in Settings. Closed reports (released, fixed, duplicate,
+     not_planned — see CLOSED_STATUSES in contributions.js) sort first and
+     read in green, since there is nothing more to do on those; still-open
+     reports follow, newest first within each group. -->
+<div id="contributions-list-sheet" class="sheet" hidden>
+  <div class="sheet-scrim" data-action="contributions-list-close"></div>
+  <div class="sheet-body" role="dialog" aria-modal="true" aria-labelledby="contributions-list-heading">
+    <div class="sheet-head">
+      <h3 id="contributions-list-heading">My contributions</h3>
+      <button class="btn btn-icon btn-quiet" type="button" data-action="contributions-list-close" aria-label="Close">✕</button>
+    </div>
+    <div id="contributions-list-rows" class="stack contributions-rows"></div>
+  </div>
+</div>
+
 <main id="app">
 
   <!-- ---------------------------------------------------------------- -->
@@ -855,8 +872,17 @@
          only after a clean redo. The middle button is one button whose
          label/target adapts to the outcome: "Try harder mode" after a
          clean pass, "Switch to easier mode" after a miss — never both, and
-         hidden entirely at either end of the difficulty ladder. -->
-    <div id="writing-result" class="card stack" hidden>
+         hidden entirely at either end of the difficulty ladder.
+
+         .bottom-bar (see styles.css), same as the quiz screen's #quiz-ok/
+         #quiz-rate: pinned to the bottom of the viewport instead of flowing
+         after the board/kanji-info/hint panels above, which on a short
+         phone screen could push Next (or the rate row that replaces it)
+         below the fold — reported as needing a scroll to advance. This
+         element's own `hidden` toggle (finishWritingCharacter() in app.js)
+         still gates visibility as before; .bottom-bar only adds the fixed
+         positioning once it's shown. -->
+    <div id="writing-result" class="stack bottom-bar" hidden>
       <div class="row">
         <button id="writing-retry" class="btn btn-quiet" type="button">Try again</button>
         <button id="writing-switch-mode" class="btn btn-quiet" type="button" hidden>Try harder mode</button>
@@ -1139,6 +1165,19 @@
       <p class="hint">How closely a drawn stroke has to match to be accepted. Lower is more forgiving.</p>
     </div>
     <div class="card stack">
+      <h3>My contributions</h3>
+      <p class="hint">Something broken, something missing, or a reading that looks wrong? Tell us — it goes to a private list only the people who make this app can see.</p>
+      <button class="btn wide" type="button" data-action="open-feedback">Tell us something</button>
+      <div class="row contribution-badges profile-only">
+        <button id="badge-improvements" class="contribution-badge is-closed" type="button" data-action="open-contributions-list" hidden>
+          <b id="badge-improvements-count">0</b> <span id="badge-improvements-label">improvements made</span>
+        </button>
+        <button id="badge-reports" class="contribution-badge" type="button" data-action="open-contributions-list">
+          <b id="badge-reports-count">0</b> <span id="badge-reports-label">reports sent</span>
+        </button>
+      </div>
+    </div>
+    <div class="card stack">
       <h3>Vocabulary word lists</h3>
       <p class="hint">
         The five vocabulary groups &mdash; Identity &amp; culture, Local area/holiday/travel,
@@ -1235,12 +1274,6 @@
       <button class="btn wide" type="button" data-action="import">Load backup file</button>
       <input id="import-file" type="file" accept="application/json,.json" hidden>
       <p id="transfer-status" class="hint" aria-live="polite"></p>
-    </div>
-    <div class="card stack">
-      <h3>Feedback and ideas</h3>
-      <p class="hint">Something broken, something missing, or a reading that looks wrong? Tell us — it goes to a private list only the people who make this app can see.</p>
-      <button class="btn wide" type="button" data-action="open-feedback">Tell us something</button>
-      <button class="btn wide profile-only" type="button" data-action="open-contributions">What I have sent</button>
     </div>
     <div class="card stack">
       <h3>App version</h3>
