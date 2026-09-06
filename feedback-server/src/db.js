@@ -89,6 +89,12 @@ export function markDispatched(db, id, now) {
  * mid-attempt (or the previous attempt is old enough to be presumed dead)
  * and no issue exists yet. Two callers racing — a `waitUntil` and a cron
  * sweep, say — mean exactly one gets `changes === 1` and proceeds.
+ *
+ * A `delivery_failed` row is claimable too — that status means GitHub
+ * rejected the last attempt outright (bad credential, missing repo), not
+ * that the report is unsendable, and outboxBatch() already re-offers it on
+ * every sweep so a fixed credential picks it back up without an operator
+ * having to reset the row by hand.
  */
 export async function claimForCreate(db, id, now) {
   const result = await db.prepare(`
@@ -96,7 +102,6 @@ export async function claimForCreate(db, id, now) {
        SET create_started_at = ?, attempts = attempts + 1, updated_at = ?
      WHERE id = ?
        AND github_issue_number IS NULL
-       AND status != 'delivery_failed'
        AND (create_started_at IS NULL OR create_started_at < ?)
   `).bind(now, now, id, now - STALE_CREATE_MS).run();
   return !!(result.meta && result.meta.changes);
