@@ -110,21 +110,56 @@ The break-glass path, and the same payload the deploy workflow will eventually
 send — so automating it later needs no data migration.
 
 ```bash
+# Signed with python3 rather than openssl on purpose: `openssl dgst -hex`
+# prints bare hex on macOS and a `HMAC-SHA2-256(stdin)= ` prefix elsewhere,
+# so a sed that adds the "sha256=" prefix works on one machine and silently
+# produces a 401 on the other.
 cd feedback-server
-BODY='{"version":"2026-09-06a","credits":[{"issue":3,"message":"Your report about the placement result fixed it."}]}'
-TS=$(python3 -c 'import time;print(int(time.time()*1000))')
-SECRET='…'   # the RELEASE_SECRET value
-SIG=$(printf '%s.%s' "$TS" "$BODY" | openssl dgst -sha256 -hmac "$SECRET" -hex | sed 's/^.* /sha256=/')
-curl -sS -X POST https://kana-quest-feedback.natebriggs.workers.dev/v1/admin/releases \
-  -H "content-type: application/json" \
-  -H "x-kanaquest-timestamp: $TS" \
-  -H "x-kanaquest-signature: $SIG" \
-  --data "$BODY"
+python3 - <<'EOF'
+import hashlib, hmac, json, subprocess, time
+
+SECRET = "…"          # the RELEASE_SECRET value
+VERSION = "2026-09-06a"
+CREDITS = [{"issue": 3, "message": "Your report about the placement result fixed it."}]
+
+body = json.dumps({"version": VERSION, "credits": CREDITS})
+ts = str(int(time.time() * 1000))
+sig = "sha256=" + hmac.new(SECRET.encode(), f"{ts}.{body}".encode(), hashlib.sha256).hexdigest()
+print(subprocess.run([
+    "curl", "-sS", "-X", "POST",
+    "https://kana-quest-feedback.natebriggs.workers.dev/v1/admin/releases",
+    "-H", "content-type: application/json",
+    "-H", f"x-kanaquest-timestamp: {ts}",
+    "-H", f"x-kanaquest-signature: {sig}",
+    "--data", body,
+], capture_output=True, text=True).stdout)
+EOF
 ```
 
 Re-running an identical call is a no-op. The same version with a *different*
 mapping is refused with `409 version_conflict` — a learner who has been told
 their fix shipped must not be quietly untold.
+
+## Verified end to end
+
+Against the deployed Worker and the real inbox repository, on 2026-09-06:
+
+- Submit from the app in a browser → `202` → D1 row → visible on My
+  contributions as "getting it to the team".
+- Retry with the same id and receipt → the existing row, no second issue.
+  Same id, different receipt → `409`.
+- A status request with the wrong receipt → `found: false`, indistinguishable
+  from an id that does not exist.
+- A disallowed `Origin` → `403`.
+- Issue creation with the correct title, labels and hidden marker, and the
+  marker read back out of a listing (the crash-recovery path).
+- Reopening the issue → `under_review`; `status:planned` → `planned`;
+  closing as completed → `fixed`. Every delivery `200`, signature verified.
+- A signed release → `released`, with the credit message shown on the card.
+  An identical replay is a no-op; the same version with a different mapping
+  is `409`; a malformed version is `400`; a bad signature is `401`.
+- The thank-you fires on the next load, names the learner's own words, and
+  does **not** fire again after being dismissed.
 
 ## Label vocabulary
 

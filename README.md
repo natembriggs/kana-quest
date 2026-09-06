@@ -479,7 +479,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader, library and 24 standalone stories (four per level) ship; serialized multi-episode series (phase 9) has not started — see its phase table |
 | `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
 | `kanji-mnemonic-plan.md` | Kanji memory hints: breaking a kanji into its component parts with a standardized meaning per part, a hint that accounts for how those parts are arranged, and a way for a learner to rewrite any hint in their own words | **In progress** — shipped for grades 1-6 (detail screen, lesson card, and a Hint button in the Yomi/Definition and Writing quizzes, plus editable per-learner hints on all four); grades 7-9 need authored hints. See §9 for where the shipped version departs from the plan, and §10 for the editable layer |
-| `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **Proposal** — research and design complete, no code written |
+| `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **In progress** — phases 1, 2, 3 and 5 ship: the 💬 button, the form, `feedback-server/`, My contributions, the GitHub status bridge and the release thank-you. Phase 4 (moving Pages onto Actions) is deferred by decision; phase 6 (recognition polish) and phase 7 (agent triage) have not started |
 | `external-import-plan.md` | Importing kanji/vocabulary progress from WaniKani, renshuu, Anki and similar apps | **Proposal** — research and scoping complete, no code written |
 
 ## What is not built yet
@@ -502,6 +502,31 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
   clock is badly wrong, and deleting a learner removing their synced copy
   too. Sync itself works and runs automatically; see `sync-plan.md` phases
   4-5.
+
+## Telling us something
+
+Every screen has a 💬 in its header, including mid-quiz. It opens a short form
+— what kind of thing, a title, the details — and the report becomes an issue in
+a **private** inbox repository (`natembriggs/kana-quest-feedback`), never a
+public one. Settings → **What I have sent** shows every report a learner has
+made and what has happened to it since; when something they asked for actually
+ships, the app says thank you on the next load and names the version.
+
+Nothing identifying is attached. No name, badge, progress, answers, study list
+or sync code — the app details it offers to include (version, screen, rough
+viewport, browser family) are listed in full in the form before sending, and
+can be switched off.
+
+There is no account anywhere in this. A report is tied to the learner by a
+random 256-bit receipt held in their encrypted profile, so — exactly like
+progress — sync and backup are what carry the history to another device, and
+losing every copy loses it. The screen says so.
+
+The server is `feedback-server/`, a second Cloudflare Worker kept deliberately
+separate from `sync-server/`: that one cannot read its own payload, whereas
+this one formats user text and holds a GitHub credential. See
+[`feedback-server/README.md`](feedback-server/README.md) for setup, the label
+vocabulary that drives what a learner sees, and how to fire a release by hand.
 
 ## Progress and backups
 
@@ -579,9 +604,12 @@ when you want to force it, but it shouldn't be needed.
 | `src/data/story-manifest.js` | Generated data: id → `{title, series, level, blurb, hash, length}` for every story — always loaded, small |
 | `src/data/story-*.js` | Generated data: one full story's tokenised body — do not hand-edit, see `story-writing-guide.md`. Loaded lazily when that story is opened |
 | `src/store.js` | IndexedDB profiles, backup export/import |
+| `src/contributions.js` | Pure contribution model behind the Feedback button: normalization, the merge rules for receipts and acknowledgements, `APP_VERSION` comparison, and when a shipped fix is worth celebrating. See `feedback-plan.md` |
+| `src/feedback.js` | The transport half: minting a receipt, the allowlisted diagnostics bundle, Turnstile, submitting and retrying, and batch status refresh — the only file that knows `feedback-server/` exists |
 | `src/merge.js` | Pure profile-merge logic backup import runs on — kept separate from storage so the same merge can run against a synced profile later, see `sync-plan.md` §0.3 |
 | `src/sync-protocol.js` | The pull/merge/push/retry state machine behind Sync across devices — pure, takes a transport and encrypt/decrypt as parameters so it's testable without real crypto or a network. See `sync-plan.md` §4.1 |
 | `src/sync-transport.js` | The real thing `sync-protocol.js` is handed: sync codes, PBKDF2/HKDF key derivation, AES-GCM encrypt/decrypt, and the fetch calls to `sync-server/` |
+
 | `src/app.js` | Screen routing, session flow, event wiring |
 | `src/changelog.js` | Hand-maintained, plain-language "what's new" shown in Settings — add an entry here in the same commit as any user-visible `APP_VERSION` bump |
 | `vendor/` | `wanakana` (romaji ↔ kana), vendored so the app works offline |

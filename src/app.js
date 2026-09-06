@@ -9444,7 +9444,6 @@ function watchLifecycleForSync() {
   }
 }
 
-
 async function boot() {
   wire();
   store.requestPersistence();

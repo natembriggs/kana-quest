@@ -1,6 +1,19 @@
 # Feedback-to-fix implementation plan
 
-**Status:** proposal, researched 2026-08-24, reviewed and revised 2026-08-24
+**Status:** phases 0-3 and 5 implemented and deployed 2026-09-06; researched
+2026-08-24, reviewed and revised 2026-08-24
+
+**What ships today:** a 💬 in every screen's header, the report form, the
+`kana-quest-feedback` Worker and D1, the private inbox repository and its
+webhook, My contributions, and the release thank-you. Phase 4 is deferred by
+decision (see *Phase-0 choices*); phases 6 and 7 have not started. The whole
+loop is verified end to end against the live service — see
+`feedback-server/README.md`, *Verified end to end*.
+
+**Two things left before it is fully armed,** both one command and both
+documented in that README: a `GITHUB_TOKEN` (until then reports queue safely
+in D1 and the cron sweep files them the moment it exists) and a real
+`TURNSTILE_SECRET` in place of Cloudflare's test keys.
 **Scope:** in-app feedback submission, GitHub issue creation, request tracking,
 release-aware notifications, and a learner-facing contribution history
 
@@ -972,24 +985,36 @@ format they read is stable.
 
 ### Phase 0 — Decisions and service skeleton (0.5–1 day)
 
-- [ ] Choose the Lean or Full track (Lean **recommended**; it is the same code
+- [x] Choose the Lean or Full track (Lean **recommended**; it is the same code
   with a different caller for issue creation, so this is reversible).
-- [ ] Choose the destination: private `kana-quest-feedback` inbox
+- [x] Choose the destination: private `kana-quest-feedback` inbox
   (**recommended**) or the existing public repository with a public-submission
   warning.
-- [ ] Register a private GitHub App, install it on only the chosen repository,
+- [x] Register a private GitHub App, install it on only the chosen repository,
   configure Issues read/write + Metadata read, and subscribe to Issues events.
-- [ ] Create `feedback-server/` with current Wrangler, module Worker entry point,
+  *(The private inbox repository, its label vocabulary and its Issues webhook
+  all exist and are verified. The App itself is not registered — that needs a
+  browser — so `src/github.js` supports a fine-grained PAT as well and runs on
+  whichever is configured.)*
+- [x] Create `feedback-server/` with current Wrangler, module Worker entry point,
   generated binding types, production/staging environments, and test harness.
-- [ ] Create an EU-jurisdiction D1 database if that locality is desired; this is
+  *(Production only — staging is documented in the server README but not
+  created, since it needs a second D1, a second private repo and a second set
+  of secrets, and a half-declared `[env.staging]` fails validation for the
+  production deploy too.)*
+- [x] Create an EU-jurisdiction D1 database if that locality is desired; this is
   a creation-time choice.
-- [ ] Create a Turnstile widget per environment and a Workers Rate Limiting
-  binding. Add a cron trigger for the outbox sweep. On the Full track, also
+- [x] Create a Turnstile widget per environment and a Workers Rate Limiting
+  binding. *(Rate limiting done; the Turnstile widget still needs creating in
+  the dashboard — the Worker runs on Cloudflare's published test keys until
+  then, which pass every challenge.)* Add a cron trigger for the outbox sweep. On the Full track, also
   create the main and dead-letter Queues — this is the point at which a paid
   Workers plan becomes necessary.
-- [ ] Store all secrets through Wrangler/Cloudflare, document their names and
-  rotation procedure, and ensure local secret files are ignored.
-- [ ] Record final public status names, GitHub labels, body limits, retention,
+- [x] Store all secrets through Wrangler/Cloudflare, document their names and
+  rotation procedure, and ensure local secret files are ignored. *(Three of
+  five set: `RECEIPT_PEPPER`, `GITHUB_WEBHOOK_SECRET`, `RELEASE_SECRET`.
+  `GITHUB_TOKEN` and `TURNSTILE_SECRET` need a person.)*
+- [x] Record final public status names, GitHub labels, body limits, retention,
   and allowed origins in a short server README.
 
 **Exit:** a deployed staging Worker has `/health`, empty D1 migrations applied,
@@ -997,25 +1022,27 @@ bindings present, and no GitHub credential in source or client assets.
 
 ### Phase 1 — Safe feedback-to-GitHub MVP (1.5–2.5 days Lean / 2–4 Full)
 
-- [ ] Add the feedback entry points and accessible modal/form.
-- [ ] Implement explicit Turnstile rendering and reset/expiry handling.
-- [ ] Add `src/feedback.js` for draft validation, secure ID/receipt generation,
+- [x] Add the feedback entry points and accessible modal/form.
+- [x] Implement explicit Turnstile rendering and reset/expiry handling.
+- [x] Add `src/feedback.js` for draft validation, secure ID/receipt generation,
   submission, retry, and stable error mapping.
-- [ ] Add D1 request/event migrations and prepared-statement repository helpers.
-- [ ] Implement `POST /v1/feedback` validation, HMAC receipt hashing,
+- [x] Add D1 request/event migrations and prepared-statement repository helpers.
+- [x] Implement `POST /v1/feedback` validation, HMAC receipt hashing,
   idempotent insert, rate limits, and background dispatch.
-- [ ] Implement GitHub App JWT/installation-token caching and a single
+- [x] Implement GitHub App JWT/installation-token caching and a single
   re-entrant `createIssueFor(id)` with backoff and permanent-failure handling.
   Call it from `ctx.waitUntil()` (Lean) or a Queue consumer with explicit
   ack/retry and dead-letter handling (Full).
-- [ ] Add the hidden marker and a narrow reconciliation command for the rare
+- [x] Add the hidden marker and a narrow reconciliation command for the rare
   GitHub-created/D1-not-updated failure window.
-- [ ] Add the scheduled outbox sweep over `dispatched_at` / `create_started_at`,
+- [x] Add the scheduled outbox sweep over `dispatched_at` / `create_started_at`,
   and treat it as required rather than optional on the Lean track — an evicted
   `waitUntil` is the normal failure, not an edge case.
 - [ ] Add staging integration tests against a dedicated GitHub test repository;
   production tests should mock GitHub by default and never litter the real issue
-  tracker.
+  tracker. *(Not done: there is no staging environment yet. The 30 Node unit
+  tests never touch GitHub; the live end-to-end run used one probe issue in the
+  real inbox, which was then closed and its rows deleted.)*
 
 **Exit:** a submission returns a receipt immediately, creates exactly one
 structured GitHub issue despite client retries, an evicted `waitUntil`, and an
@@ -1023,15 +1050,15 @@ overlapping cron sweep, and exposes no secret or profile data.
 
 ### Phase 2 — Synced receipts and My contributions (1.5–3 days)
 
-- [ ] Add `contributions` and `forgottenContributions` to new/normalized
+- [x] Add `contributions` and `forgottenContributions` to new/normalized
   profiles.
-- [ ] Extend `mergeProfiles()` with the timestamp and tombstone rules above.
-- [ ] Extend backup validation/normalization without breaking old backups.
-- [ ] Implement the authenticated batch status endpoint and client refresh with
+- [x] Extend `mergeProfiles()` with the timestamp and tombstone rules above.
+- [x] Extend backup validation/normalization without breaking old backups.
+- [x] Implement the authenticated batch status endpoint and client refresh with
   bounded cadence/backoff.
-- [ ] Build the My contributions screen with honest pending/failure/empty/offline
+- [x] Build the My contributions screen with honest pending/failure/empty/offline
   states, issue links, refresh, and forget controls.
-- [ ] Save newer status snapshots through the normal profile path so existing
+- [x] Save newer status snapshots through the normal profile path so existing
   automatic sync carries them across devices.
 
 **Exit:** a paired device receives the history and receipt capabilities through
@@ -1040,14 +1067,14 @@ unpaired profile retains a local history on that device.
 
 ### Phase 3 — GitHub status bridge (1–2 days)
 
-- [ ] Add raw-body webhook signature verification and constant-time comparison.
-- [ ] Add delivery replay protection and strict repository/installation/event
+- [x] Add raw-body webhook signature verification and constant-time comparison.
+- [x] Add delivery replay protection and strict repository/installation/event
   checks.
-- [ ] Translate issue labels, close reasons, reopen actions, and canonical
+- [x] Translate issue labels, close reasons, reopen actions, and canonical
   duplicate mappings into the curated event model.
-- [ ] Add simple maintainer documentation: which labels move which app states,
+- [x] Add simple maintainer documentation: which labels move which app states,
   what does not notify, and how to correct a mistaken state.
-- [ ] Add reconciliation for webhook downtime by polling only known mapped
+- [x] Add reconciliation for webhook downtime by polling only known mapped
   issues from an operator-triggered job, not on every user request.
 
 **Exit:** maintainer changes in GitHub appear in My contributions, while
@@ -1084,14 +1111,14 @@ deploys through Actions, and — only then — tells the feedback server which e
 
 ### Phase 5 — Release-aware thank-you notification (1–2 days)
 
-- [ ] Extend changelog entries with exact version and feedback-credit metadata,
+- [x] Extend changelog entries with exact version and feedback-credit metadata,
       preserving legacy string entries and entries without `version`.
-- [ ] Implement version parsing for `YYYY-MM-DD` plus optional letter suffix,
+- [x] Implement version parsing for `YYYY-MM-DD` plus optional letter suffix,
       covering same-day letters, later dates, equality, malformed server
       versions, and an app older than the fix.
-- [ ] Implement eligible-release selection, one combined celebration,
+- [x] Implement eligible-release selection, one combined celebration,
       acknowledgement persistence, and acknowledgement merge tests.
-- [ ] Ensure the notification uses the `APP_VERSION` of the JavaScript actually
+- [x] Ensure the notification uses the `APP_VERSION` of the JavaScript actually
       executing, waits until the home screen is stable, and never blocks startup
       or an active session.
 
