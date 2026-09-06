@@ -32,10 +32,11 @@ the clear receipt token. The clear receipt exists only inside the learner's
 end-to-end encrypted profile, which is what makes their contribution history
 follow them across devices without an account.
 
-## Going live — the two remaining steps
+## Going live
 
-The Worker is deployed and working, but it is running without a GitHub
-credential and on Turnstile's public test keys. Both are one command each.
+Both steps below are done: a `GITHUB_TOKEN` is set and a real Turnstile
+widget backs the feedback form. Left in place as reference for rotating
+either one.
 
 ### 1. A GitHub token, so issues actually get filed
 
@@ -88,8 +89,8 @@ refused.
 | `RECEIPT_PEPPER` | ✅ | HMAC pepper for receipt hashes. Rotating it invalidates every existing receipt unless `receipt_hash_version` is used to migrate. |
 | `GITHUB_WEBHOOK_SECRET` | ✅ | Shared with the repository webhook; verifies `X-Hub-Signature-256`. |
 | `RELEASE_SECRET` | ✅ | Signs `POST /v1/admin/releases` and `/v1/admin/duplicate`. Also belongs in GitHub Actions secrets when release automation lands. |
-| `GITHUB_TOKEN` | ❌ | See step 1 above. |
-| `TURNSTILE_SECRET` | ❌ | See step 2 above. Falls back to Cloudflare's test secret. |
+| `GITHUB_TOKEN` | ✅ | See step 1 above. |
+| `TURNSTILE_SECRET` | ✅ | See step 2 above. Falls back to Cloudflare's test secret if unset. |
 
 `npx wrangler secret list` shows what is set. Nothing here is ever logged.
 

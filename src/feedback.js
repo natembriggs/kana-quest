@@ -25,7 +25,7 @@ export const FEEDBACK_ENDPOINT = 'https://kana-quest-feedback.natebriggs.workers
 // feedback-server/README.md, "Going live". Until then the challenge is
 // theatre and the rate limiter is the real defence, which is fine for an app
 // whose entire audience is one family.
-export const FEEDBACK_TURNSTILE_SITEKEY = '1x00000000000000000000AA';
+export const FEEDBACK_TURNSTILE_SITEKEY = '0x4AAAAAAEqXrOPkv5SxKAjI';
 
 const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 const TURNSTILE_ACTION = 'feedback';

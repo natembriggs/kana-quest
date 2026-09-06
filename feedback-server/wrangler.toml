@@ -54,7 +54,7 @@ ALLOWED_ORIGINS = "https://natembriggs.github.io,http://localhost:8744,http://12
 # Hostnames Turnstile is allowed to report having solved the challenge on.
 # Blank disables the check (needed while running on the always-pass test
 # keys, which report whatever hostname asked).
-TURNSTILE_HOSTNAMES = ""
+TURNSTILE_HOSTNAMES = "natembriggs.github.io"
 
 # Turnstile's documented always-passes test secret. Replaced by a real
 # secret with `wrangler secret put TURNSTILE_SECRET`, which takes precedence
