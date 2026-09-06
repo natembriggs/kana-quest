@@ -770,6 +770,21 @@
         <button id="writing-switch-mode" class="btn btn-quiet" type="button" hidden>Try harder mode</button>
         <button id="writing-next" class="btn btn-primary" type="button">Next</button>
       </div>
+      <!-- Shown instead of #writing-next above, and only on a character's
+           first correct pass — a redo never re-grades, so it never shows
+           this either (see finishWritingCharacter() in app.js). Same
+           control as the quiz screen's #quiz-rate. -->
+      <div id="writing-rate" class="row rate-row" hidden>
+        <button id="writing-rate-easy" class="btn rate-easy" type="button">
+          Easy<span class="rate-sub">wait longer to show</span>
+        </button>
+        <button id="writing-rate-ok" class="btn btn-primary rate-ok" type="button">
+          OK<span class="rate-sub">this came at a good time</span>
+        </button>
+        <button id="writing-rate-hard" class="btn rate-hard" type="button">
+          Hard<span class="rate-sub">show again soon</span>
+        </button>
+      </div>
     </div>
 
     <!-- Deliberately last on the screen: fine to be pushed below the fold
@@ -897,6 +912,21 @@
          above happens to end. -->
     <div class="bottom-bar">
       <button id="quiz-ok" class="btn btn-primary wide" type="button" hidden>Next</button>
+      <!-- Shown instead of #quiz-ok above, and only on a correct answer —
+           see showRatingBar()/rateAndAdvance() in app.js. OK is the same
+           default every mode already graded to before this existed; Easy/
+           Hard are the learner's own signal, not inferred from anything. -->
+      <div id="quiz-rate" class="row rate-row" hidden>
+        <button id="quiz-rate-easy" class="btn rate-easy" type="button">
+          Easy<span class="rate-sub">wait longer to show</span>
+        </button>
+        <button id="quiz-rate-ok" class="btn btn-primary rate-ok" type="button">
+          OK<span class="rate-sub">this came at a good time</span>
+        </button>
+        <button id="quiz-rate-hard" class="btn rate-hard" type="button">
+          Hard<span class="rate-sub">show again soon</span>
+        </button>
+      </div>
     </div>
   </section>
 

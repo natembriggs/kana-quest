@@ -149,6 +149,23 @@ function fire(element, type, event = {}) {
   });
 }
 
+// The "continue" control a resolved question offers: the plain Next button
+// on a miss, or — see showRatingBar()/rateAndAdvance() in app.js — the
+// Easy/OK/Hard bar's OK button on a correct answer. OK commits exactly the
+// same default rating every mode always graded to before this control
+// existed, so pressing it is behaviourally identical to the old plain Next;
+// these are what nearly every "press Next" line below should fire on, so a
+// correct answer's rating bar doesn't leave the test clicking a button that
+// is (correctly) still hidden. The stub DOM (see makeElement above) doesn't
+// model [hidden] cascading to children, so this checks the container
+// (#quiz-rate/#writing-rate), which is what showRatingBar() actually
+// toggles — not the individual buttons inside it, which app.js never
+// touches directly.
+function quizContinueButton() { return el('quiz-rate').hidden ? el('quiz-ok') : el('quiz-rate-ok'); }
+function quizContinueVisible() { return !el('quiz-rate').hidden || !el('quiz-ok').hidden; }
+function writingContinueButton() { return el('writing-rate').hidden ? el('writing-next') : el('writing-rate-ok'); }
+function writingContinueVisible() { return !el('writing-rate').hidden || !el('writing-next').hidden; }
+
 const missingIds = new Set();
 
 globalThis.document = {
@@ -452,6 +469,15 @@ let recoveryKana = null;
 let revealDone = false;
 let revealKana = null;
 let sawTenOptions = true;
+// FSRS rating wiring: three of this session's clean, first-try answers
+// (answered indices 0, 3, 4 — the ones that aren't the recovery/reveal
+// slots below) each press a different rating button, so the resulting
+// records (checked against storage further down) prove the real UI
+// control actually reaches grade() with a different rating each time, not
+// just that the buttons exist.
+let easyKana = null;
+let hardKana = null;
+let okRatedKana = null;
 
 for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
   const kana = el('quiz-kana').textContent;
@@ -492,8 +518,8 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
         `"${el('quiz-feedback').textContent}" / ${el('quiz-card').className}`);
       check('a resolved question does not auto-advance on its own — no timer is even scheduled',
         visible() === 'screen-quiz' && el('quiz-kana').textContent === kana && timers.size === 0);
-      check('Next is offered once the question resolves', el('quiz-ok').hidden === false);
-      fire(el('quiz-ok'), 'click'); // the learner taps Next themselves
+      check('Next is offered once the question resolves', quizContinueVisible());
+      fire(quizContinueButton(), 'click'); // the learner taps Next (or OK) themselves
       await settle();
     } else {
       revealDone = true;
@@ -520,8 +546,8 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
       await settle();
       check('tapping the actual right answer after two misses still marks it right',
         correctTarget.classList.contains('is-right'));
-      check('Next is offered once the learner\'s own tap resolves it', el('quiz-ok').hidden === false);
-      fire(el('quiz-ok'), 'click');
+      check('Next is offered once the learner\'s own tap resolves it', quizContinueVisible());
+      fire(quizContinueButton(), 'click');
       await settle();
     }
   } else {
@@ -530,10 +556,19 @@ for (let i = 0; i < 40 && visible() === 'screen-quiz'; i += 1) {
     if (!target) break;
     fire(target, 'click');
     await settle();
-    check('a correct first-try answer does not auto-advance either — Next is offered instead',
+    check('a correct first-try answer does not auto-advance either — the rating bar is offered instead',
       visible() === 'screen-quiz' && el('quiz-kana').textContent === kana
-      && el('quiz-ok').hidden === false && timers.size === 0);
-    fire(el('quiz-ok'), 'click');
+      && quizContinueVisible() && timers.size === 0);
+    if (easyKana === null) {
+      easyKana = kana;
+      fire(el('quiz-rate-easy'), 'click');
+    } else if (hardKana === null) {
+      hardKana = kana;
+      fire(el('quiz-rate-hard'), 'click');
+    } else {
+      okRatedKana = kana;
+      fire(quizContinueButton(), 'click'); // OK — the plain-Next-equivalent default
+    }
     await settle();
   }
   answered += 1;
@@ -583,6 +618,20 @@ check('a miss wrong both times counts as a lapse', !!revealRecord && revealRecor
 check('it too is not re-drilled later in the same session',
   revealRecord && revealRecord.history.length === 1, JSON.stringify(revealRecord));
 
+// The Easy/OK/Hard bar actually reaching grade() with a different rating
+// each time (see the loop above) — not just existing on screen. Box tiers
+// for a first-ever correct grade (test/smoke.js pins the exact stability
+// numbers behind these): Hard -> 1, the OK/default -> 2, Easy -> 4.
+const easyRecord = saved.progress[`recognition:${easyKana}`];
+check('pressing Easy on a real correct answer grades it Easy, landing on box 4',
+  !!easyRecord && easyRecord.seen === 1 && easyRecord.box === 4, JSON.stringify(easyRecord));
+const hardRecord = saved.progress[`recognition:${hardKana}`];
+check('pressing Hard on a real correct answer grades it Hard, landing on box 1 — lower than the OK default',
+  !!hardRecord && hardRecord.seen === 1 && hardRecord.box === 1, JSON.stringify(hardRecord));
+const okRatedRecord = saved.progress[`recognition:${okRatedKana}`];
+check('pressing OK reproduces exactly the old default-Good behaviour, landing on box 2',
+  !!okRatedRecord && okRatedRecord.seen === 1 && okRatedRecord.box === 2, JSON.stringify(okRatedRecord));
+
 // Now actually go practise those 2 — answering both correctly this time —
 // and confirm the resulting summary shows the FULL original 5, not just
 // these 2 in isolation: state.summaryAllResults, carried into the new
@@ -601,7 +650,7 @@ for (let i = 0; i < 5 && visible() === 'screen-quiz'; i += 1) {
   const right = el('quiz-choices')._children.find((c) => c.textContent === answer);
   fire(right, 'click');
   await settle();
-  fire(el('quiz-ok'), 'click');
+  fire(quizContinueButton(), 'click');
   await settle();
 }
 check('practising the misses ends at a summary too', visible() === 'screen-summary', visible());
@@ -770,12 +819,13 @@ check('a clean Trace pass offers trying one level harder',
 check('the hint row has nothing left to do once finished, so it is hidden too — Trace never showed it anyway',
   el('writing-hints').hidden === true);
 
-// Enter reaches writing's Next too, and is gated on the result card rather
-// than on the button (which is never hidden itself — the card around it is
-// what appears). Mid-character, there is nothing for Enter to press, so a
-// stray Enter can never skip a character that has not been drawn yet.
-check('the writing Next button lives inside the result card, not hidden on its own',
-  el('writing-next').hidden === false && el('writing-result').hidden === false);
+// Enter reaches writing's continue control too, gated on the result card
+// (mid-character, there is nothing for Enter to press, so a stray Enter can
+// never skip a character that has not been drawn yet). A clean pass shows
+// the rating bar in that card instead of the plain Next button — see
+// showRatingBar() in app.js.
+check('after a clean pass, the rating bar lives inside the result card',
+  el('writing-rate').hidden === false && el('writing-result').hidden === false);
 
 // bindTap() (see app.js): a touch pointerup should fire the handler
 // immediately, without waiting for the click the browser would ordinarily
@@ -1053,7 +1103,7 @@ if (visible() === 'screen-writing') {
   check('Free is already the hardest level, so a clean pass there offers no switch-mode button',
     el('writing-switch-mode').hidden === true);
 
-  fire(el('writing-next'), 'click');
+  fire(writingContinueButton(), 'click');
   await settle();
 }
 
@@ -1590,8 +1640,8 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
       `"${el('quiz-feedback').textContent}"`);
   }
   check('a resolved definition question waits for Next instead of auto-advancing',
-    el('quiz-ok').hidden === false && timers.size === 0);
-  fire(el('quiz-ok'), 'click');
+    quizContinueVisible() && timers.size === 0);
+  fire(quizContinueButton(), 'click');
   await settle();
   defAnswered += 1;
 }
@@ -1771,7 +1821,7 @@ check('a perfectly traced kanji is accepted, same grading pipeline as kana',
 check('every character in a brand-new writing session defaults to Trace — none has a mastery record yet',
   el('writing-hints').hidden === true); // Trace never shows the peek/switch-easier row
 
-fire(el('writing-next'), 'click');
+fire(writingContinueButton(), 'click');
 await settle();
 
 // Every other mode's quiz is driven all the way to the summary screen and
@@ -1786,7 +1836,7 @@ for (let i = 0; i < 10 && visible() === 'screen-writing'; i += 1) {
     traceModelStroke(char, s);
     await settle();
   }
-  fire(el('writing-next'), 'click');
+  fire(writingContinueButton(), 'click');
   await settle();
 }
 check('a completed kanji writing session reaches the summary, same as every other mode',
@@ -2299,7 +2349,7 @@ const studyNowAnswer = meaningLabel(kanjiInfo(grade6Course, grade6Char));
 const studyNowRight = el('quiz-choices')._children.find((c) => c.textContent === studyNowAnswer);
 fire(studyNowRight, 'click');
 await settle();
-fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
+fire(quizContinueButton(), 'click'); // resolved questions wait for Next, not a timer, now
 await settle();
 check('answering the one question ends the session at the summary',
   visible() === 'screen-summary', `showing ${visible()}`);
@@ -3357,13 +3407,12 @@ check('a correct definition turns the card green immediately',
 check('...but does NOT swap the choices out — this is the bug: it must wait for Next',
   el('quiz-choices')._children.map((b) => b.textContent).join('|') === defChoicesBefore.join('|'),
   el('quiz-choices')._children.map((b) => b.textContent).join('|'));
-check('"Next" appears and says what it will do, rather than a bare "Next"',
-  el('quiz-ok').hidden === false && el('quiz-ok').textContent === 'Next: the reading →',
-  el('quiz-ok').textContent);
+check('the rating bar is offered instead of an auto-advance — the feedback line, not button text, says what comes next',
+  quizContinueVisible());
 check('the feedback line explains what just happened',
   el('quiz-feedback').textContent === 'Correct! Next, its reading.', el('quiz-feedback').textContent);
 
-fire(el('quiz-ok'), 'click'); // nextQuestion() -> vocabNextStage -> beginVocabYomiStage
+fire(quizContinueButton(), 'click'); // rateAndAdvance() -> nextQuestion() -> vocabNextStage -> beginVocabYomiStage
 await settle();
 
 check('pressing Next reveals the reading stage — same word, new choices',
@@ -3386,10 +3435,10 @@ await settle();
 
 check('grading the reading clears the "now choose" hint — it is not a lingering banner',
   el('quiz-feedback').textContent === '', el('quiz-feedback').textContent);
-check('a bare "Next" this time — there is no third stage to announce',
-  el('quiz-ok').hidden === false && el('quiz-ok').textContent === 'Next', el('quiz-ok').textContent);
+check('the rating bar is offered this time too — there is no third stage to announce',
+  quizContinueVisible());
 
-fire(el('quiz-ok'), 'click');
+fire(quizContinueButton(), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 check('this single-word session is now finished — Next actually advanced, not just re-announced',
   visible() === 'screen-summary', visible());
@@ -3423,14 +3472,17 @@ check('the correct kana reading is among Recall stage 1\'s options', !!prodRight
 fire(prodRight, 'click');
 await settle();
 
-const prodQualifies = el('quiz-ok').textContent === 'Next: pick the kanji →';
-check('Recall stage 1 pauses green with an explanatory Next, same as Meaning did',
-  el('quiz-card').className.includes('is-correct') && el('quiz-ok').hidden === false,
-  `card="${el('quiz-card').className}", ok hidden=${el('quiz-ok').hidden}, text="${el('quiz-ok').textContent}"`);
+// Button text no longer distinguishes "another stage is coming" (see
+// showRatingBar() in app.js — the rating bar carries no such text either
+// way) — the feedback line is the one external signal left for it.
+const prodQualifies = el('quiz-feedback').textContent === 'Correct! Next, pick the kanji.';
+check('Recall stage 1 pauses green with the rating bar offered, same as Meaning did',
+  el('quiz-card').className.includes('is-correct') && quizContinueVisible(),
+  `card="${el('quiz-card').className}"`);
 check('...and does not swap the choices out from under the click that just landed',
   el('quiz-choices')._children.map((b) => b.textContent).join('|') === prodChoicesBefore.join('|'));
 
-fire(el('quiz-ok'), 'click');
+fire(quizContinueButton(), 'click');
 await settle();
 
 if (prodQualifies) {
@@ -3443,14 +3495,14 @@ if (prodQualifies) {
     el('quiz-choices')._children.map((b) => b.textContent).join('|'));
   fire(spellRight, 'click');
   await settle();
-  check('grading the spelling clears the hint and shows a bare Next',
-    el('quiz-feedback').textContent === '' && el('quiz-ok').textContent === 'Next');
+  check('grading the spelling clears the hint and offers the rating bar',
+    el('quiz-feedback').textContent === '' && quizContinueVisible());
 } else {
-  check('no follow-up qualified, so Next is bare and finishes the session directly',
-    el('quiz-ok').textContent === 'Next');
+  check('no follow-up qualified, so the rating bar is offered directly, finishing the session next',
+    quizContinueVisible());
 }
 
-fire(el('quiz-ok'), 'click');
+fire(quizContinueButton(), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 check('the Recall session is finished too', visible() === 'screen-summary', visible());
 
@@ -4245,7 +4297,7 @@ async function answerOneQuestion(answer) {
   if (!target) return false;
   fire(target, 'click');
   await settle();
-  fire(el('quiz-ok'), 'click');
+  fire(quizContinueButton(), 'click');
   await settle();
   return true;
 }

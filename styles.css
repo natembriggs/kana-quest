@@ -501,6 +501,26 @@ button.quiz-glyph-tap {
 .topbar:has(.btn-back-text) { grid-template-columns: auto 1fr auto; }
 .wide { width: 100%; }
 
+/* The explicit Easy/OK/Hard rating control (see showRatingBar()/
+   rateAndAdvance() in app.js) that replaces a plain Next button on a
+   correct answer — #quiz-rate on the quiz screen, #writing-rate on
+   writing's. OK sits in the middle at roughly double width ("wait longer
+   to show" / "show again soon" flank the default "this came at a good
+   time"), matching today's Next in every other way: same look
+   (.btn-primary), same Enter-key binding (primaryAdvanceButton() in
+   app.js), same RATING.GOOD it always defaulted to. */
+.rate-row > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 58px;
+  padding: 8px 4px;
+}
+.rate-row .rate-ok { flex: 2; }
+.rate-sub { font-size: 11px; font-weight: 500; opacity: 0.75; }
+
 .linkish {
   background: none; border: none; padding: 0;
   color: var(--accent); font: inherit; font-size: 13px;

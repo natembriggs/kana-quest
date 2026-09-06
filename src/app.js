@@ -31,6 +31,7 @@ import {
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   muteFuriganaKey,
 } from './srs.js';
+import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
 import {
   renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
@@ -58,7 +59,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3874,6 +3875,7 @@ function renderSingleChoice(course, item) {
   const session = state.session;
   session.attempt = 0;
   $('quiz-ok').hidden = true;
+  $('quiz-rate').hidden = true;
   // Definition mode has no Advanced/Show answers row of its own — a
   // single-choice question resolves on the first click — so the row appears
   // here only to carry the hint, and only when there is a hint to carry.
@@ -3938,7 +3940,13 @@ function chooseAnswer(value, button) {
   session.attempt += 1;
 
   if (session.attempt === 1) {
-    recordResult(item, correct);
+    if (correct && isRatableCorrectAnswer(session)) {
+      stashPendingGrade((rating) => recordResult(item, true, rating));
+    } else if (correct) {
+      recordResult(item, true); // placement: rating would be a no-op anyway (see isRatableCorrectAnswer)
+    } else {
+      recordResult(item, false);
+    }
   }
 
   if (correct) {
@@ -3952,9 +3960,13 @@ function chooseAnswer(value, button) {
     session.locked = true;
     disableRemainingChoices();
     if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
-    $('quiz-ok').hidden = false;
-    $('quiz-ok').textContent = 'Next';
     $('quiz-kana').classList.add('quiz-glyph-tap');
+    if (isRatableCorrectAnswer(session)) {
+      showRatingBar('quiz-ok', 'quiz-rate');
+    } else {
+      $('quiz-ok').hidden = false;
+      $('quiz-ok').textContent = 'Next';
+    }
     return;
   }
 
@@ -4626,20 +4638,22 @@ function creditVocabYomi(info, hiddenInfo) {
   });
 }
 
-function recordVocabYomi(word, correct) {
+function recordVocabYomi(word, correct, rating = null) {
   const { progress } = state.profile;
   const key = itemKey('vyomi', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now());
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { rating });
   recomputeVocabRollup(word, 'vmeaning', progress);
   store.saveProfile(state.profile);
 }
 
-function recordVocabDef(word, correct) {
+function recordVocabDef(word, correct, rating = null) {
   ensurePlacementEnrolled(word);
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey('vdef', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+    placement: session.placementTest, rating,
+  });
   recomputeVocabRollup(word, 'vmeaning', progress);
   if (!session.results.has(word)) session.results.set(word, correct);
   store.saveProfile(state.profile);
@@ -4657,6 +4671,7 @@ function renderVocabMeaningQuestion(course, item) {
   recordVocabExposureOnShow(info, session.vocabHidden);
 
   $('quiz-ok').hidden = true;
+  $('quiz-rate').hidden = true;
   $('quiz-kanji-actions').hidden = true;
   updateVocabWordDisplay();
 
@@ -4686,7 +4701,15 @@ function chooseVocabMeaning(value, button) {
   const correct = value === session.vocabAnswer;
   session.attempt += 1;
 
-  if (session.attempt === 1) recordVocabDef(item, correct);
+  if (session.attempt === 1) {
+    if (correct && isRatableCorrectAnswer(session)) {
+      stashPendingGrade((rating) => recordVocabDef(item, true, rating));
+    } else if (correct) {
+      recordVocabDef(item, true);
+    } else {
+      recordVocabDef(item, false);
+    }
+  }
 
   if (correct) {
     button.classList.add('is-right');
@@ -4723,17 +4746,22 @@ function finishVocabDefinitionStage(course, item) {
     $('quiz-feedback').className = 'feedback ok';
     $('quiz-feedback').textContent = "Correct! Next, its reading.";
     session.vocabNextStage = () => beginVocabYomiStage(course, item);
-    $('quiz-ok').textContent = 'Next: the reading →';
     // NOT made tappable here: the reading stage is still coming, and the
     // word's own detail screen shows every reading it has — opening it now
     // would hand over the very answer that stage is about to ask for.
   } else {
     $('quiz-feedback').textContent = '';
     session.vocabStage = 'done';
-    $('quiz-ok').textContent = 'Next';
     $('quiz-kana').classList.add('quiz-glyph-tap');
   }
-  $('quiz-ok').hidden = false;
+  // Same guard as chooseAnswer's: a recovery on attempt 2+, or a placement
+  // answer, has nothing pending to rate — plain Next, not the bar.
+  if (isRatableCorrectAnswer(session)) {
+    showRatingBar('quiz-ok', 'quiz-rate');
+  } else {
+    $('quiz-ok').hidden = false;
+    $('quiz-ok').textContent = 'Next';
+  }
 }
 
 /** The options are constrained by whatever furigana stayed on screen
@@ -4758,6 +4786,7 @@ function renderVocabYomiStage({ options, answer }) {
   // See finishVocabDefinitionStage above, which is what paused on the
   // definition's own green card for one "Next" press before this ran.
   $('quiz-ok').hidden = true;
+  $('quiz-rate').hidden = true;
   $('quiz-feedback').textContent = "Now choose how it's read.";
   $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
@@ -4780,11 +4809,13 @@ function chooseVocabYomi(value, button) {
   if (!session || session.vocabStage !== 'yomi' || session.locked) return;
   const item = session.queue[session.position];
   const correct = value === session.vocabYomiAnswer;
-  recordVocabYomi(item, correct);
   if (correct) {
+    stashPendingGrade((rating) => recordVocabYomi(item, true, rating));
     const course = getAnyCourse(state.courseId);
     creditVocabYomi(vocabInfo(course, item), session.vocabHidden);
     store.saveProfile(state.profile);
+  } else {
+    recordVocabYomi(item, false);
   }
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
@@ -4796,9 +4827,13 @@ function chooseVocabYomi(value, button) {
 
   session.vocabStage = 'done';
   session.locked = true;
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').textContent = 'Next';
   $('quiz-kana').classList.add('quiz-glyph-tap');
+  if (correct) {
+    showRatingBar('quiz-ok', 'quiz-rate');
+  } else {
+    $('quiz-ok').hidden = false;
+    $('quiz-ok').textContent = 'Next';
+  }
 }
 
 // --- Vocabulary: Recall mode (vocab-plan.md §6) ---------------------------
@@ -4812,21 +4847,23 @@ function chooseVocabYomi(value, button) {
 // to furigana, for the same reason: caring about a kanji at all is enough
 // to be asked how a word using it is spelled.
 
-function recordVocabProd(word, correct) {
+function recordVocabProd(word, correct, rating = null) {
   ensurePlacementEnrolled(word);
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey('vprod', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+    placement: session.placementTest, rating,
+  });
   recomputeVocabRollup(word, 'vrecall', progress);
   if (!session.results.has(word)) session.results.set(word, correct);
   store.saveProfile(state.profile);
 }
 
-function recordVocabSpell(word, correct) {
+function recordVocabSpell(word, correct, rating = null) {
   const { progress } = state.profile;
   const key = itemKey('vspell', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now());
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { rating });
   recomputeVocabRollup(word, 'vrecall', progress);
   store.saveProfile(state.profile);
 }
@@ -4848,6 +4885,7 @@ function renderVocabRecallQuestion(course, item) {
   $('quiz-prompt-hint').hidden = true;
   $('quiz-prompt-pronunciation').hidden = true;
   $('quiz-ok').hidden = true;
+  $('quiz-rate').hidden = true;
   $('quiz-kanji-actions').hidden = true;
 
   const { options, answer } = buildRecallChoices(course, item);
@@ -4870,7 +4908,15 @@ function chooseVocabProd(value, button) {
   const correct = value === session.vocabAnswer;
   session.attempt += 1;
 
-  if (session.attempt === 1) recordVocabProd(item, correct);
+  if (session.attempt === 1) {
+    if (correct && isRatableCorrectAnswer(session)) {
+      stashPendingGrade((rating) => recordVocabProd(item, true, rating));
+    } else if (correct) {
+      recordVocabProd(item, true);
+    } else {
+      recordVocabProd(item, false);
+    }
+  }
 
   if (correct) {
     button.classList.add('is-right');
@@ -4910,17 +4956,22 @@ function finishVocabProdStage(course, item) {
     $('quiz-feedback').className = 'feedback ok';
     $('quiz-feedback').textContent = 'Correct! Next, pick the kanji.';
     session.vocabNextStage = () => beginVocabSpellStage(info, built);
-    $('quiz-ok').textContent = 'Next: pick the kanji →';
     // NOT made tappable here: the spelling stage is still coming, and the
     // word's own detail screen shows its kanji spelling outright — opening
     // it now would hand over the very answer that stage is about to ask for.
   } else {
     $('quiz-feedback').textContent = '';
     session.vocabRecallStage = 'done';
-    $('quiz-ok').textContent = 'Next';
     $('quiz-kana').classList.add('quiz-glyph-tap');
   }
-  $('quiz-ok').hidden = false;
+  // Same guard as chooseAnswer's: a recovery on attempt 2+, or a placement
+  // answer, has nothing pending to rate — plain Next, not the bar.
+  if (isRatableCorrectAnswer(session)) {
+    showRatingBar('quiz-ok', 'quiz-rate');
+  } else {
+    $('quiz-ok').hidden = false;
+    $('quiz-ok').textContent = 'Next';
+  }
 }
 
 function beginVocabSpellStage(info, built) {
@@ -4947,6 +4998,7 @@ function renderVocabSpellStage(info, { options, answer }) {
   // See finishVocabProdStage above, which paused on stage 1's own green
   // card for one "Next" press before this ran.
   $('quiz-ok').hidden = true;
+  $('quiz-rate').hidden = true;
   $('quiz-feedback').textContent = 'Now choose the correct kanji.';
   $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
@@ -4970,7 +5022,8 @@ function chooseVocabSpell(value, button) {
   if (!session || session.vocabRecallStage !== 'spell' || session.locked) return;
   const item = session.queue[session.position];
   const correct = value === session.vocabSpellAnswer;
-  recordVocabSpell(item, correct);
+  if (correct) stashPendingGrade((rating) => recordVocabSpell(item, true, rating));
+  else recordVocabSpell(item, false);
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
   button.classList.add(correct ? 'is-right' : 'is-wrong');
@@ -4981,9 +5034,13 @@ function chooseVocabSpell(value, button) {
 
   session.vocabRecallStage = 'done';
   session.locked = true;
-  $('quiz-ok').hidden = false;
-  $('quiz-ok').textContent = 'Next';
   $('quiz-kana').classList.add('quiz-glyph-tap');
+  if (correct) {
+    showRatingBar('quiz-ok', 'quiz-rate');
+  } else {
+    $('quiz-ok').hidden = false;
+    $('quiz-ok').textContent = 'Next';
+  }
 }
 
 // --- Writing (Trace / Guided / Free): draw each stroke against the -------
@@ -5111,6 +5168,12 @@ function renderWritingQuestion(course, item) {
   $('writing-result-message').hidden = true;
   $('writing-mark-bad').hidden = true;
   $('writing-result').hidden = true;
+  // Reset even though #writing-result (its ancestor) is already hidden
+  // above: a stale hidden=false left over from a PREVIOUS character's
+  // rating bar would otherwise still read as "showing" to
+  // primaryAdvanceButton()'s wrapper check (see showRatingBar() in app.js),
+  // letting a stray Enter on a fresh, undrawn character wrongly fire OK.
+  $('writing-rate').hidden = true;
   $('writing-self-grade').hidden = true;
   $('writing-free-actions').hidden = true;
   $('writing-switch-mode').hidden = true;
@@ -5189,6 +5252,12 @@ function maskKanjiWord(word, kanji) {
 function writingSetSubMode(mode) {
   const session = state.session;
   if (!session) return;
+  // "Try harder/easier mode" is reachable straight off a correct pass still
+  // sitting on its rating bar — moving on this way, instead of through
+  // Easy/OK/Hard, still needs the pending grade settled (see
+  // settlePendingGrade()'s own docstring). A no-op the rest of the time
+  // (switching mode before ever answering has nothing pending).
+  settlePendingGrade();
   session.writingModeOverride = mode;
   session.writingSubMode = mode;
   renderQuestion();
@@ -5501,9 +5570,19 @@ function finishWritingCharacter(explicitCorrect) {
   session.writingLastCorrect = correct; // read by writingRetry() and the switch-mode button below
 
   const wasAlreadyRecorded = !!session.writingRecorded; // this finish is a redo, not the first pass
+  // True only on the very first, not-yet-recorded, non-placement correct
+  // pass. A redo never re-grades (see this function's own docstring), so it
+  // never shows the rating bar either; a placement answer's grade() call
+  // ignores `rating` entirely (jumps straight to the top box regardless),
+  // so offering Easy/OK/Hard there would visibly do nothing — see
+  // isRatableCorrectAnswer()'s own docstring for the quiz-screen version of
+  // this same reasoning.
+  const showRating = correct && !wasAlreadyRecorded && !session.placementTest;
   if (!session.writingRecorded) {
     session.writingRecorded = true;
-    recordResult(item, correct);
+    if (correct && showRating) stashPendingGrade((rating) => recordResult(item, true, rating));
+    else if (correct) recordResult(item, true);
+    else recordResult(item, false);
   }
 
   $('writing-feedback').textContent = '';
@@ -5552,6 +5631,13 @@ function finishWritingCharacter(explicitCorrect) {
   const switchButton = $('writing-switch-mode');
   switchButton.hidden = !target;
   switchButton.textContent = correct ? 'Try harder mode' : 'Switch to easier mode';
+
+  if (showRating) {
+    showRatingBar('writing-next', 'writing-rate');
+  } else {
+    $('writing-next').hidden = false;
+    $('writing-rate').hidden = true;
+  }
 
   $('writing-result').hidden = false;
 
@@ -5603,6 +5689,12 @@ function writingRetry() {
   const mode = session.writingSubMode || 'trace';
   const item = session.queue[session.position];
 
+  // "Try again" straight off a correct first pass, before its rating bar
+  // was ever pressed, is still a real completed attempt — settle it as GOOD
+  // (see settlePendingGrade()'s own docstring) rather than leaving it
+  // parked or letting a redo silently swallow it. A no-op once the pass has
+  // already been rated, or on a miss (nothing was ever stashed).
+  settlePendingGrade();
   session.writingAttempt.restart();
   session.writingStrokes = [];
   session.writingCurrentPoints = null;
@@ -5620,6 +5712,7 @@ function writingRetry() {
   $('writing-mark-bad').hidden = true;
   $('writing-hints').hidden = mode === 'trace';
   $('writing-result').hidden = true;
+  $('writing-rate').hidden = true; // see the matching reset's comment above
   $('writing-self-grade').hidden = true;
   $('writing-free-actions').hidden = true;
   $('writing-switch-mode').hidden = true;
@@ -5676,6 +5769,11 @@ function renderKanjiChoices(course, kanji) {
   session.kanjiRoundOver = false;
 
   $('quiz-ok').hidden = true; // becomes "Next" once the round resolves
+  // This mode never shows the Easy/OK/Hard bar (see showRatingBar() in
+  // app.js) — each reading grades independently, live, with no single
+  // moment to rate — but it still has to be reset here in case a PRIOR
+  // session (any other quiz mode) left it showing when it ended.
+  $('quiz-rate').hidden = true;
   $('quiz-kanji-actions').hidden = false;
   $('quiz-show-answers').hidden = false;
   $('quiz-show-answers').disabled = false;
@@ -6007,8 +6105,17 @@ function showReadingExample(reading, button) {
 function primaryAdvanceButton() {
   const candidates = [
     // [screen, button, the wrapper that gates it (writing's Next is never
-    // hidden itself — the whole result card it sits in is what appears)]
+    // hidden itself — the whole result card it sits in is what appears; the
+    // rating bar's OK button is exactly the same story — showRatingBar()
+    // only ever toggles #quiz-rate/#writing-rate, never the buttons inside
+    // it, so THEY have to be the wrapper checked here too)]
+    // The rating bar's OK button is checked before its screen's plain Next:
+    // only one of the two is ever visible at a time (see showRatingBar()),
+    // so this just means Enter presses whichever one is actually showing —
+    // OK on a correct answer, plain Next on a miss.
+    ['screen-quiz', 'quiz-rate-ok', 'quiz-rate'],         // correct question -> rate it
     ['screen-quiz', 'quiz-ok', null],                   // graded question -> Next
+    ['screen-writing', 'writing-rate-ok', 'writing-rate'], // correct character -> rate it
     ['screen-writing', 'writing-next', 'writing-result'], // finished character -> Next
     ['screen-lesson', 'lesson-next', null],             // taught character -> Next / Start quiz
   ];
@@ -6050,15 +6157,87 @@ function nextQuestion() {
   renderQuestion();
 }
 
-function recordResult(kana, correct) {
+function recordResult(kana, correct, rating = null) {
   ensurePlacementEnrolled(kana);
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey(state.mode, kana);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { placement: session.placementTest });
+  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+    placement: session.placementTest, rating,
+  });
   // The summary reflects the first attempt at each character.
   if (!session.results.has(kana)) session.results.set(kana, correct);
   store.saveProfile(state.profile);
+}
+
+/**
+ * A correct answer's grade isn't committed the moment it's chosen any more —
+ * it waits for the learner's own Easy/OK/Hard press (see showRatingBar()
+ * below), so every choose-answer/finish-stage handler on the correct path
+ * stashes a closure here instead of calling its record-result function
+ * directly. `rating` is one of RATING.EASY/GOOD/HARD (see fsrs.js) — OK
+ * commits GOOD, i.e.
+ * exactly what every mode already defaulted to before this existed. A miss
+ * is never deferred: FSRS's Again isn't a self-reported effort tier, so
+ * there is nothing to ask, and the wrong-answer paths below still call
+ * their record*() function immediately, as they always have.
+ */
+function stashPendingGrade(commit) {
+  state.session.pendingGrade = commit;
+}
+
+/**
+ * Whether THIS correct answer is the one worth offering Easy/OK/Hard for —
+ * false in two cases where the bar would just be noise: a recovery on
+ * attempt 2+ (already locked as Again on attempt 1, so there is nothing
+ * left to rate — see chooseAnswer()) and a placement-test answer (grade()'s
+ * `placement` branch jumps straight to the top box regardless of `rating`,
+ * so Easy/OK/Hard would visibly do nothing). Both cases keep today's plain
+ * Next and commit immediately, exactly as every mode did before this
+ * feature existed.
+ */
+function isRatableCorrectAnswer(session) {
+  return session.attempt === 1 && !session.placementTest;
+}
+
+/** Shows the Easy/OK/Hard bar in place of a screen's plain "Next" button —
+ * `nextId`/`rateId` are `quiz-ok`/`quiz-rate` or `writing-next`/
+ * `writing-rate`. Only ever called on the correct path; the wrong-answer
+ * paths keep showing the plain Next button directly and never touch this. */
+function showRatingBar(nextId, rateId) {
+  $(nextId).hidden = true;
+  $(rateId).hidden = false;
+}
+
+/** The three rating buttons' shared handler (wired once in wire(), for both
+ * the quiz and writing bars) — commits whatever was stashed by
+ * stashPendingGrade() with the chosen rating, then moves on exactly the way
+ * pressing plain Next always has (nextQuestion() already knows how to
+ * advance a quiz question, a vocab sub-stage, or a writing character). */
+function rateAndAdvance(rating) {
+  const session = state.session;
+  if (!session) return;
+  if (session.pendingGrade) {
+    session.pendingGrade(rating);
+    session.pendingGrade = null;
+  }
+  nextQuestion();
+}
+
+/**
+ * Safety net for a session that ends (quit, or the queue running out)
+ * while a correct answer is still sitting on its Easy/OK/Hard bar, never
+ * rated. Without this, that answer's grade would simply never commit —
+ * silently ungraded, not just defaulted. Committing it as GOOD (the same
+ * default OK itself commits) matches what happened before this feature
+ * existed: every correct answer graded Good unless told otherwise.
+ */
+function settlePendingGrade() {
+  const session = state.session;
+  if (session && session.pendingGrade) {
+    session.pendingGrade(RATING.GOOD);
+    session.pendingGrade = null;
+  }
 }
 
 function finishSession() {
@@ -6208,6 +6387,7 @@ function finishSession() {
   backButton.classList.toggle('btn-primary', nothingLeft);
   backButton.classList.toggle('btn-quiet', !nothingLeft);
 
+  settlePendingGrade();
   state.session = null;
   store.saveProfile(state.profile);
   show('screen-summary');
@@ -8207,6 +8387,12 @@ function wire() {
   // Hidden until a question resolves (kana: correct or second miss; kanji:
   // every reading found or "Show answers" pressed) — always just "Next".
   $('quiz-ok').addEventListener('click', () => { if (state.session) nextQuestion(); });
+  // The Easy/OK/Hard rating bar (see showRatingBar()/rateAndAdvance() in
+  // app.js) replaces #quiz-ok in place, only on a correct answer — OK
+  // commits the same RATING.GOOD every mode already defaulted to.
+  $('quiz-rate-easy').addEventListener('click', () => rateAndAdvance(RATING.EASY));
+  $('quiz-rate-ok').addEventListener('click', () => rateAndAdvance(RATING.GOOD));
+  $('quiz-rate-hard').addEventListener('click', () => rateAndAdvance(RATING.HARD));
 
   // Kanji only.
   $('quiz-info-more').addEventListener('click', openQuizCharacterDetail);
@@ -8224,6 +8410,12 @@ function wire() {
   writingCanvas.addEventListener('pointerup', writingPointerUp);
   writingCanvas.addEventListener('pointercancel', writingPointerUp);
   bindTap($('writing-next'), () => { if (state.session) nextQuestion(); });
+  // Same rating bar as the quiz screen (see the #quiz-rate wiring above),
+  // shown in place of #writing-next only on a character's first correct
+  // pass — a redo never shows it (see finishWritingCharacter()).
+  bindTap($('writing-rate-easy'), () => rateAndAdvance(RATING.EASY));
+  bindTap($('writing-rate-ok'), () => rateAndAdvance(RATING.GOOD));
+  bindTap($('writing-rate-hard'), () => rateAndAdvance(RATING.HARD));
   // Post-answer "click wherever possible" — see the comment on
   // #writing-result-glyph in index.html and finishWritingCharacter() above,
   // which is what reveals and populates it; inert (hidden) until then.
@@ -8429,6 +8621,7 @@ function wire() {
       case 'quit-session':
         stopLessonStrokeLoop(); // in case quit happened mid-lesson, not from the quiz
         if (state.session) clearTimeout(state.session.pendingAdvance);
+        settlePendingGrade();
         state.session = null;
         renderCourse();
         // Whatever was answered before quitting is already graded and

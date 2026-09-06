@@ -87,17 +87,39 @@ the first-attempt-locks-the-record rule, is the real work here, not the
 button itself. Explicitly deferred: any inferred/derived rating signal
 (handwriting accuracy, response time, retry count) — correlating those
 against real explicit ratings, if anonymous usage data is ever collected,
-is future work, not a substitute for asking. Proposed, not yet built —
-still needs the button-bar/deferred-commit design worked through per mode
-before implementation starts.
+is future work, not a substitute for asking.
 
-**Working assumption, to be confirmed: no change to the retry-grading
-question for multiple-choice modes.** `chooseAnswer`'s "first attempt
-locks the record" rule stays as-is — a wrong-then-corrected answer still
-just grades Again, since FSRS's Again has no Hard/Easy variant to self-
-report either way. If that assumption holds, this closes the "retry =
-Hard" half of the original gap by deciding retries stay out of the
-picture, not by wiring anything new for them.
+**2026-09-06: shipped.** `#quiz-ok`/`#writing-next` now yield to a
+`#quiz-rate`/`#writing-rate` Easy/OK/Hard bar (`showRatingBar()` in
+`src/app.js`) on every correct answer across `chooseAnswer`,
+`chooseVocabMeaning`/`finishVocabDefinitionStage`, `chooseVocabYomi`,
+`chooseVocabProd`/`finishVocabProdStage`, `chooseVocabSpell`, and writing's
+Trace/Guided/Free flows — each grade defers into `session.pendingGrade`
+(a closure) until the learner presses one, via a new shared
+`rateAndAdvance()`. OK commits `RATING.GOOD`, i.e. exactly today's old
+default, so anyone who just keeps pressing through sees no change at all.
+Two cases keep the OLD immediate-commit, plain-Next behavior instead of
+deferring — `isRatableCorrectAnswer()`'s own docstring has the reasoning:
+a recovery on attempt 2+ (already locked as Again on attempt 1 — nothing
+left to rate) and a placement-test answer (`grade()`'s `placement` branch
+ignores `rating` entirely, jumping straight to the top box regardless, so
+the bar would visibly do nothing). A `settlePendingGrade()` safety net
+(committing whatever's pending as GOOD) runs on every path that could
+otherwise abandon a correct-but-unrated answer — `finishSession()`,
+`quit-session`, `writingRetry()`, and `writingSetSubMode()` (reachable
+straight off a still-unrated pass via "Try harder/easier mode"). Verified
+end-to-end in the browser (real Easy/Hard/OK presses producing box
+4/1/2 as designed) and in `test/wiring.js` (same assertions, plus the
+recovery/placement plain-Next paths and the writing mark-as-bad/bonus-
+round flows that depend on the settle net). The kanji reading quiz stays
+untouched, exactly as decided.
+
+**Resolved without new code: the retry-grading question for multiple-
+choice modes.** `chooseAnswer`'s "first attempt locks the record" rule
+stays as-is — a wrong-then-corrected answer still just grades Again, since
+FSRS's Again has no Hard/Easy variant to self-report either way. This
+closes the "retry = Hard" half of the original gap by deciding retries
+stay out of the picture, not by wiring anything new for them.
 
 ## Shipped this cycle
 
@@ -214,10 +236,19 @@ picture, not by wiring anything new for them.
   Hard/Easy rating, tried and then judged the wrong approach (conflated
   motor noise with recall difficulty, over-rewarded Trace mode, and could
   silently reschedule a self-graded-"correct" Free answer sooner with no
-  on-screen explanation). Superseded by a plan for an explicit Easy/OK/Hard
-  self-report control, replacing the shared `#quiz-ok`/writing-mode Next
-  buttons, across every graded mode — see "Remaining" for the reasoning
-  and current status (proposed, not yet built).
+  on-screen explanation). Superseded by the explicit Easy/OK/Hard control
+  below.
+- (2026-09-06) — **Explicit Easy/OK/Hard rating, across every graded
+  mode.** The real fix for the gap above: `#quiz-ok`/`#writing-next` yield
+  to a rating bar on every correct answer (kana/kanji recognition and
+  definition, both vocab Meaning sub-stages, both vocab Recall sub-stages,
+  and writing's Trace/Guided/Free), which the learner presses themselves —
+  no inferred signal anywhere. OK reproduces the exact old default
+  (`RATING.GOOD`), so nothing changes for anyone who just presses through.
+  See "Remaining" above for the full design (the deferred-commit mechanism,
+  the placement/recovery exceptions, the settle-on-escape safety net) and
+  its own end-to-end verification. The kanji reading quiz is untouched,
+  by design — see "Remaining" for why.
 
 The `50675f0`/`7299835` pair was implemented by Claude Fable 5.1 as a
 deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5
