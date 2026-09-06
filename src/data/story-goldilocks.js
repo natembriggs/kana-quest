@@ -601,6 +601,69 @@ export const STORY = {
         ]
       },
       {
+        "en": "She had walked far and was hungry.",
+        "t": [
+          {
+            "s": "たくさん",
+            "k": "たくさん",
+            "ruby": null,
+            "d": "たくさん",
+            "pos": "adv",
+            "g": "a lot; far"
+          },
+          {
+            "s": "歩き",
+            "k": "あるき",
+            "ruby": [
+              [
+                0,
+                "ある"
+              ]
+            ],
+            "d": "歩く",
+            "pos": "v",
+            "g": "walking; walked and",
+            "df": "歩く",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "お腹が空いていた",
+            "k": "おなかがすいていた",
+            "ruby": [
+              [
+                1,
+                "なか"
+              ],
+              [
+                3,
+                "す"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "was hungry",
+            "df": "お腹が空く",
+            "cf": "plain past progressive"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "She knocked on the door, but there was no reply.",
         "t": [
           {
@@ -1150,6 +1213,101 @@ export const STORY = {
             "pos": "v",
             "g": "ate",
             "df": "食べる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Once she was full, she noticed that her legs were tired too.",
+        "t": [
+          {
+            "s": "お腹がいっぱいになると",
+            "k": "おなかがいっぱいになると",
+            "ruby": [
+              [
+                1,
+                "なか"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "when she became full",
+            "df": "お腹がいっぱいになる",
+            "cf": "plain present conditional 〜と"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "足",
+            "k": "あし",
+            "ruby": [
+              [
+                0,
+                "あし"
+              ]
+            ],
+            "d": "足",
+            "pos": "n",
+            "g": "legs"
+          },
+          {
+            "s": "も",
+            "k": "も",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "also, too / even"
+          },
+          {
+            "s": "疲れている",
+            "k": "つかれている",
+            "ruby": [
+              [
+                0,
+                "つか"
+              ]
+            ],
+            "d": "疲れる",
+            "pos": "v",
+            "g": "were tired",
+            "df": "疲れる",
+            "cf": "plain present progressive"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "感じた",
+            "k": "かんじた",
+            "ruby": [
+              [
+                0,
+                "かん"
+              ]
+            ],
+            "d": "感じる",
+            "pos": "v",
+            "g": "felt; noticed",
+            "df": "感じる",
             "cf": "plain past"
           },
           {
@@ -2884,6 +3042,109 @@ export const STORY = {
         ]
       },
       {
+        "en": "Baby Bear looked sadly at the broken chair.",
+        "t": [
+          {
+            "s": "子ぐま",
+            "k": "こぐま",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "Baby Bear"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "壊れた",
+            "k": "こわれた",
+            "ruby": [
+              [
+                0,
+                "こわ"
+              ]
+            ],
+            "d": "壊れる",
+            "pos": "v",
+            "g": "broke",
+            "df": "壊れる",
+            "cf": "plain past"
+          },
+          {
+            "s": "いす",
+            "k": "いす",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "chair"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "見て",
+            "k": "みて",
+            "ruby": [
+              [
+                0,
+                "み"
+              ]
+            ],
+            "d": "見る",
+            "pos": "v",
+            "g": "seeing; saw and",
+            "df": "見る",
+            "cf": "te-form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "悲しそうだった",
+            "k": "かなしそうだった",
+            "ruby": [
+              [
+                0,
+                "かな"
+              ]
+            ],
+            "d": "悲しい",
+            "pos": "adj",
+            "g": "looked sad",
+            "df": "悲しい",
+            "cf": "plain past appearance 〜そうだ"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "Goldilocks apologised for using the house without permission.",
         "t": [
           {
@@ -2989,59 +3250,67 @@ export const STORY = {
         ]
       },
       {
-        "en": "She promised to repair Baby Bear’s chair.",
+        "en": "Father Bear said, “Let us repair it together.”",
         "t": [
           {
-            "s": "子ぐま",
-            "k": "こぐま",
+            "s": "お父さんぐま",
+            "k": "おとうさんぐま",
             "ruby": [
               [
-                0,
-                "こ"
+                1,
+                "とう"
               ]
             ],
             "d": null,
             "pos": "pn",
-            "g": "Baby Bear"
+            "g": "Father Bear"
           },
           {
-            "s": "の",
-            "k": "の",
+            "s": "は",
+            "k": "は",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "possessive — \"'s\" / \"of\""
+            "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "いす",
-            "k": "いす",
-            "ruby": null,
+            "s": "「",
+            "k": "「",
             "d": null,
-            "pos": "n",
-            "g": "chair"
-          },
-          {
-            "s": "を",
-            "k": "を",
+            "pos": "punct",
             "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "object marker"
+            "g": null
           },
           {
-            "s": "直す",
-            "k": "なおす",
+            "s": "一緒に直そう",
+            "k": "いっしょになおそう",
             "ruby": [
               [
                 0,
+                "いっ"
+              ],
+              [
+                1,
+                "しょ"
+              ],
+              [
+                3,
                 "なお"
               ]
             ],
-            "d": "直す",
+            "d": null,
             "pos": "v",
-            "g": "repair",
-            "df": "直す",
-            "cf": "plain present"
+            "g": "let us repair it together",
+            "df": "一緒に直す",
+            "cf": "plain volitional"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
           },
           {
             "s": "と",
@@ -3052,22 +3321,18 @@ export const STORY = {
             "g": "and / with — joins nouns, or marks a quote"
           },
           {
-            "s": "約束した",
-            "k": "やくそくした",
+            "s": "言った",
+            "k": "いった",
             "ruby": [
               [
                 0,
-                "やく"
-              ],
-              [
-                1,
-                "そく"
+                "い"
               ]
             ],
-            "d": "約束",
+            "d": "言う",
             "pos": "v",
-            "g": "promised",
-            "df": "約束する",
+            "g": "said",
+            "df": "言う",
             "cf": "plain past"
           },
           {
@@ -3081,7 +3346,216 @@ export const STORY = {
         ]
       },
       {
-        "en": "The four ate warm soup together on the repaired chair.",
+        "en": "Goldilocks held the boards and repaired the chair with the three bears.",
+        "t": [
+          {
+            "s": "ゴルディロックス",
+            "k": "ゴルディロックス",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Goldilocks"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "木の板",
+            "k": "きのいた",
+            "ruby": [
+              [
+                0,
+                "き"
+              ],
+              [
+                2,
+                "いた"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "wooden board"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "持ち",
+            "k": "もち",
+            "ruby": [
+              [
+                0,
+                "も"
+              ]
+            ],
+            "d": "持ち",
+            "pos": "v",
+            "g": "holding; held and",
+            "df": "持つ",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "三びき",
+            "k": "さんびき",
+            "ruby": [
+              [
+                0,
+                "さん"
+              ]
+            ],
+            "d": null,
+            "pos": "num",
+            "g": "three animals"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "いすを直した",
+            "k": "いすをなおした",
+            "ruby": [
+              [
+                3,
+                "なお"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "repaired the chair",
+            "df": "いすを直す",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "After the chair was repaired, Mother Bear warmed some new soup.",
+        "t": [
+          {
+            "s": "いす",
+            "k": "いす",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "chair"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "直った後",
+            "k": "なおったあと",
+            "ruby": [
+              [
+                0,
+                "なお"
+              ],
+              [
+                3,
+                "あと"
+              ]
+            ],
+            "d": "直る",
+            "pos": "v",
+            "g": "after it was repaired",
+            "df": "直る",
+            "cf": "plain past time clause"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "お母さんぐま",
+            "k": "おかあさんぐま",
+            "ruby": [
+              [
+                1,
+                "かあ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "Mother Bear"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "新しいスープを温めた",
+            "k": "あたらしいスープをあたためた",
+            "ruby": [
+              [
+                0,
+                "あたら"
+              ],
+              [
+                7,
+                "あたた"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "warmed new soup",
+            "df": "新しいスープを温める",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The four ate the warm soup together.",
         "t": [
           {
             "s": "四人",
@@ -3136,35 +3610,6 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "object marker"
-          },
-          {
-            "s": "新しい",
-            "k": "あたらしい",
-            "ruby": [
-              [
-                0,
-                "あたら"
-              ]
-            ],
-            "d": "新しい",
-            "pos": "adj",
-            "g": "new"
-          },
-          {
-            "s": "いす",
-            "k": "いす",
-            "ruby": null,
-            "d": null,
-            "pos": "n",
-            "g": "chair"
-          },
-          {
-            "s": "で",
-            "k": "で",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
           },
           {
             "s": "一緒に",
@@ -3323,5 +3768,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "249c8ee1"
+  "hash": "0a01f882"
 };

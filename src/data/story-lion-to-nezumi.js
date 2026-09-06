@@ -486,7 +486,9 @@ export const STORY = {
             "g": null
           }
         ]
-      },
+      }
+    ],
+    [
       {
         "en": "Several days later, the lion was caught in a net.",
         "t": [
@@ -879,51 +881,28 @@ export const STORY = {
         ]
       },
       {
-        "en": "Even a small friend can help.",
+        "en": "“Thank you, my little friend,” said the lion.",
         "t": [
           {
-            "s": "体",
-            "k": "からだ",
-            "ruby": [
-              [
-                0,
-                "からだ"
-              ]
-            ],
-            "d": "体",
-            "pos": "n",
-            "g": "body"
-          },
-          {
-            "s": "が",
-            "k": "が",
-            "ruby": null,
+            "s": "「",
+            "k": "「",
             "d": null,
-            "pos": "part",
-            "g": "subject marker"
+            "pos": "punct",
+            "ruby": null,
+            "g": null
           },
           {
-            "s": "小さくても",
-            "k": "ちいさくても",
+            "s": "小さな",
+            "k": "ちいさな",
             "ruby": [
               [
                 0,
                 "ちい"
               ]
             ],
-            "d": "小さい",
-            "pos": "adj",
-            "g": "even if small",
-            "df": "小さい",
-            "cf": "te-form concessive 〜ても"
-          },
-          {
-            "s": "、",
-            "k": "、",
             "d": null,
-            "pos": "punct",
-            "ruby": null,
-            "g": null
+            "pos": "adj",
+            "g": "small"
           },
           {
             "s": "友だち",
@@ -939,27 +918,67 @@ export const STORY = {
             "g": "friend"
           },
           {
-            "s": "を",
-            "k": "を",
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "ありがとう",
+            "k": "ありがとう",
+            "ruby": null,
+            "d": "ありがとう",
+            "pos": "int",
+            "g": "thank you"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "しし",
+            "k": "しし",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "lion"
+          },
+          {
+            "s": "は",
+            "k": "は",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "object marker"
+            "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "助けます",
-            "k": "たすけます",
+            "s": "言いました",
+            "k": "いいました",
             "ruby": [
               [
                 0,
-                "たす"
+                "い"
               ]
             ],
-            "d": "助ける",
+            "d": "言う",
             "pos": "v",
-            "g": "will help",
-            "df": "助ける",
-            "cf": "polite present"
+            "g": "said",
+            "df": "言う",
+            "cf": "polite past"
           },
           {
             "s": "。",
@@ -973,5 +992,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "9fe5a6c6"
+  "hash": "8415b708"
 };

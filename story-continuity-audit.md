@@ -19,22 +19,22 @@ The ratings describe narrative continuity, not grammatical correctness:
 
 | Level | Story | Rating | Main continuity problem |
 | --- | --- | --- | --- |
-| L1 | `ari-to-hato` | Moderate | Thirteen isolated clauses sit in one paragraph. The hunter appears without scene-setting, so the return of the favour feels attached rather than developed. |
+| L1 | `ari-to-hato` | Moderate before revision | Thirteen isolated clauses sat in one paragraph. The hunter appeared without scene-setting, so the return of the favour felt attached rather than developed. Revised as described below. |
 | L1 | `ookina-kabu` | Light | The repeated attempts form a clear chain. The helpers could be introduced with slightly more motivation, but the story is self-contained. |
 | L1 | `kitakaze-to-taiyou` | Major before revision | The wind and sun never argued, set a challenge or stated what they were trying to prove. Revised as described below. |
-| L1 | `lion-to-nezumi` | Moderate | The rescue chain is clear, but the lion never responds to the mouse's return and the final moral changes suddenly from story action to a generic present-tense claim. |
-| L2 | `ookami-ga-kita` | Moderate | The sequence is coherent. The safe ending, in which the boy saves every sheep himself, weakens the consequence that is meant to connect the lie to the lesson. |
+| L1 | `lion-to-nezumi` | Moderate before revision | The rescue chain was clear, but the lion never responded to the mouse's return and the final moral changed suddenly from story action to a generic present-tense claim. Revised as described below. |
+| L2 | `ookami-ga-kita` | Moderate before revision | The sequence was coherent. The safe ending, in which the boy saved every sheep himself, weakened the consequence that was meant to connect the lie to the lesson. Revised as described below. |
 | L2 | `machi-no-nezumi-inaka-no-nezumi` | Light | Cause and contrast are clear. Dialogue tags and the town mouse's reaction to the final choice need a little more connective tissue. |
-| L3 | `goldilocks` | Moderate | The three tests are easy to follow but mechanical. The bears abruptly forgive Goldilocks, repair the chair and share a meal without enough emotional transition. |
+| L3 | `goldilocks` | Moderate before revision | The three tests were easy to follow but mechanical. The bears abruptly forgave Goldilocks, repaired the chair and shared a meal without enough emotional transition. Revised as described below. |
 | L3 | `sanbiki-no-kobuta` | Light | The houses, danger and payoff are introduced in order. Only the reconciliation at the end is compressed. |
-| L3 | `cinderella` | Moderate | The main chain survives, but the magical helper appears without context and the prince's search and Cinderella's new life are resolved as summary rather than scene. |
+| L3 | `cinderella` | Moderate before revision | The main chain survived, but the magical helper appeared without context and the prince's search and Cinderella's new life were resolved as summary rather than scene. Revised as described below. |
 | L3 | `hansel-to-gretel` | Major before revision | The father's reason for taking the children into the forest was unclear, the second abandonment was skipped, and several ending elements lacked setup. Revised as described below. |
 | L4 | `akazukin` | Light | It is linear and self-contained. Frequent short subject–verb sentences make it sound staccato, especially in the escape, but few facts are actually missing. |
 | L4 | `bremen-no-ongakutai` | Light | Goals and consequences connect well. The travellers hearing forest concerts is an unsupported late addition, and the final choice to stay could be made more explicit. |
 | L4 | `shirayukihime` | Major before revision | The prince had no narrative role before the accidental awakening, the resolution was abrupt, and the final mirror moral was asserted rather than earned. Revised as described below. |
-| L4 | `bijoto-yajuu` | Moderate | The plot is mostly intelligible, but Belle and the Beast's friendship and love are compressed into statements. The sisters' delay and the curse explanation arrive mainly to trigger the ending. |
-| L5 | `aladdin-to-mahou-no-lamp` | Moderate | Individual scenes connect better than most long retellings, but the courtship, palace condition, theft and final social reforms pass too quickly. Several sentences also need a separate natural-Japanese pass. |
-| L5 | `pinocchio` | Moderate | The episodic structure works, but the letter about Geppetto, the whale encounter and the fairy's illness appear as convenient plot triggers with little preparation. |
+| L4 | `bijoto-yajuu` | Moderate before revision | The plot was mostly intelligible, but Belle and the Beast's friendship and love were compressed into statements. The sisters' delay and the curse explanation arrived mainly to trigger the ending. Revised as described below. |
+| L5 | `aladdin-to-mahou-no-lamp` | Moderate before revision | Individual scenes connected better than most long retellings, but the courtship, palace condition, theft and final social reforms passed too quickly. Several sentences also needed a separate natural-Japanese pass. Revised as described below. |
+| L5 | `pinocchio` | Moderate before revision | The episodic structure worked, but the letter about Geppetto, the whale encounter and the fairy's illness appeared as convenient plot triggers with little preparation. Revised as described below. |
 | L5 | `takarajima` | Major before revision | The black spot, map, mutiny, Ben Gunn, loss of the fort and removal of the treasure lacked enough cause-and-effect explanation. Revised as described below. |
 | L5 | `hachijuu-nichikan-sekai-isshuu` | Major before revision | Fix's interference, Passepartout's separation, Aouda's developing relationship with Fogg and several transport solutions lacked setup or consequence. Revised as described below. |
 | L6 | `fushigi-no-kuni-no-alice` | Light | This succeeds because it adapts one continuous opening episode rather than the entire novel. Physical space, Alice's intentions and each object's effect remain visible from sentence to sentence. |
@@ -181,6 +181,44 @@ source credits or scope:
 
 All five continue to satisfy their level sentence ranges and lookup-unit
 ceilings. Their generated data passes the complete story contract test.
+
+## Moderate-story implementations
+
+The eight stories originally rated Moderate were revised without changing
+their levels, source credits or selected story arcs:
+
+- `ari-to-hato` now separates the accident, rescue and repayment into scenes,
+  establishes the hunter before he aims at the dove, and has the ant recognise
+  its rescuer before acting. It has 15 sentences.
+- `lion-to-nezumi` now gives the lion a direct response to the mouse's rescue
+  and closes on their changed relationship rather than switching to a generic
+  moral. It has 14 sentences.
+- `ookami-ga-kita` now gives the repeated lie a visible consequence: the
+  scattered flock requires the villagers' help, the boy apologises, and trust
+  returns only through later honest work. It has 25 sentences.
+- `goldilocks` now motivates the food, chair and bed sequence through hunger
+  and tiredness, lets Baby Bear react to the damage, and earns reconciliation
+  through an apology and a shared repair. It has 38 sentences.
+- `cinderella` now connects the fairy to Cinderella's mother, turns the
+  slipper search into a scene with resistance from the stepfamily, and gives
+  Cinderella an active choice about her future and education. It has 40
+  sentences.
+- `bijoto-yajuu` now develops friendship through reading, conversation and
+  repeated dinners, establishes the Beast's curse before its resolution, and
+  makes Belle's delayed return a choice with emotional consequences. It has
+  54 sentences.
+- `aladdin-to-mahou-no-lamp` now establishes Aladdin and the princess's first
+  meeting, explains the king's palace condition and the servant's accidental
+  exchange of the hidden lamp, and carries the couple's plans for public works
+  through to concrete action. It has 89 sentences.
+- `pinocchio` now gives Geppetto evidence and a reason to cross the sea,
+  prepares both the whale encounter and Pinocchio's pursuit, and uses the blue
+  bird's interrupted monthly visits to foreshadow the fairy's illness. It has
+  98 sentences.
+
+All eight remain within their level sentence ranges and all applicable
+lookup-unit ceilings. Their generated data passes the complete story contract
+test.
 
 ## Dracula implementation
 

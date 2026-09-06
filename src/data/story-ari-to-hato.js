@@ -278,7 +278,9 @@ export const STORY = {
             "g": null
           }
         ]
-      },
+      }
+    ],
+    [
       {
         "en": "A dove was watching from a tree.",
         "t": [
@@ -517,17 +519,32 @@ export const STORY = {
             "g": null
           }
         ]
-      },
+      }
+    ],
+    [
       {
-        "en": "Soon, a man aimed a bow at the dove.",
+        "en": "Several days later, a man came to the tree carrying a bow.",
         "t": [
           {
-            "s": "すぐ",
-            "k": "すぐ",
-            "ruby": null,
+            "s": "何日か後",
+            "k": "なんにちかご",
+            "ruby": [
+              [
+                0,
+                "なん"
+              ],
+              [
+                1,
+                "にち"
+              ],
+              [
+                3,
+                "ご"
+              ]
+            ],
             "d": null,
             "pos": "adv",
-            "g": "soon"
+            "g": "several days later"
           },
           {
             "s": "、",
@@ -559,25 +576,114 @@ export const STORY = {
             "g": "subject marker"
           },
           {
-            "s": "弓",
-            "k": "ゆみ",
+            "s": "弓を持って",
+            "k": "ゆみをもって",
             "ruby": [
               [
                 0,
                 "ゆみ"
+              ],
+              [
+                2,
+                "も"
               ]
             ],
-            "d": "弓",
-            "pos": "n",
-            "g": "bow"
+            "d": null,
+            "pos": "v",
+            "g": "carrying a bow",
+            "df": "弓を持つ",
+            "cf": "te-form"
           },
           {
-            "s": "で",
-            "k": "で",
+            "s": "木",
+            "k": "き",
+            "ruby": [
+              [
+                0,
+                "き"
+              ]
+            ],
+            "d": "木",
+            "pos": "n",
+            "g": "tree"
+          },
+          {
+            "s": "へ",
+            "k": "へ",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "to / toward — direction"
+          },
+          {
+            "s": "来ました",
+            "k": "きました",
+            "ruby": [
+              [
+                0,
+                "き"
+              ]
+            ],
+            "d": "来る",
+            "pos": "v",
+            "g": "came",
+            "df": "来る",
+            "cf": "polite past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The man aimed at the dove in the tree.",
+        "t": [
+          {
+            "s": "男",
+            "k": "おとこ",
+            "ruby": [
+              [
+                0,
+                "おとこ"
+              ]
+            ],
+            "d": "男",
+            "pos": "n",
+            "g": "man"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "木",
+            "k": "き",
+            "ruby": [
+              [
+                0,
+                "き"
+              ]
+            ],
+            "d": "木",
+            "pos": "n",
+            "g": "tree"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
           },
           {
             "s": "はと",
@@ -603,6 +709,81 @@ export const STORY = {
             "pos": "v",
             "g": "aimed at",
             "df": "ねらう",
+            "cf": "polite past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The ant recognised the dove that had helped it.",
+        "t": [
+          {
+            "s": "あり",
+            "k": "あり",
+            "ruby": null,
+            "d": "あり",
+            "pos": "n",
+            "g": "ant"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "助けてくれた",
+            "k": "たすけてくれた",
+            "ruby": [
+              [
+                0,
+                "たす"
+              ]
+            ],
+            "d": "助ける",
+            "pos": "v",
+            "g": "who had helped",
+            "df": "助ける",
+            "cf": "plain past 〜てくれる form"
+          },
+          {
+            "s": "はと",
+            "k": "はと",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "dove"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "気づきました",
+            "k": "きづきました",
+            "ruby": [
+              [
+                0,
+                "き"
+              ]
+            ],
+            "d": "気づく",
+            "pos": "v",
+            "g": "recognised; noticed",
+            "df": "気づく",
             "cf": "polite past"
           },
           {
@@ -746,7 +927,56 @@ export const STORY = {
         ]
       },
       {
-        "en": "The dove flew into the sky.",
+        "en": "The man went home.",
+        "t": [
+          {
+            "s": "男",
+            "k": "おとこ",
+            "ruby": [
+              [
+                0,
+                "おとこ"
+              ]
+            ],
+            "d": "男",
+            "pos": "n",
+            "g": "man"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "帰りました",
+            "k": "かえりました",
+            "ruby": [
+              [
+                0,
+                "かえ"
+              ]
+            ],
+            "d": "帰る",
+            "pos": "v",
+            "g": "went home",
+            "df": "帰る",
+            "cf": "polite past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The dove came down beside the ant.",
         "t": [
           {
             "s": "はと",
@@ -765,17 +995,28 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "空",
-            "k": "そら",
-            "ruby": [
-              [
-                0,
-                "そら"
-              ]
-            ],
-            "d": "空",
+            "s": "あり",
+            "k": "あり",
+            "ruby": null,
+            "d": "あり",
             "pos": "n",
-            "g": "sky"
+            "g": "ant"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "そば",
+            "k": "そば",
+            "ruby": null,
+            "d": "そば",
+            "pos": "n",
+            "g": "beside"
           },
           {
             "s": "へ",
@@ -786,75 +1027,18 @@ export const STORY = {
             "g": "to / toward — direction"
           },
           {
-            "s": "飛びました",
-            "k": "とびました",
+            "s": "来ました",
+            "k": "きました",
             "ruby": [
               [
                 0,
-                "と"
+                "き"
               ]
             ],
-            "d": "飛ぶ",
+            "d": "来る",
             "pos": "v",
-            "g": "flew",
-            "df": "飛ぶ",
-            "cf": "polite past"
-          },
-          {
-            "s": "。",
-            "k": "。",
-            "d": null,
-            "pos": "punct",
-            "ruby": null,
-            "g": null
-          }
-        ]
-      },
-      {
-        "en": "The two had helped each other.",
-        "t": [
-          {
-            "s": "二人",
-            "k": "ふたり",
-            "ruby": [
-              [
-                0,
-                "ふた"
-              ],
-              [
-                1,
-                "り"
-              ]
-            ],
-            "d": "二人",
-            "pos": "n",
-            "g": "the two"
-          },
-          {
-            "s": "は",
-            "k": "は",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "topic marker — \"as for ...\""
-          },
-          {
-            "s": "助け合いました",
-            "k": "たすけあいました",
-            "ruby": [
-              [
-                0,
-                "たす"
-              ],
-              [
-                2,
-                "あ"
-              ]
-            ],
-            "d": null,
-            "pos": "v",
-            "g": "helped each other",
-            "df": "助け合う",
+            "g": "came",
+            "df": "来る",
             "cf": "polite past"
           },
           {
@@ -869,5 +1053,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "c6cf5ea9"
+  "hash": "2a0d43f9"
 };

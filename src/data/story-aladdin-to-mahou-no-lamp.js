@@ -3373,7 +3373,7 @@ export const STORY = {
             ],
             "d": "聞く",
             "pos": "v",
-            "g": "heard",
+            "g": "asked",
             "df": "聞く",
             "cf": "plain past"
           },
@@ -3530,7 +3530,7 @@ export const STORY = {
             ],
             "d": "次",
             "pos": "n",
-            "g": "next moment"
+            "g": "next"
           },
           {
             "s": "の",
@@ -4759,6 +4759,429 @@ export const STORY = {
         ]
       },
       {
+        "en": "Nearby, the wheel came off a market stall.",
+        "t": [
+          {
+            "s": "近く",
+            "k": "ちかく",
+            "ruby": [
+              [
+                0,
+                "ちか"
+              ]
+            ],
+            "d": "近く",
+            "pos": "adv",
+            "g": "nearby"
+          },
+          {
+            "s": "で",
+            "k": "で",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "at / in / by — place, means or circumstance"
+          },
+          {
+            "s": "屋台",
+            "k": "やたい",
+            "ruby": [
+              [
+                0,
+                "や"
+              ],
+              [
+                1,
+                "たい"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "market stall"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "車輪",
+            "k": "しゃりん",
+            "ruby": [
+              [
+                0,
+                "しゃ"
+              ],
+              [
+                1,
+                "りん"
+              ]
+            ],
+            "d": "車輪",
+            "pos": "n",
+            "g": "wheel"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "外れた",
+            "k": "はずれた",
+            "ruby": [
+              [
+                0,
+                "はず"
+              ]
+            ],
+            "d": "外れる",
+            "pos": "v",
+            "g": "came off",
+            "df": "外れる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Aladdin helped the troubled merchant repair it.",
+        "t": [
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "困っていた",
+            "k": "こまっていた",
+            "ruby": [
+              [
+                0,
+                "こま"
+              ]
+            ],
+            "d": "困る",
+            "pos": "v",
+            "g": "was in trouble",
+            "df": "困る",
+            "cf": "plain past progressive"
+          },
+          {
+            "s": "商人",
+            "k": "しょうにん",
+            "ruby": [
+              [
+                0,
+                "しょう"
+              ],
+              [
+                1,
+                "にん"
+              ]
+            ],
+            "d": "商人",
+            "pos": "n",
+            "g": "merchant"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "一緒に直した",
+            "k": "いっしょになおした",
+            "ruby": [
+              [
+                0,
+                "いっ"
+              ],
+              [
+                1,
+                "しょ"
+              ],
+              [
+                3,
+                "なお"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "repaired together",
+            "df": "一緒に直す",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The princess thanked Aladdin and asked about his usual work.",
+        "t": [
+          {
+            "s": "姫",
+            "k": "ひめ",
+            "ruby": [
+              [
+                0,
+                "ひめ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "princess"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "礼を言い",
+            "k": "れいをいい",
+            "ruby": [
+              [
+                0,
+                "れい"
+              ],
+              [
+                2,
+                "い"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "thanking; thanked and",
+            "df": "礼を言う",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "普段の仕事",
+            "k": "ふだんのしごと",
+            "ruby": [
+              [
+                0,
+                "ふ"
+              ],
+              [
+                1,
+                "だん"
+              ],
+              [
+                3,
+                "し"
+              ],
+              [
+                4,
+                "ごと"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "usual work"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "尋ねた",
+            "k": "たずねた",
+            "ruby": [
+              [
+                0,
+                "たず"
+              ]
+            ],
+            "d": "尋ねる",
+            "pos": "v",
+            "g": "asked",
+            "df": "尋ねる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "“I carry loads in the bazaar,” he answered honestly.",
+        "t": [
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "バザール",
+            "k": "バザール",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "bazaar, marketplace"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "荷物運び",
+            "k": "にもつはこび",
+            "ruby": [
+              [
+                0,
+                "に"
+              ],
+              [
+                1,
+                "もつ"
+              ],
+              [
+                2,
+                "はこ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "porter; carrying loads"
+          },
+          {
+            "s": "です",
+            "k": "です",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is; polite sentence ending",
+            "df": "だ",
+            "cf": "polite present"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "正直に答えた",
+            "k": "しょうじきにこたえた",
+            "ruby": [
+              [
+                0,
+                "しょう"
+              ],
+              [
+                1,
+                "じき"
+              ],
+              [
+                3,
+                "こた"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "answered honestly",
+            "df": "正直に答える",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "He was moved more by her compassion than her beauty.",
         "t": [
           {
@@ -4842,6 +5265,144 @@ export const STORY = {
             "g": "was moved",
             "df": "心を動かす",
             "cf": "plain past passive"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The princess also remembered that Aladdin was not ashamed of his work.",
+        "t": [
+          {
+            "s": "姫",
+            "k": "ひめ",
+            "ruby": [
+              [
+                0,
+                "ひめ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "princess"
+          },
+          {
+            "s": "も",
+            "k": "も",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "also, too / even"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "仕事",
+            "k": "しごと",
+            "ruby": [
+              [
+                0,
+                "し"
+              ],
+              [
+                1,
+                "ごと"
+              ]
+            ],
+            "d": "仕事",
+            "pos": "n",
+            "g": "work, job"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "恥じない",
+            "k": "はじない",
+            "ruby": [
+              [
+                0,
+                "は"
+              ]
+            ],
+            "d": "恥じる",
+            "pos": "v",
+            "g": "not ashamed",
+            "df": "恥じる",
+            "cf": "plain present negative"
+          },
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "態度",
+            "k": "たいど",
+            "ruby": [
+              [
+                0,
+                "たい"
+              ],
+              [
+                1,
+                "ど"
+              ]
+            ],
+            "d": "態度",
+            "pos": "n",
+            "g": "manner"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "覚えていた",
+            "k": "おぼえていた",
+            "ruby": [
+              [
+                0,
+                "おぼ"
+              ]
+            ],
+            "d": "覚える",
+            "pos": "v",
+            "g": "remembered",
+            "df": "覚える",
+            "cf": "plain past progressive"
           },
           {
             "s": "。",
@@ -5227,8 +5788,8 @@ export const STORY = {
             "g": "and / with — joins nouns, or marks a quote"
           },
           {
-            "s": "驚かれた",
-            "k": "おどろかれた",
+            "s": "驚いた",
+            "k": "おどろいた",
             "ruby": [
               [
                 0,
@@ -5239,7 +5800,7 @@ export const STORY = {
             "pos": "v",
             "g": "was astonished",
             "df": "驚く",
-            "cf": "honorific past"
+            "cf": "plain past"
           },
           {
             "s": "。",
@@ -5252,7 +5813,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "However, he required Aladdin to build a palace worthy of welcoming his daughter.",
+        "en": "However, the king required a fine palace as proof that Aladdin could protect his daughter.",
         "t": [
           {
             "s": "しかし",
@@ -5271,56 +5832,100 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "娘",
-            "k": "むすめ",
+            "s": "王様",
+            "k": "おうさま",
+            "ruby": [
+              [
+                0,
+                "おう"
+              ],
+              [
+                1,
+                "さま"
+              ]
+            ],
+            "d": "王様",
+            "pos": "n",
+            "g": "king"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "娘を守れる",
+            "k": "むすめをまもれる",
             "ruby": [
               [
                 0,
                 "むすめ"
+              ],
+              [
+                2,
+                "まも"
               ]
             ],
-            "d": "娘",
-            "pos": "n",
-            "g": "daughter"
-          },
-          {
-            "s": "を",
-            "k": "を",
-            "ruby": null,
             "d": null,
-            "pos": "part",
-            "g": "object marker"
+            "pos": "v",
+            "g": "could protect his daughter",
+            "df": "娘を守る",
+            "cf": "potential present"
           },
           {
-            "s": "迎える",
-            "k": "むかえる",
+            "s": "力を示す",
+            "k": "ちからをしめす",
             "ruby": [
               [
                 0,
-                "むか"
+                "ちから"
+              ],
+              [
+                2,
+                "しめ"
               ]
             ],
-            "d": "迎える",
+            "d": null,
             "pos": "v",
-            "g": "to welcome; marry into the family",
-            "df": "迎える",
-            "cf": "plain present"
+            "g": "demonstrate his ability"
           },
           {
-            "s": "のに",
-            "k": "のに",
+            "s": "ため",
+            "k": "ため",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "although / despite"
+            "g": "in order to; because"
           },
           {
-            "s": "ふさわしい",
-            "k": "ふさわしい",
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
             "ruby": null,
+            "g": null
+          },
+          {
+            "s": "立派な",
+            "k": "りっぱな",
+            "ruby": [
+              [
+                0,
+                "りっ"
+              ],
+              [
+                1,
+                "ぱ"
+              ]
+            ],
             "d": null,
             "pos": "adj",
-            "g": "worthy, suitable"
+            "g": "splendid, magnificent",
+            "df": "立派だ",
+            "cf": "na-adjective form"
           },
           {
             "s": "宮殿",
@@ -5348,8 +5953,8 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "建てなければならない",
-            "k": "たてなければならない",
+            "s": "建てる",
+            "k": "たてる",
             "ruby": [
               [
                 0,
@@ -5358,17 +5963,7 @@ export const STORY = {
             ],
             "d": "建てる",
             "pos": "v",
-            "g": "must build",
-            "df": "建てる",
-            "cf": "〜なければならない form"
-          },
-          {
-            "s": "と",
-            "k": "と",
-            "ruby": null,
-            "d": "と",
-            "pos": "part",
-            "g": "and / with — joins nouns, or marks a quote"
+            "g": "build"
           },
           {
             "s": "条件",
@@ -5396,8 +5991,8 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "出された",
-            "k": "だされた",
+            "s": "出した",
+            "k": "だした",
             "ruby": [
               [
                 0,
@@ -5406,9 +6001,9 @@ export const STORY = {
             ],
             "d": "出す",
             "pos": "v",
-            "g": "was given, imposed",
+            "g": "set",
             "df": "出す",
-            "cf": "plain past passive"
+            "cf": "plain past"
           },
           {
             "s": "。",
@@ -5858,7 +6453,7 @@ export const STORY = {
     ],
     [
       {
-        "en": "The princess talked with Aladdin and came to like his honesty.",
+        "en": "The princess asked Aladdin who had built the palace.",
         "t": [
           {
             "s": "姫",
@@ -5882,19 +6477,411 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "アラジンと話し",
-            "k": "アラジンとはなし",
+            "s": "宮殿",
+            "k": "きゅうでん",
             "ruby": [
               [
-                5,
+                0,
+                "きゅう"
+              ],
+              [
+                1,
+                "でん"
+              ]
+            ],
+            "d": "宮殿",
+            "pos": "n",
+            "g": "palace"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "誰が建てたのか",
+            "k": "だれがたてたのか",
+            "ruby": [
+              [
+                0,
+                "だれ"
+              ],
+              [
+                2,
+                "た"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "who had built it"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "尋ねた",
+            "k": "たずねた",
+            "ruby": [
+              [
+                0,
+                "たず"
+              ]
+            ],
+            "d": "尋ねる",
+            "pos": "v",
+            "g": "asked",
+            "df": "尋ねる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Aladdin told her about the lamp spirit’s help without concealing it.",
+        "t": [
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "ランプの精の助け",
+            "k": "ランプのせいのたすけ",
+            "ruby": [
+              [
+                4,
+                "せい"
+              ],
+              [
+                6,
+                "たす"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "the lamp spirit’s help"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "隠さず話した",
+            "k": "かくさずはなした",
+            "ruby": [
+              [
+                0,
+                "かく"
+              ],
+              [
+                3,
                 "はな"
               ]
             ],
-            "d": "話す",
+            "d": null,
             "pos": "v",
-            "g": "talking with Aladdin; talked and",
-            "df": "話す",
-            "cf": "continuative form"
+            "g": "told without hiding it",
+            "df": "隠さず話す",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The two discussed what the town needed.",
+        "t": [
+          {
+            "s": "二人",
+            "k": "ふたり",
+            "ruby": [
+              [
+                0,
+                "ふた"
+              ],
+              [
+                1,
+                "り"
+              ]
+            ],
+            "d": "二人",
+            "pos": "num",
+            "g": "the two of them"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "町に必要なもの",
+            "k": "まちにひつようなもの",
+            "ruby": [
+              [
+                0,
+                "まち"
+              ],
+              [
+                2,
+                "ひつ"
+              ],
+              [
+                3,
+                "よう"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "what the town needed"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "話し合った",
+            "k": "はなしあった",
+            "ruby": [
+              [
+                0,
+                "はな"
+              ],
+              [
+                2,
+                "あ"
+              ]
+            ],
+            "d": "話し合う",
+            "pos": "v",
+            "g": "discussed",
+            "df": "話し合う",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The princess said she wanted more hospitals and schools.",
+        "t": [
+          {
+            "s": "姫",
+            "k": "ひめ",
+            "ruby": [
+              [
+                0,
+                "ひめ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "princess"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "病院",
+            "k": "びょういん",
+            "ruby": [
+              [
+                0,
+                "びょう"
+              ],
+              [
+                1,
+                "いん"
+              ]
+            ],
+            "d": "病院",
+            "pos": "n",
+            "g": "hospital"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "学校",
+            "k": "がっこう",
+            "ruby": [
+              [
+                0,
+                "がっ"
+              ],
+              [
+                1,
+                "こう"
+              ]
+            ],
+            "d": "学校",
+            "pos": "n",
+            "g": "school"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "増やしたい",
+            "k": "ふやしたい",
+            "ruby": [
+              [
+                0,
+                "ふ"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "wanted to increase",
+            "df": "増やす",
+            "cf": "desiderative"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "言った",
+            "k": "いった",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "言う",
+            "pos": "v",
+            "g": "said",
+            "df": "言う",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "After meeting many times, the princess came to trust Aladdin.",
+        "t": [
+          {
+            "s": "何度も",
+            "k": "なんども",
+            "ruby": [
+              [
+                0,
+                "なん"
+              ],
+              [
+                1,
+                "ど"
+              ]
+            ],
+            "d": null,
+            "pos": "adv",
+            "g": "many times"
+          },
+          {
+            "s": "会ううち",
+            "k": "あううち",
+            "ruby": [
+              [
+                0,
+                "あ"
+              ]
+            ],
+            "d": "会う",
+            "pos": "v",
+            "g": "as they met",
+            "df": "会う",
+            "cf": "plain present time clause"
           },
           {
             "s": "、",
@@ -5905,65 +6892,60 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "彼",
-            "k": "かれ",
+            "s": "姫",
+            "k": "ひめ",
             "ruby": [
               [
                 0,
-                "かれ"
-              ]
-            ],
-            "d": "彼",
-            "pos": "pn",
-            "g": "he, him"
-          },
-          {
-            "s": "の",
-            "k": "の",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "possessive — \"'s\" / \"of\""
-          },
-          {
-            "s": "正直さ",
-            "k": "しょうじきさ",
-            "ruby": [
-              [
-                0,
-                "しょう"
-              ],
-              [
-                1,
-                "じき"
+                "ひめ"
               ]
             ],
             "d": null,
             "pos": "n",
-            "g": "honesty"
+            "g": "princess"
           },
           {
-            "s": "が",
-            "k": "が",
+            "s": "は",
+            "k": "は",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "subject marker"
+            "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "好きになった",
-            "k": "すきになった",
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "信頼するようになった",
+            "k": "しんらいするようになった",
             "ruby": [
               [
                 0,
-                "す"
+                "しん"
+              ],
+              [
+                1,
+                "らい"
               ]
             ],
-            "d": null,
+            "d": "信頼",
             "pos": "v",
-            "g": "came to like",
-            "df": "好きになる",
-            "cf": "plain past"
+            "g": "came to trust",
+            "df": "信頼する",
+            "cf": "plain past 〜ようになる form"
           },
           {
             "s": "。",
@@ -6136,6 +7118,187 @@ export const STORY = {
         ]
       },
       {
+        "en": "Fearing danger, Aladdin hid the lamp in a back room and told nobody where it was.",
+        "t": [
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "危険を恐れ",
+            "k": "きけんをおそれ",
+            "ruby": [
+              [
+                0,
+                "き"
+              ],
+              [
+                1,
+                "けん"
+              ],
+              [
+                3,
+                "おそ"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "fearing danger",
+            "df": "危険を恐れる",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "ランプ",
+            "k": "ランプ",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "lamp"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "奥の部屋",
+            "k": "おくのへや",
+            "ruby": [
+              [
+                0,
+                "おく"
+              ],
+              [
+                2,
+                "へ"
+              ],
+              [
+                3,
+                "や"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "back room"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "隠し",
+            "k": "かくし",
+            "ruby": [
+              [
+                0,
+                "かく"
+              ]
+            ],
+            "d": "隠す",
+            "pos": "v",
+            "g": "hiding; hid and",
+            "df": "隠す",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "場所",
+            "k": "ばしょ",
+            "ruby": [
+              [
+                0,
+                "ば"
+              ],
+              [
+                1,
+                "しょ"
+              ]
+            ],
+            "d": "場所",
+            "pos": "n",
+            "g": "location"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "誰にも",
+            "k": "だれにも",
+            "ruby": [
+              [
+                0,
+                "だれ"
+              ]
+            ],
+            "d": null,
+            "pos": "pn",
+            "g": "to nobody"
+          },
+          {
+            "s": "教えなかった",
+            "k": "おしえなかった",
+            "ruby": [
+              [
+                0,
+                "おし"
+              ]
+            ],
+            "d": "教える",
+            "pos": "v",
+            "g": "did not tell",
+            "df": "教える",
+            "cf": "plain past negative"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "Meanwhile, far away, the magician heard the rumours.",
         "t": [
           {
@@ -6240,8 +7403,158 @@ export const STORY = {
             ],
             "d": "聞く",
             "pos": "v",
-            "g": "heard",
+            "g": "asked",
             "df": "聞く",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Learning that the palace had risen in one night, he realised Aladdin had escaped with the lamp.",
+        "t": [
+          {
+            "s": "宮殿",
+            "k": "きゅうでん",
+            "ruby": [
+              [
+                0,
+                "きゅう"
+              ],
+              [
+                1,
+                "でん"
+              ]
+            ],
+            "d": "宮殿",
+            "pos": "n",
+            "g": "palace"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "一夜で建った",
+            "k": "いちやでたった",
+            "ruby": [
+              [
+                0,
+                "いち"
+              ],
+              [
+                1,
+                "や"
+              ],
+              [
+                3,
+                "た"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "built in one night",
+            "df": "一夜で建つ",
+            "cf": "plain past"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "知り",
+            "k": "しり",
+            "ruby": [
+              [
+                0,
+                "し"
+              ]
+            ],
+            "d": "知る",
+            "pos": "v",
+            "g": "learning; learned and",
+            "df": "知る",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "ランプで脱出した",
+            "k": "ランプでだっしゅつした",
+            "ruby": [
+              [
+                4,
+                "だっ"
+              ],
+              [
+                5,
+                "しゅつ"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "escaped using the lamp",
+            "df": "ランプで脱出する",
+            "cf": "plain past"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
+          },
+          {
+            "s": "悟った",
+            "k": "さとった",
+            "ruby": [
+              [
+                0,
+                "さと"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "realised",
+            "df": "悟る",
             "cf": "plain past"
           },
           {
@@ -6498,7 +7811,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "A servant, not knowing its value, exchanged the dirty lamp.",
+        "en": "While cleaning, a servant found the dirty lamp.",
         "t": [
           {
             "s": "召し使い",
@@ -6526,52 +7839,33 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "価値",
-            "k": "かち",
+            "s": "掃除中",
+            "k": "そうじちゅう",
             "ruby": [
               [
                 0,
-                "か"
+                "そう"
               ],
               [
                 1,
-                "ち"
+                "じ"
+              ],
+              [
+                2,
+                "ちゅう"
               ]
             ],
-            "d": "価値",
+            "d": null,
             "pos": "n",
-            "g": "value"
+            "g": "while cleaning"
           },
           {
-            "s": "を",
-            "k": "を",
+            "s": "に",
+            "k": "に",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "object marker"
-          },
-          {
-            "s": "知らず",
-            "k": "しらず",
-            "ruby": [
-              [
-                0,
-                "し"
-              ]
-            ],
-            "d": "知る",
-            "pos": "v",
-            "g": "without knowing",
-            "df": "知る",
-            "cf": "\"without ...ing\" form"
-          },
-          {
-            "s": "、",
-            "k": "、",
-            "d": null,
-            "pos": "punct",
-            "ruby": null,
-            "g": null
+            "g": "to / in / at — destination, place or time"
           },
           {
             "s": "汚れた",
@@ -6603,6 +7897,165 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "object marker"
+          },
+          {
+            "s": "見つけた",
+            "k": "みつけた",
+            "ruby": [
+              [
+                0,
+                "み"
+              ]
+            ],
+            "d": "見つける",
+            "pos": "v",
+            "g": "found",
+            "df": "見つける",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Knowing neither its value nor why it had been hidden, the servant exchanged it for a new lamp.",
+        "t": [
+          {
+            "s": "価値",
+            "k": "かち",
+            "ruby": [
+              [
+                0,
+                "か"
+              ],
+              [
+                1,
+                "ち"
+              ]
+            ],
+            "d": "価値",
+            "pos": "n",
+            "g": "value"
+          },
+          {
+            "s": "も",
+            "k": "も",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "also, too / even"
+          },
+          {
+            "s": "隠し場所",
+            "k": "かくしばしょ",
+            "ruby": [
+              [
+                0,
+                "かく"
+              ],
+              [
+                2,
+                "ば"
+              ],
+              [
+                3,
+                "しょ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "hiding place"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "理由",
+            "k": "りゆう",
+            "ruby": [
+              [
+                0,
+                "り"
+              ],
+              [
+                1,
+                "ゆう"
+              ]
+            ],
+            "d": "理由",
+            "pos": "n",
+            "g": "reason"
+          },
+          {
+            "s": "も",
+            "k": "も",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "also, too / even"
+          },
+          {
+            "s": "知らず",
+            "k": "しらず",
+            "ruby": [
+              [
+                0,
+                "し"
+              ]
+            ],
+            "d": "知る",
+            "pos": "v",
+            "g": "without knowing",
+            "df": "知る",
+            "cf": "\"without ...ing\" form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "新しい",
+            "k": "あたらしい",
+            "ruby": [
+              [
+                0,
+                "あたら"
+              ]
+            ],
+            "d": "新しい",
+            "pos": "adj",
+            "g": "new"
+          },
+          {
+            "s": "ランプ",
+            "k": "ランプ",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "lamp"
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": "と",
+            "pos": "part",
+            "g": "and / with — joins nouns, or marks a quote"
           },
           {
             "s": "取り替えた",
@@ -6772,6 +8225,111 @@ export const STORY = {
             "pos": "v",
             "g": "made it move",
             "df": "移す",
+            "cf": "plain past causative"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The princess pretended to obey and made the magician lower his guard.",
+        "t": [
+          {
+            "s": "姫",
+            "k": "ひめ",
+            "ruby": [
+              [
+                0,
+                "ひめ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "princess"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "従うふりをして",
+            "k": "したがうふりをして",
+            "ruby": [
+              [
+                0,
+                "したが"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "pretending to obey",
+            "df": "従うふりをする",
+            "cf": "te-form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "魔術師",
+            "k": "まじゅつし",
+            "ruby": [
+              [
+                0,
+                "ま"
+              ],
+              [
+                1,
+                "じゅつ"
+              ],
+              [
+                2,
+                "し"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "magician"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "油断させた",
+            "k": "ゆだんさせた",
+            "ruby": [
+              [
+                0,
+                "ゆ"
+              ],
+              [
+                1,
+                "だん"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "made him lower his guard",
+            "df": "油断する",
             "cf": "plain past causative"
           },
           {
@@ -7318,27 +8876,6 @@ export const STORY = {
       {
         "en": "Reunited, the two worked out a plan.",
         "t": [
-          {
-            "s": "姫",
-            "k": "ひめ",
-            "ruby": [
-              [
-                0,
-                "ひめ"
-              ]
-            ],
-            "d": null,
-            "pos": "n",
-            "g": "princess"
-          },
-          {
-            "s": "と",
-            "k": "と",
-            "ruby": null,
-            "d": "と",
-            "pos": "part",
-            "g": "and / with — joins nouns, or marks a quote"
-          },
           {
             "s": "再会した",
             "k": "さいかいした",
@@ -8184,6 +9721,14 @@ export const STORY = {
             "g": "object marker"
           },
           {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
             "s": "誰か",
             "k": "だれか",
             "ruby": [
@@ -8228,6 +9773,14 @@ export const STORY = {
             "g": "to / in / at — destination, place or time"
           },
           {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
             "s": "使わないと誓った",
             "k": "つかわないとちかった",
             "ruby": [
@@ -8259,20 +9812,186 @@ export const STORY = {
     ],
     [
       {
-        "en": "He also used the lamp spirit’s power to build a market, a hospital and a school.",
+        "en": "The princess reminded Aladdin of their earlier plans.",
         "t": [
           {
-            "s": "ランプの精",
-            "k": "ランプのせい",
+            "s": "姫",
+            "k": "ひめ",
             "ruby": [
               [
-                4,
-                "せい"
+                0,
+                "ひめ"
               ]
             ],
             "d": null,
             "pos": "n",
-            "g": "spirit of the lamp"
+            "g": "princess"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "アラジン",
+            "k": "アラジン",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Aladdin"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "前の約束",
+            "k": "まえのやくそく",
+            "ruby": [
+              [
+                0,
+                "まえ"
+              ],
+              [
+                2,
+                "やく"
+              ],
+              [
+                3,
+                "そく"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "earlier promise"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "思い出させた",
+            "k": "おもいださせた",
+            "ruby": [
+              [
+                0,
+                "おも"
+              ],
+              [
+                2,
+                "だ"
+              ]
+            ],
+            "d": "思い出す",
+            "pos": "v",
+            "g": "reminded",
+            "df": "思い出す",
+            "cf": "plain past causative"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "They gathered the townspeople and asked which places were needed first.",
+        "t": [
+          {
+            "s": "二人",
+            "k": "ふたり",
+            "ruby": [
+              [
+                0,
+                "ふた"
+              ],
+              [
+                1,
+                "り"
+              ]
+            ],
+            "d": "二人",
+            "pos": "num",
+            "g": "the two of them"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "町の人たちを集め",
+            "k": "まちのひとたちをあつめ",
+            "ruby": [
+              [
+                0,
+                "まち"
+              ],
+              [
+                2,
+                "ひと"
+              ],
+              [
+                6,
+                "あつ"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "gathering the townspeople",
+            "df": "町の人たちを集める",
+            "cf": "continuative form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "必要な場所",
+            "k": "ひつようなばしょ",
+            "ruby": [
+              [
+                0,
+                "ひつ"
+              ],
+              [
+                1,
+                "よう"
+              ],
+              [
+                3,
+                "ば"
+              ],
+              [
+                4,
+                "しょ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "needed places"
           },
           {
             "s": "の",
@@ -8283,17 +10002,21 @@ export const STORY = {
             "g": "possessive — \"'s\" / \"of\""
           },
           {
-            "s": "力",
-            "k": "ちから",
+            "s": "順番",
+            "k": "じゅんばん",
             "ruby": [
               [
                 0,
-                "ちから"
+                "じゅん"
+              ],
+              [
+                1,
+                "ばん"
               ]
             ],
-            "d": "力",
+            "d": "順番",
             "pos": "n",
-            "g": "power"
+            "g": "order"
           },
           {
             "s": "を",
@@ -8304,71 +10027,78 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "市場",
-            "k": "いちば",
+            "s": "聞いた",
+            "k": "きいた",
             "ruby": [
               [
                 0,
-                "いち"
-              ],
-              [
-                1,
-                "ば"
+                "き"
               ]
             ],
-            "d": "市場|いちば",
-            "pos": "n",
-            "g": "market"
+            "d": "聞く",
+            "pos": "v",
+            "g": "asked",
+            "df": "聞く",
+            "cf": "plain past"
           },
           {
-            "s": "、",
-            "k": "、",
+            "s": "。",
+            "k": "。",
             "d": null,
             "pos": "punct",
             "ruby": null,
             "g": null
-          },
+          }
+        ]
+      },
+      {
+        "en": "First, they built a clinic.",
+        "t": [
           {
-            "s": "病院",
-            "k": "びょういん",
+            "s": "最初",
+            "k": "さいしょ",
             "ruby": [
               [
                 0,
-                "びょう"
+                "さい"
               ],
               [
                 1,
-                "いん"
+                "しょ"
               ]
             ],
-            "d": "病院",
-            "pos": "n",
-            "g": "hospital"
+            "d": "最初",
+            "pos": "adv",
+            "g": "first"
           },
           {
-            "s": "、",
-            "k": "、",
-            "d": null,
-            "pos": "punct",
+            "s": "に",
+            "k": "に",
             "ruby": null,
-            "g": null
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
           },
           {
-            "s": "学校",
-            "k": "がっこう",
+            "s": "診療所",
+            "k": "しんりょうじょ",
             "ruby": [
               [
                 0,
-                "がっ"
+                "しん"
               ],
               [
                 1,
-                "こう"
+                "りょう"
+              ],
+              [
+                2,
+                "じょ"
               ]
             ],
-            "d": "学校",
+            "d": null,
             "pos": "n",
-            "g": "school"
+            "g": "clinic"
           },
           {
             "s": "を",
@@ -8379,23 +10109,199 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "建てることにも使った",
-            "k": "たてることにもつかった",
+            "s": "建てた",
+            "k": "たてた",
             "ruby": [
               [
                 0,
                 "た"
+              ]
+            ],
+            "d": "建てる",
+            "pos": "v",
+            "g": "built",
+            "df": "建てる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Next, they built a market merchants could use safely.",
+        "t": [
+          {
+            "s": "次",
+            "k": "つぎ",
+            "ruby": [
+              [
+                0,
+                "つぎ"
+              ]
+            ],
+            "d": "次",
+            "pos": "n",
+            "g": "next"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "商人が安心して使える市場",
+            "k": "しょうにんがあんしんしてつかえるいちば",
+            "ruby": [
+              [
+                0,
+                "しょう"
+              ],
+              [
+                1,
+                "にん"
+              ],
+              [
+                3,
+                "あん"
+              ],
+              [
+                4,
+                "しん"
               ],
               [
                 7,
                 "つか"
+              ],
+              [
+                10,
+                "いち"
+              ],
+              [
+                11,
+                "ば"
               ]
             ],
-            "d": "使う",
+            "d": null,
+            "pos": "n",
+            "g": "market merchants could use safely"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "建てた",
+            "k": "たてた",
+            "ruby": [
+              [
+                0,
+                "た"
+              ]
+            ],
+            "d": "建てる",
             "pos": "v",
-            "g": "also used it to build",
-            "df": "使う",
-            "cf": "plain past purpose form"
+            "g": "built",
+            "df": "建てる",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Lastly, they built a school where children could learn.",
+        "t": [
+          {
+            "s": "最後",
+            "k": "さいご",
+            "ruby": [
+              [
+                0,
+                "さい"
+              ],
+              [
+                1,
+                "ご"
+              ]
+            ],
+            "d": "最後",
+            "pos": "adv",
+            "g": "lastly"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "子どもが学べる学校",
+            "k": "こどもがまなべるがっこう",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                4,
+                "まな"
+              ],
+              [
+                7,
+                "がっ"
+              ],
+              [
+                8,
+                "こう"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "school where children could learn"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "建てた",
+            "k": "たてた",
+            "ruby": [
+              [
+                0,
+                "た"
+              ]
+            ],
+            "d": "建てる",
+            "pos": "v",
+            "g": "built",
+            "df": "建てる",
+            "cf": "plain past"
           },
           {
             "s": "。",
@@ -8527,5 +10433,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "aa3c29b1"
+  "hash": "2d94e603"
 };
