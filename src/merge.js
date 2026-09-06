@@ -12,6 +12,7 @@
 import {
   MAX_BOX, deriveStudyList, isLegacyStudyShape, migrateStudyShape, exposureInternals,
 } from './srs.js';
+import { mergeContributions } from './contributions.js';
 
 const { exposureEvents, exposureCleared, exposureStrikes } = exposureInternals;
 
@@ -427,6 +428,14 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const stories = mergeStories(current.stories, incoming.stories);
   const milestonesShown = mergeMilestonesShown(current.milestonesShown, incoming.milestonesShown);
   const mnemonics = mergeMnemonics(current.mnemonics, incoming.mnemonics);
+  // Feedback receipts and their status (feedback-plan.md). Rules live in
+  // contributions.js next to the rest of the contribution model, because
+  // they are the one merge here that splits a single record between
+  // server-owned fields (status, taken wholesale from the fresher read) and
+  // local evidence (acknowledgement, taken as a maximum) — and because a
+  // tombstone in forgottenContributions has to beat any older record, so a
+  // device left in a drawer cannot resurrect a report the learner removed.
+  const contributed = mergeContributions(current, incoming);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -451,5 +460,9 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     stories,
     milestonesShown,
     mnemonics,
+    // Both left off entirely when neither side ever had them, same trick and
+    // same reason as settingsUpdatedAt above.
+    contributions: contributed.contributions,
+    forgottenContributions: contributed.forgottenContributions,
   };
 }

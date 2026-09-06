@@ -234,6 +234,21 @@ export function createProfile(name, emoji) {
     // retroactively. Only a genuinely brand-new profile carries the explicit
     // `false` that opens the flow, and completing OR skipping it sets true.
     onboarded: false,
+    // feedbackId -> the learner's own report and its status
+    // (feedback-plan.md, "Client data model"). This is where a contribution
+    // actually LIVES: there is no account and no server-readable identity,
+    // so the random receipt token held in here is the only thing that proves
+    // a report is theirs. Sync and backup are what carry it to another
+    // device; nothing else can, which is why the My contributions screen
+    // says so out loud. Same starting-as-{} reasoning as exposure/muted
+    // above.
+    contributions: {},
+    // feedbackId -> when "remove from My contributions" was tapped. A
+    // tombstone rather than a deletion, for the same reason `unstudy` is
+    // one: without it, a device that has been switched off for a month
+    // would resurrect a report the learner deliberately removed on the next
+    // sync. See mergeContributions in contributions.js.
+    forgottenContributions: {},
   };
   return saveProfile(profile).then(() => profile);
 }
@@ -269,6 +284,8 @@ function validateBackup(data) {
       || (profile.exposure !== undefined && !isObject(profile.exposure))
       || (profile.muted !== undefined && !isObject(profile.muted))
       || (profile.mnemonics !== undefined && !isObject(profile.mnemonics))
+      || (profile.contributions !== undefined && !isObject(profile.contributions))
+      || (profile.forgottenContributions !== undefined && !isObject(profile.forgottenContributions))
       || ids.has(profile.id)) {
       throw new Error('That backup contains an invalid learner profile.');
     }
