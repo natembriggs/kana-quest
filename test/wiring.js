@@ -66,6 +66,9 @@ function makeElement(id = '') {
     removeAttribute(name) { delete this._attrs[name]; },
     remove() {},
     focus() {},
+    // Real textareas have this; renderMnemonicEditor (kanji-components.js)
+    // uses it to park the cursor at the end of an existing hint.
+    setSelectionRange() {},
     // Dispatches for real, unlike the other no-ops here: app.js's Enter-key
     // shortcut works by calling .click() on whichever forward button is on
     // screen, so a no-op stub would let that shortcut "pass" while doing
@@ -133,7 +136,13 @@ function fire(element, type, event = {}) {
   // does suppress the second; here they are simply two entries in one array,
   // in registration order, which puts them in the same relative order.
   let stopped = false;
-  const listeners = [...(element._listeners[type] || [])];
+  // An `onXxx` property handler is as real as an addEventListener one — app.js
+  // uses both, and prefers the property wherever a handler is re-assigned on
+  // every render (the stroke-order play button, the hint buttons) precisely
+  // because assigning replaces rather than stacks. Run last, which is where
+  // an assignment made after the listeners were registered would land.
+  const inline = element[`on${type}`];
+  const listeners = [...(element._listeners[type] || []), ...(inline ? [inline] : [])];
   listeners.forEach((fn) => {
     if (stopped) return;
     fn({ preventDefault() {}, stopPropagation() { stopped = true; }, ...event });
@@ -2000,13 +2009,19 @@ if (detailChips.length > 0) {
 }
 
 // --- Component breakdown on the detail screen ---------------------------
-// 一 (the first grade-1 tile, still open above) is atomic; 休 is 亻+木. Both
-// halves matter: a breakdown where there is one, and no empty box where
-// there isn't.
+// 一 (the first grade-1 tile, still open above) has no decomposition; 休 is
+// 亻+木. Both halves matter: tiles where there are parts, none where there
+// aren't — and the panel itself stays on either way, because "add your own
+// hint" has to be reachable on precisely the characters with no built-in
+// breakdown to lean on.
 
-check('an atomic kanji shows no component breakdown',
-  el('detail-components-wrap').hidden === true,
-  `glyph "${el('detail-glyph').textContent}"`);
+check('a kanji with no decomposition shows no component tiles',
+  el('detail-components')._children.length === 0,
+  `glyph "${el('detail-glyph').textContent}", ${el('detail-components')._children.length} tiles`);
+check('a kanji with no decomposition still offers to take a hint',
+  el('detail-components-wrap').hidden === false
+  && el('detail-edit-mnemonic').hidden === false,
+  `wrap hidden ${el('detail-components-wrap').hidden}`);
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
 await settle();
@@ -2048,6 +2063,76 @@ if (treeTile) {
   check('backing out of a component returns to the kanji it came from',
     el('detail-glyph').textContent === '休', `glyph "${el('detail-glyph').textContent}"`);
 }
+
+// --- Editing a hint ------------------------------------------------------
+// 休 is still open above, showing its built-in hint. Writing one's own has to
+// replace it everywhere and survive being put back.
+
+const builtInHint = el('detail-mnemonic').textContent;
+check('the built-in hint is not marked as the learner\u2019s own',
+  el('detail-mnemonic').classList.contains('is-own') === false);
+check('the edit button offers to ADD when nothing has been written yet',
+  el('detail-edit-mnemonic').textContent.toLowerCase().includes('add'),
+  el('detail-edit-mnemonic').textContent);
+
+// Save/Cancel live in their own row inside the editor, so this looks one
+// level down rather than only at the editor's direct children.
+const editorButtons = (node) => node._children
+  .flatMap((c) => (c.className.includes('row') ? c._children : [c]));
+
+fire(el('detail-edit-mnemonic'), 'click');
+await settle();
+const editor = el('detail-mnemonic-editor');
+check('tapping it opens an editor in place', editor.hidden === false
+  && editor._children.length > 0);
+const textarea = editor._children.find((c) => c.className.includes('mnemonic-input'));
+
+check('the editor has a text field', !!textarea);
+check('the field starts empty rather than pre-filled with the built-in wording',
+  textarea && textarea.value === '', `"${textarea && textarea.value}"`);
+check('nothing is offered to reset before anything has been written',
+  editorButtons(editor).every((c) => !c.className.includes('mnemonic-reset')));
+
+textarea.value = '  Someone taking five under a tree.  ';
+const saveButton = editorButtons(editor).find((c) => c.textContent === 'Save');
+check('the editor offers Save and Cancel',
+  !!saveButton && editorButtons(editor).some((c) => c.textContent === 'Cancel'),
+  editorButtons(editor).map((c) => c.textContent).join(', '));
+fire(saveButton, 'click');
+await settle();
+check('saving shows the learner\u2019s own hint instead of the built-in',
+  el('detail-mnemonic').textContent === 'Someone taking five under a tree.',
+  `"${el('detail-mnemonic').textContent}"`);
+check('their own hint is marked as theirs',
+  el('detail-mnemonic').classList.contains('is-own') === true);
+check('the editor closes once saved', el('detail-mnemonic-editor').hidden === true);
+check('the button now offers to EDIT rather than add',
+  el('detail-edit-mnemonic').textContent.toLowerCase().includes('edit'),
+  el('detail-edit-mnemonic').textContent);
+// Read back out of the fake store rather than off the object captured at
+// startup — what matters is that the hint was actually persisted.
+const savedHint = () => (([...rows.values()][0].mnemonics) || {})['休'];
+check('the hint is stored on the profile, timestamped for cross-device merge',
+  savedHint() && savedHint().text === 'Someone taking five under a tree.'
+  && typeof savedHint().at === 'number',
+  JSON.stringify(savedHint()));
+
+fire(el('detail-edit-mnemonic'), 'click');
+await settle();
+const editor2 = el('detail-mnemonic-editor');
+const resetButton = editorButtons(editor2).find((c) => c.className.includes('mnemonic-reset'));
+check('reopening it seeds the field with what they wrote',
+  editorButtons(editor2).find((c) => c.className.includes('mnemonic-input')).value
+    === 'Someone taking five under a tree.');
+check('a way back to the built-in hint appears once one has been written', !!resetButton);
+fire(resetButton, 'click');
+await settle();
+check('resetting restores the built-in wording',
+  el('detail-mnemonic').textContent === builtInHint
+  && el('detail-mnemonic').classList.contains('is-own') === false,
+  `"${el('detail-mnemonic').textContent}"`);
+check('a reset is stored as an empty entry, not deleted — so it can sync',
+  savedHint() && savedHint().text === '', JSON.stringify(savedHint()));
 
 // --- Kanji search ------------------------------------------------------
 // Phase 4 of kanji-expansion-plan.md §2.2. Finds a kanji by character,

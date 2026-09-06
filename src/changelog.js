@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-06',
+    changes: [
+      'New: every kanji hint can now be rewritten in your own words. Tap "Add your own hint" on a kanji\u2019s detail screen \u2014 or, when you get one wrong in a quiz, right there on the question without leaving it \u2014 and whatever you write replaces the built-in wording everywhere that kanji appears, marked with a line down the side so you can tell your words from the app\u2019s. "Use the built-in hint instead" puts the original back. Your hints are saved with your learner profile and travel to your other devices along with the rest of your progress.',
+      'New: every kanji in grades 1 to 3 now has a memory hint, not just the ones built out of nameable parts. A kanji like \u72ac or \u6bcd, which doesn\u2019t come apart into pieces, gets a hint about what the character actually looks like instead \u2014 and 50 more kanji, \u5b66 and \u96fb and \u9ad8 among them, now show their parts properly where before they showed none.',
+    ],
+  },
+  {
     date: '2026-09-05',
     changes: [
       'New: kanji made of smaller parts now show what those parts are, where each one sits, and a short sentence tying them together — 休 is a person beside a tree, 雪 is rain over a hand. Covers grades 1 to 3 for now. The breakdown appears on a kanji\u2019s detail screen and on its lesson card when you first meet it, and there\u2019s a new "\u{1F4A1} Hint" button in the Yomi, Definition and Writing quizzes if you want a nudge mid-question without being shown the answer. Any part that the app also teaches as a kanji in its own right is tappable, so you can jump straight to it and come back. Kanji that aren\u2019t built from separate parts simply don\u2019t show the panel.',

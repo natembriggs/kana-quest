@@ -1193,6 +1193,48 @@ button.quiz-glyph-tap {
   max-width: 34em;
 }
 
+/* A hint the learner wrote themselves, rather than the built-in one. Marked
+   quietly — an accent bar down the side rather than a colour change on the
+   text, which would fight the reading. The point is only that their own
+   words are never mistaken for the app's. */
+.mnemonic-text.is-own {
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+  text-align: left;
+}
+
+/* "Add your own hint" / "Edit this hint". Deliberately the quietest thing in
+   the panel: it is an offer that should be findable on every kanji and
+   pressing on none of them. */
+.mnemonic-edit-btn {
+  min-height: 34px;
+  padding: 4px 12px;
+  font-size: 13px;
+  border-color: transparent;
+  text-decoration: underline;
+}
+
+.mnemonic-editor { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.mnemonic-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.45;
+  resize: vertical;
+}
+.mnemonic-input:focus { outline: none; border-color: var(--accent); }
+/* Save and Cancel share the row evenly; the reset below is full width and
+   quieter still, since undoing your own work should never be the easiest
+   thing to hit by accident. */
+.mnemonic-editor-actions { gap: 8px; }
+.mnemonic-reset { font-size: 13px; min-height: 34px; }
+
 /* The mid-question "Hint" button, in both quiz surfaces. Visibly its own
    thing rather than another .btn-quiet — a nudge toward remembering, not a
    route to the answer, which is what its neighbours ("Show answers",

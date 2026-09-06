@@ -40,6 +40,7 @@ import { STORIES } from './data/story-manifest.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
   ensureComponentUnitLoaded, kanjiComponents, renderComponentBreakdown,
+  resolveMnemonic, hasOwnMnemonic, renderMnemonicEditor,
 } from './kanji-components.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
@@ -57,7 +58,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-05d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-06a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -663,6 +664,10 @@ function openProfile(profile) {
   // Same reasoning again — a profile predating milestone celebration has had
   // none shown yet (review-followups.md item 4).
   if (profile.milestonesShown === undefined) profile.milestonesShown = {};
+  // Same reasoning again — a profile predating editable memory hints
+  // (kanji-mnemonic-plan.md §10) has written none of its own, and every
+  // kanji simply falls back to its built-in wording.
+  if (profile.mnemonics === undefined) profile.mnemonics = {};
   // The same defensive default as the three above, but the useful value is
   // the opposite one. A profile predating the first-run placement flow
   // (onboarding-plan.md §2) has no `onboarded` field, and must never be sent
@@ -2895,8 +2900,7 @@ function renderCharacterDetail() {
     renderExposureSummary(char, info);
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = info.meanings.join(', ');
-    paintComponents('detail-components-wrap', 'detail-components', 'detail-mnemonic',
-      course, char, drillIntoDetail);
+    paintDetailComponents(course, char);
     $('detail-word').hidden = true;
     $('detail-word').innerHTML = '';
     $('detail-word-kanji').hidden = true;
@@ -3005,21 +3009,54 @@ function componentsFor(course, char) {
  * into a component's own detail screen would be a way out of the question
  * rather than a way into it.
  */
-function armHintButton(buttonId, wrapId, rowId, mnemonicId, course, char) {
+function armHintButton(buttonId, wrapId, rowId, mnemonicId, editButtonId, editorId, course, char) {
   const button = $(buttonId);
-  const entry = componentsFor(course, char);
   $(wrapId).hidden = true;
-  button.hidden = !entry;
-  if (!entry) return;
+  $(editButtonId).hidden = true;
+  $(editorId).hidden = true;
+  $(editorId).innerHTML = '';
+  // Offered whenever there is anything to show — parts, a built-in hint, or
+  // the learner's own — and hidden when there is nothing, rather than
+  // opening onto an empty panel.
+  const hint = course.kind === 'kanji'
+    ? resolveMnemonic(state.profile, kanjiUnitFor(char), char)
+    : null;
+  const entry = componentsFor(course, char);
+  button.hidden = !(hint || (entry && entry.parts.length));
+  if (button.hidden) return;
   button.onclick = () => {
     paintComponents(wrapId, rowId, mnemonicId, course, char, null);
     button.hidden = true; // one-way: once shown it stays, there is nothing to re-hide
   };
 }
 
+/**
+ * Opens the hint panel and its editor after a character has been got wrong.
+ *
+ * This is the moment the whole editable-hint idea exists for: a learner has
+ * just failed a character and knows, right then, what would have helped them
+ * remember it. Sending them to the detail screen to write that down is how
+ * it never gets written — so the panel comes up in place, with the parts,
+ * whatever hint there is, and a way to replace it, without leaving the
+ * question. Also fires when there is no hint at all, since a character with
+ * nothing to hang on it is the one most worth writing one for.
+ */
+function offerMnemonicAfterFailure(wrapId, rowId, mnemonicId, editButtonId, editorId, course, char) {
+  if (course.kind !== 'kanji') return;
+  const repaint = () => {
+    paintComponents(wrapId, rowId, mnemonicId, course, char, null);
+    $(wrapId).hidden = false;
+    armMnemonicEditor(editButtonId, editorId, course, char, { repaint });
+  };
+  repaint();
+}
+
 function paintComponents(wrapId, rowId, mnemonicId, course, char, open) {
   const entry = componentsFor(course, char);
-  const shown = renderComponentBreakdown($(rowId), $(mnemonicId), entry, open ? {
+  const hint = course.kind === 'kanji'
+    ? resolveMnemonic(state.profile, kanjiUnitFor(char), char)
+    : null;
+  const shown = renderComponentBreakdown($(rowId), $(mnemonicId), entry, hint, open ? {
     // A tile only opens if the component is itself taught here, and is not
     // the character already on screen — 田 inside 番 opens 田's own detail
     // screen; 氵, which this app never teaches alone, stays a plain tile.
@@ -3028,6 +3065,92 @@ function paintComponents(wrapId, rowId, mnemonicId, course, char, open) {
   } : {});
   $(wrapId).hidden = !shown;
   return shown;
+}
+
+// --- Editing a hint ------------------------------------------------------
+//
+// The built-in hint is a starting point, not an answer. Every surface that
+// shows one also offers to replace it, because the moment someone thinks
+// "that's not how I remember it" is the moment worth capturing — and on the
+// quiz screens that moment is specifically the one right after getting the
+// character wrong. All four surfaces share the two functions below; they
+// differ only in which element ids they hand over.
+
+/** True when the learner has written their own hint for this kanji — used
+ * for the button's wording and for whether resetting is on offer. */
+function ownsMnemonic(char) {
+  return hasOwnMnemonic(state.profile, char);
+}
+
+/**
+ * Sets up one surface's "Add/Edit hint" button. The button says "Add" when
+ * there is nothing of the learner's own yet and "Edit" once there is, so it
+ * never claims to edit something they didn't write. `visible` is what lets
+ * the quiz surfaces hold it back until a question has actually been failed.
+ */
+function armMnemonicEditor(buttonId, editorId, course, char, { visible = true, repaint }) {
+  const button = $(buttonId);
+  const editor = $(editorId);
+  editor.hidden = true;
+  editor.innerHTML = '';
+  const editable = course.kind === 'kanji';
+  button.hidden = !editable || !visible;
+  if (!editable) return;
+  button.textContent = ownsMnemonic(char) ? 'Edit this hint' : 'Add your own hint';
+  button.onclick = () => {
+    button.hidden = true;
+    editor.hidden = false;
+    const own = (state.profile.mnemonics || {})[char];
+    renderMnemonicEditor(editor, {
+      // Seeded with the learner's own text if they have any, and otherwise
+      // EMPTY rather than pre-filled with the built-in: handing someone a
+      // textarea full of words they didn't write invites tinkering with the
+      // default instead of writing the thing that actually works for them,
+      // and the built-in is still visible right above the field anyway.
+      current: (own && own.text) || '',
+      canReset: ownsMnemonic(char),
+      onSave: (text) => { saveMnemonic(char, text); repaint(); },
+      onCancel: () => repaint(),
+    });
+  };
+}
+
+/** The lesson card's components block. Same repaint contract as the detail
+ * screen's, but drilling in goes through openFromLesson so Back returns to
+ * the card rather than stacking a detail frame. */
+function paintLessonComponents(course, item) {
+  paintComponents('lesson-components-wrap', 'lesson-components', 'lesson-mnemonic',
+    course, item, openFromLesson);
+  armMnemonicEditor('lesson-edit-mnemonic', 'lesson-mnemonic-editor', course, item, {
+    repaint: () => paintLessonComponents(course, item),
+  });
+  if (course.kind === 'kanji') $('lesson-components-wrap').hidden = false;
+}
+
+/** The detail screen's own components block, as one repaintable unit — the
+ * editor calls this back after a save or cancel so the new text, the
+ * button's Add/Edit wording and the reset option all land together. */
+function paintDetailComponents(course, char) {
+  paintComponents('detail-components-wrap', 'detail-components', 'detail-mnemonic',
+    course, char, drillIntoDetail);
+  armMnemonicEditor('detail-edit-mnemonic', 'detail-mnemonic-editor', course, char, {
+    repaint: () => paintDetailComponents(course, char),
+  });
+  // The wrapper hides itself when there are no parts and no hint — but the
+  // editor button has to stay reachable in exactly that case, since a kanji
+  // with nothing to say about it yet is the one most worth writing a hint
+  // for. Kanji only: kana and vocab have no breakdown of any kind.
+  if (course.kind === 'kanji') $('detail-components-wrap').hidden = false;
+}
+
+/** Writes one hint to the profile and saves. An empty `text` is kept as a
+ * tombstone rather than deleted — see mergeMnemonics in merge.js for why a
+ * reset has to travel between devices as deliberately as an edit does. */
+function saveMnemonic(char, text) {
+  const { profile } = state;
+  profile.mnemonics = profile.mnemonics || {};
+  profile.mnemonics[char] = { text, at: Date.now() };
+  store.saveProfile(profile);
 }
 
 /**
@@ -3520,8 +3643,7 @@ function renderLesson() {
     // something already half-known. openFromLesson, not drillIntoDetail —
     // the lesson card is not a detail screen and has no frame to stack, so
     // Back returns straight here (see openFromLesson's own comment).
-    paintComponents('lesson-components-wrap', 'lesson-components', 'lesson-mnemonic',
-      course, item, openFromLesson);
+    paintLessonComponents(course, item);
     $('lesson-word').hidden = true;
     $('lesson-word').innerHTML = '';
     $('lesson-hint').textContent = state.mode === 'definition'
@@ -3760,7 +3882,7 @@ function renderSingleChoice(course, item) {
   $('quiz-kanji-actions').hidden = true;
   if (course.kind === 'kanji') {
     armHintButton('quiz-show-hint', 'quiz-hint-panel', 'quiz-hint-components',
-      'quiz-hint-mnemonic', course, item);
+      'quiz-hint-mnemonic', 'quiz-edit-mnemonic', 'quiz-mnemonic-editor', course, item);
     if (!$('quiz-show-hint').hidden) {
       $('quiz-kanji-actions').hidden = false;
       $('quiz-show-answers').hidden = true;
@@ -3856,6 +3978,16 @@ function chooseAnswer(value, button) {
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
   $('quiz-feedback').textContent = 'Try once more';
+
+  // Same reasoning as the Yomi quiz's — offered on the first miss only, so
+  // a learner still hunting for the right option isn't handed the panel
+  // again on every subsequent tap.
+  if (session.attempt === 1) {
+    offerMnemonicAfterFailure('quiz-hint-panel', 'quiz-hint-components',
+      'quiz-hint-mnemonic', 'quiz-edit-mnemonic', 'quiz-mnemonic-editor',
+      getAnyCourse(state.courseId), item);
+    $('quiz-kanji-actions').hidden = getAnyCourse(state.courseId).kind !== 'kanji';
+  }
 }
 
 /** Once a single-answer question resolves, every remaining option goes
@@ -4966,7 +5098,7 @@ function renderWritingQuestion(course, item) {
   if (isKanji) {
     renderWritingKanjiInfo(course, item);
     armHintButton('writing-show-hint', 'writing-hint-panel', 'writing-hint-components',
-      'writing-hint-mnemonic', course, item);
+      'writing-hint-mnemonic', 'writing-edit-mnemonic', 'writing-mnemonic-editor', course, item);
   }
   $('writing-peek-full').textContent = `Show full ${isKanji ? 'kanji' : 'kana'}`;
   $('writing-feedback').textContent = '';
@@ -5380,6 +5512,19 @@ function finishWritingCharacter(explicitCorrect) {
   // applies, and the space is worth reclaiming (see writing-mode-plan.md).
   $('writing-hints').hidden = true;
 
+  // Drew it wrong: open the hint panel with a way to rewrite what is in it,
+  // for the same reason the two reading quizzes do (see
+  // offerMnemonicAfterFailure). Not on a correct pass — there is nothing to
+  // fix about a hint that just worked — and not on a redo, where the record
+  // is already sealed and the panel has been on screen since the first go.
+  if (!correct && !wasAlreadyRecorded) {
+    const writingCourse = getAnyCourse(state.courseId);
+    offerMnemonicAfterFailure('writing-hint-panel', 'writing-hint-components',
+      'writing-hint-mnemonic', 'writing-edit-mnemonic', 'writing-mnemonic-editor',
+      writingCourse, item);
+    if (writingCourse.kind === 'kanji') $('writing-kanji-info').hidden = false;
+  }
+
   // The message replaces the prompt/stroke-count in the SAME slot above the
   // canvas, rather than adding new space below it — see index.html. It's
   // about what the learner just watched happen, not about what got written
@@ -5538,7 +5683,7 @@ function renderKanjiChoices(course, kanji) {
   $('quiz-advanced').hidden = info.quizReadings.length <= correct.size;
   $('quiz-advanced').disabled = false;
   armHintButton('quiz-show-hint', 'quiz-hint-panel', 'quiz-hint-components',
-    'quiz-hint-mnemonic', course, kanji);
+    'quiz-hint-mnemonic', 'quiz-edit-mnemonic', 'quiz-mnemonic-editor', course, kanji);
 
   const choices = $('quiz-choices');
   // Reset the layout class explicitly. #quiz-choices is a single element
@@ -5609,6 +5754,11 @@ function markKanjiError(kanji, course) {
   $('quiz-card').className = 'quiz-card is-wrong';
   $('quiz-feedback').className = 'feedback bad';
   $('quiz-feedback').textContent = 'Keep exploring, or tap Show answers';
+
+  // Just got it wrong — this is the moment a memory hint is worth writing,
+  // so the panel opens on the spot with a way to replace what is in it.
+  offerMnemonicAfterFailure('quiz-hint-panel', 'quiz-hint-components',
+    'quiz-hint-mnemonic', 'quiz-edit-mnemonic', 'quiz-mnemonic-editor', course, kanji);
 }
 
 /** "Show answers": reveals whatever is still undiscovered. If no error has

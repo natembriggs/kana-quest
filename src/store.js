@@ -219,6 +219,14 @@ export function createProfile(name, emoji) {
     // unioning both sides' keys rather than last-write-wins, since a
     // milestone is evidence something happened, not a setting.
     milestonesShown: {},
+    // kanji -> {text, at}: the learner's own wording for that kanji's memory
+    // hint, replacing the built-in one from
+    // src/data/kanji-components-*.js (kanji-mnemonic-plan.md §10). An empty
+    // `text` means "I reset this back to the built-in" and is kept rather
+    // than deleted, so that choice survives a sync — see mergeMnemonics in
+    // merge.js. Same starting-as-{} reasoning as exposure/muted above: a
+    // profile predating editable hints has written none.
+    mnemonics: {},
     // First-run self-placement (onboarding-plan.md §2). `false` is written
     // here and nowhere else: a profile saved before this flow existed has no
     // field at all, which openProfile() (app.js) reads as "already
@@ -260,6 +268,7 @@ function validateBackup(data) {
       || (profile.study !== undefined && !isObject(profile.study))
       || (profile.exposure !== undefined && !isObject(profile.exposure))
       || (profile.muted !== undefined && !isObject(profile.muted))
+      || (profile.mnemonics !== undefined && !isObject(profile.mnemonics))
       || ids.has(profile.id)) {
       throw new Error('That backup contains an invalid learner profile.');
     }

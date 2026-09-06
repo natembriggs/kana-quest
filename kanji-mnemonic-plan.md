@@ -1,7 +1,10 @@
 # Kanji component mnemonics — implementation plan
 
 Status: **shipped for grades 1-3 (2026-09-05).** All seven phases in §7 are
-done, with two deliberate departures from what was written here — see §9.
+done, with deliberate departures from what was written here — see §9 — and
+one feature this plan never contemplated at all: every hint is editable by
+the learner, and their wording replaces the built-in one everywhere. See
+§10, which is now the most important section for anyone extending this.
 It proposes: breaking compound kanji into their component parts,
 showing those parts and their meanings on the kanji detail page, generating
 an original arrangement-aware mnemonic for the whole kanji, surfacing that
@@ -1035,9 +1038,10 @@ this repo's existing phasing discipline.
 
 ## 9. What actually shipped (2026-09-05), and where it departs from the plan
 
-Phases 0-5 (§7) are complete for grades 1-3: 259 compound kanji, 239 distinct
-components, breakdowns and mnemonics on the detail screen, the lesson card,
-and behind a new "💡 Hint" button in the Yomi/Definition and Writing quizzes.
+Phases 0-5 (§7) are complete for grades 1-3. Final shape: **all 440 kanji in
+grades 1-3 carry a hint**, 299 of them with a component breakdown to go with
+it; 257 distinct components. Shown on the detail screen, the lesson card, and
+behind a "💡 Hint" button in the Yomi/Definition and Writing quizzes.
 `tools/build_kanji_components.py` regenerates everything; `test/smoke.js` and
 `test/wiring.js` cover it.
 
@@ -1092,14 +1096,25 @@ one alone.
   the `tare`/`nyo`/`enclosure` arrangements. KanjiVG also splits an enclosure
   into two same-element groups (回 is 囗, 口, 囗) — those are merged so a
   breakdown names the enclosure once.
-- **35 kanji were dropped as unreliable decompositions.** KanjiVG leaves
-  `kvg:position` off every part of some entries, and that flag turns out to
-  mark stroke-grouping artifacts rather than real structure: 五 = 二+二,
-  州 = 丶+川 three times, 東 = 木+日+木, 母 = 毋+毋. Suppressing them costs
-  little (they are mostly simple early kanji) and avoids teaching nonsense.
-  Also dropped: 原 (a part with no Unicode character to draw on a tile), 林
-  and 多 (one repeated component, nothing to relate), and 8 kanji whose parts
-  have no defensible keyword (春, 朝, 毎, 考, 黄, 予, 実, 幸).
+- **Unreliable decompositions are dropped, but the kanji still gets a hint.**
+  KanjiVG leaves `kvg:position` off every part of some entries, and that flag
+  turns out to mark stroke-grouping artifacts rather than real structure:
+  五 = 二+二, 州 = 丶+川 three times, 東 = 木+日+木, 母 = 毋+毋 (36 kanji).
+  Also dropped: 原 (a part with no Unicode character to draw on a tile); 三,
+  林, 多 and 品 (one repeated component, nothing to relate); 11 kanji whose
+  parts have no defensible keyword (春, 朝, 毎, 考, 黄, 予, 実, 幸, 旅, 族,
+  業); and a hand-listed 午, 寒, 漢 and 表, whose breakdowns are structurally
+  valid and useless (`HAND_SUPPRESSED` in the build script). None of these
+  loses its hint — see §9.4.
+
+- **Unnamed wrapper groups are descended into.** KanjiVG sometimes boxes a
+  phonetic element up in a `<g>` with no `kvg:element` of its own — 学's
+  whole top half is one such group, tagged only `kvg:phon`, with ⺍ and 冖
+  inside it. Reading only the outermost level found one named child (子) and
+  called 学 atomic. Splicing an unnamed wrapper's children in where the
+  wrapper sat recovered 50 kanji, including 学, 京, 電, 高, 強, 親, 新, 服,
+  育, 祭, 発 and 具. Only one level down: a *named* group's children are that
+  component's own internals, not siblings of it.
 - **Component keywords needed real curation.** §2.3's "just use KANJIDIC's
   own gloss" is right in principle but wrong about 50 times out of 259:
   亻 glosses as "radical number 9", 宀 as "shaped crown", 里 as "ri", 丨 as
@@ -1117,3 +1132,100 @@ one alone.
 - **Hint tiles are inert mid-question.** §5.1's drill-in works on the detail
   screen and lesson card; in a live question, opening a component's own
   detail screen would be a way out of the question rather than into it.
+
+### 9.4 Every kanji gets a hint, not only the ones with parts
+
+The plan assumed a kanji with no usable decomposition simply shows nothing
+(§5.1's "hiding rule"). In practice that left a learner staring at 犬, 母, 東
+or 州 with no hook at all, right next to characters that had one — the exact
+"may wonder why" §8 flagged as a future question, arriving immediately.
+
+So `kanji-components-<unit>.js` now carries an entry for **every** kanji in a
+covered grade. `parts` is empty for the ones with no breakdown, and the hint
+describes what the character *looks like* instead: 犬 is "a big person with
+one extra fleck: the dog on the end of the lead", 母 is "a figure with its
+arms wrapped round, and two dots for feeding a baby". 141 such hints were
+written by hand alongside the component-based ones.
+
+Callers must therefore check `parts.length` before expecting tiles, and must
+not read an empty breakdown as "nothing to show".
+
+---
+
+## 10. Editable hints (2026-09-05)
+
+**The built-in hint is a default, not an answer.** Anyone who thinks of a
+better hook for a character can write it, and their wording replaces the
+built-in one on every screen from then on. This was not in the original plan
+and changes how the whole feature should be understood: the generated data is
+a starting point that gets better per learner, not a fixed corpus.
+
+### 10.1 Why this outranks getting the built-in text right
+
+Two of the plan's hardest problems dissolve into it. §2.4 agonised over how
+vivid a template could safely be; §9.3 lists the kanji whose decomposition is
+too poor to show. Both are now recoverable failures rather than permanent
+ones — a learner who finds a hint useless replaces it in about fifteen
+seconds, on the screen where they noticed. The remaining job of the built-in
+text is to be a decent default, not a perfect one.
+
+It is also why the coverage question ("which grades have hints yet") matters
+less than it did. Writing your own hint works on **every** kanji the app
+teaches, including grades this feature has no built-in data for at all — the
+override store is unit-agnostic, so a learner on grade 5 can keep their own
+hints today and the built-ins will appear underneath them later.
+
+### 10.2 Storage and sync
+
+`profile.mnemonics` — `{ [kanji]: { text, at } }`, on the learner's profile,
+so a hint written on a phone is waiting on their tablet. Merged by
+`mergeMnemonics()` (`src/merge.js`), last-write-wins per character by the
+entry's own `at`.
+
+Last-write-wins is unusual here: almost everything else in `mergeProfiles` is
+min/max over evidence that accumulates. A hint is not evidence — it is one
+current value somebody deliberately typed, so the newest edit is simply the
+right one. The timestamp rides inside each entry rather than in a parallel
+`…UpdatedAt` map (the shape `settings` uses) because entries are added one at
+a time and forever, with no fixed key set to keep a second map in step with.
+
+**An empty `text` is a tombstone, not a blank hint.** It is what "use the
+built-in hint instead" writes, and it has to travel like any other edit —
+deleting the key would let a sibling device's older copy resurrect wording
+the learner deliberately threw away on the next sync. `resolveMnemonic()`
+maps an empty override back to the built-in, so nothing downstream has to
+know.
+
+### 10.3 Where it is offered
+
+- **Detail screen** — always, on every kanji. The panel stays visible even
+  when there is no breakdown and no built-in hint, because a character with
+  nothing to hang on it is the one most worth writing a hint for.
+- **Lesson card** — always, for the same reason it shows the hint at all.
+- **Yomi / Definition quiz** — on the *first wrong answer*, the hint panel
+  opens in place with the parts, the hint and a way to replace it. This is
+  the moment the feature exists for: a learner has just failed a character
+  and knows, right then, what would have helped. Sending them to the detail
+  screen to write that down is how it never gets written.
+- **Writing quiz** — same, once the character has been drawn wrong (and not
+  on a redo, where the record is already sealed and the panel has been up
+  since the first attempt).
+
+A hint the learner wrote is marked with an accent bar down its left edge, so
+their words are never mistaken for the app's, and so it is obvious at a
+glance which characters they have already made their own.
+
+### 10.4 What this leaves open
+
+- **Sharing hints between learners** is the obvious next step and is
+  deliberately not built. The data shape is ready for it — each hint is
+  already a `{text, at}` keyed by character, independent of any device — but
+  publishing user-written text to other people is a moderation and consent
+  problem, not a storage one, and belongs with `feedback-plan.md`'s
+  submission thinking rather than here.
+- **A learner's hints are not exported separately** from the profile. They
+  ride in the ordinary backup/sync payload, which is right for now; a
+  "share my hints for grade 1" export is a different feature.
+- **No length or content validation** beyond a 400-character cap. Nothing
+  currently stops someone pasting an essay into one, and nothing needs to
+  while these stay private to the learner who wrote them.

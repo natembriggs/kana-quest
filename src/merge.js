@@ -321,6 +321,43 @@ export function mergeMilestonesShown(current, incoming) {
 }
 
 /**
+ * profile.mnemonics (kanji-mnemonic-plan.md §10) — kanji -> {text, at}, the
+ * learner's own wording for a memory hint, replacing the built-in one.
+ * Last-write-wins per character by the entry's own `at`, unlike almost
+ * everything else merged here: a hint is a single current value someone
+ * deliberately typed, not evidence accumulating across devices, so the
+ * newest edit is simply the right one. Same shape of reasoning as
+ * mergeSettings, but the timestamp rides inside each entry rather than in a
+ * parallel map, because entries are added one at a time and forever (there
+ * is no fixed key set to keep a second map in step with).
+ *
+ * An empty `text` is a TOMBSTONE, not a blank hint: it is what "reset this
+ * back to the built-in wording" writes, and it has to travel like any other
+ * edit. Deleting the key instead would let a sibling device's older copy
+ * resurrect a hint the learner deliberately threw away on the next sync.
+ *
+ * Left off entirely when neither side has the field, for the same reason
+ * mergeMilestonesShown does it: a merged profile that has genuinely caught
+ * up to the remote must not differ from it by an empty object, or sync would
+ * push a no-op forever (see matchesRemote in sync-protocol.js).
+ */
+export function mergeMnemonics(current, incoming) {
+  if (!current && !incoming) return undefined;
+  const keys = new Set([...Object.keys(current || {}), ...Object.keys(incoming || {})]);
+  const mnemonics = {};
+  keys.forEach((key) => {
+    const a = (current || {})[key];
+    const b = (incoming || {})[key];
+    if (!a) { mnemonics[key] = b; return; }
+    if (!b) { mnemonics[key] = a; return; }
+    // Ties keep the local copy — arbitrary, but deterministic, which is what
+    // matters when two devices somehow stamp the same millisecond.
+    mnemonics[key] = (b.at || 0) > (a.at || 0) ? b : a;
+  });
+  return mnemonics;
+}
+
+/**
  * profile.stories (stories-plan.md §9.2) — min/max over integers
  * throughout, never last-write-wins: `first`/`last`/`done`/`passes` are
  * evidence that accumulates across devices, not a setting with one current
@@ -389,6 +426,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const muted = mergeMuted(current.muted, incoming.muted);
   const stories = mergeStories(current.stories, incoming.stories);
   const milestonesShown = mergeMilestonesShown(current.milestonesShown, incoming.milestonesShown);
+  const mnemonics = mergeMnemonics(current.mnemonics, incoming.mnemonics);
   const { settings, settingsUpdatedAt } = mergeSettings(current, incoming);
   const { name, emoji, profileUpdatedAt } = mergeIdentity(current, incoming, adoptIncomingIdentity);
 
@@ -412,5 +450,6 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     muted,
     stories,
     milestonesShown,
+    mnemonics,
   };
 }

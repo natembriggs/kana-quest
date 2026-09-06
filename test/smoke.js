@@ -25,7 +25,9 @@ const { strokesFor, hasStrokes, ensureStrokeUnitLoaded, allStrokeEntries } = awa
 // test/wiring.js's stubbed DOM instead; the loader and lookups here are pure.
 const {
   ensureComponentUnitLoaded, kanjiComponents, unitHasComponents, COMPONENT_MEANINGS,
+  resolveMnemonic, hasOwnMnemonic,
 } = await import('../src/kanji-components.js');
+const { mergeMnemonics } = await import('../src/merge.js');
 const srs = await import('../src/srs.js');
 const fsrs = await import('../src/fsrs.js');
 const {
@@ -2197,8 +2199,10 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
   check('some grades have component data at all', covered.length > 0, 'none');
 
   let compound = 0;
+  let hintOnly = 0;
   let atomic = 0;
   const badArrangement = [];
+  const emptyHint = [];
   const driftedMeaning = [];
   const unusedKeyword = [];
   const unrenderableGlyph = [];
@@ -2211,6 +2215,15 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
     for (const kanji of course.chunks.flatMap((c) => c.items)) {
       const entry = kanjiComponents(course.unit, kanji);
       if (!entry) { atomic += 1; continue; }
+      // Every entry has a hint; only some have parts to go with it. A
+      // hint-only entry is how a kanji KanjiVG cannot break down usefully
+      // (犬, 母, 東) still gets something to hang the character on.
+      if (!entry.mnemonic || !entry.mnemonic.trim()) emptyHint.push(kanji);
+      if (!entry.parts.length) {
+        hintOnly += 1;
+        if (entry.arrangement !== null) badArrangement.push(kanji);
+        continue;
+      }
       compound += 1;
       if (!ARRANGEMENTS.has(entry.arrangement)) badArrangement.push(kanji);
       if (entry.parts.length < 2) badArrangement.push(kanji);
@@ -2229,10 +2242,15 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
   }
 
   check('compound kanji were actually found, not vacuously zero',
-    compound > 200, `only ${compound}`);
-  check('atomic kanji (and uncovered grades) have no component record',
-    atomic > compound, `${atomic} atomic vs ${compound} compound`);
-  check('every breakdown has a known arrangement and at least two parts',
+    compound > 250, `only ${compound}`);
+  check('kanji with no usable breakdown still carry a hint',
+    hintOnly > 100, `only ${hintOnly}`);
+  check('every entry has a hint — an entry with nothing to say is no entry',
+    emptyHint.length === 0, emptyHint.join(' '));
+  check('kanji outside the covered grades have no record at all',
+    atomic > compound, `${atomic} uncovered vs ${compound} compound`);
+  check('every breakdown has a known arrangement and at least two parts, '
+    + 'and every hint-only entry has none',
     badArrangement.length === 0, badArrangement.join(' '));
   check('every component is a single renderable character',
     unrenderableGlyph.length === 0, unrenderableGlyph.join(' '));
@@ -2244,12 +2262,72 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
     Object.keys(COMPONENT_MEANINGS).length < 400,
     `${Object.keys(COMPONENT_MEANINGS).length} components`);
 
-  // A grade with no data must answer "no breakdown", not throw — that is how
-  // every screen distinguishes "atomic" from "not covered yet": it doesn't.
-  check('an uncovered grade returns no breakdown rather than failing',
+  // Every kanji in a covered grade has a hint of some kind — that is the
+  // whole point of giving hint-only entries to characters with no parts.
+  const grade1 = KANJI_COURSES.find((c) => c.unit === '1').chunks.flatMap((c) => c.items);
+  const grade1WithHints = grade1.filter((k) => kanjiComponents('1', k));
+  check('every kanji in a covered grade has a hint, breakdown or not',
+    grade1WithHints.length === grade1.length,
+    `${grade1.length - grade1WithHints.length} missing: `
+    + grade1.filter((k) => !kanjiComponents('1', k)).join(''));
+
+  // A grade with no data must answer "no record", not throw — that is how
+  // every screen distinguishes "nothing to show" from "not covered yet": it
+  // doesn't.
+  check('an uncovered grade returns no record rather than failing',
     kanjiComponents('8-1', KANJI_COURSES.find((c) => c.unit === '8-1').chunks[0].items[0]) === null);
 }
-done('component breakdowns: arrangement, standardized meanings, mnemonic coverage');
+done('component breakdowns: arrangement, standardized meanings, hint coverage');
+
+// --- The learner's own hints ---------------------------------------------
+//
+// A hint someone writes replaces the built-in one everywhere, survives a
+// sync, and can be put back. The tombstone case is the one worth pinning:
+// resetting to the built-in has to travel between devices as deliberately as
+// writing a new hint does, or a stale copy on a second device would quietly
+// resurrect wording the learner threw away. See mergeMnemonics (merge.js)
+// and kanji-mnemonic-plan.md §10.
+
+{
+  const kanji = '休';
+  const builtIn = kanjiComponents('1', kanji).mnemonic;
+  check('a kanji with no profile hint resolves to the built-in wording',
+    resolveMnemonic({}, '1', kanji).text === builtIn
+    && resolveMnemonic({}, '1', kanji).custom === false);
+  check('a kanji outside the covered grades resolves to nothing',
+    resolveMnemonic({}, '8-1', '憂') === null);
+
+  const own = { mnemonics: { [kanji]: { text: 'Someone taking five under a tree.', at: 100 } } };
+  check('a learner\u2019s own hint wins over the built-in',
+    resolveMnemonic(own, '1', kanji).text === 'Someone taking five under a tree.'
+    && resolveMnemonic(own, '1', kanji).custom === true);
+  check('an own hint is reported as owned', hasOwnMnemonic(own, kanji) === true);
+  check('no own hint is reported as not owned', hasOwnMnemonic({}, kanji) === false);
+
+  const cleared = { mnemonics: { [kanji]: { text: '', at: 200 } } };
+  check('clearing an own hint falls back to the built-in, not to nothing',
+    resolveMnemonic(cleared, '1', kanji).text === builtIn
+    && resolveMnemonic(cleared, '1', kanji).custom === false);
+  check('a cleared hint is not reported as owned', hasOwnMnemonic(cleared, kanji) === false);
+  check('a learner\u2019s own hint on an uncovered grade still resolves',
+    resolveMnemonic({ mnemonics: { 憂: { text: 'mine', at: 1 } } }, '8-1', '憂').text === 'mine');
+
+  // Merge: newest edit wins per character, and a reset is an edit.
+  const older = { mnemonics: { 木: { text: 'old', at: 10 }, 火: { text: 'kept', at: 5 } } };
+  const newer = { mnemonics: { 木: { text: 'new', at: 20 }, 水: { text: 'added', at: 7 } } };
+  const merged = mergeMnemonics(older.mnemonics, newer.mnemonics);
+  check('merging hints keeps the newer edit per kanji', merged['木'].text === 'new');
+  check('merging hints keeps a kanji only one side has', merged['火'].text === 'kept');
+  check('merging hints adds a kanji only the other side has', merged['水'].text === 'added');
+  check('a reset beats an older hint on the other device',
+    mergeMnemonics({ 木: { text: 'old', at: 10 } }, { 木: { text: '', at: 30 } })['木'].text === '');
+  check('an older reset does not beat a newer hint',
+    mergeMnemonics({ 木: { text: 'rewritten', at: 40 } }, { 木: { text: '', at: 30 } })['木'].text
+      === 'rewritten');
+  check('a profile that never had hints merges back to no field at all',
+    mergeMnemonics(undefined, undefined) === undefined);
+}
+done('editable hints: resolution, reset tombstones and cross-device merge');
 
 // --- Result ---------------------------------------------------------------
 

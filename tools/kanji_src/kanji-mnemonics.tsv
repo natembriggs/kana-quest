@@ -280,3 +280,192 @@
 館	Food on the left, an official on the right: the official building where you are fed. A mansion.
 駅	A horse on the left, a ruler on the right: horses measured out along the road. A station.
 鼻	Self above give: the part of yourself that gives you away. The nose.
+#
+# ---- kanji with a breakdown, authored to replace a template ----
+学	Small marks under a cover, and a child underneath taking them all in. Study.
+京	A lid over a mouth over something small — a tower stacked up on a hill. The capital.
+今	A person under a roof with one line ruled beneath them: right here, right now.
+南	Ten over an open box with a dry frame inside — a shed turned to face the warm south.
+合	A person over one line over a mouth: lid, seal and jar, all fitting together.
+売	A scholar up on a cover with legs under it — the stall he sells from.
+夏	One line laid over self, with a winter's foot dragging below — the season that walks the other way.
+夜	A lid pulled over a person still out in the evening. Night.
+弟	Eight over condolences with a slash through it — the younger brother, always last in line.
+弱	Two bows, each with ice on it. Frozen through and ready to snap. Weak.
+強	A bow on the left, and on the right a private insect that turns out to be stronger than it looks.
+後	A step, a tiny thread, and a winter's foot dragging along behind it.
+新	Stand a tree up and take an axe to it — fresh-cut timber. New.
+楽	White with ice either side of it, up on a tree: a rack of bells. Music.
+歌	Big brother on the left, a yawn on the right, mouth wide open. A song.
+算	Bamboo over an eye over twenty — counting rods, watched very carefully.
+茶	Grass over a person over a tree: leaves picked off the bush. Tea.
+親	Stand by a tree and see — a parent watching from just far enough away.
+電	Rain on top with a sun trapped underneath it, flashing on and off. Lightning.
+風	A table tipped on its side with an insect blown in under it. Wind.
+高	A lid, a mouth, and open country underneath — a tower you can see for miles.
+魚	A bending person for a head, a rice field for a body, fire for a tail fin. A fish.
+具	An eye up on eight — a stand with everything laid out on it. Tools.
+受	A claw above, a cover between, a hand below: one hand passing something down to another.
+号	A mouth over one hooked line, calling out a name or a number.
+向	An open box with a slash on top and a mouth inside — a window you turn to face.
+命	A person under one line, a mouth on the left and a seal on the right: an order handed down.
+岸	A mountain over a cliff over dry ground — where the land stops and the water starts.
+度	A lean-to hanging over twenty, with a hand underneath measuring them off.
+急	A bending person, a hand, and a heart beneath them all, racing. Hurry.
+昔	Twenty over the sun — twenty long days ago, and then a good deal more.
+服	A moon on the left, a seal and a hand on the right: a body with something fitted onto it.
+様	A tree on the left, a sheep over water on the right. That is simply the manner of it.
+歯	Stop on top, rice in a container below — a mouthful, and the teeth that stop it.
+発	A tent up top, two lines and a pair of legs below: packed up and setting off.
+県	An eye over something small — a district watched over from above.
+着	A sheep with a slash through it and an eye underneath: you have arrived, and you are being looked over.
+祭	A moon over an altar — an offering laid out for the festival.
+第	Bamboo over condolences with a slash through it: slips of bamboo, numbered in order.
+育	A lid over something private over a moon — a child growing up under cover.
+#
+# ---- kanji with no breakdown: hints about the SHAPE ----
+# KanjiVG either cannot decompose these or decomposes them into stroke
+# bookkeeping (§9.3), so there are no component tiles to lean on. The hint
+# describes what the character actually looks like instead. Same rule as
+# above otherwise: it is a default, and any learner can replace it.
+一	One flat stroke, and nothing else. Nothing simpler exists.
+七	A cross with its bottom stroke swinging out to the right, like a 7 tipped over.
+三	Three lines stacked up. Count them and you have your answer.
+上	A stroke standing on the ground line with a tick out to the right: something is up there.
+下	The ground line on top, and a stroke hanging down underneath it.
+中	A box with a line driven straight through the middle of it.
+九	A hook with one leg kicking out from under it — the last number before ten.
+二	Two lines, one short and one long, with nothing at all between them.
+五	A line, a zigzag, a line: scaffolding held between two rails.
+人	Two legs walking and nothing above them. A person, seen head on.
+先	A foot striding out ahead of a pair of legs — out in front, and so earlier.
+入	Two strokes leaning together like the mouth of a tent you duck into.
+八	Two strokes splaying apart. Eight is the number that splits cleanly in half.
+円	A box with two legs dropping out of the bottom of it: the coin, and what it is worth.
+出	Two mountains stacked up, one climbing out of the other.
+力	A bent arm flexing, and nothing else. Pure muscle.
+十	A cross, straight up and straight across. Ten fingers.
+口	An open square. A mouth, held wide.
+右	A hand with a mouth underneath it — the hand you eat with.
+土	A cross planted upright with a line under it: a mound of earth.
+夕	A crescent moon just showing itself. Evening.
+大	A person with both arms flung out wide. This big.
+女	A figure with its legs crossed and its arms folded across.
+子	A baby with its arms out and its legs still wrapped up.
+小	One stroke with a tiny fleck either side of it. Small.
+山	Three peaks along one ridge line.
+川	Three lines running downhill side by side. Water on the move.
+左	A hand with a carpenter's square under it — the hand that holds the work steady.
+年	A figure over two crossbars: harvests counted off, one to a year.
+手	Fingers, a wrist, and a hook at the end. A hand held up.
+日	A box with one line across the middle. The sun with a spot on its face.
+月	A tall box with two lines inside, curved down one side like a crescent.
+木	A trunk, branches out to either side, roots spreading below.
+本	A tree with one extra mark ruled across its roots: where the whole thing starts.
+林	Two trees standing side by side. A wood.
+正	A foot stopped square on a line — halted in exactly the right place.
+水	A stream with drops flying off it to either side.
+火	A flame with sparks leaping away on both sides.
+犬	A big person with one extra fleck: the dog on the end of the lead.
+玉	A king with one extra dot — the jewel he is wearing.
+王	Three ranks — heaven, earth and people — with one line joining all of them.
+生	A shoot pushing up through the ground line. Something alive.
+田	A square divided into four plots. A field seen from above.
+白	The sun with one ray coming off the top of it. Bright, and pale with it.
+目	An eye stood up on its end, pupil and all.
+石	A boulder sitting under an overhanging cliff.
+立	A figure with its arms out, planted on a line. Standing.
+竹	Two stalks side by side, each with a leaf drooping off it.
+糸	A twist of silk with the loose ends dangling below.
+耳	An ear drawn straight down the page, with its ridges marked inside.
+虫	A creature with a body and a feeler, curled up small.
+赤	Earth over a fire — hot enough to glow.
+車	A cart seen from above: axle down the middle, wheels out to each side.
+金	A roof over the ground with nuggets buried underneath it.
+雨	A cloud across the top, and four drops falling inside it.
+万	One sweeping stroke under a lid, running off further than anyone is counting.
+丸	Nine with a dot tucked into the crook of it, rolled up into a ball.
+内	An open box with a person tucked in under it.
+刀	A single curved blade with a handle. A sword.
+前	A cap over a moon and a blade, the whole thing pushing forward.
+北	Two people standing back to back, turning away from each other and from the cold.
+午	One stroke laid across a stake standing upright: the shadow at its shortest.
+半	Two strokes split off the top and a line straight down the middle. Cut in half.
+原	A cliff with a spring running out from under it — where it all comes from.
+声	A cross-topped figure above a low slab, with the sound carrying out from under it.
+多	Two evenings stacked one on the other. Night after night after night.
+少	Small, with one stroke slicing off the corner. Less even than small.
+工	A beam held between two plates — the carpenter's square that shapes everything else.
+弓	The curve of a bow, string and all.
+心	A hook with three flecks scattered round it: a heart, and the beats coming off it.
+戸	A single door on its hinge — one half of a gate.
+才	A ten with a stroke swept through it, cut across the grain.
+方	A lid with a flagpole through it, leaning off one way.
+春	Three lines crossed by a sweep, with the sun coming up underneath at last.
+昼	A ruler over a sun over a line: the middle of the day, measured out.
+朝	Grass with the sun caught in it, and the moon still up beside them. Dawn.
+来	A tree with two extra pairs of branches, all of them leaning towards you.
+東	A sun caught in the branches of a tree — sunrise, so that way is east.
+止	A footprint pressed flat into the ground. That foot is going nowhere.
+母	A figure with its arms wrapped round, and two dots for feeding a baby.
+毎	A person above a mother — one after another after another.
+毛	Three strokes with a tail flicking off the bottom. A tuft of hair.
+父	Two crossed strokes over two more, like arms folded. Father.
+牛	A horned head on a body, seen from the front.
+用	A box with a spine down the middle and two shelves across it. Something built to be used.
+画	A field boxed in, with a line ruled over the top. A picture in its frame.
+直	Ten over an eye over a bent line — look straight down it.
+矢	A big figure with its head cut flat: an arrow, flight and all.
+米	Grains scattered off a cross in every direction.
+羽	Two wings side by side, each with its feathers marked in.
+考	An old man bent over, with a curl of thought coming out from under him.
+肉	An open box with two ribs marked inside it.
+自	An eye with a mark on top — the nose you point at when you mean yourself.
+行	A step on the left and a crossroads on the right. Going somewhere.
+西	A box with legs and a lid: the sun sinking into a basket at the end of the day.
+角	A horn, ridged along its length and tapering to a point.
+言	A mouth with lines of sound stacked up above it.
+谷	Two slopes falling away to either side, with a mouth at the bottom of them.
+里	A rice field sitting on the earth. Where people settle.
+長	Long hair over long legs, everything about it drawn out.
+門	Two doors facing each other, both of them shut.
+食	A lid pulled over a heap of good things. Dinner.
+首	Two whiskers over a face — the head, and the neck holding it up.
+馬	A mane on top, a body, and four legs flying along underneath.
+鳥	A crest, an eye, a body, and four toes gripping the branch.
+黄	A field boxed in top and bottom, ripening.
+丁	A flat top with a stroke hanging straight down from it. A nail, driven in.
+世	Three uprights joined by one long bar — one lifetime laid across the next.
+両	One roof over two matching halves, each with an upright of its own.
+乗	A tree with a figure climbing it, one foot out either side.
+予	A hook with a stroke through it and a tail dropping down, all set up in advance.
+事	A hand gripping a brush that runs straight down through everything else.
+反	A cliff with a hand reaching back under it.
+品	Three mouths stacked in a pile. Goods, sorted and counted.
+央	A big figure boxed in at the shoulders — dead centre.
+実	A roof over a cross and two legs: whatever is actually under there.
+寒	A roof with layers packed under it and two chips of ice at the very bottom.
+島	A bird perched on a mountain, out in the middle of the sea.
+州	Three rivers with a sandbank marked in each one.
+平	A stroke with two flecks and one long flat bar underneath. Level.
+幸	A cross over a stack of bars — good fortune, piled up.
+旅	A banner on a pole with people falling in behind it.
+族	A banner on a pole with an arrow beneath it: everyone who fights under the same flag.
+曲	A box with two uprights bending up out of the top of it.
+有	A hand reaching over a moon and holding onto it.
+業	A comb of uprights standing over a sheaf of work.
+死	A bare bone on the left and a figure kneeling down beside it.
+氷	Water with one extra fleck frozen onto its side.
+深	Water on the left, and on the right a hand reaching down a hole after a tree's roots.
+漢	Water on the left, and a tall stack of strokes piled up on the right.
+由	A rice field with one stroke pushing up out of the top of it.
+申	A rice field with a line driven straight through it, top to bottom.
+皮	A hand peeling a hide back off its frame.
+皿	A dish on its stand seen side on, with the dividers inside it.
+羊	Horns on top, and a body ruled into three below them.
+血	A single drop falling into a dish.
+表	A cloak with two bars ruled across the top of it — whatever is on the outside.
+豆	A lid on a stand with a foot underneath. A bean jar.
+身	A body in profile, curved, with one stroke swept across it.
+重	A thousand piled onto a village, and the whole thing sagging under it.
+面	A lid over a boxed-in face, eyes and all. A mask.

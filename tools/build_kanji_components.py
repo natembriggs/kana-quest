@@ -8,9 +8,17 @@ left, right, tare, nyo, kamae), kvg:radical and kvg:phon. build_stroke_data.py
 reads the same files for their <path d="..."> outlines and throws these
 wrappers away; this script reads the wrappers and ignores the paths.
 
-Output, per compound kanji: its top-level components in spatial reading
-order, each with a standardized English keyword, a normalized arrangement,
-and a mnemonic sentence. See kanji-mnemonic-plan.md §3.
+Output, per kanji: a memory hint, and — where KanjiVG can name the parts
+reliably — those parts in spatial reading order, each with a standardized
+English keyword, plus a normalized arrangement. A kanji with no usable
+decomposition still gets an entry carrying a hint about how the character
+LOOKS, since a learner needs something to hang 犬 or 母 on too; it simply has
+no tiles. See kanji-mnemonic-plan.md §3.
+
+Every hint written here is a DEFAULT. A learner can replace any of them with
+their own wording in the app, stored per profile and synced across their
+devices — see profile.mnemonics in src/store.js and §10 of the plan. Nothing
+in this file is the last word on any character.
 
 Three deliberate conservatisms, because a wrong breakdown is worse than no
 breakdown:
@@ -27,10 +35,11 @@ breakdown:
     with a gap. Partial breakdowns teach a wrong decomposition.
 
 Mnemonic text comes from tools/kanji_src/kanji-mnemonics.tsv, hand-authored
-per kanji from the component keywords and nothing else. Any kanji missing
-from that file falls back to a mechanical arrangement template, so the
-pipeline always produces a complete dataset and the authored text is an
-*input* to the build rather than something maintained outside it.
+per kanji from the component keywords (or, for a kanji with no breakdown,
+from the shape of the character itself) and nothing else. A kanji with a
+breakdown but no authored line falls back to a mechanical arrangement
+template, so the pipeline always produces a complete dataset and the authored
+text is an *input* to the build rather than something maintained outside it.
 
 Source data: KanjiVG (c) Ulrich Apel, CC BY-SA 3.0, downloaded by
 fetch_kanjivg.sh; KANJIDIC2 (c) EDRDG, CC BY-SA 4.0, by fetch_kanji_sources.sh.
@@ -59,6 +68,16 @@ MNEMONICS_TSV = ROOT / "tools" / "kanji_src" / "kanji-mnemonics.tsv"
 # the new units in kanji-mnemonics.tsv — the rest of the pipeline is
 # unit-agnostic.
 UNITS = ("1", "2", "3")
+
+# Kanji whose KanjiVG decomposition is structurally valid but useless to a
+# learner, and which the automatic guards below don't catch. Each was read
+# and rejected by hand: 漢's right-hand side collapses to just its 艹 top,
+# losing everything under it; 表 comes apart as 二+丨+二+衣 and 寒 as
+# 宀+三+三+八+冫, both of which are stroke bookkeeping rather than parts
+# anyone would name; 午 as 丿+干+干 says nothing about a character that is
+# three strokes and a vertical. These still get an appearance-based hint
+# like any other kanji with no breakdown — they just get no tiles.
+HAND_SUPPRESSED = set("漢表寒午")
 
 # KANJIDIC lists a radical's own NAME as if it were a meaning ("one radical
 # (no.1)"). Same regex, same reason, as build_kanji_data.py:93.
@@ -146,7 +165,7 @@ def top_level_groups(char):
     body = text[text.index("<svg"):]
     depth = 0
     root_depth = None
-    children = []
+    children = []       # (attrs, [grandchild attrs]) in document order
     for closing, name, rest in re.findall(r"<(/?)(g|path)\b([^>]*)>", body):
         if name == "path":
             continue
@@ -158,8 +177,25 @@ def top_level_groups(char):
         if root_depth is None and attrs.get("kvg:element") == char:
             root_depth = depth
         elif root_depth is not None and depth == root_depth + 1:
-            children.append(attrs)
-    return children
+            children.append((attrs, []))
+        elif root_depth is not None and depth == root_depth + 2 and children:
+            children[-1][1].append(attrs)
+
+    # An UNNAMED top-level group is a grouping wrapper, not a component:
+    # KanjiVG boxes a phonetic element up without naming it (学's whole top
+    # is one such group, tagged only kvg:phon, with ⺍ and 冖 inside it), so
+    # reading only the top level would find one named child and call the
+    # kanji atomic. Its children are the components; splice them in where
+    # the wrapper sat, keeping document order. Only one level down — a
+    # NAMED group's own children are that component's internals, not
+    # siblings of it, and belong to a drill-down this doesn't do.
+    flattened = []
+    for attrs, grandchildren in children:
+        if attrs.get("kvg:element"):
+            flattened.append(attrs)
+        else:
+            flattened.extend(g for g in grandchildren if g.get("kvg:element"))
+    return flattened
 
 
 def merge_split_groups(groups):
@@ -274,6 +310,9 @@ def decompose(char, overrides, meanings, stats):
     if any(not is_single_char(p["el"]) for p in named):
         stats["unrenderable-part"].append(char)
         return None
+    if char in HAND_SUPPRESSED:
+        stats["hand-suppressed"].append(char)
+        return None
 
     parts = display_order(merge_split_groups(named))
     if len({p["el"] for p in parts}) < 2:
@@ -320,13 +359,16 @@ def main():
 
     stats = {k: [] for k in (
         "no-svg", "atomic", "unpositioned", "unrenderable-part",
-        "single-component", "no-keyword", "keyword-curated", "keyword-kanjidic",
+        "single-component", "no-keyword", "hand-suppressed",
+        "keyword-curated", "keyword-kanjidic",
     )}
     used_keywords = {}
     covered = []
     total = 0
+    with_parts = 0
     templated = []
     unused = []
+    missing_hint = []
 
     for unit in UNITS:
         chars = units.get(unit)
@@ -334,16 +376,14 @@ def main():
             raise SystemExit(f"Unit {unit} is not in {MANIFEST}")
         entries = []
         for char in chars:
-            parts = decompose(char, overrides, meanings, stats)
-            if parts is None:
-                continue
-            arrangement = parts[0]["arrangement"]
+            parts = decompose(char, overrides, meanings, stats) or []
+            arrangement = parts[0]["arrangement"] if parts else None
             for p in parts:
                 used_keywords[p["c"]] = p["keyword"]
             covered.append(char)
             meaning = (meanings.get(char) or ["it"])[0].split(",")[0].strip()
             mnemonic = authored.get(char)
-            if mnemonic:
+            if mnemonic and parts:
                 # An authored line that skips one of its own components is
                 # teaching a breakdown the sentence does not actually use,
                 # which is the one way hand-written text can silently drift
@@ -352,9 +392,15 @@ def main():
                            if p["keyword"].lower() not in mnemonic.lower()]
                 if missing:
                     unused.append(f"{char}({'/'.join(missing)})")
-            else:
+            elif not mnemonic and parts:
                 mnemonic = template_mnemonic(parts, meaning)
                 templated.append(char)
+            elif not mnemonic:
+                # No breakdown and no authored line: nothing to say about
+                # this character at all. An entry here would be an empty
+                # hint box, so it gets no entry and the UI shows nothing.
+                missing_hint.append(char)
+                continue
             entries.append({
                 "k": char,
                 "parts": [{"c": p["c"], "pos": p["pos"], "meaning": p["keyword"]} for p in parts],
@@ -362,6 +408,7 @@ def main():
                 "mnemonic": mnemonic,
             })
         total += len(entries)
+        with_parts += sum(1 for e in entries if e["parts"])
         path = DATA_DIR / f"kanji-components-{unit}.js"
         path.write_text("\n".join(header + [
             "export const KANJI_COMPONENTS = "
@@ -383,7 +430,11 @@ def main():
     ]), encoding="utf-8")
     print(f"wrote {shared} ({len(used_keywords)} components, {shared.stat().st_size} bytes)")
 
-    print(f"\n{total} compound kanji across units {', '.join(UNITS)}")
+    print(f"\n{total} kanji with a hint across units {', '.join(UNITS)}, "
+          f"{with_parts} of them with a component breakdown")
+    if missing_hint:
+        print(f"  {len(missing_hint)} kanji have NO breakdown and NO authored hint — "
+              f"add one to {MNEMONICS_TSV.name}: {''.join(missing_hint)}")
     print(f"  {len(stats['atomic'])} atomic (no decomposition in KanjiVG)")
     print(f"  {len(stats['unpositioned'])} dropped — no kvg:position on any part: "
           f"{''.join(stats['unpositioned'])}")
@@ -391,6 +442,8 @@ def main():
           f"{''.join(stats['unrenderable-part'])}")
     print(f"  {len(stats['single-component'])} dropped — one repeated component only: "
           f"{''.join(stats['single-component'])}")
+    print(f"  {len(stats['hand-suppressed'])} dropped — hand-rejected decomposition: "
+          f"{''.join(stats['hand-suppressed'])}")
     print(f"  {len(stats['no-keyword'])} dropped — a part has no keyword: "
           f"{' '.join(stats['no-keyword'])}")
     if stats["no-svg"]:

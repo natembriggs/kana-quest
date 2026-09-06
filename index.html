@@ -496,6 +496,15 @@
     <div id="detail-components-wrap" class="components-wrap" hidden>
       <div id="detail-components" class="component-row"></div>
       <p id="detail-mnemonic" class="mnemonic-text" hidden></p>
+      <!-- The hint above is only a default. Anyone who thinks of a better
+           hook for this character can write it here instead, and theirs is
+           what every screen shows from then on — kept per learner and synced
+           across their devices (kanji-mnemonic-plan.md §10). The editor is
+           built into #detail-mnemonic-editor by renderMnemonicEditor()
+           (kanji-components.js) rather than sitting in this markup, since
+           the same editor is opened from three different screens. -->
+      <button id="detail-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button"></button>
+      <div id="detail-mnemonic-editor" class="mnemonic-editor" hidden></div>
     </div>
 
     <!-- Kanji only: which unit it's taught in (school grade, secondary jōyō
@@ -625,6 +634,8 @@
       <div id="lesson-components-wrap" class="components-wrap" hidden>
         <div id="lesson-components" class="component-row"></div>
         <p id="lesson-mnemonic" class="mnemonic-text" hidden></p>
+        <button id="lesson-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button"></button>
+        <div id="lesson-mnemonic-editor" class="mnemonic-editor" hidden></div>
       </div>
       <div id="lesson-word" class="word-slot" hidden></div>
     </div>
@@ -671,6 +682,10 @@
       <div id="writing-hint-panel" class="components-wrap" hidden>
         <div id="writing-hint-components" class="component-row"></div>
         <p id="writing-hint-mnemonic" class="mnemonic-text" hidden></p>
+        <!-- Same rule as the quiz's: offered once the character has been
+             drawn wrong, and not before. -->
+        <button id="writing-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button" hidden></button>
+        <div id="writing-mnemonic-editor" class="mnemonic-editor" hidden></div>
       </div>
     </div>
     <p id="writing-stroke-counter" class="hint writing-stroke-counter"></p>
@@ -859,6 +874,12 @@
     <div id="quiz-hint-panel" class="components-wrap quiz-hint-panel" hidden>
       <div id="quiz-hint-components" class="component-row"></div>
       <p id="quiz-hint-mnemonic" class="mnemonic-text" hidden></p>
+      <!-- Shown once the round resolves badly, not while it is still open:
+           getting a character wrong is the moment a learner actually knows
+           what would have helped them, and making them leave for the detail
+           screen to write it down is how it never gets written. -->
+      <button id="quiz-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button" hidden></button>
+      <div id="quiz-mnemonic-editor" class="mnemonic-editor" hidden></div>
     </div>
 
     <!-- Kanji only, while the round is still open. "Show hint" comes first:
