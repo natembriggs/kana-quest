@@ -65,35 +65,19 @@
   <div class="sheet-scrim" data-action="feedback-close"></div>
   <div class="sheet-body" role="dialog" aria-modal="true" aria-labelledby="feedback-heading">
     <div class="sheet-head">
-      <h3 id="feedback-heading">Tell us something</h3>
+      <h3 id="feedback-heading">How can we improve Kana-Quest?</h3>
       <button class="btn btn-icon btn-quiet" type="button" data-action="feedback-close" aria-label="Close">✕</button>
     </div>
 
-    <!-- Step 1: what kind of thing is this. Rendered from
-         FEEDBACK_CATEGORIES in src/feedback.js so the enum has one home. -->
-    <div id="feedback-step-category" class="stack">
-      <p class="hint">What would you like to tell us about?</p>
-      <div id="feedback-categories" class="feedback-categories"></div>
-    </div>
-
-    <!-- Step 2: the report itself. -->
-    <div id="feedback-step-form" class="stack" hidden>
-      <button id="feedback-back" class="linkish" type="button" data-action="feedback-back">← Pick something else</button>
-      <p id="feedback-category-label" class="feedback-chosen"></p>
+    <!-- One box, no category or title to fill in first — those are ours to
+         work out from what's written here (see openFeedback() in app.js). -->
+    <div id="feedback-step-form" class="stack">
+      <p class="hint">Bugs, ideas, or anything that looks wrong — in your own words.</p>
       <label class="field">
-        <span>In a few words</span>
-        <div class="field-with-mic">
-          <input id="feedback-title" type="text" maxlength="100" autocomplete="off"
-                 placeholder="What is it about?">
-          <button id="feedback-title-mic" class="mic-btn" type="button"
-                  data-voice-for="feedback-title" aria-label="Use voice instead of typing">🎤</button>
-        </div>
-      </label>
-      <label class="field">
-        <span>Tell us more</span>
+        <span>Your message</span>
         <div class="field-with-mic">
           <textarea id="feedback-details" rows="5" maxlength="4000"
-                    placeholder="What happened? What were you doing?"></textarea>
+                    placeholder="What's wrong, or what would make this better?"></textarea>
           <button id="feedback-details-mic" class="mic-btn" type="button"
                   data-voice-for="feedback-details" aria-label="Use voice instead of typing">🎤</button>
         </div>
@@ -118,7 +102,7 @@
       <button id="feedback-send" class="btn btn-primary wide" type="button" data-action="feedback-send">Send</button>
     </div>
 
-    <!-- Step 3: the receipt. Success closes to this, not to an empty form. -->
+    <!-- The receipt. Success closes to this, not to an empty form. -->
     <div id="feedback-step-done" class="stack" hidden>
       <p class="feedback-done-mark" aria-hidden="true">🌱</p>
       <h4 id="feedback-done-title">Thank you!</h4>

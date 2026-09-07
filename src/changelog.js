@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-07',
+    changes: [
+      'Changed: the feedback form is now a single box — tap \u{1F4AC}, say what’s wrong or what you’d like to see, and send. It no longer asks you to pick a category or write a separate title first; we work that out from what you write.',
+    ],
+  },
+  {
     date: '2026-09-06',
     changes: [
       'New: saying you already know \u201csome\u201d hiragana, katakana, kanji or vocabulary when you set up a learner now opens a \u201cWhat do you know?\u201d checklist, instead of quietly waiting for you to find your way to the right set overview on your own. It lists every unit and every mode you said you know some of \u2014 Hiragana Reading, Hiragana Writing, Kanji Grade 1 Definition, and so on \u2014 with how many are left to check on each. Tap one, tick what you know, and it hands you straight back to the list with the next one ready. Kanji and vocabulary start at the first unit and you add the next one whenever you want, so knowing twenty kanji doesn\u2019t mean being walked through eighteen grades. Nothing is compulsory: \u201cStart learning\u201d leaves at any point, the unfinished list waits on the home screen, and \u201cI\u2019ve ticked everything I know\u201d ends it for good.',

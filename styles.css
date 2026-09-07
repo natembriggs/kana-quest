@@ -2093,28 +2093,6 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sheet-head h3 { margin: 0; }
 
-.feedback-categories { display: grid; gap: 8px; }
-.feedback-category {
-  display: grid;
-  grid-template-columns: 32px 1fr;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-  padding: 12px 14px;
-  min-height: var(--tap);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  font: inherit;
-  cursor: pointer;
-}
-.feedback-category:hover { border-color: var(--accent); }
-.feedback-category-emoji { font-size: 22px; }
-.feedback-category-label { font-weight: 600; }
-.feedback-category-hint { display: block; font-weight: 400; font-size: 13px; color: var(--ink-soft); }
-
-.feedback-chosen { margin: 0; font-weight: 600; }
 .feedback-count { text-align: right; margin: 0; }
 /* `.row > *` is flex:1, which would stretch the checkbox itself to half the
    sheet. Only the label should take the slack. */

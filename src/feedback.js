@@ -30,13 +30,6 @@ export const FEEDBACK_TURNSTILE_SITEKEY = '0x4AAAAAAEqXrOPkv5SxKAjI';
 const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 const TURNSTILE_ACTION = 'feedback';
 
-export const FEEDBACK_CATEGORIES = [
-  { id: 'bug', emoji: '🐛', label: 'Something is broken', hint: 'It did the wrong thing, or got stuck.' },
-  { id: 'idea', emoji: '💡', label: 'I have an idea', hint: 'Something you wish the app could do.' },
-  { id: 'content', emoji: '📖', label: 'Something is wrong', hint: 'A reading, meaning, hint or story that looks incorrect.' },
-  { id: 'other', emoji: '💬', label: 'Something else', hint: 'Anything that does not fit the others.' },
-];
-
 // --- Identity that is not an identity ---------------------------------------
 
 const INSTALL_ID_KEY = 'kana-quest-install-id';

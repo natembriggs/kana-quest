@@ -55,7 +55,7 @@ import {
   refreshableContributions, sortedContributions, STATUS_STAGE, STATUS_TEXT,
 } from './contributions.js';
 import {
-  collectDiagnostics, describeDiagnostics, errorText, FEEDBACK_CATEGORIES,
+  collectDiagnostics, describeDiagnostics, errorText,
   fetchStatuses, getTurnstileToken, newFeedbackId, newReceiptToken, submitFeedback,
 } from './feedback.js';
 import * as store from './store.js';
@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-06k'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-07a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -403,7 +403,7 @@ const state = {
   // Feedback (feedback-plan.md). All session-only: the durable half of a
   // contribution lives in the profile, and a half-typed report that was
   // never sent is not worth resurrecting after a reload.
-  feedbackDraft: null,        // id/receipt/category/diagnostics, minted when a kind is picked
+  feedbackDraft: null,        // id/receipt/category/diagnostics, minted when the sheet opens
   contributionsReturn: null,  // where the back button on My contributions goes
   contributionsCheckedAt: 0,  // last successful status refresh, for the staleness window
   celebrating: null,          // ids currently shown in the thank-you, pending acknowledgement
@@ -743,19 +743,22 @@ function openProfile(profile) {
  */
 function reopenDraft(contribution) {
   openFeedback();
-  const category = FEEDBACK_CATEGORIES.find((c) => c.id === contribution.category)
-    || FEEDBACK_CATEGORIES[FEEDBACK_CATEGORIES.length - 1];
   state.feedbackDraft = {
     id: contribution.id,
     receiptToken: contribution.receiptToken,
     category: contribution.category,
     diagnostics: contribution.pendingDiagnostics || {},
   };
-  $('feedback-category-label').textContent = `${category.emoji} ${category.label}`;
-  $('feedback-step-category').hidden = true;
-  $('feedback-step-form').hidden = false;
-  $('feedback-title').value = contribution.title || '';
-  $('feedback-details').value = contribution.pendingDetails || '';
+  // Every title is now derived FROM the details (deriveFeedbackTitle,
+  // defined below) — so if it still matches, it carries nothing details
+  // doesn't already have. Older drafts, from before the form was a single
+  // box, may have a genuinely distinct hand-typed title; keep that one
+  // rather than losing its words on a retry.
+  const title = contribution.title || '';
+  const details = contribution.pendingDetails || '';
+  const titleIsDerived = title === deriveFeedbackTitle(details);
+  $('feedback-details').value = title && details && !titleIsDerived
+    ? `${title}\n\n${details}` : (details || title);
   $('feedback-include-details').checked = Object.keys(state.feedbackDraft.diagnostics).length > 0;
   renderFeedbackDiagnostics();
   updateFeedbackCount();
@@ -9095,11 +9098,6 @@ function wire() {
       // re-renders nothing, so the session underneath is untouched.
       case 'open-feedback': openFeedback(); break;
       case 'feedback-close': closeFeedback(); break;
-      case 'feedback-back':
-        stopFeedbackVoice();
-        $('feedback-step-form').hidden = true;
-        $('feedback-step-category').hidden = false;
-        break;
       case 'feedback-diag-toggle': {
         const list = $('feedback-diag-list');
         list.hidden = !list.hidden;
@@ -9496,23 +9494,35 @@ function feedbackRoute() {
   return { screen, course: course || null, mode: state.mode || null };
 }
 
+/**
+ * Every report goes in as category 'other' — the category question added
+ * friction without adding information a maintainer reading the text
+ * couldn't already tell at a glance, and triage (kanaquest-feedback-triage)
+ * reads and sorts every report anyway. The server's CATEGORIES enum and
+ * CONTRIBUTION_KIND labelling (for older reports in "My contributions")
+ * still exist; nothing asks the learner to pick one any more.
+ */
 function openFeedback() {
   const sheet = $('feedback-sheet');
   stopFeedbackVoice();
-  state.feedbackDraft = null;
-  renderFeedbackCategories();
-  $('feedback-step-category').hidden = false;
-  $('feedback-step-form').hidden = true;
+  state.feedbackDraft = {
+    id: newFeedbackId(),
+    receiptToken: newReceiptToken(),
+    category: 'other',
+    diagnostics: collectDiagnostics({ appVersion: APP_VERSION, ...feedbackRoute() }),
+  };
+  $('feedback-step-form').hidden = false;
   $('feedback-step-done').hidden = true;
   $('feedback-error').hidden = true;
-  $('feedback-title').value = '';
   $('feedback-details').value = '';
   $('feedback-include-details').checked = true;
   $('feedback-diag-list').hidden = true;
   $('feedback-turnstile').innerHTML = '';
+  renderFeedbackDiagnostics();
   sheet.hidden = false;
   updateFeedbackCount();
   openDialog(sheet);
+  $('feedback-details').focus();
 }
 
 // Where focus was before a dialog opened, so it can be handed back.
@@ -9582,38 +9592,6 @@ function closeFeedback() {
   if (state.profile && !$('screen-contributions').hidden) renderContributions();
 }
 
-function renderFeedbackCategories() {
-  const list = $('feedback-categories');
-  list.innerHTML = '';
-  FEEDBACK_CATEGORIES.forEach((category) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'feedback-category';
-    button.innerHTML = `<span class="feedback-category-emoji">${category.emoji}</span>`
-      + `<span class="feedback-category-label">${category.label}`
-      + `<span class="feedback-category-hint">${category.hint}</span></span>`;
-    button.addEventListener('click', () => chooseFeedbackCategory(category));
-    list.appendChild(button);
-  });
-}
-
-function chooseFeedbackCategory(category) {
-  // The id and receipt are minted HERE, before any request, and reused for
-  // every retry. That is what makes retrying safe: the server resolves a
-  // repeat id to the existing row instead of filing a second issue.
-  state.feedbackDraft = {
-    id: newFeedbackId(),
-    receiptToken: newReceiptToken(),
-    category: category.id,
-    diagnostics: collectDiagnostics({ appVersion: APP_VERSION, ...feedbackRoute() }),
-  };
-  $('feedback-category-label').textContent = `${category.emoji} ${category.label}`;
-  $('feedback-step-category').hidden = true;
-  $('feedback-step-form').hidden = false;
-  renderFeedbackDiagnostics();
-  $('feedback-title').focus();
-}
-
 function renderFeedbackDiagnostics() {
   const list = $('feedback-diag-list');
   list.innerHTML = '';
@@ -9642,16 +9620,11 @@ function getSpeechRecognitionCtor() {
 
 function setupFeedbackVoiceButtons() {
   const Ctor = getSpeechRecognitionCtor();
-  const buttons = [$('feedback-title-mic'), $('feedback-details-mic')];
-  if (!Ctor) {
-    buttons.forEach((button) => { button.hidden = true; });
-    return;
-  }
-  buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-      if (feedbackVoiceButton === button) stopFeedbackVoice();
-      else startFeedbackVoice(button);
-    });
+  const button = $('feedback-details-mic');
+  if (!Ctor) { button.hidden = true; return; }
+  button.addEventListener('click', () => {
+    if (feedbackVoiceButton === button) stopFeedbackVoice();
+    else startFeedbackVoice(button);
   });
 }
 
@@ -9734,17 +9707,30 @@ async function stashFeedbackDraft(draft, title, details) {
   return contribution;
 }
 
+/**
+ * The server still files every report under a short title (used in "My
+ * contributions" and as the GitHub issue title), but nobody should have to
+ * write that separately from the message itself — it's the first ~80
+ * characters of what they actually wrote, line breaks flattened to spaces.
+ * Swapped one-for-one rather than collapsed, so the title is never shorter
+ * than the (already length-checked) message that produced it.
+ */
+function deriveFeedbackTitle(details) {
+  const flattened = [...details].map((ch) => (/[\r\n\t]/.test(ch) ? ' ' : ch)).join('');
+  if (flattened.length <= 80) return flattened;
+  return `${[...flattened].slice(0, 79).join('').trimEnd()}…`;
+}
+
 async function sendFeedback() {
   const draft = state.feedbackDraft;
   if (!draft || !state.profile) return;
   stopFeedbackVoice();
-  const title = $('feedback-title').value.trim();
   const details = $('feedback-details').value.trim();
 
   // Checked here as well as on the server so a learner gets a useful nudge
   // instead of a round trip and a rejection.
-  if ([...title].length < 4) { feedbackError('Give it a slightly longer title.'); return; }
   if ([...details].length < 4) { feedbackError('Tell us a little more than that.'); return; }
+  const title = deriveFeedbackTitle(details);
 
   const send = $('feedback-send');
   send.disabled = true;
