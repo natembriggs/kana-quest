@@ -72,12 +72,11 @@
     <!-- One box, no category or title to fill in first — those are ours to
          work out from what's written here (see openFeedback() in app.js). -->
     <div id="feedback-step-form" class="stack">
-      <p class="hint">Bugs, ideas, or anything that looks wrong — in your own words.</p>
       <label class="field">
-        <span>Your message</span>
         <div class="field-with-mic">
           <textarea id="feedback-details" rows="5" maxlength="4000"
-                    placeholder="What's wrong, or what would make this better?"></textarea>
+                    placeholder="What's wrong, or what would make this better?"
+                    aria-label="Your message"></textarea>
           <button id="feedback-details-mic" class="mic-btn" type="button"
                   data-voice-for="feedback-details" aria-label="Use voice instead of typing">🎤</button>
         </div>
