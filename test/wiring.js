@@ -4876,6 +4876,7 @@ check('the sweep opens on the first unit alone', sweepTiles().length === grade1I
 check('...and offers the next one by name rather than loading everything up front',
   el('sweep-more').hidden === false && el('sweep-more').textContent.includes('Grade 2'),
   el('sweep-more').textContent);
+
 check('nothing can be confirmed before a boundary is set',
   el('sweep-confirm').disabled === true);
 
@@ -5028,6 +5029,9 @@ await drain(15);
 check('kana sweeps on its one unit, in Reading',
   el('sweep-title').textContent === 'Hiragana · Reading', el('sweep-title').textContent);
 check('...and has no next unit to offer', el('sweep-more').hidden === true);
+check('...saying so in the singular — "every characters" is what one plural alone gives',
+  el('sweep-sentinel').textContent === "That's every character the app teaches.",
+  el('sweep-sentinel').textContent);
 fireAction('sweep-none');
 await drain();
 check('"I don\'t know any of these yet" skips the boundary without claiming anything',
@@ -5040,7 +5044,11 @@ check('...and a second skip finishes with nothing claimed at all',
 check('the follow-up line still appears — the sweep ran, it just found nothing',
   el('course-nudge').hidden === false && el('course-nudge-actions').hidden === true);
 check('...and names the button kana actually has, not the one only kanji has',
-  el('course-nudge-text').textContent.includes('below'), el('course-nudge-text').textContent);
+  el('course-nudge-text').textContent.includes('"Learn 5 new" further down'),
+  el('course-nudge-text').textContent);
+check('...and never offers kana a study list, which it does not have',
+  !el('course-nudge-text').textContent.includes('study list'),
+  el('course-nudge-text').textContent);
 
 // --- Story word-lookups feed spaced review (review-followups.md #2) ------
 //

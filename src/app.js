@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-07f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-07g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -1155,35 +1155,38 @@ const PLACEMENT_NOUNS = {
 // Deliberately per (kind, mode) rather than per mode: "Writing" means
 // drawing a kana and drawing a kanji, and the sentences are not the same.
 // `one` completes "tap the first ___"; `many` completes "I know ___";
-// `ask` completes "tell it ___"; `noun` is what a tile holds, pluralised.
+// `ask` completes "tell it ___"; `noun` is what a tile holds, pluralised,
+// and `each` is the same word singular ("that's every kanji the app
+// teaches"). Both are needed: "every characters" is what one of them alone
+// produces.
 const SWEEP_WORDS = {
   'kana|recognition': {
     one: 'sound you don\'t know', many: 'the sounds of these characters',
-    ask: 'which sounds you already know', noun: 'characters',
+    ask: 'which sounds you already know', noun: 'characters', each: 'character',
   },
   'kana|writing': {
     one: 'character you can\'t write', many: 'how to write these characters',
-    ask: 'which characters you can already write', noun: 'characters',
+    ask: 'which characters you can already write', noun: 'characters', each: 'character',
   },
   'kanji|definition': {
     one: 'kanji whose definition you don\'t know', many: 'the definitions of these kanji',
-    ask: 'which definitions you already know', noun: 'kanji',
+    ask: 'which definitions you already know', noun: 'kanji', each: 'kanji',
   },
   'kanji|recognition': {
     one: 'kanji whose readings you don\'t know', many: 'the common readings of these kanji',
-    ask: 'which readings you already know', noun: 'kanji',
+    ask: 'which readings you already know', noun: 'kanji', each: 'kanji',
   },
   'kanji|writing': {
     one: 'kanji you can\'t write', many: 'how to write these kanji',
-    ask: 'which kanji you can already write', noun: 'kanji',
+    ask: 'which kanji you can already write', noun: 'kanji', each: 'kanji',
   },
   'vocab|vmeaning': {
     one: 'word whose meaning you don\'t know', many: 'the meanings of these words',
-    ask: 'which meanings you already know', noun: 'words',
+    ask: 'which meanings you already know', noun: 'words', each: 'word',
   },
   'vocab|vrecall': {
     one: 'word you couldn\'t say in Japanese', many: 'how to say these words in Japanese',
-    ask: 'which words you can already say in Japanese', noun: 'words',
+    ask: 'which words you can already say in Japanese', noun: 'words', each: 'word',
   },
 };
 
@@ -1249,18 +1252,23 @@ function renderCourseNudge(script) {
   } else {
     // The sweep has run. What it leaves behind is a study list that starts
     // in the right place, and a learner with no idea that that is what just
-    // happened — so this says what to press. The button it names differs by
-    // kind: kanji and vocabulary have the whole-script "Learn N next" pinned
-    // at the top of this screen (QUICK_ACTION_POOLS), kana has only the
-    // unit's own "Learn N new" in the ladder below.
+    // happened — so this says what to press. Both halves differ by kind:
+    // kanji and vocabulary have the whole-script "Learn N next" quick action
+    // (QUICK_ACTION_POOLS) and a study list to add to; kana has only the
+    // unit's own "Learn N new" in the ladder, and no study list at all, so
+    // it must not be offered one.
     const batch = state.profile.settings.newPerSession;
+    // Both live further down this screen — this banner sits directly under
+    // the mode picker, above everything it is pointing at.
     const button = QUICK_ACTION_POOLS[script.kind]
-      ? `"Learn ${batch} next" above`
-      : `"Learn ${batch} new" below`;
+      ? `"Learn ${batch} next" just below`
+      : `"Learn ${batch} new" further down`;
+    const tail = script.kind === 'kana'
+      ? '.'
+      : `, or pick particular ${words.noun} to add to your study list from the set overview.`;
     $('course-nudge-actions').hidden = true;
     $('course-nudge-text').textContent = `That's ${label} set up — the app will start you`
-      + ` past everything you ticked. To get going, tap ${button}, or browse and search below`
-      + ` for particular ${words.noun} to add to your study list.`;
+      + ` past everything you ticked. To get going, tap ${button}${tail}`;
   }
   return placement;
 }
@@ -1343,7 +1351,7 @@ function renderSweepMore() {
   more.hidden = !next;
   if (next) more.textContent = `＋ Show ${next.label}`;
   $('sweep-sentinel').textContent = next
-    ? '' : `That's every ${sweepWords(sweep.kind, sweep.mode).noun} the app teaches.`;
+    ? '' : `That's every ${sweepWords(sweep.kind, sweep.mode).each} the app teaches.`;
 }
 
 /** One unit's heading and tile grid, appended to the list. A tile gets one
