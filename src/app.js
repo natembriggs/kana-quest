@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-07a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-07b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -9613,6 +9613,12 @@ function updateFeedbackCount() {
 // session runs at a time — starting one field's mic stops the other's.
 let feedbackRecognition = null;
 let feedbackVoiceButton = null;
+let feedbackVoiceStartTimer = null;
+
+// iOS standalone-PWA Safari sometimes never hands focus back after the mic
+// permission sheet, so recognition.start() never reaches onstart/onresult —
+// this timeout is the fallback out of that stuck state.
+const FEEDBACK_VOICE_START_TIMEOUT_MS = 6000;
 
 function getSpeechRecognitionCtor() {
   return window.SpeechRecognition || window.webkitSpeechRecognition || null;
@@ -9629,6 +9635,10 @@ function setupFeedbackVoiceButtons() {
 }
 
 function stopFeedbackVoice() {
+  if (feedbackVoiceStartTimer) {
+    clearTimeout(feedbackVoiceStartTimer);
+    feedbackVoiceStartTimer = null;
+  }
   if (feedbackRecognition) {
     const recognition = feedbackRecognition;
     feedbackRecognition = null;
@@ -9655,7 +9665,15 @@ function startFeedbackVoice(button) {
   recognition.continuous = true;
   recognition.interimResults = true;
 
+  const clearStartTimer = () => {
+    if (feedbackVoiceStartTimer) {
+      clearTimeout(feedbackVoiceStartTimer);
+      feedbackVoiceStartTimer = null;
+    }
+  };
+  recognition.onstart = clearStartTimer;
   recognition.onresult = (event) => {
+    clearStartTimer();
     let transcript = '';
     for (let i = 0; i < event.results.length; i += 1) transcript += event.results[i][0].transcript;
     field.value = transcript ? `${baseValue}${needsSpace ? ' ' : ''}${transcript}` : baseValue;
@@ -9674,6 +9692,13 @@ function startFeedbackVoice(button) {
   button.setAttribute('aria-label', 'Stop voice input');
   try {
     recognition.start();
+    feedbackVoiceStartTimer = setTimeout(() => {
+      feedbackVoiceStartTimer = null;
+      if (feedbackRecognition === recognition) {
+        stopFeedbackVoice();
+        feedbackError("Voice input didn't start — you can still type.");
+      }
+    }, FEEDBACK_VOICE_START_TIMEOUT_MS);
   } catch {
     stopFeedbackVoice();
   }

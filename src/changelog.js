@@ -14,6 +14,7 @@ export const CHANGELOG = [
     date: '2026-09-07',
     changes: [
       'Changed: the feedback form is now a single box — tap \u{1F4AC}, say what’s wrong or what you’d like to see, and send. It no longer asks you to pick a category or write a separate title first; we work that out from what you write.',
+      'Fixed: on some iPhones and iPads, granting microphone access for voice input on the feedback form could leave the app stuck. It now gives up on starting voice input after a few seconds and lets you type instead, rather than hanging.',
     ],
   },
   {
