@@ -263,3 +263,59 @@ out of the flow, and the screener only seeds it when it is null — so a
 second learner created in the same sitting opened Screen C with the first
 learner's answers already selected, and "Start learning!" would have claimed
 a whole script for somebody who had never said they knew it.
+
+## 11. The per-script offer and the sweep (supersedes §5 and §10)
+
+Written 2026-09-07, after the app owner tried §10's checklist and reported it
+"too onerous". Both earlier answers to "I know some of it" were wrong, in
+opposite directions, and §11 is the correction:
+
+- **§5** put the offer on ONE unit's set overview, in ONE mode, three
+  navigations from the home screen. Findable only by accident.
+- **§10** fixed the finding by putting a checklist of every unit and mode
+  between the screener and the app. A learner who answered about kanji but
+  installed the app to learn katakana had to dismiss a kanji screen to get
+  started, and the checklist's per-unit rows still meant ticking one grade at
+  a time.
+
+**What ships instead.** The screener goes straight to `renderHome()`. Each
+"some" answer arms `profile.knownCheck = { scripts, offered }`, and the offer
+surfaces as a banner on that script's OWN course screen, in whichever mode is
+selected — so it appears when the learner opens Kanji of their own accord,
+and again when they switch to Yomi, and again for Writing. `offered` is keyed
+`"<scriptId>|<mode>"`; `undefined` offers the sweep, `'swept'` owes the
+follow-up line, `true` is finished. `startSession()` retires a `'swept'`, so
+the follow-up line lasts exactly until its advice is taken.
+
+**The sweep** (`screen-sweep`, `renderSweep*` in app.js) is the offer's
+destination and the real change. One continuous list of the entire script in
+teaching order, in two phases:
+
+1. Tap the first item whose meaning/reading/writing you *don't* know.
+   Everything before it goes green and is claimed on confirm. For a learner
+   who did kanji in school order elsewhere this is one gesture for hundreds
+   of characters, which no amount of per-unit ticking could match.
+2. Tap any exceptions past that boundary, individually.
+
+It then lands on the course screen with "Learn next" highlighted. The claim
+tier follows `isSelfAssessable` exactly as the set overview's does — full for
+Definition/Reading/Meaning, "I think I know this" (with the double-check note
+shown under the button) for Yomi/Writing/Recall — and the button's own
+wording changes to match, at the app owner's explicit request.
+
+Units load one at a time, as the list is scrolled or from a "＋ Show <unit>"
+button at the bottom. Vocabulary is 156 lazily-fetched units and kanji is
+3,033 tiles; neither should be paid for by a learner who stops after one
+screenful.
+
+**Implementation notes worth keeping.** IntersectionObserver was tried first
+for the load-on-scroll and produced no callbacks at all in an embedded
+preview browser, with the sentinel plainly inside the viewport — hence the
+plain scroll listener, and hence the "＋ Show <unit>" button being a real
+button rather than a bare sentinel. Sweep tiles carry one click listener
+each and deliberately not the set overview's `bindLongPress`, whose six
+listeners each would be twenty thousand across a full kanji sweep.
+
+Fixed alongside §10: `state.onboardingAnswers` was never cleared on the way
+out of the flow, so a second learner created in the same sitting opened the
+screener with the first learner's answers already selected.

@@ -201,7 +201,19 @@ globalThis.document = {
   documentElement: { dataset: {} },
 };
 
-globalThis.window = { wanakana: globalThis.wanakana, scrollTo() {} };
+// addEventListener/removeEventListener are no-ops rather than absent: the
+// sweep's load-as-you-scroll handler registers on window, and a stub that
+// throws there would fail a screen that has nothing to do with scrolling.
+// No layout engine means no getBoundingClientRect, which is what keeps the
+// sweep list in these tests at the one unit it opens with (see
+// watchSweepSentinel in app.js) until "Show more" is actually tapped.
+globalThis.window = {
+  wanakana: globalThis.wanakana,
+  scrollTo() {},
+  innerHeight: 812,
+  addEventListener() {},
+  removeEventListener() {},
+};
 let clipboardText = null;
 globalThis.navigator = { clipboard: { async writeText(text) { clipboardText = text; } } };
 globalThis.confirm = () => true;
@@ -4217,7 +4229,7 @@ await drain(10);
 check('skip lands straight on the home screen', visible() === 'screen-home', `showing ${visible()}`);
 check('skip claims no progress whatsoever', Object.keys(skipper().progress).length === 0,
   Object.keys(skipper().progress).join(', '));
-check('skip arms no nudge either', !skipper().placementNudge);
+check('skip arms no self-placement either', !skipper().knownCheck);
 check('skip is remembered, so the flow never comes back', skipper().onboarded === true);
 
 await reopenLearner('Skipper');
@@ -4601,23 +4613,18 @@ answer('kanji', 'some');
 check('answering one scale leaves the others alone',
   scaleButtons().find((b) => b.dataset.scale === 'vocab' && b.dataset.answer === 'none').className.includes('active'));
 check('nothing is written until "Start learning!" — a half-answered screener leaves no trace',
-  Object.keys(placed().progress).length === 0 && !placed().placementNudge);
+  Object.keys(placed().progress).length === 0 && !placed().knownCheck);
 
 fireAction('onboarding-start-learning');
 await drain(10);
-// Not the home screen any more: anything answered "some" now hands straight
-// over to the guided walkthrough, because the promise this screener makes
-// ("it'll offer to let you tick off exactly which, later on") used to be
-// kept only on one unit's set overview, three taps away, with nothing on the
-// route there saying so.
-check('"Start learning!" opens the walkthrough when something was answered "some"',
-  visible() === 'screen-known-check', `showing ${visible()}`);
+// Straight to the app. An answer about kanji must never stand between
+// somebody and the katakana they installed this for — what each "some"
+// answer buys is a banner on that script's OWN course screen, later.
+check('"Start learning!" goes straight to the home screen', visible() === 'screen-home', `showing ${visible()}`);
 check('the flow is recorded as done', placed().onboarded === true);
-check('...and the walkthrough knows which scripts it is for',
-  placed().knownCheck.scripts.join(',') === 'kanji', JSON.stringify(placed().knownCheck));
-fireAction('known-check-home');
-await drain(10);
-check('"Start learning →" leaves for the home screen', visible() === 'screen-home', `showing ${visible()}`);
+check('...and self-placement knows which scripts it is for, and has offered nothing yet',
+  placed().knownCheck.scripts.join(',') === 'kanji'
+  && Object.keys(placed().knownCheck.offered).length === 0, JSON.stringify(placed().knownCheck));
 
 const hiragana = getCourse('hiragana');
 const katakana = getCourse('katakana');
@@ -4634,294 +4641,248 @@ check('"read all" claimed katakana Reading',
 check('...but NOT katakana Writing, which was never claimed',
   allItems(katakana, 'writing').every((k) => !placed().progress[`writing:${k}`]));
 check('"some" claims nothing at all', !Object.keys(placed().progress).some((k) => k.startsWith('definition:')));
-check('"some kanji" arms a nudge, not yet bound to any one grade',
-  !!placed().placementNudge && !!placed().placementNudge.kanji
-  && placed().placementNudge.kanji.courseId === null,
-  JSON.stringify(placed().placementNudge));
-check('a script answered "none" arms nothing', !placed().placementNudge.vocab);
+check('"some kanji" arms self-placement for kanji only',
+  placed().knownCheck.scripts.join(',') === 'kanji', JSON.stringify(placed().knownCheck));
 
-// The nudge itself: it should be waiting on whichever kanji grade is opened
-// first (§5's scoping note), not on all six at once.
-const openKanjiOverview = async (unit) => {
+// --- Self-placement: the per-(script, mode) offer, and the sweep ----------
+//
+// Two earlier shapes of this are gone (see the section note in app.js): the
+// set overview's own nudge, and the checklist screen that briefly stood
+// between the screener and the home screen. What is left is a banner on each
+// script's own course screen, in the mode it is about, and the sweep it
+// opens. These checks cover the offer's lifecycle and both sweep phases.
+
+const openKanjiCourse = async (unit) => {
   fireAction('go-home');
   await drain();
   fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
   await drain(10);
-  fire(el('grade-picker')._children.find((b) => b.dataset.grade === unit), 'click');
-  await drain(10);
-  fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
-  await drain(10);
+  if (unit) {
+    fire(el('grade-picker')._children.find((b) => b.dataset.grade === unit), 'click');
+    await drain(10);
+  }
 };
 
-await openKanjiOverview('1');
-check('the first kanji grade opened shows the nudge',
-  visible() === 'screen-overview' && el('overview-nudge').hidden === false, `showing ${visible()}`);
-check('the nudge says why it is there, in the learner\'s own terms',
-  el('overview-nudge-text').textContent.includes('already know some kanji'),
-  el('overview-nudge-text').textContent);
-check('"Mark as known" takes the recommended-action colour while it is up',
-  el('overview-select-toggle').className.includes('btn-primary'), el('overview-select-toggle').className);
-check('the nudge is now bound to that grade alone', placed().placementNudge.kanji.courseId === 'kanji-grade-1',
-  JSON.stringify(placed().placementNudge));
+await openKanjiCourse();
+check('the offer waits on the script it is about, not on the way to the app',
+  el('course-nudge').hidden === false, `showing ${visible()}`);
+check('...and says which mode it is asking about',
+  el('course-nudge-text').textContent.includes('which meanings you already know'),
+  el('course-nudge-text').textContent);
+check('an outstanding offer takes the accent off Learn — starting from scratch is'
+  + ' the wrong first move for someone who just said they know some of this',
+  !el('quick-learn-next').className.includes('btn-primary'), el('quick-learn-next').className);
+check('...and gives it to "Mark as known…" in the ladder',
+  buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('Mark as known')).className.includes('btn-primary'));
 
-fireAction('nudge-later');
+// A script NOT answered "some" must never be nudged about — the whole reason
+// the checklist screen was wrong is that it made one script's answer another
+// script's problem.
+fireAction('go-home');
 await drain();
-check('"Maybe later" hides it and drops the highlight',
-  el('overview-nudge').hidden === true && !el('overview-select-toggle').className.includes('btn-primary'));
-check('...and re-arms it for the next five sessions', placed().placementNudge.kanji.remaining === 5,
-  JSON.stringify(placed().placementNudge));
-
-await openKanjiOverview('1');
-check('...so it is back the very next time that overview is opened',
-  el('overview-nudge').hidden === false);
-
-fireAction('go-course');
-await drain();
-fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('Learn <b>')), 'click');
-await drain(20);
-check('a session in that unit counts against the five', placed().placementNudge.kanji.remaining === 4,
-  JSON.stringify(placed().placementNudge));
-
-fireAction('quit-session');
-await drain(10);
-fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
-await drain(10);
-check('the nudge survives a session — it is five of them, not one',
-  el('overview-nudge').hidden === false);
-
-fireAction('nudge-start-fresh');
-await drain();
-check('"Actually, I\'d like to start fresh" hides it', el('overview-nudge').hidden === true);
-check('...and clears it for good', !placed().placementNudge.kanji, JSON.stringify(placed().placementNudge));
-
-await openKanjiOverview('1');
-check('...so it never comes back', el('overview-nudge').hidden === true);
-await openKanjiOverview('2');
-check('and it was never armed on any other grade', el('overview-nudge').hidden === true);
-
-// --- Using "Mark as known" from a nudged overview clears the nudge --------
-// Kana has one overview per script, so its nudge is bound the moment it is
-// armed rather than on first open.
-
-const nudged = await createLearner('Nudge Kid');
-fireAction('onboarding-learning');
-await drain();
-answer('katakana', 'some');
-fireAction('onboarding-start-learning');
-await drain(10);
-check('a kana nudge is bound to its script immediately — there is only one overview',
-  nudged().placementNudge.katakana.courseId === 'katakana',
-  JSON.stringify(nudged().placementNudge));
-
 fire(el('script-list')._children.find((c) => c.dataset.script === 'katakana'), 'click');
 await drain(10);
-fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
-await drain(10);
-check('the katakana overview shows the nudge', el('overview-nudge').hidden === false);
+check('a script answered "none" is left completely alone', el('course-nudge').hidden === true);
 
-fireAction('overview-select-toggle');
+// --- The sweep, phase one: the boundary ----------------------------------
+
+await openKanjiCourse();
+fireAction('placement-sweep');
+await drain(15);
+check('the offer opens the sweep', visible() === 'screen-sweep', `showing ${visible()}`);
+check('...over the whole script, not one unit — it starts at the first unit and grows',
+  el('sweep-title').textContent === 'Kanji · Definition', el('sweep-title').textContent);
+check('...asking for a boundary, not for individual taps',
+  el('sweep-instruction').textContent.includes("the first kanji whose meaning you don't know"),
+  el('sweep-instruction').textContent);
+
+/** Every tile currently in the sweep list, in order. */
+const sweepTiles = () => {
+  const found = [];
+  const walk = (node) => {
+    if (node.dataset && node.dataset.sweep !== undefined) found.push(node);
+    node._children.forEach(walk);
+  };
+  el('sweep-list')._children.forEach(walk);
+  return found;
+};
+const sweepTile = (i) => sweepTiles().find((t) => Number(t.dataset.sweep) === i);
+
+// getCourse (kana.js) only knows the two kana courses — a kanji unit has to
+// come from KANJI_COURSES, or it silently falls back to hiragana.
+const grade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
+const grade1Items = allItems(grade1, 'definition');
+check('the sweep opens on the first unit alone', sweepTiles().length === grade1Items.length,
+  `${sweepTiles().length} vs ${grade1Items.length}`);
+check('...and offers the next one by name rather than loading everything up front',
+  el('sweep-more').hidden === false && el('sweep-more').textContent.includes('Grade 2'),
+  el('sweep-more').textContent);
+check('nothing can be confirmed before a boundary is set',
+  el('sweep-confirm').disabled === true);
+
+fireAction('sweep-more');
+await drain(10);
+check('"Show the next unit" appends it', sweepTiles().length > grade1Items.length,
+  sweepTiles().length);
+
+fire(sweepTile(10), 'click');
 await drain();
-check('entering select mode is acting on the nudge, so it gets out of the way',
-  el('overview-nudge').hidden === true && el('overview-select-shortcuts').hidden === false);
-fireAction('overview-select-all');
-fireAction('overview-mark-sure');
+const knownTiles = () => sweepTiles().filter((t) => t.classList.contains('is-known')).length;
+check('tapping a tile paints everything before it as known', knownTiles() === 10, knownTiles());
+check('...and marks the tapped one as the boundary itself, not as known',
+  sweepTile(10).classList.contains('is-boundary') && !sweepTile(10).classList.contains('is-known'));
+check('...and says exactly what confirming would claim',
+  el('sweep-confirm').textContent === 'I know the meanings of the first 10 kanji'
+  && el('sweep-confirm').disabled === false, el('sweep-confirm').textContent);
+
+fire(sweepTile(4), 'click');
+await drain();
+check('the boundary is re-tappable — a mis-tap must not be a one-way claim', knownTiles() === 4);
+fire(sweepTile(4), 'click');
+await drain();
+check('...and tapping it again clears it entirely',
+  knownTiles() === 0 && el('sweep-confirm').disabled === true);
+
+fire(sweepTile(10), 'click');
+await drain();
+check('nothing is written until the boundary is confirmed',
+  !Object.keys(placed().progress).some((k) => k.startsWith('definition:')));
+
+fireAction('sweep-confirm');
+await drain(15);
+check('confirming claims exactly the run before the boundary',
+  Object.keys(placed().progress).filter((k) => k.startsWith('definition:')).length === 10,
+  Object.keys(placed().progress).filter((k) => k.startsWith('definition:')).length);
+check('...at full mastery, through the ordinary bulk path',
+  grade1Items.slice(0, 10).every((k) => (placed().progress[`definition:${k}`] || {}).box === MAX_BOX));
+check('...and leaves the kanji at the boundary alone',
+  !placed().progress[`definition:${grade1Items[10]}`]);
+
+// --- The sweep, phase two: the exceptions past the boundary --------------
+
+check('confirming moves on to picking off individual exceptions',
+  el('sweep-instruction').textContent.includes('any others you know'),
+  el('sweep-instruction').textContent);
+check('with nothing picked the button is an honest "nothing else"',
+  el('sweep-confirm').textContent === 'Done — nothing else');
+
+fire(sweepTile(3), 'click');
+await drain();
+check('a tile already claimed in phase one cannot be picked again',
+  sweepTiles().filter((t) => t.classList.contains('is-selected')).length === 0);
+fire(sweepTile(40), 'click');
+fire(sweepTile(50), 'click');
+await drain();
+check('tiles past the boundary tick individually',
+  el('sweep-confirm').textContent === 'I know the meanings of these kanji'
+  && el('sweep-counter').textContent === '2 picked', el('sweep-counter').textContent);
+
+fireAction('sweep-confirm');
+await drain(20);
+check('finishing the sweep lands on that script\'s course screen',
+  visible() === 'screen-course', `showing ${visible()}`);
+check('...having claimed the exceptions too',
+  Object.keys(placed().progress).filter((k) => k.startsWith('definition:')).length === 12);
+check('...and the banner has become the line that says what to press',
+  el('course-nudge').hidden === false
+  && el('course-nudge-actions').hidden === true
+  && el('course-nudge-text').textContent.includes('Learn'),
+  el('course-nudge-text').textContent);
+check('...with Learn given the accent back, since it is now the right next move',
+  el('quick-learn-next').className.includes('btn-primary'), el('quick-learn-next').className);
+
+// The follow-up line is owed until the learner does what it says.
+fire(el('quick-learn-next'), 'click');
+await drain(25);
+check('starting a session retires the follow-up line — its advice has been taken',
+  placed().knownCheck.offered['kanji|definition'] === true,
+  JSON.stringify(placed().knownCheck.offered));
+fireAction('quit-session');
 await drain(10);
-check('having actually marked something known clears the nudge for good',
-  !nudged().placementNudge.katakana, JSON.stringify(nudged().placementNudge));
-check('...and the claim itself went through the ordinary path',
-  allItems(katakana, 'recognition').every((k) => (nudged().progress[`recognition:${k}`] || {}).box === MAX_BOX));
+check('...so the banner is gone for good in this mode', el('course-nudge').hidden === true);
 
-// --- Screen D: the guided "tick what you already know" walkthrough --------
-//
-// The nudge checked above answers "some of it" on ONE unit's overview in ONE
-// mode, three taps from the home screen — and the route there ran past
-// "Learn 5 next" in the accent colour, which is the one thing a learner who
-// has just said they already know some of this should not be doing. These
-// checks cover the walkthrough that now stands between the screener and the
-// home screen: that it lists every unit and mode, that each row hands over
-// to the existing "Mark as known" machinery and comes straight back, that it
-// grows a unit at a time on request, and that every way out of it works.
+// --- Every mode gets its own offer ---------------------------------------
 
-const walker = await createLearner('Walkthrough Kid');
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'recognition'), 'click');
+await drain(10);
+check('switching to Yomi surfaces the offer again, for Yomi',
+  el('course-nudge').hidden === false
+  && el('course-nudge-text').textContent.includes('which readings you already know'),
+  el('course-nudge-text').textContent);
+
+fireAction('placement-sweep');
+await drain(15);
+fire(sweepTile(3), 'click');
+await drain();
+check('a mode a glance cannot verify claims the softer tier, and says so',
+  el('sweep-confirm').textContent === 'I think I know the common readings of the first 3 kanji'
+  && el('sweep-note').hidden === false
+  && el('sweep-note').textContent.includes('double-check'),
+  el('sweep-confirm').textContent);
+fireAction('sweep-confirm');
+await drain(20);
+check('...and writes it one tier short of mastered, not at the top box',
+  grade1Items.slice(0, 3).every((k) => (placed().progress[`recognition:${k}`] || {}).box === THINK_KNOWN_BOX),
+  JSON.stringify(grade1Items.slice(0, 3).map((k) => (placed().progress[`recognition:${k}`] || {}).box)));
+fireAction('sweep-none');
+await drain(15);
+check('"Skip this step" finishes the sweep from phase two', visible() === 'screen-course');
+
+// --- Backing out, and declining outright ---------------------------------
+
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'writing'), 'click');
+await drain(10);
+fireAction('placement-sweep');
+await drain(15);
+fireAction('sweep-cancel');
+await drain(10);
+check('backing out of a sweep returns to the course screen', visible() === 'screen-course');
+check('...with the offer still standing, since nothing was decided',
+  el('course-nudge-actions').hidden === false);
+
+fireAction('placement-skip');
+await drain(10);
+check('"Actually, I\'d like to start fresh" retires that mode\'s offer outright',
+  el('course-nudge').hidden === true);
+check('...with no follow-up line either — help that was declined needs no tip',
+  placed().knownCheck.offered['kanji|writing'] === true,
+  JSON.stringify(placed().knownCheck.offered));
+check('...and leaves the OTHER modes\' offers untouched',
+  placed().knownCheck.offered['kanji|definition'] === true
+  && placed().knownCheck.offered['kanji|recognition'] === 'swept',
+  JSON.stringify(placed().knownCheck.offered));
+
+// --- "I don't know any of these yet" -------------------------------------
+
+const beginner = await createLearner('Sweep Beginner');
 fireAction('onboarding-learning');
 await drain();
 answer('hiragana', 'some');
-answer('kanji', 'some');
 fireAction('onboarding-start-learning');
 await drain(10);
-check('answering "some" opens the walkthrough, not the home screen',
-  visible() === 'screen-known-check', `showing ${visible()}`);
-check('the intro names what the learner actually said they know',
-  el('known-check-intro').textContent.includes('some hiragana and kanji'),
-  el('known-check-intro').textContent);
-
-/** Every step row on the checklist, in the order it is shown. */
-const checkRows = () => {
-  const found = [];
-  const walk = (node) => {
-    if (node.dataset && node.dataset.task) found.push(node);
-    node._children.forEach(walk);
-  };
-  el('known-check-list')._children.forEach(walk);
-  return found;
-};
-const checkRow = (key) => checkRows().find((r) => r.dataset.task === key);
-/** A row's "12 to check" / "✓ checked" half. */
-const rowStatus = (row) => (row._children.find((c) => c.className === 'known-check-status') || {}).textContent;
-
-check('every mode of every unit reached gets its own row — the whole point of the screen',
-  checkRows().map((r) => r.dataset.task).join(' ')
-  === 'hiragana|recognition hiragana|writing kanji-grade-1|definition'
-  + ' kanji-grade-1|recognition kanji-grade-1|writing',
-  checkRows().map((r) => r.dataset.task).join(' '));
-check('a script answered "none" contributes no rows at all',
-  !checkRows().some((r) => r.dataset.task.startsWith('katakana')));
-check('the first step waiting wears the recommended-action colour, and only it',
-  checkRows().filter((r) => r.className.includes('btn-primary')).length === 1
-  && checkRow('hiragana|recognition').className.includes('btn-primary'));
-check('a row says how much of that unit the mode has never asked about',
-  rowStatus(checkRow('hiragana|recognition')) === `${allItems(hiragana, 'recognition').length} to check`,
-  rowStatus(checkRow('hiragana|recognition')));
-check('kanji offers the next grade, one unit at a time — eighteen at once helps nobody',
-  el('known-check-list')._children.some((c) => c.dataset.extend === 'kanji'));
-check('...but kana does not, having exactly one unit',
-  !el('known-check-list')._children.some((c) => c.dataset.extend === 'hiragana'));
-
-// A step hands over to the set overview's existing select mode — no second
-// claim path, and no second grid.
-fire(checkRow('hiragana|writing'), 'click');
+check('the screener goes straight to the app — an answer is not a detour',
+  visible() === 'screen-home', `showing ${visible()}`);
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
 await drain(10);
-check('opening a step opens that unit\'s overview', visible() === 'screen-overview', `showing ${visible()}`);
-check('...on the step\'s own mode, already ticking rather than browsing',
-  el('overview-title').textContent === getCourse('hiragana').name
-  && el('overview-select-shortcuts').hidden === false);
-check('...with a step counter saying where in the list this is',
-  el('overview-check-bar').hidden === false
-  && el('overview-check-step').textContent.startsWith('Step 2 of 5'),
-  el('overview-check-step').textContent);
-check('the older overview nudge stands down while the step bar is up — one prompt, not two',
-  el('overview-nudge').hidden === true);
-
-fireAction('go-course');
-await drain(10);
-check('backing out of a step returns to the list, not to whichever course screen was behind it',
-  visible() === 'screen-known-check', `showing ${visible()}`);
-check('...and backing out claims nothing, so the step is still waiting',
-  rowStatus(checkRow('hiragana|writing')) !== '✓ checked', rowStatus(checkRow('hiragana|writing')));
-
-// Marking known from inside the walkthrough ticks the step and hands back,
-// which is the "and then the next one" the whole screen exists for.
-fire(checkRow('hiragana|recognition'), 'click');
-await drain(10);
-fireAction('overview-select-all');
-fireAction('overview-mark-sure');
-await drain(10);
-check('marking known returns to the list rather than leaving the learner on the grid',
-  visible() === 'screen-known-check', `showing ${visible()}`);
-check('...says what just happened', el('known-check-notice').hidden === false
-  && el('known-check-notice').textContent.includes('marked as known'),
-  el('known-check-notice').textContent);
-check('...ticks that step off', rowStatus(checkRow('hiragana|recognition')) === '✓ checked');
-check('...and moves the recommended colour on to the next one waiting',
-  checkRow('hiragana|writing').className.includes('btn-primary'));
-check('...through the ordinary claim path, so the records are a placement test\'s',
-  allItems(hiragana, 'recognition').every((k) => (walker().progress[`recognition:${k}`] || {}).box === MAX_BOX));
-check('the notice is a one-off — it does not follow the learner back later',
-  (fireAction('known-check-open'), el('known-check-notice').hidden === true));
-
-// "Nothing here — next →": been through it, claimed nothing.
-fire(checkRow('hiragana|writing'), 'click');
-await drain(10);
-fireAction('known-check-skip');
-await drain(10);
-check('"Nothing here" ticks the step without claiming anything',
-  rowStatus(checkRow('hiragana|writing')) === '✓ checked'
-  && allItems(hiragana, 'writing').every((k) => !walker().progress[`writing:${k}`]));
-
-fire(el('known-check-list')._children.find((c) => c.dataset.extend === 'kanji'), 'click');
-await drain(10);
-check('"Also check Kanji · Grade 2" adds that unit\'s rows',
-  checkRows().some((r) => r.dataset.task === 'kanji-grade-2|definition'),
-  checkRows().map((r) => r.dataset.task).join(' '));
-check('...and the list keeps growing on request rather than all at once',
-  walker().knownCheck.reach.kanji === 2, JSON.stringify(walker().knownCheck));
-
-// The course screen, which is where the report's complaint actually landed:
-// a learner who had said "some" was met by Learn in the accent colour.
-fireAction('known-check-home');
-await drain(10);
-check('the home screen offers the way back into an unfinished list',
-  el('known-check-card').hidden === false);
-fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
-await drain(10);
-check('the course screen says why it is nudging, without needing the overview',
-  el('course-nudge').hidden === false
-  && el('course-nudge-text').textContent.includes('already know some kanji'),
-  el('course-nudge-text').textContent);
-check('"Mark as known…" takes the recommended colour, not Learn',
-  buttonsIn(el('course-list')._children[0])
-    .find((b) => (b.innerHTML || '').includes('Mark as known')).className.includes('btn-primary'));
-check('...and the ladder\'s Learn row gives it up',
-  !buttonsIn(el('course-list')._children[0])
-    .find((b) => (b.innerHTML || '').includes('Learn <b>')).className.includes('btn-primary'));
-check('...as does the quick-action Learn at the very top of the screen, which is seen first',
-  !el('quick-learn-next').className.includes('btn-primary'), el('quick-learn-next').className);
-
-fireAction('course-nudge-start-fresh');
-await drain(10);
-check('"Actually, I\'d like to start fresh" drops that script from the walkthrough for good',
-  !walker().knownCheck.scripts.includes('kanji'), JSON.stringify(walker().knownCheck));
-check('...and clears its older overview nudge too, so the two can never disagree',
-  !(walker().placementNudge || {}).kanji, JSON.stringify(walker().placementNudge));
-check('...and hands the accent straight back to Learn', el('course-nudge').hidden === true
-  && el('quick-learn-next').className.includes('btn-primary'));
-
-fireAction('go-home');
-await drain(10);
-check('with hiragana finished and kanji dropped, the home card goes quiet',
-  el('known-check-card').hidden === true);
-
-// The permanent dismissal, on a learner who still has something outstanding.
-const finisher = await createLearner('Finished Kid');
-fireAction('onboarding-learning');
+fireAction('placement-sweep');
+await drain(15);
+check('kana sweeps on its one unit, in Reading',
+  el('sweep-title').textContent === 'Hiragana · Reading', el('sweep-title').textContent);
+check('...and has no next unit to offer', el('sweep-more').hidden === true);
+fireAction('sweep-none');
 await drain();
-answer('katakana', 'some');
-fireAction('onboarding-start-learning');
-await drain(10);
-fireAction('known-check-finish');
-await drain(10);
-check('"I\'ve ticked everything I know" ends the walkthrough and leaves for the app',
-  visible() === 'screen-home' && !finisher().knownCheck, JSON.stringify(finisher().knownCheck));
-check('...and takes the overview nudge with it', !(finisher().placementNudge || {}).katakana,
-  JSON.stringify(finisher().placementNudge));
-check('...so the home screen stops offering it', el('known-check-card').hidden === true);
-
-// And a learner who claimed nothing partial never meets any of it.
-const certain = await createLearner('Certain Kid');
-fireAction('onboarding-learning');
-await drain();
-answer('hiragana', 'read');
-fireAction('onboarding-start-learning');
-await drain(10);
-check('with nothing answered "some" the screener still goes straight to the app',
-  visible() === 'screen-home' && !certain().knownCheck, `showing ${visible()}`);
-check('...and the home screen has nothing to offer', el('known-check-card').hidden === true);
-
-// A second learner created in the same sitting starts from scratch. The
-// screener only seeds its answers when it has none, so before this the next
-// new learner opened Screen C with the previous one's answers selected — and
-// "Start learning!" would then have claimed a whole script for somebody who
-// had never said they knew it.
-await createLearner('Second Kid');
-fireAction('onboarding-learning');
-await drain();
-check('a second learner\'s screener does not inherit the first learner\'s answers',
-  scaleButtons().filter((b) => b.dataset.answer === 'none')
-    .every((b) => b.className.includes('active')),
-  scaleButtons().filter((b) => b.className.includes('active'))
-    .map((b) => `${b.dataset.scale}=${b.dataset.answer}`).join(' '));
-fireAction('onboarding-skip');
-await drain(10);
+check('"I don\'t know any of these yet" skips the boundary without claiming anything',
+  Object.keys(beginner().progress).length === 0
+  && el('sweep-instruction').textContent.includes('any others you know'));
+fireAction('sweep-none');
+await drain(15);
+check('...and a second skip finishes with nothing claimed at all',
+  visible() === 'screen-course' && Object.keys(beginner().progress).length === 0);
+check('the follow-up line still appears — the sweep ran, it just found nothing',
+  el('course-nudge').hidden === false && el('course-nudge-actions').hidden === true);
+check('...and names the button kana actually has, not the one only kanji has',
+  el('course-nudge-text').textContent.includes('below'), el('course-nudge-text').textContent);
 
 // --- Story word-lookups feed spaced review (review-followups.md #2) ------
 //

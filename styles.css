@@ -2026,34 +2026,69 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    scrolls away with the rest of the page rather than covering tiles. */
 .overview-nudge { border-color: var(--accent); }
 
-/* --- The "tick what you already know" walkthrough (Screen D) ------------ */
+/* --- Self-placement: the course banner and the sweep ------------------- */
 
-/* One card per unit, one row per mode inside it. The rows are ordinary
-   .btn.wide buttons rather than list items so the recommended next step can
-   wear .btn-primary — the same single "start here" mark the course screen's
-   ladder uses — instead of this screen inventing a second visual language
-   for the same idea. */
-.known-check-unit { display: flex; flex-direction: column; gap: 8px; }
-.known-check-unit h3 { margin: 0; font-size: 17px; }
-/* Mode on the left, "12 to check" / "✓ checked" hard right, so a column of
-   rows can be read down either edge alone. */
-.known-check-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  text-align: left;
+/* Sits at the top of a script's course screen, above everything the learner
+   would otherwise reach for. Bordered in the accent for the same reason the
+   overview nudge it replaces was: it is a prompt, not a status line. */
+.course-nudge { border-color: var(--accent); }
+
+/* The sweep's pinned head. Which phase this is and what to tap are the whole
+   screen, and a list running to three thousand tiles would otherwise scroll
+   the instruction out of sight within one flick. Same construction, and the
+   same reasoning, as .overview-head above. */
+.sweep-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--bg);
+  margin: calc(-1 * max(16px, env(safe-area-inset-top))) -16px 0;
+  padding: max(16px, env(safe-area-inset-top)) 16px 8px;
+  box-shadow: 0 6px 12px -12px rgba(0, 0, 0, 0.5);
 }
-.known-check-status { font-size: 14px; font-weight: 600; opacity: 0.75; }
-/* A finished row stays tappable — going back over one is how a learner
-   corrects an over-generous tick — but stops competing for attention. */
-.known-check-row.is-done { opacity: 0.6; }
-.known-check-more { margin-top: -4px; }
-.known-check-notice { color: var(--accent); font-weight: 600; }
-/* The step bar on the set overview, while it is serving one step. Matches
-   .overview-nudge deliberately: it stands in the same place, for the same
-   learner, saying the next thing in the same conversation. */
-.known-check-bar { border-color: var(--accent); }
+.sweep-head .topbar { position: static; margin: 0; padding: 0; }
+.sweep-instruction { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; }
+
+.sweep-section { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+/* Sticks just under the pinned head, so the grade or unit being scrolled
+   through is always named — the one piece of orientation a single
+   three-thousand-tile list otherwise has none of. */
+.sweep-unit-title {
+  position: sticky;
+  top: 96px;
+  z-index: 4;
+  margin: 0;
+  padding: 4px 0;
+  background: var(--bg);
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.sweep-sentinel { text-align: center; min-height: 24px; }
+
+/* Everything before the boundary: claimed, and painted in the app's own
+   "well known" green so the sweep's result reads in the same colour
+   language the set overview already teaches. */
+.overview-tile.is-known {
+  background: var(--tier-4);
+  color: var(--tier-4-ink);
+  border-color: var(--tier-4);
+}
+/* The boundary tile itself — the first one NOT known. An accent ring, not a
+   fill: it is a marker for where the line falls, not a claim about the
+   character under it. */
+.overview-tile.is-boundary {
+  border-color: var(--accent);
+  border-style: dashed;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+/* The sweep's tiles are never in the overview's own select mode, so they
+   never pick up .is-selectable — but the ✓ corner mark on a picked one
+   still needs somewhere to anchor. */
+.sweep-grid .overview-tile { position: relative; }
+/* Room for the pinned confirm bar, same reservation #screen-overview makes
+   — a button, its note and the skip link. */
+#screen-sweep { padding-bottom: 190px; }
 
 /* --- Feedback and My contributions (feedback-plan.md) ------------------- */
 
