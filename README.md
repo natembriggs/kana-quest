@@ -110,6 +110,18 @@ Writing and vocab Recall, where a glance can't tell you whether you know
 double-check review for each, spread out over the following weeks rather
 than all landing on one day — **I'm sure** sits beside it for when you are.
 
+Beside it, **＋ Choose what to study** does the opposite job with the same
+gesture: tick several characters and add them all to the study list at once,
+so lining up the next batch doesn't mean opening each one's own page. Kana
+has no study list, so it only gets the first button.
+
+A character's own page offers one button per mode — **Learn this kanji's
+definition**, **…its readings**, **Learn to write this kanji** — each turning
+into **✓ Studying its definition** once it is on, and carrying that mode's
+own mastery once there is any. Opened from the set overview, it also pages:
+swipe left/right, tap **Previous** / **Next**, or use the arrow keys, with
+"7 of 202" saying where you are.
+
 ## Starting from somewhere other than zero
 
 A brand-new learner is asked **where are you starting from?** before anything

@@ -2090,6 +2090,30 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    — a button, its note and the skip link. */
 #screen-sweep { padding-bottom: 190px; }
 
+/* The set overview's two bulk jobs, side by side. Equal halves: neither
+   "what do I already know" nor "what shall I learn next" outranks the other,
+   and a learner arriving from either direction should find theirs where they
+   expect it. Each collapses to full width while the other is hidden (which
+   is what happens once one of them is running). */
+#overview-toolbar > .btn { flex: 1 1 0; min-width: 0; }
+
+/* The detail screen's per-mode study buttons. A mode already being studied
+   reads as a settled fact, not as an offer — hence the filled "known" green
+   rather than the accent, which everywhere else in the app means "do this
+   next". Tapping still turns it back off; the label says "✓ Studying…", so
+   nothing is claiming to be un-tappable. */
+.detail-mode { text-align: left; }
+.detail-mode.is-studying {
+  background: var(--ok-bg);
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+/* Previous / Next along the grid this screen was opened from. */
+.detail-pager { align-items: center; justify-content: space-between; gap: 8px; }
+.detail-pager .btn { flex: 0 0 auto; }
+.detail-pager .hint { flex: 1 1 auto; text-align: center; }
+
 /* --- Feedback and My contributions (feedback-plan.md) ------------------- */
 
 /* Quiet on purpose. This icon is on every screen in the app, including the

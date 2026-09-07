@@ -319,3 +319,34 @@ listeners each would be twenty thousand across a full kanji sweep.
 Fixed alongside §10: `state.onboardingAnswers` was never cleared on the way
 out of the flow, so a second learner created in the same sitting opened the
 screener with the first learner's answers already selected.
+
+### 11.1 The surrounding changes that came with it
+
+Requested in the same conversation as §11, and part of the same job — making
+"I already know some of this" expressible without fighting the app:
+
+- **The set overview grew a second bulk job.** "✓ Mark as known" is joined by
+  "＋ Choose what to study": the same grid and the same ticking, writing a
+  study-list entry instead of a knowledge claim. Starting one hides the
+  other, so a half-made selection can never be repurposed to answer the other
+  question. `state.overviewSelectPurpose` carries which. Kana has no study
+  list, so it keeps one button. The claim button's own wording now matches
+  the sweep's ("I know the definitions of these 12 kanji"), from one shared
+  `sweepClaim()`.
+- **The character detail screen lost its duplicate control.** A headline
+  "Not started — tap to start studying" sat above bare Definition/Yomi/
+  Writing segments; the headline toggled all three at once, the segments one
+  each, and neither said that either was putting the character on a study
+  list. Now one button per applicable mode, spelled out ("Learn this kanji's
+  definition" ⇄ "✓ Studying its definition"), each carrying that mode's own
+  mastery once it has any.
+- **Detail pages page.** Reached from the set overview, they carry
+  Previous/Next, a position ("7 of 202"), a left/right swipe and arrow-key
+  support. Only from the overview: every other entry point (search, a summary
+  chip, a quiz, a drill-in) has no sibling order that means anything.
+
+Worth knowing for next time: the wiring suite's DOM stub keeps `classList`
+in a set that never writes through to `className`, so assertions about
+classes set at runtime must use `classList.contains`. Its `window` had no
+`addEventListener` until this change, and deliberately still has no
+`getBoundingClientRect`, which is what keeps the sweep at one unit in tests.

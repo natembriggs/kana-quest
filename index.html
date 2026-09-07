@@ -592,12 +592,19 @@
          "I'm sure" override for Yomi/Writing/Recall — see the "Mark as
          known" section in app.js. The toggle's label and the hint's text
          are set in renderOverview(). -->
+    <!-- The two bulk jobs this grid can do, side by side, because they are
+         one gesture pointed at opposite ends of the same question: which of
+         these do I already have, and which do I want next. Both multi-select;
+         what differs is what confirming writes — a knowledge claim, or an
+         entry on the study list. The second is hidden for kana, which has no
+         study list to add to (see deriveStudyList in srs.js). -->
     <div id="overview-toolbar" class="row">
       <button id="overview-select-toggle" class="btn overview-button" type="button" data-action="overview-select-toggle">✓ Mark as known</button>
+      <button id="overview-study-toggle" class="btn overview-button" type="button" data-action="overview-study-toggle">＋ Choose what to study</button>
     </div>
     <p id="overview-select-hint" class="hint" hidden></p>
     <div id="overview-select-shortcuts" class="row" hidden>
-      <button class="btn btn-quiet" type="button" data-action="overview-select-all">Select all not started</button>
+      <button id="overview-select-all" class="btn btn-quiet" type="button" data-action="overview-select-all">Select all not started</button>
       <button class="btn btn-quiet" type="button" data-action="overview-select-none">Clear</button>
     </div>
 
@@ -611,6 +618,7 @@
     <div class="stack bottom-bar">
       <button id="overview-mark-think" class="btn btn-primary wide" type="button" data-action="overview-mark-think" hidden></button>
       <button id="overview-mark-sure" class="btn wide" type="button" data-action="overview-mark-sure" hidden></button>
+      <button id="overview-add-study" class="btn btn-primary wide" type="button" data-action="overview-add-study" hidden></button>
     </div>
   </section>
 
@@ -667,6 +675,17 @@
          renderCharacterDetail() in app.js. -->
     <p id="detail-unit" class="hint detail-unit" hidden></p>
 
+    <!-- Paging along the grid this screen was opened from. A swipe does the
+         same thing (bindDetailSwipe in app.js), but a gesture nobody can see
+         is not an affordance — and there is no swiping on a desktop. Hidden
+         whenever there is no meaningful "next one": a search result, a
+         summary chip, a kanji reached from inside a quiz. -->
+    <div id="detail-pager" class="row detail-pager" hidden>
+      <button id="detail-prev" class="btn btn-quiet" type="button" data-action="detail-prev">&#8592; Previous</button>
+      <span id="detail-position" class="hint"></span>
+      <button id="detail-next" class="btn btn-quiet" type="button" data-action="detail-next">Next &#8594;</button>
+    </div>
+
     <p id="detail-mastery" class="mastery-label"></p>
 
     <button id="detail-history-btn" class="btn btn-quiet wide" type="button" data-action="open-study-history">My study history</button>
@@ -677,14 +696,21 @@
          keep the implicit model (every character in every applicable mode),
          so this stays hidden for kana. renderDetailStudy() (app.js) shows
          only whichever of the five mode buttons apply to the item's kind. -->
+    <!-- One button per mode, each saying in full what it does — "Learn this
+         kanji's definition", and "✓ Studying its definition" once it is on.
+         This used to be a headline "Not started — tap to start studying"
+         above a row of bare Definition/Yomi/Writing segments, which said the
+         same thing twice in two different languages: the headline was a bulk
+         toggle for all three, the segments were individual ones, and neither
+         made clear that tapping either put this kanji on a study list. See
+         renderDetailStudy() in app.js. -->
     <div id="detail-study" class="stack" hidden>
-      <button id="detail-study-toggle" class="btn wide" type="button"></button>
-      <div id="detail-study-modes" class="segmented" role="group" aria-label="Which modes to study">
-        <button id="detail-mode-definition" class="segment" type="button" data-mode="definition">Definition</button>
-        <button id="detail-mode-recognition" class="segment" type="button" data-mode="recognition">Yomi</button>
-        <button id="detail-mode-writing" class="segment" type="button" data-mode="writing">Writing</button>
-        <button id="detail-mode-vmeaning" class="segment" type="button" data-mode="vmeaning">Meaning</button>
-        <button id="detail-mode-vrecall" class="segment" type="button" data-mode="vrecall">Recall</button>
+      <div id="detail-study-modes" class="stack" role="group" aria-label="What to study about this character">
+        <button id="detail-mode-definition" class="btn wide detail-mode" type="button" data-mode="definition"></button>
+        <button id="detail-mode-recognition" class="btn wide detail-mode" type="button" data-mode="recognition"></button>
+        <button id="detail-mode-writing" class="btn wide detail-mode" type="button" data-mode="writing"></button>
+        <button id="detail-mode-vmeaning" class="btn wide detail-mode" type="button" data-mode="vmeaning"></button>
+        <button id="detail-mode-vrecall" class="btn wide detail-mode" type="button" data-mode="vrecall"></button>
       </div>
       <!-- Only when waiting to learn in whichever mode is currently active —
            jumps straight to a lesson-then-quiz session for just this one

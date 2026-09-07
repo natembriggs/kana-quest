@@ -2383,21 +2383,38 @@ fire(grade6Tile, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily loads grade 6's data (first time)
 
 const modeToggleIds = ['detail-mode-definition', 'detail-mode-recognition', 'detail-mode-writing'];
-check('a never-studied kanji shows "Not started" on its detail screen',
-  el('detail-study').hidden === false && el('detail-study-toggle').textContent.includes('Not started'),
-  el('detail-study-toggle').textContent);
-check('kanji folds mastery into that one button rather than a separate line',
+/** Turn on every applicable mode for the character whose detail screen is
+ * open. There is no bulk toggle any more: the headline "Not started — tap to
+ * start studying" and the per-mode segments under it said the same thing in
+ * two different languages, so what is left is one button per mode. */
+const studyEveryMode = async () => {
+  // Opening a detail screen awaits that unit's data before it renders, and
+  // which buttons apply is only known once it has — an unrendered screen
+  // still shows the last character's, so this would otherwise skip rows as
+  // "not applicable" that are about to appear.
+  await drain(10);
+  for (const id of modeToggleIds) {
+    if (el(id).hidden || el(id).getAttribute('aria-pressed') === 'true') continue;
+    fire(el(id), 'click');
+    await settle();
+  }
+};
+check('a never-studied kanji offers each mode in words, not as a bare mode name',
+  el('detail-study').hidden === false
+  && el('detail-mode-definition').textContent === "Learn this kanji's definition"
+  && el('detail-mode-writing').textContent === 'Learn to write this kanji',
+  `${el('detail-mode-definition').textContent} | ${el('detail-mode-writing').textContent}`);
+check('kanji folds mastery into those buttons rather than a separate line',
   el('detail-mastery').hidden === true);
-check('its per-mode toggles all start inactive',
-  modeToggleIds.every((id) => !el(id).className.includes('active')),
-  modeToggleIds.map((id) => el(id).className).join(' | '));
+check('none of them start switched on',
+  modeToggleIds.every((id) => el(id).getAttribute('aria-pressed') !== 'true'),
+  modeToggleIds.map((id) => `${id}:${el(id).getAttribute('aria-pressed')}`).join(' | '));
 
-fire(el('detail-study-toggle'), 'click');
-await settle();
-check('tapping the headline button enrolls it in every applicable mode at once',
-  el('detail-study-toggle').textContent.includes('Waiting to learn')
-  && modeToggleIds.every((id) => el(id).hidden || el(id).className.includes('active')),
-  modeToggleIds.map((id) => `${id}:${el(id).className}`).join(' | '));
+await studyEveryMode();
+check('turning a mode on says so, in place of the offer',
+  el('detail-mode-definition').textContent === '✓ Studying its definition'
+  && modeToggleIds.every((id) => el(id).hidden || el(id).getAttribute('aria-pressed') === 'true'),
+  modeToggleIds.map((id) => `${id}:${el(id).textContent}`).join(' | '));
 
 const grade6Saved = [...rows.values()][0];
 check('enrolling is persisted to the profile immediately, before any session has taught it',
@@ -2449,10 +2466,12 @@ fire(el('summary-list')._children[0], 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // opening detail lazily (re-)loads the grade's data
 check('the detail screen names which unit the kanji is taught in',
   el('detail-unit').textContent === unitLabel('6'), el('detail-unit').textContent);
-check('after being taught in one mode, the kanji is past "Waiting to learn" overall',
-  !el('detail-study-toggle').textContent.includes('Waiting to learn')
-  && !el('detail-study-toggle').textContent.includes('Not started'),
-  el('detail-study-toggle').textContent);
+check('after being taught in one mode, that mode\'s button carries its mastery',
+  el('detail-mode-definition').textContent.startsWith('✓ Studying its definition —'),
+  el('detail-mode-definition').textContent);
+check('...and the modes not yet taught still just say they are being studied',
+  el('detail-mode-writing').textContent === '✓ Learning to write it',
+  el('detail-mode-writing').textContent);
 // It was enrolled in every applicable mode via the headline toggle but only
 // actually taught in Definition just now — Recognition and Writing are
 // still untaught, so "Study it now" must keep offering to teach those,
@@ -2486,8 +2505,7 @@ fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').i
 await settle();
 fire(el('overview-grid')._children.find((t) => t.textContent === grade1Untouched), 'click');
 await settle();
-fire(el('detail-study-toggle'), 'click'); // enrolls it in every applicable mode
-await settle();
+await studyEveryMode();
 fire(el('detail-study-now'), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 fire(el('lesson-next'), 'click');
@@ -2611,16 +2629,19 @@ await settle();
 
 fire(el('detail-mode-writing'), 'click');
 await settle();
-check('a per-mode toggle turns off just that mode, independent of the others — still counted as started overall',
-  !el('detail-mode-writing').className.includes('active')
-  && el('detail-mode-definition').className.includes('active')
-  && el('detail-study-toggle').textContent.includes('tap to stop studying'));
+check('a mode button turns off just that mode, independent of the others',
+  el('detail-mode-writing').getAttribute('aria-pressed') === 'false'
+  && el('detail-mode-writing').textContent === 'Learn to write this kanji'
+  && el('detail-mode-definition').getAttribute('aria-pressed') === 'true',
+  `${el('detail-mode-writing').textContent} | ${el('detail-mode-definition').textContent}`);
 
-fire(el('detail-study-toggle'), 'click');
-await settle();
-check('tapping the headline button again un-enrolls every mode at once',
-  el('detail-study-toggle').textContent.includes('Not started')
-  && modeToggleIds.every((id) => !el(id).className.includes('active')));
+for (const id of modeToggleIds) {
+  if (el(id).hidden || el(id).getAttribute('aria-pressed') !== 'true') continue;
+  fire(el(id), 'click');
+  await settle();
+}
+check('turning them all off puts every offer back',
+  modeToggleIds.every((id) => el(id).hidden || el(id).getAttribute('aria-pressed') === 'false'));
 
 const grade6SavedAfter = [...rows.values()][0];
 check('un-enrolling removes the study-list entry entirely, not just clears its modes',
@@ -3420,7 +3441,7 @@ fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').i
 for (let i = 0; i < 10; i += 1) await settle();
 fire(el('overview-grid')._children.find((t) => t.textContent === '問'), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
-fire(el('detail-study-toggle'), 'click'); // enrolls 問 in every applicable kanji mode
+await studyEveryMode(); // enrolls 問 in every applicable kanji mode
 await settle();
 check('問 is now known, which is what makes its word\'s reading askable below',
   isStudying([...rows.values()][0].study, '問', 'definition'));
@@ -3462,7 +3483,13 @@ await settle();
 fire(el('overview-grid')._children.find((t) => t.textContent === '質問'), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 check('reached 質問\'s own detail screen', el('detail-glyph').textContent === '質問');
-fire(el('detail-study-toggle'), 'click'); // enrolls 質問 in both vmeaning and vrecall
+// Enrolls 質問 in both vocab modes — one button each now, not one headline
+// toggle for both.
+for (const id of ['detail-mode-vmeaning', 'detail-mode-vrecall']) {
+  if (el(id).hidden || el(id).getAttribute('aria-pressed') === 'true') continue;
+  fire(el(id), 'click');
+  await settle();
+}
 await settle();
 
 // --- Meaning: definition -> (pause) -> reading -----------------------------
@@ -3956,8 +3983,9 @@ check('tapping tiles ticks them, in place, without leaving the overview',
   el('overview-counter').textContent);
 check('ticking a tile puts the ordinary instructions back on the hint line',
   el('overview-select-hint').textContent.includes('tap again to untick'), el('overview-select-hint').textContent);
-check('the action button counts the selection and names the mode',
-  el('overview-mark-sure').textContent === 'Mark 2 as known in Reading' && el('overview-mark-sure').disabled === false,
+check('the action button says what confirming would claim, in the mode\'s own words',
+  el('overview-mark-sure').textContent === 'I know the sounds of these 2 characters'
+  && el('overview-mark-sure').disabled === false,
   el('overview-mark-sure').textContent);
 fire(eligibleTiles[0], 'click');
 check('tapping a ticked tile unticks it',
@@ -4021,8 +4049,9 @@ check('a yōon, which Writing never asks, is not listed on the Writing overview 
 check('the counter counts what is listed, not the whole course',
   el('overview-counter').textContent === '0 selected');
 fireAction('overview-select-all');
-check('the softer button counts the selection',
-  el('overview-mark-think').textContent.startsWith(`I think I know these ${writingUntried.length}`),
+check('the softer button says "I think", not "I know" — the whole point of the tier',
+  el('overview-mark-think').textContent
+    === `I think I know how to write these ${writingUntried.length} characters`,
   el('overview-mark-think').textContent);
 const thinkStartedAt = Date.now();
 fireAction('overview-mark-think');
@@ -4041,6 +4070,135 @@ check('the yōon got no Writing record', !profileAfterThink.progress[`writing:${
 check('the confirmation line explains the double-check and the spread',
   el('overview-select-hint').textContent.includes('double-check') && el('overview-select-hint').textContent.includes('spread'),
   el('overview-select-hint').textContent);
+
+// --- The overview's OTHER bulk job: choosing what to study next ----------
+//
+// The same grid and the same ticking, pointed at the opposite end of the
+// same question. Kana has no study list to add to, so it gets only the one
+// button.
+check('kana offers no "choose what to study" — there is no study list to add to',
+  el('overview-study-toggle').hidden === true);
+
+fireAction('go-home');
+await drain();
+fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+await drain(10);
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'definition'), 'click');
+await drain(10);
+fire(el('grade-picker')._children.find((b) => b.dataset.grade === '5'), 'click');
+await drain(10);
+fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('View set overview')), 'click');
+await drain(15);
+check('kanji offers both bulk jobs side by side',
+  el('overview-select-toggle').hidden === false && el('overview-study-toggle').hidden === false);
+
+fireAction('overview-study-toggle');
+await drain();
+check('starting one job hides the other — two live "select" buttons over one'
+  + ' half-made selection is two ways to throw it away',
+  el('overview-select-toggle').hidden === true
+  && el('overview-study-toggle').textContent === '✕ Cancel');
+check('the instructions ask what to LEARN, not what is already known',
+  el('overview-select-hint').textContent.includes('you want to start learning'),
+  el('overview-select-hint').textContent);
+check('...and the shortcut offers the pool this job actually draws from',
+  el('overview-select-all').textContent === 'Select all not yet studied',
+  el('overview-select-all').textContent);
+
+const grade5 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-5');
+const grade5Items = allItems(grade5, 'definition');
+fireAction('overview-select-all');
+await drain();
+check('"Select all not yet studied" reaches every unenrolled kanji in the unit',
+  el('overview-counter').textContent === `${grade5Items.length} selected`,
+  el('overview-counter').textContent);
+fireAction('overview-select-none');
+await drain();
+
+const studyPicks = grade5Items.slice(0, 3);
+studyPicks.forEach((item) => {
+  fire(el('overview-grid')._children.find((t) => t.textContent === item), 'click');
+});
+await drain();
+check('the action button counts what is about to be added',
+  el('overview-add-study').textContent === 'Add these 3 kanji to my study list',
+  el('overview-add-study').textContent);
+check('...and the claim buttons stay out of it — this job makes no claim',
+  el('overview-mark-sure').hidden === true && el('overview-mark-think').hidden === true);
+
+const beforeStudyAdd = [...rows.values()][0];
+const progressBefore = Object.keys(beforeStudyAdd.progress).length;
+fireAction('overview-add-study');
+await drain(10);
+const afterStudyAdd = [...rows.values()][0];
+check('adding enrolls each one in this mode',
+  studyPicks.every((k) => afterStudyAdd.study[k] && afterStudyAdd.study[k].definition),
+  JSON.stringify(studyPicks.map((k) => afterStudyAdd.study[k])));
+check('...and writes no progress at all — this says "teach me", not "I know this"',
+  Object.keys(afterStudyAdd.progress).length === progressBefore,
+  `${Object.keys(afterStudyAdd.progress).length} vs ${progressBefore}`);
+check('...and says what happened, then hands both buttons back',
+  el('overview-select-hint').textContent.includes('added to your Definition study list')
+  && el('overview-select-toggle').hidden === false && el('overview-study-toggle').hidden === false,
+  el('overview-select-hint').textContent);
+
+fireAction('overview-study-toggle');
+await drain();
+check('an already-enrolled kanji cannot be added twice',
+  (fire(el('overview-grid')._children.find((t) => t.textContent === studyPicks[0]), 'click'),
+    el('overview-counter').textContent === '0 selected'
+    && el('overview-select-hint').textContent.includes('Already on your study list')),
+  el('overview-select-hint').textContent);
+fireAction('overview-study-toggle');
+await drain();
+
+// --- Paging between characters, from the overview ------------------------
+
+fire(el('overview-grid')._children.find((t) => t.textContent === grade5Items[4]), 'click');
+await drain(15);
+check('a detail screen opened from the overview says where in the grid it is',
+  el('detail-pager').hidden === false
+  && el('detail-position').textContent === `5 of ${grade5Items.length}`,
+  el('detail-position').textContent);
+fireAction('detail-next');
+await drain(15);
+check('Next moves along the grid without going back to it',
+  el('detail-glyph').textContent === grade5Items[5]
+  && el('detail-position').textContent === `6 of ${grade5Items.length}`,
+  el('detail-glyph').textContent);
+fireAction('detail-prev');
+await drain(15);
+check('Previous moves back', el('detail-glyph').textContent === grade5Items[4]);
+
+// The ends are ends, not a wrap: jumping from the last kanji of a grade to
+// its first would misrepresent the list as a loop.
+for (let i = 4; i > 0; i -= 1) { fireAction('detail-prev'); await drain(10); }
+check('the first character has nothing before it',
+  el('detail-glyph').textContent === grade5Items[0] && el('detail-prev').disabled === true);
+fireAction('detail-prev');
+await drain(10);
+check('...and asking anyway does nothing', el('detail-glyph').textContent === grade5Items[0]);
+
+// Everywhere else there is no meaningful "next one" to page to.
+fireAction('detail-back');
+await drain(15);
+fireAction('go-course');
+await drain(10);
+el('kanji-search').value = grade5Items[0];
+fire(el('kanji-search'), 'input');
+await drain(15);
+const pagerSearchTile = el('kanji-search-results')._children[0];
+if (pagerSearchTile) {
+  fire(pagerSearchTile, 'click');
+  await drain(15);
+  check('a kanji reached from search has no grid to page along',
+    el('detail-pager').hidden === true);
+  fireAction('detail-back');
+  await drain(10);
+}
+el('kanji-search').value = '';
+fire(el('kanji-search'), 'input');
+await drain(10);
 
 // Kanji Yomi: every quizzable reading gets a record, and the unit's data is
 // loaded for the reading list even though the overview itself never needs it.
@@ -4667,7 +4825,7 @@ await openKanjiCourse();
 check('the offer waits on the script it is about, not on the way to the app',
   el('course-nudge').hidden === false, `showing ${visible()}`);
 check('...and says which mode it is asking about',
-  el('course-nudge-text').textContent.includes('which meanings you already know'),
+  el('course-nudge-text').textContent.includes('which definitions you already know'),
   el('course-nudge-text').textContent);
 check('an outstanding offer takes the accent off Learn — starting from scratch is'
   + ' the wrong first move for someone who just said they know some of this',
@@ -4694,7 +4852,7 @@ check('the offer opens the sweep', visible() === 'screen-sweep', `showing ${visi
 check('...over the whole script, not one unit — it starts at the first unit and grows',
   el('sweep-title').textContent === 'Kanji · Definition', el('sweep-title').textContent);
 check('...asking for a boundary, not for individual taps',
-  el('sweep-instruction').textContent.includes("the first kanji whose meaning you don't know"),
+  el('sweep-instruction').textContent.includes("the first kanji whose definition you don't know"),
   el('sweep-instruction').textContent);
 
 /** Every tile currently in the sweep list, in order. */
@@ -4733,7 +4891,7 @@ check('tapping a tile paints everything before it as known', knownTiles() === 10
 check('...and marks the tapped one as the boundary itself, not as known',
   sweepTile(10).classList.contains('is-boundary') && !sweepTile(10).classList.contains('is-known'));
 check('...and says exactly what confirming would claim',
-  el('sweep-confirm').textContent === 'I know the meanings of the first 10 kanji'
+  el('sweep-confirm').textContent === 'I know the definitions of the first 10 kanji'
   && el('sweep-confirm').disabled === false, el('sweep-confirm').textContent);
 
 fire(sweepTile(4), 'click');
@@ -4775,7 +4933,7 @@ fire(sweepTile(40), 'click');
 fire(sweepTile(50), 'click');
 await drain();
 check('tiles past the boundary tick individually',
-  el('sweep-confirm').textContent === 'I know the meanings of these kanji'
+  el('sweep-confirm').textContent === 'I know the definitions of these kanji'
   && el('sweep-counter').textContent === '2 picked', el('sweep-counter').textContent);
 
 fireAction('sweep-confirm');

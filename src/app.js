@@ -23,7 +23,7 @@ import {
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
-  isStudying, setStudying, studiedKanji, neverSeenItems, studyModes, isKanjiChar,
+  isStudying, setStudying, studiedKanji, neverSeenItems, unenrolledItems, studyModes, isKanjiChar,
   recomputeVocabRollup, VOCAB_SUBKEYS,
   markKnownItems, isSelfAssessable, KNOWN_CLAIM_SURE, KNOWN_CLAIM_THINK,
   THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS, allItems,
@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-07e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-07f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -383,6 +383,9 @@ const state = {
   // selection is not worth persisting, and must never leak into the next
   // overview opened (see openOverview / the go-course action).
   overviewSelect: null,
+  // Which job the selection is for: 'known' (claim knowledge) or 'study'
+  // (add to the study list). Null whenever overviewSelect is.
+  overviewSelectPurpose: null,
   // The one-line "✓ 12 marked as known…" confirmation shown on the overview
   // after a mark, in place of the select-mode hint; cleared on the next
   // open. Kept on state so the re-render that shows the newly-green tiles
@@ -1163,8 +1166,8 @@ const SWEEP_WORDS = {
     ask: 'which characters you can already write', noun: 'characters',
   },
   'kanji|definition': {
-    one: 'kanji whose meaning you don\'t know', many: 'the meanings of these kanji',
-    ask: 'which meanings you already know', noun: 'kanji',
+    one: 'kanji whose definition you don\'t know', many: 'the definitions of these kanji',
+    ask: 'which definitions you already know', noun: 'kanji',
   },
   'kanji|recognition': {
     one: 'kanji whose readings you don\'t know', many: 'the common readings of these kanji',
@@ -2459,6 +2462,7 @@ async function openOverview(course, scrollToChar, { select = false } = {}) {
   // mode with nothing ticked yet. Never inherits a selection from an
   // earlier visit, which could have been a different course or mode.
   state.overviewSelect = select ? new Set() : null;
+  state.overviewSelectPurpose = select ? 'known' : null;
   state.overviewNotice = null;
   // A vocab tile's label is the word's own surface (buildMasteryTile), which
   // needs that unit's real data — unlike kanji/kana, nothing before this
@@ -2564,6 +2568,7 @@ function switchOverviewMode(modeId) {
   if (modeId === state.mode) return;
   state.mode = modeId;
   state.overviewSelect = null;
+  state.overviewSelectPurpose = null;
   state.overviewNotice = null;
   renderOverview();
 }
@@ -2638,8 +2643,19 @@ function knownNoun(course, count) {
 /** What the select-mode instructions say — restored after any one-off
  * message (see overviewTileTap) the next time the selection changes. */
 function overviewSelectInstructions(course) {
+  if (state.overviewSelectPurpose === 'study') {
+    return `Tap each ${knownNoun(course, 1)} you want to start learning in`
+      + ` ${modeName(state.mode, course.kind)} — tap again to untick.`;
+  }
   return `Tap each ${knownNoun(course, 1)} you already know in ${modeName(state.mode, course.kind)}`
     + ' — tap again to untick.';
+}
+
+/** Whether this course keeps a study list at all. Kana never does (see
+ * deriveStudyList in srs.js), so "choose what to study" has nothing to write
+ * there and the button stands down. */
+function courseHasStudyList(course) {
+  return course.kind === 'kanji' || course.kind === 'vocab';
 }
 
 /**
@@ -2652,27 +2668,48 @@ function overviewSelectInstructions(course) {
 function renderOverviewChrome() {
   const course = getAnyCourse(state.overviewCourseId);
   const select = state.overviewSelect;
-  // Only while browsing: entering select mode IS acting on the nudge, so the
-  // card gets out of the way and the toggle drops back to being a Cancel.
+  const purpose = state.overviewSelectPurpose;
   const toggle = $('overview-select-toggle');
-  toggle.textContent = select ? '✕ Cancel' : '✓ Mark as known';
-  // btn-primary is the app's existing "this is the one to reach for" mark
-  // (the course screen's ladder uses it for the recommended action) — reused
-  // here rather than inventing a second visual language for "look at this".
-  // It REPLACES .overview-button rather than joining it: that class sets an
-  // accent text colour and is declared later in the stylesheet, so the two
-  // together paint accent-on-accent — a solid, empty-looking bar.
-  toggle.className = select ? 'btn' : 'btn overview-button';
+  const study = $('overview-study-toggle');
+
+  // Whichever mode is running takes over its own button as the Cancel, and
+  // the other one steps aside entirely: two live "start selecting" buttons
+  // while a selection is already in progress would be two ways to throw it
+  // away by accident.
+  toggle.hidden = !!select && purpose !== 'known';
+  study.hidden = !courseHasStudyList(course) || (!!select && purpose !== 'study');
+
+  toggle.textContent = purpose === 'known' ? '✕ Cancel' : '✓ Mark as known';
+  study.textContent = purpose === 'study' ? '✕ Cancel' : '＋ Choose what to study';
+  // .overview-button sets an accent text colour and is declared later in the
+  // stylesheet, so it must be REPLACED rather than joined when a button
+  // becomes a plain Cancel — the two together paint accent-on-accent.
+  toggle.className = purpose === 'known' ? 'btn' : 'btn overview-button';
+  study.className = purpose === 'study' ? 'btn' : 'btn overview-button';
+
   const hint = $('overview-select-hint');
   hint.textContent = select ? overviewSelectInstructions(course) : (state.overviewNotice || '');
   hint.hidden = !select && !state.overviewNotice;
   $('overview-select-shortcuts').hidden = !select;
+  // The pool "select all" grabs differs by job (see selectAllUnstarted), so
+  // the label has to as well — "not started" and "not yet studied" are not
+  // the same set once a claim has enrolled what it claimed.
+  $('overview-select-all').textContent = purpose === 'study'
+    ? 'Select all not yet studied' : 'Select all not started';
   updateOverviewSelectBar();
 }
 
-/** Only "already well known in this mode" rules a tile out now that the
- * grid lists nothing the mode doesn't ask (see renderOverview). */
+/**
+ * Whether a tile can be ticked for whichever job the selection is doing.
+ * Claiming knowledge rules out what is already well known in this mode;
+ * choosing what to study rules out what is already on the study list, which
+ * is a different set entirely — a kanji can be enrolled and barely known, or
+ * well known from a claim and never enrolled.
+ */
 function overviewTileEligible(item) {
+  if (state.overviewSelectPurpose === 'study') {
+    return !isStudying(state.profile.study, item, state.mode);
+  }
   return masteryTier(state.profile.progress[itemKey(state.mode, item)]) < 4;
 }
 
@@ -2689,7 +2726,9 @@ function overviewTileTap(course, item, tile) {
     return;
   }
   if (!overviewTileEligible(item)) {
-    $('overview-select-hint').textContent = '★ Already well known in this mode — nothing to mark here.';
+    $('overview-select-hint').textContent = state.overviewSelectPurpose === 'study'
+      ? '✓ Already on your study list — nothing to add here.'
+      : '★ Already well known in this mode — nothing to mark here.';
     return;
   }
   toggleOverviewSelection(item, tile);
@@ -2701,16 +2740,24 @@ function overviewTileTap(course, item, tile) {
  * a long press there is just a slow tap, handled by the click. */
 function overviewTileLongPress(item) {
   if (state.overviewSelect) return;
+  // A long press always means "I already know this one" — the older of the
+  // two jobs, and the only one the gesture has ever meant.
+  state.overviewSelectPurpose = 'known';
   state.overviewSelect = new Set(overviewTileEligible(item) ? [item] : []);
   state.overviewNotice = null;
   renderOverviewChrome();
   syncOverviewSelection();
 }
 
-/** Enter or leave select mode from the overview's own toggle — in place,
- * so the grid stays where the learner scrolled it. */
-function toggleOverviewSelectMode() {
-  state.overviewSelect = state.overviewSelect ? null : new Set();
+/** Enter or leave select mode from either of the overview's toggles — in
+ * place, so the grid stays where the learner scrolled it. Tapping the button
+ * for the job already running is the Cancel; there is no way to switch
+ * straight from one job to the other with a selection still made, which
+ * would silently repurpose ticks made to answer a different question. */
+function toggleOverviewSelectMode(purpose) {
+  const leaving = state.overviewSelectPurpose === purpose;
+  state.overviewSelect = leaving ? null : new Set();
+  state.overviewSelectPurpose = leaving ? null : purpose;
   state.overviewNotice = null;
   renderOverviewChrome();
   syncOverviewSelection();
@@ -2823,7 +2870,13 @@ function selectAllUnstarted() {
   const select = state.overviewSelect;
   if (!select) return;
   const course = getAnyCourse(state.overviewCourseId);
-  neverSeenItems(course, state.mode, state.profile).forEach((item) => select.add(item));
+  // Choosing what to study wants what is not enrolled yet, which is not the
+  // same pool: a kanji claimed as known IS enrolled (markKnownItems enrolls
+  // what it claims), so offering it again here would be a no-op tick.
+  const pool = state.overviewSelectPurpose === 'study'
+    ? unenrolledItems(course, state.mode, state.profile)
+    : neverSeenItems(course, state.mode, state.profile);
+  pool.forEach((item) => select.add(item));
   syncOverviewSelection();
 }
 
@@ -2845,6 +2898,7 @@ function updateOverviewSelectBar() {
   const select = state.overviewSelect;
   const sure = $('overview-mark-sure');
   const think = $('overview-mark-think');
+  const add = $('overview-add-study');
   const course = getAnyCourse(state.overviewCourseId);
   // The pinned bar and the install banner both sit at the bottom edge; the
   // banner gives way while the bar is showing, same as on the quiz screen.
@@ -2852,20 +2906,38 @@ function updateOverviewSelectBar() {
   if (!select) {
     sure.hidden = true;
     think.hidden = true;
+    add.hidden = true;
     // Leaving select mode happens in place (no renderOverview), so the
     // counter has to be put back here too.
     $('overview-counter').textContent = `${allItems(course, state.mode).length} characters`;
     return;
   }
   const n = select.size;
-  const twoTier = !isSelfAssessable(course.kind, state.mode);
-  const label = modeName(state.mode, course.kind);
   $('overview-counter').textContent = `${n} selected`;
+
+  if (state.overviewSelectPurpose === 'study') {
+    sure.hidden = true;
+    think.hidden = true;
+    add.hidden = false;
+    add.disabled = n === 0;
+    add.className = 'btn btn-primary wide';
+    add.textContent = n > 0
+      ? `Add these ${n} ${knownNoun(course, n)} to my study list`
+      : 'Add to my study list';
+    return;
+  }
+
+  add.hidden = true;
+  // The same wording the sweep's confirm button uses, for the same reason:
+  // the button has to say what is about to be written, and "I think I know"
+  // is not the same promise as "I know". See sweepClaim().
+  const { lead, many } = sweepClaim(course.kind, state.mode);
+  const twoTier = !isSelfAssessable(course.kind, state.mode);
 
   think.hidden = !twoTier;
   think.disabled = n === 0;
   think.className = 'btn btn-primary wide';
-  think.textContent = n > 0 ? `I think I know these ${n} — double-check later` : 'I think I know these';
+  think.textContent = n > 0 ? `${lead} ${many.replace('these', `these ${n}`)}` : `${lead} these`;
 
   sure.hidden = false;
   sure.disabled = n === 0;
@@ -2873,7 +2945,7 @@ function updateOverviewSelectBar() {
   if (twoTier) {
     sure.textContent = n > 0 ? `I'm sure — mark ${n} fully known` : 'I\'m sure — mark fully known';
   } else {
-    sure.textContent = n > 0 ? `Mark ${n} as known in ${label}` : 'Mark as known';
+    sure.textContent = n > 0 ? `${lead} ${many.replace('these', `these ${n}`)}` : `${lead} these`;
   }
 }
 
@@ -2889,6 +2961,7 @@ async function markSelectedKnown(claim) {
   const course = getAnyCourse(state.overviewCourseId);
   const select = state.overviewSelect;
   if (!select || select.size === 0) return;
+  if (state.overviewSelectPurpose !== 'known') return;
   const items = course.chunks.flatMap((c) => c.items).filter((item) => select.has(item));
   const label = modeName(state.mode, course.kind);
   const what = `${items.length} ${knownNoun(course, items.length)}`;
@@ -2918,12 +2991,42 @@ async function markSelectedKnown(claim) {
 
   const done = `${marked.length} ${knownNoun(course, marked.length)}`;
   state.overviewSelect = null;
+  state.overviewSelectPurpose = null;
   const notice = think
     ? `✓ ${done} marked "I think I know this" in ${label} — each comes back for a quick double-check, `
       + `spread out over the next ${weeks} weeks rather than all at once.`
     : `✓ ${done} marked as known in ${label} — they'll come up for review in about a month.`;
   state.overviewNotice = notice;
   renderOverview(marked[0]);
+}
+
+/**
+ * The other half of the toolbar: enroll the ticked items in this mode, so
+ * they are taught next rather than claimed as already known. The mirror of
+ * markSelectedKnown, and deliberately the same shape — same grid, same
+ * ticking, same pinned bar — because "which of these do I have" and "which
+ * of these do I want" are the same question asked from opposite ends.
+ *
+ * No confirm() here, unlike a claim: adding to the study list writes no
+ * progress, changes no schedule, and is undone by the same button on any
+ * item's detail screen. There is nothing to lose by tapping it.
+ */
+async function addSelectedToStudyList() {
+  const course = getAnyCourse(state.overviewCourseId);
+  const select = state.overviewSelect;
+  if (!select || select.size === 0) return;
+  const { study, unstudy } = state.profile;
+  const items = course.chunks.flatMap((c) => c.items)
+    .filter((item) => select.has(item) && !isStudying(study, item, state.mode));
+  items.forEach((item) => setStudying(study, unstudy, item, state.mode, true));
+  await store.saveProfile(state.profile);
+
+  const label = modeName(state.mode, course.kind);
+  state.overviewSelect = null;
+  state.overviewSelectPurpose = null;
+  state.overviewNotice = `✓ ${items.length} ${knownNoun(course, items.length)} added to your`
+    + ` ${label} study list — they'll come up as you learn new ones.`;
+  renderOverview(items[0]);
 }
 
 // --- Character detail: stroke order, readings, meanings -------------------
@@ -3013,15 +3116,37 @@ function pendingStudyModes(study, progress, char, modes) {
   return modes.filter((mode) => isStudying(study, char, mode) && !progress[itemKey(mode, char)]);
 }
 
+// What each per-mode button on the detail screen offers to start. Written
+// out in full rather than as a bare mode name: the button is the only thing
+// on the screen that says what a study list IS, so "Learn this kanji's
+// definition" has to carry the whole idea by itself.
+const DETAIL_MODE_VERBS = {
+  'kanji|definition': "Learn this kanji's definition",
+  'kanji|recognition': "Learn this kanji's readings",
+  'kanji|writing': 'Learn to write this kanji',
+  'vocab|vmeaning': "Learn this word's meaning",
+  'vocab|vrecall': 'Learn to recall this word in Japanese',
+};
+// ...and what it says once that mode is on. Short, because by then the
+// learner already knows what the row is for.
+const DETAIL_MODE_STUDYING = {
+  'kanji|definition': '✓ Studying its definition',
+  'kanji|recognition': '✓ Studying its readings',
+  'kanji|writing': '✓ Learning to write it',
+  'vocab|vmeaning': '✓ Studying its meaning',
+  'vocab|vrecall': '✓ Learning to recall it',
+};
+
 /**
  * Kanji and vocab both have a study list (kana doesn't — see the module note
- * above deriveStudyList in srs.js). The headline button is a bulk
- * convenience — enrolling turns on every applicable mode, un-enrolling turns
- * all of them off — sitting above independent per-mode toggles for fine
- * control (I want to write 龍 but don't care about its readings; I want
- * 電車's Meaning but not its Recall). Both act on the same underlying list,
- * so neither can leave the other looking wrong: toggling one mode by hand
- * always updates what the headline button says next.
+ * above deriveStudyList in srs.js). One button per applicable mode, each
+ * saying in full what it starts and flipping to what it has started.
+ *
+ * This replaced a headline "Not started — tap to start studying" sitting
+ * above a row of bare Definition/Yomi/Writing segments. The two duplicated
+ * each other in different languages — the headline toggled all three at
+ * once, the segments toggled one each — and between them neither ever said
+ * that tapping either was what put the character on a study list at all.
  */
 function renderDetailStudy(course, char) {
   $('detail-study').hidden = course.kind === 'kana';
@@ -3029,29 +3154,23 @@ function renderDetailStudy(course, char) {
 
   const { study, progress } = state.profile;
   const modes = applicableStudyModes(course, char);
-  const status = studyStatus(study, progress, char, modes);
-  const tier = masteryTier(progress[itemKey(state.mode, char)]);
-
-  // One button, carrying both what's true and what tapping it does, rather
-  // than this and the separate mastery line above both saying almost the
-  // same thing in the same amount of space. Mastery only adds anything once
-  // there's real progress in the mode currently being browsed; below that
-  // it's just "waiting"/"not started", same as studyStatus already says.
-  const toggle = $('detail-study-toggle');
-  toggle.className = `btn wide${status === 'not-studying' ? ' btn-primary' : ''}`;
-  toggle.textContent = status === 'not-studying'
-    ? 'Not started — tap to start studying'
-    : tier === 0
-      ? 'Waiting to learn — tap to stop studying'
-      : `${MASTERY_LABELS[tier]} — tap to stop studying`;
 
   STUDY_MODE_IDS.forEach((mode) => {
     const button = $(`detail-mode-${mode}`);
     button.hidden = !modes.includes(mode);
-    if (!modes.includes(mode)) return; // modeName(mode, kind) needs a kind this mode actually belongs to
-    button.textContent = modeName(mode, course.kind);
-    button.className = `segment${isStudying(study, char, mode) ? ' active' : ''}`;
-    button.setAttribute('aria-pressed', isStudying(study, char, mode) ? 'true' : 'false');
+    if (!modes.includes(mode)) return;
+    const on = isStudying(study, char, mode);
+    const key = `${course.kind}|${mode}`;
+    // The mastery this mode has actually reached, once there is any — the
+    // one thing the old headline said that a per-mode button otherwise
+    // wouldn't, kept where it belongs: on the mode it is true of.
+    const tier = masteryTier(progress[itemKey(mode, char)]);
+    const studying = DETAIL_MODE_STUDYING[key] || `✓ Studying ${modeName(mode, course.kind)}`;
+    button.textContent = on
+      ? (tier > 0 ? `${studying} — ${MASTERY_LABELS[tier].toLowerCase()}` : studying)
+      : (DETAIL_MODE_VERBS[key] || `Learn ${modeName(mode, course.kind)}`);
+    button.className = `btn wide detail-mode${on ? ' is-studying' : ''}`;
+    button.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 
   // Visible whenever ANY applicable mode is enrolled-but-untaught, not just
@@ -3068,17 +3187,6 @@ function renderDetailStudy(course, char) {
     || pendingStudyModes(study, progress, char, modes).length === 0;
 }
 
-function toggleDetailStudy() {
-  const course = getAnyCourse(state.detailCourseId);
-  const char = state.detailChar;
-  const { study, unstudy, progress } = state.profile;
-  const modes = applicableStudyModes(course, char);
-  const turnOn = studyStatus(study, progress, char, modes) === 'not-studying';
-  modes.forEach((mode) => setStudying(study, unstudy, char, mode, turnOn));
-  store.saveProfile(state.profile);
-  renderDetailStudy(course, char);
-}
-
 function toggleDetailStudyMode(mode) {
   const course = getAnyCourse(state.detailCourseId);
   const char = state.detailChar;
@@ -3086,6 +3194,82 @@ function toggleDetailStudyMode(mode) {
   setStudying(study, unstudy, char, mode, !isStudying(study, char, mode));
   store.saveProfile(state.profile);
   renderDetailStudy(course, char);
+}
+
+// --- Paging between characters from the set overview ---------------------
+//
+// Arriving from the overview, the grid it came from is a real, ordered list
+// of siblings, and going back to it only to tap the tile beside the one just
+// tapped is a pointless round trip — three taps to compare two kanji. So a
+// swipe (or an arrow key) moves along that list in place.
+//
+// Only from the overview: every other way in (a search result, a summary
+// chip, a quiz, a drill-in from another detail screen) has no "next one"
+// that means anything, and inventing an order for them would be worse than
+// having no gesture at all.
+
+const DETAIL_SWIPE_MIN_PX = 60;
+// Rejects a mostly-vertical drag — a scroll down a long detail screen starts
+// with exactly the same pointerdown a swipe does.
+const DETAIL_SWIPE_MAX_SLOPE = 0.6;
+
+/** The list a swipe pages along, or null where paging makes no sense. */
+function detailSiblings() {
+  if (state.detailReturn !== 'overview' || !state.overviewCourseId) return null;
+  const course = getAnyCourse(state.overviewCourseId);
+  // The overview's own current list — the same mode-filtered set of tiles
+  // the learner can see behind this screen, not the whole course.
+  return { course, items: allItems(course, state.mode) };
+}
+
+/** Step `delta` characters along the overview's list. Deliberately does not
+ * wrap: running off either end means there is nothing more that way, which
+ * a silent jump to the far end would actively misrepresent. */
+function pageDetail(delta) {
+  const siblings = detailSiblings();
+  if (!siblings) return;
+  const index = siblings.items.indexOf(state.detailChar);
+  const next = siblings.items[index + delta];
+  if (index < 0 || next === undefined) return;
+  openCharacterDetail(siblings.course, next, 'overview');
+}
+
+/** The Previous/Next row, and where in the grid this character sits. */
+function renderDetailPager() {
+  const siblings = detailSiblings();
+  const index = siblings ? siblings.items.indexOf(state.detailChar) : -1;
+  $('detail-pager').hidden = index < 0;
+  if (index < 0) return;
+  $('detail-position').textContent = `${index + 1} of ${siblings.items.length}`;
+  $('detail-prev').disabled = index === 0;
+  $('detail-next').disabled = index === siblings.items.length - 1;
+}
+
+/** Wires the swipe onto the detail screen once. Pointer events only, and
+ * deliberately no preventDefault on the move: the page still has to scroll
+ * normally, and the gesture is only recognised at release, by where the
+ * finger ended up. */
+function bindDetailSwipe() {
+  const screen = $('screen-character-detail');
+  if (!screen || typeof screen.addEventListener !== 'function') return;
+  let startX = null;
+  let startY = null;
+  screen.addEventListener('pointerdown', (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+    startX = event.clientX;
+    startY = event.clientY;
+  });
+  screen.addEventListener('pointercancel', () => { startX = null; });
+  screen.addEventListener('pointerup', (event) => {
+    if (startX === null) return;
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+    startX = null;
+    if (Math.abs(dx) < DETAIL_SWIPE_MIN_PX) return;
+    if (Math.abs(dy) > Math.abs(dx) * DETAIL_SWIPE_MAX_SLOPE) return;
+    // Swiping left (dx negative) moves forward, the way a page turns.
+    pageDetail(dx < 0 ? 1 : -1);
+  });
 }
 
 /** "Study it now" — see startSession()'s `items` parameter. Jumps straight
@@ -3380,6 +3564,7 @@ function renderCharacterDetail() {
     $('detail-mastery').className = `mastery-label tier-${tier}`;
   }
 
+  renderDetailPager();
   renderDetailStudy(course, char);
 
   if (course.kind === 'kanji') {
@@ -8914,11 +9099,11 @@ function wire() {
     });
   });
 
-  $('detail-study-toggle').addEventListener('click', toggleDetailStudy);
   STUDY_MODE_IDS.forEach((mode) => {
     $(`detail-mode-${mode}`).addEventListener('click', () => toggleDetailStudyMode(mode));
   });
   $('detail-study-now').addEventListener('click', studyDetailCharNow);
+  bindDetailSwipe();
 
   $('quick-review-due').addEventListener('click', quickReviewDue);
   $('quick-learn-next').addEventListener('click', quickLearnNext);
@@ -9062,6 +9247,19 @@ function wire() {
     if (!$('feedback-sheet').hidden) closeFeedback();
   });
 
+  // Arrow keys page the detail screen, matching the swipe — a desktop has
+  // no swipe, and this screen is genuinely browsed one character at a time.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (currentScreenId !== 'screen-character-detail') return;
+    const target = event.target;
+    if (target && typeof target.closest === 'function'
+      && target.closest('input, textarea, select')) return;
+    event.preventDefault();
+    pageDetail(event.key === 'ArrowRight' ? 1 : -1);
+  });
+
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' || event.repeat) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -9143,12 +9341,15 @@ function wire() {
         // selection — it must not resurface on the next overview opened,
         // which may be a different course or mode entirely.
         state.overviewSelect = null;
+        state.overviewSelectPurpose = null;
         state.overviewNotice = null;
         if (state.profile) renderCourse(); else renderProfiles();
         break;
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
-      case 'overview-select-toggle': toggleOverviewSelectMode(); break;
+      case 'overview-select-toggle': toggleOverviewSelectMode('known'); break;
+      case 'overview-study-toggle': toggleOverviewSelectMode('study'); break;
+      case 'overview-add-study': await addSelectedToStudyList(); break;
       case 'overview-select-all': selectAllUnstarted(); break;
       case 'overview-select-none': clearOverviewSelection(); break;
       // Self-placement: the course screen's banner, and the sweep it opens.
@@ -9167,6 +9368,8 @@ function wire() {
       // overview (scrolled back to whichever character was being looked at,
       // not the top of a list that can run to 200 characters) normally, or
       // the session summary if that is where its now-tappable chips sent us.
+      case 'detail-prev': pageDetail(-1); break;
+      case 'detail-next': pageDetail(1); break;
       case 'detail-back':
         // Deliberately show() and not renderQuestion() — the quiz screen is
         // still sitting there fully graded, and re-rendering it would reset
