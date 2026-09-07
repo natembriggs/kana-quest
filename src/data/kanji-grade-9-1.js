@@ -181,20 +181,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ア",
       "オ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ア",
       "オ"
     ],
     "readingExamples": {
-      "ア": {
-        "kanji": "阿呆",
-        "kana": "アホ",
-        "en": "fool"
-      },
       "オ": {
         "kanji": "阿蘭陀",
         "kana": "オランダ",
@@ -1959,7 +1952,7 @@ export const KANJI_ENTRIES = [
       "テイ": {
         "kanji": "鄭声",
         "kana": "ていせい",
-        "en": "(decadent) music of the state of Zheng"
+        "en": "licentious music"
       }
     }
   },
@@ -2731,12 +2724,10 @@ export const KANJI_ENTRIES = [
       "ホウ"
     ],
     "quizKun": [
-      "ぼける",
       "あきれる"
     ],
     "quizReadings": [
       "ホウ",
-      "ぼける",
       "あきれる"
     ],
     "readingExamples": {
@@ -2744,11 +2735,6 @@ export const KANJI_ENTRIES = [
         "kanji": "痴呆",
         "kana": "ちほう",
         "en": "dementia"
-      },
-      "ぼける": {
-        "kanji": "呆ける",
-        "kana": "ボケる",
-        "en": "to grow senile"
       },
       "あきれる": {
         "kanji": "呆れる",
@@ -2922,20 +2908,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ズイ",
       "スイ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ズイ",
       "スイ"
     ],
     "readingExamples": {
-      "ズイ": {
-        "kanji": "瑞宝章",
-        "kana": "ずいほうしょう",
-        "en": "Orders of the Sacred Treasure"
-      },
       "スイ": {
         "kanji": "瑞西",
         "kana": "スイス",
@@ -4698,19 +4677,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "いる",
       "いためる"
     ],
     "quizReadings": [
-      "いる",
       "いためる"
     ],
     "readingExamples": {
-      "いる": {
-        "kanji": "炒る",
-        "kana": "いる",
-        "en": "to roast"
-      },
       "いためる": {
         "kanji": "炒める",
         "kana": "いためる",

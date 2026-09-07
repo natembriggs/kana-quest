@@ -262,23 +262,16 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "まとめる",
-      "まとまる"
+      "まとめる"
     ],
     "quizReadings": [
-      "まとめる",
-      "まとまる"
+      "まとめる"
     ],
     "readingExamples": {
       "まとめる": {
         "kanji": "纏める",
         "kana": "まとめる",
         "en": "to collect"
-      },
-      "まとまる": {
-        "kanji": "纏まる",
-        "kana": "まとまる",
-        "en": "to find resolution"
       }
     }
   },
@@ -1689,16 +1682,24 @@ export const KANJI_ENTRIES = [
       "mow down (the enemy)"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "チ"
+    ],
     "quizKun": [
       "なぐ",
       "なぎ"
     ],
     "quizReadings": [
+      "チ",
       "なぐ",
       "なぎ"
     ],
     "readingExamples": {
+      "チ": {
+        "kanji": "薙髪",
+        "kana": "ちはつ",
+        "en": "shaving one's head (esp. upon entering the Buddhist priesthood)"
+      },
       "なぐ": {
         "kanji": "薙ぐ",
         "kana": "なぐ",
@@ -2471,23 +2472,16 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "にぎやか",
-      "にぎわう"
+      "にぎやか"
     ],
     "quizReadings": [
-      "にぎやか",
-      "にぎわう"
+      "にぎやか"
     ],
     "readingExamples": {
       "にぎやか": {
         "kanji": "賑やか",
         "kana": "にぎやか",
         "en": "bustling"
-      },
-      "にぎわう": {
-        "kanji": "賑わう",
-        "kana": "にぎわう",
-        "en": "to be crowded with people"
       }
     }
   },

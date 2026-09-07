@@ -1167,19 +1167,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "におう",
       "におい"
     ],
     "quizReadings": [
-      "におう",
       "におい"
     ],
     "readingExamples": {
-      "におう": {
-        "kanji": "匂う",
-        "kana": "におう",
-        "en": "to be fragrant"
-      },
       "におい": {
         "kanji": "匂い",
         "kana": "におい",
@@ -2107,22 +2100,15 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "すごい",
-      "すさまじい"
+      "すごい"
     ],
     "quizReadings": [
-      "すごい",
-      "すさまじい"
+      "すごい"
     ],
     "readingExamples": {
       "すごい": {
         "kanji": "凄い",
         "kana": "すごい",
-        "en": "terrible"
-      },
-      "すさまじい": {
-        "kanji": "凄まじい",
-        "kana": "すさまじい",
         "en": "terrible"
       }
     }
@@ -2681,24 +2667,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "メイ",
-      "ミョウ"
+      "メイ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "メイ",
-      "ミョウ"
+      "メイ"
     ],
     "readingExamples": {
       "メイ": {
         "kanji": "冥福",
         "kana": "めいふく",
         "en": "happiness in the next world"
-      },
-      "ミョウ": {
-        "kanji": "冥利",
-        "kana": "みょうり",
-        "en": "providence"
       }
     }
   },
@@ -4826,23 +4805,16 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ソク",
       "サイ"
     ],
     "quizKun": [
       "ふさぐ"
     ],
     "quizReadings": [
-      "ソク",
       "サイ",
       "ふさぐ"
     ],
     "readingExamples": {
-      "ソク": {
-        "kanji": "閉塞",
-        "kana": "へいそく",
-        "en": "blockage"
-      },
       "サイ": {
         "kanji": "要塞",
         "kana": "ようさい",
