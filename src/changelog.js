@@ -16,6 +16,7 @@ export const CHANGELOG = [
       'Changed: the feedback form is now a single box — tap \u{1F4AC}, say what’s wrong or what you’d like to see, and send. It no longer asks you to pick a category or write a separate title first; we work that out from what you write.',
       'Fixed: on some iPhones and iPads, granting microphone access for voice input on the feedback form could leave the app stuck. It now gives up on starting voice input after a few seconds and lets you type instead, rather than hanging.',
       'Changed: tidied up the feedback form — it no longer says the same "what’s wrong or what would make this better" prompt twice, once above the box and once inside it.',
+      'Fixed: the kanji reading quiz (Yomi) sometimes tested a reading that’s technically real but almost never actually used, just because it had some example word behind it — even when a much more common reading of the same kanji was sitting right there. It now sticks to a kanji’s genuinely common on’yomi and kun’yomi, and only reaches for a rarer one when there truly isn’t a common option to ask about instead.',
     ],
   },
   {

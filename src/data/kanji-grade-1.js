@@ -205,13 +205,11 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "み",
-      "みつ",
       "みっつ"
     ],
     "quizReadings": [
       "サン",
       "み",
-      "みつ",
       "みっつ"
     ],
     "readingExamples": {
@@ -224,11 +222,6 @@ export const KANJI_ENTRIES = [
         "kanji": "三十日",
         "kana": "みそか",
         "en": "last day of the month"
-      },
-      "みつ": {
-        "kanji": "三つ折り",
-        "kana": "みつおり",
-        "en": "threefold"
       },
       "みっつ": {
         "kanji": "三つ",
@@ -297,32 +290,27 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [
       "ジョウ",
-      "ショウ",
       "シャン"
     ],
     "quizKun": [
       "うえ",
       "うわ",
-      "かみ"
+      "かみ",
+      "あげる"
     ],
     "quizReadings": [
       "ジョウ",
-      "ショウ",
       "シャン",
       "うえ",
       "うわ",
-      "かみ"
+      "かみ",
+      "あげる"
     ],
     "readingExamples": {
       "ジョウ": {
         "kanji": "上昇",
         "kana": "じょうしょう",
         "en": "rising"
-      },
-      "ショウ": {
-        "kanji": "上人",
-        "kana": "しょうにん",
-        "en": "high priest"
       },
       "シャン": {
         "kanji": "上海",
@@ -343,6 +331,11 @@ export const KANJI_ENTRIES = [
         "kanji": "上",
         "kana": "かみ",
         "en": "upper reaches (of a river)"
+      },
+      "あげる": {
+        "kanji": "上げる",
+        "kana": "あげる",
+        "en": "to raise"
       }
     }
   },
@@ -722,12 +715,10 @@ export const KANJI_ENTRIES = [
       "ゴ"
     ],
     "quizKun": [
-      "いつ",
       "いつつ"
     ],
     "quizReadings": [
       "ゴ",
-      "いつ",
       "いつつ"
     ],
     "readingExamples": {
@@ -735,11 +726,6 @@ export const KANJI_ENTRIES = [
         "kanji": "五",
         "kana": "ご",
         "en": "five"
-      },
-      "いつ": {
-        "kanji": "五重",
-        "kana": "いつえ",
-        "en": "five-storied"
       },
       "いつつ": {
         "kanji": "五つ",
@@ -1043,33 +1029,28 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ニュウ",
-      "ジュ"
+      "ニュウ"
     ],
     "quizKun": [
       "いる",
       "いり",
       "いれる",
-      "いれ"
+      "いれ",
+      "はいる"
     ],
     "quizReadings": [
       "ニュウ",
-      "ジュ",
       "いる",
       "いり",
       "いれる",
-      "いれ"
+      "いれ",
+      "はいる"
     ],
     "readingExamples": {
       "ニュウ": {
         "kanji": "収入",
         "kana": "しゅうにゅう",
         "en": "income"
-      },
-      "ジュ": {
-        "kanji": "入水",
-        "kana": "じゅすい",
-        "en": "suicide by drowning"
       },
       "いる": {
         "kanji": "入る",
@@ -1090,6 +1071,11 @@ export const KANJI_ENTRIES = [
         "kanji": "受け入れ",
         "kana": "うけいれ",
         "en": "receiving"
+      },
+      "はいる": {
+        "kanji": "入る",
+        "kana": "はいる",
+        "en": "to enter"
       }
     }
   },
@@ -1143,13 +1129,11 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "や",
-      "やつ",
       "やっつ"
     ],
     "quizReadings": [
       "ハチ",
       "や",
-      "やつ",
       "やっつ"
     ],
     "readingExamples": {
@@ -1162,11 +1146,6 @@ export const KANJI_ENTRIES = [
         "kanji": "八百屋",
         "kana": "やおや",
         "en": "greengrocer"
-      },
-      "やつ": {
-        "kanji": "八つ当たり",
-        "kana": "やつあたり",
-        "en": "venting one's anger (on someone or something)"
       },
       "やっつ": {
         "kanji": "八つ",
@@ -1529,17 +1508,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ジュウ",
-      "ジッ"
+      "ジュウ"
     ],
     "quizKun": [
-      "と",
       "そ"
     ],
     "quizReadings": [
       "ジュウ",
-      "ジッ",
-      "と",
       "そ"
     ],
     "readingExamples": {
@@ -1547,16 +1522,6 @@ export const KANJI_ENTRIES = [
         "kanji": "十分",
         "kana": "じゅうぶん",
         "en": "enough"
-      },
-      "ジッ": {
-        "kanji": "十指",
-        "kana": "じっし",
-        "en": "the ten fingers"
-      },
-      "と": {
-        "kanji": "十人十色",
-        "kana": "じゅうにんといろ",
-        "en": "several men, several minds"
       },
       "そ": {
         "kanji": "三十日",
@@ -1898,14 +1863,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "よ",
-      "よつ",
       "よっつ",
       "よん"
     ],
     "quizReadings": [
       "シ",
       "よ",
-      "よつ",
       "よっつ",
       "よん"
     ],
@@ -1919,11 +1882,6 @@ export const KANJI_ENTRIES = [
         "kanji": "四人",
         "kana": "よにん",
         "en": "four people"
-      },
-      "よつ": {
-        "kanji": "四つ角",
-        "kana": "よつかど",
-        "en": "four corners"
       },
       "よっつ": {
         "kanji": "四つ",
@@ -2280,7 +2238,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [
       "ジョ",
-      "ニョ",
       "ニョウ"
     ],
     "quizKun": [
@@ -2289,7 +2246,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "ジョ",
-      "ニョ",
       "ニョウ",
       "おんな",
       "め"
@@ -2298,11 +2254,6 @@ export const KANJI_ENTRIES = [
       "ジョ": {
         "kanji": "女性",
         "kana": "じょせい",
-        "en": "woman"
-      },
-      "ニョ": {
-        "kanji": "女人",
-        "kana": "にょにん",
         "en": "woman"
       },
       "ニョウ": {
@@ -2372,8 +2323,7 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [
       "シ",
-      "ス",
-      "ツ"
+      "ス"
     ],
     "quizKun": [
       "こ",
@@ -2382,7 +2332,6 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "シ",
       "ス",
-      "ツ",
       "こ",
       "ね"
     ],
@@ -2396,11 +2345,6 @@ export const KANJI_ENTRIES = [
         "kanji": "様子",
         "kana": "ようす",
         "en": "state (of affairs)"
-      },
-      "ツ": {
-        "kanji": "面子",
-        "kana": "メンツ",
-        "en": "face"
       },
       "こ": {
         "kanji": "子",
@@ -4240,16 +4184,16 @@ export const KANJI_ENTRIES = [
     "quizKun": [
       "いきる",
       "いかす",
-      "いける",
-      "うまれる"
+      "うまれる",
+      "うまれ"
     ],
     "quizReadings": [
       "セイ",
       "ショウ",
       "いきる",
       "いかす",
-      "いける",
-      "うまれる"
+      "うまれる",
+      "うまれ"
     ],
     "readingExamples": {
       "セイ": {
@@ -4272,15 +4216,15 @@ export const KANJI_ENTRIES = [
         "kana": "いかす",
         "en": "to make (the best) use of"
       },
-      "いける": {
-        "kanji": "生ける",
-        "kana": "いける",
-        "en": "to arrange (flowers)"
-      },
       "うまれる": {
         "kanji": "生まれる",
         "kana": "うまれる",
         "en": "to be born"
+      },
+      "うまれ": {
+        "kanji": "生まれ",
+        "kana": "うまれ",
+        "en": "birth"
       }
     }
   },
@@ -4534,8 +4478,7 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ハク",
-      "ビャク"
+      "ハク"
     ],
     "quizKun": [
       "しろ",
@@ -4544,7 +4487,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "ハク",
-      "ビャク",
       "しろ",
       "しら",
       "しろい"
@@ -4554,11 +4496,6 @@ export const KANJI_ENTRIES = [
         "kanji": "白人",
         "kana": "はくじん",
         "en": "white person"
-      },
-      "ビャク": {
-        "kanji": "白夜",
-        "kana": "びゃくや",
-        "en": "night under the midnight sun"
       },
       "しろ": {
         "kanji": "白",
@@ -4978,7 +4915,7 @@ export const KANJI_ENTRIES = [
       "たち": {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop in (at)"
+        "en": "to drop by"
       },
       "たてる": {
         "kanji": "立てる",
@@ -5963,8 +5900,7 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "セイ",
-      "ショウ"
+      "セイ"
     ],
     "quizKun": [
       "あお",
@@ -5972,7 +5908,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "セイ",
-      "ショウ",
       "あお",
       "あおい"
     ],
@@ -5981,11 +5916,6 @@ export const KANJI_ENTRIES = [
         "kanji": "青年",
         "kana": "せいねん",
         "en": "youth"
-      },
-      "ショウ": {
-        "kanji": "緑青",
-        "kana": "ろくしょう",
-        "en": "verdigris"
       },
       "あお": {
         "kanji": "青",

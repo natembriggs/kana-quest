@@ -22,6 +22,16 @@ reading, using every kanji's readings from KANJIDIC (all of them, not just
 the grades being built), and only credits a word to a reading when that
 reading is genuinely what the target kanji contributes.
 
+A reading being backed by SOME word is not the same as that reading being
+common — plenty of JMdict entries carry a priority tag while still being
+obscure (a rare compound, a technical term) relative to the kanji's other
+readings. The whole point of quizzing readings at all is to test what a
+learner will actually meet, so main()'s per-kanji selection below prefers a
+"genuinely common" (see is_written_common/is_spoken) reading over a merely
+tagged one, only falling back to the tagged-but-not-common tier when a
+category (on'yomi or kun'yomi) has no common reading to offer — see keep()
+and _is_common() in main().
+
 Source data (CC BY-SA, The Electronic Dictionary Research and Development
 Group, https://www.edrdg.org/) is downloaded by fetch_kanji_sources.sh into
 tools/data_src/ and is NOT committed — this script is meant to be re-run
@@ -515,6 +525,14 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index, tanaka_freq, subtitle_
     return general, by_reading
 
 
+def _is_common(candidates):
+    """A reading's candidate word list clears the "genuinely common" bar if
+    ANY of them is written-common or spoken-common (indices 4/6 of the record
+    tuple — see parse_jmdict_words) — one strong word is enough to anchor a
+    reading, even if the rest of its matches are obscure."""
+    return any(c[4] or c[6] for c in candidates)
+
+
 def choose_examples(words, limit):
     # Most familiar first, blending written commonness (written_band, from
     # JMdict's newspaper-corpus nf/news tags) with spoken commonness
@@ -699,24 +717,39 @@ def main():
     grades = {}
     dropped_readings = 0
     kept_readings = 0
+    strong_kept_readings = 0
+    weak_kept_readings = 0
+    fallback_kept_readings = 0
     no_quiz_readings = []
     for kanji in iteration_order:
         info = graded[kanji]
         reading_words = words_by_reading.get(kanji, {})
 
-        # Only readings that actually show up in a common word are quizzed —
-        # a reading with no word to anchor it is not worth a child's time, and
-        # has no example to offer when tapped.
+        # A reading is quizzed only if it shows up in SOME word (a reading
+        # with no example to offer when tapped is not worth a child's time at
+        # all), but "some word" is a low bar — plenty of tagged JMdict entries
+        # are themselves obscure. So each category (on'yomi, kun'yomi) is
+        # judged on its own: if it has any genuinely common reading (see
+        # _is_common), only those are kept and the merely-tagged ones in that
+        # same category are dropped; a category with NO common reading falls
+        # back to keeping its tagged ones rather than offering nothing. This
+        # runs on whatever `reading_words` holds, so for a kanji that went
+        # through the needs_uncommon fallback above, every candidate is
+        # already from that priority-gate-dropped pass — there is no common
+        # tier to prefer, and everything found is kept as a last resort.
         def keep(raw_list):
-            kept = []
+            strong, weak, seen = [], [], set()
             for raw in raw_list:
                 display = raw.replace('-', '').replace('.', '')
-                if display in reading_words and display not in kept:
-                    kept.append(display)
-            return kept
+                if display not in reading_words or display in seen:
+                    continue
+                seen.add(display)
+                bucket = strong if _is_common(reading_words[display]) else weak
+                bucket.append(display)
+            return (strong, True) if strong else (weak, False)
 
-        quiz_on = keep(info["on"])
-        quiz_kun = keep(info["kun"])
+        quiz_on, on_is_strong = keep(info["on"])
+        quiz_kun, kun_is_strong = keep(info["kun"])
         quiz_readings = (quiz_on + quiz_kun)[:MAX_QUIZ_READINGS]
         quiz_on = [r for r in quiz_on if r in quiz_readings]
         quiz_kun = [r for r in quiz_kun if r in quiz_readings]
@@ -724,6 +757,15 @@ def main():
         all_display = {r.replace('-', '').replace('.', '') for r in info["on"] + info["kun"]}
         dropped_readings += len(all_display) - len(set(quiz_on) | set(quiz_kun))
         kept_readings += len(quiz_readings)
+        if kanji in needs_uncommon:
+            # Everything here came from the require_priority=False fallback
+            # pass, not from the strong/weak split above — see needs_uncommon.
+            fallback_kept_readings += len(quiz_readings)
+        else:
+            strong_kept_readings += (len(quiz_on) if on_is_strong else 0) + \
+                (len(quiz_kun) if kun_is_strong else 0)
+            weak_kept_readings += (len(quiz_on) if not on_is_strong else 0) + \
+                (len(quiz_kun) if not kun_is_strong else 0)
         if not quiz_readings:
             no_quiz_readings.append(kanji)
 
@@ -753,6 +795,10 @@ def main():
         print(f"grade {grade}: {len(entries)} kanji, {total_examples} example words")
     print(f"quiz readings: {kept_readings} kept (all with an example word), "
           f"{dropped_readings} dropped for having no common word")
+    print(f"  of those kept: {strong_kept_readings} genuinely common (strong tier), "
+          f"{weak_kept_readings} merely tagged, no common reading in that category "
+          f"(weak-tier fallback), {fallback_kept_readings} from the zero-tag "
+          f"needs_uncommon fallback")
     if no_quiz_readings:
         print(f"  {len(no_quiz_readings)} kanji have NO quizzable reading: "
               f"{''.join(no_quiz_readings)}")

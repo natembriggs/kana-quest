@@ -1152,15 +1152,11 @@ export const KANJI_ENTRIES = [
       "キョウ"
     ],
     "quizKun": [
-      "せまい",
-      "せばめる",
-      "せばまる"
+      "せまい"
     ],
     "quizReadings": [
       "キョウ",
-      "せまい",
-      "せばめる",
-      "せばまる"
+      "せまい"
     ],
     "readingExamples": {
       "キョウ": {
@@ -1172,16 +1168,6 @@ export const KANJI_ENTRIES = [
         "kanji": "狭い",
         "kana": "せまい",
         "en": "narrow"
-      },
-      "せばめる": {
-        "kanji": "狭める",
-        "kana": "せばめる",
-        "en": "to narrow"
-      },
-      "せばまる": {
-        "kanji": "狭まる",
-        "kana": "せばまる",
-        "en": "to narrow"
       }
     }
   },
@@ -1399,24 +1385,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "リョウ",
-      "ロウ"
+      "リョウ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "リョウ",
-      "ロウ"
+      "リョウ"
     ],
     "readingExamples": {
       "リョウ": {
         "kanji": "食糧",
         "kana": "しょくりょう",
         "en": "food (esp. staple food such as rice or wheat)"
-      },
-      "ロウ": {
-        "kanji": "兵糧",
-        "kana": "ひょうろう",
-        "en": "(army) provisions"
       }
     }
   },
@@ -1763,15 +1742,11 @@ export const KANJI_ENTRIES = [
       "ヨウ"
     ],
     "quizKun": [
-      "とける",
-      "とかす",
-      "とく"
+      "とける"
     ],
     "quizReadings": [
       "ヨウ",
-      "とける",
-      "とかす",
-      "とく"
+      "とける"
     ],
     "readingExamples": {
       "ヨウ": {
@@ -1783,16 +1758,6 @@ export const KANJI_ENTRIES = [
         "kanji": "溶ける",
         "kana": "とける",
         "en": "to melt"
-      },
-      "とかす": {
-        "kanji": "溶かす",
-        "kana": "とかす",
-        "en": "to melt"
-      },
-      "とく": {
-        "kanji": "溶く",
-        "kana": "とく",
-        "en": "to mix (e.g. water with flour)"
       }
     }
   },
@@ -2066,15 +2031,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ボウ",
-      "ム"
+      "ボウ"
     ],
     "quizKun": [
       "はかりごと"
     ],
     "quizReadings": [
       "ボウ",
-      "ム",
       "はかりごと"
     ],
     "readingExamples": {
@@ -2082,11 +2045,6 @@ export const KANJI_ENTRIES = [
         "kanji": "無謀",
         "kana": "むぼう",
         "en": "reckless"
-      },
-      "ム": {
-        "kanji": "謀反",
-        "kana": "むほん",
-        "en": "rebellion"
       },
       "はかりごと": {
         "kanji": "謀",
@@ -2339,14 +2297,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "おおう",
-      "くつがえす",
-      "くつがえる"
+      "くつがえす"
     ],
     "quizReadings": [
       "フク",
       "おおう",
-      "くつがえす",
-      "くつがえる"
+      "くつがえす"
     ],
     "readingExamples": {
       "フク": {
@@ -2363,11 +2319,6 @@ export const KANJI_ENTRIES = [
         "kanji": "覆す",
         "kana": "くつがえす",
         "en": "to overturn"
-      },
-      "くつがえる": {
-        "kanji": "覆る",
-        "kana": "くつがえる",
-        "en": "to topple over"
       }
     }
   },
@@ -2542,13 +2493,11 @@ export const KANJI_ENTRIES = [
       "カク"
     ],
     "quizKun": [
-      "へだてる",
-      "へだたる"
+      "へだてる"
     ],
     "quizReadings": [
       "カク",
-      "へだてる",
-      "へだたる"
+      "へだてる"
     ],
     "readingExamples": {
       "カク": {
@@ -2560,11 +2509,6 @@ export const KANJI_ENTRIES = [
         "kanji": "隔てる",
         "kana": "へだてる",
         "en": "to separate (by distance, time, etc.)"
-      },
-      "へだたる": {
-        "kanji": "隔たる",
-        "kana": "へだたる",
-        "en": "to be distant"
       }
     }
   },
@@ -2837,15 +2781,13 @@ export const KANJI_ENTRIES = [
     ],
     "words": [],
     "quizOn": [
-      "テイ",
-      "ジョウ"
+      "テイ"
     ],
     "quizKun": [
       "さだ"
     ],
     "quizReadings": [
       "テイ",
-      "ジョウ",
       "さだ"
     ],
     "readingExamples": {
@@ -2853,11 +2795,6 @@ export const KANJI_ENTRIES = [
         "kanji": "不貞",
         "kana": "ふてい",
         "en": "unfaithfulness"
-      },
-      "ジョウ": {
-        "kanji": "貞和",
-        "kana": "じょうわ",
-        "en": "Jōwa era (of the Northern Court) (1345.10.21-1350.2.27)"
       },
       "さだ": {
         "kanji": "貞はる",
@@ -5487,15 +5424,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "キョ",
-      "コ"
+      "キョ"
     ],
     "quizKun": [
       "むなしい"
     ],
     "quizReadings": [
       "キョ",
-      "コ",
       "むなしい"
     ],
     "readingExamples": {
@@ -5503,11 +5438,6 @@ export const KANJI_ENTRIES = [
         "kanji": "謙虚",
         "kana": "けんきょ",
         "en": "modest"
-      },
-      "コ": {
-        "kanji": "虚空",
-        "kana": "こくう",
-        "en": "empty space"
       },
       "むなしい": {
         "kanji": "虚しい",
@@ -5560,15 +5490,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "レイ",
-      "リョウ"
+      "レイ"
     ],
     "quizKun": [
       "たま"
     ],
     "quizReadings": [
       "レイ",
-      "リョウ",
       "たま"
     ],
     "readingExamples": {
@@ -5576,11 +5504,6 @@ export const KANJI_ENTRIES = [
         "kanji": "幽霊",
         "kana": "ゆうれい",
         "en": "ghost"
-      },
-      "リョウ": {
-        "kanji": "悪霊",
-        "kana": "あくりょう",
-        "en": "evil spirit"
       },
       "たま": {
         "kanji": "御霊",
@@ -5637,15 +5560,11 @@ export const KANJI_ENTRIES = [
       "カイ"
     ],
     "quizKun": [
-      "くいる",
-      "くやむ",
-      "くやしい"
+      "くやむ"
     ],
     "quizReadings": [
       "カイ",
-      "くいる",
-      "くやむ",
-      "くやしい"
+      "くやむ"
     ],
     "readingExamples": {
       "カイ": {
@@ -5653,20 +5572,10 @@ export const KANJI_ENTRIES = [
         "kana": "こうかい",
         "en": "regret"
       },
-      "くいる": {
-        "kanji": "悔いる",
-        "kana": "くいる",
-        "en": "to regret"
-      },
       "くやむ": {
         "kanji": "悔やむ",
         "kana": "くやむ",
         "en": "to mourn"
-      },
-      "くやしい": {
-        "kanji": "悔しい",
-        "kana": "くやしい",
-        "en": "frustrated (over a failure, humiliation or injustice)"
       }
     }
   },
@@ -6809,24 +6718,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ソウ",
-      "ショウ"
+      "ソウ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ソウ",
-      "ショウ"
+      "ソウ"
     ],
     "readingExamples": {
       "ソウ": {
         "kanji": "別荘",
         "kana": "べっそう",
         "en": "holiday house"
-      },
-      "ショウ": {
-        "kanji": "荘園",
-        "kana": "しょうえん",
-        "en": "manor"
       }
     }
   },
@@ -7283,24 +7185,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ダ",
-      "タ"
+      "ダ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ダ",
-      "タ"
+      "ダ"
     ],
     "readingExamples": {
       "ダ": {
         "kanji": "無駄",
         "kana": "むだ",
         "en": "futility"
-      },
-      "タ": {
-        "kanji": "下駄",
-        "kana": "げた",
-        "en": "geta"
       }
     }
   },
@@ -7475,7 +7370,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "栄冠",
         "kana": "えいかん",
-        "en": "laurels",
+        "en": "crown of victory",
         "written": true,
         "spoken": false
       },
@@ -8197,19 +8092,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "おろす",
       "おろし"
     ],
     "quizReadings": [
-      "おろす",
       "おろし"
     ],
     "readingExamples": {
-      "おろす": {
-        "kanji": "卸す",
-        "kana": "おろす",
-        "en": "to sell wholesale"
-      },
       "おろし": {
         "kanji": "卸売",
         "kana": "おろしうり",
@@ -8327,13 +8215,11 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "それる",
-      "そらす",
       "はぐれる"
     ],
     "quizReadings": [
       "イツ",
       "それる",
-      "そらす",
       "はぐれる"
     ],
     "readingExamples": {
@@ -8346,11 +8232,6 @@ export const KANJI_ENTRIES = [
         "kanji": "逸れる",
         "kana": "それる",
         "en": "to turn away"
-      },
-      "そらす": {
-        "kanji": "逸らす",
-        "kana": "そらす",
-        "en": "to turn away (one's eyes, face, etc.)"
       },
       "はぐれる": {
         "kanji": "逸れる",
@@ -8693,12 +8574,10 @@ export const KANJI_ENTRIES = [
       "チョウ"
     ],
     "quizKun": [
-      "ほる",
       "ぼり"
     ],
     "quizReadings": [
       "チョウ",
-      "ほる",
       "ぼり"
     ],
     "readingExamples": {
@@ -8706,11 +8585,6 @@ export const KANJI_ENTRIES = [
         "kanji": "彫刻",
         "kana": "ちょうこく",
         "en": "carving"
-      },
-      "ほる": {
-        "kanji": "彫る",
-        "kana": "ほる",
-        "en": "to carve"
       },
       "ぼり": {
         "kanji": "浮き彫り",
@@ -10138,15 +10012,11 @@ export const KANJI_ENTRIES = [
     "quizOn": [],
     "quizKun": [
       "にる",
-      "に",
-      "にえる",
-      "にやす"
+      "に"
     ],
     "quizReadings": [
       "にる",
-      "に",
-      "にえる",
-      "にやす"
+      "に"
     ],
     "readingExamples": {
       "にる": {
@@ -10158,16 +10028,6 @@ export const KANJI_ENTRIES = [
         "kanji": "煮込む",
         "kana": "にこむ",
         "en": "to boil well"
-      },
-      "にえる": {
-        "kanji": "煮える",
-        "kana": "にえる",
-        "en": "to be boiled"
-      },
-      "にやす": {
-        "kanji": "煮やす",
-        "kana": "にやす",
-        "en": "to cook inside"
       }
     }
   },
@@ -10324,24 +10184,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ハ",
-      "ワ"
+      "ハ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ハ",
-      "ワ"
+      "ハ"
     ],
     "readingExamples": {
       "ハ": {
         "kanji": "大雑把",
         "kana": "おおざっぱ",
         "en": "rough (estimate, summary, etc.)"
-      },
-      "ワ": {
-        "kanji": "把",
-        "kana": "わ",
-        "en": "counter for bundles"
       }
     }
   },
@@ -10552,25 +10405,16 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ギョウ",
       "コウ"
     ],
     "quizKun": [
-      "あおぐ",
-      "おっしゃる"
+      "あおぐ"
     ],
     "quizReadings": [
-      "ギョウ",
       "コウ",
-      "あおぐ",
-      "おっしゃる"
+      "あおぐ"
     ],
     "readingExamples": {
-      "ギョウ": {
-        "kanji": "仰天",
-        "kana": "ぎょうてん",
-        "en": "being amazed"
-      },
       "コウ": {
         "kanji": "信仰",
         "kana": "しんこう",
@@ -10580,11 +10424,6 @@ export const KANJI_ENTRIES = [
         "kanji": "仰ぐ",
         "kana": "あおぐ",
         "en": "to look up (at)"
-      },
-      "おっしゃる": {
-        "kanji": "仰る",
-        "kana": "おっしゃる",
-        "en": "to say"
       }
     }
   },
@@ -10641,14 +10480,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizKun": [
       "にぶい",
-      "にぶる",
-      "にぶ"
+      "にぶる"
     ],
     "quizReadings": [
       "ドン",
       "にぶい",
-      "にぶる",
-      "にぶ"
+      "にぶる"
     ],
     "readingExamples": {
       "ドン": {
@@ -10665,11 +10502,6 @@ export const KANJI_ENTRIES = [
         "kanji": "鈍る",
         "kana": "にぶる",
         "en": "to become blunt"
-      },
-      "にぶ": {
-        "kanji": "鈍らす",
-        "kana": "にぶらす",
-        "en": "to blunt"
       }
     }
   },
@@ -10724,14 +10556,12 @@ export const KANJI_ENTRIES = [
     "quizKun": [
       "はじる",
       "はじ",
-      "はじらう",
       "はずかしい"
     ],
     "quizReadings": [
       "チ",
       "はじる",
       "はじ",
-      "はじらう",
       "はずかしい"
     ],
     "readingExamples": {
@@ -10749,11 +10579,6 @@ export const KANJI_ENTRIES = [
         "kanji": "恥",
         "kana": "はじ",
         "en": "shame"
-      },
-      "はじらう": {
-        "kanji": "恥じらう",
-        "kana": "はじらう",
-        "en": "to feel shy"
       },
       "はずかしい": {
         "kanji": "恥ずかしい",
@@ -10971,12 +10796,10 @@ export const KANJI_ENTRIES = [
       "サイ"
     ],
     "quizKun": [
-      "くだく",
       "くだける"
     ],
     "quizReadings": [
       "サイ",
-      "くだく",
       "くだける"
     ],
     "readingExamples": {
@@ -10984,11 +10807,6 @@ export const KANJI_ENTRIES = [
         "kanji": "火砕流",
         "kana": "かさいりゅう",
         "en": "pyroclastic flow"
-      },
-      "くだく": {
-        "kanji": "砕く",
-        "kana": "くだく",
-        "en": "to break (into pieces)"
       },
       "くだける": {
         "kanji": "砕ける",
@@ -11106,13 +10924,11 @@ export const KANJI_ENTRIES = [
       "カ"
     ],
     "quizKun": [
-      "よめ",
-      "とつぐ"
+      "よめ"
     ],
     "quizReadings": [
       "カ",
-      "よめ",
-      "とつぐ"
+      "よめ"
     ],
     "readingExamples": {
       "カ": {
@@ -11124,11 +10940,6 @@ export const KANJI_ENTRIES = [
         "kanji": "花嫁",
         "kana": "はなよめ",
         "en": "bride"
-      },
-      "とつぐ": {
-        "kanji": "嫁ぐ",
-        "kana": "とつぐ",
-        "en": "to marry (of a woman)"
       }
     }
   },
@@ -11226,13 +11037,11 @@ export const KANJI_ENTRIES = [
       "タン"
     ],
     "quizKun": [
-      "なげく",
-      "なげかわしい"
+      "なげく"
     ],
     "quizReadings": [
       "タン",
-      "なげく",
-      "なげかわしい"
+      "なげく"
     ],
     "readingExamples": {
       "タン": {
@@ -11244,11 +11053,6 @@ export const KANJI_ENTRIES = [
         "kanji": "嘆く",
         "kana": "なげく",
         "en": "to lament"
-      },
-      "なげかわしい": {
-        "kanji": "嘆かわしい",
-        "kana": "なげかわしい",
-        "en": "lamentable"
       }
     }
   }

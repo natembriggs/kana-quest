@@ -1758,19 +1758,12 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "とじる",
       "つづる"
     ],
     "quizReadings": [
-      "とじる",
       "つづる"
     ],
     "readingExamples": {
-      "とじる": {
-        "kanji": "綴じる",
-        "kana": "とじる",
-        "en": "to bind"
-      },
       "つづる": {
         "kanji": "綴る",
         "kana": "つづる",
@@ -4400,23 +4393,16 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "ぬれる",
-      "ぬらす"
+      "ぬれる"
     ],
     "quizReadings": [
-      "ぬれる",
-      "ぬらす"
+      "ぬれる"
     ],
     "readingExamples": {
       "ぬれる": {
         "kanji": "濡れる",
         "kana": "ぬれる",
         "en": "to get wet"
-      },
-      "ぬらす": {
-        "kanji": "濡らす",
-        "kana": "ぬらす",
-        "en": "to wet"
       }
     }
   },

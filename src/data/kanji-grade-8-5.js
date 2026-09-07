@@ -680,13 +680,11 @@ export const KANJI_ENTRIES = [
       "ガ"
     ],
     "quizKun": [
-      "かわら",
-      "ぐらむ"
+      "かわら"
     ],
     "quizReadings": [
       "ガ",
-      "かわら",
-      "ぐらむ"
+      "かわら"
     ],
     "readingExamples": {
       "ガ": {
@@ -698,11 +696,6 @@ export const KANJI_ENTRIES = [
         "kanji": "瓦",
         "kana": "かわら",
         "en": "tile (e.g. roof)"
-      },
-      "ぐらむ": {
-        "kanji": "瓦",
-        "kana": "グラム",
-        "en": "gram"
       }
     }
   },
@@ -1598,13 +1591,11 @@ export const KANJI_ENTRIES = [
       "キョウ"
     ],
     "quizKun": [
-      "はさむ",
-      "はさまる"
+      "はさむ"
     ],
     "quizReadings": [
       "キョウ",
-      "はさむ",
-      "はさまる"
+      "はさむ"
     ],
     "readingExamples": {
       "キョウ": {
@@ -1616,11 +1607,6 @@ export const KANJI_ENTRIES = [
         "kanji": "挟む",
         "kana": "はさむ",
         "en": "to hold between (e.g. one's fingers, chopsticks)"
-      },
-      "はさまる": {
-        "kanji": "挟まる",
-        "kana": "はさまる",
-        "en": "to get between"
       }
     }
   },
@@ -2472,24 +2458,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ハチ",
-      "ハツ"
+      "ハチ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ハチ",
-      "ハツ"
+      "ハチ"
     ],
     "readingExamples": {
       "ハチ": {
         "kanji": "鉢",
         "kana": "はち",
         "en": "bowl"
-      },
-      "ハツ": {
-        "kanji": "托鉢",
-        "kana": "たくはつ",
-        "en": "religious mendicancy"
       }
     }
   },
@@ -4371,12 +4350,10 @@ export const KANJI_ENTRIES = [
       "シ"
     ],
     "quizKun": [
-      "め",
       "めす"
     ],
     "quizReadings": [
       "シ",
-      "め",
       "めす"
     ],
     "readingExamples": {
@@ -4384,11 +4361,6 @@ export const KANJI_ENTRIES = [
         "kanji": "雌雄",
         "kana": "しゆう",
         "en": "male and female (animals)"
-      },
-      "め": {
-        "kanji": "雌花",
-        "kana": "めばな",
-        "en": "female flower"
       },
       "めす": {
         "kanji": "雌",
@@ -4432,20 +4404,13 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "カン",
       "タン"
     ],
     "quizKun": [],
     "quizReadings": [
-      "カン",
       "タン"
     ],
     "readingExamples": {
-      "カン": {
-        "kanji": "堪忍袋",
-        "kana": "かんにんぶくろ",
-        "en": "one's store of patience"
-      },
       "タン": {
         "kanji": "堪能",
         "kana": "たんのう",
@@ -6050,7 +6015,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "抹殺",
         "kana": "まっさつ",
-        "en": "erasure",
+        "en": "elimination (of a person, group, etc.)",
         "written": false,
         "spoken": true
       },
@@ -6716,23 +6681,16 @@ export const KANJI_ENTRIES = [
     ],
     "quizOn": [],
     "quizKun": [
-      "つめ",
-      "つま"
+      "つめ"
     ],
     "quizReadings": [
-      "つめ",
-      "つま"
+      "つめ"
     ],
     "readingExamples": {
       "つめ": {
         "kanji": "爪",
         "kana": "つめ",
         "en": "nail (e.g. fingernail, toenail)"
-      },
-      "つま": {
-        "kanji": "爪楊枝",
-        "kana": "つまようじ",
-        "en": "toothpick"
       }
     }
   },
@@ -7743,23 +7701,16 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ガ",
       "ゲ"
     ],
     "quizKun": [
       "きば"
     ],
     "quizReadings": [
-      "ガ",
       "ゲ",
       "きば"
     ],
     "readingExamples": {
-      "ガ": {
-        "kanji": "牙城",
-        "kana": "がじょう",
-        "en": "stronghold (esp. of an enemy or opponent)"
-      },
       "ゲ": {
         "kanji": "象牙",
         "kana": "ぞうげ",
@@ -8254,8 +8205,7 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ハン",
-      "ボン"
+      "ハン"
     ],
     "quizKun": [
       "わずらう",
@@ -8263,7 +8213,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "ハン",
-      "ボン",
       "わずらう",
       "うるさい"
     ],
@@ -8272,11 +8221,6 @@ export const KANJI_ENTRIES = [
         "kanji": "煩雑",
         "kana": "はんざつ",
         "en": "complex"
-      },
-      "ボン": {
-        "kanji": "煩悩",
-        "kana": "ぼんのう",
-        "en": "worldly desires"
       },
       "わずらう": {
         "kanji": "煩う",
@@ -8959,24 +8903,17 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "ヒツ",
-      "ヒ"
+      "ヒツ"
     ],
     "quizKun": [],
     "quizReadings": [
-      "ヒツ",
-      "ヒ"
+      "ヒツ"
     ],
     "readingExamples": {
       "ヒツ": {
         "kanji": "分泌",
         "kana": "ぶんぴつ",
         "en": "secretion"
-      },
-      "ヒ": {
-        "kanji": "泌尿器",
-        "kana": "ひにょうき",
-        "en": "urinary organs"
       }
     }
   },
