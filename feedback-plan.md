@@ -1,19 +1,40 @@
 # Feedback-to-fix implementation plan
 
-**Status:** phases 0-3 and 5 implemented and deployed 2026-09-06; researched
-2026-08-24, reviewed and revised 2026-08-24
+**Status:** phases 0-3 and 5 implemented and deployed 2026-09-06; phase 6 is
+partially built (shipped as a side effect of Phases 2-3, not as its own pass);
+phase 7 has not started as scoped, though a lighter-weight substitute exists.
+Researched 2026-08-24, reviewed and revised 2026-08-24. **Updated 2026-09-08**
+against `feedback-server/README.md` and the commit history — see notes below.
 
-**What ships today:** a 💬 in every screen's header, the report form, the
-`kana-quest-feedback` Worker and D1, the private inbox repository and its
-webhook, My contributions, and the release thank-you. Phase 4 is deferred by
-decision (see *Phase-0 choices*); phases 6 and 7 have not started. The whole
-loop is verified end to end against the live service — see
-`feedback-server/README.md`, *Verified end to end*.
+**What ships today:** a 💬 in every screen's header, the report form (since
+simplified to a single message box — `847fb5a`, 2026-09-07, dropped the
+category picker and title field), the `kana-quest-feedback` Worker and D1, the
+private inbox repository and its webhook, My contributions (with report badges
+and an improvement-garden graphic, `c826d69`/`6250ec4`), and the release
+thank-you. Phase 4 is deferred by decision (see *Phase-0 choices*); Phase 6's
+build-out (garden, badges, `not_planned` copy) landed early inside Phases 2-3
+but its own exit items (profile/sync disclosure copy, milestones,
+accessibility audit, icon-placement user-testing) are still open; Phase 7 as
+literally scoped (GitHub Actions triage/agent-fix workflows) has not started —
+what exists instead is a manual/scheduled Claude Code skill
+(`.claude/skills/kanaquest-feedback-triage/SKILL.md`, `e2656f0`, 2026-09-07)
+that drafts a triage plan for the maintainer to review; it applies no labels
+and starts no agent workflow, so it is a different, lighter mechanism than the
+one Phase 7 describes. The whole loop is verified end to end against the live
+service — see `feedback-server/README.md`, *Verified end to end*.
 
-**Two things left before it is fully armed,** both one command and both
-documented in that README: a `GITHUB_TOKEN` (until then reports queue safely
-in D1 and the cron sweep files them the moment it exists) and a real
-`TURNSTILE_SECRET` in place of Cloudflare's test keys.
+**Both things once listed as "left before it is fully armed" are now done.**
+`feedback-server/README.md`'s *Going live* section states plainly: "Both steps
+below are done: a `GITHUB_TOKEN` is set and a real Turnstile widget backs the
+feedback form." The secrets table there shows all five secrets set
+(`RECEIPT_PEPPER`, `GITHUB_WEBHOOK_SECRET`, `RELEASE_SECRET`, `GITHUB_TOKEN`,
+`TURNSTILE_SECRET`). Corroborating commits: `59f30d9` "Turn on the real
+Turnstile widget for feedback" (2026-09-06) and the README's *Verified end to
+end* section, dated 2026-09-06, which includes a live GitHub issue-creation
+test — impossible without `GITHUB_TOKEN` set. (Live Cloudflare secret state
+cannot be checked directly from this repo; this rests on the README's own
+record, which is the same source the rest of this plan already treats as
+authoritative for operational status.)
 **Scope:** in-app feedback submission, GitHub issue creation, request tracking,
 release-aware notifications, and a learner-facing contribution history
 
@@ -661,6 +682,16 @@ in-progress session or its timer-free pacing.
 
 ### Form
 
+**As designed here; superseded 2026-09-07.** `847fb5a` "Simplify feedback to a
+single comment box" dropped the category picker and the separate title field:
+the form now opens straight to one message box, the category is always sent
+as `other`, and a short title is derived automatically from the first ~80
+characters of what was written. The stated reason was that categorization and
+titling added friction without adding information a maintainer reading the
+report couldn't already tell, given every report is triaged by hand or by the
+feedback-triage skill regardless. The design below is kept for the reasoning
+it records, not as a description of the current form:
+
 - Four large category choices with examples.
 - Short title and a details field with a visible character count.
 - “Include app details to help diagnose this” enabled by default, followed by an
@@ -1005,15 +1036,20 @@ format they read is stable.
 - [x] Create an EU-jurisdiction D1 database if that locality is desired; this is
   a creation-time choice.
 - [x] Create a Turnstile widget per environment and a Workers Rate Limiting
-  binding. *(Rate limiting done; the Turnstile widget still needs creating in
-  the dashboard — the Worker runs on Cloudflare's published test keys until
-  then, which pass every challenge.)* Add a cron trigger for the outbox sweep. On the Full track, also
+  binding. *(Both done. Rate limiting shipped with Phase 1; the production
+  Turnstile widget was created and switched on in `59f30d9` "Turn on the real
+  Turnstile widget for feedback" (2026-09-06) — the Worker no longer runs on
+  Cloudflare's test keys. A staging widget still does not exist, because
+  staging itself is not created; see the Phase 1 exit note.)* Add a cron
+  trigger for the outbox sweep. On the Full track, also
   create the main and dead-letter Queues — this is the point at which a paid
   Workers plan becomes necessary.
 - [x] Store all secrets through Wrangler/Cloudflare, document their names and
-  rotation procedure, and ensure local secret files are ignored. *(Three of
-  five set: `RECEIPT_PEPPER`, `GITHUB_WEBHOOK_SECRET`, `RELEASE_SECRET`.
-  `GITHUB_TOKEN` and `TURNSTILE_SECRET` need a person.)*
+  rotation procedure, and ensure local secret files are ignored. *(All five
+  set as of 2026-09-06: `RECEIPT_PEPPER`, `GITHUB_WEBHOOK_SECRET`,
+  `RELEASE_SECRET`, `GITHUB_TOKEN`, `TURNSTILE_SECRET` — see
+  `feedback-server/README.md`'s secrets table and *Going live* section, both
+  of which now say all secrets are set.)*
 - [x] Record final public status names, GitHub labels, body limits, retention,
   and allowed origins in a short server README.
 
@@ -1128,29 +1164,61 @@ the learner across devices.
 
 ### Phase 6 — Recognition polish (2–4 days)
 
-- [ ] Build the improvement-garden graphic and status card visuals using the
-      profile accent and emoji.
+**Note (2026-09-08):** this phase's build-out landed early, folded into
+Phases 2-3 rather than as its own pass, so several items below are already
+shipped even though the phase as a whole was never formally started or
+closed out.
+
+- [x] Build the improvement-garden graphic and status card visuals using the
+      profile accent and emoji. *(`GARDEN_SVG` in `src/app.js` — five
+      `currentColor` stage drawings — plus `.garden` rules in `styles.css`,
+      shipped in `c826d69` "Add the in-app feedback button and My
+      contributions" (2026-09-06); report-count badges added in `6250ec4`
+      (2026-09-06).)*
 - [ ] Add reduced-motion, screen-reader, keyboard, small-screen, dark-theme, and
-      high-contrast checks.
-- [ ] Polish copy for duplicate, not-planned, failed, and multiple-fixes-at-once
-      cases so gratitude never overpromises.
+      high-contrast checks. *(Reduced-motion is handled for the garden
+      specifically — `.garden-plant { transition: none }` under
+      `prefers-reduced-motion: reduce` — but no broader accessibility audit of
+      the feedback/contributions UI was found.)*
+- [x] Polish copy for duplicate, not-planned, failed, and multiple-fixes-at-once
+      cases so gratitude never overpromises. *(`src/contributions.js` has
+      distinct, deliberately warm copy for every status including
+      `not_planned` ("knowing you hit it genuinely helped") and `duplicate`
+      ("your report still helped").)*
 - [ ] Say plainly on the screen that contributions live in this learner's
       profile, and that sync and backup are what carry them to another device.
+      *(Not found in `index.html` or `src/app.js` — still open.)*
 - [ ] Add optional local milestones such as "first report" and "first shipped
       improvement"; keep them private, non-competitive, and non-streak-based.
+      *(Not found — still open.)*
 - [ ] User-test the corner icon's final position (paired with Settings, spare
       grid slot, or fixed-position overlay — see *Entry points*) for whether it
       ever gets tapped by accident during a session, now that "always visible,
-      every screen" is settled rather than open.
+      every screen" is settled rather than open. *(The icon shipped as a
+      fourth button inside each screen's existing topbar, not a fixed-position
+      overlay — implementation choice made, but the accidental-tap user-testing
+      itself was not found as documented.)*
 
 **Exit:** recognition feels celebratory but remains calm, accessible, private,
-and truthful for requests that are not implemented.
+and truthful for requests that are not implemented. Not yet met in full: the
+profile/sync disclosure copy and the accessibility audit are still open.
 
 ### Phase 7 — Agent-assisted triage and fixes (1–3 days)
 
 Only worth doing once the issue format from Phase 1 and the label vocabulary from
 Phase 3 have stopped moving. See *Automating the path from feedback to fix* for
 the reasoning behind each gate.
+
+**Note (2026-09-08):** genuinely not started as scoped below — no
+`.github/workflows/triage.yml` or `agent-fix.yml` exists. A different, smaller
+substitute shipped instead: `.claude/skills/kanaquest-feedback-triage/SKILL.md`
+(`e2656f0`, 2026-09-07) is a Claude Code skill, run manually or on a schedule,
+that reads the open backlog and drafts a prioritized plan for the maintainer —
+explicitly "report-only... without applying labels or code changes." It has no
+`sender.login` gate, applies no labels, and starts no agent-fix workflow, so it
+does not satisfy this phase's exit criteria; it addresses only the Stage 3-4
+triage-suggestion idea from *Automating the path from feedback to fix*, and
+does none of Stage 5 (agent-drafted fixes).
 
 - [ ] Add `.github/workflows/triage.yml` on `issues.opened`, filtered to
       `from:kanaquest-app`: apply a component label from the allowlisted route in

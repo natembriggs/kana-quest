@@ -4,10 +4,18 @@ Date: 20 August 2026
 
 **This is a historical review, kept as the record of the original audit and
 its fixes.** For the current, actively-maintained punch list of outstanding
-work, see `review-followups.md` (2026-09-03 as of this note) instead — several
-items below (the accessibility pass, the home-screen kanji total) are still
-open, but newer and higher-priority findings from later reviews live there,
-not here.
+work, see `review-followups.md` (2026-09-08 as of this note) instead.
+
+**Checked against current code 2026-09-08:** of the two items this note used
+to flag as still open, the home-screen kanji total is now fixed (`07fd5ed` —
+chunk-relative "Grade N: X/Y" / "Jōyō kanji: X/2136" labelling) and the
+accessibility pass below is *mostly* fixed (`1de948a` — real `role="tab"`/
+`aria-selected`/`aria-pressed`/`aria-live`; `prefers-reduced-motion` is also
+now handled in `styles.css`) — but the colour-contrast half of that same P1
+item was not: `--accent: #e8553d` and `--tier-3: #5cb663` in the light theme
+are unchanged from the values this review measured as failing WCAG AA.
+Newer and higher-priority findings from later reviews live in
+`review-followups.md`, not here.
 
 ## Executive summary
 

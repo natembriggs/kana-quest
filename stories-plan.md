@@ -4,10 +4,17 @@ Status: **shipped and live** as the fourth thing to do in the app, reached via
 a **Read** card on the home screen. Phases 0–8 (see §12) are done: the reader,
 the library, tap-for-pronunciation/furigana/definition/sentence-translation,
 exposure-based furigana hiding shared with vocabulary, `profile.stories` with
-sync/merge, the end card, and 24 stories — four at every level L1–L6. Phase 9
-(serialized multi-episode series) has not begun — every shipped story is
-currently standalone (`series: null` on all 24). See §12.1 for how sourcing
-actually landed, which differs from this document's original plan.
+sync/merge, the end card, and 30 stories — five at every level L1–L6 (grown
+from the 24-story/four-per-level count this document originally shipped with;
+`29cef88`, "Add a fifth story at every reading level"). Phase 9 (serialized
+multi-episode series, i.e. a story with `series.of > 1`) genuinely has not
+begun — no story has more than one part. But "standalone (`series: null` on
+all 24)" is no longer accurate as a description of the data: two of the 30,
+`fushigi-no-kuni-no-alice` and `oz-no-mahoutsukai`, carry a non-null `series`
+object (`{id, part: 1, of: 1, name}`) tagging which canonical work they are
+adapted from, even though each is still a single, complete part — `of: 1`, not
+serialized. See §12.1 for how sourcing actually landed, which differs from
+this document's original plan.
 
 Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
 this is that feature written out.
@@ -1035,8 +1042,17 @@ Worth stating as a list, because each was considered:
   §6's exposure counter.
 
 The end card (§8.5) offers the tapped words for adding **once**, in a list, at
-the end, as a considered choice. That is the only place a reading session
-turns into study, and the learner does it with their thumb.
+the end, as a considered choice.
+
+**Update, `a27a9cf` (2026-09-04):** this is no longer the only place a reading
+session turns into study. A one-tap "+ Add" now also sits on the gloss card
+itself (`app.js`, the `reader-card` body), at the moment of lookup — it shows
+"Studying" and disables once the word is already enrolled, and shows neither
+control for a word with no vocab-curriculum entry. The end-card list (§8.5)
+is unchanged and still offers everything tapped during the session; the
+gloss-card button is an earlier, optional opportunity to do the same thing
+per word, not a replacement for it. Either way the learner still does it with
+their own thumb — nothing is enrolled by the tap itself.
 
 ---
 
@@ -1368,29 +1384,37 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 5 | **The library**, the level strip, series and episodes, the home-screen **Read** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Read** card. |
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
-| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 24 stories shipped (four per level, L1–L6), but as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
-| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **Not started.** Every shipped story has `series: null` — nothing is serialized yet. |
+| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 30 stories shipped (five per level, L1–L6, up from the 24/four-per-level this document originally reported — `29cef88`), as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
+| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **Not started.** No shipped story has more than one part (`series.of > 1`) — two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) do carry a non-null `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, not a serialization. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan
 
 §4 planned two distinct tracks: importing/adapting Aozora Bunko texts for the
 upper levels, and authoring an original serialized series for L1–L3. What
 shipped instead, across all six levels, is a third thing neither section
-anticipated: **24 standalone original retellings of traditional or
-public-domain-motif stories**, and only one of them — Momotarō — is actually
-Japanese in origin. The other 23 are Aesop's fables (The Ant and the Dove,
-The North Wind and the Sun, The Lion and the Mouse, The Town Mouse and the
-Country Mouse, The Boy Who Cried Wolf, The Hare and the Tortoise), a Russian
-folk tale (The Giant Turnip), and Western fairy tales and literature
-(Cinderella, Goldilocks, Hansel and Gretel, The Three Little Pigs, Little Red
-Riding Hood, Beauty and the Beast, The Bremen Town Musicians, Snow White,
-Aladdin, Around the World in Eighty Days, Pinocchio, Treasure Island,
-Dracula, Frankenstein, Alice in Wonderland, The Wonderful Wizard of Oz) —
-told in Japanese, but not drawn from the Japanese-language public domain §4
-was written around. Each carries `source.kind: 'adapted'`, is credited
-`Retold by` an LLM (recorded per-story in `source.by`), and `source.notes`
-states plainly that it is "an original graded retelling based on familiar
-public-domain motifs rather than a particular literary edition."
+anticipated: **30 standalone original retellings of traditional or
+public-domain-motif stories** (grown from an initial 24 — four per level — to
+30 — five per level — via `29cef88`), and two of them — Momotarō and Urashima
+Tarō — are actually Japanese in origin (the original 24 had only Momotarō;
+Urashima Tarō was one of the six added in `29cef88`). The other 28 are Aesop's
+fables (The Ant and the Dove, The Ant and the Grasshopper, The North Wind and
+the Sun, The Lion and the Mouse, The Town Mouse and the Country Mouse, The Boy
+Who Cried Wolf, The Hare and the Tortoise), a Russian folk tale (The Giant
+Turnip), and Western fairy tales and literature (Cinderella, Goldilocks,
+Hansel and Gretel, Jack and the Beanstalk, The Three Little Pigs, Little Red
+Riding Hood, Beauty and the Beast, The Bremen Town Musicians, Snow White, The
+Little Mermaid, Aladdin, Around the World in Eighty Days, Pinocchio, Robinson
+Crusoe, Treasure Island, Dracula, Frankenstein, Alice in Wonderland, The
+Wonderful Wizard of Oz, The Strange Case of Dr Jekyll and Mr Hyde) — told in
+Japanese, but not drawn from the Japanese-language public domain §4 was
+written around. Each carries `source.kind: 'adapted'`, is credited `Retold by`
+an LLM (recorded per-story in `source.by`), and `source.notes` states plainly
+that it is "an original graded retelling based on familiar public-domain
+motifs rather than a particular literary edition." The six added in `29cef88`
+(The Ant and the Grasshopper, Urashima Tarō, Jack and the Beanstalk, The
+Little Mermaid, Robinson Crusoe, Dr Jekyll and Mr Hyde — one per level) are
+all credited to Claude Opus 5.0, like `momotaro-1` and `usagi-to-kame` before
+them.
 
 This is a defensible middle path — the motifs are old enough to carry no
 copyright, and every text and translation is original to Kana Quest, same as
@@ -1418,8 +1442,8 @@ worth being honest about the gap in what it bought:
 
 None of this is a defect that needs fixing before the feature can be used —
 the reader works, the stories read fine, and the licensing is sound. It is a
-plan/reality gap worth knowing about before writing story #25, and before
-citing this document as a description of *where the current 24 stories came
+plan/reality gap worth knowing about before writing story #31, and before
+citing this document as a description of *where the current 30 stories came
 from*.
 
 Phases 3 and 5 can land in either order, but 3 first makes a better demo of

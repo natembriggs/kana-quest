@@ -266,12 +266,22 @@ profile, like `writingModePreference`.
 
 ### 2.5 How §2.1 and §2.3 actually landed
 
-Both shipped as designed, with the enrollment UI slightly simpler than
+Shipped as designed at first, with the enrollment UI slightly simpler than
 drafted: one headline button (bulk enroll/un-enroll every applicable mode)
 above three independent per-mode toggles, rather than the button also trying
 to summarise per-mode state in its own text — the three toggles already show
 that directly, so the button only ever needs to say one of "Not studying",
 "Waiting to learn", or "Learning".
+
+**That headline button was removed outright on 2026-09-07** (`86d7c5403`,
+"Two bulk jobs on the set overview, plainer study buttons, and paging"): the
+headline and the three bare mode segments were found to say the same thing
+twice, in two different languages, with neither making clear that tapping
+either one put the kanji on a study list. `#detail-study` is now one button
+per applicable mode only, each spelled out in full — "Learn this kanji's
+definition" flipping to "✓ Studying its definition" once enrolled, and
+likewise for readings/writing — via `renderDetailStudy()` in `src/app.js`.
+There is no bulk enroll/un-enroll-all control on the detail screen any more.
 
 The mastery label (`#detail-mastery`) was **not** repurposed into a subtitle
 as originally drafted — it still shows the tier for whichever mode the
@@ -980,6 +990,10 @@ Each phase leaves both test suites green and is independently shippable.
   everything, or a brand-new profile that has not pressed "Add 5 more" yet,
   currently has nothing to review and no obvious next step. The course screen
   should probably say so explicitly rather than showing "Nothing to review".
-- **Whether per-mode enrollment wants a bulk action.** Turning on Writing for
-  every kanji already learned in Definition is a plausible thing to want, and
-  doing it one detail screen at a time would be miserable.
+- ~~**Whether per-mode enrollment wants a bulk action.**~~ **Resolved
+  2026-09-07** (`86d7c5403`): the set overview gained a "＋ Choose what to
+  study" bulk job alongside "Mark as known" — the same tick-grid, writing a
+  study-list entry for whichever mode is currently selected (`state.mode`)
+  instead of a mastery claim, via the same `sweepClaim()` the sweep uses.
+  Turning on Writing for a whole grade no longer means opening each kanji's
+  detail screen in turn.

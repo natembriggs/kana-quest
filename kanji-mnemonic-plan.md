@@ -999,6 +999,19 @@ this repo's existing phasing discipline.
   Build the templates, generate real output for a sample of kanji, and
   get that review *before* wiring this into the three UI touchpoints, not
   after.
+  **This bullet was written for the template pipeline and was overtaken,
+  not fulfilled, by §9.1: on 2026-09-05 the owner replaced templates with
+  hand-authored lines outright, on the reasoning (§2.6.1, §2.6.4 Q1/Q2)
+  that the idea/expression doctrine makes an RTK comparison unnecessary
+  for independently-created text.** Nothing in §9-§10 records that an
+  independent skim against RTK's actual content was ever performed for the
+  shipped hand-authored lines (`tools/kanji_src/kanji-mnemonics.tsv`) — the
+  requirement was argued away, not carried out. The feature has since
+  shipped live on all three UI touchpoints (detail screen, lesson card,
+  and both quiz hint buttons — confirmed wired in `src/app.js`). Whether
+  that legal reasoning is an adequate substitute for the owner's own
+  promised second look is worth the app owner's explicit sign-off, not an
+  assumption from this plan's silence.
 - **First-pass coverage: kanji grades 1–3**, not the full jōyō set and not
   grade 1 alone — a real sample without committing every kanji the app
   teaches to unreviewed templates on day one. Extended to **grades 4-6** on

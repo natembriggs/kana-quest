@@ -5,7 +5,9 @@ itself. A parent turns it on once and pairs each device with a code;
 after that it syncs on opening a learner, on finishing a session, and on
 leaving or returning to the app, at a measured 1 request when nothing
 changed and 2 when there is real practice to send (§4.3). Phase 4
-(clock correction, remote delete on profile delete) is next. Supersedes
+(clock correction, remote delete on profile delete) is next — re-confirmed
+still unbuilt by a code audit on 2026-09-08 (§4.8's "Re-audited" note).
+Supersedes
 the "Progress is per-device for now" caveat in `src/store.js` and the
 *Progress and backups* section of the README, which now documents the
 feature as it stands.
@@ -601,6 +603,16 @@ from inside a running session, so a pull can't currently land mid-question
 regardless. §4.7 (clock correction) and §4.6 (remote delete on profile
 delete) are untouched, on schedule for phase 4.
 
+**Re-audited 2026-09-08, no code changes since.** Still true, checked
+directly rather than assumed: no `syncedNow`/clock-offset code anywhere in
+`src/sync-protocol.js`, `src/sync-transport.js`, `src/srs.js` or `src/app.js`
+(every grade call still passes plain `Date.now()`); `delete-profile` in
+`src/app.js` calls only `store.deleteProfile()`, never `deleteSyncState()`
+or a remote `DELETE`, so a deleted profile's remote document is orphaned
+until the 5-year sweep (§2.3); `sync-protocol.js` has no exponential-backoff
+logic past the fixed `MAX_PUSH_RETRIES` loop. §4.7, §4.6 and backoff all
+remain open.
+
 **Testing note:** JavaScriptCore, what stands in for Node in this repo's
 test suite, has neither `crypto.subtle` nor `fetch` — confirmed directly,
 not assumed. `sync-protocol.js` doesn't need either (§4.1's whole point) and
@@ -687,6 +699,16 @@ no `console`, and a fire-and-forget async throw is silently swallowed with
 exit code 0, confirmed directly rather than assumed. Fixed by only calling
 `syncStatusText` when a pairing actually exists.
 
+**Reused by onboarding, 2026-09-04** (`d6cee72`) — the first-run flow's
+"I already use Kana Quest" path (`onboarding-plan.md`) routes into this same
+card rather than building a second code-entry UI, which is corroborating
+evidence this UI is genuinely live in production, not just wired for
+Settings. Also picked up further polish after phase 3 landed, still all UI
+rather than phase-4 substance: reusing the existing code when re-enabling
+sync instead of minting a new one (`d3f0e4d`), a sync-card scroll fix
+(`a163736`), a home-screen nudge that turns sync on directly (`f16d698`,
+`50419f9`) — all 2026-08-27.
+
 ---
 
 ## 6. Payload size
@@ -729,7 +751,10 @@ Extending what exists rather than adding a new style of test:
   enrollment, per-key settings LWW, the array→timestamp study-list migration,
   and the existing assertions passing unchanged through the `merge.js`
   extraction (that last one is the point of doing the refactor separately).
-- **`test/sync.js`** — **built**, 16 checks. Drives `sync-protocol.js` against
+- **`test/sync.js`** — **built**, 24 checks (verified against the file as it
+  stands 2026-09-08; unchanged since `ae6b429`, 2026-08-24 — the "16" this
+  line previously said was stale from the start, not drift). Drives
+  `sync-protocol.js` against
   a scripted fake transport: clean pull, 304, a docId with nothing there yet,
   create, a single conflict resolving by pull-merge-retry, every retry
   conflicting until they exhaust, 404-on-push-means-deleted (recreate, no

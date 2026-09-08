@@ -1,4 +1,4 @@
-# Review follow-ups (as of 2026-09-04)
+# Review follow-ups (as of 2026-09-08)
 
 Consolidated punch list from the 2026-09-02/03 review (codebase map, code
 health, pedagogy research, hands-on UI walkthrough, synthesis, plus two
@@ -17,25 +17,66 @@ finally FSRS-style scheduling. See "Shipped this cycle" for what each one
 actually did, and the note at the end of that section for one real,
 flagged gap in the FSRS work that still needs a decision.
 
+**Sixth pass, 2026-09-08 (documentation audit, no new code):** this file's
+own "Remaining" list below had gone stale — both items 1 and 2 were marked
+"Not started" when a full week of real shipping (2026-09-05 through -08) had
+actually landed on both. Every implementation plan in the repo (except
+`external-import-plan.md`, deliberately skipped — still genuinely zero code)
+was individually re-audited against current source and git history and
+corrected in place where stale; see "Documentation audit findings" below for
+what changed and what's still genuinely open.
+
 ## Remaining (not built this pass)
 
-Only three items from the original build order were deliberately left out
-of this pass, at the app owner's explicit request:
+Two items from the original 2026-09-04 build order were deliberately left
+out of that day's pass, at the app owner's explicit request — but both have
+since shipped (see below and "Documentation audit findings"):
 
-1. **Kanji component breakdown + mnemonics.** Full plan and decisions at
-   `kanji-mnemonic-plan.md` (§8 has the resolved decisions: witty tone
-   flagged for a copyright-safety review before shipping, grades 1-3 first
-   pass, distinct-but-quiet "Show hint" button). Not started.
-2. **In-app feedback channel.** Full plan and decisions folded into
-   `feedback-plan.md`'s own "Phase-0 choices" section (private inbox, no
-   attribution, Lean Cloudflare track, triage-only automation). Not
-   started — this is genuinely new infrastructure (a Cloudflare Worker, a
-   GitHub App), not in-app learning UX, so it's a different kind of task
-   from the rest of this list.
+1. **~~Kanji component breakdown + mnemonics. Not started.~~ Shipped
+   2026-09-05, extended 2026-09-06.** Full plan and decisions at
+   `kanji-mnemonic-plan.md` (§8 has the resolved decisions: grades 1-3 first
+   pass, distinct-but-quiet "Show hint" button, plus §9-§10 for what was
+   built beyond the original plan, including learner-editable hints).
+   Component breakdowns and mnemonic hints exist for all 1,026 grade 1-6
+   kanji (`35ab2a5`, `0cf0f82`), wired into the detail screen, the lesson
+   card, and both the Yomi/Definition and Writing quiz hint buttons.
+   **One real gap survives:** §8's promised copyright-safety review (an
+   independent skim of the shipped hand-authored lines against RTK's actual
+   content) was never carried out — the owner's switch from templates to
+   hand-authored text on idea/expression grounds (§2.6, §9.1) argued the
+   review unnecessary rather than fulfilling it, and the feature has already
+   shipped to all three touchpoints on that reasoning alone. Worth the
+   owner's explicit sign-off, not an assumption from this file's past
+   silence. Grades/units 8-N (secondary jōyō) and 9-N (beyond-jōyō names &
+   places) still have no component/mnemonic data.
+2. **~~In-app feedback channel. Not started.~~ Live in production since
+   2026-09-06.** Full plan and decisions folded into `feedback-plan.md`'s
+   own "Phase-0 choices" section. The 💬 button, the report form (since
+   simplified to a single message box, `847fb5a`), the Worker/D1 backend,
+   GitHub issue creation, the private inbox repo and webhook, My
+   contributions with report badges, and the release thank-you are all
+   live and verified end to end (`feedback-server/README.md`). All five
+   Cloudflare secrets are set, including `GITHUB_TOKEN` and a real
+   `TURNSTILE_SECRET` (`59f30d9`, 2026-09-06) — the two items this file and
+   `feedback-plan.md` both used to list as still needed. Two genuine gaps
+   remain: Phase 6's non-UI exit items (a "your contributions live in this
+   profile, sync/backup carries them" disclosure, optional private
+   milestones, and a real accessibility audit of the feedback/contributions
+   screens — reduced-motion is done, the rest isn't), and Phase 7 as
+   originally scoped (automated GitHub Actions triage + agent-fix
+   workflows) — what exists instead is a smaller, manual substitute: the
+   `kanaquest-feedback-triage` Claude Code skill (`e2656f0`, 2026-09-07),
+   run on demand or on schedule, which drafts a triage plan for the owner
+   to review by hand. It applies no labels and starts no agent-fix
+   workflow, so it covers Phase 7's triage-suggestion idea only, not its
+   labelling or agent-drafted-fix stages.
 3. **Contingent, low priority: import known words from Anki/WaniKani**
    (`external-import-plan.md`, pure aspiration, zero code). Only worth
    picking up if bulk "Mark as known" turns out to be insufficient in
-   practice — not scheduled, no decision pending.
+   practice — not scheduled, no decision pending. Confirmed still
+   accurate 2026-09-08 — this is the one plan deliberately not re-audited
+   in the documentation-audit pass, since there is nothing in it to check
+   against code.
 
 **One real follow-up surfaced by the FSRS work** (not in the original
 list, spawned as its own task chip, `task_efdca0ca`, during this pass):
@@ -255,6 +296,65 @@ deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5
 both times) — it went well; nothing wrong was found that needed more than
 one small copy fix. No standing reason to prefer or avoid Fable for the
 items below on that basis alone.
+
+## Documentation audit findings, 2026-09-08
+
+Every implementation plan in the repo except `external-import-plan.md` was
+individually re-read against current source and git history and corrected
+in place; each plan file itself now carries the detailed evidence and
+commit citations. This section is the short version, for the doc that's
+supposed to be current without opening eight other files.
+
+- **`sync-plan.md`** — phases 0-3 re-confirmed accurate by a source-level
+  grep (not just re-reading the plan's own claim). **Phase 4 (clock-skew
+  correction, remote delete on profile deletion) is still genuinely
+  unbuilt** — no clock-offset code anywhere, `delete-profile` never calls
+  `deleteSyncState()` or issues a remote delete, so a deleted profile's
+  remote document sits orphaned until the 5-year sweep. Also noted: the
+  onboarding flow's "I already use Kana Quest" path (`d6cee72`) reuses this
+  same pairing UI rather than building a second one, which is corroborating
+  evidence sync is genuinely live, not just wired.
+- **`kanji-expansion-plan.md`** — phases 0-6, 8 re-verified against the
+  actual generated data (2,136 jōyō + 897 beyond-jōyō kanji, exact phase
+  counts match). **Phase 7 (JLPT/frequency orderings) confirmed still
+  unbuilt.** One stale claim fixed: the "one headline bulk-enroll button
+  above three toggles" enrollment UI described in §2.5 was replaced
+  2026-09-07 with one spelled-out button per mode and no bulk control on
+  the detail screen — though a *different* bulk enrollment tool (a set
+  overview "＋ Choose what to study" sweep) shipped the same day, resolving
+  §8's open question about wanting one at all.
+- **`vocab-plan.md`** — the furigana.js extraction this file listed as "did
+  not happen" actually happened **partially**: `6f5394d` (2026-09-04)
+  shares the "is this reading hidden" predicate between `app.js` and
+  `src/reader.js`, but the surrounding per-word/per-kanji aggregation and
+  the two tap-state machines remain deliberately separate. A13 ("the set
+  text and film") is still a genuine, deliberate stub. Also fixed: §7.5's
+  claim that the end-of-story list is "the only place a reading session
+  turns into study" — a one-tap add on the gloss card itself shipped
+  2026-09-04 (`a27a9cf`) as an earlier, optional opportunity to do the same
+  thing.
+- **`stories-plan.md`** and **`story-continuity-audit.md`** — the story
+  count is **30, not 24** (a fifth story was added at every level,
+  `29cef88`); two of the 30 now carry a non-null `series` tag (naming the
+  canonical work they adapt) though neither is actually serialized
+  (`of: 1`) — Phase 9 (real multi-episode serialization) is still
+  genuinely unbuilt. The continuity audit's revisions were spot-checked and
+  genuinely applied (typos and unmotivated details gone, sentence counts
+  match). Its scope is now six stories behind the current count — the six
+  added since are all Claude Opus 5.0-credited like the two originally
+  excluded, so they're out of scope by the audit's own different-author
+  logic, but none has actually been continuity-checked.
+- **`writing-mode-plan.md`** — two genuine follow-ups from real use since
+  this doc was last touched, now recorded as new §7.10/§7.11: hint-button
+  crowding/sizing fixes, and a real behavior change worth knowing about —
+  **the default Writing-mode preference switched from Dynamic to Guided**
+  (`f08d488`, 2026-09-06), and a kanji's first-ever writing appearance now
+  always runs a fixed Trace/Trace/Guided drill regardless of the learner's
+  chosen mode.
+- **`feedback-plan.md`** and **`kanji-mnemonic-plan.md`** — see "Remaining"
+  above; both had their top-level status corrected there.
+- **`onboarding-plan.md`** needed no correction — it was kept current by
+  whoever made the 2026-09-06/07 commits that extended it (§10, §11).
 
 ## Decided against / explicitly not needed
 

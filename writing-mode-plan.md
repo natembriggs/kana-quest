@@ -1,9 +1,10 @@
 # Writing mode — implementation plan
 
 **Status: COMPLETE and shipped.** All six phases in §7 are done, and every
-follow-up correction found through real phone use (§7.1–§7.8) has landed and
-been confirmed working on-device — including the last one, the "taps needing
-to land twice" bug in §7.6.
+follow-up correction found through real phone use (§7.1–§7.11) has landed and
+been confirmed working on-device — including the two most recent, the
+hint-button crowding/sizing fixes in §7.10 and the Guided-by-default/
+Trace-Trace-Guided kanji intro drill in §7.11.
 
 This document is kept as the design record for writing mode, not as a live
 work list. Nothing here is outstanding; §8 lists the known trade-offs that
@@ -667,6 +668,59 @@ tap delay it implies) and leaves pinch-zoom untouched. Unrelated to the
 canvas's own `touch-action: none` (§3.3), which exists for stroke capture,
 not zoom — the two rules don't conflict, since the canvas's own value still
 wins on the canvas by CSS specificity/locality.
+
+### 7.10 The hint-peek buttons crowded Next, then needed to grow on wider screens
+
+Two more corrections to the hold-to-peek buttons from §7.2, both from real
+phone use.
+
+**`372ddd3` (2026-09-04).** "Show next stroke" / "Show full character" sat on
+the shared `.row` class, whose `flex: 1` stretch spanned them across the full
+width of their row — putting "Show full character" on the right, exactly
+where `#writing-next` lands once the hints hide and `#writing-result` flows
+into that same slot (§7.2's "replaces rather than adds" layout). A fast tap
+aimed at Next on a phone could land on the hint button that had been there a
+moment before, turning a correct character into what looked like a missed
+tap. Fixed by dropping `.row` from `#writing-hints` and giving it its own
+left-stacked, natural-width layout instead, confirmed against a real DOM in
+mobile-viewport testing — the hint buttons now sit low and to the left, and
+Next appears in what was empty space to their right, with no button left in
+the tap zone Next occupies.
+
+**`a687c0f` (2026-09-08, kana-quest-feedback#8).** The same two buttons were
+fixed at a compact 40px/13px size everywhere, sized for the crowding problem
+above on narrow phones. On tablets (and phones in landscape) that leaves
+unused room, so past a 640px viewport width — the breakpoint already used
+elsewhere in the stylesheet — they grow to 44px/15px with roomier padding.
+Styling only; no behaviour change.
+
+### 7.11 Guided is now the default practice mode, and a new kanji gets a fixed Trace/Trace/Guided drill
+
+`f08d488` (2026-09-06) changes two things §3 and §7.8 above no longer
+describe correctly.
+
+**The default practice-mode preference changed from Dynamic to Guided.**
+Dynamic's per-character mode switching (§7.8) was judged too confusing to be
+what a fresh profile starts on. `defaultSettings()` in `src/store.js` now
+sets `writingModePreference: 'guided'`, and `renderWritingModePicker()` in
+`app.js` falls back to `'guided'` rather than `'dynamic'` for a profile that
+predates the field. Dynamic is still selectable on the course-screen picker
+alongside Trace/Guided/Free — only the default changed.
+
+**A kanji's first-ever appearance in Writing mode now runs a fixed
+Trace/Trace/Guided drill**, overriding whatever practice-mode preference is
+in effect (including an explicit Trace/Guided/Free choice, not just Dynamic).
+In `startSession()`, a `kind === 'new'` writing session over a kanji course
+triples each new kanji into three consecutive queue positions and builds
+`session.writingIntroModeByPosition` (`['trace', 'trace', 'guided']` per
+kanji); `renderWritingQuestion()` reads that array ahead of both
+`writingModeOverride` and `autoWritingMode()`, so it wins outright for those
+three questions. `finishWritingCharacter()` suppresses the difficulty-ladder
+switch button during the drill (introMode already dictates the mode, so
+offering "Try harder mode" would be a dead control), and
+`#writing-difficulty` itself is hidden for the same reason. Scoped to new
+kanji only — kana have no equivalent "introducing a new character" moment,
+so kana writing sessions are unaffected.
 
 ## 8. Open questions
 
