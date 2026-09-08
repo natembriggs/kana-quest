@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-07g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-08a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -9810,18 +9810,29 @@ function updateFeedbackCount() {
   $('feedback-count').textContent = used ? `${used} / 4000` : '';
 }
 
-// Voice input for the feedback form (title + details). Only Chrome/Safari
-// implement SpeechRecognition today, so the mic buttons are hidden entirely
-// where it doesn't exist rather than shown-then-broken. One recognition
-// session runs at a time — starting one field's mic stops the other's.
+// Voice input for the feedback form. Only Chrome/Safari implement
+// SpeechRecognition today, so the mic button is hidden entirely where it
+// doesn't exist rather than shown-then-broken.
 let feedbackRecognition = null;
 let feedbackVoiceButton = null;
-let feedbackVoiceStartTimer = null;
+let feedbackVoiceTimer = null;
+// Bumped by every start and every stop, so a permission prompt still on
+// screen when the learner taps again — or closes the sheet — knows to
+// abandon itself instead of starting a session nobody asked for any more.
+let feedbackVoiceGeneration = 0;
 
-// iOS standalone-PWA Safari sometimes never hands focus back after the mic
-// permission sheet, so recognition.start() never reaches onstart/onresult —
-// this timeout is the fallback out of that stuck state.
+// Nothing at all reported back from recognition.start().
 const FEEDBACK_VOICE_START_TIMEOUT_MS = 6000;
+// Started, but never produced a single word. WebKit can go quiet straight
+// after start() without ever firing onerror or onend, which leaves the mic
+// looking live while nothing is being heard. Only the FIRST result is
+// waited for like this — once words are arriving, a long pause is a learner
+// thinking, not a fault, and cutting them off there would be its own bug.
+const FEEDBACK_VOICE_FIRST_RESULT_TIMEOUT_MS = 12000;
+// Longer than an instant grant, shorter than anyone can read a permission
+// sheet: separates "already allowed" from "a prompt just went up", which is
+// what decides whether the tap's user activation is still worth anything.
+const FEEDBACK_VOICE_PROMPT_MS = 250;
 
 function getSpeechRecognitionCtor() {
   return window.SpeechRecognition || window.webkitSpeechRecognition || null;
@@ -9837,74 +9848,174 @@ function setupFeedbackVoiceButtons() {
   });
 }
 
-function stopFeedbackVoice() {
-  if (feedbackVoiceStartTimer) {
-    clearTimeout(feedbackVoiceStartTimer);
-    feedbackVoiceStartTimer = null;
-  }
-  if (feedbackRecognition) {
-    const recognition = feedbackRecognition;
-    feedbackRecognition = null;
-    recognition.onend = null;
-    recognition.stop();
-  }
-  if (feedbackVoiceButton) {
-    feedbackVoiceButton.classList.remove('listening');
-    feedbackVoiceButton.setAttribute('aria-label', 'Use voice instead of typing');
-    feedbackVoiceButton = null;
+/**
+ * iOS hands out microphone access in two stages: an OS-level prompt for the
+ * web app itself, then a per-origin prompt for speech recognition. Asking
+ * for both from inside recognition.start() is what wedges a home-screen
+ * app — WebKit never reports back from the first one, so onstart, onerror
+ * and onend all stay silent and the app looks frozen until it is force
+ * quit. (Reported from a standalone iPhone install; the same learner found
+ * that relaunching and trying again worked, because by then the OS-level
+ * grant was already on record.)
+ *
+ * getUserMedia asks for that same OS-level grant through a promise that
+ * actually settles, so it goes first and recognition is handed a permission
+ * it already has. The track is stopped the moment it arrives — the grant
+ * was the only thing wanted from it.
+ *
+ * iOS only. Everywhere else the two grants are the same grant, and priming
+ * would mean a second prompt in exchange for nothing.
+ */
+async function primeMicrophonePermission() {
+  if (!isIOSDevice()) return 'skipped';
+  const media = navigator.mediaDevices;
+  if (!media || typeof media.getUserMedia !== 'function') return 'skipped';
+  try {
+    const stream = await media.getUserMedia({ audio: true });
+    stream.getTracks().forEach((track) => track.stop());
+    return 'granted';
+  } catch (error) {
+    // A refusal is worth reporting. Anything else — no microphone on the
+    // device, some internal WebKit failure — is not worth blocking on: let
+    // recognition have its own go at it.
+    return error && error.name === 'NotAllowedError' ? 'denied' : 'skipped';
   }
 }
 
-function startFeedbackVoice(button) {
+function clearFeedbackVoiceTimer() {
+  if (!feedbackVoiceTimer) return;
+  clearTimeout(feedbackVoiceTimer);
+  feedbackVoiceTimer = null;
+}
+
+function releaseFeedbackVoiceButton() {
+  if (!feedbackVoiceButton) return;
+  feedbackVoiceButton.classList.remove('listening');
+  feedbackVoiceButton.setAttribute('aria-label', 'Use voice instead of typing');
+  feedbackVoiceButton = null;
+}
+
+function stopFeedbackVoice() {
+  feedbackVoiceGeneration += 1;
+  clearFeedbackVoiceTimer();
+  const recognition = feedbackRecognition;
+  feedbackRecognition = null;
+  // The button is released BEFORE anything that can throw. abort() on a
+  // recognition whose start() never completed throws in WebKit, and this
+  // reset used to sit after it — so the mic stayed stuck on `listening`
+  // with no way back, every later tap landing on the same throw. A mic
+  // that cannot be turned off is most of what "the app froze" means from
+  // the outside.
+  releaseFeedbackVoiceButton();
+  if (!recognition) return;
+  recognition.onstart = null;
+  recognition.onresult = null;
+  recognition.onerror = null;
+  recognition.onend = null;
+  // abort(), not stop(): stop() asks for one more final result and can sit
+  // there waiting for it. Whatever was heard is already in the field.
+  try { recognition.abort(); } catch { /* never started; nothing to abort */ }
+}
+
+/**
+ * Every phrase of the session, joined with single spaces.
+ *
+ * WebKit hands back each phrase with no leading space of its own, so
+ * concatenating them ran the last word of one into the first word of the
+ * next — pause, carry on speaking, and "hello world" arrived as
+ * "helloworld". Chrome supplies that space itself, which the trim
+ * normalises away, so both browsers now space the same.
+ *
+ * Punctuation is not something either browser offers here: unlike the iOS
+ * keyboard's own dictation, the Web Speech API has no spoken "full stop".
+ */
+export function joinSpeechSegments(results) {
+  const parts = [];
+  for (let i = 0; i < results.length; i += 1) {
+    const phrase = (results[i] && results[i][0] ? results[i][0].transcript : '').trim();
+    if (phrase) parts.push(phrase);
+  }
+  return parts.join(' ');
+}
+
+async function startFeedbackVoice(button) {
   const Ctor = getSpeechRecognitionCtor();
   if (!Ctor) return;
   stopFeedbackVoice();
 
+  const generation = feedbackVoiceGeneration;
   const field = $(button.dataset.voiceFor);
   const baseValue = field.value;
   const needsSpace = baseValue.length > 0 && !/\s$/.test(baseValue);
+
+  // The button is claimed before the await, not after: a permission prompt
+  // can sit on screen for several seconds, and the learner needs to see
+  // that their tap landed — and to be able to take it back.
+  feedbackVoiceButton = button;
+  button.classList.add('listening');
+  button.setAttribute('aria-label', 'Stop voice input');
+  feedbackError('');
+
+  const askedAt = Date.now();
+  const permission = await primeMicrophonePermission();
+  if (generation !== feedbackVoiceGeneration) return; // tapped again, or the sheet closed
+  if (permission === 'denied') {
+    stopFeedbackVoice();
+    feedbackError('The microphone needs your permission first — you can still type.');
+    return;
+  }
+  // A prompt the learner had to stop and read spends the tap's user
+  // activation, and browsers refuse recognition.start() without one. It is
+  // still worth trying — the grant may have been instant — but when it
+  // isn't, the way out is one more tap, and saying so beats a dead mic.
+  const prompted = Date.now() - askedAt > FEEDBACK_VOICE_PROMPT_MS;
+  const stalled = () => {
+    stopFeedbackVoice();
+    feedbackError(prompted
+      ? 'Microphone allowed — tap 🎤 again to start talking.'
+      : "Voice input didn't start — you can still type.");
+  };
+
   const recognition = new Ctor();
   recognition.lang = navigator.language || 'en-US';
   recognition.continuous = true;
   recognition.interimResults = true;
 
-  const clearStartTimer = () => {
-    if (feedbackVoiceStartTimer) {
-      clearTimeout(feedbackVoiceStartTimer);
-      feedbackVoiceStartTimer = null;
-    }
+  recognition.onstart = () => {
+    clearFeedbackVoiceTimer();
+    feedbackVoiceTimer = setTimeout(() => {
+      feedbackVoiceTimer = null;
+      if (feedbackRecognition === recognition) stalled();
+    }, FEEDBACK_VOICE_FIRST_RESULT_TIMEOUT_MS);
   };
-  recognition.onstart = clearStartTimer;
   recognition.onresult = (event) => {
-    clearStartTimer();
-    let transcript = '';
-    for (let i = 0; i < event.results.length; i += 1) transcript += event.results[i][0].transcript;
-    field.value = transcript ? `${baseValue}${needsSpace ? ' ' : ''}${transcript}` : baseValue;
+    clearFeedbackVoiceTimer();
+    const spoken = joinSpeechSegments(event.results);
+    field.value = spoken ? `${baseValue}${needsSpace ? ' ' : ''}${spoken}` : baseValue;
     if (field.id === 'feedback-details') updateFeedbackCount();
   };
   recognition.onerror = (event) => {
-    if (event.error !== 'no-speech' && event.error !== 'aborted') {
-      feedbackError("Couldn't hear you through the microphone — you can still type.");
-    }
+    const problem = event.error;
+    if (problem === 'aborted') return; // our own stop
+    stopFeedbackVoice();
+    if (problem === 'no-speech') return; // nothing was said; not worth a message
+    feedbackError(problem === 'not-allowed' || problem === 'service-not-allowed'
+      ? 'The microphone needs your permission first — you can still type.'
+      : "Couldn't hear you through the microphone — you can still type.");
   };
   recognition.onend = () => { if (feedbackRecognition === recognition) stopFeedbackVoice(); };
 
   feedbackRecognition = recognition;
-  feedbackVoiceButton = button;
-  button.classList.add('listening');
-  button.setAttribute('aria-label', 'Stop voice input');
   try {
     recognition.start();
-    feedbackVoiceStartTimer = setTimeout(() => {
-      feedbackVoiceStartTimer = null;
-      if (feedbackRecognition === recognition) {
-        stopFeedbackVoice();
-        feedbackError("Voice input didn't start — you can still type.");
-      }
-    }, FEEDBACK_VOICE_START_TIMEOUT_MS);
   } catch {
-    stopFeedbackVoice();
+    stalled();
+    return;
   }
+  feedbackVoiceTimer = setTimeout(() => {
+    feedbackVoiceTimer = null;
+    if (feedbackRecognition === recognition) stalled();
+  }, FEEDBACK_VOICE_START_TIMEOUT_MS);
 }
 
 function feedbackError(message) {

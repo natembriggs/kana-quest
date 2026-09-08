@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-08',
+    changes: [
+      'Changed: the "Show next stroke" and "Show full character" buttons in Writing mode are a bit bigger on tablets (and phones turned sideways), where there’s room to spare.',
+    ],
+  },
+  {
     date: '2026-09-07',
     changes: [
       'New: the set overview now has two buttons instead of one. \u201c\u2713 Mark as known\u201d is the one that was already there; beside it, \u201c\uFF0B Choose what to study\u201d lets you tick several characters and add them all to your study list at once, so lining up the next batch no longer means opening each one\u2019s own page. Both use the same tapping; what they write is the opposite \u2014 one says \u201cI have this already\u201d, the other says \u201cteach me this next\u201d. The confirm button now spells out which mode it means, too: \u201cI know the definitions of these 12 kanji\u201d rather than \u201cMark 12 as known\u201d.',
