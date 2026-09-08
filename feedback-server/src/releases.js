@@ -14,7 +14,7 @@
 import { RELEASE_SIGNATURE_WINDOW_MS } from './config.js';
 import { hmacBytesHex, sha256Hex, timingSafeEqual } from './crypto.js';
 import { markReleased, recordRelease, rowsForIssues } from './db.js';
-import { isValidVersion } from './version.js';
+import { compareVersions, isValidVersion } from './version.js';
 
 /**
  * The signature covers the timestamp and the raw body together, so a
@@ -41,6 +41,36 @@ export function mappingFingerprint(credits) {
     .map((c) => `${c.issue}:${c.message}`)
     .join('\n');
   return sha256Hex(canonical);
+}
+
+/**
+ * Whether a release at `next` may overwrite a report already released at
+ * `previous`. Three cases, and the middle one is the whole reason this
+ * function exists:
+ *
+ * - Never released — always.
+ * - Released at an OLDER version — yes. A report can genuinely be answered
+ *   twice: a first fix ships, it turns out not to be good enough, a better
+ *   one ships later. The client already expects exactly this
+ *   (pendingCelebrations re-fires when acknowledgedVersion is older than
+ *   releasedIn, and acknowledgeCelebrations' own comment says "a later,
+ *   bigger release can still celebrate separately"); only this check stood
+ *   in the way, and the alternative was editing the database by hand.
+ * - Released at the SAME or a NEWER version — no. Same version is a replay,
+ *   already a no-op and already guaranteed by recordRelease to carry an
+ *   identical message. Newer is a release run out of order — an old deploy
+ *   script firing late — and letting it through would downgrade what a
+ *   learner has already been told to something staler.
+ *
+ * Deliberately compared here and not in the UPDATE's WHERE clause: the
+ * version format is only ACCIDENTALLY ordered by string comparison (see the
+ * header of version.js), and an unparseable version makes compareVersions
+ * return null, which has to mean "leave it alone" rather than "assume older".
+ */
+export function releaseSupersedes(previous, next) {
+  if (!previous) return true;
+  const compared = compareVersions(next, previous);
+  return compared !== null && compared > 0;
 }
 
 export async function handleRelease(request, env, rawBytes) {
@@ -103,15 +133,21 @@ export async function handleRelease(request, env, rawBytes) {
   const rows = await rowsForIssues(env.DB, issueNumbers);
   const messageFor = new Map(credits.map((c) => [c.issue, c.message]));
 
+  // `credited` counts rows this call actually changed, not rows it looked
+  // at. It used to count the latter, which meant a call that updated nothing
+  // — every credit for an already-released report — still reported success,
+  // and the only way to find out was to query the database by hand.
   let credited = 0;
+  let skipped = 0;
   for (const row of rows) {
     const key = messageFor.has(row.github_issue_number)
       ? row.github_issue_number
       : row.canonical_issue_number;
     const message = messageFor.get(key);
     if (!message) continue;
-    await markReleased(env.DB, row, { version, message, now });
-    credited += 1;
+    if (!releaseSupersedes(row.released_version, version)) { skipped += 1; continue; }
+    const changed = await markReleased(env.DB, row, { version, message, now });
+    if (changed) credited += 1; else skipped += 1;
   }
 
   return json({
@@ -119,6 +155,13 @@ export async function handleRelease(request, env, rawBytes) {
     version,
     replay: recorded.replay,
     credited,
+    // Rows a credit named but did not change: already released at this
+    // version or a newer one (see releaseSupersedes). Not an error — a
+    // re-run of a deploy skips everything it already did — but the
+    // difference between "credited 1" and "skipped 1" is the difference
+    // between a learner being told and not, so it is reported rather than
+    // folded into the count above.
+    skipped,
     // Issues named in the payload that no row maps to. Almost always a fix
     // for something nobody reported through the app, which is normal — but
     // worth surfacing in the workflow log rather than swallowing.

@@ -18,7 +18,7 @@ import {
 import { idFromMarker, issueBody, issueLabels, issueTitle } from '../src/issue-body.js';
 import { atLeast, compareVersions, parseVersion } from '../src/version.js';
 import { translateIssueEvent, verifySignature } from '../src/webhook.js';
-import { mappingFingerprint, signRelease } from '../src/releases.js';
+import { mappingFingerprint, releaseSupersedes, signRelease } from '../src/releases.js';
 import { hmacBytesHex, timingSafeEqual } from '../src/crypto.js';
 
 const RECEIPT = 'A'.repeat(43);
@@ -299,4 +299,31 @@ test('the release mapping fingerprint ignores order but not content', async () =
   const three = await mappingFingerprint([{ issue: 1, message: 'a' }, { issue: 2, message: 'CHANGED' }]);
   assert.equal(one, two, 'a re-run of the same deploy must hash identically');
   assert.notEqual(one, three, 'a different mapping for the same version must not');
+});
+
+// A report can be answered twice: a first fix ships, turns out not to be
+// good enough, and a better one ships later. The client has always expected
+// that (pendingCelebrations re-fires when acknowledgedVersion is older than
+// releasedIn); until 2026-09-08 the server refused to record it, so the only
+// way to thank somebody a second time was to edit the database by hand.
+test('a later release supersedes an earlier one for the same report', () => {
+  assert.equal(releaseSupersedes(null, '2026-09-07g'), true, 'never released before');
+  assert.equal(releaseSupersedes('', '2026-09-07g'), true, 'empty reads as never released');
+  assert.equal(releaseSupersedes('2026-09-06k', '2026-09-07g'), true, 'a later day');
+  assert.equal(releaseSupersedes('2026-09-07f', '2026-09-07g'), true, 'a later build the same day');
+  assert.equal(releaseSupersedes('2026-09-07', '2026-09-07a'), true, 'no suffix is the first build');
+});
+
+test('a release never overwrites itself or anything newer', () => {
+  assert.equal(releaseSupersedes('2026-09-07g', '2026-09-07g'), false,
+    'a replayed deploy changes nothing — and recordRelease already guarantees the same message');
+  assert.equal(releaseSupersedes('2026-09-07g', '2026-09-07f'), false,
+    'an old deploy script firing late must not downgrade what a learner was told');
+  assert.equal(releaseSupersedes('2026-09-07g', '2026-09-06k'), false, 'nor an earlier day');
+});
+
+test('an unparseable version leaves the report alone rather than guessing', () => {
+  assert.equal(releaseSupersedes('garbage', '2026-09-07g'), false);
+  assert.equal(releaseSupersedes('2026-09-07g', 'garbage'), false);
+  assert.equal(releaseSupersedes('garbage', 'nonsense'), false);
 });

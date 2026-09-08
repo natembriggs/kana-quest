@@ -236,20 +236,37 @@ export async function recordRelease(db, { version, deployedAt, sourceCommit, map
   return { ok: true, replay: false };
 }
 
+/**
+ * Write the release onto one report, and log the event. Returns whether the
+ * report actually changed.
+ *
+ * WHETHER this release may overwrite an earlier one is decided before we get
+ * here, by releaseSupersedes() in releases.js — the version format cannot be
+ * compared safely in SQL (see the header of version.js). What the WHERE
+ * clause does instead is optimistic concurrency: it pins the update to the
+ * released_version the caller actually read and made its decision about, so
+ * two releases racing on one report cannot both win.
+ *
+ * The event insert is keyed per version, so a report released twice — a
+ * first fix that turned out not to be enough, then a better one — keeps both
+ * events, while a replayed deploy adds none.
+ */
 export async function markReleased(db, row, { version, message, now }) {
-  await db.batch([
+  const results = await db.batch([
     db.prepare(`
       UPDATE feedback_requests
          SET status = 'released', status_updated_at = ?, released_version = ?,
              release_message = ?, released_at = ?, updated_at = ?
-       WHERE id = ? AND (released_version IS NULL OR released_version = ?)
-    `).bind(now, version, message, now, now, row.id, version),
+       WHERE id = ? AND released_version IS ?
+    `).bind(now, version, message, now, now, row.id, row.released_version || null),
     db.prepare(`
       INSERT INTO feedback_events (feedback_id, type, message, source, source_event_id, created_at)
       VALUES (?, 'released', ?, 'release', ?, ?)
       ON CONFLICT (source, source_event_id) WHERE source_event_id IS NOT NULL DO NOTHING
     `).bind(row.id, message, `release:${version}:${row.id}`, now),
   ]);
+  const update = Array.isArray(results) ? results[0] : null;
+  return !!(update && update.meta && update.meta.changes);
 }
 
 /** Webhook replay defence. Returns false if this delivery has been seen. */

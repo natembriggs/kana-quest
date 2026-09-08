@@ -141,6 +141,15 @@ Re-running an identical call is a no-op. The same version with a *different*
 mapping is refused with `409 version_conflict` — a learner who has been told
 their fix shipped must not be quietly untold.
 
+A report can be credited **again at a later version**, and that is deliberate:
+a first fix ships, turns out not to be good enough, a better one ships later,
+and the learner is thanked a second time. `releaseSupersedes()` allows only
+strictly-newer versions, so an old deploy firing late can never downgrade what
+someone has already been told. The response separates `credited` (rows this
+call actually changed) from `skipped` (named, but already at this version or
+newer) — the count used to include rows it had not touched, which made a call
+that did nothing look like a success.
+
 ## Verified end to end
 
 Against the deployed Worker and the real inbox repository, on 2026-09-06:
