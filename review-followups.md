@@ -46,6 +46,21 @@ AA-passing ones findable, treat further narrowing as a real trade-off
 rather than a given). Left explicitly for later, at the owner's direction:
 kanji-expansion-plan.md's Phase 7 (JLPT/frequency orderings).
 
+**Eighth pass, 2026-09-08 (same day, live bug report against §7's own
+build).** The app owner hit a real regression while using the sync-Phase-4
+build above: 出 was still quizzable on its スイ reading with no recognizable
+common word behind it, even after `fd6bd2b` (2026-09-07) was supposed to
+have fixed exactly this class of bug. Full investigation, the rejected
+fix, the shipped fix, and a dataset-wide sizing of the same category (580
+"strong" readings backed only by written- not spoken-commonness, plus
+1,047 already-known fallback-tier readings) are recorded at
+`kanji-expansion-plan.md` §4.5, including two words flagged for the
+owner's own review (扶/フ, 喚/カン) and one unrelated content-
+appropriateness finding (淫/イン's only example is "prostitution") — none
+of the three acted on yet, deliberately. The owner is now using the app
+normally to surface anything else that still feels wrong, rather than
+this being chased further by more dataset scans.
+
 ## Remaining (not built this pass)
 
 Two items from the original 2026-09-04 build order were deliberately left

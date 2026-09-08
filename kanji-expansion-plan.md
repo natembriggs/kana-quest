@@ -848,6 +848,97 @@ fix produces **zero** diff in grades 1-6/8 versus a jōyō-only (no beyond-jōy�
 set at all) run, i.e. the fix fully isolates the fallback pass's effect to
 kanji that actually needed it, exactly as originally intended.
 
+### 4.5 A fourth bug, found from a user report: a reading can pass JMdict's own "common" tag without feeling common at all
+
+**Background this doc never recorded before now.** Between §4.4 and this
+section, `fd6bd2b` (2026-09-07, also from a user report — kana-quest-feedback
+#7) added a first pass at "genuinely common" reading selection: `quiz_on`/
+`quiz_kun` are built in two tiers per category (on'yomi, kun'yomi) — a
+reading whose backing word is written-common (`is_written_common`, JMdict
+`nf<=24` or `news1`) or spoken-common (`is_spoken`, top ~8,000 of the
+Tanaka/subtitle corpora) is preferred; the category falls back to its
+merely-tagged readings only when it has no common one at all. That fix
+dropped 288 of 5,283 quiz readings dataset-wide. It was never written up
+here — this section folds in both, since the second bug is a direct
+continuation of the first.
+
+**The recurrence.** A learner reported still being quizzed on 出's スイ
+reading with no recognizable common word behind it, after fd6bd2b was
+supposed to fix exactly this. Investigated: スイ's only candidate is 出納
+("receipts and expenditure," すいとう) — genuinely obscure to a learner,
+but carrying JMdict's own `nf24`/`news1`/`ichi1` priority tags, so it
+clears `is_written_common`'s bar on paper. fd6bd2b's fix trusted that bar
+as its definition of "genuinely common"; this is a case where the bar
+itself is too permissive, not a case the tiering logic mishandled.
+
+**Rejected fix: tightening the shared threshold.** Tried halving
+`is_written_common`'s cutoff (`nf<=24` → `nf<=12`) and regenerating.
+Rejected after inspection — it also dropped several unambiguously basic
+words sitting in the exact same newspaper-frequency band as 出納: 七つ
+("seven"), よん (a core reading of 四, "four"), 八百屋 ("greengrocer"),
+九九 ("multiplication table"), 小雨 ("light rain"). Newspaper-corpus
+frequency systematically underrepresents exactly the everyday/children's
+vocabulary this app teaches — there is no single numeric threshold on that
+axis that separates 出納 from those.
+
+**Fix shipped: a small, hand-curated denylist.** `OBSCURE_WORD_OVERRIDE`
+in `tools/build_kanji_data.py` — words excluded from counting as
+written-common *or* spoken-common (`_is_common` ANDs the exclusion onto
+the whole `written OR spoken` check, not just the written half) regardless
+of what JMdict's own tags say, extended by hand as real reports come in.
+The same shape of exception as `vocab-plan.md`'s CORE_ENTRIES/A12_ENTRIES
+for "automated ranking gets a specific case wrong." Started with one entry,
+出納. Regenerating with only this change (isolated from unrelated
+JMdict-source drift — the fetched source data itself had moved on since
+fd6bd2b, and that incidental drift was deliberately left out of the
+shipped commit) affects exactly two kanji: 出's スイ and 納's トウ, both
+solely anchored by 出納. Confirmed by diffing an unmodified-code run
+against the fix — no other kanji touched.
+
+**Verified the spoken-commonness criterion is unaffected.** Checked every
+candidate word for both affected readings directly: 出納 was never
+spoken-common to begin with (`is_spoken=False` — absent from both the
+Tanaka Corpus and the subtitle-frequency data, being a formal/written
+term), so it was only ever qualifying through the written-only path.
+Denylisting it could not have removed a spoken-common qualification
+anywhere in the dataset, since `is_spoken` is a fixed property of the word
+itself, not computed per-reading.
+
+**How big is this category, dataset-wide?** Requested by the app owner,
+computed directly from `keep()`/`_is_common()` over the full shipped
+dataset (4,992 total quizzed readings):
+
+| Category | Count |
+| --- | --- |
+| "Strong" (genuinely common) reading with a spoken-common backer | 3,365 |
+| "Strong" reading backed *only* by written-commonness, zero spoken backing | 580 |
+| Weak-tier (tagged word exists, not common, no strong alternative in that category) | 616 |
+| Zero-tag fallback (kanji with no commonly-tagged word anywhere — almost entirely obscure beyond-jōyō "names & places" kanji) | 431 |
+
+Random-sampled 15 of the 580 written-only-strong readings for a spot
+check: most are genuinely fine everyday-enough words that simply don't
+show up in casual-dialogue corpora (tree/nature names — 杉/すぎ, 柳/やなぎ;
+school-taught vocabulary — 幕/バク←幕府, 岩/ガン←溶岩). **Two read as the
+same flavor as 出納 and are worth the owner's own look before deciding
+whether to extend the denylist**: 扶/フ (only backed by 扶養, "support of
+dependents," a tax/legal term) and 喚/カン (only backed by 喚問, "summons,"
+a legal term). Not added to `OBSCURE_WORD_OVERRIDE` yet — deliberately
+left for the owner to confirm by ear/eye rather than assumed from this
+list alone, same caveat every "real phone" visual call in this repo gets.
+
+**A separate, unresolved finding, not a commonness issue at all:** 淫
+(イン)'s only backing word, in the zero-tag-fallback tier, is 淫売
+("prostitution") — the same character §4.4's bug already flagged as
+inappropriate content when it was leaking into *other* kanji's examples.
+This is 淫's *own* entry, which §4.4's fix didn't touch (that fix was about
+cross-contamination, not about 淫 itself). Whether to drop 淫 from the
+beyond-jōyō set entirely, or pick a different backing word for it, is
+still open — flagged here, not decided.
+
+**Status:** the app owner is now using the app normally and will report
+any further readings that still feel wrong; this section is the record to
+extend from, not a closed investigation.
+
 ---
 
 ## 5. Beyond jōyō
@@ -997,3 +1088,10 @@ Each phase leaves both test suites green and is independently shippable.
   instead of a mastery claim, via the same `sweepClaim()` the sweep uses.
   Turning on Writing for a whole grade no longer means opening each kanji's
   detail screen in turn.
+- **Whether to extend `OBSCURE_WORD_OVERRIDE` (§4.5) to 扶/フ and 喚/カン**,
+  the two words the dataset-wide spot check flagged as the same flavor as
+  出納 — left for the owner's own look, not decided here.
+- **Whether to drop 淫 from the beyond-jōyō set, or give it a different
+  backing word** (§4.5) — its only reading example is 淫売
+  ("prostitution"), a content-appropriateness issue distinct from anything
+  else in §4.5.
