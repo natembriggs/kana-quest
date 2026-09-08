@@ -431,7 +431,18 @@ button.quiz-glyph-tap {
      tap can't register as an answer. The third column becomes `auto` so a
      screen whose right slot is a bare spacer collapses it instead of
      leaving a tap-sized hole next to the new icon. */
-  grid-template-columns: var(--tap) 1fr auto auto;
+  /* minmax(0, 1fr), not bare 1fr: the quiz/writing progress bar sits in
+     this column and, being a childless bar with no text, should never need
+     more than 0 as its content-based minimum — but Safari's grid track
+     sizing has a known history of getting that minimum wrong for a fluid
+     column beside a sticky-positioned, negative-margin full-bleed parent
+     (reported: the progress bar invisible on an iOS home-screen install,
+     kana-quest-feedback#9), leaving the bar collapsed while the fixed-width
+     columns beside it (back button, counter, feedback icon) still render
+     fine off their own content size. minmax(0, 1fr) is the standard,
+     harmless-everywhere-else fix: it tells the track explicitly that it may
+     shrink to 0 before growing, instead of leaving Safari to infer it. */
+  grid-template-columns: var(--tap) minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   min-height: var(--tap);
@@ -782,7 +793,7 @@ button.quiz-glyph-tap {
    session is the thing worth a learner's attention there, not the way out
    of it. Scoped to .topbar specifically so the small script-card progress
    bars on the home screen (script-meta .progress) stay their own size. */
-.topbar .progress { height: 14px; }
+.topbar .progress { height: 14px; min-width: 0; }
 
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .actions .btn { padding: 0 10px; }
