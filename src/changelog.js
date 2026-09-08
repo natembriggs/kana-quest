@@ -20,6 +20,7 @@ export const CHANGELOG = [
       'Changed: deleting a learner now also removes their progress from the sync server, if they were syncing — previously it stayed there, unreachable from the app but not actually gone.',
       'Fixed: if a learner who is paired across two devices got deleted on one of them, the other could end up silently recreating them from its own old copy the next time it synced. Sync now stops and explains what happened instead — with a clear way to make a fresh copy here if that’s genuinely what you want.',
       'Changed: a brand-new hiragana or katakana character in Writing mode now starts with two traced passes before switching to Guided, the same fixed drill kanji already gets — previously kana skipped straight to whatever practice mode was already chosen.',
+      'Fixed: 出 could still be tested on its スイ reading with no real common word behind it (出納, "receipts and expenditure") — last week’s fix for obscure kanji readings caught readings backed only by an untagged word, but not one like this backed by a single word that’s technically tagged common in the dictionary without actually being a word you’d recognize. 納’s matching トウ reading, backed by the same word, is fixed the same way.',
     ],
   },
   {

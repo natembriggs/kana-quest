@@ -525,12 +525,39 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index, tanaka_freq, subtitle_
     return general, by_reading
 
 
+# Hand-curated exceptions to is_written_common/is_spoken (indices 4/6 of the
+# record tuple — see parse_jmdict_words), for a word that clears one of
+# those thresholds on paper but reads as obscure to an actual learner.
+# Started from one real report (kana-quest-feedback #7, again, after
+# fd6bd2b (2026-09-07) already fixed the near-identical "zero-tag" case but
+# left this narrower one standing): 出納 ("receipts and expenditure", a
+# bookkeeping term) is 出's ONLY candidate word for its スイ reading, and
+# carries nf24 + news1 + ichi1 — genuinely tagged as common by JMdict's own
+# scheme, on the strength of appearing in financial/newspaper writing and an
+# old core-vocabulary list, not because a learner would recognise it. Tried
+# and rejected: tightening the shared written-frequency threshold instead
+# (nf<=24 -> nf<=12) — regenerating with that change dropped several
+# genuinely basic words right alongside it (七つ "seven", よん as a reading
+# of 四, 八百屋 "greengrocer", 九九 "multiplication table", 小雨 "light
+# rain" all score in the SAME newspaper-frequency band as 出納, because
+# newspapers underrepresent exactly the everyday/children's vocabulary this
+# app teaches) — so there is no clean numeric axis that separates this case
+# from those. A short, deliberately curated list, extended by hand as real
+# reports come in, is the safe fix; the same shape of exception as
+# `vocab-plan.md`'s CORE_ENTRIES/A12_ENTRIES for "automated ranking finds
+# the wrong answer as often as the right one for a set this idiomatic."
+OBSCURE_WORD_OVERRIDE = {
+    "出納",  # すいとう — receipts and expenditure; 出's only スイ candidate
+}
+
+
 def _is_common(candidates):
     """A reading's candidate word list clears the "genuinely common" bar if
-    ANY of them is written-common or spoken-common (indices 4/6 of the record
-    tuple — see parse_jmdict_words) — one strong word is enough to anchor a
-    reading, even if the rest of its matches are obscure."""
-    return any(c[4] or c[6] for c in candidates)
+    ANY of them (other than an OBSCURE_WORD_OVERRIDE entry) is written-common
+    or spoken-common (indices 4/6 of the record tuple — see
+    parse_jmdict_words) — one strong word is enough to anchor a reading,
+    even if the rest of its matches are obscure."""
+    return any((c[4] or c[6]) and c[0] not in OBSCURE_WORD_OVERRIDE for c in candidates)
 
 
 def choose_examples(words, limit):

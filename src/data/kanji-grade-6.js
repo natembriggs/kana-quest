@@ -8456,15 +8456,13 @@ export const KANJI_ENTRIES = [
     "quizOn": [
       "ノウ",
       "ナッ",
-      "ナ",
-      "トウ"
+      "ナ"
     ],
     "quizKun": [],
     "quizReadings": [
       "ノウ",
       "ナッ",
-      "ナ",
-      "トウ"
+      "ナ"
     ],
     "readingExamples": {
       "ノウ": {
@@ -8481,11 +8479,6 @@ export const KANJI_ENTRIES = [
         "kanji": "納屋",
         "kana": "なや",
         "en": "barn (for storage)"
-      },
-      "トウ": {
-        "kanji": "出納",
-        "kana": "すいとう",
-        "en": "receipts and expenditure (disbursements)"
       }
     }
   },

@@ -1343,8 +1343,7 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "シュツ",
-      "スイ"
+      "シュツ"
     ],
     "quizKun": [
       "でる",
@@ -1353,7 +1352,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "シュツ",
-      "スイ",
       "でる",
       "で",
       "だす"
@@ -1363,11 +1361,6 @@ export const KANJI_ENTRIES = [
         "kanji": "出身",
         "kana": "しゅっしん",
         "en": "one's origin (e.g. city, country, parentage, school)"
-      },
-      "スイ": {
-        "kanji": "出納",
-        "kana": "すいとう",
-        "en": "receipts and expenditure (disbursements)"
       },
       "でる": {
         "kanji": "出る",
@@ -4915,7 +4908,7 @@ export const KANJI_ENTRIES = [
       "たち": {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop by"
+        "en": "to drop in (at)"
       },
       "たてる": {
         "kanji": "立てる",
