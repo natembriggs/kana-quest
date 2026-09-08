@@ -14,6 +14,8 @@ export const CHANGELOG = [
     date: '2026-09-08',
     changes: [
       'Changed: the "Show next stroke" and "Show full character" buttons in Writing mode are a bit bigger on tablets (and phones turned sideways), where there’s room to spare.',
+      'Fixed: on iPhone and iPad, the very first time you tapped \u{1F3A4} on the feedback form, granting the microphone could leave the app stuck with nothing to do but force it closed. The app now asks for microphone permission before it starts listening, rather than during, so the permission box can no longer wedge it — and the \u{1F3A4} button can always be tapped again to switch it off, which is what really left it looking frozen.',
+      'Fixed: dictating into the feedback box ran words together at every pause — stop for a moment, carry on speaking, and “hello world” arrived as “helloworld”. Each phrase now gets its own space. (Full stops and commas are still not something a browser’s own dictation offers; your keyboard’s \u{1F3A4} key does add them, if you have Dictation switched on in Settings.)',
     ],
   },
   {

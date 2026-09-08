@@ -207,12 +207,32 @@ globalThis.document = {
 // No layout engine means no getBoundingClientRect, which is what keeps the
 // sweep list in these tests at the one unit it opens with (see
 // watchSweepSentinel in app.js) until "Show more" is actually tapped.
+// A stand-in for the browser's speech recognition, installed on `window`
+// below because the feedback form's mic button hides itself at wire() time
+// wherever the browser has none. Nothing here transcribes anything — what
+// these tests exercise is the state machine around it: whether the button
+// can always be turned back off, and what happens when it never starts.
+const recognizers = [];
+let recognizerAbortThrows = false;
+class StubSpeechRecognition {
+  constructor() { this.started = false; recognizers.push(this); }
+  start() { this.started = true; }
+  stop() { this.stopped = true; }
+  abort() {
+    this.aborted = true;
+    // WebKit throws here when start() never got going. That throw used to
+    // land before the mic button was reset, stranding it on `listening`.
+    if (recognizerAbortThrows) throw new Error('InvalidStateError');
+  }
+}
+
 globalThis.window = {
   wanakana: globalThis.wanakana,
   scrollTo() {},
   innerHeight: 812,
   addEventListener() {},
   removeEventListener() {},
+  SpeechRecognition: StubSpeechRecognition,
 };
 let clipboardText = null;
 globalThis.navigator = { clipboard: { async writeText(text) { clipboardText = text; } } };
@@ -5177,6 +5197,61 @@ fire(findByText(el('reader-card-body'), 'Show definition'), 'click');
 for (let i = 0; i < 10; i += 1) await settle();
 check('a word outside the vocab curriculum shows neither "+ Add" nor "Studying" — nothing to add',
   !findByText(el('reader-card-body'), '+ Add') && !findByText(el('reader-card-body'), 'Studying'));
+
+// --- Feedback form: voice input -------------------------------------------
+
+// Phrases are joined, not concatenated. WebKit gives each phrase back with
+// no leading space of its own, so a pause mid-sentence used to run two words
+// together; Chrome supplies the space itself, which the trim takes back out.
+const asResults = (...phrases) => phrases.map((t) => [{ transcript: t }]);
+check('phrases spoken either side of a pause are joined with a space',
+  appModule.joinSpeechSegments(asResults('hello', 'world')) === 'hello world',
+  `"${appModule.joinSpeechSegments(asResults('hello', 'world'))}"`);
+check("a browser's own leading space is not doubled",
+  appModule.joinSpeechSegments(asResults('hello', ' world')) === 'hello world',
+  `"${appModule.joinSpeechSegments(asResults('hello', ' world'))}"`);
+check('an empty phrase does not leave a stray space behind',
+  appModule.joinSpeechSegments(asResults('hello', '  ', 'world')) === 'hello world',
+  `"${appModule.joinSpeechSegments(asResults('hello', '  ', 'world'))}"`);
+check('nothing heard yet is the empty string, not a space',
+  appModule.joinSpeechSegments(asResults()) === '');
+
+const mic = el('feedback-details-mic');
+mic.dataset.voiceFor = 'feedback-details';
+const micIsListening = () => mic.classList.contains('listening');
+
+fire(mic, 'click');
+await drain();
+check('tapping the mic starts recognition and shows the button as listening',
+  recognizers.length === 1 && recognizers[0].started && micIsListening());
+
+// The freeze, from the outside: WebKit throws out of abort() when start()
+// never completed, and with the button reset behind that throw the mic could
+// never be turned off again — every later tap landed on the same throw.
+recognizerAbortThrows = true;
+let stopThrew = false;
+try { fire(mic, 'click'); } catch { stopThrew = true; }
+await drain();
+check('tapping a mic whose recognition refuses to abort does not throw', !stopThrew);
+check('...and the button stops looking like it is listening', !micIsListening());
+check('...and reads as the off state again',
+  mic.getAttribute('aria-label') === 'Use voice instead of typing');
+
+fire(mic, 'click');
+await drain();
+check('...and the mic can be started again afterwards',
+  recognizers.length === 2 && recognizers[1].started && micIsListening());
+recognizerAbortThrows = false;
+
+// Nothing reported back from start() at all — the state the iOS permission
+// prompt used to leave the app in. The button has to come back on its own.
+runTimers();
+await drain();
+check('a recognition that never starts gives the button back',
+  !micIsListening());
+check('...and says so rather than leaving a dead mic',
+  el('feedback-error').textContent.includes('you can still type'),
+  `"${el('feedback-error').textContent}"`);
 
 // --- data-action coverage -------------------------------------------------
 
