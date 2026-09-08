@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-08d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-08e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -4234,20 +4234,19 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     return;
   }
 
-  // Writing mode's first-ever look at a new kanji gets a fixed drill —
-  // Trace, Trace, then Guided, back to back for that same kanji — before
-  // moving on to the next new kanji's own Trace-Trace-Guided run. This wins
-  // over both writingModePreference and autoWritingMode's per-question
+  // Writing mode's first-ever look at a new character gets a fixed drill —
+  // Trace, Trace, then Guided, back to back for that same character — before
+  // moving on to the next new character's own Trace-Trace-Guided run. This
+  // wins over both writingModePreference and autoWritingMode's per-question
   // mastery pick (see writingIntroModeByPosition's use in
-  // renderWritingQuestion below): a first look at a kanji's strokes needs
-  // the whole guide walked through twice before being tested even partly
-  // blind, which neither a fixed pref nor mastery-based Dynamic would
+  // renderWritingQuestion below): a first look at a character's strokes
+  // needs the whole guide walked through twice before being tested even
+  // partly blind, which neither a fixed pref nor mastery-based Dynamic would
   // otherwise guarantee. Scoped to kind 'new' (this only ever teaches
-  // characters not yet introduced in writing mode) and to kanji specifically
-  // — kana have no equivalent "introducing a new character" moment worth
-  // singling out this way.
+  // characters not yet introduced in writing mode) and to kanji and kana —
+  // vocab has no writing mode of its own to gate here.
   let writingIntroModeByPosition = null;
-  if (kind === 'new' && state.mode === 'writing' && course.kind === 'kanji') {
+  if (kind === 'new' && state.mode === 'writing' && (course.kind === 'kanji' || course.kind === 'kana')) {
     writingIntroModeByPosition = built.quiz.flatMap(() => ['trace', 'trace', 'guided']);
     built = { lesson: built.lesson, quiz: built.quiz.flatMap((k) => [k, k, k]) };
   }

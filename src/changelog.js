@@ -19,6 +19,7 @@ export const CHANGELOG = [
       'Fixed: the progress bar at the top of a kanji or writing session could fail to draw at all on some phones, leaving the ✕ and the counter but nothing showing how much of the session was left.',
       'Changed: deleting a learner now also removes their progress from the sync server, if they were syncing — previously it stayed there, unreachable from the app but not actually gone.',
       'Fixed: if a learner who is paired across two devices got deleted on one of them, the other could end up silently recreating them from its own old copy the next time it synced. Sync now stops and explains what happened instead — with a clear way to make a fresh copy here if that’s genuinely what you want.',
+      'Changed: a brand-new hiragana or katakana character in Writing mode now starts with two traced passes before switching to Guided, the same fixed drill kanji already gets — previously kana skipped straight to whatever practice mode was already chosen.',
     ],
   },
   {

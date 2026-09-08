@@ -1,10 +1,11 @@
 # Writing mode — implementation plan
 
 **Status: COMPLETE and shipped.** All six phases in §7 are done, and every
-follow-up correction found through real phone use (§7.1–§7.11) has landed and
-been confirmed working on-device — including the two most recent, the
-hint-button crowding/sizing fixes in §7.10 and the Guided-by-default/
-Trace-Trace-Guided kanji intro drill in §7.11.
+follow-up correction found through real phone use (§7.1–§7.12) has landed and
+been confirmed working on-device — including the three most recent, the
+hint-button crowding/sizing fixes in §7.10, the Guided-by-default/
+Trace-Trace-Guided kanji intro drill in §7.11, and that same drill extended
+to kana in §7.12.
 
 This document is kept as the design record for writing mode, not as a live
 work list. Nothing here is outstanding; §8 lists the known trade-offs that
@@ -721,6 +722,41 @@ offering "Try harder mode" would be a dead control), and
 `#writing-difficulty` itself is hidden for the same reason. Scoped to new
 kanji only — kana have no equivalent "introducing a new character" moment,
 so kana writing sessions are unaffected.
+
+### 7.12 The Trace/Trace/Guided intro drill now covers kana too
+
+Reported (2026-09-08): a parent expected a brand-new katakana character in
+Writing mode to start with the same forced trace-twice-then-Guided drill as
+kanji, and it didn't — §7.11 above had deliberately scoped it to kanji only,
+on the reasoning that kana has no equivalent "introducing a new character"
+moment. Confirmed that reasoning no longer holds: a first look at a kana
+character's strokes needs the same walk-through-twice-before-being-tested
+treatment a kanji gets, for the same reason.
+
+The gate in `startSession()` (app.js) changed from `course.kind === 'kanji'`
+to `course.kind === 'kanji' || course.kind === 'kana'` — hiragana and
+katakana share the single `kind: 'kana'` course tag, so this covers both
+scripts with one condition. Nothing else changed: `writingIntroModeByPosition`,
+`renderWritingQuestion()`, and the `#writing-difficulty` suppression in
+`finishWritingCharacter()` were already written generically (keyed off
+queue position, not course kind), so extending the gate was sufficient on
+its own.
+
+The generic Trace/Guided/Free mechanics tests in `test/wiring.js` (redo,
+undo, self-grading, mode-switching affordances) had always run against a
+fresh hiragana "new" session specifically **because** kana was drill-exempt
+— it was the only writing session where a character wasn't locked into a
+fixed mode from the first question. With kana now drilled too, that session
+is locked like any other, so those tests were moved onto a **review** pass
+instead: after proving the drill applies to a fresh kana session (mirroring
+§7.11's kanji check) and fast-forwarding it to a close, five hiragana
+records are seeded directly into storage as already-introduced-but-due
+(`newRecord()`, whose default `due: 0` reads as immediately due without
+inflating `seen`/`history`) via the same `rows.set` + reopen pattern used
+elsewhere in the harness to inject state the UI has no faster path to. A
+review session is never subject to `writingIntroModeByPosition` (the gate
+requires `kind === 'new'`), so the mechanics tests run exactly as before,
+just on an unlocked session.
 
 ## 8. Open questions
 

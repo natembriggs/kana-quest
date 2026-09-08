@@ -326,7 +326,7 @@ const {
 } = await import('../src/kanji.js');
 const {
   courseStats, studiedKanji, isStudying, neverSeenItems, allItems, MAX_BOX, THINK_KNOWN_BOX,
-  markKnownItems,
+  markKnownItems, newRecord, itemKey,
 } = await import('../src/srs.js');
 const {
   vocabIdForWord, vocabInfo, VOCAB_COURSES, VOCAB_COMMON_COURSES, wordMeaningLabel,
@@ -792,6 +792,72 @@ check('the writing screen never displays the glyph itself',
   !el('writing-romaji').textContent.includes(el('screen-writing').dataset.char));
 check('Trace already shows the whole guide, so the peek/switch-easier hint row stays hidden',
   el('writing-hints').hidden === true);
+
+// Kana writing now gets the same forced Trace/Trace/Guided intro drill as
+// kanji does (writingIntroModeByPosition in startSession(), app.js) — every
+// character in a brand-new writing session is locked into it, with no way
+// to reach Free mode or override the practice-mode preference until each
+// character's own drill finishes. Checked here, then this new session is
+// fast-forwarded to its close: the detailed Trace/Guided/Free mechanics
+// tests below (redo, undo, self-grading, mode switching...) need a session
+// where nothing is locked, so they run against a REVIEW pass instead, on
+// characters seeded with existing (but never-yet-graded) writing history —
+// see the seeding step further down.
+check('a brand-new hiragana character is locked into the drill too — the practice-mode toggle is hidden',
+  el('writing-difficulty').hidden === true);
+
+for (let i = 0; i < 20 && visible() === 'screen-writing'; i += 1) {
+  const drillChar = el('screen-writing').dataset.char;
+  const drillStrokeCount = strokesFor(drillChar).strokes.length;
+  for (let s = 0; s < drillStrokeCount; s += 1) {
+    traceModelStroke(drillChar, s);
+    await settle();
+  }
+  fire(writingContinueButton(), 'click');
+  await settle();
+}
+check('the drilled hiragana session reaches a summary like any other',
+  visible() === 'screen-summary', `showing ${visible()}`);
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-home' } }) } });
+await settle();
+
+// Seed exactly the 5 hiragana this section's mechanics tests below actually
+// touch (firstWritingChar through freeCharYes) directly into storage as
+// already-introduced but never-yet-graded writing records — due immediately
+// (newRecord()'s default due: 0) without inflating `seen`/`history`, so the
+// storage assertions further down (e.g. checking `seen === 1` for exactly
+// one real grading event, or that every writing record has a history) still
+// hold exactly as before. Taken from the END of the course's writing order
+// so as not to overlap with whatever "Learn N" picked as new above.
+// rows.set + reopenLearner is the same pattern used elsewhere in this file
+// to inject state the UI has no faster path to (see e.g. the legacy-profile
+// section below).
+const hiraganaCourseForSeed = getCourse('hiragana');
+const seedWritingChars = allItems(hiraganaCourseForSeed, 'writing').slice(-5);
+{
+  const seedProfile = [...rows.values()][0];
+  seedWritingChars.forEach((char) => {
+    seedProfile.progress[itemKey('writing', char)] = newRecord();
+  });
+  rows.set(seedProfile.id, seedProfile);
+}
+await reopenLearner('Test Kid');
+fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+await settle();
+fire(el('mode-picker')._children.find((b) => b.dataset.mode === 'writing'), 'click');
+await settle();
+
+const hiraganaWritingReviewButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('Review <b>'));
+check('seeding due writing history surfaces a Review button for hiragana',
+  !!hiraganaWritingReviewButton, buttonsIn(el('course-list')._children[0]).map((b) => b.textContent).join(' | '));
+fire(hiraganaWritingReviewButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('a review session skips the lesson step and opens the writing screen directly — nothing here is brand new',
+  visible() === 'screen-writing', `showing ${visible()}`);
+check('a review character is not locked into the intro drill — the practice-mode toggle is available again',
+  el('writing-difficulty').hidden === false);
 
 function traceModelStroke(char, index) {
   const d = strokesFor(char).strokes[index];
