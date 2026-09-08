@@ -952,6 +952,13 @@ button.quiz-glyph-tap {
   gap: 8px;
 }
 .writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; width: auto; }
+/* Once the viewport is wide enough to spare it (tablets, and phones in
+   landscape), these no longer need to be squeezed as tightly as the
+   narrow-portrait-phone case above assumes — reported as hard to tap on a
+   tablet in landscape (kana-quest-feedback#8). */
+@media (min-width: 640px) {
+  .writing-hints .btn { font-size: 15px; padding: 10px 16px; min-height: 44px; }
+}
 
 .writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }
 
