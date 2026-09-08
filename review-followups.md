@@ -26,6 +26,26 @@ was individually re-audited against current source and git history and
 corrected in place where stale; see "Documentation audit findings" below for
 what changed and what's still genuinely open.
 
+**Seventh pass, 2026-09-08 (same day, three owner decisions plus one build):**
+following the sixth pass's findings, the app owner (1) closed the kanji-
+mnemonic copyright-review gap — satisfied the idea/expression reasoning is
+adequate, no independent RTK skim needed; (2) shelved feedback Phase 7
+(automated GitHub Actions triage/agent-fix) by explicit decision, wanting to
+keep control over triage and fixes for now rather than hand it to
+unattended automation — the manual `kanaquest-feedback-triage` skill stays;
+(3) asked for sync Phase 4 to actually be built, which happened the same
+day — see "Shipped this cycle"; and (4) asked for a plan (not yet a build)
+to fix the colour-contrast gap `kanaquest-evaluation.md` flagged, drafted
+the same day as **`contrast-plan.md`** — its own audit found the real
+picture broader than that review's original two examples (a mastery-tier
+*label* text pairing, never measured before, fails worse than the tile
+background the review caught), and its recommended fixes deliberately
+split "the app's own information" (mastery tiers — fix outright) from
+"personalization" (the accent picker — keep all ten colours, make the
+AA-passing ones findable, treat further narrowing as a real trade-off
+rather than a given). Left explicitly for later, at the owner's direction:
+kanji-expansion-plan.md's Phase 7 (JLPT/frequency orderings).
+
 ## Remaining (not built this pass)
 
 Two items from the original 2026-09-04 build order were deliberately left
@@ -40,15 +60,12 @@ since shipped (see below and "Documentation audit findings"):
    Component breakdowns and mnemonic hints exist for all 1,026 grade 1-6
    kanji (`35ab2a5`, `0cf0f82`), wired into the detail screen, the lesson
    card, and both the Yomi/Definition and Writing quiz hint buttons.
-   **One real gap survives:** §8's promised copyright-safety review (an
-   independent skim of the shipped hand-authored lines against RTK's actual
-   content) was never carried out — the owner's switch from templates to
-   hand-authored text on idea/expression grounds (§2.6, §9.1) argued the
-   review unnecessary rather than fulfilling it, and the feature has already
-   shipped to all three touchpoints on that reasoning alone. Worth the
-   owner's explicit sign-off, not an assumption from this file's past
-   silence. Grades/units 8-N (secondary jōyō) and 9-N (beyond-jōyō names &
-   places) still have no component/mnemonic data.
+   **The copyright-safety review this file used to flag as an open gap is
+   closed, 2026-09-08:** the app owner reviewed it and is satisfied the
+   idea/expression reasoning (kanji-mnemonic-plan.md §2.6, §9.1) is
+   adequate on its own, with no independent RTK skim needed. Grades/units
+   8-N (secondary jōyō) and 9-N (beyond-jōyō names & places) still have no
+   component/mnemonic data — not tracked as a gap, just not built yet.
 2. **~~In-app feedback channel. Not started.~~ Live in production since
    2026-09-06.** Full plan and decisions folded into `feedback-plan.md`'s
    own "Phase-0 choices" section. The 💬 button, the report form (since
@@ -58,18 +75,19 @@ since shipped (see below and "Documentation audit findings"):
    live and verified end to end (`feedback-server/README.md`). All five
    Cloudflare secrets are set, including `GITHUB_TOKEN` and a real
    `TURNSTILE_SECRET` (`59f30d9`, 2026-09-06) — the two items this file and
-   `feedback-plan.md` both used to list as still needed. Two genuine gaps
-   remain: Phase 6's non-UI exit items (a "your contributions live in this
-   profile, sync/backup carries them" disclosure, optional private
-   milestones, and a real accessibility audit of the feedback/contributions
-   screens — reduced-motion is done, the rest isn't), and Phase 7 as
-   originally scoped (automated GitHub Actions triage + agent-fix
-   workflows) — what exists instead is a smaller, manual substitute: the
-   `kanaquest-feedback-triage` Claude Code skill (`e2656f0`, 2026-09-07),
-   run on demand or on schedule, which drafts a triage plan for the owner
-   to review by hand. It applies no labels and starts no agent-fix
-   workflow, so it covers Phase 7's triage-suggestion idea only, not its
-   labelling or agent-drafted-fix stages.
+   `feedback-plan.md` both used to list as still needed. Phase 6's non-UI
+   exit items (a "your contributions live in this profile, sync/backup
+   carries them" disclosure, optional private milestones, and a real
+   accessibility audit of the feedback/contributions screens — reduced-
+   motion is done, the rest isn't) remain a genuine gap. **Phase 7
+   (automated GitHub Actions triage + agent-fix workflows) is shelved by
+   explicit owner decision, 2026-09-08** — not merely unbuilt: the owner
+   wants to keep control over triage and fixes for now rather than hand
+   either to unattended automation. The lighter, human-in-the-loop
+   substitute already in place — the `kanaquest-feedback-triage` Claude
+   Code skill (`e2656f0`, 2026-09-07), which drafts a triage plan for the
+   owner to review by hand, applies no labels, and starts no agent-fix
+   workflow — stays exactly as it is; that was never in question.
 3. **Contingent, low priority: import known words from Anki/WaniKani**
    (`external-import-plan.md`, pure aspiration, zero code). Only worth
    picking up if bulk "Mark as known" turns out to be insufficient in
@@ -290,6 +308,21 @@ stay out of the picture, not by wiring anything new for them.
   the placement/recovery exceptions, the settle-on-escape safety net) and
   its own end-to-end verification. The kanji reading quiz is untouched,
   by design — see "Remaining" for why.
+- (2026-09-08) — **Sync Phase 4**: clock correction, remote delete on
+  profile deletion, the 404-means-deleted safeguard, and backoff — full
+  detail in `sync-plan.md` §4.6-§4.8 and §8. Found still unbuilt by this
+  same day's documentation audit, then built the same afternoon at the
+  app owner's explicit request. In short: a device's clock is now
+  corrected against every sync response's `Date` header before grading
+  anything, so a badly-wrong clock can no longer win or lose every merge
+  conflict forever; deleting a profile now deletes its remote copy too
+  (best-effort, never blocking the local delete); a profile deleted on
+  another device is detected and explained in Settings rather than
+  silently recreated by an unattended sync; and a persistently-conflicting
+  push now backs off exponentially rather than retrying every ten minutes
+  forever. `test/sync.js` grew from 24 to 28 checks; verified live in the
+  browser that the new Settings message renders correctly, with no
+  console errors.
 
 The `50675f0`/`7299835` pair was implemented by Claude Fable 5.1 as a
 deliberate trial (reviewed, tested, and verified live by Claude Sonnet 5
@@ -306,14 +339,14 @@ commit citations. This section is the short version, for the doc that's
 supposed to be current without opening eight other files.
 
 - **`sync-plan.md`** — phases 0-3 re-confirmed accurate by a source-level
-  grep (not just re-reading the plan's own claim). **Phase 4 (clock-skew
-  correction, remote delete on profile deletion) is still genuinely
-  unbuilt** — no clock-offset code anywhere, `delete-profile` never calls
-  `deleteSyncState()` or issues a remote delete, so a deleted profile's
-  remote document sits orphaned until the 5-year sweep. Also noted: the
-  onboarding flow's "I already use Kana Quest" path (`d6cee72`) reuses this
-  same pairing UI rather than building a second one, which is corroborating
-  evidence sync is genuinely live, not just wired.
+  grep (not just re-reading the plan's own claim). **Phase 4 was found
+  unbuilt during this pass and then implemented the same day** — see
+  "Shipped this cycle" below for what actually landed (clock correction,
+  remote delete on profile deletion, the 404-means-deleted safeguard, and
+  backoff). Also noted: the onboarding flow's "I already use Kana Quest"
+  path (`d6cee72`) reuses this same pairing UI rather than building a
+  second one, which is corroborating evidence sync is genuinely live, not
+  just wired.
 - **`kanji-expansion-plan.md`** — phases 0-6, 8 re-verified against the
   actual generated data (2,136 jōyō + 897 beyond-jōyō kanji, exact phase
   counts match). **Phase 7 (JLPT/frequency orderings) confirmed still

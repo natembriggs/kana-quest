@@ -131,6 +131,16 @@ function etagVersion(response) {
   return raw ? raw.replace(/^W\//, '').replace(/^"|"$/g, '') : null;
 }
 
+/** Every response carries a `Date` header (sync-plan.md §2.1), used for
+ * clock correction (§4.7) — parsed here, once, rather than in every caller.
+ * `null` if the header is missing or unparseable, which callers treat as
+ * "no correction this time" rather than an error. */
+function serverDateOf(response) {
+  const raw = response.headers.get('Date');
+  const parsed = raw ? Date.parse(raw) : NaN;
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
 export async function pull(docId, knownVersion) {
   const headers = {};
   if (knownVersion != null) headers['If-None-Match'] = `"${knownVersion}"`;
@@ -140,10 +150,13 @@ export async function pull(docId, knownVersion) {
   } catch {
     return { status: 'offline' };
   }
-  if (response.status === 304) return { status: 'not-modified' };
-  if (response.status === 404) return { status: 'not-found' };
-  if (!response.ok) return { status: 'error' };
-  return { status: 'ok', version: etagVersion(response), ciphertext: await response.arrayBuffer() };
+  const serverDate = serverDateOf(response);
+  if (response.status === 304) return { status: 'not-modified', serverDate };
+  if (response.status === 404) return { status: 'not-found', serverDate };
+  if (!response.ok) return { status: 'error', serverDate };
+  return {
+    status: 'ok', version: etagVersion(response), ciphertext: await response.arrayBuffer(), serverDate,
+  };
 }
 
 export async function push(docId, version, ciphertext) {
@@ -154,11 +167,34 @@ export async function push(docId, version, ciphertext) {
   } catch {
     return { status: 'offline' };
   }
-  if (response.status === 200) return { status: 'ok', version: etagVersion(response) };
-  if (response.status === 412) return { status: 'conflict', version: etagVersion(response) };
-  if (response.status === 404) return { status: 'not-found' };
-  if (response.status === 413) return { status: 'too-large' };
+  const serverDate = serverDateOf(response);
+  if (response.status === 200) return { status: 'ok', version: etagVersion(response), serverDate };
+  if (response.status === 412) return { status: 'conflict', version: etagVersion(response), serverDate };
+  if (response.status === 404) return { status: 'not-found', serverDate };
+  if (response.status === 413) return { status: 'too-large', serverDate };
+  return { status: 'error', serverDate };
+}
+
+/** Deletes the remote document (sync-plan.md §4.6), used when a profile is
+ * deleted locally so it doesn't sit orphaned on the server until the 5-year
+ * sweep. `version` is required — DELETE has no "if it exists" form the way
+ * push's `If-None-Match: *` create does — so a caller with no known version
+ * (nothing was ever actually synced) has nothing to delete and should not
+ * call this at all. */
+export async function remove(docId, version) {
+  let response;
+  try {
+    response = await fetch(`${WORKER_BASE}/v1/doc/${docId}`, {
+      method: 'DELETE', headers: { 'If-Match': `"${version}"` },
+    });
+  } catch {
+    return { status: 'offline' };
+  }
+  // 404 here means it's already gone (another device deleted it first, or
+  // this is a retry) — either way the end state this call wants is achieved.
+  if (response.status === 204 || response.status === 404) return { status: 'ok' };
+  if (response.status === 412) return { status: 'conflict' };
   return { status: 'error' };
 }
 
-export const transport = { pull, push };
+export const transport = { pull, push, remove };

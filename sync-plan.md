@@ -1,16 +1,18 @@
 # Cross-device sync — implementation plan
 
-Status: **phases 0-3 done** (§8) — sync works end to end and runs by
+Status: **phases 0-4 done** (§8) — sync works end to end and runs by
 itself. A parent turns it on once and pairs each device with a code;
 after that it syncs on opening a learner, on finishing a session, and on
 leaving or returning to the app, at a measured 1 request when nothing
-changed and 2 when there is real practice to send (§4.3). Phase 4
-(clock correction, remote delete on profile delete) is next — re-confirmed
-still unbuilt by a code audit on 2026-09-08 (§4.8's "Re-audited" note).
-Supersedes
-the "Progress is per-device for now" caveat in `src/store.js` and the
-*Progress and backups* section of the README, which now documents the
-feature as it stands.
+changed and 2 when there is real practice to send (§4.3). **Phase 4
+(clock correction, remote delete on profile delete, the 404-means-deleted
+prompt, and backoff) shipped 2026-09-08** — found still unbuilt by a code
+audit earlier the same day (§4.8's "Re-audited" note), then built the same
+day at the app owner's request. See §4.6-§4.8 for what actually landed.
+Phase 5 (sharding, §6) remains "only if needed" — no current user has that
+problem. Supersedes the "Progress is per-device for now" caveat in
+`src/store.js` and the *Progress and backups* section of the README, which
+now documents the feature as it stands.
 
 The goal is that a learner's progress follows them: practise 学 on the iPad
 after school, pick up on the phone in the car, and neither device is behind.
@@ -568,6 +570,24 @@ exists locally means *deleted elsewhere* — prompt rather than act, since the
 alternative is a mis-tap on one device silently destroying practice on
 another.
 
+**Built 2026-09-08.** `src/sync-transport.js` gained `remove(docId,
+version)` (`DELETE` with `If-Match`, 404 treated as already-gone). The
+delete-profile action in `app.js` calls it best-effort — never blocking the
+local delete on the network, the same principle `autoSync` already follows
+— then clears the local pairing row, matching the plan exactly.
+
+The "prompt rather than act" half landed slightly differently than a modal
+prompt: `syncProfile()` in `sync-protocol.js` now short-circuits on a
+pull's `'deleted'` outcome (a document a device previously knew a version
+of, now 404) *before* it would otherwise push and silently recreate the
+document — that refusal-to-act is the actual safety property this section
+asks for. What surfaces the situation to a person is a `remoteDeleted` flag
+persisted on the sync-pairing row and read by `renderSyncCard()`, which
+replaces the ordinary "Last synced…" line with a plain explanation and
+reuses the existing **Sync now** / **Turn off sync** buttons — Sync now
+(checking the same flag) recreates the document fresh, deliberately never
+automatic. No new UI elements were needed.
+
 ### 4.7 Clocks
 
 The entire merge is last-write-wins on client timestamps, so a tablet with a
@@ -578,6 +598,17 @@ and grade through a `syncedNow()` helper instead of `Date.now()`.
 This is nearly free because `grade()` and `gradeYomi()` in `src/srs.js`
 already take `now` as a parameter — the caller supplies it, so there is one
 place in `app.js` to change and no scheduling code to touch.
+
+**Built 2026-09-08, exactly as designed.** `sync-transport.js`'s `pull`/
+`push` parse the response `Date` header (`serverDateOf()`) and thread it
+through `sync-protocol.js`'s `pull`/`push`/`syncProfile` as a `serverDate`
+field on every outcome, success or failure. `app.js` keeps the resulting
+offset in a module-level `clockOffsetMs`, exposes it via `syncedNow()`, and
+routes exactly the 7 `grade()`/`gradeYomi()` call sites this section
+predicted through it — no scheduling code touched, as expected. The offset
+is persisted on the sync-pairing row (`clockOffset`) and reloaded on
+`openProfile()`, so a reload doesn't start back at zero correction before
+that session's first sync completes.
 
 ### 4.8 Offline
 
@@ -603,15 +634,23 @@ from inside a running session, so a pull can't currently land mid-question
 regardless. §4.7 (clock correction) and §4.6 (remote delete on profile
 delete) are untouched, on schedule for phase 4.
 
-**Re-audited 2026-09-08, no code changes since.** Still true, checked
-directly rather than assumed: no `syncedNow`/clock-offset code anywhere in
-`src/sync-protocol.js`, `src/sync-transport.js`, `src/srs.js` or `src/app.js`
-(every grade call still passes plain `Date.now()`); `delete-profile` in
-`src/app.js` calls only `store.deleteProfile()`, never `deleteSyncState()`
-or a remote `DELETE`, so a deleted profile's remote document is orphaned
-until the 5-year sweep (§2.3); `sync-protocol.js` has no exponential-backoff
-logic past the fixed `MAX_PUSH_RETRIES` loop. §4.7, §4.6 and backoff all
-remain open.
+**Re-audited 2026-09-08 morning, then built the same afternoon at the app
+owner's request.** The audit found §4.7 (clock correction) and §4.6
+(remote delete) genuinely untouched, exactly as this note originally said —
+see §4.6's and §4.7's own "Built" notes above for what shipped a few hours
+later. Backoff (§4.5's "back off exponentially and leave it for the next
+trigger") also shipped: a `conflictStreak`/`backoffUntil` pair on the
+sync-pairing row, growing 1/2/4/8… minutes per consecutive push conflict
+(capped at 30), gating only the passive app-hidden/shown trigger in §4.3 —
+every forced trigger (opening a learner, session end, "online") still gets
+a fresh attempt regardless, since a new session's progress deserves an
+honest try even while an unrelated earlier conflict is cooling down.
+Verified end to end against `test/sync.js` (new coverage for the
+serverDate plumbing and the "a remote deletion is reported without
+silently recreating the document" safety property) and a live-browser
+check of the `remoteDeleted` Settings message rendering correctly, with no
+console errors, before the throwaway IndexedDB row used for that check was
+removed again.
 
 **Testing note:** JavaScriptCore, what stands in for Node in this repo's
 test suite, has neither `crypto.subtle` nor `fetch` — confirmed directly,
@@ -751,16 +790,21 @@ Extending what exists rather than adding a new style of test:
   enrollment, per-key settings LWW, the array→timestamp study-list migration,
   and the existing assertions passing unchanged through the `merge.js`
   extraction (that last one is the point of doing the refactor separately).
-- **`test/sync.js`** — **built**, 24 checks (verified against the file as it
-  stands 2026-09-08; unchanged since `ae6b429`, 2026-08-24 — the "16" this
-  line previously said was stale from the start, not drift). Drives
-  `sync-protocol.js` against
+- **`test/sync.js`** — **built**, 28 checks (24 from phases 0-3, plus 4 more
+  added 2026-09-08 alongside phase 4 itself: `serverDate` propagation
+  through `pull()`/`push()`/`syncProfile()`, and the core safety property
+  of §4.6 — that a `'deleted'` pull outcome is reported without
+  `syncProfile` ever calling `push`). Drives `sync-protocol.js` against
   a scripted fake transport: clean pull, 304, a docId with nothing there yet,
   create, a single conflict resolving by pull-merge-retry, every retry
   conflicting until they exhaust, 404-on-push-means-deleted (recreate, no
   pull needed), an offline transport failure, and both real UI flows ("Sync
   now" with nothing changed, "Enter a code" merging real data). Clock offset
-  is phase 4's, so not here yet.
+  is unit-tested here at the `pull`/`push`/`syncProfile` level; the
+  `clockOffsetMs`/`syncedNow()` wiring in `app.js` itself has no JSC-testable
+  seam (it's plain module state) and was instead verified by re-running
+  `test/wiring.js`'s full graded-session flow (982 records saved) after the
+  change, plus a live-browser check of the `remoteDeleted` message.
 - **`test/wiring.js`** — grew a different case than originally planned: not
   the mid-session deferral (§4.4 — moot in phase 2, since Settings isn't
   reachable mid-session and there are no automatic triggers yet to land one),
@@ -785,7 +829,7 @@ changes anything a learner would notice.
 | **1** | The Worker: two endpoints, Durable Object, deployed, no client | **Done** — `sync-server/`, live at `kana-quest-sync.natebriggs.workers.dev`, see §2.1 |
 | **2** | `src/sync-transport.js` + `sync-protocol.js`, Settings UI, **manual** sync only | **Done** — see §4's and §5's "Built" notes below |
 | **3** | Automatic triggers (§4.3), deferred-merge rule (§4.4), status line | **Done** — see §4.3's "Built" note |
-| **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | Robustness, once the shape has survived real use |
+| **4** | Clock correction, backoff, remote delete on profile delete, 404-means-deleted prompt | **Done, 2026-09-08** — see §4.6's, §4.7's, and §4.8's "Built" notes |
 | **5** | *Only if needed:* shard the document (§6) | No current user has this problem |
 
 Phase 0 is worth doing next regardless of whether the rest is ever built: the

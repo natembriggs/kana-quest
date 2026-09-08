@@ -150,6 +150,18 @@ export function deleteProfile(id) {
 // together so the key never has to be re-derived from a version-less state,
 // and `version` is the last remote ETag this device knows about — see
 // sync-plan.md §4.2. Absence of a row means "not syncing".
+//
+// Phase 4 (sync-plan.md §4.5-§4.7) added three more fields, all cleared the
+// moment an ordinary sync next succeeds (app.js's runSync overwrites the
+// whole row rather than merging into it on that path):
+//   clockOffset    — serverDate - Date.now() from the last sync response
+//                     that carried one; see syncedNow() in app.js.
+//   remoteDeleted  — true once a pull found this device's known version
+//                     404, meaning another device deleted this profile;
+//                     stops automatic pushes from resurrecting it.
+//   conflictStreak, backoffUntil — consecutive push-conflict count and the
+//                     timestamp before which the passive app-hidden/shown
+//                     sync trigger won't retry (exponential, capped).
 
 export function getSyncState(profileId) {
   return tx(SYNC_STORE, 'readonly', (store) => store.get(profileId));

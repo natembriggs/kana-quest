@@ -93,6 +93,28 @@ function record(updatedAt, correct = true) {
     result.outcome === 'deleted' && result.version === null);
 }
 
+// --- Clock correction (sync-plan.md §4.7): the server's Date header -------
+
+{
+  const local = profile('p1');
+  const remote = profile('p1', { progress: { 'recognition:あ': record(500) } });
+  const transport = scriptedTransport([
+    {
+      status: 'ok', version: '3', ciphertext: remote, serverDate: 123456,
+    },
+  ]);
+  const result = await pull({ transport, decrypt, docId: 'd1', knownVersion: '2', localProfile: local });
+  check("pull() surfaces the transport's serverDate", result.serverDate === 123456);
+}
+
+{
+  const local = profile('p1');
+  const transport = scriptedTransport([{ status: 'not-modified' }]);
+  const result = await pull({ transport, decrypt, docId: 'd1', knownVersion: '3', localProfile: local });
+  check('pull() reports no serverDate when the transport gave none',
+    result.serverDate === null);
+}
+
 // --- push(): create, straightforward update, size ceiling ------------------
 
 {
@@ -102,6 +124,14 @@ function record(updatedAt, correct = true) {
   });
   check('a null knownVersion creates (If-None-Match: * under the hood)',
     result.outcome === 'ok' && result.version === '1' && transport.calls.pushes[0].version === null);
+}
+
+{
+  const transport = scriptedTransport([], [{ status: 'ok', version: '1', serverDate: 99000 }]);
+  const result = await push({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: null, profile: profile('p1'),
+  });
+  check("push() surfaces the transport's serverDate", result.serverDate === 99000);
 }
 
 {
@@ -187,6 +217,18 @@ function record(updatedAt, correct = true) {
 // --- syncProfile(): the combined pull-then-push every UI action uses -------
 
 {
+  // sync-plan.md §4.6: another device deleted this profile's document.
+  // syncProfile must report that, not silently recreate it by pushing this
+  // device's own (now stale, or simply unwanted) copy back.
+  const transport = scriptedTransport([{ status: 'not-found' }]);
+  const result = await syncProfile({
+    transport, encrypt, decrypt, docId: 'd1', knownVersion: '9', localProfile: profile('p1'),
+  });
+  check('a remote deletion is reported without silently recreating the document',
+    result.outcome === 'deleted' && result.pushed === false && transport.calls.pushes.length === 0);
+}
+
+{
   // Sync now, nothing changed on either side: a 304 pull, then a push that
   // still confirms the remote matches.
   const transport = scriptedTransport(
@@ -254,7 +296,7 @@ function record(updatedAt, correct = true) {
 {
   // Nothing practised here since the last push, nothing new there: a single
   // conditional GET that comes back 304, and no push at all.
-  const transport = scriptedTransport([{ status: 'not-modified' }], []);
+  const transport = scriptedTransport([{ status: 'not-modified', serverDate: 42000 }], []);
   const result = await syncProfile({
     transport, encrypt, decrypt, docId: 'd1', knownVersion: '4',
     localProfile: profile('p1'), localChanged: false,
@@ -262,6 +304,8 @@ function record(updatedAt, correct = true) {
   check('an unchanged sync with nothing local to send costs one request, not two',
     result.outcome === 'unchanged' && result.pushed === false
     && transport.calls.pulls.length === 1 && transport.calls.pushes.length === 0);
+  check('...and still surfaces the serverDate from that one request, for clock correction',
+    result.serverDate === 42000);
 }
 
 {

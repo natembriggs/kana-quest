@@ -14,6 +14,10 @@ accessibility pass below is *mostly* fixed (`1de948a` — real `role="tab"`/
 now handled in `styles.css`) — but the colour-contrast half of that same P1
 item was not: `--accent: #e8553d` and `--tier-3: #5cb663` in the light theme
 are unchanged from the values this review measured as failing WCAG AA.
+**A full remeasurement and fix plan is drafted at `contrast-plan.md`
+(2026-09-08, not yet built)** — it found the real picture is broader than
+this review's two original examples (the mastery-tier *label* text, never
+measured before, fails worse than the tile background this review caught).
 Newer and higher-priority findings from later reviews live in
 `review-followups.md`, not here.
 

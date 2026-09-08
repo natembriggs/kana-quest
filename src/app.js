@@ -68,7 +68,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-08c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-08d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -655,9 +655,14 @@ function syncColorPickerSelection() {
  * re-populate itself from history on the next load. Both migrations persist
  * immediately so they run once rather than on every open.
  */
-function openProfile(profile) {
+async function openProfile(profile) {
   state.profile = profile;
   applyAccentColor(profile.settings.accentColor);
+  // sync-plan.md §4.7: restore whatever clock offset the last sync worked
+  // out for this profile, before renderHome()/renderOnboarding() below can
+  // possibly lead to a graded answer — awaited because a local IndexedDB
+  // read is fast enough that this is not worth racing.
+  await loadClockOffset(profile.id);
   if (profile.study === undefined) {
     profile.study = deriveStudyList(profile.progress);
     profile.unstudy = {};
@@ -5359,7 +5364,7 @@ function creditVocabYomi(info, hiddenInfo) {
     if (!credits || !hiddenInfo.hidden.has(pos)) return;
     const kanji = info.w[pos];
     const key = yomiKey('recognition', kanji, credits);
-    progress[key] = gradeYomi(progress[key] || newYomiRecord(), true, Date.now());
+    progress[key] = gradeYomi(progress[key] || newYomiRecord(), true, syncedNow());
     recomputeYomiRollupFromProgress(progress, 'recognition', kanji);
   });
 }
@@ -5367,7 +5372,7 @@ function creditVocabYomi(info, hiddenInfo) {
 function recordVocabYomi(word, correct, rating = null) {
   const { progress } = state.profile;
   const key = itemKey('vyomi', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { rating });
+  progress[key] = grade(progress[key] || newRecord(), correct, syncedNow(), { rating });
   recomputeVocabRollup(word, 'vmeaning', progress);
   store.saveProfile(state.profile);
 }
@@ -5377,7 +5382,7 @@ function recordVocabDef(word, correct, rating = null) {
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey('vdef', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+  progress[key] = grade(progress[key] || newRecord(), correct, syncedNow(), {
     placement: session.placementTest, rating,
   });
   recomputeVocabRollup(word, 'vmeaning', progress);
@@ -5578,7 +5583,7 @@ function recordVocabProd(word, correct, rating = null) {
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey('vprod', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+  progress[key] = grade(progress[key] || newRecord(), correct, syncedNow(), {
     placement: session.placementTest, rating,
   });
   recomputeVocabRollup(word, 'vrecall', progress);
@@ -5589,7 +5594,7 @@ function recordVocabProd(word, correct, rating = null) {
 function recordVocabSpell(word, correct, rating = null) {
   const { progress } = state.profile;
   const key = itemKey('vspell', word);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), { rating });
+  progress[key] = grade(progress[key] || newRecord(), correct, syncedNow(), { rating });
   recomputeVocabRollup(word, 'vrecall', progress);
   store.saveProfile(state.profile);
 }
@@ -6680,7 +6685,7 @@ function recordYomiResult(course, kanji, reading, correct) {
   const { progress } = state.profile;
   const key = yomiKey(state.mode, kanji, reading);
   const placement = !!(state.session && state.session.placementTest);
-  progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct, Date.now(), { placement });
+  progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct, syncedNow(), { placement });
   recomputeKanjiRollup(course, kanji, state.mode, progress);
 }
 
@@ -6903,7 +6908,7 @@ function recordResult(kana, correct, rating = null) {
   const session = state.session;
   const { progress } = state.profile;
   const key = itemKey(state.mode, kana);
-  progress[key] = grade(progress[key] || newRecord(), correct, Date.now(), {
+  progress[key] = grade(progress[key] || newRecord(), correct, syncedNow(), {
     placement: session.placementTest, rating,
   });
   // The summary reflects the first attempt at each character.
@@ -7282,6 +7287,14 @@ function formatRelativeTime(ms) {
 }
 
 function syncStatusText(syncState) {
+  // sync-plan.md §4.6: another device deleted this profile's remote copy.
+  // Takes priority over the ordinary last-synced text — "Sync now" (which
+  // checks this same flag) recreates the document fresh if that's wanted;
+  // "Turn off sync" stops here without touching what's already local.
+  if (syncState.remoteDeleted) {
+    return "This learner's progress was deleted on another device. Tap Sync now "
+      + 'to make a fresh copy here using the same code, or Turn off sync to stop.';
+  }
   const last = Math.max(syncState.lastPulledAt || 0, syncState.lastPushedAt || 0);
   return last ? `Last synced ${formatRelativeTime(last)}.` : 'Not synced yet.';
 }
@@ -7351,7 +7364,52 @@ function syncFailureMessage(outcome) {
   return 'Could not reach the sync server. Check the connection and try again.';
 }
 
-const SYNC_FAILURE_OUTCOMES = ['error', 'conflict', 'too-large'];
+// 'conflict' and 'deleted' aren't listed here even though both are failures
+// for this purpose too — runSync below intercepts each one first, to record
+// its own bookkeeping (backoff, the remoteDeleted flag) before falling
+// through to the same `{ ...result, ok: false }` this array produces.
+const SYNC_FAILURE_OUTCOMES = ['error', 'too-large'];
+
+// --- Clock correction (sync-plan.md §4.7) -----------------------------------
+// The whole merge is last-write-wins on client timestamps, so a device with
+// a badly wrong clock would otherwise win or lose every conflict forever.
+// Every sync response carries a `Date` header; the gap between that and this
+// device's own clock at the same moment is kept here and applied to every
+// graded answer from then on, via syncedNow() in place of Date.now(). Kept
+// in memory rather than re-read from IndexedDB on every grade — reloaded
+// once per profile open (loadClockOffset) and refreshed after every sync
+// that gets a usable Date header.
+let clockOffsetMs = 0;
+
+function syncedNow() {
+  return Date.now() + clockOffsetMs;
+}
+
+/** Restores the last-known offset for this profile so a reload doesn't
+ * start back at zero correction before the first sync of the session
+ * completes — grading can happen (a lesson card, a quiz) well before
+ * autoSync's own network round trip finishes. */
+async function loadClockOffset(profileId) {
+  const syncState = await store.getSyncState(profileId);
+  clockOffsetMs = (syncState && syncState.clockOffset) || 0;
+}
+
+// --- Backoff (sync-plan.md §4.5, §8 phase 4) --------------------------------
+// A push that conflicts on every retry is left for "the next trigger" per
+// §4.5 — but the passive app-hidden/shown trigger (§4.3) fires again after
+// just SYNC_STALE_MS, and would otherwise hammer a persistently-conflicting
+// document. backoffDelay grows 1, 2, 4, 8... minutes per consecutive
+// conflict, capped at 30, and is cleared by any sync that actually
+// completes. Deliberately only gates that one passive trigger — session
+// boundaries and "Sync now" always get a fresh attempt, because a new
+// session's progress deserves an honest try even if an unrelated earlier
+// conflict is still cooling down.
+const BACKOFF_BASE_MS = 60 * 1000;
+const BACKOFF_MAX_MS = 30 * 60 * 1000;
+
+function backoffDelay(conflictStreak) {
+  return Math.min(BACKOFF_MAX_MS, BACKOFF_BASE_MS * 2 ** (conflictStreak - 1));
+}
 
 /** How many progress records actually changed, for the plain-language
  * "brought in N updates" message — a rough, honest count (sync-plan.md §5),
@@ -7393,6 +7451,41 @@ async function runSync({
     localChanged,
     adoptIncomingIdentity,
   });
+  // Correct this device's clock against every response that carried one,
+  // success or failure alike (a 412/404 still comes with a real Date
+  // header) — only actually persisted to IndexedDB below on the success
+  // path, but usable in memory for any grading that happens before the
+  // next sync regardless.
+  if (result.serverDate != null) clockOffsetMs = result.serverDate - Date.now();
+
+  if (result.outcome === 'deleted') {
+    // sync-plan.md §4.6: this device knew a version of a document that's
+    // now 404 — another device deleted this profile. Flag it rather than
+    // recreating it (syncProfile already refused to push) — renderSyncCard
+    // explains this to the learner next time Settings is open, and a
+    // deliberate "Sync now" from there (which checks this same flag) is
+    // the only path that recreates it.
+    const existing = await store.getSyncState(profile.id);
+    if (existing) await store.saveSyncState({ ...existing, remoteDeleted: true });
+    return { ...result, ok: false };
+  }
+
+  if (result.outcome === 'conflict') {
+    // §4.5's "back off exponentially and leave it for the next trigger" —
+    // recorded here so autoSync's passive trigger can space out further
+    // attempts instead of retrying every time the app is backgrounded and
+    // foregrounded. Explicit triggers (session boundaries, Sync now) are
+    // never gated by this — see backoffDelay's own comment.
+    const existing = await store.getSyncState(profile.id);
+    const conflictStreak = ((existing && existing.conflictStreak) || 0) + 1;
+    if (existing) {
+      await store.saveSyncState({
+        ...existing, conflictStreak, backoffUntil: Date.now() + backoffDelay(conflictStreak),
+      });
+    }
+    return { ...result, ok: false };
+  }
+
   if (SYNC_FAILURE_OUTCOMES.includes(result.outcome)) return { ...result, ok: false };
 
   if (result.profile !== profile) {
@@ -7410,6 +7503,10 @@ async function runSync({
     // Anything this device still owes the remote was just sent, unless the
     // push was skipped precisely because there was nothing to send.
     dirty: result.pushed ? false : (localChanged && !result.pushed),
+    // Overwriting the whole row here (rather than spreading an existing
+    // one) is what clears remoteDeleted/conflictStreak/backoffUntil the
+    // moment a sync actually succeeds — no explicit reset needed.
+    clockOffset: clockOffsetMs,
   });
   // Outlives the pairing row above — see store.js's REMEMBERED_CODE_STORE —
   // so a later syncTurnOn() for this profile resumes this code instead of
@@ -7426,7 +7523,10 @@ async function runSync({
 async function performSync({ successMessage, ...options }) {
   const result = await runSync(options);
   if (!result.ok) {
-    await renderSyncCard(syncFailureMessage(result.outcome));
+    // 'deleted' has its own explanation, driven by the remoteDeleted flag
+    // runSync just persisted — no override here lets renderSyncCard fall
+    // through to that instead of the generic "could not sync" message.
+    await renderSyncCard(result.outcome === 'deleted' ? undefined : syncFailureMessage(result.outcome));
     return false;
   }
   await renderSyncCard(successMessage(result.outcome, result.changeCount));
@@ -7460,6 +7560,9 @@ async function autoSync({ force = false } = {}) {
 
   const since = Date.now() - (syncState.lastPulledAt || 0);
   if (!force && !syncState.dirty && since < SYNC_STALE_MS) return;
+  // §4.5/§8 phase 4 backoff: only gates this passive trigger — a forced one
+  // (opening a learner, session end, "online") always gets a fresh try.
+  if (!force && syncState.backoffUntil && Date.now() < syncState.backoffUntil) return;
 
   autoSyncRunning = true;
   try {
@@ -7596,7 +7699,12 @@ async function syncNow() {
       code: syncState.code,
       docId,
       aesKey,
-      knownVersion: syncState.version,
+      // §4.6: a previous sync found the remote copy deleted elsewhere and
+      // flagged it rather than recreating it. The old version is gone for
+      // good, so asking for it again would just rediscover "deleted" —
+      // recreate fresh instead, exactly what "Sync now" is now explicitly
+      // being used to request.
+      knownVersion: syncState.remoteDeleted ? null : syncState.version,
       // Tapping Sync now explicitly is a request to reconcile, so it pushes
       // whether or not anything changed here — unlike the automatic
       // triggers, which stay quiet when there's nothing to send.
@@ -9484,7 +9592,25 @@ function wire() {
       case 'toggle-changelog': toggleChangelogHistory(); break;
       case 'delete-profile':
         if (confirm(`Delete ${state.profile.name} and all their progress?`)) {
-          await store.deleteProfile(state.profile.id);
+          const deletedProfileId = state.profile.id;
+          // sync-plan.md §4.6: delete the remote copy too, so a paired
+          // profile doesn't sit orphaned on the server until the 5-year
+          // sweep — and so any other paired device finds out (its next
+          // pull comes back 404 and is handled by the §4.6 flow above,
+          // not silently resurrected). Best-effort: local deletion must
+          // never be blocked on the network, the same principle autoSync
+          // already follows everywhere else in this feature.
+          const syncState = await store.getSyncState(deletedProfileId);
+          if (syncState && syncState.version != null) {
+            try {
+              await transport.remove(syncState.docId, syncState.version);
+            } catch {
+              // Offline, or the remote delete otherwise failed — the
+              // 5-year sweep (sync-plan.md §2.3) cleans it up eventually.
+            }
+          }
+          if (syncState) await store.deleteSyncState(deletedProfileId);
+          await store.deleteProfile(deletedProfileId);
           state.profile = null;
           renderProfiles();
         }

@@ -45,18 +45,24 @@ export async function pull({
   transport, decrypt, docId, knownVersion, localProfile, adoptIncomingIdentity = false,
 }) {
   const result = await transport.pull(docId, knownVersion);
+  const serverDate = result.serverDate ?? null;
   if (result.status === 'not-modified') {
-    return { outcome: 'unchanged', profile: localProfile, version: knownVersion };
+    return {
+      outcome: 'unchanged', profile: localProfile, version: knownVersion, serverDate,
+    };
   }
   if (result.status === 'not-found') {
     return {
       outcome: knownVersion == null ? 'unchanged' : 'deleted',
       profile: localProfile,
       version: null,
+      serverDate,
     };
   }
   if (result.status !== 'ok') {
-    return { outcome: 'error', profile: localProfile, version: knownVersion };
+    return {
+      outcome: 'error', profile: localProfile, version: knownVersion, serverDate,
+    };
   }
   const remoteProfile = await decrypt(result.ciphertext);
   const merged = mergeProfiles(localProfile, remoteProfile, { adoptIncomingIdentity });
@@ -69,6 +75,7 @@ export async function pull({
     // just caught up" case — syncProfile below skips the push entirely,
     // halving the request count for that whole class of sync.
     matchesRemote: stableStringify(merged) === stableStringify(remoteProfile),
+    serverDate,
   };
 }
 
@@ -87,16 +94,22 @@ export async function push({
 }) {
   let version = knownVersion;
   let current = profile;
+  let serverDate = null;
 
   for (let attempt = 0; attempt <= MAX_PUSH_RETRIES; attempt += 1) {
     const ciphertext = await encrypt(current);
     const result = await transport.push(docId, version, ciphertext);
+    if (result.serverDate != null) serverDate = result.serverDate;
 
     if (result.status === 'ok') {
-      return { outcome: 'ok', profile: current, version: result.version };
+      return {
+        outcome: 'ok', profile: current, version: result.version, serverDate,
+      };
     }
     if (result.status === 'too-large') {
-      return { outcome: 'too-large', profile: current, version };
+      return {
+        outcome: 'too-large', profile: current, version, serverDate,
+      };
     }
     if (result.status === 'not-found') {
       // The remote document was deleted since `version` was last known —
@@ -105,8 +118,13 @@ export async function push({
       continue;
     }
     if (result.status === 'conflict') {
-      if (attempt === MAX_PUSH_RETRIES) return { outcome: 'conflict', profile: current, version };
+      if (attempt === MAX_PUSH_RETRIES) {
+        return {
+          outcome: 'conflict', profile: current, version, serverDate,
+        };
+      }
       const pulled = await transport.pull(docId, null);
+      if (pulled.serverDate != null) serverDate = pulled.serverDate;
       if (pulled.status === 'ok') {
         const remoteProfile = await decrypt(pulled.ciphertext);
         current = mergeProfiles(current, remoteProfile);
@@ -116,9 +134,13 @@ export async function push({
       }
       continue;
     }
-    return { outcome: 'error', profile: current, version };
+    return {
+      outcome: 'error', profile: current, version, serverDate,
+    };
   }
-  return { outcome: 'conflict', profile: current, version };
+  return {
+    outcome: 'conflict', profile: current, version, serverDate,
+  };
 }
 
 /**
@@ -151,7 +173,21 @@ export async function syncProfile({
     transport, decrypt, docId, knownVersion, localProfile, adoptIncomingIdentity,
   });
   if (pulled.outcome === 'error') {
-    return { outcome: 'error', profile: localProfile, version: knownVersion };
+    return {
+      outcome: 'error', profile: localProfile, version: knownVersion, serverDate: pulled.serverDate,
+    };
+  }
+  // sync-plan.md §4.6: a document this device previously knew a version of
+  // is now 404 — another device deleted this profile. Pushing here would
+  // silently recreate it from this device's own copy, exactly the "a
+  // mis-tap on one device destroys practice on another" scenario the plan
+  // warns about, so this stops short and reports it instead of acting. The
+  // caller (app.js) decides what to tell the learner and how a deliberate
+  // "sync again" can still recreate it if that's actually what's wanted.
+  if (pulled.outcome === 'deleted') {
+    return {
+      outcome: 'deleted', profile: pulled.profile, version: null, pushed: false, serverDate: pulled.serverDate,
+    };
   }
 
   // A document that doesn't exist yet always has to be created, even with
@@ -159,7 +195,9 @@ export async function syncProfile({
   const remoteExists = pulled.version != null;
   const nothingToSend = !localChanged && (pulled.outcome === 'unchanged' || pulled.matchesRemote);
   if (remoteExists && nothingToSend) {
-    return { outcome: pulled.outcome, profile: pulled.profile, version: pulled.version, pushed: false };
+    return {
+      outcome: pulled.outcome, profile: pulled.profile, version: pulled.version, pushed: false, serverDate: pulled.serverDate,
+    };
   }
 
   const pushed = await push({
@@ -170,5 +208,6 @@ export async function syncProfile({
     profile: pushed.profile,
     version: pushed.version,
     pushed: pushed.outcome === 'ok',
+    serverDate: pushed.serverDate ?? pulled.serverDate,
   };
 }

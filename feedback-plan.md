@@ -2,9 +2,12 @@
 
 **Status:** phases 0-3 and 5 implemented and deployed 2026-09-06; phase 6 is
 partially built (shipped as a side effect of Phases 2-3, not as its own pass);
-phase 7 has not started as scoped, though a lighter-weight substitute exists.
-Researched 2026-08-24, reviewed and revised 2026-08-24. **Updated 2026-09-08**
-against `feedback-server/README.md` and the commit history — see notes below.
+**phase 7 is shelved by explicit owner decision (2026-09-08) — the owner
+wants to keep control over triage and fixes for now, not hand it to
+unattended automation.** A lighter-weight, human-in-the-loop substitute
+(the `kanaquest-feedback-triage` skill) exists and stays. Researched
+2026-08-24, reviewed and revised 2026-08-24. **Updated 2026-09-08** against
+`feedback-server/README.md` and the commit history — see notes below.
 
 **What ships today:** a 💬 in every screen's header, the report form (since
 simplified to a single message box — `847fb5a`, 2026-09-07, dropped the
@@ -1205,20 +1208,31 @@ profile/sync disclosure copy and the accessibility audit are still open.
 
 ### Phase 7 — Agent-assisted triage and fixes (1–3 days)
 
+**Shelved, 2026-09-08, by explicit owner decision — not merely "not started
+yet."** The app owner wants to keep control over triage and fixes for now
+rather than hand either to unattended automation. Nothing below is planned
+or scheduled; revisit only if that changes. The manual/scheduled
+`kanaquest-feedback-triage` Claude Code skill (see the 2026-09-08 note this
+replaces, kept for the record below) stays exactly as it is — it drafts a
+plan for a human to act on and is explicitly not what this phase describes.
+
 Only worth doing once the issue format from Phase 1 and the label vocabulary from
 Phase 3 have stopped moving. See *Automating the path from feedback to fix* for
 the reasoning behind each gate.
 
-**Note (2026-09-08):** genuinely not started as scoped below — no
-`.github/workflows/triage.yml` or `agent-fix.yml` exists. A different, smaller
-substitute shipped instead: `.claude/skills/kanaquest-feedback-triage/SKILL.md`
-(`e2656f0`, 2026-09-07) is a Claude Code skill, run manually or on a schedule,
-that reads the open backlog and drafts a prioritized plan for the maintainer —
-explicitly "report-only... without applying labels or code changes." It has no
-`sender.login` gate, applies no labels, and starts no agent-fix workflow, so it
-does not satisfy this phase's exit criteria; it addresses only the Stage 3-4
-triage-suggestion idea from *Automating the path from feedback to fix*, and
-does none of Stage 5 (agent-drafted fixes).
+**Note (2026-09-08, superseded same day by the shelving above):** genuinely
+not started as scoped below — no `.github/workflows/triage.yml` or
+`agent-fix.yml` exists. A different, smaller substitute shipped instead:
+`.claude/skills/kanaquest-feedback-triage/SKILL.md` (`e2656f0`, 2026-09-07)
+is a Claude Code skill, run manually or on a schedule, that reads the open
+backlog and drafts a prioritized plan for the maintainer — explicitly
+"report-only... without applying labels or code changes." It has no
+`sender.login` gate, applies no labels, and starts no agent-fix workflow, so
+it does not satisfy this phase's exit criteria; it addresses only the Stage
+3-4 triage-suggestion idea from *Automating the path from feedback to fix*,
+and does none of Stage 5 (agent-drafted fixes). This remains the accurate
+technical description of what exists — the owner decision above is about
+whether to build the rest, not a correction to this paragraph.
 
 - [ ] Add `.github/workflows/triage.yml` on `issues.opened`, filtered to
       `from:kanaquest-app`: apply a component label from the allowlisted route in

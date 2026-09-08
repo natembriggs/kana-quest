@@ -17,6 +17,8 @@ export const CHANGELOG = [
       'Fixed: on iPhone and iPad, the very first time you tapped \u{1F3A4} on the feedback form, granting the microphone could leave the app stuck with nothing to do but force it closed. The app now asks for microphone permission before it starts listening, rather than during, so the permission box can no longer wedge it — and the \u{1F3A4} button can always be tapped again to switch it off, which is what really left it looking frozen.',
       'Fixed: dictating into the feedback box ran words together at every pause — stop for a moment, carry on speaking, and “hello world” arrived as “helloworld”. Each phrase now gets its own space. (Full stops and commas are still not something a browser’s own dictation offers; your keyboard’s \u{1F3A4} key does add them, if you have Dictation switched on in Settings.)',
       'Fixed: the progress bar at the top of a kanji or writing session could fail to draw at all on some phones, leaving the ✕ and the counter but nothing showing how much of the session was left.',
+      'Changed: deleting a learner now also removes their progress from the sync server, if they were syncing — previously it stayed there, unreachable from the app but not actually gone.',
+      'Fixed: if a learner who is paired across two devices got deleted on one of them, the other could end up silently recreating them from its own old copy the next time it synced. Sync now stops and explains what happened instead — with a clear way to make a fresh copy here if that’s genuinely what you want.',
     ],
   },
   {
