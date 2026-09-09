@@ -1929,8 +1929,19 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   text-align: left;
   width: 100%;
   cursor: pointer;
+  /* Buttons pick up the platform's own link-blue tint by default (nothing
+     else on the page sets a text colour on a bare <button>) — every script
+     card already overrides this the same way, via .script-card's own
+     color: inherit, so the read card matches instead of standing out as a
+     link. */
+  color: inherit;
 }
-.read-card-icon { font-size: 32px; line-height: 1; }
+/* .script-sample (glyph size/colour/width) is reused as-is for 読, same
+   treatment as あ/ア/学/語 above — only the class below still carries is the
+   line-height, since .script-sample doesn't set one and this button's
+   cross-axis centering (align-items) depends on it not inheriting the
+   glyph's own tall line box. */
+.read-card-icon { line-height: 1; }
 .read-card-text { display: flex; flex-direction: column; gap: 2px; }
 .read-card-title { font-weight: 700; font-size: 17px; }
 
