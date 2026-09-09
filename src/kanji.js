@@ -19,10 +19,23 @@
 import { KANJI_UNITS, NO_YOMI_CHARS, NO_MEANING_CHARS } from './data/kanji-manifest.js';
 import { itemKey, yomiKey, MAX_BOX } from './srs.js';
 
-// Used only to order options alphabetically (see buildKanjiOptions) — kun
+// toRomaji orders options alphabetically (see buildKanjiOptions) — kun
 // readings are hiragana and on readings are katakana, so sorting the raw
 // strings would separate the two scripts instead of interleaving by sound.
-const { toRomaji } = window.wanakana;
+// toHiragana folds that same script split away entirely, for deciding
+// whether two readings are the same SOUND (see sameSound below).
+const { toRomaji, toHiragana } = window.wanakana;
+
+/**
+ * Script-insensitive reading identity: キ and き are one sound written under
+ * two conventions (katakana for on'yomi, hiragana for kun), not two answers.
+ * toHiragana rather than toRomaji because romaji over-merges — it maps both
+ * ヂ and ジ to "ji", and ヅ and ズ to "zu", which are genuinely different
+ * readings a learner is entitled to be asked to tell apart.
+ */
+function sameSound(a, b) {
+  return toHiragana(a) === toHiragana(b);
+}
 
 const CHUNK_SIZE = 5; // matches the kana courses, for a consistent lesson size
 
@@ -317,12 +330,26 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
   // genuinely correct readings of 子, just not being quizzed this round, so
   // they must never appear as a "wrong" distractor even if some other kanji
   // (e.g. 音, also read ね) would otherwise offer that exact reading.
-  const ownPool = new Set(info.quizReadings);
+  //
+  // Matched by SOUND, not by string: 木 is read き, so offering キ (a real
+  // on'yomi of 気/期/記, and the very same syllable) and marking it wrong
+  // tests nothing but which script the app happened to print the answer in.
+  // A third of all kanji have a reading with a cross-script twin somewhere
+  // in the pool, so this is common, and it is the harsher half of the same
+  // rule the exact match above already encodes — the learner knew the sound.
+  // Seeded with every own reading, so the same set also stops two distractors
+  // that differ only by script (き from one kanji, キ from another) landing in
+  // one grid, where they read as the app having printed the same option twice
+  // and then marked both wrong. No kanji has a same-sound pair among its own
+  // readings, so seeding this can never suppress a correct option.
+  const takenSounds = new Set(info.quizReadings.map(toHiragana));
 
   const options = new Set(correct);
   for (const reading of distractorPool(course, kanji)) {
     if (options.size >= total) break;
-    if (ownPool.has(reading)) continue; // would be ambiguous, or outright wrong to mark wrong
+    const sound = toHiragana(reading);
+    if (takenSounds.has(sound)) continue;
+    takenSounds.add(sound);
     options.add(reading);
   }
 
@@ -380,10 +407,20 @@ export function buildAdvancedAdditions(course, kanji, shown) {
   const newCorrect = new Set(info.quizReadings.filter((r) => !shown.has(r)));
   const targetNewTotal = Math.max(0, ADVANCED_TOTAL_OPTIONS - shown.size);
 
+  // Same sound-level exclusion buildKanjiOptions applies, over both the
+  // kanji's own readings and whatever the base grid is already showing —
+  // expanding a grid must not slip in a distractor that only differs from
+  // an option already on screen (or from a correct answer) by script.
+  const takenSounds = new Set(
+    [...info.quizReadings, ...shown].map(toHiragana),
+  );
+
   const additions = new Set(newCorrect);
   for (const reading of distractorPool(course, kanji)) {
     if (additions.size >= targetNewTotal) break;
-    if (shown.has(reading) || additions.has(reading)) continue;
+    const sound = toHiragana(reading);
+    if (takenSounds.has(sound)) continue;
+    takenSounds.add(sound);
     additions.add(reading);
   }
 

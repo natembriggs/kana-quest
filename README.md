@@ -260,6 +260,16 @@ immediately.**
   chosen by priority (never-graded readings first, then whichever is most
   overdue). Correct options are deliberately kept under half the total, so
   passing by clicking everything isn't possible.
+- **A wrong option is never the right sound in the other script.** On'yomi
+  print in katakana and kun'yomi in hiragana, so the pool holds cross-script
+  twins of the same syllable — キ is a real on'yomi of 気/期/記, and 木 reads
+  き. Offering キ against 木 would test which script the app happened to
+  print the answer in, not the reading, so a distractor is dropped when it
+  matches any of the kanji's own readings by sound (`toHiragana`, not
+  romaji — romaji merges ヂ/ジ and ヅ/ズ, which are genuinely different
+  readings). The same rule stops two distractors colliding that way, which
+  would print one option twice and mark both wrong. A third of all kanji
+  have such a twin somewhere in the pool.
 - **The grading moment is the first wrong click**, not a submit button.
   Whatever was clicked correctly *before* that click is recorded correct;
   whatever correct reading was still unclicked at that moment is recorded

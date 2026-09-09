@@ -872,6 +872,45 @@ for (let trial = 0; trial < 30; trial += 1) {
 check('a kanji\'s own reading never appears on its own grid marked as a distractor',
   ownReadingOfferedAsDistractor === 0, `${ownReadingOfferedAsDistractor} occurrences across 30 trials`);
 
+// The same rule at the level of SOUND rather than string, from a report of
+// tapping キ on 木 (read き) and being marked wrong: on'yomi are printed in
+// katakana and kun'yomi in hiragana, so the pool holds cross-script twins of
+// the same syllable — キ is a real on'yomi of 気/期/記 — and offering one
+// against a kanji that genuinely reads that way tests the script convention,
+// not the reading. A third of all kanji have such a twin somewhere in the
+// pool. The second count covers two DISTRACTORS colliding the same way,
+// which would print what looks like one option twice and mark both wrong.
+const toHira = window.wanakana.toHiragana;
+let soundAlikeDistractor = 0, duplicateSounds = 0;
+for (let trial = 0; trial < 30; trial += 1) {
+  for (const kanji of grade1Chars) {
+    const info = kanjiInfo(grade1, kanji);
+    const ownSounds = new Set(info.quizReadings.map(toHira));
+    const { options, correct } = buildKanjiOptions(grade1, kanji, 'recognition', noProgress);
+    const seen = new Set();
+    for (const option of options) {
+      const sound = toHira(option);
+      if (!correct.has(option) && ownSounds.has(sound)) soundAlikeDistractor += 1;
+      if (seen.has(sound)) duplicateSounds += 1;
+      seen.add(sound);
+    }
+  }
+}
+check('no distractor differs from one of the kanji\'s own readings by script alone',
+  soundAlikeDistractor === 0, `${soundAlikeDistractor} occurrences across 30 trials`);
+check('no two options on one grid are the same sound in different scripts',
+  duplicateSounds === 0, `${duplicateSounds} occurrences across 30 trials`);
+
+// The reported case itself. 木 reads き (tree); キ must never be on its grid.
+let kiOfferedAgainstTree = 0;
+for (let trial = 0; trial < 300; trial += 1) {
+  if (buildKanjiOptions(grade1, '木', 'recognition', noProgress).options.includes('キ')) {
+    kiOfferedAgainstTree += 1;
+  }
+}
+check('木 (read き) is never offered キ as a wrong answer',
+  kiOfferedAgainstTree === 0, `${kiOfferedAgainstTree} of 300 trials`);
+
 done('kanji data and base/advanced reading choices');
 
 // --- Advanced "additions": grows the grid rather than rebuilding it -------

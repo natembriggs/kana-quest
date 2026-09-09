@@ -1007,6 +1007,50 @@ uncommon one.
 
 ---
 
+### 4.7 A distractor can be the right sound in the wrong script
+
+Reported in the same sitting as §4.6, and unrelated to commonness: tapping
+キ on 木 ("tree", read き) was marked wrong. On'yomi are printed in katakana
+and kun'yomi in hiragana, so the distractor pool holds cross-script twins of
+the same syllable — キ is a genuine on'yomi of 気 (grade 1, so in the very
+same pool 木's distractors are drawn from). The learner knew the reading;
+the grid was testing which alphabet the app had chosen to print it in.
+
+`buildKanjiOptions` already refused to offer a kanji's own reading as a
+distractor (§ the 子/ね case), but matched by exact string. Now matched by
+sound, via `toHiragana`. **Not `toRomaji`**, which is already imported one
+line up and would have been the obvious reach: it maps both ヂ and ジ to
+"ji" and both ヅ and ズ to "zu", genuinely different readings a learner is
+entitled to be asked to tell apart. `toHiragana` folds away the script
+distinction and nothing else.
+
+The same `takenSounds` set is seeded with every own reading and then grown
+as distractors are chosen, so it also stops two *distractors* colliding —
+き from one kanji and キ from another on one grid reads as the app having
+printed an option twice and then marked both wrong. Seeding it can never
+suppress a correct option: no kanji has a same-sound pair among its own
+readings (checked across all 3,033).
+
+`buildAdvancedAdditions` had the same gap and got the same fix, seeded from
+the own readings *plus* whatever the base grid already shows — expanding a
+grid must not slip in a twin of an option already on screen.
+
+**Scale:** 1,057 of 3,033 kanji have a reading with a cross-script twin
+somewhere in the pool. Measured on 木 specifically, ~3% of its questions
+used to offer キ, which is why this took a while to surface.
+
+Three `test/smoke.js` checks, all three verified to fail against the
+pre-fix code (30 trials over every grade-1 kanji for the two invariants,
+300 for the reported 木/キ case, since any single grid only draws ~6
+distractors from a pool of ~240): no distractor differs from an own reading
+by script alone; no two options on one grid are the same sound; 木 is never
+offered キ.
+
+The vocab Yomi quiz is unaffected — its options are whole-word kana
+readings, all hiragana, with no on/kun script split to collide over.
+
+---
+
 ## 5. Beyond jōyō
 
 Adding "common kanji beyond jōyō" means, concretely:
