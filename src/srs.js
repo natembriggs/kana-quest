@@ -388,6 +388,44 @@ export function studiedKanji(study, mode) {
 }
 
 /**
+ * The reading-level twin of isStudying/setStudying, for opting a single
+ * uncommon reading (kanjiInfo(...).uncommonReadings) into being quizzed —
+ * see kanji.js's effectiveQuizReadings and kanji-expansion-plan.md's
+ * "uncommon yomi" section. Same {kanji: {key: enrolledAt}} shape and same
+ * add/remove-tombstone pair (yomiStudy/yomiUnstudy) as study/unstudy, just
+ * keyed by reading instead of mode, so mergeYomiStudy in merge.js can reuse
+ * mergeStudy's own last-write-wins algorithm unchanged.
+ */
+export function isReadingStudied(yomiStudy, kanji, reading) {
+  const entry = (yomiStudy || {})[kanji];
+  return !!entry && Object.prototype.hasOwnProperty.call(entry, reading);
+}
+
+/** Enroll or un-enroll one (kanji, reading). Mutates both `yomiStudy` and
+ * `yomiUnstudy` and returns `yomiStudy` — see setStudying above, which this
+ * mirrors exactly but at reading grain rather than mode grain. */
+export function setReadingStudied(yomiStudy, yomiUnstudy, kanji, reading, on, now = Date.now()) {
+  if (on) {
+    if (!yomiStudy[kanji]) yomiStudy[kanji] = {};
+    yomiStudy[kanji][reading] = now;
+    if (yomiUnstudy && yomiUnstudy[kanji]) {
+      delete yomiUnstudy[kanji][reading];
+      if (Object.keys(yomiUnstudy[kanji]).length === 0) delete yomiUnstudy[kanji];
+    }
+  } else {
+    if (yomiStudy[kanji]) {
+      delete yomiStudy[kanji][reading];
+      if (Object.keys(yomiStudy[kanji]).length === 0) delete yomiStudy[kanji];
+    }
+    if (yomiUnstudy) {
+      if (!yomiUnstudy[kanji]) yomiUnstudy[kanji] = {};
+      yomiUnstudy[kanji][reading] = now;
+    }
+  }
+  return yomiStudy;
+}
+
+/**
  * The scheduling functions below accept either a whole profile ({progress,
  * study}) or — as the pure tests and every pre-study-list caller do — a bare
  * progress map. A bare map means "no study list", which switches enrollment

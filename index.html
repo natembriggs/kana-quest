@@ -727,6 +727,18 @@
     <!-- Kanji only: tappable readings (tap to see the word it's used in),
          meanings, and the word for whichever reading was last tapped. -->
     <div id="detail-readings" class="reading-chips" lang="ja" hidden></div>
+    <!-- Kanji only: real readings this kanji has beyond the default quizzed
+         pool above (kanji-expansion-plan.md's "uncommon yomi" section) —
+         dropped as too obscure to test a child on by default, but not
+         hidden from an advanced learner. Greyed until opted into study via
+         the +/− toggle beside each one, at which point it renders identical
+         to a common reading chip above. Tapping the chip itself (not the
+         toggle) shows its example word in the same #detail-word slot as
+         #detail-readings. See renderUncommonReadingChips() in app.js. -->
+    <div id="detail-uncommon-wrap" class="uncommon-readings-wrap" hidden>
+      <p class="hint uncommon-readings-label">Other readings (uncommon)</p>
+      <div id="detail-uncommon-readings" class="reading-chips" lang="ja"></div>
+    </div>
     <!-- Kanji only: the only visible evidence that vocab's passive exposure
          tracking (vocab-plan.md §5.3) is doing anything — a reading chip
          above gets a marker once it's been met often enough to hide its
@@ -1065,6 +1077,26 @@
       </div>
       <div id="quiz-word" class="kanji-word"></div>
       <p id="quiz-word-hint" class="hint"></p>
+      <!-- Unobtrusive: only shown when this kanji actually has uncommon
+           readings (kanji-expansion-plan.md's "uncommon yomi" section) to
+           reveal, and styled quiet like #quiz-info-more rather than
+           #quiz-rate-ok's primary weight. Reveals #quiz-all-readings below,
+           one-way, same pattern as "Show hint" — see armHintButton() in
+           app.js. Not to be confused with #quiz-advanced ("Test all"),
+           which grows THIS round's own grid mid-question; this button only
+           ever appears after the round has already resolved. -->
+      <button id="quiz-info-advanced" class="btn btn-quiet" type="button" hidden>Advanced</button>
+      <!-- Every reading this kanji has — common (quizzed by default) and
+           uncommon alike — each badged and, for the uncommon ones, carrying
+           the same +/− study toggle as the kanji detail screen. Tapping a
+           chip shows its example word in #quiz-all-readings-word; toggling
+           study here only affects FUTURE questions, never the round that
+           just finished (#quiz-choices above is untouched). See
+           renderAllReadingsPanel() in app.js. -->
+      <div id="quiz-all-readings" class="all-readings-panel" hidden>
+        <div id="quiz-all-readings-list" class="reading-chips" lang="ja"></div>
+        <div id="quiz-all-readings-word" class="word-slot" hidden></div>
+      </div>
     </div>
 
     <!-- Kana: tap one option and it grades instantly.
@@ -1092,10 +1124,13 @@
     <!-- Kanji only, while the round is still open. "Show hint" comes first:
          a learner who is stuck wants a nudge before they want the answer
          outright. It only appears for a compound kanji that has a
-         breakdown to show. -->
+         breakdown to show. "Test all" (id kept as quiz-advanced — only the
+         label changed, to stop colliding in meaning with the post-round
+         #quiz-info-advanced "Advanced" button above, which reveals rather
+         than tests) grows THIS round's grid to the full tested pool. -->
     <div id="quiz-kanji-actions" class="row" hidden>
       <button id="quiz-show-hint" class="btn btn-hint" type="button" hidden>💡 Hint</button>
-      <button id="quiz-advanced" class="btn" type="button" hidden>Advanced</button>
+      <button id="quiz-advanced" class="btn" type="button" hidden>Test all</button>
       <button id="quiz-show-answers" class="btn btn-quiet" type="button">Show answers</button>
     </div>
 

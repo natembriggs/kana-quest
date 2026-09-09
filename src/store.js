@@ -208,6 +208,18 @@ export function createProfile(name, emoji) {
     // see the module note above deriveStudyList in srs.js and
     // sync-plan.md §0.1 for why un-enrolling needs one.
     unstudy: {},
+    // kanji -> {reading: enrolledAt}: uncommon readings (kanjiInfo(...)
+    // .uncommonReadings — kanji-expansion-plan.md's "uncommon yomi" section)
+    // a learner opted into testing beyond the default quizzed pool. Same
+    // shape as `study` but at reading grain instead of mode grain — see
+    // srs.js's isReadingStudied/setReadingStudied and kanji.js's
+    // effectiveQuizReadings. Unlike `study`, there is no legacy data to ever
+    // derive this from, so a missing field is always safely {} — no
+    // one-time migration needed, same as exposure/muted below.
+    yomiStudy: {},
+    // kanji -> {reading: removedAt}: tombstone half of the same model, same
+    // shape and merge rule as `unstudy` — see mergeYomiStudy in merge.js.
+    yomiUnstudy: {},
     // (kanji, reading) or word -> timestamps a hidden reading was met
     // (vocab-plan.md §5.3). Starts as {} for the same reason `study` and
     // `unstudy` do: a profile saved before this field existed has none at

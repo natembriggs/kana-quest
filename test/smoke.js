@@ -15,7 +15,7 @@ const {
 const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, meaningKeys,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
-  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded,
+  ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, effectiveQuizReadings,
 } = await import('../src/kanji.js');
 // strokesFor/hasStrokes are pure lookups (no DOM access at import or call
 // time); buildStrokeSVG/animateStrokes touch `document` and are exercised in
@@ -934,6 +934,75 @@ for (const kanji of advancedEligible.slice(0, 10)) {
     finalCorrectCount * 2 < finalTotal, `${finalCorrectCount}/${finalTotal}`);
 }
 done('advanced additions grow the grid without duplicating or exceeding it');
+
+// --- Uncommon yomi: real readings kept beyond the default quizzed pool,
+// with an opt-in per-reading study list (kanji-expansion-plan.md's
+// "uncommon yomi" section) that promotes one into being tested. ---------
+
+let uncommonMissingExample = 0;
+for (const kanji of grade1Chars) {
+  const info = kanjiInfo(grade1, kanji);
+  for (const reading of info.uncommonReadings) {
+    const example = readingExample(grade1, kanji, reading);
+    if (!example || typeof example.written !== 'boolean' || typeof example.spoken !== 'boolean') {
+      uncommonMissingExample += 1;
+    }
+  }
+}
+check('every uncommon reading has an example word carrying the register flags, same guarantee as a quizzed reading',
+  uncommonMissingExample === 0, `${uncommonMissingExample} without one`);
+
+// 玉's ギョク is exactly the case kanji-expansion-plan.md §4.6 documents: real,
+// word-backed, but dropped from the default pool since たま is common and
+// ギョク isn't. It's the one used throughout this section.
+const uncommonKanji = '玉';
+const uncommonReading = 'ギョク';
+const uncommonInfo = kanjiInfo(grade1, uncommonKanji);
+check('fixture sanity: 玉 still has ギョク as an uncommon (not quizzed) reading',
+  uncommonInfo.uncommonReadings.includes(uncommonReading) && !uncommonInfo.quizReadings.includes(uncommonReading),
+  JSON.stringify({ quiz: uncommonInfo.quizReadings, uncommon: uncommonInfo.uncommonReadings }));
+
+check('effectiveQuizReadings ignores an empty/absent yomi study list',
+  effectiveQuizReadings(uncommonInfo, uncommonKanji, {}).length === uncommonInfo.quizReadings.length
+  && effectiveQuizReadings(uncommonInfo, uncommonKanji, null).length === uncommonInfo.quizReadings.length);
+
+const studiedYomi = { [uncommonKanji]: { [uncommonReading]: 1 } };
+const effective = effectiveQuizReadings(uncommonInfo, uncommonKanji, studiedYomi);
+check('effectiveQuizReadings adds a studied uncommon reading to the default pool',
+  effective.length === uncommonInfo.quizReadings.length + 1 && effective.includes(uncommonReading));
+
+const { options: studiedOptions, correct: studiedCorrect } = buildKanjiOptions(
+  grade1, uncommonKanji, 'recognition', noProgress, { advanced: true, yomiStudy: studiedYomi },
+);
+check('a studied uncommon reading is offered as correct once "test all" is used',
+  studiedCorrect.has(uncommonReading) && studiedOptions.includes(uncommonReading));
+
+let uncommonSameSoundCollision = 0;
+for (let trial = 0; trial < 30; trial += 1) {
+  const { options, correct } = buildKanjiOptions(grade1, uncommonKanji, 'recognition', noProgress, { yomiStudy: studiedYomi });
+  const sound = toHira(uncommonReading);
+  for (const option of options) {
+    if (!correct.has(option) && toHira(option) === sound) uncommonSameSoundCollision += 1;
+  }
+}
+check('a studied uncommon reading is protected by the same same-sound distractor rule as any other',
+  uncommonSameSoundCollision === 0, `${uncommonSameSoundCollision} occurrences across 30 trials`);
+
+// recomputeKanjiRollup delegates to srs.js's recomputeYomiRollupFromProgress
+// (a prefix-scan over progress, not a fixed reading list) specifically so a
+// studied-uncommon reading's record still rolls up — proving that here
+// rather than only in srs.js's own test, since this is the call site an
+// actual quiz session uses.
+{
+  const rollupProgress = {};
+  rollupProgress[srs.yomiKey('recognition', uncommonKanji, uncommonReading)] = srs.gradeYomi(srs.newYomiRecord(), true, 1000);
+  recomputeKanjiRollup(grade1, uncommonKanji, 'recognition', rollupProgress, 2000);
+  const rollup = rollupProgress[srs.itemKey('recognition', uncommonKanji)];
+  check('recomputeKanjiRollup picks up a reading that is only in uncommonReadings, not quizReadings',
+    !!rollup && rollup.correct === 1, JSON.stringify(rollup));
+}
+
+done('uncommon yomi: kept with examples, opt-in study promotes it into the tested pool');
 
 // --- Priority: never-graded readings fill the "2 more" slots before one
 // that's already known and not currently due.

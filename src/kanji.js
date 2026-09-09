@@ -17,7 +17,9 @@
 // ensureUnitReady().
 
 import { KANJI_UNITS, NO_YOMI_CHARS, NO_MEANING_CHARS } from './data/kanji-manifest.js';
-import { itemKey, yomiKey, MAX_BOX } from './srs.js';
+import {
+  yomiKey, isReadingStudied, recomputeYomiRollupFromProgress,
+} from './srs.js';
 
 // toRomaji orders options alphabetically (see buildKanjiOptions) — kun
 // readings are hiragana and on readings are katakana, so sorting the raw
@@ -99,6 +101,11 @@ function normalizeEntry(entry) {
     quizOn: entry.quizOn,
     quizKun: entry.quizKun,
     quizReadings: entry.quizReadings,
+    // Real readings this kanji has beyond the default quizzed pool — not
+    // tested unless a learner opts in, see effectiveQuizReadings below and
+    // kanji-expansion-plan.md's "uncommon yomi" section. Every one still has
+    // a readingExamples entry, same guarantee as quizReadings.
+    uncommonReadings: entry.uncommonReadings || [],
     // reading (matching quizReadings) -> {kanji, kana, en}: the most common
     // word that genuinely uses the kanji with *that* reading, established by
     // aligning the word against its reading in build_kanji_data.py rather
@@ -264,9 +271,24 @@ export function kanjiInfo(course, kanji) {
 }
 
 /** The example word anchored to one specific reading of a kanji. Every
- * quizzed reading has one — build_kanji_data.py drops readings that don't. */
+ * quizzed or uncommon reading has one — build_kanji_data.py drops readings
+ * that don't. */
 export function readingExample(course, kanji, reading) {
   return kanjiInfo(course, kanji).readingExamples[reading] || null;
+}
+
+/**
+ * The pool of readings actually tested for this kanji: the default
+ * `quizReadings` plus whichever of its `uncommonReadings` this learner has
+ * opted into via the per-reading yomi study list (srs.js's
+ * isReadingStudied/setReadingStudied) — see kanji-expansion-plan.md's
+ * "uncommon yomi" section. An empty/absent `yomiStudy` (every existing
+ * profile, and every call site that doesn't pass one) falls straight
+ * through to `info.quizReadings` unchanged.
+ */
+export function effectiveQuizReadings(info, kanji, yomiStudy) {
+  const extra = info.uncommonReadings.filter((r) => isReadingStudied(yomiStudy, kanji, r));
+  return extra.length ? [...info.quizReadings, ...extra] : info.quizReadings;
 }
 
 function sortByRomaji(readings) {
@@ -289,9 +311,9 @@ function distractorPool(course, kanji) {
  * introduced reading is most overdue — so which two of the remaining pool
  * show up isn't fixed forever; a shaky one keeps getting another look.
  */
-function pickBaseCorrectReadings(course, kanji, mode, progress) {
+function pickBaseCorrectReadings(course, kanji, mode, progress, yomiStudy) {
   const info = kanjiInfo(course, kanji);
-  const pool = info.quizReadings;
+  const pool = effectiveQuizReadings(info, kanji, yomiStudy);
   // The most common *quizzable* on and kun — quizOn/quizKun are already
   // filtered to readings that appear in a real word, so this is the first
   // surviving one, not necessarily KANJIDIC's first.
@@ -319,11 +341,17 @@ function pickBaseCorrectReadings(course, kanji, mode, progress) {
  * Returns { options, correct } where `correct` is the Set of readings that
  * should turn green when clicked.
  */
-export function buildKanjiOptions(course, kanji, mode, progress, { advanced = false } = {}) {
+export function buildKanjiOptions(course, kanji, mode, progress, { advanced = false, yomiStudy = null } = {}) {
   const info = kanjiInfo(course, kanji);
-  const correctReadings = advanced ? info.quizReadings : pickBaseCorrectReadings(course, kanji, mode, progress);
+  const pool = effectiveQuizReadings(info, kanji, yomiStudy);
+  const correctReadings = advanced ? pool : pickBaseCorrectReadings(course, kanji, mode, progress, yomiStudy);
   const correct = new Set(correctReadings);
-  const total = advanced ? ADVANCED_TOTAL_OPTIONS : BASE_TOTAL_OPTIONS;
+  // A learner who has opted a bunch of uncommon readings into study can push
+  // the advanced pool past the usual 6-reading cap this constant assumes —
+  // scale up rather than crowd them past half the grid. Unchanged for the
+  // (overwhelmingly common) case of an empty yomi study list, where
+  // correct.size never exceeds 6 and this reduces to ADVANCED_TOTAL_OPTIONS.
+  const total = advanced ? Math.max(ADVANCED_TOTAL_OPTIONS, correct.size * 2 + 3) : BASE_TOTAL_OPTIONS;
 
   // The base view only shows some of this kanji's own readings as correct —
   // e.g. 子 has 5, only 4 make the base view. The other 1-2 are still
@@ -342,7 +370,7 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
   // one grid, where they read as the app having printed the same option twice
   // and then marked both wrong. No kanji has a same-sound pair among its own
   // readings, so seeding this can never suppress a correct option.
-  const takenSounds = new Set(info.quizReadings.map(toHiragana));
+  const takenSounds = new Set(pool.map(toHiragana));
 
   const options = new Set(correct);
   for (const reading of distractorPool(course, kanji)) {
@@ -402,17 +430,26 @@ export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS
  * colour. `shown` is every reading string currently rendered (correct and
  * distractor alike), used only to avoid re-offering something already there.
  */
-export function buildAdvancedAdditions(course, kanji, shown) {
+export function buildAdvancedAdditions(course, kanji, shown, yomiStudy) {
   const info = kanjiInfo(course, kanji);
-  const newCorrect = new Set(info.quizReadings.filter((r) => !shown.has(r)));
-  const targetNewTotal = Math.max(0, ADVANCED_TOTAL_OPTIONS - shown.size);
+  const pool = effectiveQuizReadings(info, kanji, yomiStudy);
+  const newCorrect = new Set(pool.filter((r) => !shown.has(r)));
+  // Every pool reading already in `shown` must already be correct (the base
+  // view never shows a pool reading as a distractor — see buildKanjiOptions),
+  // so the grid's final correct count is exactly pool.length once this
+  // finishes. Scale the target total the same way buildKanjiOptions does, so
+  // a learner's studied uncommon readings never crowd past half the grid;
+  // unchanged from the old fixed ADVANCED_TOTAL_OPTIONS when pool.length <= 6
+  // (every existing, yomiStudy-less kanji).
+  const total = Math.max(ADVANCED_TOTAL_OPTIONS, pool.length * 2 + 3);
+  const targetNewTotal = Math.max(0, total - shown.size);
 
   // Same sound-level exclusion buildKanjiOptions applies, over both the
   // kanji's own readings and whatever the base grid is already showing —
   // expanding a grid must not slip in a distractor that only differs from
   // an option already on screen (or from a correct answer) by script.
   const takenSounds = new Set(
-    [...info.quizReadings, ...shown].map(toHiragana),
+    [...pool, ...shown].map(toHiragana),
   );
 
   const additions = new Set(newCorrect);
@@ -440,28 +477,19 @@ export function buildAdvancedAdditions(course, kanji, shown) {
  * every reading tested is solid, not just the easiest one.
  *
  * Call this right after grading any reading of the kanji.
+ *
+ * Delegates straight to srs.js's recomputeYomiRollupFromProgress, which
+ * discovers which readings to aggregate by scanning `progress` for
+ * `mode:kanji:*` keys rather than trusting a fixed reading list — the same
+ * aggregation, just sourced from whatever was actually graded. That is what
+ * lets a per-reading yomi-study addition (kanji.js's effectiveQuizReadings)
+ * roll up correctly with no extra parameter here: a studied reading outside
+ * `quizReadings` still has a `mode:kanji:reading` progress key once graded,
+ * and the scan picks it up like any other. `course` is kept only for
+ * call-site compatibility; this no longer needs kanjiInfo at all.
  */
 export function recomputeKanjiRollup(course, kanji, mode, progress, now = Date.now()) {
-  const info = kanjiInfo(course, kanji);
-  const records = info.quizReadings
-    .map((r) => progress[yomiKey(mode, kanji, r)])
-    .filter(Boolean);
-  if (records.length === 0) return;
-
-  progress[itemKey(mode, kanji)] = {
-    box: Math.min(...records.map((r) => Math.min(r.streak, MAX_BOX))),
-    due: Math.min(...records.map((r) => r.due)),
-    intervalDays: 0,
-    seen: records.reduce((sum, r) => sum + r.correct + r.incorrect, 0),
-    correct: records.reduce((sum, r) => sum + r.correct, 0),
-    lapses: records.reduce((sum, r) => sum + r.incorrect, 0),
-    history: [],
-    // Same field the per-reading records and srs.js's own
-    // recomputeYomiRollupFromProgress carry, so merge.js has a real
-    // timestamp to compare rather than falling through to an empty
-    // history (this rollup has none of its own).
-    updatedAt: now,
-  };
+  recomputeYomiRollupFromProgress(progress, mode, kanji, now);
 }
 
 function shuffle(array) {

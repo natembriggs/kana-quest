@@ -1051,6 +1051,88 @@ readings, all hiragana, with no on/kun script split to collide over.
 
 ---
 
+### 4.8 Uncommon yomi: kept and shown, not just dropped
+
+§4.5–§4.7 spent several rounds making the Yomi quiz stop testing readings
+that are real but not genuinely common — weak-tier readings dropped once a
+sibling category is strong, `OBSCURE_WORD_OVERRIDE` for the 出納/建立 shape.
+Good for a default learner, but the owner didn't want those readings to
+disappear for good: an advanced learner should still be able to see them
+and, if they want, opt into being tested on them.
+
+**Data.** `tools/build_kanji_data.py`'s per-kanji loop already computed a
+"weak" tier per category before deciding whether to quiz it — it just threw
+the tier away once a "strong" tier existed to prefer. `keep()` now returns
+both, and the two places that used to discard a whole category outright
+(the cross-category rule, and the `MAX_QUIZ_READINGS` cap) route what they
+drop into a new `uncommonReadings` list instead of losing it. Every reading
+in it gets a `readingExamples` entry the same way a quizzed one does (same
+`choose_examples(..., prefer_common=True)` call, same `written`/`spoken`
+register flags) — an uncommon reading is exactly as clickable-for-an-example
+as a common one, just not tested unless asked for. A reading with no
+example word anywhere (KANJIDIC lists it, no JMdict entry ever backs it)
+still isn't offered at all — nothing changed there. Purely additive:
+`on`/`kun`/`meanings`/`words`/`quizOn`/`quizKun`/`quizReadings` regenerate
+byte-identical; confirmed via `git diff --stat` after regenerating (18 data
+files, insertions only, zero deletions). Regenerating found 595 uncommon
+readings across 473 kanji.
+
+**Opt-in per-reading study list.** A new profile field pair, `yomiStudy`/
+`yomiUnstudy` (`kanji -> {reading: timestamp}`), mirrors the existing
+`study`/`unstudy` model exactly but at reading grain instead of mode grain
+— `srs.js`'s `isReadingStudied`/`setReadingStudied` are the reading-level
+twins of `isStudying`/`setStudying`. `kanji.js`'s new
+`effectiveQuizReadings(info, kanji, yomiStudy)` is `quizReadings` plus
+whichever `uncommonReadings` this profile has studied, and is now what
+`pickBaseCorrectReadings`/`buildKanjiOptions`/`buildAdvancedAdditions`
+treat as "the tested pool" wherever they used to read `quizReadings`
+directly — including the own-kanji same-sound protection set (§4.7), which
+has to grow with a newly-studied reading or a distractor could collide
+with it. An empty/absent `yomiStudy` (every profile before this shipped)
+falls straight through to today's behavior unchanged.
+
+`recomputeKanjiRollup` (kanji.js) used to aggregate strictly over
+`info.quizReadings`, which would have silently ignored a graded studied
+reading outside that list. Simplified instead of extended: it now just
+delegates to `srs.js`'s `recomputeYomiRollupFromProgress`, which already
+discovers which readings to roll up by scanning `progress` for
+`mode:kanji:*` keys (built for vocab crediting, §4.5 of vocab-plan.md, to
+avoid needing the kanji course loaded) — a studied-uncommon reading's
+record is picked up for free, and a near-duplicate implementation goes
+away. `mergeYomiStudy` (merge.js) reuses `mergeStudy`'s own last-write-wins
+algorithm (factored out as `mergeEnrollmentPair`, generic over what
+"outer"/"inner" key mean) rather than reimplementing it — same rule, reading
+grain instead of mode grain. It omits the field entirely from a merge
+result when both sides are empty, the same trick `settingsUpdatedAt`
+already uses and for the same reason: a merge against a remote document
+from before this field existed has to come back byte-identical to that
+remote, or sync manufactures a pointless push on every single sync
+thereafter (caught by `test/sync.js`'s "catching up on another device's
+work needs no write-back" going red during development, and fixed the same
+way that test's own field already was).
+
+**UI.** The kanji detail screen gained an "Other readings (uncommon)"
+section below the regular reading chips — greyed (`.is-uncommon`, `color:
+var(--ink-soft)`) until studied, at which point the modifier is simply
+omitted and it renders identical to a common chip; a `+`/`−` toggle beside
+each one calls `setReadingStudied`. Tapping the chip itself still shows its
+example word, same interaction as a common reading.
+
+In the quiz, once a kanji's question resolves (not gated on a perfect
+round — a miss recovered by exploring, or by Show answers, still gets it),
+a quiet "Advanced" button appears if `uncommonReadings.length > 0`,
+revealing every reading — common and uncommon together, each badged, the
+uncommon ones carrying the same toggle — so a learner can see the whole
+picture and choose to study more without leaving the question. Toggling
+study there only ever affects future questions: it's separate markup from
+the graded grid, which stays exactly as answered. This reused the app's
+existing word "Advanced" for a different button than before (mid-round,
+"grow this question to the full tested pool," unchanged in behavior) — to
+keep the two from reading as the same thing, the older one is now labelled
+"Test all".
+
+---
+
 ## 5. Beyond jōyō
 
 Adding "common kanji beyond jōyō" means, concretely:

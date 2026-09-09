@@ -143,6 +143,41 @@ check('a newer enrollment beats an older removal',
   srs.isStudying(afterReenroll.study, '水', 'writing'),
   JSON.stringify(afterReenroll.study.水));
 
+// The reading-level twin of study/unstudy (srs.js's isReadingStudied/
+// setReadingStudied, kanji-expansion-plan.md's "uncommon yomi" section) —
+// same last-write-wins algorithm as above, just at (kanji, reading) grain
+// instead of (kanji, mode). Exercised directly against mergeProfiles rather
+// than the full backup/importAll round trip, same style as
+// test/contributions.js's mergeProfiles checks.
+{
+  const older = { id: 'p1', name: 'A', progress: {}, yomiStudy: { 玉: { ギョク: 1000 } }, yomiUnstudy: {} };
+  const newerRemoval = { id: 'p1', name: 'A', progress: {}, yomiStudy: {}, yomiUnstudy: { 玉: { ギョク: 5000 } } };
+  const merged = merge.mergeProfiles(older, newerRemoval);
+  check('a yomi-study removal survives a merge against an older, still-enrolled copy',
+    !srs.isReadingStudied(merged.yomiStudy, '玉', 'ギョク') && merged.yomiUnstudy.玉.ギョク === 5000,
+    JSON.stringify({ yomiStudy: merged.yomiStudy, yomiUnstudy: merged.yomiUnstudy }));
+}
+{
+  const olderRemoval = { id: 'p1', name: 'A', progress: {}, yomiStudy: {}, yomiUnstudy: { 玉: { ギョク: 1000 } } };
+  const newerEnrollment = { id: 'p1', name: 'A', progress: {}, yomiStudy: { 玉: { ギョク: 9000 } }, yomiUnstudy: {} };
+  const merged = merge.mergeProfiles(olderRemoval, newerEnrollment);
+  check('a newer yomi-study enrollment beats an older removal',
+    srs.isReadingStudied(merged.yomiStudy, '玉', 'ギョク'), JSON.stringify(merged.yomiStudy));
+}
+{
+  // Left off entirely when neither side ever had it (mergeProfiles' own
+  // comment) — matching the shape of a profile that predates this field,
+  // the same trick settingsUpdatedAt/contributions already rely on, and the
+  // fix for a real bug: without it, merging against an old remote document
+  // manufactured a pointless push on every sync (see sync-plan.md's
+  // matchesRemote and this field's own history in the git log).
+  const bare = { id: 'p1', name: 'A', progress: {} };
+  const merged = merge.mergeProfiles(bare, bare);
+  check('a profile that predates the yomi study list merges back to no field at all',
+    merged.yomiStudy === undefined && merged.yomiUnstudy === undefined,
+    JSON.stringify({ yomiStudy: merged.yomiStudy, yomiUnstudy: merged.yomiUnstudy }));
+}
+
 // Per-key settings LWW (sync-plan.md §0.2): a stamped edit only wins the ONE
 // key it's stamped for; an untouched key keeps ticking over to "current
 // wins", exactly as if timestamps didn't exist.

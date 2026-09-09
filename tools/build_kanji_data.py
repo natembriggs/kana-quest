@@ -779,6 +779,8 @@ def main():
     strong_kept_readings = 0
     weak_kept_readings = 0
     fallback_kept_readings = 0
+    uncommon_kept_readings = 0
+    kanji_with_uncommon = 0
     no_quiz_readings = []
     for kanji in iteration_order:
         info = graded[kanji]
@@ -805,10 +807,14 @@ def main():
                 seen.add(display)
                 bucket = strong if _is_common(reading_words[display]) else weak
                 bucket.append(display)
-            return (strong, True) if strong else (weak, False)
+            # weak is only ever a real "leftover" when strong exists to prefer
+            # it over — see uncommon_readings below. When strong is empty, weak
+            # IS the kept tier (the last-resort fallback), so there is nothing
+            # left over from this category alone.
+            return (strong, weak, True) if strong else (weak, [], False)
 
-        quiz_on, on_is_strong = keep(info["on"])
-        quiz_kun, kun_is_strong = keep(info["kun"])
+        quiz_on, extra_on, on_is_strong = keep(info["on"])
+        quiz_kun, extra_kun, kun_is_strong = keep(info["kun"])
 
         # keep() judges each category alone, which leaves a kanji quizzing a
         # reading the build itself scored as uncommon while a genuinely
@@ -817,20 +823,39 @@ def main():
         # kept as the on'yomi category's weak-tier fallback even though たま
         # has 玉 and 目玉 with both badges. When one category IS strong, the
         # other's weak-tier fallback has stopped being a fallback — there is
-        # something worth asking about — so drop it. Only fires when a strong
-        # category exists, so no kanji is ever left with nothing to quiz, and
-        # never for a needs_uncommon kanji (both categories weak there).
+        # something worth asking about — so drop it from the quizzed pool.
+        # Only fires when a strong category exists, so no kanji is ever left
+        # with nothing to quiz, and never for a needs_uncommon kanji (both
+        # categories weak there). The dropped category is not thrown away
+        # entirely though — kanji-expansion-plan.md's "uncommon yomi" work —
+        # it survives as `uncommon_readings` below, same as any other
+        # weak-tier reading, just no longer tested by default.
         if on_is_strong and not kun_is_strong:
+            extra_kun = extra_kun + quiz_kun
             quiz_kun = []
         elif kun_is_strong and not on_is_strong:
+            extra_on = extra_on + quiz_on
             quiz_on = []
 
-        quiz_readings = (quiz_on + quiz_kun)[:MAX_QUIZ_READINGS]
+        combined = quiz_on + quiz_kun
+        quiz_readings = combined[:MAX_QUIZ_READINGS]
+        # MAX_QUIZ_READINGS trims a small number of kanji with more than 6
+        # genuinely-common readings — the trimmed tail is still common, just
+        # not tested for lack of room, so it goes to uncommon_readings too
+        # rather than disappearing outright.
+        overflow = combined[MAX_QUIZ_READINGS:]
         quiz_on = [r for r in quiz_on if r in quiz_readings]
         quiz_kun = [r for r in quiz_kun if r in quiz_readings]
+        # Every real (word-backed) reading this kanji has that isn't in the
+        # default quizzed pool — an advanced learner can opt into testing
+        # these (kanji.js's effectiveQuizReadings), but a child is never
+        # shown them by default. Excludes readings with literally no word
+        # anywhere (dropped_readings below still counts those; they have
+        # nothing to show if tapped, so kanji.js/app.js never offer them).
+        uncommon_readings = [r for r in dict.fromkeys(extra_on + extra_kun + overflow) if r not in quiz_readings]
 
         all_display = {r.replace('-', '').replace('.', '') for r in info["on"] + info["kun"]}
-        dropped_readings += len(all_display) - len(set(quiz_on) | set(quiz_kun))
+        dropped_readings += len(all_display) - len(set(quiz_on) | set(quiz_kun) | set(uncommon_readings))
         kept_readings += len(quiz_readings)
         if kanji in needs_uncommon:
             # Everything here came from the require_priority=False fallback
@@ -843,9 +868,18 @@ def main():
                 (len(quiz_kun) if not kun_is_strong else 0)
         if not quiz_readings:
             no_quiz_readings.append(kanji)
+        if uncommon_readings:
+            uncommon_kept_readings += len(uncommon_readings)
+            kanji_with_uncommon += 1
 
         reading_examples = {}
-        for reading in quiz_readings:
+        # Built for quiz_readings AND uncommon_readings alike — an advanced
+        # learner tapping an uncommon reading deserves the same example-word
+        # treatment as any quizzed one (kanji-expansion-plan.md's "uncommon
+        # yomi" work). uncommon_readings is already filtered to readings with
+        # a `reading_words` entry (see its construction above), so this never
+        # indexes a reading with nothing to show.
+        for reading in quiz_readings + uncommon_readings:
             best = choose_examples(reading_words[reading], 1, prefer_common=True)[0]
             # Same shape as a `words` entry below, register badges included —
             # app.js's buildRegisterBadges() reads exactly these two keys, so
@@ -871,6 +905,11 @@ def main():
             "quizOn": quiz_on,
             "quizKun": quiz_kun,
             "quizReadings": quiz_readings,
+            # Real readings this kanji has beyond the default quizzed pool —
+            # not tested unless a learner opts in (kanji.js's
+            # effectiveQuizReadings) — see the "uncommon yomi" work in
+            # kanji-expansion-plan.md.
+            "uncommonReadings": uncommon_readings,
             "readingExamples": reading_examples,
         })
 
@@ -878,11 +917,14 @@ def main():
         total_examples = sum(len(e["words"]) for e in entries)
         print(f"grade {grade}: {len(entries)} kanji, {total_examples} example words")
     print(f"quiz readings: {kept_readings} kept (all with an example word), "
-          f"{dropped_readings} dropped for having no common word")
+          f"{dropped_readings} dropped for having no example word at all")
     print(f"  of those kept: {strong_kept_readings} genuinely common (strong tier), "
           f"{weak_kept_readings} merely tagged, no common reading in that category "
           f"(weak-tier fallback), {fallback_kept_readings} from the zero-tag "
           f"needs_uncommon fallback")
+    print(f"uncommon readings kept (word-backed, not quizzed by default — see "
+          f"kanji-expansion-plan.md's \"uncommon yomi\" work): "
+          f"{uncommon_kept_readings} across {kanji_with_uncommon} kanji")
     if no_quiz_readings:
         print(f"  {len(no_quiz_readings)} kanji have NO quizzable reading: "
               f"{''.join(no_quiz_readings)}")

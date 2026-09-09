@@ -1416,6 +1416,59 @@ button.quiz-glyph-tap {
   background: var(--ok);
 }
 
+/* Uncommon yomi (kanji-expansion-plan.md's "uncommon yomi" section): greyed
+   out so it reads as "not tested unless you ask for it" — on the kanji
+   detail screen's "Other readings" section and the quiz's post-round
+   "Advanced" panel alike. Once a learner opts a reading into study, this
+   modifier is simply omitted so the chip renders identical to a common one
+   — "turns theme-colored" is the absence of this rule, not a separate one. */
+.reading-chip.is-uncommon { color: var(--ink-soft); border-color: var(--line); }
+
+/* Small text badge spelling out common/uncommon explicitly, alongside the
+   colour, in the quiz's post-round panel where both tiers sit in one list —
+   the kanji detail screen already says "uncommon" via its own section
+   heading, so it only ever appears there through the chip above. */
+.reading-chip-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 99px;
+  background: var(--line);
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.reading-chip-wrap { display: inline-flex; align-items: center; gap: 4px; }
+
+/* The +/- yomi-study toggle beside an uncommon reading chip — round and
+   small so it reads as a secondary control, not a second button of equal
+   weight to the chip itself. */
+.reading-chip-toggle {
+  width: 28px;
+  height: 28px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.reading-chip-toggle:active { transform: scale(0.92); }
+.reading-chip-toggle.is-studied { border-color: var(--accent); color: var(--accent); }
+
+.uncommon-readings-wrap { margin-top: 4px; text-align: center; }
+.uncommon-readings-label { margin-bottom: 6px; }
+
+.all-readings-panel { margin-top: 8px; }
+
 .kanji-word { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .kanji-word .word-kanji {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;

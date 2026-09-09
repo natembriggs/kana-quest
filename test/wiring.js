@@ -2359,6 +2359,61 @@ check('resetting restores the built-in wording',
 check('a reset is stored as an empty entry, not deleted — so it can sync',
   savedHint() && savedHint().text === '', JSON.stringify(savedHint()));
 
+// --- Uncommon yomi on the kanji detail screen (kanji-expansion-plan.md's
+// "uncommon yomi" section): greyed until studied, with a +/- toggle that
+// promotes one into the per-reading yomi study list. 玉 (grade 1) is the
+// documented case — its ギョク reading is real but not tested by default.
+
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+const gyokuTile = el('overview-grid')._children.find((t) => t.textContent === '玉');
+check('the grade-1 overview contains 玉', !!gyokuTile);
+if (gyokuTile) {
+  fire(gyokuTile, 'click');
+  for (let i = 0; i < 10; i += 1) await settle();
+
+  check('a kanji with an uncommon reading shows the "Other readings" section',
+    el('detail-uncommon-wrap').hidden === false && el('detail-uncommon-readings')._children.length > 0,
+    `hidden ${el('detail-uncommon-wrap').hidden}, ${el('detail-uncommon-readings')._children.length} chips`);
+
+  const wrap = el('detail-uncommon-readings')._children[0];
+  const [gyokuChip, gyokuToggle] = wrap ? wrap._children : [];
+  check('the uncommon reading chip starts greyed, with a + to add it to study',
+    !!gyokuChip && gyokuChip.className.includes('is-uncommon') && gyokuToggle.textContent === '+',
+    `chip class "${gyokuChip && gyokuChip.className}", toggle "${gyokuToggle && gyokuToggle.textContent}"`);
+
+  fire(gyokuToggle, 'click');
+  await settle();
+  // The toggle's own handler re-renders the section in place (same
+  // self-redraw pattern as showWordInSlot), so the pre-toggle chip/toggle
+  // node references above are now stale — re-fetch the freshly drawn ones.
+  const wrapAfterAdd = el('detail-uncommon-readings')._children[0];
+  const [chipAfterAdd, toggleAfterAdd] = wrapAfterAdd ? wrapAfterAdd._children : [];
+  check('tapping + adds it to yomi study: the chip ungreys (theme-coloured like a common one) and the toggle becomes -',
+    !!chipAfterAdd && !chipAfterAdd.className.includes('is-uncommon')
+    && toggleAfterAdd.className.includes('is-studied') && toggleAfterAdd.textContent === '−',
+    `chip class "${chipAfterAdd && chipAfterAdd.className}", toggle "${toggleAfterAdd && toggleAfterAdd.textContent}"`);
+
+  // Persists across a re-render, not just in the DOM nodes just built —
+  // leave the screen and come back, forcing renderCharacterDetail to run
+  // from scratch off state.profile.yomiStudy rather than any in-memory node.
+  fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+  await settle();
+  fire(gyokuTile, 'click');
+  for (let i = 0; i < 10; i += 1) await settle();
+  const wrapAfterReturn = el('detail-uncommon-readings')._children[0];
+  const [chipAfterReturn, toggleAfterReturn] = wrapAfterReturn ? wrapAfterReturn._children : [];
+  check('the study choice survives leaving and re-opening the detail screen',
+    !!chipAfterReturn && !chipAfterReturn.className.includes('is-uncommon') && toggleAfterReturn.textContent === '−',
+    `chip class "${chipAfterReturn && chipAfterReturn.className}", toggle "${toggleAfterReturn && toggleAfterReturn.textContent}"`);
+
+  // Toggle it back off, so it doesn't leak into the Yomi-quiz check below
+  // (which specifically wants ギョク to still be an uncommon, un-studied
+  // reading so #quiz-info-advanced has something to reveal).
+  fire(toggleAfterReturn, 'click');
+  await settle();
+}
+
 // --- Kanji search ------------------------------------------------------
 // Phase 4 of kanji-expansion-plan.md §2.2. Finds a kanji by character,
 // meaning, or reading (kana or romaji), across every grade at once, without

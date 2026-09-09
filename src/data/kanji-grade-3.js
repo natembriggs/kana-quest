@@ -60,6 +60,7 @@ export const KANJI_ENTRIES = [
       "チョウ",
       "テイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "チョウ": {
         "kanji": "丁度",
@@ -135,6 +136,7 @@ export const KANJI_ENTRIES = [
       "セ",
       "よ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "セイ": {
         "kanji": "世紀",
@@ -211,6 +213,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "リョウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "リョウ": {
         "kanji": "両親",
@@ -285,6 +288,9 @@ export const KANJI_ENTRIES = [
       "おも",
       "あるじ"
     ],
+    "uncommonReadings": [
+      "シュウ"
+    ],
     "readingExamples": {
       "シュ": {
         "kanji": "主義",
@@ -320,6 +326,13 @@ export const KANJI_ENTRIES = [
         "en": "head (of a household)",
         "written": false,
         "spoken": true
+      },
+      "シュウ": {
+        "kanji": "主従",
+        "kana": "しゅうじゅう",
+        "en": "master and servant",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -384,6 +397,7 @@ export const KANJI_ENTRIES = [
       "のり",
       "のせる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジョウ": {
         "kanji": "乗客",
@@ -470,6 +484,7 @@ export const KANJI_ENTRIES = [
       "ヨ",
       "あらかじめ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨ": {
         "kanji": "予定",
@@ -544,6 +559,7 @@ export const KANJI_ENTRIES = [
       "ジ",
       "こと"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジ": {
         "kanji": "事故",
@@ -616,6 +632,7 @@ export const KANJI_ENTRIES = [
       "シ",
       "つかえる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "仕事",
@@ -686,6 +703,7 @@ export const KANJI_ENTRIES = [
       "タ",
       "ほか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "タ": {
         "kanji": "他人",
@@ -774,6 +792,7 @@ export const KANJI_ENTRIES = [
       "よ",
       "しろ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ダイ": {
         "kanji": "時代",
@@ -879,6 +898,9 @@ export const KANJI_ENTRIES = [
       "すむ",
       "すまう"
     ],
+    "uncommonReadings": [
+      "ずまい"
+    ],
     "readingExamples": {
       "ジュウ": {
         "kanji": "住民",
@@ -900,6 +922,13 @@ export const KANJI_ENTRIES = [
         "en": "to live",
         "written": false,
         "spoken": true
+      },
+      "ずまい": {
+        "kanji": "仮住まい",
+        "kana": "かりずまい",
+        "en": "temporary residence",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -962,6 +991,7 @@ export const KANJI_ENTRIES = [
       "つかう",
       "つかい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "使用",
@@ -1043,6 +1073,7 @@ export const KANJI_ENTRIES = [
       "ケイ",
       "かかり"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ケイ": {
         "kanji": "関係",
@@ -1109,6 +1140,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "バイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "バイ": {
         "kanji": "倍",
@@ -1176,6 +1208,7 @@ export const KANJI_ENTRIES = [
       "まったく",
       "すべて"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ゼン": {
         "kanji": "安全",
@@ -1252,6 +1285,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "グ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "グ": {
         "kanji": "具体的",
@@ -1323,6 +1357,9 @@ export const KANJI_ENTRIES = [
       "うつる",
       "うつし"
     ],
+    "uncommonReadings": [
+      "うつ"
+    ],
     "readingExamples": {
       "シャ": {
         "kanji": "写真",
@@ -1351,6 +1388,13 @@ export const KANJI_ENTRIES = [
         "en": "copy",
         "written": true,
         "spoken": true
+      },
+      "うつ": {
+        "kanji": "写り",
+        "kana": "うつり",
+        "en": "projection",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -1404,6 +1448,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "レツ"
     ],
+    "uncommonReadings": [
+      "レ"
+    ],
     "readingExamples": {
       "レツ": {
         "kanji": "列車",
@@ -1411,6 +1458,13 @@ export const KANJI_ENTRIES = [
         "en": "train",
         "written": true,
         "spoken": true
+      },
+      "レ": {
+        "kanji": "虎列刺",
+        "kana": "コレラ",
+        "en": "cholera",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -1474,6 +1528,7 @@ export const KANJI_ENTRIES = [
       "たすかる",
       "すけ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジョ": {
         "kanji": "援助",
@@ -1549,6 +1604,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ベン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ベン": {
         "kanji": "勉強",
@@ -1616,6 +1672,7 @@ export const KANJI_ENTRIES = [
       "うごく",
       "うごかす"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ドウ": {
         "kanji": "行動",
@@ -1702,6 +1759,7 @@ export const KANJI_ENTRIES = [
       "がち",
       "まさる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショウ": {
         "kanji": "勝利",
@@ -1793,6 +1851,7 @@ export const KANJI_ENTRIES = [
       "ケ",
       "ばける"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カ": {
         "kanji": "変化",
@@ -1866,6 +1925,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ク": {
         "kanji": "地区",
@@ -1927,6 +1987,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "イ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イ": {
         "kanji": "医療",
@@ -1995,6 +2056,7 @@ export const KANJI_ENTRIES = [
       "コ",
       "さる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キョ": {
         "kanji": "去年",
@@ -2079,6 +2141,9 @@ export const KANJI_ENTRIES = [
       "タン",
       "そる"
     ],
+    "uncommonReadings": [
+      "ホン"
+    ],
     "readingExamples": {
       "ハン": {
         "kanji": "反対",
@@ -2100,6 +2165,13 @@ export const KANJI_ENTRIES = [
         "en": "to warp",
         "written": false,
         "spoken": true
+      },
+      "ホン": {
+        "kanji": "謀反",
+        "kana": "むほん",
+        "en": "rebellion",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -2162,6 +2234,7 @@ export const KANJI_ENTRIES = [
       "とる",
       "とり"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュ": {
         "kanji": "取材",
@@ -2246,6 +2319,7 @@ export const KANJI_ENTRIES = [
       "うけ",
       "うかる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジュ": {
         "kanji": "受験",
@@ -2329,6 +2403,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ゴウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ゴウ": {
         "kanji": "番号",
@@ -2411,6 +2486,10 @@ export const KANJI_ENTRIES = [
       "むけ",
       "むかう"
     ],
+    "uncommonReadings": [
+      "むかい",
+      "むこう"
+    ],
     "readingExamples": {
       "コウ": {
         "kanji": "方向",
@@ -2451,6 +2530,20 @@ export const KANJI_ENTRIES = [
         "kanji": "向かう",
         "kana": "むかう",
         "en": "to face",
+        "written": true,
+        "spoken": true
+      },
+      "むかい": {
+        "kanji": "向かい",
+        "kana": "むかい",
+        "en": "facing",
+        "written": true,
+        "spoken": true
+      },
+      "むこう": {
+        "kanji": "向こう",
+        "kana": "むこう",
+        "en": "opposite side",
         "written": true,
         "spoken": true
       }
@@ -2511,6 +2604,7 @@ export const KANJI_ENTRIES = [
       "クン",
       "きみ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "クン": {
         "kanji": "君",
@@ -2583,6 +2677,7 @@ export const KANJI_ENTRIES = [
       "あじ",
       "あじわう"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ミ": {
         "kanji": "意味",
@@ -2664,6 +2759,7 @@ export const KANJI_ENTRIES = [
       "ミョウ",
       "いのち"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "メイ": {
         "kanji": "命令",
@@ -2754,6 +2850,9 @@ export const KANJI_ENTRIES = [
       "やわらげる",
       "なごむ"
     ],
+    "uncommonReadings": [
+      "なごやか"
+    ],
     "readingExamples": {
       "ワ": {
         "kanji": "平和",
@@ -2789,6 +2888,13 @@ export const KANJI_ENTRIES = [
         "en": "to be softened",
         "written": false,
         "spoken": true
+      },
+      "なごやか": {
+        "kanji": "和やか",
+        "kana": "なごやか",
+        "en": "mild",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -2847,6 +2953,7 @@ export const KANJI_ENTRIES = [
       "ヒン",
       "しな"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヒン": {
         "kanji": "作品",
@@ -2913,6 +3020,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "イン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イン": {
         "kanji": "委員",
@@ -2974,6 +3082,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ショウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショウ": {
         "kanji": "商品",
@@ -3043,6 +3152,7 @@ export const KANJI_ENTRIES = [
       "とい",
       "とん"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "モン": {
         "kanji": "質問",
@@ -3124,6 +3234,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "さか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "さか": {
         "kanji": "坂",
@@ -3160,6 +3271,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "オウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "オウ": {
         "kanji": "中央",
@@ -3226,6 +3338,7 @@ export const KANJI_ENTRIES = [
       "はじめる",
       "はじまる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "開始",
@@ -3304,6 +3417,7 @@ export const KANJI_ENTRIES = [
       "イ",
       "ゆだねる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イ": {
         "kanji": "委員",
@@ -3386,6 +3500,7 @@ export const KANJI_ENTRIES = [
       "まもり",
       "もり"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュ": {
         "kanji": "保守",
@@ -3485,6 +3600,7 @@ export const KANJI_ENTRIES = [
       "やす",
       "やすらか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "アン": {
         "kanji": "安全",
@@ -3579,6 +3695,7 @@ export const KANJI_ENTRIES = [
       "さだまる",
       "さだか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "テイ": {
         "kanji": "予定",
@@ -3680,6 +3797,7 @@ export const KANJI_ENTRIES = [
       "みのる",
       "みの"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジツ": {
         "kanji": "事実",
@@ -3763,6 +3881,7 @@ export const KANJI_ENTRIES = [
       "キャク",
       "カク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キャク": {
         "kanji": "客",
@@ -3838,6 +3957,10 @@ export const KANJI_ENTRIES = [
       "グウ",
       "ク"
     ],
+    "uncommonReadings": [
+      "クウ",
+      "みや"
+    ],
     "readingExamples": {
       "キュウ": {
         "kanji": "宮殿",
@@ -3858,6 +3981,20 @@ export const KANJI_ENTRIES = [
         "kana": "くないちょう",
         "en": "Imperial Household Agency",
         "written": true,
+        "spoken": false
+      },
+      "クウ": {
+        "kanji": "内宮",
+        "kana": "ないくう",
+        "en": "Inner Ise Shrine",
+        "written": false,
+        "spoken": false
+      },
+      "みや": {
+        "kanji": "宮家",
+        "kana": "みやけ",
+        "en": "house of an imperial prince",
+        "written": false,
         "spoken": false
       }
     }
@@ -3918,6 +4055,10 @@ export const KANJI_ENTRIES = [
       "シュク",
       "やど"
     ],
+    "uncommonReadings": [
+      "やどる",
+      "やどす"
+    ],
     "readingExamples": {
       "シュク": {
         "kanji": "宿題",
@@ -3932,6 +4073,20 @@ export const KANJI_ENTRIES = [
         "en": "lodging",
         "written": true,
         "spoken": true
+      },
+      "やどる": {
+        "kanji": "宿る",
+        "kana": "やどる",
+        "en": "to dwell (in)",
+        "written": false,
+        "spoken": false
+      },
+      "やどす": {
+        "kanji": "宿す",
+        "kana": "やどす",
+        "en": "to house",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -3986,6 +4141,7 @@ export const KANJI_ENTRIES = [
       "カン",
       "さむい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カン": {
         "kanji": "寒気",
@@ -4062,6 +4218,7 @@ export const KANJI_ENTRIES = [
       "タイ",
       "ツイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "タイ": {
         "kanji": "反対",
@@ -4130,6 +4287,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "キョク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キョク": {
         "kanji": "当局",
@@ -4194,6 +4352,7 @@ export const KANJI_ENTRIES = [
       "オク",
       "や"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "オク": {
         "kanji": "屋上",
@@ -4262,6 +4421,7 @@ export const KANJI_ENTRIES = [
       "ガン",
       "きし"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ガン": {
         "kanji": "海岸",
@@ -4330,6 +4490,7 @@ export const KANJI_ENTRIES = [
       "トウ",
       "しま"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "半島",
@@ -4397,6 +4558,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "シュウ"
     ],
+    "uncommonReadings": [
+      "ス"
+    ],
     "readingExamples": {
       "シュウ": {
         "kanji": "州",
@@ -4404,6 +4568,13 @@ export const KANJI_ENTRIES = [
         "en": "state (of the US, Australia, India, Germany, etc.)",
         "written": true,
         "spoken": true
+      },
+      "ス": {
+        "kanji": "白州",
+        "kana": "しらす",
+        "en": "white sandbar",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -4458,6 +4629,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "チョウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "チョウ": {
         "kanji": "手帳",
@@ -4529,6 +4701,7 @@ export const KANJI_ENTRIES = [
       "たいら",
       "ひら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヘイ": {
         "kanji": "平和",
@@ -4617,6 +4790,9 @@ export const KANJI_ENTRIES = [
       "さいわい",
       "しあわせ"
     ],
+    "uncommonReadings": [
+      "さち"
+    ],
     "readingExamples": {
       "コウ": {
         "kanji": "幸運",
@@ -4638,6 +4814,13 @@ export const KANJI_ENTRIES = [
         "en": "happiness",
         "written": true,
         "spoken": true
+      },
+      "さち": {
+        "kanji": "幸",
+        "kana": "さち",
+        "en": "good luck",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -4702,6 +4885,9 @@ export const KANJI_ENTRIES = [
       "タク",
       "たび"
     ],
+    "uncommonReadings": [
+      "たい"
+    ],
     "readingExamples": {
       "ド": {
         "kanji": "今度",
@@ -4730,6 +4916,13 @@ export const KANJI_ENTRIES = [
         "en": "time (three times, each time, etc.)",
         "written": false,
         "spoken": true
+      },
+      "たい": {
+        "kanji": "目出度い",
+        "kana": "めでたい",
+        "en": "happy",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -4783,6 +4976,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "コ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "コ": {
         "kanji": "金庫",
@@ -4846,6 +5040,7 @@ export const KANJI_ENTRIES = [
       "テイ",
       "にわ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "テイ": {
         "kanji": "家庭",
@@ -4912,6 +5107,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "シキ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シキ": {
         "kanji": "株式",
@@ -4974,6 +5170,7 @@ export const KANJI_ENTRIES = [
       "ヤク",
       "エキ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヤク": {
         "kanji": "役割",
@@ -5046,6 +5243,7 @@ export const KANJI_ENTRIES = [
       "まつ",
       "まち"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "タイ": {
         "kanji": "期待",
@@ -5128,6 +5326,7 @@ export const KANJI_ENTRIES = [
       "いそぐ",
       "いそぎ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キュウ": {
         "kanji": "緊急",
@@ -5206,6 +5405,7 @@ export const KANJI_ENTRIES = [
       "ソク",
       "いき"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ソク": {
         "kanji": "消息",
@@ -5290,6 +5490,9 @@ export const KANJI_ENTRIES = [
       "わるい",
       "わる"
     ],
+    "uncommonReadings": [
+      "あし"
+    ],
     "readingExamples": {
       "アク": {
         "kanji": "最悪",
@@ -5318,6 +5521,13 @@ export const KANJI_ENTRIES = [
         "en": "(verbal) abuse",
         "written": true,
         "spoken": true
+      },
+      "あし": {
+        "kanji": "良し悪し",
+        "kana": "よしあし",
+        "en": "right or wrong",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -5378,6 +5588,7 @@ export const KANJI_ENTRIES = [
       "かなしい",
       "かなしむ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヒ": {
         "kanji": "悲劇",
@@ -5456,6 +5667,7 @@ export const KANJI_ENTRIES = [
       "ソウ",
       "ソ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ソウ": {
         "kanji": "予想",
@@ -5522,6 +5734,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "イ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イ": {
         "kanji": "意味",
@@ -5580,6 +5793,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "カン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カン": {
         "kanji": "感じ",
@@ -5645,6 +5859,7 @@ export const KANJI_ENTRIES = [
       "ショ",
       "ところ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショ": {
         "kanji": "場所",
@@ -5725,6 +5940,7 @@ export const KANJI_ENTRIES = [
       "うち",
       "ぶつ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ダ": {
         "kanji": "打撃",
@@ -5820,6 +6036,7 @@ export const KANJI_ENTRIES = [
       "なげる",
       "なげ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "投資",
@@ -5899,6 +6116,7 @@ export const KANJI_ENTRIES = [
       "シュウ",
       "ひろう"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュウ": {
         "kanji": "収拾",
@@ -5974,6 +6192,7 @@ export const KANJI_ENTRIES = [
       "もち",
       "もてる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジ": {
         "kanji": "維持",
@@ -6065,6 +6284,7 @@ export const KANJI_ENTRIES = [
       "さす",
       "さし"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "指導",
@@ -6159,6 +6379,9 @@ export const KANJI_ENTRIES = [
       "はなつ",
       "ほうる"
     ],
+    "uncommonReadings": [
+      "はなれる"
+    ],
     "readingExamples": {
       "ホウ": {
         "kanji": "放送",
@@ -6187,6 +6410,13 @@ export const KANJI_ENTRIES = [
         "en": "to throw",
         "written": true,
         "spoken": true
+      },
+      "はなれる": {
+        "kanji": "放れる",
+        "kana": "はなれる",
+        "en": "to get free (from)",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -6247,6 +6477,7 @@ export const KANJI_ENTRIES = [
       "ととのえる",
       "ととのう"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "セイ": {
         "kanji": "調整",
@@ -6323,6 +6554,7 @@ export const KANJI_ENTRIES = [
       "リョ",
       "たび"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "リョ": {
         "kanji": "旅行",
@@ -6387,6 +6619,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ゾク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ゾク": {
         "kanji": "家族",
@@ -6448,6 +6681,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "むかし"
     ],
+    "uncommonReadings": [
+      "シャク"
+    ],
     "readingExamples": {
       "むかし": {
         "kanji": "昔",
@@ -6455,6 +6691,13 @@ export const KANJI_ENTRIES = [
         "en": "the old days",
         "written": true,
         "spoken": true
+      },
+      "シャク": {
+        "kanji": "今昔",
+        "kana": "こんじゃく",
+        "en": "past and present",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -6484,6 +6727,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ショウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショウ": {
         "kanji": "昭和",
@@ -6547,6 +6791,7 @@ export const KANJI_ENTRIES = [
       "ショ",
       "あつい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショ": {
         "kanji": "残暑",
@@ -6620,6 +6865,7 @@ export const KANJI_ENTRIES = [
       "アン",
       "くらい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "アン": {
         "kanji": "暗殺",
@@ -6695,6 +6941,7 @@ export const KANJI_ENTRIES = [
       "まがる",
       "まげる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キョク": {
         "kanji": "曲",
@@ -6776,6 +7023,7 @@ export const KANJI_ENTRIES = [
       "ウ",
       "ある"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ユウ": {
         "kanji": "有名",
@@ -6849,6 +7097,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "フク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "フク": {
         "kanji": "服",
@@ -6911,6 +7160,7 @@ export const KANJI_ENTRIES = [
       "キ",
       "ゴ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キ": {
         "kanji": "期待",
@@ -6983,6 +7233,7 @@ export const KANJI_ENTRIES = [
       "ハン",
       "いた"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ハン": {
         "kanji": "看板",
@@ -7054,6 +7305,7 @@ export const KANJI_ENTRIES = [
       "チュウ",
       "はしら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "チュウ": {
         "kanji": "電柱",
@@ -7125,6 +7377,7 @@ export const KANJI_ENTRIES = [
       "コン",
       "ね"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "コン": {
         "kanji": "根拠",
@@ -7194,6 +7447,7 @@ export const KANJI_ENTRIES = [
       "ショク",
       "うえる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショク": {
         "kanji": "移植",
@@ -7266,6 +7520,9 @@ export const KANJI_ENTRIES = [
       "ギョウ",
       "わざ"
     ],
+    "uncommonReadings": [
+      "ゴウ"
+    ],
     "readingExamples": {
       "ギョウ": {
         "kanji": "作業",
@@ -7280,6 +7537,13 @@ export const KANJI_ENTRIES = [
         "en": "deed (esp. negative)",
         "written": true,
         "spoken": true
+      },
+      "ゴウ": {
+        "kanji": "自業自得",
+        "kana": "じごうじとく",
+        "en": "paying for one's mistakes",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -7339,6 +7603,7 @@ export const KANJI_ENTRIES = [
       "ヨウ",
       "さま"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨウ": {
         "kanji": "様子",
@@ -7410,6 +7675,7 @@ export const KANJI_ENTRIES = [
       "オウ",
       "よこ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "オウ": {
         "kanji": "横断",
@@ -7478,6 +7744,7 @@ export const KANJI_ENTRIES = [
       "キョウ",
       "はし"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キョウ": {
         "kanji": "橋脚",
@@ -7554,6 +7821,7 @@ export const KANJI_ENTRIES = [
       "つぐ",
       "つぎ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ジ": {
         "kanji": "次回",
@@ -7640,6 +7908,7 @@ export const KANJI_ENTRIES = [
       "シ",
       "は"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "歯科",
@@ -7712,6 +7981,7 @@ export const KANJI_ENTRIES = [
       "しぬ",
       "しに"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "死体",
@@ -7792,6 +8062,9 @@ export const KANJI_ENTRIES = [
       "ヒョウ",
       "こおり"
     ],
+    "uncommonReadings": [
+      "ひ"
+    ],
     "readingExamples": {
       "ヒョウ": {
         "kanji": "氷山",
@@ -7806,6 +8079,13 @@ export const KANJI_ENTRIES = [
         "en": "ice",
         "written": true,
         "spoken": true
+      },
+      "ひ": {
+        "kanji": "氷室",
+        "kana": "ひむろ",
+        "en": "ice house",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -7868,6 +8148,7 @@ export const KANJI_ENTRIES = [
       "きめる",
       "きまる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ケツ": {
         "kanji": "解決",
@@ -7945,6 +8226,7 @@ export const KANJI_ENTRIES = [
       "ユ",
       "あぶら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ユ": {
         "kanji": "石油",
@@ -8015,6 +8297,7 @@ export const KANJI_ENTRIES = [
       "ハ",
       "なみ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ハ": {
         "kanji": "電波",
@@ -8090,6 +8373,9 @@ export const KANJI_ENTRIES = [
       "そそぐ",
       "つぐ"
     ],
+    "uncommonReadings": [
+      "さす"
+    ],
     "readingExamples": {
       "チュウ": {
         "kanji": "注意",
@@ -8111,6 +8397,13 @@ export const KANJI_ENTRIES = [
         "en": "to pour (into a vessel)",
         "written": false,
         "spoken": true
+      },
+      "さす": {
+        "kanji": "注す",
+        "kana": "さす",
+        "en": "to pour",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -8165,6 +8458,7 @@ export const KANJI_ENTRIES = [
       "エイ",
       "およぐ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "エイ": {
         "kanji": "水泳",
@@ -8231,6 +8525,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ヨウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨウ": {
         "kanji": "東洋",
@@ -8303,6 +8598,9 @@ export const KANJI_ENTRIES = [
       "ながれ",
       "ながす"
     ],
+    "uncommonReadings": [
+      "ル"
+    ],
     "readingExamples": {
       "リュウ": {
         "kanji": "交流",
@@ -8331,6 +8629,13 @@ export const KANJI_ENTRIES = [
         "en": "to drain",
         "written": true,
         "spoken": true
+      },
+      "ル": {
+        "kanji": "流浪",
+        "kana": "るろう",
+        "en": "vagrancy",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -8391,6 +8696,7 @@ export const KANJI_ENTRIES = [
       "きえる",
       "けす"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショウ": {
         "kanji": "消費",
@@ -8479,6 +8785,7 @@ export const KANJI_ENTRIES = [
       "ふかめる",
       "み"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シン": {
         "kanji": "深刻",
@@ -8572,6 +8879,10 @@ export const KANJI_ENTRIES = [
       "オン",
       "あたたまる"
     ],
+    "uncommonReadings": [
+      "あたためる",
+      "ぬく"
+    ],
     "readingExamples": {
       "オン": {
         "kanji": "温度",
@@ -8585,6 +8896,20 @@ export const KANJI_ENTRIES = [
         "kana": "あたたまる",
         "en": "to warm oneself",
         "written": true,
+        "spoken": false
+      },
+      "あたためる": {
+        "kanji": "温める",
+        "kana": "あたためる",
+        "en": "to warm (up)",
+        "written": false,
+        "spoken": false
+      },
+      "ぬく": {
+        "kanji": "温もり",
+        "kana": "ぬくもり",
+        "en": "warmth",
+        "written": false,
         "spoken": false
       }
     }
@@ -8640,6 +8965,7 @@ export const KANJI_ENTRIES = [
       "コウ",
       "みなと"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "コウ": {
         "kanji": "空港",
@@ -8708,6 +9034,7 @@ export const KANJI_ENTRIES = [
       "コ",
       "みずうみ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "コ": {
         "kanji": "湖畔",
@@ -8778,6 +9105,7 @@ export const KANJI_ENTRIES = [
       "トウ",
       "ゆ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "熱湯",
@@ -8842,6 +9170,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "カン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カン": {
         "kanji": "漢字",
@@ -8904,6 +9233,7 @@ export const KANJI_ENTRIES = [
       "タン",
       "すみ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "タン": {
         "kanji": "石炭",
@@ -8978,6 +9308,7 @@ export const KANJI_ENTRIES = [
       "モツ",
       "もの"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ブツ": {
         "kanji": "人物",
@@ -9054,6 +9385,7 @@ export const KANJI_ENTRIES = [
       "キュウ",
       "たま"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キュウ": {
         "kanji": "地球",
@@ -9130,6 +9462,7 @@ export const KANJI_ENTRIES = [
       "ユイ",
       "よし"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ユ": {
         "kanji": "経由",
@@ -9221,6 +9554,7 @@ export const KANJI_ENTRIES = [
       "もうし",
       "さる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シン": {
         "kanji": "申請",
@@ -9299,6 +9633,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "カイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カイ": {
         "kanji": "世界",
@@ -9362,6 +9697,7 @@ export const KANJI_ENTRIES = [
       "はた",
       "はたけ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "はた": {
         "kanji": "田畑",
@@ -9438,6 +9774,7 @@ export const KANJI_ENTRIES = [
       "やむ",
       "やまい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ビョウ": {
         "kanji": "病院",
@@ -9527,6 +9864,7 @@ export const KANJI_ENTRIES = [
       "ハツ",
       "ホツ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ハツ": {
         "kanji": "開発",
@@ -9600,6 +9938,7 @@ export const KANJI_ENTRIES = [
       "トウ",
       "ト"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "登録",
@@ -9671,6 +10010,7 @@ export const KANJI_ENTRIES = [
       "ヒ",
       "かわ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヒ": {
         "kanji": "皮膚",
@@ -9738,6 +10078,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "さら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "さら": {
         "kanji": "皿",
@@ -9805,6 +10146,7 @@ export const KANJI_ENTRIES = [
       "ショウ",
       "あい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ソウ": {
         "kanji": "相談",
@@ -9877,6 +10219,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ケン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ケン": {
         "kanji": "県立",
@@ -9942,6 +10285,7 @@ export const KANJI_ENTRIES = [
       "シン",
       "ま"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シン": {
         "kanji": "写真",
@@ -10021,6 +10365,7 @@ export const KANJI_ENTRIES = [
       "きせる",
       "つく"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "チャク": {
         "kanji": "着",
@@ -10106,6 +10451,7 @@ export const KANJI_ENTRIES = [
       "タン",
       "みじかい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "タン": {
         "kanji": "短期",
@@ -10173,6 +10519,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ケン"
     ],
+    "uncommonReadings": [
+      "とぐ"
+    ],
     "readingExamples": {
       "ケン": {
         "kanji": "研究",
@@ -10180,6 +10529,13 @@ export const KANJI_ENTRIES = [
         "en": "research",
         "written": true,
         "spoken": true
+      },
+      "とぐ": {
+        "kanji": "研ぐ",
+        "kana": "とぐ",
+        "en": "to sharpen",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -10233,6 +10589,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "レイ"
     ],
+    "uncommonReadings": [
+      "ライ"
+    ],
     "readingExamples": {
       "レイ": {
         "kanji": "失礼",
@@ -10240,6 +10599,13 @@ export const KANJI_ENTRIES = [
         "en": "discourtesy",
         "written": false,
         "spoken": true
+      },
+      "ライ": {
+        "kanji": "礼賛",
+        "kana": "らいさん",
+        "en": "praise",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -10301,6 +10667,9 @@ export const KANJI_ENTRIES = [
       "かみ",
       "こう"
     ],
+    "uncommonReadings": [
+      "かん"
+    ],
     "readingExamples": {
       "シン": {
         "kanji": "精神",
@@ -10322,6 +10691,13 @@ export const KANJI_ENTRIES = [
         "en": "Kobe (city)",
         "written": false,
         "spoken": true
+      },
+      "かん": {
+        "kanji": "神主",
+        "kana": "かんぬし",
+        "en": "Shinto priest",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -10381,6 +10757,9 @@ export const KANJI_ENTRIES = [
       "サイ",
       "まつり"
     ],
+    "uncommonReadings": [
+      "まつる"
+    ],
     "readingExamples": {
       "サイ": {
         "kanji": "司祭",
@@ -10395,6 +10774,13 @@ export const KANJI_ENTRIES = [
         "en": "festival",
         "written": true,
         "spoken": true
+      },
+      "まつる": {
+        "kanji": "祭る",
+        "kana": "まつる",
+        "en": "to deify",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -10447,6 +10833,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "フク"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "フク": {
         "kanji": "福祉",
@@ -10503,6 +10890,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ビョウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ビョウ": {
         "kanji": "秒読み",
@@ -10563,6 +10951,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "キュウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キュウ": {
         "kanji": "研究",
@@ -10622,6 +11011,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ショウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ショウ": {
         "kanji": "文章",
@@ -10681,6 +11071,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ドウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ドウ": {
         "kanji": "児童",
@@ -10745,6 +11136,7 @@ export const KANJI_ENTRIES = [
       "テキ",
       "ふえ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "テキ": {
         "kanji": "警笛",
@@ -10810,6 +11202,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ダイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ダイ": {
         "kanji": "次第に",
@@ -10874,6 +11267,7 @@ export const KANJI_ENTRIES = [
       "ヒツ",
       "ふで"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヒツ": {
         "kanji": "鉛筆",
@@ -10951,6 +11345,7 @@ export const KANJI_ENTRIES = [
       "など",
       "ら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "平等",
@@ -11033,6 +11428,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "はこ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "はこ": {
         "kanji": "箱",
@@ -11091,6 +11487,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "キュウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キュウ": {
         "kanji": "高級",
@@ -11160,6 +11557,7 @@ export const KANJI_ENTRIES = [
       "おわる",
       "おえる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュウ": {
         "kanji": "最終",
@@ -11236,6 +11634,9 @@ export const KANJI_ENTRIES = [
       "リョク",
       "みどり"
     ],
+    "uncommonReadings": [
+      "ロク"
+    ],
     "readingExamples": {
       "リョク": {
         "kanji": "緑地",
@@ -11250,6 +11651,13 @@ export const KANJI_ENTRIES = [
         "en": "green",
         "written": true,
         "spoken": true
+      },
+      "ロク": {
+        "kanji": "緑青",
+        "kana": "ろくしょう",
+        "en": "verdigris",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -11308,6 +11716,9 @@ export const KANJI_ENTRIES = [
       "レン",
       "ねり"
     ],
+    "uncommonReadings": [
+      "ねる"
+    ],
     "readingExamples": {
       "レン": {
         "kanji": "練習",
@@ -11321,6 +11732,13 @@ export const KANJI_ENTRIES = [
         "kana": "ねり",
         "en": "kneading",
         "written": true,
+        "spoken": false
+      },
+      "ねる": {
+        "kanji": "練る",
+        "kana": "ねる",
+        "en": "to knead",
+        "written": false,
         "spoken": false
       }
     }
@@ -11376,6 +11794,7 @@ export const KANJI_ENTRIES = [
       "ヨウ",
       "ひつじ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨウ": {
         "kanji": "羊毛",
@@ -11446,6 +11865,7 @@ export const KANJI_ENTRIES = [
       "ビ",
       "うつくしい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ビ": {
         "kanji": "美術",
@@ -11518,6 +11938,7 @@ export const KANJI_ENTRIES = [
       "ならう",
       "ならい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュウ": {
         "kanji": "練習",
@@ -11594,6 +12015,7 @@ export const KANJI_ENTRIES = [
       "シャ",
       "もの"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シャ": {
         "kanji": "患者",
@@ -11674,6 +12096,7 @@ export const KANJI_ENTRIES = [
       "そだてる",
       "はぐくむ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イク": {
         "kanji": "教育",
@@ -11777,6 +12200,7 @@ export const KANJI_ENTRIES = [
       "くるしめる",
       "にがい"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ク": {
         "kanji": "苦労",
@@ -11869,6 +12293,7 @@ export const KANJI_ENTRIES = [
       "カ",
       "に"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カ": {
         "kanji": "出荷",
@@ -11946,6 +12371,7 @@ export const KANJI_ENTRIES = [
       "おち",
       "おとす"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ラク": {
         "kanji": "墜落",
@@ -12031,6 +12457,7 @@ export const KANJI_ENTRIES = [
       "ヨウ",
       "は"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨウ": {
         "kanji": "紅葉",
@@ -12102,6 +12529,7 @@ export const KANJI_ENTRIES = [
       "ヤク",
       "くすり"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヤク": {
         "kanji": "麻薬",
@@ -12170,6 +12598,7 @@ export const KANJI_ENTRIES = [
       "ケツ",
       "ち"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ケツ": {
         "kanji": "血液",
@@ -12247,6 +12676,7 @@ export const KANJI_ENTRIES = [
       "おもて",
       "あらわす"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヒョウ": {
         "kanji": "代表",
@@ -12320,6 +12750,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "シ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シ": {
         "kanji": "詩人",
@@ -12389,6 +12820,7 @@ export const KANJI_ENTRIES = [
       "しらべる",
       "しらべ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "チョウ": {
         "kanji": "調査",
@@ -12460,6 +12892,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ダン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ダン": {
         "kanji": "相談",
@@ -12527,6 +12960,7 @@ export const KANJI_ENTRIES = [
       "ズ",
       "まめ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "トウ": {
         "kanji": "納豆",
@@ -12611,6 +13045,7 @@ export const KANJI_ENTRIES = [
       "まかす",
       "おう"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "フ": {
         "kanji": "負担",
@@ -12703,6 +13138,7 @@ export const KANJI_ENTRIES = [
       "おこる",
       "おこす"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "キ": {
         "kanji": "起訴",
@@ -12790,6 +13226,9 @@ export const KANJI_ENTRIES = [
       "ロ",
       "じ"
     ],
+    "uncommonReadings": [
+      "ル"
+    ],
     "readingExamples": {
       "ロ": {
         "kanji": "道路",
@@ -12803,6 +13242,13 @@ export const KANJI_ENTRIES = [
         "kana": "おおじ",
         "en": "main street (esp. in a capital)",
         "written": true,
+        "spoken": false
+      },
+      "ル": {
+        "kanji": "舎路",
+        "kana": "シアトル",
+        "en": "Seattle",
+        "written": false,
         "spoken": false
       }
     }
@@ -12860,6 +13306,7 @@ export const KANJI_ENTRIES = [
       "シン",
       "み"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シン": {
         "kanji": "自身",
@@ -12941,6 +13388,7 @@ export const KANJI_ENTRIES = [
       "ころがす",
       "ころぶ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "テン": {
         "kanji": "運転",
@@ -13033,6 +13481,7 @@ export const KANJI_ENTRIES = [
       "かろやか",
       "かろんじる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ケイ": {
         "kanji": "軽蔑",
@@ -13111,6 +13560,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ノウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ノウ": {
         "kanji": "農業",
@@ -13180,6 +13630,7 @@ export const KANJI_ENTRIES = [
       "かえす",
       "かえる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヘン": {
         "kanji": "返事",
@@ -13258,6 +13709,7 @@ export const KANJI_ENTRIES = [
       "ツイ",
       "おう"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ツイ": {
         "kanji": "追加",
@@ -13327,6 +13779,7 @@ export const KANJI_ENTRIES = [
       "ソウ",
       "おくる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ソウ": {
         "kanji": "放送",
@@ -13401,6 +13854,7 @@ export const KANJI_ENTRIES = [
       "はや",
       "すみやか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ソク": {
         "kanji": "急速",
@@ -13482,6 +13936,7 @@ export const KANJI_ENTRIES = [
       "すすむ",
       "すすめる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シン": {
         "kanji": "推進",
@@ -13559,6 +14014,10 @@ export const KANJI_ENTRIES = [
       "ユウ",
       "あそぶ"
     ],
+    "uncommonReadings": [
+      "ユ",
+      "あそばす"
+    ],
     "readingExamples": {
       "ユウ": {
         "kanji": "遊園地",
@@ -13573,6 +14032,20 @@ export const KANJI_ENTRIES = [
         "en": "to play (games, sports)",
         "written": false,
         "spoken": true
+      },
+      "ユ": {
+        "kanji": "遊山",
+        "kana": "ゆさん",
+        "en": "excursion",
+        "written": false,
+        "spoken": false
+      },
+      "あそばす": {
+        "kanji": "遊ばす",
+        "kana": "あそばす",
+        "en": "to let (someone) play",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -13630,6 +14103,7 @@ export const KANJI_ENTRIES = [
       "ウン",
       "はこぶ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ウン": {
         "kanji": "運転",
@@ -13698,6 +14172,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ブ"
     ],
+    "uncommonReadings": [
+      "べ"
+    ],
     "readingExamples": {
       "ブ": {
         "kanji": "一部",
@@ -13705,6 +14182,13 @@ export const KANJI_ENTRIES = [
         "en": "one part",
         "written": true,
         "spoken": true
+      },
+      "べ": {
+        "kanji": "相部屋",
+        "kana": "あいべや",
+        "en": "sharing a room",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -13765,6 +14249,7 @@ export const KANJI_ENTRIES = [
       "ツ",
       "みやこ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ト": {
         "kanji": "都市",
@@ -13843,6 +14328,7 @@ export const KANJI_ENTRIES = [
       "ハイ",
       "くばる"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ハイ": {
         "kanji": "心配",
@@ -13915,6 +14401,7 @@ export const KANJI_ENTRIES = [
       "さけ",
       "さか"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "シュ": {
         "kanji": "日本酒",
@@ -14008,6 +14495,10 @@ export const KANJI_ENTRIES = [
       "かさねる",
       "かさなる"
     ],
+    "uncommonReadings": [
+      "おもり",
+      "おも"
+    ],
     "readingExamples": {
       "ジュウ": {
         "kanji": "重要",
@@ -14049,6 +14540,20 @@ export const KANJI_ENTRIES = [
         "kana": "かさなる",
         "en": "to be piled up",
         "written": false,
+        "spoken": true
+      },
+      "おもり": {
+        "kanji": "重り",
+        "kana": "おもり",
+        "en": "weight",
+        "written": false,
+        "spoken": false
+      },
+      "おも": {
+        "kanji": "重さ",
+        "kana": "おもさ",
+        "en": "weight",
+        "written": true,
         "spoken": true
       }
     }
@@ -14101,6 +14606,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "テツ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "テツ": {
         "kanji": "鉄",
@@ -14159,6 +14665,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ギン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ギン": {
         "kanji": "銀行",
@@ -14235,6 +14742,7 @@ export const KANJI_ENTRIES = [
       "あく",
       "あける"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カイ": {
         "kanji": "開発",
@@ -14329,6 +14837,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "イン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イン": {
         "kanji": "病院",
@@ -14390,6 +14899,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ヨウ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ヨウ": {
         "kanji": "太陽",
@@ -14450,6 +14960,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "カイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カイ": {
         "kanji": "段階",
@@ -14518,6 +15029,9 @@ export const KANJI_ENTRIES = [
       "あつまる",
       "あつめる"
     ],
+    "uncommonReadings": [
+      "つどう"
+    ],
     "readingExamples": {
       "シュウ": {
         "kanji": "集会",
@@ -14539,6 +15053,13 @@ export const KANJI_ENTRIES = [
         "en": "to collect",
         "written": true,
         "spoken": true
+      },
+      "つどう": {
+        "kanji": "集う",
+        "kana": "つどう",
+        "en": "to meet",
+        "written": false,
+        "spoken": false
       }
     }
   },
@@ -14603,6 +15124,7 @@ export const KANJI_ENTRIES = [
       "おもて",
       "つら"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "メン": {
         "kanji": "正面",
@@ -14681,6 +15203,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "ダイ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "ダイ": {
         "kanji": "問題",
@@ -14748,6 +15271,7 @@ export const KANJI_ENTRIES = [
       "のむ",
       "のみ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "イン": {
         "kanji": "飲料",
@@ -14824,6 +15348,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "カン"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "カン": {
         "kanji": "図書館",
@@ -14880,6 +15405,7 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "エキ"
     ],
+    "uncommonReadings": [],
     "readingExamples": {
       "エキ": {
         "kanji": "駅",
@@ -14939,6 +15465,9 @@ export const KANJI_ENTRIES = [
     "quizReadings": [
       "はな"
     ],
+    "uncommonReadings": [
+      "ビ"
+    ],
     "readingExamples": {
       "はな": {
         "kanji": "鼻",
@@ -14946,6 +15475,13 @@ export const KANJI_ENTRIES = [
         "en": "nose",
         "written": true,
         "spoken": true
+      },
+      "ビ": {
+        "kanji": "耳鼻科",
+        "kana": "じびか",
+        "en": "otolaryngology",
+        "written": false,
+        "spoken": false
       }
     }
   }

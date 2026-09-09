@@ -7,6 +7,7 @@ import {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, formatReading,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, unitLabel,
+  effectiveQuizReadings,
 } from './kanji.js';
 import {
   VOCAB_COURSES, VOCAB_ALL_COURSES, vocabCoursesFor,
@@ -24,6 +25,7 @@ import {
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, unenrolledItems, studyModes, isKanjiChar,
+  isReadingStudied, setReadingStudied,
   recomputeVocabRollup, VOCAB_SUBKEYS,
   markKnownItems, isSelfAssessable, KNOWN_CLAIM_SURE, KNOWN_CLAIM_THINK,
   THINK_KNOWN_FIRST_DAYS, THINK_KNOWN_WINDOW_DAYS, allItems,
@@ -68,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-09b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-09c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -672,6 +674,12 @@ async function openProfile(profile) {
     profile.unstudy = profile.unstudy || {};
     store.saveProfile(profile);
   }
+  // Same reasoning as exposure below — a profile predating the per-reading
+  // yomi study list (kanji-expansion-plan.md's "uncommon yomi" section) has
+  // opted into nothing yet, and unlike `study` there is no legacy data to
+  // derive this from.
+  if (profile.yomiStudy === undefined) profile.yomiStudy = {};
+  if (profile.yomiUnstudy === undefined) profile.yomiUnstudy = {};
   // No migration needed here, unlike study above — a profile predating this
   // field legitimately has no exposures anywhere yet (vocab-plan.md §3.3),
   // so it just starts as {} without being persisted until something is
@@ -3337,9 +3345,20 @@ function buildStudyHistory(course, char) {
 
   modes.forEach((mode) => {
     if (course.kind === 'kanji' && mode === 'recognition') {
-      kanjiInfo(course, char).quizReadings.forEach((reading) => {
-        addFromRecord(progress[yomiKey('recognition', char, reading)], `Yomi — ${reading}`);
-      });
+      // Every `recognition:${char}:*` progress key, not just today's
+      // quizReadings — the same prefix-scan srs.js's own
+      // recomputeYomiRollupFromProgress uses, so a reading studied only via
+      // the per-reading yomi study list (kanji-expansion-plan.md's
+      // "uncommon yomi" section) still shows its own history once it has
+      // any, rather than being invisible here just because it isn't part of
+      // the default quizzed pool.
+      const prefix = `recognition:${char}:`;
+      Object.keys(progress)
+        .filter((key) => key.startsWith(prefix))
+        .forEach((key) => {
+          const reading = key.slice(prefix.length);
+          addFromRecord(progress[key], `Yomi — ${reading}`);
+        });
     } else if (course.kind === 'vocab' && VOCAB_SUBKEYS[mode]) {
       VOCAB_SUBKEYS[mode].forEach((prefix) => {
         addFromRecord(progress[itemKey(prefix, char)], modeName(mode, course.kind));
@@ -3587,6 +3606,10 @@ function renderCharacterDetail() {
     $('detail-readings').hidden = false;
     renderReadingChips($('detail-readings'), $('detail-word'), course, char, info, drillIntoDetail);
     renderExposureSummary(char, info);
+    $('detail-uncommon-wrap').hidden = info.uncommonReadings.length === 0;
+    if (info.uncommonReadings.length) {
+      renderUncommonReadingChips($('detail-uncommon-readings'), $('detail-word'), course, char, info, drillIntoDetail);
+    }
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = info.meanings.join(', ');
     paintDetailComponents(course, char);
@@ -3611,6 +3634,7 @@ function renderCharacterDetail() {
     $('detail-pronunciation').textContent = pronunciation ? `said: ${pronunciation}` : '';
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
+    $('detail-uncommon-wrap').hidden = true;
     $('detail-exposure').hidden = true;
     $('detail-meanings').hidden = false;
     $('detail-meanings').textContent = wordGlossSummary(info);
@@ -3626,6 +3650,7 @@ function renderCharacterDetail() {
     $('detail-pronunciation').hidden = true;
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
+    $('detail-uncommon-wrap').hidden = true;
     $('detail-exposure').hidden = true;
     $('detail-meanings').hidden = true;
     $('detail-word').hidden = true;
@@ -4458,6 +4483,108 @@ function renderReadingChips(containerEl, wordEl, course, kanji, info, open) {
     if (exposed) chip.title = 'Seen often enough in words to hide its furigana by default';
     chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip, open));
     containerEl.appendChild(chip);
+  });
+}
+
+/**
+ * One uncommon-reading chip (kanjiInfo(...).uncommonReadings —
+ * kanji-expansion-plan.md's "uncommon yomi" section), appended to
+ * `containerEl` alongside a small +/- toggle for the per-reading yomi study
+ * list (srs.js's isReadingStudied/setReadingStudied). Greyed
+ * (`.is-uncommon`) until studied, at which point it renders identical to a
+ * common reading chip — same click-for-example-word behaviour either way.
+ * `rerender` redraws whatever this chip lives in after the toggle changes
+ * its state, same self-redraw pattern as showWordInSlot below. `showBadge`
+ * is only turned on by the quiz's post-round "Advanced" panel, which lists
+ * common and uncommon readings together and so needs the tier spelled out;
+ * the kanji detail screen's separate "Other readings" section already says
+ * that with its own heading.
+ */
+function appendUncommonReadingChip(containerEl, wordEl, course, kanji, info, reading, open, rerender, { showBadge = false } = {}) {
+  const studied = isReadingStudied(state.profile.yomiStudy, kanji, reading);
+  const label = formatReading(info, reading);
+
+  const wrap = document.createElement('span');
+  wrap.className = 'reading-chip-wrap';
+
+  const chip = document.createElement('button');
+  chip.type = 'button';
+  chip.className = `reading-chip${studied ? '' : ' is-uncommon'}`;
+  chip.textContent = label;
+  chip.dataset.reading = reading;
+  if (showBadge) {
+    const badge = document.createElement('span');
+    badge.className = 'reading-chip-badge';
+    badge.textContent = 'uncommon';
+    chip.appendChild(badge);
+  }
+  chip.addEventListener('click', () => showChipReadingExample(containerEl, wordEl, course, kanji, reading, chip, open));
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = `reading-chip-toggle${studied ? ' is-studied' : ''}`;
+  toggle.textContent = studied ? '−' : '+';
+  toggle.setAttribute('aria-label', studied ? `Remove ${label} from yomi study` : `Add ${label} to yomi study`);
+  toggle.addEventListener('click', () => {
+    // Guard rather than trust these were normalized to {} already — a
+    // profile just pulled in by a sync merge can carry `yomiStudy: undefined`
+    // (mergeProfiles omits the key entirely when empty, to avoid a pointless
+    // write-back — see its own comment), and this mutates the map directly.
+    if (!state.profile.yomiStudy) state.profile.yomiStudy = {};
+    if (!state.profile.yomiUnstudy) state.profile.yomiUnstudy = {};
+    setReadingStudied(state.profile.yomiStudy, state.profile.yomiUnstudy, kanji, reading, !studied);
+    store.saveProfile(state.profile);
+    rerender();
+  });
+
+  wrap.appendChild(chip);
+  wrap.appendChild(toggle);
+  containerEl.appendChild(wrap);
+}
+
+/** The kanji detail screen's "Other readings" section — every uncommon
+ * reading this kanji has, each with its own study toggle. See
+ * appendUncommonReadingChip above. */
+function renderUncommonReadingChips(containerEl, wordEl, course, kanji, info, open) {
+  containerEl.innerHTML = '';
+  const rerender = () => renderUncommonReadingChips(containerEl, wordEl, course, kanji, info, open);
+  info.uncommonReadings.forEach((reading) => {
+    appendUncommonReadingChip(containerEl, wordEl, course, kanji, info, reading, open, rerender);
+  });
+}
+
+/**
+ * The quiz's post-round "Advanced" panel (kanji-expansion-plan.md's
+ * "uncommon yomi" section): every reading this kanji has, common
+ * (`quizReadings`, badged and always tested) and uncommon
+ * (`uncommonReadings`, badged, toggleable) alike, in one list — answering
+ * "which are common/uncommon and which are being studied or not" in a
+ * single view. Toggling study here never touches the round just finished
+ * (that grid, #quiz-choices, is separate markup); it only changes what this
+ * kanji tests from now on.
+ */
+function renderAllReadingsPanel(listEl, wordEl, course, kanji, info, open) {
+  listEl.innerHTML = '';
+  const { exposure } = state.profile;
+  const rerender = () => renderAllReadingsPanel(listEl, wordEl, course, kanji, info, open);
+
+  info.quizReadings.forEach((reading) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    const exposed = isExposurePromoted(exposure, exposureKanjiKey(kanji, reading));
+    chip.className = `reading-chip${exposed ? ' is-exposed' : ''}`;
+    chip.textContent = formatReading(info, reading);
+    chip.dataset.reading = reading;
+    const badge = document.createElement('span');
+    badge.className = 'reading-chip-badge';
+    badge.textContent = 'common';
+    chip.appendChild(badge);
+    chip.addEventListener('click', () => showChipReadingExample(listEl, wordEl, course, kanji, reading, chip, open));
+    listEl.appendChild(chip);
+  });
+
+  info.uncommonReadings.forEach((reading) => {
+    appendUncommonReadingChip(listEl, wordEl, course, kanji, info, reading, open, rerender, { showBadge: true });
   });
 }
 
@@ -6502,8 +6629,8 @@ function writingMarkBad() {
 
 function renderKanjiChoices(course, kanji) {
   const session = state.session;
-  const { progress } = state.profile;
-  const { options, correct } = buildKanjiOptions(course, kanji, state.mode, progress);
+  const { progress, yomiStudy } = state.profile;
+  const { options, correct } = buildKanjiOptions(course, kanji, state.mode, progress, { yomiStudy });
 
   session.kanjiCorrect = new Set(correct);
   session.kanjiShown = new Set(options);
@@ -6523,7 +6650,7 @@ function renderKanjiChoices(course, kanji) {
   $('quiz-show-answers').hidden = false;
   $('quiz-show-answers').disabled = false;
   const info = kanjiInfo(course, kanji);
-  $('quiz-advanced').hidden = info.quizReadings.length <= correct.size;
+  $('quiz-advanced').hidden = effectiveQuizReadings(info, kanji, yomiStudy).length <= correct.size;
   $('quiz-advanced').disabled = false;
   armHintButton('quiz-show-hint', 'quiz-hint-panel', 'quiz-hint-components',
     'quiz-hint-mnemonic', 'quiz-edit-mnemonic', 'quiz-mnemonic-editor', course, kanji);
@@ -6625,15 +6752,18 @@ function showKanjiAnswers() {
   checkKanjiRoundComplete();
 }
 
-/** "Advanced": grows the grid in place with the remaining readings from the
- * pool (up to 6) rather than rebuilding it, so existing taps are untouched. */
+/** "Test all": grows the grid in place with the remaining readings from the
+ * tested pool (up to 6, or more if this kanji has studied uncommon readings —
+ * see effectiveQuizReadings) rather than rebuilding it, so existing taps are
+ * untouched. */
 function expandKanjiAdvanced() {
   const session = state.session;
   if (!session || !session.kanjiShown) return;
   const kanji = session.queue[session.position];
   const course = getAnyCourse(state.courseId);
   const info = kanjiInfo(course, kanji);
-  const { additions, newCorrect } = buildAdvancedAdditions(course, kanji, session.kanjiShown);
+  const { yomiStudy } = state.profile;
+  const { additions, newCorrect } = buildAdvancedAdditions(course, kanji, session.kanjiShown, yomiStudy);
 
   const choices = $('quiz-choices');
   additions.forEach((reading) => {
@@ -6765,7 +6895,31 @@ function showKanjiInfo(course, kanji) {
   $('quiz-word-hint').textContent = isYomi && state.session.kanjiCorrect.size > 1
     ? 'Tap a green reading for its example word.'
     : '';
+
+  // "Advanced" (kanji-expansion-plan.md's "uncommon yomi" section): only
+  // worth offering in Yomi, and only when this kanji actually has an
+  // uncommon reading to reveal. Reset every question — a one-way reveal per
+  // question, same pattern as "Show hint" (armHintButton).
+  const hasUncommon = isYomi && info.uncommonReadings.length > 0;
+  $('quiz-info-advanced').hidden = !hasUncommon;
+  $('quiz-info-advanced').onclick = () => revealAllReadings(course, kanji);
+  $('quiz-all-readings').hidden = true;
+  $('quiz-all-readings-list').innerHTML = '';
+  $('quiz-all-readings-word').hidden = true;
+  $('quiz-all-readings-word').innerHTML = '';
+
   $('quiz-info').hidden = false;
+}
+
+/** "Advanced" on the post-round info panel: reveals every reading this
+ * kanji has, common and uncommon alike, with study toggles on the uncommon
+ * ones — see renderAllReadingsPanel. One-way per question, same as
+ * armHintButton's "Show hint". */
+function revealAllReadings(course, kanji) {
+  const info = kanjiInfo(course, kanji);
+  renderAllReadingsPanel($('quiz-all-readings-list'), $('quiz-all-readings-word'), course, kanji, info, openQuizExampleDetail);
+  $('quiz-all-readings').hidden = false;
+  $('quiz-info-advanced').hidden = true;
 }
 
 /** "Full details →" on the info panel: the whole detail screen (stroke

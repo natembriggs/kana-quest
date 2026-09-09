@@ -105,33 +105,32 @@ function normalizedStudy(profile) {
 }
 
 /**
- * Merge study enrollment per (kanji, mode), last-write-wins across BOTH
- * sides' study and unstudy maps at once — a removal beats an older
+ * Last-write-wins merge for a per-(outer, inner) enrollment pair, generic
+ * over what "outer"/"inner" mean — study/unstudy (kanji/mode) and
+ * yomiStudy/yomiUnstudy (kanji/reading, see mergeYomiStudy below) share this
+ * exact algorithm, just at different key grains. A removal beats an older
  * enrollment and an enrollment beats an older removal, regardless of which
- * device or which of the two maps it's currently sitting in. See the module
- * note above deriveStudyList in srs.js, and sync-plan.md §0.1.
+ * device or which of the two maps it's currently sitting in.
  */
-function mergeStudy(current, incoming) {
-  const a = normalizedStudy(current);
-  const b = normalizedStudy(incoming);
-  const kanjiSet = new Set([
-    ...Object.keys(a.study), ...Object.keys(a.unstudy),
-    ...Object.keys(b.study), ...Object.keys(b.unstudy),
+function mergeEnrollmentPair(aAdd, aRemove, bAdd, bRemove) {
+  const outerKeys = new Set([
+    ...Object.keys(aAdd), ...Object.keys(aRemove),
+    ...Object.keys(bAdd), ...Object.keys(bRemove),
   ]);
 
-  const study = {};
-  const unstudy = {};
-  kanjiSet.forEach((kanji) => {
-    const modeSet = new Set([
-      ...Object.keys(a.study[kanji] || {}), ...Object.keys(a.unstudy[kanji] || {}),
-      ...Object.keys(b.study[kanji] || {}), ...Object.keys(b.unstudy[kanji] || {}),
+  const add = {};
+  const remove = {};
+  outerKeys.forEach((outer) => {
+    const innerKeys = new Set([
+      ...Object.keys(aAdd[outer] || {}), ...Object.keys(aRemove[outer] || {}),
+      ...Object.keys(bAdd[outer] || {}), ...Object.keys(bRemove[outer] || {}),
     ]);
-    modeSet.forEach((mode) => {
+    innerKeys.forEach((inner) => {
       const candidates = [];
-      if (a.study[kanji] && mode in a.study[kanji]) candidates.push([a.study[kanji][mode], true]);
-      if (a.unstudy[kanji] && mode in a.unstudy[kanji]) candidates.push([a.unstudy[kanji][mode], false]);
-      if (b.study[kanji] && mode in b.study[kanji]) candidates.push([b.study[kanji][mode], true]);
-      if (b.unstudy[kanji] && mode in b.unstudy[kanji]) candidates.push([b.unstudy[kanji][mode], false]);
+      if (aAdd[outer] && inner in aAdd[outer]) candidates.push([aAdd[outer][inner], true]);
+      if (aRemove[outer] && inner in aRemove[outer]) candidates.push([aRemove[outer][inner], false]);
+      if (bAdd[outer] && inner in bAdd[outer]) candidates.push([bAdd[outer][inner], true]);
+      if (bRemove[outer] && inner in bRemove[outer]) candidates.push([bRemove[outer][inner], false]);
       // Latest timestamp wins; a tie (including two legacy 0s, the common
       // case for anything not touched since this model shipped) favours
       // keeping the enrollment — the same as a plain union would have done,
@@ -139,15 +138,42 @@ function mergeStudy(current, incoming) {
       candidates.sort((x, y) => (y[0] - x[0]) || (Number(y[1]) - Number(x[1])));
       const [timestamp, keep] = candidates[0];
       if (keep) {
-        if (!study[kanji]) study[kanji] = {};
-        study[kanji][mode] = timestamp;
+        if (!add[outer]) add[outer] = {};
+        add[outer][inner] = timestamp;
       } else {
-        if (!unstudy[kanji]) unstudy[kanji] = {};
-        unstudy[kanji][mode] = timestamp;
+        if (!remove[outer]) remove[outer] = {};
+        remove[outer][inner] = timestamp;
       }
     });
   });
-  return { study, unstudy };
+  return { add, remove };
+}
+
+/** Merge study enrollment per (kanji, mode) — see mergeEnrollmentPair. Also
+ * normalizes each side's legacy shape first (see normalizedStudy above),
+ * which mergeYomiStudy below never needs to. */
+function mergeStudy(current, incoming) {
+  const a = normalizedStudy(current);
+  const b = normalizedStudy(incoming);
+  const { add, remove } = mergeEnrollmentPair(a.study, a.unstudy, b.study, b.unstudy);
+  return { study: add, unstudy: remove };
+}
+
+/**
+ * Merge the per-reading yomi study list — a learner's opt-in to testing a
+ * specific uncommon reading (srs.js's isReadingStudied/setReadingStudied,
+ * kanji-expansion-plan.md's "uncommon yomi" section). Same algorithm as
+ * mergeStudy at (kanji, reading) grain instead of (kanji, mode); no legacy
+ * shape to normalize first since this field never existed before either map
+ * did (see store.js's createProfile).
+ */
+function mergeYomiStudy(current, incoming) {
+  const aStudy = isObject(current.yomiStudy) ? current.yomiStudy : {};
+  const aUnstudy = isObject(current.yomiUnstudy) ? current.yomiUnstudy : {};
+  const bStudy = isObject(incoming.yomiStudy) ? incoming.yomiStudy : {};
+  const bUnstudy = isObject(incoming.yomiUnstudy) ? incoming.yomiUnstudy : {};
+  const { add, remove } = mergeEnrollmentPair(aStudy, aUnstudy, bStudy, bUnstudy);
+  return { yomiStudy: add, yomiUnstudy: remove };
 }
 
 /** Per-key last-write-wins over `settings`, arbitrated by `settingsUpdatedAt`
@@ -423,6 +449,7 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const progress = mergeProgress(current, incoming);
   rebuildYomiRollups(progress);
   const { study, unstudy } = mergeStudy(current, incoming);
+  const { yomiStudy, yomiUnstudy } = mergeYomiStudy(current, incoming);
   const exposure = mergeExposure(current.exposure, incoming.exposure);
   const muted = mergeMuted(current.muted, incoming.muted);
   const stories = mergeStories(current.stories, incoming.stories);
@@ -455,6 +482,15 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     progress,
     study,
     unstudy,
+    // Left off entirely when empty, same trick and same reason as
+    // settingsUpdatedAt above — unlike study/unstudy (which every profile
+    // has had since before sync existed, always written as at least `{}`
+    // by store.js's createProfile), a profile from before this field
+    // shipped has neither key at all, and matching that shape is what lets
+    // a merge against such a remote come back byte-identical instead of
+    // manufacturing a pointless push.
+    yomiStudy: Object.keys(yomiStudy).length ? yomiStudy : undefined,
+    yomiUnstudy: Object.keys(yomiUnstudy).length ? yomiUnstudy : undefined,
     exposure,
     muted,
     stories,
