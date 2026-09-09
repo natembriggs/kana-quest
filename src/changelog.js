@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-09',
+    changes: [
+      'Fixed: the readings you get tested on and the words shown to illustrate them were judged “common” by two different rules that could disagree, so a reading could be tested on the strength of a word you never saw, while the example you did see carried no 🖊️/🗣️ “common” mark at all. Three things changed. Example words on a reading now show those marks, like the words further down the page always have — they were simply never filled in, so 独立 showed both marks in 立’s word list and neither as リツ’s example, on the same screen. Where a reading had a better-known word available, that is now the one shown (65 readings). And a kanji no longer tests a reading with no common word behind it when its other readings do have one — 玉 dropped ギョク (not one of 玉砕, 玉露, 珠玉, 玉音 is a word you would meet) and keeps たま; 257 readings across 232 kanji went the same way, including 立’s リュウ, whose only word was 建立 (“erecting a temple”).',
+    ],
+  },
+  {
     date: '2026-09-08',
     changes: [
       'Changed: the "Show next stroke" and "Show full character" buttons in Writing mode are a bit bigger on tablets (and phones turned sideways), where there’s room to spare.',

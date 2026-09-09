@@ -935,9 +935,75 @@ cross-contamination, not about 淫 itself). Whether to drop 淫 from the
 beyond-jōyō set entirely, or pick a different backing word for it, is
 still open — flagged here, not decided.
 
-**Status:** the app owner is now using the app normally and will report
-any further readings that still feel wrong; this section is the record to
-extend from, not a closed investigation.
+**Status:** superseded by §4.6, which found the structural reason the
+reports kept coming and closed all three of the mechanisms behind them.
+
+---
+
+### 4.6 A fifth report, and the structural finding under it: two disagreeing definitions of "common"
+
+The owner reported still being tested on readings that feel uncommon, with
+a sharp extra observation: on the kanji detail screen the example word for
+such a reading **never carries the 🖊️/🗣️ register badge** — "it's like the
+two systems for determining which words are common are not matching up."
+Exactly right, and it turned out to be three separate defects sharing one
+cause. Screenshots were 立 (tested on リュウ) and 玉 (tested on ギョク).
+
+**The cause: two definitions of "common" that were never the same code.**
+`_is_common()` gated which readings get quizzed; `is_written_common()`/
+`spoken_signal()`'s booleans drove the badges. Nothing made a reading's
+*example word* satisfy the gate that kept its reading.
+
+1. **Reading examples had no register fields at all.** `readingExamples`
+   entries were written as `{kanji, kana, en}`; the per-kanji `words` list
+   two lines below carried `written`/`spoken` too. `buildRegisterBadges()`
+   (app.js) filters on exactly those two keys, so a reading example could
+   *never* show a badge for any kanji, however common the word. Visible as
+   独立 carrying both badges in 立's "Common words" list and neither as
+   リツ's reading example, on one screen. Fixed by writing the flags.
+
+2. **The example could be a different word than the one that kept the
+   reading.** `_is_common()` is a threshold boolean; `choose_examples()`
+   ranked by continuous frequency *bands*, a partly different signal. For
+   65 readings the bands picked a badge-less word (風下 for 下's しも) over
+   a badge-carrying sibling (下期) in the same candidate list. Fixed with a
+   `prefer_common=True` sort-key prefix — **only** at the reading-example
+   call site: forcing it on the per-kanji "Common words" list too changed
+   237 of those lists for the worse (冬場 over 冬休み, 替え玉 over 玉ねぎ —
+   better newspaper scores, worse words to meet a kanji through).
+
+3. **`keep()` judged on'yomi and kun'yomi independently**, so a category
+   with no genuinely common reading kept its weak-tier fallback even when
+   the *other* category had a strong one. 玉 is the clean case: all four
+   ギョク candidates (玉砕, 玉露, 珠玉, 玉音) fail both axes, yet ギョク was
+   quizzed beside たま, which has 玉 and 目玉 with both badges. Fixed with a
+   cross-category rule — drop a weak category once the other is strong. It
+   only ever fires when a strong category exists, so no kanji is left with
+   nothing to quiz (`NO_YOMI_CHARS` is byte-identical after regenerating),
+   and it never fires for a `needs_uncommon` kanji, where both categories
+   are weak by construction.
+
+立/リュウ was none of these three: its one candidate 建立 ("erecting a
+temple") *is* written-common (news1/nf23, off newspaper coverage of
+temples) while sitting at Tanaka rank 11,296 / subtitle rank 17,391, well
+past `SPOKEN_RANK_CUTOFF`. Identical in shape to 出納, so it went on
+`OBSCURE_WORD_OVERRIDE` for the same reason — which then let the existing
+machinery drop リュウ on its own, リツ having 40-odd both-badge words.
+
+**Effect on the dataset:** 4,993 → 4,736 quizzed readings; 257 dropped
+across 232 kanji; 65 examples swapped for a better word; 0 "Common words"
+lists changed. Reading examples carrying neither badge fell from 23% to
+17%, and the 17% that remain are all kanji where *no* category is strong
+(埼, 媛, 栃, 茨, 蚕, 茂 — the rare/prefecture-name set), which is the
+irreducible case: the alternative is not teaching those kanji at all.
+
+**The invariant this bought, now asserted in `test/smoke.js`:** within one
+kanji, the reading examples are all-or-nothing — either every one carries a
+badge or none does. A kanji can no longer mix a common reading with an
+uncommon one.
+
+**Still open from §4.5, untouched here:** 扶/フ and 喚/カン (same flavor as
+出納, left for the owner's ear), and 淫's own 淫売 backing word.
 
 ---
 

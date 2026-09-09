@@ -64,22 +64,30 @@ export const KANJI_ENTRIES = [
       "イチ": {
         "kanji": "一番",
         "kana": "いちばん",
-        "en": "number one"
+        "en": "number one",
+        "written": true,
+        "spoken": true
       },
       "イツ": {
         "kanji": "唯一",
         "kana": "ゆいいつ",
-        "en": "only"
+        "en": "only",
+        "written": true,
+        "spoken": true
       },
       "ひと": {
         "kanji": "一人",
         "kana": "ひとり",
-        "en": "one person"
+        "en": "one person",
+        "written": true,
+        "spoken": true
       },
       "ひとつ": {
         "kanji": "一つ",
         "kana": "ひとつ",
-        "en": "one"
+        "en": "one",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -142,17 +150,23 @@ export const KANJI_ENTRIES = [
       "シチ": {
         "kanji": "七",
         "kana": "しち",
-        "en": "seven"
+        "en": "seven",
+        "written": true,
+        "spoken": true
       },
       "なな": {
         "kanji": "十七",
         "kana": "じゅうなな",
-        "en": "seventeen"
+        "en": "seventeen",
+        "written": true,
+        "spoken": false
       },
       "ななつ": {
         "kanji": "七つ",
         "kana": "ななつ",
-        "en": "seven"
+        "en": "seven",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -216,17 +230,23 @@ export const KANJI_ENTRIES = [
       "サン": {
         "kanji": "三",
         "kana": "さん",
-        "en": "three"
+        "en": "three",
+        "written": true,
+        "spoken": true
       },
       "み": {
         "kanji": "三十日",
         "kana": "みそか",
-        "en": "last day of the month"
+        "en": "last day of the month",
+        "written": true,
+        "spoken": false
       },
       "みっつ": {
         "kanji": "三つ",
         "kana": "みっつ",
-        "en": "three"
+        "en": "three",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -310,32 +330,44 @@ export const KANJI_ENTRIES = [
       "ジョウ": {
         "kanji": "上昇",
         "kana": "じょうしょう",
-        "en": "rising"
+        "en": "rising",
+        "written": true,
+        "spoken": true
       },
       "シャン": {
         "kanji": "上海",
         "kana": "シャンハイ",
-        "en": "Shanghai (China)"
+        "en": "Shanghai (China)",
+        "written": false,
+        "spoken": true
       },
       "うえ": {
         "kanji": "年上",
         "kana": "としうえ",
-        "en": "older"
+        "en": "older",
+        "written": true,
+        "spoken": true
       },
       "うわ": {
         "kanji": "上着",
         "kana": "うわぎ",
-        "en": "coat"
+        "en": "coat",
+        "written": true,
+        "spoken": true
       },
       "かみ": {
         "kanji": "上",
         "kana": "かみ",
-        "en": "upper reaches (of a river)"
+        "en": "upper reaches (of a river)",
+        "written": false,
+        "spoken": true
       },
       "あげる": {
         "kanji": "上げる",
         "kana": "あげる",
-        "en": "to raise"
+        "en": "to raise",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -417,32 +449,44 @@ export const KANJI_ENTRIES = [
       "カ": {
         "kanji": "地下",
         "kana": "ちか",
-        "en": "underground"
+        "en": "underground",
+        "written": true,
+        "spoken": true
       },
       "ゲ": {
         "kanji": "下車",
         "kana": "げしゃ",
-        "en": "alighting (from a train, bus, etc.)"
+        "en": "alighting (from a train, bus, etc.)",
+        "written": true,
+        "spoken": true
       },
       "した": {
         "kanji": "下着",
         "kana": "したぎ",
-        "en": "underwear"
+        "en": "underwear",
+        "written": true,
+        "spoken": true
       },
       "しも": {
-        "kanji": "風下",
-        "kana": "かざしも",
-        "en": "leeward"
+        "kanji": "下期",
+        "kana": "しもき",
+        "en": "second half of the (fiscal) year",
+        "written": true,
+        "spoken": false
       },
       "もと": {
         "kanji": "下",
         "kana": "もと",
-        "en": "under (guidance, supervision, rules, the law, etc.)"
+        "en": "under (guidance, supervision, rules, the law, etc.)",
+        "written": true,
+        "spoken": true
       },
       "さげる": {
         "kanji": "下げる",
         "kana": "さげる",
-        "en": "to hang"
+        "en": "to hang",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -506,12 +550,16 @@ export const KANJI_ENTRIES = [
       "チュウ": {
         "kanji": "中央",
         "kana": "ちゅうおう",
-        "en": "centre"
+        "en": "centre",
+        "written": true,
+        "spoken": true
       },
       "なか": {
         "kanji": "中身",
         "kana": "なかみ",
-        "en": "contents"
+        "en": "contents",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -576,22 +624,30 @@ export const KANJI_ENTRIES = [
       "キュウ": {
         "kanji": "九",
         "kana": "きゅう",
-        "en": "nine"
+        "en": "nine",
+        "written": true,
+        "spoken": true
       },
       "ク": {
         "kanji": "九九",
         "kana": "くく",
-        "en": "multiplication table"
+        "en": "multiplication table",
+        "written": true,
+        "spoken": false
       },
       "ここの": {
         "kanji": "九重",
         "kana": "ここのえ",
-        "en": "ninefold"
+        "en": "ninefold",
+        "written": true,
+        "spoken": false
       },
       "ここのつ": {
         "kanji": "九つ",
         "kana": "ここのつ",
-        "en": "nine"
+        "en": "nine",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -655,17 +711,23 @@ export const KANJI_ENTRIES = [
       "ニ": {
         "kanji": "二",
         "kana": "に",
-        "en": "two"
+        "en": "two",
+        "written": true,
+        "spoken": true
       },
       "ふた": {
         "kanji": "二人",
         "kana": "ふたり",
-        "en": "two persons"
+        "en": "two persons",
+        "written": true,
+        "spoken": true
       },
       "ふたつ": {
         "kanji": "二つ",
         "kana": "ふたつ",
-        "en": "two"
+        "en": "two",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -725,12 +787,16 @@ export const KANJI_ENTRIES = [
       "ゴ": {
         "kanji": "五",
         "kana": "ご",
-        "en": "five"
+        "en": "five",
+        "written": true,
+        "spoken": true
       },
       "いつつ": {
         "kanji": "五つ",
         "kana": "いつつ",
-        "en": "five"
+        "en": "five",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -798,27 +864,37 @@ export const KANJI_ENTRIES = [
       "ジン": {
         "kanji": "個人",
         "kana": "こじん",
-        "en": "individual"
+        "en": "individual",
+        "written": true,
+        "spoken": true
       },
       "ニン": {
         "kanji": "人間",
         "kana": "にんげん",
-        "en": "human being"
+        "en": "human being",
+        "written": true,
+        "spoken": true
       },
       "ひと": {
         "kanji": "人質",
         "kana": "ひとじち",
-        "en": "hostage"
+        "en": "hostage",
+        "written": true,
+        "spoken": true
       },
       "り": {
         "kanji": "二人",
         "kana": "ふたり",
-        "en": "two persons"
+        "en": "two persons",
+        "written": true,
+        "spoken": true
       },
       "と": {
         "kanji": "素人",
         "kana": "しろうと",
-        "en": "amateur"
+        "en": "amateur",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -886,22 +962,30 @@ export const KANJI_ENTRIES = [
       "キュウ": {
         "kanji": "休暇",
         "kana": "きゅうか",
-        "en": "holiday"
+        "en": "holiday",
+        "written": true,
+        "spoken": true
       },
       "やすむ": {
         "kanji": "休む",
         "kana": "やすむ",
-        "en": "to be absent"
+        "en": "to be absent",
+        "written": true,
+        "spoken": true
       },
       "やすまる": {
         "kanji": "休まる",
         "kana": "やすまる",
-        "en": "to be rested"
+        "en": "to be rested",
+        "written": true,
+        "spoken": false
       },
       "やすめる": {
         "kanji": "休める",
         "kana": "やすめる",
-        "en": "to rest"
+        "en": "to rest",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -966,17 +1050,23 @@ export const KANJI_ENTRIES = [
       "セン": {
         "kanji": "先生",
         "kana": "せんせい",
-        "en": "teacher"
+        "en": "teacher",
+        "written": true,
+        "spoken": true
       },
       "さき": {
         "kanji": "先に",
         "kana": "さきに",
-        "en": "previously"
+        "en": "previously",
+        "written": true,
+        "spoken": true
       },
       "まず": {
         "kanji": "先ず",
         "kana": "まず",
-        "en": "first (of all)"
+        "en": "first (of all)",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -1050,32 +1140,44 @@ export const KANJI_ENTRIES = [
       "ニュウ": {
         "kanji": "収入",
         "kana": "しゅうにゅう",
-        "en": "income"
+        "en": "income",
+        "written": true,
+        "spoken": true
       },
       "いる": {
         "kanji": "入る",
         "kana": "いる",
-        "en": "to enter"
+        "en": "to enter",
+        "written": false,
+        "spoken": true
       },
       "いり": {
         "kanji": "入り口",
         "kana": "いりぐち",
-        "en": "entrance"
+        "en": "entrance",
+        "written": true,
+        "spoken": true
       },
       "いれる": {
         "kanji": "受け入れる",
         "kana": "うけいれる",
-        "en": "to accept"
+        "en": "to accept",
+        "written": true,
+        "spoken": true
       },
       "いれ": {
         "kanji": "受け入れ",
         "kana": "うけいれ",
-        "en": "receiving"
+        "en": "receiving",
+        "written": true,
+        "spoken": true
       },
       "はいる": {
         "kanji": "入る",
         "kana": "はいる",
-        "en": "to enter"
+        "en": "to enter",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -1140,17 +1242,23 @@ export const KANJI_ENTRIES = [
       "ハチ": {
         "kanji": "八",
         "kana": "はち",
-        "en": "eight"
+        "en": "eight",
+        "written": true,
+        "spoken": true
       },
       "や": {
-        "kanji": "八百屋",
-        "kana": "やおや",
-        "en": "greengrocer"
+        "kanji": "八重",
+        "kana": "やえ",
+        "en": "eightfold",
+        "written": true,
+        "spoken": false
       },
       "やっつ": {
         "kanji": "八つ",
         "kana": "やっつ",
-        "en": "eight"
+        "en": "eight",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -1213,12 +1321,16 @@ export const KANJI_ENTRIES = [
       "ロク": {
         "kanji": "六",
         "kana": "ろく",
-        "en": "six"
+        "en": "six",
+        "written": true,
+        "spoken": true
       },
       "むっつ": {
         "kanji": "六つ",
         "kana": "むっつ",
-        "en": "six"
+        "en": "six",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -1272,23 +1384,17 @@ export const KANJI_ENTRIES = [
     "quizOn": [
       "エン"
     ],
-    "quizKun": [
-      "まる"
-    ],
+    "quizKun": [],
     "quizReadings": [
-      "エン",
-      "まる"
+      "エン"
     ],
     "readingExamples": {
       "エン": {
         "kanji": "円",
         "kana": "えん",
-        "en": "yen (currency of Japan)"
-      },
-      "まる": {
-        "kanji": "円錐",
-        "kana": "まるぎり",
-        "en": "round gimlet"
+        "en": "yen (currency of Japan)",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -1360,22 +1466,30 @@ export const KANJI_ENTRIES = [
       "シュツ": {
         "kanji": "出身",
         "kana": "しゅっしん",
-        "en": "one's origin (e.g. city, country, parentage, school)"
+        "en": "one's origin (e.g. city, country, parentage, school)",
+        "written": true,
+        "spoken": true
       },
       "でる": {
         "kanji": "出る",
         "kana": "でる",
-        "en": "to leave"
+        "en": "to leave",
+        "written": true,
+        "spoken": true
       },
       "で": {
         "kanji": "出来事",
         "kana": "できごと",
-        "en": "occurrence"
+        "en": "occurrence",
+        "written": true,
+        "spoken": true
       },
       "だす": {
         "kanji": "出す",
         "kana": "だす",
-        "en": "to take out"
+        "en": "to take out",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -1441,17 +1555,23 @@ export const KANJI_ENTRIES = [
       "リョク": {
         "kanji": "努力",
         "kana": "どりょく",
-        "en": "effort"
+        "en": "effort",
+        "written": true,
+        "spoken": true
       },
       "リキ": {
         "kanji": "力む",
         "kana": "りきむ",
-        "en": "to strain (oneself)"
+        "en": "to strain (oneself)",
+        "written": false,
+        "spoken": true
       },
       "ちから": {
         "kanji": "力",
         "kana": "ちから",
-        "en": "force"
+        "en": "force",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -1514,12 +1634,16 @@ export const KANJI_ENTRIES = [
       "ジュウ": {
         "kanji": "十分",
         "kana": "じゅうぶん",
-        "en": "enough"
+        "en": "enough",
+        "written": true,
+        "spoken": true
       },
       "そ": {
         "kanji": "三十日",
         "kana": "みそか",
-        "en": "last day of the month"
+        "en": "last day of the month",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -1578,12 +1702,16 @@ export const KANJI_ENTRIES = [
       "セン": {
         "kanji": "千",
         "kana": "せん",
-        "en": "thousand"
+        "en": "thousand",
+        "written": true,
+        "spoken": true
       },
       "ち": {
-        "kanji": "千切る",
-        "kana": "ちぎる",
-        "en": "to tear to pieces"
+        "kanji": "千代",
+        "kana": "ちよ",
+        "en": "thousand years",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -1645,17 +1773,23 @@ export const KANJI_ENTRIES = [
       "コウ": {
         "kanji": "人口",
         "kana": "じんこう",
-        "en": "population"
+        "en": "population",
+        "written": true,
+        "spoken": true
       },
       "ク": {
         "kanji": "口説く",
         "kana": "くどく",
-        "en": "to persuade"
+        "en": "to persuade",
+        "written": false,
+        "spoken": true
       },
       "くち": {
         "kanji": "口",
         "kana": "くち",
-        "en": "mouth"
+        "en": "mouth",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -1717,17 +1851,23 @@ export const KANJI_ENTRIES = [
       "ウ": {
         "kanji": "右翼",
         "kana": "うよく",
-        "en": "right wing"
+        "en": "right wing",
+        "written": true,
+        "spoken": false
       },
       "ユウ": {
         "kanji": "左右",
         "kana": "さゆう",
-        "en": "left and right"
+        "en": "left and right",
+        "written": true,
+        "spoken": true
       },
       "みぎ": {
         "kanji": "右",
         "kana": "みぎ",
-        "en": "right"
+        "en": "right",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -1793,17 +1933,23 @@ export const KANJI_ENTRIES = [
       "メイ": {
         "kanji": "有名",
         "kana": "ゆうめい",
-        "en": "famous"
+        "en": "famous",
+        "written": true,
+        "spoken": true
       },
       "ミョウ": {
         "kanji": "本名",
         "kana": "ほんみょう",
-        "en": "real name"
+        "en": "real name",
+        "written": true,
+        "spoken": true
       },
       "な": {
         "kanji": "名",
         "kana": "な",
-        "en": "name"
+        "en": "name",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -1869,22 +2015,30 @@ export const KANJI_ENTRIES = [
       "シ": {
         "kanji": "四",
         "kana": "し",
-        "en": "four"
+        "en": "four",
+        "written": true,
+        "spoken": true
       },
       "よ": {
         "kanji": "四人",
         "kana": "よにん",
-        "en": "four people"
+        "en": "four people",
+        "written": false,
+        "spoken": true
       },
       "よっつ": {
         "kanji": "四つ",
         "kana": "よっつ",
-        "en": "four"
+        "en": "four",
+        "written": true,
+        "spoken": true
       },
       "よん": {
         "kanji": "四本",
         "kana": "よんほん",
-        "en": "four (long cylindrical things)"
+        "en": "four (long cylindrical things)",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -1949,17 +2103,23 @@ export const KANJI_ENTRIES = [
       "ド": {
         "kanji": "領土",
         "kana": "りょうど",
-        "en": "territory"
+        "en": "territory",
+        "written": true,
+        "spoken": true
       },
       "ト": {
         "kanji": "土地",
         "kana": "とち",
-        "en": "plot of land"
+        "en": "plot of land",
+        "written": true,
+        "spoken": true
       },
       "つち": {
         "kanji": "土",
         "kana": "つち",
-        "en": "earth"
+        "en": "earth",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2004,26 +2164,20 @@ export const KANJI_ENTRIES = [
         "spoken": true
       }
     ],
-    "quizOn": [
-      "セキ"
-    ],
+    "quizOn": [],
     "quizKun": [
       "ゆう"
     ],
     "quizReadings": [
-      "セキ",
       "ゆう"
     ],
     "readingExamples": {
-      "セキ": {
-        "kanji": "今夕",
-        "kana": "こんせき",
-        "en": "this evening"
-      },
       "ゆう": {
         "kanji": "夕食",
         "kana": "ゆうしょく",
-        "en": "evening meal"
+        "en": "evening meal",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2092,27 +2246,37 @@ export const KANJI_ENTRIES = [
       "ダイ": {
         "kanji": "大学",
         "kana": "だいがく",
-        "en": "university"
+        "en": "university",
+        "written": true,
+        "spoken": true
       },
       "タイ": {
         "kanji": "大変",
         "kana": "たいへん",
-        "en": "very"
+        "en": "very",
+        "written": true,
+        "spoken": true
       },
       "おお": {
         "kanji": "大勢",
         "kana": "おおぜい",
-        "en": "crowd of people"
+        "en": "crowd of people",
+        "written": true,
+        "spoken": true
       },
       "おおきい": {
         "kanji": "大きい",
         "kana": "おおきい",
-        "en": "big"
+        "en": "big",
+        "written": true,
+        "spoken": true
       },
       "おおいに": {
         "kanji": "大いに",
         "kana": "おおいに",
-        "en": "very"
+        "en": "very",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2175,12 +2339,16 @@ export const KANJI_ENTRIES = [
       "テン": {
         "kanji": "天気",
         "kana": "てんき",
-        "en": "weather"
+        "en": "weather",
+        "written": true,
+        "spoken": true
       },
       "あま": {
         "kanji": "天下り",
         "kana": "あまくだり",
-        "en": "retiring high-ranking government officials taking a lucrative job in a private or semi-private corporation"
+        "en": "retiring high-ranking government officials taking a lucrative job in a private or semi-private corporation",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2247,22 +2415,30 @@ export const KANJI_ENTRIES = [
       "ジョ": {
         "kanji": "女性",
         "kana": "じょせい",
-        "en": "woman"
+        "en": "woman",
+        "written": true,
+        "spoken": true
       },
       "ニョウ": {
         "kanji": "女房",
         "kana": "にょうぼう",
-        "en": "wife (esp. one's own wife)"
+        "en": "wife (esp. one's own wife)",
+        "written": true,
+        "spoken": true
       },
       "おんな": {
         "kanji": "女",
         "kana": "おんな",
-        "en": "woman"
+        "en": "woman",
+        "written": true,
+        "spoken": true
       },
       "め": {
         "kanji": "女神",
         "kana": "めがみ",
-        "en": "goddess"
+        "en": "goddess",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2332,22 +2508,30 @@ export const KANJI_ENTRIES = [
       "シ": {
         "kanji": "女子",
         "kana": "じょし",
-        "en": "woman"
+        "en": "woman",
+        "written": true,
+        "spoken": true
       },
       "ス": {
         "kanji": "様子",
         "kana": "ようす",
-        "en": "state (of affairs)"
+        "en": "state (of affairs)",
+        "written": true,
+        "spoken": true
       },
       "こ": {
         "kanji": "子",
         "kana": "こ",
-        "en": "child"
+        "en": "child",
+        "written": true,
+        "spoken": true
       },
       "ね": {
         "kanji": "子",
         "kana": "ね",
-        "en": "the Rat (first sign of the Chinese zodiac)"
+        "en": "the Rat (first sign of the Chinese zodiac)",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -2411,12 +2595,16 @@ export const KANJI_ENTRIES = [
       "ジ": {
         "kanji": "文字",
         "kana": "もじ",
-        "en": "letter (of an alphabet)"
+        "en": "letter (of an alphabet)",
+        "written": true,
+        "spoken": true
       },
       "あざ": {
         "kanji": "字",
         "kana": "あざ",
-        "en": "section of village"
+        "en": "section of village",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2477,12 +2665,16 @@ export const KANJI_ENTRIES = [
       "ガク": {
         "kanji": "学校",
         "kana": "がっこう",
-        "en": "school"
+        "en": "school",
+        "written": true,
+        "spoken": true
       },
       "まなぶ": {
         "kanji": "学ぶ",
         "kana": "まなぶ",
-        "en": "to learn"
+        "en": "to learn",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -2549,22 +2741,30 @@ export const KANJI_ENTRIES = [
       "ショウ": {
         "kanji": "小説",
         "kana": "しょうせつ",
-        "en": "novel"
+        "en": "novel",
+        "written": true,
+        "spoken": true
       },
       "ちいさい": {
         "kanji": "小さい",
         "kana": "ちいさい",
-        "en": "small"
+        "en": "small",
+        "written": true,
+        "spoken": true
       },
       "こ": {
         "kanji": "小屋",
         "kana": "こや",
-        "en": "hut"
+        "en": "hut",
+        "written": true,
+        "spoken": true
       },
       "お": {
         "kanji": "小川",
         "kana": "おがわ",
-        "en": "stream"
+        "en": "stream",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2624,12 +2824,16 @@ export const KANJI_ENTRIES = [
       "サン": {
         "kanji": "火山",
         "kana": "かざん",
-        "en": "volcano"
+        "en": "volcano",
+        "written": true,
+        "spoken": true
       },
       "やま": {
         "kanji": "山",
         "kana": "やま",
-        "en": "mountain"
+        "en": "mountain",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2689,12 +2893,16 @@ export const KANJI_ENTRIES = [
       "セン": {
         "kanji": "河川",
         "kana": "かせん",
-        "en": "rivers"
+        "en": "rivers",
+        "written": true,
+        "spoken": false
       },
       "かわ": {
         "kanji": "川",
         "kana": "かわ",
-        "en": "river"
+        "en": "river",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2754,12 +2962,16 @@ export const KANJI_ENTRIES = [
       "サ": {
         "kanji": "左右",
         "kana": "さゆう",
-        "en": "left and right"
+        "en": "left and right",
+        "written": true,
+        "spoken": true
       },
       "ひだり": {
         "kanji": "左",
         "kana": "ひだり",
-        "en": "left"
+        "en": "left",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2819,12 +3031,16 @@ export const KANJI_ENTRIES = [
       "ネン": {
         "kanji": "年間",
         "kana": "ねんかん",
-        "en": "(period of) a year"
+        "en": "(period of) a year",
+        "written": true,
+        "spoken": true
       },
       "とし": {
         "kanji": "年",
         "kana": "とし",
-        "en": "year"
+        "en": "year",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2891,22 +3107,30 @@ export const KANJI_ENTRIES = [
       "シュ": {
         "kanji": "選手",
         "kana": "せんしゅ",
-        "en": "player (of a sport)"
+        "en": "player (of a sport)",
+        "written": true,
+        "spoken": true
       },
       "ズ": {
         "kanji": "上手",
         "kana": "じょうず",
-        "en": "skillful"
+        "en": "skillful",
+        "written": true,
+        "spoken": true
       },
       "て": {
         "kanji": "手",
         "kana": "て",
-        "en": "hand"
+        "en": "hand",
+        "written": true,
+        "spoken": true
       },
       "た": {
         "kanji": "下手",
         "kana": "へた",
-        "en": "unskillful"
+        "en": "unskillful",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -2972,17 +3196,23 @@ export const KANJI_ENTRIES = [
       "ブン": {
         "kanji": "文化",
         "kana": "ぶんか",
-        "en": "culture"
+        "en": "culture",
+        "written": true,
+        "spoken": true
       },
       "モン": {
         "kanji": "注文",
         "kana": "ちゅうもん",
-        "en": "order (for an item)"
+        "en": "order (for an item)",
+        "written": true,
+        "spoken": true
       },
       "ふみ": {
         "kanji": "文",
         "kana": "ふみ",
-        "en": "letter"
+        "en": "letter",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3051,22 +3281,30 @@ export const KANJI_ENTRIES = [
       "ニチ": {
         "kanji": "毎日",
         "kana": "まいにち",
-        "en": "every day"
+        "en": "every day",
+        "written": true,
+        "spoken": true
       },
       "ジツ": {
         "kanji": "先日",
         "kana": "せんじつ",
-        "en": "the other day"
+        "en": "the other day",
+        "written": true,
+        "spoken": true
       },
       "ひ": {
         "kanji": "日",
         "kana": "ひ",
-        "en": "day"
+        "en": "day",
+        "written": true,
+        "spoken": true
       },
       "か": {
         "kanji": "大晦日",
         "kana": "おおみそか",
-        "en": "New Year's Eve"
+        "en": "New Year's Eve",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -3140,32 +3378,44 @@ export const KANJI_ENTRIES = [
       "ソウ": {
         "kanji": "早期",
         "kana": "そうき",
-        "en": "early stage"
+        "en": "early stage",
+        "written": true,
+        "spoken": true
       },
       "サッ": {
         "kanji": "早速",
         "kana": "さっそく",
-        "en": "at once"
+        "en": "at once",
+        "written": false,
+        "spoken": true
       },
       "はやい": {
         "kanji": "早い",
         "kana": "はやい",
-        "en": "fast"
+        "en": "fast",
+        "written": true,
+        "spoken": true
       },
       "はや": {
         "kanji": "早く",
         "kana": "はやく",
-        "en": "early"
+        "en": "early",
+        "written": false,
+        "spoken": true
       },
       "はやまる": {
         "kanji": "早まる",
         "kana": "はやまる",
-        "en": "to be brought forward (e.g. by three hours)"
+        "en": "to be brought forward (e.g. by three hours)",
+        "written": false,
+        "spoken": true
       },
       "はやめる": {
         "kanji": "早める",
         "kana": "はやめる",
-        "en": "to bring forward (e.g. by 3 hours)"
+        "en": "to bring forward (e.g. by 3 hours)",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3228,17 +3478,23 @@ export const KANJI_ENTRIES = [
       "ゲツ": {
         "kanji": "今月",
         "kana": "こんげつ",
-        "en": "this month"
+        "en": "this month",
+        "written": true,
+        "spoken": true
       },
       "ガツ": {
         "kanji": "正月",
         "kana": "しょうがつ",
-        "en": "New Year (esp. first three days)"
+        "en": "New Year (esp. first three days)",
+        "written": true,
+        "spoken": true
       },
       "つき": {
         "kanji": "毎月",
         "kana": "まいつき",
-        "en": "every month"
+        "en": "every month",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3304,22 +3560,30 @@ export const KANJI_ENTRIES = [
       "ボク": {
         "kanji": "土木",
         "kana": "どぼく",
-        "en": "engineering works"
+        "en": "engineering works",
+        "written": true,
+        "spoken": false
       },
       "モク": {
         "kanji": "木曜",
         "kana": "もくよう",
-        "en": "Thursday"
+        "en": "Thursday",
+        "written": true,
+        "spoken": true
       },
       "き": {
         "kanji": "木",
         "kana": "き",
-        "en": "tree"
+        "en": "tree",
+        "written": true,
+        "spoken": true
       },
       "こ": {
         "kanji": "木の葉",
         "kana": "このは",
-        "en": "leaf (of a tree)"
+        "en": "leaf (of a tree)",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -3381,12 +3645,16 @@ export const KANJI_ENTRIES = [
       "ホン": {
         "kanji": "本部",
         "kana": "ほんぶ",
-        "en": "headquarters"
+        "en": "headquarters",
+        "written": true,
+        "spoken": true
       },
       "もと": {
-        "kanji": "旗本",
-        "kana": "はたもと",
-        "en": "headquarters (on the battlefield)"
+        "kanji": "本木",
+        "kana": "もとき",
+        "en": "original stock",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -3446,12 +3714,16 @@ export const KANJI_ENTRIES = [
       "ソン": {
         "kanji": "農村",
         "kana": "のうそん",
-        "en": "agricultural community"
+        "en": "agricultural community",
+        "written": true,
+        "spoken": false
       },
       "むら": {
         "kanji": "村",
         "kana": "むら",
-        "en": "village"
+        "en": "village",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3511,12 +3783,16 @@ export const KANJI_ENTRIES = [
       "リン": {
         "kanji": "森林",
         "kana": "しんりん",
-        "en": "forest"
+        "en": "forest",
+        "written": true,
+        "spoken": true
       },
       "はやし": {
         "kanji": "林",
         "kana": "はやし",
-        "en": "wood"
+        "en": "wood",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -3574,7 +3850,9 @@ export const KANJI_ENTRIES = [
       "コウ": {
         "kanji": "学校",
         "kana": "がっこう",
-        "en": "school"
+        "en": "school",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3620,12 +3898,16 @@ export const KANJI_ENTRIES = [
       "シン": {
         "kanji": "森林",
         "kana": "しんりん",
-        "en": "forest"
+        "en": "forest",
+        "written": true,
+        "spoken": true
       },
       "もり": {
         "kanji": "森",
         "kana": "もり",
-        "en": "forest"
+        "en": "forest",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3697,27 +3979,37 @@ export const KANJI_ENTRIES = [
       "セイ": {
         "kanji": "正義",
         "kana": "せいぎ",
-        "en": "justice"
+        "en": "justice",
+        "written": true,
+        "spoken": true
       },
       "ショウ": {
         "kanji": "正直",
         "kana": "しょうじき",
-        "en": "honest"
+        "en": "honest",
+        "written": true,
+        "spoken": true
       },
       "ただしい": {
         "kanji": "正しい",
         "kana": "ただしい",
-        "en": "right"
+        "en": "right",
+        "written": true,
+        "spoken": true
       },
       "ただす": {
         "kanji": "正す",
         "kana": "ただす",
-        "en": "to correct"
+        "en": "to correct",
+        "written": false,
+        "spoken": true
       },
       "まさに": {
         "kanji": "正に",
         "kana": "まさに",
-        "en": "exactly"
+        "en": "exactly",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -3780,12 +4072,16 @@ export const KANJI_ENTRIES = [
       "キ": {
         "kanji": "気",
         "kana": "き",
-        "en": "spirit"
+        "en": "spirit",
+        "written": true,
+        "spoken": true
       },
       "ケ": {
         "kanji": "気配",
         "kana": "けはい",
-        "en": "indication"
+        "en": "indication",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3845,12 +4141,16 @@ export const KANJI_ENTRIES = [
       "スイ": {
         "kanji": "水準",
         "kana": "すいじゅん",
-        "en": "level"
+        "en": "level",
+        "written": true,
+        "spoken": true
       },
       "みず": {
         "kanji": "水",
         "kana": "みず",
-        "en": "water (esp. cool or cold)"
+        "en": "water (esp. cool or cold)",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3911,12 +4211,16 @@ export const KANJI_ENTRIES = [
       "カ": {
         "kanji": "火事",
         "kana": "かじ",
-        "en": "fire"
+        "en": "fire",
+        "written": true,
+        "spoken": true
       },
       "ひ": {
         "kanji": "火",
         "kana": "ひ",
-        "en": "fire"
+        "en": "fire",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -3976,12 +4280,16 @@ export const KANJI_ENTRIES = [
       "ケン": {
         "kanji": "愛犬",
         "kana": "あいけん",
-        "en": "pet dog"
+        "en": "pet dog",
+        "written": true,
+        "spoken": true
       },
       "いぬ": {
         "kanji": "犬",
         "kana": "いぬ",
-        "en": "dog (Canis (lupus) familiaris)"
+        "en": "dog (Canis (lupus) familiaris)",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4029,26 +4337,20 @@ export const KANJI_ENTRIES = [
         "spoken": false
       }
     ],
-    "quizOn": [
-      "ギョク"
-    ],
+    "quizOn": [],
     "quizKun": [
       "たま"
     ],
     "quizReadings": [
-      "ギョク",
       "たま"
     ],
     "readingExamples": {
-      "ギョク": {
-        "kanji": "珠玉",
-        "kana": "しゅぎょく",
-        "en": "jewel"
-      },
       "たま": {
         "kanji": "玉",
         "kana": "たま",
-        "en": "ball"
+        "en": "ball",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4105,7 +4407,9 @@ export const KANJI_ENTRIES = [
       "オウ": {
         "kanji": "女王",
         "kana": "じょおう",
-        "en": "queen"
+        "en": "queen",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4192,32 +4496,44 @@ export const KANJI_ENTRIES = [
       "セイ": {
         "kanji": "学生",
         "kana": "がくせい",
-        "en": "student (esp. a university student)"
+        "en": "student (esp. a university student)",
+        "written": true,
+        "spoken": true
       },
       "ショウ": {
         "kanji": "誕生",
         "kana": "たんじょう",
-        "en": "birth (of a person)"
+        "en": "birth (of a person)",
+        "written": true,
+        "spoken": true
       },
       "いきる": {
         "kanji": "生きる",
         "kana": "いきる",
-        "en": "to live"
+        "en": "to live",
+        "written": true,
+        "spoken": true
       },
       "いかす": {
         "kanji": "生かす",
         "kana": "いかす",
-        "en": "to make (the best) use of"
+        "en": "to make (the best) use of",
+        "written": true,
+        "spoken": true
       },
       "うまれる": {
         "kanji": "生まれる",
         "kana": "うまれる",
-        "en": "to be born"
+        "en": "to be born",
+        "written": false,
+        "spoken": true
       },
       "うまれ": {
         "kanji": "生まれ",
         "kana": "うまれ",
-        "en": "birth"
+        "en": "birth",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -4277,12 +4593,16 @@ export const KANJI_ENTRIES = [
       "デン": {
         "kanji": "田園",
         "kana": "でんえん",
-        "en": "the country"
+        "en": "the country",
+        "written": true,
+        "spoken": true
       },
       "た": {
         "kanji": "半田",
         "kana": "はんだ",
-        "en": "solder"
+        "en": "solder",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -4345,17 +4665,23 @@ export const KANJI_ENTRIES = [
       "ダン": {
         "kanji": "男性",
         "kana": "だんせい",
-        "en": "man"
+        "en": "man",
+        "written": true,
+        "spoken": true
       },
       "ナン": {
         "kanji": "長男",
         "kana": "ちょうなん",
-        "en": "eldest son (may be the only son)"
+        "en": "eldest son (may be the only son)",
+        "written": true,
+        "spoken": true
       },
       "おとこ": {
         "kanji": "男",
         "kana": "おとこ",
-        "en": "man"
+        "en": "man",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4417,12 +4743,16 @@ export const KANJI_ENTRIES = [
       "チョウ": {
         "kanji": "町長",
         "kana": "ちょうちょう",
-        "en": "town mayor"
+        "en": "town mayor",
+        "written": true,
+        "spoken": true
       },
       "まち": {
         "kanji": "町",
         "kana": "まち",
-        "en": "town"
+        "en": "town",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4488,22 +4818,30 @@ export const KANJI_ENTRIES = [
       "ハク": {
         "kanji": "白人",
         "kana": "はくじん",
-        "en": "white person"
+        "en": "white person",
+        "written": true,
+        "spoken": true
       },
       "しろ": {
         "kanji": "白",
         "kana": "しろ",
-        "en": "white"
+        "en": "white",
+        "written": true,
+        "spoken": true
       },
       "しら": {
         "kanji": "白髪",
         "kana": "しらが",
-        "en": "white hair"
+        "en": "white hair",
+        "written": true,
+        "spoken": true
       },
       "しろい": {
         "kanji": "面白い",
         "kana": "おもしろい",
-        "en": "interesting"
+        "en": "interesting",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4560,7 +4898,9 @@ export const KANJI_ENTRIES = [
       "ヒャク": {
         "kanji": "百",
         "kana": "ひゃく",
-        "en": "hundred"
+        "en": "hundred",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4627,17 +4967,23 @@ export const KANJI_ENTRIES = [
       "モク": {
         "kanji": "目的",
         "kana": "もくてき",
-        "en": "purpose"
+        "en": "purpose",
+        "written": true,
+        "spoken": true
       },
       "ボク": {
         "kanji": "面目",
         "kana": "めんぼく",
-        "en": "face"
+        "en": "face",
+        "written": true,
+        "spoken": true
       },
       "め": {
         "kanji": "目",
         "kana": "め",
-        "en": "eye"
+        "en": "eye",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -4702,22 +5048,30 @@ export const KANJI_ENTRIES = [
       "セキ": {
         "kanji": "石油",
         "kana": "せきゆ",
-        "en": "oil"
+        "en": "oil",
+        "written": true,
+        "spoken": true
       },
       "シャク": {
         "kanji": "磁石",
         "kana": "じしゃく",
-        "en": "magnet"
+        "en": "magnet",
+        "written": true,
+        "spoken": true
       },
       "コク": {
         "kanji": "石",
         "kana": "こく",
-        "en": "koku"
+        "en": "koku",
+        "written": true,
+        "spoken": true
       },
       "いし": {
         "kanji": "石",
         "kana": "いし",
-        "en": "stone"
+        "en": "stone",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -4792,27 +5146,37 @@ export const KANJI_ENTRIES = [
       "クウ": {
         "kanji": "空港",
         "kana": "くうこう",
-        "en": "airport"
+        "en": "airport",
+        "written": true,
+        "spoken": true
       },
       "そら": {
         "kanji": "空",
         "kana": "そら",
-        "en": "sky"
+        "en": "sky",
+        "written": false,
+        "spoken": true
       },
       "あき": {
         "kanji": "空き",
         "kana": "あき",
-        "en": "space"
+        "en": "space",
+        "written": true,
+        "spoken": true
       },
       "から": {
         "kanji": "空",
         "kana": "から",
-        "en": "emptiness"
+        "en": "emptiness",
+        "written": true,
+        "spoken": true
       },
       "すく": {
         "kanji": "空く",
         "kana": "すく",
-        "en": "to become less crowded"
+        "en": "to become less crowded",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -4872,8 +5236,7 @@ export const KANJI_ENTRIES = [
       }
     ],
     "quizOn": [
-      "リツ",
-      "リュウ"
+      "リツ"
     ],
     "quizKun": [
       "たつ",
@@ -4883,7 +5246,6 @@ export const KANJI_ENTRIES = [
     ],
     "quizReadings": [
       "リツ",
-      "リュウ",
       "たつ",
       "たち",
       "たてる",
@@ -4893,32 +5255,37 @@ export const KANJI_ENTRIES = [
       "リツ": {
         "kanji": "独立",
         "kana": "どくりつ",
-        "en": "independence"
-      },
-      "リュウ": {
-        "kanji": "建立",
-        "kana": "こんりゅう",
-        "en": "(act of) building (temple, monument, etc.)"
+        "en": "independence",
+        "written": true,
+        "spoken": true
       },
       "たつ": {
         "kanji": "立つ",
         "kana": "たつ",
-        "en": "to stand (up)"
+        "en": "to stand (up)",
+        "written": true,
+        "spoken": true
       },
       "たち": {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop in (at)"
+        "en": "to drop in (at)",
+        "written": true,
+        "spoken": true
       },
       "たてる": {
         "kanji": "立てる",
         "kana": "たてる",
-        "en": "to stand (something) up"
+        "en": "to stand (something) up",
+        "written": false,
+        "spoken": true
       },
       "たて": {
         "kanji": "立て直す",
         "kana": "たてなおす",
-        "en": "to put back up"
+        "en": "to put back up",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -4977,12 +5344,16 @@ export const KANJI_ENTRIES = [
       "チク": {
         "kanji": "爆竹",
         "kana": "ばくちく",
-        "en": "firecracker"
+        "en": "firecracker",
+        "written": true,
+        "spoken": false
       },
       "たけ": {
         "kanji": "竹",
         "kana": "たけ",
-        "en": "bamboo (any grass of subfamily Bambusoideae)"
+        "en": "bamboo (any grass of subfamily Bambusoideae)",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -5027,26 +5398,20 @@ export const KANJI_ENTRIES = [
         "spoken": false
       }
     ],
-    "quizOn": [
-      "シ"
-    ],
+    "quizOn": [],
     "quizKun": [
       "いと"
     ],
     "quizReadings": [
-      "シ",
       "いと"
     ],
     "readingExamples": {
-      "シ": {
-        "kanji": "撚糸",
-        "kana": "ねんし",
-        "en": "twisted thread or yarn"
-      },
       "いと": {
         "kanji": "糸",
         "kana": "いと",
-        "en": "thread"
+        "en": "thread",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5091,26 +5456,20 @@ export const KANJI_ENTRIES = [
         "spoken": true
       }
     ],
-    "quizOn": [
-      "ジ"
-    ],
+    "quizOn": [],
     "quizKun": [
       "みみ"
     ],
     "quizReadings": [
-      "ジ",
       "みみ"
     ],
     "readingExamples": {
-      "ジ": {
-        "kanji": "耳鼻科",
-        "kana": "じびか",
-        "en": "otolaryngology"
-      },
       "みみ": {
         "kanji": "耳",
         "kana": "みみ",
-        "en": "ear"
+        "en": "ear",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5170,12 +5529,16 @@ export const KANJI_ENTRIES = [
       "カ": {
         "kanji": "花瓶",
         "kana": "かびん",
-        "en": "(flower) vase"
+        "en": "(flower) vase",
+        "written": false,
+        "spoken": true
       },
       "はな": {
         "kanji": "花",
         "kana": "はな",
-        "en": "flower"
+        "en": "flower",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5239,12 +5602,16 @@ export const KANJI_ENTRIES = [
       "ソウ": {
         "kanji": "草原",
         "kana": "そうげん",
-        "en": "grassy field"
+        "en": "grassy field",
+        "written": true,
+        "spoken": true
       },
       "くさ": {
         "kanji": "草",
         "kana": "くさ",
-        "en": "grass"
+        "en": "grass",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5306,12 +5673,16 @@ export const KANJI_ENTRIES = [
       "チュウ": {
         "kanji": "昆虫",
         "kana": "こんちゅう",
-        "en": "insect"
+        "en": "insect",
+        "written": true,
+        "spoken": true
       },
       "むし": {
         "kanji": "虫",
         "kana": "むし",
-        "en": "insect"
+        "en": "insect",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5379,22 +5750,30 @@ export const KANJI_ENTRIES = [
       "ケン": {
         "kanji": "意見",
         "kana": "いけん",
-        "en": "opinion"
+        "en": "opinion",
+        "written": true,
+        "spoken": true
       },
       "みる": {
         "kanji": "見る",
         "kana": "みる",
-        "en": "to see"
+        "en": "to see",
+        "written": true,
+        "spoken": true
       },
       "みえる": {
         "kanji": "見える",
         "kana": "みえる",
-        "en": "to be seen"
+        "en": "to be seen",
+        "written": true,
+        "spoken": true
       },
       "みせる": {
         "kanji": "見せる",
         "kana": "みせる",
-        "en": "to show"
+        "en": "to show",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -5450,7 +5829,9 @@ export const KANJI_ENTRIES = [
       "かい": {
         "kanji": "貝",
         "kana": "かい",
-        "en": "shellfish"
+        "en": "shellfish",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -5516,17 +5897,23 @@ export const KANJI_ENTRIES = [
       "セキ": {
         "kanji": "赤道",
         "kana": "せきどう",
-        "en": "equator"
+        "en": "equator",
+        "written": true,
+        "spoken": true
       },
       "あか": {
         "kanji": "赤字",
         "kana": "あかじ",
-        "en": "(being in) the red"
+        "en": "(being in) the red",
+        "written": true,
+        "spoken": true
       },
       "あかい": {
         "kanji": "赤い",
         "kana": "あかい",
-        "en": "red"
+        "en": "red",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5597,27 +5984,37 @@ export const KANJI_ENTRIES = [
       "ソク": {
         "kanji": "不足",
         "kana": "ふそく",
-        "en": "insufficiency"
+        "en": "insufficiency",
+        "written": true,
+        "spoken": true
       },
       "あし": {
         "kanji": "足",
         "kana": "あし",
-        "en": "foot"
+        "en": "foot",
+        "written": true,
+        "spoken": true
       },
       "たりる": {
         "kanji": "足りる",
         "kana": "たりる",
-        "en": "to be sufficient"
+        "en": "to be sufficient",
+        "written": false,
+        "spoken": true
       },
       "たる": {
         "kanji": "足る",
         "kana": "たる",
-        "en": "to be sufficient"
+        "en": "to be sufficient",
+        "written": false,
+        "spoken": true
       },
       "たす": {
         "kanji": "足す",
         "kana": "たす",
-        "en": "to add (numbers)"
+        "en": "to add (numbers)",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -5676,12 +6073,16 @@ export const KANJI_ENTRIES = [
       "シャ": {
         "kanji": "自動車",
         "kana": "じどうしゃ",
-        "en": "car"
+        "en": "car",
+        "written": true,
+        "spoken": true
       },
       "くるま": {
         "kanji": "車",
         "kana": "くるま",
-        "en": "car"
+        "en": "car",
+        "written": true,
+        "spoken": true
       }
     }
   },
@@ -5748,22 +6149,30 @@ export const KANJI_ENTRIES = [
       "キン": {
         "kanji": "資金",
         "kana": "しきん",
-        "en": "funds"
+        "en": "funds",
+        "written": true,
+        "spoken": true
       },
       "コン": {
         "kanji": "黄金",
         "kana": "おうごん",
-        "en": "gold (Au)"
+        "en": "gold (Au)",
+        "written": true,
+        "spoken": true
       },
       "かね": {
         "kanji": "お金",
         "kana": "おかね",
-        "en": "money"
+        "en": "money",
+        "written": true,
+        "spoken": true
       },
       "かな": {
         "kanji": "金槌",
         "kana": "かなづち",
-        "en": "hammer"
+        "en": "hammer",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -5828,22 +6237,30 @@ export const KANJI_ENTRIES = [
       "ウ": {
         "kanji": "雨季",
         "kana": "うき",
-        "en": "rainy season"
+        "en": "rainy season",
+        "written": true,
+        "spoken": true
       },
       "あめ": {
         "kanji": "雨",
         "kana": "あめ",
-        "en": "rain"
+        "en": "rain",
+        "written": true,
+        "spoken": true
       },
       "あま": {
         "kanji": "雨宿り",
         "kana": "あまやどり",
-        "en": "taking shelter from rain"
+        "en": "taking shelter from rain",
+        "written": false,
+        "spoken": true
       },
       "さめ": {
         "kanji": "小雨",
         "kana": "こさめ",
-        "en": "light rain"
+        "en": "light rain",
+        "written": true,
+        "spoken": false
       }
     }
   },
@@ -5908,17 +6325,23 @@ export const KANJI_ENTRIES = [
       "セイ": {
         "kanji": "青年",
         "kana": "せいねん",
-        "en": "youth"
+        "en": "youth",
+        "written": true,
+        "spoken": true
       },
       "あお": {
         "kanji": "青",
         "kana": "あお",
-        "en": "blue"
+        "en": "blue",
+        "written": true,
+        "spoken": true
       },
       "あおい": {
         "kanji": "青い",
         "kana": "あおい",
-        "en": "blue"
+        "en": "blue",
+        "written": false,
+        "spoken": true
       }
     }
   },
@@ -5985,22 +6408,30 @@ export const KANJI_ENTRIES = [
       "オン": {
         "kanji": "音楽",
         "kana": "おんがく",
-        "en": "music"
+        "en": "music",
+        "written": true,
+        "spoken": true
       },
       "イン": {
         "kanji": "福音",
         "kana": "ふくいん",
-        "en": "good news"
+        "en": "good news",
+        "written": false,
+        "spoken": true
       },
       "おと": {
         "kanji": "音",
         "kana": "おと",
-        "en": "sound"
+        "en": "sound",
+        "written": true,
+        "spoken": true
       },
       "ね": {
         "kanji": "本音",
         "kana": "ほんね",
-        "en": "real intention"
+        "en": "real intention",
+        "written": true,
+        "spoken": true
       }
     }
   }

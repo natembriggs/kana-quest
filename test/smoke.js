@@ -946,6 +946,53 @@ if (shanghai && shanghai.on.includes('シャン')) {
     !!example && example.kanji.includes('上'), JSON.stringify(example));
 }
 
+// A reading example is rendered by the same buildWordRow()/buildRegisterBadges()
+// path as a "Common words" row, which reads word.written/word.spoken — so an
+// example missing those keys can never show a register badge however common
+// the word is. It used to be missing them for every reading, which is what a
+// learner saw as 独立 carrying both badges in 立's word list and neither as
+// リツ's reading example, on one screen.
+let exampleMissingRegister = 0;
+for (const kanji of grade1Chars) {
+  for (const reading of kanjiInfo(grade1, kanji).quizReadings) {
+    const example = readingExample(grade1, kanji, reading);
+    if (!example || typeof example.written !== 'boolean' || typeof example.spoken !== 'boolean') {
+      exampleMissingRegister += 1;
+    }
+  }
+}
+check('every reading example carries the register flags its badges are drawn from',
+  exampleMissingRegister === 0, `${exampleMissingRegister} without them`);
+
+// The cross-category rule in build_kanji_data.py's per-kanji loop: a category
+// whose readings have no genuinely common word is dropped outright once the
+// OTHER category has one, rather than being kept as a fallback. 玉 used to
+// quiz ギョク (玉砕/玉露/珠玉/玉音 — not one of them common by either measure)
+// alongside たま (玉, 目玉, both badges). So within one kanji the examples are
+// now all-or-nothing: a kanji rare enough that nothing it reads is common
+// still teaches every reading, but no kanji mixes the two tiers.
+let mixedRegisterTiers = 0;
+for (const kanji of grade1Chars) {
+  const flags = kanjiInfo(grade1, kanji).quizReadings
+    .map((r) => readingExample(grade1, kanji, r))
+    .filter(Boolean)
+    .map((w) => w.written || w.spoken);
+  if (flags.length && flags.some(Boolean) && !flags.every(Boolean)) mixedRegisterTiers += 1;
+}
+check('no kanji quizzes an uncommon reading beside a common one',
+  mixedRegisterTiers === 0, `${mixedRegisterTiers} kanji mix the tiers`);
+
+check('玉 drops its ギョク on\'yomi — no common word uses it, but たま has two',
+  !kanjiInfo(grade1, '玉').quizReadings.includes('ギョク'),
+  kanjiInfo(grade1, '玉').quizReadings.join(', '));
+
+// 建立 (こんりゅう, erecting a temple) is 立's only リュウ candidate and
+// carries news1/nf23 off newspaper temple coverage alone — the same shape as
+// 出納, and on OBSCURE_WORD_OVERRIDE for the same reason.
+check('立 drops リュウ — its one candidate word is newspaper-tagged but obscure',
+  !kanjiInfo(grade1, '立').quizReadings.includes('リュウ'),
+  kanjiInfo(grade1, '立').quizReadings.join(', '));
+
 // The bug this alignment exists to prevent: 十二 reads じゅうに, so a naive
 // "word reading starts with the target reading" test credited it to 二's rare
 // ジ on'yomi — when in fact 二 is に there and じゅう belongs to 十. The word

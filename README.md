@@ -272,14 +272,23 @@ immediately.**
   of the pool — up to 6 — with enough distractors added to keep correct
   readings under half even at the full pool size. Never required to
   progress.
-- **Only readings that appear in a real word are quizzed.** A reading no
-  common word ever uses isn't worth a child's time and has no example to show
-  when tapped, so it's dropped entirely — about 900 of 3,400 across the six
-  grades. A handful of kanji (prefecture names like 媛/栃/茨) end up with no
+- **Only readings that appear in a real word are quizzed**, and only if that
+  word is one a learner would actually meet. A reading no common word ever
+  uses isn't worth a child's time and has no example to show when tapped, so
+  it's dropped entirely — 4,786 of the 9,522 readings across every unit.
+  Where one of a kanji's two categories (on'yomi, kun'yomi) has a genuinely
+  common word behind it and the other doesn't, the weaker category goes too:
+  玉 teaches たま (玉, 目玉) and not ギョク, whose only words are 玉砕, 玉露,
+  珠玉 and 玉音. A kanji is never left with nothing — that rule only fires
+  when the other category is strong — but a handful (prefecture names like
+  媛/栃/茨) have no common word for *any* reading and so end up with no
   quizzable reading at all; they're skipped in Yomi mode specifically, and
   still taught in the other modes.
 - **After a question resolves, clicking a (green) reading shows the most
-  common word that uses it.** This is aimed squarely at readings that are
+  common word that uses it**, with the same 🖊️/🗣️ register badges the words
+  further down a kanji's page carry — and picked by the same "is this common"
+  test that decided to keep the reading in the first place, so the two can't
+  disagree about a word. This is aimed squarely at readings that are
   easy to forget precisely because they're rare — 上 (above) has シャン among
   its on'yomi *only* because of 上海 (Shanghai); clicking シャン surfaces
   that word directly, even though 海 is a grade-2 kanji the learner may not

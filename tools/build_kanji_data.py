@@ -548,19 +548,34 @@ def parse_jmdict_words(known_kanji, kanjidic, stem_index, tanaka_freq, subtitle_
 # the wrong answer as often as the right one for a set this idiomatic."
 OBSCURE_WORD_OVERRIDE = {
     "出納",  # すいとう — receipts and expenditure; 出's only スイ candidate
+    "建立",  # こんりゅう — erecting (a temple); 立's only リュウ candidate.
+             # Same shape as 出納: nf23 + news1 on the strength of newspaper
+             # coverage of temples, and it sits at Tanaka rank 11,296 /
+             # subtitle rank 17,391, well past SPOKEN_RANK_CUTOFF. 立 has
+             # 40-odd リツ words carrying BOTH badges (独立, 成立, 国立...),
+             # so nothing is lost by dropping リュウ.
 }
 
 
+def _word_is_common(record):
+    """One word clears the "genuinely common" bar: written-common or
+    spoken-common (indices 4/6 of the record tuple — see parse_jmdict_words),
+    and not hand-flagged as obscure. The single definition of "common" for a
+    word, shared by the reading gate (_is_common) and example ORDERING
+    (choose_examples) — those two used to disagree, which is what let a
+    reading be kept on the strength of word X and then illustrated with a
+    less common word Y that showed no register badge in the app."""
+    return (record[4] or record[6]) and record[0] not in OBSCURE_WORD_OVERRIDE
+
+
 def _is_common(candidates):
-    """A reading's candidate word list clears the "genuinely common" bar if
-    ANY of them (other than an OBSCURE_WORD_OVERRIDE entry) is written-common
-    or spoken-common (indices 4/6 of the record tuple — see
-    parse_jmdict_words) — one strong word is enough to anchor a reading,
-    even if the rest of its matches are obscure."""
-    return any((c[4] or c[6]) and c[0] not in OBSCURE_WORD_OVERRIDE for c in candidates)
+    """A reading's candidate word list clears the bar if ANY of its words
+    does — one strong word is enough to anchor a reading, even if the rest
+    of its matches are obscure."""
+    return any(_word_is_common(c) for c in candidates)
 
 
-def choose_examples(words, limit):
+def choose_examples(words, limit, prefer_common=False):
     # Most familiar first, blending written commonness (written_band, from
     # JMdict's newspaper-corpus nf/news tags) with spoken commonness
     # (spoken_band, from the Tanaka Corpus and an OpenSubtitles-derived word
@@ -572,7 +587,24 @@ def choose_examples(words, limit):
     # presence. A plain average would let 具体's newspaper strength paper
     # over its near-total absence from speech; sqrt(a*b) does not. Reading
     # length only breaks a tie among equally common candidates.
-    return sorted(words, key=lambda w: (math.sqrt(w[3] * w[5]), len(w[1])))[:limit]
+    #
+    # `prefer_common` puts _word_is_common ahead of the bands, for the ONE
+    # caller that needs the two to agree: a reading is kept because some word
+    # clears that boolean (_is_common), so the example illustrating it must
+    # clear it too. The bands are continuous and the badge is a threshold on
+    # a partly different signal, so they could disagree — for 65 readings the
+    # band score picked a badge-less word (風下 for 下's しも) over a badge-
+    # carrying sibling (下期) from the very same list, and the learner saw an
+    # example the app itself would not call common.
+    #
+    # Off by default, because the per-kanji "Common words" list answers to no
+    # such gate and the bands rank it better: forcing the boolean first there
+    # promoted 冬場 over 冬休み and 替え玉 over 玉ねぎ — technically better
+    # newspaper scores, worse words to meet 冬 and 玉 through.
+    def key(w):
+        rank = (math.sqrt(w[3] * w[5]), len(w[1]))
+        return (0 if _word_is_common(w) else 1, *rank) if prefer_common else rank
+    return sorted(words, key=key)[:limit]
 
 
 def split_grade_8(kanjidic):
@@ -777,6 +809,22 @@ def main():
 
         quiz_on, on_is_strong = keep(info["on"])
         quiz_kun, kun_is_strong = keep(info["kun"])
+
+        # keep() judges each category alone, which leaves a kanji quizzing a
+        # reading the build itself scored as uncommon while a genuinely
+        # common one sits right next to it: every one of 玉's ギョク words
+        # (玉砕, 玉露, 珠玉, 玉音) fails both commonness axes, yet ギョク was
+        # kept as the on'yomi category's weak-tier fallback even though たま
+        # has 玉 and 目玉 with both badges. When one category IS strong, the
+        # other's weak-tier fallback has stopped being a fallback — there is
+        # something worth asking about — so drop it. Only fires when a strong
+        # category exists, so no kanji is ever left with nothing to quiz, and
+        # never for a needs_uncommon kanji (both categories weak there).
+        if on_is_strong and not kun_is_strong:
+            quiz_kun = []
+        elif kun_is_strong and not on_is_strong:
+            quiz_on = []
+
         quiz_readings = (quiz_on + quiz_kun)[:MAX_QUIZ_READINGS]
         quiz_on = [r for r in quiz_on if r in quiz_readings]
         quiz_kun = [r for r in quiz_kun if r in quiz_readings]
@@ -798,8 +846,17 @@ def main():
 
         reading_examples = {}
         for reading in quiz_readings:
-            best = choose_examples(reading_words[reading], 1)[0]
-            reading_examples[reading] = {"kanji": best[0], "kana": best[1], "en": best[2]}
+            best = choose_examples(reading_words[reading], 1, prefer_common=True)[0]
+            # Same shape as a `words` entry below, register badges included —
+            # app.js's buildRegisterBadges() reads exactly these two keys, so
+            # leaving them off (as this did) meant a reading example could
+            # never show a badge even when the word plainly earned one: 独立
+            # carried both in 立's "Common words" list and neither as リツ's
+            # reading example, on the same screen.
+            reading_examples[reading] = {
+                "kanji": best[0], "kana": best[1], "en": best[2],
+                "written": best[4], "spoken": best[6],
+            }
 
         examples = choose_examples(general_words.get(kanji, []), EXAMPLES_PER_KANJI)
         grades.setdefault(unit_of(kanji, info), []).append({
