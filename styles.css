@@ -473,6 +473,21 @@ button.quiz-glyph-tap {
 .row { display: flex; gap: 10px; }
 .row > * { flex: 1; }
 
+/* Keeps #writing-next centered and roughly double the width of its
+   siblings regardless of which ones are showing (see
+   kana-quest-feedback#10) — Try again and Switch-mode flank it via `order`
+   rather than DOM position, so hiding either one still leaves Next in the
+   middle instead of drifting to an edge. flex-grow:2 vs the row's default
+   1 is a 2:1 share of the free space, not an exact 2x pixel width — each
+   button keeps its own padding regardless of flex-basis, so the rendered
+   ratio is closer to 1.6x; min-width:0 at least keeps that ratio stable
+   instead of letting a long label (e.g. "Switch to easier mode") widen
+   its own button past its share. */
+#writing-result .row > * { min-width: 0; }
+#writing-result .row > #writing-retry { order: -1; }
+#writing-result .row > #writing-next { order: 0; flex-grow: 2; }
+#writing-result .row > #writing-switch-mode { order: 1; }
+
 /* Pins its content to the bottom of the viewport, thumb-reachable
    regardless of how tall the screen's own content is — the quiz's Next
    button and the session summary's action stack, both usually combined
