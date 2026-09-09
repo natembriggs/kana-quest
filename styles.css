@@ -1943,7 +1943,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    glyph's own tall line box. */
 .read-card-icon { line-height: 1; }
 .read-card-text { display: flex; flex-direction: column; gap: 2px; }
-.read-card-title { font-weight: 700; font-size: 17px; }
+.read-card-title { font-weight: 700; font-size: 19px; }
 
 .story-level-strip {
   display: flex;

@@ -70,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-09d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-09e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8238,7 +8238,7 @@ function renderReadCard() {
   const info = continueReadingInfo(state.profile);
   $('read-card-sub').textContent = info
     ? `${info.entry.title.ja} — pick up where you left off`
-    : 'Something new to read';
+    : 'Practice and learn naturally through stories';
 }
 
 function openStoriesLibrary() {
