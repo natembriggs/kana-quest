@@ -19,6 +19,7 @@ export const CHANGELOG = [
       'Changed: the home screen’s “Read” card matches the four course cards above it now — 読 instead of 📖, and the same plain white title instead of the browser’s default button-blue it had been showing by accident.',
       'Changed: the Read card’s subtitle now says what it actually offers — “Practice and learn naturally through stories” — instead of the vaguer “Something new to read”, and its title is the same size as Hiragana/Katakana/Kanji/Vocabulary’s above it rather than a size smaller.',
       'Fixed: in Writing mode, getting an answer wrong showed the Next button off to one side instead of centered, unlike the centered OK button you get after a right answer. Next now stays centered regardless of which of Try again / Switch mode are showing beside it.',
+      'Fixed: a kanji reading review could get permanently stuck saying one was still left, even after you kept answering it correctly. If one of its readings had fallen out of the readings you’re actually tested on — most often because this week’s common/uncommon cleanup (above) moved it to "uncommon" — the kanji could never fully clear, since that reading could no longer come up to be re-answered. It no longer counts against you.',
     ],
   },
   {

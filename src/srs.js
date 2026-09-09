@@ -1126,21 +1126,42 @@ export function gradeYomi(record, correct, now = Date.now(), {
  * kanjiInfo(course, kanji) and so needs that unit loaded already), and
  * loading it just to find the reading list would mean pausing the question
  * to fetch data no answer here actually depends on.
+ *
+ * `activeReadings`, when given, is the kanji's CURRENT testable pool
+ * (effectiveQuizReadings). A reading can fall out of that pool — dropped by
+ * a common/uncommon reclassification, or un-studied after being opted into
+ * — while its old progress record lingers with a `due` date that can now
+ * never be cleared, since pickBaseCorrectReadings only ever draws from the
+ * current pool. Left in the `due`/`box` aggregation, that orphaned record
+ * pins the kanji permanently due (kana-quest-feedback#11: "I keep getting
+ * it right and it says there's still one left"). So `due`/`box` are scoped
+ * to `activeReadings` when it's given, falling back to every record found
+ * if that would leave nothing to schedule from (the reading that triggered
+ * this recompute is always in the caller's own active pool, so that fallback
+ * is a safety net, not the normal path). `seen`/`correct`/`lapses` still sum
+ * every record ever graded, orphaned or not — those are history, not
+ * scheduling. Callers with no course loaded (the vocab-crediting path above)
+ * omit `activeReadings` and get the old unfiltered behavior.
  */
-export function recomputeYomiRollupFromProgress(progress, mode, kanji, now = Date.now()) {
+export function recomputeYomiRollupFromProgress(progress, mode, kanji, now = Date.now(), activeReadings = null) {
   const prefix = `${mode}:${kanji}:`;
   const records = Object.keys(progress)
     .filter((key) => key.startsWith(prefix) && Number.isFinite(progress[key].streak))
-    .map((key) => progress[key]);
+    .map((key) => ({ reading: key.slice(prefix.length), record: progress[key] }));
   if (records.length === 0) return;
 
+  const schedulable = activeReadings
+    ? records.filter((r) => activeReadings.includes(r.reading))
+    : records;
+  const forDue = schedulable.length ? schedulable : records;
+
   progress[itemKey(mode, kanji)] = {
-    box: Math.min(...records.map((r) => Math.min(r.streak, MAX_BOX))),
-    due: Math.min(...records.map((r) => r.due)),
+    box: Math.min(...forDue.map((r) => Math.min(r.record.streak, MAX_BOX))),
+    due: Math.min(...forDue.map((r) => r.record.due)),
     intervalDays: 0,
-    seen: records.reduce((sum, r) => sum + r.correct + r.incorrect, 0),
-    correct: records.reduce((sum, r) => sum + r.correct, 0),
-    lapses: records.reduce((sum, r) => sum + r.incorrect, 0),
+    seen: records.reduce((sum, r) => sum + r.record.correct + r.record.incorrect, 0),
+    correct: records.reduce((sum, r) => sum + r.record.correct, 0),
+    lapses: records.reduce((sum, r) => sum + r.record.incorrect, 0),
     history: [],
     updatedAt: now,
   };

@@ -996,7 +996,7 @@ check('a studied uncommon reading is protected by the same same-sound distractor
 {
   const rollupProgress = {};
   rollupProgress[srs.yomiKey('recognition', uncommonKanji, uncommonReading)] = srs.gradeYomi(srs.newYomiRecord(), true, 1000);
-  recomputeKanjiRollup(grade1, uncommonKanji, 'recognition', rollupProgress, 2000);
+  recomputeKanjiRollup(grade1, uncommonKanji, 'recognition', rollupProgress, studiedYomi, 2000);
   const rollup = rollupProgress[srs.itemKey('recognition', uncommonKanji)];
   check('recomputeKanjiRollup picks up a reading that is only in uncommonReadings, not quizReadings',
     !!rollup && rollup.correct === 1, JSON.stringify(rollup));
@@ -1241,7 +1241,7 @@ const rollupInfo = kanjiInfo(grade1, rollupKanji);
 const rollupProgress = {};
 const rollupNow = Date.now();
 
-recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, rollupNow);
+recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, undefined, rollupNow);
 check('rollup does nothing when no reading has been graded yet',
   !rollupProgress[srs.itemKey('recognition', rollupKanji)]);
 
@@ -1259,7 +1259,7 @@ if (secondReading) {
   for (let i = 0; i < 6; i += 1) { solid = srs.gradeYomi(solid, true, solidNow); solidNow = solid.due; }
   rollupProgress[srs.yomiKey('recognition', rollupKanji, secondReading)] = solid;
 }
-recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, rollupNow);
+recomputeKanjiRollup(grade1, rollupKanji, 'recognition', rollupProgress, undefined, rollupNow);
 const rollup = rollupProgress[srs.itemKey('recognition', rollupKanji)];
 check('rollup exists once at least one reading has a record', !!rollup);
 check('rollup due date is the EARLIEST due among introduced readings — a kanji resurfaces as soon as any one reading is shaky',
@@ -1304,6 +1304,38 @@ done('kanji-level rollup aggregates per-reading records');
     && progress[srs.itemKey('recognition', '車')] === undefined);
 }
 done('vocab crediting rebuilds a kanji rollup without needing its course data');
+
+// kana-quest-feedback#11: a reading that falls out of the kanji's current
+// testable pool — un-studied, or demoted by a common/uncommon
+// reclassification — can never be re-graded, so its old `due` must not pin
+// the kanji permanently due. `activeReadings` scopes `due`/`box` to the
+// readings that can actually still be tested; stats keep counting everyone.
+{
+  const progress = {};
+  const orphanKey = srs.yomiKey('recognition', '休', 'キュウ'); // graded, then fell out of the pool
+  const activeKey = srs.yomiKey('recognition', '休', 'やす');   // still testable, not overdue
+  progress[orphanKey] = srs.gradeYomi(srs.newYomiRecord(), true, 100); // due far in the past
+  progress[orphanKey].due = 100;
+  progress[activeKey] = srs.gradeYomi(srs.newYomiRecord(), true, 5000);
+  progress[activeKey].due = 90000; // due comfortably in the future
+
+  srs.recomputeYomiRollupFromProgress(progress, 'recognition', '休', 6000, ['やす']);
+  const scoped = progress[srs.itemKey('recognition', '休')];
+  check('an orphaned reading outside activeReadings no longer pins the rollup due in the past',
+    scoped.due === progress[activeKey].due, JSON.stringify(scoped));
+  check('an orphaned reading still counts toward seen/correct stats',
+    scoped.seen === 2 && scoped.correct === 2, JSON.stringify(scoped));
+
+  // Safety net: if every graded reading happens to be outside
+  // activeReadings (shouldn't occur in practice — the reading that just
+  // triggered a recompute is always in the caller's own active pool), fall
+  // back to the unfiltered set rather than leaving the kanji unscheduled.
+  srs.recomputeYomiRollupFromProgress(progress, 'recognition', '休', 7000, ['nonexistent-reading']);
+  const fallback = progress[srs.itemKey('recognition', '休')];
+  check('activeReadings matching nothing falls back to every graded reading rather than going unscheduled',
+    fallback.due === Math.min(progress[orphanKey].due, progress[activeKey].due), JSON.stringify(fallback));
+}
+done('a reading orphaned out of the testable pool cannot pin a kanji permanently due');
 
 // --- SRS ------------------------------------------------------------------
 
@@ -2345,7 +2377,7 @@ done('vocab Recall mode: kana choices and the spelling-stage exclusion/ordering'
       got.length === 0 && Object.keys(noYomiCtx.progress).length === 0);
   }
   // The kanji.js rollup now carries the same timestamp srs.js's does.
-  recomputeKanjiRollup(grade1, yomiKanji, 'recognition', yomiCtx.progress, now + 5);
+  recomputeKanjiRollup(grade1, yomiKanji, 'recognition', yomiCtx.progress, undefined, now + 5);
   check('recomputeKanjiRollup stamps updatedAt like recomputeYomiRollupFromProgress',
     rk(yomiCtx.progress, 'recognition', yomiKanji).updatedAt === now + 5);
 

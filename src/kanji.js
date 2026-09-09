@@ -478,18 +478,20 @@ export function buildAdvancedAdditions(course, kanji, shown, yomiStudy) {
  *
  * Call this right after grading any reading of the kanji.
  *
- * Delegates straight to srs.js's recomputeYomiRollupFromProgress, which
- * discovers which readings to aggregate by scanning `progress` for
- * `mode:kanji:*` keys rather than trusting a fixed reading list — the same
- * aggregation, just sourced from whatever was actually graded. That is what
- * lets a per-reading yomi-study addition (kanji.js's effectiveQuizReadings)
- * roll up correctly with no extra parameter here: a studied reading outside
- * `quizReadings` still has a `mode:kanji:reading` progress key once graded,
- * and the scan picks it up like any other. `course` is kept only for
- * call-site compatibility; this no longer needs kanjiInfo at all.
+ * Delegates to srs.js's recomputeYomiRollupFromProgress, which discovers
+ * which readings to aggregate by scanning `progress` for `mode:kanji:*` keys
+ * rather than trusting a fixed reading list — the same aggregation, just
+ * sourced from whatever was actually graded. `course` and `yomiStudy` are
+ * used to pass the kanji's CURRENT testable pool (effectiveQuizReadings) as
+ * that function's `activeReadings`, so a reading that has since fallen out
+ * of the pool — un-studied, or demoted by a common/uncommon reclassification
+ * — can no longer pin the kanji permanently due on the strength of a `due`
+ * date it can never earn its way out of (kana-quest-feedback#11).
  */
-export function recomputeKanjiRollup(course, kanji, mode, progress, now = Date.now()) {
-  recomputeYomiRollupFromProgress(progress, mode, kanji, now);
+export function recomputeKanjiRollup(course, kanji, mode, progress, yomiStudy, now = Date.now()) {
+  const info = kanjiInfo(course, kanji);
+  const active = effectiveQuizReadings(info, kanji, yomiStudy);
+  recomputeYomiRollupFromProgress(progress, mode, kanji, now, active);
 }
 
 function shuffle(array) {

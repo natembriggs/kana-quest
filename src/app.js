@@ -70,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-09e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-09f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -6811,11 +6811,11 @@ function ensurePlacementEnrolled(item) {
 
 function recordYomiResult(course, kanji, reading, correct) {
   ensurePlacementEnrolled(kanji);
-  const { progress } = state.profile;
+  const { progress, yomiStudy } = state.profile;
   const key = yomiKey(state.mode, kanji, reading);
   const placement = !!(state.session && state.session.placementTest);
   progress[key] = gradeYomi(progress[key] || newYomiRecord(), correct, syncedNow(), { placement });
-  recomputeKanjiRollup(course, kanji, state.mode, progress);
+  recomputeKanjiRollup(course, kanji, state.mode, progress, yomiStudy);
 }
 
 /** The kanji-level (not reading-level) pass/fail for this round, recorded
