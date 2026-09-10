@@ -287,6 +287,10 @@ body {
    always-present .row/#writing-rate wrappers, which that selector shape
    would match regardless of #writing-result's own hidden state. */
 #screen-writing:has(#writing-result:not([hidden])) { padding-bottom: 92px; }
+/* Same reservation for the Free-mode self-grade bar (kana-quest-feedback#13)
+   — taller than #writing-result's single button row (a hint line, the
+   question, then the Yes/No row), hence the bigger number. */
+#screen-writing:has(#writing-self-grade:not([hidden])) { padding-bottom: 160px; }
 
 #screen-quiz {
   padding-bottom: 92px;
@@ -881,7 +885,12 @@ button.quiz-glyph-tap {
 .writing-prompt { text-align: center; }
 .writing-kanji-info { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 6px; }
 .writing-kanji-info .kanji-word { justify-content: center; }
-.writing-stroke-counter { text-align: center; margin: 4px 0; }
+/* min-height/line-height reserve one line's worth of space whether or not
+   there's text: Free mode sets this to '' until the first stroke lands (see
+   updateWritingStrokeCounter() in app.js), and without a reserved height the
+   board below jumps down the moment the count text appears — reported as
+   messing up the second stroke. */
+.writing-stroke-counter { text-align: center; margin: 4px 0; min-height: 1.2em; line-height: 1.2; }
 /* Sits in the same slot as .writing-prompt/.writing-stroke-counter above —
    exactly one of the two is ever visible, see index.html — so a finished
    character replaces the prompt rather than adding new space below it. */

@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-10',
+    changes: [
+      'Fixed: in Writing mode’s Free mode, the stroke-count text above the drawing board only appeared after your first stroke, and the board jumped down to make room for it right as you started your second stroke. The space is now reserved from the start, so nothing moves underneath you mid-character.',
+      'Fixed: in Writing mode’s Free mode, the “Did you get it right?” Yes/No buttons could land below the bottom of a short phone screen, needing a scroll to answer. They’re now pinned to the bottom of the screen, the same way the Next button already was.',
+    ],
+  },
+  {
     date: '2026-09-09',
     changes: [
       'Fixed: tapping キ for 木 (“tree”) was marked wrong, because 木’s き is a kun’yomi and the app prints those in hiragana while on’yomi like キ get katakana. Same sound, same answer — you knew the reading, and the grid was testing which of the two alphabets it had chosen to print it in. A wrong answer will no longer be one of the kanji’s own readings written in the other script, and two wrong answers can no longer be the same sound as each other, which used to put what looked like the same option on the grid twice and mark both wrong. About a third of all kanji could run into this.',

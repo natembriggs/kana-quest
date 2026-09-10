@@ -941,8 +941,17 @@
 
     <!-- Free mode only, between Done and the shared result panel: the
          automatic grade is only ever a suggestion here (see
-         writing-mode-plan.md) — the learner's own yes/no is what commits. -->
-    <div id="writing-self-grade" class="card stack" hidden>
+         writing-mode-plan.md) — the learner's own yes/no is what commits.
+
+         .bottom-bar (see styles.css), same treatment as #writing-result
+         below: pinned to the bottom of the viewport instead of flowing
+         after the board/feedback text above, which on a short phone
+         screen could push the Yes/No buttons below the fold — reported as
+         needing a scroll to answer (kana-quest-feedback#13). Never shown
+         at the same time as #writing-result (writingSelfGrade() hides this
+         before finishWritingCharacter() shows that one), so there's no
+         risk of two fixed bars stacking. -->
+    <div id="writing-self-grade" class="stack bottom-bar" hidden>
       <p id="writing-self-grade-hint" class="hint"></p>
       <p class="writing-self-grade-question">Did you get it right?</p>
       <div class="row">
