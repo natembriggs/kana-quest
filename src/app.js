@@ -70,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-13b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-13c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3519,6 +3519,19 @@ function bindPinchZoom() {
 
   document.addEventListener('pointerup', release);
   document.addEventListener('pointercancel', release);
+
+  // Safari/WebKit (including Chrome on iOS, which is WebKit under the hood)
+  // also fires its own proprietary gesturestart/gesturechange/gestureend
+  // events for a two-finger pinch, on top of — not instead of — the Pointer
+  // Events above. Historically this is the path that actually drives native
+  // pinch-zoom in WebKit, sometimes regardless of what a pointermove/
+  // touchmove handler's preventDefault() does, which is why relying on
+  // Pointer Events alone still zoomed the real page even once touch-action
+  // stopped granting the browser pinch-zoom outright (see the styles.css
+  // comment on body). No feature-detection needed: browsers that don't
+  // support GestureEvent simply never fire it, so this is a no-op there.
+  document.addEventListener('gesturestart', (event) => event.preventDefault());
+  document.addEventListener('gesturechange', (event) => event.preventDefault());
 }
 
 /** "Study it now" — see startSession()'s `items` parameter. Jumps straight

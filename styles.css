@@ -136,17 +136,23 @@ body {
   font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
-  /* Disables double-tap-to-zoom (and the ~300ms tap delay it implies)
-     app-wide, without touching the viewport meta tag — that would need
-     user-scalable=no, which also kills pinch-zoom and is an accessibility
-     regression (WCAG 1.4.4). touch-action: manipulation leaves one-finger
-     panning and native pinch-zoom alone and only removes the double-tap
-     gesture specifically. Pinch-zoom itself is instead intercepted in JS
-     (bindPinchZoom() in app.js): a genuine two-finger pinch anywhere in the
-     app opens the Text size panel instead of zooming the viewport, which is
-     what keeps this WCAG 1.4.4-safe without the accidental, easy-to-miss
-     zooming pinch-to-zoom caused on a phone. */
-  touch-action: manipulation;
+  /* Disables double-tap-to-zoom (and the ~300ms tap delay it implies) and
+     native pinch-zoom, app-wide, without touching the viewport meta tag —
+     that would need user-scalable=no, an accessibility regression (WCAG
+     1.4.4) with no replacement. `manipulation` (pan-x pan-y pinch-zoom)
+     would leave native pinch-zoom enabled at the browser level: per the
+     touch-action spec that hands the gesture to the browser's own
+     compositor, which starts zooming regardless of any preventDefault() a
+     JS pointermove/touchmove handler calls — confirmed on a real phone,
+     where bindPinchZoom() below "worked" only in the sandboxed test that
+     dispatches synthetic events, never against a genuine two-finger pinch.
+     pan-x pan-y omits pinch-zoom from what the browser handles, which is
+     what actually lets bindPinchZoom() (app.js) intercept a real pinch and
+     open the Text size panel instead of the viewport zooming — the thing
+     that keeps this WCAG 1.4.4-safe without the accidental, easy-to-miss
+     zooming pinch-to-zoom caused on a phone. Still removes the double-tap
+     gesture, same as manipulation did, since any non-auto value does. */
+  touch-action: pan-x pan-y;
   /* Nothing in this app is meant to be selected or copied — every character,
      reading and button label here is UI, not content a learner would ever
      want to grab text from. Reported from real use on iPad + Apple Pencil:

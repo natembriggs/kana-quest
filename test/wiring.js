@@ -65,6 +65,12 @@ function makeElement(id = '') {
     getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
     removeAttribute(name) { delete this._attrs[name]; },
     remove() {},
+    // renderDetailSecondary() (app.js) relocates a whole block within the
+    // screen at render time, purely for visual position — a no-op here like
+    // remove() above, since this stub tracks no real parent/child tree and
+    // nothing in this suite checks DOM order. Returns the moved element,
+    // matching the real insertAdjacentElement's return value.
+    insertAdjacentElement(position, element) { return element; },
     focus() {},
     // Real textareas have this; renderMnemonicEditor (kanji-components.js)
     // uses it to park the cursor at the end of an existing hint.
