@@ -2220,6 +2220,25 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .detail-pager .btn { flex: 0 0 auto; }
 .detail-pager .hint { flex: 1 1 auto; text-align: center; }
 
+/* The history button + study-mode buttons (#detail-secondary, feedback #15)
+   — collapsed behind this toggle for kanji/vocab so the actual definition
+   further down doesn't need a long scroll past them. Same caret language as
+   button.word-main::after above: a quiet ›-style arrow that rotates open,
+   driven off the wrapper's "is-open" class exactly like that pattern. */
+#detail-secondary { display: flex; flex-direction: column; gap: 8px; }
+.detail-secondary-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.detail-secondary-toggle::after {
+  content: '▾';
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+#detail-secondary.is-open .detail-secondary-toggle::after { transform: rotate(180deg); }
+
 /* --- Feedback and My contributions (feedback-plan.md) ------------------- */
 
 /* Quiet on purpose. This icon is on every screen in the app, including the

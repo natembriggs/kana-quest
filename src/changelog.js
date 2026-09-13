@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-13',
+    changes: [
+      'Changed: a kanji or word’s own page used to put "My study history" and the Learn definition/recognition/writing buttons right at the top, pushing the actual definition down far enough that it took a long scroll to reach on a phone. That block now sits lower down the page, past the definition, collapsed behind a "Study & history" button — tap it to open the same buttons as before. Kana pages aren’t affected; they never had this problem.',
+    ],
+  },
+  {
     date: '2026-09-10',
     changes: [
       'Fixed: in Writing mode’s Free mode, the stroke-count text above the drawing board only appeared after your first stroke, and the board jumped down to make room for it right as you started your second stroke. The space is now reserved from the start, so nothing moves underneath you mid-character.',

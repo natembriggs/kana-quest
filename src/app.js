@@ -70,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-10a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-13a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3217,6 +3217,54 @@ function toggleDetailStudyMode(mode) {
   renderDetailStudy(course, char);
 }
 
+/**
+ * The history button and the study-mode buttons (#detail-secondary, wrapping
+ * #detail-history-btn and #detail-study) are the biggest block on this
+ * screen and the least urgent — worth seeing only once the reader has
+ * already decided to study or review the item, not before they've even
+ * reached the definition further down. See feedback #15.
+ *
+ * For kanji and vocab this relocates the whole block to just above
+ * #detail-example (past the readings/meanings/word content) and collapses
+ * it behind a toggle, reset closed on every render so paging to the next
+ * item never leaves a previous one's expanded state stuck open. For kana
+ * the block stays exactly where it always sat — right after #detail-mastery
+ * — and stays expanded, since kana has no #detail-study group to hide and
+ * this screen was never the complaint for that kind.
+ *
+ * Runs unconditionally on every renderCharacterDetail() call: cheap DOM
+ * insertion, idempotent, and it's the simplest way to handle navigating
+ * between item kinds via the pager.
+ */
+function renderDetailSecondary(course) {
+  const wrap = $('detail-secondary');
+  const toggle = $('detail-secondary-toggle');
+  const panel = $('detail-secondary-panel');
+
+  if (course.kind === 'kana') {
+    $('detail-mastery').insertAdjacentElement('afterend', wrap);
+    toggle.hidden = true;
+    panel.hidden = false;
+    wrap.classList.remove('is-open');
+  } else {
+    $('detail-example').insertAdjacentElement('beforebegin', wrap);
+    toggle.hidden = false;
+    toggle.setAttribute('aria-expanded', 'false');
+    panel.hidden = true;
+    wrap.classList.remove('is-open');
+  }
+}
+
+function toggleDetailSecondary() {
+  const wrap = $('detail-secondary');
+  const toggle = $('detail-secondary-toggle');
+  const panel = $('detail-secondary-panel');
+  const open_ = panel.hidden;
+  panel.hidden = !open_;
+  toggle.setAttribute('aria-expanded', open_ ? 'true' : 'false');
+  wrap.classList.toggle('is-open', open_);
+}
+
 // --- Paging between characters from the set overview ---------------------
 //
 // Arriving from the overview, the grid it came from is a real, ordered list
@@ -3598,6 +3646,7 @@ function renderCharacterDetail() {
 
   renderDetailPager();
   renderDetailStudy(course, char);
+  renderDetailSecondary(course);
 
   if (course.kind === 'kanji') {
     const info = kanjiInfo(course, char);
@@ -9663,6 +9712,7 @@ function wire() {
       // Opened only from the detail screen, which is still sitting there
       // untouched underneath — no need to re-render it, just show it again.
       case 'open-study-history': openStudyHistory(); break;
+      case 'detail-secondary-toggle': toggleDetailSecondary(); break;
       // stories-plan.md §8 — the Read card, the library, and the reader's
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;

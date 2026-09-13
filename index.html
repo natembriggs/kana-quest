@@ -688,34 +688,52 @@
 
     <p id="detail-mastery" class="mastery-label"></p>
 
-    <button id="detail-history-btn" class="btn btn-quiet wide" type="button" data-action="open-study-history">My study history</button>
+    <!-- The history button and study-mode buttons below are the biggest
+         space hog on this screen and the least urgent thing to see — you
+         only need them once you've decided to study/review this item, not
+         before you've even read the definition. For kanji/vocab this whole
+         block is relocated (see renderDetailSecondary() in app.js) to just
+         above #detail-example, past the actual definition, and starts
+         collapsed behind the toggle button below. For kana it stays right
+         here, expanded, exactly as it always has (kana has no #detail-study
+         group to hide anyway, so there's nothing to gain by moving it).
+         Follows the same disclosure pattern as buildWordRow()'s word-row/
+         word-main/word-tray in app.js: the toggle button carries
+         aria-expanded, the panel is the sibling that gets [hidden] toggled,
+         and this outer wrapper gets the "is-open" class. -->
+    <div id="detail-secondary">
+      <button id="detail-secondary-toggle" class="btn btn-quiet wide detail-secondary-toggle" type="button" data-action="detail-secondary-toggle" aria-expanded="false" aria-controls="detail-secondary-panel">Study &amp; history</button>
+      <div id="detail-secondary-panel" class="stack" hidden>
+        <button id="detail-history-btn" class="btn btn-quiet wide" type="button" data-action="open-study-history">My study history</button>
 
-    <!-- Kanji and vocab only: whether this item is being studied is now an
-         editable choice, not just a fact — the button below both shows and
-         sets it. See kanji-expansion-plan.md §2.1 and vocab-plan.md §7. Kana
-         keep the implicit model (every character in every applicable mode),
-         so this stays hidden for kana. renderDetailStudy() (app.js) shows
-         only whichever of the five mode buttons apply to the item's kind. -->
-    <!-- One button per mode, each saying in full what it does — "Learn this
-         kanji's definition", and "✓ Studying its definition" once it is on.
-         This used to be a headline "Not started — tap to start studying"
-         above a row of bare Definition/Yomi/Writing segments, which said the
-         same thing twice in two different languages: the headline was a bulk
-         toggle for all three, the segments were individual ones, and neither
-         made clear that tapping either put this kanji on a study list. See
-         renderDetailStudy() in app.js. -->
-    <div id="detail-study" class="stack" hidden>
-      <div id="detail-study-modes" class="stack" role="group" aria-label="What to study about this character">
-        <button id="detail-mode-definition" class="btn wide detail-mode" type="button" data-mode="definition"></button>
-        <button id="detail-mode-recognition" class="btn wide detail-mode" type="button" data-mode="recognition"></button>
-        <button id="detail-mode-writing" class="btn wide detail-mode" type="button" data-mode="writing"></button>
-        <button id="detail-mode-vmeaning" class="btn wide detail-mode" type="button" data-mode="vmeaning"></button>
-        <button id="detail-mode-vrecall" class="btn wide detail-mode" type="button" data-mode="vrecall"></button>
+        <!-- Kanji and vocab only: whether this item is being studied is now an
+             editable choice, not just a fact — the button below both shows and
+             sets it. See kanji-expansion-plan.md §2.1 and vocab-plan.md §7. Kana
+             keep the implicit model (every character in every applicable mode),
+             so this stays hidden for kana. renderDetailStudy() (app.js) shows
+             only whichever of the five mode buttons apply to the item's kind. -->
+        <!-- One button per mode, each saying in full what it does — "Learn this
+             kanji's definition", and "✓ Studying its definition" once it is on.
+             This used to be a headline "Not started — tap to start studying"
+             above a row of bare Definition/Yomi/Writing segments, which said the
+             same thing twice in two different languages: the headline was a bulk
+             toggle for all three, the segments were individual ones, and neither
+             made clear that tapping either put this kanji on a study list. See
+             renderDetailStudy() in app.js. -->
+        <div id="detail-study" class="stack" hidden>
+          <div id="detail-study-modes" class="stack" role="group" aria-label="What to study about this character">
+            <button id="detail-mode-definition" class="btn wide detail-mode" type="button" data-mode="definition"></button>
+            <button id="detail-mode-recognition" class="btn wide detail-mode" type="button" data-mode="recognition"></button>
+            <button id="detail-mode-writing" class="btn wide detail-mode" type="button" data-mode="writing"></button>
+            <button id="detail-mode-vmeaning" class="btn wide detail-mode" type="button" data-mode="vmeaning"></button>
+            <button id="detail-mode-vrecall" class="btn wide detail-mode" type="button" data-mode="vrecall"></button>
+          </div>
+          <!-- Only when waiting to learn in whichever mode is currently active —
+               jumps straight to a lesson-then-quiz session for just this one
+               character instead of waiting for "Add more" to reach it. -->
+          <button id="detail-study-now" class="btn btn-primary wide" type="button" hidden>Study it now</button>
+        </div>
       </div>
-      <!-- Only when waiting to learn in whichever mode is currently active —
-           jumps straight to a lesson-then-quiz session for just this one
-           character instead of waiting for "Add more" to reach it. -->
-      <button id="detail-study-now" class="btn btn-primary wide" type="button" hidden>Study it now</button>
     </div>
 
     <div id="detail-romaji" class="romaji" hidden></div>
