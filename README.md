@@ -518,7 +518,7 @@ or by having simply been seen often enough — and reading feeds the identical
 exposure counter vocabulary uses, so a word met repeatedly in a story starts
 losing its furigana in the vocabulary quiz too, and vice versa.
 
-24 stories ship today, four at every level, all original retellings of
+36 stories ship today, six at every level, all original retellings of
 traditional or public-domain-motif tales (Momotarō, Cinderella, and others)
 rather than direct imports of an existing text. See `stories-plan.md` for
 the full design, `story-writing-guide.md` for how one is authored, and
@@ -538,7 +538,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 | `kanji-expansion-plan.md` | All jōyō kanji, JLPT/frequency orderings, and an explicit study list | **In progress** — see its phase table |
 | `sync-plan.md` | Keeping one learner's progress in step across several devices | **In progress** — sync works and runs automatically; phases 4-5 remain |
 | `vocab-plan.md` | Whole-word vocabulary, grouped for GCSE Foundation/Higher and A level | **In progress** — Meaning, Recall, exposure-based hiding and Higher/A level all ship; extracting a shared `furigana.js` (phase 8, see `stories-plan.md` §5.7) remains |
-| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader, library and 24 standalone stories (four per level) ship; serialized multi-episode series (phase 9) has not started — see its phase table |
+| `stories-plan.md` | Graded reading — levelled stories and serialized episodes, rendered to each learner's own script stage, with sentence-by-sentence English and no testing of any kind | **In progress** — the reader, library and 36 standalone stories (six per level) ship; serialized multi-episode series (phase 9) has not started — see its phase table |
 | `story-writing-guide.md` | How to author a story: levels, tokenisation, contextual glosses, conjugation labels, translations, sourcing | **Live** — read before writing a story |
 | `kanji-mnemonic-plan.md` | Kanji memory hints: breaking a kanji into its component parts with a standardized meaning per part, a hint that accounts for how those parts are arranged, and a way for a learner to rewrite any hint in their own words | **In progress** — shipped for grades 1-6 (detail screen, lesson card, and a Hint button in the Yomi/Definition and Writing quizzes, plus editable per-learner hints on all four); grades 7-9 need authored hints. See §9 for where the shipped version departs from the plan, and §10 for the editable layer |
 | `feedback-plan.md` | In-app feedback submission, GitHub issue creation, request tracking, and a learner-facing contribution history | **In progress** — phases 1, 2, 3 and 5 ship: the 💬 button, the form, `feedback-server/`, My contributions, the GitHub status bridge and the release thank-you. Phase 4 (moving Pages onto Actions) is deferred by decision; phase 6 (recognition polish) and phase 7 (agent triage) have not started |
@@ -552,7 +552,7 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
   explicit study list, lazy per-grade data loading, and the beyond-jōyō
   "names & places" set (phase 8) are all done — see that document's phase
   table.
-- **Serialized stories** — every one of the 24 shipped stories is standalone;
+- **Serialized stories** — every one of the 36 shipped stories is standalone;
   a multi-episode series that continues from where a learner left off has not
   been written yet. See `stories-plan.md` phase 9.
 - **A shared furigana component** — the reveal-ladder behaviour (bare → ruby

@@ -36,6 +36,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "karasu-to-mizugame": {
+    "title": {
+      "ja": "からすと水がめ",
+      "en": "The Crow and the Pitcher"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "A thirsty crow finds a water jar it cannot reach into, and works out what to do about it one small stone at a time.",
+    "hash": "57d9fab3",
+    "length": 103,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
+      "credit": "Retold by"
+    }
+  },
   "kitakaze-to-taiyou": {
     "title": {
       "ja": "北風と太陽",
@@ -84,6 +101,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "kasa-jizou": {
+    "title": {
+      "ja": "かさじぞう",
+      "en": "The Straw Hats for Jizō"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "On the last day of the year an old man fails to sell a single hat, and gives all of them away in the snow instead.",
+    "hash": "45e4fcb2",
+    "length": 228,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
       "credit": "Retold by"
     }
   },
@@ -240,6 +274,23 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "rapunzel": {
+    "title": {
+      "ja": "ラプンツェル",
+      "en": "Rapunzel"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "A girl with impossibly long hair is shut in a doorless tower, and the way in turns out to be the way she is trapped.",
+    "hash": "80d65d43",
+    "length": 462,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
+      "credit": "Retold by"
+    }
+  },
   "sanbiki-no-kobuta": {
     "title": {
       "ja": "三匹の子ぶた",
@@ -271,6 +322,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "ali-baba": {
+    "title": {
+      "ja": "アリババと四十人の盗賊",
+      "en": "Ali Baba and the Forty Thieves"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Two words open a rock full of gold, and a servant named Morgiana turns out to be the only person in the house clever enough to keep everyone alive.",
+    "hash": "2c792325",
+    "length": 736,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
       "credit": "Retold by"
     }
   },
@@ -356,6 +424,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
+      "credit": "Retold by"
+    }
+  },
+  "gulliver-ryokouki": {
+    "title": {
+      "ja": "ガリバー旅行記",
+      "en": "Gulliver’s Travels"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Shipwrecked among people fifteen centimetres tall, Gulliver becomes their hero, then refuses the one order that would have kept him one.",
+    "hash": "4e219391",
+    "length": 958,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
       "credit": "Retold by"
     }
   },
@@ -497,6 +582,23 @@ export const STORIES = {
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
+      "credit": "Retold by"
+    }
+  },
+  "madara-no-himo": {
+    "title": {
+      "ja": "まだらの紐",
+      "en": "The Adventure of the Speckled Band"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "A woman dies in a locked room whispering about a speckled band, and two years later her sister hears the same low whistle in the dark.",
+    "hash": "636ee940",
+    "length": 1593,
+    "source": {
+      "kind": "adapted",
+      "by": "Claude Opus 5",
       "credit": "Retold by"
     }
   },

@@ -4,12 +4,13 @@ Status: **shipped and live** as the fourth thing to do in the app, reached via
 a **Read** card on the home screen. Phases 0–8 (see §12) are done: the reader,
 the library, tap-for-pronunciation/furigana/definition/sentence-translation,
 exposure-based furigana hiding shared with vocabulary, `profile.stories` with
-sync/merge, the end card, and 30 stories — five at every level L1–L6 (grown
-from the 24-story/four-per-level count this document originally shipped with;
-`29cef88`, "Add a fifth story at every reading level"). Phase 9 (serialized
-multi-episode series, i.e. a story with `series.of > 1`) genuinely has not
-begun — no story has more than one part. But "standalone (`series: null` on
-all 24)" is no longer accurate as a description of the data: two of the 30,
+sync/merge, the end card, and 36 stories — six at every level L1–L6 (grown
+from the 24-story/four-per-level count this document originally shipped with,
+via `29cef88`, "Add a fifth story at every reading level", and then a sixth
+round adding one more per level). Phase 9 (serialized multi-episode series,
+i.e. a story with `series.of > 1`) genuinely has not begun — no story has more
+than one part. But "standalone (`series: null` on all 24)" is no longer
+accurate as a description of the data: two of the 36,
 `fushigi-no-kuni-no-alice` and `oz-no-mahoutsukai`, carry a non-null `series`
 object (`{id, part: 1, of: 1, name}`) tagging which canonical work they are
 adapted from, even though each is still a single, complete part — `of: 1`, not
@@ -1384,7 +1385,7 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 5 | **The library**, the level strip, series and episodes, the home-screen **Read** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Read** card. |
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
-| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 30 stories shipped (five per level, L1–L6, up from the 24/four-per-level this document originally reported — `29cef88`), as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
+| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 36 stories shipped (six per level, L1–L6, up from the 24/four-per-level this document originally reported, via `29cef88` and a later sixth-story round), as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **Not started.** No shipped story has more than one part (`series.of > 1`) — two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) do carry a non-null `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, not a serialization. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan
@@ -1392,29 +1393,40 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 §4 planned two distinct tracks: importing/adapting Aozora Bunko texts for the
 upper levels, and authoring an original serialized series for L1–L3. What
 shipped instead, across all six levels, is a third thing neither section
-anticipated: **30 standalone original retellings of traditional or
+anticipated: **36 standalone original retellings of traditional or
 public-domain-motif stories** (grown from an initial 24 — four per level — to
-30 — five per level — via `29cef88`), and two of them — Momotarō and Urashima
-Tarō — are actually Japanese in origin (the original 24 had only Momotarō;
-Urashima Tarō was one of the six added in `29cef88`). The other 28 are Aesop's
-fables (The Ant and the Dove, The Ant and the Grasshopper, The North Wind and
-the Sun, The Lion and the Mouse, The Town Mouse and the Country Mouse, The Boy
-Who Cried Wolf, The Hare and the Tortoise), a Russian folk tale (The Giant
-Turnip), and Western fairy tales and literature (Cinderella, Goldilocks,
-Hansel and Gretel, Jack and the Beanstalk, The Three Little Pigs, Little Red
-Riding Hood, Beauty and the Beast, The Bremen Town Musicians, Snow White, The
-Little Mermaid, Aladdin, Around the World in Eighty Days, Pinocchio, Robinson
-Crusoe, Treasure Island, Dracula, Frankenstein, Alice in Wonderland, The
-Wonderful Wizard of Oz, The Strange Case of Dr Jekyll and Mr Hyde) — told in
-Japanese, but not drawn from the Japanese-language public domain §4 was
-written around. Each carries `source.kind: 'adapted'`, is credited `Retold by`
-an LLM (recorded per-story in `source.by`), and `source.notes` states plainly
-that it is "an original graded retelling based on familiar public-domain
-motifs rather than a particular literary edition." The six added in `29cef88`
-(The Ant and the Grasshopper, Urashima Tarō, Jack and the Beanstalk, The
-Little Mermaid, Robinson Crusoe, Dr Jekyll and Mr Hyde — one per level) are
-all credited to Claude Opus 5.0, like `momotaro-1` and `usagi-to-kame` before
-them.
+30 via `29cef88`, and then to 36 by a later round that again added one story
+per level), and three of them — Momotarō, Urashima Tarō and the Jizō who are
+given straw hats — are actually Japanese in origin (the original 24 had only
+Momotarō; Urashima Tarō came with `29cef88`, かさじぞう with the sixth-story
+round). The other 33 are Aesop's fables (The Ant and the Dove, The Ant and the
+Grasshopper, The North Wind and the Sun, The Lion and the Mouse, The Crow and
+the Pitcher, The Town Mouse and the Country Mouse, The Boy Who Cried Wolf, The
+Hare and the Tortoise), a Russian folk tale (The Giant Turnip), two from the
+Arabian Nights (Aladdin, Ali Baba and the Forty Thieves), and Western fairy
+tales and literature (Cinderella, Goldilocks, Hansel and Gretel, Jack and the
+Beanstalk, The Three Little Pigs, Rapunzel, Little Red Riding Hood, Beauty and
+the Beast, The Bremen Town Musicians, Snow White, The Little Mermaid, Around
+the World in Eighty Days, Gulliver's Travels, Pinocchio, Robinson Crusoe,
+Treasure Island, Dracula, Frankenstein, Alice in Wonderland, The Wonderful
+Wizard of Oz, The Strange Case of Dr Jekyll and Mr Hyde, The Adventure of the
+Speckled Band) — told in Japanese, but not drawn from the Japanese-language
+public domain §4 was written around. Each carries `source.kind: 'adapted'`, is
+credited `Retold by` an LLM (recorded per-story in `source.by`), and
+`source.notes` states plainly that it is "an original graded retelling based on
+familiar public-domain motifs rather than a particular literary edition." The
+six added in `29cef88` (The Ant and the Grasshopper, Urashima Tarō, Jack and
+the Beanstalk, The Little Mermaid, Robinson Crusoe, Dr Jekyll and Mr Hyde —
+one per level) are all credited to Claude Opus 5.0, like `momotaro-1` and
+`usagi-to-kame` before them; the six added in the sixth-story round (The Crow
+and the Pitcher, かさじぞう, Rapunzel, Ali Baba, Gulliver's first voyage, The
+Adventure of the Speckled Band) are credited to Claude Opus 5.
+
+Two of that last round also record a deliberate omission in `source.notes`
+rather than leaving it silent: `ali-baba` drops the dismemberment of Kasim's
+body, and `madara-no-himo` drops Doyle's travelling-people subplot, a red
+herring that rests on a slur. Both are cuts, not changes to the plot that
+remains.
 
 This is a defensible middle path — the motifs are old enough to carry no
 copyright, and every text and translation is original to Kana Quest, same as
@@ -1427,7 +1439,8 @@ worth being honest about the gap in what it bought:
 - **"Written to a word list, checked by a person who knows Japanese"
   (§4.5) still applies**, and nothing here confirms whether that human review
   step ran for AI-retold content the way it would for a person's own draft.
-  Worth confirming before adding a 25th story on the same pattern.
+  Worth confirming before adding a 37th story on the same pattern — it has
+  still not been confirmed for any of the 36.
 - **The build pipeline is a bigger departure from §4.6 than the sourcing
   alone.** `tools/build_story_data.mjs` does none of fugashi/UniDic
   tokenisation, `align_word()` reuse, or an automated vocabulary/grammar
@@ -1442,8 +1455,8 @@ worth being honest about the gap in what it bought:
 
 None of this is a defect that needs fixing before the feature can be used —
 the reader works, the stories read fine, and the licensing is sound. It is a
-plan/reality gap worth knowing about before writing story #31, and before
-citing this document as a description of *where the current 30 stories came
+plan/reality gap worth knowing about before writing story #37, and before
+citing this document as a description of *where the current 36 stories came
 from*.
 
 Phases 3 and 5 can land in either order, but 3 first makes a better demo of
