@@ -70,7 +70,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-13a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-13b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -3325,6 +3325,15 @@ function bindDetailSwipe() {
   let startY = null;
   screen.addEventListener('pointerdown', (event) => {
     if (event.button !== undefined && event.button !== 0) return;
+    // A second (or later) finger touching down means this is a multi-touch
+    // gesture — most likely the pinch bindPinchZoom() below is tracking —
+    // not a one-finger swipe. isPrimary is false for every touch after the
+    // first in a sequence, so this is known the instant the second finger
+    // lands, before any move: abandon tracking so neither finger's eventual
+    // pointerup can be misread as a page-turning swipe (a pinch's two
+    // starting points are typically well over DETAIL_SWIPE_MIN_PX apart on
+    // their own, with no swipe intended at all).
+    if (event.isPrimary === false) { startX = null; return; }
     startX = event.clientX;
     startY = event.clientY;
   });
@@ -3339,6 +3348,177 @@ function bindDetailSwipe() {
     // Swiping left (dx negative) moves forward, the way a page turns.
     pageDetail(dx < 0 ? 1 : -1);
   });
+}
+
+// --- Pinch-to-resize text ---------------------------------------------------
+// Two-finger pinch used to fall straight through to the browser's own
+// pinch-zoom — easy to trigger by accident on a phone, and (per real
+// feedback) easy to not even notice you've triggered, since a small
+// unintended zoom just looks like the app got a bit bigger. Killing pinch-
+// zoom outright with nothing in its place would be a WCAG 1.4.4 (resize
+// text) regression — see the touch-action comment on body in styles.css.
+// So a genuine two-finger pinch anywhere in the app (except the writing
+// canvas, see isPinchTrackable below) is intercepted before the browser's
+// native zoom can engage, and opens this deliberate Text size panel
+// instead. The pinch's only job is opening the panel — it never live-
+// resizes anything itself, and further finger movement after the panel is
+// open does nothing; every size change from then on is a slider drag.
+
+const FONT_SCALE_KEY = `${CACHE_PREFIX}font-scale`;
+const FONT_SCALE_DEFAULT = 1;
+// 1.5x matched the app's own overflow audit (character-detail, a quiz
+// question, and the Definition-mode answer grid on a 360px-wide viewport,
+// the narrowest phone this app still explicitly targets — see the
+// @media(max-width:360px) rules throughout this file): every screen
+// checked held up at 1.5x with no clipped buttons or sideways scroll, so
+// this is the ceiling rather than a smaller one "to be safe". 0.85 on the
+// low end is a modest shrink, not really an accessibility feature (WCAG
+// 1.4.4 only requires enlarging) but cheap to allow since a slider that
+// only ever moves one direction reads oddly.
+const FONT_SCALE_MIN = 0.85;
+const FONT_SCALE_MAX = 1.5;
+// How far apart the two touches have to move — together or apart — from
+// where they started before this counts as a deliberate pinch rather than
+// two fingers landing a beat apart, or the Apple-Pencil-plus-palm double
+// touch styles.css's user-select comment describes elsewhere. 24px held up
+// in manual testing: comfortably below any real spread-fingers-apart pinch
+// (which moves tens of pixels within the first ~100ms) while high enough
+// that two touches landing within a frame of each other, or the ordinary
+// jitter of a finger resting on the glass, never crosses it on their own.
+const PINCH_OPEN_THRESHOLD_PX = 24;
+
+function clampFontScale(scale) {
+  if (!Number.isFinite(scale)) return FONT_SCALE_DEFAULT;
+  return Math.min(FONT_SCALE_MAX, Math.max(FONT_SCALE_MIN, scale));
+}
+
+/** Reads the saved scale, if any — falls back to 100% for a first run, a
+ * cleared/private-browsing store, or a corrupt value. Device-level, like
+ * the reader's own text-size slider: not part of a learner's profile, and
+ * not synced (sync-plan.md never touches it). */
+function loadFontScale() {
+  try {
+    // A missing key is `null`, and Number(null) is 0, not NaN — indistinguishable
+    // from a genuinely-saved 0 without this explicit check, and 0 clamps up
+    // to FONT_SCALE_MIN rather than falling back to FONT_SCALE_DEFAULT the
+    // way every other invalid value does. Caught in manual testing: a
+    // first-ever run silently opened the panel already sitting at 85%.
+    const raw = localStorage.getItem(FONT_SCALE_KEY);
+    if (raw === null) return FONT_SCALE_DEFAULT;
+    return clampFontScale(Number(raw));
+  } catch {
+    return FONT_SCALE_DEFAULT; // private browsing, cleared storage
+  }
+}
+
+function saveFontScale(scale) {
+  try {
+    localStorage.setItem(FONT_SCALE_KEY, String(scale));
+  } catch {
+    // Storage unavailable — the setting still applies for this run.
+  }
+}
+
+/** Sets --app-font-scale on <html>, which styles.css's `html { font-size:
+ * calc(16px * var(--app-font-scale, 1)) }` and every rule commented "scales
+ * with --app-font-scale" read from. Wrapped in try/catch: the wiring test's
+ * stub `documentElement` (test/wiring.js) is just enough of an element for
+ * applyAccentColor()'s dataset write to land on, not a real
+ * CSSStyleDeclaration, so `.style.setProperty` isn't there to call. */
+function applyFontScale(scale) {
+  const clamped = clampFontScale(scale);
+  try {
+    document.documentElement.style.setProperty('--app-font-scale', String(clamped));
+  } catch {
+    // Non-browser test harness — nothing rendered there needs the value.
+  }
+  return clamped;
+}
+
+function syncFontSizePanel() {
+  $('font-size-slider').value = String(loadFontScale());
+  $('font-size-value').textContent = `${Math.round(loadFontScale() * 100)}%`;
+}
+
+function openFontSizePanel() {
+  syncFontSizePanel();
+  $('font-size-sheet').hidden = false;
+}
+
+function closeFontSizePanel() {
+  $('font-size-sheet').hidden = true;
+}
+
+/** Wires document-level pointer tracking for a two-finger pinch. Pointer
+ * Events rather than raw touchstart/touchmove/touchend: every other touch
+ * gesture in this file (bindDetailSwipe above, the writing canvas, bindTap)
+ * already reads touch input through Pointer Events, and they hand this the
+ * same pointerId-per-finger bookkeeping a raw TouchEvent's `touches` list
+ * would, with no separate event family to keep in sync with the rest of the
+ * app's touch handling. */
+function bindPinchZoom() {
+  if (typeof document.addEventListener !== 'function') return;
+  // Two touches on the writing canvas are Apple Pencil + a resting palm
+  // (styles.css's user-select comment above body), not a pinch — tracking
+  // them here would risk popping the text-size panel open mid-stroke.
+  const isPinchTrackable = (event) => !(event.target
+    && typeof event.target.closest === 'function'
+    && event.target.closest('#writing-canvas'));
+
+  const touches = new Map(); // pointerId -> {x, y}
+  let baseline = null; // distance between the two touches when the 2nd one landed
+  let opened = false; // this gesture already opened the panel — ignore further movement
+
+  const distance = () => {
+    const points = [...touches.values()];
+    if (points.length !== 2) return null;
+    const [a, b] = points;
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  };
+
+  const release = (event) => {
+    if (!touches.has(event.pointerId)) return;
+    touches.delete(event.pointerId);
+    if (touches.size < 2) { baseline = null; opened = false; }
+  };
+
+  document.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'touch' || !isPinchTrackable(event)) return;
+    touches.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (touches.size === 2) {
+      baseline = distance();
+      opened = false;
+    } else if (touches.size > 2) {
+      // A third finger joining mid-gesture (rare) — bail out cleanly rather
+      // than track distance across the wrong pair of touches.
+      touches.clear();
+      baseline = null;
+    }
+  });
+
+  // { passive: false } is what makes preventDefault() below actually able
+  // to cancel the browser's own pinch-zoom — per the Pointer Events spec,
+  // preventDefault on a touch-backed pointermove suppresses the same
+  // default action (here, page zoom) that preventDefault on the
+  // equivalent touchmove would.
+  document.addEventListener('pointermove', (event) => {
+    if (!touches.has(event.pointerId)) return;
+    touches.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (touches.size !== 2 || baseline === null) return;
+    // Block native pinch-zoom for the whole two-finger gesture from its
+    // first move, not only once the panel opens — otherwise the viewport
+    // could visibly zoom a little before the threshold below is crossed.
+    event.preventDefault();
+    if (opened) return;
+    const current = distance();
+    if (current !== null && Math.abs(current - baseline) > PINCH_OPEN_THRESHOLD_PX) {
+      opened = true;
+      openFontSizePanel();
+    }
+  }, { passive: false });
+
+  document.addEventListener('pointerup', release);
+  document.addEventListener('pointercancel', release);
 }
 
 /** "Study it now" — see startSession()'s `items` parameter. Jumps straight
@@ -9423,6 +9603,18 @@ function wire() {
   $('detail-study-now').addEventListener('click', studyDetailCharNow);
   bindDetailSwipe();
 
+  // Text size (see the "Pinch-to-resize text" section above). Applied once
+  // up front from whatever was last saved (or 100% on a first run) — a
+  // device-level preference, so this runs unconditionally here rather than
+  // waiting on a profile the way accent colour does.
+  applyFontScale(loadFontScale());
+  bindPinchZoom();
+  $('font-size-slider').addEventListener('input', (event) => {
+    const scale = applyFontScale(Number(event.target.value));
+    saveFontScale(scale);
+    $('font-size-value').textContent = `${Math.round(scale * 100)}%`;
+  });
+
   $('quick-review-due').addEventListener('click', quickReviewDue);
   $('quick-learn-next').addEventListener('click', quickLearnNext);
 
@@ -9562,6 +9754,7 @@ function wire() {
     if (event.key !== 'Escape') return;
     if (!$('contributions-list-sheet').hidden) { closeContributionsList(); return; }
     if (!$('celebration').hidden) { dismissCelebration(); return; }
+    if (!$('font-size-sheet').hidden) { closeFontSizePanel(); return; }
     if (!$('feedback-sheet').hidden) closeFeedback();
   });
 
@@ -9618,6 +9811,7 @@ function wire() {
       // re-renders nothing, so the session underneath is untouched.
       case 'open-feedback': openFeedback(); break;
       case 'feedback-close': closeFeedback(); break;
+      case 'font-size-close': closeFontSizePanel(); break;
       case 'feedback-diag-toggle': {
         const list = $('feedback-diag-list');
         list.hidden = !list.hidden;

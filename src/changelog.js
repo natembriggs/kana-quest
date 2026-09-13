@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-13',
     changes: [
+      'New: pinching with two fingers used to zoom the whole page, which was easy to trigger by accident and easy not to notice you’d triggered — the app would just look slightly, confusingly bigger. A pinch now opens a "Text size" panel instead, with a slider that scales the app’s biggest text (characters, definitions, quiz questions) up to 1.5× — tap the ✕ or anywhere outside the panel to close it, and the size you pick is remembered next time you open the app.',
       'Changed: a kanji or word’s own page used to put "My study history" and the Learn definition/recognition/writing buttons right at the top, pushing the actual definition down far enough that it took a long scroll to reach on a phone. That block now sits lower down the page, past the definition, collapsed behind a "Study & history" button — tap it to open the same buttons as before. Kana pages aren’t affected; they never had this problem.',
     ],
   },

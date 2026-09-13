@@ -28,6 +28,14 @@
   --tier-3-ink: #ffffff;
   --tier-4: #2e8b3d;
   --tier-4-ink: #ffffff;
+
+  /* Text-size control (see the pinch-to-open panel in app.js —
+     bindPinchZoom()/openFontSizePanel()). Set as an inline style on
+     <html> once a saved or slider-chosen value loads (applyFontScale()),
+     which overrides this stylesheet default of 1 (100%, unscaled). Capped
+     at 1.5 (FONT_SCALE_MAX in app.js) — see styles.css's overflow audit
+     notes near .choice-grid-text for why that ceiling and not higher. */
+  --app-font-scale: 1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -105,6 +113,22 @@
    them) — do not remove this without re-auditing every `.hidden =` in app.js. */
 [hidden] { display: none !important; }
 
+/* Almost nothing below this line is sized in rem — body and every component
+   set an explicit px font-size, which is why --app-font-scale (above) can't
+   just ride on the cascade the way a page-zoom shortcut does in a desktop
+   browser. What DOES multiply by it: html's own font-size here (so anything
+   that ever does use rem gets it for free), plus a deliberately short list
+   of the most prominent content elsewhere in this file — glyphs, kanji/
+   vocab definitions, quiz question text, and the text-size panel's own
+   controls — each multiplied explicitly via calc(...* var(--app-font-scale,
+   1)) at its own rule, tagged "scales with --app-font-scale" in a comment
+   there. Everything else (buttons, labels, body copy) stays a fixed px size
+   at any scale — a deliberate partial win rather than a rem rewrite of the
+   whole stylesheet; see bindPinchZoom()/applyFontScale() in app.js. */
+html {
+  font-size: calc(16px * var(--app-font-scale, 1));
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -115,8 +139,13 @@ body {
   /* Disables double-tap-to-zoom (and the ~300ms tap delay it implies)
      app-wide, without touching the viewport meta tag — that would need
      user-scalable=no, which also kills pinch-zoom and is an accessibility
-     regression (WCAG 1.4.4). touch-action: manipulation leaves pinch-zoom
-     alone and only removes the double-tap gesture specifically. */
+     regression (WCAG 1.4.4). touch-action: manipulation leaves one-finger
+     panning and native pinch-zoom alone and only removes the double-tap
+     gesture specifically. Pinch-zoom itself is instead intercepted in JS
+     (bindPinchZoom() in app.js): a genuine two-finger pinch anywhere in the
+     app opens the Text size panel instead of zooming the viewport, which is
+     what keeps this WCAG 1.4.4-safe without the accidental, easy-to-miss
+     zooming pinch-to-zoom caused on a phone. */
   touch-action: manipulation;
   /* Nothing in this app is meant to be selected or copied — every character,
      reading and button label here is UI, not content a learner would ever
@@ -331,13 +360,21 @@ h3 { font-size: 18px; }
   font-weight: 400;
   line-height: 1;
 }
-.glyph-xl { font-size: clamp(96px, 34vw, 168px); }
+/* The character/word being taught or tested — the single most prominent
+   thing on almost every screen, so it's one of the few rules in this file
+   that genuinely scales with --app-font-scale (see the comment above
+   `html` near the top of this file). Wrapping the whole clamp() in calc()
+   rather than converting its px bounds to rem: the vw term is what actually
+   wins on a phone-width viewport, and rem bounds alone would leave the
+   rendered size unmoved by the slider until the scale pushed past them. */
+.glyph-xl { font-size: calc(clamp(96px, 34vw, 168px) * var(--app-font-scale, 1)); }
 /* A vocab word can run to several characters (自動車, こんにちは) where a kana
    or single kanji glyph never does — glyph-xl's 168px would overflow a
    phone width immediately. Sized to comfortably fit ~6 characters, and
    allowed to wrap rather than shrink further, since a fixed-size hint is
-   more useful than a still-too-small one on a long word. */
-.glyph-vocab { font-size: clamp(40px, 10vw, 64px); word-break: keep-all; overflow-wrap: anywhere; }
+   more useful than a still-too-small one on a long word. Scales with
+   --app-font-scale, same reasoning as .glyph-xl above. */
+.glyph-vocab { font-size: calc(clamp(40px, 10vw, 64px) * var(--app-font-scale, 1)); word-break: keep-all; overflow-wrap: anywhere; }
 .glyph-vocab rt {
   font-size: 0.4em;
   color: var(--ink-soft);
@@ -348,9 +385,10 @@ h3 { font-size: 18px; }
 /* Recall mode's prompt (vocab-plan.md §6.1) is an English gloss, not a
    Japanese glyph — its own class rather than .glyph so it gets a plain sans
    stack instead of the CJK font list, sized like a short headline rather
-   than a giant character. */
+   than a giant character. This IS the question in Recall mode, so like
+   .glyph-xl above it scales with --app-font-scale. */
 .quiz-prompt-text {
-  font-size: clamp(28px, 7vw, 40px);
+  font-size: calc(clamp(28px, 7vw, 40px) * var(--app-font-scale, 1));
   font-weight: 700;
   line-height: 1.2;
 }
@@ -1085,7 +1123,12 @@ button.quiz-glyph-tap {
 .choice-grid-text .choice {
   flex: initial;
   max-width: none;
-  font-size: 16px;
+  /* These buttons ARE the English definitions being chosen between —
+     scales with --app-font-scale (see the comment above `html` near the
+     top of this file). Unlike the plain romaji .choice above, max-width is
+     already `none` here and the cell wraps (white-space: normal further
+     down), so a larger scale grows the row instead of overflowing it. */
+  font-size: calc(16px * var(--app-font-scale, 1));
   font-weight: 600;
   line-height: 1.3;
   padding: 10px 12px;
@@ -1110,7 +1153,7 @@ button.quiz-glyph-tap {
 
 @media (max-width: 360px) {
   .choice-grid-text { grid-auto-rows: minmax(80px, auto); }
-  .choice-grid-text .choice { font-size: 15px; }
+  .choice-grid-text .choice { font-size: calc(15px * var(--app-font-scale, 1)); }
   .choice-grid-text.choice-grid-wide { grid-auto-rows: minmax(52px, auto); }
 }
 
@@ -1227,7 +1270,10 @@ button.quiz-glyph-tap {
   padding: 12px 16px;
   display: flex; flex-direction: column; gap: 8px;
 }
-.kanji-meanings { font-size: 16px; font-weight: 600; color: var(--ink); }
+/* A kanji's own English meaning — definition text, scales with
+   --app-font-scale (see the comment above `html` near the top of this
+   file). */
+.kanji-meanings { font-size: calc(16px * var(--app-font-scale, 1)); font-weight: 600; color: var(--ink); }
 
 /* Readings/meanings on the left, "Full details" tucked into the top right
    of the same line. align-items: flex-start keeps the button at the top of
@@ -1251,7 +1297,7 @@ button.quiz-glyph-tap {
 
 /* Reused on the lesson (teach) card, so it needs its own text sizing rather
    than the feedback-panel sizing above. */
-.teach-card .kanji-meanings { font-size: 16px; text-align: center; }
+.teach-card .kanji-meanings { font-size: calc(16px * var(--app-font-scale, 1)); text-align: center; }
 .teach-card .kanji-word { justify-content: center; }
 /* The lesson card is a centred column, so its word slot centres too — the
    tray inside it included. */
@@ -1751,7 +1797,9 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 
 /* --- Character detail ------------------------------------------------------ */
 
-.glyph-lg { font-size: clamp(56px, 18vw, 88px); }
+/* The character detail screen's own headline glyph — scales with
+   --app-font-scale, same reasoning as .glyph-xl above. */
+.glyph-lg { font-size: calc(clamp(56px, 18vw, 88px) * var(--app-font-scale, 1)); }
 
 .detail-head { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .detail-stroke-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
@@ -2064,9 +2112,12 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .reader-card-body { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; }
 .reader-card-head { display: flex; align-items: baseline; gap: 12px; }
-.reader-card-glyph { font-size: 40px; }
+/* The reader's tap-a-word definition card — glyph and gloss both scale with
+   --app-font-scale (see the comment above `html` near the top of this
+   file); the reading stays fixed, matching its quieter role elsewhere. */
+.reader-card-glyph { font-size: calc(40px * var(--app-font-scale, 1)); }
 .reader-card-reading { color: var(--ink-soft); font-size: 16px; }
-.reader-card-gloss { font-size: 16px; font-weight: 600; }
+.reader-card-gloss { font-size: calc(16px * var(--app-font-scale, 1)); font-weight: 600; }
 .reader-card-chips { flex-wrap: wrap; }
 .reader-card-chips:empty { display: none; }
 
@@ -2276,6 +2327,23 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sheet-head h3 { margin: 0; }
+
+/* --- Text size panel (pinch-to-open, see bindPinchZoom() in app.js) -----
+   Deliberately small — a slider and a close button, nothing else — since
+   opening it is already an interruption to whatever screen was underneath.
+   Its own heading, "A"/"A" hints and readout scale with --app-font-scale,
+   same technique as the rest of this file's scaled rules: dragging the
+   slider all the way up should make the panel asking for that size look
+   the part, not stay pinned at its own unscaled size while everything else
+   grows. */
+.font-size-body { max-width: 340px; }
+#font-size-heading { font-size: calc(19px * var(--app-font-scale, 1)); }
+.font-size-row { align-items: center; gap: 10px; }
+.font-size-hint { color: var(--ink-soft); line-height: 1; }
+.font-size-hint-small { font-size: 14px; }
+.font-size-hint-large { font-size: calc(22px * var(--app-font-scale, 1)); }
+.font-size-row input[type="range"] { flex: 1; accent-color: var(--accent); height: 32px; }
+#font-size-value { text-align: center; font-size: calc(14px * var(--app-font-scale, 1)); font-weight: 600; }
 
 .feedback-count { text-align: right; margin: 0; }
 /* `.row > *` is flex:1, which would stretch the checkbox itself to half the
