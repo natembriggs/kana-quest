@@ -20,6 +20,7 @@ import { KANJI_UNITS, NO_YOMI_CHARS, NO_MEANING_CHARS } from './data/kanji-manif
 import {
   yomiKey, isReadingStudied, recomputeYomiRollupFromProgress,
 } from './srs.js';
+import { kanjiComponents } from './kanji-components.js';
 
 // toRomaji orders options alphabetically (see buildKanjiOptions) — kun
 // readings are hiragana and on readings are katakana, so sorting the raw
@@ -402,6 +403,15 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
  *
  * Returns { options, answer }.
  */
+
+/** The component characters (e.g. 氵) drawn in `char`, or an empty set for a
+ * kanji with no breakdown on record. Used to bias distractor choice below —
+ * see buildDefinitionChoices. */
+function componentChars(unit, char) {
+  const entry = kanjiComponents(unit, char);
+  return new Set(entry && entry.parts ? entry.parts.map((p) => p.c) : []);
+}
+
 export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS) {
   const info = kanjiInfo(course, kanji);
   const answer = meaningLabel(info);
@@ -409,9 +419,26 @@ export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS
   const used = new Set([answer]);
   const options = [answer];
 
+  // A learner can often guess the general theme of a meaning from a common
+  // component alone — a water radical (氵) means "something wet" whether or
+  // not you know THIS kanji — which makes a question too easy if the wrong
+  // answers don't share that shortcut. So kanji built from the same
+  // component(s) as the answer are tried first; only if there aren't enough
+  // of those does the question fall back to the rest of the grade.
+  const unit = kanjiUnitFor(kanji);
+  const targetComponents = componentChars(unit, kanji);
+
   const pool = shuffle([...course.index.values()])
     .filter((entry) => entry.kanji !== kanji
       && ![...meaningKeys(entry)].some((m) => banned.has(m)));
+
+  if (targetComponents.size) {
+    pool.sort((a, b) => {
+      const bShares = [...componentChars(unit, b.kanji)].some((c) => targetComponents.has(c)) ? 1 : 0;
+      const aShares = [...componentChars(unit, a.kanji)].some((c) => targetComponents.has(c)) ? 1 : 0;
+      return bShares - aShares;
+    });
+  }
 
   for (const entry of pool) {
     if (options.length >= count) break;
