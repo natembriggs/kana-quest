@@ -247,10 +247,11 @@ plot outline does not turn it into a narrative.
 
 ### Review content separately from language
 
-The first human review asks whether a reader unfamiliar with the source can
-retell what happened and why. The second reviews natural Japanese,
-collocation, register, readings and translations. Combining the two passes
-makes it too easy for correct grammar to conceal missing story logic.
+The first pass asks whether a reader unfamiliar with the source can retell
+what happened and why. The second asks whether the Japanese is natural —
+collocation, register, readings, translations. Keep them separate passes even
+when the same author does both, which is the normal case: combining them makes
+it too easy for correct grammar to conceal missing story logic.
 
 ---
 
@@ -293,11 +294,17 @@ Full reasoning in `stories-plan.md` §4. In short:
   `adapted`), what it came from, what was changed, and its licence. The
   reader shows that line at the end of the text.
 
-**Drafting may be LLM-assisted; shipping is not.** A model is good at
-producing plausible Japanese to a word list and unreliable at collocation,
+**Drafting may be LLM-assisted, and so may shipping.** A model is good at
+producing plausible Japanese to a word list and less reliable at collocation,
 register, whether a sentence is something a person would say, and whether the
-English says what the Japanese says. Every episode is read by a person who
-knows Japanese before it ships.
+English says what the Japanese says.
+
+Spend the care there while writing, because nothing downstream will catch it
+for you. **There is no native-speaker review gate before a story ships.** What
+actually happens is a spot check after the fact, on some stories and not
+others, plus whatever learners report through the feedback button. So the
+build's structural checks (§7) and the author's own discipline (§9) are not
+the first stage of a review — they are the whole of it.
 
 ---
 

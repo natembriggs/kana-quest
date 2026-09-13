@@ -523,13 +523,15 @@ The intended shape, once phase 1 has proved the pipeline:
 - **Written against the constraint, not trimmed to it.** The build gate (§4.6)
   reports every out-of-level word, so the loop is: draft, check, revise.
   Writing to a word list is a skill; the gate is what makes it learnable.
-- **Drafting may be LLM-assisted; shipping is not.** A model is good at
-  producing plausible Japanese to a word list and unreliable at the things
+- **Drafting may be LLM-assisted, and so may shipping.** A model is good at
+  producing plausible Japanese to a word list and less reliable at the things
   that matter here — collocation, register, whether a sentence is actually
   something a person would say, and whether the English translation says what
-  the Japanese says. Every episode is read by a person who knows Japanese
-  before it ships. `source.kind: 'original'` is a claim about quality, not
-  just provenance.
+  the Japanese says. There is no native-speaker review gate before an episode
+  ships: a fluent reader spot-checks some stories after the fact, and learners
+  report the rest through the feedback button. `source.kind: 'original'` is
+  therefore a claim about provenance; quality rests on the care taken while
+  writing and on those corrections landing.
 - **New words are declared, not smuggled.** A graded reader that never
   introduces anything teaches nothing; `nw` (§3.1) lists the words an episode
   uses above its level on purpose. The gate allows a handful — five is the
@@ -1436,11 +1438,16 @@ worth being honest about the gap in what it bought:
 - **No Aozora import happened.** The ruby cross-check in §4.6 step 4, which
   exists specifically to validate a tokeniser's reading of *real* transcribed
   Japanese, has nothing to check against for a piece with no Aozora source.
-- **"Written to a word list, checked by a person who knows Japanese"
-  (§4.5) still applies**, and nothing here confirms whether that human review
-  step ran for AI-retold content the way it would for a person's own draft.
-  Worth confirming before adding a 37th story on the same pattern — it has
-  still not been confirmed for any of the 36.
+- **§4.5 used to say every episode was "read by a person who knows Japanese
+  before it ships". That was never the real standard**, and the line has now
+  been corrected rather than left standing as an outstanding task. That
+  pre-ship native-speaker review has never run as a gate — not for AI-retold
+  content and not for anything else. What happens instead is an
+  occasional spot check after a story is already live, plus learner reports
+  through the feedback button. This is a deliberate choice about where the
+  effort goes, not an omission; `story-writing-guide.md` §8 now says so
+  directly. It does mean the structural gates and the author's own discipline
+  are the whole of the pre-ship review.
 - **The build pipeline is a bigger departure from §4.6 than the sourcing
   alone.** `tools/build_story_data.mjs` does none of fugashi/UniDic
   tokenisation, `align_word()` reuse, or an automated vocabulary/grammar
