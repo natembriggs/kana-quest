@@ -116,15 +116,24 @@
 /* Almost nothing below this line is sized in rem — body and every component
    set an explicit px font-size, which is why --app-font-scale (above) can't
    just ride on the cascade the way a page-zoom shortcut does in a desktop
-   browser. What DOES multiply by it: html's own font-size here (so anything
-   that ever does use rem gets it for free), plus a deliberately short list
-   of the most prominent content elsewhere in this file — glyphs, kanji/
-   vocab definitions, quiz question text, and the text-size panel's own
-   controls — each multiplied explicitly via calc(...* var(--app-font-scale,
-   1)) at its own rule, tagged "scales with --app-font-scale" in a comment
-   there. Everything else (buttons, labels, body copy) stays a fixed px size
-   at any scale — a deliberate partial win rather than a rem rewrite of the
-   whole stylesheet; see bindPinchZoom()/applyFontScale() in app.js. */
+   browser. So the default here is that EVERY rule below that sets a literal
+   px font-size (or a clamp() built from px bounds, like .glyph-xl) multiplies
+   it via calc(Npx * var(--app-font-scale, 1)) at its own rule — the same
+   mechanical pattern repeated at every one of them rather than tagged with
+   its own paragraph each time (an earlier pass here scaled only a curated
+   handful and called the rest "a deliberate partial win"; real device
+   testing found that read as broken, not restrained — command-plus on a
+   desktop browser does not ask which elements deserve it). html's own
+   font-size just above is part of the same mechanism, so anything that ever
+   does use rem gets it for free too.
+   The exceptions are commented individually, right on the rule, and fall
+   into a few kinds: an icon/emoji glyph or a "•"/"✓"/"+"/"−" status-marker
+   character, sized as UI chrome rather than as text to read; the small-A
+   slider anchor in the text-size panel below, deliberately kept fixed to
+   contrast against the large-A beside it that already grows; and a ruby
+   (furigana) rt sized in em against an ancestor that itself scales, which
+   already inherits the effect for free and would double it if also wrapped
+   in calc(). See bindPinchZoom()/applyFontScale() in app.js. */
 html {
   font-size: calc(16px * var(--app-font-scale, 1));
 }
@@ -133,7 +142,9 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: calc(17px * var(--app-font-scale, 1));
+  line-height: 1.45;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   /* Disables double-tap-to-zoom (and the ~300ms tap delay it implies) and
@@ -187,7 +198,7 @@ body {
   gap: 18px;
   background: var(--bg);
 }
-.splash-mark { width: 72px; height: 72px; border-radius: 20px; font-size: 28px; }
+.splash-mark { width: 72px; height: 72px; border-radius: 20px; font-size: 28px; }  /* fixed-size logo badge, not reading text */
 .splash-spinner {
   width: 28px; height: 28px;
   border-radius: 50%;
@@ -215,7 +226,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  font-size: 14px;
+  font-size: calc(14px * var(--app-font-scale, 1));
   color: var(--ink-soft);
 }
 .data-loading-spinner {
@@ -244,10 +255,10 @@ body {
   border: 1px solid var(--line);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
-.install-banner-text { margin: 0; flex: 1; font-size: 14px; line-height: 1.4; color: var(--ink); }
+.install-banner-text { margin: 0; flex: 1; font-size: calc(14px * var(--app-font-scale, 1)); line-height: 1.4; color: var(--ink); }
 .install-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.install-banner-actions .btn-primary { min-height: 40px; padding: 0 14px; font-size: 14px; }
-.install-banner-actions .btn-icon { width: 36px; min-height: 36px; font-size: 15px; }
+.install-banner-actions .btn-primary { min-height: 40px; padding: 0 14px; font-size: calc(14px * var(--app-font-scale, 1)); }
+.install-banner-actions .btn-icon { width: 36px; min-height: 36px; font-size: 15px; }  /* icon glyph, not reading text */
 
 #app {
   max-width: 620px;
@@ -341,19 +352,19 @@ body {
 #screen-summary { padding-bottom: 320px; }
 
 h1, h2, h3 { margin: 0; line-height: 1.2; }
-h1 { font-size: 26px; }
-h2 { font-size: 20px; }
-h3 { font-size: 18px; }
+h1 { font-size: calc(26px * var(--app-font-scale, 1)); }
+h2 { font-size: calc(20px * var(--app-font-scale, 1)); }
+h3 { font-size: calc(18px * var(--app-font-scale, 1)); }
 
-.screen-title { font-size: 22px; font-weight: 600; }
-.hint { margin: 0; color: var(--ink-soft); font-size: 14px; }
-.footnote { margin: 8px 0 0; color: var(--ink-soft); font-size: 13px; text-align: center; }
+.screen-title { font-size: calc(22px * var(--app-font-scale, 1)); font-weight: 600; }
+.hint { margin: 0; color: var(--ink-soft); font-size: calc(14px * var(--app-font-scale, 1)); }
+.footnote { margin: 8px 0 0; color: var(--ink-soft); font-size: calc(13px * var(--app-font-scale, 1)); text-align: center; }
 
 /* --- Changelog (Settings > App version, see renderChangelog() in app.js) - */
 
 .changelog-date { font-weight: 600; color: var(--ink); }
 .changelog-list { margin: 4px 0 0; padding-left: 20px; }
-.changelog-list li { margin: 4px 0; font-size: 14px; color: var(--ink-soft); }
+.changelog-list li { margin: 4px 0; font-size: calc(14px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 /* One block per prior date inside #changelog-history — same shape as the
    always-visible "current" block above, just repeated. */
 .changelog-entry + .changelog-entry { margin-top: 14px; }
@@ -382,7 +393,7 @@ h3 { font-size: 18px; }
    --app-font-scale, same reasoning as .glyph-xl above. */
 .glyph-vocab { font-size: calc(clamp(40px, 10vw, 64px) * var(--app-font-scale, 1)); word-break: keep-all; overflow-wrap: anywhere; }
 .glyph-vocab rt {
-  font-size: 0.4em;
+  font-size: 0.4em;  /* ruby: em ratio of .glyph-vocab, scales for free once its parent does */
   color: var(--ink-soft);
   font-weight: 400;
   user-select: none;
@@ -435,12 +446,12 @@ button.quiz-glyph-tap {
 .quiz-hide-furigana {
   min-height: 28px;
   padding: 0 10px;
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
   margin-top: -6px;
 }
 
 .romaji {
-  font-size: 30px;
+  font-size: calc(30px * var(--app-font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--accent);
@@ -453,7 +464,7 @@ button.quiz-glyph-tap {
    is this spelled in romaji" — this is a secondary note, not a correction.
    See pronunciationFor() in vocab.js. */
 .pronunciation {
-  font-size: 16px;
+  font-size: calc(16px * var(--app-font-scale, 1));
   font-style: italic;
   color: var(--ink-soft);
   margin-top: -6px;
@@ -466,7 +477,7 @@ button.quiz-glyph-tap {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
   background: var(--accent); color: var(--accent-ink);
   width: 52px; height: 52px; border-radius: 16px;
-  display: grid; place-items: center; font-size: 20px;
+  display: grid; place-items: center; font-size: 20px;  /* fixed-size logo/emoji badge, not reading text */
 }
 
 .topbar {
@@ -509,7 +520,7 @@ button.quiz-glyph-tap {
   padding: max(16px, env(safe-area-inset-top)) 16px 0;
 }
 .topbar h2 { text-align: center; }
-.counter { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; font-size: 14px; }
+.counter { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; font-size: calc(14px * var(--app-font-scale, 1)); }
 
 .card {
   background: var(--surface);
@@ -568,7 +579,7 @@ button.quiz-glyph-tap {
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -578,7 +589,7 @@ button.quiz-glyph-tap {
 .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn-quiet { background: transparent; color: var(--ink-soft); }
 .btn-danger { background: transparent; border-color: var(--bad); color: var(--bad); }
-.btn-icon { width: var(--tap); padding: 0; display: grid; place-items: center; font-size: 20px; }
+.btn-icon { width: var(--tap); padding: 0; display: grid; place-items: center; font-size: 20px; }  /* icon glyphs only (✕ ← ⚙️ 💬 …), not reading text */
 /* Drops the ordinary .btn border too — a boxed-in "✕" reads as a peer of
    the progress bar next to it (see quit-session in the quiz/writing
    header); a plain, borderless glyph reads as secondary the way it should. */
@@ -589,7 +600,7 @@ button.quiz-glyph-tap {
    bare arrow. The .topbar rule lets its column size to the text instead of
    staying a square tap target; the title beside it stays centred in what's
    left. */
-.btn-back-text { padding: 0 12px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.btn-back-text { padding: 0 12px; font-size: calc(15px * var(--app-font-scale, 1)); font-weight: 600; white-space: nowrap; }
 .topbar:has(.btn-back-text) { grid-template-columns: auto 1fr auto; }
 .wide { width: 100%; }
 
@@ -611,11 +622,11 @@ button.quiz-glyph-tap {
   padding: 8px 4px;
 }
 .rate-row .rate-ok { flex: 2; }
-.rate-sub { font-size: 11px; font-weight: 500; opacity: 0.75; }
+.rate-sub { font-size: calc(11px * var(--app-font-scale, 1)); font-weight: 500; opacity: 0.75; }
 
 .linkish {
   background: none; border: none; padding: 0;
-  color: var(--accent); font: inherit; font-size: 13px;
+  color: var(--accent); font: inherit; font-size: calc(13px * var(--app-font-scale, 1));
   text-decoration: underline; cursor: pointer;
 }
 
@@ -634,14 +645,14 @@ button.quiz-glyph-tap {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   font: inherit; color: inherit; cursor: pointer;
 }
-.avatar { font-size: 40px; line-height: 1; }
+.avatar { font-size: 40px; line-height: 1; }  /* emoji avatar picker icon, not reading text */
 .profile-name { font-weight: 600; }
 
-.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ink-soft); }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: calc(14px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 .field input[type="text"] {
   min-height: var(--tap);
   padding: 0 14px;
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-family: inherit;
   color: var(--ink);
   background: var(--bg);
@@ -655,7 +666,7 @@ button.quiz-glyph-tap {
    siblings rather than off in the feedback section. */
 .field textarea {
   padding: 12px 14px;
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-family: inherit;
   line-height: 1.45;
   color: var(--ink);
@@ -682,7 +693,7 @@ button.quiz-glyph-tap {
   border: none;
   background: none;
   color: var(--ink-soft);
-  font-size: 16px;
+  font-size: 16px;  /* mic icon glyph, not reading text */
   line-height: 1;
   cursor: pointer;
   border-radius: 50%;
@@ -700,7 +711,7 @@ button.quiz-glyph-tap {
   min-height: var(--tap);
   width: 100%;
   padding: 0 40px 0 14px;
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-family: inherit;
   color: var(--ink);
   background: var(--bg);
@@ -723,7 +734,7 @@ button.quiz-glyph-tap {
   border: none;
   background: none;
   color: var(--ink-soft);
-  font-size: 16px;
+  font-size: 16px;  /* ✕ icon glyph, not reading text */
   line-height: 1;
   cursor: pointer;
   border-radius: 50%;
@@ -733,7 +744,7 @@ button.quiz-glyph-tap {
 .emoji-picker { display: flex; flex-wrap: wrap; gap: 8px; }
 .emoji-option {
   width: 46px; height: 46px;
-  font-size: 24px;
+  font-size: 24px;  /* emoji picker tile, not reading text */
   border-radius: 12px;
   border: 2px solid transparent;
   background: var(--bg);
@@ -771,7 +782,7 @@ button.quiz-glyph-tap {
 .sync-code {
   flex: 1;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-weight: 700;
   letter-spacing: 0.04em;
   padding: 0 4px;
@@ -796,8 +807,21 @@ button.quiz-glyph-tap {
 
 /* --- Mode picker -------------------------------------------------------- */
 
+/* flex-wrap: wrap is the load-bearing part here, added once real-device
+   testing at a large --app-font-scale found the four-option pickers
+   (#writing-mode-picker's Dynamic/Trace/Guided/Free, .writing-difficulty's
+   copy of the same choices) pushing their last segment past the edge of the
+   screen — flex items don't shrink below their own text's width by default,
+   so a row that no longer fits overflows instead of compressing. Wrapping
+   to a second line fixes it for every .segmented instance at once, kana/
+   katakana/kanji/vocab/read tabs and two-option Reading/Writing pickers
+   included; those already have room to spare at any scale, so this is a
+   no-op for them and only engages where a picker actually runs out of
+   space. Same technique .onboarding-scale .segmented below already used
+   for its own four wide options, generalized here instead of repeated
+   per picker. */
 .segmented {
-  display: flex; gap: 4px;
+  display: flex; flex-wrap: wrap; gap: 4px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -810,13 +834,13 @@ button.quiz-glyph-tap {
   font: inherit; font-weight: 600; cursor: pointer;
 }
 .segment.active { background: var(--accent); color: var(--accent-ink); }
-.segment small { font-weight: 500; opacity: 0.7; font-size: 11px; }
+.segment small { font-weight: 500; opacity: 0.7; font-size: calc(11px * var(--app-font-scale, 1)); }
 /* How many are due in a mode you're not currently viewing — e.g. "Yomi"
    while looking at Definition. Only appears when nonzero (see
    renderModePicker() in app.js), so a quiet mode stays quiet. */
 .segment-badge {
   margin-left: 4px;
-  font-size: 11px; font-weight: 800;
+  font-size: calc(11px * var(--app-font-scale, 1)); font-weight: 800;
   padding: 1px 6px; border-radius: 99px;
   background: var(--accent); color: var(--accent-ink);
 }
@@ -826,7 +850,7 @@ button.quiz-glyph-tap {
 
 .course-card { display: flex; flex-direction: column; gap: 12px; }
 .course-head { display: flex; justify-content: space-between; align-items: flex-start; }
-.course-native { color: var(--ink-soft); font-size: 14px; }
+.course-native { color: var(--ink-soft); font-size: calc(14px * var(--app-font-scale, 1)); }
 /* Vocab only: which GCSE-style group and frequency level this unit is —
    e.g. "Common words 2 · Local area, holiday and travel" — so a unit and
    its Higher-tier sibling don't look identical on this card. Not ".tier-*":
@@ -839,11 +863,11 @@ button.quiz-glyph-tap {
   background: var(--bg);
   border: 1px solid var(--line);
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: calc(12px * var(--app-font-scale, 1));
   font-weight: 600;
 }
-.course-count { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.course-count span { font-size: 15px; font-weight: 500; color: var(--ink-soft); }
+.course-count { font-size: calc(24px * var(--app-font-scale, 1)); font-weight: 700; font-variant-numeric: tabular-nums; }
+.course-count span { font-size: calc(15px * var(--app-font-scale, 1)); font-weight: 500; color: var(--ink-soft); }
 
 .progress {
   height: 8px; border-radius: 99px;
@@ -870,11 +894,11 @@ button.quiz-glyph-tap {
 .study-actions { display: flex; flex-direction: column; gap: 10px; }
 .study-action { display: flex; flex-direction: column; gap: 2px; }
 .study-action .btn { width: 100%; }
-.action-subtitle { margin: 0 2px; font-size: 12px; color: var(--ink-soft); }
+.action-subtitle { margin: 0 2px; font-size: calc(12px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge {
-  font-size: 13px; font-weight: 600;
+  font-size: calc(13px * var(--app-font-scale, 1)); font-weight: 600;
   padding: 4px 10px; border-radius: 99px;
   background: var(--bg); border: 1px solid var(--line); color: var(--ink-soft);
 }
@@ -908,7 +932,7 @@ button.quiz-glyph-tap {
    miss. Right and wrong are said by the card's colour, so there is no ✓/✗
    here to need 30px, and an empty line takes no room at all (display: none
    removes the flex gap above it too, which min-height: 0 would not). */
-.feedback { font-size: 24px; font-weight: 700; }
+.feedback { font-size: calc(24px * var(--app-font-scale, 1)); font-weight: 700; }
 .feedback:empty { display: none; }
 .feedback.ok { color: var(--ok); }
 .feedback.bad { color: var(--bad); }
@@ -917,7 +941,7 @@ button.quiz-glyph-tap {
    so it reads as an instruction rather than a verdict: quieter and smaller
    than .ok/.bad, matching .hint elsewhere rather than shouting in accent
    colour the way a right/wrong answer does. */
-.feedback.hint { font-size: 17px; font-weight: 600; color: var(--ink-soft); }
+.feedback.hint { font-size: calc(17px * var(--app-font-scale, 1)); font-weight: 600; color: var(--ink-soft); }
 
 /* --- Writing (Trace / Guided / Free) --------------------------------------- */
 /* See writing-mode-plan.md. The guide is drawn at the character's TRUE
@@ -938,7 +962,7 @@ button.quiz-glyph-tap {
 /* Sits in the same slot as .writing-prompt/.writing-stroke-counter above —
    exactly one of the two is ever visible, see index.html — so a finished
    character replaces the prompt rather than adding new space below it. */
-.writing-result-message { text-align: center; font-size: 18px; font-weight: 700; margin: 4px 0; }
+.writing-result-message { text-align: center; font-size: calc(18px * var(--app-font-scale, 1)); font-weight: 700; margin: 4px 0; }
 
 /* Deliberately last on the screen and modest in size — see the comment on
    .writing-difficulty in index.html. "Difficulty level" is a label, not a
@@ -1030,13 +1054,13 @@ button.quiz-glyph-tap {
   align-items: flex-start;
   gap: 8px;
 }
-.writing-hints .btn { font-size: 13px; padding: 8px 6px; min-height: 40px; width: auto; }
+.writing-hints .btn { font-size: calc(13px * var(--app-font-scale, 1)); padding: 8px 6px; min-height: 40px; width: auto; }
 /* Once the viewport is wide enough to spare it (tablets, and phones in
    landscape), these no longer need to be squeezed as tightly as the
    narrow-portrait-phone case above assumes — reported as hard to tap on a
    tablet in landscape (kana-quest-feedback#8). */
 @media (min-width: 640px) {
-  .writing-hints .btn { font-size: 15px; padding: 10px 16px; min-height: 44px; }
+  .writing-hints .btn { font-size: calc(15px * var(--app-font-scale, 1)); padding: 10px 16px; min-height: 44px; }
 }
 
 .writing-self-grade-question { text-align: center; font-weight: 600; margin: 0; }
@@ -1098,7 +1122,7 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--ink);
   font-family: inherit;
-  font-size: 18px;
+  font-size: calc(18px * var(--app-font-scale, 1));
   font-weight: 700;
   line-height: 1.2;
   cursor: pointer;
@@ -1182,25 +1206,25 @@ button.quiz-glyph-tap {
 }
 .script-card:active { transform: scale(0.99); }
 .script-sample {
-  font-size: 40px;
+  font-size: calc(40px * var(--app-font-scale, 1));
   width: 56px;
   text-align: center;
   color: var(--accent);
 }
 .script-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.script-name { font-size: 19px; font-weight: 700; }
+.script-name { font-size: calc(19px * var(--app-font-scale, 1)); font-weight: 700; }
 .script-native {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 14px;
+  font-size: calc(14px * var(--app-font-scale, 1));
   color: var(--ink-soft);
 }
 .script-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; width: 92px; }
-.script-count { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.script-count { font-size: calc(13px * var(--app-font-scale, 1)); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 /* Per-mode split of the due count above, e.g. "Yomi 5 · Writing 2" — only
    shown when the backlog actually spans more than one mode (see
    renderHome() in app.js), so a single-mode tile stays exactly as quiet as
    before. */
-.script-breakdown { font-size: 11px; color: var(--ink-soft); text-align: right; }
+.script-breakdown { font-size: calc(11px * var(--app-font-scale, 1)); color: var(--ink-soft); text-align: right; }
 .script-meta .progress { width: 100%; display: block; }
 .script-meta .progress-fill { display: block; }
 
@@ -1233,14 +1257,14 @@ button.quiz-glyph-tap {
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink-soft);
-  font: inherit; font-size: 14px; font-weight: 600;
+  font: inherit; font-size: calc(14px * var(--app-font-scale, 1)); font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
 }
 .unit-group.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 /* Reviews are waiting somewhere in this group — the only way a due unit
    stays findable now that just one group's units are on screen at a time. */
-.unit-group-dot { font-size: 17px; line-height: 1; color: var(--accent); }
+.unit-group-dot { font-size: 17px; line-height: 1; color: var(--accent); }  /* • status dot, not reading text */
 .unit-group.active .unit-group-dot { color: var(--accent-ink); }
 
 .unit-row .grade { flex: 0 0 auto; min-width: 54px; padding: 0 10px; }
@@ -1252,7 +1276,7 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--ink);
   font: inherit;
-  font-size: 17px;
+  font-size: calc(17px * var(--app-font-scale, 1));
   font-weight: 700;
   cursor: pointer;
 }
@@ -1262,7 +1286,7 @@ button.quiz-glyph-tap {
 .grade-dot {
   position: absolute;
   top: 3px; right: 7px;
-  font-size: 16px;
+  font-size: 16px;  /* • status dot, not reading text */
   line-height: 1;
   color: var(--accent);
 }
@@ -1298,7 +1322,7 @@ button.quiz-glyph-tap {
   flex: none;
   min-height: 32px;
   padding: 0 10px;
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
 }
 
 /* Reused on the lesson (teach) card, so it needs its own text sizing rather
@@ -1348,11 +1372,11 @@ button.quiz-glyph-tap {
   font-family: inherit;
   text-align: center;
 }
-.component-glyph { font-size: 28px; line-height: 1.1; color: var(--ink); }
+.component-glyph { font-size: calc(28px * var(--app-font-scale, 1)); line-height: 1.1; color: var(--ink); }
 /* Wraps rather than truncating: "rice field" and "bending person" are real
    keywords, and a clipped one teaches the wrong word. */
 .component-meaning {
-  font-size: 12px;
+  font-size: calc(12px * var(--app-font-scale, 1));
   line-height: 1.25;
   color: var(--ink-soft);
   max-width: 84px;
@@ -1366,7 +1390,7 @@ button.quiz-glyph-tap {
 
 .mnemonic-text {
   margin: 0;
-  font-size: 14px;
+  font-size: calc(14px * var(--app-font-scale, 1));
   line-height: 1.45;
   color: var(--ink);
   text-align: center;
@@ -1408,7 +1432,7 @@ button.quiz-glyph-tap {
 .mnemonic-edit-btn {
   min-height: 34px;
   padding: 4px 12px;
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
   border-color: transparent;
   text-decoration: underline;
 }
@@ -1423,7 +1447,7 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--ink);
   font-family: inherit;
-  font-size: 15px;
+  font-size: calc(15px * var(--app-font-scale, 1));
   line-height: 1.45;
   resize: vertical;
 }
@@ -1432,7 +1456,7 @@ button.quiz-glyph-tap {
    quieter still, since undoing your own work should never be the easiest
    thing to hit by accident. */
 .mnemonic-editor-actions { gap: 8px; }
-.mnemonic-reset { font-size: 13px; min-height: 34px; }
+.mnemonic-reset { font-size: calc(13px * var(--app-font-scale, 1)); min-height: 34px; }
 
 /* The mid-question "Hint" button, in both quiz surfaces. Visibly its own
    thing rather than another .btn-quiet — a nudge toward remembering, not a
@@ -1456,7 +1480,7 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--accent);
   font-family: inherit;
-  font-size: 18px;
+  font-size: calc(18px * var(--app-font-scale, 1));
   font-weight: 700;
   cursor: pointer;
 }
@@ -1496,7 +1520,7 @@ button.quiz-glyph-tap {
   border-radius: 99px;
   background: var(--line);
   color: var(--ink-soft);
-  font-size: 11px;
+  font-size: calc(11px * var(--app-font-scale, 1));
   font-weight: 700;
   text-transform: uppercase;
   vertical-align: middle;
@@ -1517,7 +1541,7 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--ink-soft);
   font-family: inherit;
-  font-size: 17px;
+  font-size: 17px;  /* +/− icon glyph in a fixed circle, not reading text */
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
@@ -1533,10 +1557,10 @@ button.quiz-glyph-tap {
 .kanji-word { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .kanji-word .word-kanji {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 22px; font-weight: 600;
+  font-size: calc(22px * var(--app-font-scale, 1)); font-weight: 600;
 }
-.kanji-word .word-kana { color: var(--ink-soft); font-size: 15px; }
-.kanji-word .word-en { color: var(--ink-soft); font-size: 14px; }
+.kanji-word .word-kana { color: var(--ink-soft); font-size: calc(15px * var(--app-font-scale, 1)); }
+.kanji-word .word-en { color: var(--ink-soft); font-size: calc(14px * var(--app-font-scale, 1)); }
 
 /* A drillable word (buildWordRow() in app.js): the word itself opens a tray
    holding its own kanji as chips and, where the word is taught here too, a
@@ -1574,7 +1598,7 @@ button.word-main::after {
 .word-add-badge {
   padding: 3px 10px;
   border-radius: 99px;
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
   font-weight: 600;
   white-space: nowrap;
   border: 2px solid transparent;
@@ -1600,7 +1624,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border: none;
   background: none;
   padding: 4px;
-  font-size: 14px;
+  font-size: 14px;  /* icon badge, see comment above */
   line-height: 1;
   cursor: pointer;
   opacity: 0.6;
@@ -1621,7 +1645,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 10px;
   background: var(--ink);
   color: var(--bg);
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
   line-height: 1.4;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
@@ -1643,15 +1667,15 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 /* Smaller than a reading chip: these sit inside a row, not on a screen of
    their own, and a full-size chip per kanji would dwarf the word above. */
-.reading-chip-sm { min-height: 34px; padding: 4px 12px; font-size: 17px; }
-.word-more { padding: 0 12px; min-height: 34px; font-size: 14px; }
+.reading-chip-sm { min-height: 34px; padding: 4px 12px; font-size: calc(17px * var(--app-font-scale, 1)); }
+.word-more { padding: 0 12px; min-height: 34px; font-size: calc(14px * var(--app-font-scale, 1)); }
 /* Its own line under the chips rather than squeezed alongside them — it is
    a sentence, and wrapping it into the gap beside a chip reads as clutter. */
 .word-note { margin: 0; flex-basis: 100%; }
 
 /* --- Summary ------------------------------------------------------------ */
 
-.score { margin: 0; font-size: 20px; font-weight: 600; text-align: center; }
+.score { margin: 0; font-size: calc(20px * var(--app-font-scale, 1)); font-weight: 600; text-align: center; }
 
 /* Milestone celebration (review-followups.md item 4) — the same restrained
    .card surface used throughout, not a new visual language: no confetti,
@@ -1659,7 +1683,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    character stroke. Centered and a touch larger than plain body text is the
    entire distinction from an ordinary card. */
 .milestone-card { text-align: center; border-color: var(--accent); }
-.milestone-card p { margin: 0; font-size: 18px; font-weight: 600; }
+.milestone-card p { margin: 0; font-size: calc(18px * var(--app-font-scale, 1)); font-weight: 600; }
 .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .chip {
   display: flex; flex-direction: column; align-items: center;
@@ -1670,9 +1694,9 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .chip-bad { border-color: var(--bad); background: var(--bad-bg); }
 .chip-kana {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 26px; line-height: 1.1;
+  font-size: calc(26px * var(--app-font-scale, 1)); line-height: 1.1;
 }
-.chip-romaji { font-size: 12px; color: var(--ink-soft); }
+.chip-romaji { font-size: calc(12px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 
 /* --- Set overview --------------------------------------------------------- */
 
@@ -1696,7 +1720,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 14px;
   border: 2px solid var(--line);
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: clamp(20px, 6vw, 28px);
+  font-size: calc(clamp(20px, 6vw, 28px) * var(--app-font-scale, 1));
   cursor: pointer;
 }
 /* Vocab words, unlike a kana/kanji tile's single glyph, can run to four or
@@ -1775,7 +1799,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   position: absolute;
   top: 1px; right: 5px;
   font-family: inherit;
-  font-size: 13px; font-weight: 800; line-height: 1;
+  font-size: 13px; font-weight: 800; line-height: 1;  /* ✓ checkmark icon overlay, not reading text */
   color: var(--accent);
 }
 /* A vocab tile is set vertically (see .overview-tile-vocab above); pin the
@@ -1825,10 +1849,10 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.stroke-number { font-size: 8px; fill: var(--accent); }
+.stroke-number { font-size: calc(8px * var(--app-font-scale, 1)); fill: var(--accent); }
 .stroke-fallback-glyph {
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 60px;
+  font-size: calc(60px * var(--app-font-scale, 1));
   fill: var(--ink);
 }
 
@@ -1851,11 +1875,11 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: var(--radius);
   padding: 14px 16px;
 }
-.detail-example h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink-soft); }
+.detail-example h3 { margin: 0 0 10px; font-size: calc(14px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 /* Three sentences in one card need dividing, or they read as one paragraph
    of Japanese with three translations somewhere below it. */
 .example + .example { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
-.example-tag { margin: 0 0 6px; font-size: 12px; color: var(--ink-soft); font-style: italic; }
+.example-tag { margin: 0 0 6px; font-size: calc(12px * var(--app-font-scale, 1)); color: var(--ink-soft); font-style: italic; }
 
 /* line-height has to carry the furigana sitting above the line as well as
    the line itself — at a normal 1.5 the ruby of one line collides with the
@@ -1864,7 +1888,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   margin: 0;
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
                "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
-  font-size: 21px;
+  font-size: calc(21px * var(--app-font-scale, 1));
   line-height: 2.1;
   color: var(--ink);
   /* 禁則処理, the half of it the browser can do unaided — same settings as
@@ -1892,7 +1916,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .example-jp ruby { ruby-position: over; }
 .example-jp rt {
-  font-size: 0.5em;
+  font-size: 0.5em;  /* ruby: em ratio of .example-jp, scales for free */
   font-weight: 400;
   color: var(--ink-soft);
   user-select: none;
@@ -1918,7 +1942,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .example-hit rt { color: var(--accent); }
 
-.example-en { margin: 8px 0 0; font-size: 15px; color: var(--ink-soft); }
+.example-en { margin: 8px 0 0; font-size: calc(15px * var(--app-font-scale, 1)); color: var(--ink-soft); }
 
 /* The tapped word, under the sentence it was tapped in — near enough that
    the two are obviously connected, unlike the reader's bottom sheet, which
@@ -1933,13 +1957,13 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .example-word-written {
   margin: 0;
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 24px;
+  font-size: calc(24px * var(--app-font-scale, 1));
   line-height: 1.9;
   color: var(--ink);
 }
-.example-word-written rt { font-size: 0.45em; color: var(--ink-soft); }
+.example-word-written rt { font-size: 0.45em; color: var(--ink-soft); }  /* ruby: em ratio of .example-word-written, scales for free */
 .example-word-panel .hint { margin: 2px 0 0; }
-.example-word-meaning { margin: 4px 0 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+.example-word-meaning { margin: 4px 0 0; font-size: calc(15px * var(--app-font-scale, 1)); font-weight: 600; color: var(--ink); }
 .example-word-panel .reading-chips { margin-top: 8px; }
 .example-word-panel .word-more { margin-top: 6px; }
 
@@ -1954,7 +1978,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .study-history-svg { width: 100%; height: auto; display: block; }
 .study-history-axis { stroke: var(--line); stroke-width: 1; }
-.study-history-tick-label { font-size: 10px; fill: var(--ink-soft); }
+.study-history-tick-label { font-size: calc(10px * var(--app-font-scale, 1)); fill: var(--ink-soft); }
 .study-history-dot { stroke: var(--surface); stroke-width: 1.5; }
 .study-history-dot-pass { fill: var(--ok); }
 .study-history-dot-fail { fill: var(--bad); }
@@ -1972,13 +1996,13 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   padding: 10px 4px;
   border-bottom: 1px solid var(--line);
 }
-.study-history-row-date { color: var(--ink-soft); font-size: 14px; flex-shrink: 0; }
+.study-history-row-date { color: var(--ink-soft); font-size: calc(14px * var(--app-font-scale, 1)); flex-shrink: 0; }
 .study-history-row-right { display: flex; align-items: baseline; gap: 8px; text-align: right; }
 .study-history-row-result { font-weight: 700; }
 .study-history-row-pass { color: var(--ok); }
 .study-history-row-fail { color: var(--bad); }
 .study-history-row-added { color: var(--ink-soft); }
-.study-history-row-mode { color: var(--ink-soft); font-size: 13px; }
+.study-history-row-mode { color: var(--ink-soft); font-size: calc(13px * var(--app-font-scale, 1)); }
 
 /* --- Stories (stories-plan.md) ------------------------------------------
    Not a fifth course card — see §8.1 for why. Everything below is either
@@ -2006,7 +2030,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    glyph's own tall line box. */
 .read-card-icon { line-height: 1; }
 .read-card-text { display: flex; flex-direction: column; gap: 2px; }
-.read-card-title { font-weight: 700; font-size: 19px; }
+.read-card-title { font-weight: 700; font-size: calc(19px * var(--app-font-scale, 1)); }
 
 .story-level-strip {
   display: flex;
@@ -2020,16 +2044,16 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .story-continue { text-align: left; cursor: pointer; }
 .story-list { margin-top: 4px; }
 .story-card { text-align: left; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
-.story-card-title { font-weight: 700; font-size: 17px; }
+.story-card-title { font-weight: 700; font-size: calc(17px * var(--app-font-scale, 1)); }
 
 /* The reader itself — everything that isn't the story is a failure of
    nerve (§8.3). The top bar and progress line stay minimal on purpose. */
-.reader-topbar h2 { font-size: 16px; }
+.reader-topbar h2 { font-size: calc(16px * var(--app-font-scale, 1)); }
 .reader-progress { height: 4px; margin: 4px 0 12px; }
 .reader-body {
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
                "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
-  font-size: 18px;
+  font-size: calc(18px * var(--app-font-scale, 1));
   line-height: 2.4;   /* room for furigana, whether or not it's showing */
   padding-bottom: 40px;
   /* The strictest set of Japanese line-breaking prohibitions the browser
@@ -2054,7 +2078,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   vertical-align: bottom;
 }
 .reader-token ruby { ruby-position: over; }
-.reader-token rt { font-size: 0.5em; color: var(--ink-soft); user-select: none; }
+.reader-token rt { font-size: 0.5em; color: var(--ink-soft); user-select: none; }  /* ruby: em ratio of .reader-body, scales for free */
 .reader-tap { cursor: pointer; }
 .reader-translate-tap { cursor: pointer; }
 /* The last-tapped word (setReaderActiveToken in app.js) — a place-keeper,
@@ -2081,7 +2105,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   position: absolute;
   left: 0;
   top: 100%;
-  font-size: 11px;
+  font-size: calc(11px * var(--app-font-scale, 1));
   color: var(--ink-soft);
   white-space: nowrap;
   line-height: 1.2;
@@ -2091,7 +2115,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   padding-left: 10px;
   border-left: 2px solid var(--line);
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: calc(15px * var(--app-font-scale, 1));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -2118,11 +2142,11 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .reader-card-body { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; }
 .reader-card-head { display: flex; align-items: baseline; gap: 12px; }
-/* The reader's tap-a-word definition card — glyph and gloss both scale with
-   --app-font-scale (see the comment above `html` near the top of this
-   file); the reading stays fixed, matching its quieter role elsewhere. */
+/* The reader's tap-a-word definition card — glyph, reading and gloss all
+   scale with --app-font-scale (see the comment above `html` near the top of
+   this file). */
 .reader-card-glyph { font-size: calc(40px * var(--app-font-scale, 1)); }
-.reader-card-reading { color: var(--ink-soft); font-size: 16px; }
+.reader-card-reading { color: var(--ink-soft); font-size: calc(16px * var(--app-font-scale, 1)); }
 .reader-card-gloss { font-size: calc(16px * var(--app-font-scale, 1)); font-weight: 600; }
 .reader-card-chips { flex-wrap: wrap; }
 .reader-card-chips:empty { display: none; }
@@ -2161,7 +2185,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    the mirror image of .topbar:has(.btn-back-text) above. Without this the
    word is clipped by the fixed --tap column. */
 .topbar:has(.onboarding-skip-top) { grid-template-columns: var(--tap) 1fr auto; }
-.onboarding-skip-top { padding: 0 12px; font-size: 15px; white-space: nowrap; }
+.onboarding-skip-top { padding: 0 12px; font-size: calc(15px * var(--app-font-scale, 1)); white-space: nowrap; }
 
 .onboarding-choices { display: flex; flex-direction: column; gap: 12px; }
 .onboarding-choice {
@@ -2176,7 +2200,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .onboarding-choice .action-subtitle { margin: 0; font-weight: 500; line-height: 1.35; }
 
 .onboarding-section { display: flex; flex-direction: column; gap: 8px; }
-.onboarding-section h3 { margin: 0; font-size: 17px; }
+.onboarding-section h3 { margin: 0; font-size: calc(17px * var(--app-font-scale, 1)); }
 .onboarding-section p { margin: 0; }
 /* Four scales, each free to wrap onto two rows on a narrow phone: "read and
    write all of it" will not fit beside three other options at 375px, and
@@ -2211,7 +2235,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   box-shadow: 0 6px 12px -12px rgba(0, 0, 0, 0.5);
 }
 .sweep-head .topbar { position: static; margin: 0; padding: 0; }
-.sweep-instruction { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; }
+.sweep-instruction { margin: 0; font-size: calc(15px * var(--app-font-scale, 1)); font-weight: 600; line-height: 1.35; }
 
 .sweep-section { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
 /* Sticks just under the pinned head, so the grade or unit being scrolled
@@ -2224,7 +2248,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   margin: 0;
   padding: 4px 0;
   background: var(--bg);
-  font-size: 15px;
+  font-size: calc(15px * var(--app-font-scale, 1));
   color: var(--ink-soft);
 }
 .sweep-sentinel { text-align: center; min-height: 24px; }
@@ -2301,7 +2325,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* Quiet on purpose. This icon is on every screen in the app, including the
    middle of a quiz, so it has to be findable without ever competing with
    the thing the learner is actually doing. */
-.feedback-icon { font-size: 17px; opacity: 0.55; }
+.feedback-icon { font-size: 17px; opacity: 0.55; }  /* 💬 icon, not reading text (see comment above) */
 .feedback-icon:hover, .feedback-icon:focus-visible { opacity: 1; }
 
 /* A sheet, not a screen: whatever was underneath stays mounted and
@@ -2346,7 +2370,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 #font-size-heading { font-size: calc(19px * var(--app-font-scale, 1)); }
 .font-size-row { align-items: center; gap: 10px; }
 .font-size-hint { color: var(--ink-soft); line-height: 1; }
-.font-size-hint-small { font-size: 14px; }
+.font-size-hint-small { font-size: 14px; }  /* fixed small-A slider anchor; large-A below grows to preview the scale instead */
 .font-size-hint-large { font-size: calc(22px * var(--app-font-scale, 1)); }
 .font-size-row input[type="range"] { flex: 1; accent-color: var(--accent); height: 32px; }
 #font-size-value { text-align: center; font-size: calc(14px * var(--app-font-scale, 1)); font-weight: 600; }
@@ -2366,7 +2390,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 12px;
   background: var(--bg);
   color: var(--ink-soft);
-  font-size: 13px;
+  font-size: calc(13px * var(--app-font-scale, 1));
   line-height: 1.5;
 }
 .feedback-privacy { margin: 0; }
@@ -2377,9 +2401,9 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 12px;
   background: var(--bad-bg);
   color: var(--bad);
-  font-size: 14px;
+  font-size: calc(14px * var(--app-font-scale, 1));
 }
-.feedback-done-mark { font-size: 40px; margin: 4px 0 0; text-align: center; }
+.feedback-done-mark { font-size: 40px; margin: 4px 0 0; text-align: center; }  /* 🌱 emoji, aria-hidden */
 #feedback-step-done h4 { margin: 0; text-align: center; }
 #feedback-step-done .hint { text-align: center; }
 
@@ -2408,12 +2432,12 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 
 .contributions-header { align-items: center; text-align: center; }
-.contributions-hello { margin: 0; font-size: 16px; }
-.contributions-hello .avatar { font-size: 20px; }
+.contributions-hello { margin: 0; font-size: calc(16px * var(--app-font-scale, 1)); }
+.contributions-hello .avatar { font-size: 20px; }  /* emoji avatar icon, not reading text */
 .contributions-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
 .contributions-totals div { display: flex; flex-direction: column; gap: 2px; }
-.contributions-totals b { font-size: 22px; }
-.contributions-totals .hint { font-size: 12px; line-height: 1.3; }
+.contributions-totals b { font-size: calc(22px * var(--app-font-scale, 1)); }
+.contributions-totals .hint { font-size: calc(12px * var(--app-font-scale, 1)); line-height: 1.3; }
 .contributions-empty { text-align: center; padding: 8px 4px 0; }
 .contributions-footnote { padding-top: 4px; }
 
@@ -2428,11 +2452,11 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   border-radius: 99px;
   background: var(--surface);
   color: var(--ink);
-  font: inherit; font-size: 13px;
+  font: inherit; font-size: calc(13px * var(--app-font-scale, 1));
   cursor: pointer;
 }
 .contribution-badge:hover, .contribution-badge:focus-visible { border-color: var(--accent); }
-.contribution-badge b { font-size: 16px; }
+.contribution-badge b { font-size: calc(16px * var(--app-font-scale, 1)); }
 .contribution-badge.is-closed { border-color: var(--ok); color: var(--ok); }
 
 .contributions-rows { gap: 8px; }
@@ -2455,25 +2479,25 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .contribution-row-celebrate {
   flex: 0 0 auto;
   background: none; border: none; padding: 0;
-  font-size: 18px; line-height: 1; cursor: pointer;
+  font-size: 18px; line-height: 1; cursor: pointer;  /* 🎉 emoji icon button */
 }
 .contribution-row-detail { margin: 6px 0 0; }
 
 .contribution-card { display: flex; flex-direction: column; gap: 6px; }
 .contribution-head { display: flex; align-items: baseline; gap: 8px; }
-.contribution-kind { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
-.contribution-date { font-size: 12px; color: var(--ink-soft); margin-left: auto; }
+.contribution-kind { font-size: calc(12px * var(--app-font-scale, 1)); color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+.contribution-date { font-size: calc(12px * var(--app-font-scale, 1)); color: var(--ink-soft); margin-left: auto; }
 .contribution-title { margin: 0; font-weight: 600; }
-.contribution-status { margin: 0; font-size: 14px; }
+.contribution-status { margin: 0; font-size: calc(14px * var(--app-font-scale, 1)); }
 .contribution-card.is-released { border-color: var(--ok); }
 .contribution-card.is-released .contribution-status { color: var(--ok); font-weight: 600; }
 .contribution-card.is-failed .contribution-status { color: var(--bad); }
-.contribution-timeline { margin: 4px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+.contribution-timeline { margin: 4px 0 0; padding-left: 18px; font-size: calc(13px * var(--app-font-scale, 1)); color: var(--ink-soft); line-height: 1.6; }
 .contribution-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
-.contribution-actions .btn { min-height: 40px; padding: 0 12px; font-size: 14px; }
+.contribution-actions .btn { min-height: 40px; padding: 0 12px; font-size: calc(14px * var(--app-font-scale, 1)); }
 
 .celebration-body { text-align: center; align-items: center; }
-.celebration-mark { font-size: 46px; margin: 4px 0 0; }
+.celebration-mark { font-size: 46px; margin: 4px 0 0; }  /* 🌸 emoji, aria-hidden */
 .celebration-body h3 { margin: 0; }
 .celebration-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; width: 100%; }
 .celebration-list li {
@@ -2482,7 +2506,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   background: var(--ok-bg);
   color: var(--ink);
   text-align: left;
-  font-size: 14px;
+  font-size: calc(14px * var(--app-font-scale, 1));
   line-height: 1.5;
 }
 .celebration-list b { display: block; }
