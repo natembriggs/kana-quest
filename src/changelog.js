@@ -11,6 +11,15 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-14',
+    changes: [
+      'Fixed: tapping "Learn 5 next" added those 5 to your study list before showing you any of them, so if you opened a grade by mistake and backed straight out, all 5 stayed on the list as "added, waiting to learn" — invisibly, and forever. Worse, the app teaches whatever is waiting before it moves on through the grades, so those strays jumped the queue ahead of the grade you were actually working through, every single time you sat down to learn something new. Backing out of a lesson now hands back whatever it hadn\u2019t taught you yet. Anything you answered, you keep.',
+      'Fixed: if 2 things were waiting and your settings said learn 5 at a time, the app quietly enrolled 3 more to fill the gap — under a button that said "Learn 2 waiting". Waiting now means waiting: it teaches the 2 you asked for and stops. Only when nothing at all is waiting does "Learn 5 next" reach into the grades for a fresh batch, always starting from the earliest grade you haven\u2019t finished.',
+      'New: a "See the N waiting to learn…" button on the home screen, whenever anything is waiting. It opens one list of everything you have added but not yet started, across every grade at once — the first time that list has been visible anywhere — with "Select all N waiting" and Remove to clear the lot in three taps.',
+      'New: "Choose what to study" on a set overview now works both ways. Tapping something already on your study list used to be refused; it now ticks it for removal, so you can add and take away from the same screen. Taking something off keeps everything you had already learned about it — add it back later and it carries on exactly where it left off, rather than starting again.',
+    ],
+  },
+  {
     date: '2026-09-13',
     changes: [
       'New: six more stories, one at every reading level, taking the library from 30 to 36 — six on each level strip instead of five. Level 1 gets からすと水がめ (The Crow and the Pitcher), level 2 かさじぞう (The Straw Hats for Jizō, a Japanese folk tale), level 3 ラプンツェル (Rapunzel), level 4 アリババと四十人の盗賊 (Ali Baba and the Forty Thieves), level 5 ガリバー旅行記 (Gulliver’s first voyage, to Lilliput), and level 6 まだらの紐 (the Sherlock Holmes case “The Adventure of the Speckled Band”). Every one works the same way the others do: tap any word for its meaning here, tap twice for the whole sentence in English.',

@@ -512,6 +512,11 @@
     <div id="quick-actions" class="actions" hidden>
       <button id="quick-review-due" class="btn wide" type="button"></button>
       <button id="quick-learn-next" class="btn wide" type="button"></button>
+      <!-- Only while something is enrolled but never taught. Opens the
+           cross-unit "Waiting to learn" overview in study-list select mode,
+           which is the only place the backlog can actually be seen and
+           cleared — see waitingPool() and feedback #16. -->
+      <button id="quick-waiting" class="btn btn-quiet wide" type="button" data-action="open-waiting" hidden></button>
     </div>
 
     <!-- Kanji only: find a kanji by character, meaning, or reading without
@@ -632,6 +637,9 @@
     <p id="overview-select-hint" class="hint" hidden></p>
     <div id="overview-select-shortcuts" class="row" hidden>
       <button id="overview-select-all" class="btn btn-quiet" type="button" data-action="overview-select-all">Select all not started</button>
+      <!-- The removal direction's own select-all, shown only under "Choose
+           what to study" and only where something is actually waiting. -->
+      <button id="overview-select-waiting" class="btn btn-quiet" type="button" data-action="overview-select-waiting" hidden></button>
       <button class="btn btn-quiet" type="button" data-action="overview-select-none">Clear</button>
     </div>
 
@@ -646,6 +654,7 @@
       <button id="overview-mark-think" class="btn btn-primary wide" type="button" data-action="overview-mark-think" hidden></button>
       <button id="overview-mark-sure" class="btn wide" type="button" data-action="overview-mark-sure" hidden></button>
       <button id="overview-add-study" class="btn btn-primary wide" type="button" data-action="overview-add-study" hidden></button>
+      <button id="overview-remove-study" class="btn wide" type="button" data-action="overview-remove-study" hidden></button>
     </div>
   </section>
 

@@ -885,6 +885,10 @@ button.quiz-glyph-tap {
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .actions .btn { padding: 0 10px; }
 .actions .btn b { font-weight: 800; }
+/* The waiting-list link sits under the 2-up Review/Learn pair as a full
+   row of its own — it is a third, lesser action about the pair above it,
+   not a fourth quarter of a 2x2 grid (see renderQuickActions in app.js). */
+#quick-waiting { grid-column: 1 / -1; }
 
 /* Review / Test unlearned / Learn on the course card: stacked full-width
    rows rather than actions's 2-up grid, each with room for a one-line

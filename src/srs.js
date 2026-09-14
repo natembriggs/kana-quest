@@ -781,6 +781,26 @@ export function enrollNext(course, mode, ctx, limit = 5) {
 }
 
 /**
+ * The bulk counterpart of setStudying(..., false) — takes items off the
+ * study list for one mode and returns what was actually removed (anything
+ * not enrolled in the first place is skipped, so the caller can report an
+ * honest count).
+ *
+ * Progress records are deliberately left alone, exactly as the detail
+ * screen's own per-mode toggle leaves them: history is the real record (see
+ * the module header), so removing a kanji and picking it up again later
+ * resumes where it left off. What this changes is only whether the
+ * scheduler may reach it — see eligibleItems above.
+ */
+export function unenrollItems(items, mode, ctx, now = Date.now()) {
+  const c = asContext(ctx);
+  if (!c.study) return [];
+  const removed = items.filter((item) => isStudying(c.study, item, mode));
+  removed.forEach((item) => setStudying(c.study, c.unstudy || {}, item, mode, false, now));
+  return removed;
+}
+
+/**
  * Which set the learner is currently on — the set holding the next character
  * they have not met yet. Used for display only.
  *

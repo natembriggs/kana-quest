@@ -3464,6 +3464,13 @@ check('the vocab "Learn next" lesson hands over to the quiz', visible() === 'scr
 check('the quiz asks about a Core word, drawn from the cross-unit pool rather than one course',
   el('quiz-choices')._children.length > 0, `${el('quiz-choices')._children.length} choices`);
 
+// Answer one before quitting. Quitting a `new` session hands back anything
+// it enrolled on the learner's behalf but never actually taught (see
+// releaseEnrollments in app.js), so a session abandoned cold leaves nothing
+// in the study map for the pool below to read — which is the point of this
+// next check, not what it is testing.
+const firstVocabChoice = el('quiz-choices')._children[0];
+if (firstVocabChoice) { fire(firstVocabChoice, 'click'); await settle(); }
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
 await settle();
 
@@ -4245,8 +4252,10 @@ check('starting one job hides the other — two live "select" buttons over one'
   + ' half-made selection is two ways to throw it away',
   el('overview-select-toggle').hidden === true
   && el('overview-study-toggle').textContent === '✕ Cancel');
-check('the instructions ask what to LEARN, not what is already known',
-  el('overview-select-hint').textContent.includes('you want to start learning'),
+check('the instructions ask what to LEARN, not what is already known — and say'
+  + ' that ticking something already on the list takes it off again',
+  el('overview-select-hint').textContent.includes('to add it to your')
+  && el('overview-select-hint').textContent.includes('take it off'),
   el('overview-select-hint').textContent);
 check('...and the shortcut offers the pool this job actually draws from',
   el('overview-select-all').textContent === 'Select all not yet studied',
@@ -4289,15 +4298,39 @@ check('...and says what happened, then hands both buttons back',
   && el('overview-select-toggle').hidden === false && el('overview-study-toggle').hidden === false,
   el('overview-select-hint').textContent);
 
+// The escape hatch (feedback #16): the same checklist that adds also takes
+// away. Ticking a kanji already on the study list is a REMOVAL, not a
+// refused add — which is what makes a stray batch clearable at all, rather
+// than only one at a time from a collapsed block on each detail screen.
 fireAction('overview-study-toggle');
 await drain();
-check('an already-enrolled kanji cannot be added twice',
-  (fire(el('overview-grid')._children.find((t) => t.textContent === studyPicks[0]), 'click'),
-    el('overview-counter').textContent === '0 selected'
-    && el('overview-select-hint').textContent.includes('Already on your study list')),
+fire(el('overview-grid')._children.find((t) => t.textContent === studyPicks[0]), 'click');
+await drain();
+check('ticking an already-enrolled kanji offers to REMOVE it, not refuse the tap',
+  el('overview-counter').textContent === '1 selected'
+  && el('overview-remove-study').hidden === false
+  && el('overview-remove-study').textContent === 'Remove this kanji from my study list'
+  && el('overview-add-study').disabled === true,
+  `${el('overview-counter').textContent} / "${el('overview-remove-study').textContent}"`);
+check('...and the shortcut row offers to select the whole waiting backlog at once',
+  el('overview-select-waiting').hidden === false
+  && el('overview-select-waiting').textContent.startsWith('Select all ')
+  && el('overview-select-waiting').textContent.endsWith(' waiting'),
+  el('overview-select-waiting').textContent);
+fireAction('overview-remove-study');
+await drain(10);
+const afterStudyRemove = [...rows.values()][0];
+check('...and confirming actually takes it off the study list',
+  !afterStudyRemove.study[studyPicks[0]]
+  || !afterStudyRemove.study[studyPicks[0]].definition,
+  JSON.stringify(afterStudyRemove.study[studyPicks[0]]));
+check('...leaving an unstudy tombstone, so a sync from another device cannot revive it',
+  !!(afterStudyRemove.unstudy[studyPicks[0]] || {}).definition,
+  JSON.stringify(afterStudyRemove.unstudy[studyPicks[0]]));
+check('...and says so, then hands both buttons back',
+  el('overview-select-hint').textContent.includes('removed from your Definition study list')
+  && el('overview-select-toggle').hidden === false && el('overview-study-toggle').hidden === false,
   el('overview-select-hint').textContent);
-fireAction('overview-study-toggle');
-await drain();
 
 // --- Paging between characters, from the overview ------------------------
 

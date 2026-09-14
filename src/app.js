@@ -24,6 +24,7 @@ import {
   itemKey, yomiKey, grade, gradeYomi, buildSession, courseStats,
   currentSetIndex, readyForMore, newRecord, newYomiRecord, masteryTier, autoWritingMode,
   deriveStudyList, isLegacyStudyShape, migrateStudyShape, enrollNext, newItems, introducedItems,
+  unenrollItems, pendingItems,
   isStudying, setStudying, studiedKanji, neverSeenItems, unenrolledItems, studyModes, isKanjiChar,
   isReadingStudied, setReadingStudied,
   recomputeVocabRollup, VOCAB_SUBKEYS,
@@ -70,7 +71,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-13f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-14a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -127,6 +128,37 @@ function studyListPool(mode) {
     chunks: [{ items: studiedKanji(state.profile.study, mode) }],
     excludeForMode: {},
     index: allKanjiIndex(),
+  };
+}
+
+const WAITING_POOL_ID = 'kanji-waiting';
+const VOCAB_WAITING_POOL_ID = 'vocab-waiting';
+
+/**
+ * Everything enrolled but never taught, across every unit — the "added,
+ * waiting to learn" backlog, as a course the set overview can render.
+ *
+ * This is the one thing the study list never had: a way to SEE it. A kanji
+ * could reach "waiting" by half a dozen routes (a batch enrolled by "Learn N
+ * next" and then backed out of, a detail-screen toggle, a bulk "choose what
+ * to study", a story's "+ Add"), and a `new` session teaches whatever is
+ * waiting ahead of course order — so a learner who wandered into the wrong
+ * unit once found their queue permanently answering with kanji they never
+ * chose, from a grade they couldn't name, with nothing on any screen
+ * listing them. Feedback #16 is exactly that, ten kanji deep.
+ *
+ * Rebuilt on every lookup for the same reason studyListPool is, and over the
+ * same whole-curriculum pool "Learn N next" draws from, so the grid comes
+ * out in teaching order rather than in whatever order things happened to be
+ * enrolled.
+ */
+function waitingPool(mode, kind = 'kanji') {
+  const source = kind === 'vocab' ? allVocabPool() : allKanjiPool();
+  return {
+    ...source,
+    id: kind === 'vocab' ? VOCAB_WAITING_POOL_ID : WAITING_POOL_ID,
+    name: 'Waiting to learn',
+    chunks: [{ items: pendingItems(source, mode, state.profile) }],
   };
 }
 
@@ -237,6 +269,8 @@ function getAnyCourse(courseId) {
   if (courseId === ALL_KANJI_POOL_ID) return allKanjiPool();
   if (courseId === VOCAB_STUDY_POOL_ID) return vocabStudyPool(state.mode);
   if (courseId === ALL_VOCAB_POOL_ID) return allVocabPool();
+  if (courseId === WAITING_POOL_ID) return waitingPool(state.mode, 'kanji');
+  if (courseId === VOCAB_WAITING_POOL_ID) return waitingPool(state.mode, 'vocab');
   return ALL_COURSES.find((c) => c.id === courseId);
 }
 
@@ -2097,6 +2131,20 @@ function renderQuickActions(script, nudged = false) {
     learnButton.textContent = 'All caught up';
   }
 
+  // The backlog, made findable. "Learn N waiting" already said a backlog
+  // existed, but nothing anywhere said WHAT was waiting or offered any way
+  // to change it — so a learner who once wandered into the wrong unit had
+  // their queue answering with kanji they never chose and no way to stop
+  // it (feedback #16). This opens the cross-unit waiting list straight into
+  // the two-way study-list checklist, where "Select all N waiting" plus
+  // Remove clears it outright.
+  const waitingLink = $('quick-waiting');
+  waitingLink.hidden = stats.pending === 0;
+  if (stats.pending > 0) {
+    waitingLink.textContent = `See the ${stats.pending} waiting to learn…`;
+    waitingLink.dataset.kind = script.kind;
+  }
+
   // Whichever is actually actionable reads as the primary action; if both
   // are (or neither is), review wins — same "due outranks new" precedence
   // the course card below already uses. With one exception: while this
@@ -2478,12 +2526,14 @@ function renderCourse() {
 
 async function openOverview(course, scrollToChar, { select = false } = {}) {
   state.overviewCourseId = course.id;
-  // A fresh open always starts from a clean slate — either browsing, or
-  // (from the course card's "Mark as known…" row) straight into select
-  // mode with nothing ticked yet. Never inherits a selection from an
-  // earlier visit, which could have been a different course or mode.
-  state.overviewSelect = select ? new Set() : null;
-  state.overviewSelectPurpose = select ? 'known' : null;
+  // A fresh open always starts from a clean slate — browsing, or straight
+  // into one of the two select modes with nothing ticked yet: 'known' from
+  // the course card's "Mark as known…" row, 'study' from the home screen's
+  // waiting-list link. Never inherits a selection from an earlier visit,
+  // which could have been a different course or mode.
+  const purpose = select === true ? 'known' : (select || null);
+  state.overviewSelect = purpose ? new Set() : null;
+  state.overviewSelectPurpose = purpose;
   state.overviewNotice = null;
   // A vocab tile's label is the word's own surface (buildMasteryTile), which
   // needs that unit's real data — unlike kanji/kana, nothing before this
@@ -2491,7 +2541,11 @@ async function openOverview(course, scrollToChar, { select = false } = {}) {
   // overview can be opened without ever having started one).
   if (course.kind === 'vocab') {
     const requestNav = navSeq;
-    await withLoading(ensureVocabUnitLoaded(course.unit));
+    // Every unit the listed words actually come from, not course.unit — the
+    // waiting pool spans units and has no `.unit` of its own, the same way
+    // openCharacterDetail can't use it either.
+    const units = new Set(allItems(course, state.mode).map(vocabUnitFor).filter(Boolean));
+    await withLoading(Promise.all([...units].map(ensureVocabUnitLoaded)));
     if (navSeq !== requestNav) return;
   }
   renderOverview(scrollToChar);
@@ -2609,12 +2663,26 @@ function switchOverviewMode(modeId) {
  * the current set's first item, or the tile just returned from) is simply
  * not scrolled to if the new mode doesn't list it.
  */
+/** The waiting-to-learn backlog, rather than a real unit — see waitingPool. */
+function isWaitingPool(course) {
+  return course.id === WAITING_POOL_ID || course.id === VOCAB_WAITING_POOL_ID;
+}
+
+/** What the header counter says outside select mode. The waiting pool's grid
+ * IS its count, and "10 characters" reads as a unit size, which it isn't.
+ * Shared by renderOverview and updateOverviewSelectBar, which both have to
+ * put this back — leaving select mode happens in place, without a render. */
+function overviewCounterText(course) {
+  const n = allItems(course, state.mode).length;
+  return isWaitingPool(course) ? `${n} waiting` : `${n} characters`;
+}
+
 function renderOverview(scrollToChar) {
   const course = getAnyCourse(state.overviewCourseId);
   const items = allItems(course, state.mode);
 
   $('overview-title').textContent = course.name;
-  $('overview-counter').textContent = `${items.length} characters`;
+  $('overview-counter').textContent = overviewCounterText(course);
   $('legend-pending').hidden = course.kind !== 'kanji';
   renderOverviewModePicker(course);
 
@@ -2626,6 +2694,19 @@ function renderOverview(scrollToChar) {
     grid.appendChild(tile);
     if (item === scrollToChar) scrollTarget = tile;
   });
+  // Clearing the backlog empties this grid outright, and a bare empty grid
+  // under a "Waiting to learn" heading reads as a bug rather than as the
+  // thing having worked.
+  if (isWaitingPool(course) && items.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'hint';
+    // The grid is a tile grid — dropped in as a plain child this lays out
+    // as one narrow tile-width column, a word per line. It has to span.
+    empty.style.gridColumn = '1 / -1';
+    empty.textContent = 'Nothing is waiting — new items will come up in course order,'
+      + ' starting from the earliest grade you have not finished.';
+    grid.appendChild(empty);
+  }
   renderOverviewChrome();
   syncOverviewSelection();
 
@@ -2661,12 +2742,21 @@ function knownNoun(course, count) {
   return count === 1 ? noun : `${noun}s`;
 }
 
+/** "this kanji" / "these 3 kanji" / "this word" / "these 3 words" — the
+ * demonstrative has to agree too, or a one-item selection reads "these 1
+ * kanji". */
+function countedNoun(course, count) {
+  const noun = knownNoun(course, count);
+  return count === 1 ? `this ${noun}` : `these ${count} ${noun}`;
+}
+
 /** What the select-mode instructions say — restored after any one-off
  * message (see overviewTileTap) the next time the selection changes. */
 function overviewSelectInstructions(course) {
   if (state.overviewSelectPurpose === 'study') {
-    return `Tap each ${knownNoun(course, 1)} you want to start learning in`
-      + ` ${modeName(state.mode, course.kind)} — tap again to untick.`;
+    return `Tap each ${knownNoun(course, 1)} to add it to your`
+      + ` ${modeName(state.mode, course.kind)} study list, or tap one already on the list`
+      + ' to take it off. Tap again to untick.';
   }
   return `Tap each ${knownNoun(course, 1)} you already know in ${modeName(state.mode, course.kind)}`
     + ' — tap again to untick.';
@@ -2715,8 +2805,20 @@ function renderOverviewChrome() {
   // The pool "select all" grabs differs by job (see selectAllUnstarted), so
   // the label has to as well — "not started" and "not yet studied" are not
   // the same set once a claim has enrolled what it claimed.
-  $('overview-select-all').textContent = purpose === 'study'
+  const selectAll = $('overview-select-all');
+  selectAll.textContent = purpose === 'study'
     ? 'Select all not yet studied' : 'Select all not started';
+  // Each select-all hides itself when its own pool is empty, so the row
+  // never offers a tick that would do nothing — on the waiting pool every
+  // item is already enrolled, which leaves "not yet studied" pointing at
+  // nothing, and on a grade with no backlog the reverse.
+  const waitingHere = select && courseHasStudyList(course)
+    ? pendingItems(course, state.mode, state.profile).length : 0;
+  selectAll.hidden = purpose === 'study'
+    && unenrolledItems(course, state.mode, state.profile).length === 0;
+  const selectWaiting = $('overview-select-waiting');
+  selectWaiting.hidden = purpose !== 'study' || waitingHere === 0;
+  selectWaiting.textContent = `Select all ${waitingHere} waiting`;
   updateOverviewSelectBar();
 }
 
@@ -2728,10 +2830,32 @@ function renderOverviewChrome() {
  * well known from a claim and never enrolled.
  */
 function overviewTileEligible(item) {
-  if (state.overviewSelectPurpose === 'study') {
-    return !isStudying(state.profile.study, item, state.mode);
-  }
+  // "Choose what to study" is a two-way checklist: ticking something not on
+  // the study list adds it, ticking something already on it takes it off.
+  // It used to refuse the second tap ("Already on your study list — nothing
+  // to add here"), which left the detail screen's per-mode toggle as the
+  // only way to remove anything — one kanji at a time, behind a collapsed
+  // section, and only if you already knew which kanji to go looking for.
+  // See feedback #16, and studyToggleSplit below for what confirming writes.
+  if (state.overviewSelectPurpose === 'study') return true;
   return masteryTier(state.profile.progress[itemKey(state.mode, item)]) < 4;
+}
+
+/** A 'study' selection split by what ticking each item actually means —
+ * `add` for what isn't enrolled yet, `remove` for what is. Both come back in
+ * grid order (the course's own item order), never in tick order, so the
+ * counts and the notice read the same way the grid does. */
+function studyToggleSplit() {
+  const course = getAnyCourse(state.overviewCourseId);
+  const select = state.overviewSelect || new Set();
+  const { study } = state.profile;
+  const add = [];
+  const remove = [];
+  allItems(course, state.mode).forEach((item) => {
+    if (!select.has(item)) return;
+    (isStudying(study, item, state.mode) ? remove : add).push(item);
+  });
+  return { course, add, remove };
 }
 
 /**
@@ -2747,9 +2871,7 @@ function overviewTileTap(course, item, tile) {
     return;
   }
   if (!overviewTileEligible(item)) {
-    $('overview-select-hint').textContent = state.overviewSelectPurpose === 'study'
-      ? '✓ Already on your study list — nothing to add here.'
-      : '★ Already well known in this mode — nothing to mark here.';
+    $('overview-select-hint').textContent = '★ Already well known in this mode — nothing to mark here.';
     return;
   }
   toggleOverviewSelection(item, tile);
@@ -2901,6 +3023,22 @@ function selectAllUnstarted() {
   syncOverviewSelection();
 }
 
+/**
+ * "Select all waiting": everything here that is enrolled but never taught —
+ * the removal direction's own select-all, and what makes clearing a backlog
+ * three taps rather than forty (feedback #16). Deliberately NOT "select
+ * everything enrolled": a bulk tick that swept up kanji being actively
+ * learned, one button away from Remove, is a much worse accident than
+ * having to tick those few by hand.
+ */
+function selectAllWaiting() {
+  const select = state.overviewSelect;
+  if (!select) return;
+  const course = getAnyCourse(state.overviewCourseId);
+  pendingItems(course, state.mode, state.profile).forEach((item) => select.add(item));
+  syncOverviewSelection();
+}
+
 function clearOverviewSelection() {
   if (!state.overviewSelect) return;
   state.overviewSelect.clear();
@@ -2920,6 +3058,7 @@ function updateOverviewSelectBar() {
   const sure = $('overview-mark-sure');
   const think = $('overview-mark-think');
   const add = $('overview-add-study');
+  const remove = $('overview-remove-study');
   const course = getAnyCourse(state.overviewCourseId);
   // The pinned bar and the install banner both sit at the bottom edge; the
   // banner gives way while the bar is showing, same as on the quiz screen.
@@ -2928,27 +3067,42 @@ function updateOverviewSelectBar() {
     sure.hidden = true;
     think.hidden = true;
     add.hidden = true;
+    remove.hidden = true;
     // Leaving select mode happens in place (no renderOverview), so the
     // counter has to be put back here too.
-    $('overview-counter').textContent = `${allItems(course, state.mode).length} characters`;
+    $('overview-counter').textContent = overviewCounterText(course);
     return;
   }
   const n = select.size;
   $('overview-counter').textContent = `${n} selected`;
 
   if (state.overviewSelectPurpose === 'study') {
+    // Two buttons, because one selection can mean two different writes —
+    // see studyToggleSplit. Each says its own count rather than the bare
+    // selection size: ticking three new kanji and one you already study is
+    // "Add 3" and "Remove 1", never "do something to 4".
+    const { add: adding, remove: removing } = studyToggleSplit();
     sure.hidden = true;
     think.hidden = true;
     add.hidden = false;
-    add.disabled = n === 0;
-    add.className = 'btn btn-primary wide';
-    add.textContent = n > 0
-      ? `Add these ${n} ${knownNoun(course, n)} to my study list`
+    add.disabled = adding.length === 0;
+    // Whichever direction the selection actually is takes the accent. With
+    // both, adding leads — it's the safe one.
+    add.className = `btn wide${adding.length > 0 ? ' btn-primary' : ''}`;
+    add.textContent = adding.length > 0
+      ? `Add ${countedNoun(course, adding.length)} to my study list`
       : 'Add to my study list';
+    remove.hidden = false;
+    remove.disabled = removing.length === 0;
+    remove.className = `btn wide${removing.length > 0 && adding.length === 0 ? ' btn-primary' : ''}`;
+    remove.textContent = removing.length > 0
+      ? `Remove ${countedNoun(course, removing.length)} from my study list`
+      : 'Remove from my study list';
     return;
   }
 
   add.hidden = true;
+  remove.hidden = true;
   // The same wording the sweep's confirm button uses, for the same reason:
   // the button has to say what is about to be written, and "I think I know"
   // is not the same promise as "I know". See sweepClaim().
@@ -3029,25 +3183,73 @@ async function markSelectedKnown(claim) {
  * of these do I want" are the same question asked from opposite ends.
  *
  * No confirm() here, unlike a claim: adding to the study list writes no
- * progress, changes no schedule, and is undone by the same button on any
- * item's detail screen. There is nothing to lose by tapping it.
+ * progress and changes no schedule, and the same selection undoes it — see
+ * removeSelectedFromStudyList just below. There is nothing to lose by
+ * tapping it.
  */
 async function addSelectedToStudyList() {
-  const course = getAnyCourse(state.overviewCourseId);
-  const select = state.overviewSelect;
-  if (!select || select.size === 0) return;
+  const { course, add: items } = studyToggleSplit();
+  if (items.length === 0) return;
   const { study, unstudy } = state.profile;
-  const items = course.chunks.flatMap((c) => c.items)
-    .filter((item) => select.has(item) && !isStudying(study, item, state.mode));
   items.forEach((item) => setStudying(study, unstudy, item, state.mode, true));
   await store.saveProfile(state.profile);
 
   const label = modeName(state.mode, course.kind);
+  finishStudySelection(`✓ ${items.length} ${knownNoun(course, items.length)} added to your`
+    + ` ${label} study list — ${items.length === 1 ? "it'll" : "they'll"} come up as you`
+    + ' learn new ones.', items[0]);
+}
+
+/**
+ * The other half of the same checklist: take the ticked items back off the
+ * study list. The escape hatch feedback #16 asked for — enrolling was always
+ * one tap from several screens, and un-enrolling was one kanji at a time
+ * from a collapsed block on a detail screen you had to know to open.
+ *
+ * Progress records survive (unenrollItems, and the module note in srs.js):
+ * removing something stops the scheduler reaching it, and adding it back
+ * later resumes where it left off rather than starting from zero. So a
+ * waiting item — nothing recorded, nothing scheduled — loses literally
+ * nothing, and needs no more ceremony than adding did.
+ *
+ * Something already being learned is different: its reviews stop appearing,
+ * which is a real change to the daily queue and not obviously reversible
+ * from the outside. That case, and only that case, confirms first and says
+ * what is kept.
+ */
+async function removeSelectedFromStudyList() {
+  const { course, remove: items } = studyToggleSplit();
+  if (items.length === 0) return;
+  const { progress } = state.profile;
+  const started = items.filter((item) => progress[itemKey(state.mode, item)]);
+  const label = modeName(state.mode, course.kind);
+  if (started.length > 0) {
+    const one = started.length === 1;
+    const ok = confirm(`${one ? 'You have already started learning this'
+      : `You have already started learning ${started.length} of these`}`
+      + ` ${knownNoun(course, started.length)}. Removing ${one ? 'it' : 'them'} stops`
+      + ` ${one ? 'its' : 'their'} ${label} reviews coming up.\n\nYour progress is kept —`
+      + ` add ${one ? 'it' : 'them'} back any time and`
+      + ` ${one ? 'it carries' : 'they carry'} on where ${one ? 'it' : 'they'} left off.`);
+    if (!ok) return;
+  }
+  unenrollItems(items, state.mode, state.profile);
+  await store.saveProfile(state.profile);
+
+  finishStudySelection(`✓ ${items.length} ${knownNoun(course, items.length)} removed from your`
+    + ` ${label} study list. Progress is kept if you add`
+    + ` ${items.length === 1 ? 'it' : 'them'} back.`, items[0]);
+}
+
+/** Leave select mode and repaint with a notice. The grid itself can change
+ * shape underneath a removal — the waiting pool lists exactly what is
+ * waiting, so clearing it empties the grid — so this re-renders rather than
+ * updating tiles in place. */
+function finishStudySelection(notice, scrollTo) {
   state.overviewSelect = null;
   state.overviewSelectPurpose = null;
-  state.overviewNotice = `✓ ${items.length} ${knownNoun(course, items.length)} added to your`
-    + ` ${label} study list — they'll come up as you learn new ones.`;
-  renderOverview(items[0]);
+  state.overviewNotice = notice;
+  renderOverview(scrollTo);
 }
 
 // --- Character detail: stroke order, readings, meanings -------------------
@@ -4457,6 +4659,42 @@ function renderGeneralWords(words) {
  * can show the whole picture merged with whatever happens now, rather than
  * just this small practice round in isolation. See finishSession().
  */
+/**
+ * Hand back study-list entries this session made on the learner's behalf but
+ * never actually taught — the fix for the complaint in feedback #16.
+ *
+ * "Learn 5 next" enrolls its batch BEFORE the lesson runs, so backing out of
+ * a unit you opened by mistake used to leave all five sitting on the study
+ * list as "added, waiting to learn", permanently and invisibly. Worse, a
+ * `new` session teaches whatever is waiting ahead of course order (which is
+ * what makes hand-adding a kanji from its detail screen work), so those five
+ * strangers then jumped the queue ahead of the grade the learner was
+ * actually working through — every time, with no way to find or clear them.
+ *
+ * Only ever touches `session.autoEnrolled` — this session's own speculative
+ * batch — and within that only items with no progress record in this mode,
+ * so anything actually reached, and anything the learner chose by hand, is
+ * left exactly where it is. Answering two of five and quitting keeps those
+ * two and releases the other three, which is the same lazy, one-at-a-time
+ * rule ensurePlacementEnrolled already applies to "Test unlearned".
+ */
+function releaseEnrollments(enrolled, mode) {
+  if (!enrolled || enrolled.length === 0) return;
+  const { profile } = state;
+  const untouched = enrolled.filter((item) => !profile.progress[itemKey(mode, item)]);
+  if (untouched.length === 0) return;
+  unenrollItems(untouched, mode, profile);
+  store.saveProfile(profile);
+}
+
+/** The session's own batch, for the two places a session ends. */
+function releaseSessionEnrollments() {
+  const session = state.session;
+  if (!session) return;
+  releaseEnrollments(session.autoEnrolled, state.mode);
+  session.autoEnrolled = [];
+}
+
 async function startSession(courseId, kind, items, { skipLesson = false, carriedResults } = {}) {
   const requestNav = navSeq;
   state.courseId = courseId;
@@ -4466,6 +4704,10 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
   const { settings } = profile;
 
   let built;
+  // What this session's own enrollNext put on the study list, so that
+  // quitting can hand back whatever never got taught — see
+  // releaseUntouchedEnrollments below.
+  let autoEnrolled = [];
   if (items) {
     built = { lesson: skipLesson ? [] : items, quiz: items };
   } else {
@@ -4484,9 +4726,16 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     // untouched kanji in the unit marked "waiting to learn" — exactly the
     // bug this avoids.
     if (kind === 'new') {
-      const waiting = newItems(course, state.mode, profile, settings.newPerSession).length;
-      if (waiting < settings.newPerSession) {
-        enrollNext(course, state.mode, profile, settings.newPerSession - waiting);
+      // Topping a short waiting list up to newPerSession used to happen
+      // here — two waiting plus three freshly enrolled, under a button that
+      // said "Learn 2 waiting". That made the button a lie and, worse, made
+      // it impossible to work through a backlog without silently taking on
+      // more: every attempt to clear two waiting kanji enrolled three more.
+      // Waiting means waiting. Only when nothing at all is waiting does
+      // this reach into course order for a fresh batch, which is what "Learn
+      // N next" means and all it ever means. See feedback #16.
+      if (newItems(course, state.mode, profile, settings.newPerSession).length === 0) {
+        autoEnrolled = enrollNext(course, state.mode, profile, settings.newPerSession);
         store.saveProfile(profile);
       }
     }
@@ -4540,8 +4789,13 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     ]));
   }
   // The user may have navigated elsewhere while this was loading — only the
-  // most recent request should ever commit a session and render it.
-  if (navSeq !== requestNav) return;
+  // most recent request should ever commit a session and render it. The
+  // batch enrolled above never reached a lesson in that case, so it goes
+  // straight back rather than sitting on the study list as "waiting".
+  if (navSeq !== requestNav) {
+    releaseEnrollments(autoEnrolled, state.mode);
+    return;
+  }
 
   const writingModePref = settings.writingModePreference;
 
@@ -4561,6 +4815,10 @@ async function startSession(courseId, kind, items, { skipLesson = false, carried
     // top box instead of climbing one at a time — see grade()'s `placement`
     // option in srs.js and recordResult()/recordYomiResult() below.
     placementTest: kind === 'placement',
+    // What this session's own enrollNext added to the study list. Anything
+    // here that never gets taught is handed back when the session ends —
+    // see releaseUntouchedEnrollments below.
+    autoEnrolled,
     // Milestone celebration (review-followups.md item 4): a snapshot of this
     // course/mode's own courseStats, taken before anything in this session
     // (lesson or quiz) can change it — finishSession() compares this against
@@ -7529,6 +7787,11 @@ function finishSession() {
   backButton.classList.toggle('btn-quiet', !nothingLeft);
 
   settlePendingGrade();
+  // Normally a no-op here — a session that ran to the end taught everything
+  // it enrolled — but a quiz can end with items still untaught (writing
+  // mode's excluded yōon, a kanji with nothing quizzable left), and those
+  // should not linger as "waiting" either. See releaseEnrollments.
+  releaseSessionEnrollments();
   state.session = null;
   store.saveProfile(state.profile);
   show('screen-summary');
@@ -9873,9 +10136,17 @@ function wire() {
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
       case 'overview-select-toggle': toggleOverviewSelectMode('known'); break;
+      case 'open-waiting': {
+        const poolId = $('quick-waiting').dataset.kind === 'vocab'
+          ? VOCAB_WAITING_POOL_ID : WAITING_POOL_ID;
+        await openOverview(getAnyCourse(poolId), undefined, { select: 'study' });
+        break;
+      }
       case 'overview-study-toggle': toggleOverviewSelectMode('study'); break;
       case 'overview-add-study': await addSelectedToStudyList(); break;
+      case 'overview-remove-study': await removeSelectedFromStudyList(); break;
       case 'overview-select-all': selectAllUnstarted(); break;
+      case 'overview-select-waiting': selectAllWaiting(); break;
       case 'overview-select-none': clearOverviewSelection(); break;
       // Self-placement: the course screen's banner, and the sweep it opens.
       case 'placement-sweep': await openSweep(currentScript().id, state.mode); break;
@@ -9943,6 +10214,11 @@ function wire() {
         stopLessonStrokeLoop(); // in case quit happened mid-lesson, not from the quiz
         if (state.session) clearTimeout(state.session.pendingAdvance);
         settlePendingGrade();
+        // Anything this session enrolled but never got round to teaching
+        // goes back, so backing out of the wrong unit leaves no trace on
+        // the study list (releaseSessionEnrollments, feedback #16). After
+        // settlePendingGrade, so a just-answered item counts as taught.
+        releaseSessionEnrollments();
         state.session = null;
         renderCourse();
         // Whatever was answered before quitting is already graded and
