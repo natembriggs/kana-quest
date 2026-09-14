@@ -1217,6 +1217,20 @@
           Hard<span class="rate-sub">show again soon</span>
         </button>
       </div>
+      <!-- Shown instead of #quiz-ok above, and only on a correct answer in a
+           "Test unlearned" session — see confirmPlacementAndAdvance() in
+           app.js. A test-out answer vaults the character straight to the top
+           box, so a lucky guess would quietly retire something never
+           actually learned; this is the chance to say so. "I know this!"
+           is the one that does exactly what pressing Next always did. -->
+      <div id="quiz-placement" class="row confirm-row" hidden>
+        <button id="quiz-placement-guess" class="btn confirm-guess" type="button">
+          I just guessed<span class="rate-sub">keep testing me</span>
+        </button>
+        <button id="quiz-placement-know" class="btn btn-primary confirm-know" type="button">
+          I know this!<span class="rate-sub">no need to keep testing</span>
+        </button>
+      </div>
     </div>
   </section>
 

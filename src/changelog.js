@@ -18,6 +18,7 @@ export const CHANGELOG = [
       'New: a "See the N waiting to learn…" button on the home screen, whenever anything is waiting. It opens one list of everything you have added but not yet started, across every grade at once — the first time that list has been visible anywhere — with "Select all N waiting" and Remove to clear the lot in three taps.',
       'New: "Choose what to study" on a set overview now works both ways. Tapping something already on your study list used to be refused; it now ticks it for removal, so you can add and take away from the same screen. Taking something off keeps everything you had already learned about it — add it back later and it carries on exactly where it left off, rather than starting again.',
       'Fixed: on a phone with the text size turned down in Settings, tapping into a text box (like the sync code field) could suddenly zoom the whole app in, with no way to pinch back out. Text boxes now stay large enough to never trigger that.',
+      'New: in "Test unlearned", a right answer no longer decides on its own that you know something. Getting one right now asks you first — "I know this!" puts it away as already known, exactly as before, and "I just guessed" beside it counts the question as missed instead, so the app keeps teaching and testing it. One in four guesses comes out right by luck, and until now the only way to stop a lucky one being filed away as learned was to deliberately tap an answer you knew was wrong.',
     ],
   },
   {
