@@ -167,8 +167,16 @@ function fire(element, type, event = {}) {
 // (#quiz-rate/#writing-rate), which is what showRatingBar() actually
 // toggles — not the individual buttons inside it, which app.js never
 // touches directly.
-function quizContinueButton() { return el('quiz-rate').hidden ? el('quiz-ok') : el('quiz-rate-ok'); }
-function quizContinueVisible() { return !el('quiz-rate').hidden || !el('quiz-ok').hidden; }
+// A placement test swaps in a third possibility on a correct answer — the
+// "I know this! / I just guessed" bar (#quiz-placement) — where "I know
+// this!" is the one that commits what plain Next always committed there.
+function quizContinueButton() {
+  if (!el('quiz-placement').hidden) return el('quiz-placement-know');
+  return el('quiz-rate').hidden ? el('quiz-ok') : el('quiz-rate-ok');
+}
+function quizContinueVisible() {
+  return !el('quiz-rate').hidden || !el('quiz-ok').hidden || !el('quiz-placement').hidden;
+}
 function writingContinueButton() { return el('writing-rate').hidden ? el('writing-next') : el('writing-rate-ok'); }
 function writingContinueVisible() { return !el('writing-rate').hidden || !el('writing-next').hidden; }
 
@@ -2844,6 +2852,17 @@ const placementRightChoice = el('quiz-choices')._children.find((c) => c.textCont
 fire(placementRightChoice, 'click');
 await settle();
 
+// A correct test-out answer no longer commits where it stands: it vaults the
+// character to the top box, so it stops to ask whether that was knowledge or
+// a lucky guess (see stashPlacementConfirm() in app.js).
+check('a correct placement answer offers the know-it/guessed bar instead of a plain Next',
+  el('quiz-placement').hidden === false && el('quiz-ok').hidden === true,
+  `placement bar hidden=${el('quiz-placement').hidden}, quiz-ok hidden=${el('quiz-ok').hidden}`);
+check('nothing is graded or enrolled until that bar is answered',
+  !([...rows.values()][0].progress[`definition:${placementKanji}`]));
+fire(el('quiz-placement-know'), 'click');
+await settle();
+
 const placementProfileAfterAnswer = [...rows.values()][0];
 const placementRecord = placementProfileAfterAnswer.progress[`definition:${placementKanji}`];
 check('a correct placement answer jumps straight to the top box, not box 1',
@@ -2887,6 +2906,7 @@ check('enough grade-6 kanji are still untested to exercise a second placement ro
 
 const seenThisRound = [];
 let missedPlacementKanji = null;
+let guessedPlacementKanji = null;
 for (let i = 0; i < secondRoundUntested.length && visible() === 'screen-quiz'; i += 1) {
   const kanji = el('quiz-kana').textContent;
   if (!kanji) break;
@@ -2912,17 +2932,38 @@ for (let i = 0; i < secondRoundUntested.length && visible() === 'screen-quiz'; i
     fire(right, 'click');
   }
   await settle();
-  fire(el('quiz-ok'), 'click'); // resolved questions wait for Next, not a timer, now
+  // Resolved questions wait for a press, not a timer. Which press depends on
+  // what is on screen: the recovered miss above was locked in on attempt 1
+  // and gets a plain Next, while every clean first-attempt answer here stops
+  // on the know-it/guessed bar. Take "I just guessed" exactly once, to prove
+  // it really does land as an ordinary miss.
+  if (kanji !== missedPlacementKanji && guessedPlacementKanji === null) {
+    check('a correct placement answer offers "I just guessed" alongside "I know this!"',
+      el('quiz-placement').hidden === false, `placement bar hidden=${el('quiz-placement').hidden}`);
+    guessedPlacementKanji = kanji;
+    fire(el('quiz-placement-guess'), 'click');
+  } else {
+    fire(quizContinueButton(), 'click');
+  }
   await settle();
 }
+
+const guessedRecord = [...rows.values()][0].progress[`definition:${guessedPlacementKanji}`];
+check('"I just guessed" grades a right answer as an ordinary miss, not a vault to the top box',
+  !!guessedRecord && guessedRecord.box === 0, `${guessedPlacementKanji}: ${JSON.stringify(guessedRecord)}`);
+check('a guessed-at kanji is still enrolled for study, the same as any other miss',
+  isStudying([...rows.values()][0].study, guessedPlacementKanji, 'definition'));
 check('the second placement round asked each untested kanji exactly once, not more',
   seenThisRound.length === secondRoundUntested.length, `${seenThisRound.length} of ${secondRoundUntested.length}`);
 check('the second placement round ends at the summary', visible() === 'screen-summary', visible());
 
 const studyMissedButton = el('summary-study-missed');
-check('the summary offers to study exactly the one kanji missed this placement round',
+// Two, not one: the deliberate miss above, plus the one answered right and
+// then owned up to with "I just guessed" — which is the whole point of that
+// button, so it has to reach the summary as a miss like any other.
+check('the summary offers to study both the missed kanji and the guessed-at one',
   studyMissedButton.hidden === false
-  && studyMissedButton.innerHTML.includes('1')
+  && studyMissedButton.innerHTML.includes('2')
   && studyMissedButton.innerHTML.toLowerCase().includes('missed'),
   studyMissedButton.innerHTML);
 
@@ -2974,13 +3015,21 @@ const kanaPlacementRightChoice = el('quiz-choices')._children.find((c) => c.text
 fire(kanaPlacementRightChoice, 'click');
 await settle();
 
-const profileAfterKanaPlacement = [...rows.values()][0];
-const kanaPlacementRecord = profileAfterKanaPlacement.progress[`recognition:${kanaPlacementChar}`];
-check('a correct kana placement answer jumps straight to the top box too',
-  !!kanaPlacementRecord && kanaPlacementRecord.box === MAX_BOX, JSON.stringify(kanaPlacementRecord));
+check('the know-it/guessed bar is offered for kana too, not just kanji',
+  el('quiz-placement').hidden === false, `placement bar hidden=${el('quiz-placement').hidden}`);
 
+// Quit with that bar still up, never pressed. This is settlePendingGrade()'s
+// safety net for the placement slot, and it has to land on "I know this!" —
+// committing the test-out is what a correct placement answer did before the
+// bar existed, so walking away can't quietly turn it into a miss (nor leave
+// it ungraded).
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'quit-session' } }) } });
 await settle();
+
+const profileAfterKanaPlacement = [...rows.values()][0];
+const kanaPlacementRecord = profileAfterKanaPlacement.progress[`recognition:${kanaPlacementChar}`];
+check('a correct kana placement answer left unconfirmed settles as known — straight to the top box',
+  !!kanaPlacementRecord && kanaPlacementRecord.box === MAX_BOX, JSON.stringify(kanaPlacementRecord));
 
 // --- Settings: writing strictness ------------------------------------------
 // Phase 5 of writing-mode-plan.md — a per-profile slider, same pattern as

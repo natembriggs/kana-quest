@@ -71,7 +71,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-14b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-14c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -5233,6 +5233,7 @@ function renderSingleChoice(course, item) {
   session.attempt = 0;
   $('quiz-ok').hidden = true;
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   // Definition mode has no Advanced/Show answers row of its own — a
   // single-choice question resolves on the first click — so the row appears
   // here only to carry the hint, and only when there is a hint to carry.
@@ -5299,8 +5300,11 @@ function chooseAnswer(value, button) {
   if (session.attempt === 1) {
     if (correct && isRatableCorrectAnswer(session)) {
       stashPendingGrade((rating) => recordResult(item, true, rating));
+    } else if (correct && needsPlacementConfirm(session)) {
+      // Not committed yet either way — see stashPlacementConfirm().
+      stashPlacementConfirm((known) => recordResult(item, known));
     } else if (correct) {
-      recordResult(item, true); // placement: rating would be a no-op anyway (see isRatableCorrectAnswer)
+      recordResult(item, true);
     } else {
       recordResult(item, false);
     }
@@ -5320,6 +5324,10 @@ function chooseAnswer(value, button) {
     $('quiz-kana').classList.add('quiz-glyph-tap');
     if (isRatableCorrectAnswer(session)) {
       showRatingBar('quiz-ok', 'quiz-rate');
+    } else if (session.pendingPlacementConfirm) {
+      // Exactly the answers stashed just above, and nothing else: a
+      // placement recovery on attempt 2+ was already locked in as a miss.
+      showRatingBar('quiz-ok', 'quiz-placement');
     } else {
       $('quiz-ok').hidden = false;
       $('quiz-ok').textContent = 'Next';
@@ -6029,6 +6037,7 @@ function renderVocabMeaningQuestion(course, item) {
 
   $('quiz-ok').hidden = true;
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   $('quiz-kanji-actions').hidden = true;
   updateVocabWordDisplay();
 
@@ -6061,6 +6070,8 @@ function chooseVocabMeaning(value, button) {
   if (session.attempt === 1) {
     if (correct && isRatableCorrectAnswer(session)) {
       stashPendingGrade((rating) => recordVocabDef(item, true, rating));
+    } else if (correct && needsPlacementConfirm(session)) {
+      stashPlacementConfirm((known) => recordVocabDef(item, known));
     } else if (correct) {
       recordVocabDef(item, true);
     } else {
@@ -6111,10 +6122,13 @@ function finishVocabDefinitionStage(course, item) {
     session.vocabStage = 'done';
     $('quiz-kana').classList.add('quiz-glyph-tap');
   }
-  // Same guard as chooseAnswer's: a recovery on attempt 2+, or a placement
-  // answer, has nothing pending to rate — plain Next, not the bar.
+  // Same guard as chooseAnswer's: a recovery on attempt 2+ has nothing
+  // pending to rate — plain Next, not a bar. A placement answer has its own
+  // bar to press rather than a rating (see stashPlacementConfirm()).
   if (isRatableCorrectAnswer(session)) {
     showRatingBar('quiz-ok', 'quiz-rate');
+  } else if (session.pendingPlacementConfirm) {
+    showRatingBar('quiz-ok', 'quiz-placement');
   } else {
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
@@ -6144,6 +6158,7 @@ function renderVocabYomiStage({ options, answer }) {
   // definition's own green card for one "Next" press before this ran.
   $('quiz-ok').hidden = true;
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   $('quiz-feedback').textContent = "Now choose how it's read.";
   $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
@@ -6167,7 +6182,8 @@ function chooseVocabYomi(value, button) {
   const item = session.queue[session.position];
   const correct = value === session.vocabYomiAnswer;
   if (correct) {
-    stashPendingGrade((rating) => recordVocabYomi(item, true, rating));
+    if (needsPlacementConfirm(session)) stashPlacementConfirm((known) => recordVocabYomi(item, known));
+    else stashPendingGrade((rating) => recordVocabYomi(item, true, rating));
     const course = getAnyCourse(state.courseId);
     creditVocabYomi(vocabInfo(course, item), session.vocabHidden);
     store.saveProfile(state.profile);
@@ -6186,7 +6202,7 @@ function chooseVocabYomi(value, button) {
   session.locked = true;
   $('quiz-kana').classList.add('quiz-glyph-tap');
   if (correct) {
-    showRatingBar('quiz-ok', 'quiz-rate');
+    showRatingBar('quiz-ok', session.pendingPlacementConfirm ? 'quiz-placement' : 'quiz-rate');
   } else {
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
@@ -6243,6 +6259,7 @@ function renderVocabRecallQuestion(course, item) {
   $('quiz-prompt-pronunciation').hidden = true;
   $('quiz-ok').hidden = true;
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   $('quiz-kanji-actions').hidden = true;
 
   const { options, answer } = buildRecallChoices(course, item);
@@ -6268,6 +6285,8 @@ function chooseVocabProd(value, button) {
   if (session.attempt === 1) {
     if (correct && isRatableCorrectAnswer(session)) {
       stashPendingGrade((rating) => recordVocabProd(item, true, rating));
+    } else if (correct && needsPlacementConfirm(session)) {
+      stashPlacementConfirm((known) => recordVocabProd(item, known));
     } else if (correct) {
       recordVocabProd(item, true);
     } else {
@@ -6321,10 +6340,13 @@ function finishVocabProdStage(course, item) {
     session.vocabRecallStage = 'done';
     $('quiz-kana').classList.add('quiz-glyph-tap');
   }
-  // Same guard as chooseAnswer's: a recovery on attempt 2+, or a placement
-  // answer, has nothing pending to rate — plain Next, not the bar.
+  // Same guard as chooseAnswer's: a recovery on attempt 2+ has nothing
+  // pending to rate — plain Next, not a bar. A placement answer has its own
+  // bar to press rather than a rating (see stashPlacementConfirm()).
   if (isRatableCorrectAnswer(session)) {
     showRatingBar('quiz-ok', 'quiz-rate');
+  } else if (session.pendingPlacementConfirm) {
+    showRatingBar('quiz-ok', 'quiz-placement');
   } else {
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
@@ -6356,6 +6378,7 @@ function renderVocabSpellStage(info, { options, answer }) {
   // card for one "Next" press before this ran.
   $('quiz-ok').hidden = true;
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   $('quiz-feedback').textContent = 'Now choose the correct kanji.';
   $('quiz-feedback').className = 'feedback hint';
   $('quiz-card').className = 'quiz-card';
@@ -6379,7 +6402,8 @@ function chooseVocabSpell(value, button) {
   if (!session || session.vocabRecallStage !== 'spell' || session.locked) return;
   const item = session.queue[session.position];
   const correct = value === session.vocabSpellAnswer;
-  if (correct) stashPendingGrade((rating) => recordVocabSpell(item, true, rating));
+  if (correct && needsPlacementConfirm(session)) stashPlacementConfirm((known) => recordVocabSpell(item, known));
+  else if (correct) stashPendingGrade((rating) => recordVocabSpell(item, true, rating));
   else recordVocabSpell(item, false);
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
@@ -6393,7 +6417,7 @@ function chooseVocabSpell(value, button) {
   session.locked = true;
   $('quiz-kana').classList.add('quiz-glyph-tap');
   if (correct) {
-    showRatingBar('quiz-ok', 'quiz-rate');
+    showRatingBar('quiz-ok', session.pendingPlacementConfirm ? 'quiz-placement' : 'quiz-rate');
   } else {
     $('quiz-ok').hidden = false;
     $('quiz-ok').textContent = 'Next';
@@ -7141,11 +7165,13 @@ function renderKanjiChoices(course, kanji) {
   session.kanjiRoundOver = false;
 
   $('quiz-ok').hidden = true; // becomes "Next" once the round resolves
-  // This mode never shows the Easy/OK/Hard bar (see showRatingBar() in
+  // This mode never shows either bottom bar (see showRatingBar() in
   // app.js) — each reading grades independently, live, with no single
-  // moment to rate — but it still has to be reset here in case a PRIOR
-  // session (any other quiz mode) left it showing when it ended.
+  // moment to rate or confirm — but they still have to be reset here in
+  // case a PRIOR session (any other quiz mode) left one showing when it
+  // ended.
   $('quiz-rate').hidden = true;
+  $('quiz-placement').hidden = true;
   $('quiz-kanji-actions').hidden = false;
   $('quiz-show-answers').hidden = false;
   $('quiz-show-answers').disabled = false;
@@ -7513,6 +7539,10 @@ function primaryAdvanceButton() {
     // so this just means Enter presses whichever one is actually showing —
     // OK on a correct answer, plain Next on a miss.
     ['screen-quiz', 'quiz-rate-ok', 'quiz-rate'],         // correct question -> rate it
+    // Same story again for the placement bar, which replaces the same plain
+    // Next: Enter presses "I know this!", which is exactly what Enter on
+    // that plain Next used to commit here.
+    ['screen-quiz', 'quiz-placement-know', 'quiz-placement'], // correct test-out -> confirm it
     ['screen-quiz', 'quiz-ok', null],                   // graded question -> Next
     ['screen-writing', 'writing-rate-ok', 'writing-rate'], // correct character -> rate it
     ['screen-writing', 'writing-next', 'writing-result'], // finished character -> Next
@@ -7591,18 +7621,53 @@ function stashPendingGrade(commit) {
  * attempt 2+ (already locked as Again on attempt 1, so there is nothing
  * left to rate — see chooseAnswer()) and a placement-test answer (grade()'s
  * `placement` branch jumps straight to the top box regardless of `rating`,
- * so Easy/OK/Hard would visibly do nothing). Both cases keep today's plain
- * Next and commit immediately, exactly as every mode did before this
- * feature existed.
+ * so Easy/OK/Hard would visibly do nothing). The attempt 2+ case keeps
+ * today's plain Next and commits immediately, exactly as every mode did
+ * before this feature existed; the placement case has a bar of its own now,
+ * asking the question that DOES change what gets committed there — see
+ * stashPlacementConfirm() below.
  */
 function isRatableCorrectAnswer(session) {
   return session.attempt === 1 && !session.placementTest;
 }
 
-/** Shows the Easy/OK/Hard bar in place of a screen's plain "Next" button —
- * `nextId`/`rateId` are `quiz-ok`/`quiz-rate` or `writing-next`/
- * `writing-rate`. Only ever called on the correct path; the wrong-answer
- * paths keep showing the plain Next button directly and never touch this. */
+/**
+ * The placement test's own version of the above, and the case
+ * isRatableCorrectAnswer() deliberately excludes. A correct answer here does
+ * something far blunter than any rating: grade()'s `placement` branch vaults
+ * the character straight to the top box, so a lucky guess out of four
+ * choices quietly retires something never actually learned — the reported
+ * complaint, worked around until now by deliberately tapping a WRONG answer
+ * when unsure. So a correct placement answer stops on a two-way bar instead
+ * of committing: "I know this!" commits the vault exactly as before, "I just
+ * guessed" commits the very same ordinary miss the wrong-answer path a few
+ * lines from each caller already commits. Kept in its own session slot,
+ * never pendingGrade's — the two bars answer different questions, and
+ * settlePendingGrade() below has to be able to default them differently.
+ *
+ * Only multiple-choice needs this. Free-mode writing (which a placement
+ * session already forces, see writingModeOverride in startSession) asks its
+ * own yes/no self-grade before anything is committed, so the guess can
+ * never happen there in the first place.
+ */
+function stashPlacementConfirm(commit) {
+  state.session.pendingPlacementConfirm = commit;
+}
+
+/** Whether a correct answer in THIS session should stop for the "I know
+ * this! / I just guessed" bar rather than commit where it stands. A miss
+ * never does: it grades the same in a placement test as anywhere else, so
+ * there is nothing ambiguous left to ask about. */
+function needsPlacementConfirm(session) {
+  return !!session.placementTest;
+}
+
+/** Shows the Easy/OK/Hard bar — or, in a placement test, the "I know this!
+ * / I just guessed" bar — in place of a screen's plain "Next" button.
+ * `nextId`/`rateId` are `quiz-ok`/`quiz-rate`, `quiz-ok`/`quiz-placement`
+ * or `writing-next`/`writing-rate`. Only ever called on the correct path;
+ * the wrong-answer paths keep showing the plain Next button directly and
+ * never touch this. */
 function showRatingBar(nextId, rateId) {
   $(nextId).hidden = true;
   $(rateId).hidden = false;
@@ -7623,19 +7688,45 @@ function rateAndAdvance(rating) {
   nextQuestion();
 }
 
+/** The placement bar's shared handler, the counterpart to rateAndAdvance()
+ * above: `known` true commits the test-out exactly as pressing Next always
+ * did here, false commits the ordinary miss instead, and either way the
+ * session moves on the same way every other correct answer does. */
+function confirmPlacementAndAdvance(known) {
+  const session = state.session;
+  if (!session) return;
+  if (session.pendingPlacementConfirm) {
+    session.pendingPlacementConfirm(known);
+    session.pendingPlacementConfirm = null;
+  }
+  nextQuestion();
+}
+
 /**
  * Safety net for a session that ends (quit, or the queue running out)
- * while a correct answer is still sitting on its Easy/OK/Hard bar, never
- * rated. Without this, that answer's grade would simply never commit —
- * silently ungraded, not just defaulted. Committing it as GOOD (the same
- * default OK itself commits) matches what happened before this feature
- * existed: every correct answer graded Good unless told otherwise.
+ * while a correct answer is still sitting on one of its bars, never
+ * pressed. Without this, that answer's grade would simply never commit —
+ * silently ungraded, not just defaulted. Each bar settles to whatever
+ * happened before it existed, which is NOT the same answer for both, and is
+ * why the placement bar was given its own slot rather than reusing
+ * pendingGrade: a correct answer used to grade GOOD on the rating bar's
+ * screens, and used to commit the test-out outright ("I know this!") in a
+ * placement test. Sharing one slot would have meant settling the placement
+ * closure with RATING.GOOD, passing a rating enum where a known/guessed
+ * boolean is expected — right only by the accident that RATING.GOOD is 3
+ * and 3 is truthy, and wrong the moment either meaning is touched again.
+ * Two slots, two settled defaults, no coincidence to maintain.
  */
 function settlePendingGrade() {
   const session = state.session;
-  if (session && session.pendingGrade) {
+  if (!session) return;
+  if (session.pendingGrade) {
     session.pendingGrade(RATING.GOOD);
     session.pendingGrade = null;
+  }
+  if (session.pendingPlacementConfirm) {
+    session.pendingPlacementConfirm(true);
+    session.pendingPlacementConfirm = null;
   }
 }
 
@@ -9913,6 +10004,10 @@ function wire() {
   $('quiz-rate-easy').addEventListener('click', () => rateAndAdvance(RATING.EASY));
   $('quiz-rate-ok').addEventListener('click', () => rateAndAdvance(RATING.GOOD));
   $('quiz-rate-hard').addEventListener('click', () => rateAndAdvance(RATING.HARD));
+  // The placement test's own bar, which replaces #quiz-ok in exactly the
+  // same way on a correct test-out answer (see stashPlacementConfirm()).
+  $('quiz-placement-know').addEventListener('click', () => confirmPlacementAndAdvance(true));
+  $('quiz-placement-guess').addEventListener('click', () => confirmPlacementAndAdvance(false));
 
   // Kanji only.
   $('quiz-info-more').addEventListener('click', openQuizCharacterDetail);

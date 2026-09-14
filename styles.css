@@ -624,6 +624,26 @@ button.quiz-glyph-tap {
 .rate-row .rate-ok { flex: 2; }
 .rate-sub { font-size: calc(11px * var(--app-font-scale, 1)); font-weight: 500; opacity: 0.75; }
 
+/* The "I know this! / I just guessed" control (see
+   confirmPlacementAndAdvance() in app.js) that replaces a plain Next button
+   on a correct answer during a "Test unlearned" session — #quiz-placement.
+   Same stacked label + .rate-sub shape as the rating row above, but a two-
+   way split instead of three: "I know this!" takes the right two thirds and
+   carries the .btn-primary weight Next has everywhere else, since it is
+   exactly what Next already did here; "I just guessed" sits quieter in the
+   left third, deliberately easy to find but never the accidental press. */
+.confirm-row > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 58px;
+  padding: 8px 4px;
+}
+.confirm-row .confirm-know { flex: 2; }
+.confirm-row .confirm-guess { flex: 1; }
+
 .linkish {
   background: none; border: none; padding: 0;
   color: var(--accent); font: inherit; font-size: calc(13px * var(--app-font-scale, 1));
