@@ -17,6 +17,7 @@ export const CHANGELOG = [
       'Fixed: if 2 things were waiting and your settings said learn 5 at a time, the app quietly enrolled 3 more to fill the gap — under a button that said "Learn 2 waiting". Waiting now means waiting: it teaches the 2 you asked for and stops. Only when nothing at all is waiting does "Learn 5 next" reach into the grades for a fresh batch, always starting from the earliest grade you haven\u2019t finished.',
       'New: a "See the N waiting to learn…" button on the home screen, whenever anything is waiting. It opens one list of everything you have added but not yet started, across every grade at once — the first time that list has been visible anywhere — with "Select all N waiting" and Remove to clear the lot in three taps.',
       'New: "Choose what to study" on a set overview now works both ways. Tapping something already on your study list used to be refused; it now ticks it for removal, so you can add and take away from the same screen. Taking something off keeps everything you had already learned about it — add it back later and it carries on exactly where it left off, rather than starting again.',
+      'Fixed: on a phone with the text size turned down in Settings, tapping into a text box (like the sync code field) could suddenly zoom the whole app in, with no way to pinch back out. Text boxes now stay large enough to never trigger that.',
     ],
   },
   {

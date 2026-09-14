@@ -652,7 +652,19 @@ button.quiz-glyph-tap {
 .field input[type="text"] {
   min-height: var(--tap);
   padding: 0 14px;
-  font-size: calc(17px * var(--app-font-scale, 1));
+  /* max(), not the bare calc(): iOS Safari force-zooms the whole page to
+     make a focused text input legible whenever its computed font-size
+     drops below 16px — nothing to do with pinch or double-tap, and
+     touch-action (see body above) can't touch it since no gesture is
+     involved. At the small end of --app-font-scale (0.85, see
+     FONT_SCALE_MIN in app.js) 17px*scale falls under that floor, so a
+     learner who had shrunk the text got zoomed in just by tapping the
+     sync-code or profile-name field — and since a real pinch is
+     intercepted app-wide (above) to open the Text size panel, they had no
+     gesture left to zoom back out with. Flooring at 16px keeps the field
+     scaling with --app-font-scale above that point, same as everywhere
+     else, while never crossing the threshold that triggers it. */
+  font-size: max(16px, calc(17px * var(--app-font-scale, 1)));
   font-family: inherit;
   color: var(--ink);
   background: var(--bg);
@@ -666,7 +678,8 @@ button.quiz-glyph-tap {
    siblings rather than off in the feedback section. */
 .field textarea {
   padding: 12px 14px;
-  font-size: calc(17px * var(--app-font-scale, 1));
+  /* Same iOS force-zoom floor as .field input[type="text"] above. */
+  font-size: max(16px, calc(17px * var(--app-font-scale, 1)));
   font-family: inherit;
   line-height: 1.45;
   color: var(--ink);
@@ -711,7 +724,9 @@ button.quiz-glyph-tap {
   min-height: var(--tap);
   width: 100%;
   padding: 0 40px 0 14px;
-  font-size: calc(17px * var(--app-font-scale, 1));
+  /* Same iOS force-zoom floor as .field input[type="text"] in the field
+     rules above — see the comment there. */
+  font-size: max(16px, calc(17px * var(--app-font-scale, 1)));
   font-family: inherit;
   color: var(--ink);
   background: var(--bg);
@@ -1451,7 +1466,11 @@ button.quiz-glyph-tap {
   background: var(--surface);
   color: var(--ink);
   font-family: inherit;
-  font-size: calc(15px * var(--app-font-scale, 1));
+  /* Same iOS force-zoom floor as .field input[type="text"] in styles.css's
+     field rules above (see the comment there) — this one crossed the 16px
+     trigger even at the default scale (15px * 1), so it force-zoomed on
+     every focus, not just at a shrunk text size. */
+  font-size: max(16px, calc(15px * var(--app-font-scale, 1)));
   line-height: 1.45;
   resize: vertical;
 }
