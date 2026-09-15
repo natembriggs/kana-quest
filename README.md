@@ -26,9 +26,13 @@ $JSC -m test/wiring.js    # boots the app against a stub DOM and plays full sess
 $JSC -m test/store.js     # backup validation and conflict-safe profile merging
 $JSC -m test/service-worker.js # cache isolation and offline fallback behaviour
 $JSC -m test/sync.js      # the sync pull/merge/push/retry state machine, against a fake transport
+$JSC -m test/reader.js    # the story render pipeline: script stages, kanji/katakana ruby, the reveal ladder
+$JSC -m test/library.js   # how stories group into series, read state, and what comes next
+$JSC -m test/stories.js   # the structural contract every shipped story must meet
+$JSC -m test/contributions.js # contributed-hint merging
 ```
 
-All five must be run from the repo root.
+All of them must be run from the repo root.
 
 To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
 in `tools/build_kanji_data.py`):

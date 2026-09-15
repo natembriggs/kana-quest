@@ -127,6 +127,15 @@ export function validateStory(story, ids) {
     errors.push(`${story.id}: ${story.gram} is above what ${story.level} allows`);
   }
   if (!story.title?.ja || !story.title?.en || !story.blurb) errors.push(`${story.id}: missing title or blurb`);
+  if (story.series !== null && story.series !== undefined) {
+    const { id, part, of, name } = story.series;
+    if (!id || !name) errors.push(`${story.id}: series needs an id and a name`);
+    if (!Number.isInteger(part) || part < 1) errors.push(`${story.id}: series part must be a positive integer`);
+    if (!Number.isInteger(of) || of < 1) errors.push(`${story.id}: series "of" must be a positive integer`);
+    if (Number.isInteger(part) && Number.isInteger(of) && part > of) {
+      errors.push(`${story.id}: series part ${part} is beyond its stated length of ${of}`);
+    }
+  }
   if (!story.source?.text || !story.source?.by || !story.source?.credit || !story.source?.licence || !story.source?.notes) {
     errors.push(`${story.id}: source needs text, by, credit, notes and licence`);
   }
@@ -190,6 +199,48 @@ export function validateStory(story, ids) {
   return { warnings, katakana: katakana.size };
 }
 
+/**
+ * Series integrity, which can only be checked once every story is loaded:
+ * within one series id, parts must be unique, must agree about the series'
+ * name and length, and must all sit at the same level.
+ *
+ * The level rule is the one worth stating. A series is read straight through,
+ * so a part that jumps a level mid-way is a cliff the learner meets with no
+ * warning and no way back — and the library groups a series under one level,
+ * which a straddling series would simply be missing from at the others.
+ *
+ * A GAP in the numbering is deliberately allowed: a part withdrawn or not yet
+ * written should not fail the build, and nextInSeries (src/library.js) walks
+ * the manifest rather than incrementing, so it steps over one cleanly.
+ */
+export function validateSeries(stories) {
+  const errors = [];
+  const groups = new Map();
+  stories.forEach((story) => {
+    if (!story.series) return;
+    if (!groups.has(story.series.id)) groups.set(story.series.id, []);
+    groups.get(story.series.id).push(story);
+  });
+  groups.forEach((parts, id) => {
+    const seen = new Map();
+    parts.forEach((story) => {
+      if (seen.has(story.series.part)) {
+        errors.push(`series ${id}: part ${story.series.part} is claimed by both ${seen.get(story.series.part)} and ${story.id}`);
+      }
+      seen.set(story.series.part, story.id);
+    });
+    const names = new Set(parts.map((story) => story.series.name));
+    if (names.size > 1) errors.push(`series ${id}: disagrees about its name (${[...names].join(' / ')})`);
+    const lengths = new Set(parts.map((story) => story.series.of));
+    if (lengths.size > 1) errors.push(`series ${id}: disagrees about how many parts it has (${[...lengths].join(' / ')})`);
+    const levels = new Set(parts.map((story) => story.level));
+    if (levels.size > 1) errors.push(`series ${id}: spans levels ${[...levels].sort().join(' / ')}; every part must sit at the same level`);
+    const of = parts[0].series.of;
+    if (parts.length > of) errors.push(`series ${id}: has ${parts.length} parts but claims to be ${of} long`);
+  });
+  if (errors.length) throw new Error(errors.join('\n'));
+}
+
 async function loadSourceStories() {
   const files = (await fs.readdir(SOURCE_DIR))
     .filter((name) => name.endsWith('.mjs') && name !== 'helpers.mjs')
@@ -218,6 +269,11 @@ function manifestModule(stories) {
       blurb: story.blurb,
       hash: story.hash,
       length: story.body.flatMap((paragraph) => paragraph.flatMap((sentence) => sentence.t)).length,
+      // Paragraph count, so the library can draw a progress bar without
+      // fetching the body: a saved position is a paragraph index (§3.5), and
+      // measuring progress in the same unit means the bar and the place the
+      // reader resumes to cannot disagree.
+      paras: story.body.length,
       source: { kind: story.source.kind, by: story.source.by, credit: story.source.credit },
     };
   });
@@ -244,6 +300,7 @@ async function main() {
     return story;
   });
   stories.sort((a, b) => a.level.localeCompare(b.level) || a.id.localeCompare(b.id));
+  validateSeries(stories);
   // Every level needs SOMETHING in it — an empty rung on the ladder is worse
   // than a coarse one (stories-plan.md §11.1). It used to need exactly six,
   // which meant the corpus could only ever grow six stories at a time, in

@@ -1,7 +1,7 @@
 # Stories — implementation plan
 
 Status: **shipped and live** as the fourth thing to do in the app, reached via
-a **Read** card on the home screen. Phases 0–8 (see §12) are done: the reader,
+a **Stories** card on the home screen. Phases 0–8 (see §12) are done: the reader,
 the library, tap-for-pronunciation/furigana/definition/sentence-translation,
 exposure-based furigana hiding shared with vocabulary, `profile.stories` with
 sync/merge, the end card, and 36 stories — six at every level L1–L6 (grown
@@ -47,7 +47,7 @@ out of a learner's stories on its own without anybody asking for it.
 
 ### 1.1 The shape of one reading session
 
-1. Home screen → **Read**.
+1. Home screen → **Stories**.
 2. The library opens on the learner's own reading level, with the episode
    they are part-way through at the top.
 3. They tap it. The reader is the story and almost nothing else: title, text,
@@ -230,6 +230,15 @@ theoretical and starts being the reason anybody finishes anything.
 ## 3. The data
 
 ### 3.1 One story
+
+A `series` is `{ id, part, of, name }`, or `null`. The build validates a
+series across all its parts (`validateSeries` in `tools/build_story_data.mjs`):
+parts are unique, agree about the name and length, and **all sit at the same
+level** — a series is read straight through, so a part that jumps a level
+mid-way is a cliff the learner meets with no warning. A *gap* in the numbering
+is allowed, since a part withdrawn or not yet written should not fail the
+build, and `nextInSeries` walks the manifest rather than incrementing, so it
+steps over one cleanly.
 
 ```js
 {
@@ -1162,14 +1171,20 @@ progress bar, a due count, and an SRS behind them. Stories have none of those,
 and dressing them up as a fifth would promise a progress bar that would then
 have to mean something.
 
-Instead, below the script grid, one wide **Read** card:
+Instead, below the script grid, one wide **Stories** card:
 
 ```
 ┌────────────────────────────────────────────┐
-│ 📖  Read                    Getting going  │
+│ 話  Stories                 Getting going  │
 │     Momotarō · episode 2 — half way        │
 └────────────────────────────────────────────┘
 ```
+
+**Called "Stories", not "Read"**, and marked 話 rather than 読. Reading is what
+a learner does on every other card too — kanji have readings, vocabulary has
+readings — and "Read" sat one word away from Yomi, the kanji course's own
+reading mode. 話 ("tale, talk") names the thing on the card instead of the
+activity. If other kinds of reading arrive later they get their own card.
 
 Continue-where-you-left-off as the card's own subtitle, because that is the
 single most valuable thing it can say, and *"Something new to read"* when
@@ -1182,11 +1197,25 @@ there is no story in progress.
   beneath.
 - **Continue reading**, when something is in progress: one card, the story's
   title, series and position, at the top and visually distinct.
-- **Series** as horizontal rows of episode chips — `① ② ③ ④` with the read ones
-  filled, the in-progress one ringed, the unread ones outlined. A series is
-  read in order and looks like it.
+- **Series** as ONE card naming the series and the chapter the learner is up
+  to (*chapter 2 of 3*), tapping through to that chapter, with an *All N
+  chapters* toggle opening the full list beneath it. This replaces the
+  horizontal `① ② ③ ④` chip row this section originally proposed: chips read
+  well at four chapters and become unusable at twenty, and a work long enough
+  to be worth serializing is exactly the case the design has to survive.
+  A **one-part** series is listed as a standalone story — two shipped stories
+  tag the work they adapt (Alice, Oz) while being a single complete part of
+  it, and a series card that expands to reveal one chapter is pure ceremony.
 - **Standalone stories** as a plain vertical list of cards: title, one-line
-  blurb, length in minutes, and a read tick.
+  blurb, length in minutes, and its read state.
+- **Three read states, all derived, no new storage.** `unread` / `reading` /
+  `read` come out of `profile.stories` alone (`src/library.js`), and the order
+  of those checks matters: opening a story writes a `read` entry immediately
+  (`touchStoryOpened`), so "started" is judged by a saved POSITION and
+  finishing by `read.done`. Getting that backwards would mark every story ever
+  tapped as in progress forever. Progress is `pos.p / paras` — paragraphs, the
+  same unit the saved position uses (§3.5), so the bar and the place the
+  reader resumes to cannot disagree.
 - **Nothing is locked.** Episode 4 is tappable before episode 1 has been read.
   A learner who wants to skip ahead in a story they can't yet follow will find
   that out in about ten seconds, which is a better teacher than a padlock.
@@ -1277,7 +1306,7 @@ without writing them down — wastes the best signal a reading session produces.
 
 | Screen | New / changed |
 | --- | --- |
-| Home | A **Read** card below the script grid, showing what's in progress |
+| Home | A **Stories** card below the script grid, showing what's in progress |
 | `screen-stories` | **New.** Level strip, continue, series rows, story list |
 | `screen-reader` | **New.** The story, the reveal ladder, the definition card, sentence translations |
 | Reader settings | **New**, a small sheet over the reader |
@@ -1474,11 +1503,11 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 2 | **The renderer.** `src/reader.js` pure, `src/furigana.js` extracted (`vocab-plan.md` phase 8), all four stages of §5 and the §6.1 hiding rules, unit-tested with no DOM. No screens yet. | 1 | **`src/reader.js` done** (`renderSentence`, `tokenAtLevel`, `storyOccurrenceIndex`, `isTokenFuriganaHidden`, `exposureTargetsForToken`), **but has no direct unit tests** — `test/stories.js` checks story data contracts, not these functions, and no test file imports them. **`src/furigana.js` was never extracted**: `app.js`/`vocab.js` (`renderVocabWordGlyph`) and `reader.js` (`isTokenFuriganaHidden`) still carry two independent reveal-ladder implementations. Both gaps are real and worth closing before either renderer changes again. |
 | 3 | **The reader screen.** `screen-reader`, scrolling, the top bar, the progress line, tap-one pronunciation. Readable end to end. First user-visible phase. | 2 | **Done** — `#screen-reader` in `index.html`. |
 | 4 | **The definition card**, tap two, sentence translation, kanji/kana/word chips through to the detail screens and back (§7). | 3 | **Done** — `#reader-card` and its chips in `app.js`. |
-| 5 | **The library**, the level strip, series and episodes, the home-screen **Read** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Read** card. |
+| 5 | **The library**, the level strip, series and episodes, the home-screen **Stories** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Stories** card. |
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
 | 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 36 stories shipped (six per level, L1–L6, up from the 24/four-per-level this document originally reported, via `29cef88` and a later sixth-story round), as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
-| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **Not started.** No shipped story has more than one part (`series.of > 1`) — two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) do carry a non-null `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, not a serialization. |
+| 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan
 

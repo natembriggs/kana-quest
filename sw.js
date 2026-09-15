@@ -29,7 +29,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-16a';
+const VERSION = '2026-09-16b';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -62,6 +62,7 @@ const SHELL = [
   'src/writing.js',
   'src/changelog.js',
   'src/reader.js',
+  'src/library.js',
   'src/furigana.js',
   'src/data/story-manifest.js',
 ];

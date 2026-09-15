@@ -13,6 +13,7 @@ export const STORIES = {
     "blurb": "A dove helps a tiny ant, and the ant soon finds a way to return the kindness.",
     "hash": "2a0d43f9",
     "length": 92,
+    "paras": 3,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -30,6 +31,7 @@ export const STORIES = {
     "blurb": "A grasshopper sings all summer long while an ant carries food home day after day.",
     "hash": "6f8ed185",
     "length": 99,
+    "paras": 3,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -47,6 +49,7 @@ export const STORIES = {
     "blurb": "A thirsty crow finds a water jar it cannot reach into, and works out what to do about it one small stone at a time.",
     "hash": "57d9fab3",
     "length": 103,
+    "paras": 5,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -64,6 +67,7 @@ export const STORIES = {
     "blurb": "The North Wind and the Sun each try to make a traveller remove his coat.",
     "hash": "cfa96ebe",
     "length": 104,
+    "paras": 3,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -81,6 +85,7 @@ export const STORIES = {
     "blurb": "A lion spares a tiny mouse and later discovers that help can come from anyone.",
     "hash": "8415b708",
     "length": 88,
+    "paras": 2,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -98,6 +103,7 @@ export const STORIES = {
     "blurb": "A turnip will not come out of the ground until a whole family of helpers pulls together.",
     "hash": "14ee2f46",
     "length": 70,
+    "paras": 3,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -115,6 +121,7 @@ export const STORIES = {
     "blurb": "On the last day of the year an old man fails to sell a single hat, and gives all of them away in the snow instead.",
     "hash": "45e4fcb2",
     "length": 228,
+    "paras": 5,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -132,6 +139,7 @@ export const STORIES = {
     "blurb": "Two mouse cousins compare a quiet country meal with a splendid but dangerous feast.",
     "hash": "1e9e9e7c",
     "length": 180,
+    "paras": 2,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -149,6 +157,7 @@ export const STORIES = {
     "blurb": "An old couple find a giant peach in the river, and the boy inside it grows up to fight the ogres of Ogre Island.",
     "hash": "0ef67772",
     "length": 207,
+    "paras": 8,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -166,6 +175,7 @@ export const STORIES = {
     "blurb": "A bored shepherd boy learns why a true warning needs the trust of its listeners.",
     "hash": "9092f754",
     "length": 203,
+    "paras": 2,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -183,6 +193,7 @@ export const STORIES = {
     "blurb": "A young fisherman rescues a turtle, visits a palace under the sea, and comes home to a village he no longer knows.",
     "hash": "23ed476c",
     "length": 310,
+    "paras": 4,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -200,6 +211,7 @@ export const STORIES = {
     "blurb": "A fast hare mocks a slow tortoise into a race up the mountain -- and learns what happens when you stop to nap.",
     "hash": "e36577d2",
     "length": 153,
+    "paras": 7,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -217,6 +229,7 @@ export const STORIES = {
     "blurb": "A mistreated young woman receives one magical night at the palace and leaves a glass slipper behind.",
     "hash": "1317286f",
     "length": 368,
+    "paras": 5,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -234,6 +247,7 @@ export const STORIES = {
     "blurb": "Three bears return from a walk to find that a curious visitor has tested everything in their cottage.",
     "hash": "0a01f882",
     "length": 335,
+    "paras": 4,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -251,6 +265,7 @@ export const STORIES = {
     "blurb": "A brother and sister follow a trail through the forest and outwit the witch in a sweet-covered house.",
     "hash": "79dfddf3",
     "length": 371,
+    "paras": 4,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -268,6 +283,7 @@ export const STORIES = {
     "blurb": "A poor boy trades the family cow for a handful of beans and climbs the vine that grows from them.",
     "hash": "dd8d645f",
     "length": 466,
+    "paras": 9,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -285,6 +301,7 @@ export const STORIES = {
     "blurb": "A girl with impossibly long hair is shut in a doorless tower, and the way in turns out to be the way she is trapped.",
     "hash": "80d65d43",
     "length": 462,
+    "paras": 7,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -302,6 +319,7 @@ export const STORIES = {
     "blurb": "Three young pigs build very different houses before a hungry wolf arrives from the forest.",
     "hash": "53fcb72f",
     "length": 224,
+    "paras": 5,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -319,6 +337,7 @@ export const STORIES = {
     "blurb": "A girl carrying food to her grandmother meets a dangerously friendly wolf in the forest.",
     "hash": "1a5405c9",
     "length": 364,
+    "paras": 7,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -336,6 +355,7 @@ export const STORIES = {
     "blurb": "Two words open a rock full of gold, and a servant named Morgiana turns out to be the only person in the house clever enough to keep everyone alive.",
     "hash": "2c792325",
     "length": 736,
+    "paras": 10,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -353,6 +373,7 @@ export const STORIES = {
     "blurb": "Belle enters an enchanted castle and learns to see beyond its master’s frightening appearance.",
     "hash": "7bcff17c",
     "length": 543,
+    "paras": 4,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -370,6 +391,7 @@ export const STORIES = {
     "blurb": "Four ageing animals form a band, frighten a houseful of thieves, and discover a home together.",
     "hash": "509417a7",
     "length": 444,
+    "paras": 8,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -387,6 +409,7 @@ export const STORIES = {
     "blurb": "The youngest daughter of the sea king trades her voice for legs so she can walk beside the prince she saved.",
     "hash": "8eb3f325",
     "length": 768,
+    "paras": 9,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -404,6 +427,7 @@ export const STORIES = {
     "blurb": "A princess escapes a jealous queen and finds an unexpected home beyond the forest.",
     "hash": "0123c6fc",
     "length": 444,
+    "paras": 4,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -421,6 +445,7 @@ export const STORIES = {
     "blurb": "A poor market worker finds a lamp of impossible power and must outwit the magician who buried it.",
     "hash": "2d94e603",
     "length": 863,
+    "paras": 11,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -438,6 +463,7 @@ export const STORIES = {
     "blurb": "Shipwrecked among people fifteen centimetres tall, Gulliver becomes their hero, then refuses the one order that would have kept him one.",
     "hash": "4e219391",
     "length": 958,
+    "paras": 12,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -455,6 +481,7 @@ export const STORIES = {
     "blurb": "Phileas Fogg wagers that modern transport can carry him around the world in eighty days—but the timetable is only the beginning.",
     "hash": "4d2ab6b1",
     "length": 786,
+    "paras": 6,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -472,6 +499,7 @@ export const STORIES = {
     "blurb": "A runaway wooden puppet learns, through costly mistakes, what honesty and responsibility mean.",
     "hash": "50b78ed1",
     "length": 930,
+    "paras": 9,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -489,6 +517,7 @@ export const STORIES = {
     "blurb": "A young man ignores his father and goes to sea, and a shipwreck leaves him alone on an island with only what he can save from the waves.",
     "hash": "fb226830",
     "length": 1446,
+    "paras": 10,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -506,6 +535,7 @@ export const STORIES = {
     "blurb": "A mysterious map draws young Jim Hawkins into a voyage of mutiny, courage and buried treasure.",
     "hash": "85faf413",
     "length": 710,
+    "paras": 6,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -523,6 +553,7 @@ export const STORIES = {
     "blurb": "Letters and journals trace Count Dracula from his Transylvanian castle to England—and the friends who unite against him.",
     "hash": "6da3fe85",
     "length": 1527,
+    "paras": 11,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -540,6 +571,7 @@ export const STORIES = {
     "blurb": "Victor Frankenstein pursues the secret of life, then confronts the lonely being his ambition brought into the world.",
     "hash": "4aa379a1",
     "length": 1663,
+    "paras": 13,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -562,6 +594,7 @@ export const STORIES = {
     "blurb": "Alice follows a waistcoated White Rabbit underground, where doors, keys, bottles and cakes refuse to be sensible.",
     "hash": "d75fa228",
     "length": 968,
+    "paras": 13,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -579,6 +612,7 @@ export const STORIES = {
     "blurb": "A London lawyer traces the brutal Mr Hyde back to a locked laboratory door and the respectable friend who wrote him into his will.",
     "hash": "cda112d6",
     "length": 2644,
+    "paras": 17,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -596,6 +630,7 @@ export const STORIES = {
     "blurb": "A woman dies in a locked room whispering about a speckled band, and two years later her sister hears the same low whistle in the dark.",
     "hash": "636ee940",
     "length": 1593,
+    "paras": 18,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -618,6 +653,7 @@ export const STORIES = {
     "blurb": "A cyclone carries Dorothy from grey Kansas to Oz, where three unlikely companions join her road to the Emerald City.",
     "hash": "b5cd31b2",
     "length": 1146,
+    "paras": 14,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",

@@ -13,6 +13,9 @@ export const CHANGELOG = [
   {
     date: '2026-09-16',
     changes: [
+      'Changed: the "Read" card on the home screen is now "Stories", marked 話 instead of 読. Reading is what you do on every other card too — kanji have readings, words have readings — and "Read" sat one word away from Yomi, the kanji course\u2019s own reading mode. Nothing about it works differently.',
+      'New: stories can now come in chapters. A book with more than one chapter shows up as a single card saying which chapter you are up to, with an "All N chapters" button to see the whole list and jump anywhere in it — nothing is locked. Finishing a chapter offers the next one straight away, and the app quietly fetches it while you read so it opens instantly, even with no signal.',
+      'New: every story card now says whether you have read it, how far through it you are, or nothing at all if you have not started — so the library finally answers the first question anyone asks a shelf.',
       'New: katakana in a story now shows its hiragana above it, the same way kanji already did — コーヒー with こーひー over it, 白ウサギ with しろ and うさぎ. Until now the app had no way to help with katakana at all: if you had learned some kanji but hadn’t got to katakana yet, every kanji came with its reading and every katakana word came with nothing. The hiragana fades away word by word as you learn the characters in it, and a tap always brings it back.',
       'Changed: stories can now use katakana from level 2 up, where before it was banned below level 3 — and stories at level 3 and above no longer have to include katakana to be allowed in. That rule was the reason every story above level 2 was a Western tale with Western names in it; Japanese folk tales can now sit anywhere on the ladder.',
     ],

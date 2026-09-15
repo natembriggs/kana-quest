@@ -41,6 +41,9 @@ import {
   storyOccurrenceIndex,
 } from './reader.js';
 import { STORIES } from './data/story-manifest.js';
+import {
+  storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
+} from './library.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
   ensureComponentUnitLoaded, kanjiComponents, renderComponentBreakdown,
@@ -71,7 +74,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -898,7 +901,7 @@ const ONBOARDING_GUIDE = [
   {
     title: 'Reading and vocabulary',
     body: [
-      'The Read card on the home screen has full stories, at six levels, with every word explained where you tap it. Vocabulary is its own course alongside the three scripts.',
+      'The Stories card on the home screen has full stories, at six levels, with every word explained where you tap it. Vocabulary is its own course alongside the three scripts.',
       'Both are open from the start and you are welcome to dip into either whenever you want. That said, being able to read kana without thinking about it makes everything else easier, so it is the thing worth getting solid first.',
     ],
   },
@@ -8889,23 +8892,39 @@ function suggestedReadingLevel(profile) {
 }
 
 /** The story a learner is mid-way through, most-recently-touched first, or
- * null if nothing is in progress — shared by the home screen's Read card
+ * null if nothing is in progress — shared by the home screen's Stories card
  * and the library's own "Continue reading" card. */
 function continueReadingInfo(profile) {
   const pos = (profile.stories && profile.stories.pos) || {};
   const ids = Object.keys(pos).sort((a, b) => (pos[b].at || 0) - (pos[a].at || 0));
   for (const id of ids) {
     const entry = STORIES[id];
-    if (entry) return { id, entry, pos: pos[id] };
+    if (!entry) continue;
+    // A finished chapter is not something to continue — but the series it
+    // belongs to usually is, so hand back its next part rather than skipping
+    // the whole series and offering some unrelated story instead.
+    if (storyReadState(id, profile.stories) === 'read') {
+      const next = nextInSeries(STORIES, id);
+      if (next && storyReadState(next, profile.stories) !== 'read') {
+        return { id: next, entry: STORIES[next], pos: pos[next] || null };
+      }
+      continue;
+    }
+    return { id, entry, pos: pos[id] };
   }
   return null;
 }
 
 function renderReadCard() {
   const info = continueReadingInfo(state.profile);
-  $('read-card-sub').textContent = info
-    ? `${info.entry.title.ja} — pick up where you left off`
-    : 'Practice and learn naturally through stories';
+  if (!info) {
+    $('read-card-sub').textContent = 'Practice and learn naturally through stories';
+    return;
+  }
+  const label = storyLabel(info.entry);
+  $('read-card-sub').textContent = info.pos
+    ? `${label} — pick up where you left off`
+    : `${label} — start the next chapter`;
 }
 
 function openStoriesLibrary() {
@@ -8942,13 +8961,17 @@ function renderStoriesLibrary() {
     continueEl.innerHTML = '';
     const label = document.createElement('span');
     label.className = 'hint';
-    label.textContent = 'Continue reading';
+    label.textContent = continueInfo.pos ? 'Continue reading' : 'Next chapter';
     const title = document.createElement('div');
     title.className = 'story-card-title';
     title.textContent = `${continueInfo.entry.title.ja} `;
     const sub = document.createElement('span');
     sub.className = 'hint';
-    sub.textContent = continueInfo.entry.title.en;
+    // The series' own caption when there is one, so a chapter says which book
+    // it belongs to and where in it — the title alone does not.
+    sub.textContent = storyLabel(continueInfo.entry) === continueInfo.entry.title.ja
+      ? continueInfo.entry.title.en
+      : storyLabel(continueInfo.entry);
     title.appendChild(sub);
     continueEl.appendChild(label);
     continueEl.appendChild(title);
@@ -8960,39 +8983,137 @@ function renderStoriesLibrary() {
 
   const list = $('story-list');
   list.innerHTML = '';
-  const entries = Object.entries(STORIES).filter(([, s]) => s.level === browse);
-  if (entries.length === 0) {
+  const groups = groupStoriesForLevel(STORIES, browse);
+  if (groups.length === 0) {
     const p = document.createElement('p');
     p.className = 'hint';
     p.textContent = 'Nothing at this level yet — more stories are on the way.';
     list.appendChild(p);
   }
-  entries.forEach(([id, s]) => {
-    const read = profile.stories && profile.stories.read && profile.stories.read[id];
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = 'card story-card';
-    const title = document.createElement('div');
-    title.className = 'story-card-title';
-    title.textContent = `${s.title.ja} `;
-    const titleEn = document.createElement('span');
-    titleEn.className = 'hint';
-    titleEn.textContent = s.title.en;
-    title.appendChild(titleEn);
+  groups.forEach((group) => {
+    list.appendChild(group.kind === 'series'
+      ? buildSeriesCard(group, profile)
+      : buildStoryCard(group.id, group.entry, profile));
+  });
+}
+
+/** Minutes, from the manifest's token count — no fetch, and honest enough for
+ * its purpose (stories-plan.md §8.2). */
+function storyMinutes(entry) {
+  return Math.max(1, Math.ceil(entry.length / 60));
+}
+
+/**
+ * The read/reading/finished marker a card carries. Three states, all derived
+ * from `profile.stories` with no new storage (src/library.js) — and worth
+ * showing, because the first question anyone asks a shelf is which of these
+ * they have already read.
+ */
+function appendStoryStatus(meta, id, entry, profile) {
+  const state_ = storyReadState(id, profile.stories);
+  if (state_ === 'read') {
+    const passes = profile.stories?.read?.[id]?.passes || 0;
+    meta.push(passes > 1 ? `read ${passes}×` : 'read');
+    return;
+  }
+  if (state_ === 'reading') {
+    const progress = storyProgress(id, profile.stories, entry);
+    // "0% read" is a worse thing to tell someone than "started" — a learner
+    // one paragraph into a ten-paragraph story has read something, and a
+    // percentage that rounds to nothing reads as a bug rather than a number.
+    if (progress === null || progress === 0) meta.push('started');
+    else meta.push(`${Math.max(1, Math.round(progress * 100))}% read`);
+  }
+}
+
+function buildStoryCard(id, entry, profile, { chapter = null } = {}) {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = `card story-card${chapter ? ' story-chapter' : ''}`;
+  const title = document.createElement('div');
+  title.className = 'story-card-title';
+  title.textContent = `${chapter ? `${chapter}. ` : ''}${entry.title.ja} `;
+  const titleEn = document.createElement('span');
+  titleEn.className = 'hint';
+  titleEn.textContent = entry.title.en;
+  title.appendChild(titleEn);
+  card.appendChild(title);
+  if (entry.blurb && !chapter) {
     const blurb = document.createElement('p');
     blurb.className = 'hint';
-    blurb.textContent = s.blurb;
-    const meta = document.createElement('p');
-    meta.className = 'hint';
-    const minutes = Math.max(1, Math.ceil(s.length / 60));
-    const byline = s.source?.by ? ` · ${s.source.credit || 'By'} ${s.source.by}` : '';
-    meta.textContent = `${minutes} min${read && read.done ? ' · read' : ''}${byline}`;
-    card.appendChild(title);
+    blurb.textContent = entry.blurb;
     card.appendChild(blurb);
-    card.appendChild(meta);
-    card.addEventListener('click', () => openStory(id));
-    list.appendChild(card);
+  }
+  const meta = [`${storyMinutes(entry)} min`];
+  appendStoryStatus(meta, id, entry, profile);
+  if (entry.source?.by && !chapter) meta.push(`${entry.source.credit || 'By'} ${entry.source.by}`);
+  const metaEl = document.createElement('p');
+  metaEl.className = 'hint';
+  metaEl.textContent = meta.join(' · ');
+  card.appendChild(metaEl);
+  card.addEventListener('click', () => openStory(id));
+  return card;
+}
+
+/**
+ * A series as ONE card that opens to its chapters, rather than §8.2's
+ * original `① ② ③ ④` chip row. Chips read well at four chapters and become
+ * unusable at twenty, and a serialization long enough to be worth serializing
+ * is exactly the case this has to hold up for.
+ *
+ * Nothing is locked (§8.2): every chapter is tappable whatever order they are
+ * read in. The card's own tap opens whichever chapter comes next, which is
+ * what someone reading the series straight through wants; opening the list is
+ * for everyone else.
+ */
+function buildSeriesCard(group, profile) {
+  const standing = seriesStanding(group, profile.stories);
+  const wrap = document.createElement('div');
+  wrap.className = 'card story-card story-series';
+
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'story-series-head';
+  const title = document.createElement('div');
+  title.className = 'story-card-title';
+  title.textContent = `${group.name} `;
+  const count = document.createElement('span');
+  count.className = 'hint';
+  count.textContent = standing.done === standing.total
+    ? `all ${standing.total} chapters read`
+    : `chapter ${standing.done + 1} of ${group.of || standing.total}`;
+  title.appendChild(count);
+  head.appendChild(title);
+  const blurb = document.createElement('p');
+  blurb.className = 'hint';
+  blurb.textContent = standing.current
+    ? standing.current.entry.blurb
+    : 'Read again from the beginning.';
+  head.appendChild(blurb);
+  head.addEventListener('click', () => {
+    openStory((standing.current || group.parts[0]).id);
   });
+  wrap.appendChild(head);
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'btn btn-quiet story-series-toggle';
+  const chapters = document.createElement('div');
+  chapters.className = 'stack story-series-chapters';
+  chapters.hidden = true;
+  const setOpen = (open) => {
+    chapters.hidden = !open;
+    toggle.textContent = open ? 'Hide chapters' : `All ${group.parts.length} chapters`;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  toggle.addEventListener('click', () => setOpen(chapters.hidden));
+  setOpen(false);
+  group.parts.forEach((part) => {
+    chapters.appendChild(buildStoryCard(part.id, part.entry, profile, { chapter: part.part }));
+  });
+  wrap.appendChild(toggle);
+  wrap.appendChild(chapters);
+  return wrap;
 }
 
 // --- The reader -------------------------------------------------------
@@ -9858,8 +9979,35 @@ function showReaderEndCard() {
     }
     wordsEl.appendChild(row);
   });
-  $('reader-end-next').hidden = true; // no series wired up yet — see stories-plan.md §12 phase 9
+  const next = nextInSeries(STORIES, state.readerStoryId);
+  const nextBtn = $('reader-end-next');
+  nextBtn.hidden = !next;
+  if (next) {
+    nextBtn.textContent = `Read chapter ${STORIES[next].series.part} →`;
+    nextBtn.onclick = () => openStory(next);
+  } else {
+    nextBtn.onclick = null;
+  }
   $('reader-end').hidden = false;
+}
+
+/**
+ * Pulls the next chapter's module into the cache while the learner reads this
+ * one, so tapping "Read chapter N" at the end card is instant and works with
+ * the signal gone. A chapter is 10–120 KB and lands in the service worker's
+ * cache on the way past (§3.4), which is the whole of what §11.6's "keep this
+ * series offline" would need for a series being read straight through.
+ *
+ * Deliberately fire-and-forget and deliberately idle-timed: it must never
+ * delay the story the learner is actually reading, and a failure to prefetch
+ * is not a failure at all — the ordinary load path still runs on tap.
+ */
+function prefetchNextChapter(id) {
+  const next = nextInSeries(STORIES, id);
+  if (!next || loadedStories.has(next)) return;
+  const run = () => { ensureStoryLoaded(next).catch(() => {}); };
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 5000 });
+  else setTimeout(run, 2000);
 }
 
 /**
@@ -9918,7 +10066,10 @@ async function openStory(id) {
   state.readerCursor = -1;
 
   touchStoryOpened(id);
-  $('reader-title').textContent = story.title.ja;
+  $('reader-title').textContent = manifestEntry.series && manifestEntry.series.of > 1
+    ? `${story.title.ja} · ${manifestEntry.series.part}/${manifestEntry.series.of}`
+    : story.title.ja;
+  prefetchNextChapter(id);
   $('reader-end').hidden = true;
   $('reader-finished').hidden = false;
   closeReaderCard();
@@ -10367,7 +10518,7 @@ function wire() {
       // untouched underneath — no need to re-render it, just show it again.
       case 'open-study-history': openStudyHistory(); break;
       case 'detail-secondary-toggle': toggleDetailSecondary(); break;
-      // stories-plan.md §8 — the Read card, the library, and the reader's
+      // stories-plan.md §8 — the Stories card, the library, and the reader's
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;
       case 'reader-back':

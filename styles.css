@@ -2089,6 +2089,24 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .story-card { text-align: left; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
 .story-card-title { font-weight: 700; font-size: calc(17px * var(--app-font-scale, 1)); }
 
+/* A series is one card that opens to its chapters (§8.2). The wrapper is a
+   plain div rather than a button, since it now contains buttons of its own —
+   its head is the tappable part, and it fills the card so the whole surface
+   still reads as one target. */
+.story-series { cursor: default; gap: 8px; }
+.story-series-head {
+  text-align: left; display: flex; flex-direction: column; gap: 4px;
+  background: none; border: 0; padding: 0; margin: 0; cursor: pointer; color: inherit; font: inherit;
+}
+.story-series-toggle { align-self: flex-start; padding: 4px 0; }
+.story-series-chapters { gap: 6px; }
+/* A chapter sits inside its series' card, so it drops the card chrome and
+   indents to a rule instead — one visual level down, not a second shelf. */
+.story-chapter {
+  padding: 6px 0 6px 12px; border: 0; border-left: 2px solid var(--line, #e5ded8);
+  border-radius: 0; box-shadow: none; background: none;
+}
+
 /* The reader itself — everything that isn't the story is a failure of
    nerve (§8.3). The top bar and progress line stay minimal on purpose. */
 .reader-topbar h2 { font-size: calc(16px * var(--app-font-scale, 1)); }
