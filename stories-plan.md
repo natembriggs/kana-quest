@@ -1,21 +1,29 @@
 # Stories — implementation plan
 
 Status: **shipped and live** as the fourth thing to do in the app, reached via
-a **Stories** card on the home screen. Phases 0–8 (see §12) are done: the reader,
-the library, tap-for-pronunciation/furigana/definition/sentence-translation,
-exposure-based furigana hiding shared with vocabulary, `profile.stories` with
-sync/merge, the end card, and 36 stories — six at every level L1–L6 (grown
-from the 24-story/four-per-level count this document originally shipped with,
-via `29cef88`, "Add a fifth story at every reading level", and then a sixth
-round adding one more per level). Phase 9 (serialized multi-episode series,
-i.e. a story with `series.of > 1`) genuinely has not begun — no story has more
-than one part. But "standalone (`series: null` on all 24)" is no longer
-accurate as a description of the data: two of the 36,
-`fushigi-no-kuni-no-alice` and `oz-no-mahoutsukai`, carry a non-null `series`
-object (`{id, part: 1, of: 1, name}`) tagging which canonical work they are
-adapted from, even though each is still a single, complete part — `of: 1`, not
-serialized. See §12.1 for how sourcing actually landed, which differs from
-this document's original plan.
+a **Stories** card on the home screen. Phases 0–8 (see §12) are done: the
+reader, the library, tap-for-pronunciation/furigana/definition/
+sentence-translation, exposure-based furigana hiding shared with vocabulary,
+`profile.stories` with sync/merge, the end card, and 36 stories — six at every
+level L1–L6 (grown from the 24-story/four-per-level count this document
+originally shipped with, via `29cef88`, "Add a fifth story at every reading
+level", and then a sixth round adding one more per level).
+
+**Phase 9's machinery is now built, its content is not.** Chapters work end to
+end — `src/library.js`, series validation in the build, a series as one
+expandable library card, `title · 2/3` in the reader, a next-chapter hand-off,
+and an idle prefetch of the chapter after this one — but no shipped story yet
+has more than one part. Two of the 36, `fushigi-no-kuni-no-alice` and
+`oz-no-mahoutsukai`, carry a non-null `series` object tagging which canonical
+work they adapt while being a single complete part of it (`of: 1`), and the
+library lists those as standalone. Writing an actual serialization is what
+remains. See §12.1 for how sourcing landed, which differs from this document's
+original plan.
+
+**Not built, and written up to be argued with**: §8.7 (what the library should
+become as the corpus outgrows a list per level) and §8.8 (cover and inline
+illustrations — formats, budgets, and the six rules that keep them from
+costing anything).
 
 Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
 this is that feature written out.
@@ -1307,13 +1315,126 @@ without writing them down — wastes the best signal a reading session produces.
 | Screen | New / changed |
 | --- | --- |
 | Home | A **Stories** card below the script grid, showing what's in progress |
-| `screen-stories` | **New.** Level strip, continue, series rows, story list |
+| `screen-stories` | **New.** Level strip, continue, series cards, story list with read state |
 | `screen-reader` | **New.** The story, the reveal ladder, the definition card, sentence translations |
 | Reader settings | **New**, a small sheet over the reader |
 | End card | **New**, the tail of the reader screen |
 | Character detail | Unchanged, plus a `'reader'` return target |
 | Word detail | Unchanged, plus the same |
 | Settings | One card: reading level, and a line about where the stories come from — the same shape as vocabulary's "word lists" card |
+
+---
+
+### 8.7 The library as the corpus grows — proposed, not built
+
+Everything in §8.2 is built. This section is the next step and is **written to
+be argued with**, not implemented as specified.
+
+The pressure is arithmetic. 36 stories is six per level, which a vertical list
+of cards handles fine. At 20 per level it does not: a learner scrolls past
+everything they have already read to reach anything they have not, and the
+level strip — the only filter that exists — cannot help, because it sorts by
+difficulty and the question being asked is *"what haven't I read?"*.
+
+**A filter row beside the level strip**, with the counts in it:
+
+```
+   All 18  ·  Unread 11  ·  Reading 2  ·  Finished 5
+```
+
+Four states, no new storage — §8.2's own `storyReadState` already answers it
+per story, and a series takes the state of its `seriesStanding.current`. The
+counts matter as much as the filter: they are the only place the app says how
+much there is, which is the question a learner asks before they commit to a
+level.
+
+**Ordering within a level**, once filtering exists: in progress first, then
+unread shortest-first, then finished. Shortest-first among the unread because
+picking is the hard part and the cheapest thing to try is the right default;
+finished last because it is a re-read shelf, not a to-do list.
+
+**A cover grid rather than a list**, but only once §8.8 has art: two columns
+of cover tiles at phone width, the blurb moving to a tap. A grid of text cards
+is worse than a list of them — the blurb is what makes a card pickable, and a
+grid has no room for it. So this arrives *with* covers or not at all.
+
+**Deliberately not proposed**: genre tags, search, favourites, and a
+recommendation rail. Each is defensible and each adds a second axis to a
+screen whose whole job is "pick something and start reading". The level strip
+plus a read filter is already two. Revisit when the corpus is past a hundred,
+not before.
+
+---
+
+### 8.8 Pictures — proposed, not built
+
+Two placements, two formats, and the formats differ because the jobs do.
+
+| | Cover | Inline illustration |
+| --- | --- | --- |
+| Where | the library tile | between paragraphs |
+| Format | **WebP**, ~480×640 | **flat SVG**, ink in CSS variables |
+| Budget | 20–35 KB | ≤ 8 KB each, ≤ 6 and ≤ 60 KB per story |
+| Why | a cover wants texture and colour | it sits inside a page someone is reading |
+
+A painterly SVG is both larger and *slower* than the raster it imitates —
+SVG's real cost is paint time, not bytes, and a 500-node illustration
+scrolling through a list is worse than a photograph. Inline art is the
+opposite case: simple shapes, a few of them, on a page whose background and
+ink change with the theme, which is exactly what vector with CSS-variable ink
+is for.
+
+**Six rules that keep it cheap.** The honest answer to "will pictures make the
+app slow?" is *no, if these hold, and yes if any of them is dropped*:
+
+1. **Nothing reflows on image load.** Every slot is an `aspect-ratio` box that
+   reserves its space before the bytes arrive. §8.3 already forbids the reader
+   reflowing on *interaction*; this extends the same rule to *loading*. An
+   image pushing the paragraph down under someone's thumb mid-sentence is
+   worse than no image at all, and it is the single most likely way this
+   feature makes the app feel broken.
+2. **`loading="lazy"` and `decoding="async"`, everywhere.** This is the whole
+   of the scrolling-cost problem: a library of a hundred covers fetches only
+   what is on screen, and decoding never blocks the main thread.
+3. **Inline art sits between paragraphs, never inside one.** Anything else
+   disturbs token tap targets, ruby layout, and the `IntersectionObserver`
+   paragraph accounting §6.3 depends on for exposure.
+4. **Everything degrades to nothing.** A 404, a slow network, or pictures
+   turned off leaves the text exactly as it is today. No placeholder box, no
+   broken-image icon, no gap.
+5. **A per-device `Pictures: On/Off`** in reader settings, in `localStorage`
+   beside text size (§8.4) — the same reasoning: a "right now" preference, not
+   a fact about the learner.
+6. **Alt text describes the picture, never the sentence.** A learner using a
+   screen reader gets a description of what is drawn; nobody gets the
+   translation handed to them ahead of the Japanese.
+
+**Files** live at `assets/stories/<id>/cover.webp` and `.../01.svg` — outside
+the JS modules, so the manifest stays small and art caches independently of
+code. Not precached by `sw.js`, exactly as story bodies are not (§3.4); both
+are what a future *Keep this series offline* toggle (§11.6) would fetch.
+
+**A generated placeholder tile carries the library until art exists** — a
+coloured ground derived from the story's id, with its first character on it.
+This is the part that makes the whole thing tractable: the grid looks finished
+from the first commit, and real covers can arrive one story at a time instead
+of being a 36-item blocker in front of §8.7.
+
+**Sourcing.** AI-generated, per story, credited in `source` with the same
+honesty the retellings already carry (§4.5, §12.1) — the text in this app is
+LLM-written and says so, and art is not a place to be vaguer than the prose.
+Two things that need settling before any of it is drawn, because retrofitting
+either means redrawing everything:
+
+- **A house style**, fixed in writing before the first cover. A library grid
+  is seen all at once, and thirty covers in thirty styles reads as a ransom
+  note however good each one is. One palette, one level of detail, one
+  treatment of faces.
+- **What an illustration is allowed to give away.** A picture at the head of a
+  scene makes an unknown word guessable from context, which is precisely what
+  graded reading wants. A picture of the ending is a spoiler that no amount of
+  craft redeems. The rule: illustrate the *situation* a scene opens with,
+  never its outcome.
 
 ---
 
