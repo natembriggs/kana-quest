@@ -119,17 +119,34 @@ checks (§4.6).
 
 ### 2.2 The ladder
 
-| Level | Shown as | Vocabulary allowed | Grammar tier | Sentence length | Episode length |
-| --- | --- | --- | --- | --- | --- |
-| **L1** | First steps | Core (`C1`–`C6`) only | G1 | ≤ 8 tokens | 8–15 sentences |
-| **L2** | Getting going | + themes 1.x–2.x, `lv:'f'` | G2 | ≤ 12 | 15–25 |
-| **L3** | Everyday | + all `lv:'f'` | G3 | ≤ 16 | 25–40 |
-| **L4** | Wider world | + all `lv:'h'` | G4 | ≤ 22 | 40–60 |
-| **L5** | Confident | + all `lv:'a'` | G5 | unrestricted | 60–120 |
-| **L6** | Unabridged | unrestricted | G6 | — | a real chapter |
+| Level | Shown as | Vocabulary allowed | Grammar tier | Sentence length | Episode length | Katakana |
+| --- | --- | --- | --- | --- | --- | --- |
+| **L1** | First steps | Core (`C1`–`C6`) only | ≤ G1 | ≤ 8 tokens | 8–15 sentences | none |
+| **L2** | Getting going | + themes 1.x–2.x, `lv:'f'` | ≤ G2 | ≤ 12 | 15–25 | ≤ 4 words |
+| **L3** | Everyday | + all `lv:'f'` | ≤ G3 | ≤ 16 | 25–40 | unrestricted |
+| **L4** | Wider world | + all `lv:'h'` | ≤ G4 | ≤ 22 | 40–60 | unrestricted |
+| **L5** | Confident | + all `lv:'a'` | ≤ G5 | unrestricted | 60–120 | unrestricted |
+| **L6** | Unabridged | unrestricted | ≤ G6 | — | a real chapter | unrestricted |
 
 Cumulative, like the vocab tiers themselves: L3 means "L2 and more", never
 "instead of L2".
+
+Every column is a **ceiling, not a target**. An L4 story written in G2 grammar
+is an easy read at a wide vocabulary, which is a perfectly good thing for a
+story to be; only grammar *above* the tier breaks the promise the level makes.
+Same for length: over the maximum is an error, under the minimum is a warning,
+because a tight complete tale two sentences short of its band beats the two
+sentences of padding a hard error would ask for.
+
+The katakana column counts **distinct words, not characters** — シンデレラ
+fifteen times is one word to learn. Above L2 there is deliberately no floor
+either: katakana practice is a property of the corpus, not a tax on every
+story, and the build reports per-level coverage rather than enforcing it
+(§4.6). The rule this replaced required twelve katakana *characters* in every
+L3-and-above story, which is the reason there is not one Japanese folk tale
+above L2 in the shipped corpus — it would have failed the build on principle.
+Katakana below L3 is readable because §5.6 renders it with hiragana ruby until
+the learner has met its characters.
 
 The `K*` kanji-words group (`vocab-plan.md` §13) is deliberately **not** part
 of any level's allowance. It is a bonus group assembled from example words on
@@ -268,9 +285,10 @@ Eight fields, and every one of them earns its place — see
 
 - **`s`** is what a kanji-stage reader sees. **`k`** is what a kana-stage
   reader sees, and — critically — it is the *native* kana spelling, so
-  コーヒー stays katakana and 電車 becomes ひらがな. A pure-hiragana reader
-  gets `toHiragana(k)`, computed at render time, not stored (§5.6 is where
-  that gets uncomfortable and is dealt with).
+  コーヒー stays katakana and 電車 becomes ひらがな. Katakana is never
+  transliterated into the text itself; the hiragana a learner needs goes
+  *above* it as derived ruby instead, computed at render time and not stored
+  (§5.6).
 - **`d`** is the vocab id (`vocab-plan.md` §3.3: the dictionary surface form,
   `開く|ひらく` where a homograph forced it). `null` for particles,
   punctuation, and any word the vocab curriculum simply doesn't contain — a
@@ -599,6 +617,27 @@ lesson `build_vocab_data.py` learned the hard way with its `set()`-before-
 `shuffle` bug (see `vocab-plan.md` §12 phase 9). Nothing here iterates an
 unordered collection into ordered output.
 
+**What the gates actually are.** Steps 1, 3, 4 and most of 5–6 were never
+built; §12.1 says why and what replaced them. What
+`tools/build_story_data.mjs` enforces today, on hand-tokenised source:
+
+| Enforced (build fails) | Reported (build continues) |
+| --- | --- |
+| every sentence translated, every token glossed | sentences under the level's guide |
+| ruby positions cover every kanji position | per-level katakana coverage |
+| `df`/`cf` present together; every `d` resolves | |
+| sentence count over the level's maximum, or under an absolute floor of 6 | |
+| lookup tokens per sentence over the level's guide | |
+| grammar tier above the level's | |
+| distinct katakana words over the level's budget (§2.2) | |
+| every level has at least one story | |
+
+Two of those used to be stricter and were making the corpus worse rather than
+better: **exactly six stories per level**, which meant the corpus could only
+grow six at a time in lockstep, and **at least twelve katakana characters per
+L3+ story**, which is why no Japanese folk tale sits above L2. Both are now
+reported, not enforced.
+
 ---
 
 ## 5. How one text is rendered for one learner
@@ -606,14 +645,26 @@ unordered collection into ordered output.
 ### 5.1 The script stage, derived rather than asked
 
 ```js
-function scriptStage(profile)  // 'hira' | 'kana' | 'kanji'
+function scriptStage(profile)  // 'kana' | 'kanji'
 ```
 
-- **`hira`** — the katakana course has no introduced items:
-  `courseStats(getAnyCourse('katakana'), 'recognition', profile).started === 0`.
-- **`kana`** — katakana started, no kanji started.
+- **`kana`** — no kanji started.
 - **`kanji`** — any kanji has been enrolled in Definition, Yomi or Writing, or
   has a progress record in one of them.
+
+There used to be a third stage, `hira`, for a learner who had not started
+katakana. It is gone. Katakana now carries its own derived hiragana ruby
+(§5.6), so it needs no stage of its own — and that was the only thing `hira`
+ever did differently. Measured across all 22,596 shipped tokens,
+`toHiragana(k) === k` for every token whose kana form contains no katakana, so
+the two stages produced identical text everywhere else.
+
+Merging them is not only a simplification. A stage is a fact about a learner's
+whole profile, and katakana is not: someone who studied vocabulary and kanji
+long before katakana was at stage `kanji` and therefore got furigana on every
+kanji and no help at all with ウサギ. §5.6 decides katakana **per word**, from
+the characters that learner has actually met, which answers that case
+correctly without a stage having to.
 
 The kanji test must use the `KANJI_STUDY_MODES` set already defined in
 `app.js`, **never** a bare "is this key in `study`" check. `study` is keyed by
@@ -628,13 +679,17 @@ furthest-along kanji unit with any introduced item, in `KANJI_UNIT_IDS` order.
 `'1'`, `'2'`, `'3'`… `'8-1'`… That is what §5.4's window is measured from.
 
 All of this is recomputed on entering the reader, not stored. It is cheap, and
-storing it would mean a learner who has just started katakana keeps reading
-hiragana-only stories until something remembers to invalidate a cache.
+storing it would mean a learner who has just enrolled their first kanji keeps
+reading kana-only stories until something remembers to invalidate a cache.
 
-### 5.2 Stage `hira` — all hiragana, spaced
+### 5.2–5.3 Stage `kana` — native kana orthography, spaced
 
-Every token renders as `toHiragana(k)`, with a space between tokens, sentence
-punctuation attached to the preceding token with no space before it.
+*(§5.3 used to describe a separate mixed-kana stage; it merged into this one
+when `hira` went away. Both numbers point here.)*
+
+Every token renders as `k`, its **native** kana spelling: katakana words in
+katakana, everything else in hiragana. A space goes between tokens, with
+sentence punctuation attached to the preceding token.
 
 ```
 むかしむかし、 ある ところに おじいさんと おばあさんが すんで いました。
@@ -647,20 +702,9 @@ the render pipeline applies one grouping rule: **a `part` or `aux` token joins
 the preceding token without a space.** That reproduces 分かち書き as actually
 printed in Japanese beginner books, and it costs one line.
 
-Nothing is tappable-for-furigana here (there is no kanji), but every token is
+Katakana words carry hiragana ruby until the learner has met their characters
+(§5.6); apart from that, nothing here has kanji to reveal, but every token is
 still tappable: tap one gives romaji, tap two gives the definition (§7).
-
-### 5.3 Stage `kana` — mixed kana
-
-Every token renders as `k`, its **native** kana orthography: katakana words in
-katakana, everything else in hiragana. Spacing continues, because word
-boundaries are still the thing a learner at this stage most needs and
-katakana does not supply them.
-
-The moment katakana appears, some of it is loanwords the learner may not
-recognise; that is what the definition card is for, and the *"said: kōhī"*
-line `pronunciationFor()` already produces for vocab (long-vowel handling
-included) is reused verbatim.
 
 ### 5.4 Stage `kanji`, frontier grades 1–3 — a window of two units
 
@@ -699,23 +743,64 @@ that does not exist.
 The furigana rules do all the work from here on. Passive exposure to kanji
 they have not formally studied is the point.
 
-### 5.6 The one thing stage `hira` cannot render honestly
+### 5.6 Katakana, and the reading above it
 
-コーヒー in hiragana is こーひー, which is not a word anybody writes. The
-choice-flavoured alternatives (こうひい, こおひい) are worse: they are
-historical spellings that would actively mislead.
+This section used to argue the opposite of what it now says, and the earlier
+reasoning is worth keeping because the mistake in it is instructive.
 
-The resolution is an **authoring constraint, not a rendering trick**: L1 and
-L2 stories contain no loanwords. The build script enforces it — any token
-whose native orthography is katakana in an L1/L2 story fails the level gate
-with a clear message. Above L2, the learner is at stage `kana` or beyond by
-construction and the problem does not arise.
+The argument was: コーヒー in hiragana is こーひー, which is not a word anybody
+writes; the choice-flavoured alternatives (こうひい, こおひい) are worse, being
+historical spellings that would actively mislead; therefore a hiragana-stage
+learner cannot be shown a loanword honestly, and L1/L2 stories must contain no
+katakana at all.
 
-For an imported or higher-level story read by an early learner who has
-browsed down a level, the fallback is: **katakana words stay katakana even at
-stage `hira`**, with the romaji available on one tap. Showing a learner one
-unfamiliar script inside a familiar one is a smaller harm than showing them a
-spelling that is wrong.
+**The error is in the last step.** Ruby is not a spelling. こーひー is not
+offered as how コーヒー is written — it is offered as how it is *said*, one
+mora at a time, which is exactly what furigana is for. And hiragana with ー is
+ordinary modern Japanese: らーめん on a shop sign, すごーい in a text message.
+It is informal, not wrong. こうひい is the genuinely misleading one, a pre-war
+transcription of a kind nobody has written in eighty years — and, unhelpfully,
+precisely what `wanakana.toHiragana` returns unless
+`convertLongVowelMark: false` is passed, which is why the flag is load-bearing
+rather than a stylistic preference.
+
+So the rule is the same bargain the app already strikes with kanji:
+
+> **Katakana is always shown as katakana, with hiragana ruby above it until
+> the learner has met its characters.**
+
+Four consequences:
+
+1. **Decided per word, never per character** — §5.4's rule, for §5.4's reason.
+   白ウサギ shows しろ over 白 and うさぎ over ウサギ together, or shows neither.
+   A word annotated half-on, half-off is a visual stutter mid-sentence.
+2. **The ruby is derived, never authored.** `reader.js`'s `rubySpansFor` finds
+   the katakana runs in the text that is actually on screen and transliterates
+   them. 36 shipped stories gained katakana ruby without a single token being
+   re-authored, and no future story has to carry it either.
+3. **§6's rules apply unchanged.** A katakana word is judged by
+   `exposureWordKey(token.s)`, the same key a kanji word uses, so it earns its
+   hidden default after four sightings, can be muted by hand, and stops being
+   re-annotated on its fourth printing in one story. **No new storage and no
+   new merge code.** What a katakana word does *not* write is per-character
+   kana keys: the per-kanji keys are shared with the vocab quiz deliberately
+   (§6.2), but feeding the kana SRS from reading is a far stronger claim than
+   anyone asked for.
+4. **"Known" means the characters the course teaches.** ー, ・, the sokuon ッ
+   and the small vowels that make ファ/ティ are not items in the katakana
+   course, so they never gate a run: a learner who knows フ and ア can decode
+   ファ. A run of nothing but untaught characters (a lone ヴ) stays unknown and
+   keeps its ruby, which is the right answer for a character never covered.
+
+Romaji is still one tap further up the ladder, for anyone who wants it.
+
+**What this leaves of the authoring constraint** is a budget rather than a
+ban, and §2.2 carries it: L1 admits no katakana, L2 admits four distinct
+katakana words, and above L2 there is no ceiling. L1 stays at zero not because
+katakana cannot be rendered but because a learner's first eight-to-fifteen
+sentences of Japanese have no room for a second script. L2's small budget
+keeps a first graded page from filling with ruby; it is not a claim that the
+fifth katakana word would be dishonest.
 
 ### 5.7 The pipeline in one place
 
@@ -749,31 +834,36 @@ within a month.
 
 ### 6.1 Four rules, one OR
 
-Furigana on a word rendered in kanji is **hidden by default** if any of:
+A word carries ruby when it has kanji on screen (§5.4) or katakana the learner
+may not have met (§5.6) — often both at once, as 白ウサギ does. That ruby is
+**hidden by default** if any of:
 
-1. **Every kanji in it is in a study list** — any list, not just Yomi
-   (`definition`, `recognition`, `writing`, and the vocab modes `vmeaning`,
-   `vrecall`), or the word's own surface is enrolled as a vocab word. The
-   user's instruction, and `vocab-plan.md` §5.2's principle: a learner with
-   any claim at all on a character should get the chance to recall it, since
-   a tap is cheap and a missed recall is not.
-2. **The word has been seen four times in stories with its furigana showing**
+1. **Every annotated part of it is in a study list.** For kanji: any list, not
+   just Yomi (`definition`, `recognition`, `writing`, and the vocab modes
+   `vmeaning`, `vrecall`), or the word's own surface is enrolled as a vocab
+   word. For katakana: every character the katakana course teaches within the
+   run is enrolled or introduced. The user's instruction, and `vocab-plan.md`
+   §5.2's principle: a learner with any claim at all on a character should get
+   the chance to recall it, since a tap is cheap and a missed recall is not.
+2. **The word has been seen four times in stories with its ruby showing**
    (§6.2, §6.3).
 3. **The learner muted it by hand** — the existing `muted` map and its "hide
    furigana in future" affordance, reachable from the definition card.
-4. It contains no kanji, in which case there is nothing to hide.
+4. It carries no ruby at all, in which case there is nothing to hide.
 
-Otherwise furigana shows. A learner who has never met a kanji is never asked
-to guess at it — that is the *"automatically show furigana if it's not in any
-of their study lists"* half of the specification, and it is what makes stage
-`kanji` safe to switch on the day a learner enrols their first kanji.
+Otherwise the ruby shows. A learner who has never met a character is never
+asked to guess at it — that is the *"automatically show furigana if it's not
+in any of their study lists"* half of the specification, and it is what makes
+stage `kanji` safe to switch on the day a learner enrols their first kanji.
 
-**Per word, all-or-nothing.** 電車 shows both readings or neither. This
-diverges from the vocab quiz, which hides per kanji position — and it should,
-because the two are doing different jobs. The quiz is *testing* precisely the
-part the learner is supposed to know, so partial hiding is exactly right
-there. A story is being *read*, and a word with one ruby on and one off is a
-visual stutter mid-sentence for no teaching benefit at all.
+**Per word, all-or-nothing, and rule 1 is an AND across the whole word.** 電車
+shows both readings or neither; 白ウサギ counts as known only once 白 *and*
+ウサギ both are. This diverges from the vocab quiz, which hides per kanji
+position — and it should, because the two are doing different jobs. The quiz
+is *testing* precisely the part the learner is supposed to know, so partial
+hiding is exactly right there. A story is being *read*, and a word with one
+ruby on and one off is a visual stutter mid-sentence for no teaching benefit
+at all.
 
 ### 6.2 Counting by word, and still feeding the quiz
 

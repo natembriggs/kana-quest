@@ -17,8 +17,12 @@ const KANJI_RE = /[㐀-䶿一-鿿]/;
 // with hiragana for casual elongation (よーい, "reeeady") and proves nothing
 // about whether a word is actually katakana on its own — counting it here
 // made a stray よーい in the L2 usagi-to-kame story register as "katakana"
-// and fail the L1/L2 zero-katakana rule below.
+// and fail the L1/L2 katakana budget below.
 const KATAKANA_RE = /[ァ-ヺ]/;
+// A whole katakana run: starts on a syllable, then takes ー and ・ freely.
+// Mirrors reader.js's katakanaRuns, which is what actually decides where one
+// hiragana ruby annotation begins and ends at reading time.
+const KATAKANA_RUN_RE = /[ァ-ヺ][ァ-ヺー・]*/g;
 const KANA_ONLY_RE = /^[ぁ-ゖァ-ヺー。、！？「」『』（）：・…\s]+$/;
 const LEVELS = new Set(['L1', 'L2', 'L3', 'L4', 'L5', 'L6']);
 const GRAMMAR = new Set(['G1', 'G2', 'G3', 'G4', 'G5', 'G6']);
@@ -26,6 +30,22 @@ const SENTENCE_LIMITS = {
   L1: [8, 15], L2: [15, 25], L3: [25, 40], L4: [40, 60], L5: [60, 120], L6: [60, Infinity],
 };
 const TOKEN_LIMITS = { L1: 8, L2: 12, L3: 16, L4: 22 };
+// Below this there is no story to read, whatever the level says.
+const MIN_SENTENCES = 6;
+// How many DISTINCT katakana words a level may contain. Distinct words, not
+// characters: シンデレラ fifteen times is one word to learn, and the old
+// character count made a story's cost look fifteen times worse than it was.
+//
+// L1 is zero because the learner's first eight-to-fifteen sentences of
+// Japanese have no room for a second script. From L2 up katakana is welcome —
+// it is rendered with hiragana ruby until the learner has met its characters
+// (stories-plan.md §5.6), so it costs a beginner a glance, not a wall — and
+// the small L2 budget only keeps that first graded page from filling with
+// ruby. Above L2 there is no ceiling and, deliberately, no floor: katakana
+// practice is a property of the corpus, not a tax on every story. The old
+// "L3+ needs 12 katakana characters" rule is why no Japanese folk tale could
+// sit at L3.
+const KATAKANA_BUDGET = { L1: 0, L2: 4 };
 
 function parseExportedObject(source, name) {
   // Non-greedy up to the FIRST "\n});": a file with more than one export
@@ -81,14 +101,30 @@ function sentenceText(sentence) {
   return sentence.t.map((token) => token.s).join('');
 }
 
+/** Every distinct katakana word in a piece of text, as whole runs. */
+function katakanaWords(text) {
+  return (text.match(KATAKANA_RUN_RE) || []).map((run) => run.replace(/・$/, ''));
+}
+
+/**
+ * Throws on anything that makes a story wrong; RETURNS anything that only
+ * makes it unusual. The distinction matters because the gates below are
+ * guidance about difficulty, not facts about correctness: a story two
+ * sentences under its level's band is a fine story, and failing the build
+ * over it only teaches an author to pad.
+ */
 export function validateStory(story, ids) {
   const errors = [];
+  const warnings = [];
   const where = (p, s, message) => errors.push(`${story.id} p${p + 1}s${s + 1}: ${message}`);
   if (!story.id || !/^[a-z0-9-]+$/.test(story.id)) errors.push(`${story.id || '(missing id)'}: invalid id`);
   if (!LEVELS.has(story.level)) errors.push(`${story.id}: unknown level ${story.level}`);
   if (!GRAMMAR.has(story.gram)) errors.push(`${story.id}: unknown grammar tier ${story.gram}`);
-  if (story.level && story.gram && story.level.slice(1) !== story.gram.slice(1)) {
-    errors.push(`${story.id}: ${story.level} must use matching ${`G${story.level.slice(1)}`}`);
+  // A ceiling, not a target. An L4 story written in G2 grammar is an easy
+  // read at a wide vocabulary, which is a perfectly good thing to be; only
+  // grammar ABOVE the level's tier breaks the promise the level makes.
+  if (story.level && story.gram && Number(story.gram.slice(1)) > Number(story.level.slice(1))) {
+    errors.push(`${story.id}: ${story.gram} is above what ${story.level} allows`);
   }
   if (!story.title?.ja || !story.title?.en || !story.blurb) errors.push(`${story.id}: missing title or blurb`);
   if (!story.source?.text || !story.source?.by || !story.source?.credit || !story.source?.licence || !story.source?.notes) {
@@ -99,10 +135,19 @@ export function validateStory(story, ids) {
   }
   const sentences = story.body?.flat() || [];
   const [minSentences, maxSentences] = SENTENCE_LIMITS[story.level] || [1, Infinity];
-  if (sentences.length < minSentences || sentences.length > maxSentences) {
-    errors.push(`${story.id}: ${sentences.length} sentences falls outside ${minSentences}–${maxSentences}`);
+  // Over the maximum is an error — an L1 story of forty sentences is not an
+  // L1 story. Under the minimum is only a warning, above an absolute floor
+  // below which there is no story at all: a tight, complete tale that lands
+  // two sentences short of its band is better than the two sentences of
+  // padding the old hard error asked for.
+  if (sentences.length > maxSentences) {
+    errors.push(`${story.id}: ${sentences.length} sentences exceeds the ${story.level} maximum of ${maxSentences}`);
+  } else if (sentences.length < MIN_SENTENCES) {
+    errors.push(`${story.id}: ${sentences.length} sentences is too short to be a story`);
+  } else if (sentences.length < minSentences) {
+    warnings.push(`${story.id}: ${sentences.length} sentences is under the ${story.level} guide of ${minSentences}`);
   }
-  let katakana = [...story.title.ja].filter((ch) => KATAKANA_RE.test(ch)).length;
+  const katakana = new Set(katakanaWords(story.title.ja));
   story.body?.forEach((paragraph, p) => paragraph.forEach((sentence, s) => {
     if (!sentence.en || !sentence.en.trim()) where(p, s, 'missing English translation');
     if (!Array.isArray(sentence.t) || sentence.t.length === 0) where(p, s, 'has no tokens');
@@ -133,17 +178,16 @@ export function validateStory(story, ids) {
       if (token.d && !ids.has(token.d)) {
         where(p, s, `${label} links to missing vocabulary id ${token.d}`);
       }
-      katakana += [...token.s].filter((ch) => KATAKANA_RE.test(ch)).length;
+      katakanaWords(token.s).forEach((word) => katakana.add(word));
     });
     if (!/[。！？]$/.test(sentenceText(sentence))) where(p, s, 'does not end in sentence punctuation');
   }));
-  if ((story.level === 'L1' || story.level === 'L2') && katakana > 0) {
-    errors.push(`${story.id}: ${story.level} contains ${katakana} katakana characters`);
-  }
-  if (['L3', 'L4', 'L5', 'L6'].includes(story.level) && katakana < 12) {
-    errors.push(`${story.id}: higher-level story needs more katakana practice (found ${katakana}, need at least 12)`);
+  const budget = KATAKANA_BUDGET[story.level];
+  if (budget !== undefined && katakana.size > budget) {
+    errors.push(`${story.id}: ${story.level} allows ${budget} distinct katakana words, found ${katakana.size} (${[...katakana].join(', ')})`);
   }
   if (errors.length) throw new Error(errors.join('\n'));
+  return { warnings, katakana: katakana.size };
 }
 
 async function loadSourceStories() {
@@ -185,6 +229,7 @@ async function main() {
   const ids = await vocabIds();
   const sources = await loadSourceStories();
   const existingIds = new Set();
+  const report = { warnings: [], katakana: {} };
   const stories = sources.map((source) => {
     if (existingIds.has(source.id)) throw new Error(`duplicate story id ${source.id}`);
     existingIds.add(source.id);
@@ -193,20 +238,36 @@ async function main() {
       t: sentence.t.map((token) => autoLink(token, lookup)),
     })));
     const story = { ...source, body, hash: contentHash(body) };
-    validateStory(story, ids);
+    const { warnings, katakana } = validateStory(story, ids);
+    report.warnings.push(...warnings);
+    report.katakana[story.id] = katakana;
     return story;
   });
   stories.sort((a, b) => a.level.localeCompare(b.level) || a.id.localeCompare(b.id));
+  // Every level needs SOMETHING in it — an empty rung on the ladder is worse
+  // than a coarse one (stories-plan.md §11.1). It used to need exactly six,
+  // which meant the corpus could only ever grow six stories at a time, in
+  // lockstep across all six levels. That was never the intent.
   const levelCounts = Object.fromEntries([...LEVELS].map((level) => [level, 0]));
   stories.forEach((story) => { levelCounts[story.level] += 1; });
   Object.entries(levelCounts).forEach(([level, count]) => {
-    if (count !== 6) throw new Error(`${level} must contain exactly six stories; found ${count}`);
+    if (count === 0) throw new Error(`${level} has no stories`);
   });
   await Promise.all(stories.map((story) => fs.writeFile(
     path.join(DATA_DIR, `story-${story.id}.js`), runtimeModule(story), 'utf8',
   )));
   await fs.writeFile(path.join(DATA_DIR, 'story-manifest.js'), manifestModule(stories), 'utf8');
   console.log(`built ${stories.length} stories (${stories.reduce((n, s) => n + s.body.flat().length, 0)} sentences)`);
+  // Katakana practice is reported rather than enforced: the question worth
+  // answering is whether a learner working through a LEVEL will meet katakana,
+  // not whether every individual story carries its share of it.
+  Object.entries(levelCounts).forEach(([level, count]) => {
+    const atLevel = stories.filter((story) => story.level === level);
+    const withKatakana = atLevel.filter((story) => report.katakana[story.id] > 0).length;
+    const words = atLevel.reduce((n, story) => n + report.katakana[story.id], 0);
+    console.log(`  ${level}: ${count} stories, ${withKatakana} with katakana, ${words} distinct katakana words`);
+  });
+  report.warnings.forEach((warning) => console.log(`  warning: ${warning}`));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

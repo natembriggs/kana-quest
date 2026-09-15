@@ -37,7 +37,7 @@ import {
 import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
 import {
-  renderSentence, tokenAtLevel, exposureTargetsForToken, isTokenFuriganaHidden, tokenHasKanji,
+  renderSentence, tokenAtLevel, exposureTargetsForToken, tokenHasKanji,
   storyOccurrenceIndex,
 } from './reader.js';
 import { STORIES } from './data/story-manifest.js';
@@ -71,7 +71,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-14c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -5421,6 +5421,63 @@ function isKanjiKnown(kanji) {
   return studyModes(state.profile.study, kanji).some((mode) => KANJI_STUDY_MODES.has(mode));
 }
 
+/** The two modes a kana course actually offers (MODES in srs.js). */
+const KANA_STUDY_MODES = ['recognition', 'writing'];
+
+/**
+ * Every item the katakana course teaches, longest first so a yōon (キャ) is
+ * matched ahead of the キ that starts it. Built once, from the course's own
+ * chunks rather than a second hand-written table that could drift from it.
+ */
+let katakanaItemsCache = null;
+function katakanaCourseItems() {
+  if (!katakanaItemsCache) {
+    katakanaItemsCache = getAnyCourse('katakana').chunks
+      .flatMap((chunk) => chunk.items)
+      .sort((a, b) => b.length - a.length);
+  }
+  return katakanaItemsCache;
+}
+
+/** One taught katakana character the learner has a claim on — the katakana
+ * counterpart of isKanjiKnown, and enrolled-OR-introduced for the same reason
+ * frontierKanjiUnit is: enrollment happens before the first progress record,
+ * and a mastered item that was later un-enrolled must not silently go back to
+ * being an unknown one. No key collision is possible here — a katakana
+ * character is an item in no other course. */
+function isKatakanaCharKnown(item) {
+  return KANA_STUDY_MODES.some((mode) => (
+    isStudying(state.profile.study, item, mode) || !!state.profile.progress[itemKey(mode, item)]
+  ));
+}
+
+/**
+ * Whether a whole katakana run needs no hiragana above it (reader.js's
+ * `view.isKatakanaRunKnown`) — true only when every character the katakana
+ * course actually teaches is known, which is the per-word AND stories-plan.md
+ * §6.1 applies to kanji.
+ *
+ * Characters the course does not teach are skipped rather than counted
+ * unknown: ー, ・, the sokuon ッ, and the small vowels that make ファ/ティ are
+ * never taught as items, and a learner who knows フ and ア can decode ファ.
+ * A run of nothing but untaught characters (a lone ヴ) stays unknown, so its
+ * ruby shows — which is the right answer for a character the course never
+ * covers.
+ */
+function isKatakanaRunKnown(run) {
+  const items = katakanaCourseItems();
+  let i = 0;
+  let taught = 0;
+  while (i < run.length) {
+    const item = items.find((candidate) => run.startsWith(candidate, i));
+    if (!item) { i += 1; continue; }
+    if (!isKatakanaCharKnown(item)) return false;
+    taught += 1;
+    i += item.length;
+  }
+  return taught > 0;
+}
+
 /** The exposure key a ruby position's reading accrues against — the
  * build-time-validated `credits` (base reading, rendaku/gemination undone)
  * when there is one, else the literal kana shown. Falling back to the raw
@@ -8568,20 +8625,28 @@ async function ensureStoryLoaded(id) {
   return loadingStories.get(id);
 }
 
-/** stories-plan.md §5.1 — 'hira' until katakana has been started, 'kana'
- * until any kanji has, 'kanji' from there on. Uses studyModes (already
- * imported from srs.js) over the three real kanji modes, the same
- * KANJI_STUDY_MODES set isKanjiKnown checks below — never a bare "any study
- * key at all" test, which the vmeaning/vrecall-key-collision bug phase 3b
- * of vocab-plan.md found would misread a studied single-kanji WORD (船, 水)
- * as a studied KANJI. */
+/** stories-plan.md §5.1 — 'kana' until any kanji has been started, 'kanji'
+ * from there on. Uses studyModes (already imported from srs.js) over the
+ * three real kanji modes, the same KANJI_STUDY_MODES set isKanjiKnown checks
+ * below — never a bare "any study key at all" test, which the
+ * vmeaning/vrecall-key-collision bug phase 3b of vocab-plan.md found would
+ * misread a studied single-kanji WORD (船, 水) as a studied KANJI.
+ *
+ * There used to be a third stage, 'hira', for a learner who had not started
+ * katakana: it converted every katakana word to hiragana except the loanwords
+ * §5.6 could not spell honestly. It is gone, because katakana now carries its
+ * own derived hiragana ruby (reader.js's rubySpansFor) and so needs no stage
+ * of its own. That was the ONLY thing 'hira' ever did differently: across all
+ * 22,596 shipped tokens, `toHiragana(k) === k` for every token whose kana form
+ * contains no katakana, so the two stages rendered identical text everywhere
+ * else. Katakana is now a per-WORD decision about what this learner knows,
+ * which is both more accurate and the only thing that ever helped the learner
+ * who studied vocabulary and kanji long before katakana. */
 function anyKanjiStarted(profile) {
   return [...KANJI_STUDY_MODES].some((mode) => studiedKanji(profile.study, mode).length > 0);
 }
 function readerScriptStage(profile) {
-  if (anyKanjiStarted(profile)) return 'kanji';
-  const kata = courseStats(getAnyCourse('katakana'), 'recognition', profile);
-  return kata.started > 0 ? 'kana' : 'hira';
+  return anyKanjiStarted(profile) ? 'kanji' : 'kana';
 }
 
 /** The furthest-along kanji unit with anything introduced in any of the
@@ -8798,6 +8863,7 @@ function buildReaderView() {
     windowActive,
     inWindow: (ch) => !!windowUnits && windowUnits.has(kanjiUnitFor(ch)),
     isKanjiKnown,
+    isKatakanaRunKnown,
     exposure: profile.exposure,
     muted: profile.muted,
   };
@@ -8807,9 +8873,14 @@ function buildReaderView() {
  * question, just a pre-selected starting point the learner can move off of
  * freely. Coarse on purpose: it only has to be roughly right. */
 function suggestedReadingLevel(profile) {
-  const stage = readerScriptStage(profile);
-  if (stage === 'hira') return 'L1';
-  if (stage === 'kana') return 'L2';
+  if (readerScriptStage(profile) !== 'kanji') {
+    // Asked of the katakana course directly rather than of the script stage,
+    // which no longer splits on it (readerScriptStage) — but which is what
+    // this suggestion always actually meant: someone yet to start katakana is
+    // at the very beginning, someone part-way through is not.
+    const kata = courseStats(getAnyCourse('katakana'), 'recognition', profile);
+    return kata.started > 0 ? 'L2' : 'L1';
+  }
   const frontier = frontierKanjiUnit(profile);
   const idx = frontier ? KANJI_UNIT_IDS.indexOf(frontier) : -1;
   if (idx < 0 || idx <= 1) return 'L3';
@@ -8968,9 +9039,9 @@ function setReaderActiveToken(key) {
  * not part of the pure hiding rule itself, so it stays out of reader.js. */
 function applyFuriganaOverride(rendered) {
   const mode = state.readerFuriganaMode;
-  if (rendered.form !== 'kanji' || !mode || mode === 'smart') return rendered;
+  if (!rendered.annotated || !mode || mode === 'smart') return rendered;
   if (mode === 'always') return { ...rendered, hidden: false, maxLevel: 1 };
-  return { ...rendered, hidden: true, maxLevel: rendered.ruby ? 2 : 1 };
+  return { ...rendered, hidden: true, maxLevel: 2 };
 }
 
 /**
@@ -8987,7 +9058,7 @@ function applyFuriganaOverride(rendered) {
  */
 function applyRomajiOverride(rendered) {
   if (state.readerShowRomaji) return rendered;
-  if (rendered.form === 'kana') return { ...rendered, maxLevel: 0 };
+  if (!rendered.annotated) return { ...rendered, maxLevel: 0 };
   return { ...rendered, maxLevel: Math.max(0, rendered.maxLevel - 1) };
 }
 
@@ -9006,7 +9077,7 @@ function applyRomajiOverride(rendered) {
  * very first appearance, and this only ever adds hiding, never removes it.
  */
 function applyInStoryRepetition(rendered, p, s) {
-  if (rendered.form !== 'kanji' || rendered.hidden) return rendered;
+  if (!rendered.annotated || rendered.hidden) return rendered;
   const n = state.storyOccurrence.get(`${p}:${s}:${rendered.i}`);
   if (n === undefined || n < EXPOSURE_THRESHOLD - 1) return rendered;
   return { ...rendered, hidden: true, maxLevel: 2 };
@@ -9025,24 +9096,33 @@ function getRenderedSentence(p, s) {
     .map(applyRomajiOverride);
 }
 
+/**
+ * Paints one token at one reveal level. Walks reader.js's ruby SPANS rather
+ * than the token's characters, because a span is not always one character: a
+ * kanji's furigana covers exactly one, but a katakana run's hiragana covers
+ * the whole run at once (コーヒー wants one こーひー above it, not four ruby
+ * boxes fighting over ー). Everything between spans is plain text.
+ */
 function paintTokenElement(el, token, rendered, level) {
   const at = tokenAtLevel(rendered, level);
   el.innerHTML = '';
-  if (rendered.form === 'kanji' && rendered.ruby) {
-    const rubyByPos = new Map(rendered.ruby.map((r) => [r[0], r[1]]));
-    [...rendered.text].forEach((ch, idx) => {
-      const reading = rubyByPos.get(idx);
-      if (reading && at.showRuby) {
-        const ruby = document.createElement('ruby');
-        ruby.appendChild(document.createTextNode(ch));
-        const rt = document.createElement('rt');
-        rt.textContent = reading;
-        ruby.appendChild(rt);
-        el.appendChild(ruby);
-      } else {
-        el.appendChild(document.createTextNode(ch));
+  if (at.spans.length) {
+    let cursor = 0;
+    at.spans.forEach((span) => {
+      if (span.start > cursor) {
+        el.appendChild(document.createTextNode(rendered.text.slice(cursor, span.start)));
       }
+      const ruby = document.createElement('ruby');
+      ruby.appendChild(document.createTextNode(rendered.text.slice(span.start, span.start + span.len)));
+      const rt = document.createElement('rt');
+      rt.textContent = span.text;
+      ruby.appendChild(rt);
+      el.appendChild(ruby);
+      cursor = span.start + span.len;
     });
+    if (cursor < rendered.text.length) {
+      el.appendChild(document.createTextNode(rendered.text.slice(cursor)));
+    }
   } else {
     el.appendChild(document.createTextNode(at.text));
   }
@@ -9151,19 +9231,20 @@ function renderReaderBody() {
 
 /** Every (kanji, reading) plus the word's own key a shown/revealed token
  * should accrue against — src/reader.js's exposureTargetsForToken, just
- * re-exported at the call site for readability. */
-function recordReaderExposure(token, source, hiddenOnScreen) {
-  if (!token.ruby) return;
+ * re-exported at the call site for readability.
+ *
+ * Takes the token's own RENDERED descriptor rather than the token alone,
+ * because what was annotated is a per-view question now that katakana carries
+ * derived ruby: ガラス箱 shown as ガラスばこ annotated only its ガラス, and a
+ * word with no ruby on screen has nothing to record either way. */
+function recordReaderExposure(token, rendered, source) {
+  if (!rendered.annotated) return;
   const wordKey = exposureWordKey(token.s);
   // What the learner was ACTUALLY shown, which is not always what the
   // profile-wide rules alone would say: the in-story repetition rule
   // (applyInStoryRepetition) hides a word's fourth-and-later printings too,
   // and a printing that showed nothing must not be recorded as if it had.
-  // Callers that know the token's position pass it in; the rest fall back
-  // to the profile-wide answer.
-  const hiddenByDefault = hiddenOnScreen !== undefined
-    ? hiddenOnScreen
-    : isTokenFuriganaHidden(token, state.readerView);
+  const hiddenByDefault = rendered.hidden;
   if (source === 'show') {
     if (hiddenByDefault) return; // nothing was actually shown
   } else {
@@ -9178,7 +9259,7 @@ function recordReaderExposure(token, source, hiddenOnScreen) {
     }
   }
   let changed = false;
-  exposureTargetsForToken(token).forEach((key) => {
+  exposureTargetsForToken(token, rendered.spans).forEach((key) => {
     if (isExposurePromoted(state.profile.exposure, key)) return;
     if (state.storyCounted.has(key)) return; // at most one per episode (§6.3)
     state.storyCounted.add(key);
@@ -9195,10 +9276,10 @@ function recordReaderExposure(token, source, hiddenOnScreen) {
  * would otherwise be judged by (isTokenFuriganaHidden in reader.js), so it
  * renders hidden here for the rest of this story and every one after, not
  * just this one printing. */
-function muteReaderToken(token) {
+function muteReaderToken(token, rendered) {
   const { muted } = state.profile;
   const now = Date.now();
-  exposureTargetsForToken(token).forEach((key) => muteFuriganaKey(muted, key, now));
+  exposureTargetsForToken(token, rendered.spans).forEach((key) => muteFuriganaKey(muted, key, now));
   store.saveProfile(state.profile);
 }
 
@@ -9411,7 +9492,7 @@ function markParagraphExposed(pEl) {
   const para = state.readerStory.body[pIndex];
   para.forEach((sentence, sIndex) => {
     const rendered = getRenderedSentence(pIndex, sIndex);
-    sentence.t.forEach((token, i) => recordReaderExposure(token, 'show', rendered[i].hidden));
+    sentence.t.forEach((token, i) => recordReaderExposure(token, rendered[i], 'show'));
   });
 }
 
@@ -9493,14 +9574,14 @@ function handleReaderTokenTap(tokenEl) {
   const token = sentence.t[i];
   const rendered = getRenderedSentence(p, s)[i];
   const level = state.storyRevealLevels.get(key) || 0;
-  if (rendered.form === 'kanji' && !rendered.hidden && level === 0) {
-    muteReaderToken(token);
+  if (rendered.annotated && !rendered.hidden && level === 0) {
+    muteReaderToken(token, rendered);
     refreshMutedWordOccurrences(token.s); // every printing of this word, not just the one tapped
     setReaderActiveToken(key);
     openReaderCard(p, s, i, token);
     return;
   }
-  const willReveal = rendered.form === 'kanji' && rendered.hidden && level === 0;
+  const willReveal = rendered.annotated && rendered.hidden && level === 0;
   const nextLevel = level >= rendered.maxLevel ? 0 : level + 1;
   state.storyRevealLevels.set(key, nextLevel);
   paintTokenElement(tokenEl, token, rendered, nextLevel);
@@ -9514,7 +9595,7 @@ function handleReaderTokenTap(tokenEl) {
   } else {
     openReaderCard(p, s, i, token);
   }
-  if (willReveal) recordReaderExposure(token, 'reveal', rendered.hidden);
+  if (willReveal) recordReaderExposure(token, rendered, 'reveal');
 }
 
 function toggleSentenceTranslation(p, s) {

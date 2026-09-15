@@ -12,7 +12,7 @@ globalThis.window = { wanakana: globalThis.wanakana };
 
 const {
   tokenHasKanji, exposureTargetsForToken, isTokenFuriganaHidden, renderSentence, tokenAtLevel,
-  storyOccurrenceIndex,
+  storyOccurrenceIndex, rubySpansFor,
 } = await import('../src/reader.js');
 const {
   exposureWordKey, exposureKanjiKey, addExposure, muteFuriganaKey,
@@ -32,10 +32,11 @@ const KATAKANA_RE = /[ァ-ヺー]/;
 // "furigana shows, nothing is hidden" case most tokens hit.
 function baseView(overrides = {}) {
   return {
-    stage: 'hira',
+    stage: 'kana',
     windowActive: false,
     inWindow: () => false,
     isKanjiKnown: () => false,
+    isKatakanaRunKnown: () => false,
     exposure: {},
     muted: {},
     ...overrides,
@@ -51,8 +52,8 @@ check('tokenHasKanji is false for a pure-kana surface',
 check('tokenHasKanji is false for punctuation',
   !tokenHasKanji({ s: '。' }));
 
-// --- Stage 'hira': toHiragana(k) everywhere, except the §5.6 katakana ------
-// --- loanword fallback, and particles/aux/punct join the previous token ---
+// --- Stage 'kana': native kana orthography, spaced, particles joined ------
+// --- and katakana annotated with derived hiragana (§5.6) ------------------
 
 const catToken = { s: '猫', k: 'ねこ', ruby: [[0, 'ねこ']], pos: 'n' };
 const topicPart = { s: 'は', k: 'は', ruby: null, pos: 'part' };
@@ -62,38 +63,100 @@ const likeAdj = { s: '好き', k: 'すき', ruby: [[0, 'す']], pos: 'adj' };
 const copulaAux = { s: 'です', k: 'です', ruby: null, pos: 'aux' };
 const period = { s: '。', k: '。', ruby: null, pos: 'punct' };
 
-const hiraTokens = [catToken, topicPart, coffeeLoanword, subjPart, likeAdj, copulaAux, period];
-const hiraRendered = renderSentence(hiraTokens, baseView({ stage: 'hira' }));
+const kanaTokens = [catToken, topicPart, coffeeLoanword, subjPart, likeAdj, copulaAux, period];
+const kanaRendered = renderSentence(kanaTokens, baseView());
 
-check('stage hira: every token renders in kana form',
-  hiraRendered.every((r) => r.form === 'kana'));
-check('stage hira: a kanji-bearing word has no kanji in its rendered text',
-  !KANJI_RE.test(hiraRendered[0].text) && !KANJI_RE.test(hiraRendered[4].text),
-  JSON.stringify([hiraRendered[0].text, hiraRendered[4].text]));
-check('stage hira: a katakana loanword stays katakana (§5.6 fallback), not こーひー',
-  hiraRendered[2].text === 'コーヒー', hiraRendered[2].text);
-check('stage hira: every other token has no katakana at all',
-  hiraRendered.filter((_, i) => i !== 2).every((r) => !KATAKANA_RE.test(r.text)),
-  JSON.stringify(hiraRendered.map((r) => r.text)));
+check('stage kana: a kanji-bearing word has no kanji in its rendered text',
+  !KANJI_RE.test(kanaRendered[0].text) && !KANJI_RE.test(kanaRendered[4].text),
+  JSON.stringify([kanaRendered[0].text, kanaRendered[4].text]));
+check('stage kana: a kanji-bearing word shown in kana carries no ruby of its own',
+  !kanaRendered[0].annotated && !kanaRendered[4].annotated);
+check('stage kana: a katakana loanword stays katakana, never transliterated away',
+  kanaRendered[2].text === 'コーヒー', kanaRendered[2].text);
+check('stage kana: every other token has no katakana at all',
+  kanaRendered.filter((_, i) => i !== 2).every((r) => !KATAKANA_RE.test(r.text)),
+  JSON.stringify(kanaRendered.map((r) => r.text)));
 
-const hiraJoined = hiraRendered.map((r) => (r.spaceBefore ? ' ' : '') + r.text).join('');
-check('stage hira: particles join their host with no space (むかしむかし-book style)',
-  hiraJoined.includes('ねこは') && !hiraJoined.includes('ねこ は')
-  && hiraJoined.includes('コーヒーが') && !hiraJoined.includes('コーヒー が')
-  && hiraJoined.includes('すきです') && !hiraJoined.includes('すき です'),
-  hiraJoined);
-check('stage hira: punctuation attaches to what precedes it with no space',
-  hiraJoined.endsWith('です。') && !hiraJoined.endsWith('です 。'), hiraJoined);
+const kanaJoined = kanaRendered.map((r) => (r.spaceBefore ? ' ' : '') + r.text).join('');
+check('stage kana: particles join their host with no space (むかしむかし-book style)',
+  kanaJoined.includes('ねこは') && !kanaJoined.includes('ねこ は')
+  && kanaJoined.includes('コーヒーが') && !kanaJoined.includes('コーヒー が')
+  && kanaJoined.includes('すきです') && !kanaJoined.includes('すき です'),
+  kanaJoined);
+check('stage kana: punctuation attaches to what precedes it with no space',
+  kanaJoined.endsWith('です。') && !kanaJoined.endsWith('です 。'), kanaJoined);
 
 // The doc's own worked example (§5.2): おじいさんは, not おじいさん は.
 const grandpaTokens = [
   { s: 'おじいさん', k: 'おじいさん', ruby: null, pos: 'n' },
   { s: 'は', k: 'は', ruby: null, pos: 'part' },
 ];
-const grandpaRendered = renderSentence(grandpaTokens, baseView({ stage: 'hira' }));
+const grandpaRendered = renderSentence(grandpaTokens, baseView());
 const grandpaJoined = grandpaRendered.map((r) => (r.spaceBefore ? ' ' : '') + r.text).join('');
 check('the particle-joining rule produces おじいさんは, not おじいさん は',
   grandpaJoined === 'おじいさんは', grandpaJoined);
+
+// --- Katakana ruby (§5.6): derived, hiragana, ー kept ----------------------
+
+const coffeeUnknown = renderSentence([coffeeLoanword], baseView())[0];
+check('an unknown katakana word is annotated, and the katakana itself stays on screen',
+  coffeeUnknown.annotated && coffeeUnknown.text === 'コーヒー', JSON.stringify(coffeeUnknown));
+check('its ruby is mora-for-mora hiragana keeping ー — こーひー, never こうひい',
+  coffeeUnknown.spans.length === 1 && coffeeUnknown.spans[0].text === 'こーひー',
+  JSON.stringify(coffeeUnknown.spans));
+check('the katakana span covers the WHOLE run, not one character at a time',
+  coffeeUnknown.spans[0].start === 0 && coffeeUnknown.spans[0].len === 4,
+  JSON.stringify(coffeeUnknown.spans[0]));
+
+const coffeeKnown = renderSentence([coffeeLoanword], baseView({ isKatakanaRunKnown: () => true }))[0];
+check('a katakana word whose characters are known hides its ruby, exactly as a known kanji does',
+  coffeeKnown.hidden === true && coffeeKnown.text === 'コーヒー',
+  JSON.stringify(coffeeKnown));
+check('...and keeps a two-tap ladder, so a learner who blanks can still ask for the reading',
+  coffeeKnown.maxLevel === 2 && tokenAtLevel(coffeeKnown, 0).spans.length === 0
+  && tokenAtLevel(coffeeKnown, 1).spans.length === 1,
+  JSON.stringify(tokenAtLevel(coffeeKnown, 1)));
+
+// The case that was broken before this rule existed: a learner who studied
+// kanji long before katakana got furigana on every kanji and nothing at all
+// over ウサギ.
+const whiteRabbit = { s: '白ウサギ', k: 'しろウサギ', ruby: [[0, 'しろ']], pos: 'pn' };
+const mixedView = baseView({ stage: 'kanji', windowActive: false });
+const mixedRendered = renderSentence([whiteRabbit], mixedView)[0];
+check('a mixed kanji+katakana word annotates both halves, in position order',
+  mixedRendered.text === '白ウサギ'
+  && JSON.stringify(mixedRendered.spans.map((sp) => [sp.start, sp.len, sp.text, sp.kind]))
+    === JSON.stringify([[0, 1, 'しろ', 'kanji'], [1, 3, 'うさぎ', 'katakana']]),
+  JSON.stringify(mixedRendered.spans));
+check('the whole word is one visibility decision: unknown katakana keeps the kanji ruby showing',
+  mixedRendered.hidden === false);
+check('knowing only the kanji is not enough to hide a mixed word\'s ruby',
+  !renderSentence([whiteRabbit], baseView({
+    stage: 'kanji', isKanjiKnown: () => true, isKatakanaRunKnown: () => false,
+  }))[0].hidden);
+check('knowing both halves hides the whole word\'s ruby together',
+  renderSentence([whiteRabbit], baseView({
+    stage: 'kanji', isKanjiKnown: () => true, isKatakanaRunKnown: () => true,
+  }))[0].hidden);
+
+// ー and ・ extend a run without starting one; a run is found in the text
+// that is actually on screen, not in the surface.
+const longJohn = { s: 'ロング・ジョン', k: 'ロング・ジョン', ruby: null, pos: 'pn' };
+const longJohnSpans = rubySpansFor(longJohn, baseView());
+check('a ・ inside a foreign name keeps it one run rather than splitting the ruby',
+  longJohnSpans.length === 1 && longJohnSpans[0].text === 'ろんぐ・じょん',
+  JSON.stringify(longJohnSpans));
+
+const glassBox = { s: 'ガラス箱', k: 'ガラスばこ', ruby: [[3, 'ばこ']], pos: 'n' };
+const glassInKana = renderSentence([glassBox], baseView({
+  stage: 'kanji', windowActive: true, inWindow: () => false,
+}))[0];
+check('a word pushed into kana form by the window is still annotated over its katakana',
+  glassInKana.text === 'ガラスばこ'
+  && glassInKana.spans.length === 1
+  && glassInKana.spans[0].kind === 'katakana'
+  && glassInKana.spans[0].text === 'がらす',
+  JSON.stringify(glassInKana));
 
 // --- Stage 'kanji', the frontier window (§5.4) — per WORD, not per char ----
 
@@ -107,34 +170,41 @@ function windowView(inSet, knownSet = new Set()) {
     windowActive: true,
     inWindow: (ch) => inSet.has(ch),
     isKanjiKnown: (ch) => knownSet.has(ch),
+    // Every katakana known, so the window tests below are about kanji alone
+    // and a stray katakana run cannot annotate a token out from under them.
+    isKatakanaRunKnown: () => true,
   });
 }
 
 const straddling = renderSentence([denshaToken], windowView(new Set(['電'])))[0];
 check('a word straddling the window edge renders wholly in kana (でんしゃ), never 電しゃ',
-  straddling.form === 'kana' && straddling.text === 'でんしゃ', JSON.stringify(straddling));
+  !straddling.annotated && straddling.text === 'でんしゃ', JSON.stringify(straddling));
 
 const wholeInWindow = renderSentence([hanabiToken], windowView(new Set(['花', '火'])))[0];
 check('a word with every kanji inside the window renders in kanji',
-  wholeInWindow.form === 'kanji' && wholeInWindow.text === '花火', JSON.stringify(wholeInWindow));
+  wholeInWindow.annotated && wholeInWindow.text === '花火', JSON.stringify(wholeInWindow));
 
 const studiedOutside = renderSentence(
   [denshaToken],
   windowView(new Set(['電']), new Set(['車'])),
 )[0];
 check('a studied kanji outside the window still renders as kanji (never taken away)',
-  studiedOutside.form === 'kanji' && studiedOutside.text === '電車', JSON.stringify(studiedOutside));
+  studiedOutside.annotated && studiedOutside.text === '電車', JSON.stringify(studiedOutside));
 
 const windowInactive = baseView({
-  stage: 'kanji', windowActive: false, inWindow: () => false, isKanjiKnown: () => false,
+  stage: 'kanji',
+  windowActive: false,
+  inWindow: () => false,
+  isKanjiKnown: () => false,
+  isKatakanaRunKnown: () => true,
 });
 const beyondWindow = renderSentence([denshaToken], windowInactive)[0];
 check('once the window is gone (frontier grade 4+), every kanji renders regardless of inWindow',
-  beyondWindow.form === 'kanji' && beyondWindow.text === '電車', JSON.stringify(beyondWindow));
+  beyondWindow.annotated && beyondWindow.text === '電車', JSON.stringify(beyondWindow));
 
 const kanaOnlyAtKanjiStage = renderSentence([catTokenNoRuby], windowInactive)[0];
 check('a word with no kanji stays in kana form even at stage kanji',
-  kanaOnlyAtKanjiStage.form === 'kana' && kanaOnlyAtKanjiStage.text === 'ねこ',
+  !kanaOnlyAtKanjiStage.annotated && kanaOnlyAtKanjiStage.text === 'ねこ',
   JSON.stringify(kanaOnlyAtKanjiStage));
 
 // Spacing stops at stage 'kanji' (§5.4) — checked here since the window
@@ -145,36 +215,57 @@ check('spacing stops entirely at stage kanji',
 
 // --- isTokenFuriganaHidden: the four-way OR (§6.1) --------------------------
 
+// At stage 'kana' a kanji word renders in kana and has nothing to hide, so
+// every case below is asked at stage 'kanji', where the kanji is on screen.
+function hidingView(overrides = {}) {
+  return baseView({ stage: 'kanji', ...overrides });
+}
+
 const denshaWordKey = exposureWordKey('電車');
 
 check('no claim at all: furigana shows (not hidden) — the default a new kanji gets',
-  !isTokenFuriganaHidden(denshaToken, baseView()));
+  !isTokenFuriganaHidden(denshaToken, hidingView()));
 
 check('every kanji known (studied): furigana is hidden',
-  isTokenFuriganaHidden(denshaToken, baseView({ isKanjiKnown: () => true })));
+  isTokenFuriganaHidden(denshaToken, hidingView({ isKanjiKnown: () => true })));
 
 check('only SOME kanji known: furigana still shows — the OR is over the whole word',
-  !isTokenFuriganaHidden(denshaToken, baseView({ isKanjiKnown: (ch) => ch === '電' })));
+  !isTokenFuriganaHidden(denshaToken, hidingView({ isKanjiKnown: (ch) => ch === '電' })));
 
 const promotedExposure = {};
 [1_000, 2_000, 3_000, 4_000].forEach((t) => addExposure(promotedExposure, denshaWordKey, t));
 check('exposure-promoted (seen 4 times with ruby showing): furigana is hidden',
-  isTokenFuriganaHidden(denshaToken, baseView({ exposure: promotedExposure })));
+  isTokenFuriganaHidden(denshaToken, hidingView({ exposure: promotedExposure })));
 
 const mutedMap = {};
 muteFuriganaKey(mutedMap, denshaWordKey, 5_000);
 check('muted by hand: furigana is hidden',
-  isTokenFuriganaHidden(denshaToken, baseView({ muted: mutedMap })));
+  isTokenFuriganaHidden(denshaToken, hidingView({ muted: mutedMap })));
 
-check('no kanji at all (ruby is null): nothing to hide, reported as not hidden',
-  !isTokenFuriganaHidden(catTokenNoRuby, baseView({ isKanjiKnown: () => true, exposure: promotedExposure, muted: mutedMap })));
+check('no ruby of any kind: nothing to hide, reported as not hidden',
+  !isTokenFuriganaHidden(catTokenNoRuby, hidingView({
+    isKanjiKnown: () => true, exposure: promotedExposure, muted: mutedMap,
+  })));
+
+// The same three rules reach katakana unchanged, because a katakana word is
+// judged by the very same whole-word exposure key.
+const coffeeWordKey = exposureWordKey('コーヒー');
+const coffeePromoted = {};
+[1_000, 2_000, 3_000, 4_000].forEach((t) => addExposure(coffeePromoted, coffeeWordKey, t));
+check('a katakana word seen four times with its ruby showing earns its hidden default',
+  isTokenFuriganaHidden(coffeeLoanword, baseView({ exposure: coffeePromoted })));
+const coffeeMuted = {};
+muteFuriganaKey(coffeeMuted, coffeeWordKey, 5_000);
+check('a katakana word can be muted by hand like any other',
+  isTokenFuriganaHidden(coffeeLoanword, baseView({ muted: coffeeMuted })));
 
 // --- exposureTargetsForToken (§6.2): the word key AND one per ruby position ---
 
-check('a token with no ruby has no exposure targets',
-  exposureTargetsForToken(catTokenNoRuby).length === 0);
+const kanjiStageView = baseView({ stage: 'kanji' });
+check('a token rendered with no ruby has no exposure targets',
+  exposureTargetsForToken(catTokenNoRuby, rubySpansFor(catTokenNoRuby, kanjiStageView)).length === 0);
 
-const denshaTargets = exposureTargetsForToken(denshaToken);
+const denshaTargets = exposureTargetsForToken(denshaToken, rubySpansFor(denshaToken, kanjiStageView));
 check('a two-kanji word writes the word key plus one key per ruby position',
   JSON.stringify(denshaTargets) === JSON.stringify([
     exposureWordKey('電車'),
@@ -182,6 +273,21 @@ check('a two-kanji word writes the word key plus one key per ruby position',
     exposureKanjiKey('車', 'しゃ'),
   ]),
   JSON.stringify(denshaTargets));
+
+// A katakana run earns the WORD key and nothing per-character: the per-kanji
+// keys are shared with the vocab quiz by design, but feeding the kana SRS
+// from reading would be a much stronger claim than anybody asked for.
+const coffeeTargets = exposureTargetsForToken(coffeeLoanword, rubySpansFor(coffeeLoanword, baseView()));
+check('a katakana word writes only its word key, never per-character kana keys',
+  JSON.stringify(coffeeTargets) === JSON.stringify([exposureWordKey('コーヒー')]),
+  JSON.stringify(coffeeTargets));
+
+const mixedTargets = exposureTargetsForToken(whiteRabbit, rubySpansFor(whiteRabbit, hidingView()));
+check('a mixed word writes its word key and its kanji key, and nothing for the katakana',
+  JSON.stringify(mixedTargets) === JSON.stringify([
+    exposureWordKey('白ウサギ'), exposureKanjiKey('白', 'しろ'),
+  ]),
+  JSON.stringify(mixedTargets));
 
 // --- tokenAtLevel: the reveal ladder (0 -> furigana -> romaji) -------------
 
@@ -215,7 +321,7 @@ check('a level past maxLevel clamps rather than throwing or overflowing state',
 
 const kanaFormRendered = renderSentence([denshaToken], windowView(new Set(['電'])))[0]; // straddles -> kana form
 check('a kana-form token has a one-tap ladder (romaji only)',
-  kanaFormRendered.form === 'kana' && kanaFormRendered.maxLevel === 1, JSON.stringify(kanaFormRendered));
+  !kanaFormRendered.annotated && kanaFormRendered.maxLevel === 1, JSON.stringify(kanaFormRendered));
 const kanaLevel0 = tokenAtLevel(kanaFormRendered, 0);
 check('level 0 on a kana-form token: no romaji yet',
   kanaLevel0.showRuby === false && kanaLevel0.showRomaji === false);

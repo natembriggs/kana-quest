@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-16',
+    changes: [
+      'New: katakana in a story now shows its hiragana above it, the same way kanji already did — コーヒー with こーひー over it, 白ウサギ with しろ and うさぎ. Until now the app had no way to help with katakana at all: if you had learned some kanji but hadn’t got to katakana yet, every kanji came with its reading and every katakana word came with nothing. The hiragana fades away word by word as you learn the characters in it, and a tap always brings it back.',
+      'Changed: stories can now use katakana from level 2 up, where before it was banned below level 3 — and stories at level 3 and above no longer have to include katakana to be allowed in. That rule was the reason every story above level 2 was a Western tale with Western names in it; Japanese folk tales can now sit anywhere on the ladder.',
+    ],
+  },
+  {
     date: '2026-09-14',
     changes: [
       'Fixed: tapping "Learn 5 next" added those 5 to your study list before showing you any of them, so if you opened a grade by mistake and backed straight out, all 5 stayed on the list as "added, waiting to learn" — invisibly, and forever. Worse, the app teaches whatever is waiting before it moves on through the grades, so those strays jumped the queue ahead of the grade you were actually working through, every single time you sat down to learn something new. Backing out of a lesson now hands back whatever it hadn\u2019t taught you yet. Anything you answered, you keep.',
