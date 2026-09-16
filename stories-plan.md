@@ -24,8 +24,10 @@ original plan.
 illustrations) are **built**. What is not is the art itself: one story,
 `ari-to-hato`, carries hand-drawn inline pictures as a proof of the path, and
 every other story wears a generated placeholder tile until a cover is drawn
-for it. §8.9 — splitting the read state in five and a "new content" badge on
-the level strip and the home Stories card — is **written up, not built**.
+for it. §8.9 — a "currently reading" badge, a "new"/"edited" badge, and a
+new-content dot on the level strip and the home Stories card, all layered on
+top of the existing three filter chips rather than adding more of them — is
+**written up, not built**.
 
 Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
 this is that feature written out.
@@ -1517,104 +1519,129 @@ either means redrawing everything:
 
 ---
 
-### 8.9 Five read states and a "new" badge (proposed, not built)
+### 8.9 Three chips, and badges for the rest (proposed, not built)
 
-**Status: written up per the user's request on 16 September 2026, not
-implemented.** §8.7's three states (`unread`/`reading`/`read`, §8.7's own
-filter row) and `storyReadState` in `src/library.js` are unchanged so far.
-This section records what the user wants next: split `reading` into two, add
-a fifth state for content the corpus has grown since a learner last looked,
-and surface that growth as a badge before the learner opens the shelf at all.
+**Status: written up per the user's request on 16 September 2026, revised
+16 September 2026 after the user corrected the first draft's chip count and
+ordering, not implemented.** §8.7's three states (`unread`/`reading`/`read`,
+§8.7's own filter row) and `storyReadState` in `src/library.js` are unchanged
+so far. What follows replaces the first draft of this section: **the filter
+row stays three chips plus *All*** — `unread`/`reading`/`read` keep their
+existing meaning as filters — and everything finer-grained than that is a
+**badge on the card**, never a fourth or fifth chip. The first draft proposed
+splitting `reading` into its own chip for "currently reading"; the user
+rejected that specifically — chips are for the three the learner would
+deliberately filter *to*, badges are for what should just be visible without
+narrowing the list.
 
-**The five states, evaluated in this order (mutually exclusive, unlike the
-OR-together rules elsewhere in this doc — every story sits in exactly one):**
+**Two badges, both computed, neither stored as a state of their own:**
 
-1. **Finished reading** — unchanged: `read.done` (today's `read`).
-2. **Currently reading** — the *single* story or series `continueReadingInfo`
-   already picks out for the **Continue reading** card (§8.2): the one with a
-   saved position, not finished, most recently touched. Today that story is
-   also shown inside the shelf list under the old `reading` band; under this
-   proposal the shelf list stops repeating it there, since the Continue card
-   already says so above the fold.
-3. **Started reading** — has a saved position, not finished, and is **not**
-   the current pick — i.e. every other story a learner opened and set aside.
-   This is today's `reading` band minus the one story promoted to state 2.
-4. **New** — never opened (`storyReadState` would call it `unread`) **and**
-   added to the corpus after the learner last opened this level's shelf (see
-   below). Only reachable from `unread`, never from a story already touched.
-5. **Not started** — never opened, and not new. Today's `unread` minus
-   whatever state 4 claims.
+- **Currently reading.** The one story or series `continueReadingInfo`
+  already picks for the **Continue reading** card (§8.2) — saved position,
+  not finished, most recently touched — also carries this badge **inside the
+  `reading`-filtered list**, and sorts first within it. It is not removed
+  from the list just because the Continue card also shows it; the card is
+  the fast path, the badge is what tells a learner scrolling the *Reading*
+  filter which one to resume.
+- **New.** A story that has never been opened (`unread`) and has changed —
+  added, or edited — since the learner last opened **this level's** shelf
+  (see below). Carries the badge **inside the `unread`-filtered list**, and
+  sorts first within it, ahead of the rest of the unread band's existing
+  shortest-first order.
 
-Two pieces of state this needs that do not exist yet:
+**A third, related badge — "edited" — for a story already `reading` or
+`read`.** The user's own addition to this section: *"a 'new-like' badge for
+other categories if there have been edits to the story"* — because stories
+do get revised after they ship, when a problem is found in one. This is a
+**different comparison** from "new" above, not the same check reused:
 
-- **A per-level "last seen" timestamp.** `profile.settings.storiesSeen`, an
-  object keyed by level id (`{ L1: 1758030000000, L2: ..., ... }`), following
-  §2.4's own precedent for storing a reading preference in `settings` rather
-  than a new top-level field — it inherits the per-field latest-wins settings
-  merge for free, exactly as `readingLevel` does, and needs no new merge code.
-  **Open question this doc is not settling:** stamped on *entering* a level's
-  shelf, or on *leaving* it? Stamping on entry clears every "new" badge the
-  instant the learner lands on the level that earned it, which means the
-  stories that are new **right now** would have to be computed from the
-  *previous* stamp and rendered before the new one overwrites it — the same
-  ordering hazard §6.3 works through for exposure counting. Stamping on exit
-  is probably right for the same reason §6.3 settled there: it lets this
-  visit still show what is new, and only a later visit sees it as
-  not-new. Whichever is chosen, a first-run learner needs every level's
-  `storiesSeen` seeded (to "now", not to 0) the moment this feature ships, or
-  all 42 existing stories would read as new to everyone on day one.
-- **A manifest field saying when a story was added.** `story-manifest.js`
-  entries have no date today (§3.4's shape is `{title, series, level, blurb,
-  hash, length}`). `tools/build_story_data.mjs` would need to stamp a new
-  `added` date on every entry it emits for the first time, and the 42
-  existing stories need a one-time backfill — **to this feature's own ship
-  date, not their real authoring dates**, so the whole existing corpus does
-  not read as "new" to every learner the day this badge ships. Only a story
-  added after that backfill carries a real date.
+- "New" compares a story's `updated` date (below) against **the level's**
+  last-seen stamp — it answers "has anything on this shelf changed since I
+  last looked at the shelf."
+- "Edited" compares the same `updated` date against **that one story's own**
+  last-touch timestamp — `stories.pos[id].at` for a `reading` story,
+  `stories.read[id].last` for a `read` one, both already recorded (§9.1,
+  §3.5) with no new storage — and answers "has *this specific story* changed
+  since *I personally* read it," which is a per-story question a per-level
+  stamp cannot answer. A story finished in June and quietly fixed in
+  September should say so, even if the learner reopened that level in July
+  for something else entirely and its per-level stamp moved on without them.
 
-**Badges, two placements:**
+One consequence worth being explicit about: **a hash mismatch already means
+something changed** (§3.5's whole reason for existing — a saved position
+clamps when `pos[id].h !== story.hash`). "Edited" is that same fact, promoted
+from a silent clamp-on-resume into something the shelf says out loud before
+the learner ever taps back in.
+
+**One manifest field carries all of this: `updated`, not a separate `added`.**
+`story-manifest.js` entries have no date today (§3.4's shape is `{title,
+series, level, blurb, hash, length}`). A single `updated` date, stamped by
+`tools/build_story_data.mjs` whenever the hash it computes for an id differs
+from that id's previous emitted hash, covers a brand-new story and a revised
+old one identically — both are "this content is different from what a
+learner may have already seen," which is exactly what both badges are
+checking, just against two different baselines (the level's stamp, or the
+one story's own). No separate "date added" needed anywhere in this design.
+The 42 existing stories need a one-time backfill of `updated` to **this
+feature's own ship date, not their real authoring dates**, so the existing
+corpus does not read as new/edited to every learner the day this ships.
+
+**The per-level "last seen" stamp itself.** `profile.settings.storiesSeen`,
+an object keyed by level id (`{ L1: 1758030000000, L2: ..., ... }`),
+following §2.4's own precedent for a reading preference living in `settings`
+rather than a new top-level field — the existing per-field settings merge
+covers it for free, exactly as `readingLevel`, with no new merge code.
+**Open question this doc is still not settling:** stamped on *entering* a
+level's shelf, or on *leaving* it? Entering clears the badge the instant the
+learner lands on the level that earned it, so what is new **right now** has
+to be computed from the *previous* stamp and rendered before the new one
+overwrites it — the same ordering hazard §6.3 works through for exposure
+counting. Leaving is probably right for the same reason §6.3 settled there:
+this visit still shows what changed, and only the next visit sees it as
+old news. Confirmed: this stamp is **per level**, not one global "anything
+new in Stories" flag — that was the first draft's open question and the
+user's answer was that per-level is what they want.
+
+**Badges, two placements, both driven by "new" only — not "edited," which is
+personal to a story a learner already touched and does not belong on a
+level-wide indicator:**
 
 - **The home screen's Stories card** (§8.6) carries a small dot when any
-  level has anything in state 4 the learner hasn't seen. Checked across every
-  level, not just the learner's own — the card is the one place a learner
-  sees before choosing which level to open at all, so it is the only sensible
-  place to say "something changed somewhere," even at a level they don't
-  currently read at.
+  level has anything unread and new. Checked across every level, not just
+  the learner's own, since this card is the one place seen before choosing
+  which level to open at all.
 - **Each level chip in the level strip** (§2.4) carries its own dot when
-  *that* level has anything in state 4. This is what turns "something
-  changed somewhere" into "go look at L3" without opening every level to
-  check.
+  *that* level has anything unread and new.
 
-Both clear the same way "new" itself clears — by the `storiesSeen` stamp
-above catching up, not by a separate dismiss action. Nothing here is a second
-piece of state to keep in sync.
+Both clear the same way "new" clears — the `storiesSeen` stamp catching up —
+not a separate dismiss action.
 
-**Ordering within a level, extending §8.7's rule:** Continue reading card
-first (unchanged), then **state 4 (new)**, then the rest of the shelf under
-§8.7's existing order — state 3 (started reading, i.e. today's `reading`
-band minus the one story already shown in the Continue card), then state 5
-(not started, shortest first), then state 1 (finished, last). New before
-started-but-not-current on the reasoning the user gave directly: a learner
-opening the shelf should see what grew before they see what they already
-know is sitting there half-read.
+**Ordering within a level, extending §8.7's rule — bands unchanged, only the
+order *within* two of them changes:** Continue reading card first (unchanged,
+§8.2), then the shelf list in §8.7's existing band order — `reading`, then
+`unread`, then `read` — with the currently-reading story sorted first within
+the `reading` band, and new stories sorted first within the `unread` band
+(ahead of its existing shortest-first order). Nothing moves between bands;
+new does not jump ahead of in-progress stories, and currently-reading does
+not leave the `reading` band just for having its own badge.
 
 **Left open, to settle before this is built, not guessed at here:**
 
-- Does the **filter row** (§8.7) grow to five chips plus *All* — six total —
-  or do "currently reading" and "started reading" stay one filterable
-  *Reading* chip and only split for ordering/badges? Six chips is a lot for
-  the phone-width strip §8.7 was written to fit; the state split matters most
-  for where things sit on the shelf and for the badge, less obviously for
-  what a learner would deliberately filter *to*.
-- Is "last seen" **per level** only, or does a learner want one global "what's
-  new since I last opened Stories at all" view regardless of level? Per-level
-  is what was asked for and is what this section specifies.
+- Stamp `storiesSeen` on entering a level or leaving it (above) — leaving is
+  the leading candidate, not yet decided.
+- Should an **edited** story that the learner already finished or is
+  partway through also light up its level's dot on the strip, or does the
+  in-card "edited" badge do that job well enough on its own once they
+  reopen the level for an unrelated reason? Current proposal is the level
+  dot reflects **new** only, on the reasoning above; revisit if that turns
+  out to bury edits nobody happens to scroll back to.
 - `sortShelf`/`shelfReadState`/`storyReadState` in `src/library.js` are pure
-  functions with their own unit tests (`test/library.js`); extending them to
-  five states (plus the "is this the Continue pick" check, which needs the
-  whole level's shelf in view, not just one story) is a `src/library.js` and
-  `test/library.js` change, not an `app.js` one — keeping with this file's
-  own separation of shelf logic from rendering.
+  functions with their own unit tests (`test/library.js`); adding the
+  within-band sort keys and the two badge checks (one needs the whole
+  level's shelf in view for the "is this the Continue pick" check, the other
+  just one story's own timestamps) is a `src/library.js` and `test/library.js`
+  change, not an `app.js` one — keeping with this file's own separation of
+  shelf logic from rendering.
 
 ---
 
