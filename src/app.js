@@ -75,7 +75,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16h'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8931,7 +8931,13 @@ function renderReadCard() {
 }
 
 function openStoriesLibrary() {
-  state.readerBrowseLevel = state.profile.settings.readingLevel || suggestedReadingLevel(state.profile);
+  // Only seed the level strip the first time Stories is opened this session
+  // (state.readerBrowseLevel starts null) — every later entry, including the
+  // reader's own back button, keeps whatever level the learner last browsed
+  // to instead of snapping back to their own level underneath them.
+  if (state.readerBrowseLevel == null) {
+    state.readerBrowseLevel = state.profile.settings.readingLevel || suggestedReadingLevel(state.profile);
+  }
   renderStoriesLibrary();
   show('screen-stories');
 }
