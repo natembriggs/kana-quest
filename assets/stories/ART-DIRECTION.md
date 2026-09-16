@@ -72,3 +72,30 @@ The original files are 6,173 and 4,413 bytes respectively, below §8.8's 8 KiB
 per-image limit, with 64 and 46 SVG elements. No filters, embedded bitmaps,
 scripts or external resources. Rebuild with `node tools/build_story_data.mjs`;
 art remains outside `body`, preserving the story hash and saved positions.
+
+## Inline drawings: The Straw Hats for Jizō
+
+`kasa-jizou/01.svg`, `02.svg` and `03.svg` continue the cat-story pilot's
+flat vector style. Drawn directly by GPT-6 with the installed cover as the
+character and palette reference; credited in `source.illustrations` and the
+reader's source line. The old man keeps his indigo coat, rust scarf and grey
+topknot. His pale head towel appears before his gift and is absent at home.
+The old woman wears muted plum with a sage apron. Snow, mountains, room
+backgrounds and pale highlights use the existing theme colours.
+
+Three scenes, each with a 600×350 viewBox:
+
+- `01.svg`, after paragraph 0: he finishes one straw hat with four completed
+  hats beside him, making the story's total of five visible.
+- `02.svg`, after paragraph 2: he offers the first hat to six snow-covered
+  stone Jizō. All six are visible, with quiet faces and hands held in prayer.
+  The shared figure uses a story-specific local SVG reference; no external
+  image requests are needed.
+- `03.svg`, after paragraph 3: the couple share hot water by a small hearth.
+  The night window establishes the time; there is no food on display and no
+  hint of the visitors or gifts revealed in the final paragraph.
+
+Each drawing is under 8 KiB and the set is under 18 KiB. These are decorative
+illustrations between intact paragraphs, without embedded text, raster
+images, filters or scripts. The story text and its saved-position hash stay
+unchanged. Rebuild with `node tools/build_story_data.mjs`.
