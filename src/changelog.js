@@ -23,6 +23,7 @@ export const CHANGELOG = [
       'New: every story card now says whether you have read it, how far through it you are, or nothing at all if you have not started — so the library finally answers the first question anyone asks a shelf.',
       'New: katakana in a story now shows its hiragana above it, the same way kanji already did — コーヒー with こーひー over it, 白ウサギ with しろ and うさぎ. Until now the app had no way to help with katakana at all: if you had learned some kanji but hadn’t got to katakana yet, every kanji came with its reading and every katakana word came with nothing. The hiragana fades away word by word as you learn the characters in it, and a tap always brings it back.',
       'Changed: stories can now use katakana from level 2 up, where before it was banned below level 3 — and stories at level 3 and above no longer have to include katakana to be allowed in. That rule was the reason every story above level 2 was a Western tale with Western names in it; Japanese folk tales can now sit anywhere on the ladder.',
+      'Fixed: leaving a story — with the reader’s own back button — used to snap the library back to your own reading level, even if you had been browsing a different one. Browse to Level 3, read something there, and going back dumped you at Level 1 instead of leaving you on Level 3. The library now stays wherever you left it for the rest of that visit to Stories.',
     ],
   },
   {
