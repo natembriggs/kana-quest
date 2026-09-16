@@ -39,10 +39,17 @@ import { STORY as f4 } from '../src/data/story-dracula.js';
 import { STORY as f5 } from '../src/data/story-jekyll-to-hyde.js';
 import { STORY as f6 } from '../src/data/story-madara-no-himo.js';
 
+import { STORY as a7 } from '../src/data/story-neko-no-ie.js';
+import { STORY as b7 } from '../src/data/story-futatsu-no-obentou.js';
+import { STORY as c7 } from '../src/data/story-tabi-suru-kasa.js';
+import { STORY as d7 } from '../src/data/story-saigo-no-watashibune.js';
+import { STORY as e7 } from '../src/data/story-ichinichi-dake-no-honya.js';
+import { STORY as f7 } from '../src/data/story-atesaki-no-nai-henji.js';
+
 const corpus = [
-  a1, a2, a3, a4, a5, a6, b1, b2, b3, b4, b5, b6,
-  c1, c2, c3, c4, c5, c6, d1, d2, d3, d4, d5, d6,
-  e1, e2, e3, e4, e5, e6, f1, f2, f3, f4, f5, f6,
+  a1, a2, a3, a4, a5, a6, a7, b1, b2, b3, b4, b5, b6, b7,
+  c1, c2, c3, c4, c5, c6, c7, d1, d2, d3, d4, d5, d6, d7,
+  e1, e2, e3, e4, e5, e6, e7, f1, f2, f3, f4, f5, f6, f7,
 ];
 let failures = 0;
 function check(name, condition, detail = '') {
@@ -51,16 +58,32 @@ function check(name, condition, detail = '') {
   print(`FAIL  ${name}${detail ? ` — ${detail}` : ''}`);
 }
 
-check('manifest and corpus both contain 36 stories', Object.keys(STORIES).length === 36 && corpus.length === 36);
+// Compare ids, not a frozen count: every added story must join this suite.
+check('manifest and corpus contain the same stories',
+  JSON.stringify(Object.keys(STORIES).sort()) === JSON.stringify(corpus.map((story) => story.id).sort()));
 for (let n = 1; n <= 6; n += 1) {
-  check(`L${n} has six stories`, corpus.filter((story) => story.level === `L${n}`).length === 6);
+  check(`L${n} has stories`, corpus.some((story) => story.level === `L${n}`));
 }
+
+// A source author can opt out of a wrong homograph without losing the
+// story-local definition or disabling useful links on neighbouring words.
+const catStoryTokens = a7.body.flat().flatMap((sentence) => sentence.t);
+check('家/いえ does not link to the curriculum 家/け', catStoryTokens
+  .filter((token) => token.s === '家').every((token) => token.d === null && !!token.g));
+check('猫 still links to its vocabulary entry', catStoryTokens
+  .filter((token) => token.s === '猫').every((token) => token.d === '猫'));
 
 corpus.forEach((story) => {
   check(`${story.id}: manifest entry`, !!STORIES[story.id]);
   check(`${story.id}: explicit writer credit`, !!story.source.by && !!story.source.credit);
   check(`${story.id}: manifest writer matches`, STORIES[story.id]?.source?.by === story.source.by);
-  let katakana = 0;
+  // Match the current writing guide: L1 none, L2 up to four distinct
+  // words (including the title), and no minimum or maximum above L2.
+  const katakana = new Set();
+  function countKatakana(text) {
+    (text.match(/[ァ-ヺ][ァ-ヺー・]*/g) || []).forEach((word) => katakana.add(word.replace(/・$/, '')));
+  }
+  countKatakana(story.title.ja);
   story.body.flat().forEach((sentence, sentenceIndex) => {
     check(`${story.id} sentence ${sentenceIndex + 1}: translation`, !!sentence.en?.trim());
     check(`${story.id} sentence ${sentenceIndex + 1}: tokens`, sentence.t.length > 0);
@@ -69,15 +92,16 @@ corpus.forEach((story) => {
     sentence.t.forEach((token, tokenIndex) => {
       const label = `${story.id} sentence ${sentenceIndex + 1} token ${tokenIndex + 1}`;
       check(`${label}: surface and reading`, !!token.s && !!token.k);
+      check(`${label}: runtime link is an id or null`, token.d === null || typeof token.d === 'string');
       check(`${label}: contextual gloss`, token.pos === 'punct' ? token.g === null : !!token.g?.trim());
       check(`${label}: conjugation fields paired`, !!token.df === !!token.cf);
       const kanji = [...token.s].filter((character) => /[㐀-䶿一-鿿]/.test(character)).length;
       check(`${label}: every kanji has ruby`, kanji === (token.ruby || []).length);
-      katakana += [...token.s].filter((character) => /[ァ-ヺ]/.test(character)).length;
+      countKatakana(token.s);
     });
   });
-  if (story.level === 'L1' || story.level === 'L2') check(`${story.id}: no early-level katakana`, katakana === 0);
-  else check(`${story.id}: substantial katakana practice`, katakana >= 12, `${katakana} characters`);
+  if (story.level === 'L1') check(`${story.id}: no L1 katakana`, katakana.size === 0);
+  if (story.level === 'L2') check(`${story.id}: at most four L2 katakana words`, katakana.size <= 4);
 });
 
 if (failures) throw new Error(`${failures} story contract check(s) failed`);

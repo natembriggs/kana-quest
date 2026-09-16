@@ -83,6 +83,10 @@ function contentHash(body) {
 
 function autoLink(token, lookup) {
   if (token.pos === 'punct') return token;
+  // An author can suppress a misleading surface match (家/いえ must not
+  // open the curriculum's 家/け entry). Keep this source-only sentinel out
+  // of the runtime format; the story's own reading and gloss still work.
+  if (token.d === false) return { ...token, d: null };
   let d = token.d;
   if (!d && Object.prototype.hasOwnProperty.call(lookup, token.s)) d = token.s;
   if (!d && token.df && Object.prototype.hasOwnProperty.call(lookup, token.df)) d = token.df;

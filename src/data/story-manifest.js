@@ -92,6 +92,24 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "neko-no-ie": {
+    "title": {
+      "ja": "猫の家",
+      "en": "A House for the Cat"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "Hana makes a big new house for her cat, but the cat has its own idea of a good home.",
+    "hash": "b1a2da86",
+    "length": 103,
+    "paras": 3,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
   "ookina-kabu": {
     "title": {
       "ja": "大きなかぶ",
@@ -108,6 +126,24 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Sol 5.6",
       "credit": "Retold by"
+    }
+  },
+  "futatsu-no-obentou": {
+    "title": {
+      "ja": "二つのお弁当",
+      "en": "The Two Lunch Boxes"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Yuta takes the wrong lunch box to school, and lunchtime turns into an unexpected family picnic.",
+    "hash": "62f2677c",
+    "length": 169,
+    "paras": 4,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
     }
   },
   "kasa-jizou": {
@@ -326,6 +362,24 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "tabi-suru-kasa": {
+    "title": {
+      "ja": "旅する傘",
+      "en": "The Travelling Umbrella"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Mei borrows a yellow umbrella from the station and leaves a small repair for its next traveller.",
+    "hash": "ef498206",
+    "length": 277,
+    "paras": 5,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
   "akazukin": {
     "title": {
       "ja": "赤ずきん",
@@ -416,6 +470,24 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "saigo-no-watashibune": {
+    "title": {
+      "ja": "最後の渡し船",
+      "en": "The Last Ferry"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Saki misses the last ferry while bringing her grandfather his repaired radio, but the ferryman has another way to help.",
+    "hash": "a81ca412",
+    "length": 460,
+    "paras": 8,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
   "shirayukihime": {
     "title": {
       "ja": "白雪姫",
@@ -488,6 +560,24 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "ichinichi-dake-no-honya": {
+    "title": {
+      "ja": "一日だけの本屋",
+      "en": "A Bookshop for One Day"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "On her grandfather’s bookshop’s last day, Nao finds a pencilled note she believes is her own—and meets the person who wrote it.",
+    "hash": "4c29fab4",
+    "length": 805,
+    "paras": 10,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
   "pinocchio": {
     "title": {
       "ja": "ピノキオ",
@@ -540,6 +630,24 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Sol 5.6",
       "credit": "Retold by"
+    }
+  },
+  "atesaki-no-nai-henji": {
+    "title": {
+      "ja": "宛先のない返事",
+      "en": "A Reply with No Address"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "While clearing her late mother’s house, Ritsu finds a sealed letter and hopes it will explain a silence in her family.",
+    "hash": "52c8197c",
+    "length": 1044,
+    "paras": 12,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
     }
   },
   "dracula": {

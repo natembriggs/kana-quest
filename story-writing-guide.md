@@ -147,6 +147,13 @@ real entry already exists. **If a word genuinely belongs in the
 curriculum, add it there properly** — in `build_vocab_data.py`, with its
 distractors — rather than smuggling it in through a story.
 
+Check the linked entry's reading and sense, too. A matching spelling alone
+can point to a different word: the curriculum's 家/け entry is not 家/いえ.
+Use an explicit vocabulary id for the correct homograph when one exists.
+Otherwise set `d: false` in the source lexicon entry's extra fields to
+suppress automatic linking. The builder emits `d: null`; the reader still
+shows the story's own reading, meaning and conjugation details.
+
 ---
 
 ## 4. Conjugated words explain themselves

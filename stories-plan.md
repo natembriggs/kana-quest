@@ -4,16 +4,16 @@ Status: **shipped and live** as the fourth thing to do in the app, reached via
 a **Stories** card on the home screen. Phases 0–8 (see §12) are done: the
 reader, the library, tap-for-pronunciation/furigana/definition/
 sentence-translation, exposure-based furigana hiding shared with vocabulary,
-`profile.stories` with sync/merge, the end card, and 36 stories — six at every
+`profile.stories` with sync/merge, the end card, and 42 stories — seven at every
 level L1–L6 (grown from the 24-story/four-per-level count this document
 originally shipped with, via `29cef88`, "Add a fifth story at every reading
-level", and then a sixth round adding one more per level).
+level", then a sixth round, and six original stories added on 16 September 2026).
 
 **Phase 9's machinery is now built, its content is not.** Chapters work end to
 end — `src/library.js`, series validation in the build, a series as one
 expandable library card, `title · 2/3` in the reader, a next-chapter hand-off,
 and an idle prefetch of the chapter after this one — but no shipped story yet
-has more than one part. Two of the 36, `fushigi-no-kuni-no-alice` and
+has more than one part. Two of the 42, `fushigi-no-kuni-no-alice` and
 `oz-no-mahoutsukai`, carry a non-null `series` object tagging which canonical
 work they adapt while being a single complete part of it (`of: 1`), and the
 library lists those as standalone. Writing an actual serialization is what
@@ -1627,14 +1627,14 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 5 | **The library**, the level strip, series and episodes, the home-screen **Stories** card, the level suggestion and the *make this my level* commit. | 3 | **Done** — `#screen-stories`, `suggestedReadingLevel()`, the home **Stories** card. |
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
-| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 36 stories shipped (six per level, L1–L6, up from the 24/four-per-level this document originally reported, via `29cef88` and a later sixth-story round), as original retellings of public-domain-motif fairy tales (Cinderella, Momotarō, Frankenstein, Dracula, Alice, Oz, Treasure Island, and others), not direct Aozora Bunko imports. See §12.1. |
+| 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 42 stories shipped (seven per level, L1–L6): 36 retellings of traditional or public-domain motifs and six original stories added on 16 September 2026, not direct Aozora Bunko imports. See §12.1. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan
 
 §4 planned two distinct tracks: importing/adapting Aozora Bunko texts for the
 upper levels, and authoring an original serialized series for L1–L3. What
-shipped instead, across all six levels, is a third thing neither section
+initially shipped instead, across all six levels, was a third thing neither section
 anticipated: **36 standalone original retellings of traditional or
 public-domain-motif stories** (grown from an initial 24 — four per level — to
 30 via `29cef88`, and then to 36 by a later round that again added one story
@@ -1664,7 +1664,15 @@ one per level) are all credited to Claude Opus 5.0, like `momotaro-1` and
 and the Pitcher, かさじぞう, Rapunzel, Ali Baba, Gulliver's first voyage, The
 Adventure of the Speckled Band) are credited to Claude Opus 5.
 
-Two of that last round also record a deliberate omission in `source.notes`
+On 16 September 2026, six original standalone stories brought the total to
+42: 猫の家 (L1), 二つのお弁当 (L2), 旅する傘 (L3), 最後の渡し船
+(L4), 一日だけの本屋 (L5), and 宛先のない返事 (L6). These have
+`source.kind: 'original'` and are credited `Written by GPT-6`. Their Japanese
+prose and English translations were written for Kana Quest; no published
+work was adapted. Scene maps and the final prose are in
+`tools/story_src/new-stories-2026-09-16.md`.
+
+Two of the sixth-story round also record a deliberate omission in `source.notes`
 rather than leaving it silent: `ali-baba` drops the dismemberment of Kasim's
 body, and `madara-no-himo` drops Doyle's travelling-people subplot, a red
 herring that rests on a slur. Both are cuts, not changes to the plot that
@@ -1702,8 +1710,8 @@ worth being honest about the gap in what it bought:
 
 None of this is a defect that needs fixing before the feature can be used —
 the reader works, the stories read fine, and the licensing is sound. It is a
-plan/reality gap worth knowing about before writing story #37, and before
-citing this document as a description of *where the current 36 stories came
+plan/reality gap worth knowing about before writing the next story, and before
+citing this document as a description of *where the current 42 stories came
 from*.
 
 Phases 3 and 5 can land in either order, but 3 first makes a better demo of
