@@ -3144,8 +3144,8 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "人間のくだらない虚栄心のためにあるだけだ",
-            "k": "にんげんのくだらないきょえいしんのためにあるだけだ",
+            "s": "人間",
+            "k": "にんげん",
             "ruby": [
               [
                 0,
@@ -3154,25 +3154,88 @@ export const STORY = {
               [
                 1,
                 "げん"
-              ],
+              ]
+            ],
+            "d": "人間",
+            "pos": "n",
+            "g": "human beings"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "くだらない",
+            "k": "くだらない",
+            "ruby": null,
+            "d": null,
+            "pos": "adj",
+            "g": "worthless, petty"
+          },
+          {
+            "s": "虚栄心",
+            "k": "きょえいしん",
+            "ruby": [
               [
-                8,
+                0,
                 "きょ"
               ],
               [
-                9,
+                1,
                 "えい"
               ],
               [
-                10,
+                2,
                 "しん"
               ]
             ],
             "d": null,
+            "pos": "n",
+            "g": "vanity"
+          },
+          {
+            "s": "のため",
+            "k": "のため",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "because of"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "ある",
+            "k": "ある",
+            "ruby": null,
+            "d": "ある",
             "pos": "v",
-            "g": "exists only to serve petty human vanity",
-            "df": "人間のくだらない虚栄心のためにある",
-            "cf": "plain present 〜だけ form"
+            "g": "there were"
+          },
+          {
+            "s": "だけ",
+            "k": "だけ",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "only / just"
+          },
+          {
+            "s": "だ",
+            "k": "だ",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is; to be"
           },
           {
             "s": "」",
@@ -4640,25 +4703,87 @@ export const STORY = {
             "g": "in the third letter"
           },
           {
-            "s": "すでに城を離れてビストリツァへ着いたこと",
-            "k": "すでにしろをはなれてビストリツァへついたこと",
+            "s": "すでに",
+            "k": "すでに",
+            "ruby": null,
+            "d": null,
+            "pos": "adv",
+            "g": "already"
+          },
+          {
+            "s": "城",
+            "k": "しろ",
             "ruby": [
               [
-                3,
+                0,
                 "しろ"
-              ],
+              ]
+            ],
+            "d": "城",
+            "pos": "n",
+            "g": "castle"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "離れて",
+            "k": "はなれて",
+            "ruby": [
               [
-                5,
+                0,
                 "はな"
-              ],
+              ]
+            ],
+            "d": "離れる",
+            "pos": "v",
+            "g": "leaving; left and",
+            "df": "離れる",
+            "cf": "te-form"
+          },
+          {
+            "s": "ビストリツァ",
+            "k": "ビストリツァ",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Bistritz"
+          },
+          {
+            "s": "へ",
+            "k": "へ",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / toward — direction"
+          },
+          {
+            "s": "着いた",
+            "k": "ついた",
+            "ruby": [
               [
-                15,
+                0,
                 "つ"
               ]
             ],
+            "d": "着く",
+            "pos": "v",
+            "g": "arrived",
+            "df": "着く",
+            "cf": "plain past"
+          },
+          {
+            "s": "こと",
+            "k": "こと",
+            "ruby": null,
             "d": null,
-            "pos": "n",
-            "g": "that he had already left the castle and reached Bistritz"
+            "pos": "part",
+            "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
           {
             "s": "を",
@@ -5076,8 +5201,8 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "伯爵がこうして自分の行方を追う人びとを欺き",
-            "k": "はくしゃくがこうしてじぶんのゆくえをおうひとびとをあざむき",
+            "s": "伯爵",
+            "k": "はくしゃく",
             "ruby": [
               [
                 0,
@@ -5086,39 +5211,124 @@ export const STORY = {
               [
                 1,
                 "しゃく"
-              ],
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "count"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "こうして",
+            "k": "こうして",
+            "ruby": null,
+            "d": null,
+            "pos": "adv",
+            "g": "in this way, thus"
+          },
+          {
+            "s": "自分",
+            "k": "じぶん",
+            "ruby": [
               [
-                7,
+                0,
                 "じ"
               ],
               [
-                8,
+                1,
                 "ぶん"
-              ],
+              ]
+            ],
+            "d": "自分",
+            "pos": "pn",
+            "g": "himself"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "行方",
+            "k": "ゆくえ",
+            "ruby": [
               [
-                10,
+                0,
                 "ゆく"
               ],
               [
-                11,
+                1,
                 "え"
-              ],
+              ]
+            ],
+            "d": "行方",
+            "pos": "n",
+            "g": "whereabouts"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "追う",
+            "k": "おう",
+            "ruby": [
               [
-                13,
+                0,
                 "お"
-              ],
+              ]
+            ],
+            "d": "追う",
+            "pos": "v",
+            "g": "chase, pursue"
+          },
+          {
+            "s": "人びと",
+            "k": "ひとびと",
+            "ruby": [
               [
-                15,
+                0,
                 "ひと"
-              ],
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "people"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "欺き",
+            "k": "あざむき",
+            "ruby": [
               [
-                19,
+                0,
                 "あざむ"
               ]
             ],
             "d": null,
             "pos": "v",
-            "g": "the Count would thus deceive anyone searching for him, and",
+            "g": "deceiving; deceived and",
             "df": "欺く",
             "cf": "continuative form"
           },
@@ -5231,8 +5441,8 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "最後の手紙の日付である六月二十九日",
-            "k": "さいごのてがみのひづけであるろくがつにじゅうくにち",
+            "s": "最後",
+            "k": "さいご",
             "ruby": [
               [
                 0,
@@ -5241,51 +5451,111 @@ export const STORY = {
               [
                 1,
                 "ご"
-              ],
+              ]
+            ],
+            "d": "最後",
+            "pos": "adj",
+            "g": "last"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "手紙",
+            "k": "てがみ",
+            "ruby": [
               [
-                3,
+                0,
                 "て"
               ],
               [
-                4,
+                1,
                 "がみ"
-              ],
+              ]
+            ],
+            "d": "手紙",
+            "pos": "n",
+            "g": "letters"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "日付",
+            "k": "ひづけ",
+            "ruby": [
               [
-                6,
+                0,
                 "ひ"
               ],
               [
-                7,
+                1,
                 "づけ"
-              ],
+              ]
+            ],
+            "d": "日付",
+            "pos": "n",
+            "g": "date"
+          },
+          {
+            "s": "である",
+            "k": "である",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "is"
+          },
+          {
+            "s": "六月",
+            "k": "ろくがつ",
+            "ruby": [
               [
-                11,
+                0,
                 "ろく"
               ],
               [
-                12,
+                1,
                 "がつ"
-              ],
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "June"
+          },
+          {
+            "s": "二十九日",
+            "k": "にじゅうくにち",
+            "ruby": [
               [
-                13,
+                0,
                 "に"
               ],
               [
-                14,
+                1,
                 "じゅう"
               ],
               [
-                15,
+                2,
                 "く"
               ],
               [
-                16,
+                3,
                 "にち"
               ]
             ],
             "d": null,
             "pos": "n",
-            "g": "29 June, the date of the final letter"
+            "g": "29 June"
           },
           {
             "s": "が",
@@ -11256,34 +11526,93 @@ export const STORY = {
         "en": "Seeing peace return to Lucy’s face, Arthur finally accepted the truth.",
         "t": [
           {
-            "s": "ルーシーの顔に安らかな表情が戻った",
-            "k": "ルーシーのかおにやすらかなひょうじょうがもどった",
+            "s": "ルーシー",
+            "k": "ルーシー",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Lucy"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "顔",
+            "k": "かお",
             "ruby": [
               [
-                5,
+                0,
                 "かお"
-              ],
+              ]
+            ],
+            "d": "顔",
+            "pos": "n",
+            "g": "face"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "安らかな",
+            "k": "やすらかな",
+            "ruby": [
               [
-                7,
+                0,
                 "やす"
-              ],
-              [
-                11,
-                "ひょう"
-              ],
-              [
-                12,
-                "じょう"
-              ],
-              [
-                14,
-                "もど"
               ]
             ],
             "d": null,
+            "pos": "adj",
+            "g": "peaceful"
+          },
+          {
+            "s": "表情",
+            "k": "ひょうじょう",
+            "ruby": [
+              [
+                0,
+                "ひょう"
+              ],
+              [
+                1,
+                "じょう"
+              ]
+            ],
+            "d": "表情",
+            "pos": "n",
+            "g": "expression"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "戻った",
+            "k": "もどった",
+            "ruby": [
+              [
+                0,
+                "もど"
+              ]
+            ],
+            "d": "戻る",
             "pos": "v",
-            "g": "peace returned to Lucy’s face",
-            "df": "ルーシーの顔に安らかな表情が戻る",
+            "g": "returned",
+            "df": "戻る",
             "cf": "plain past"
           },
           {
@@ -18473,7 +18802,7 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "6da3fe85",
+  "hash": "924261d4",
   "art": {
     "cover": false,
     "inline": []
