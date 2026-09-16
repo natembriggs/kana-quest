@@ -46,3 +46,29 @@ node tools/build_story_data.mjs
 
 The exporter preserves the full composition, resizes to 480×640, and chooses
 the highest WebP quality from 90 downwards that meets the 60 KiB budget.
+
+## Inline drawing pilot: A House for the Cat
+
+`neko-no-ie/01.svg` and `02.svg` are original SVG drawings authored by GPT-6,
+using the installed cover as a visual reference. They are drawn directly as
+vector paths, not generated raster images or automatic traces. Their source
+credit lives in the story's `source.illustrations` field.
+
+Keep Hana's dark hair bun, ivory shirt and blue overalls, and the ginger
+tabby's white muzzle, chest and paws. Translate the cover's warm palette into
+flat colour planes, gently curved silhouettes and a few expressive face
+details. Open, irregular background shapes blend into the reading page;
+the ground, window and pale highlights follow the existing theme variables.
+Character and cardboard colours stay recognisable in both themes.
+
+The first scene follows paragraph 0: the cat sits in its familiar little box
+beside Hana and the large, still unconverted box. The second follows paragraph
+1: the cat inspects the finished empty house. These depict each scene's setup;
+neither reveals the cat's choice or the final toy-dog resolution. No captions
+or text are embedded in the pictures.
+
+Both use a 600×350 viewBox and the existing 460px maximum reader width.
+The original files are 6,173 and 4,413 bytes respectively, below §8.8's 8 KiB
+per-image limit, with 64 and 46 SVG elements. No filters, embedded bitmaps,
+scripts or external resources. Rebuild with `node tools/build_story_data.mjs`;
+art remains outside `body`, preserving the story hash and saved positions.

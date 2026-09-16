@@ -9,7 +9,10 @@ const theStory = expandStory({
   blurb: "Hana makes a big new house for her cat, but the cat has its own idea of a good home.",
   nw: ["家", "猫", "箱", "中", "入る", "入れる", "犬", "人形"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kana Quest", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kana Quest", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.", "illustrations": "Inline SVG illustrations drawn by GPT-6 for Kana Quest, using the cover as a character and palette reference."},
+  // Scene openings only: the familiar small box, then an inspection of the
+  // new house. Leave the cat's choice and the toy-dog ending to the prose.
+  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }] },
   lexicon: lexicon({
     "はな": ["Hana", "pn"],
     "家[いえ]": ["house; home", "n", {"d": false}],

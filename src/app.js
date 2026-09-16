@@ -75,7 +75,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16j'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -10383,7 +10383,8 @@ function renderReaderSource(story) {
     ? (source.credit ? `${source.credit} ${source.by}. ` : `${source.by}. `)
     : '';
   const coverCredit = source.cover ? ` ${source.cover}` : '';
-  el.textContent = `${byline}${source.text}. ${source.licence}${coverCredit}`;
+  const illustrationCredit = source.illustrations ? ` ${source.illustrations}` : '';
+  el.textContent = `${byline}${source.text}. ${source.licence}${coverCredit}${illustrationCredit}`;
 }
 
 function scrollToResumePosition(story, id) {
