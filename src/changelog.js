@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-16',
     changes: [
+      'New: painted covers for 39 stories in the library. Rapunzel, The Little Mermaid and Pinocchio still have coloured tiles for now. Covers load as you browse, and the Pictures setting lets you turn them off.',
+    ],
+  },
+  {
+    date: '2026-09-16',
+    changes: [
       'New: every story now has a cover, so the library is something you can recognise things in rather than a wall of text. Most are coloured tiles for now, generated from the story itself; real drawings will replace them one at a time.',
       'New: a filter above the story list — All, Unread, Reading, Finished, each with a count — and the list now puts what you are part-way through at the top, then what you have not started (shortest first, so there is always something quick to try), then what you have already read.',
       'New: stories can have pictures in them. ありとはと (The Ant and the Dove) has the first two. They sit between paragraphs, never push the text around as they load, and they follow light and dark mode. If you would rather just read, turn them off under ⋯.',

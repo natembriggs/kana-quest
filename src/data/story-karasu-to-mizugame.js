@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition. The crow is written in hiragana rather than the usual katakana カラス, since a first-level story is read entirely in hiragana.",
-    "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "からす",
@@ -1158,7 +1159,7 @@ export const STORY = {
   ],
   "hash": "57d9fab3",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

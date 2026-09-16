@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original graded retelling of the familiar tale. The gruesome episode in which Kasim’s body is dismembered and stitched back together is left out entirely; the story keeps Morgiana as the one who saves the household and ends, as the tale does, with her freedom. No wording is copied from a published translation.",
-    "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "アリババ",
@@ -8189,7 +8190,7 @@ export const STORY = {
   ],
   "hash": "2c792325",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel's complete main plot; no wording is copied from a published translation.",
-    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "ロビンソン・クルーソー",
@@ -16688,7 +16689,7 @@ export const STORY = {
   ],
   "hash": "fb226830",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

@@ -21,7 +21,8 @@ export const STORY = {
     "by": "GPT-6",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -1975,7 +1976,7 @@ export const STORY = {
   ],
   "hash": "62f2677c",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

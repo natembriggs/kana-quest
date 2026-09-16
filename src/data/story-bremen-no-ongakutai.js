@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.",
-    "licence": "Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kana Quest."
+    "licence": "Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "ブレーメン",
@@ -5190,7 +5191,7 @@ export const STORY = {
   ],
   "hash": "509417a7",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

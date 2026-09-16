@@ -5340,10 +5340,17 @@ const cardText = (node) => {
 };
 const storyCard = el('story-list')._children.find((c) => cardText(c).includes(ariTitle));
 check('the L1 library lists "ありとはと"', !!storyCard);
+const antCover = storyCard?._children.find((c) => c.className === 'story-cover')?._children.find((c) => c.src);
+check('the ant story shows its installed decorative, lazy-loaded cover',
+  antCover?.src === 'assets/stories/ari-to-hato/cover.webp'
+  && antCover.alt === '' && antCover.loading === 'lazy' && antCover.decoding === 'async');
 
 fire(storyCard, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real dynamic import
 check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
+check('the reader credits the cover separately from the story author',
+  el('reader-source').textContent.includes('Retold by Sol 5.6.')
+  && el('reader-source').textContent.includes('Cover generated with OpenAI image generation.'));
 
 // ありとはと carries inline illustrations (stories-plan.md §8.8), and this
 // stub has no DOMParser. That is the point of the assertion: art is

@@ -21,10 +21,10 @@ remains. See §12.1 for how sourcing landed, which differs from this document's
 original plan.
 
 §8.7 (the shelf's read-state filter and ordering) and §8.8 (covers and inline
-illustrations) are **built**. What is not is the art itself: one story,
-`ari-to-hato`, carries hand-drawn inline pictures as a proof of the path, and
-every other story wears a generated placeholder tile until a cover is drawn
-for it.
+illustrations) are **built**. 39 of the 42 stories have painted WebP covers;
+`rapunzel`, `ningyo-hime` and `pinocchio` still use generated placeholder tiles.
+`ari-to-hato` also carries two hand-drawn inline pictures. Cover originals,
+credits and export instructions are recorded under `assets/stories/`.
 
 Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
 this is that feature written out.
@@ -1706,7 +1706,7 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
 | 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 42 stories shipped (seven per level, L1–L6): 36 retellings of traditional or public-domain motifs and six original stories added on 16 September 2026, not direct Aozora Bunko imports. See §12.1. |
-| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, inline illustrations inlined into the story module, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** Art itself is the remaining work: `ari-to-hato` has two hand-drawn inline pictures proving the path, and every story wears a placeholder tile until a cover is drawn. |
+| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, inline illustrations inlined into the story module, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** 39 painted covers installed; Rapunzel, The Little Mermaid and Pinocchio retain placeholders. `ari-to-hato` also has two hand-drawn inline pictures. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan

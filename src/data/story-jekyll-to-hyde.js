@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original chapter-length retelling of the novel’s complete plot, including its final-confession reveal; no wording is copied from a published translation.",
-    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "弁護士",
@@ -29882,7 +29883,7 @@ export const STORY = {
   ],
   "hash": "cda112d6",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

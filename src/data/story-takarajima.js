@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel’s complete main plot; no wording is copied from a published translation.",
-    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "ジム",
@@ -8573,7 +8574,7 @@ export const STORY = {
   ],
   "hash": "85faf413",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

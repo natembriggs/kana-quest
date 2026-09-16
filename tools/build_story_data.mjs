@@ -385,6 +385,7 @@ async function main() {
   const lookup = await vocabLookup();
   const ids = await vocabIds();
   const sources = await loadSourceStories();
+  const coverSources = JSON.parse(await fs.readFile(path.join(ART_DIR, 'cover-sources.json'), 'utf8'));
   const existingIds = new Set();
   const report = { warnings: [], katakana: {} };
   const stories = [];
@@ -400,6 +401,12 @@ async function main() {
     const story = { ...source, body, hash: contentHash(body) };
     const { warnings, katakana } = validateStory(story, ids);
     story.art = await resolveArt(story);
+    if (story.art.cover) {
+      if (!coverSources.covers[story.id] || !coverSources.credit) {
+        throw new Error(`${story.id}: cover.webp needs a source and credit in cover-sources.json`);
+      }
+      story.source = { ...story.source, cover: coverSources.credit };
+    }
     report.warnings.push(...warnings);
     report.katakana[story.id] = katakana;
     stories.push(story);

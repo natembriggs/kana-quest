@@ -77,6 +77,10 @@ corpus.forEach((story) => {
   check(`${story.id}: manifest entry`, !!STORIES[story.id]);
   check(`${story.id}: explicit writer credit`, !!story.source.by && !!story.source.credit);
   check(`${story.id}: manifest writer matches`, STORIES[story.id]?.source?.by === story.source.by);
+  check(`${story.id}: manifest and story agree on cover availability`,
+    STORIES[story.id]?.cover === story.art.cover);
+  check(`${story.id}: installed covers have an artwork credit`,
+    !story.art.cover || !!story.source.cover);
   // Match the current writing guide: L1 none, L2 up to four distinct
   // words (including the title), and no minimum or maximum above L2.
   const katakana = new Set();

@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling with no loanwords and no wording from a published edition.",
-    "licence": "Public domain source tale. This retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source tale. This retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "田舎",
@@ -2150,7 +2151,7 @@ export const STORY = {
   ],
   "hash": "1e9e9e7c",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

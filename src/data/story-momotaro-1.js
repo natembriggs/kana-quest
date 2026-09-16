@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The story itself is a public-domain folk tale with no single identifiable author. Retelling and English translation by Claude Opus 5.0.",
     "licence": "Public domain (traditional folk tale). This retelling and its English translation are original to Kana Quest.",
-    "credit": "Retold by"
+    "credit": "Retold by",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "hash": "0ef67772",
   "nw": [
@@ -2287,7 +2288,7 @@ export const STORY = {
     ]
   ],
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

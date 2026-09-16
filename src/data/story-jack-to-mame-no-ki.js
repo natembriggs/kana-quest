@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original retelling of the traditional fairy tale, not a transcription or translation of a particular published edition.",
-    "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "豆の木",
@@ -5248,7 +5249,7 @@ export const STORY = {
   ],
   "hash": "dd8d645f",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };
