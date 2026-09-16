@@ -1219,8 +1219,18 @@ there is no story in progress.
   A **one-part** series is listed as a standalone story — two shipped stories
   tag the work they adapt (Alice, Oz) while being a single complete part of
   it, and a series card that expands to reveal one chapter is pure ceremony.
-- **Standalone stories** as a plain vertical list of cards: title, one-line
-  blurb, length in minutes, and its read state.
+- **Standalone stories** as a two-up grid of poster tiles (redesigned 16
+  September 2026 from a vertical list of rows — a 54px thumbnail read as an
+  afterthought once real covers existed to show). The cover fills the tile;
+  its title is overlaid at the bottom, Japanese first and larger, English
+  underneath. A small "page turn" flip in the corner reveals the blurb,
+  length and read state in a popup inset within the cover — never covering
+  it entirely, so a tap on the exposed frame around the popup still opens the
+  story — and dismisses on its own × , a second tap on the flip icon, or a
+  tap anywhere else; a tap on the popup's own text does nothing, since a
+  learner has no way to guess whether that should read the story or close
+  the card. At most one popup is open at a time (`buildStoryTile()`,
+  `openStoryPopoverFor()`/`closeStoryPopover()` in `src/app.js`).
 - **Three read states, all derived, no new storage.** `unread` / `reading` /
   `read` come out of `profile.stories` alone (`src/library.js`), and the order
   of those checks matters: opening a story writes a `read` entry immediately

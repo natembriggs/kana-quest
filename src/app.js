@@ -75,7 +75,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -527,6 +527,11 @@ let navSeq = 0;
 
 function show(screenId) {
   navSeq += 1;
+  // Every screen change routes through here, which makes it the one place
+  // that reliably catches "leaving the stories shelf" — an open
+  // story-cover-popup left behind would otherwise sit on a hidden screen
+  // with its outside-click listener still attached.
+  closeStoryPopover();
   screens().forEach((el) => { el.hidden = el.id !== screenId; });
   currentScreenId = screenId;
   updateInstallBannerVisibility();
@@ -8943,6 +8948,10 @@ function openStoriesLibrary() {
 }
 
 function renderStoriesLibrary() {
+  // The list this rebuilds below is about to throw away whatever popup DOM
+  // an open story-cover-popup points at — close it first rather than leave
+  // its outside-click listener attached to nodes nothing can reach any more.
+  closeStoryPopover();
   const profile = state.profile;
   const ownLevel = profile.settings.readingLevel;
   const browse = state.readerBrowseLevel;
@@ -9014,7 +9023,7 @@ function renderStoriesLibrary() {
   shown.forEach((group) => {
     list.appendChild(group.kind === 'series'
       ? buildSeriesCard(group, profile)
-      : buildStoryCard(group.id, group.entry, profile));
+      : buildStoryTile(group.id, group.entry, profile));
   });
 }
 
@@ -9094,6 +9103,9 @@ function appendStoryStatus(meta, id, entry, profile) {
  * on screen, and `decoding="async"` keeps the decode off the main thread.
  * Those three together are the whole of what keeps covers from costing
  * anything as the corpus grows.
+ *
+ * Returns the bare `<span class="story-cover">` — buildStoryTile() below is
+ * what layers the title, the read mark and the description flip onto it.
  */
 function buildCoverElement(id, entry) {
   const box = document.createElement('span');
@@ -9106,8 +9118,8 @@ function buildCoverElement(id, entry) {
     img.loading = 'lazy';
     img.decoding = 'async';
     img.src = `assets/stories/${id}/cover.webp`;
-    // Decorative: the card's own title says which story this is, so a screen
-    // reader announcing the cover as well would only repeat it.
+    // Decorative: the tile's own title overlay says which story this is, so
+    // a screen reader announcing the cover as well would only repeat it.
     img.alt = '';
     // A missing or failed cover falls back to the tile already painted behind
     // it, rather than leaving a broken-image icon on the shelf.
@@ -9123,84 +9135,240 @@ function buildCoverElement(id, entry) {
   return box;
 }
 
-function buildStoryCard(id, entry, profile, { chapter = null } = {}) {
-  const card = document.createElement('button');
-  card.type = 'button';
-  card.className = `card story-card${chapter ? ' story-chapter' : ''}`;
-  card.appendChild(buildCoverElement(id, entry));
+/**
+ * The small read/reading mark layered onto a cover's top-left corner (§8.7):
+ * a checkmark once finished, or a thin progress bar along the bottom edge
+ * while in progress. Nothing for an untouched story — an empty shelf needs
+ * no marks at all.
+ */
+function buildStoryStatusMark(id, entry, profile) {
+  const state_ = storyReadState(id, profile.stories);
+  if (state_ === 'read') {
+    const mark = document.createElement('span');
+    mark.className = 'story-cover-status';
+    mark.textContent = '✓';
+    mark.setAttribute('aria-hidden', 'true');
+    return mark;
+  }
+  if (state_ === 'reading') {
+    const progress = storyProgress(id, profile.stories, entry) || 0;
+    const bar = document.createElement('span');
+    bar.className = 'story-cover-progress';
+    const fill = document.createElement('span');
+    fill.className = 'story-cover-progress-fill';
+    fill.style.width = `${Math.max(6, Math.round(progress * 100))}%`;
+    bar.appendChild(fill);
+    return bar;
+  }
+  return null;
+}
+
+/**
+ * The shelf's "page turn" description flip (§8.8): at most one open across
+ * the whole grid, built INTO the cover it describes rather than floating
+ * elsewhere on the page — "open the front cover" reads as revealing
+ * something under it, not popping up a tooltip beside it.
+ *
+ * A click inside the popup is deliberately inert: a learner has no way to
+ * guess whether tapping the blurb reads the story or dismisses the card, so
+ * it does neither (see popup's own click listener in buildStoryTile below) —
+ * only the × or the flip icon itself close it, or a tap that lands anywhere
+ * outside the popup, which this outside-click listener is what catches when
+ * that tap isn't already a different cover's own open-story click.
+ */
+let openStoryPopover = null; // { cover, popup, flip, onOutsideClick }
+
+function closeStoryPopover() {
+  if (!openStoryPopover) return;
+  const {
+    cover, popup, flip, onOutsideClick,
+  } = openStoryPopover;
+  document.removeEventListener('click', onOutsideClick, true);
+  popup.hidden = true;
+  cover.classList.remove('popup-open');
+  flip.setAttribute('aria-expanded', 'false');
+  openStoryPopover = null;
+}
+
+function openStoryPopoverFor(cover, popup, flip) {
+  closeStoryPopover();
+  popup.hidden = false;
+  cover.classList.add('popup-open');
+  flip.setAttribute('aria-expanded', 'true');
+  const onOutsideClick = (event) => {
+    if (popup.contains(event.target) || flip.contains(event.target)) return;
+    closeStoryPopover();
+  };
+  document.addEventListener('click', onOutsideClick, true);
+  openStoryPopover = {
+    cover, popup, flip, onOutsideClick,
+  };
+}
+
+// A folded-corner "page" glyph for the flip button — a dog-ear, the usual
+// shorthand for "there's more here, peek under it".
+const STORY_FLIP_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">'
+  + '<path d="M5 3h10l5 5v13H5z" fill="currentColor" opacity="0.22"/>'
+  + '<path d="M5 3h10l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+  + '<path d="M15 3v5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+  + '</svg>';
+
+/**
+ * The shelf grid's poster tile (§8.7/§8.8): the cover fills the whole card,
+ * title overlaid — Japanese first and larger, English underneath — and a
+ * corner flip reveals the blurb without leaving the shelf.
+ *
+ * A plain, keyboard-operable div rather than a <button>: it contains the
+ * flip button and its popup, both real buttons of their own, and a <button>
+ * may not nest another one. `titleJa`/`titleEn`/`blurb` are overridable so
+ * buildSeriesCard can reuse this for a series' own head tile, which wears
+ * the series name and its chapter standing rather than one part's own title.
+ */
+function buildStoryTile(id, entry, profile, { titleJa, titleEn, blurb } = {}) {
+  const tile = document.createElement('div');
+  tile.className = 'story-tile';
+  tile.setAttribute('role', 'button');
+  tile.tabIndex = 0;
+  tile.setAttribute('aria-label', `${titleJa ?? entry.title.ja}, ${titleEn ?? entry.title.en}`);
+  tile.addEventListener('click', () => openStory(id));
+  tile.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    openStory(id);
+  });
+
+  const cover = buildCoverElement(id, entry);
+  tile.appendChild(cover);
+
+  const titleBox = document.createElement('span');
+  titleBox.className = 'story-cover-title';
+  const titleJaEl = document.createElement('span');
+  titleJaEl.className = 'story-cover-title-ja';
+  titleJaEl.textContent = titleJa ?? entry.title.ja;
+  const titleEnEl = document.createElement('span');
+  titleEnEl.className = 'story-cover-title-en';
+  titleEnEl.textContent = titleEn ?? entry.title.en;
+  titleBox.appendChild(titleJaEl);
+  titleBox.appendChild(titleEnEl);
+  cover.appendChild(titleBox);
+
+  const statusMark = buildStoryStatusMark(id, entry, profile);
+  if (statusMark) cover.appendChild(statusMark);
+
+  const shownBlurb = blurb ?? entry.blurb;
+  if (shownBlurb || entry.source?.by) {
+    const flip = document.createElement('button');
+    flip.type = 'button';
+    flip.className = 'story-cover-flip';
+    flip.setAttribute('aria-label', `About ${titleEn ?? entry.title.en}`);
+    flip.setAttribute('aria-expanded', 'false');
+    flip.innerHTML = STORY_FLIP_ICON;
+    cover.appendChild(flip);
+
+    const popup = document.createElement('div');
+    popup.className = 'story-cover-popup';
+    popup.hidden = true;
+    // A click anywhere in here is a no-op other than scrolling — the close
+    // button below is the only thing inside that actually does anything.
+    popup.addEventListener('click', (event) => event.stopPropagation());
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'story-cover-popup-close';
+    closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.textContent = '×';
+    closeBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeStoryPopover();
+    });
+    popup.appendChild(closeBtn);
+    if (shownBlurb) {
+      const blurbEl = document.createElement('p');
+      blurbEl.className = 'story-cover-popup-blurb';
+      blurbEl.textContent = shownBlurb;
+      popup.appendChild(blurbEl);
+    }
+    const meta = [`${storyMinutes(entry)} min`];
+    appendStoryStatus(meta, id, entry, profile);
+    if (entry.source?.by) meta.push(`${entry.source.credit || 'By'} ${entry.source.by}`);
+    const metaEl = document.createElement('p');
+    metaEl.className = 'story-cover-popup-meta hint';
+    metaEl.textContent = meta.join(' · ');
+    popup.appendChild(metaEl);
+    cover.appendChild(popup);
+
+    flip.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (openStoryPopover?.cover === cover) closeStoryPopover();
+      else openStoryPopoverFor(cover, popup, flip);
+    });
+  }
+
+  return tile;
+}
+
+/**
+ * A chapter row inside an expanded series list (§8.2) — the shelf's old
+ * compact-row treatment, kept here for that one nested use once the shelf
+ * itself moved to the poster grid (buildStoryTile above). A 38px thumbnail
+ * has no room for a flip-open description, and doesn't need one when the
+ * series' own head tile already shows the current chapter's blurb.
+ */
+function buildStoryChapterRow(id, entry, profile, chapter) {
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'story-chapter-row';
+  row.appendChild(buildCoverElement(id, entry));
   const text = document.createElement('span');
   text.className = 'story-card-text';
   const title = document.createElement('div');
   title.className = 'story-card-title';
-  title.textContent = `${chapter ? `${chapter}. ` : ''}${entry.title.ja} `;
+  title.textContent = `${chapter}. ${entry.title.ja} `;
   const titleEn = document.createElement('span');
   titleEn.className = 'hint';
   titleEn.textContent = entry.title.en;
   title.appendChild(titleEn);
   text.appendChild(title);
-  if (entry.blurb && !chapter) {
-    const blurb = document.createElement('p');
-    blurb.className = 'hint';
-    blurb.textContent = entry.blurb;
-    text.appendChild(blurb);
-  }
   const meta = [`${storyMinutes(entry)} min`];
   appendStoryStatus(meta, id, entry, profile);
-  if (entry.source?.by && !chapter) meta.push(`${entry.source.credit || 'By'} ${entry.source.by}`);
   const metaEl = document.createElement('p');
   metaEl.className = 'hint';
   metaEl.textContent = meta.join(' · ');
   text.appendChild(metaEl);
-  card.appendChild(text);
-  card.addEventListener('click', () => openStory(id));
-  return card;
+  row.appendChild(text);
+  row.addEventListener('click', () => openStory(id));
+  return row;
 }
 
 /**
- * A series as ONE card that opens to its chapters, rather than §8.2's
+ * A series as ONE tile that opens to its chapters, rather than §8.2's
  * original `① ② ③ ④` chip row. Chips read well at four chapters and become
  * unusable at twenty, and a serialization long enough to be worth serializing
  * is exactly the case this has to hold up for.
  *
  * Nothing is locked (§8.2): every chapter is tappable whatever order they are
- * read in. The card's own tap opens whichever chapter comes next, which is
- * what someone reading the series straight through wants; opening the list is
- * for everyone else.
+ * read in. The head tile's own tap opens whichever chapter comes next, which
+ * is what someone reading the series straight through wants; opening the
+ * list is for everyone else. Spans the grid's full width (see .story-series
+ * in styles.css) — a poster tile plus a toggle and an expandable list is
+ * taller and busier than a single column comfortably holds.
  */
 function buildSeriesCard(group, profile) {
   const standing = seriesStanding(group, profile.stories);
   const wrap = document.createElement('div');
-  wrap.className = 'card story-card story-series';
+  wrap.className = 'story-series';
 
-  const head = document.createElement('button');
-  head.type = 'button';
-  head.className = 'story-series-head story-card';
   // A series wears the cover of the chapter it is offering, so the shelf
   // shows where the learner actually is in it rather than a fixed frontispiece.
   const face = standing.current || group.parts[0];
-  head.appendChild(buildCoverElement(face.id, face.entry));
-  const text = document.createElement('span');
-  text.className = 'story-card-text';
-  const title = document.createElement('div');
-  title.className = 'story-card-title';
-  title.textContent = `${group.name} `;
-  const count = document.createElement('span');
-  count.className = 'hint';
-  count.textContent = standing.done === standing.total
+  const subtitle = standing.done === standing.total
     ? `all ${standing.total} chapters read`
     : `chapter ${standing.done + 1} of ${group.of || standing.total}`;
-  title.appendChild(count);
-  text.appendChild(title);
-  const blurb = document.createElement('p');
-  blurb.className = 'hint';
-  blurb.textContent = standing.current
-    ? standing.current.entry.blurb
-    : 'Read again from the beginning.';
-  text.appendChild(blurb);
-  head.appendChild(text);
-  head.addEventListener('click', () => {
-    openStory((standing.current || group.parts[0]).id);
+  const head = buildStoryTile(face.id, face.entry, profile, {
+    titleJa: group.name,
+    titleEn: subtitle,
+    blurb: standing.current ? standing.current.entry.blurb : 'Read again from the beginning.',
   });
+  head.classList.add('story-series-head');
   wrap.appendChild(head);
 
   const toggle = document.createElement('button');
@@ -9217,7 +9385,7 @@ function buildSeriesCard(group, profile) {
   toggle.addEventListener('click', () => setOpen(chapters.hidden));
   setOpen(false);
   group.parts.forEach((part) => {
-    chapters.appendChild(buildStoryCard(part.id, part.entry, profile, { chapter: part.part }));
+    chapters.appendChild(buildStoryChapterRow(part.id, part.entry, profile, part.part));
   });
   wrap.appendChild(toggle);
   wrap.appendChild(chapters);
@@ -10232,6 +10400,7 @@ function scrollToResumePosition(story, id) {
 async function openStory(id) {
   const manifestEntry = STORIES[id];
   if (!manifestEntry) return;
+  closeStoryPopover();
   const requestNav = navSeq;
   const story = await withLoading(ensureStoryLoaded(id));
   if (navSeq !== requestNav) return;

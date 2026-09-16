@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-16',
     changes: [
+      'New: the story library is now a two-up grid of covers instead of a list of small thumbnails, so covers finally have room to be seen. Tap a corner icon to flip it open and read the description without leaving the shelf.',
+    ],
+  },
+  {
+    date: '2026-09-16',
+    changes: [
       'New: painted covers for 39 stories in the library. Rapunzel, The Little Mermaid and Pinocchio still have coloured tiles for now. Covers load as you browse, and the Pictures setting lets you turn them off.',
     ],
   },
