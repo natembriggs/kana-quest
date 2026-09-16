@@ -74,7 +74,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -9306,11 +9306,27 @@ function renderReaderParagraph(para, pIndex) {
       const token = sentence.t[idx];
       const joinPrevious = run && (NO_LINE_START.test(token.s) || heldOpen);
       if (!joinPrevious) {
+        // The space goes OUTSIDE the run, as a sibling of it, because the
+        // gap between two runs is exactly where the line is allowed to
+        // break. Putting it inside was a bug: a space inside a run is not a
+        // break opportunity, and it is the only one that gap has to offer,
+        // so it suppressed the very break splitting the runs exists to
+        // allow — run welded to run until the line ran off the side of the
+        // screen and the page scrolled sideways under the reader's thumb.
+        // Only stage 'kana' spaces anything at all (§5.4), so this only
+        // ever bit beginners, and only on a narrow screen.
+        if (r.spaceBefore) sSpan.appendChild(document.createTextNode(' '));
         run = document.createElement('span');
         run.className = 'reader-run';
         sSpan.appendChild(run);
+      } else if (r.spaceBefore) {
+        // Joined to the run before it, so there is no break here to protect
+        // and the space belongs inside, where it cannot become one. No
+        // shipped story reaches this branch — it needs a token that is
+        // neither particle, auxiliary nor punctuation yet still begins with
+        // a 行頭禁則 character — but a story one day might.
+        run.appendChild(document.createTextNode(' '));
       }
-      if (r.spaceBefore) run.appendChild(document.createTextNode(' '));
       const el = buildTokenElement(token, r, pIndex, sIndex);
       // The sentence's own final punctuation doubles as a translate tap
       // target (§7.3's second bullet) — no individual word needs picking

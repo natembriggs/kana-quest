@@ -2131,7 +2131,18 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
    may not start a line, or an opening bracket plus what follows it. Built in
    renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for
-   why the browser's own kinsoku can't do this for us. */
+   why the browser's own kinsoku can't do this for us.
+
+   `nowrap` here also reaches INSIDE each token, since a token is an
+   inline-block and inherits it, so a token can never be split across two
+   lines. That is right for every token that fits the column and wrong for
+   one that does not: ドラキュラ has eight kana forms of 19–29 characters
+   (a whole clause tokenised as one word), and at phone width they simply
+   hang off the right-hand edge. Letting the token wrap is not the fix —
+   it is an inline-block, so the 。 or 、 welded to its right would then
+   render beside its FIRST line, i.e. in the middle of the word. The fix
+   belongs in the story source: tokenise those clauses into real words,
+   which also makes them worth tapping. */
 .reader-run { white-space: nowrap; }
 .reader-token {
   position: relative;

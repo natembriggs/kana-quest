@@ -5338,6 +5338,31 @@ fire(storyCard, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real dynamic import
 check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
 
+// --- 禁則処理 runs must not swallow the spaces between them ---------------
+//
+// renderReaderParagraph groups tokens into `white-space: nowrap` runs so a
+// line cannot break before 。 or after 「. The inter-token space (stage
+// 'kana' only) has to sit BETWEEN those runs, not inside one: a space inside
+// a nowrap span is not a break opportunity, and it is the only one the gap
+// between two runs offers, so a space put inside welds run to run and the
+// story runs off the side of a phone screen. The stub proves nothing about
+// layout, but it can prove where the space node ended up.
+const readerRuns = [];
+const readerSentences = [];
+(function collectRuns(node) {
+  if (node.className === 'reader-run') readerRuns.push(node);
+  if (node.className === 'reader-sentence') readerSentences.push(node);
+  (node._children || []).forEach(collectRuns);
+}(el('reader-body')));
+const isSpaceNode = (n) => n.className === '' && n.textContent === ' ' && !(n._children || []).length;
+check('the story rendered some 禁則処理 runs at all', readerRuns.length > 0, `${readerRuns.length} runs`);
+check('a kana-stage story still spaces its words',
+  readerSentences.some((s) => (s._children || []).some(isSpaceNode)),
+  'no space node found as a sibling between runs');
+check('no space is trapped inside a nowrap run, where it could not break',
+  readerRuns.every((r) => !(r._children || []).some(isSpaceNode)),
+  `${readerRuns.filter((r) => (r._children || []).some(isSpaceNode)).length} of ${readerRuns.length} runs hold a space of their own`);
+
 // あり ("ant") is body[0][0].t[2] in story-ari-to-hato.js: a kana-form word
 // (no kanji, ruby: null) carrying a real vocab id (d: "あり"). ある日
 // ("one day") is t[0]: a taught-kanji word whose d is null — nothing this
