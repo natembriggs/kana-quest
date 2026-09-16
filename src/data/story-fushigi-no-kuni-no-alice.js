@@ -11213,5 +11213,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "d75fa228"
+  "hash": "d75fa228",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

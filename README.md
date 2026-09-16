@@ -27,7 +27,7 @@ $JSC -m test/store.js     # backup validation and conflict-safe profile merging
 $JSC -m test/service-worker.js # cache isolation and offline fallback behaviour
 $JSC -m test/sync.js      # the sync pull/merge/push/retry state machine, against a fake transport
 $JSC -m test/reader.js    # the story render pipeline: script stages, kanji/katakana ruby, the reveal ladder
-$JSC -m test/library.js   # how stories group into series, read state, and what comes next
+$JSC -m test/library.js   # series grouping, read state, shelf ordering and filtering, cover tiles
 $JSC -m test/stories.js   # the structural contract every shipped story must meet
 $JSC -m test/contributions.js # contributed-hint merging
 ```

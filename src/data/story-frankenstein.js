@@ -19073,5 +19073,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "4aa379a1"
+  "hash": "4aa379a1",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

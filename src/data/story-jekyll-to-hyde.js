@@ -29880,5 +29880,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "cda112d6"
+  "hash": "cda112d6",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

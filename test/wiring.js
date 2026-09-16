@@ -5330,13 +5330,29 @@ check('a brand-new learner starts browsing at L1, the easiest level',
   el('story-level-name').textContent === 'First steps', el('story-level-name').textContent);
 
 const ariTitle = 'ありとはと'; // "The Ant and the Dove" — story-ari-to-hato.js, level L1
-const storyCard = el('story-list')._children
-  .find((c) => ((c._children[0] && c._children[0].textContent) || '').startsWith(ariTitle));
+// Searched over the whole card rather than one known child: a card is now a
+// cover plus a text column (§8.8), and a test that pins the exact child order
+// breaks every time the card gains a part without anything being wrong.
+const cardText = (node) => {
+  let out = node.textContent || '';
+  (node._children || []).forEach((child) => { out += cardText(child); });
+  return out;
+};
+const storyCard = el('story-list')._children.find((c) => cardText(c).includes(ariTitle));
 check('the L1 library lists "ありとはと"', !!storyCard);
 
 fire(storyCard, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real dynamic import
 check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
+
+// ありとはと carries inline illustrations (stories-plan.md §8.8), and this
+// stub has no DOMParser. That is the point of the assertion: art is
+// decorative, so an environment that cannot build it must still render the
+// whole story. An earlier version threw here and left the learner staring at
+// the library after tapping a story.
+check('a story with inline art still renders every paragraph',
+  el('reader-body')._children.filter((c) => (c.className || '').includes('reader-para')).length === 3,
+  `${el('reader-body')._children.length} children in reader-body`);
 
 // --- 禁則処理 runs must not swallow the spaces between them ---------------
 //

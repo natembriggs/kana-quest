@@ -43,6 +43,7 @@ import {
 import { STORIES } from './data/story-manifest.js';
 import {
   storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
+  shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
 } from './library.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -74,7 +75,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-16e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -474,6 +475,8 @@ const state = {
   // word's reveal ladder. See furiganaMaxLevel in reader.js for how this
   // shortens the ladder itself, not just what tokenAtLevel paints.
   readerShowRomaji: false,
+  readerShowPictures: true, // §8.8 — on by default, per device, never synced
+  storyFilter: 'all', // §8.7's shelf filter — session-only, like readerBrowseLevel
   readerShowAllTranslations: false,
   readerTextSize: 3,        // 1-5, index into READER_TEXT_SIZES; persisted per device
   readerScrollY: 0,         // where in the story we were when leaving for a detail screen
@@ -8983,17 +8986,65 @@ function renderStoriesLibrary() {
 
   const list = $('story-list');
   list.innerHTML = '';
-  const groups = groupStoriesForLevel(STORIES, browse);
+  const groups = sortShelf(groupStoriesForLevel(STORIES, browse), profile.stories);
+  renderStoryFilter(groups, profile);
   if (groups.length === 0) {
     const p = document.createElement('p');
     p.className = 'hint';
     p.textContent = 'Nothing at this level yet — more stories are on the way.';
     list.appendChild(p);
+    return;
   }
-  groups.forEach((group) => {
+  const shown = filterShelf(groups, state.storyFilter, profile.stories);
+  if (shown.length === 0) {
+    const p = document.createElement('p');
+    p.className = 'hint story-filter-empty';
+    p.textContent = state.storyFilter === 'unread'
+      ? 'You have read everything at this level. Try the next one along.'
+      : 'Nothing here yet.';
+    list.appendChild(p);
+    return;
+  }
+  shown.forEach((group) => {
     list.appendChild(group.kind === 'series'
       ? buildSeriesCard(group, profile)
       : buildStoryCard(group.id, group.entry, profile));
+  });
+}
+
+/**
+ * The read-state filter (§8.7), with its counts.
+ *
+ * The counts matter as much as the filter: they are the only place the app
+ * says how much there is at a level, which is what a learner wants to know
+ * before committing to one. A filter with nothing in it is still shown but
+ * disabled, so the row does not reflow as a learner reads through a level
+ * and buttons appear and vanish under their thumb.
+ */
+const STORY_FILTERS = [
+  ['all', 'All'], ['unread', 'Unread'], ['reading', 'Reading'], ['read', 'Finished'],
+];
+function renderStoryFilter(groups, profile) {
+  const row = $('story-filter');
+  row.innerHTML = '';
+  const counts = shelfCounts(groups, profile.stories);
+  // A level nobody has touched has nothing to filter BY — every story is
+  // unread — so the row would be four buttons that all do the same thing.
+  row.hidden = groups.length === 0 || counts.unread === counts.all;
+  if (row.hidden) return;
+  STORY_FILTERS.forEach(([id, label]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    const active = (state.storyFilter || 'all') === id;
+    btn.className = `segment${active ? ' active' : ''}`;
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.textContent = `${label} ${counts[id]}`;
+    btn.disabled = counts[id] === 0 && id !== 'all';
+    btn.addEventListener('click', () => {
+      state.storyFilter = id;
+      renderStoriesLibrary();
+    });
+    row.appendChild(btn);
   });
 }
 
@@ -9026,10 +9077,53 @@ function appendStoryStatus(meta, id, entry, profile) {
   }
 }
 
+/**
+ * A story's cover: the real image when one has been drawn, and a tile painted
+ * from the story's id when one has not (§8.8). The placeholder is the reason
+ * the shelf does not have to wait for 42 illustrations — it costs no bytes
+ * and no request, and covers can land one story at a time.
+ *
+ * The box reserves its space with `aspect-ratio` in CSS before any image
+ * arrives, `loading="lazy"` means a shelf of a hundred fetches only what is
+ * on screen, and `decoding="async"` keeps the decode off the main thread.
+ * Those three together are the whole of what keeps covers from costing
+ * anything as the corpus grows.
+ */
+function buildCoverElement(id, entry) {
+  const box = document.createElement('span');
+  box.className = 'story-cover';
+  const theme = coverPlaceholder(id, entry);
+  const light = theme.deep ? [40, 48] : [52, 64];
+  box.style.background = `linear-gradient(150deg, hsl(${theme.hue} 44% ${light[1]}%), hsl(${theme.hue2} 50% ${light[0]}%))`;
+  if (entry.cover && state.readerShowPictures) {
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.src = `assets/stories/${id}/cover.webp`;
+    // Decorative: the card's own title says which story this is, so a screen
+    // reader announcing the cover as well would only repeat it.
+    img.alt = '';
+    // A missing or failed cover falls back to the tile already painted behind
+    // it, rather than leaving a broken-image icon on the shelf.
+    img.addEventListener('error', () => img.remove());
+    box.appendChild(img);
+    return box;
+  }
+  const mark = document.createElement('span');
+  mark.className = 'story-cover-placeholder';
+  mark.textContent = theme.char;
+  mark.setAttribute('aria-hidden', 'true');
+  box.appendChild(mark);
+  return box;
+}
+
 function buildStoryCard(id, entry, profile, { chapter = null } = {}) {
   const card = document.createElement('button');
   card.type = 'button';
   card.className = `card story-card${chapter ? ' story-chapter' : ''}`;
+  card.appendChild(buildCoverElement(id, entry));
+  const text = document.createElement('span');
+  text.className = 'story-card-text';
   const title = document.createElement('div');
   title.className = 'story-card-title';
   title.textContent = `${chapter ? `${chapter}. ` : ''}${entry.title.ja} `;
@@ -9037,12 +9131,12 @@ function buildStoryCard(id, entry, profile, { chapter = null } = {}) {
   titleEn.className = 'hint';
   titleEn.textContent = entry.title.en;
   title.appendChild(titleEn);
-  card.appendChild(title);
+  text.appendChild(title);
   if (entry.blurb && !chapter) {
     const blurb = document.createElement('p');
     blurb.className = 'hint';
     blurb.textContent = entry.blurb;
-    card.appendChild(blurb);
+    text.appendChild(blurb);
   }
   const meta = [`${storyMinutes(entry)} min`];
   appendStoryStatus(meta, id, entry, profile);
@@ -9050,7 +9144,8 @@ function buildStoryCard(id, entry, profile, { chapter = null } = {}) {
   const metaEl = document.createElement('p');
   metaEl.className = 'hint';
   metaEl.textContent = meta.join(' · ');
-  card.appendChild(metaEl);
+  text.appendChild(metaEl);
+  card.appendChild(text);
   card.addEventListener('click', () => openStory(id));
   return card;
 }
@@ -9073,7 +9168,13 @@ function buildSeriesCard(group, profile) {
 
   const head = document.createElement('button');
   head.type = 'button';
-  head.className = 'story-series-head';
+  head.className = 'story-series-head story-card';
+  // A series wears the cover of the chapter it is offering, so the shelf
+  // shows where the learner actually is in it rather than a fixed frontispiece.
+  const face = standing.current || group.parts[0];
+  head.appendChild(buildCoverElement(face.id, face.entry));
+  const text = document.createElement('span');
+  text.className = 'story-card-text';
   const title = document.createElement('div');
   title.className = 'story-card-title';
   title.textContent = `${group.name} `;
@@ -9083,13 +9184,14 @@ function buildSeriesCard(group, profile) {
     ? `all ${standing.total} chapters read`
     : `chapter ${standing.done + 1} of ${group.of || standing.total}`;
   title.appendChild(count);
-  head.appendChild(title);
+  text.appendChild(title);
   const blurb = document.createElement('p');
   blurb.className = 'hint';
   blurb.textContent = standing.current
     ? standing.current.entry.blurb
     : 'Read again from the beginning.';
-  head.appendChild(blurb);
+  text.appendChild(blurb);
+  head.appendChild(text);
   head.addEventListener('click', () => {
     openStory((standing.current || group.parts[0]).id);
   });
@@ -9353,11 +9455,65 @@ function renderReaderParagraph(para, pIndex) {
   return p;
 }
 
+/**
+ * One inline illustration (stories-plan.md §8.8), as a figure between two
+ * paragraphs — never inside one, where it would disturb token tap targets,
+ * ruby layout, and the paragraph accounting §6.3's exposure counting depends
+ * on.
+ *
+ * The SVG markup is inlined in the story data rather than fetched: an `<img>`
+ * SVG is an isolated document that page CSS cannot reach, so its ink could
+ * not follow the app's theme. Built with a real parser rather than innerHTML
+ * — the build already refuses anything executable (resolveArt), and parsing
+ * it as a document means even a file that slipped past cannot run here.
+ *
+ * `aspect-ratio` is set from the SVG's own viewBox so the figure occupies its
+ * final height from the first layout. Nothing may reflow as art appears: §8.3
+ * forbids the reader reflowing under a reader's thumb, and an image shoving
+ * the paragraph down mid-sentence is the worst version of that.
+ */
+function buildReaderArt(art) {
+  // Rule 4 of §8.8: everything degrades to nothing. A picture is decorative,
+  // so anything at all going wrong with one — no parser, malformed markup,
+  // an environment without importNode — leaves the story exactly as it would
+  // have been. Art must never be able to cost somebody their reading.
+  if (typeof DOMParser !== 'function' || typeof document.importNode !== 'function') return null;
+  let svg;
+  try {
+    svg = new DOMParser().parseFromString(art.svg, 'image/svg+xml').documentElement;
+  } catch {
+    return null;
+  }
+  if (!svg || svg.nodeName.toLowerCase() !== 'svg') return null;
+  const figure = document.createElement('figure');
+  figure.className = 'reader-art';
+  const box = svg.getAttribute('viewBox');
+  if (box) {
+    const [, , w, h] = box.split(/[\s,]+/).map(Number);
+    if (w > 0 && h > 0) figure.style.aspectRatio = `${w} / ${h}`;
+  }
+  svg.removeAttribute('width');
+  svg.removeAttribute('height');
+  // Decorative: the paragraph beside it already says everything it shows, so
+  // a screen reader should step over it rather than interrupt the reading
+  // with a description of what the reader is about to read anyway.
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  figure.appendChild(document.importNode(svg, true));
+  return figure;
+}
+
 function renderReaderBody() {
   const container = $('reader-body');
   container.innerHTML = '';
+  const art = (state.readerShowPictures && state.readerStory.art?.inline) || [];
+  const artAfter = new Map(art.map((item) => [item.after, item]));
   state.readerStory.body.forEach((para, pIndex) => {
     container.appendChild(renderReaderParagraph(para, pIndex));
+    const picture = artAfter.get(pIndex);
+    if (!picture) return;
+    const figure = buildReaderArt(picture);
+    if (figure) container.appendChild(figure);
   });
   // The DOM was just thrown away and rebuilt — put the place-keeper back.
   setReaderActiveToken(state.readerActiveKey);
@@ -9477,6 +9633,9 @@ function loadReaderSettings() {
   // same as every other boolean here — only an explicit `true` turns it on.
   state.readerShowRomaji = !!saved.showRomaji;
   state.readerShowAllTranslations = !!saved.showTranslations;
+  // The one reader setting that defaults ON, so `undefined` must mean true
+  // rather than falling through to off like the rest.
+  state.readerShowPictures = saved.showPictures !== false;
 }
 
 function saveReaderSettings() {
@@ -9486,6 +9645,7 @@ function saveReaderSettings() {
       furiganaMode: state.readerFuriganaMode,
       showRomaji: state.readerShowRomaji,
       showTranslations: state.readerShowAllTranslations,
+      showPictures: state.readerShowPictures,
     }));
   } catch {
     // Storage unavailable — the setting still applies for this session.
@@ -9519,6 +9679,7 @@ function applyReaderSettings() {
   $('reader-text-size').value = String(state.readerTextSize);
   $('reader-furigana-mode').value = state.readerFuriganaMode;
   $('reader-show-romaji').checked = state.readerShowRomaji;
+  $('reader-show-pictures').checked = state.readerShowPictures;
   $('reader-show-translations').checked = state.readerShowAllTranslations;
 }
 
@@ -10203,6 +10364,19 @@ function wire() {
     state.storyRevealLevels = new Map(); // every ladder just gained or lost its last step
     closeReaderCard();
     renderReaderBody();
+  });
+  $('reader-show-pictures').addEventListener('change', (event) => {
+    state.readerShowPictures = event.target.checked;
+    saveReaderSettings();
+    const anchor = state.readerCursor;
+    renderReaderBody();
+    // Paragraphs just changed height, so the learner's place moved on screen.
+    // Put them back on the paragraph they were reading rather than leaving
+    // them staring at a different part of the story than a moment ago.
+    if (anchor >= 0) {
+      const el = $('reader-body').querySelector(`.reader-para[data-p="${anchor}"]`);
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
   });
   $('reader-show-translations').addEventListener('change', (event) => {
     state.readerShowAllTranslations = event.target.checked;

@@ -12,6 +12,14 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCE_DIR = path.join(ROOT, 'tools', 'story_src');
 const DATA_DIR = path.join(ROOT, 'src', 'data');
+const ART_DIR = path.join(ROOT, 'assets', 'stories');
+// stories-plan.md §8.8's budgets, enforced rather than trusted: art is the one
+// part of a story whose cost is measured in bytes a phone has to fetch, and
+// "keep it small" is not a rule unless something checks.
+const MAX_INLINE_ART = 6;
+const MAX_INLINE_BYTES = 8 * 1024;
+const MAX_INLINE_TOTAL_BYTES = 60 * 1024;
+const MAX_COVER_BYTES = 60 * 1024;
 const KANJI_RE = /[㐀-䶿一-鿿]/;
 // Deliberately excludes the prolonged-sound mark ー (U+30FC): it is shared
 // with hiragana for casual elongation (よーい, "reeeady") and proves nothing
@@ -245,6 +253,91 @@ export function validateSeries(stories) {
   if (errors.length) throw new Error(errors.join('\n'));
 }
 
+/**
+ * Checks a story's art against §8.8's budgets and returns what actually
+ * exists on disk, so the manifest can say whether there is a cover without
+ * the library having to probe for one.
+ *
+ * Inline art is INLINED into the story module rather than left as a file the
+ * page fetches with `<img>`. That is not a convenience: an SVG referenced by
+ * `<img src>` is an isolated document that page CSS cannot reach, so its ink
+ * could not follow the app's light/dark theme — which §8.8 requires and which
+ * is the whole reason inline art is vector in the first place. Authoring stays
+ * file-based (assets/stories/<id>/NN.svg, pleasant to edit); the runtime gets
+ * the markup inline, theme-aware, with no second request. At ≤8KB apiece
+ * inside a module that is 10–120KB already, the bytes are noise.
+ *
+ * Covers stay files: they are raster, they do not care about the theme, and
+ * the library wants them fetched lazily one tile at a time.
+ *
+ * Art is addressed by PARAGRAPH INDEX from outside `body`, never stored
+ * inside it. That is deliberate and load-bearing: `hash` is computed over
+ * `body` (§3.5), so putting an illustration in there would change the hash of
+ * every story that gained one and throw away the saved position of everyone
+ * mid-way through it. Pictures must never cost a reader their place.
+ */
+async function resolveArt(story) {
+  const art = story.art || null;
+  const dir = path.join(ART_DIR, story.id);
+  const errors = [];
+  let cover = false;
+  try {
+    const stat = await fs.stat(path.join(dir, 'cover.webp'));
+    cover = true;
+    if (stat.size > MAX_COVER_BYTES) {
+      errors.push(`${story.id}: cover.webp is ${Math.round(stat.size / 1024)}KB, over the ${MAX_COVER_BYTES / 1024}KB budget`);
+    }
+  } catch {
+    cover = false; // no cover yet — the generated placeholder carries it (§8.8)
+  }
+  const inline = [];
+  if (art?.inline) {
+    if (art.inline.length > MAX_INLINE_ART) {
+      errors.push(`${story.id}: ${art.inline.length} inline pictures exceeds the limit of ${MAX_INLINE_ART}`);
+    }
+    let total = 0;
+    const seen = new Set();
+    for (const item of art.inline) {
+      if (!Number.isInteger(item.after) || item.after < 0 || item.after >= story.body.length) {
+        errors.push(`${story.id}: inline picture after paragraph ${item.after}, which does not exist`);
+        continue;
+      }
+      if (seen.has(item.after)) {
+        errors.push(`${story.id}: two inline pictures after paragraph ${item.after}`);
+      }
+      seen.add(item.after);
+      let markup;
+      try {
+        markup = await fs.readFile(path.join(dir, item.file), 'utf8');
+      } catch {
+        errors.push(`${story.id}: inline picture ${item.file} is missing from assets/stories/${story.id}/`);
+        continue;
+      }
+      total += Buffer.byteLength(markup);
+      if (Buffer.byteLength(markup) > MAX_INLINE_BYTES) {
+        errors.push(`${story.id}: ${item.file} is ${Math.round(Buffer.byteLength(markup) / 1024)}KB, over the ${MAX_INLINE_BYTES / 1024}KB budget`);
+      }
+      // These are inlined into the DOM, so the build is the right and only
+      // place to refuse anything executable. Our own files, checked anyway:
+      // the cost of the check is nothing and the cost of missing one is XSS.
+      const unsafe = /<script|<foreignObject|\son\w+\s*=|javascript:/i.exec(markup);
+      if (unsafe) {
+        errors.push(`${story.id}: ${item.file} contains ${unsafe[0].trim()}, which is not allowed in inline art`);
+      }
+      if (!/^\s*<svg[\s>]/.test(markup)) {
+        errors.push(`${story.id}: ${item.file} must be a bare <svg> element`);
+      }
+      inline.push({ after: item.after, svg: markup.trim() });
+    }
+    if (total > MAX_INLINE_TOTAL_BYTES) {
+      errors.push(`${story.id}: ${Math.round(total / 1024)}KB of inline art exceeds the ${MAX_INLINE_TOTAL_BYTES / 1024}KB per-story budget`);
+    }
+  }
+  if (errors.length) throw new Error(errors.join('\n'));
+  inline.sort((a, b) => a.after - b.after);
+  return { cover, inline };
+}
+
 async function loadSourceStories() {
   const files = (await fs.readdir(SOURCE_DIR))
     .filter((name) => name.endsWith('.mjs') && name !== 'helpers.mjs')
@@ -278,6 +371,10 @@ function manifestModule(stories) {
       // measuring progress in the same unit means the bar and the place the
       // reader resumes to cannot disagree.
       paras: story.body.length,
+      // Whether a real cover exists on disk. False means the library paints
+      // its generated placeholder instead (coverPlaceholder in library.js) —
+      // which is what lets covers arrive one story at a time.
+      cover: story.art.cover,
       source: { kind: story.source.kind, by: story.source.by, credit: story.source.credit },
     };
   });
@@ -290,19 +387,23 @@ async function main() {
   const sources = await loadSourceStories();
   const existingIds = new Set();
   const report = { warnings: [], katakana: {} };
-  const stories = sources.map((source) => {
+  const stories = [];
+  for (const source of sources) {
     if (existingIds.has(source.id)) throw new Error(`duplicate story id ${source.id}`);
     existingIds.add(source.id);
     const body = source.body.map((paragraph) => paragraph.map((sentence) => ({
       ...sentence,
       t: sentence.t.map((token) => autoLink(token, lookup)),
     })));
+    // `hash` covers `body` alone, and `art` is deliberately not part of it —
+    // adding or changing a picture must not move anybody's saved place (§3.5).
     const story = { ...source, body, hash: contentHash(body) };
     const { warnings, katakana } = validateStory(story, ids);
+    story.art = await resolveArt(story);
     report.warnings.push(...warnings);
     report.katakana[story.id] = katakana;
-    return story;
-  });
+    stories.push(story);
+  }
   stories.sort((a, b) => a.level.localeCompare(b.level) || a.id.localeCompare(b.id));
   validateSeries(stories);
   // Every level needs SOMETHING in it — an empty rung on the ladder is worse

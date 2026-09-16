@@ -4,6 +4,7 @@
 
 import {
   storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
+  shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
 } from '../src/library.js';
 
 let failures = 0;
@@ -139,6 +140,99 @@ check('a standalone story is captioned with its own title',
 // coming.
 check('a one-part "series" is captioned as standalone, not "1/1"',
   storyLabel(MANIFEST['one-parter']) === 'たいとる', storyLabel(MANIFEST['one-parter']));
+
+// --- shelfReadState: a series is read only when every part is --------------
+
+const seriesGroup = groupStoriesForLevel(MANIFEST, 'L2').find((g) => g.kind === 'series');
+
+check('an untouched series is unread',
+  shelfReadState(seriesGroup, { read: {}, pos: {} }) === 'unread');
+// The case that matters: one chapter down out of six is emphatically not
+// "unread", and a learner filtering for what they have not started should not
+// be shown it.
+check('one chapter finished makes the whole series "reading", not unread',
+  shelfReadState(seriesGroup, { read: { 'saga-1': { done: 1 } }, pos: {} }) === 'reading');
+check('a chapter merely in progress also makes the series "reading"',
+  shelfReadState(seriesGroup, { read: {}, pos: { 'saga-2': { p: 1 } } }) === 'reading');
+check('only every chapter finished makes a series "read"',
+  shelfReadState(seriesGroup, {
+    read: { 'saga-1': { done: 1 }, 'saga-2': { done: 2 }, 'saga-3': { done: 3 } }, pos: {},
+  }) === 'read');
+check('a standalone story reports its own state',
+  shelfReadState({ kind: 'story', id: 'alone', entry: MANIFEST.alone }, { read: { alone: { done: 1 } }, pos: {} }) === 'read');
+
+// --- sortShelf: in progress, then unread shortest-first, then finished -----
+
+const shelfManifest = {
+  long: story('L4', { length: 900 }),
+  short: story('L4', { length: 100 }),
+  middling: story('L4', { length: 400 }),
+  done: story('L4', { length: 50 }),
+  mid: story('L4', { length: 800 }),
+};
+const shelfStories = { read: { done: { done: 1 } }, pos: { mid: { p: 2 } } };
+const sorted = sortShelf(groupStoriesForLevel(shelfManifest, 'L4'), shelfStories).map((g) => g.id);
+check('what you are part-way through comes first',
+  sorted[0] === 'mid', sorted.join());
+// Cheapest-to-try first: choosing is the hard part, and the opposite order
+// asks a learner to commit before they know the level suits them.
+check('then the unread, shortest first',
+  sorted.slice(1, 4).join() === 'short,middling,long', sorted.join());
+check('and what you have finished goes last',
+  sorted[4] === 'done', sorted.join());
+
+// --- shelfCounts and filterShelf -------------------------------------------
+
+const counts = shelfCounts(groupStoriesForLevel(shelfManifest, 'L4'), shelfStories);
+check('the counts add up to everything on the shelf',
+  counts.all === 5 && counts.unread === 3 && counts.reading === 1 && counts.read === 1,
+  JSON.stringify(counts));
+check('"all" filters nothing out',
+  filterShelf(groupStoriesForLevel(shelfManifest, 'L4'), 'all', shelfStories).length === 5);
+check('filtering to unread leaves only the unread',
+  filterShelf(groupStoriesForLevel(shelfManifest, 'L4'), 'unread', shelfStories)
+    .map((g) => g.id).sort().join() === 'long,middling,short');
+check('a filter that matches nothing returns nothing rather than everything',
+  filterShelf(groupStoriesForLevel(MANIFEST, 'L2'), 'read', { read: {}, pos: {} }).length === 0);
+
+// --- coverPlaceholder ------------------------------------------------------
+
+const tile = coverPlaceholder('ari-to-hato', MANIFEST.alone);
+check('a placeholder carries the title\'s first character',
+  tile.char === 'た', tile.char);
+check('and is stable for the same id — a story must not change colour on reload',
+  coverPlaceholder('ari-to-hato', MANIFEST.alone).hue === tile.hue);
+check('the hue is a legal degree',
+  tile.hue >= 0 && tile.hue < 360 && tile.hue2 >= 0 && tile.hue2 < 360,
+  `${tile.hue}/${tile.hue2}`);
+
+// The property that actually matters on a shelf. Hues are snapped to a fixed
+// wheel so two tiles are either the SAME colour — which reads as a deliberate
+// palette — or clearly different. Computing the hue continuously from the
+// hash (multiplying by the golden angle) produced pairs one degree apart,
+// which just looks like a bug. Any two hues must therefore be equal or well
+// separated, never merely close.
+const ids = [
+  'ari-to-hato', 'momotaro-1', 'cinderella', 'dracula', 'oz-no-mahoutsukai',
+  'usagi-to-kame', 'kasa-jizou', 'rapunzel', 'takarajima', 'pinocchio',
+  'akazukin', 'ali-baba', 'goldilocks', 'frankenstein', 'ookina-kabu',
+  'machi-no-nezumi-inaka-no-nezumi', 'futatsu-no-obentou', 'jekyll-to-hyde',
+];
+const hues = ids.map((one) => coverPlaceholder(one, MANIFEST.alone).hue);
+const tooClose = hues.flatMap((a, i) => hues.slice(i + 1)
+  .filter((b) => a !== b && Math.abs(a - b) < 20 && Math.abs(a - b) > 0)
+  .map((b) => `${a}/${b}`));
+check('no two covers land on nearly-but-not-quite the same hue',
+  tooClose.length === 0, tooClose.join(' '));
+check('and the wheel is actually being spread across, not collapsed to one spoke',
+  new Set(hues).size >= 8, `${new Set(hues).size} distinct hues from ${ids.length} ids`);
+check('the light/deep bit gives the wheel twice the tiles it has spokes',
+  new Set(ids.map((one) => {
+    const t = coverPlaceholder(one, MANIFEST.alone);
+    return `${t.hue}${t.deep ? 'd' : 'l'}`;
+  })).size > new Set(hues).size);
+check('a story with no title still gets a mark rather than an empty tile',
+  coverPlaceholder('x', {}).char === '読');
 
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);

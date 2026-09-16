@@ -15,6 +15,29 @@
   --radius: 18px;
   --tap: 52px;
 
+  /* Story illustrations (stories-plan.md §8.8). Inline art is SVG precisely so
+     its colours can be these variables and follow the theme — which only works
+     because the markup is inlined into the DOM rather than referenced by
+     <img>, where page CSS would never reach it. Muted on purpose: a picture
+     sits inside a page of Japanese somebody is reading and must not out-shout
+     the text.
+
+     --art-ink is the DRAWING's line, and unlike the UI's --ink it does NOT
+     flip between themes: it stays dark in both, because an ant is a dark
+     animal in every light and inverting it produced a white ant on a dark
+     river. Dark mode dims and desaturates the GROUND instead, which is what a
+     printed plate does and keeps the drawing recognisably the same drawing. */
+  --art-sky: #efe3d5;
+  --art-water: #8ebdd6;
+  --art-water-far: #b3d3e2;
+  --art-water-near: #6ca2bd;
+  --art-bank: #cdb289;
+  --art-leaf: #7cb36a;
+  --art-leaf-vein: #4c8440;
+  --art-accent: #e0a63f;
+  --art-pale: #faf4ec;
+  --art-ink: #3b322c;
+
   /* Mastery scale for the set-overview grid: 0 (never introduced) through 4
      (at or past the top box). Deliberately distinct from --ok/--ok-bg —
      those mean "just answered correctly", this means "known over time". */
@@ -51,6 +74,21 @@
     --ok-bg: #17342a;
     --bad: #ff7b7b;
     --bad-bg: #3a1f22;
+
+    /* Dark: the same picture, dimmed and desaturated rather than inverted, and
+       kept light enough for the (still dark) --art-ink line to read on it. A
+       fully dark ground would need a light subject, which is how the ant came
+       out white. */
+    --art-sky: #3b3442;
+    --art-water: #4d6e81;
+    --art-water-far: #3f5b6b;
+    --art-water-near: #628ea5;
+    --art-bank: #6b5a44;
+    --art-leaf: #5d8f52;
+    --art-leaf-vein: #3c6733;
+    --art-accent: #cb9a3f;
+    --art-pale: #e3dbd2;
+    --art-ink: #221c18;
 
     --tier-0: var(--surface);
     --tier-0-ink: var(--ink-soft);
@@ -2095,17 +2133,69 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    still reads as one target. */
 .story-series { cursor: default; gap: 8px; }
 .story-series-head {
-  text-align: left; display: flex; flex-direction: column; gap: 4px;
+  text-align: left; display: flex; flex-direction: row; gap: 12px; align-items: flex-start;
   background: none; border: 0; padding: 0; margin: 0; cursor: pointer; color: inherit; font: inherit;
+  box-shadow: none; border-radius: 0;
 }
 .story-series-toggle { align-self: flex-start; padding: 4px 0; }
 .story-series-chapters { gap: 6px; }
+
+/* The library shelf (§8.7/§8.8). A card is a row — cover, then the words —
+   rather than a tile in a grid: the blurb is what makes a card pickable, and
+   a two-column grid at phone width has nowhere to put it. */
+.story-card { flex-direction: row; gap: 12px; align-items: flex-start; }
+.story-card-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.story-cover {
+  flex: 0 0 auto;
+  width: 54px;
+  aspect-ratio: 3 / 4;     /* reserved before any image arrives */
+  border-radius: 8px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--line);
+}
+.story-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The generated tile that carries a story with no cover yet — painted from
+   the id, so it costs no bytes and no request, and the shelf looks finished
+   from the first commit instead of waiting on 42 illustrations. */
+.story-cover-placeholder {
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  font-size: calc(24px * var(--app-font-scale, 1));
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.story-chapter .story-cover { width: 38px; }
+
+/* The read-state filter. Scrolls rather than wraps, so it stays one line on a
+   narrow phone and never pushes the shelf itself below the fold. */
+.story-filter {
+  display: flex; gap: 6px; overflow-x: auto; margin: 8px 0 4px;
+  scrollbar-width: none;
+}
+.story-filter::-webkit-scrollbar { display: none; }
+.story-filter .segment { flex: 0 0 auto; }
+.story-filter-empty { text-align: center; padding: 18px 0; }
 /* A chapter sits inside its series' card, so it drops the card chrome and
    indents to a rule instead — one visual level down, not a second shelf. */
 .story-chapter {
   padding: 6px 0 6px 12px; border: 0; border-left: 2px solid var(--line, #e5ded8);
   border-radius: 0; box-shadow: none; background: none;
 }
+
+/* An inline illustration, between two paragraphs (§8.8). `aspect-ratio` is set
+   from the SVG's own viewBox in JS, so the figure holds its final height from
+   the very first layout and nothing below it ever moves as art appears —
+   §8.3's no-reflow rule, extended from interaction to loading. */
+.reader-art {
+  margin: 18px auto;
+  max-width: 460px;
+  width: 100%;
+  line-height: 0;
+}
+.reader-art svg { width: 100%; height: 100%; display: block; }
 
 /* The reader itself — everything that isn't the story is a failure of
    nerve (§8.3). The top bar and progress line stay minimal on purpose. */

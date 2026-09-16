@@ -3545,5 +3545,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "23ed476c"
+  "hash": "23ed476c",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

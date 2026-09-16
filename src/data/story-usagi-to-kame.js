@@ -1619,5 +1619,9 @@ export const STORY = {
         ]
       }
     ]
-  ]
+  ],
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

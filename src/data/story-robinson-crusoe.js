@@ -16686,5 +16686,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "fb226830"
+  "hash": "fb226830",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

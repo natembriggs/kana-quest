@@ -10433,5 +10433,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "2d94e603"
+  "hash": "2d94e603",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

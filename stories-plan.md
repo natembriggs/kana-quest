@@ -20,10 +20,11 @@ library lists those as standalone. Writing an actual serialization is what
 remains. See §12.1 for how sourcing landed, which differs from this document's
 original plan.
 
-**Not built, and written up to be argued with**: §8.7 (what the library should
-become as the corpus outgrows a list per level) and §8.8 (cover and inline
-illustrations — formats, budgets, and the six rules that keep them from
-costing anything).
+§8.7 (the shelf's read-state filter and ordering) and §8.8 (covers and inline
+illustrations) are **built**. What is not is the art itself: one story,
+`ari-to-hato`, carries hand-drawn inline pictures as a proof of the path, and
+every other story wears a generated placeholder tile until a cover is drawn
+for it.
 
 Named in `vocab-plan.md` §10 as the feature vocabulary was partly built for;
 this is that feature written out.
@@ -1325,10 +1326,7 @@ without writing them down — wastes the best signal a reading session produces.
 
 ---
 
-### 8.7 The library as the corpus grows — proposed, not built
-
-Everything in §8.2 is built. This section is the next step and is **written to
-be argued with**, not implemented as specified.
+### 8.7 The library as the corpus grows
 
 The pressure is arithmetic. 36 stories is six per level, which a vertical list
 of cards handles fine. At 20 per level it does not: a learner scrolls past
@@ -1353,10 +1351,15 @@ unread shortest-first, then finished. Shortest-first among the unread because
 picking is the hard part and the cheapest thing to try is the right default;
 finished last because it is a re-read shelf, not a to-do list.
 
-**A cover grid rather than a list**, but only once §8.8 has art: two columns
-of cover tiles at phone width, the blurb moving to a tap. A grid of text cards
-is worse than a list of them — the blurb is what makes a card pickable, and a
-grid has no room for it. So this arrives *with* covers or not at all.
+**A list with cover thumbnails, NOT a grid of tiles.** This section originally
+proposed a two-column cover grid with the blurb moving to a tap, and building
+it settled the question the other way — on the grid's own stated reason. The
+blurb is what makes a card pickable; a two-column tile at phone width has
+nowhere to put it, and hiding it behind a tap means choosing between stories
+you know nothing about. So a card is a row: a 54px cover, then the title,
+blurb and status. The cover earns its place as a way to recognise a story you
+have seen before, which is what a shelf is actually for, and that job does not
+need the cover to be large.
 
 **Deliberately not proposed**: genre tags, search, favourites, and a
 recommendation rail. Each is defensible and each adds a second axis to a
@@ -1366,16 +1369,20 @@ not before.
 
 ---
 
-### 8.8 Pictures — proposed, not built
+### 8.8 Pictures
 
 Two placements, two formats, and the formats differ because the jobs do.
 
 | | Cover | Inline illustration |
 | --- | --- | --- |
 | Where | the library tile | between paragraphs |
-| Format | **WebP**, ~480×640 | **flat SVG**, ink in CSS variables |
-| Budget | 20–35 KB | ≤ 8 KB each, ≤ 6 and ≤ 60 KB per story |
+| Format | **WebP** file, ~480×640 | **flat SVG**, inlined into the story module |
+| Budget | ≤ 60 KB | ≤ 8 KB each, ≤ 6 and ≤ 60 KB per story |
 | Why | a cover wants texture and colour | it sits inside a page someone is reading |
+
+Both budgets are enforced by `tools/build_story_data.mjs`, not trusted: art is
+the one part of a story whose cost is measured in bytes a phone has to fetch,
+and "keep it small" is not a rule unless something checks.
 
 A painterly SVG is both larger and *slower* than the raster it imitates —
 SVG's real cost is paint time, not bytes, and a 500-node illustration
@@ -1405,20 +1412,91 @@ app slow?" is *no, if these hold, and yes if any of them is dropped*:
 5. **A per-device `Pictures: On/Off`** in reader settings, in `localStorage`
    beside text size (§8.4) — the same reasoning: a "right now" preference, not
    a fact about the learner.
-6. **Alt text describes the picture, never the sentence.** A learner using a
-   screen reader gets a description of what is drawn; nobody gets the
-   translation handed to them ahead of the Japanese.
+6. **The pictures are decorative, and say so** — `alt=""` on a cover,
+   `aria-hidden` on an inline figure. See "Alt text" below; this replaces an
+   earlier draft of this rule that called for careful descriptions.
 
-**Files** live at `assets/stories/<id>/cover.webp` and `.../01.svg` — outside
-the JS modules, so the manifest stays small and art caches independently of
-code. Not precached by `sw.js`, exactly as story bodies are not (§3.4); both
-are what a future *Keep this series offline* toggle (§11.6) would fetch.
+**Inline SVG is inlined into the story module; covers stay files.** Art is
+*authored* as files under `assets/stories/<id>/` either way — pleasant to edit,
+and where a designer would expect it — but an inline illustration's markup is
+copied into `story-<id>.js` at build time. That is not a convenience. **An SVG
+referenced by `<img src>` is an isolated document that page CSS cannot reach**,
+so its colours could never follow the app's theme — and being theme-aware is
+the entire reason inline art is vector rather than raster. Inlining also costs
+one fewer request, and at ≤8KB inside a module that is 10–120KB already, the
+bytes are noise. Because the markup lands in the DOM, the *build* refuses
+anything executable (`<script>`, `on*=`, `javascript:`) and the reader builds
+it with a real parser rather than `innerHTML`.
+
+Covers stay files: they are raster, they do not care about the theme, and the
+shelf wants them fetched lazily one tile at a time. They are not precached by
+`sw.js`, exactly as story bodies are not (§3.4); both are what a future *Keep
+this series offline* toggle (§11.6) would fetch.
+
+**Art lives OUTSIDE `body`**, addressed by paragraph index (`art.inline[]`
+with an `after`). `hash` is computed over `body` (§3.5), so an illustration
+stored inside it would change the hash of every story that gained one and
+throw away the saved position of everyone part-way through. Adding a picture
+must never cost a reader their place.
 
 **A generated placeholder tile carries the library until art exists** — a
 coloured ground derived from the story's id, with its first character on it.
-This is the part that makes the whole thing tractable: the grid looks finished
-from the first commit, and real covers can arrive one story at a time instead
-of being a 36-item blocker in front of §8.7.
+This is the part that makes the whole thing tractable: the shelf looks
+finished from the first commit, and real covers can arrive one story at a time
+instead of being a 42-item blocker in front of §8.7. It costs no bytes and no
+request, because it is painted from CSS rather than fetched.
+
+Its hues come from a **fixed wheel of 16 evenly spaced spokes**, plus a
+light/deep bit. The obvious approach — multiply a hash of the id by the golden
+angle — is what that trick is *for* when indices are sequential, and useless
+when they are arbitrary hashes: it put two L2 stories at 102° and 103°, which
+on a shelf reads as a mistake in a way an exact repeat does not. Snapping to a
+wheel means two tiles are either clearly different or exactly the same, and
+exactly the same reads as a deliberate palette.
+
+#### Alt text, and who it would be for
+
+The pictures ship **decorative**: `alt=""` on a cover, `aria-hidden` on an
+inline figure, so a screen reader steps over them. An earlier draft of this
+section asked for careful descriptions instead. Three reasons it was wrong:
+
+1. **They are decorative, in the technical sense.** An inline illustration
+   shows what the paragraph beside it has just said, and a cover sits next to
+   a card that already prints the story's title. The correct ARIA treatment of
+   an image that duplicates adjacent text is empty alt — describing it makes a
+   screen reader say everything twice, once as a summary of what the learner
+   is about to read. That is a worse experience, not a more inclusive one.
+2. **Japanese alt text would be a dead end.** `alt` is a plain-text attribute:
+   it cannot be tapped, cannot carry a gloss, cannot be translated. Putting
+   Japanese there would break this project's first rule — *a learner should
+   never hit something the app cannot explain* — in the one place the app has
+   no way to explain anything.
+3. **It would be an accessibility claim we have not earned.** Kana Quest's
+   core is irreducibly visual: tracing a stroke, recognising a glyph. The
+   stories are the one part that could in principle work by ear, and the
+   reader has never been tested with a screen reader — tokens are `<span>`s
+   with click handlers rather than buttons, `<rt>` ruby is announced in ways
+   nobody here has listened to, and the definition card is a `div`. Writing
+   thoughtful alt text on top of that would describe pictures inside a reader
+   a blind learner cannot navigate anyway. It would look like care and
+   function as decoration.
+
+So: is there a realistic blind user? For the quiz, honestly no. For the
+stories, in principle yes — a blind learner reading graded Japanese with
+VoiceOver is a real thing, and a token-per-span reader is a decent shape for
+it. But the work that would serve them is making the reader navigable
+(roles, labels, a keyboard path through tokens, an announced definition
+card), not captioning the pictures. **Empty alt is the right answer whether or
+not that work ever happens**, which is why it is not a bet on a speculative
+use case.
+
+**If pictures should ever teach, the answer is a caption, not alt text.** A
+short Japanese sentence under an illustration, tokenised like every other
+sentence in the app — tappable, glossed, translated — would make image-plus-
+caption do real vocabulary work, and would be visible to everyone rather than
+hidden in an attribute. It costs an authoring step per picture and is not
+proposed now, but it is the shape that fits; a description no sighted learner
+can see and no blind learner can reach is not.
 
 **Sourcing.** AI-generated, per story, credited in `source` with the same
 honesty the retellings already carry (§4.5, §12.1) — the text in this app is
@@ -1628,6 +1706,7 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
 | 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 42 stories shipped (seven per level, L1–L6): 36 retellings of traditional or public-domain motifs and six original stories added on 16 September 2026, not direct Aozora Bunko imports. See §12.1. |
+| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, inline illustrations inlined into the story module, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** Art itself is the remaining work: `ari-to-hato` has two hand-drawn inline pictures proving the path, and every story wears a placeholder tile until a cover is drawn. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan

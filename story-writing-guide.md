@@ -333,6 +333,34 @@ the first stage of a review — they are the whole of it.
 
 ---
 
+## 8a. Pictures
+
+Optional, and cheap to skip: a story with no art looks finished, because the
+library paints it a placeholder tile (`stories-plan.md` §8.8).
+
+If you do add pictures:
+
+- Files go in `assets/stories/<id>/`, and the story's source declares them:
+  `art: { inline: [{ after: 0, file: '01.svg' }] }`. `after` is a **paragraph
+  index**, so the picture lands between that paragraph and the next.
+- **Inline pictures are flat SVG**, ≤ 8 KB each, at most 6 and 60 KB per
+  story, and colour comes from the `--art-*` CSS variables (see `styles.css`)
+  so the drawing follows the app's light and dark themes. Hard-coded colours
+  will look wrong in one of them.
+- **`--art-ink` stays dark in both themes**, unlike the UI's `--ink`. An ant is
+  a dark animal in every light; dark mode dims the *ground*, not the drawing.
+- **A cover is `cover.webp`**, ≤ 60 KB, roughly 480×640.
+- **Illustrate the situation a scene opens with, never its outcome.** A picture
+  that makes an unknown word guessable is doing exactly what graded reading
+  wants; a picture of the ending is a spoiler no amount of craft redeems.
+- Art is **decorative**: no alt text, and never anything a reader needs in
+  order to follow the story. Someone with pictures turned off must lose
+  nothing (§8.8).
+- The build enforces all of the above, so a mistake fails the build rather
+  than reaching a learner.
+
+---
+
 ## 9. Checklist
 
 - [ ] Level chosen first; vocabulary and grammar written to it
@@ -351,3 +379,4 @@ the first stage of a review — they are the whole of it.
 - [ ] Compound readings and rendaku checked by hand
 - [ ] `source` filled in honestly, licence checked
 - [ ] Read end-to-end in the app, at a phone width, before shipping
+- [ ] Any pictures checked in BOTH themes, and the story still reads with them off

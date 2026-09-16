@@ -391,6 +391,9 @@
          profile.settings.readingLevel — browsing and committing are
          different actions on purpose (stories-plan.md §2.4). -->
     <button id="story-make-level" class="btn btn-quiet" type="button" hidden>Make this my level</button>
+    <!-- Read-state filter (§8.7): the shelf's second axis after the level
+         strip, and the only place the app says how much there is at a level. -->
+    <div id="story-filter" class="story-filter" role="group" aria-label="Filter by what you have read"></div>
     <div id="story-continue" class="card story-continue" type="button" hidden></div>
     <div id="story-list" class="stack story-list"></div>
   </section>
@@ -463,6 +466,7 @@
         </label>
         <label class="row"><input id="reader-show-romaji" type="checkbox"><span class="hint">Show romaji</span></label>
         <label class="row"><input id="reader-show-translations" type="checkbox"><span class="hint">Show every translation</span></label>
+        <label class="row"><input id="reader-show-pictures" type="checkbox"><span class="hint">Pictures</span></label>
         <button id="reader-settings-close" class="btn btn-primary" type="button" data-action="reader-settings-close">Done</button>
       </div>
     </div>

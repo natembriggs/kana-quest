@@ -1973,5 +1973,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "62f2677c"
+  "hash": "62f2677c",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

@@ -8571,5 +8571,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "85faf413"
+  "hash": "85faf413",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

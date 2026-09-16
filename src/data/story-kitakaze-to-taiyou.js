@@ -1266,5 +1266,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "cfa96ebe"
+  "hash": "cfa96ebe",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

@@ -10,6 +10,11 @@ const ariToHato = expandStory({
   series: null, level: 'L1', gram: 'G1',
   blurb: 'A dove helps a tiny ant, and the ant soon finds a way to return the kindness.',
   source: SOL_SOURCE('Aesop’s fable (The Ant and the Dove)', 'An original graded retelling with short, single-clause sentences and no wording from a published edition.'),
+  // Inline art (stories-plan.md §8.8). `after` is a paragraph index, and the
+  // files live in assets/stories/ari-to-hato/. Both pictures show a situation
+  // the paragraph above them has already established, never what happens
+  // next — a picture that spoils its own scene is worse than no picture.
+  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }] },
   nw: ['あり', 'はと', '葉', '助けます'],
   lexicon: lexicon({
     'ある日[ひ]': ['one day', 'adv'], 'あり': ['ant', 'n'], '川[かわ]': ['river', 'n'], '水[みず]': ['water', 'n'],

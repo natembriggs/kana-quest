@@ -9124,5 +9124,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "4c29fab4"
+  "hash": "4c29fab4",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

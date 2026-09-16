@@ -13111,5 +13111,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "b5cd31b2"
+  "hash": "b5cd31b2",
+  "art": {
+    "cover": false,
+    "inline": []
+  }
 };

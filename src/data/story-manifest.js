@@ -14,6 +14,7 @@ export const STORIES = {
     "hash": "2a0d43f9",
     "length": 92,
     "paras": 3,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -32,6 +33,7 @@ export const STORIES = {
     "hash": "6f8ed185",
     "length": 99,
     "paras": 3,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -50,6 +52,7 @@ export const STORIES = {
     "hash": "57d9fab3",
     "length": 103,
     "paras": 5,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -68,6 +71,7 @@ export const STORIES = {
     "hash": "cfa96ebe",
     "length": 104,
     "paras": 3,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -86,6 +90,7 @@ export const STORIES = {
     "hash": "8415b708",
     "length": 88,
     "paras": 2,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -104,6 +109,7 @@ export const STORIES = {
     "hash": "b1a2da86",
     "length": 103,
     "paras": 3,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -122,6 +128,7 @@ export const STORIES = {
     "hash": "14ee2f46",
     "length": 70,
     "paras": 3,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -140,6 +147,7 @@ export const STORIES = {
     "hash": "62f2677c",
     "length": 169,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -158,6 +166,7 @@ export const STORIES = {
     "hash": "45e4fcb2",
     "length": 228,
     "paras": 5,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -176,6 +185,7 @@ export const STORIES = {
     "hash": "1e9e9e7c",
     "length": 180,
     "paras": 2,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -194,6 +204,7 @@ export const STORIES = {
     "hash": "0ef67772",
     "length": 207,
     "paras": 8,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -212,6 +223,7 @@ export const STORIES = {
     "hash": "9092f754",
     "length": 203,
     "paras": 2,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -230,6 +242,7 @@ export const STORIES = {
     "hash": "23ed476c",
     "length": 310,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -248,6 +261,7 @@ export const STORIES = {
     "hash": "e36577d2",
     "length": 153,
     "paras": 7,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -266,6 +280,7 @@ export const STORIES = {
     "hash": "1317286f",
     "length": 368,
     "paras": 5,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -284,6 +299,7 @@ export const STORIES = {
     "hash": "0a01f882",
     "length": 335,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -302,6 +318,7 @@ export const STORIES = {
     "hash": "79dfddf3",
     "length": 371,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -320,6 +337,7 @@ export const STORIES = {
     "hash": "dd8d645f",
     "length": 466,
     "paras": 9,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -338,6 +356,7 @@ export const STORIES = {
     "hash": "80d65d43",
     "length": 462,
     "paras": 7,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -356,6 +375,7 @@ export const STORIES = {
     "hash": "53fcb72f",
     "length": 224,
     "paras": 5,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -374,6 +394,7 @@ export const STORIES = {
     "hash": "ef498206",
     "length": 277,
     "paras": 5,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -392,6 +413,7 @@ export const STORIES = {
     "hash": "1a5405c9",
     "length": 364,
     "paras": 7,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -410,6 +432,7 @@ export const STORIES = {
     "hash": "2c792325",
     "length": 736,
     "paras": 10,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -428,6 +451,7 @@ export const STORIES = {
     "hash": "7bcff17c",
     "length": 543,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -446,6 +470,7 @@ export const STORIES = {
     "hash": "509417a7",
     "length": 444,
     "paras": 8,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -464,6 +489,7 @@ export const STORIES = {
     "hash": "8eb3f325",
     "length": 768,
     "paras": 9,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -482,6 +508,7 @@ export const STORIES = {
     "hash": "a81ca412",
     "length": 460,
     "paras": 8,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -500,6 +527,7 @@ export const STORIES = {
     "hash": "0123c6fc",
     "length": 444,
     "paras": 4,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -518,6 +546,7 @@ export const STORIES = {
     "hash": "2d94e603",
     "length": 863,
     "paras": 11,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -536,6 +565,7 @@ export const STORIES = {
     "hash": "4e219391",
     "length": 958,
     "paras": 12,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -554,6 +584,7 @@ export const STORIES = {
     "hash": "4d2ab6b1",
     "length": 786,
     "paras": 6,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -572,6 +603,7 @@ export const STORIES = {
     "hash": "4c29fab4",
     "length": 805,
     "paras": 10,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -590,6 +622,7 @@ export const STORIES = {
     "hash": "50b78ed1",
     "length": 930,
     "paras": 9,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -608,6 +641,7 @@ export const STORIES = {
     "hash": "fb226830",
     "length": 1446,
     "paras": 10,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -626,6 +660,7 @@ export const STORIES = {
     "hash": "85faf413",
     "length": 710,
     "paras": 6,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -644,6 +679,7 @@ export const STORIES = {
     "hash": "52c8197c",
     "length": 1044,
     "paras": 12,
+    "cover": false,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -662,6 +698,7 @@ export const STORIES = {
     "hash": "6da3fe85",
     "length": 1527,
     "paras": 11,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -680,6 +717,7 @@ export const STORIES = {
     "hash": "4aa379a1",
     "length": 1663,
     "paras": 13,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -703,6 +741,7 @@ export const STORIES = {
     "hash": "d75fa228",
     "length": 968,
     "paras": 13,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
@@ -721,6 +760,7 @@ export const STORIES = {
     "hash": "cda112d6",
     "length": 2644,
     "paras": 17,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",
@@ -739,6 +779,7 @@ export const STORIES = {
     "hash": "636ee940",
     "length": 1593,
     "paras": 18,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -762,6 +803,7 @@ export const STORIES = {
     "hash": "b5cd31b2",
     "length": 1146,
     "paras": 14,
+    "cover": false,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
