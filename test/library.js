@@ -52,6 +52,14 @@ check('a done stamp means read, even with a saved position still sitting there',
 check('a missing stories object does not throw',
   storyReadState('alone', undefined) === 'unread');
 
+// A bookmark alone is also "started" — and a tombstone (p: -1, written when
+// a bookmark is cleared) is not a bookmark and must not resurrect a finished
+// story as in progress.
+check('a bookmark on its own counts as reading',
+  storyReadState('alone', { read: {}, pos: {}, mark: { alone: { p: 3, s: 1 } } }) === 'reading');
+check('a cleared bookmark tombstone does not',
+  storyReadState('alone', { read: {}, pos: {}, mark: { alone: { p: -1, s: -1 } } }) === 'unread');
+
 // --- storyProgress ---------------------------------------------------------
 
 const midway = { read: { alone: { done: null } }, pos: { alone: { p: 5 } } };

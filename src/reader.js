@@ -322,3 +322,81 @@ export function storyOccurrenceIndex(body) {
   });
   return index;
 }
+
+// --- The bookmark (stories-plan.md §7.6) ---------------------------------
+//
+// Geometry in, sentence out. Everything here takes plain numbers the caller
+// measured, so the rules that decide where a bookmark belongs are testable
+// without a layout engine — the same no-DOM rule the rest of this module
+// keeps.
+
+/**
+ * Document order over two `{ p, s }` marks: -1 if `a` comes first, 1 if `b`
+ * does, 0 if they are the same sentence. A missing mark sorts before
+ * everything, so "no bookmark yet" is always behind any real one.
+ */
+export function compareMarks(a, b) {
+  if (!a) return b ? -1 : 0;
+  if (!b) return 1;
+  if (a.p !== b.p) return a.p < b.p ? -1 : 1;
+  if (a.s !== b.s) return a.s < b.s ? -1 : 1;
+  return 0;
+}
+
+/**
+ * The forward-only clamp that scrolling moves the bookmark through: `next`
+ * wins only if it is further into the story than `current`.
+ *
+ * Deliberately different from the resume cursor (`readerScrollSync` in
+ * app.js), which DOES move backwards when you scroll back — right for a
+ * cursor, whose question is "where am I looking", and wrong for a bookmark,
+ * whose question is "how far did I get". Scrolling up to re-check a word
+ * three paragraphs back must not cost the learner their place; that is the
+ * one failure that would make a bookmark not worth trusting. Putting it
+ * back by hand is what a tap or a drag is for, and those set it absolutely.
+ */
+export function advanceMark(current, next) {
+  if (!next) return current || null;
+  if (!current) return next;
+  return compareMarks(next, current) > 0 ? next : current;
+}
+
+/**
+ * Where the bookmark should sit for the current scroll position: the FIRST
+ * sentence, in document order, whose last line is fully on screen.
+ *
+ * `sentences` is `[{ p, s, top, bottom }]` in document order, where top and
+ * bottom bound the sentence's LAST line box. A sentence wraps, so only its
+ * last line says whether the sentence is finished — the first line of a
+ * four-line sentence being visible means nothing about whether it was read.
+ *
+ * Any consistent coordinate frame will do, as long as `viewportTop` and
+ * `viewportBottom` are in the same one. app.js measures sentences once per
+ * reflow relative to the reader body and converts the two viewport edges
+ * into that frame per scroll frame, rather than re-measuring hundreds of
+ * line boxes (or allocating a translated copy of them) sixty times a second.
+ *
+ * "First fully visible" rather than "last": it keeps the marker near the top
+ * of the screen where it stays in view as you read down, and it claims only
+ * what the learner has certainly finished. It also makes coming back mean
+ * "put back what was at the top of the screen", which is exactly what the
+ * paragraph-granular resume already did — this is that behaviour at sentence
+ * precision, not a different one.
+ *
+ * The fallback covers a sentence taller than the viewport, and the case of
+ * scrolling so fast nothing lands fully inside it: the last sentence to have
+ * passed completely above the fold is still a true statement about how far
+ * the learner got. Null only when the first sentence's last line has not yet
+ * cleared the bottom of the screen — nothing has been read, so there is
+ * nothing to mark.
+ */
+export function sentenceAtReadingEdge(sentences, viewportTop, viewportBottom) {
+  let passed = null;
+  for (const item of sentences) {
+    if (item.top >= viewportTop && item.bottom <= viewportBottom) {
+      return { p: item.p, s: item.s };
+    }
+    if (item.bottom <= viewportBottom) passed = { p: item.p, s: item.s };
+  }
+  return passed;
+}

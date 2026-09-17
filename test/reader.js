@@ -12,7 +12,7 @@ globalThis.window = { wanakana: globalThis.wanakana };
 
 const {
   tokenHasKanji, exposureTargetsForToken, isTokenFuriganaHidden, renderSentence, tokenAtLevel,
-  storyOccurrenceIndex, rubySpansFor,
+  storyOccurrenceIndex, rubySpansFor, compareMarks, advanceMark, sentenceAtReadingEdge,
 } = await import('../src/reader.js');
 const {
   exposureWordKey, exposureKanjiKey, addExposure, muteFuriganaKey,
@@ -356,6 +356,54 @@ check('a different word starts its own count at 0',
   occ.get('1:0:0') === 0);
 check('counting continues across paragraphs',
   occ.get('1:0:1') === 2);
+
+// --- the bookmark (§7.6) ----------------------------------------------
+//
+// One line box per sentence, ten units tall, stacked with no gap — so the
+// numbers below read as "sentence 3's last line runs from 30 to 40".
+const line = (p, s, top) => ({ p, s, top, bottom: top + 10 });
+const page = [
+  line(0, 0, 0), line(0, 1, 10), line(0, 2, 20),
+  line(1, 0, 30), line(1, 1, 40),
+];
+
+check('document order compares paragraph first, then sentence',
+  compareMarks({ p: 0, s: 9 }, { p: 1, s: 0 }) < 0
+  && compareMarks({ p: 1, s: 1 }, { p: 1, s: 0 }) > 0
+  && compareMarks({ p: 2, s: 3 }, { p: 2, s: 3 }) === 0);
+check('a missing mark sorts before any real one',
+  compareMarks(null, { p: 0, s: 0 }) < 0 && compareMarks({ p: 0, s: 0 }, null) > 0);
+
+check('the bookmark takes the first sentence whose last line is fully visible',
+  JSON.stringify(sentenceAtReadingEdge(page, 15, 45)) === JSON.stringify({ p: 0, s: 2 }));
+check('a last line straddling the top edge is not fully visible, so it is skipped',
+  JSON.stringify(sentenceAtReadingEdge(page, 25, 60)) === JSON.stringify({ p: 1, s: 0 }));
+// 15-28 clears sentences 0 and 1 off the top; sentence 2's line (20-30)
+// starts inside the viewport but runs off the bottom of it, so it is NOT
+// finished and must not be marked — the fallback takes the last one that
+// genuinely went past instead.
+check('a last line straddling the BOTTOM edge is skipped too',
+  JSON.stringify(sentenceAtReadingEdge(page, 15, 28)) === JSON.stringify({ p: 0, s: 1 }));
+check('nothing read yet — the first sentence has not cleared the bottom — marks nothing',
+  sentenceAtReadingEdge(page, 0, 5) === null);
+// A viewport shorter than one line of text (34-38 sits INSIDE sentence 1:0's
+// 30-40 line): nothing can ever be fully visible, so the bookmark falls back
+// to the last line that cleared the bottom edge.
+check('when nothing fits the viewport, the last sentence to pass above it still counts',
+  JSON.stringify(sentenceAtReadingEdge(page, 34, 38)) === JSON.stringify({ p: 0, s: 2 }));
+check('an empty story marks nothing rather than throwing',
+  sentenceAtReadingEdge([], 0, 100) === null);
+
+check('scrolling on moves the bookmark forward',
+  JSON.stringify(advanceMark({ p: 1, s: 0 }, { p: 1, s: 4 })) === JSON.stringify({ p: 1, s: 4 }));
+check('scrolling BACK to re-read never drags the bookmark backwards',
+  JSON.stringify(advanceMark({ p: 3, s: 0 }, { p: 1, s: 0 })) === JSON.stringify({ p: 3, s: 0 }));
+check('the first mark of a story is taken as-is',
+  JSON.stringify(advanceMark(null, { p: 0, s: 0 })) === JSON.stringify({ p: 0, s: 0 }));
+check('no candidate leaves the bookmark where it is',
+  JSON.stringify(advanceMark({ p: 2, s: 1 }, null)) === JSON.stringify({ p: 2, s: 1 }));
+check('no bookmark and no candidate is still no bookmark',
+  advanceMark(null, null) === null);
 
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);

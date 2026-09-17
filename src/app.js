@@ -38,7 +38,7 @@ import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
 import {
   renderSentence, tokenAtLevel, exposureTargetsForToken, tokenHasKanji,
-  storyOccurrenceIndex,
+  storyOccurrenceIndex, sentenceAtReadingEdge, advanceMark, compareMarks,
 } from './reader.js';
 import { STORIES } from './data/story-manifest.js';
 import {
@@ -75,7 +75,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-16k'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-17b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -469,6 +469,11 @@ const state = {
   readerCardRevealed: false, // has the open panel's "Show definition" been tapped
   readerFinished: false,
   readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
+  readerMark: null,         // the bookmark's sentence, `{ p, s }` or null (§7.6)
+  readerMarkArmed: false,   // bookmark tapped, waiting for the tap that places it
+  readerMarkDragging: false,
+  readerMarkPinned: false,  // placed by hand: scrolling leaves it alone until the reading edge catches up
+  readerSentenceGeom: null, // every sentence's last line box, measured per reflow
   readerFuriganaMode: 'smart', // reader settings (§8.4) — per device, never synced
   // Off by default: romaji is a beginner's crutch, and most learners who've
   // reached kanji stories don't want it offered at all, let alone on every
@@ -9692,6 +9697,11 @@ function renderReaderBody() {
   // The DOM was just thrown away and rebuilt — put the place-keeper back.
   setReaderActiveToken(state.readerActiveKey);
   observeReaderParagraphs();
+  container.appendChild(buildReaderBookmark());
+  // After layout, not now: every line box the bookmark is positioned against
+  // is measured from a DOM that has only just been appended.
+  requestAnimationFrame(measureReaderSentences);
+  observeReaderReflow();
 }
 
 // --- Exposure (stories-plan.md §6) -----------------------------------
@@ -9950,11 +9960,355 @@ function readerScrollSync() {
     // Topmost paragraph not yet fully above the viewport — what's being read.
     const current = paras.find((el) => el.getBoundingClientRect().bottom > 0) || paras[paras.length - 1];
     if (!current) return;
+    // Before the cursor's own early-return below: the bookmark moves per
+    // SENTENCE, so it has work to do on plenty of frames where the paragraph
+    // has not changed and the cursor has nothing to say.
+    readerBookmarkSync();
     const pIndex = Number(current.dataset.p);
     if (pIndex === state.readerCursor) return;
     state.readerCursor = pIndex;
     saveReaderPosition(pIndex, 0);
   });
+}
+
+// --- The bookmark (stories-plan.md §7.6) ----------------------------------
+//
+// A visible, movable marker for "this is where I stopped", distinct from the
+// silent resume cursor above.
+//
+// The cursor alone was not enough, and the reason is a property of Japanese
+// rather than of the app: coming back to a wall of unspaced kanji, a learner
+// cannot skim for their place the way they can in a language they read
+// fluently. Re-finding a line can mean re-reading a paragraph of characters
+// they are still decoding one at a time. On a wide screen, where a paragraph
+// is four long lines rather than twelve short ones, it is worse. So the app
+// has to point at the place rather than merely scroll near it — and the
+// learner has to be able to correct where it points.
+//
+// It marks a POSITION ON A LINE, not a line: the end of a sentence, which is
+// the only place in Japanese prose where stopping is natural. Mid-sentence is
+// not somewhere anybody stops reading on purpose.
+
+/** The top of the readable area: under the sticky top bar, which covers the
+ * first line or two of text once the story is scrolled. Text behind it is not
+ * visible, whatever its coordinates say. */
+function readerReadableTop() {
+  const bar = $('reader-topbar');
+  const rect = bar && !bar.hidden ? bar.getBoundingClientRect() : null;
+  return rect ? rect.bottom : 0;
+}
+
+/**
+ * Every sentence's last line box, in #reader-body's own coordinate frame,
+ * in document order.
+ *
+ * Measured once per reflow rather than per scroll frame: `getClientRects()`
+ * on several hundred wrapped spans is a full layout flush, which is fine
+ * once and ruinous sixty times a second. `.reader-sentence` is `display:
+ * inline`, so its rects are its line fragments and the last one ends exactly
+ * where the sentence's final 。 does — which is the position the marker wants,
+ * not merely the line it falls on.
+ */
+function measureReaderSentences() {
+  const container = $('reader-body');
+  if (!container || typeof container.getBoundingClientRect !== 'function') return;
+  const box = container.getBoundingClientRect();
+  const geom = [];
+  container.querySelectorAll('.reader-sentence').forEach((span) => {
+    const rects = typeof span.getClientRects === 'function' ? span.getClientRects() : null;
+    if (!rects || !rects.length) return;
+    const last = rects[rects.length - 1];
+    geom.push({
+      p: Number(span.parentElement.dataset.p),
+      s: Number(span.dataset.s),
+      top: last.top - box.top,
+      bottom: last.bottom - box.top,
+      end: last.right - box.left,
+      height: last.height,
+    });
+  });
+  state.readerSentenceGeom = geom;
+  positionReaderBookmark();
+}
+
+function readerGeomFor(mark) {
+  if (!mark || !state.readerSentenceGeom) return null;
+  return state.readerSentenceGeom.find((g) => g.p === mark.p && g.s === mark.s) || null;
+}
+
+/** Put the marker where `state.readerMark` says, or hide it if there is no
+ * bookmark (or the story was re-rendered and the sentence is gone). */
+function positionReaderBookmark() {
+  const el = $('reader-bookmark');
+  if (!el) return;
+  const geom = readerGeomFor(state.readerMark);
+  if (!geom) { el.hidden = true; return; }
+  el.hidden = false;
+  el.style.left = `${geom.end}px`;
+  el.style.top = `${geom.top}px`;
+  el.style.height = `${geom.height}px`;
+  el.classList.toggle('is-armed', state.readerMarkArmed);
+  el.classList.toggle('is-dragging', state.readerMarkDragging);
+}
+
+/**
+ * The sentence whose end is nearest a point, for placing the bookmark by
+ * hand. Vertical distance to the line dominates — a tap two lines below the
+ * one you meant is a miss, a tap at the wrong x on the right line is not —
+ * so horizontal distance only breaks ties between sentences ending on the
+ * same line.
+ */
+function sentenceNearestPoint(x, y) {
+  const geom = state.readerSentenceGeom;
+  if (!geom || !geom.length) return null;
+  let best = null;
+  let bestScore = Infinity;
+  geom.forEach((g) => {
+    const dy = y < g.top ? g.top - y : (y > g.bottom ? y - g.bottom : 0);
+    const score = dy * 1000 + Math.abs(x - g.end);
+    if (score < bestScore) { bestScore = score; best = g; }
+  });
+  return best ? { p: best.p, s: best.s } : null;
+}
+
+/** A point in viewport coordinates, in #reader-body's frame — what the
+ * geometry above is measured in. */
+function readerBodyPoint(clientX, clientY) {
+  const box = $('reader-body').getBoundingClientRect();
+  return { x: clientX - box.left, y: clientY - box.top };
+}
+
+/**
+ * Where the bookmark is written: `profile.stories.mark`, its own map beside
+ * `pos` rather than a field on it.
+ *
+ * Separate because they are merged by different rules and must not overwrite
+ * each other. `pos` is a cursor every scroll frame rewrites; the bookmark is
+ * something the learner meant. Folded into one record, an idle scroll on the
+ * tablet — a later write, so the winner — would silently discard a bookmark
+ * deliberately placed on the phone half an hour earlier.
+ *
+ * Created lazily, never eagerly: mergeStories() returns `undefined` when
+ * neither side has a `stories` field at all, and a profile that grew an empty
+ * `mark: {}` for free would stop matching the remote it has genuinely caught
+ * up with, pushing a no-op write forever (see the note there).
+ */
+function readerMarkStore() {
+  if (!state.profile.stories) state.profile.stories = { read: {}, pos: {} };
+  if (!state.profile.stories.mark) state.profile.stories.mark = {};
+  return state.profile.stories.mark;
+}
+
+// Scrolling moves the bookmark sentence by sentence, which is far too often
+// to write IndexedDB for. State (and the marker on screen) updates live; the
+// profile write trails it, and is flushed on any way out of the reader.
+let readerMarkSaveTimer = null;
+function flushReaderMark() {
+  if (!readerMarkSaveTimer) return;
+  clearTimeout(readerMarkSaveTimer);
+  readerMarkSaveTimer = null;
+  store.saveProfile(state.profile);
+}
+function saveReaderMark(mark) {
+  const marks = readerMarkStore();
+  if (mark) {
+    marks[state.readerStoryId] = {
+      p: mark.p, s: mark.s, h: state.readerStory.hash, at: Date.now(),
+    };
+  } else {
+    // Cleared, not deleted — a tombstone. Sync merges a bookmark last-write-
+    // wins (mergeStoryMark), and an absent key can never beat a present one,
+    // so deleting here would let another device's stale copy hand the marker
+    // straight back. `savedReaderMark` reads a negative index as "no
+    // bookmark".
+    marks[state.readerStoryId] = { p: -1, s: -1, h: state.readerStory.hash, at: Date.now() };
+  }
+  if (readerMarkSaveTimer) clearTimeout(readerMarkSaveTimer);
+  readerMarkSaveTimer = setTimeout(() => {
+    readerMarkSaveTimer = null;
+    store.saveProfile(state.profile);
+  }, 800);
+}
+
+/**
+ * Move the bookmark. Always absolute — the forward-only rule belongs to
+ * scrolling (readerBookmarkSync), not to the learner, who may move their own
+ * bookmark wherever they like.
+ *
+ * `pinned` marks a placement as one to defend: the learner put the bookmark
+ * somewhere and then went elsewhere, and scrolling must leave it alone until
+ * they come back. Set by the two gestures that mean "park it here" — dragging
+ * the marker, and tapping a destination with it armed — and deliberately NOT
+ * by looking a word up, which happens mid-read and must not stop the bookmark
+ * following along afterwards.
+ */
+function setReaderMark(mark, { pinned = false, save = true } = {}) {
+  state.readerMark = mark;
+  state.readerMarkPinned = pinned;
+  positionReaderBookmark();
+  if (save) saveReaderMark(mark);
+}
+
+/**
+ * Where scrolling puts the bookmark: the first sentence whose last line is
+ * fully on screen (sentenceAtReadingEdge in reader.js), and only ever
+ * forwards (advanceMark there).
+ *
+ * `readerMarkPinned` is the exception that makes placing it by hand mean
+ * anything. Without it, moving the bookmark BACK — to a sentence you want to
+ * return to, three paragraphs above the screen — would survive exactly until
+ * the next scroll frame, when the forward-only rule would find the reading
+ * edge far ahead of it and take it straight back. So a deliberate placement
+ * pins the bookmark, and the pin lifts on its own once the learner scrolls
+ * back to it and the reading edge reaches it again — at which point they are
+ * reading from there, and the bookmark should start following once more.
+ */
+function readerBookmarkSync() {
+  const geom = state.readerSentenceGeom;
+  if (!geom || !geom.length) return;
+  const bodyTop = $('reader-body').getBoundingClientRect().top;
+  const edge = sentenceAtReadingEdge(
+    geom, readerReadableTop() - bodyTop, window.innerHeight - bodyTop,
+  );
+  if (!edge) return;
+  if (state.readerMarkPinned) {
+    if (compareMarks(edge, state.readerMark) > 0) return;
+    state.readerMarkPinned = false;
+  }
+  const next = advanceMark(state.readerMark, edge);
+  if (compareMarks(next, state.readerMark) === 0) return;
+  setReaderMark(next);
+}
+
+/** Tapping the marker itself arms it: the next tap in the story places it.
+ * Two taps rather than a drag, because a drag is the one gesture a scrolling
+ * page cannot promise a thumb — dragging works too (see the pointer handlers
+ * below), but nothing depends on it. */
+function toggleReaderMarkArmed() {
+  state.readerMarkArmed = !state.readerMarkArmed;
+  positionReaderBookmark();
+}
+
+function disarmReaderMark() {
+  if (!state.readerMarkArmed) return;
+  state.readerMarkArmed = false;
+  positionReaderBookmark();
+}
+
+/** Place the bookmark from a tap in the story: at the tapped sentence if the
+ * tap landed on one, otherwise at the nearest sentence end — the margin and
+ * the gap between paragraphs are places a thumb genuinely lands, and a tap
+ * that does nothing reads as a broken marker. */
+function placeReaderMarkFromEvent(event) {
+  const sentenceEl = event.target.closest('.reader-sentence');
+  let mark = null;
+  if (sentenceEl) {
+    mark = { p: Number(sentenceEl.parentElement.dataset.p), s: Number(sentenceEl.dataset.s) };
+  } else {
+    const point = readerBodyPoint(event.clientX, event.clientY);
+    mark = sentenceNearestPoint(point.x, point.y);
+  }
+  if (!mark) return;
+  state.readerMarkArmed = false;
+  setReaderMark(mark, { pinned: true });
+}
+
+/**
+ * Dragging the marker. Bound to the marker alone, never to the page: a
+ * listener that watched the whole reader for a drag would have to guess
+ * every time whether a thumb moving down the screen meant "move my bookmark"
+ * or "scroll", and it would be wrong often enough to make scrolling feel
+ * broken. Starting the gesture ON the marker removes the guess.
+ */
+function bindReaderBookmarkDrag(el) {
+  if (typeof el.addEventListener !== 'function') return;
+  let origin = null;
+  let moved = false;
+  el.addEventListener('pointerdown', (event) => {
+    origin = { x: event.clientX, y: event.clientY };
+    moved = false;
+    state.readerMarkDragging = true;
+    if (typeof el.setPointerCapture === 'function') el.setPointerCapture(event.pointerId);
+    positionReaderBookmark();
+    event.preventDefault();
+  });
+  el.addEventListener('pointermove', (event) => {
+    if (!origin) return;
+    // A few pixels of slop, so a tap with an unsteady thumb still reads as a
+    // tap rather than a drag that ends where it started.
+    if (!moved && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) < 6) return;
+    moved = true;
+    const point = readerBodyPoint(event.clientX, event.clientY);
+    const mark = sentenceNearestPoint(point.x, point.y);
+    // Live, but not saved on every frame — the release is what commits.
+    if (mark && compareMarks(mark, state.readerMark) !== 0) {
+      setReaderMark(mark, { pinned: true, save: false });
+    }
+  });
+  const end = () => {
+    if (!origin) return;
+    origin = null;
+    state.readerMarkDragging = false;
+    if (moved) saveReaderMark(state.readerMark);
+    else toggleReaderMarkArmed();
+    positionReaderBookmark();
+  };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+}
+
+/** The marker element, rebuilt with the story body it is positioned against
+ * (renderReaderBody throws the whole DOM away). */
+function buildReaderBookmark() {
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.id = 'reader-bookmark';
+  el.className = 'reader-bookmark';
+  el.hidden = true;
+  el.setAttribute('aria-label', 'Your bookmark — tap it, then tap where you want it');
+  bindReaderBookmarkDrag(el);
+  return el;
+}
+
+/**
+ * Re-measure whenever the text reflows. The marker is positioned in pixels,
+ * so anything that moves a line box moves it: a window resize, the text-size
+ * slider, the furigana and romaji toggles, and — the one easy to forget —
+ * a lazily-loaded painted illustration finally arriving and taking its
+ * height. One ResizeObserver on the body catches all of them, including the
+ * ones added later by somebody who never reads this comment.
+ *
+ * Guarded like observeReaderParagraphs above: the headless test harness has
+ * no ResizeObserver, and never opens a story.
+ */
+let readerReflowObserver = null;
+let readerReflowFrame = null;
+function observeReaderReflow() {
+  if (typeof ResizeObserver !== 'function') return;
+  if (readerReflowObserver) readerReflowObserver.disconnect();
+  readerReflowObserver = new ResizeObserver(() => {
+    // Coalesced: a reflow fires this repeatedly as images land, and each
+    // measurement is a full layout flush.
+    if (readerReflowFrame) return;
+    readerReflowFrame = requestAnimationFrame(() => {
+      readerReflowFrame = null;
+      if (currentScreenId !== 'screen-reader' || !state.readerStory) return;
+      measureReaderSentences();
+    });
+  });
+  readerReflowObserver.observe($('reader-body'));
+}
+
+/** The saved bookmark for a story, or null — refusing a mark saved against a
+ * different version of the text, exactly as the resume cursor does (§3.5).
+ * A sentence index is meaningless once the sentences have moved. */
+function savedReaderMark(story, id) {
+  const saved = state.profile.stories && state.profile.stories.mark
+    && state.profile.stories.mark[id];
+  if (!saved || saved.h !== story.hash) return null;
+  if (!(saved.p >= 0) || saved.p >= story.body.length) return null;
+  if (!(saved.s >= 0) || saved.s >= story.body[saved.p].length) return null;
+  return { p: saved.p, s: saved.s };
 }
 
 function markParagraphExposed(pEl) {
@@ -9989,6 +10343,9 @@ function finishReading() {
   const lastIndex = state.readerStory.body.length - 1;
   updateReaderProgress(1);
   saveReaderPosition(lastIndex, 0);
+  // Nothing left to come back to, so the marker goes rather than sitting in
+  // a finished story pointing at a sentence nobody needs to find again.
+  setReaderMark(null);
   markStoryFinished(state.readerStoryId);
   $('reader-finished').hidden = true;
   showReaderEndCard();
@@ -10041,6 +10398,15 @@ function handleReaderTokenTap(tokenEl) {
   const p = Number(tokenEl.dataset.p);
   const s = Number(tokenEl.dataset.s);
   const i = Number(tokenEl.dataset.i);
+  // Looking a word up is a deliberate act performed exactly where the reader
+  // is, so it says where they are more reliably than scrolling does — and it
+  // is the moment most likely to be followed by putting the phone down.
+  //
+  // Set absolutely (so it can move BACK to a word tapped above the reading
+  // edge) but NOT pinned: the learner is still reading, and a pin here would
+  // strand the bookmark at the last word they happened to look up while they
+  // carried on down the page. Pinning is for parking it — see setReaderMark.
+  setReaderMark({ p, s });
   const key = tokenStateKey(p, s, i);
   const sentence = state.readerStory.body[p][s];
   const token = sentence.t[i];
@@ -10387,7 +10753,44 @@ function renderReaderSource(story) {
   el.textContent = `${byline}${source.text}. ${source.licence}${coverCredit}${illustrationCredit}`;
 }
 
+/**
+ * Where a reopened story lands. The bookmark wins over the resume cursor
+ * whenever there is one: it is the same question answered deliberately
+ * rather than inferred, and it is the answer the learner can see.
+ *
+ * The marked sentence goes to the TOP of the screen rather than the bottom,
+ * even though the bookmark sits at its END. That restores the screenful the
+ * learner was actually looking at when they left (the bookmark tracks the
+ * topmost finished sentence — see sentenceAtReadingEdge), and it re-reads
+ * one sentence they have already read before carrying on, which is the right
+ * way round: picking a story back up cold wants a running start, not to be
+ * dropped into the middle of a paragraph.
+ */
+function scrollToReaderMark(mark) {
+  const el = $('reader-body').querySelector(
+    `.reader-para[data-p="${mark.p}"] .reader-sentence[data-s="${mark.s}"]`,
+  );
+  if (!el) return false;
+  requestAnimationFrame(() => {
+    const rects = el.getClientRects();
+    if (!rects.length) return;
+    // The sentence's FIRST line, offset clear of the sticky top bar — which
+    // would otherwise cover the very sentence this scroll exists to show.
+    const wanted = rects[0].top + window.scrollY - readerReadableTop() - 12;
+    window.scrollTo({ top: Math.max(0, wanted) });
+    const el2 = $('reader-bookmark');
+    if (el2) {
+      // One pulse, so the eye is told where to look rather than left to
+      // find a deliberately unobtrusive marker on a full screen of kanji.
+      el2.classList.add('is-landing');
+      setTimeout(() => el2.classList.remove('is-landing'), 1600);
+    }
+  });
+  return true;
+}
+
 function scrollToResumePosition(story, id) {
+  if (state.readerMark && scrollToReaderMark(state.readerMark)) return;
   const saved = state.profile.stories && state.profile.stories.pos && state.profile.stories.pos[id];
   if (!saved) return;
   // A hash mismatch means the story was edited since this position was
@@ -10418,6 +10821,16 @@ async function openStory(id) {
   state.readerActiveKey = null;
   state.readerFinished = false;
   state.readerCursor = -1;
+  state.readerMark = savedReaderMark(story, id);
+  state.readerMarkArmed = false;
+  state.readerMarkDragging = false;
+  // Pinned only when there is a bookmark to protect: the resume scroll below
+  // lands somewhere other than where the learner will be reading a moment
+  // later, and the first scroll frame after that must not take the marker
+  // with it. A story with no bookmark yet has nothing to pin, and pinning it
+  // anyway would stop one ever appearing.
+  state.readerMarkPinned = !!state.readerMark;
+  state.readerSentenceGeom = null;
 
   touchStoryOpened(id);
   $('reader-title').textContent = manifestEntry.series && manifestEntry.series.of > 1
@@ -10496,6 +10909,20 @@ function wire() {
   document.addEventListener('click', (event) => {
     if (currentScreenId !== 'screen-reader' || !state.readerStory) return;
     if (event.target.closest(READER_OWNS_ITS_TAPS)) return;
+    // The bookmark, before everything else. Its own pointer handlers do the
+    // arming and the dragging (bindReaderBookmarkDrag); this only stops the
+    // click that follows them from being read as a tap on the word behind
+    // the marker, or as tapping away.
+    if (event.target.closest('.reader-bookmark')) return;
+    // Armed: this tap is the one that places it, and nothing else. It
+    // deliberately pre-empts the reveal ladder — somebody who has just
+    // tapped the marker is aiming at a place, not at a word, and a tap that
+    // revealed furigana instead would be maddening.
+    if (state.readerMarkArmed) {
+      if (event.target.closest('#reader-body')) { placeReaderMarkFromEvent(event); return; }
+      disarmReaderMark();
+      return;
+    }
     const translateEl = event.target.closest('.reader-translate-tap');
     if (translateEl) {
       toggleSentenceTranslation(translateEl.dataset.p, translateEl.dataset.s);
@@ -10741,6 +11168,12 @@ function wire() {
     pageDetail(event.key === 'ArrowRight' ? 1 : -1);
   });
 
+  // Escape backs out of an armed bookmark without moving it — the keyboard
+  // equivalent of tapping away, for anyone reading on a laptop.
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') disarmReaderMark();
+  });
+
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' || event.repeat) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -10889,7 +11322,9 @@ function wire() {
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;
       case 'reader-back':
+        flushReaderMark();
         if (readerObserver) readerObserver.disconnect();
+        if (readerReflowObserver) readerReflowObserver.disconnect();
         closeReaderCard();
         openStoriesLibrary();
         break;
@@ -12011,7 +12446,13 @@ function hideSplash() {
 function watchLifecycleForSync() {
   // Both directions call the same guarded autoSync: leaving is a no-op when
   // nothing changed, returning is a no-op when it synced recently.
-  document.addEventListener('visibilitychange', () => autoSync());
+  document.addEventListener('visibilitychange', () => {
+    // The bookmark's profile write trails the marker by design; backgrounding
+    // is the last reliable moment to land it, and closing a story by putting
+    // the phone down is the commonest way of all to leave one.
+    if (document.hidden) flushReaderMark();
+    autoSync();
+  });
   // Guarded the same way as the install-prompt listeners above — the stub
   // DOM in test/wiring.js has no window.addEventListener.
   if (typeof window.addEventListener === 'function') {

@@ -417,6 +417,29 @@ function mergeStoryPos(a, b) {
   return a.at > b.at ? a : b;
 }
 
+/**
+ * The bookmark (stories-plan.md §7.6) — last write wins outright, with none
+ * of mergeStoryPos's "further position" tie-break.
+ *
+ * The tie-break is right for a cursor, which is inferred from scrolling and
+ * can be pulled backwards by a device with a skewed clock reporting a scroll
+ * that happened first. It is wrong here: a bookmark is somewhere the learner
+ * PUT something, and moving it back to an earlier sentence on purpose is an
+ * ordinary thing to do. A merge that quietly preferred the further of two
+ * deliberate placements would undo exactly the correction the feature exists
+ * to allow. Same-millisecond ties keep the local copy, as everywhere else.
+ *
+ * A cleared bookmark is stored rather than deleted (`p: -1`, see
+ * saveReaderMark in app.js): an absent key cannot beat a present one under
+ * any last-write-wins rule, so a story finished on the phone would have its
+ * marker handed straight back by the tablet's stale copy.
+ */
+function mergeStoryMark(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  return (b.at || 0) > (a.at || 0) ? b : a;
+}
+
 export function mergeStories(current, incoming) {
   // Left off entirely when neither side ever had the field, same reasoning
   // and same trick as settingsUpdatedAt below — a profile that predates
@@ -433,7 +456,15 @@ export function mergeStories(current, incoming) {
   readKeys.forEach((id) => { read[id] = mergeStoryRead((a.read || {})[id], (b.read || {})[id]); });
   const pos = {};
   posKeys.forEach((id) => { pos[id] = mergeStoryPos((a.pos || {})[id], (b.pos || {})[id]); });
-  return { read, pos };
+  // `mark` is omitted entirely when neither side has one, for the same
+  // reason the whole field is above: a profile that grew an empty `mark: {}`
+  // out of a merge would stop comparing equal to the remote it had just
+  // caught up with, and sync would push a no-op write forever.
+  const markKeys = new Set([...Object.keys(a.mark || {}), ...Object.keys(b.mark || {})]);
+  if (!markKeys.size) return { read, pos };
+  const mark = {};
+  markKeys.forEach((id) => { mark[id] = mergeStoryMark((a.mark || {})[id], (b.mark || {})[id]); });
+  return { read, pos, mark };
 }
 
 /**

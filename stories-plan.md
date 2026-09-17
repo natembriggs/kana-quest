@@ -1172,6 +1172,84 @@ gloss-card button is an earlier, optional opportunity to do the same thing
 per word, not a replacement for it. Either way the learner still does it with
 their own thumb — nothing is enrolled by the tap itself.
 
+### 7.6 The bookmark
+
+**Added 2026-09-17**, from feedback #20 ("Bookmark my place in a story").
+
+§9 already recorded a resume position, and §8.3's reader already scrolled
+back to it on reopening. The report asked for a bookmark anyway, and the
+report was right.
+
+The reason is a property of the language rather than of the app. Coming back
+to a screen of unspaced kanji, a learner cannot skim for their place the way
+they can in a language they read fluently — re-finding a line can mean
+re-decoding a paragraph one character at a time. On a wide screen, where a
+paragraph is four long lines rather than twelve short ones, it is worse. A
+cursor that scrolls you *near* where you were is not the same as being shown
+*where* you were, and only the second is any use to somebody who cannot skim.
+
+So: a visible marker the learner can see, trust, and move.
+
+**What it marks.** The END of a sentence — a position on a line, not the line
+— because the end of a sentence is the only place in Japanese prose where
+stopping is natural. Mid-sentence is not somewhere anybody stops on purpose.
+
+**Where it goes by itself.** The first sentence, in document order, whose last
+line is fully on screen (`sentenceAtReadingEdge`, reader.js). Only the last
+line counts: the first line of a four-line sentence being visible says nothing
+about whether the sentence was read. "First fully visible" rather than "last"
+keeps the marker near the top of the screen, where it stays in view while
+reading down, and claims only what was certainly finished. It also means
+reopening restores the screenful the learner left, which is what the
+paragraph-granular resume already did — this is that behaviour at sentence
+precision, not a different one.
+
+**Forward only, from scrolling.** Scrolling back to re-check a word must never
+cost the learner their place (`advanceMark`). This is deliberately the
+opposite of the §9 cursor, which does move backwards — right for a cursor,
+whose question is "where am I looking", wrong for a bookmark, whose question
+is "how far did I get".
+
+**Three ways to move it by hand**, all of which set it absolutely, backwards
+included:
+
+1. Tapping any word for furigana or a definition moves it to the end of that
+   word's sentence. Looking a word up is a deliberate act performed exactly
+   where the learner is, and it is the moment most likely to be followed by
+   putting the phone down.
+2. Tapping the marker arms it; the next tap in the story places it. This is
+   the primary gesture, because a drag is the one thing a scrolling page
+   cannot promise a thumb.
+3. Dragging the marker itself. Bound to the marker alone, never to the page —
+   a listener watching the whole reader would have to guess every time whether
+   a thumb moving down the screen meant "move my bookmark" or "scroll", and
+   would be wrong often enough to make scrolling feel broken.
+
+**Pinning.** (2) and (3) mean "park it here", so they suspend the scroll rule
+until the reading edge comes back to the bookmark; otherwise moving it back
+three paragraphs would survive exactly until the next scroll frame. (1) does
+not pin — the learner is still reading, and a pin there would strand the
+bookmark at the last word they happened to look up.
+
+**Storage.** `profile.stories.mark`, its own map beside `pos`, carrying the
+content hash so an edited story discards a stale sentence index exactly as
+§3.5 requires. Separate from `pos` because the two merge by different rules
+and must not overwrite each other: folded into one record, an idle scroll on
+the tablet — a later write, so the winner — would silently discard a bookmark
+deliberately placed on the phone. `mark` merges last-write-wins outright, with
+none of `pos`'s further-position tie-break, because moving a bookmark back is
+an ordinary thing to do on purpose. Clearing it (which finishing a story does)
+writes a `p: -1` tombstone rather than deleting the key, since an absent key
+can never beat a present one under last-write-wins.
+
+**Cost.** The marker is positioned in pixels, so every sentence's last line
+box is measured once per reflow and cached (`measureReaderSentences`); a
+`ResizeObserver` on the reader body catches the window resizing, the text-size
+slider, the furigana and romaji toggles, and a lazily-loaded illustration
+finally taking its height. Scrolling then reads geometry rather than
+re-measuring it. The profile write trails the marker on a short debounce and
+is flushed on leaving the reader or backgrounding the app.
+
 ---
 
 ## 8. Screens

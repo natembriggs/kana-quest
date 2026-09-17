@@ -23,8 +23,14 @@
 export function storyReadState(id, stories) {
   const read = stories?.read?.[id];
   const pos = stories?.pos?.[id];
+  const mark = stories?.mark?.[id];
   if (read && read.done) return 'read';
   if (pos) return 'reading';
+  // A bookmark on its own also counts as started (§7.6). In practice one
+  // never appears without a position beside it — but a tombstone (`p: -1`,
+  // written when a bookmark is cleared) is not a bookmark and must not
+  // resurrect a story as in progress.
+  if (mark && mark.p >= 0) return 'reading';
   return 'unread';
 }
 

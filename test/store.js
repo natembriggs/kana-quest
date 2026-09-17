@@ -343,6 +343,44 @@ check('a demotion tombstone survives a merge against a device still holding the 
 srs.addExposure(exposure, key, 25_000);
 check('a reading can accrue a fresh encounter after being demoted', srs.exposureCount(exposure, key) === 1);
 
+// --- the story bookmark, merged (stories-plan.md §7.6) ------------------
+{
+  const withMark = (id, at, p, s = 0) => ({ read: {}, pos: {}, mark: { [id]: { p, s, h: 'h1', at } } });
+
+  // Last write wins outright — no "further position" tie-break. Moving a
+  // bookmark BACK on purpose is the whole point of it being movable, and a
+  // merge that preferred the further of two deliberate placements would undo
+  // exactly that correction.
+  const later = merge.mergeStories(withMark('ari', 200, 2), withMark('ari', 300, 1));
+  check('a later bookmark wins even when it is EARLIER in the story',
+    later.mark.ari.p === 1 && later.mark.ari.at === 300, JSON.stringify(later.mark));
+  const other = merge.mergeStories(withMark('ari', 300, 1), withMark('ari', 200, 2));
+  check('and the same merge the other way round agrees',
+    other.mark.ari.p === 1 && other.mark.ari.at === 300, JSON.stringify(other.mark));
+
+  // A cleared bookmark is a tombstone (p: -1), not a deletion — an absent
+  // key could never beat a present one under last-write-wins, so finishing a
+  // story on one device has to leave something behind for the other's stale
+  // copy to lose to.
+  const cleared = merge.mergeStories(
+    { read: {}, pos: {}, mark: { ari: { p: -1, s: -1, h: 'h1', at: 400 } } },
+    withMark('ari', 300, 5),
+  );
+  check('a cleared bookmark beats an older copy from another device',
+    cleared.mark.ari.p === -1, JSON.stringify(cleared.mark));
+
+  check('a bookmark only one side has is kept',
+    merge.mergeStories({ read: {}, pos: {} }, withMark('ari', 100, 3)).mark.ari.p === 3);
+
+  // Same reasoning as the `stories` field itself, and as yomiStudy above: an
+  // empty `mark: {}` conjured by a merge would stop a profile comparing equal
+  // to the remote it had just caught up with, and sync would push forever.
+  const noMarks = merge.mergeStories({ read: {}, pos: {} }, { read: {}, pos: {} });
+  check('a profile with no bookmark anywhere merges back to no mark field at all',
+    noMarks.mark === undefined && 'read' in noMarks && 'pos' in noMarks,
+    JSON.stringify(noMarks));
+}
+
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);
 print('all store tests passed');

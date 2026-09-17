@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-17',
+    changes: [
+      'New: stories now have a bookmark. A small marker follows you down the page as you read, and when you come back it takes you right back to the sentence you stopped at. Tap a word and the bookmark jumps there too. To put it somewhere yourself, tap the marker and then tap where you want it — or just drag it.',
+    ],
+  },
+  {
     date: '2026-09-16',
     changes: [
       'New: the story library is now a two-up grid of covers instead of a list of small thumbnails, so covers finally have room to be seen. Tap a corner icon to flip it open and read the description without leaving the shelf.',

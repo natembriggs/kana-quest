@@ -8,6 +8,11 @@
   --line: #e8ded6;
   --accent: #e8553d;
   --accent-ink: #ffffff;
+  /* A translucent halo of the accent, for the ring around a grabbed control
+     (so far: the story bookmark). Declared per theme rather than mixed at
+     use, because a fixed alpha over a dark ground reads far heavier than the
+     same alpha over a light one. */
+  --accent-soft: rgba(232, 85, 61, 0.22);
   --ok: #2e9e6b;
   --ok-bg: #e4f6ec;
   --bad: #d94141;
@@ -70,6 +75,7 @@
     --line: #35303a;
     --accent: #ff6f56;
     --accent-ink: #21100c;
+    --accent-soft: rgba(255, 111, 86, 0.3);
     --ok: #57d39a;
     --ok-bg: #17342a;
     --bad: #ff7b7b;
@@ -2318,6 +2324,95 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .reader-para { margin: 0 0 22px; }
 .reader-sentence { display: inline; }
+
+/* The bookmark (stories-plan.md §7.6) — the learner's own marker for where
+   they stopped, positioned in pixels by positionReaderBookmark() at the end
+   of a sentence's last line.
+
+   Two jobs pulling opposite ways: it has to be findable at a glance on a
+   screen of unspaced kanji, and it must not compete with the text for
+   attention while reading. So it is a thin accent rule rather than an icon —
+   the same colour as everything else the app calls attention with, at a
+   width that reads as punctuation rather than furniture.
+
+   `position: relative` on the body is what these coordinates are relative
+   to; the body is the positioned ancestor for nothing else. */
+.reader-body { position: relative; }
+.reader-bookmark {
+  position: absolute;
+  /* Centred on the end of the line rather than starting there, so it sits in
+     the gap after the 。 instead of shunting into the next sentence. */
+  transform: translateX(-50%);
+  /* Tall and narrow on purpose. Line-height 2.4 leaves generous vertical
+     space either side of the text, so height is free — width is not: every
+     pixel of it is taken from a tappable word. A 16px column is enough to
+     put a thumb on and narrow enough to sit between two sentences. */
+  width: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  /* The marker handles its own drag (bindReaderBookmarkDrag); without this
+     the browser scrolls the page out from under the gesture instead. */
+  touch-action: none;
+  z-index: 2;
+  /* Transitions the MOVE, not the fade: watching it travel to where you put
+     it is what tells you it went there. */
+  transition: left 140ms ease, top 140ms ease;
+}
+.reader-bookmark::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 1.35em;
+  border-radius: 2px;
+  background: var(--accent);
+  /* The notch that makes a vertical bar read as a ribbon rather than a
+     cursor or a text caret. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+  transition: width 120ms ease, box-shadow 120ms ease, height 120ms ease;
+}
+.reader-bookmark:hover::before { width: 6px; }
+.reader-bookmark:focus-visible { outline: none; }
+.reader-bookmark:focus-visible::before,
+.reader-bookmark.is-armed::before,
+.reader-bookmark.is-dragging::before {
+  width: 7px;
+  height: 1.6em;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.reader-bookmark.is-dragging { cursor: grabbing; transition: none; }
+
+/* One pulse on reopening a story, so the eye is told where to look instead
+   of having to find a deliberately quiet marker (scrollToReaderMark). */
+.reader-bookmark.is-landing::before { animation: bookmark-land 1.6s ease-out; }
+@keyframes bookmark-land {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  20%, 60% { box-shadow: 0 0 0 5px var(--accent-soft); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reader-bookmark { transition: none; }
+  .reader-bookmark.is-landing::before { animation: none; }
+}
+/* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
+   may not start a line, or an opening bracket plus what follows it. Built in
+   renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for
+   why the browser's own kinsoku can't do this for us.
+
+   `nowrap` here also reaches INSIDE each token, since a token is an
+   inline-block and inherits it, so a token can never be split across two
+   lines. That is right for every token that fits the column and wrong for
+   one that does not: ドラキュラ has eight kana forms of 19–29 characters
+   (a whole clause tokenised as one word), and at phone width they simply
+   hang off the right-hand edge. Letting the token wrap is not the fix —
+   it is an inline-block, so the 。 or 、 welded to its right would then
+   render beside its FIRST line, i.e. in the middle of the word. The fix
+   belongs in the story source: tokenise those clauses into real words,
+   which also makes them worth tapping. */
+.reader-run { white-space: nowrap; }
 /* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
    may not start a line, or an opening bracket plus what follows it. Built in
    renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for
