@@ -24,9 +24,10 @@ original plan.
 illustrations) are **built**. 39 of the 42 stories have painted WebP covers;
 `rapunzel`, `ningyo-hime` and `pinocchio` still use generated placeholder tiles.
 `ari-to-hato` and `neko-no-ie` each carry two hand-drawn inline pictures.
-`kasa-jizou` carries three. The cat-story pilot and Kasa Jizō follow their
-covers' characters and palettes in flat,
-theme-aware SVG (see `assets/stories/ART-DIRECTION.md`). Cover originals,
+`kasa-jizou` now carries three painted WebP illustrations: the 17 September
+pilot replaces its SVGs with cover-quality artwork, loaded lazily and cached
+by image content version. The cat-story pilot retains theme-aware SVG
+(see `assets/stories/ART-DIRECTION.md`). Cover originals,
 credits and export instructions are recorded under `assets/stories/`. §8.9 — a
 "currently reading" badge, a "new"/"edited" badge, and a new-content dot on the
 level strip and the home Stories card, all layered on top of the existing
@@ -1466,25 +1467,26 @@ not before.
 
 ### 8.8 Pictures
 
-Two placements, two formats, and the formats differ because the jobs do.
+Two placements. Inline art supports both flat SVG and painted WebP. The
+17 September Kasa Jizō pilot prioritises cover-quality artwork over the
+original SVG-only budget; existing SVG stories remain supported.
 
 | | Cover | Inline illustration |
 | --- | --- | --- |
 | Where | the library tile | between paragraphs |
-| Format | **WebP** file, ~480×640 | **flat SVG**, inlined into the story module |
-| Budget | ≤ 60 KB | ≤ 8 KB each, ≤ 6 and ≤ 60 KB per story |
-| Why | a cover wants texture and colour | it sits inside a page someone is reading |
+| Format | **WebP** file, ~480×640 | **WebP** file, normally 960×560; or embedded flat SVG |
+| Budget | ≤ 60 KiB | WebP ≤ 150 KiB each, ≤ 450 KiB per story; SVG ≤ 8 KiB each, ≤ 60 KiB per story; ≤ 6 pictures total |
+| Why | texture and colour | paintings for expressive scenes; SVG for simple theme-aware drawings |
 
 Both budgets are enforced by `tools/build_story_data.mjs`, not trusted: art is
 the one part of a story whose cost is measured in bytes a phone has to fetch,
 and "keep it small" is not a rule unless something checks.
 
-A painterly SVG is both larger and *slower* than the raster it imitates —
-SVG's real cost is paint time, not bytes, and a 500-node illustration
-scrolling through a list is worse than a photograph. Inline art is the
-opposite case: simple shapes, a few of them, on a page whose background and
-ink change with the theme, which is exactly what vector with CSS-variable ink
-is for.
+The first SVG trials saved bytes but simplified faces, hands and materials
+too far for the desired quality. Paintings therefore stay raster rather than
+being traced into complicated SVGs. The build reads actual WebP dimensions,
+rejects animation, and limits each edge to 1920 pixels and total pixels to
+1920×1080. Painted colours stay the same in both themes, as covers do.
 
 **Six rules that keep it cheap.** The honest answer to "will pictures make the
 app slow?" is *no, if these hold, and yes if any of them is dropped*:
@@ -1495,15 +1497,17 @@ app slow?" is *no, if these hold, and yes if any of them is dropped*:
    image pushing the paragraph down under someone's thumb mid-sentence is
    worse than no image at all, and it is the single most likely way this
    feature makes the app feel broken.
-2. **`loading="lazy"` and `decoding="async"`, everywhere.** This is the whole
-   of the scrolling-cost problem: a library of a hundred covers fetches only
-   what is on screen, and decoding never blocks the main thread.
+2. **`loading="lazy"` and `decoding="async"` on raster images.** Browsers
+   fetch images as they approach the viewport; async decoding is a hint to
+   avoid holding up surrounding text. No story paintings enter the app-shell
+   precache. Pictures off creates no image elements or new image requests.
 3. **Inline art sits between paragraphs, never inside one.** Anything else
    disturbs token tap targets, ruby layout, and the `IntersectionObserver`
    paragraph accounting §6.3 depends on for exposure.
-4. **Everything degrades to nothing.** A 404, a slow network, or pictures
-   turned off leaves the text exactly as it is today. No placeholder box, no
-   broken-image icon, no gap.
+4. **Failures degrade to nothing.** A failed image removes its figure, with
+   no broken-image icon or lingering gap. Pictures off removes all figures.
+   While an image is still loading, its blank space stays reserved to avoid
+   moving text on successful arrival; the text never waits for the image.
 5. **A per-device `Pictures: On/Off`** in reader settings, in `localStorage`
    beside text size (§8.4) — the same reasoning: a "right now" preference, not
    a fact about the learner.
@@ -1511,17 +1515,26 @@ app slow?" is *no, if these hold, and yes if any of them is dropped*:
    `aria-hidden` on an inline figure. See "Alt text" below; this replaces an
    earlier draft of this rule that called for careful descriptions.
 
-**Inline SVG is inlined into the story module; covers stay files.** Art is
+**Inline SVG is embedded; painted illustrations and covers stay files.** Art is
 *authored* as files under `assets/stories/<id>/` either way — pleasant to edit,
-and where a designer would expect it — but an inline illustration's markup is
-copied into `story-<id>.js` at build time. That is not a convenience. **An SVG
+and where a designer would expect it — but an SVG illustration's markup is
+copied into `story-<id>.js` at build time. **An SVG
 referenced by `<img src>` is an isolated document that page CSS cannot reach**,
-so its colours could never follow the app's theme — and being theme-aware is
-the entire reason inline art is vector rather than raster. Inlining also costs
+so its colours could never follow the app's theme. Inlining also costs
 one fewer request, and at ≤8KB inside a module that is 10–120KB already, the
 bytes are noise. Because the markup lands in the DOM, the *build* refuses
 anything executable (`<script>`, `on*=`, `javascript:`) and the reader builds
 it with a real parser rather than `innerHTML`.
+
+For painted art, a source entry `{ after, file: '01.webp' }` becomes
+`{ after, src, width, height }`. The URL includes `?v=<16 hex SHA-256 chars>`
+derived from the actual image bytes. Only these versioned story images,
+inside this app's service-worker scope, use cache-first fetching. Replacing
+an image changes its URL, so edits cannot get stuck behind an old cached
+painting. Other files retain network-first behaviour. Images remain in the
+current app cache for offline use after viewing; an app update can clear that
+cache, and unviewed images are not promised offline. Artwork stays outside
+the story body and requires an explicit `source.illustrations` credit.
 
 Covers stay files: they are raster, they do not care about the theme, and the
 shelf wants them fetched lazily one tile at a time. They are not precached by
@@ -1927,7 +1940,7 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
 | 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 42 stories shipped (seven per level, L1–L6): 36 retellings of traditional or public-domain motifs and six original stories added on 16 September 2026, not direct Aozora Bunko imports. See §12.1. |
-| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, inline illustrations inlined into the story module, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** 39 painted covers installed; Rapunzel, The Little Mermaid and Pinocchio retain placeholders. `ari-to-hato` and `neko-no-ie` each have two hand-drawn inline pictures; `kasa-jizou` has three. |
+| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, embedded SVG or lazy WebP inline illustrations, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** 39 painted covers installed; Rapunzel, The Little Mermaid and Pinocchio retain placeholders. `ari-to-hato` and `neko-no-ie` each have two SVG pictures; `kasa-jizou` has three painted WebP pictures. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan

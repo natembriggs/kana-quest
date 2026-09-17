@@ -75,6 +75,9 @@ art remains outside `body`, preserving the story hash and saved positions.
 
 ## Inline drawings: The Straw Hats for Jizō
 
+Historical SVG trial, replaced in the reader by the painted pilot below on
+17 September 2026. The original SVG files remain available for comparison.
+
 `kasa-jizou/01.svg`, `02.svg` and `03.svg` continue the cat-story pilot's
 flat vector style. Drawn directly by GPT-6 with the installed cover as the
 character and palette reference; credited in `source.illustrations` and the
@@ -99,3 +102,48 @@ Each drawing is under 8 KiB and the set is under 18 KiB. These are decorative
 illustrations between intact paragraphs, without embedded text, raster
 images, filters or scripts. The story text and its saved-position hash stay
 unchanged. Rebuild with `node tools/build_story_data.mjs`.
+
+## Painted inline pilot: Kasa Jizō, 17 September 2026
+
+The three inline scenes now use `kasa-jizou/01.webp`, `02.webp` and `03.webp`.
+Generated with OpenAI's built-in image-generation tool, with `cover.webp`
+supplied as the character and style reference for each image. The exact model
+is not exposed by that tool. Full prompts are in
+`kasa-jizou/painted-prompts.json`; selected originals and the credit are in
+`kasa-jizou/painted-sources.json`. The full-size PNGs remain in Codex's
+generated-images folder; the app uses the committed WebP exports.
+
+The scene placements stay after paragraphs 0, 2 and 3. The first picture has
+one hat in the man's hands and four finished hats on the floor. The second
+shows six distinct stone Jizō and the old man's offer of a hat. The third
+shows the couple with plain hot water beside their hearth, without showing
+the gifts or visitors from the ending. Keep the indigo coat, rust scarf,
+grey topknot and gentle natural faces consistent with the cover. The head
+towel is present before the gift and absent in the evening scene.
+
+All three exports are 960×560 with the full compositions preserved:
+
+| Image | Bytes | WebP quality |
+| --- | ---: | ---: |
+| `01.webp` — hat making | 152,398 | 84 |
+| `02.webp` — snowy roadside | 152,916 | 83 |
+| `03.webp` — evening hearth | 151,008 | 88 |
+
+Total: 456,322 bytes (445.6 KiB), compared with 18,043 bytes for the original
+SVGs. The paintings are separate lazy-loaded files; the story module now
+contains only their URLs and dimensions. Each URL includes a content hash,
+allowing cache-first reuse within the current app cache. No paintings are
+precached with the app shell. The picture slot reserves space before loading;
+a failed image removes its slot, and Pictures off requests no paintings.
+Painted colours remain unchanged in dark mode, like the covers.
+
+To reproduce the exports (requires Pillow):
+
+```sh
+python3 tools/prepare_story_illustrations.py kasa-jizou /path/to/generated_images/01a0abde-796c-7231-9c20-a9b39dbc6f66
+node tools/build_story_data.mjs
+```
+
+The exporter chooses the highest quality from 90 down to 60 that fits each
+150 KiB budget. The build enforces 450 KiB of paintings per story, validates
+WebP dimensions, rejects animated files, and requires an artwork credit.

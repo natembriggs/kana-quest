@@ -14,11 +14,11 @@ const theStory = expandStory({
     credit: 'Retold by',
     notes: 'An original graded retelling of the well-known Japanese folk tale, written without reference to a specific published edition. Jizō are the stone guardian figures that stand along Japanese roadsides; the story assumes no prior knowledge of them beyond what the text itself says.',
     licence: 'Public domain (traditional folk tale). This retelling and its English translation are original to Kana Quest.',
-    illustrations: 'Inline SVG illustrations drawn by GPT-6 for Kana Quest, using the cover as a character and palette reference.',
+    illustrations: 'Inline paintings generated with OpenAI image generation, using the cover as a character and style reference.',
   },
   // Preparing five hats; offering the first to six snowy Jizo; hot water
   // at home. Keep the overnight visit and the New Year gifts in the prose.
-  art: { inline: [{ after: 0, file: '01.svg' }, { after: 2, file: '02.svg' }, { after: 3, file: '03.svg' }] },
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   nw: ['お地蔵さま', 'かさ', '手ぬぐい', '餅', '大みそか'],
   lexicon: lexicon({
     '大[おお]みそか': ['New Year’s Eve; the last day of the year', 'n'],

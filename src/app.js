@@ -9646,12 +9646,31 @@ function renderReaderParagraph(para, pIndex) {
  * — the build already refuses anything executable (resolveArt), and parsing
  * it as a document means even a file that slipped past cannot run here.
  *
- * `aspect-ratio` is set from the SVG's own viewBox so the figure occupies its
+ * Painted WebP is loaded separately and lazily; SVG stays embedded.
+ * `aspect-ratio` comes from image dimensions or the SVG viewBox, reserving its
  * final height from the first layout. Nothing may reflow as art appears: §8.3
  * forbids the reader reflowing under a reader's thumb, and an image shoving
  * the paragraph down mid-sentence is the worst version of that.
  */
 function buildReaderArt(art) {
+  if (art.src) {
+    if (!(art.width > 0 && art.height > 0)) return null;
+    const figure = document.createElement('figure');
+    figure.className = 'reader-art reader-art-painted';
+    figure.style.aspectRatio = `${art.width} / ${art.height}`;
+    figure.setAttribute('aria-hidden', 'true');
+    const img = document.createElement('img');
+    img.alt = '';
+    img.width = art.width;
+    img.height = art.height;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    // Never leave a broken-image icon or empty panel in the story.
+    img.addEventListener('error', () => figure.remove(), { once: true });
+    img.src = art.src;
+    figure.appendChild(img);
+    return figure;
+  }
   // Rule 4 of §8.8: everything degrades to nothing. A picture is decorative,
   // so anything at all going wrong with one — no parser, malformed markup,
   // an environment without importNode — leaves the story exactly as it would

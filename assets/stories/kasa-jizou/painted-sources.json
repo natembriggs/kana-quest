@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI image generation, using the cover as a character and style reference.",
+  "batch": "01a0abde-796c-7231-9c20-a9b39dbc6f66",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-5dded4c8-0976-41af-9b6d-5df90ded9608.png",
+    "02.webp": "exec-df3df9f6-7040-410b-8deb-f6e4be557c84.png",
+    "03.webp": "exec-5f8daf0b-fcd2-403c-a9d6-6884ebd6147d.png"
+  }
+}

@@ -30,6 +30,7 @@ $JSC -m test/reader.js    # the story render pipeline: script stages, kanji/kata
 $JSC -m test/library.js   # series grouping, read state, shelf ordering and filtering, cover tiles
 $JSC -m test/stories.js   # the structural contract every shipped story must meet
 $JSC -m test/contributions.js # contributed-hint merging
+node test/build-story-art.mjs # build-time WebP dimensions, budgets and cache versions
 ```
 
 All of them must be run from the repo root.

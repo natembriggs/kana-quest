@@ -2292,7 +2292,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .story-filter-empty { text-align: center; padding: 18px 0; }
 
 /* An inline illustration, between two paragraphs (§8.8). `aspect-ratio` is set
-   from the SVG's own viewBox in JS, so the figure holds its final height from
+   from image dimensions or the SVG's viewBox, so it holds its final height from
    the very first layout and nothing below it ever moves as art appears —
    §8.3's no-reflow rule, extended from interaction to loading. */
 .reader-art {
@@ -2301,7 +2301,9 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   width: 100%;
   line-height: 0;
 }
-.reader-art svg { width: 100%; height: 100%; display: block; }
+.reader-art svg, .reader-art img { width: 100%; height: 100%; display: block; }
+.reader-art-painted { overflow: hidden; border-radius: 10px; }
+.reader-art img { object-fit: contain; }
 
 /* The reader itself — everything that isn't the story is a failure of
    nerve (§8.3). The top bar and progress line stay minimal on purpose. */
@@ -2397,22 +2399,6 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   .reader-bookmark { transition: none; }
   .reader-bookmark.is-landing::before { animation: none; }
 }
-/* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
-   may not start a line, or an opening bracket plus what follows it. Built in
-   renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for
-   why the browser's own kinsoku can't do this for us.
-
-   `nowrap` here also reaches INSIDE each token, since a token is an
-   inline-block and inherits it, so a token can never be split across two
-   lines. That is right for every token that fits the column and wrong for
-   one that does not: ドラキュラ has eight kana forms of 19–29 characters
-   (a whole clause tokenised as one word), and at phone width they simply
-   hang off the right-hand edge. Letting the token wrap is not the fix —
-   it is an inline-block, so the 。 or 、 welded to its right would then
-   render beside its FIRST line, i.e. in the middle of the word. The fix
-   belongs in the story source: tokenise those clauses into real words,
-   which also makes them worth tapping. */
-.reader-run { white-space: nowrap; }
 /* 禁則処理: one unbreakable run of tokens — a word plus the punctuation that
    may not start a line, or an opening bracket plus what follows it. Built in
    renderReaderParagraph(); see the NO_LINE_START/NO_LINE_END note there for

@@ -2,7 +2,9 @@
 //
 // Deliberately network-first: during development a cache-first worker serves
 // stale files after every edit, which is maddening. This fetches fresh when
-// online and falls back to the cache only when the network fails.
+// online and falls back to the cache only when the network fails. The one
+// exception is a content-versioned inline painting: its URL changes whenever
+// its bytes change, so rereading can safely use the cached image first.
 //
 // Two things bite specifically on an iOS home-screen app, and both are
 // handled below:
@@ -100,6 +102,16 @@ self.addEventListener('fetch', (event) => {
   if (new URL(request.url).origin !== self.location.origin) return;
 
   event.respondWith((async () => {
+    const url = new URL(request.url);
+    const artPrefix = `${new URL(self.registration.scope).pathname}assets/stories/`;
+    const versionedPainting = url.pathname.startsWith(artPrefix)
+      && /^[a-z0-9-]+\/[a-zA-Z0-9_-]+\.webp$/.test(url.pathname.slice(artPrefix.length))
+      && /^\?v=[a-f0-9]{16}$/.test(url.search);
+    if (versionedPainting) {
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(request);
+      if (cached) return cached;
+    }
     try {
       // By URL rather than by Request: a navigate-mode Request cannot be
       // rebuilt with different cache options, and this app sends no headers

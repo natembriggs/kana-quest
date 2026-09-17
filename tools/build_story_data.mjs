@@ -19,6 +19,8 @@ const ART_DIR = path.join(ROOT, 'assets', 'stories');
 const MAX_INLINE_ART = 6;
 const MAX_INLINE_BYTES = 8 * 1024;
 const MAX_INLINE_TOTAL_BYTES = 60 * 1024;
+const MAX_PAINTED_BYTES = 150 * 1024;
+const MAX_PAINTED_TOTAL_BYTES = 450 * 1024;
 const MAX_COVER_BYTES = 60 * 1024;
 const KANJI_RE = /[㐀-䶿一-鿿]/;
 // Deliberately excludes the prolonged-sound mark ー (U+30FC): it is shared
@@ -258,14 +260,9 @@ export function validateSeries(stories) {
  * exists on disk, so the manifest can say whether there is a cover without
  * the library having to probe for one.
  *
- * Inline art is INLINED into the story module rather than left as a file the
- * page fetches with `<img>`. That is not a convenience: an SVG referenced by
- * `<img src>` is an isolated document that page CSS cannot reach, so its ink
- * could not follow the app's light/dark theme — which §8.8 requires and which
- * is the whole reason inline art is vector in the first place. Authoring stays
- * file-based (assets/stories/<id>/NN.svg, pleasant to edit); the runtime gets
- * the markup inline, theme-aware, with no second request. At ≤8KB apiece
- * inside a module that is 10–120KB already, the bytes are noise.
+ * SVG stays embedded so its colours follow the theme. Painted WebP stays
+ * separate and lazy-loaded, with actual pixel dimensions reserved up front.
+ * Its content hash versions the URL so the worker can reuse it safely.
  *
  * Covers stay files: they are raster, they do not care about the theme, and
  * the library wants them fetched lazily one tile at a time.
@@ -276,9 +273,9 @@ export function validateSeries(stories) {
  * every story that gained one and throw away the saved position of everyone
  * mid-way through it. Pictures must never cost a reader their place.
  */
-async function resolveArt(story) {
+export async function resolveArt(story, artRoot = ART_DIR) {
   const art = story.art || null;
-  const dir = path.join(ART_DIR, story.id);
+  const dir = path.join(artRoot, story.id);
   const errors = [];
   let cover = false;
   try {
@@ -296,6 +293,7 @@ async function resolveArt(story) {
       errors.push(`${story.id}: ${art.inline.length} inline pictures exceeds the limit of ${MAX_INLINE_ART}`);
     }
     let total = 0;
+    let paintedTotal = 0;
     const seen = new Set();
     for (const item of art.inline) {
       if (!Number.isInteger(item.after) || item.after < 0 || item.after >= story.body.length) {
@@ -306,6 +304,26 @@ async function resolveArt(story) {
         errors.push(`${story.id}: two inline pictures after paragraph ${item.after}`);
       }
       seen.add(item.after);
+      if (typeof item.file !== 'string' || !/^[a-zA-Z0-9_-]+\.(svg|webp)$/.test(item.file)) {
+        errors.push(`${story.id}: inline art must name a local .svg or .webp file`);
+        continue;
+      }
+      if (item.file.endsWith('.webp')) {
+        try {
+          const bytes = await fs.readFile(path.join(dir, item.file));
+          const { width, height } = webpDimensions(bytes);
+          if (width > 1920 || height > 1920 || width * height > 1920 * 1080) {
+            throw new Error('inline painting exceeds the pixel budget');
+          }
+          if (bytes.length > MAX_PAINTED_BYTES) throw new Error('inline painting exceeds 150 KiB');
+          paintedTotal += bytes.length;
+          const version = crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 16);
+          inline.push({ after: item.after, src: `assets/stories/${story.id}/${item.file}?v=${version}`, width, height });
+        } catch (error) {
+          errors.push(`${story.id}: ${item.file}: ${error.message}`);
+        }
+        continue;
+      }
       let markup;
       try {
         markup = await fs.readFile(path.join(dir, item.file), 'utf8');
@@ -332,10 +350,42 @@ async function resolveArt(story) {
     if (total > MAX_INLINE_TOTAL_BYTES) {
       errors.push(`${story.id}: ${Math.round(total / 1024)}KB of inline art exceeds the ${MAX_INLINE_TOTAL_BYTES / 1024}KB per-story budget`);
     }
+    if (paintedTotal > MAX_PAINTED_TOTAL_BYTES) errors.push(`${story.id}: inline paintings exceed 450 KiB per story`);
+    if (paintedTotal && !story.source?.illustrations) errors.push(`${story.id}: inline paintings need a source.illustrations credit`);
   }
   if (errors.length) throw new Error(errors.join('\n'));
   inline.sort((a, b) => a.after - b.after);
   return { cover, inline };
+}
+
+// Read the three WebP dimension headers without an image-library dependency.
+// Reject animation: these are quiet, still illustrations beside reading text.
+export function webpDimensions(bytes) {
+  if (bytes.length < 20 || bytes.toString('ascii', 0, 4) !== 'RIFF'
+      || bytes.toString('ascii', 8, 12) !== 'WEBP' || bytes.readUInt32LE(4) + 8 !== bytes.length) {
+    throw new Error('invalid WebP file');
+  }
+  let size;
+  for (let offset = 12; offset + 8 <= bytes.length;) {
+    const kind = bytes.toString('ascii', offset, offset + 4);
+    const length = bytes.readUInt32LE(offset + 4);
+    const start = offset + 8;
+    if (start + length > bytes.length) throw new Error('truncated WebP chunk');
+    if (kind === 'ANIM' || kind === 'ANMF') throw new Error('animated WebP is not allowed');
+    if (kind === 'VP8X' && length >= 10) {
+      if (bytes[start] & 2) throw new Error('animated WebP is not allowed');
+      size = { width: bytes.readUIntLE(start + 4, 3) + 1, height: bytes.readUIntLE(start + 7, 3) + 1 };
+    } else if (!size && kind === 'VP8 ' && length >= 10
+        && bytes.toString('hex', start + 3, start + 6) === '9d012a') {
+      size = { width: bytes.readUInt16LE(start + 6) & 0x3fff, height: bytes.readUInt16LE(start + 8) & 0x3fff };
+    } else if (!size && kind === 'VP8L' && length >= 5 && bytes[start] === 0x2f) {
+      const bits = bytes.readUInt32LE(start + 1);
+      size = { width: (bits & 0x3fff) + 1, height: ((bits >>> 14) & 0x3fff) + 1 };
+    }
+    offset = start + length + (length % 2);
+  }
+  if (!size?.width || !size?.height) throw new Error('missing WebP dimensions');
+  return size;
 }
 
 async function loadSourceStories() {

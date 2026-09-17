@@ -28,14 +28,18 @@ const currentCache = {
 
 globalThis.self = {
   location: { origin: 'https://example.test' },
+  registration: { scope: 'https://example.test/kana-quest/' },
   clients: { claimed: false, async claim() { this.claimed = true; } },
   async skipWaiting() {},
   addEventListener(type, handler) { workerEvents[type] = handler; },
 };
 // JavaScriptCore's command-line shell lacks the browser URL global used by
-// sw.js's same-origin guard. The worker only reads `.origin` from it.
+// sw.js's same-origin and versioned-art guards.
 globalThis.URL = class {
-  constructor(value) { this.origin = String(value).match(/^https?:\/\/[^/]+/)[0]; }
+  constructor(value) {
+    const parts = String(value).match(/^(https?:\/\/[^/]+)([^?#]*)(\?[^#]*)?/);
+    this.origin = parts[1]; this.pathname = parts[2] || '/'; this.search = parts[3] || '';
+  }
 };
 
 globalThis.caches = {
@@ -106,6 +110,27 @@ const scriptRequest = { method: 'GET', mode: 'cors', url: 'https://example.test/
 let scriptRejected = false;
 try { await dispatchFetch(scriptRequest); } catch { scriptRejected = true; }
 check('a missing non-navigation resource never receives HTML', scriptRejected);
+
+let imageFetches = 0;
+globalThis.fetch = async () => { imageFetches += 1; return freshResponse; };
+const imageRequest = { method: 'GET', mode: 'cors', url: 'https://example.test/kana-quest/assets/stories/kasa-jizou/01.webp?v=1234567890abcdef' };
+await dispatchFetch(imageRequest);
+check('a first visit fetches the versioned painting', imageFetches === 1);
+check('a repeat visit reuses the painting without a network request',
+  (await dispatchFetch(imageRequest)).cachedCopy && imageFetches === 1);
+await dispatchFetch({ ...imageRequest, url: imageRequest.url.replace('1234567890abcdef', 'abcdef1234567890') });
+check('changed image bytes get a fresh download', imageFetches === 2);
+const coverRequest = { ...imageRequest, url: 'https://example.test/kana-quest/assets/stories/kasa-jizou/cover.webp' };
+await dispatchFetch(coverRequest); await dispatchFetch(coverRequest);
+check('unversioned covers remain network-first', imageFetches === 4);
+const siblingRequest = { ...imageRequest, url: imageRequest.url.replace('/kana-quest/', '/other-app/') };
+await dispatchFetch(siblingRequest); await dispatchFetch(siblingRequest);
+check('the painting cache shortcut does not apply to a sibling app', imageFetches === 6);
+globalThis.fetch = async () => { throw new Error('offline'); };
+check('previously viewed paintings work offline', (await dispatchFetch(imageRequest)).cachedCopy);
+let imageRejected = false;
+try { await dispatchFetch({ ...imageRequest, url: imageRequest.url.replace('01.webp', 'missing.webp') }); } catch { imageRejected = true; }
+check('an unseen offline painting never receives the HTML shell', imageRejected);
 
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);
