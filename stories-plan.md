@@ -27,7 +27,11 @@ was blocked by output moderation on 18 September 2026.
 `ari-to-hato` and `neko-no-ie` each carry two hand-drawn inline pictures.
 `kasa-jizou` now carries three painted WebP illustrations: the 17 September
 pilot replaces its SVGs with cover-quality artwork, loaded lazily and cached
-by image content version. The cat-story pilot retains theme-aware SVG
+by image content version. On 18 September the user approved a simpler
+storybook treatment: broad colours, restrained texture and background detail,
+while retaining the cover's palette and characters. Those three replacements
+total 262.2 KiB, 41.2% smaller than the original paintings.
+The cat-story pilot retains theme-aware SVG
 (see `assets/stories/ART-DIRECTION.md`). Cover originals,
 credits and export instructions are recorded under `assets/stories/`. §8.9 — a
 "currently reading" badge, a "new"/"edited" badge, and a new-content dot on the

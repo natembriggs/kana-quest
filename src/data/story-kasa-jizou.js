@@ -26,20 +26,20 @@ export const STORY = {
     "inline": [
       {
         "after": 0,
-        "src": "assets/stories/kasa-jizou/01.webp?v=478142f19d68206c",
+        "src": "assets/stories/kasa-jizou/01.webp?v=709f0927a83f97e5",
         "width": 960,
         "height": 560
       },
       {
         "after": 2,
-        "src": "assets/stories/kasa-jizou/02.webp?v=4b15aea72265a004",
+        "src": "assets/stories/kasa-jizou/02.webp?v=ab7cc24c1bf5de41",
         "width": 960,
         "height": 560
       },
       {
         "after": 3,
-        "src": "assets/stories/kasa-jizou/03.webp?v=d2a2c57b09553a91",
-        "width": 960,
+        "src": "assets/stories/kasa-jizou/03.webp?v=a1eabd41b9d571de",
+        "width": 958,
         "height": 560
       }
     ]

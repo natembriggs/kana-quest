@@ -112,6 +112,9 @@ unchanged. Rebuild with `node tools/build_story_data.mjs`.
 
 ## Painted inline pilot: Kasa Jizō, 17 September 2026
 
+Original painted treatment. The approved simpler replacements are documented
+below; the table here records the initial exports for comparison.
+
 The three inline scenes now use `kasa-jizou/01.webp`, `02.webp` and `03.webp`.
 Generated with OpenAI's built-in image-generation tool, with `cover.webp`
 supplied as the character and style reference for each image. The exact model
@@ -154,3 +157,31 @@ node tools/build_story_data.mjs
 The exporter chooses the highest quality from 90 down to 60 that fits each
 150 KiB budget. The build enforces 450 KiB of paintings per story, validates
 WebP dimensions, rejects animated files, and requires an artwork credit.
+
+## Approved simpler inline style: 18 September 2026
+
+The user selected the second simplification preview for all three Kasa Jizō
+scenes. Keep the cover's characters, palette and warm lighting, but use broad
+mostly smooth colour areas, gentle contours, a few purposeful folds and face
+lines, simple hat-weaving marks, and quieter backgrounds. Inline scenes need
+less surface texture than covers. Preserve believable hands, scene continuity
+and the exact five-hat/six-statue counts.
+
+`kasa-jizou/01.webp`, `02.webp` and `03.webp` now contain these approved images.
+They were edited with OpenAI's built-in image-generation tool through two
+simplification passes. Both prompt sets are preserved in `styleRefinements`
+inside `kasa-jizou/painted-prompts.json`. `painted-sources.json` selects the
+new full-size originals and retains the first painted set under
+`originalPaintedImages`. The export command and quality policy are unchanged.
+
+| Scene | Original bytes | Approved bytes | Dimensions | WebP quality |
+| --- | ---: | ---: | --- | ---: |
+| Hat making | 152,398 | 83,070 | 960×560 | 90 |
+| Snowy roadside | 152,916 | 115,184 | 960×560 | 90 |
+| Evening hearth | 151,008 | 70,224 | 958×560 | 90 |
+
+Total: **268,478 bytes (262.2 KiB)** versus 456,322 bytes (445.6 KiB):
+**41.2% smaller**, despite the higher export-quality setting. The small width
+difference in the evening image preserves its generated aspect ratio without
+cropping or stretching. Placements and story text are unchanged; rebuilt
+content-versioned URLs ensure readers receive the approved replacements.

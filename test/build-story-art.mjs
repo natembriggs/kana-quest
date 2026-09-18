@@ -24,6 +24,14 @@ try {
   await assert.rejects(resolveArt({ ...story, art: { inline: [{ after: 0, file: '../scene.webp' }] } }, root), /local/);
   await assert.rejects(resolveArt({ ...story, art: { inline: [{ after: 9, file: 'scene.webp' }] } }, root), /does not exist/);
   await assert.rejects(resolveArt({ ...story, art: { inline: [story.art.inline[0], story.art.inline[0]] } }, root), /two inline/);
+  // Fill a valid RIFF metadata chunk so this budget check does not depend
+  // on how well the current illustration happens to compress.
+  const atLimit = Buffer.alloc(150 * 1024);
+  bytes.copy(atLimit);
+  atLimit.write('JUNK', bytes.length);
+  atLimit.writeUInt32LE(atLimit.length - bytes.length - 8, bytes.length + 4);
+  atLimit.writeUInt32LE(atLimit.length - 8, 4);
+  await fs.writeFile(path.join(dir, 'scene.webp'), atLimit);
   await assert.rejects(resolveArt({ ...story, art: { inline: [0, 1, 2, 3].map(after => ({ after, file: 'scene.webp' })) } }, root), /450 KiB/);
   const oversized = Buffer.concat([bytes, Buffer.alloc(160 * 1024)]);
   oversized.writeUInt32LE(oversized.length - 8, 4);
