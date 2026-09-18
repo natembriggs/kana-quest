@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-18',
     changes: [
+      'New: a new original story at level 4, 朝顔を待つ朝 (Waiting for the Morning Glories). Kenta’s summer homework is a morning glory diary, but his plant never seems to flower while everyone else’s does. The library now has 43 stories.',
+    ],
+  },
+  {
+    date: '2026-09-18',
+    changes: [
       'New: painted covers for Rapunzel, The Little Mermaid and Pinocchio complete the story library. All 42 stories now have cover art.',
     ],
   },

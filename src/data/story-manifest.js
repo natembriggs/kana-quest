@@ -439,6 +439,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "asagao-o-matsu-asa": {
+    "title": {
+      "ja": "朝顔を待つ朝",
+      "en": "Waiting for the Morning Glories"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Everyone else’s morning glory has flowered, but Kenta’s never seems to. The problem turns out to be not the plant but the clock.",
+    "hash": "5bf147a7",
+    "length": 580,
+    "paras": 7,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
+    }
+  },
   "bijoto-yajuu": {
     "title": {
       "ja": "美女と野獣",
