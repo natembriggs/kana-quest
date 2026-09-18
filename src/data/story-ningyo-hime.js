@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original retelling of the complete original tale (not the softened Disney version) — it keeps Andersen’s own bittersweet ending, in which she refuses to use the knife, dissolves into foam and rises as a daughter of the air with three hundred years in which to earn a soul; Andersen leaves the prince unnamed, so he is given the invented katakana name Erikku (エリック) for narrative clarity; no wording is copied from a published translation.",
-    "licence": "Public domain source story. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source story. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "人魚姫",
@@ -8762,7 +8763,7 @@ export const STORY = {
   ],
   "hash": "8eb3f325",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

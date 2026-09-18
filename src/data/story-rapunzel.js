@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original graded retelling of the Grimm tale, keeping its full arc through to the blinded prince and the tears that heal him; no wording is copied from a published translation.",
-    "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "ラプンツェル",
@@ -5231,7 +5232,7 @@ export const STORY = {
   ],
   "hash": "80d65d43",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

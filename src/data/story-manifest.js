@@ -356,7 +356,7 @@ export const STORIES = {
     "hash": "80d65d43",
     "length": 462,
     "paras": 7,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5",
@@ -489,7 +489,7 @@ export const STORIES = {
     "hash": "8eb3f325",
     "length": 768,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "adapted",
       "by": "Claude Opus 5.0",

@@ -30,9 +30,11 @@
     "madara-no-himo": "exec-14fe6955-1174-4c42-a5bc-22bfd1104315.png",
     "momotaro-1": "exec-efa28a35-6a51-43d6-8f53-35338aa8ae38.png",
     "neko-no-ie": "exec-5de9b3d6-a74b-4c53-ac83-43c00ed00432.png",
+    "ningyo-hime": "exec-75d6b329-e0b7-4b62-8dcb-8ba7af9da03f.png",
     "ookami-ga-kita": "exec-6b3eeca5-4f60-43aa-859c-763d3c1f30c9.png",
     "ookina-kabu": "exec-7ddafa2a-2764-442a-89e2-14a122fc39c0.png",
     "oz-no-mahoutsukai": "exec-e8b8b73b-e907-4fe3-8ca5-78fa8694c0fc.png",
+    "rapunzel": "exec-3dd7882e-b264-4712-bd50-792abf41a8c1.png",
     "robinson-crusoe": "exec-f05ebbb0-5a8e-4d36-979a-6c8aa4e6a663.png",
     "saigo-no-watashibune": "exec-2e3c4190-c0d9-4105-8e02-f2a1b1c4a4b9.png",
     "sanbiki-no-kobuta": "exec-839ba742-fbe4-49d2-b439-956220c8e16b.png",
@@ -41,5 +43,9 @@
     "takarajima": "exec-673b764b-0a85-4fd2-9ff5-579686990fb3.png",
     "urashima-tarou": "exec-8417acef-4b82-4f8e-b0cc-b03b86932998.png",
     "usagi-to-kame": "exec-aa71889f-8063-4b46-8f61-270102f49ac5.png"
+  },
+  "batches": {
+    "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
+    "rapunzel": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f"
   }
 }
