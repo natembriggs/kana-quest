@@ -27,10 +27,13 @@ Per-story source metadata records the cover credit separately from authorship.
 
 ## Implemented covers
 
-41 covers are installed. Rapunzel (`rapunzel`) and The Little Mermaid
-(`ningyo-hime`) were completed on 18 September 2026. Pinocchio (`pinocchio`)
-still uses the library's placeholder: the built-in generator rejected its
-workshop-scene prompt at output moderation, including on retry.
+All 42 covers are installed. Rapunzel (`rapunzel`), The Little Mermaid
+(`ningyo-hime`) and Pinocchio (`pinocchio`) were completed on 18 September 2026.
+Pinocchio adapts a user-supplied illustration with the built-in image tool:
+the puppet's hat is removed, and the painting follows the Rapunzel cover's
+gouache brushwork and palette. At the user's request, this cover keeps the
+supplied story montage (woodcarver, fairy and whale) instead of depicting
+only the opening scene. Input references are recorded in `cover-sources.json`.
 `cover-sources.json` maps each installed cover to its original PNG and records
 the generation batch and artwork credit. The originals remain in Codex's
 generated-images folder; the app uses only the WebP files committed here.
@@ -51,8 +54,10 @@ the highest WebP quality from 90 downwards that meets the 60 KiB budget.
 The catalog's `batch` is the default source folder; `batches` records
 per-story overrides for later additions. A direct folder of PNGs is also
 accepted. Use repeatable `--story <id>` options to export a subset.
-The two September 18 covers use the existing prompts in `cover-prompts.json`;
+Rapunzel and The Little Mermaid use the existing prompts in `cover-prompts.json`;
 Rapunzel is 56.7 KiB (quality 85), and The Little Mermaid is 56.6 KiB (quality 84).
+Pinocchio is 59.2 KiB (quality 79); its final editing prompt is recorded in the
+same file. All three covers are 480×640 WebP exports.
 
 ## Inline drawing pilot: A House for the Cat
 

@@ -17,7 +17,8 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original abridged retelling using familiar episodes from Collodi’s public-domain story, not a translation of its Italian text or a later adaptation.",
-    "licence": "Public domain (Carlo Collodi d. 1890). This retelling and its English translation are original to Kana Quest."
+    "licence": "Public domain (Carlo Collodi d. 1890). This retelling and its English translation are original to Kana Quest.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
     "ピノキオ",
@@ -10977,7 +10978,7 @@ export const STORY = {
   ],
   "hash": "50b78ed1",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

@@ -34,6 +34,7 @@
     "ookami-ga-kita": "exec-6b3eeca5-4f60-43aa-859c-763d3c1f30c9.png",
     "ookina-kabu": "exec-7ddafa2a-2764-442a-89e2-14a122fc39c0.png",
     "oz-no-mahoutsukai": "exec-e8b8b73b-e907-4fe3-8ca5-78fa8694c0fc.png",
+    "pinocchio": "exec-41cf52fe-3007-4b91-abd6-bf3a4d94f0f3.png",
     "rapunzel": "exec-3dd7882e-b264-4712-bd50-792abf41a8c1.png",
     "robinson-crusoe": "exec-f05ebbb0-5a8e-4d36-979a-6c8aa4e6a663.png",
     "saigo-no-watashibune": "exec-2e3c4190-c0d9-4105-8e02-f2a1b1c4a4b9.png",
@@ -46,6 +47,20 @@
   },
   "batches": {
     "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
+    "pinocchio": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
     "rapunzel": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f"
+  },
+  "references": {
+    "pinocchio": [
+      {
+        "role": "edit target",
+        "source": "User-provided Screenshot 2026-09-18 at 15.58.37.png",
+        "notes": "Original artwork supplied by the user; original creator not specified."
+      },
+      {
+        "role": "style reference",
+        "source": "assets/stories/rapunzel/cover.webp"
+      }
+    ]
   }
 }

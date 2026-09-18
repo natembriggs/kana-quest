@@ -622,7 +622,7 @@ export const STORIES = {
     "hash": "50b78ed1",
     "length": 930,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "adapted",
       "by": "Sol 5.6",
