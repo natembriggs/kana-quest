@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-18',
     changes: [
+      'Painted covers for all six newest stories: The Wind and the Hat, The Egg Errand, The Clock That Was Five Minutes Fast, Waiting for the Morning Glories, Bread at Half Past Four, and The Tide Road. All 48 stories now have cover art.',
+    ],
+  },
+  {
+    date: '2026-09-18',
+    changes: [
       'New: five more original stories, one at every other level. 風と帽子 (The Wind and the Hat, level 1): the wind blows Taro’s hat into a tree. たまごのおつかい (The Egg Errand, level 2): Mio’s first errand on her own, and a lost note. 五分早い時計 (The Clock That Was Five Minutes Fast, level 3): why Satoshi has never missed a train. 四時半のパン (Bread at Half Past Four, level 5): a night-shift nurse and a bakery that is never open when she passes. 潮の道 (The Tide Road, level 6): a father, an island, and a road that appears twice a day. The library now has 48 stories, eight per level.',
     ],
   },

@@ -7,6 +7,7 @@
     "ali-baba": "exec-397af912-a1ea-43ed-8ece-dc12bea17a9b.png",
     "ari-to-hato": "exec-16c33ea6-ee50-48ce-9886-d603d1ee6779.png",
     "ari-to-kirigirisu": "exec-68c303e9-7c06-4e2f-90bc-6f1c745d36b4.png",
+    "asagao-o-matsu-asa": "exec-f1e8e457-c1d6-49c9-96bb-3e5634eafdab.png",
     "atesaki-no-nai-henji": "exec-01c98cae-de15-44c7-adb5-3b3644a48842.png",
     "bijoto-yajuu": "exec-5b751c0e-9d00-4fb6-b134-715e5f729c84.png",
     "bremen-no-ongakutai": "exec-6eb445d8-0476-4296-9961-47fee04e3551.png",
@@ -15,6 +16,7 @@
     "frankenstein": "exec-9fdebca5-f743-4818-9b6a-b3738eb7d335.png",
     "fushigi-no-kuni-no-alice": "exec-d00d110e-98b5-43f5-a862-54fc4ad987d7.png",
     "futatsu-no-obentou": "exec-8a3ffe5f-814d-4161-ab29-2f6174bf46b4.png",
+    "gofun-hayai-tokei": "exec-0e5099ef-81bd-43be-8c10-e48f31c57d26.png",
     "goldilocks": "exec-693c5b7e-febc-423b-bca5-ff1b7ab24f21.png",
     "gulliver-ryokouki": "exec-00c6d78f-a0fd-4c19-b3fb-61c64f5747a8.png",
     "hachijuu-nichikan-sekai-isshuu": "exec-62775049-3c33-403e-b691-8fca85dad4a3.png",
@@ -24,6 +26,7 @@
     "jekyll-to-hyde": "exec-b3051051-5e65-42b3-a75a-732af43e7ce8.png",
     "karasu-to-mizugame": "exec-695e4ffa-d153-4821-8173-a58501ab0f85.png",
     "kasa-jizou": "exec-460d1e70-845c-405f-8c1f-192046a24e63.png",
+    "kaze-to-boushi": "exec-f9da2bbc-c300-4cf1-8aea-c882c8a8dacb.png",
     "kitakaze-to-taiyou": "exec-96e9d1de-a4cd-4656-955a-77ebc2362771.png",
     "lion-to-nezumi": "exec-bbf899f7-7fda-4946-b0f2-5bc808800a3c.png",
     "machi-no-nezumi-inaka-no-nezumi": "exec-d0f5cdc5-2399-426a-b09d-fe94cee940e8.png",
@@ -39,16 +42,25 @@
     "robinson-crusoe": "exec-f05ebbb0-5a8e-4d36-979a-6c8aa4e6a663.png",
     "saigo-no-watashibune": "exec-2e3c4190-c0d9-4105-8e02-f2a1b1c4a4b9.png",
     "sanbiki-no-kobuta": "exec-839ba742-fbe4-49d2-b439-956220c8e16b.png",
+    "shio-no-michi": "exec-d5064d89-8f2a-41d4-b02b-1f6be3257278.png",
     "shirayukihime": "exec-559a0a8f-609e-4592-8ddb-7d8bb694818d.png",
     "tabi-suru-kasa": "exec-61465bd2-8beb-46af-a036-6b3d3307d28a.png",
     "takarajima": "exec-673b764b-0a85-4fd2-9ff5-579686990fb3.png",
+    "tamago-no-otsukai": "exec-a8326338-081d-4877-ac05-3964189a8722.png",
     "urashima-tarou": "exec-8417acef-4b82-4f8e-b0cc-b03b86932998.png",
-    "usagi-to-kame": "exec-aa71889f-8063-4b46-8f61-270102f49ac5.png"
+    "usagi-to-kame": "exec-aa71889f-8063-4b46-8f61-270102f49ac5.png",
+    "yojihan-no-pan": "exec-846c8419-8144-4a7d-ad95-813faf88e65b.png"
   },
   "batches": {
     "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
     "pinocchio": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
-    "rapunzel": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f"
+    "rapunzel": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
+    "kaze-to-boushi": "01a0b63d-0ac2-7ad3-a928-867372a31835",
+    "tamago-no-otsukai": "01a0b63d-0ac2-7ad3-a928-867372a31835",
+    "gofun-hayai-tokei": "01a0b63d-0ac2-7ad3-a928-867372a31835",
+    "asagao-o-matsu-asa": "01a0b63d-0ac2-7ad3-a928-867372a31835",
+    "yojihan-no-pan": "01a0b63d-0ac2-7ad3-a928-867372a31835",
+    "shio-no-michi": "01a0b63d-0ac2-7ad3-a928-867372a31835"
   },
   "references": {
     "pinocchio": [

@@ -26,7 +26,8 @@ export const STORY = {
     "by": "Claude Fable 5.1",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted. The island and its inn are invented; tidal roads of this kind do exist.",
-    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -13213,7 +13214,7 @@ export const STORY = {
   ],
   "hash": "b61c343a",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

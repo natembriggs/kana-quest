@@ -24,7 +24,8 @@ export const STORY = {
     "by": "Claude Fable 5.1",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted. Morning glories really do open before dawn and close as the day heats up, which is the whole plot.",
-    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -6435,7 +6436,7 @@ export const STORY = {
   ],
   "hash": "5bf147a7",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

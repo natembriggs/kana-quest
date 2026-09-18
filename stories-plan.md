@@ -21,7 +21,8 @@ remains. See §12.1 for how sourcing landed, which differs from this document's
 original plan.
 
 §8.7 (the shelf's read-state filter and ordering) and §8.8 (covers and inline
-illustrations) are **built**. All 42 stories have painted WebP covers.
+illustrations) are **built**. All 48 stories have painted WebP covers, including
+the six newest original stories completed on 18 September 2026.
 Pinocchio's cover was completed on 18 September 2026 by editing a user-supplied
 illustration to remove the puppet's hat and match the library's painted style.
 `ari-to-hato` and `neko-no-ie` each carry two hand-drawn inline pictures.
@@ -1945,7 +1946,7 @@ corpus — the corpus is small enough that "over a sample" is not an excuse:
 | 6 | **Exposure and progress.** §6.2's dual write, the intersection-observer accrual, `profile.stories`, resume with the hash clamp, `mergeStories`, and the property tests. Separable from the screens above and worth keeping separate — its correctness lives in merge behaviour, which is testable without any UI. Exactly the argument `vocab-plan.md` phase 3a made, and it was right there. | 4, 5 | **Done** — `profile.stories` (`store.js`), `mergeStories()` (`merge.js`). |
 | 7 | **The end card**, reader settings, and the source/licence line. | 4, 6 | **Done** — `#reader-end`, `#reader-settings-sheet`. |
 | 8 | **Content: the free corpus.** Import and adapt the phase-0 shortlist, translate every sentence, run the gates, review by a human. Data, not code, and the phase that decides whether any of the above was worth building. | 1, 7 | **Done, differently than scoped** — 42 stories shipped (seven per level, L1–L6): 36 retellings of traditional or public-domain motifs and six original stories added on 16 September 2026, not direct Aozora Bunko imports. See §12.1. |
-| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, embedded SVG or lazy WebP inline illustrations, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** All 42 painted covers installed. `ari-to-hato` and `neko-no-ie` each have two SVG pictures; `kasa-jizou` has three painted WebP pictures. |
+| 10 | **The shelf and the pictures** (§8.7, §8.8). Read-state filter with counts, shelf ordering, cover thumbnails with a generated placeholder, embedded SVG or lazy WebP inline illustrations, per-device Pictures toggle, build-enforced budgets. | 8 | **Done.** All 48 painted covers installed. `ari-to-hato` and `neko-no-ie` each have two SVG pictures; `kasa-jizou` has three painted WebP pictures. |
 | 9 | **Content: our own series.** The first serialized L2 run, then L1 and L3. Ongoing, and the point of the whole feature. | 8 | **The machinery is done; the content is not.** Chapters are wired end to end — `src/library.js` groups a series and tracks its standing, the build validates series integrity, the library renders a series as one expandable card, the reader captions itself `title · 2/3`, the end card offers the next chapter, and opening one prefetches the next during idle time. No shipped story yet has more than one part: two (`fushigi-no-kuni-no-alice`, `oz-no-mahoutsukai`) carry a `series` tag naming the work they adapt, but each is `of: 1`, a single complete part, and the library lists those as standalone. Writing an actual serialization is what remains. |
 
 ### 12.1 How sourcing actually landed, versus §4's plan

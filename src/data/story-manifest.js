@@ -71,7 +71,7 @@ export const STORIES = {
     "hash": "9dfa8a45",
     "length": 90,
     "paras": 4,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
@@ -261,7 +261,7 @@ export const STORIES = {
     "hash": "0d60b8ce",
     "length": 197,
     "paras": 4,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
@@ -337,7 +337,7 @@ export const STORIES = {
     "hash": "b2f3a08b",
     "length": 314,
     "paras": 7,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
@@ -508,7 +508,7 @@ export const STORIES = {
     "hash": "5bf147a7",
     "length": 580,
     "paras": 7,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
@@ -755,7 +755,7 @@ export const STORIES = {
     "hash": "99c3953b",
     "length": 856,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
@@ -917,7 +917,7 @@ export const STORIES = {
     "hash": "b61c343a",
     "length": 1151,
     "paras": 12,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
