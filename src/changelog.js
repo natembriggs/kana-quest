@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-18',
     changes: [
+      'New: five more original stories, one at every other level. 風と帽子 (The Wind and the Hat, level 1): the wind blows Taro’s hat into a tree. たまごのおつかい (The Egg Errand, level 2): Mio’s first errand on her own, and a lost note. 五分早い時計 (The Clock That Was Five Minutes Fast, level 3): why Satoshi has never missed a train. 四時半のパン (Bread at Half Past Four, level 5): a night-shift nurse and a bakery that is never open when she passes. 潮の道 (The Tide Road, level 6): a father, an island, and a road that appears twice a day. The library now has 48 stories, eight per level.',
+    ],
+  },
+  {
+    date: '2026-09-18',
+    changes: [
       'New: a new original story at level 4, 朝顔を待つ朝 (Waiting for the Morning Glories). Kenta’s summer homework is a morning glory diary, but his plant never seems to flower while everyone else’s does. The library now has 43 stories.',
     ],
   },

@@ -59,6 +59,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "kaze-to-boushi": {
+    "title": {
+      "ja": "風と帽子",
+      "en": "The Wind and the Hat"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "The wind blows Taro’s red hat into a tall tree, and a passing big girl is exactly the right height to help.",
+    "hash": "9dfa8a45",
+    "length": 90,
+    "paras": 4,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
+    }
+  },
   "kitakaze-to-taiyou": {
     "title": {
       "ja": "北風と太陽",
@@ -230,6 +249,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "tamago-no-otsukai": {
+    "title": {
+      "ja": "たまごのおつかい",
+      "en": "The Egg Errand"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Mio is sent to the shop on her own for the first time, and loses the note that says what to buy.",
+    "hash": "0d60b8ce",
+    "length": 197,
+    "paras": 4,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
+    }
+  },
   "urashima-tarou": {
     "title": {
       "ja": "浦島太郎",
@@ -285,6 +323,25 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Sol 5.6",
       "credit": "Retold by"
+    }
+  },
+  "gofun-hayai-tokei": {
+    "title": {
+      "ja": "五分早い時計",
+      "en": "The Clock That Was Five Minutes Fast"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Satoshi has never missed a train, and only finds out why when the old clock outside the station is replaced by one that tells the truth.",
+    "hash": "b2f3a08b",
+    "length": 314,
+    "paras": 7,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
     }
   },
   "goldilocks": {
@@ -686,6 +743,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "yojihan-no-pan": {
+    "title": {
+      "ja": "四時半のパン",
+      "en": "Bread at Half Past Four"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "A night-shift nurse walks home past a bakery that is never open, until one morning a warm roll and a note are waiting on the bench outside.",
+    "hash": "99c3953b",
+    "length": 856,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
+    }
+  },
   "atesaki-no-nai-henji": {
     "title": {
       "ja": "宛先のない返事",
@@ -827,6 +903,25 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Sol 5.6",
       "credit": "Retold by"
+    }
+  },
+  "shio-no-michi": {
+    "title": {
+      "ja": "潮の道",
+      "en": "The Tide Road"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "Misaki comes home to move her father off an island reached only at low tide, and finds out what his hand-written tide tables are for.",
+    "hash": "b61c343a",
+    "length": 1151,
+    "paras": 12,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Fable 5.1",
+      "credit": "Written by"
     }
   }
 };

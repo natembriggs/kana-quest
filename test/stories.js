@@ -44,13 +44,18 @@ import { STORY as b7 } from '../src/data/story-futatsu-no-obentou.js';
 import { STORY as c7 } from '../src/data/story-tabi-suru-kasa.js';
 import { STORY as d7 } from '../src/data/story-saigo-no-watashibune.js';
 import { STORY as d8 } from '../src/data/story-asagao-o-matsu-asa.js';
+import { STORY as a8 } from '../src/data/story-kaze-to-boushi.js';
+import { STORY as b8 } from '../src/data/story-tamago-no-otsukai.js';
+import { STORY as c8 } from '../src/data/story-gofun-hayai-tokei.js';
+import { STORY as e8 } from '../src/data/story-yojihan-no-pan.js';
+import { STORY as f8 } from '../src/data/story-shio-no-michi.js';
 import { STORY as e7 } from '../src/data/story-ichinichi-dake-no-honya.js';
 import { STORY as f7 } from '../src/data/story-atesaki-no-nai-henji.js';
 
 const corpus = [
-  a1, a2, a3, a4, a5, a6, a7, b1, b2, b3, b4, b5, b6, b7,
-  c1, c2, c3, c4, c5, c6, c7, d1, d2, d3, d4, d5, d6, d7, d8,
-  e1, e2, e3, e4, e5, e6, e7, f1, f2, f3, f4, f5, f6, f7,
+  a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8,
+  c1, c2, c3, c4, c5, c6, c7, c8, d1, d2, d3, d4, d5, d6, d7, d8,
+  e1, e2, e3, e4, e5, e6, e7, e8, f1, f2, f3, f4, f5, f6, f7, f8,
 ];
 let failures = 0;
 function check(name, condition, detail = '') {
