@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-20',
     changes: [
+      'New: 隠れ谷の灯り (The Lanterns of the Hidden Valley), an original level 5 adventure in five full-length chapters. During Obon in a mountain village in Nagano, Aoi and Ren follow a fox-masked guide into a forgotten valley. A mysterious lantern, an unfinished song and a sixty-year-old promise lead them through a festival of memories and across a river of fading light. Every chapter includes sentence translations and tappable word explanations.',
+    ],
+  },
+  {
+    date: '2026-09-20',
+    changes: [
       'New: Kana Quest now remembers what you answer instead. Getting 上 wrong used to record only that you got it wrong; it now also records that you picked 入 — so “kanji I mix up” is something the app knows rather than guesses. At the end of a session, any pair you mixed up gets its own button under “Practise N missed”, opening the two side by side. On a kanji’s own page, the ⇄ Compare list now puts the ones you have actually answered instead right at the top, ringed and labelled “mixed up”, ahead of the ones that merely look similar. This works in every quiz — kanji meanings and readings, vocabulary, kana and writing — and everything stays on your own device and syncs with the rest of your progress.',
     ],
   },

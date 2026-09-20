@@ -686,6 +686,126 @@ export const STORIES = {
       "credit": "Written by"
     }
   },
+  "kakure-tani-no-akari-1": {
+    "title": {
+      "ja": "名前のない提灯",
+      "en": "The Lantern with No Name"
+    },
+    "series": {
+      "id": "kakure-tani-no-akari",
+      "part": 1,
+      "of": 5,
+      "name": "隠れ谷の灯り — The Lanterns of the Hidden Valley"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "At Obon in a mountain village in Nagano, Aoi repairs her grandmother’s old lantern—and a boy in a fox mask arrives to ask for help.",
+    "hash": "be38bd8d",
+    "length": 934,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
+  "kakure-tani-no-akari-2": {
+    "title": {
+      "ja": "霧の橋",
+      "en": "The Bridge in the Mist"
+    },
+    "series": {
+      "id": "kakure-tani-no-akari",
+      "part": 2,
+      "of": 5,
+      "name": "隠れ谷の灯り — The Lanterns of the Hidden Valley"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Following a path into the mist, Aoi and Ren encounter a festival of borrowed memories and a bridge with no middle.",
+    "hash": "261b14d3",
+    "length": 909,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
+  "kakure-tani-no-akari-3": {
+    "title": {
+      "ja": "夜を作る家",
+      "en": "The House That Makes the Night"
+    },
+    "series": {
+      "id": "kakure-tani-no-akari",
+      "part": 3,
+      "of": 5,
+      "name": "隠れ谷の灯り — The Lanterns of the Hidden Valley"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Beyond a black river, a paper-maker guards a village’s fading stories and the bell that could open its way home.",
+    "hash": "b36b08ed",
+    "length": 899,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
+  "kakure-tani-no-akari-4": {
+    "title": {
+      "ja": "水の向こうの名前",
+      "en": "The Names Across the Water"
+    },
+    "series": {
+      "id": "kakure-tani-no-akari",
+      "part": 4,
+      "of": 5,
+      "name": "隠れ谷の灯り — The Lanterns of the Hidden Valley"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "As the river rises and her memories fade, Aoi must trust that Ren will return—and find a way to mend the crossing.",
+    "hash": "a089cb05",
+    "length": 902,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
+  "kakure-tani-no-akari-5": {
+    "title": {
+      "ja": "帰ってくる灯り",
+      "en": "A Place for the Returning Light"
+    },
+    "series": {
+      "id": "kakure-tani-no-akari",
+      "part": 5,
+      "of": 5,
+      "name": "隠れ谷の灯り — The Lanterns of the Hidden Valley"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "A cracked bell sounds across the water, an old promise finds its answer, and Aoi must decide what to carry home.",
+    "hash": "35704c18",
+    "length": 959,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6",
+      "credit": "Written by"
+    }
+  },
   "pinocchio": {
     "title": {
       "ja": "ピノキオ",

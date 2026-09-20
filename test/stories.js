@@ -51,11 +51,17 @@ import { STORY as e8 } from '../src/data/story-yojihan-no-pan.js';
 import { STORY as f8 } from '../src/data/story-shio-no-michi.js';
 import { STORY as e7 } from '../src/data/story-ichinichi-dake-no-honya.js';
 import { STORY as f7 } from '../src/data/story-atesaki-no-nai-henji.js';
+import { STORY as lantern1 } from '../src/data/story-kakure-tani-no-akari-1.js';
+import { STORY as lantern2 } from '../src/data/story-kakure-tani-no-akari-2.js';
+import { STORY as lantern3 } from '../src/data/story-kakure-tani-no-akari-3.js';
+import { STORY as lantern4 } from '../src/data/story-kakure-tani-no-akari-4.js';
+import { STORY as lantern5 } from '../src/data/story-kakure-tani-no-akari-5.js';
+
 
 const corpus = [
   a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8,
   c1, c2, c3, c4, c5, c6, c7, c8, d1, d2, d3, d4, d5, d6, d7, d8,
-  e1, e2, e3, e4, e5, e6, e7, e8, f1, f2, f3, f4, f5, f6, f7, f8,
+  e1, e2, e3, e4, e5, e6, e7, e8, lantern1, lantern2, lantern3, lantern4, lantern5, f1, f2, f3, f4, f5, f6, f7, f8,
 ];
 let failures = 0;
 function check(name, condition, detail = '') {

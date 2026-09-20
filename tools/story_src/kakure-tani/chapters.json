@@ -1,0 +1,1374 @@
+[
+  [
+    [
+      {
+        "tokens": "八月十六日|の|午後|、|あおい|は|長野|の|山|に|囲まれた|村|に|着いた|。",
+        "en": "On the afternoon of August 16, Aoi arrived in a village surrounded by the mountains of Nagano."
+      },
+      {
+        "tokens": "バス|を|降りると|、|熱い|土|と|杉|の|葉|の|におい|が|した#sensory|。",
+        "en": "When she stepped off the bus, she could smell hot earth and cedar leaves."
+      },
+      {
+        "tokens": "田んぼ|の|向こう|で|、|古い|家|の|黒い|屋根|が|夕方|の|光|を|受けていた|。",
+        "en": "Beyond the rice fields, the dark roofs of old houses caught the evening light."
+      },
+      {
+        "tokens": "山|の|上|に|は|白い|雲|が|残り|、|谷|の|底|は|もう|青かった|。",
+        "en": "White clouds lingered above the mountains, and the valley floor was already blue."
+      },
+      {
+        "tokens": "あおい|は|毎年|、|お盆|に|なると|祖母|の|家|に|来ていた|。",
+        "en": "Aoi came to her grandmother’s house every year for Obon."
+      },
+      {
+        "tokens": "今年|は|駅|で|友達|から|届いた|写真|を|、|まだ|見終わっていなかった|。",
+        "en": "This year, she still had not finished looking at the photos a friend had sent her at the station."
+      },
+      {
+        "tokens": "けれど|、|ここ|で|は|携帯電話|の|電波|が|弱く|、|写真|は|半分|しか|見えなかった|。",
+        "en": "But the phone signal was weak here, and only half of each photo would load."
+      }
+    ],
+    [
+      {
+        "tokens": "祖母|は|縁側|で|、|竹|の|輪|に|薄い|和紙|を|貼っていた|。",
+        "en": "On the veranda, her grandmother was pasting thin washi paper onto bamboo hoops."
+      },
+      {
+        "tokens": "膝|の|横|に|は|、|丸い|提灯|が|いくつも|並んでいた|。",
+        "en": "Several round lanterns stood beside her knees."
+      },
+      {
+        "tokens": "紙|を|通した|光|は|、|朝|の|雲|のように|柔らかかった|。",
+        "en": "The light filtering through the paper was as soft as a morning cloud."
+      },
+      {
+        "tokens": "「|手|を|洗ったら|、|こっち|を|押さえてくれるかい|」|と|祖母|が|言った|。",
+        "en": "“Once you’ve washed your hands, could you hold this bit down?” her grandmother asked."
+      },
+      {
+        "tokens": "あおい|が|竹|を|持つと|、|祖母|は|筆|で|のり|を|塗った|。",
+        "en": "Aoi held the bamboo while her grandmother brushed on paste."
+      },
+      {
+        "tokens": "指|に|触れた|紙|は|、|思ったよりも|丈夫だった|。",
+        "en": "The paper against her fingers was stronger than she had expected."
+      },
+      {
+        "tokens": "「|破れた|所|を|直す|に|は|、|少し|重ねる|んだよ|」|と|祖母|は|教えた|。",
+        "en": "“To mend a tear, overlap the paper a little,” her grandmother explained."
+      }
+    ],
+    [
+      {
+        "tokens": "台所|で|は|、|いとこ|の|れん|が|盆|に|団子|を|並べていた|。",
+        "en": "In the kitchen, her cousin Ren was arranging dumplings on a tray."
+      },
+      {
+        "tokens": "れん|は|村|に|住んでいて|、|あおい|と|同じ|十五歳|だった|。",
+        "en": "Ren lived in the village and was fifteen, the same age as Aoi."
+      },
+      {
+        "tokens": "祖母|は|仏壇|に|花|と|団子|を|供えてから|、|二人|に|も|麦茶|を|出した#serve|。",
+        "en": "After placing flowers and dumplings at the Buddhist family altar, their grandmother brought them barley tea."
+      },
+      {
+        "tokens": "お盆|に|は|亡くなった|家族|を|迎え|、|最後|の|日|に|は|送り出す|のだと|、|あおい|は|小さい|頃|に|教わった|。",
+        "en": "As a little girl, Aoi had learned that families welcome their deceased loved ones at Obon and bid them farewell on the final day."
+      },
+      {
+        "tokens": "この|村|で|は|、|その|夜|に|川|へ|小さな|灯籠|を|流す|。",
+        "en": "In this village, people floated small lanterns down the river that night."
+      },
+      {
+        "tokens": "川下|に|は|灯籠|を|集める|場所|が|あり|、|れん|の|父|も|手伝う|予定|だった|。",
+        "en": "There was a place downstream to collect the lanterns, and Ren’s father was going to help."
+      },
+      {
+        "tokens": "「|帰る|時|に|も|、|道|が|見えた|ほうがいい|から|ね|」|と|祖母|は|言った|。",
+        "en": "“It’s nice to be able to see the way when you’re going home, too,” their grandmother said."
+      }
+    ],
+    [
+      {
+        "tokens": "遠く|の|広場|から|、|盆踊り|の|太鼓|の|音|が|聞こえてきた|。",
+        "en": "From the distant square came the drums for the Bon dance."
+      },
+      {
+        "tokens": "祖母|は|それ|に|合わせて|、|短い|歌|を|口ずさんだ|。",
+        "en": "Their grandmother hummed a short song in time with them."
+      },
+      {
+        "tokens": "「|二歩|進んで|、|一拍|待って|、|空いた|所|は|帰る|道|」|。",
+        "en": "“Two steps forward, one beat waiting; leave a space for the homeward way.”"
+      },
+      {
+        "tokens": "歌|は|そこで|止まり|、|祖母|の|指|だけ|が|膝|を|三度|たたいた|。",
+        "en": "The song stopped there, but her fingers tapped her knee three times."
+      },
+      {
+        "tokens": "「|続き#noun|は|ない|の#question|」|と|あおい|が|聞いた|。",
+        "en": "“Isn’t there any more?” Aoi asked."
+      },
+      {
+        "tokens": "祖母|は|山|を|見たまま|、|「|一緒に|歌う|人|が|いないと|、|出てこない|ね|」|と|答えた|。",
+        "en": "Still looking at the mountains, her grandmother replied, “It won’t come when there’s nobody to sing it with.”"
+      },
+      {
+        "tokens": "いつも|は|よく|笑う|祖母|の|横顔|が|、|その|時|だけ|遠く|見えた|。",
+        "en": "For a moment, her grandmother, usually so ready to laugh, seemed far away."
+      }
+    ],
+    [
+      {
+        "tokens": "れん|が|物置|から|古い|箱|を|運んできた|。",
+        "en": "Ren brought an old box from the storeroom."
+      },
+      {
+        "tokens": "箱|の|中|に|は|、|底|の|破れた|提灯|と|、|小さな|帳面|が|入っていた|。",
+        "en": "Inside were a lantern with a torn base and a small notebook."
+      },
+      {
+        "tokens": "帳面|の|表紙|に|は|、|子供|の|字|で|「|さよ|へ|、|来年|も|橋|で|」|と|書かれていた|。",
+        "en": "On the cover, a child had written, “To Sayo: at the bridge again next year.”"
+      },
+      {
+        "tokens": "祖母|は|それ|を|見ると|、|しばらく|何も|言わなかった|。",
+        "en": "Their grandmother said nothing for a while when she saw it."
+      },
+      {
+        "tokens": "「|さよ|は|、|山|の|向こう|の|谷|に|住んでいた|友達|だ|よ|」|。",
+        "en": "“Sayo was a friend who lived in the valley beyond the mountain.”"
+      },
+      {
+        "tokens": "六十年前|の|大雨|で|谷|の|村|が|流され|、|さよ|は|帰ってこなかった|という#hearsay|。",
+        "en": "She told them that heavy rain had washed the village away sixty years earlier, and Sayo had never come back."
+      },
+      {
+        "tokens": "道|も|なくなり|、|今|は|その|場所|を|隠れ谷|と|呼ぶ|人|さえ|少なかった|。",
+        "en": "The road was gone too, and few people now even called the place the Hidden Valley."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|帳面|を|開き|、|川|に|かかる|橋|の|絵|を|見つけた|。",
+        "en": "Aoi opened the notebook and found a drawing of a bridge over a river."
+      },
+      {
+        "tokens": "不思議な|ことに|、|橋|の|真ん中|だけ|が|描かれていなかった|。",
+        "en": "Strangely, the middle of the bridge had been left blank."
+      },
+      {
+        "tokens": "その|横|に|は|、|耳|の|先|が|黒い|狐|と|、|小さな|鈴|の|絵|が|あった|。",
+        "en": "Beside it were drawings of a fox with a black ear tip and a little bell."
+      },
+      {
+        "tokens": "「|下書き|の|まま|なのかな|」|と|れん|が|言った|。",
+        "en": "“Maybe they never finished the sketch,” Ren said."
+      },
+      {
+        "tokens": "祖母|は|提灯|の|破れ目|を|なぞり|、|「|これ|は|、|さよ|と|作った|最後|の|一つ|だ|よ|」|と|言った|。",
+        "en": "Their grandmother traced the tear in the lantern and said, “This is the last one I made with Sayo.”"
+      },
+      {
+        "tokens": "夕飯|の|支度|を|するために|祖母|が|台所|へ|立つと|、|縁側|に|冷たい|風|が|入ってきた|。",
+        "en": "When she went to the kitchen to prepare dinner, a cold wind entered the veranda."
+      },
+      {
+        "tokens": "風|は|庭|の|風鈴|を|鳴らさず|、|箱|の|中|の|提灯|だけ|を|揺らした|。",
+        "en": "It stirred only the lantern in the box, without ringing the wind chime in the garden."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|残った|和紙|で|、|提灯|の|底|を|直すことにした|。",
+        "en": "Aoi decided to mend the base of the lantern with the leftover paper."
+      },
+      {
+        "tokens": "れん|に|竹|を|支えてもらい|、|紙|の|端|を|少しずつ|重ねた|。",
+        "en": "With Ren supporting the bamboo, she overlapped the edges of the paper a little at a time."
+      },
+      {
+        "tokens": "最後|の|隙間|が|閉じた|時|、|火|を|入れていない|提灯|が|青く|光った|。",
+        "en": "When the final gap closed, the unlit lantern began to glow blue."
+      },
+      {
+        "tokens": "紙|の|表|に|、|細い|道|と|三本|の|杉|が|浮かび上がった|。",
+        "en": "A narrow path and three cedars emerged on the surface of the paper."
+      },
+      {
+        "tokens": "れん|が|息を止めると|、|光|の|中|の|道|が|ゆっくり|山|へ|伸びた|。",
+        "en": "Ren held his breath as the path within the light slowly stretched toward the mountain."
+      },
+      {
+        "tokens": "「|おばあちゃん|、|ちょっと|来て#request|」|と|あおい|は|呼んだ|。",
+        "en": "“Grandma, come here a moment,” Aoi called."
+      },
+      {
+        "tokens": "けれど|、|その|声|より|先|に|、|庭|から|鈴|の|音|が|三つ|聞こえた|。",
+        "en": "But before her voice carried, three notes of a bell sounded from the garden."
+      }
+    ],
+    [
+      {
+        "tokens": "門|の|外|に|、|狐|の|面|を|つけた|少年|が|立っていた|。",
+        "en": "Outside the gate stood a boy wearing a fox mask."
+      },
+      {
+        "tokens": "白い|袖|の|先|から|、|泥|の|ついた#mud|小さな|手|が|出ていた|。",
+        "en": "Small, muddy hands poked out of his white sleeves."
+      },
+      {
+        "tokens": "「|直してくれた|んだね|」|と|少年|は|言った|。",
+        "en": "“You mended it,” the boy said."
+      },
+      {
+        "tokens": "「|谷|の|灯り|が|消えそう|なんだ|」|。",
+        "en": "“The lights in the valley are about to go out.”"
+      },
+      {
+        "tokens": "あおい|が|名前|を|聞くと|、|少年|は|「|こはく|」|と|答えた|。",
+        "en": "When Aoi asked his name, the boy replied, “Kohaku.”"
+      },
+      {
+        "tokens": "面|の|右耳|は|黒く|、|左|の|腰|に|は|鈴|の|ない|赤い|ひも|が|下がっていた|。",
+        "en": "The mask’s right ear was black, and a red cord with no bell hung at his left hip."
+      },
+      {
+        "tokens": "門|まで|続く|泥|の|跡|は|、|人|の|足跡|ではなかった|。",
+        "en": "The muddy tracks leading to the gate were not human footprints."
+      }
+    ],
+    [
+      {
+        "tokens": "祖母|が|出てきた|時|、|こはく|は|もう|坂|の|下|に|いた|。",
+        "en": "By the time their grandmother came out, Kohaku was already at the bottom of the slope."
+      },
+      {
+        "tokens": "祖母|は|青い|提灯|を|見て|、|あおい|の|手首|を|そっと|握った|。",
+        "en": "She looked at the blue lantern and gently held Aoi’s wrist."
+      },
+      {
+        "tokens": "「|もし|橋|まで|行けたら|、|さよ|に|、|歌|を|忘れていない|と|伝えておくれ|」|。",
+        "en": "“If you can reach the bridge, tell Sayo I haven’t forgotten the song.”"
+      },
+      {
+        "tokens": "あおい|は|初めて|、|写真|を|見る|ため|ではなく|、|道|を|確かめる|ため|に|顔を上げた|。",
+        "en": "For the first time, Aoi raised her head to look for the path, rather than at a photograph."
+      },
+      {
+        "tokens": "れん|は|懐中電灯|と|水|を|袋|に|入れ|、|あおい|に|歩きやすい|靴|を|渡した|。",
+        "en": "Ren packed a torch and water and handed Aoi a pair of shoes she could walk in comfortably."
+      },
+      {
+        "tokens": "二人|が|坂|を|下り始めると|、|提灯|の|中|に|小さな|金色|の|火|が|ともった|。",
+        "en": "As they began down the slope, a small golden flame lit inside the lantern."
+      },
+      {
+        "tokens": "山|の|暗い|斜面|で|、|遠い|灯り|が|一つ|、|音|も|なく|消えた|。",
+        "en": "On the dark mountainside, one distant light went out without a sound."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "こはく|は|石垣|の|間|を|抜け|、|山|へ|続く|細い|道|に|入った|。",
+        "en": "Kohaku slipped between the stone walls and turned onto a narrow path into the mountains."
+      },
+      {
+        "tokens": "あおい|は|提灯|を|胸|の|高さ|に|持って|、|その|後|を|追った|。",
+        "en": "Aoi followed, holding the lantern at chest height."
+      },
+      {
+        "tokens": "夕方|の|杉林|で|は|、|木|の|上|に|だけ|日|が|残っていた|。",
+        "en": "In the evening cedar forest, sunlight remained only in the treetops."
+      },
+      {
+        "tokens": "足元|の|落ち葉|は|湿っていて|、|踏む|たびに|甘い|土|の|におい|が|した#sensory|。",
+        "en": "The fallen leaves underfoot were damp, releasing a sweet, earthy smell with each step."
+      },
+      {
+        "tokens": "村|の|太鼓|は|、|木|を|一本|通り過ぎる|ごとに|小さくなった|。",
+        "en": "The village drums grew fainter with every tree they passed."
+      },
+      {
+        "tokens": "れん|は|曲がり角|で|振り返り|、|帰り道|を|覚えようとした|。",
+        "en": "At each bend, Ren looked back, trying to remember the way home."
+      },
+      {
+        "tokens": "しかし|、|さっき|通った|石垣|は|、|もう|霧|の|向こう|だった|。",
+        "en": "But the stone walls they had just passed were already hidden beyond the mist."
+      }
+    ],
+    [
+      {
+        "tokens": "三本|の|杉|が|立つ|所|で|、|こはく|が|足を止めた|。",
+        "en": "Kohaku stopped where three cedars stood."
+      },
+      {
+        "tokens": "真ん中|の|杉|に|は|古い|しめ縄|が|かかり|、|白い|紙|が|一枚|揺れていた|。",
+        "en": "An old sacred straw rope encircled the middle cedar, with one white paper streamer stirring on it."
+      },
+      {
+        "tokens": "木|の|根元|に|、|小さな|石|の|祠|が|あった|。",
+        "en": "At the tree’s roots stood a small stone shrine."
+      },
+      {
+        "tokens": "こはく|は|その|前|で|頭を下げてから|、|二人|に|向き直った|。",
+        "en": "Kohaku bowed before it, then turned to face them."
+      },
+      {
+        "tokens": "「|ここ|から|先|は|、|人|が|覚えている|道|を|歩く|んだ|」|。",
+        "en": "“From here on, we walk along paths that people remember.”"
+      },
+      {
+        "tokens": "「|提灯|の|温かい|火|が|、|君たち|の|帰り道|に|なる|」|。",
+        "en": "“The warm flame in your lantern will be your way home.”"
+      },
+      {
+        "tokens": "あおい|が|紙|に|触れると|、|そこ|だけ|は|祖母|の|手|のように|温かかった|。",
+        "en": "When Aoi touched the paper, that spot alone was warm, like her grandmother’s hand."
+      }
+    ],
+    [
+      {
+        "tokens": "「|見える|物|が|、|全部|君たち|の|物|とは限らない|よ|」|と|こはく|は|続けた|。",
+        "en": "“The things you see won’t necessarily belong to you,” Kohaku went on."
+      },
+      {
+        "tokens": "「|借りた|思い出|を|自分|の|物|だ|と|思い込んで|川|を|渡ると|、|帰り道|が|分からなくなる|」|。",
+        "en": "“If you cross the river mistaking borrowed memories for your own, you’ll lose your way home.”"
+      },
+      {
+        "tokens": "「|でも|、|誰か|の|話|として|聞いた|思い出|なら|、|一緒に|持って帰れる|よ|」|。",
+        "en": "“But memories you’ve listened to as someone else’s story can go home with you.”"
+      },
+      {
+        "tokens": "れん|は|袋|から|携帯電話|を|出した#take|が#but|、|画面|に|は|電波|が|ない|と|出ていた#display|。",
+        "en": "Ren took his phone out of his bag, but the screen showed no signal."
+      },
+      {
+        "tokens": "あおい|は|祖母|の|帳面|を|持ってきた|こと|を|確かめた|。",
+        "en": "Aoi checked that she had brought her grandmother’s notebook."
+      },
+      {
+        "tokens": "「|この|帳面|なら|、|うち|の|物|だから|いい|んだね|」|。",
+        "en": "“This notebook is all right, then, because it belongs to our family.”"
+      },
+      {
+        "tokens": "こはく|は|うなずき|、|左|の|腰|に|手をやった|。",
+        "en": "Kohaku nodded and reached for his left hip."
+      },
+      {
+        "tokens": "何も|ついていない|赤い|ひも|が|、|風|も|ない|のに|揺れた|。",
+        "en": "The empty red cord swayed, although there was no wind."
+      }
+    ],
+    [
+      {
+        "tokens": "道|を|下ると|、|突然|、|屋台|の|並ぶ|通り|が|現れた|。",
+        "en": "As they descended, a street lined with festival stalls suddenly appeared."
+      },
+      {
+        "tokens": "雨|に|濡れた|石|の|上|に|、|赤|や|黄色|の|光|が|長く|伸びていた|。",
+        "en": "Red and yellow lights stretched across the rain-wet stones."
+      },
+      {
+        "tokens": "焼いた|団子|の|甘い|におい|が|して#sensory|、|鉄|の|風鈴|が|低く|鳴った|。",
+        "en": "There was a sweet smell of grilled dumplings, and an iron wind chime rang a low note."
+      },
+      {
+        "tokens": "けれど|、|店|の|人たち|は|みな|、|薄い|紙|の|面|を|つけていた|。",
+        "en": "But everyone tending the stalls wore a thin paper mask."
+      },
+      {
+        "tokens": "金魚|の|泳ぐ|水|に|、|空|の|星|は|映っていなかった|。",
+        "en": "The water where the goldfish swam reflected none of the stars overhead."
+      },
+      {
+        "tokens": "あおい|が|提灯|を|近づけると|、|水|の|中|に|は|昼|の|青空|が|見えた|。",
+        "en": "When Aoi brought her lantern closer, she saw a daytime blue sky in the water."
+      },
+      {
+        "tokens": "「|これ|は|、|昔|の|祭り|の|思い出|だ|」|と|こはく|は|小さな|声|で|言った|。",
+        "en": "“These are memories of festivals long ago,” Kohaku said quietly."
+      }
+    ],
+    [
+      {
+        "tokens": "れん|は|、|青い|風車|を|売る|店|の|前|で|立ち止まった|。",
+        "en": "Ren stopped at a stall selling blue pinwheels."
+      },
+      {
+        "tokens": "「|れん|、|好きなの|を|選びなさい|」|と|奥|から|声|が|した#sensory|。",
+        "en": "“Ren, choose whichever one you like,” a voice called from the back."
+      },
+      {
+        "tokens": "それ|は|、|三年前|に|亡くなった|れん|の|母|の|声|だった|。",
+        "en": "It was the voice of Ren’s mother, who had died three years earlier."
+      },
+      {
+        "tokens": "れん|の|手|が|、|いちばん|大きな|風車|へ|伸びた|。",
+        "en": "Ren reached toward the largest pinwheel."
+      },
+      {
+        "tokens": "あおい|は|声をかけようとした|が#but|、|れん|は|先|に|手|を|下ろした|。",
+        "en": "Aoi was about to speak, but Ren lowered his hand first."
+      },
+      {
+        "tokens": "「|母さん|は|、|僕|を|れんちゃん|って|呼んでいた|」|。",
+        "en": "“Mum used to call me Ren-chan.”"
+      },
+      {
+        "tokens": "店|の|奥|の|声|は|笑い続け|、|同じ|言葉|を|もう一度|繰り返した|。",
+        "en": "The voice at the back of the stall kept laughing and repeated the same words."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|れん|の|袖|を|つかみ|、|屋台|から|離れた|。",
+        "en": "Aoi took Ren’s sleeve and led him away from the stall."
+      },
+      {
+        "tokens": "「|今|の#nominal|、|つらかった|ね|」|と|言うと|、|れん|は|首を横に振った|。",
+        "en": "“That must have hurt,” she said, but Ren shook his head."
+      },
+      {
+        "tokens": "「|本当|の|声|を|、|忘れたくない|んだ|」|。",
+        "en": "“I don’t want to forget her real voice.”"
+      },
+      {
+        "tokens": "二人|の|間|で|、|提灯|の|金色|の|火|が|少し|大きくなった|。",
+        "en": "Between them, the golden flame in the lantern grew a little larger."
+      },
+      {
+        "tokens": "通り|の|終わり#noun|に|は|、|何も|売っていない|店|が|あった|。",
+        "en": "At the end of the street stood a stall selling nothing."
+      },
+      {
+        "tokens": "その|台|の|上|に|、|ひび|の|入った|鈴|が|一つ|見えた|。",
+        "en": "On its counter, they could see a single cracked bell."
+      },
+      {
+        "tokens": "こはく|が|近づいた|とたん|、|店|も|鈴|も|、|濡れた|草|に|変わった|。",
+        "en": "The instant Kohaku approached, both the stall and the bell turned into wet grass."
+      }
+    ],
+    [
+      {
+        "tokens": "やがて|、|霧|の|下|から|川|の|音|が|聞こえてきた|。",
+        "en": "Soon they heard a river beneath the mist."
+      },
+      {
+        "tokens": "深い|谷|を|渡る|木|の|橋|は|、|真ん中|の|板|が|なくなっていた|。",
+        "en": "A wooden bridge crossed the deep valley, but its middle planks were missing."
+      },
+      {
+        "tokens": "れん|が|懐中電灯|を|向けても|、|光|は|白い|霧|に|戻される|だけ|だった|。",
+        "en": "Even when Ren aimed his torch at it, the white mist only threw the light back."
+      },
+      {
+        "tokens": "あおい|は|帳面|を|開き|、|描かれていない|橋|の|真ん中|を|見た|。",
+        "en": "Aoi opened the notebook and looked at the blank centre of the drawn bridge."
+      },
+      {
+        "tokens": "欠けた|絵|ではなく|、|これ|が|本当|の|形|だった|のだ|。",
+        "en": "The drawing was not unfinished: this was what the bridge really looked like."
+      },
+      {
+        "tokens": "「|二歩|進んで|、|一拍|待って|」|と|あおい|は|口ずさんだ|。",
+        "en": "“Two steps forward, one beat waiting,” Aoi hummed."
+      },
+      {
+        "tokens": "提灯|の|光|の|中|で|、|二枚|の|板|が|ゆっくり|現れた|。",
+        "en": "Two planks slowly appeared in the lantern light."
+      }
+    ],
+    [
+      {
+        "tokens": "「|空いた|所|は|、|帰る|道|」|と|続けると|、|その|先|の|板|も|見えた|。",
+        "en": "When she continued, “Leave a space for the homeward way,” the next planks became visible too."
+      },
+      {
+        "tokens": "あおい|は|盆踊り|で|祖母|の|足|を|まねた|時|の|こと#matter|を|思い出した|。",
+        "en": "Aoi remembered copying her grandmother’s steps in the Bon dance."
+      },
+      {
+        "tokens": "すぐに|次|の|一歩|を|出さず|、|体|の|重さ|が|戻る|の#nominal|を|待つ|。",
+        "en": "Instead of taking the next step at once, she waited for her weight to settle back."
+      },
+      {
+        "tokens": "そうすると|、|足|を|置く|場所|が|光った|。",
+        "en": "When she did, the place to put her foot shone."
+      },
+      {
+        "tokens": "れん|は|あおい|の|肩|に|つかまり|、|同じ|速さ|で|橋|を|渡った|。",
+        "en": "Ren held Aoi’s shoulder and crossed at the same pace."
+      },
+      {
+        "tokens": "下|から|冷たい|水|の|しぶき|が|上がった|が#but|、|二人|は|最後|まで|走らなかった|。",
+        "en": "Cold spray rose from below, but neither of them ran, all the way across."
+      },
+      {
+        "tokens": "向こう岸|の|石|に|足|が|触れた|時|、|あおい|は|初めて|深く|息を吐いた|。",
+        "en": "Only when her foot touched the stones on the far bank did Aoi let out a long breath."
+      }
+    ],
+    [
+      {
+        "tokens": "橋|の|先|に|は|、|灯り|の|少ない|小さな|村|が|あった|。",
+        "en": "Beyond the bridge lay a little village with very few lights."
+      },
+      {
+        "tokens": "水路|に|沿って|歩くと|、|今度|は|幅|の|狭い|黒い|川|が|道|を|横切っていた|。",
+        "en": "They followed a watercourse until a narrow black river crossed their path."
+      },
+      {
+        "tokens": "その|川|に|は|橋|が|なく|、|向こう|の|家|から|だけ|、|窓|の|光|が|こぼれていた|。",
+        "en": "There was no bridge, and light spilled from the windows of just one house on the other side."
+      },
+      {
+        "tokens": "こはく|は|岸|に|しゃがみ|、|赤い|ひも|を|強く|握った|。",
+        "en": "Kohaku crouched on the bank and gripped his red cord."
+      },
+      {
+        "tokens": "「|僕|の|鈴|が|向こう|に|ある|間|は|、|この|川|を|渡れない|」|。",
+        "en": "“As long as my bell is over there, I can’t cross this river.”"
+      },
+      {
+        "tokens": "「|さよ|が|返してくれれば|、|送り|の|門|を|開けられる|んだけど|」|。",
+        "en": "“If Sayo gives it back, I can open the farewell gate.”"
+      },
+      {
+        "tokens": "その|時|、|向こう|の|窓|で|人影|が|動き|、|「|今年|も|、|帰しません|」|と|女|の|声|が|した#sensory|。",
+        "en": "At that moment, a figure moved in the opposite window, and a woman’s voice said, “I won’t send them away this year either.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "女|が|窓|を|開けると|、|川|の|上|に|白い|紙|が|伸びてきた|。",
+        "en": "When the woman opened the window, white paper unfurled over the river."
+      },
+      {
+        "tokens": "紙|は|何枚も|重なり|、|細い|橋|に|なった|。",
+        "en": "Sheet after sheet overlapped, forming a narrow bridge."
+      },
+      {
+        "tokens": "あおい|は|靴|の|先|で|、|そっと|その|端|を|押した|。",
+        "en": "Aoi gently pressed its edge with the toe of her shoe."
+      },
+      {
+        "tokens": "水|に|浮いている|ように|見えた|が#but|、|板|と|同じ|くらい|硬かった|。",
+        "en": "It seemed to float on the water, but it was as firm as a plank."
+      },
+      {
+        "tokens": "「|話|を|聞きに来た|んです|」|と|あおい|は|向こう|の|女|に|言った|。",
+        "en": "“We’ve come to listen,” Aoi told the woman across the river."
+      },
+      {
+        "tokens": "女|は|答えず|、|戸|を|開けたまま|待っていた|。",
+        "en": "The woman said nothing and waited with the door open."
+      },
+      {
+        "tokens": "こはく|を|岸|に|残し|、|二人|は|紙|の|橋|を|渡った|。",
+        "en": "Leaving Kohaku on the bank, the two cousins crossed the paper bridge."
+      }
+    ],
+    [
+      {
+        "tokens": "家|の|中|に|は|、|乾かしている|和紙|が|天井|から|何枚も|下がっていた|。",
+        "en": "Inside the house, sheets of washi hung from the ceiling to dry."
+      },
+      {
+        "tokens": "低い|机|に|は|竹|の|骨|が|並び|、|白い|花|のように|見えた|。",
+        "en": "Bamboo lantern frames lay across a low table, looking like white flowers."
+      },
+      {
+        "tokens": "壁|の|棚|に|は|、|小さな|灯籠|が|奥|まで|続いていた|。",
+        "en": "Small lanterns filled the wall shelves all the way to the back."
+      },
+      {
+        "tokens": "火|の|入った|物|も|あった|が#but|、|多く|は|もう|暗かった|。",
+        "en": "Some were lit, but many had already gone dark."
+      },
+      {
+        "tokens": "部屋|は|水|と|のり|の|におい|が|し#sensory|、|床|だけ|が|冬|のように|冷たかった|。",
+        "en": "The room smelled of water and paste, and only the floor was as cold as winter."
+      },
+      {
+        "tokens": "女|は|古い|藍色|の|着物|を|着て|、|片方|の|袖|を|白い|糸|で|直していた|。",
+        "en": "The woman wore an old indigo kimono, one sleeve mended with white thread."
+      },
+      {
+        "tokens": "その|針目|は|、|祖母|が|あおい|の|浴衣|を|直した|時|の|針目|に|似ていた|。",
+        "en": "The stitches resembled those her grandmother had used to mend Aoi’s summer yukata."
+      }
+    ],
+    [
+      {
+        "tokens": "「|さよさん|ですか|」|と|あおい|は|聞いた|。",
+        "en": "“Are you Sayo?” Aoi asked."
+      },
+      {
+        "tokens": "女|は|、|あおい|が|胸|に|抱えている|帳面|を|見た|。",
+        "en": "The woman looked at the notebook Aoi was holding to her chest."
+      },
+      {
+        "tokens": "「|それ|を|、|どこ|で|手に入れた|の#question|」|。",
+        "en": "“Where did you get that?”"
+      },
+      {
+        "tokens": "「|祖母|の|箱|に|ありました|」|と|答えて|、|あおい|は|表紙|を|向けた|。",
+        "en": "“It was in my grandmother’s box,” Aoi replied, turning the cover toward her."
+      },
+      {
+        "tokens": "さよ|は|手|を|伸ばしかけ|、|途中|で|止めた|。",
+        "en": "Sayo began to reach out, then stopped halfway."
+      },
+      {
+        "tokens": "「|あの|子|は|、|もう|おばあさん|なんだね|」|。",
+        "en": "“So that little girl is an old woman now.”"
+      },
+      {
+        "tokens": "その|言い方|で|、|あおい|は|、|さよ|が|六十年|を|ここ|で|待った|のだと|分かった|。",
+        "en": "From the way she said it, Aoi understood that Sayo had spent sixty years waiting here."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|、|祖母|が|歌|を|忘れていない|と|伝えた|。",
+        "en": "Aoi told her that her grandmother had not forgotten the song."
+      },
+      {
+        "tokens": "さよ|は|目|を|閉じ|、|机|の|隅|の|鈴|を|引き寄せた|。",
+        "en": "Sayo closed her eyes and drew a bell toward her from the corner of the table."
+      },
+      {
+        "tokens": "鈴|に|は|細い|ひび|が|あり|、|赤い|ひも|が|少し|残っていた|。",
+        "en": "There was a thin crack in the bell, and a little red cord still clung to it."
+      },
+      {
+        "tokens": "「|大雨|の|夜|、|こはく|が|これ|を|鳴らして|、|みんな|を|高い|所|へ|案内した|」|。",
+        "en": "“On the night of the storm, Kohaku rang this and led everyone to higher ground.”"
+      },
+      {
+        "tokens": "さよ|の|母|は|先|に|橋|を|渡った|が#but|、|さよ|は|母|の|絵|を|取りに|家|へ|戻った|という#hearsay|。",
+        "en": "Sayo explained that her mother had crossed the bridge ahead of her, but she herself had gone home to fetch a picture of her mother."
+      },
+      {
+        "tokens": "戻った|時|に|は|橋|が|なく|、|白い|狐|が|岸|で|鳴いていた|。",
+        "en": "When she returned, the bridge was gone, and a white fox was calling on the bank."
+      },
+      {
+        "tokens": "「|最後|に|聞いた|の#nominal|が|、|この|鈴|の|音|だった|」|と|さよ|は|言った|。",
+        "en": "“The last thing I heard was this bell,” Sayo said."
+      }
+    ],
+    [
+      {
+        "tokens": "「|こはく|は|毎年|、|私たち|を|送りに来てくれる|」|。",
+        "en": "“Every year, Kohaku comes to see us on our way.”"
+      },
+      {
+        "tokens": "さよ|は|鈴|を|両手|で|包んだまま|、|棚|の|灯籠|を|見た|。",
+        "en": "Still cupping the bell in both hands, Sayo looked at the lanterns on the shelves."
+      },
+      {
+        "tokens": "「|でも|、|門|を|開けたら|、|この|村|は|誰にも|見えなくなる|」|。",
+        "en": "“But if I open the gate, nobody will be able to see this village any more.”"
+      },
+      {
+        "tokens": "「|誰も|話してくれなければ|、|初めから|なかった|村|と|同じ|でしょう|」|。",
+        "en": "“If nobody tells its stories, it will be just like a village that never existed.”"
+      },
+      {
+        "tokens": "あおい|は|すぐに|違う|とは言えなかった|。",
+        "en": "Aoi could not immediately say that she was wrong."
+      },
+      {
+        "tokens": "さっき|まで|、|自分|も|この|谷|の|名前|を|知らなかった|からだ|。",
+        "en": "Until a little while ago, she herself had not even known the valley’s name."
+      },
+      {
+        "tokens": "れん|は|窓|の|外|の|こはく|を|見て|、|何か|言いかけた|が#but|、|やめた|。",
+        "en": "Ren glanced at Kohaku outside the window and began to say something, but stopped."
+      }
+    ],
+    [
+      {
+        "tokens": "さよ|は|棚|から|一つ|の|灯籠|を|下ろした|。",
+        "en": "Sayo took a lantern down from a shelf."
+      },
+      {
+        "tokens": "和紙|に|は|、|雪|の|中|で|大根|を|干す|女|の|人|が|描かれていた|。",
+        "en": "On the paper was a woman hanging daikon radishes to dry in the snow."
+      },
+      {
+        "tokens": "その|下|に|は|、|食べ物|を|隣|の|家|に|分けた|話|が|小さな|字|で|書かれていた|。",
+        "en": "Beneath her, in small writing, was a story about sharing food with the house next door."
+      },
+      {
+        "tokens": "「|この|人|は|、|私|の|母|だ|よ|」|と|さよ|は|言った|。",
+        "en": "“This is my mother,” Sayo said."
+      },
+      {
+        "tokens": "あおい|が|見ている|間|に|も|、|字|の|端|が|少しずつ|白くなった|。",
+        "en": "Even as Aoi watched, the edges of the letters slowly faded to white."
+      },
+      {
+        "tokens": "他|の|灯籠|に|は|、|魚|を|釣る|子供|や|、|橋|を|直す|男たち|の|絵|が|あった|。",
+        "en": "Other lanterns showed children fishing and men repairing the bridge."
+      },
+      {
+        "tokens": "守る|ため|に|閉じた|部屋|で|、|村|の|暮らし|は|静かに|消え続けていた|。",
+        "en": "In a room closed to keep it safe, the life of the village was quietly fading away."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|自分|の|提灯|を|、|さよ|の|母|の|灯籠|の|隣|に|置いた|。",
+        "en": "Aoi set her own lantern beside the one showing Sayo’s mother."
+      },
+      {
+        "tokens": "すると|、|薄くなった|字|が|、|少し|だけ|濃くなった|。",
+        "en": "The faded writing darkened a little."
+      },
+      {
+        "tokens": "窓|の|外|から|、|こはく|が|顔を上げた|。",
+        "en": "Outside the window, Kohaku looked up."
+      },
+      {
+        "tokens": "「|外|の|人|が|覚えると|、|灯り|は|戻る|んだ|」|。",
+        "en": "“When someone from outside remembers, the light comes back.”"
+      },
+      {
+        "tokens": "「|その|火|を|川辺|に|並べれば|、|みんな|を|送る|道|が|できる|」|。",
+        "en": "“If you line the riverbank with those flames, there will be a path to see everyone on their way.”"
+      },
+      {
+        "tokens": "れん|が|ほっとして|笑った|時|、|あおい|の|提灯|が|大きく|揺れた|。",
+        "en": "Just as Ren smiled with relief, Aoi’s lantern lurched."
+      },
+      {
+        "tokens": "棚|の|灯籠|が|一斉に|光ろうとして|、|小さな|金色|の|火|が|細くなった|。",
+        "en": "All the lanterns on the shelves tried to light at once, and the little golden flame dwindled."
+      }
+    ],
+    [
+      {
+        "tokens": "「|一つ|で|は|、|足りない|」|と|さよ|は|言った|。",
+        "en": "“One isn’t enough,” Sayo said."
+      },
+      {
+        "tokens": "「|この|村|に|は|、|こんなに|たくさん|の|人|が|いた|んだもの|」|。",
+        "en": "“There were so many people in this village.”"
+      },
+      {
+        "tokens": "あおい|は|窓|から|、|黒い|川|と|、|二人|が|来た|山道|を|見た|。",
+        "en": "Through the window, Aoi looked at the black river and the mountain path they had followed."
+      },
+      {
+        "tokens": "今|なら|、|まだ|祖母|の|家|まで|の|道|を|思い出せた|。",
+        "en": "For now, she could still remember the route to her grandmother’s house."
+      },
+      {
+        "tokens": "「|れん|、|提灯|を|持って|戻って|、|村|の|人|を|呼んできて|」|。",
+        "en": "“Ren, take the lantern back and bring the villagers.”"
+      },
+      {
+        "tokens": "れん|は|すぐに|は|受け取らず|、|「|あおい|は|どうする|の#question|」|と|聞いた|。",
+        "en": "Ren did not take it straight away but asked, “What about you?”"
+      },
+      {
+        "tokens": "「|ここ|で|話|を|聞く|から|、|みんな|に|も|覚えてもらって|」|と|あおい|は|答えた|。",
+        "en": "“I’ll stay and listen, so get everyone else to remember the stories too,” Aoi replied."
+      }
+    ],
+    [
+      {
+        "tokens": "さよ|は|、|火|から|離れると|帰り道|の|記憶|も|薄れる|と|二人|に|告げた|。",
+        "en": "Sayo told them that away from the flame, their memory of the way home would fade too."
+      },
+      {
+        "tokens": "それでも|、|誰か|が|残らなければ|、|消えかけた|話|を|聞く|こと|が|できない|。",
+        "en": "Even so, unless someone stayed, there would be nobody to hear the vanishing stories."
+      },
+      {
+        "tokens": "あおい|は|帳面|の|白い|ページ|に|、|さよ|の|母|の|話|を|書いた|。",
+        "en": "On a blank page of the notebook, Aoi wrote down the story of Sayo’s mother."
+      },
+      {
+        "tokens": "れん|は|その|ページ|を|受け取り|、|提灯|の|持ち手|に|結んだ|。",
+        "en": "Ren took the page and tied it to the lantern’s handle."
+      },
+      {
+        "tokens": "「|必ず|、|名前|を|呼ぶ|から|」|と|言って|、|れん|は|紙|の|橋|を|渡った|。",
+        "en": "“I promise I’ll call your name,” Ren said, and crossed the paper bridge."
+      },
+      {
+        "tokens": "こはく|は|れん|を|山道|の|入口|まで|送り|、|また|川辺|へ|戻ってきた|。",
+        "en": "Kohaku accompanied Ren to the start of the mountain path, then returned to the riverbank."
+      },
+      {
+        "tokens": "窓|から|金色|の|光|が|見えなくなると|、|あおい|の|手|の|中|で|、|帳面|が|急に|冷たくなった|。",
+        "en": "When the golden light vanished from the window, the notebook suddenly grew cold in Aoi’s hands."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "れん|が|去った|後|、|家|の|中|で|は|紙|の|こすれる|音|だけ|が|続いた|。",
+        "en": "After Ren left, only the rustle of paper continued inside the house."
+      },
+      {
+        "tokens": "あおい|は|机|に|座り|、|さよ|が|話す|村|の|暮らし|を|書き留めた|。",
+        "en": "Aoi sat at the table and wrote down Sayo’s accounts of village life."
+      },
+      {
+        "tokens": "冬|の|朝|に|は|、|水車|が|凍って|動かない|こともあった|。",
+        "en": "On winter mornings, the waterwheel sometimes froze and would not turn."
+      },
+      {
+        "tokens": "春|に|なると|、|みんな|で|山|へ|行き|、|食べられる|草|を|集めた|。",
+        "en": "In spring, everyone went into the mountains to gather edible plants."
+      },
+      {
+        "tokens": "橋|を|直す|日|は|、|どの|家|も|大きな|おにぎり|を|作った|。",
+        "en": "On bridge-repair days, every household made large rice balls."
+      },
+      {
+        "tokens": "さよ|は|初め|、|短く|答える|だけ|だった|が#but|、|だんだん|手|も|動かして|話すようになった|。",
+        "en": "At first Sayo gave only short replies, but gradually she began to gesture as she spoke."
+      },
+      {
+        "tokens": "あおい|は|笑いながら|書き|、|気がつくと|指|に|黒い|墨|が|ついていた|。",
+        "en": "Aoi wrote and laughed, and before she noticed, her fingers were stained with black ink."
+      }
+    ],
+    [
+      {
+        "tokens": "けれど|、|棚|の|下|の|段|で|は|、|灯り|が|また|一つ|消えた|。",
+        "en": "But another light went out on the bottom shelf."
+      },
+      {
+        "tokens": "戸|の|外|で|川|の|音|が|高くなり|、|床|の|隙間|から|水|が|入ってきた|。",
+        "en": "Outside the door the river grew louder, and water began coming through gaps in the floor."
+      },
+      {
+        "tokens": "さよ|は|白い|紙|を|川|へ|伸ばした|が#but|、|橋|の|端|は|すぐに|裂けた|。",
+        "en": "Sayo extended white paper over the river, but the end of the bridge tore at once."
+      },
+      {
+        "tokens": "「|古い|紙|は|、|もう|弱くなっている|」|と|さよ|は|言った|。",
+        "en": "“The old paper has grown weak,” Sayo said."
+      },
+      {
+        "tokens": "あおい|は|縁側|で|祖母|に|教わった|こと#matter|を|思い出した|。",
+        "en": "Aoi remembered what her grandmother had taught her on the veranda."
+      },
+      {
+        "tokens": "「|一枚|で|支えないで|、|重ねたら|どうでしょう|」|。",
+        "en": "“Instead of making one sheet bear the weight, what if we overlap them?”"
+      },
+      {
+        "tokens": "机|の|上|に|は|新しい|紙|が|なく|、|残っていた|の#nominal|は|、|絵|と|話|の|書かれた|灯籠|だけ|だった|。",
+        "en": "There was no fresh paper on the table: all that remained were the lanterns covered with pictures and stories."
+      }
+    ],
+    [
+      {
+        "tokens": "さよ|は|灯籠|を|胸|に|抱き|、|首を横に振った|。",
+        "en": "Sayo hugged a lantern to her chest and shook her head."
+      },
+      {
+        "tokens": "「|切ったら|、|元|に|は|戻らない|よ|」|。",
+        "en": "“If we cut them, they’ll never be the same again.”"
+      },
+      {
+        "tokens": "あおい|は|帳面|に|書いた|話|を|見せた|。",
+        "en": "Aoi showed her the stories she had written in the notebook."
+      },
+      {
+        "tokens": "「|同じ|物|に|は|戻せません|が#but|、|ここ|に|も|残っています|」|。",
+        "en": "“We can’t put them back as they were, but they’re here too now.”"
+      },
+      {
+        "tokens": "さよ|は|長い|間|、|雪|の|中|の|母|の|絵|を|見ていた|。",
+        "en": "For a long time, Sayo looked at the picture of her mother in the snow."
+      },
+      {
+        "tokens": "やがて|、|小さな|はさみ|を|取り|、|絵|の|端|から|細い|紙|を|切り始めた|。",
+        "en": "At last she picked up small scissors and began cutting a narrow strip from the edge of the picture."
+      },
+      {
+        "tokens": "「|母|なら|、|寒い|所|で|待たせるな|って|言う|ね|」|と|、|さよ|は|少し|笑った|。",
+        "en": "“My mother would say not to leave people waiting in the cold,” Sayo said with a small smile."
+      }
+    ],
+    [
+      {
+        "tokens": "二人|は|灯籠|の|紙|を|帯|のように|切り|、|長い|机|に|並べた|。",
+        "en": "They cut the lantern paper into strips and laid them along the long table."
+      },
+      {
+        "tokens": "あおい|が|のり|を|塗り|、|さよ|が|端|を|重ねて|押さえた|。",
+        "en": "Aoi brushed on paste, and Sayo overlapped and pressed down the edges."
+      },
+      {
+        "tokens": "魚|の|尾|と|大根|の|葉|が|、|知らない|家|の|屋根|に|つながった|。",
+        "en": "A fish’s tail and a radish’s leaves joined the roof of an unfamiliar house."
+      },
+      {
+        "tokens": "一つ一つ|の|絵|は|欠けた|が#but|、|紙|は|厚く|、|しなやかになった|。",
+        "en": "Each picture lost a piece, but the paper grew thick and supple."
+      },
+      {
+        "tokens": "二人|で|戸|の|外|へ|送り出すと|、|白い|橋|が|水|の|上|を|渡っていった|。",
+        "en": "As they fed it out through the doorway together, a white bridge spread across the water."
+      },
+      {
+        "tokens": "こはく|は|向こう岸|で|端|を|受け取り|、|石|の|間|に|しっかり|挟んだ|。",
+        "en": "Kohaku caught the end on the far bank and wedged it firmly between the stones."
+      },
+      {
+        "tokens": "けれど|、|橋|が|届いても|、|その|先|の|山道|は|暗い|まま|だった|。",
+        "en": "But even with the bridge in place, the mountain path beyond it remained dark."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|は|祖母|の|家|の|門|を|思い浮かべようとした|。",
+        "en": "Aoi tried to picture the gate of her grandmother’s house."
+      },
+      {
+        "tokens": "右|に|あった|木|が|何#kind|の|木|だった|か|、|分からなくなっていた|。",
+        "en": "She could no longer remember what kind of tree grew to its right."
+      },
+      {
+        "tokens": "次に|、|れん|の|顔|は|浮かぶ|のに|、|名前|が|出てこなくなった|。",
+        "en": "Then she could picture Ren’s face, but his name would no longer come."
+      },
+      {
+        "tokens": "恐ろしくなって|帳面|を|開くと|、|書いたばかり|の|字|まで|薄く|見えた|。",
+        "en": "Frightened, she opened the notebook, and even the writing she had just added looked faint."
+      },
+      {
+        "tokens": "「|私|は|、|何|を|しに来た|んでしょう|」|と|あおい|は|聞いた|。",
+        "en": "“What did I come here to do?” Aoi asked."
+      },
+      {
+        "tokens": "さよ|は|あおい|の|手|を|握り|、|「|話|を|聞きに来た|んだよ|」|と|答えた|。",
+        "en": "Sayo held Aoi’s hand and replied, “You came to listen.”"
+      },
+      {
+        "tokens": "その|手|は|まだ|冷たかった|が#but|、|今度|は|離れなかった|。",
+        "en": "Her hand was still cold, but this time it did not let go."
+      }
+    ],
+    [
+      {
+        "tokens": "川|の|向こう|で|、|小さな|金色|の|点|が|動いた|。",
+        "en": "Across the river, a tiny golden point moved."
+      },
+      {
+        "tokens": "一つ|の|後ろ|に|、|二つ|、|三つ|と|、|温かい|光|が|続いた|。",
+        "en": "Behind the first, two, then three warm lights followed."
+      },
+      {
+        "tokens": "「|あおい|」|と|誰か|が|呼んだ|。",
+        "en": "“Aoi!” someone called."
+      },
+      {
+        "tokens": "その|声|を|聞くと|、|れん|という|名前|が|胸|に|戻ってきた|。",
+        "en": "At that voice, the name Ren returned to her heart."
+      },
+      {
+        "tokens": "れん|の|隣|で|は|、|祖母|が|杖|を|ついて#cane|立っていた|。",
+        "en": "Beside Ren stood her grandmother, leaning on a walking stick."
+      },
+      {
+        "tokens": "村|の|人たち|は|、|れん|の|持ち帰った|話|を|読み|、|提灯|を|持って|山道|を|登ってきた|のだ|。",
+        "en": "The villagers had read the story Ren brought back and climbed the mountain path carrying lanterns."
+      },
+      {
+        "tokens": "「|大根|を|分けてくれた|人|の|話|、|聞いた|よ|」|と|一人|が|川|へ|声をかけた|。",
+        "en": "“We heard about the woman who shared her radishes,” someone called across the river."
+      }
+    ],
+    [
+      {
+        "tokens": "祖母|が|歌い始めると|、|さよ|は|顔を上げた|。",
+        "en": "When Aoi’s grandmother began to sing, Sayo looked up."
+      },
+      {
+        "tokens": "「|二歩|進んで|、|一拍|待って|、|空いた|所|は|帰る|道|」|。",
+        "en": "“Two steps forward, one beat waiting; leave a space for the homeward way.”"
+      },
+      {
+        "tokens": "さよ|の|唇|が|動き|、|初めて|歌|の|続き#noun|を|作った|。",
+        "en": "Sayo’s lips moved, and for the first time she made up an ending to the song."
+      },
+      {
+        "tokens": "「|灯り|は|渡して|、|名前|は|残して|、|明日|の|人|に|も|見える|ように|」|。",
+        "en": "“Pass on the light, leave the names behind, so tomorrow’s people can see them too.”"
+      },
+      {
+        "tokens": "祖母|は|それ|を|聞いて|うなずき|、|もう一度|、|初め|から|歌った|。",
+        "en": "Hearing it, her grandmother nodded and sang again from the beginning."
+      },
+      {
+        "tokens": "村|の|人たち|も|続き|、|歌|は|川|の|両側|から|聞こえるようになった|。",
+        "en": "The villagers joined in, until the song rose from both sides of the river."
+      },
+      {
+        "tokens": "山道|に|並んだ|火|の|下|で|、|消えかけていた|石段|が|形|を|取り戻した|。",
+        "en": "Beneath the flames lining the mountain path, the fading stone steps regained their shape."
+      }
+    ],
+    [
+      {
+        "tokens": "さよ|は|机|から|鈴|を|取り|、|あおい|の|手|に|置いた|。",
+        "en": "Sayo took the bell from the table and placed it in Aoi’s hand."
+      },
+      {
+        "tokens": "「|これ|を|、|こはく|に|返してくれる|」|。",
+        "en": "“Will you give this back to Kohaku?”"
+      },
+      {
+        "tokens": "戸|の|奥|に|は|、|これまで|見えなかった|木|の|門|が|現れていた|。",
+        "en": "Beyond the doorway, a wooden gate had appeared where none had been visible before."
+      },
+      {
+        "tokens": "あおい|が|鈴|を|持って|橋|に|乗ると|、|門|が|少し|開いた|。",
+        "en": "As Aoi stepped onto the bridge with the bell, the gate opened a little."
+      },
+      {
+        "tokens": "さよ|が|戸口|を|離れた|とたん|、|橋|の|真ん中|が|水|に|沈んだ|。",
+        "en": "The instant Sayo left the doorway, the middle of the bridge sank into the water."
+      },
+      {
+        "tokens": "「|誰か|が|ここ|で|門|を|押さえていないと|、|まだ|渡れない|んだね|」|と|さよ|は|言った|。",
+        "en": "“We still can’t cross unless someone stays here holding the gate,” Sayo said."
+      },
+      {
+        "tokens": "さよ|は|家|に|残って|両手|で|門|を|押さえ|、|あおい|を|先|に|行かせた|。",
+        "en": "Sayo stayed in the house, bracing the gate with both hands, and sent Aoi ahead."
+      }
+    ],
+    [
+      {
+        "tokens": "あおい|が|橋|の|真ん中|へ|来た|時|、|足|の|下|で|紙|が|裂けた|。",
+        "en": "When Aoi reached the middle of the bridge, the paper tore beneath her feet."
+      },
+      {
+        "tokens": "あと|一枚|、|広い|紙|が|あれば|、|岸|まで|つなぐ|こと|が|できた|。",
+        "en": "One more broad sheet of paper would let her join the bridge all the way to the bank."
+      },
+      {
+        "tokens": "帳面|に|は|、|祖母|と|さよ|が|描いた|橋|の|ページ|が|残っていた|。",
+        "en": "The notebook still held the page with the bridge her grandmother and Sayo had drawn."
+      },
+      {
+        "tokens": "あおい|は|絵|を|最後|に|もう一度|見て|、|その|ページ|を|静かに|外した|。",
+        "en": "Aoi looked at the drawing one last time, then quietly removed the page."
+      },
+      {
+        "tokens": "描かれていない|真ん中|を|裂け目|に|重ねると|、|紙|は|水|を|吸って|ぴたりと|ついた#cling|。",
+        "en": "When she laid its blank centre over the tear, the paper soaked up the water and clung fast."
+      },
+      {
+        "tokens": "あおい|は|二歩|進み|、|一拍|待ってから|、|れん|の|差し出した|手|を|握った|。",
+        "en": "Aoi took two steps, waited one beat, and grasped Ren’s outstretched hand."
+      },
+      {
+        "tokens": "背中|の|ほう|で|門|が|きしみ|、|さよ|の|姿|が|灯り|の|中|で|薄くなった|。",
+        "en": "Behind her, the gate creaked, and Sayo’s figure grew faint in the light."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "あおい|は|岸|の|石|に|膝をつき|、|こはく|へ|鈴|を|差し出した|。",
+        "en": "Aoi knelt on the stones at the riverbank and held the bell out to Kohaku."
+      },
+      {
+        "tokens": "こはく|が|赤い|ひも|を|通すと|、|鈴|の|ひび|から|細い|光|が|こぼれた|。",
+        "en": "When Kohaku threaded the red cord through it, a thin light spilled from the crack in the bell."
+      },
+      {
+        "tokens": "一度目|の|音|で|、|家|の|奥|の|門|が|大きく|開いた|。",
+        "en": "At the first note, the gate at the back of the house swung wide."
+      },
+      {
+        "tokens": "二度目|の|音|で|、|紙|の|橋|が|岸|から|門|まで|金色|に|なった|。",
+        "en": "At the second, the paper bridge turned golden from the bank to the gate."
+      },
+      {
+        "tokens": "三度目|の|音|が|消えた|時|、|少年|の|立っていた|所|に|白い|狐|が|いた|。",
+        "en": "When the third note faded, a white fox stood where the boy had been."
+      },
+      {
+        "tokens": "右|の|耳|の|先|だけ|が|黒く|、|首|に|は|赤い|ひも|が|結ばれていた|。",
+        "en": "Only the tip of its right ear was black, and the red cord was tied around its neck."
+      },
+      {
+        "tokens": "帳面|の|絵|と|同じ|狐|が|、|あおい|を|見て|小さく|頭を下げた|。",
+        "en": "The fox from the notebook’s drawing looked at Aoi and gave a small bow."
+      }
+    ],
+    [
+      {
+        "tokens": "門|は|もう|、|さよ|が|支えなくても|閉じなかった|。",
+        "en": "The gate no longer closed when Sayo stopped supporting it."
+      },
+      {
+        "tokens": "さよ|は|濡れた|袖|を|下ろし|、|ゆっくり|紙|の|橋|へ|出てきた|。",
+        "en": "Sayo lowered her wet sleeves and stepped slowly onto the paper bridge."
+      },
+      {
+        "tokens": "祖母|は|れん|に|支えられながら|、|岸|の|いちばん|近い|石|に|立った|。",
+        "en": "Supported by Ren, Aoi’s grandmother stood on the nearest stone at the water’s edge."
+      },
+      {
+        "tokens": "二人|の|間|に|は|、|手|の|届かない|ほど|の|水|が|残っていた|。",
+        "en": "A stretch of water still lay between them, too wide for their hands to reach."
+      },
+      {
+        "tokens": "「|橋|で|待つ|約束|だった|のに|、|遅くなった|ね|」|と|祖母|が|言った|。",
+        "en": "“We promised to meet at the bridge, but I’m late,” her grandmother said."
+      },
+      {
+        "tokens": "さよ|は|祖母|の|白い|髪|を|見て|、|それから|昔|の|子供|のように|笑った|。",
+        "en": "Sayo looked at her white hair, then laughed like the child she had once been."
+      },
+      {
+        "tokens": "「|私|も|、|ずいぶん|長く|待たせた|ね|」|。",
+        "en": "“I’ve kept you waiting a long time too.”"
+      }
+    ],
+    [
+      {
+        "tokens": "祖母|は|袋|から|、|折りたたんだ|和紙|を|取り出した|。",
+        "en": "Her grandmother took a folded sheet of washi from her bag."
+      },
+      {
+        "tokens": "来年|、|一緒に|新しい|提灯|を|作ろう|と|、|あの|帳面|に|約束|を|書いた|のだという|。",
+        "en": "She explained that she had written a promise in the notebook to make a new lantern together the following year."
+      },
+      {
+        "tokens": "「|同じ|提灯|は|作れなかった|けれど|、|作り方|は|この|子|に|教えた|よ|」|。",
+        "en": "“We couldn’t make that lantern, but I’ve taught this child how.”"
+      },
+      {
+        "tokens": "あおい|は|墨|と|のり|で|汚れた|自分|の|手|を|見た|。",
+        "en": "Aoi looked at her own hands, stained with ink and paste."
+      },
+      {
+        "tokens": "さよ|は|その|手|を|見て|、|満足そうに|うなずいた|。",
+        "en": "Sayo looked at those hands and nodded with satisfaction."
+      },
+      {
+        "tokens": "「|この|子|」|という|言葉|が|、|今|は|祖母|ではなく|、|自分|を|指している|の#nominal|が|不思議だった|。",
+        "en": "It felt strange that the words “this child” now meant Aoi herself, rather than her grandmother."
+      },
+      {
+        "tokens": "あおい|は|新しい|紙|を|受け取り|、|破れないように|胸|に|抱えた|。",
+        "en": "Aoi took the fresh paper and held it carefully against her chest so it would not tear."
+      }
+    ],
+    [
+      {
+        "tokens": "家|から|、|人たち|が|静かに|橋|へ|出てきた|。",
+        "en": "People emerged quietly from the house onto the bridge."
+      },
+      {
+        "tokens": "大根|を|干していた|女|の|人|も|、|釣りざお|を|持つ|子供|も|いた|。",
+        "en": "There was the woman who had dried radishes, and a child holding a fishing rod."
+      },
+      {
+        "tokens": "みな|少し|透けていて|、|歩く|足音|は|聞こえなかった|。",
+        "en": "They were all a little transparent, and their footsteps made no sound."
+      },
+      {
+        "tokens": "村|の|人たち|は|川辺|に|提灯|を|並べ|、|橋|に|いる|人たち|へ|光|を|送った|。",
+        "en": "The villagers lined the bank with lanterns, sending their light toward the people on the bridge."
+      },
+      {
+        "tokens": "誰か|が|知っている|名前|を|呼び|、|知らない|人|に|は|「|どうぞ|」|と|頭を下げた|。",
+        "en": "Someone called the names they knew and bowed to strangers, saying, “Please, go ahead.”"
+      },
+      {
+        "tokens": "一人ずつ|別れ|を|告げると|、|人たち|は|家|の|奥|の|門|へ|歩いていった|。",
+        "en": "After saying their goodbyes one by one, the people walked toward the gate at the back of the house."
+      },
+      {
+        "tokens": "れん|は|列|の|中|に|母|の|姿|を|探した|が#but|、|やがて|探す|の#nominal|を|やめた|。",
+        "en": "Ren searched the line for his mother, but eventually stopped looking."
+      },
+      {
+        "tokens": "「|母さん|の|灯籠|は|、|うち|の|川|で|待ってる|」|と|、|あおい|に|言った|。",
+        "en": "“Mum’s lantern is waiting at our river,” he told Aoi."
+      }
+    ],
+    [
+      {
+        "tokens": "さよ|は|最後|に|家|を|振り返った|。",
+        "en": "Sayo looked back at the house for the last time."
+      },
+      {
+        "tokens": "棚|は|空になり|、|屋根|の|下|に|は|白い|糸|だけ|が|揺れていた|。",
+        "en": "The shelves were empty, and only white threads stirred beneath the roof."
+      },
+      {
+        "tokens": "「|何も|なくなった|みたいだね|」|と|さよ|は|言った|。",
+        "en": "“It looks as though everything has gone,” Sayo said."
+      },
+      {
+        "tokens": "あおい|は|帳面|を|持ち上げ|、|「|聞いた|こと#matter|は|、|まだ|ここ|に|あります|」|と|答えた|。",
+        "en": "Aoi lifted the notebook and replied, “The things you told me are still here.”"
+      },
+      {
+        "tokens": "「|書けなかった|こと#matter|も|ある|けれど|、|覚えている|うちに|書きます|」|。",
+        "en": "“There are things I couldn’t write down, but I’ll write them while I still remember.”"
+      },
+      {
+        "tokens": "さよ|は|「|分からない|所|は|、|分からないまま|で|いい|よ|」|と|言った|。",
+        "en": "“It’s all right to leave the things you don’t know as things you don’t know,” Sayo said."
+      },
+      {
+        "tokens": "さよ|の|母|だけ|が|、|門|の|手前|で|娘|を|待っていた|。",
+        "en": "Only Sayo’s mother remained before the gate, waiting for her daughter."
+      },
+      {
+        "tokens": "そして|母|の|差し出す|手|を|取り|、|開いた|門|の|向こう|へ|歩いていった|。",
+        "en": "Then she took her mother’s offered hand and walked beyond the open gate."
+      }
+    ],
+    [
+      {
+        "tokens": "狐|が|最後|に|橋|を|渡ると|、|金色|の|道|は|水|に|ほどけていった|。",
+        "en": "When the fox crossed the bridge last, the golden path unravelled into the water."
+      },
+      {
+        "tokens": "家|の|窓|も|屋根|も|、|霧|の|中|へ|ゆっくり|沈んだ|。",
+        "en": "The house’s windows and roof slowly sank into the mist."
+      },
+      {
+        "tokens": "あおい|の|足元|へ|、|白い|紙|の|小片|が|流れてきた|。",
+        "en": "A small scrap of white paper floated to Aoi’s feet."
+      },
+      {
+        "tokens": "そこ|に|は|橋|の|端|と|、|小さな|黒い|耳|だけ|が|残っていた|。",
+        "en": "Only the end of a bridge and a little black ear remained on it."
+      },
+      {
+        "tokens": "あおい|は|拾い上げ|、|祖母|に|も|見せてから|、|帳面|の|間|に|挟んだ|。",
+        "en": "Aoi picked it up, showed her grandmother, and tucked it between the notebook’s pages."
+      },
+      {
+        "tokens": "完全な|絵|ではなかった|が#but|、|もう|描き直したいとは思わなかった|。",
+        "en": "It was not a complete picture, but she no longer wanted to redraw it."
+      },
+      {
+        "tokens": "遠く|で|鈴|が|三度|鳴り|、|いつも|の|川|の|音|が|戻ってきた|。",
+        "en": "A bell rang three times in the distance, and the ordinary sound of the river returned."
+      }
+    ],
+    [
+      {
+        "tokens": "村|へ|戻ると|、|広場|の|太鼓|は|終わり#verb|、|屋台|の|明かり|も|少なくなっていた|。",
+        "en": "By the time they returned to the village, the drums in the square had stopped, and fewer stalls were still lit."
+      },
+      {
+        "tokens": "川下|で|待っていた|れん|の|父|が|、|遅かった|な|と|手を振った|。",
+        "en": "Ren’s father, waiting downstream, waved and said they were late."
+      },
+      {
+        "tokens": "れん|は|母|の|名前|を|書いた|灯籠|を|、|水|に|そっと|置いた|。",
+        "en": "Ren gently set a lantern bearing his mother’s name on the water."
+      },
+      {
+        "tokens": "あおい|も|祖母|と|一緒に|、|小さな|灯籠|を|送り出した|。",
+        "en": "Aoi and her grandmother sent off a small lantern together too."
+      },
+      {
+        "tokens": "流れ|の|先|で|は|、|人たち|が|長い|棒|で|灯籠|を|岸|へ|寄せていた|。",
+        "en": "Farther down the current, people were drawing the lanterns to the bank with long poles."
+      },
+      {
+        "tokens": "送り出す|こと|と|、|捨ててしまう|こと|は|違う|のだと|、|あおい|は|思った|。",
+        "en": "Aoi thought that seeing something off and throwing it away were different things."
+      },
+      {
+        "tokens": "祖母|は|川|の|光|を|見ながら|、|今度|は|最後|まで|歌った|。",
+        "en": "Looking at the lights on the river, her grandmother sang all the way to the end this time."
+      }
+    ],
+    [
+      {
+        "tokens": "翌朝|、|山|に|は|昨夜|と|同じ|白い|雲|が|かかっていた|。",
+        "en": "The next morning, the same white clouds as the night before hung over the mountains."
+      },
+      {
+        "tokens": "あおい|と|れん|が|三本|の|杉|まで|行くと|、|その|先|は|草|に|埋もれていた|。",
+        "en": "When Aoi and Ren went to the three cedars, the path beyond was buried in grass."
+      },
+      {
+        "tokens": "祠|の|前|に|、|小さな|赤い|ひも|が|一つ|落ちていた|が#but|、|鈴|は|なかった|。",
+        "en": "A little red cord lay in front of the shrine, but there was no bell."
+      },
+      {
+        "tokens": "家|に|戻った|あおい|は|、|新しい|帳面|の|最初|に|、|隠れ谷|と|大きく|書いた|。",
+        "en": "Back at the house, Aoi wrote “Hidden Valley” in large letters on the first page of a new notebook."
+      },
+      {
+        "tokens": "祖母|は|昔|の|隣人|の|名前|を|話し|、|れん|は|聞いた|こと#matter|を|地図|に|した|。",
+        "en": "Her grandmother named old neighbours, and Ren made a map from what he heard."
+      },
+      {
+        "tokens": "あおい|の|携帯電話|が|鳴った|が#but|、|今度|は|話|が|終わる|まで|裏返しておいた|。",
+        "en": "Aoi’s phone rang, but this time she left it face down until the story was finished."
+      },
+      {
+        "tokens": "午後|に|は|村|の|人|も|訪ねてきて|、|帳面|の|ページ|は|少しずつ|増えていった|。",
+        "en": "In the afternoon, villagers came to visit, and the notebook slowly filled with more pages."
+      }
+    ],
+    [
+      {
+        "tokens": "次|の|夏|、|あおい|は|バス|の|窓|から|、|谷|の|青い|影|を|探した|。",
+        "en": "The following summer, Aoi searched for the valley’s blue shadow from the bus window."
+      },
+      {
+        "tokens": "袋|の|中|に|は|、|みんな|の|話|を|写した|帳面|と|、|新しい|筆|が|入っていた|。",
+        "en": "In her bag were a notebook of everyone’s stories and a new brush."
+      },
+      {
+        "tokens": "祖母|の|縁側|で|は|、|小さな|子供|が|竹|の|輪|を|押さえていた|。",
+        "en": "On her grandmother’s veranda, a small child was holding down a bamboo hoop."
+      },
+      {
+        "tokens": "あおい|は|その|隣|に|座り|、|紙|の|端|を|少し|重ねる|やり方|を|見せた|。",
+        "en": "Aoi sat beside the child and showed how to overlap the edges of the paper a little."
+      },
+      {
+        "tokens": "出来上がった|提灯|に|は|、|名前|を|書かない|面#side|を|一つ|残した|。",
+        "en": "On the finished lantern, she left one panel without a name."
+      },
+      {
+        "tokens": "「|ここ|は|、|まだ|知らない|人|の|ため|」|と|あおい|は|子供|に|言った|。",
+        "en": "“This is for someone we don’t know yet,” Aoi told the child."
+      },
+      {
+        "tokens": "庭|の|風鈴|は|静かだった|のに|、|門|の|向こう|で|、|ひび|の|ある|鈴|が|三度|鳴った|。",
+        "en": "Although the garden wind chime was still, a cracked bell rang three times beyond the gate."
+      }
+    ]
+  ]
+]

@@ -1,0 +1,6607 @@
+{
+  "午後": [
+    "午[ご]後[ご]",
+    "afternoon",
+    "n",
+    "",
+    ""
+  ],
+  "山": [
+    "山[やま]",
+    "mountain",
+    "n",
+    "",
+    ""
+  ],
+  "村": [
+    "村[むら]",
+    "village",
+    "n",
+    "",
+    ""
+  ],
+  "着いた": [
+    "着[つ]いた",
+    "arrived",
+    "v",
+    "着く",
+    "plain past"
+  ],
+  "熱い": [
+    "熱[あつ]い",
+    "hot",
+    "adj",
+    "",
+    ""
+  ],
+  "土": [
+    "土[つち]",
+    "soil",
+    "n",
+    "",
+    ""
+  ],
+  "葉": [
+    "葉[は]",
+    "leaf",
+    "n",
+    "",
+    ""
+  ],
+  "におい": [
+    "におい",
+    "smell",
+    "n",
+    "",
+    ""
+  ],
+  "した": [
+    "した",
+    "did; made",
+    "v",
+    "する",
+    "plain past"
+  ],
+  "向こう": [
+    "向[む]こう",
+    "far side, beyond",
+    "n",
+    "",
+    ""
+  ],
+  "古い": [
+    "古[ふる]い",
+    "old",
+    "adj",
+    "",
+    ""
+  ],
+  "家": [
+    "家[いえ]",
+    "house; home",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "黒い": [
+    "黒[くろ]い",
+    "black",
+    "adj",
+    "",
+    ""
+  ],
+  "屋根": [
+    "屋[や]根[ね]",
+    "roof",
+    "n",
+    "",
+    ""
+  ],
+  "夕方": [
+    "夕[ゆう]方[がた]",
+    "evening, dusk",
+    "n",
+    "",
+    ""
+  ],
+  "光": [
+    "光[ひかり]",
+    "light",
+    "n",
+    "",
+    ""
+  ],
+  "上": [
+    "上[うえ]",
+    "above",
+    "n",
+    "",
+    ""
+  ],
+  "白い": [
+    "白[しろ]い",
+    "white",
+    "adj",
+    "",
+    ""
+  ],
+  "雲": [
+    "雲[くも]",
+    "clouds",
+    "n",
+    "",
+    ""
+  ],
+  "残り": [
+    "残[のこ]り",
+    "remained, and",
+    "v",
+    "残る",
+    "continuative form",
+    "残る"
+  ],
+  "谷": [
+    "谷[たに]",
+    "valley",
+    "n",
+    "",
+    ""
+  ],
+  "底": [
+    "底[そこ]",
+    "bottom",
+    "n",
+    "",
+    ""
+  ],
+  "もう": [
+    "もう",
+    "already; any longer (with a negative)",
+    "adv",
+    "",
+    ""
+  ],
+  "青かった": [
+    "青[あお]かった",
+    "was blue",
+    "adj",
+    "青い",
+    "plain past"
+  ],
+  "毎年": [
+    "毎[まい]年[とし]",
+    "every year",
+    "adv",
+    "",
+    ""
+  ],
+  "なると": [
+    "なると",
+    "when it becomes; when it comes",
+    "v",
+    "なる",
+    "\"when\" form",
+    false
+  ],
+  "来ていた": [
+    "来[き]ていた",
+    "used to come",
+    "v",
+    "来る",
+    "plain past habitual"
+  ],
+  "駅": [
+    "駅[えき]",
+    "station",
+    "n",
+    "",
+    ""
+  ],
+  "友達": [
+    "友[とも]達[だち]",
+    "friends",
+    "n",
+    "",
+    ""
+  ],
+  "届いた": [
+    "届[とど]いた",
+    "arrived",
+    "v",
+    "届く",
+    "plain past"
+  ],
+  "写真": [
+    "写[しゃ]真[しん]",
+    "photographs",
+    "n",
+    "",
+    ""
+  ],
+  "まだ": [
+    "まだ",
+    "still; not yet",
+    "adv",
+    "",
+    ""
+  ],
+  "ここ": [
+    "ここ",
+    "here",
+    "n",
+    "",
+    ""
+  ],
+  "半分": [
+    "半[はん]分[ぶん]",
+    "half",
+    "n",
+    "",
+    ""
+  ],
+  "しか": [
+    "しか",
+    "nothing but — used with a negative",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "見えなかった": [
+    "見[み]えなかった",
+    "could not be seen",
+    "v",
+    "見える",
+    "plain past negative"
+  ],
+  "縁側": [
+    "縁[えん]側[がわ]",
+    "veranda",
+    "n",
+    "",
+    ""
+  ],
+  "輪": [
+    "輪[わ]",
+    "a loop",
+    "n",
+    "",
+    ""
+  ],
+  "薄い": [
+    "薄[うす]い",
+    "thin",
+    "adj",
+    "",
+    ""
+  ],
+  "膝": [
+    "膝[ひざ]",
+    "knees",
+    "n",
+    "",
+    ""
+  ],
+  "横": [
+    "横[よこ]",
+    "side, beside",
+    "n",
+    "",
+    ""
+  ],
+  "丸い": [
+    "丸[まる]い",
+    "round",
+    "adj",
+    "",
+    ""
+  ],
+  "いくつも": [
+    "いくつも",
+    "many; one after another",
+    "adv",
+    "",
+    ""
+  ],
+  "並んでいた": [
+    "並[なら]んでいた",
+    "were lined up",
+    "v",
+    "並ぶ",
+    "plain past progressive"
+  ],
+  "紙": [
+    "紙[かみ]",
+    "paper",
+    "n",
+    "",
+    ""
+  ],
+  "通した": [
+    "通[とお]した",
+    "passed through; filtered through",
+    "v",
+    "通す",
+    "plain past (modifying a noun)"
+  ],
+  "手": [
+    "手[て]",
+    "hand",
+    "n",
+    "",
+    ""
+  ],
+  "言った": [
+    "言[い]った",
+    "said",
+    "v",
+    "言う",
+    "plain past"
+  ],
+  "指": [
+    "指[ゆび]",
+    "finger",
+    "n",
+    "",
+    ""
+  ],
+  "触れた": [
+    "触[ふ]れた",
+    "touched",
+    "v",
+    "触れる",
+    "plain past"
+  ],
+  "所": [
+    "所[ところ]",
+    "place; where someone was",
+    "n",
+    "",
+    ""
+  ],
+  "少し": [
+    "少[すこ]し",
+    "a little",
+    "adv",
+    "",
+    ""
+  ],
+  "教えた": [
+    "教[おし]えた",
+    "told; showed",
+    "v",
+    "教える",
+    "plain past"
+  ],
+  "台所": [
+    "台[だい]所[どころ]",
+    "kitchen",
+    "n",
+    "",
+    ""
+  ],
+  "いとこ": [
+    "いとこ",
+    "cousin",
+    "n",
+    "",
+    ""
+  ],
+  "同じ": [
+    "同[おな]じ",
+    "same",
+    "adj",
+    "",
+    ""
+  ],
+  "十五歳": [
+    "十[じゅう]五[ご]歳[さい]",
+    "fifteen years old",
+    "n",
+    "",
+    ""
+  ],
+  "花": [
+    "花[はな]",
+    "flowers",
+    "n",
+    "",
+    ""
+  ],
+  "二人": [
+    "二[ふた]人[り]",
+    "two people",
+    "num",
+    "",
+    ""
+  ],
+  "麦茶": [
+    "麦[むぎ]茶[ちゃ]",
+    "barley tea",
+    "n",
+    "",
+    ""
+  ],
+  "亡くなった": [
+    "亡[な]くなった",
+    "died",
+    "v",
+    "亡くなる",
+    "plain past"
+  ],
+  "家族": [
+    "家[か]族[ぞく]",
+    "family",
+    "n",
+    "",
+    ""
+  ],
+  "最後": [
+    "最[さい]後[ご]",
+    "last; the end",
+    "n",
+    "",
+    ""
+  ],
+  "日": [
+    "日[ひ]",
+    "day",
+    "n",
+    "",
+    ""
+  ],
+  "小さい": [
+    "小[ちい]さい",
+    "small, little",
+    "adj",
+    "",
+    ""
+  ],
+  "頃": [
+    "頃[ころ]",
+    "the time when, one’s ... days",
+    "n",
+    "",
+    ""
+  ],
+  "教わった": [
+    "教[おそ]わった",
+    "was taught; learned",
+    "v",
+    "教わる",
+    "plain past"
+  ],
+  "夜": [
+    "夜[よる]",
+    "night",
+    "n",
+    "",
+    ""
+  ],
+  "川": [
+    "川[かわ]",
+    "river",
+    "n",
+    "",
+    ""
+  ],
+  "小さな": [
+    "小[ちい]さな",
+    "small",
+    "adj",
+    "",
+    ""
+  ],
+  "場所": [
+    "場[ば]所[しょ]",
+    "place",
+    "n",
+    "",
+    ""
+  ],
+  "あり": [
+    "あり",
+    "there was; there were, and",
+    "v",
+    "ある",
+    "continuative form",
+    "ある"
+  ],
+  "父": [
+    "父[ちち]",
+    "father",
+    "n",
+    "",
+    ""
+  ],
+  "予定": [
+    "予[よ]定[てい]",
+    "plan",
+    "n",
+    "",
+    ""
+  ],
+  "帰る": [
+    "帰[かえ]る",
+    "return",
+    "v",
+    "帰る",
+    "plain present"
+  ],
+  "時": [
+    "時[とき]",
+    "when; time",
+    "n",
+    "",
+    ""
+  ],
+  "道": [
+    "道[みち]",
+    "way",
+    "n",
+    "",
+    ""
+  ],
+  "見えた": [
+    "見[み]えた",
+    "could be seen",
+    "v",
+    "見える",
+    "plain past"
+  ],
+  "遠く": [
+    "遠[とお]く",
+    "far away",
+    "n",
+    "",
+    ""
+  ],
+  "音": [
+    "音[おと]",
+    "sound",
+    "n",
+    "",
+    ""
+  ],
+  "聞こえてきた": [
+    "聞[き]こえてきた",
+    "could be heard approaching; came drifting to them",
+    "v",
+    "聞こえる",
+    "plain past 〜てくる form"
+  ],
+  "合わせて": [
+    "合[あ]わせて",
+    "in time with; matching",
+    "v",
+    "合わせる",
+    "te-form"
+  ],
+  "短い": [
+    "短[みじか]い",
+    "brief",
+    "adj",
+    "",
+    ""
+  ],
+  "歌": [
+    "歌[うた]",
+    "song",
+    "n",
+    "",
+    ""
+  ],
+  "待って": [
+    "待[ま]って",
+    "wait",
+    "v",
+    "待つ",
+    "te-form request"
+  ],
+  "空いた": [
+    "空[あ]いた",
+    "cleared; free",
+    "v",
+    "空く",
+    "plain past (modifying a noun)"
+  ],
+  "そこで": [
+    "そこで",
+    "there; at that point",
+    "adv",
+    "",
+    ""
+  ],
+  "たたいた": [
+    "たたいた",
+    "tapped",
+    "v",
+    "たたく",
+    "plain past"
+  ],
+  "続き": [
+    "続[つづ]き",
+    "joined in; followed, and",
+    "v",
+    "続く",
+    "continuative form",
+    "続く"
+  ],
+  "ない": [
+    "ない",
+    "does not exist; is not",
+    "adj",
+    "",
+    ""
+  ],
+  "聞いた": [
+    "聞[き]いた",
+    "heard",
+    "v",
+    "聞く",
+    "plain past"
+  ],
+  "一緒に": [
+    "一[いっ]緒[しょ]に",
+    "together",
+    "adv",
+    "",
+    ""
+  ],
+  "人": [
+    "人[ひと]",
+    "person; people",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "答えた": [
+    "答[こた]えた",
+    "answered",
+    "v",
+    "答える",
+    "plain past"
+  ],
+  "いつも": [
+    "いつも",
+    "always",
+    "adv",
+    "",
+    ""
+  ],
+  "笑う": [
+    "笑[わら]う",
+    "laugh",
+    "v",
+    "",
+    ""
+  ],
+  "物置": [
+    "物[もの]置[おき]",
+    "storage cupboard",
+    "n",
+    "",
+    ""
+  ],
+  "箱": [
+    "箱[はこ]",
+    "chest, box",
+    "n",
+    "",
+    ""
+  ],
+  "中": [
+    "中[なか]",
+    "inside; amid",
+    "n",
+    "",
+    ""
+  ],
+  "入っていた": [
+    "入[はい]っていた",
+    "was inside",
+    "v",
+    "入る",
+    "plain past progressive"
+  ],
+  "表紙": [
+    "表[ひょう]紙[し]",
+    "cover",
+    "n",
+    "",
+    ""
+  ],
+  "子供": [
+    "子[こ]供[ども]",
+    "child",
+    "n",
+    "",
+    ""
+  ],
+  "字": [
+    "字[じ]",
+    "writing; letters",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "来年": [
+    "来[らい]年[ねん]",
+    "next year",
+    "n",
+    "",
+    ""
+  ],
+  "橋": [
+    "橋[はし]",
+    "bridge",
+    "n",
+    "",
+    ""
+  ],
+  "書かれていた": [
+    "書[か]かれていた",
+    "was written",
+    "v",
+    "書く",
+    "plain past passive progressive"
+  ],
+  "見ると": [
+    "見[み]ると",
+    "when he looked",
+    "v",
+    "見る",
+    "\"when\" form"
+  ],
+  "しばらく": [
+    "しばらく",
+    "for a while",
+    "adv",
+    "",
+    ""
+  ],
+  "何も": [
+    "何[なに]も",
+    "nothing",
+    "n",
+    "",
+    ""
+  ],
+  "言わなかった": [
+    "言[い]わなかった",
+    "said nothing",
+    "v",
+    "言う",
+    "plain past negative"
+  ],
+  "住んでいた": [
+    "住[す]んでいた",
+    "lived",
+    "v",
+    "住む",
+    "plain past progressive"
+  ],
+  "流され": [
+    "流[なが]され",
+    "being carried; was carried and",
+    "v",
+    "流す",
+    "continuative passive"
+  ],
+  "今": [
+    "今[いま]",
+    "now",
+    "adv",
+    "",
+    ""
+  ],
+  "さえ": [
+    "さえ",
+    "even",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "開き": [
+    "開[ひら]き",
+    "opened, and",
+    "v",
+    "開く",
+    "continuative form"
+  ],
+  "かかる": [
+    "かかる",
+    "span; stretch across",
+    "v",
+    "",
+    ""
+  ],
+  "絵": [
+    "絵[え]",
+    "pictures",
+    "n",
+    "",
+    ""
+  ],
+  "見つけた": [
+    "見[み]つけた",
+    "found",
+    "v",
+    "見つける",
+    "plain past"
+  ],
+  "不思議な": [
+    "不[ふ]思[し]議[ぎ]な",
+    "mysterious, strange",
+    "adj",
+    "不思議だ",
+    "na-adjective form"
+  ],
+  "真ん中": [
+    "真[ま]ん中[なか]",
+    "centre",
+    "n",
+    "",
+    ""
+  ],
+  "耳": [
+    "耳[みみ]",
+    "ear",
+    "n",
+    "",
+    ""
+  ],
+  "先": [
+    "先[さき]",
+    "tip; ahead; before",
+    "n",
+    "",
+    ""
+  ],
+  "あった": [
+    "あった",
+    "there were",
+    "v",
+    "ある",
+    "plain past"
+  ],
+  "作った": [
+    "作[つく]った",
+    "made",
+    "v",
+    "作る",
+    "plain past"
+  ],
+  "一つ": [
+    "一[ひと]つ",
+    "one",
+    "num",
+    "",
+    ""
+  ],
+  "夕飯": [
+    "夕[ゆう]飯[はん]",
+    "dinner",
+    "n",
+    "",
+    ""
+  ],
+  "冷たい": [
+    "冷[つめ]たい",
+    "cold",
+    "adj",
+    "",
+    ""
+  ],
+  "風": [
+    "風[かぜ]",
+    "wind",
+    "n",
+    "",
+    ""
+  ],
+  "入ってきた": [
+    "入[はい]ってきた",
+    "came in",
+    "v",
+    "入る",
+    "plain past 〜てくる form"
+  ],
+  "庭": [
+    "庭[にわ]",
+    "garden",
+    "n",
+    "",
+    ""
+  ],
+  "残った": [
+    "残[のこ]った",
+    "remaining; left over",
+    "v",
+    "残る",
+    "plain past (modifying a noun)"
+  ],
+  "端": [
+    "端[はし]",
+    "edge",
+    "n",
+    "",
+    ""
+  ],
+  "少しずつ": [
+    "少[すこ]しずつ",
+    "little by little",
+    "adv",
+    "",
+    ""
+  ],
+  "隙間": [
+    "隙[すき]間[ま]",
+    "gap",
+    "n",
+    "",
+    ""
+  ],
+  "閉じた": [
+    "閉[と]じた",
+    "closed",
+    "v",
+    "閉じる",
+    "plain past"
+  ],
+  "火": [
+    "火[ひ]",
+    "fire",
+    "n",
+    "",
+    ""
+  ],
+  "表": [
+    "表[おもて]",
+    "front, outside",
+    "n",
+    "",
+    ""
+  ],
+  "細い": [
+    "細[ほそ]い",
+    "fine, thin",
+    "adj",
+    "",
+    ""
+  ],
+  "ゆっくり": [
+    "ゆっくり",
+    "slowly, unhurriedly",
+    "adv",
+    "",
+    ""
+  ],
+  "伸びた": [
+    "伸[の]びた",
+    "grew longer",
+    "v",
+    "伸びる",
+    "plain past"
+  ],
+  "おばあちゃん": [
+    "おばあちゃん",
+    "Grandma",
+    "n",
+    "",
+    ""
+  ],
+  "呼んだ": [
+    "呼[よ]んだ",
+    "called, named",
+    "v",
+    "呼ぶ",
+    "plain past"
+  ],
+  "声": [
+    "声[こえ]",
+    "voices",
+    "n",
+    "",
+    ""
+  ],
+  "三つ": [
+    "三[みっ]つ",
+    "three",
+    "num",
+    "",
+    ""
+  ],
+  "聞こえた": [
+    "聞[き]こえた",
+    "could be heard",
+    "v",
+    "聞こえる",
+    "plain past"
+  ],
+  "門": [
+    "門[もん]",
+    "gate",
+    "n",
+    "",
+    ""
+  ],
+  "外": [
+    "外[そと]",
+    "outside",
+    "n",
+    "",
+    ""
+  ],
+  "つけた": [
+    "つけた",
+    "wore, had on",
+    "v",
+    "つける",
+    "plain past (modifying a noun)"
+  ],
+  "少年": [
+    "少[しょう]年[ねん]",
+    "boy",
+    "n",
+    "",
+    ""
+  ],
+  "立っていた": [
+    "立[た]っていた",
+    "was standing",
+    "v",
+    "立つ",
+    "plain past progressive"
+  ],
+  "袖": [
+    "袖[そで]",
+    "sleeve",
+    "n",
+    "",
+    ""
+  ],
+  "泥": [
+    "泥[どろ]",
+    "mud",
+    "n",
+    "",
+    ""
+  ],
+  "出ていた": [
+    "出[で]ていた",
+    "was sticking out",
+    "v",
+    "出る",
+    "plain past progressive"
+  ],
+  "んだね": [
+    "んだね",
+    "so that was it — explanatory ending",
+    "aux",
+    "のだ",
+    "explanatory form",
+    false
+  ],
+  "なんだ": [
+    "なんだ",
+    "it is — explanatory tone",
+    "aux",
+    "なのだ",
+    "contracted explanatory form",
+    false
+  ],
+  "名前": [
+    "名[な]前[まえ]",
+    "name",
+    "n",
+    "",
+    ""
+  ],
+  "左": [
+    "左[ひだり]",
+    "left",
+    "n",
+    "",
+    ""
+  ],
+  "腰": [
+    "腰[こし]",
+    "lower back",
+    "n",
+    "",
+    ""
+  ],
+  "赤い": [
+    "赤[あか]い",
+    "red",
+    "adj",
+    "",
+    ""
+  ],
+  "ひも": [
+    "ひも",
+    "cord",
+    "n",
+    "",
+    ""
+  ],
+  "下がっていた": [
+    "下[さ]がっていた",
+    "were hanging",
+    "v",
+    "下がる",
+    "plain past progressive"
+  ],
+  "跡": [
+    "跡[あと]",
+    "mark; trace",
+    "n",
+    "",
+    ""
+  ],
+  "足跡": [
+    "足[あし]跡[あと]",
+    "tracks; footprints",
+    "n",
+    "",
+    ""
+  ],
+  "ではなかった": [
+    "ではなかった",
+    "was not",
+    "aux",
+    "だ",
+    "plain past negative",
+    false
+  ],
+  "出てきた": [
+    "出[で]てきた",
+    "came out",
+    "v",
+    "出る",
+    "plain past 〜てくる form"
+  ],
+  "坂": [
+    "坂[さか]",
+    "slope",
+    "n",
+    "",
+    ""
+  ],
+  "下": [
+    "下[した]",
+    "under, below",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "青い": [
+    "青[あお]い",
+    "blue",
+    "adj",
+    "",
+    ""
+  ],
+  "見て": [
+    "見[み]て",
+    "seeing; saw and",
+    "v",
+    "見る",
+    "te-form"
+  ],
+  "手首": [
+    "手[て]首[くび]",
+    "wrist",
+    "n",
+    "",
+    ""
+  ],
+  "そっと": [
+    "そっと",
+    "gently; quietly",
+    "adv",
+    "",
+    ""
+  ],
+  "もし": [
+    "もし",
+    "if",
+    "adv",
+    "",
+    ""
+  ],
+  "初めて": [
+    "初[はじ]めて",
+    "for the first time",
+    "adv",
+    "",
+    ""
+  ],
+  "見る": [
+    "見[み]る",
+    "see",
+    "v",
+    "見る",
+    "plain present"
+  ],
+  "ため": [
+    "ため",
+    "because; for the purpose",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "ではなく": [
+    "ではなく",
+    "is not; rather than",
+    "aux",
+    "だ",
+    "plain negative continuative form",
+    false
+  ],
+  "水": [
+    "水[みず]",
+    "water",
+    "n",
+    "",
+    ""
+  ],
+  "袋": [
+    "袋[ふくろ]",
+    "bag",
+    "n",
+    "",
+    ""
+  ],
+  "靴": [
+    "靴[くつ]",
+    "shoes",
+    "n",
+    "",
+    ""
+  ],
+  "渡した": [
+    "渡[わた]した",
+    "handed",
+    "v",
+    "渡す",
+    "plain past"
+  ],
+  "金色": [
+    "金[きん]色[いろ]",
+    "gold; golden colour",
+    "n",
+    "",
+    ""
+  ],
+  "ともった": [
+    "ともった",
+    "lit up",
+    "v",
+    "ともる",
+    "plain past"
+  ],
+  "暗い": [
+    "暗[くら]い",
+    "dark",
+    "adj",
+    "",
+    ""
+  ],
+  "遠い": [
+    "遠[とお]い",
+    "distant",
+    "adj",
+    "",
+    ""
+  ],
+  "なく": [
+    "なく",
+    "without; not being",
+    "adj",
+    "ない",
+    "continuative form"
+  ],
+  "消えた": [
+    "消[き]えた",
+    "disappeared",
+    "v",
+    "消える",
+    "plain past"
+  ],
+  "間": [
+    "間[あいだ]",
+    "between",
+    "n",
+    "",
+    ""
+  ],
+  "入った": [
+    "入[はい]った",
+    "entered; climbed into",
+    "v",
+    "入る",
+    "plain past"
+  ],
+  "胸": [
+    "胸[むね]",
+    "chest, heart",
+    "n",
+    "",
+    ""
+  ],
+  "高さ": [
+    "高[たか]さ",
+    "height",
+    "n",
+    "",
+    ""
+  ],
+  "持って": [
+    "持[も]って",
+    "carrying",
+    "v",
+    "持つ",
+    "te-form"
+  ],
+  "後": [
+    "後[あと]",
+    "after; later",
+    "n",
+    "",
+    ""
+  ],
+  "追った": [
+    "追[お]った",
+    "followed, chased",
+    "v",
+    "追う",
+    "plain past"
+  ],
+  "木": [
+    "木[き]",
+    "tree; wood",
+    "n",
+    "",
+    ""
+  ],
+  "残っていた": [
+    "残[のこ]っていた",
+    "remaining; remained",
+    "v",
+    "残る",
+    "plain past progressive"
+  ],
+  "足元": [
+    "足[あし]元[もと]",
+    "feet, area below",
+    "n",
+    "",
+    ""
+  ],
+  "たびに": [
+    "たびに",
+    "every time",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "甘い": [
+    "甘[あま]い",
+    "sweet",
+    "adj",
+    "",
+    ""
+  ],
+  "一本": [
+    "一[いっ]本[ぽん]",
+    "one long object",
+    "num",
+    "",
+    ""
+  ],
+  "帰り道": [
+    "帰[かえ]り道[みち]",
+    "way home",
+    "n",
+    "",
+    ""
+  ],
+  "通った": [
+    "通[とお]った",
+    "passed along",
+    "v",
+    "通る",
+    "plain past"
+  ],
+  "霧": [
+    "霧[きり]",
+    "fog",
+    "n",
+    "",
+    ""
+  ],
+  "立つ": [
+    "立[た]つ",
+    "stands",
+    "v",
+    "立つ",
+    "plain present"
+  ],
+  "足を止めた": [
+    "足[あし]を止[と]めた",
+    "stopped, halted",
+    "v",
+    "足を止める",
+    "plain past"
+  ],
+  "かかり": [
+    "かかり",
+    "was hung; encircled, and",
+    "v",
+    "かかる",
+    "continuative form"
+  ],
+  "一枚": [
+    "一[いち]枚[まい]",
+    "one sheet; one flat object",
+    "num",
+    "",
+    ""
+  ],
+  "揺れていた": [
+    "揺[ゆ]れていた",
+    "was swaying",
+    "v",
+    "揺れる",
+    "plain past progressive"
+  ],
+  "根元": [
+    "根[ね]元[もと]",
+    "base, foot",
+    "n",
+    "",
+    ""
+  ],
+  "石": [
+    "石[いし]",
+    "stone",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "前": [
+    "前[まえ]",
+    "front; before",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "覚えている": [
+    "覚[おぼ]えている",
+    "remembers",
+    "v",
+    "覚える",
+    "plain present progressive"
+  ],
+  "歩く": [
+    "歩[ある]く",
+    "walk",
+    "v",
+    "",
+    ""
+  ],
+  "んだ": [
+    "んだ",
+    "it is that — explanatory ending",
+    "aux",
+    "",
+    "",
+    false
+  ],
+  "温かい": [
+    "温[あたた]かい",
+    "warm",
+    "adj",
+    "",
+    ""
+  ],
+  "なる": [
+    "なる",
+    "become",
+    "v",
+    "",
+    "",
+    false
+  ],
+  "触れると": [
+    "触[ふ]れると",
+    "when he touched",
+    "v",
+    "触れる",
+    "plain present conditional 〜と"
+  ],
+  "そこ": [
+    "そこ",
+    "there; in it",
+    "n",
+    "",
+    ""
+  ],
+  "温かかった": [
+    "温[あたた]かかった",
+    "was warm",
+    "adj",
+    "温かい",
+    "plain past"
+  ],
+  "見える": [
+    "見[み]える",
+    "can be seen",
+    "v",
+    "",
+    ""
+  ],
+  "物": [
+    "物[もの]",
+    "thing; matter",
+    "n",
+    "",
+    ""
+  ],
+  "全部": [
+    "全[ぜん]部[ぶ]",
+    "all",
+    "n",
+    "",
+    ""
+  ],
+  "続けた": [
+    "続[つづ]けた",
+    "continued",
+    "v",
+    "続ける",
+    "plain past"
+  ],
+  "借りた": [
+    "借[か]りた",
+    "borrowed",
+    "v",
+    "借りる",
+    "plain past"
+  ],
+  "思い出": [
+    "思[おも]い出[で]",
+    "memory",
+    "n",
+    "",
+    ""
+  ],
+  "自分": [
+    "自[じ]分[ぶん]",
+    "oneself; himself",
+    "pn",
+    "",
+    ""
+  ],
+  "持ってきた": [
+    "持[も]ってきた",
+    "brought",
+    "v",
+    "持ってくる",
+    "plain past"
+  ],
+  "確かめた": [
+    "確[たし]かめた",
+    "checked",
+    "v",
+    "確かめる",
+    "plain past"
+  ],
+  "うち": [
+    "うち",
+    "our home; our family",
+    "n",
+    "",
+    ""
+  ],
+  "だから": [
+    "だから",
+    "because it is",
+    "aux",
+    "だ",
+    "plain copula with から",
+    false
+  ],
+  "いい": [
+    "いい",
+    "fine, all right",
+    "adj",
+    "",
+    ""
+  ],
+  "うなずき": [
+    "うなずき",
+    "nodded, and",
+    "v",
+    "うなずく",
+    "continuative form"
+  ],
+  "揺れた": [
+    "揺[ゆ]れた",
+    "shook",
+    "v",
+    "揺れる",
+    "plain past"
+  ],
+  "突然": [
+    "突[とつ]然[ぜん]",
+    "suddenly",
+    "adv",
+    "",
+    ""
+  ],
+  "屋台": [
+    "屋[や]台[たい]",
+    "market stall",
+    "n",
+    "",
+    ""
+  ],
+  "並ぶ": [
+    "並[なら]ぶ",
+    "stand in a row",
+    "v",
+    "",
+    ""
+  ],
+  "通り": [
+    "通[とお]り",
+    "street",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "現れた": [
+    "現[あらわ]れた",
+    "appeared",
+    "v",
+    "現れる",
+    "plain past"
+  ],
+  "雨": [
+    "雨[あめ]",
+    "rain",
+    "n",
+    "",
+    ""
+  ],
+  "濡れた": [
+    "濡[ぬ]れた",
+    "wet",
+    "v",
+    "濡れる",
+    "plain past (modifying a noun)"
+  ],
+  "赤": [
+    "赤[あか]",
+    "red",
+    "n",
+    "",
+    ""
+  ],
+  "長く": [
+    "長[なが]く",
+    "long; in a long shape",
+    "adv",
+    "長い",
+    "adverbial form"
+  ],
+  "伸びていた": [
+    "伸[の]びていた",
+    "had grown; was stretching",
+    "v",
+    "伸びる",
+    "plain past progressive"
+  ],
+  "焼いた": [
+    "焼[や]いた",
+    "fired, baked",
+    "v",
+    "焼く",
+    "plain past"
+  ],
+  "鉄": [
+    "鉄[てつ]",
+    "iron",
+    "n",
+    "",
+    ""
+  ],
+  "低く": [
+    "低[ひく]く",
+    "low, and",
+    "adj",
+    "低い",
+    "adverbial form"
+  ],
+  "店": [
+    "店[みせ]",
+    "shop",
+    "n",
+    "",
+    ""
+  ],
+  "人たち": [
+    "人[ひと]たち",
+    "people",
+    "n",
+    "",
+    ""
+  ],
+  "空": [
+    "空[そら]",
+    "sky",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "映っていなかった": [
+    "映[うつ]っていなかった",
+    "was not reflected",
+    "v",
+    "映る",
+    "plain past progressive negative"
+  ],
+  "昼": [
+    "昼[ひる]",
+    "daytime",
+    "n",
+    "",
+    ""
+  ],
+  "昔": [
+    "昔[むかし]",
+    "long ago; former",
+    "adv",
+    "",
+    ""
+  ],
+  "祭り": [
+    "祭[まつ]り",
+    "festival",
+    "n",
+    "",
+    ""
+  ],
+  "立ち止まった": [
+    "立[た]ち止[ど]まった",
+    "stopped dead",
+    "v",
+    "立ち止まる",
+    "plain past"
+  ],
+  "奥": [
+    "奥[おく]",
+    "depths",
+    "n",
+    "",
+    ""
+  ],
+  "母": [
+    "母[はは]",
+    "mother",
+    "n",
+    "",
+    ""
+  ],
+  "いちばん": [
+    "いちばん",
+    "the most",
+    "adv",
+    "",
+    ""
+  ],
+  "大きな": [
+    "大[おお]きな",
+    "large",
+    "adj",
+    "",
+    ""
+  ],
+  "下ろした": [
+    "下[お]ろした",
+    "set down",
+    "v",
+    "下ろす",
+    "plain past"
+  ],
+  "僕": [
+    "僕[ぼく]",
+    "I",
+    "pn",
+    "",
+    ""
+  ],
+  "言葉": [
+    "言[こと]葉[ば]",
+    "words; expression",
+    "n",
+    "",
+    ""
+  ],
+  "もう一度": [
+    "もう一[いち]度[ど]",
+    "once more, again",
+    "adv",
+    "",
+    ""
+  ],
+  "繰り返した": [
+    "繰[く]り返[かえ]した",
+    "repeated",
+    "v",
+    "繰り返す",
+    "plain past"
+  ],
+  "つかみ": [
+    "つかみ",
+    "seizing; seized and",
+    "v",
+    "つかむ",
+    "continuative form"
+  ],
+  "言うと": [
+    "言[い]うと",
+    "when she said",
+    "v",
+    "言う",
+    "conditional 〜と form"
+  ],
+  "首を横に振った": [
+    "首[くび]を横[よこ]に振[ふ]った",
+    "shook their head",
+    "v",
+    "首を横に振る",
+    "plain past"
+  ],
+  "本当": [
+    "本[ほん]当[とう]",
+    "true; real",
+    "n",
+    "",
+    ""
+  ],
+  "台": [
+    "台[だい]",
+    "counter; raised surface",
+    "n",
+    "",
+    ""
+  ],
+  "近づいた": [
+    "近[ちか]づいた",
+    "approached",
+    "v",
+    "近づく",
+    "plain past"
+  ],
+  "草": [
+    "草[くさ]",
+    "grass",
+    "n",
+    "",
+    ""
+  ],
+  "変わった": [
+    "変[か]わった",
+    "changed, was transformed",
+    "v",
+    "変わる",
+    "plain past",
+    "変わる"
+  ],
+  "深い": [
+    "深[ふか]い",
+    "deep",
+    "adj",
+    "",
+    ""
+  ],
+  "渡る": [
+    "渡[わた]る",
+    "cross (to)",
+    "v",
+    "",
+    ""
+  ],
+  "板": [
+    "板[いた]",
+    "planks",
+    "n",
+    "",
+    ""
+  ],
+  "見た": [
+    "見[み]た",
+    "saw",
+    "v",
+    "見る",
+    "plain past"
+  ],
+  "形": [
+    "形[かたち]",
+    "form",
+    "n",
+    "",
+    ""
+  ],
+  "のだ": [
+    "のだ",
+    "it is that — explanatory",
+    "aux",
+    "",
+    "",
+    false
+  ],
+  "足": [
+    "足[あし]",
+    "foot, leg",
+    "n",
+    "",
+    ""
+  ],
+  "思い出した": [
+    "思[おも]い出[だ]した",
+    "remembered",
+    "v",
+    "思い出す",
+    "plain past"
+  ],
+  "すぐに": [
+    "すぐに",
+    "at once, immediately",
+    "adv",
+    "",
+    ""
+  ],
+  "次": [
+    "次[つぎ]",
+    "next",
+    "n",
+    "",
+    ""
+  ],
+  "体": [
+    "体[からだ]",
+    "body",
+    "n",
+    "",
+    ""
+  ],
+  "重さ": [
+    "重[おも]さ",
+    "weight; burden",
+    "n",
+    "",
+    ""
+  ],
+  "戻る": [
+    "戻[もど]る",
+    "return",
+    "v",
+    "",
+    ""
+  ],
+  "待つ": [
+    "待[ま]つ",
+    "will wait for",
+    "v",
+    "",
+    ""
+  ],
+  "置く": [
+    "置[お]く",
+    "put",
+    "v",
+    "",
+    ""
+  ],
+  "肩": [
+    "肩[かた]",
+    "shoulder",
+    "n",
+    "",
+    ""
+  ],
+  "渡った": [
+    "渡[わた]った",
+    "crossed",
+    "v",
+    "渡る",
+    "plain past"
+  ],
+  "上がった": [
+    "上[あ]がった",
+    "went up",
+    "v",
+    "上がる",
+    "plain past"
+  ],
+  "走らなかった": [
+    "走[はし]らなかった",
+    "did not run",
+    "v",
+    "走る",
+    "plain past negative"
+  ],
+  "向こう岸": [
+    "向[む]こう岸[ぎし]",
+    "opposite bank",
+    "n",
+    "",
+    ""
+  ],
+  "深く": [
+    "深[ふか]く",
+    "deeply",
+    "adj",
+    "深い",
+    "adverbial form"
+  ],
+  "今度": [
+    "今[こん]度[ど]",
+    "this time",
+    "adv",
+    "",
+    ""
+  ],
+  "窓": [
+    "窓[まど]",
+    "window",
+    "n",
+    "",
+    ""
+  ],
+  "岸": [
+    "岸[きし]",
+    "shore",
+    "n",
+    "",
+    ""
+  ],
+  "強く": [
+    "強[つよ]く",
+    "tightly; firmly",
+    "adj",
+    "強い",
+    "adverbial form"
+  ],
+  "ある": [
+    "ある",
+    "exists; has",
+    "v",
+    "ある",
+    "plain present"
+  ],
+  "渡れない": [
+    "渡[わた]れない",
+    "could not cross",
+    "v",
+    "渡る",
+    "plain negative potential"
+  ],
+  "人影": [
+    "人[ひと]影[かげ]",
+    "figure (of a person)",
+    "n",
+    "",
+    ""
+  ],
+  "女": [
+    "女[おんな]",
+    "woman",
+    "n",
+    "",
+    ""
+  ],
+  "開けると": [
+    "開[あ]けると",
+    "when they opened",
+    "v",
+    "開ける",
+    "plain present conditional 〜と"
+  ],
+  "なった": [
+    "なった",
+    "became",
+    "v",
+    "なる",
+    "plain past",
+    false
+  ],
+  "押した": [
+    "押[お]した",
+    "pushed",
+    "v",
+    "押す",
+    "plain past"
+  ],
+  "ように": [
+    "ように",
+    "as if; in the way that",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "くらい": [
+    "くらい",
+    "about as much as; approximately",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "話": [
+    "話[はなし]",
+    "story; account",
+    "n",
+    "",
+    ""
+  ],
+  "んです": [
+    "んです",
+    "it is that — explanatory ending",
+    "aux",
+    "のだ",
+    "polite explanatory form",
+    false
+  ],
+  "戸": [
+    "戸[と]",
+    "door",
+    "n",
+    "",
+    ""
+  ],
+  "開けたまま": [
+    "開[あ]けたまま",
+    "with them still open",
+    "v",
+    "開ける",
+    "plain past 〜たまま form"
+  ],
+  "待っていた": [
+    "待[ま]っていた",
+    "was waiting",
+    "v",
+    "待つ",
+    "plain past progressive"
+  ],
+  "残し": [
+    "残[のこ]し",
+    "leaving; left and",
+    "v",
+    "残す",
+    "continuative form"
+  ],
+  "天井": [
+    "天[てん]井[じょう]",
+    "ceiling",
+    "n",
+    "",
+    ""
+  ],
+  "低い": [
+    "低[ひく]い",
+    "low",
+    "adj",
+    "",
+    ""
+  ],
+  "机": [
+    "机[つくえ]",
+    "desk; table",
+    "n",
+    "",
+    ""
+  ],
+  "骨": [
+    "骨[ほね]",
+    "ribs; framework of a lantern",
+    "n",
+    "",
+    ""
+  ],
+  "並び": [
+    "並[なら]び",
+    "lining up; stood in rows",
+    "v",
+    "並ぶ",
+    "continuative form",
+    "並ぶ"
+  ],
+  "壁": [
+    "壁[かべ]",
+    "wall",
+    "n",
+    "",
+    ""
+  ],
+  "棚": [
+    "棚[たな]",
+    "shelf",
+    "n",
+    "",
+    ""
+  ],
+  "続いていた": [
+    "続[つづ]いていた",
+    "continued",
+    "v",
+    "続く",
+    "plain past progressive"
+  ],
+  "多く": [
+    "多[おお]く",
+    "many",
+    "n",
+    "",
+    ""
+  ],
+  "部屋": [
+    "部[へ]屋[や]",
+    "room",
+    "n",
+    "",
+    ""
+  ],
+  "床": [
+    "床[ゆか]",
+    "floor",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "冬": [
+    "冬[ふゆ]",
+    "winter",
+    "n",
+    "",
+    ""
+  ],
+  "着て": [
+    "着[き]て",
+    "wearing; put on and",
+    "v",
+    "着る",
+    "te-form"
+  ],
+  "片方": [
+    "片[かた]方[ほう]",
+    "one of a pair",
+    "n",
+    "",
+    ""
+  ],
+  "糸": [
+    "糸[いと]",
+    "thread",
+    "n",
+    "",
+    ""
+  ],
+  "ですか": [
+    "ですか",
+    "is it? (polite question)",
+    "aux",
+    "だ",
+    "polite present question",
+    false
+  ],
+  "どこ": [
+    "どこ",
+    "where",
+    "n",
+    "",
+    ""
+  ],
+  "ありました": [
+    "ありました",
+    "there was",
+    "v",
+    "ある",
+    "polite past"
+  ],
+  "途中": [
+    "途[と]中[ちゅう]",
+    "on the way; during the journey",
+    "n",
+    "",
+    ""
+  ],
+  "子": [
+    "子[こ]",
+    "child",
+    "n",
+    "",
+    ""
+  ],
+  "おばあさん": [
+    "おばあさん",
+    "old woman; grandmother",
+    "n",
+    "",
+    ""
+  ],
+  "待った": [
+    "待[ま]った",
+    "waited for",
+    "v",
+    "待つ",
+    "plain past"
+  ],
+  "分かった": [
+    "分[わ]かった",
+    "realised, understood",
+    "v",
+    "分かる",
+    "plain past"
+  ],
+  "伝えた": [
+    "伝[つた]えた",
+    "told",
+    "v",
+    "伝える",
+    "plain past"
+  ],
+  "目": [
+    "目[め]",
+    "eyes",
+    "n",
+    "",
+    ""
+  ],
+  "隅": [
+    "隅[すみ]",
+    "corner",
+    "n",
+    "",
+    ""
+  ],
+  "引き寄せた": [
+    "引[ひ]き寄[よ]せた",
+    "drew closer",
+    "v",
+    "引き寄せる",
+    "plain past"
+  ],
+  "みんな": [
+    "みんな",
+    "everyone",
+    "n",
+    "",
+    ""
+  ],
+  "高い": [
+    "高[たか]い",
+    "high, loud",
+    "adj",
+    "",
+    ""
+  ],
+  "取りに": [
+    "取[と]りに",
+    "in order to fetch",
+    "v",
+    "取る",
+    "plain present purpose form"
+  ],
+  "戻った": [
+    "戻[もど]った",
+    "returned",
+    "v",
+    "戻る",
+    "plain past"
+  ],
+  "私たち": [
+    "私[わたし]たち",
+    "we, us",
+    "pn",
+    "",
+    ""
+  ],
+  "でも": [
+    "でも",
+    "but, however",
+    "conj",
+    "",
+    ""
+  ],
+  "誰にも": [
+    "誰[だれ]にも",
+    "to no one",
+    "pn",
+    "",
+    ""
+  ],
+  "誰も": [
+    "誰[だれ]も",
+    "no one",
+    "pn",
+    "",
+    ""
+  ],
+  "なかった": [
+    "なかった",
+    "did not exist; had none",
+    "adj",
+    "ない",
+    "plain past"
+  ],
+  "でしょう": [
+    "でしょう",
+    "would be; wouldn't it?",
+    "aux",
+    "だ",
+    "polite conjectural form",
+    false
+  ],
+  "違う": [
+    "違[ちが]う",
+    "differ; be different",
+    "v",
+    "",
+    ""
+  ],
+  "知らなかった": [
+    "知[し]らなかった",
+    "did not know",
+    "v",
+    "知る",
+    "plain past negative"
+  ],
+  "何か": [
+    "何[なに]か",
+    "something",
+    "n",
+    "",
+    ""
+  ],
+  "言いかけた": [
+    "言[い]いかけた",
+    "started to say",
+    "v",
+    "言う",
+    "〜かける form (\"start to ...\") plain past"
+  ],
+  "やめた": [
+    "やめた",
+    "stopped",
+    "v",
+    "やめる",
+    "plain past"
+  ],
+  "雪": [
+    "雪[ゆき]",
+    "snow",
+    "n",
+    "",
+    ""
+  ],
+  "描かれていた": [
+    "描[か]かれていた",
+    "had been drawn",
+    "v",
+    "描く",
+    "plain past passive progressive"
+  ],
+  "食べ物": [
+    "食[た]べ物[もの]",
+    "food",
+    "n",
+    "",
+    ""
+  ],
+  "隣": [
+    "隣[となり]",
+    "beside, next to",
+    "n",
+    "",
+    ""
+  ],
+  "分けた": [
+    "分[わ]けた",
+    "shared; distributed",
+    "v",
+    "分ける",
+    "plain past"
+  ],
+  "私": [
+    "私[わたし]",
+    "I, me",
+    "pn",
+    "",
+    ""
+  ],
+  "見ている": [
+    "見[み]ている",
+    "looking at",
+    "v",
+    "見る",
+    "plain present progressive"
+  ],
+  "白くなった": [
+    "白[しろ]くなった",
+    "grew pale; lightened",
+    "v",
+    "白くなる",
+    "plain past"
+  ],
+  "他": [
+    "他[ほか]",
+    "other; others",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "魚": [
+    "魚[さかな]",
+    "fish",
+    "n",
+    "",
+    ""
+  ],
+  "男たち": [
+    "男[おとこ]たち",
+    "the men",
+    "n",
+    "",
+    ""
+  ],
+  "暮らし": [
+    "暮[く]らし",
+    "life, living",
+    "n",
+    "",
+    ""
+  ],
+  "静かに": [
+    "静[しず]かに",
+    "quietly",
+    "adv",
+    "静かだ",
+    "adverbial form"
+  ],
+  "置いた": [
+    "置[お]いた",
+    "left; placed",
+    "v",
+    "置く",
+    "plain past"
+  ],
+  "すると": [
+    "すると",
+    "then; when that happened",
+    "adv",
+    "",
+    ""
+  ],
+  "できる": [
+    "できる",
+    "can do; can come into being",
+    "v",
+    "",
+    ""
+  ],
+  "笑った": [
+    "笑[わら]った",
+    "smiled",
+    "v",
+    "笑う",
+    "plain past"
+  ],
+  "大きく": [
+    "大[おお]きく",
+    "big",
+    "adj",
+    "大きい",
+    "adverbial form"
+  ],
+  "こんなに": [
+    "こんなに",
+    "so many; this much",
+    "adv",
+    "",
+    ""
+  ],
+  "たくさん": [
+    "たくさん",
+    "a lot of, many",
+    "adv",
+    "",
+    ""
+  ],
+  "来た": [
+    "来[き]た",
+    "came",
+    "v",
+    "来る",
+    "plain past"
+  ],
+  "戻って": [
+    "戻[もど]って",
+    "returning; returned and",
+    "v",
+    "戻る",
+    "te-form"
+  ],
+  "聞く": [
+    "聞[き]く",
+    "hearing; ask",
+    "v",
+    "聞く",
+    "plain present"
+  ],
+  "記憶": [
+    "記[き]憶[おく]",
+    "memory",
+    "n",
+    "",
+    ""
+  ],
+  "告げた": [
+    "告[つ]げた",
+    "announced",
+    "v",
+    "告げる",
+    "plain past"
+  ],
+  "誰か": [
+    "誰[だれ]か",
+    "someone",
+    "pn",
+    "",
+    ""
+  ],
+  "できない": [
+    "できない",
+    "cannot, is not possible",
+    "v",
+    "できる",
+    "plain negative"
+  ],
+  "ページ": [
+    "ページ",
+    "page(s)",
+    "n",
+    "",
+    ""
+  ],
+  "書いた": [
+    "書[か]いた",
+    "wrote",
+    "v",
+    "書く",
+    "plain past"
+  ],
+  "結んだ": [
+    "結[むす]んだ",
+    "tied",
+    "v",
+    "結ぶ",
+    "plain past"
+  ],
+  "必ず": [
+    "必[かなら]ず",
+    "without fail; certainly",
+    "adv",
+    "",
+    ""
+  ],
+  "言って": [
+    "言[い]って",
+    "said, and ...",
+    "v",
+    "言う",
+    "te-form"
+  ],
+  "入口": [
+    "入[いり]口[ぐち]",
+    "entrance",
+    "n",
+    "",
+    ""
+  ],
+  "また": [
+    "また",
+    "again",
+    "adv",
+    "",
+    ""
+  ],
+  "戻ってきた": [
+    "戻[もど]ってきた",
+    "returned",
+    "v",
+    "戻ってくる",
+    "plain past"
+  ],
+  "急に": [
+    "急[きゅう]に",
+    "suddenly, steeply",
+    "adv",
+    "急だ",
+    "adverbial form"
+  ],
+  "続いた": [
+    "続[つづ]いた",
+    "continued",
+    "v",
+    "続く",
+    "plain past"
+  ],
+  "座り": [
+    "座[すわ]り",
+    "sat down, and",
+    "v",
+    "座る",
+    "continuative form"
+  ],
+  "話す": [
+    "話[はな]す",
+    "tell; speak",
+    "v",
+    "話す",
+    "plain present"
+  ],
+  "朝": [
+    "朝[あさ]",
+    "morning",
+    "n",
+    "",
+    ""
+  ],
+  "春": [
+    "春[はる]",
+    "spring",
+    "n",
+    "",
+    ""
+  ],
+  "行き": [
+    "行[い]き",
+    "going; go and",
+    "v",
+    "行く",
+    "continuative form",
+    "行く"
+  ],
+  "集めた": [
+    "集[あつ]めた",
+    "gathered",
+    "v",
+    "集める",
+    "plain past"
+  ],
+  "どの": [
+    "どの",
+    "which; every",
+    "adj",
+    "",
+    ""
+  ],
+  "おにぎり": [
+    "おにぎり",
+    "rice ball",
+    "n",
+    "",
+    ""
+  ],
+  "初め": [
+    "初[はじ]め",
+    "at first",
+    "adv",
+    "",
+    ""
+  ],
+  "だんだん": [
+    "だんだん",
+    "gradually, little by little",
+    "adv",
+    "",
+    ""
+  ],
+  "話すようになった": [
+    "話[はな]すようになった",
+    "came to talk about",
+    "v",
+    "話す",
+    "plain past 〜ようになる form"
+  ],
+  "書き": [
+    "書[か]き",
+    "writing; wrote and",
+    "v",
+    "書く",
+    "continuative form"
+  ],
+  "ついていた": [
+    "ついていた",
+    "was on; had become stained with",
+    "v",
+    "つく",
+    "plain past progressive"
+  ],
+  "伸ばした": [
+    "伸[の]ばした",
+    "extended; stretched out",
+    "v",
+    "伸ばす",
+    "plain past"
+  ],
+  "裂けた": [
+    "裂[さ]けた",
+    "tore",
+    "v",
+    "裂ける",
+    "plain past"
+  ],
+  "新しい": [
+    "新[あたら]しい",
+    "new",
+    "adj",
+    "",
+    ""
+  ],
+  "書かれた": [
+    "書[か]かれた",
+    "written",
+    "v",
+    "書く",
+    "plain past passive (modifying a noun)"
+  ],
+  "元": [
+    "元[もと]",
+    "original place, former state",
+    "n",
+    "",
+    ""
+  ],
+  "戻らない": [
+    "戻[もど]らない",
+    "would not return",
+    "v",
+    "戻る",
+    "plain present negative"
+  ],
+  "見せた": [
+    "見[み]せた",
+    "showed",
+    "v",
+    "見せる",
+    "plain past"
+  ],
+  "長い": [
+    "長[なが]い",
+    "long",
+    "adj",
+    "",
+    ""
+  ],
+  "見ていた": [
+    "見[み]ていた",
+    "was watching",
+    "v",
+    "見る",
+    "plain past progressive"
+  ],
+  "取り": [
+    "取[と]り",
+    "taking; took and",
+    "v",
+    "取る",
+    "continuative form"
+  ],
+  "寒い": [
+    "寒[さむ]い",
+    "cold",
+    "adj",
+    "",
+    ""
+  ],
+  "言う": [
+    "言[い]う",
+    "say",
+    "v",
+    "",
+    ""
+  ],
+  "帯": [
+    "帯[おび]",
+    "ribbon, band",
+    "n",
+    "",
+    ""
+  ],
+  "切り": [
+    "切[き]り",
+    "cutting; cut and",
+    "v",
+    "切る",
+    "continuative form"
+  ],
+  "並べた": [
+    "並[なら]べた",
+    "arranged",
+    "v",
+    "並べる",
+    "plain past"
+  ],
+  "知らない": [
+    "知[し]らない",
+    "unknown, unfamiliar",
+    "adj",
+    "知る",
+    "plain negative (modifying a noun)"
+  ],
+  "厚く": [
+    "厚[あつ]く",
+    "thickly",
+    "adv",
+    "厚い",
+    "adverbial form"
+  ],
+  "しっかり": [
+    "しっかり",
+    "firmly, tightly",
+    "adv",
+    "",
+    ""
+  ],
+  "挟んだ": [
+    "挟[はさ]んだ",
+    "tucked; wedged between",
+    "v",
+    "挟む",
+    "plain past"
+  ],
+  "右": [
+    "右[みぎ]",
+    "the right",
+    "n",
+    "",
+    ""
+  ],
+  "何": [
+    "何[なに]",
+    "what",
+    "pn",
+    "",
+    ""
+  ],
+  "次に": [
+    "次[つぎ]に",
+    "next",
+    "adv",
+    "",
+    ""
+  ],
+  "顔": [
+    "顔[かお]",
+    "face",
+    "n",
+    "",
+    ""
+  ],
+  "浮かぶ": [
+    "浮[う]かぶ",
+    "come to mind; appear",
+    "v",
+    "",
+    ""
+  ],
+  "握り": [
+    "握[にぎ]り",
+    "gripping; held and",
+    "v",
+    "握る",
+    "continuative form"
+  ],
+  "動いた": [
+    "動[うご]いた",
+    "moved",
+    "v",
+    "動く",
+    "plain past"
+  ],
+  "後ろ": [
+    "後[うし]ろ",
+    "rear, behind",
+    "n",
+    "",
+    ""
+  ],
+  "二つ": [
+    "二[ふた]つ",
+    "two",
+    "num",
+    "",
+    ""
+  ],
+  "杖": [
+    "杖[つえ]",
+    "cane",
+    "n",
+    "",
+    ""
+  ],
+  "持ち帰った": [
+    "持[も]ち帰[かえ]った",
+    "carried back",
+    "v",
+    "持ち帰る",
+    "plain past"
+  ],
+  "読み": [
+    "読[よ]み",
+    "reading; read and",
+    "v",
+    "読む",
+    "continuative form",
+    "読む"
+  ],
+  "一人": [
+    "一[ひと]人[り]",
+    "one person; alone",
+    "num",
+    "",
+    ""
+  ],
+  "声をかけた": [
+    "声[こえ]をかけた",
+    "called out",
+    "v",
+    "声をかける",
+    "plain past"
+  ],
+  "残して": [
+    "残[のこ]して",
+    "leaving behind",
+    "v",
+    "残す",
+    "te-form"
+  ],
+  "明日": [
+    "明[あ]日[した]",
+    "tomorrow",
+    "n",
+    "",
+    ""
+  ],
+  "聞いて": [
+    "聞[き]いて",
+    "hearing; heard and",
+    "v",
+    "聞く",
+    "te-form"
+  ],
+  "歌った": [
+    "歌[うた]った",
+    "sang",
+    "v",
+    "歌う",
+    "plain past"
+  ],
+  "両側": [
+    "両[りょう]側[がわ]",
+    "both sides",
+    "n",
+    "",
+    ""
+  ],
+  "並んだ": [
+    "並[なら]んだ",
+    "were laid out, appeared",
+    "v",
+    "並ぶ",
+    "plain past"
+  ],
+  "取り戻した": [
+    "取[と]り戻[もど]した",
+    "recovered",
+    "v",
+    "取り戻す",
+    "plain past"
+  ],
+  "これまで": [
+    "これまで",
+    "until now",
+    "adv",
+    "",
+    ""
+  ],
+  "開いた": [
+    "開[ひら]いた",
+    "opened",
+    "v",
+    "開く",
+    "plain past"
+  ],
+  "残って": [
+    "残[のこ]って",
+    "stay",
+    "v",
+    "残る",
+    "te-form request"
+  ],
+  "あと": [
+    "あと",
+    "more; still to go",
+    "adv",
+    "",
+    ""
+  ],
+  "広い": [
+    "広[ひろ]い",
+    "wide, spacious",
+    "adj",
+    "",
+    ""
+  ],
+  "あれば": [
+    "あれば",
+    "if there is",
+    "v",
+    "ある",
+    "conditional (~ば) form"
+  ],
+  "つなぐ": [
+    "つなぐ",
+    "join; connect",
+    "v",
+    "",
+    ""
+  ],
+  "できた": [
+    "できた",
+    "could do; was able to",
+    "v",
+    "できる",
+    "plain past"
+  ],
+  "描いた": [
+    "描[か]いた",
+    "drew",
+    "v",
+    "描く",
+    "plain past"
+  ],
+  "進み": [
+    "進[すす]み",
+    "advancing; went and",
+    "v",
+    "進む",
+    "continuative form"
+  ],
+  "差し出した": [
+    "差[さ]し出[だ]した",
+    "held out, handed over",
+    "v",
+    "差し出す",
+    "plain past"
+  ],
+  "背中": [
+    "背[せ]中[なか]",
+    "back",
+    "n",
+    "",
+    ""
+  ],
+  "ほう": [
+    "ほう",
+    "side; one in a comparison",
+    "n",
+    "",
+    ""
+  ],
+  "姿": [
+    "姿[すがた]",
+    "appearance",
+    "n",
+    "",
+    ""
+  ],
+  "二度目": [
+    "二[に]度[ど]目[め]",
+    "second time",
+    "n",
+    "",
+    ""
+  ],
+  "三度目": [
+    "三[さん]度[ど]目[め]",
+    "the third time",
+    "n",
+    "",
+    ""
+  ],
+  "首": [
+    "首[くび]",
+    "neck",
+    "n",
+    "",
+    ""
+  ],
+  "結ばれていた": [
+    "結[むす]ばれていた",
+    "was tied",
+    "v",
+    "結ぶ",
+    "plain past passive progressive"
+  ],
+  "小さく": [
+    "小[ちい]さく",
+    "slightly; in a small way",
+    "adj",
+    "小さい",
+    "adverbial form"
+  ],
+  "頭を下げた": [
+    "頭[あたま]を下[さ]げた",
+    "bowed",
+    "v",
+    "頭を下げる",
+    "plain past"
+  ],
+  "下ろし": [
+    "下[お]ろし",
+    "lowering; lowered and",
+    "v",
+    "下ろす",
+    "continuative form"
+  ],
+  "近い": [
+    "近[ちか]い",
+    "near",
+    "adj",
+    "",
+    ""
+  ],
+  "約束": [
+    "約[やく]束[そく]",
+    "promise",
+    "n",
+    "",
+    ""
+  ],
+  "髪": [
+    "髪[かみ]",
+    "hair",
+    "n",
+    "",
+    ""
+  ],
+  "それから": [
+    "それから",
+    "after that",
+    "adv",
+    "",
+    ""
+  ],
+  "取り出した": [
+    "取[と]り出[だ]した",
+    "pulled out",
+    "v",
+    "取り出す",
+    "plain past"
+  ],
+  "のだという": [
+    "のだという",
+    "she said; apparently",
+    "aux",
+    "",
+    "",
+    false
+  ],
+  "汚れた": [
+    "汚[よご]れた",
+    "dirty, tarnished",
+    "adj",
+    "汚れる",
+    "plain past (modifying a noun)"
+  ],
+  "抱えた": [
+    "抱[かか]えた",
+    "held in her arms",
+    "v",
+    "抱える",
+    "plain past"
+  ],
+  "足音": [
+    "足[あし]音[おと]",
+    "footsteps",
+    "n",
+    "",
+    ""
+  ],
+  "知っている": [
+    "知[し]っている",
+    "know",
+    "v",
+    "知る",
+    "plain present progressive"
+  ],
+  "呼び": [
+    "呼[よ]び",
+    "called, and",
+    "v",
+    "呼ぶ",
+    "continuative form"
+  ],
+  "どうぞ": [
+    "どうぞ",
+    "please, go ahead — offering something",
+    "adv",
+    "",
+    ""
+  ],
+  "探した": [
+    "探[さが]した",
+    "searched for",
+    "v",
+    "探す",
+    "plain past"
+  ],
+  "探す": [
+    "探[さが]す",
+    "find; look for",
+    "v",
+    "",
+    ""
+  ],
+  "振り返った": [
+    "振[ふ]り返[かえ]った",
+    "looked back",
+    "v",
+    "振り返る",
+    "plain past"
+  ],
+  "なくなった": [
+    "なくなった",
+    "ran out, was gone",
+    "v",
+    "なくなる",
+    "plain past"
+  ],
+  "うちに": [
+    "うちに",
+    "while; before one realizes",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "分からない": [
+    "分[わ]からない",
+    "do not know",
+    "v",
+    "分かる",
+    "plain negative"
+  ],
+  "流れてきた": [
+    "流[なが]れてきた",
+    "floated toward her",
+    "v",
+    "流れる",
+    "plain past 〜てくる form"
+  ],
+  "完全な": [
+    "完[かん]全[ぜん]な",
+    "complete",
+    "adj",
+    "完全だ",
+    "na-adjective form"
+  ],
+  "戻ると": [
+    "戻[もど]ると",
+    "when he returned",
+    "v",
+    "戻る",
+    "plain present conditional 〜と"
+  ],
+  "明かり": [
+    "明[あ]かり",
+    "light",
+    "n",
+    "",
+    ""
+  ],
+  "遅かった": [
+    "遅[おそ]かった",
+    "was late",
+    "adj",
+    "遅い",
+    "plain past"
+  ],
+  "な": [
+    "な",
+    "soft sentence ending",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "流れ": [
+    "流[なが]れ",
+    "current",
+    "n",
+    "",
+    ""
+  ],
+  "棒": [
+    "棒[ぼう]",
+    "stick",
+    "n",
+    "",
+    ""
+  ],
+  "思った": [
+    "思[おも]った",
+    "thought",
+    "v",
+    "思う",
+    "plain past"
+  ],
+  "翌朝": [
+    "翌[よく]朝[あさ]",
+    "next morning",
+    "adv",
+    "",
+    ""
+  ],
+  "昨夜": [
+    "昨[さく]夜[や]",
+    "last night",
+    "n",
+    "",
+    ""
+  ],
+  "かかっていた": [
+    "かかっていた",
+    "was hanging over",
+    "v",
+    "かかる",
+    "plain past progressive"
+  ],
+  "行くと": [
+    "行[い]くと",
+    "when they went",
+    "v",
+    "行く",
+    "plain present conditional 〜と"
+  ],
+  "最初": [
+    "最[さい]初[しょ]",
+    "beginning; first",
+    "n",
+    "",
+    ""
+  ],
+  "話し": [
+    "話[はな]し",
+    "talked about, and",
+    "v",
+    "話す",
+    "continuative form"
+  ],
+  "地図": [
+    "地[ち]図[ず]",
+    "map",
+    "n",
+    "",
+    ""
+  ],
+  "夏": [
+    "夏[なつ]",
+    "summer",
+    "n",
+    "",
+    ""
+  ],
+  "影": [
+    "影[かげ]",
+    "figure, shadow",
+    "n",
+    "",
+    ""
+  ],
+  "残した": [
+    "残[のこ]した",
+    "left behind",
+    "v",
+    "残す",
+    "plain past"
+  ],
+  "八月十六日": [
+    "八[はち]月[がつ]十[じゅう]六[ろく]日[にち]",
+    "August 16",
+    "n",
+    "",
+    ""
+  ],
+  "あおい": [
+    "あおい",
+    "Aoi",
+    "pn",
+    "",
+    ""
+  ],
+  "長野": [
+    "長[なが]野[の]",
+    "Nagano (prefecture in central Japan)",
+    "pn",
+    "",
+    ""
+  ],
+  "囲まれた": [
+    "囲[かこ]まれた",
+    "surrounded",
+    "v",
+    "囲む",
+    "plain past passive (modifying a noun)"
+  ],
+  "バス": [
+    "バス",
+    "bus",
+    "n",
+    "",
+    ""
+  ],
+  "降りると": [
+    "降[お]りると",
+    "when she got off",
+    "v",
+    "降りる",
+    "\"when\" form"
+  ],
+  "杉": [
+    "杉[すぎ]",
+    "Japanese cedar",
+    "n",
+    "",
+    ""
+  ],
+  "田んぼ": [
+    "田[た]んぼ",
+    "rice field",
+    "n",
+    "",
+    ""
+  ],
+  "受けていた": [
+    "受[う]けていた",
+    "was catching; was receiving",
+    "v",
+    "受ける",
+    "plain past progressive"
+  ],
+  "お盆": [
+    "お盆[ぼん]",
+    "Obon (a time to welcome and bid farewell to ancestors)",
+    "n",
+    "",
+    ""
+  ],
+  "祖母": [
+    "祖[そ]母[ぼ]",
+    "grandmother",
+    "n",
+    "",
+    ""
+  ],
+  "今年": [
+    "今[こ]年[とし]",
+    "this year",
+    "n",
+    "",
+    ""
+  ],
+  "見終わっていなかった": [
+    "見[み]終[お]わっていなかった",
+    "had not finished looking",
+    "v",
+    "見終わる",
+    "plain past negative progressive"
+  ],
+  "携帯電話": [
+    "携[けい]帯[たい]電[でん]話[わ]",
+    "mobile phone",
+    "n",
+    "",
+    ""
+  ],
+  "電波": [
+    "電[でん]波[ぱ]",
+    "phone signal; radio waves",
+    "n",
+    "",
+    ""
+  ],
+  "弱く": [
+    "弱[よわ]く",
+    "weak, and",
+    "adj",
+    "弱い",
+    "continuative form"
+  ],
+  "竹": [
+    "竹[たけ]",
+    "bamboo",
+    "n",
+    "",
+    ""
+  ],
+  "和紙": [
+    "和[わ]紙[し]",
+    "washi; Japanese paper",
+    "n",
+    "",
+    ""
+  ],
+  "貼っていた": [
+    "貼[は]っていた",
+    "was pasting",
+    "v",
+    "貼る",
+    "plain past progressive"
+  ],
+  "提灯": [
+    "提[ちょう]灯[ちん]",
+    "hanging or hand-carried paper lantern",
+    "n",
+    "",
+    ""
+  ],
+  "柔らかかった": [
+    "柔[やわ]らかかった",
+    "was soft",
+    "adj",
+    "柔らかい",
+    "plain past"
+  ],
+  "洗ったら": [
+    "洗[あら]ったら",
+    "once you have washed",
+    "v",
+    "洗う",
+    "conditional (\"if ...\")"
+  ],
+  "こっち": [
+    "こっち",
+    "this bit; this way",
+    "pn",
+    "",
+    ""
+  ],
+  "押さえてくれるかい": [
+    "押[お]さえてくれるかい",
+    "would you hold it down for me?",
+    "v",
+    "押さえる",
+    "casual question with 〜てくれる"
+  ],
+  "持つと": [
+    "持[も]つと",
+    "when she held",
+    "v",
+    "持つ",
+    "\"when\" form"
+  ],
+  "筆": [
+    "筆[ふで]",
+    "brush",
+    "n",
+    "",
+    ""
+  ],
+  "のり": [
+    "のり",
+    "paste; glue",
+    "n",
+    "",
+    ""
+  ],
+  "塗った": [
+    "塗[ぬ]った",
+    "applied; brushed on",
+    "v",
+    "塗る",
+    "plain past"
+  ],
+  "思ったよりも": [
+    "思[おも]ったよりも",
+    "more than expected",
+    "v",
+    "思う",
+    "plain past comparison with 〜よりも"
+  ],
+  "丈夫だった": [
+    "丈[じょう]夫[ぶ]だった",
+    "was strong; was durable",
+    "adj",
+    "丈夫だ",
+    "plain past"
+  ],
+  "破れた": [
+    "破[やぶ]れた",
+    "torn",
+    "v",
+    "破れる",
+    "plain past (modifying a noun)"
+  ],
+  "直す": [
+    "直[なお]す",
+    "mend; repair",
+    "v",
+    "",
+    ""
+  ],
+  "重ねる": [
+    "重[かさ]ねる",
+    "overlap; place one over another",
+    "v",
+    "",
+    ""
+  ],
+  "んだよ": [
+    "んだよ",
+    "you see — explanatory emphasis",
+    "aux",
+    "のだ",
+    "contracted explanatory form",
+    false
+  ],
+  "れん": [
+    "れん",
+    "Ren",
+    "pn",
+    "",
+    ""
+  ],
+  "盆": [
+    "盆[ぼん]",
+    "tray",
+    "n",
+    "",
+    ""
+  ],
+  "団子": [
+    "団[だん]子[ご]",
+    "rice-flour dumplings",
+    "n",
+    "",
+    ""
+  ],
+  "並べていた": [
+    "並[なら]べていた",
+    "was arranging",
+    "v",
+    "並べる",
+    "plain past progressive"
+  ],
+  "住んでいて": [
+    "住[す]んでいて",
+    "lived, and",
+    "v",
+    "住む",
+    "progressive te-form"
+  ],
+  "仏壇": [
+    "仏[ぶつ]壇[だん]",
+    "Buddhist family altar",
+    "n",
+    "",
+    ""
+  ],
+  "供えてから": [
+    "供[そな]えてから",
+    "after placing as offerings",
+    "v",
+    "供える",
+    "〜てから form"
+  ],
+  "迎え": [
+    "迎[むか]え",
+    "welcome, and",
+    "v",
+    "迎える",
+    "continuative form",
+    "迎える"
+  ],
+  "送り出す": [
+    "送[おく]り出[だ]す",
+    "send off; see on their way",
+    "v",
+    "",
+    ""
+  ],
+  "のだと": [
+    "のだと",
+    "that it is so — explanatory quotation",
+    "aux",
+    "のだ",
+    "quoted explanatory form",
+    false
+  ],
+  "灯籠": [
+    "灯[とう]籠[ろう]",
+    "lantern (here, one on a small base for floating)",
+    "n",
+    "",
+    ""
+  ],
+  "流す": [
+    "流[なが]す",
+    "set afloat; let flow",
+    "v",
+    "",
+    ""
+  ],
+  "川下": [
+    "川[かわ]下[しも]",
+    "downstream",
+    "n",
+    "",
+    ""
+  ],
+  "集める": [
+    "集[あつ]める",
+    "collect",
+    "v",
+    "",
+    ""
+  ],
+  "手伝う": [
+    "手[て]伝[つだ]う",
+    "help",
+    "v",
+    "",
+    ""
+  ],
+  "ほうがいい": [
+    "ほうがいい",
+    "it is better to; it would be nice to",
+    "aux",
+    "",
+    "",
+    false
+  ],
+  "広場": [
+    "広[ひろ]場[ば]",
+    "square; open gathering place",
+    "n",
+    "",
+    ""
+  ],
+  "盆踊り": [
+    "盆[ぼん]踊[おど]り",
+    "Bon dance; community dancing during Obon",
+    "n",
+    "",
+    ""
+  ],
+  "太鼓": [
+    "太[たい]鼓[こ]",
+    "drum",
+    "n",
+    "",
+    ""
+  ],
+  "口ずさんだ": [
+    "口[くち]ずさんだ",
+    "hummed; sang softly",
+    "v",
+    "口ずさむ",
+    "plain past"
+  ],
+  "二歩": [
+    "二[に]歩[ほ]",
+    "two steps",
+    "num",
+    "",
+    ""
+  ],
+  "進んで": [
+    "進[すす]んで",
+    "go forward",
+    "v",
+    "進む",
+    "te-form"
+  ],
+  "一歩": [
+    "一[いっ]歩[ぽ]",
+    "one step",
+    "num",
+    "",
+    ""
+  ],
+  "止まり": [
+    "止[と]まり",
+    "stopped, and",
+    "v",
+    "止まる",
+    "continuative form"
+  ],
+  "三度": [
+    "三[さん]度[ど]",
+    "three times",
+    "num",
+    "",
+    ""
+  ],
+  "の#question": [
+    "の#question",
+    "casual question ending",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "見たまま": [
+    "見[み]たまま",
+    "still looking",
+    "v",
+    "見る",
+    "plain past 〜たまま form"
+  ],
+  "歌う": [
+    "歌[うた]う",
+    "sing",
+    "v",
+    "",
+    ""
+  ],
+  "いないと": [
+    "いないと",
+    "if nobody is there",
+    "v",
+    "いる",
+    "negative conditional 〜と form"
+  ],
+  "出てこない": [
+    "出[で]てこない",
+    "will not come out; will not come to mind",
+    "v",
+    "出る",
+    "plain negative 〜てくる form"
+  ],
+  "横顔": [
+    "横[よこ]顔[がお]",
+    "face in profile",
+    "n",
+    "",
+    ""
+  ],
+  "運んできた": [
+    "運[はこ]んできた",
+    "brought over; carried here",
+    "v",
+    "運ぶ",
+    "plain past 〜てくる form"
+  ],
+  "帳面": [
+    "帳[ちょう]面[めん]",
+    "notebook",
+    "n",
+    "",
+    ""
+  ],
+  "さよ": [
+    "さよ",
+    "Sayo",
+    "pn",
+    "",
+    ""
+  ],
+  "六十年前": [
+    "六[ろく]十[じゅう]年[ねん]前[まえ]",
+    "sixty years ago",
+    "n",
+    "",
+    ""
+  ],
+  "大雨": [
+    "大[おお]雨[あめ]",
+    "heavy rain",
+    "n",
+    "",
+    ""
+  ],
+  "帰ってこなかった": [
+    "帰[かえ]ってこなかった",
+    "never came back",
+    "v",
+    "帰る",
+    "plain past negative 〜てくる form"
+  ],
+  "という#hearsay": [
+    "という#hearsay",
+    "it is said; she explained that",
+    "aux",
+    "",
+    "",
+    false
+  ],
+  "なくなり": [
+    "なくなり",
+    "disappeared, and",
+    "v",
+    "なくなる",
+    "continuative form"
+  ],
+  "隠れ谷": [
+    "隠[かく]れ谷[だに]",
+    "the Hidden Valley (fictional place)",
+    "pn",
+    "",
+    ""
+  ],
+  "呼ぶ": [
+    "呼[よ]ぶ",
+    "call",
+    "v",
+    "",
+    ""
+  ],
+  "少なかった": [
+    "少[すく]なかった",
+    "were few",
+    "adj",
+    "少ない",
+    "plain past"
+  ],
+  "ことに": [
+    "ことに",
+    "to one's ...; in a ... way (with the preceding adjective)",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "描かれていなかった": [
+    "描[か]かれていなかった",
+    "had not been drawn",
+    "v",
+    "描く",
+    "plain past negative passive progressive"
+  ],
+  "狐": [
+    "狐[きつね]",
+    "fox",
+    "n",
+    "",
+    ""
+  ],
+  "鈴": [
+    "鈴[すず]",
+    "small bell",
+    "n",
+    "",
+    ""
+  ],
+  "下書き": [
+    "下[した]書[が]き",
+    "rough sketch; draft",
+    "n",
+    "",
+    ""
+  ],
+  "なのかな": [
+    "なのかな",
+    "I wonder if it is",
+    "aux",
+    "だ",
+    "explanatory conjectural question",
+    false
+  ],
+  "破れ目": [
+    "破[やぶ]れ目[め]",
+    "tear; torn place",
+    "n",
+    "",
+    ""
+  ],
+  "なぞり": [
+    "なぞり",
+    "traced, and",
+    "v",
+    "なぞる",
+    "continuative form"
+  ],
+  "支度": [
+    "支[し]度[たく]",
+    "preparations",
+    "n",
+    "",
+    ""
+  ],
+  "するために": [
+    "するために",
+    "in order to do",
+    "v",
+    "する",
+    "\"in order to\" form"
+  ],
+  "立つと": [
+    "立[た]つと",
+    "when she got up to go",
+    "v",
+    "立つ",
+    "\"when\" form"
+  ],
+  "風鈴": [
+    "風[ふう]鈴[りん]",
+    "wind chime",
+    "n",
+    "",
+    ""
+  ],
+  "鳴らさず": [
+    "鳴[な]らさず",
+    "without ringing",
+    "v",
+    "鳴らす",
+    "\"without ...ing\" form"
+  ],
+  "揺らした": [
+    "揺[ゆ]らした",
+    "made sway; stirred",
+    "v",
+    "揺らす",
+    "plain past"
+  ],
+  "直すことにした": [
+    "直[なお]すことにした",
+    "decided to mend",
+    "v",
+    "直す",
+    "plain past 〜ことにする form"
+  ],
+  "支えてもらい": [
+    "支[ささ]えてもらい",
+    "had him support it, and",
+    "v",
+    "支える",
+    "continuative 〜てもらう form"
+  ],
+  "重ねた": [
+    "重[かさ]ねた",
+    "overlapped",
+    "v",
+    "重ねる",
+    "plain past"
+  ],
+  "入れていない": [
+    "入[い]れていない",
+    "has not put in; not yet lit (with 火を)",
+    "v",
+    "入れる",
+    "plain negative progressive"
+  ],
+  "青く": [
+    "青[あお]く",
+    "blue",
+    "adj",
+    "青い",
+    "adverbial form"
+  ],
+  "光った": [
+    "光[ひか]った",
+    "shone; glowed",
+    "v",
+    "光る",
+    "plain past"
+  ],
+  "三本": [
+    "三[さん]本[ぼん]",
+    "three (trees or long objects)",
+    "num",
+    "",
+    ""
+  ],
+  "浮かび上がった": [
+    "浮[う]かび上[あ]がった",
+    "emerged; came into view",
+    "v",
+    "浮かび上がる",
+    "plain past"
+  ],
+  "息を止めると": [
+    "息[いき]を止[と]めると",
+    "when he held his breath",
+    "v",
+    "息を止める",
+    "\"when\" form"
+  ],
+  "ちょっと": [
+    "ちょっと",
+    "a moment; a little",
+    "adv",
+    "",
+    ""
+  ],
+  "面": [
+    "面[めん]",
+    "mask",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "直してくれた": [
+    "直[なお]してくれた",
+    "mended it for me",
+    "v",
+    "直す",
+    "plain past 〜てくれる form"
+  ],
+  "灯り": [
+    "灯[あか]り",
+    "light; glow",
+    "n",
+    "",
+    ""
+  ],
+  "消えそう": [
+    "消[き]えそう",
+    "looks about to go out",
+    "v",
+    "消える",
+    "〜そう form (\"about to ...\")"
+  ],
+  "聞くと": [
+    "聞[き]くと",
+    "when she heard or asked",
+    "v",
+    "聞く",
+    "\"when\" form"
+  ],
+  "こはく": [
+    "こはく",
+    "Kohaku",
+    "pn",
+    "",
+    ""
+  ],
+  "右耳": [
+    "右[みぎ]耳[みみ]",
+    "right ear",
+    "n",
+    "",
+    ""
+  ],
+  "黒く": [
+    "黒[くろ]く",
+    "black",
+    "adj",
+    "黒い",
+    "adverbial form"
+  ],
+  "続く": [
+    "続[つづ]く",
+    "lead on; continue",
+    "v",
+    "",
+    ""
+  ],
+  "握った": [
+    "握[にぎ]った",
+    "held; gripped",
+    "v",
+    "握る",
+    "plain past"
+  ],
+  "行けたら": [
+    "行[い]けたら",
+    "if you can reach",
+    "v",
+    "行く",
+    "potential conditional 〜たら form"
+  ],
+  "忘れていない": [
+    "忘[わす]れていない",
+    "has not forgotten",
+    "v",
+    "忘れる",
+    "plain negative progressive"
+  ],
+  "伝えておくれ": [
+    "伝[つた]えておくれ",
+    "please tell her",
+    "v",
+    "伝える",
+    "familiar request with 〜ておくれ"
+  ],
+  "確かめる": [
+    "確[たし]かめる",
+    "check; make sure of",
+    "v",
+    "",
+    ""
+  ],
+  "顔を上げた": [
+    "顔[かお]を上[あ]げた",
+    "looked up; raised her head",
+    "v",
+    "顔を上げる",
+    "plain past"
+  ],
+  "懐中電灯": [
+    "懐[かい]中[ちゅう]電[でん]灯[とう]",
+    "torch; flashlight",
+    "n",
+    "",
+    ""
+  ],
+  "入れ": [
+    "入[い]れ",
+    "put in, and",
+    "v",
+    "入れる",
+    "continuative form"
+  ],
+  "歩きやすい": [
+    "歩[ある]きやすい",
+    "easy to walk in",
+    "v",
+    "歩く",
+    "〜やすい form (\"easy to ...\")"
+  ],
+  "下り始めると": [
+    "下[お]り始[はじ]めると",
+    "as they began to descend",
+    "v",
+    "下りる",
+    "\"when\" form with 〜始める"
+  ],
+  "斜面": [
+    "斜[しゃ]面[めん]",
+    "slope; mountainside",
+    "n",
+    "",
+    ""
+  ],
+  "石垣": [
+    "石[いし]垣[がき]",
+    "stone wall",
+    "n",
+    "",
+    ""
+  ],
+  "抜け": [
+    "抜[ぬ]け",
+    "passed through, and",
+    "v",
+    "抜ける",
+    "continuative form"
+  ],
+  "杉林": [
+    "杉[すぎ]林[ばやし]",
+    "cedar forest",
+    "n",
+    "",
+    ""
+  ],
+  "落ち葉": [
+    "落[お]ち葉[ば]",
+    "fallen leaves",
+    "n",
+    "",
+    ""
+  ],
+  "湿っていて": [
+    "湿[しめ]っていて",
+    "were damp, and",
+    "v",
+    "湿る",
+    "progressive te-form"
+  ],
+  "踏む": [
+    "踏[ふ]む",
+    "step on",
+    "v",
+    "",
+    ""
+  ],
+  "通り過ぎる": [
+    "通[とお]り過[す]ぎる",
+    "pass by",
+    "v",
+    "",
+    ""
+  ],
+  "ごとに": [
+    "ごとに",
+    "with each; every",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "小さくなった": [
+    "小[ちい]さくなった",
+    "grew smaller; became quieter",
+    "v",
+    "小さくなる",
+    "plain past"
+  ],
+  "曲がり角": [
+    "曲[ま]がり角[かど]",
+    "bend; corner",
+    "n",
+    "",
+    ""
+  ],
+  "振り返り": [
+    "振[ふ]り返[かえ]り",
+    "looked back, and",
+    "v",
+    "振り返る",
+    "continuative form"
+  ],
+  "覚えようとした": [
+    "覚[おぼ]えようとした",
+    "tried to remember",
+    "v",
+    "覚える",
+    "plain past \"try to\" form"
+  ],
+  "さっき": [
+    "さっき",
+    "a little while ago; just now",
+    "adv",
+    "",
+    ""
+  ],
+  "しめ縄": [
+    "しめ縄[なわ]",
+    "sacred straw rope marking a sacred place or object",
+    "n",
+    "",
+    ""
+  ],
+  "祠": [
+    "祠[ほこら]",
+    "small shrine",
+    "n",
+    "",
+    ""
+  ],
+  "頭を下げてから": [
+    "頭[あたま]を下[さ]げてから",
+    "after bowing",
+    "v",
+    "頭を下げる",
+    "〜てから form"
+  ],
+  "向き直った": [
+    "向[む]き直[なお]った",
+    "turned to face them",
+    "v",
+    "向き直る",
+    "plain past"
+  ],
+  "君たち": [
+    "君[きみ]たち",
+    "you two; you all",
+    "pn",
+    "",
+    ""
+  ],
+  "とは限らない": [
+    "とは限[かぎ]らない",
+    "is not necessarily",
+    "aux",
+    "限る",
+    "negative 〜とは限らない form",
+    false
+  ],
+  "渡ると": [
+    "渡[わた]ると",
+    "when one crosses",
+    "v",
+    "渡る",
+    "\"when\" form"
+  ],
+  "分からなくなる": [
+    "分[わ]からなくなる",
+    "will no longer know",
+    "v",
+    "分かる",
+    "negative 〜なくなる form"
+  ],
+  "が#but": [
+    "が#but",
+    "but; although",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "画面": [
+    "画[が]面[めん]",
+    "screen",
+    "n",
+    "",
+    ""
+  ],
+  "手をやった": [
+    "手[て]をやった",
+    "reached; put his hand to",
+    "v",
+    "手をやる",
+    "plain past"
+  ],
+  "ついていない": [
+    "ついていない",
+    "has nothing attached",
+    "v",
+    "つく",
+    "plain negative progressive"
+  ],
+  "下ると": [
+    "下[くだ]ると",
+    "as they went down",
+    "v",
+    "下る",
+    "\"when\" form"
+  ],
+  "黄色": [
+    "黄[き]色[いろ]",
+    "yellow",
+    "n",
+    "",
+    ""
+  ],
+  "鳴った": [
+    "鳴[な]った",
+    "rang",
+    "v",
+    "鳴る",
+    "plain past"
+  ],
+  "みな": [
+    "みな",
+    "all; everyone",
+    "pn",
+    "",
+    ""
+  ],
+  "つけていた": [
+    "つけていた",
+    "was wearing",
+    "v",
+    "つける",
+    "plain past progressive"
+  ],
+  "金魚": [
+    "金[きん]魚[ぎょ]",
+    "goldfish",
+    "n",
+    "",
+    ""
+  ],
+  "泳ぐ": [
+    "泳[およ]ぐ",
+    "swim",
+    "v",
+    "",
+    ""
+  ],
+  "星": [
+    "星[ほし]",
+    "star",
+    "n",
+    "",
+    ""
+  ],
+  "近づけると": [
+    "近[ちか]づけると",
+    "when she brought it closer",
+    "v",
+    "近づける",
+    "\"when\" form"
+  ],
+  "青空": [
+    "青[あお]空[ぞら]",
+    "blue sky",
+    "n",
+    "",
+    ""
+  ],
+  "風車": [
+    "風[かざ]車[ぐるま]",
+    "pinwheel",
+    "n",
+    "",
+    ""
+  ],
+  "売る": [
+    "売[う]る",
+    "sell",
+    "v",
+    "",
+    ""
+  ],
+  "好きなの": [
+    "好[す]きなの",
+    "the one you like",
+    "adj",
+    "好きだ",
+    "nominalized na-adjective form"
+  ],
+  "選びなさい": [
+    "選[えら]びなさい",
+    "choose (an instruction)",
+    "v",
+    "選ぶ",
+    "〜なさい command"
+  ],
+  "三年前": [
+    "三[さん]年[ねん]前[まえ]",
+    "three years ago",
+    "n",
+    "",
+    ""
+  ],
+  "声をかけようとした": [
+    "声[こえ]をかけようとした",
+    "was about to speak to him",
+    "v",
+    "声をかける",
+    "plain past \"try to\" form"
+  ],
+  "母さん": [
+    "母[かあ]さん",
+    "Mum; Mom",
+    "n",
+    "",
+    ""
+  ],
+  "れんちゃん": [
+    "れんちゃん",
+    "Ren-chan (an affectionate form of Ren)",
+    "pn",
+    "",
+    ""
+  ],
+  "呼んでいた": [
+    "呼[よ]んでいた",
+    "used to call",
+    "v",
+    "呼ぶ",
+    "plain past progressive"
+  ],
+  "笑い続け": [
+    "笑[わら]い続[つづ]け",
+    "kept laughing, and",
+    "v",
+    "笑う",
+    "continuative 〜続ける form"
+  ],
+  "離れた": [
+    "離[はな]れた",
+    "moved away; left",
+    "v",
+    "離れる",
+    "plain past"
+  ],
+  "の#nominal": [
+    "の#nominal",
+    "nominalizer — the thing, person or act just described",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "つらかった": [
+    "つらかった",
+    "was painful; was hard to bear",
+    "adj",
+    "つらい",
+    "plain past"
+  ],
+  "忘れたくない": [
+    "忘[わす]れたくない",
+    "do not want to forget",
+    "v",
+    "忘れる",
+    "negative 〜たい form"
+  ],
+  "大きくなった": [
+    "大[おお]きくなった",
+    "grew larger",
+    "v",
+    "大きくなる",
+    "plain past"
+  ],
+  "売っていない": [
+    "売[う]っていない",
+    "is not selling",
+    "v",
+    "売る",
+    "plain negative progressive"
+  ],
+  "ひび": [
+    "ひび",
+    "crack",
+    "n",
+    "",
+    ""
+  ],
+  "とたん": [
+    "とたん",
+    "the instant; just as",
+    "n",
+    "",
+    ""
+  ],
+  "なくなっていた": [
+    "なくなっていた",
+    "was gone; had disappeared",
+    "v",
+    "なくなる",
+    "plain past progressive"
+  ],
+  "向けても": [
+    "向[む]けても",
+    "even if he aimed",
+    "v",
+    "向ける",
+    "\"even if\" form"
+  ],
+  "戻される": [
+    "戻[もど]される",
+    "is thrown back; is returned",
+    "v",
+    "戻す",
+    "plain present passive"
+  ],
+  "描かれていない": [
+    "描[か]かれていない",
+    "has not been drawn",
+    "v",
+    "描く",
+    "plain negative passive progressive"
+  ],
+  "欠けた": [
+    "欠[か]けた",
+    "had a part missing; incomplete",
+    "v",
+    "欠ける",
+    "plain past"
+  ],
+  "二枚": [
+    "二[に]枚[まい]",
+    "two sheets; two flat pieces",
+    "num",
+    "",
+    ""
+  ],
+  "続けると": [
+    "続[つづ]けると",
+    "when she continued",
+    "v",
+    "続ける",
+    "\"when\" form"
+  ],
+  "まねた": [
+    "まねた",
+    "copied; imitated",
+    "v",
+    "まねる",
+    "plain past"
+  ],
+  "こと#matter": [
+    "こと#matter",
+    "thing; experience; what happened",
+    "n",
+    "",
+    ""
+  ],
+  "出さず": [
+    "出[だ]さず",
+    "without putting forward",
+    "v",
+    "出す",
+    "\"without ...ing\" form"
+  ],
+  "そうすると": [
+    "そうすると",
+    "when she did that",
+    "adv",
+    "",
+    ""
+  ],
+  "つかまり": [
+    "つかまり",
+    "held on, and",
+    "v",
+    "つかまる",
+    "continuative form"
+  ],
+  "速さ": [
+    "速[はや]さ",
+    "speed; pace",
+    "n",
+    "",
+    ""
+  ],
+  "しぶき": [
+    "しぶき",
+    "spray; splashes",
+    "n",
+    "",
+    ""
+  ],
+  "息を吐いた": [
+    "息[いき]を吐[は]いた",
+    "breathed out",
+    "v",
+    "息を吐く",
+    "plain past"
+  ],
+  "少ない": [
+    "少[すく]ない",
+    "few",
+    "adj",
+    "",
+    ""
+  ],
+  "水路": [
+    "水[すい]路[ろ]",
+    "watercourse; water channel",
+    "n",
+    "",
+    ""
+  ],
+  "沿って": [
+    "沿[そ]って",
+    "along; following",
+    "v",
+    "沿う",
+    "te-form"
+  ],
+  "歩くと": [
+    "歩[ある]くと",
+    "as they walked",
+    "v",
+    "歩く",
+    "\"when\" form"
+  ],
+  "幅": [
+    "幅[はば]",
+    "width",
+    "n",
+    "",
+    ""
+  ],
+  "狭い": [
+    "狭[せま]い",
+    "narrow",
+    "adj",
+    "",
+    ""
+  ],
+  "横切っていた": [
+    "横[よこ]切[ぎ]っていた",
+    "was crossing; ran across",
+    "v",
+    "横切る",
+    "plain past progressive"
+  ],
+  "こぼれていた": [
+    "こぼれていた",
+    "was spilling out",
+    "v",
+    "こぼれる",
+    "plain past progressive"
+  ],
+  "しゃがみ": [
+    "しゃがみ",
+    "crouched, and",
+    "v",
+    "しゃがむ",
+    "continuative form"
+  ],
+  "返してくれれば": [
+    "返[かえ]してくれれば",
+    "if she gives it back",
+    "v",
+    "返す",
+    "conditional 〜てくれる form"
+  ],
+  "送り": [
+    "送[おく]り",
+    "farewell; seeing off",
+    "n",
+    "",
+    ""
+  ],
+  "開けられる": [
+    "開[あ]けられる",
+    "can open",
+    "v",
+    "開ける",
+    "plain present potential"
+  ],
+  "んだけど": [
+    "んだけど",
+    "it is that, but — explanatory ending",
+    "aux",
+    "のだ",
+    "contracted explanatory form with けど",
+    false
+  ],
+  "動き": [
+    "動[うご]き",
+    "moved, and",
+    "v",
+    "動く",
+    "continuative form",
+    "動く"
+  ],
+  "帰しません": [
+    "帰[かえ]しません",
+    "will not send them away",
+    "v",
+    "帰す",
+    "polite present negative"
+  ],
+  "伸びてきた": [
+    "伸[の]びてきた",
+    "extended toward them",
+    "v",
+    "伸びる",
+    "plain past 〜てくる form"
+  ],
+  "何枚も": [
+    "何[なん]枚[まい]も",
+    "many sheets",
+    "num",
+    "",
+    ""
+  ],
+  "重なり": [
+    "重[かさ]なり",
+    "overlapped, and",
+    "v",
+    "重なる",
+    "continuative form"
+  ],
+  "浮いている": [
+    "浮[う]いている",
+    "is floating",
+    "v",
+    "浮く",
+    "plain present progressive"
+  ],
+  "硬かった": [
+    "硬[かた]かった",
+    "was firm; was hard",
+    "adj",
+    "硬い",
+    "plain past"
+  ],
+  "聞きに来た": [
+    "聞[き]きに来[き]た",
+    "came to listen",
+    "v",
+    "聞く",
+    "plain past purpose form with 来る"
+  ],
+  "答えず": [
+    "答[こた]えず",
+    "without answering",
+    "v",
+    "答える",
+    "\"without ...ing\" form"
+  ],
+  "乾かしている": [
+    "乾[かわ]かしている",
+    "is drying (something)",
+    "v",
+    "乾かす",
+    "plain present progressive"
+  ],
+  "暗かった": [
+    "暗[くら]かった",
+    "was dark",
+    "adj",
+    "暗い",
+    "plain past"
+  ],
+  "冷たかった": [
+    "冷[つめ]たかった",
+    "was cold",
+    "adj",
+    "冷たい",
+    "plain past"
+  ],
+  "藍色": [
+    "藍[あい]色[いろ]",
+    "indigo",
+    "n",
+    "",
+    ""
+  ],
+  "着物": [
+    "着[き]物[もの]",
+    "kimono",
+    "n",
+    "",
+    ""
+  ],
+  "直していた": [
+    "直[なお]していた",
+    "had mended; was repairing",
+    "v",
+    "直す",
+    "plain past progressive"
+  ],
+  "針目": [
+    "針[はり]目[め]",
+    "stitches",
+    "n",
+    "",
+    ""
+  ],
+  "浴衣": [
+    "浴[ゆ]衣[かた]",
+    "yukata; light summer kimono",
+    "n",
+    "",
+    ""
+  ],
+  "直した": [
+    "直[なお]した",
+    "mended",
+    "v",
+    "直す",
+    "plain past"
+  ],
+  "似ていた": [
+    "似[に]ていた",
+    "resembled",
+    "v",
+    "似る",
+    "plain past progressive"
+  ],
+  "さよさん": [
+    "さよさん",
+    "Sayo (with a polite name suffix)",
+    "pn",
+    "",
+    ""
+  ],
+  "抱えている": [
+    "抱[かか]えている",
+    "is holding in her arms",
+    "v",
+    "抱える",
+    "plain present progressive"
+  ],
+  "手に入れた": [
+    "手[て]に入[い]れた",
+    "obtained; got",
+    "v",
+    "手に入れる",
+    "plain past"
+  ],
+  "答えて": [
+    "答[こた]えて",
+    "answered, and",
+    "v",
+    "答える",
+    "te-form"
+  ],
+  "向けた": [
+    "向[む]けた",
+    "turned toward",
+    "v",
+    "向ける",
+    "plain past"
+  ],
+  "伸ばしかけ": [
+    "伸[の]ばしかけ",
+    "began to stretch out, and",
+    "v",
+    "伸ばす",
+    "continuative 〜かける form"
+  ],
+  "止めた": [
+    "止[と]めた",
+    "stopped (an action)",
+    "v",
+    "止める",
+    "plain past"
+  ],
+  "なんだね": [
+    "なんだね",
+    "so it is — explanatory realization",
+    "aux",
+    "なのだ",
+    "contracted explanatory form",
+    false
+  ],
+  "言い方": [
+    "言[い]い方[かた]",
+    "way of saying it",
+    "n",
+    "",
+    ""
+  ],
+  "六十年": [
+    "六[ろく]十[じゅう]年[ねん]",
+    "sixty years",
+    "num",
+    "",
+    ""
+  ],
+  "閉じ": [
+    "閉[と]じ",
+    "closed, and",
+    "v",
+    "閉じる",
+    "continuative form"
+  ],
+  "鳴らして": [
+    "鳴[な]らして",
+    "rang, and",
+    "v",
+    "鳴らす",
+    "te-form"
+  ],
+  "案内した": [
+    "案[あん]内[ない]した",
+    "guided; led",
+    "v",
+    "案内する",
+    "plain past"
+  ],
+  "鳴いていた": [
+    "鳴[な]いていた",
+    "was calling (an animal)",
+    "v",
+    "鳴く",
+    "plain past progressive"
+  ],
+  "送りに来てくれる": [
+    "送[おく]りに来[き]てくれる",
+    "comes to see us on our way",
+    "v",
+    "送る",
+    "purpose form with 来てくれる"
+  ],
+  "両手": [
+    "両[りょう]手[て]",
+    "both hands",
+    "n",
+    "",
+    ""
+  ],
+  "包んだまま": [
+    "包[つつ]んだまま",
+    "still cupping; keeping wrapped",
+    "v",
+    "包む",
+    "plain past 〜たまま form"
+  ],
+  "開けたら": [
+    "開[あ]けたら",
+    "if I open",
+    "v",
+    "開ける",
+    "conditional (\"if ...\")"
+  ],
+  "見えなくなる": [
+    "見[み]えなくなる",
+    "will no longer be visible",
+    "v",
+    "見える",
+    "negative 〜なくなる form"
+  ],
+  "話してくれなければ": [
+    "話[はな]してくれなければ",
+    "if nobody tells (for us)",
+    "v",
+    "話す",
+    "negative conditional 〜てくれる form"
+  ],
+  "初めから": [
+    "初[はじ]めから",
+    "from the very beginning",
+    "adv",
+    "",
+    ""
+  ],
+  "とは言えなかった": [
+    "とは言[い]えなかった",
+    "could not say that",
+    "v",
+    "言う",
+    "plain past negative potential with quotative と"
+  ],
+  "からだ": [
+    "からだ",
+    "it is because",
+    "aux",
+    "だ",
+    "explanatory reason form",
+    false
+  ],
+  "大根": [
+    "大[だい]根[こん]",
+    "daikon radish",
+    "n",
+    "",
+    ""
+  ],
+  "干す": [
+    "干[ほ]す",
+    "hang out to dry",
+    "v",
+    "",
+    ""
+  ],
+  "釣る": [
+    "釣[つ]る",
+    "catch fish; fish",
+    "v",
+    "",
+    ""
+  ],
+  "守る": [
+    "守[まも]る",
+    "protect; preserve",
+    "v",
+    "",
+    ""
+  ],
+  "消え続けていた": [
+    "消[き]え続[つづ]けていた",
+    "kept fading away",
+    "v",
+    "消える",
+    "plain past progressive 〜続ける form"
+  ],
+  "薄くなった": [
+    "薄[うす]くなった",
+    "grew faint; faded",
+    "v",
+    "薄くなる",
+    "plain past"
+  ],
+  "濃くなった": [
+    "濃[こ]くなった",
+    "became darker",
+    "v",
+    "濃くなる",
+    "plain past"
+  ],
+  "覚えると": [
+    "覚[おぼ]えると",
+    "when someone remembers",
+    "v",
+    "覚える",
+    "\"when\" form"
+  ],
+  "川辺": [
+    "川[かわ]辺[べ]",
+    "riverbank",
+    "n",
+    "",
+    ""
+  ],
+  "並べれば": [
+    "並[なら]べれば",
+    "if you line up",
+    "v",
+    "並べる",
+    "conditional (\"if ...\")"
+  ],
+  "送る": [
+    "送[おく]る",
+    "see off; accompany on the way",
+    "v",
+    "",
+    ""
+  ],
+  "ほっとして": [
+    "ほっとして",
+    "feeling relieved, and",
+    "v",
+    "ほっとする",
+    "te-form"
+  ],
+  "一斉に": [
+    "一[いっ]斉[せい]に",
+    "all at once",
+    "adv",
+    "",
+    ""
+  ],
+  "光ろうとして": [
+    "光[ひか]ろうとして",
+    "trying to shine, and",
+    "v",
+    "光る",
+    "\"try to\" te-form"
+  ],
+  "細くなった": [
+    "細[ほそ]くなった",
+    "grew thin; dwindled",
+    "v",
+    "細くなる",
+    "plain past"
+  ],
+  "足りない": [
+    "足[た]りない",
+    "is not enough",
+    "v",
+    "足りる",
+    "plain present negative"
+  ],
+  "んだもの": [
+    "んだもの",
+    "because, you see — explanatory ending",
+    "aux",
+    "のだ",
+    "contracted explanatory form with もの",
+    false
+  ],
+  "山道": [
+    "山[やま]道[みち]",
+    "mountain path",
+    "n",
+    "",
+    ""
+  ],
+  "思い出せた": [
+    "思[おも]い出[だ]せた",
+    "could remember",
+    "v",
+    "思い出す",
+    "plain past potential"
+  ],
+  "呼んできて": [
+    "呼[よ]んできて",
+    "go and bring them here",
+    "v",
+    "呼ぶ",
+    "te-form request with 〜てくる"
+  ],
+  "受け取らず": [
+    "受[う]け取[と]らず",
+    "without taking",
+    "v",
+    "受け取る",
+    "\"without ...ing\" form"
+  ],
+  "どうする": [
+    "どうする",
+    "what will you do",
+    "v",
+    "",
+    ""
+  ],
+  "覚えてもらって": [
+    "覚[おぼ]えてもらって",
+    "get them to remember",
+    "v",
+    "覚える",
+    "te-form request with 〜てもらう"
+  ],
+  "離れると": [
+    "離[はな]れると",
+    "when away from",
+    "v",
+    "離れる",
+    "\"when\" form"
+  ],
+  "薄れる": [
+    "薄[うす]れる",
+    "fade; grow faint",
+    "v",
+    "",
+    ""
+  ],
+  "残らなければ": [
+    "残[のこ]らなければ",
+    "unless someone stays",
+    "v",
+    "残る",
+    "negative conditional 〜なければ form"
+  ],
+  "消えかけた": [
+    "消[き]えかけた",
+    "beginning to vanish",
+    "v",
+    "消える",
+    "plain past 〜かける form"
+  ],
+  "受け取り": [
+    "受[う]け取[と]り",
+    "took; received, and",
+    "v",
+    "受け取る",
+    "continuative form",
+    "受け取る"
+  ],
+  "持ち手": [
+    "持[も]ち手[て]",
+    "handle",
+    "n",
+    "",
+    ""
+  ],
+  "見えなくなると": [
+    "見[み]えなくなると",
+    "when it was no longer visible",
+    "v",
+    "見える",
+    "\"when\" form with 〜なくなる"
+  ],
+  "冷たくなった": [
+    "冷[つめ]たくなった",
+    "grew cold",
+    "v",
+    "冷たくなる",
+    "plain past"
+  ],
+  "去った": [
+    "去[さ]った",
+    "left",
+    "v",
+    "去る",
+    "plain past"
+  ],
+  "こすれる": [
+    "こすれる",
+    "rub against each other; rustle",
+    "v",
+    "",
+    ""
+  ],
+  "書き留めた": [
+    "書[か]き留[と]めた",
+    "wrote down; recorded",
+    "v",
+    "書き留める",
+    "plain past"
+  ],
+  "水車": [
+    "水[すい]車[しゃ]",
+    "waterwheel",
+    "n",
+    "",
+    ""
+  ],
+  "凍って": [
+    "凍[こお]って",
+    "froze, and",
+    "v",
+    "凍る",
+    "te-form"
+  ],
+  "動かない": [
+    "動[うご]かない",
+    "does not move; will not turn",
+    "v",
+    "動く",
+    "plain present negative"
+  ],
+  "こともあった": [
+    "こともあった",
+    "sometimes happened",
+    "aux",
+    "ある",
+    "plain past 〜こともある form",
+    false
+  ],
+  "食べられる": [
+    "食[た]べられる",
+    "can be eaten; edible",
+    "v",
+    "食べる",
+    "plain present potential"
+  ],
+  "短く": [
+    "短[みじか]く",
+    "briefly",
+    "adj",
+    "短い",
+    "adverbial form"
+  ],
+  "答える": [
+    "答[こた]える",
+    "answer",
+    "v",
+    "",
+    ""
+  ],
+  "動かして": [
+    "動[うご]かして",
+    "moving (something), and",
+    "v",
+    "動かす",
+    "te-form"
+  ],
+  "笑いながら": [
+    "笑[わら]いながら",
+    "while laughing",
+    "v",
+    "笑う",
+    "〜ながら form"
+  ],
+  "気がつくと": [
+    "気[き]がつくと",
+    "before she noticed; when she became aware",
+    "v",
+    "気がつく",
+    "\"when\" form"
+  ],
+  "墨": [
+    "墨[すみ]",
+    "black ink",
+    "n",
+    "",
+    ""
+  ],
+  "段": [
+    "段[だん]",
+    "tier; level of shelves",
+    "n",
+    "",
+    ""
+  ],
+  "高くなり": [
+    "高[たか]くなり",
+    "grew louder, and",
+    "v",
+    "高くなる",
+    "continuative form"
+  ],
+  "弱くなっている": [
+    "弱[よわ]くなっている",
+    "has grown weak",
+    "v",
+    "弱くなる",
+    "plain present progressive"
+  ],
+  "支えないで": [
+    "支[ささ]えないで",
+    "without supporting; do not support",
+    "v",
+    "支える",
+    "negative 〜ないで form"
+  ],
+  "重ねたら": [
+    "重[かさ]ねたら",
+    "if we overlap",
+    "v",
+    "重ねる",
+    "conditional (\"if ...\")"
+  ],
+  "どうでしょう": [
+    "どうでしょう",
+    "how about it?",
+    "aux",
+    "どうだ",
+    "polite conjectural question",
+    false
+  ],
+  "抱き": [
+    "抱[だ]き",
+    "hugged; held close, and",
+    "v",
+    "抱く",
+    "continuative form"
+  ],
+  "切ったら": [
+    "切[き]ったら",
+    "if we cut",
+    "v",
+    "切る",
+    "conditional (\"if ...\")"
+  ],
+  "戻せません": [
+    "戻[もど]せません",
+    "cannot restore; cannot put back",
+    "v",
+    "戻す",
+    "polite negative potential"
+  ],
+  "残っています": [
+    "残[のこ]っています",
+    "remains; is preserved",
+    "v",
+    "残る",
+    "polite present progressive"
+  ],
+  "はさみ": [
+    "はさみ",
+    "scissors",
+    "n",
+    "",
+    ""
+  ],
+  "切り始めた": [
+    "切[き]り始[はじ]めた",
+    "began to cut",
+    "v",
+    "切る",
+    "plain past 〜始める form"
+  ],
+  "待たせるな": [
+    "待[ま]たせるな",
+    "do not keep them waiting",
+    "v",
+    "待つ",
+    "negative command in causative form"
+  ],
+  "塗り": [
+    "塗[ぬ]り",
+    "applied; brushed on, and",
+    "v",
+    "塗る",
+    "continuative form"
+  ],
+  "重ねて": [
+    "重[かさ]ねて",
+    "overlapped, and",
+    "v",
+    "重ねる",
+    "te-form"
+  ],
+  "押さえた": [
+    "押[お]さえた",
+    "pressed down; held down",
+    "v",
+    "押さえる",
+    "plain past"
+  ],
+  "尾": [
+    "尾[お]",
+    "tail",
+    "n",
+    "",
+    ""
+  ],
+  "つながった": [
+    "つながった",
+    "became joined",
+    "v",
+    "つながる",
+    "plain past"
+  ],
+  "一つ一つ": [
+    "一[ひと]つ一[ひと]つ",
+    "each individual one",
+    "n",
+    "",
+    ""
+  ],
+  "しなやかになった": [
+    "しなやかになった",
+    "became supple",
+    "adj",
+    "しなやかだ",
+    "plain past 〜になる form"
+  ],
+  "送り出すと": [
+    "送[おく]り出[だ]すと",
+    "when they fed it out",
+    "v",
+    "送り出す",
+    "\"when\" form"
+  ],
+  "渡っていった": [
+    "渡[わた]っていった",
+    "extended across; crossed away from here",
+    "v",
+    "渡る",
+    "plain past 〜ていく form"
+  ],
+  "届いても": [
+    "届[とど]いても",
+    "even when it reached",
+    "v",
+    "届く",
+    "\"even if\" form"
+  ],
+  "思い浮かべようとした": [
+    "思[おも]い浮[う]かべようとした",
+    "tried to picture",
+    "v",
+    "思い浮かべる",
+    "plain past \"try to\" form"
+  ],
+  "分からなくなっていた": [
+    "分[わ]からなくなっていた",
+    "could no longer remember",
+    "v",
+    "分かる",
+    "plain past progressive with 〜なくなる"
+  ],
+  "出てこなくなった": [
+    "出[で]てこなくなった",
+    "would no longer come to mind",
+    "v",
+    "出る",
+    "plain past negative 〜てくる form with 〜なくなる"
+  ],
+  "恐ろしくなって": [
+    "恐[おそ]ろしくなって",
+    "became frightened, and",
+    "adj",
+    "恐ろしい",
+    "〜くなる te-form"
+  ],
+  "開くと": [
+    "開[ひら]くと",
+    "when she opened",
+    "v",
+    "開く",
+    "\"when\" form"
+  ],
+  "書いたばかり": [
+    "書[か]いたばかり",
+    "had just written",
+    "v",
+    "書く",
+    "plain past 〜たばかり form"
+  ],
+  "薄く": [
+    "薄[うす]く",
+    "faint; pale",
+    "adj",
+    "薄い",
+    "adverbial form"
+  ],
+  "しに来た": [
+    "しに来[き]た",
+    "came to do",
+    "v",
+    "する",
+    "plain past purpose form with 来る"
+  ],
+  "んでしょう": [
+    "んでしょう",
+    "I wonder — polite explanatory question",
+    "aux",
+    "のだ",
+    "polite conjectural explanatory form",
+    false
+  ],
+  "離れなかった": [
+    "離[はな]れなかった",
+    "did not let go; did not move away",
+    "v",
+    "離れる",
+    "plain past negative"
+  ],
+  "点": [
+    "点[てん]",
+    "point; dot",
+    "n",
+    "",
+    ""
+  ],
+  "登ってきた": [
+    "登[のぼ]ってきた",
+    "climbed up here",
+    "v",
+    "登る",
+    "plain past 〜てくる form"
+  ],
+  "分けてくれた": [
+    "分[わ]けてくれた",
+    "shared with others",
+    "v",
+    "分ける",
+    "plain past 〜てくれる form"
+  ],
+  "歌い始めると": [
+    "歌[うた]い始[はじ]めると",
+    "when she began singing",
+    "v",
+    "歌う",
+    "\"when\" form with 〜始める"
+  ],
+  "唇": [
+    "唇[くちびる]",
+    "lips",
+    "n",
+    "",
+    ""
+  ],
+  "渡して": [
+    "渡[わた]して",
+    "pass on",
+    "v",
+    "渡す",
+    "te-form"
+  ],
+  "聞こえるようになった": [
+    "聞[き]こえるようになった",
+    "became audible; could now be heard",
+    "v",
+    "聞こえる",
+    "plain past 〜ようになる form"
+  ],
+  "消えかけていた": [
+    "消[き]えかけていた",
+    "was beginning to disappear",
+    "v",
+    "消える",
+    "plain past progressive 〜かける form"
+  ],
+  "石段": [
+    "石[いし]段[だん]",
+    "stone steps",
+    "n",
+    "",
+    ""
+  ],
+  "返してくれる": [
+    "返[かえ]してくれる",
+    "will you give it back for me?",
+    "v",
+    "返す",
+    "plain present 〜てくれる form"
+  ],
+  "現れていた": [
+    "現[あらわ]れていた",
+    "had appeared",
+    "v",
+    "現れる",
+    "plain past progressive"
+  ],
+  "乗ると": [
+    "乗[の]ると",
+    "when she stepped onto",
+    "v",
+    "乗る",
+    "\"when\" form"
+  ],
+  "戸口": [
+    "戸[と]口[ぐち]",
+    "doorway",
+    "n",
+    "",
+    ""
+  ],
+  "沈んだ": [
+    "沈[しず]んだ",
+    "sank",
+    "v",
+    "沈む",
+    "plain past"
+  ],
+  "押さえていないと": [
+    "押[お]さえていないと",
+    "unless someone keeps holding it",
+    "v",
+    "押さえる",
+    "negative progressive conditional 〜と form"
+  ],
+  "押さえ": [
+    "押[お]さえ",
+    "held in place, and",
+    "v",
+    "押さえる",
+    "continuative form"
+  ],
+  "行かせた": [
+    "行[い]かせた",
+    "let her go; sent her",
+    "v",
+    "行く",
+    "plain past causative"
+  ],
+  "外した": [
+    "外[はず]した",
+    "removed; detached",
+    "v",
+    "外す",
+    "plain past"
+  ],
+  "裂け目": [
+    "裂[さ]け目[め]",
+    "tear; split",
+    "n",
+    "",
+    ""
+  ],
+  "重ねると": [
+    "重[かさ]ねると",
+    "when she laid it over",
+    "v",
+    "重ねる",
+    "\"when\" form"
+  ],
+  "吸って": [
+    "吸[す]って",
+    "absorbed; soaked up, and",
+    "v",
+    "吸う",
+    "te-form"
+  ],
+  "ぴたりと": [
+    "ぴたりと",
+    "closely; fitting exactly",
+    "adv",
+    "",
+    ""
+  ],
+  "待ってから": [
+    "待[ま]ってから",
+    "after waiting",
+    "v",
+    "待つ",
+    "〜てから form"
+  ],
+  "きしみ": [
+    "きしみ",
+    "creaked, and",
+    "v",
+    "きしむ",
+    "continuative form"
+  ],
+  "膝をつき": [
+    "膝[ひざ]をつき",
+    "knelt, and",
+    "v",
+    "膝をつく",
+    "continuative form"
+  ],
+  "通すと": [
+    "通[とお]すと",
+    "when he threaded through",
+    "v",
+    "通す",
+    "\"when\" form"
+  ],
+  "こぼれた": [
+    "こぼれた",
+    "spilled out",
+    "v",
+    "こぼれる",
+    "plain past"
+  ],
+  "一度目": [
+    "一[いち]度[ど]目[め]",
+    "the first time",
+    "num",
+    "",
+    ""
+  ],
+  "支えなくても": [
+    "支[ささ]えなくても",
+    "even without supporting",
+    "v",
+    "支える",
+    "negative \"even if\" form"
+  ],
+  "閉じなかった": [
+    "閉[と]じなかった",
+    "did not close",
+    "v",
+    "閉じる",
+    "plain past negative"
+  ],
+  "支えられながら": [
+    "支[ささ]えられながら",
+    "while being supported",
+    "v",
+    "支える",
+    "passive 〜ながら form"
+  ],
+  "立った": [
+    "立[た]った",
+    "stood",
+    "v",
+    "立つ",
+    "plain past"
+  ],
+  "届かない": [
+    "届[とど]かない",
+    "cannot reach; does not reach",
+    "v",
+    "届く",
+    "plain present negative"
+  ],
+  "遅くなった": [
+    "遅[おそ]くなった",
+    "became late; took a long time",
+    "v",
+    "遅くなる",
+    "plain past"
+  ],
+  "ずいぶん": [
+    "ずいぶん",
+    "a very long time; considerably",
+    "adv",
+    "",
+    ""
+  ],
+  "待たせた": [
+    "待[ま]たせた",
+    "kept someone waiting",
+    "v",
+    "待つ",
+    "plain past causative"
+  ],
+  "折りたたんだ": [
+    "折[お]りたたんだ",
+    "folded",
+    "v",
+    "折りたたむ",
+    "plain past (modifying a noun)"
+  ],
+  "作ろう": [
+    "作[つく]ろう",
+    "let us make",
+    "v",
+    "作る",
+    "volitional (\"let's ...\")"
+  ],
+  "作れなかった": [
+    "作[つく]れなかった",
+    "could not make",
+    "v",
+    "作る",
+    "plain past negative potential"
+  ],
+  "作り方": [
+    "作[つく]り方[かた]",
+    "how to make",
+    "n",
+    "",
+    ""
+  ],
+  "満足そうに": [
+    "満[まん]足[ぞく]そうに",
+    "with apparent satisfaction",
+    "adj",
+    "満足だ",
+    "adverbial 〜そう form"
+  ],
+  "うなずいた": [
+    "うなずいた",
+    "nodded",
+    "v",
+    "うなずく",
+    "plain past"
+  ],
+  "指している": [
+    "指[さ]している",
+    "refers to; indicates",
+    "v",
+    "指す",
+    "plain present progressive"
+  ],
+  "不思議だった": [
+    "不[ふ]思[し]議[ぎ]だった",
+    "felt strange",
+    "adj",
+    "不思議だ",
+    "plain past"
+  ],
+  "破れないように": [
+    "破[やぶ]れないように",
+    "so that it would not tear",
+    "v",
+    "破れる",
+    "negative purpose form with 〜ように"
+  ],
+  "干していた": [
+    "干[ほ]していた",
+    "was hanging out to dry",
+    "v",
+    "干す",
+    "plain past progressive"
+  ],
+  "釣りざお": [
+    "釣[つ]りざお",
+    "fishing rod",
+    "n",
+    "",
+    ""
+  ],
+  "持つ": [
+    "持[も]つ",
+    "hold; carry",
+    "v",
+    "",
+    ""
+  ],
+  "透けていて": [
+    "透[す]けていて",
+    "were translucent, and",
+    "v",
+    "透ける",
+    "progressive te-form"
+  ],
+  "聞こえなかった": [
+    "聞[き]こえなかった",
+    "could not be heard",
+    "v",
+    "聞こえる",
+    "plain past negative"
+  ],
+  "列": [
+    "列[れつ]",
+    "line; procession",
+    "n",
+    "",
+    ""
+  ],
+  "待ってる": [
+    "待[ま]ってる",
+    "is waiting",
+    "v",
+    "待つ",
+    "contracted plain present progressive"
+  ],
+  "空になり": [
+    "空[から]になり",
+    "became empty, and",
+    "v",
+    "空になる",
+    "continuative form"
+  ],
+  "みたいだね": [
+    "みたいだね",
+    "it looks as though",
+    "aux",
+    "みたいだ",
+    "plain present with agreement-seeking ね",
+    false
+  ],
+  "持ち上げ": [
+    "持[も]ち上[あ]げ",
+    "lifted, and",
+    "v",
+    "持ち上げる",
+    "continuative form"
+  ],
+  "あります": [
+    "あります",
+    "there is; remains",
+    "v",
+    "ある",
+    "polite present/future"
+  ],
+  "書けなかった": [
+    "書[か]けなかった",
+    "could not write",
+    "v",
+    "書く",
+    "plain past negative potential"
+  ],
+  "書きます": [
+    "書[か]きます",
+    "will write",
+    "v",
+    "書く",
+    "polite present/future"
+  ],
+  "分からないまま": [
+    "分[わ]からないまま",
+    "still unknown; without knowing",
+    "v",
+    "分かる",
+    "negative 〜まま form"
+  ],
+  "差し出す": [
+    "差[さ]し出[だ]す",
+    "offer; hold out",
+    "v",
+    "",
+    ""
+  ],
+  "歩いていった": [
+    "歩[ある]いていった",
+    "walked away",
+    "v",
+    "歩く",
+    "plain past 〜ていく form"
+  ],
+  "ほどけていった": [
+    "ほどけていった",
+    "unravelled away",
+    "v",
+    "ほどける",
+    "plain past 〜ていく form"
+  ],
+  "小片": [
+    "小[しょう]片[へん]",
+    "small scrap; fragment",
+    "n",
+    "",
+    ""
+  ],
+  "拾い上げ": [
+    "拾[ひろ]い上[あ]げ",
+    "picked up, and",
+    "v",
+    "拾い上げる",
+    "continuative form"
+  ],
+  "見せてから": [
+    "見[み]せてから",
+    "after showing",
+    "v",
+    "見せる",
+    "〜てから form"
+  ],
+  "描き直したいとは思わなかった": [
+    "描[か]き直[なお]したいとは思[おも]わなかった",
+    "did not want to redraw it",
+    "v",
+    "描き直す",
+    "plain past negative desire expression with 〜たいと思う"
+  ],
+  "鳴り": [
+    "鳴[な]り",
+    "rang, and",
+    "v",
+    "鳴る",
+    "continuative form"
+  ],
+  "少なくなっていた": [
+    "少[すく]なくなっていた",
+    "had become fewer",
+    "v",
+    "少なくなる",
+    "plain past progressive"
+  ],
+  "手を振った": [
+    "手[て]を振[ふ]った",
+    "waved",
+    "v",
+    "手を振る",
+    "plain past"
+  ],
+  "送り出した": [
+    "送[おく]り出[だ]した",
+    "sent off",
+    "v",
+    "送り出す",
+    "plain past"
+  ],
+  "寄せていた": [
+    "寄[よ]せていた",
+    "were drawing closer",
+    "v",
+    "寄せる",
+    "plain past progressive"
+  ],
+  "捨ててしまう": [
+    "捨[す]ててしまう",
+    "throw away completely",
+    "v",
+    "捨てる",
+    "plain present 〜てしまう form"
+  ],
+  "見ながら": [
+    "見[み]ながら",
+    "while looking",
+    "v",
+    "見る",
+    "〜ながら form"
+  ],
+  "埋もれていた": [
+    "埋[う]もれていた",
+    "was buried",
+    "v",
+    "埋もれる",
+    "plain past progressive"
+  ],
+  "落ちていた": [
+    "落[お]ちていた",
+    "was lying fallen",
+    "v",
+    "落ちる",
+    "plain past progressive"
+  ],
+  "隣人": [
+    "隣[りん]人[じん]",
+    "neighbour",
+    "n",
+    "",
+    ""
+  ],
+  "終わる": [
+    "終[お]わる",
+    "finish",
+    "v",
+    "",
+    ""
+  ],
+  "裏返しておいた": [
+    "裏[うら]返[がえ]しておいた",
+    "left face down",
+    "v",
+    "裏返す",
+    "plain past 〜ておく form"
+  ],
+  "訪ねてきて": [
+    "訪[たず]ねてきて",
+    "came to visit, and",
+    "v",
+    "訪ねる",
+    "〜てくる te-form"
+  ],
+  "増えていった": [
+    "増[ふ]えていった",
+    "gradually increased",
+    "v",
+    "増える",
+    "plain past 〜ていく form"
+  ],
+  "写した": [
+    "写[うつ]した",
+    "copied; transcribed",
+    "v",
+    "写す",
+    "plain past"
+  ],
+  "押さえていた": [
+    "押[お]さえていた",
+    "was holding down",
+    "v",
+    "押さえる",
+    "plain past progressive"
+  ],
+  "やり方": [
+    "やり方[かた]",
+    "way of doing it; method",
+    "n",
+    "",
+    ""
+  ],
+  "出来上がった": [
+    "出[で]来[き]上[あ]がった",
+    "finished; completed",
+    "v",
+    "出来上がる",
+    "plain past (modifying a noun)"
+  ],
+  "書かない": [
+    "書[か]かない",
+    "does not write; leaves unwritten",
+    "v",
+    "書く",
+    "plain present negative"
+  ],
+  "面#side": [
+    "面[めん]#side",
+    "side; panel",
+    "n",
+    "",
+    "",
+    false
+  ],
+  "静かだった": [
+    "静[しず]かだった",
+    "was quiet; was still",
+    "adj",
+    "静かだ",
+    "plain past"
+  ],
+  "続き#noun": [
+    "続[つづ]き#noun",
+    "continuation; rest of the song",
+    "n",
+    "",
+    ""
+  ],
+  "来て#request": [
+    "来[き]て#request",
+    "come here, please",
+    "v",
+    "来る",
+    "te-form request"
+  ],
+  "終わり#noun": [
+    "終[お]わり#noun",
+    "end",
+    "n",
+    "",
+    ""
+  ],
+  "終わり#verb": [
+    "終[お]わり#verb",
+    "ended, and",
+    "v",
+    "終わる",
+    "continuative form",
+    "終わる"
+  ],
+  "一拍": [
+    "一[いっ]拍[ぱく]",
+    "one beat",
+    "num",
+    "",
+    ""
+  ],
+  "並べ": [
+    "並[なら]べ",
+    "lined up, and",
+    "v",
+    "並べる",
+    "continuative form"
+  ],
+  "送った": [
+    "送[おく]った",
+    "sent",
+    "v",
+    "送る",
+    "plain past"
+  ],
+  "一人ずつ": [
+    "一[ひと]人[り]ずつ",
+    "one person at a time",
+    "num",
+    "",
+    ""
+  ],
+  "別れ": [
+    "別[わか]れ",
+    "farewell; parting",
+    "n",
+    "",
+    ""
+  ],
+  "告げると": [
+    "告[つ]げると",
+    "when they said",
+    "v",
+    "告げる",
+    "\"when\" form"
+  ],
+  "手前": [
+    "手[て]前[まえ]",
+    "just before; this side of",
+    "n",
+    "",
+    ""
+  ],
+  "娘": [
+    "娘[むすめ]",
+    "daughter",
+    "n",
+    "",
+    ""
+  ],
+  "出した#serve": [
+    "出[だ]した#serve",
+    "served; brought out",
+    "v",
+    "出す",
+    "plain past"
+  ],
+  "出した#take": [
+    "出[だ]した#take",
+    "took out",
+    "v",
+    "出す",
+    "plain past"
+  ],
+  "した#sensory": [
+    "した#sensory",
+    "there was (a smell or sound)",
+    "v",
+    "する",
+    "plain past"
+  ],
+  "して#sensory": [
+    "して#sensory",
+    "there was (a smell), and",
+    "v",
+    "する",
+    "te-form"
+  ],
+  "し#sensory": [
+    "し#sensory",
+    "smelled of, and",
+    "v",
+    "する",
+    "continuative form"
+  ],
+  "ついた#mud": [
+    "ついた#mud",
+    "covered with; had stuck to",
+    "v",
+    "つく",
+    "plain past (modifying a noun)"
+  ],
+  "ついた#cling": [
+    "ついた#cling",
+    "stuck fast",
+    "v",
+    "つく",
+    "plain past"
+  ],
+  "出ていた#display": [
+    "出[で]ていた#display",
+    "was displayed",
+    "v",
+    "出る",
+    "plain past progressive"
+  ],
+  "ついて#cane": [
+    "ついて#cane",
+    "leaning on (a walking stick)",
+    "v",
+    "つく",
+    "te-form"
+  ],
+  "何#kind": [
+    "何[なん]#kind",
+    "what kind of",
+    "pn",
+    "",
+    "",
+    false
+  ],
+  "と": [
+    "と",
+    "and; with; quotation marker",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "思い込んで": [
+    "思[おも]い込[こ]んで",
+    "mistakenly believing, and",
+    "v",
+    "思い込む",
+    "te-form"
+  ],
+  "として": [
+    "として",
+    "as; in the role of",
+    "part",
+    "",
+    "",
+    false
+  ],
+  "持って帰れる": [
+    "持[も]って帰[かえ]れる",
+    "can take home",
+    "v",
+    "持って帰る",
+    "plain present potential"
+  ]
+}
