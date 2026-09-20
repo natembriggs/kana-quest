@@ -269,6 +269,14 @@ export function createProfile(name, emoji) {
     // says so out loud. Same starting-as-{} reasoning as exposure/muted
     // above.
     contributions: {},
+    // "<mode>:<item>" -> {n, at, with} : what this learner gets wrong and
+    // what they answer instead (see src/confusions.js). A progress record
+    // already counts the misses; this is the half that names the other
+    // character, which is what makes "kanji I tend to get mixed up" a thing
+    // the app can actually answer. Same starting-as-{} reasoning as
+    // exposure/muted above — a profile predating it has confused nothing on
+    // record, which needs no migration.
+    confusions: {},
     // feedbackId -> when "remove from My contributions" was tapped. A
     // tombstone rather than a deletion, for the same reason `unstudy` is
     // one: without it, a device that has been switched off for a month
@@ -310,6 +318,7 @@ function validateBackup(data) {
       || (profile.exposure !== undefined && !isObject(profile.exposure))
       || (profile.muted !== undefined && !isObject(profile.muted))
       || (profile.mnemonics !== undefined && !isObject(profile.mnemonics))
+      || (profile.confusions !== undefined && !isObject(profile.confusions))
       || (profile.contributions !== undefined && !isObject(profile.contributions))
       || (profile.forgottenContributions !== undefined && !isObject(profile.forgottenContributions))
       || ids.has(profile.id)) {

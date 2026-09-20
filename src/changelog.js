@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-20',
     changes: [
+      'New: Kana Quest now remembers what you answer instead. Getting 上 wrong used to record only that you got it wrong; it now also records that you picked 入 — so “kanji I mix up” is something the app knows rather than guesses. At the end of a session, any pair you mixed up gets its own button under “Practise N missed”, opening the two side by side. On a kanji’s own page, the ⇄ Compare list now puts the ones you have actually answered instead right at the top, ringed and labelled “mixed up”, ahead of the ones that merely look similar. This works in every quiz — kanji meanings and readings, vocabulary, kana and writing — and everything stays on your own device and syncs with the rest of your progress.',
+    ],
+  },
+  {
+    date: '2026-09-20',
+    changes: [
       'New: you can now put two kanji side by side. Get a kanji’s meaning question right and the other three answers stay tappable — tap one and the kanji behind that meaning comes up next to the one you were just asked about, with both meanings, both readings, what each is built from and both hints. The parts they have in common are ringed on both sides, and a line underneath says what the difference actually is (“Both are built from 田 (rice field). The difference: 町 has 丁 (nail), while 男 has 力 (strength).”). Asked for by a learner who wanted to see the kanji behind a wrong answer.',
       'New: any kanji’s own page now has a “⇄ Compare with a similar kanji” button, which offers the kanji you are most likely to mix that one up with — ones sharing a part, ones that sit inside it, ones meaning or sounding much the same — picked from what you are actually studying plus the rest of its grade. Tap one for the same side-by-side view.',
     ],

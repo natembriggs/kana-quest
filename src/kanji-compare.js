@@ -117,6 +117,13 @@ export function comparisonSummary(a, b, diff) {
 // two meanings and not one stroke; 町 and 男 share 田. At two points a
 // meaning the first pair won, which is the wrong answer to "which of these
 // do I mix up with 町".
+// A pair the learner has ACTUALLY answered one for the other, per miss.
+// Deliberately large enough to dominate everything below it: once there is
+// evidence, evidence wins. Two characters with nothing whatever in common
+// belong at the top of this list if a real person really does keep picking
+// one for the other — that is the difference between "kanji you might mix
+// up" and "kanji you mix up", and the second is what was asked for.
+const SCORE_CONFUSED = 8;
 const SCORE_SHARED_COMPONENT = 4;
 const SCORE_CONTAINS = 4;
 const SCORE_SHARED_MEANING = 1;
@@ -158,12 +165,21 @@ export function similarityScore(a, aParts, aInfo, b, bParts, bInfo) {
  * rather than imported so this stays pure and testable, and so the caller
  * keeps control of the lazy per-grade loading that resolving actually needs.
  *
+ * `boost(candidate)` returns how many times that candidate has actually
+ * been answered in place of `char` (0 for nearly all of them) — the
+ * learner's own record, injected the same way `resolve` is. A candidate
+ * with a boost is kept even when it has nothing in common on the content
+ * side, which is the whole point: 三 and 入 share no part, no meaning and no
+ * reading, and someone who keeps picking one for the other still needs to
+ * see them together.
+ *
  * Ties are broken by the candidate's position in `candidates`, which the
- * caller orders meaningfully (the learner's own study list first, then the
- * character's own grade) — so an equally-similar kanji they are actually
- * studying beats one they have never met.
+ * caller orders meaningfully (anything actually confused first, then the
+ * learner's own study list, then the character's own grade) — so an
+ * equally-similar kanji they are actually studying beats one they have
+ * never met.
  */
-export function rankSimilar(char, candidates, resolve, limit = 6) {
+export function rankSimilar(char, candidates, resolve, { limit = 6, boost = null } = {}) {
   const self = resolve(char) || { parts: [], info: null };
   const scored = [];
   const seen = new Set([char]);
@@ -176,7 +192,9 @@ export function rankSimilar(char, candidates, resolve, limit = 6) {
     seen.add(c);
     const other = resolve(c);
     if (!other) return;
-    const score = similarityScore(char, self.parts, self.info, c, other.parts, other.info);
+    const confused = boost ? boost(c) : 0;
+    const score = similarityScore(char, self.parts, self.info, c, other.parts, other.info)
+      + (confused * SCORE_CONFUSED);
     if (score > 0) scored.push({ char: c, score, order });
   });
   scored.sort((x, y) => (y.score - x.score) || (x.order - y.order));

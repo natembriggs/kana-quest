@@ -561,6 +561,12 @@ export function buildMeaningChoices(course, wordId, count = DEFINITION_OPTIONS) 
   const banned = glossKeys(info);
   const used = new Set([answer]);
   const options = [answer];
+  // Which word each option's meaning belongs to — carried out for the same
+  // reason buildDefinitionChoices (kanji.js) carries it: a meaning-labelled
+  // distractor names a word the learner never gets to see, and both the
+  // side-by-side comparison and the confusion record (src/confusions.js)
+  // need to know which word that was.
+  const source = new Map([[answer, wordId]]);
 
   const pool = [...course.index.values()]
     .filter((e) => e.id !== wordId && ![...glossKeys(e)].some((g) => banned.has(g)));
@@ -573,9 +579,10 @@ export function buildMeaningChoices(course, wordId, count = DEFINITION_OPTIONS) 
     if (!label || used.has(label)) continue;
     used.add(label);
     options.push(label);
+    source.set(label, entry.id);
   }
 
-  return { options: options.sort((a, b) => a.localeCompare(b)), answer };
+  return { options: options.sort((a, b) => a.localeCompare(b)), answer, source };
 }
 
 /**

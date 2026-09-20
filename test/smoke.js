@@ -30,6 +30,10 @@ const {
 const {
   componentDiff, comparisonSummary, similarityScore, rankSimilar,
 } = await import('../src/kanji-compare.js');
+const {
+  recordConfusion, confusedWith, confusionCount, sessionConfusionPairs,
+  mergeConfusions, CONFUSION_WITH_CAP, CONFUSION_KEY_CAP,
+} = await import('../src/confusions.js');
 const { mergeMnemonics } = await import('../src/merge.js');
 const srs = await import('../src/srs.js');
 const fsrs = await import('../src/fsrs.js');
@@ -2638,17 +2642,114 @@ done('editable hints: resolution, reset tombstones and cross-device merge');
   // injects the real lazily-loaded lookup.
   const parts = { 待: 待, 持: 持, 森: [part('木', 'tree'), part('木', 'tree'), part('木', 'tree')] };
   const resolve = (c) => ({ parts: parts[c] || [], info: null });
-  const ranked = rankSimilar('待', ['森', '持', '待', '持'], resolve, 6);
+  const ranked = rankSimilar('待', ['森', '持', '待', '持'], resolve, { limit: 6 });
   check('ranking puts the genuine look-alike first', ranked[0] === '持', ranked.join(''));
   check('ranking drops the character asked about and anything unrelated',
     ranked.length === 1, ranked.join(''));
   check('a duplicated candidate is only offered once',
-    rankSimilar('待', ['持', '持', '持'], resolve, 6).length === 1);
+    rankSimilar('待', ['持', '持', '持'], resolve, { limit: 6 }).length === 1);
   check('the limit is honoured',
     rankSimilar('木', ['林', '森', '本', '休'],
-      (c) => ({ parts: [part('木', 'tree')], info: null }), 2).length === 2);
+      () => ({ parts: [part('木', 'tree')], info: null }), { limit: 2 }).length === 2);
+
+  // The learner's own record beats anything the content merely suggests.
+  const confusedRank = rankSimilar('三', ['森', '入'], resolve, {
+    limit: 6, boost: (c) => (c === '入' ? 2 : 0),
+  });
+  check('a pair actually confused is offered even with nothing in common',
+    confusedRank[0] === '入', confusedRank.join(''));
+  check('...and a boost of zero changes nothing',
+    rankSimilar('待', ['森', '持'], resolve, { limit: 6, boost: () => 0 }).join('') === '持');
 }
 done('side-by-side comparison: shared parts, containment wording and ranking');
+
+// --- What the learner actually gets wrong --------------------------------
+//
+// A progress record already counts misses; this is the half that names what
+// was answered instead (src/confusions.js). The two properties worth pinning
+// down are the caps (this lives in a profile that syncs, so it cannot grow
+// without bound) and the merge rule — counts merge by MAX, because both
+// halves of a sync routinely hold the same misses and summing them would
+// double every number a sync touched, then double it again.
+
+{
+  let c = {};
+  c = recordConfusion(c, 'definition', '上', '入', 1000);
+  c = recordConfusion(c, 'definition', '上', '入', 2000);
+  c = recordConfusion(c, 'definition', '上', '九', 3000);
+  check('a miss counts, and names what was answered instead',
+    c['definition:上'].n === 3 && c['definition:上'].with['入'] === 2,
+    JSON.stringify(c['definition:上']));
+  check('the last miss is timestamped', c['definition:上'].at === 3000);
+  check('confusionCount reads a pair straight out', confusionCount(c, 'definition', '上', '入') === 2);
+  check('a pair never confused counts zero, not undefined',
+    confusionCount(c, 'definition', '上', '町') === 0);
+  check('confusedWith is ordered commonest first',
+    confusedWith(c, 'definition', '上').map((x) => x.other).join('') === '入九');
+  check('a mode is its own key — the same kanji missed in Writing is a separate record',
+    Object.keys(recordConfusion(c, 'writing', '上', null, 4000)).length === 2);
+
+  // Writing has no wrong option to name; the miss still counts.
+  const w = recordConfusion({}, 'writing', '語', null, 10);
+  check('a miss with nothing to name records the count and no `with` map',
+    w['writing:語'].n === 1 && w['writing:語'].with === undefined,
+    JSON.stringify(w['writing:語']));
+  check('...and a later un-named miss keeps wrong answers recorded by another mode',
+    recordConfusion(c, 'definition', '上', null, 5000)['definition:上'].with['入'] === 2);
+
+  // Caps. Both are there because this field syncs.
+  let many = {};
+  for (let i = 0; i < CONFUSION_WITH_CAP + 6; i += 1) many = recordConfusion(many, 'definition', '上', `x${i}`, i);
+  many = recordConfusion(many, 'definition', '上', 'x0', 99); // x0 now has 2, the rest 1
+  check('the per-item wrong-answer map is capped',
+    Object.keys(many['definition:上'].with).length === CONFUSION_WITH_CAP,
+    `${Object.keys(many['definition:上'].with).length}`);
+  check('the commonest wrong answer survives the cap — it is the one that matters',
+    many['definition:上'].with['x0'] === 2);
+  check('the total miss count is NOT capped along with the map',
+    many['definition:上'].n === CONFUSION_WITH_CAP + 7, `${many['definition:上'].n}`);
+
+  let lots = {};
+  for (let i = 0; i < CONFUSION_KEY_CAP + 10; i += 1) lots = recordConfusion(lots, 'definition', `k${i}`, 'z', i);
+  check('the number of tracked items is capped', Object.keys(lots).length === CONFUSION_KEY_CAP,
+    `${Object.keys(lots).length}`);
+  check('the oldest misses are the ones dropped, not the newest',
+    lots[`definition:k${CONFUSION_KEY_CAP + 9}`] !== undefined
+    && lots['definition:k0'] === undefined);
+
+  // The summary's chips: only what was missed THIS session, commonest first.
+  const pairs = sessionConfusionPairs(c, 'definition', ['上']);
+  check('a session pair names the commonest thing answered instead',
+    pairs.length === 1 && pairs[0].item === '上' && pairs[0].other === '入' && pairs[0].count === 2,
+    JSON.stringify(pairs));
+  check('an item missed this session but never confused with anything yields no pair',
+    sessionConfusionPairs(recordConfusion({}, 'definition', '田', null, 1), 'definition', ['田']).length === 0);
+  check('an item confused before but not missed this session is not offered',
+    sessionConfusionPairs(c, 'definition', ['町']).length === 0);
+
+  // Merge. This is the one with a real failure mode behind it.
+  const same = recordConfusion(recordConfusion({}, 'definition', '上', '入', 1), 'definition', '上', '入', 2);
+  check('merging a device against its own synced copy does not double the count',
+    mergeConfusions(same, same)['definition:上'].n === 2
+    && mergeConfusions(same, same)['definition:上'].with['入'] === 2,
+    JSON.stringify(mergeConfusions(same, same)['definition:上']));
+  check('merging is idempotent — a second pass changes nothing',
+    JSON.stringify(mergeConfusions(mergeConfusions(same, same), same))
+      === JSON.stringify(mergeConfusions(same, same)));
+  const deviceA = recordConfusion({}, 'definition', '上', '入', 100);
+  const deviceB = recordConfusion(recordConfusion({}, 'definition', '上', '入', 5), 'definition', '上', '九', 6);
+  const both = mergeConfusions(deviceA, deviceB);
+  check('a merge keeps the higher count per wrong answer',
+    both['definition:上'].with['入'] === 1 && both['definition:上'].with['九'] === 1);
+  check('a merge keeps the later timestamp', both['definition:上'].at === 100);
+  check('a merge keeps an item only one device has',
+    mergeConfusions({}, recordConfusion({}, 'definition', '町', '村', 1))['definition:町'].n === 1);
+  check('a profile that never had the field merges back to no field at all',
+    mergeConfusions(undefined, undefined) === undefined);
+  check('a merge against an empty-but-present map keeps the field',
+    mergeConfusions({}, deviceA)['definition:上'].n === 1);
+}
+done('confusion tracking: caps, session pairs and merge-by-max');
 
 // --- Result ---------------------------------------------------------------
 

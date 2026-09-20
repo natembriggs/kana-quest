@@ -1732,6 +1732,7 @@ let defAnswered = 0;
 let defMissDone = false;
 let defCompareDone = false;
 let defMissKanji = null;
+let defMissChose = null;
 for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
   const kanji = el('quiz-kana').textContent;
   if (!kanji) break;
@@ -1750,10 +1751,17 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
     defMissDone = true;
     defMissKanji = kanji;
     const wrong = choices.find((c) => c.textContent !== answer);
+    defMissChose = wrong.dataset.kanji;
     fire(wrong, 'click');
     await settle();
     check('a wrong definition gets one more try, same as kana',
       el('quiz-feedback').textContent === 'Try once more', `"${el('quiz-feedback').textContent}"`);
+    // The half a progress record cannot hold: not just that 上 was missed,
+    // but that 入 was answered instead (src/confusions.js).
+    const recorded = ([...rows.values()][0].confusions || {})[`definition:${kanji}`];
+    check('a wrong definition answer records WHAT was answered instead',
+      !!recorded && recorded.n === 1 && recorded.with[defMissChose] === 1,
+      JSON.stringify(recorded));
     fire(right, 'click');
     await settle();
     check('recovering on the second try marks it right', right.classList.contains('is-right'));
@@ -1829,6 +1837,26 @@ check('the definition miss-then-recover path was exercised', defMissDone);
 check('the tap-a-wrong-answer-to-compare path was exercised', defCompareDone);
 check('the definition quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
 
+// The summary's second offer: practising 上 again does nothing for someone
+// who keeps answering 入 for it, so the pair itself is offered alongside.
+const summaryCompare = el('summary-compare');
+check('the summary offers the pair that was actually mixed up',
+  summaryCompare.hidden === false && summaryCompare._children.length >= 1,
+  `hidden=${summaryCompare.hidden}, ${summaryCompare._children.length} button(s)`);
+check('...naming both characters',
+  summaryCompare._children.some((b) => b._children.some(
+    (span) => span.textContent.includes(defMissKanji) && span.textContent.includes(defMissChose))),
+  summaryCompare._children.map((b) => b._children.map((x) => x.textContent).join('')).join(' | '));
+fire(summaryCompare._children[0], 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+check('tapping it opens the same side-by-side sheet',
+  el('compare-sheet').hidden === false && el('compare-grid')._children.length > 4,
+  `hidden=${el('compare-sheet').hidden}, ${el('compare-grid')._children.length} cells`);
+fireAction('compare-close');
+for (let i = 0; i < 10; i += 1) await settle();
+check('closing it leaves the summary underneath untouched',
+  el('compare-sheet').hidden === true && visible() === 'screen-summary', `showing ${visible()}`);
+
 const afterDefinition = [...rows.values()][0];
 const defRecords = Object.entries(afterDefinition.progress).filter(([k]) => k.startsWith('definition:'));
 check('definition mode writes its own records, separate from yomi',
@@ -1840,6 +1868,32 @@ check('a definition miss recovered on the second try still counts as a lapse',
   JSON.stringify(afterDefinition.progress[`definition:${defMissKanji}`]));
 check('yomi progress is untouched by definition practice — the modes are independent',
   Object.keys(afterDefinition.progress).some((k) => k.startsWith('recognition:')));
+
+// Every recorded wrong answer has to be one of the three shapes noteConfusion
+// documents: a bare curriculum item, an 'r:' reading, or a 't:' plain label.
+// A Yomi miss naming a bare kanji would send the compare screen looking for
+// a page that does not exist.
+const confusionShapes = Object.entries(afterDefinition.confusions || {});
+check('confusions were recorded at all — otherwise everything below is vacuous',
+  confusionShapes.length > 0, `${confusionShapes.length} recorded`);
+// 'recognition' is BOTH kana Reading and kanji Yomi (see MODES in srs.js),
+// so the two shapes legitimately share this key space: a kana miss names a
+// romaji label ('t:a'), a kanji miss names a reading ('r:あま'). What must
+// never appear is a bare key, which the compare screen would read as a
+// character with a page of its own.
+const recognitionShapes = confusionShapes.filter(([k]) => k.startsWith('recognition:'));
+check('a recognition wrong answer is never recorded as a bare character',
+  recognitionShapes.every(([, v]) => Object.keys(v.with || {}).every((w) => /^[rt]:/.test(w))),
+  JSON.stringify(recognitionShapes).slice(0, 220));
+check('a kanji Yomi miss names the reading that was actually clicked',
+  recognitionShapes
+    .filter(([k]) => /[\u3400-\u4dbf\u4e00-\u9fff]/.test(k.slice('recognition:'.length)))
+    .some(([, v]) => Object.keys(v.with || {}).some((w) => w.startsWith('r:'))),
+  JSON.stringify(recognitionShapes).slice(0, 220));
+check('a Definition wrong answer is recorded as the bare kanji it belongs to',
+  confusionShapes.filter(([k]) => k.startsWith('definition:'))
+    .every(([, v]) => Object.keys(v.with || {}).every((w) => !w.includes(':'))),
+  JSON.stringify(confusionShapes.filter(([k]) => k.startsWith('definition:'))).slice(0, 200));
 
 // The study list (kanji-expansion-plan.md §1) is maintained by real sessions,
 // not only by the enrollment UI: "Add more" enrolls what it is about to teach,

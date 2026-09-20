@@ -2982,3 +2982,42 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   .compare-part-row .component-meaning { font-size: calc(10px * var(--app-font-scale, 1)); }
   .compare-grid { gap: 6px 8px; }
 }
+
+/* A compare candidate this learner has genuinely answered in place of the
+   character on screen (confusedKanjiFor in app.js), as opposed to one the
+   ranking merely suggests. Ringed rather than recoloured: the tile still has
+   to read as one of a row of the same kind of thing. */
+.compare-candidate.is-confused {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.compare-candidate-badge {
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* The summary's "you mixed these up" buttons. Sit directly under "Practise
+   N missed" and stay visually quieter than it — practising the misses is
+   still the primary action; this is the more specific offer underneath. */
+.summary-compare { display: flex; flex-direction: column; gap: 8px; }
+.summary-compare-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.summary-compare-pair {
+  font-size: calc(19px * var(--app-font-scale, 1));
+  font-weight: 700;
+  line-height: 1.2;
+}
+.summary-compare-count {
+  font-size: calc(12px * var(--app-font-scale, 1));
+  font-weight: 700;
+  color: var(--accent);
+}

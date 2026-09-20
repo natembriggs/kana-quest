@@ -52,6 +52,9 @@ import {
 } from './kanji-components.js';
 import { componentDiff, comparisonSummary, rankSimilar } from './kanji-compare.js';
 import {
+  recordConfusion, confusionCount, confusedWith, sessionConfusionPairs,
+} from './confusions.js';
+import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
@@ -76,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-20a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-20b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -748,6 +751,11 @@ async function openProfile(profile) {
   // (kanji-mnemonic-plan.md §10) has written none of its own, and every
   // kanji simply falls back to its built-in wording.
   if (profile.mnemonics === undefined) profile.mnemonics = {};
+  // Same reasoning again — a profile predating confusion tracking
+  // (src/confusions.js) has none on record. Nothing is derived from the
+  // progress records it does have: a record knows a miss happened, not what
+  // was answered instead, which is the entire point of the new field.
+  if (profile.confusions === undefined) profile.confusions = {};
   // Same reasoning again — a profile predating the feedback loop
   // (feedback-plan.md) has sent nothing and removed nothing.
   if (profile.contributions === undefined) profile.contributions = {};
@@ -4602,7 +4610,10 @@ function compareFullDetails(char) {
   // second identical frame would make Back a no-op the first time.
   if (compareFrom === 'detail' && char === state.detailChar) return;
   if (compareFrom === 'detail') drillIntoDetail(course, char);
-  else openCharacterDetail(course, char, 'quiz');
+  // 'summary' and 'quiz' are both real returnTo values (see
+  // openCharacterDetail) and mean different things: one goes back to the
+  // finished session's scorecard, the other into a question still on screen.
+  else openCharacterDetail(course, char, compareFrom === 'summary' ? 'summary' : 'quiz');
 }
 
 // --- Finding something worth comparing against ---------------------------
@@ -4623,13 +4634,45 @@ const COMPARE_CANDIDATE_LIMIT = 6;
  * never opened — while loading every grade's component data to do it.
  */
 function compareCandidatePool(char) {
-  const pool = [];
+  // Anything actually answered in place of this character goes first, and
+  // is included whether or not it is being studied or shares a grade — a
+  // recorded miss is evidence, and evidence outranks the pool it happens to
+  // fall outside of. rankSimilar's tie-break is candidate order, so first
+  // here is also first on equal scores.
+  const pool = [...confusedKanjiFor(char).keys()];
   KANJI_STUDY_MODES.forEach((mode) => {
     studiedKanji(state.profile.study, mode).forEach((c) => pool.push(c));
   });
   const course = kanjiCourseFor(char);
   if (course) course.chunks.forEach((chunk) => chunk.items.forEach((c) => pool.push(c)));
   return pool;
+}
+
+/**
+ * Every kanji this learner has actually answered in place of `char`, mapped
+ * to how many times — across all three kanji modes, not just whichever one
+ * happens to be selected right now. Somebody who confuses 待 and 持 does it
+ * in Definition and in Writing; which mode the detail screen was reached in
+ * says nothing about that.
+ *
+ * Entries that are not characters are dropped: a reading ('r:こう') or a
+ * plain answer label ('t:shi') names something real about the miss but has
+ * no page of its own to put beside this one. They stay in the record — they
+ * are the same evidence, and the usage plan's §1.3 wants them — they just
+ * cannot be rendered as the other half of a comparison.
+ */
+function confusedKanjiFor(char) {
+  const counts = new Map();
+  KANJI_STUDY_MODES.forEach((mode) => {
+    confusedWith(state.profile.confusions, mode, char).forEach(({ other, count }) => {
+      if (!isKanjiChar(other) || !kanjiCourseFor(other)) return;
+      // Max, not sum, across modes: the same two characters confused three
+      // times in Definition and twice in Writing is one problem of size
+      // three, not a separate one of size five. Matches mergeConfusions.
+      counts.set(other, Math.max(counts.get(other) || 0, count));
+    });
+  });
+  return counts;
 }
 
 /**
@@ -4683,8 +4726,11 @@ async function toggleDetailCompare() {
   // Navigated away, or paged to another character, while that was loading.
   if (navSeq !== requestNav || state.detailChar !== char) return;
 
-  const similar = rankSimilar(char, pool,
-    (c) => ({ parts: partsOf(c), info: infoOf(c) }), COMPARE_CANDIDATE_LIMIT);
+  const confused = confusedKanjiFor(char);
+  const similar = rankSimilar(char, pool, (c) => ({ parts: partsOf(c), info: infoOf(c) }), {
+    limit: COMPARE_CANDIDATE_LIMIT,
+    boost: (c) => confused.get(c) || 0,
+  });
 
   list.innerHTML = '';
   list.hidden = false;
@@ -4697,16 +4743,70 @@ async function toggleDetailCompare() {
     list.appendChild(empty);
     return;
   }
-  similar.forEach((c) => list.appendChild(buildCompareCandidate(char, c)));
+  similar.forEach((c) => list.appendChild(buildCompareCandidate(char, c, confused.get(c) || 0)));
+}
+
+// At most this many pairs on the summary. The list is already filtered to
+// what was missed in THIS session, so it is short by construction; the cap
+// is there for the pathological session that missed everything.
+const SUMMARY_COMPARE_LIMIT = 3;
+
+/**
+ * The summary's "you mixed these up" buttons.
+ *
+ * Only pairs where the wrong answer was itself a kanji with a page of its
+ * own — a Yomi miss records the reading that was clicked, which is a true
+ * thing about the miss but not something that can be stood next to a
+ * character. Kanji courses only, for the same reason.
+ *
+ * Rebuilt on every summary and hidden when it comes out empty, which is the
+ * common case: most sessions confuse nothing, and an empty box under
+ * "Practise 3 missed" would be worse than no box.
+ */
+function renderSummaryCompare(course, missed) {
+  const wrap = $('summary-compare');
+  wrap.innerHTML = '';
+  wrap.hidden = true;
+  if (course.kind !== 'kanji') return;
+
+  const pairs = sessionConfusionPairs(state.profile.confusions, state.mode, missed)
+    .filter((pair) => isKanjiChar(pair.other) && kanjiCourseFor(pair.other))
+    .slice(0, SUMMARY_COMPARE_LIMIT);
+  if (!pairs.length) return;
+
+  pairs.forEach(({ item, other, count }) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn-quiet wide summary-compare-btn';
+    const label = document.createElement('span');
+    label.className = 'summary-compare-pair';
+    label.lang = 'ja';
+    label.textContent = `\u21c4 ${item} and ${other}`;
+    button.appendChild(label);
+    // The lifetime count, not this session's — "you have done this four
+    // times" is the part worth knowing, and is exactly what turns a slip
+    // into something worth two minutes of looking.
+    if (count > 1) {
+      const badge = document.createElement('span');
+      badge.className = 'summary-compare-count';
+      badge.textContent = `mixed up \u00d7${count}`;
+      button.appendChild(badge);
+    }
+    button.addEventListener('click', () => openCompare(item, other, 'summary'));
+    wrap.appendChild(button);
+  });
+  wrap.hidden = false;
 }
 
 /** One candidate tile: the character, what it means, and a tap that opens it
- * beside the one on screen. */
-function buildCompareCandidate(char, candidate) {
+ * beside the one on screen. `confusedCount` is how many times this learner
+ * has actually answered it for the character on screen — 0 for a candidate
+ * the ranking merely suggests, which is most of them. */
+function buildCompareCandidate(char, candidate, confusedCount = 0) {
   const info = infoOf(candidate);
   const tile = document.createElement('button');
   tile.type = 'button';
-  tile.className = 'compare-candidate';
+  tile.className = `compare-candidate${confusedCount ? ' is-confused' : ''}`;
   const glyph = document.createElement('span');
   glyph.className = 'compare-candidate-glyph';
   glyph.lang = 'ja';
@@ -4716,7 +4816,18 @@ function buildCompareCandidate(char, candidate) {
   label.textContent = info ? meaningLabel(info) : '';
   tile.appendChild(glyph);
   tile.appendChild(label);
-  tile.setAttribute('aria-label', `Compare ${candidate} with ${char}`);
+  // Said out loud rather than left to the tile's colour: "you have picked
+  // this one instead, twice" is the whole reason it is at the top of the
+  // list, and a learner who cannot see the styling should still be told.
+  if (confusedCount) {
+    const badge = document.createElement('span');
+    badge.className = 'compare-candidate-badge';
+    badge.textContent = confusedCount > 1 ? `mixed up ×${confusedCount}` : 'mixed up';
+    tile.appendChild(badge);
+  }
+  tile.setAttribute('aria-label', confusedCount
+    ? `Compare ${candidate} with ${char} — you have answered it instead ${confusedCount} time${confusedCount === 1 ? '' : 's'}`
+    : `Compare ${candidate} with ${char}`);
   tile.addEventListener('click', () => openCompare(char, candidate, 'detail'));
   return tile;
 }
@@ -5732,6 +5843,10 @@ function chooseAnswer(value, button) {
       recordResult(item, true);
     } else {
       recordResult(item, false);
+      // Definition hands over the distractor's own kanji (dataset.kanji, set
+      // in renderSingleChoice); a kana reading question has no character
+      // behind its options, so the romaji label itself is what gets named.
+      noteConfusion(item, button.dataset.kanji || `t:${button.dataset.value}`);
     }
   }
 
@@ -6568,7 +6683,7 @@ function renderVocabMeaningQuestion(course, item) {
   $('quiz-kanji-actions').hidden = true;
   updateVocabWordDisplay();
 
-  const { options, answer } = buildMeaningChoices(course, item);
+  const { options, answer, source } = buildMeaningChoices(course, item);
   session.vocabAnswer = answer;
   const choices = $('quiz-choices');
   // vocab-plan.md §5.6: a Meaning label now carries every sense the word has
@@ -6580,9 +6695,14 @@ function renderVocabMeaningQuestion(course, item) {
   const wide = options.some((o) => o.length > LONG_MEANING_LABEL);
   choices.className = `choice-grid choice-grid-text${wide ? ' choice-grid-wide' : ''}`;
   options.forEach((value) => {
-    addChoiceButton(choices, value, {
-      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseVocabMeaning(value, button),
+    const button = addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (el) => chooseVocabMeaning(value, el),
     });
+    // The word behind this meaning, for the confusion record — same as the
+    // kanji Definition grid's dataset.kanji, and left off the correct
+    // answer for the same reason.
+    const from = source && source.get(value);
+    if (from && from !== item) button.dataset.word = from;
   });
 }
 
@@ -6603,6 +6723,7 @@ function chooseVocabMeaning(value, button) {
       recordVocabDef(item, true);
     } else {
       recordVocabDef(item, false);
+      noteConfusion(item, button.dataset.word || null);
     }
   }
 
@@ -6716,6 +6837,9 @@ function chooseVocabYomi(value, button) {
     store.saveProfile(state.profile);
   } else {
     recordVocabYomi(item, false);
+    // A kana reading, not a word — nothing to open a page on, so it is
+    // recorded as a plain label.
+    noteConfusion(item, `t:${value}`);
   }
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
@@ -6818,6 +6942,7 @@ function chooseVocabProd(value, button) {
       recordVocabProd(item, true);
     } else {
       recordVocabProd(item, false);
+      noteConfusion(item, `t:${value}`);
     }
   }
 
@@ -6931,7 +7056,10 @@ function chooseVocabSpell(value, button) {
   const correct = value === session.vocabSpellAnswer;
   if (correct && needsPlacementConfirm(session)) stashPlacementConfirm((known) => recordVocabSpell(item, known));
   else if (correct) stashPendingGrade((rating) => recordVocabSpell(item, true, rating));
-  else recordVocabSpell(item, false);
+  else {
+    recordVocabSpell(item, false);
+    noteConfusion(item, `t:${value}`);
+  }
 
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
   button.classList.add(correct ? 'is-right' : 'is-wrong');
@@ -7498,7 +7626,12 @@ function finishWritingCharacter(explicitCorrect) {
     session.writingRecorded = true;
     if (correct && showRating) stashPendingGrade((rating) => recordResult(item, true, rating));
     else if (correct) recordResult(item, true);
-    else recordResult(item, false);
+    else {
+      recordResult(item, false);
+      // No wrong option to name: Writing grades a stroke attempt, so the
+      // miss counts and nothing is confused with anything.
+      noteConfusion(item, null);
+    }
   }
 
   $('writing-feedback').textContent = '';
@@ -7756,7 +7889,7 @@ function clickKanjiReading(reading, button) {
     // record was already sealed incorrect the moment the error happened.
   } else {
     button.classList.add('is-wrong');
-    if (!session.kanjiErrorMade) markKanjiError(kanji, course);
+    if (!session.kanjiErrorMade) markKanjiError(kanji, course, reading);
   }
 
   store.saveProfile(state.profile);
@@ -7766,10 +7899,18 @@ function clickKanjiReading(reading, button) {
 /** The first wrong click of a round: seals every still-pending reading's
  * record as a miss. See the matching note in chooseAnswer() — a miss no
  * longer reinserts the kanji for a fresh attempt later this session; the
- * summary offers to go practise it afterward instead. */
-function markKanjiError(kanji, course) {
+ * summary offers to go practise it afterward instead.
+ *
+ * `chose` is the reading actually clicked, or null when the boundary was
+ * crossed by pressing "Show answers" instead of by getting something wrong
+ * — there is no wrong answer to name in that case, only a miss. */
+function markKanjiError(kanji, course, chose = null) {
   const session = state.session;
   session.kanjiErrorMade = true;
+  // A reading, not a character: it is a real fact about this kanji, but it
+  // has no page of its own to compare against — hence the prefix. See
+  // noteConfusion().
+  noteConfusion(kanji, chose ? `r:${chose}` : null);
   session.kanjiPendingRecord.forEach((reading) => recordYomiResult(course, kanji, reading, false));
   session.kanjiPendingRecord.clear();
   recordKanjiRoundOutcome(kanji, false);
@@ -8113,6 +8254,35 @@ function nextQuestion() {
   renderQuestion();
 }
 
+/**
+ * Records one miss, and what was answered instead, into the learner's own
+ * confusion map (src/confusions.js). Called from every mode's first-attempt
+ * wrong branch, right beside the record*() call that grades it.
+ *
+ * `chose` is namespaced by what it actually is, because the three shapes are
+ * not interchangeable and the compare screen only ever wants the first:
+ *
+ *   '\u5165'        a character or word id that exists in the curriculum, so it
+ *                can be rendered, compared and drilled into (Definition,
+ *                vocabulary Meaning)
+ *   'r:\u3053\u3046'    a reading (kanji Yomi) — a real thing about the kanji, but
+ *                not itself an item with a page of its own
+ *   't:shi'      a plain answer label with nothing behind it at all (kana
+ *                romaji, vocabulary spelling/recall)
+ *
+ * null for a mode with no single wrong option to name — Writing grades a
+ * stroke attempt, so the miss is recorded and nothing is named.
+ *
+ * Does not save: every call site is inside a handler that already saves the
+ * profile within a line or two, and saving twice on one tap writes the same
+ * record to IndexedDB for nothing.
+ */
+function noteConfusion(item, chose) {
+  state.profile.confusions = recordConfusion(
+    state.profile.confusions, state.mode, item, chose || null, syncedNow(),
+  );
+}
+
 function recordResult(kana, correct, rating = null) {
   ensurePlacementEnrolled(kana);
   const session = state.session;
@@ -8354,6 +8524,7 @@ function finishSession() {
   state.summaryMissed = missed;
   state.summaryAllResults = merged;
   state.summaryMissedIsPlacement = session.placementTest;
+  renderSummaryCompare(course, missed);
   const studyMissedButton = $('summary-study-missed');
   studyMissedButton.hidden = missed.length === 0;
   studyMissedButton.innerHTML = session.placementTest

@@ -1308,6 +1308,14 @@
            summary-learn) carries the primary style whenever it's visible —
            see finishSession() in app.js. -->
       <button id="summary-study-missed" class="btn btn-primary wide" type="button" data-action="study-missed" hidden></button>
+      <!-- Kanji only: the pairs this session actually mixed up, straight
+           into the side-by-side view (kanji-compare.js). Directly under
+           "practise missed" because it answers the same "now what" for a
+           different kind of miss — practising 上 again does nothing for
+           someone who keeps picking 入 for it, and seeing the two together
+           does. Built by renderSummaryCompare() in app.js; empty and
+           hidden whenever nothing was confused with anything comparable. -->
+      <div id="summary-compare" class="summary-compare" hidden></div>
       <button id="summary-learn" class="btn btn-primary wide" type="button" data-action="learn-more" hidden></button>
       <button id="summary-review" class="btn wide" type="button" data-action="review-more" hidden></button>
       <button class="btn wide" type="button" data-action="again">Practise again</button>

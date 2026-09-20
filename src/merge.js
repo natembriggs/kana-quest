@@ -13,6 +13,7 @@ import {
   MAX_BOX, deriveStudyList, isLegacyStudyShape, migrateStudyShape, exposureInternals,
 } from './srs.js';
 import { mergeContributions } from './contributions.js';
+import { mergeConfusions } from './confusions.js';
 
 const { exposureEvents, exposureCleared, exposureStrikes } = exposureInternals;
 
@@ -486,6 +487,9 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
   const stories = mergeStories(current.stories, incoming.stories);
   const milestonesShown = mergeMilestonesShown(current.milestonesShown, incoming.milestonesShown);
   const mnemonics = mergeMnemonics(current.mnemonics, incoming.mnemonics);
+  // Counts merge by max rather than by sum — see mergeConfusions itself for
+  // why adding them would inflate every number a sync touches.
+  const confusions = mergeConfusions(current.confusions, incoming.confusions);
   // Feedback receipts and their status (feedback-plan.md). Rules live in
   // contributions.js next to the rest of the contribution model, because
   // they are the one merge here that splits a single record between
@@ -527,6 +531,9 @@ export function mergeProfiles(current, incoming, { adoptIncomingIdentity = false
     stories,
     milestonesShown,
     mnemonics,
+    // Left off entirely when neither side ever had it, same trick and same
+    // reason as settingsUpdatedAt above.
+    confusions,
     // Both left off entirely when neither side ever had them, same trick and
     // same reason as settingsUpdatedAt above.
     contributions: contributed.contributions,
