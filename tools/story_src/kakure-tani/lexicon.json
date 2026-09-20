@@ -6603,5 +6603,224 @@
     "v",
     "持って帰る",
     "plain present potential"
+  ],
+  "ずっと": [
+    "ずっと",
+    "the whole way; all that time",
+    "adv",
+    "",
+    ""
+  ],
+  "近づくと": [
+    "近[ちか]づくと",
+    "as they drew near",
+    "v",
+    "近づく",
+    "\"when\" form"
+  ],
+  "弱くなり": [
+    "弱[よわ]くなり",
+    "grew weak, and",
+    "v",
+    "弱くなる",
+    "continuative form"
+  ],
+  "上り": [
+    "上[のぼ]り",
+    "climbed, and",
+    "v",
+    "上る",
+    "continuative form",
+    "上る"
+  ],
+  "くぐった": [
+    "くぐった",
+    "passed through; ducked under",
+    "v",
+    "くぐる",
+    "plain past"
+  ],
+  "おかえり": [
+    "おかえり",
+    "welcome back",
+    "int",
+    "",
+    ""
+  ],
+  "乾く": [
+    "乾[かわ]く",
+    "dries",
+    "v",
+    "乾く",
+    "plain present"
+  ],
+  "間#while": [
+    "間[あいだ]#while",
+    "while; during",
+    "n",
+    "",
+    ""
+  ],
+  "のぞいた": [
+    "のぞいた",
+    "looked in; peeked in",
+    "v",
+    "のぞく",
+    "plain past"
+  ],
+  "合わせていた": [
+    "合[あ]わせていた",
+    "was pressing together (in prayer)",
+    "v",
+    "合わせる",
+    "plain past progressive"
+  ],
+  "来てくれないか": [
+    "来[き]てくれないか",
+    "won't you come with me?",
+    "v",
+    "来てくれる",
+    "negative question"
+  ],
+  "驚かなかった": [
+    "驚[おどろ]かなかった",
+    "was not surprised",
+    "v",
+    "驚く",
+    "plain past negative"
+  ],
+  "光る": [
+    "光[ひか]る",
+    "glowing; that shines",
+    "v",
+    "光る",
+    "plain present"
+  ],
+  "行ってきます": [
+    "行[い]ってきます",
+    "I'll go and come back",
+    "v",
+    "行ってくる",
+    "polite present"
+  ],
+  "答え": [
+    "答[こた]え",
+    "answered, and",
+    "v",
+    "答える",
+    "continuative form",
+    false
+  ],
+  "持ち直した": [
+    "持[も]ち直[なお]した",
+    "took a fresh grip on",
+    "v",
+    "持ち直す",
+    "plain past"
+  ],
+  "下りきると": [
+    "下[お]りきると",
+    "when they reached the bottom",
+    "v",
+    "下りきる",
+    "\"when\" form"
+  ],
+  "はずれ": [
+    "はずれ",
+    "the edge; the outskirts",
+    "n",
+    "",
+    ""
+  ],
+  "出ると": [
+    "出[で]ると",
+    "when they left",
+    "v",
+    "出る",
+    "\"when\" form"
+  ],
+  "溶けていった": [
+    "溶[と]けていった",
+    "dissolved away",
+    "v",
+    "溶けていく",
+    "plain past"
+  ],
+  "生きた": [
+    "生[い]きた",
+    "lived",
+    "v",
+    "生きる",
+    "plain past"
+  ],
+  "亡くなってから": [
+    "亡[な]くなってから",
+    "after she died",
+    "v",
+    "亡くなる",
+    "\"after doing\" form"
+  ],
+  "連れてこられる": [
+    "連[つ]れてこられる",
+    "can bring people here",
+    "v",
+    "連れてくる",
+    "potential form"
+  ],
+  "生まれた": [
+    "生[う]まれた",
+    "was born",
+    "v",
+    "生まれる",
+    "plain past"
+  ],
+  "上がる": [
+    "上[あ]がる",
+    "rises",
+    "v",
+    "上がる",
+    "plain present"
+  ],
+  "つぶやいた": [
+    "つぶやいた",
+    "murmured",
+    "v",
+    "つぶやく",
+    "plain past"
+  ],
+  "渡ってきた": [
+    "渡[わた]ってきた",
+    "had crossed to get here",
+    "v",
+    "渡ってくる",
+    "plain past"
+  ],
+  "沈んでいた": [
+    "沈[しず]んでいた",
+    "had sunk",
+    "v",
+    "沈む",
+    "plain past progressive"
+  ],
+  "使ってしまい": [
+    "使[つか]ってしまい",
+    "had all been used up, and",
+    "v",
+    "使ってしまう",
+    "continuative form"
+  ],
+  "座っていた": [
+    "座[すわ]っていた",
+    "was sitting",
+    "v",
+    "座る",
+    "plain past progressive"
+  ],
+  "来てくれた": [
+    "来[き]てくれた",
+    "came to me",
+    "v",
+    "来てくれる",
+    "plain past"
   ]
 }

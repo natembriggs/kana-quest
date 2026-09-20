@@ -6,6 +6,18 @@
         "en": "On the afternoon of August 16, Aoi arrived in a village surrounded by the mountains of Nagano."
       },
       {
+        "tokens": "あおい|は|毎年|、|お盆|に|なると|祖母|の|家|に|来ていた|。",
+        "en": "Aoi came to her grandmother’s house every year for Obon."
+      },
+      {
+        "tokens": "今年|は|、|バス|の|中|で|ずっと|、|友達|から|届いた|写真|を|見ていた|。",
+        "en": "This year she had spent the whole bus ride looking at photographs a friend had sent her."
+      },
+      {
+        "tokens": "けれど|、|村|に|近づくと|、|携帯電話|の|電波|が|弱くなり|、|写真|は|半分|しか|見えなかった|。",
+        "en": "But as the bus drew near the village the phone signal grew weak, and only half of each photograph would load."
+      },
+      {
         "tokens": "バス|を|降りると|、|熱い|土|と|杉|の|葉|の|におい|が|した#sensory|。",
         "en": "When she stepped off the bus, she could smell hot earth and cedar leaves."
       },
@@ -18,22 +30,18 @@
         "en": "White clouds lingered above the mountains, and the valley floor was already blue."
       },
       {
-        "tokens": "あおい|は|毎年|、|お盆|に|なると|祖母|の|家|に|来ていた|。",
-        "en": "Aoi came to her grandmother’s house every year for Obon."
-      },
-      {
-        "tokens": "今年|は|駅|で|友達|から|届いた|写真|を|、|まだ|見終わっていなかった|。",
-        "en": "This year, she still had not finished looking at the photos a friend had sent her at the station."
-      },
-      {
-        "tokens": "けれど|、|ここ|で|は|携帯電話|の|電波|が|弱く|、|写真|は|半分|しか|見えなかった|。",
-        "en": "But the phone signal was weak here, and only half of each photo would load."
+        "tokens": "あおい|は|坂|を|上り|、|祖母|の|家|の|門|を|くぐった|。",
+        "en": "Aoi walked up the slope and passed through the gate of her grandmother’s house."
       }
     ],
     [
       {
-        "tokens": "祖母|は|縁側|で|、|竹|の|輪|に|薄い|和紙|を|貼っていた|。",
-        "en": "On the veranda, her grandmother was pasting thin washi paper onto bamboo hoops."
+        "tokens": "縁側|から|、|「|おかえり|」|と|祖母|の|声|が|した#sensory|。",
+        "en": "“Welcome back,” came her grandmother’s voice from the veranda."
+      },
+      {
+        "tokens": "祖母|は|竹|の|輪|に|薄い|和紙|を|貼っていた|。",
+        "en": "She was pasting thin washi paper onto bamboo hoops."
       },
       {
         "tokens": "膝|の|横|に|は|、|丸い|提灯|が|いくつも|並んでいた|。",
@@ -62,8 +70,12 @@
     ],
     [
       {
-        "tokens": "台所|で|は|、|いとこ|の|れん|が|盆|に|団子|を|並べていた|。",
-        "en": "In the kitchen, her cousin Ren was arranging dumplings on a tray."
+        "tokens": "紙|が|乾く|間#while|に|、|あおい|は|台所|を|のぞいた|。",
+        "en": "While the paper dried, Aoi looked into the kitchen."
+      },
+      {
+        "tokens": "そこ|で|は|、|いとこ|の|れん|が|盆|に|団子|を|並べていた|。",
+        "en": "There her cousin Ren was arranging dumplings on a tray."
       },
       {
         "tokens": "れん|は|村|に|住んでいて|、|あおい|と|同じ|十五歳|だった|。",
@@ -74,12 +86,16 @@
         "en": "After placing flowers and dumplings at the Buddhist family altar, their grandmother brought them barley tea."
       },
       {
+        "tokens": "れん|は|仏壇|の|前|で|、|長く|手|を|合わせていた|。",
+        "en": "Ren stayed a long time in front of the altar with his hands pressed together."
+      },
+      {
         "tokens": "お盆|に|は|亡くなった|家族|を|迎え|、|最後|の|日|に|は|送り出す|のだと|、|あおい|は|小さい|頃|に|教わった|。",
         "en": "As a little girl, Aoi had learned that families welcome their deceased loved ones at Obon and bid them farewell on the final day."
       },
       {
         "tokens": "この|村|で|は|、|その|夜|に|川|へ|小さな|灯籠|を|流す|。",
-        "en": "In this village, people floated small lanterns down the river that night."
+        "en": "In this village, people float small lanterns down the river that night."
       },
       {
         "tokens": "川下|に|は|灯籠|を|集める|場所|が|あり|、|れん|の|父|も|手伝う|予定|だった|。",
@@ -122,8 +138,12 @@
     ],
     [
       {
-        "tokens": "れん|が|物置|から|古い|箱|を|運んできた|。",
-        "en": "Ren brought an old box from the storeroom."
+        "tokens": "やがて|祖母|が|、|「|れん|、|物置|の|奥|に|古い|箱|が|ある|よ|」|と|言った|。",
+        "en": "Before long her grandmother said, “Ren, there’s an old box at the back of the storeroom.”"
+      },
+      {
+        "tokens": "れん|が|すぐに|それ|を|運んできた|。",
+        "en": "Ren brought it straight out."
       },
       {
         "tokens": "箱|の|中|に|は|、|底|の|破れた|提灯|と|、|小さな|帳面|が|入っていた|。",
@@ -138,8 +158,8 @@
         "en": "Their grandmother said nothing for a while when she saw it."
       },
       {
-        "tokens": "「|さよ|は|、|山|の|向こう|の|谷|に|住んでいた|友達|だ|よ|」|。",
-        "en": "“Sayo was a friend who lived in the valley beyond the mountain.”"
+        "tokens": "「|さよ|は|、|山|の|向こう|の|谷|に|住んでいた|友達|だ|よ|」|と|祖母|は|言った|。",
+        "en": "“Sayo was a friend who lived in the valley beyond the mountain,” her grandmother said."
       },
       {
         "tokens": "六十年前|の|大雨|で|谷|の|村|が|流され|、|さよ|は|帰ってこなかった|という#hearsay|。",
@@ -228,6 +248,10 @@
         "en": "“The lights in the valley are about to go out.”"
       },
       {
+        "tokens": "「|その|提灯|を|持って|、|一緒に|来てくれないか|」|。",
+        "en": "“Won’t you bring that lantern and come with me?”"
+      },
+      {
         "tokens": "あおい|が|名前|を|聞くと|、|少年|は|「|こはく|」|と|答えた|。",
         "en": "When Aoi asked his name, the boy replied, “Kohaku.”"
       },
@@ -238,6 +262,10 @@
       {
         "tokens": "門|まで|続く|泥|の|跡|は|、|人|の|足跡|ではなかった|。",
         "en": "The muddy tracks leading to the gate were not human footprints."
+      },
+      {
+        "tokens": "それでも|、|れん|は|あおい|を|見て|、|小さく|うなずいた|。",
+        "en": "Even so, Ren looked at Aoi and gave a small nod."
       }
     ],
     [
@@ -246,16 +274,24 @@
         "en": "By the time their grandmother came out, Kohaku was already at the bottom of the slope."
       },
       {
-        "tokens": "祖母|は|青い|提灯|を|見て|、|あおい|の|手首|を|そっと|握った|。",
-        "en": "She looked at the blue lantern and gently held Aoi’s wrist."
+        "tokens": "けれど|祖母|は|、|狐|の|面|の|少年|に|も|、|青く|光る|提灯|に|も|驚かなかった|。",
+        "en": "But her grandmother showed no surprise at the boy in the fox mask, or at the lantern glowing blue."
+      },
+      {
+        "tokens": "祖母|は|あおい|の|手首|を|そっと|握った|。",
+        "en": "She gently took hold of Aoi’s wrist."
       },
       {
         "tokens": "「|もし|橋|まで|行けたら|、|さよ|に|、|歌|を|忘れていない|と|伝えておくれ|」|。",
         "en": "“If you can reach the bridge, tell Sayo I haven’t forgotten the song.”"
       },
       {
+        "tokens": "「|行ってきます|」|と|あおい|は|答え|、|提灯|を|持ち直した|。",
+        "en": "“We’ll go, then,” Aoi answered, and took a fresh grip on the lantern."
+      },
+      {
         "tokens": "あおい|は|初めて|、|写真|を|見る|ため|ではなく|、|道|を|確かめる|ため|に|顔を上げた|。",
-        "en": "For the first time, Aoi raised her head to look for the path, rather than at a photograph."
+        "en": "For the first time that day, she lifted her face not to look at photographs, but to make sure of a path."
       },
       {
         "tokens": "れん|は|懐中電灯|と|水|を|袋|に|入れ|、|あおい|に|歩きやすい|靴|を|渡した|。",
@@ -274,8 +310,12 @@
   [
     [
       {
-        "tokens": "こはく|は|石垣|の|間|を|抜け|、|山|へ|続く|細い|道|に|入った|。",
-        "en": "Kohaku slipped between the stone walls and turned onto a narrow path into the mountains."
+        "tokens": "坂|を|下りきると|、|こはく|は|村|の|はずれ|で|待っていた|。",
+        "en": "At the bottom of the slope, Kohaku was waiting at the edge of the village."
+      },
+      {
+        "tokens": "そして|石垣|の|間|を|抜け|、|山|へ|続く|細い|道|に|入った|。",
+        "en": "Then he slipped between the stone walls and turned onto a narrow path into the mountains."
       },
       {
         "tokens": "あおい|は|提灯|を|胸|の|高さ|に|持って|、|その|後|を|追った|。",
@@ -328,8 +368,8 @@
         "en": "“The warm flame in your lantern will be your way home.”"
       },
       {
-        "tokens": "あおい|が|紙|に|触れると|、|そこ|だけ|は|祖母|の|手|のように|温かかった|。",
-        "en": "When Aoi touched the paper, that spot alone was warm, like her grandmother’s hand."
+        "tokens": "あおい|が|しめ縄|の|紙|に|触れると|、|そこ|だけ|は|祖母|の|手|のように|温かかった|。",
+        "en": "When Aoi touched the paper streamer on the rope, that spot alone was warm, like her grandmother’s hand."
       }
     ],
     [
@@ -372,8 +412,8 @@
         "en": "As they descended, a street lined with festival stalls suddenly appeared."
       },
       {
-        "tokens": "雨|に|濡れた|石|の|上|に|、|赤|や|黄色|の|光|が|長く|伸びていた|。",
-        "en": "Red and yellow lights stretched across the rain-wet stones."
+        "tokens": "霧|に|濡れた|石|の|上|に|、|赤|や|黄色|の|光|が|長く|伸びていた|。",
+        "en": "Red and yellow light stretched in long streaks across stones wet with mist."
       },
       {
         "tokens": "焼いた|団子|の|甘い|におい|が|して#sensory|、|鉄|の|風鈴|が|低く|鳴った|。",
@@ -384,8 +424,8 @@
         "en": "But everyone tending the stalls wore a thin paper mask."
       },
       {
-        "tokens": "金魚|の|泳ぐ|水|に|、|空|の|星|は|映っていなかった|。",
-        "en": "The water where the goldfish swam reflected none of the stars overhead."
+        "tokens": "金魚|の|泳ぐ|水|に|は|、|屋台|の|光|さえ|映っていなかった|。",
+        "en": "The water the goldfish swam in did not reflect even the lights of the stalls."
       },
       {
         "tokens": "あおい|が|提灯|を|近づけると|、|水|の|中|に|は|昼|の|青空|が|見えた|。",
@@ -458,6 +498,10 @@
     ],
     [
       {
+        "tokens": "通り|を|出ると|、|屋台|の|光|は|後ろ|の|霧|に|溶けていった|。",
+        "en": "As they left the street, the lights of the stalls dissolved into the mist behind them."
+      },
+      {
         "tokens": "やがて|、|霧|の|下|から|川|の|音|が|聞こえてきた|。",
         "en": "Soon they heard a river beneath the mist."
       },
@@ -509,7 +553,7 @@
       },
       {
         "tokens": "下|から|冷たい|水|の|しぶき|が|上がった|が#but|、|二人|は|最後|まで|走らなかった|。",
-        "en": "Cold spray rose from below, but neither of them ran, all the way across."
+        "en": "Cold spray rose from below, but neither of them ran, right to the far side."
       },
       {
         "tokens": "向こう岸|の|石|に|足|が|触れた|時|、|あおい|は|初めて|深く|息を吐いた|。",
@@ -666,6 +710,14 @@
       {
         "tokens": "「|最後|に|聞いた|の#nominal|が|、|この|鈴|の|音|だった|」|と|さよ|は|言った|。",
         "en": "“The last thing I heard was this bell,” Sayo said."
+      },
+      {
+        "tokens": "「|母|は|、|あの|後|も|長く|生きた|よ|」|。",
+        "en": "“My mother lived a long time after that.”"
+      },
+      {
+        "tokens": "「|そして|、|亡くなってから|、|この|家|へ|来てくれた|」|。",
+        "en": "“And after she died, she came to me in this house.”"
       }
     ],
     [
@@ -735,15 +787,15 @@
       },
       {
         "tokens": "すると|、|薄くなった|字|が|、|少し|だけ|濃くなった|。",
-        "en": "The faded writing darkened a little."
+        "en": "At that, the faded writing darkened a little."
       },
       {
         "tokens": "窓|の|外|から|、|こはく|が|顔を上げた|。",
         "en": "Outside the window, Kohaku looked up."
       },
       {
-        "tokens": "「|外|の|人|が|覚えると|、|灯り|は|戻る|んだ|」|。",
-        "en": "“When someone from outside remembers, the light comes back.”"
+        "tokens": "「|外|の|人|が|覚えると|、|灯り|は|戻る|んだ|」|と|こはく|が|川|の|向こう|から|言った|。",
+        "en": "“When someone outside remembers, the light comes back,” Kohaku called from across the river."
       },
       {
         "tokens": "「|その|火|を|川辺|に|並べれば|、|みんな|を|送る|道|が|できる|」|。",
@@ -774,6 +826,10 @@
       {
         "tokens": "今|なら|、|まだ|祖母|の|家|まで|の|道|を|思い出せた|。",
         "en": "For now, she could still remember the route to her grandmother’s house."
+      },
+      {
+        "tokens": "村|の|人|を|連れてこられる|の#nominal|は|、|村|で|生まれた|れん|だけ|だった|。",
+        "en": "The only one who could bring the villagers was Ren, who had been born there."
       },
       {
         "tokens": "「|れん|、|提灯|を|持って|戻って|、|村|の|人|を|呼んできて|」|。",
@@ -860,6 +916,14 @@
         "en": "Outside the door the river grew louder, and water began coming through gaps in the floor."
       },
       {
+        "tokens": "「|送り|の|夜|は|、|いつも|水|が|上がる|んだ|」|と|さよ|は|つぶやいた|。",
+        "en": "“The water always rises on the night of the farewell,” Sayo murmured."
+      },
+      {
+        "tokens": "二人|が|渡ってきた|紙|の|橋|は|、|もう|半分|が|水|に|沈んでいた|。",
+        "en": "The paper bridge the cousins had crossed was already half sunk in the water."
+      },
+      {
         "tokens": "さよ|は|白い|紙|を|川|へ|伸ばした|が#but|、|橋|の|端|は|すぐに|裂けた|。",
         "en": "Sayo extended white paper over the river, but the end of the bridge tore at once."
       },
@@ -876,8 +940,8 @@
         "en": "“Instead of making one sheet bear the weight, what if we overlap them?”"
       },
       {
-        "tokens": "机|の|上|に|は|新しい|紙|が|なく|、|残っていた|の#nominal|は|、|絵|と|話|の|書かれた|灯籠|だけ|だった|。",
-        "en": "There was no fresh paper on the table: all that remained were the lanterns covered with pictures and stories."
+        "tokens": "天井|の|紙|は|もう|使ってしまい|、|残っていた|の#nominal|は|、|絵|と|話|の|書かれた|灯籠|だけ|だった|。",
+        "en": "The sheets from the ceiling were used up, and all that remained were the lanterns covered with pictures and stories."
       }
     ],
     [
@@ -1040,8 +1104,8 @@
         "en": "“Will you give this back to Kohaku?”"
       },
       {
-        "tokens": "戸|の|奥|に|は|、|これまで|見えなかった|木|の|門|が|現れていた|。",
-        "en": "Beyond the doorway, a wooden gate had appeared where none had been visible before."
+        "tokens": "歌|が|続く|間#while|に|、|戸|の|奥|に|は|、|これまで|見えなかった|木|の|門|が|現れていた|。",
+        "en": "While the song went on, a wooden gate had appeared beyond the doorway, where none had been visible before."
       },
       {
         "tokens": "あおい|が|鈴|を|持って|橋|に|乗ると|、|門|が|少し|開いた|。",
@@ -1067,7 +1131,7 @@
       },
       {
         "tokens": "あと|一枚|、|広い|紙|が|あれば|、|岸|まで|つなぐ|こと|が|できた|。",
-        "en": "One more broad sheet of paper would let her join the bridge all the way to the bank."
+        "en": "With one more wide sheet of paper, she could have joined the bridge to the bank."
       },
       {
         "tokens": "帳面|に|は|、|祖母|と|さよ|が|描いた|橋|の|ページ|が|残っていた|。",
@@ -1246,8 +1310,8 @@
         "en": "Only Sayo’s mother remained before the gate, waiting for her daughter."
       },
       {
-        "tokens": "そして|母|の|差し出す|手|を|取り|、|開いた|門|の|向こう|へ|歩いていった|。",
-        "en": "Then she took her mother’s offered hand and walked beyond the open gate."
+        "tokens": "そして|、|さよ|は|母|の|差し出す|手|を|取り|、|開いた|門|の|向こう|へ|歩いていった|。",
+        "en": "Then Sayo took her mother’s offered hand and walked beyond the open gate."
       }
     ],
     [

@@ -4316,6 +4316,243 @@ export const STORY = {
             "g": null
           }
         ]
+      },
+      {
+        "en": "“My mother lived a long time after that.”",
+        "t": [
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "母",
+            "k": "はは",
+            "ruby": [
+              [
+                0,
+                "はは"
+              ]
+            ],
+            "d": "母",
+            "pos": "n",
+            "g": "mother"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "あの",
+            "k": "あの",
+            "ruby": null,
+            "d": "あの",
+            "pos": "adj",
+            "g": "that over there; that remembered"
+          },
+          {
+            "s": "後",
+            "k": "あと",
+            "ruby": [
+              [
+                0,
+                "あと"
+              ]
+            ],
+            "d": "後",
+            "pos": "n",
+            "g": "after; later"
+          },
+          {
+            "s": "も",
+            "k": "も",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "also, too / even"
+          },
+          {
+            "s": "長く",
+            "k": "ながく",
+            "ruby": [
+              [
+                0,
+                "なが"
+              ]
+            ],
+            "d": "長い",
+            "pos": "adv",
+            "g": "long; in a long shape",
+            "df": "長い",
+            "cf": "adverbial form"
+          },
+          {
+            "s": "生きた",
+            "k": "いきた",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "生きる",
+            "pos": "v",
+            "g": "lived",
+            "df": "生きる",
+            "cf": "plain past"
+          },
+          {
+            "s": "よ",
+            "k": "よ",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "sentence ending adding emphasis"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "“And after she died, she came to me in this house.”",
+        "t": [
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "そして",
+            "k": "そして",
+            "ruby": null,
+            "d": null,
+            "pos": "adv",
+            "g": "and then"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "亡くなってから",
+            "k": "なくなってから",
+            "ruby": [
+              [
+                0,
+                "な"
+              ]
+            ],
+            "d": "亡くなる",
+            "pos": "v",
+            "g": "after she died",
+            "df": "亡くなる",
+            "cf": "\"after doing\" form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "この",
+            "k": "この",
+            "ruby": null,
+            "d": "この",
+            "pos": "adj",
+            "g": "this"
+          },
+          {
+            "s": "家",
+            "k": "いえ",
+            "ruby": [
+              [
+                0,
+                "いえ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "house; home"
+          },
+          {
+            "s": "へ",
+            "k": "へ",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / toward — direction"
+          },
+          {
+            "s": "来てくれた",
+            "k": "きてくれた",
+            "ruby": [
+              [
+                0,
+                "き"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "came to me",
+            "df": "来てくれる",
+            "cf": "plain past"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
       }
     ],
     [
@@ -6638,7 +6875,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "The faded writing darkened a little.",
+        "en": "At that, the faded writing darkened a little.",
         "t": [
           {
             "s": "すると",
@@ -6845,7 +7082,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "“When someone from outside remembers, the light comes back.”",
+        "en": "“When someone outside remembers, the light comes back,” Kohaku called from across the river.",
         "t": [
           {
             "s": "「",
@@ -6969,6 +7206,87 @@ export const STORY = {
             "pos": "punct",
             "ruby": null,
             "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "and; with; quotation marker"
+          },
+          {
+            "s": "こはく",
+            "k": "こはく",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Kohaku"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "川",
+            "k": "かわ",
+            "ruby": [
+              [
+                0,
+                "かわ"
+              ]
+            ],
+            "d": "川",
+            "pos": "n",
+            "g": "river"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "向こう",
+            "k": "むこう",
+            "ruby": [
+              [
+                0,
+                "む"
+              ]
+            ],
+            "d": "向こう",
+            "pos": "n",
+            "g": "far side, beyond"
+          },
+          {
+            "s": "から",
+            "k": "から",
+            "ruby": null,
+            "d": "から",
+            "pos": "part",
+            "g": "from / because"
+          },
+          {
+            "s": "言った",
+            "k": "いった",
+            "ruby": [
+              [
+                0,
+                "い"
+              ]
+            ],
+            "d": "言う",
+            "pos": "v",
+            "g": "said",
+            "df": "言う",
+            "cf": "plain past"
           },
           {
             "s": "。",
@@ -8037,6 +8355,162 @@ export const STORY = {
             "g": "could remember",
             "df": "思い出す",
             "cf": "plain past potential"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The only one who could bring the villagers was Ren, who had been born there.",
+        "t": [
+          {
+            "s": "村",
+            "k": "むら",
+            "ruby": [
+              [
+                0,
+                "むら"
+              ]
+            ],
+            "d": "村",
+            "pos": "n",
+            "g": "village"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "人",
+            "k": "ひと",
+            "ruby": [
+              [
+                0,
+                "ひと"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "person; people"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "連れてこられる",
+            "k": "つれてこられる",
+            "ruby": [
+              [
+                0,
+                "つ"
+              ]
+            ],
+            "d": "連れてくる",
+            "pos": "v",
+            "g": "can bring people here",
+            "df": "連れてくる",
+            "cf": "potential form"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "nominalizer — the thing, person or act just described"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "村",
+            "k": "むら",
+            "ruby": [
+              [
+                0,
+                "むら"
+              ]
+            ],
+            "d": "村",
+            "pos": "n",
+            "g": "village"
+          },
+          {
+            "s": "で",
+            "k": "で",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "at / in / by — place, means or circumstance"
+          },
+          {
+            "s": "生まれた",
+            "k": "うまれた",
+            "ruby": [
+              [
+                0,
+                "う"
+              ]
+            ],
+            "d": "生まれる",
+            "pos": "v",
+            "g": "was born",
+            "df": "生まれる",
+            "cf": "plain past"
+          },
+          {
+            "s": "れん",
+            "k": "れん",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Ren"
+          },
+          {
+            "s": "だけ",
+            "k": "だけ",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "only / just"
+          },
+          {
+            "s": "だった",
+            "k": "だった",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "was",
+            "df": "だ",
+            "cf": "plain past"
           },
           {
             "s": "。",
@@ -9766,7 +10240,7 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "b36b08ed",
+  "hash": "fbcf350e",
   "art": {
     "cover": false,
     "inline": []

@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-20',
     changes: [
+      'Improved: 隠れ谷の灯り (The Lanterns of the Hidden Valley) has been edited end to end so each sentence follows the one before it. Chapter one no longer mentions a station Aoi was never at, she now actually arrives at her grandmother’s house before the veranda scene, and the boy in the fox mask asks the cousins to come with him instead of the story simply cutting to them setting off. Later chapters explain where the water is rising from, who the woman waiting at the gate is, and why Ren is the one sent back for help. Thirty-six sentences were added or rewritten across the five chapters; the story is the same, with the gaps filled in.',
+    ],
+  },
+  {
+    date: '2026-09-20',
+    changes: [
       'New: 隠れ谷の灯り (The Lanterns of the Hidden Valley), an original level 5 adventure in five full-length chapters. During Obon in a mountain village in Nagano, Aoi and Ren follow a fox-masked guide into a forgotten valley. A mysterious lantern, an unfinished song and a sixty-year-old promise lead them through a festival of memories and across a river of fading light. Every chapter includes sentence translations and tappable word explanations.',
     ],
   },

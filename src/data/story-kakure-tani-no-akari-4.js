@@ -1524,6 +1524,343 @@ export const STORY = {
         ]
       },
       {
+        "en": "“The water always rises on the night of the farewell,” Sayo murmured.",
+        "t": [
+          {
+            "s": "「",
+            "k": "「",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "送り",
+            "k": "おくり",
+            "ruby": [
+              [
+                0,
+                "おく"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "farewell; seeing off"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "夜",
+            "k": "よる",
+            "ruby": [
+              [
+                0,
+                "よる"
+              ]
+            ],
+            "d": "夜",
+            "pos": "n",
+            "g": "night"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "いつも",
+            "k": "いつも",
+            "ruby": null,
+            "d": "いつも",
+            "pos": "adv",
+            "g": "always"
+          },
+          {
+            "s": "水",
+            "k": "みず",
+            "ruby": [
+              [
+                0,
+                "みず"
+              ]
+            ],
+            "d": "水",
+            "pos": "n",
+            "g": "water"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "上がる",
+            "k": "あがる",
+            "ruby": [
+              [
+                0,
+                "あ"
+              ]
+            ],
+            "d": "上がる",
+            "pos": "v",
+            "g": "rises",
+            "df": "上がる",
+            "cf": "plain present"
+          },
+          {
+            "s": "んだ",
+            "k": "んだ",
+            "ruby": null,
+            "d": null,
+            "pos": "aux",
+            "g": "it is that — explanatory ending"
+          },
+          {
+            "s": "」",
+            "k": "」",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "と",
+            "k": "と",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "and; with; quotation marker"
+          },
+          {
+            "s": "さよ",
+            "k": "さよ",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Sayo"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "つぶやいた",
+            "k": "つぶやいた",
+            "ruby": null,
+            "d": null,
+            "pos": "v",
+            "g": "murmured",
+            "df": "つぶやく",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "The paper bridge the cousins had crossed was already half sunk in the water.",
+        "t": [
+          {
+            "s": "二人",
+            "k": "ふたり",
+            "ruby": [
+              [
+                0,
+                "ふた"
+              ],
+              [
+                1,
+                "り"
+              ]
+            ],
+            "d": "二人",
+            "pos": "num",
+            "g": "two people"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "渡ってきた",
+            "k": "わたってきた",
+            "ruby": [
+              [
+                0,
+                "わた"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "had crossed to get here",
+            "df": "渡ってくる",
+            "cf": "plain past"
+          },
+          {
+            "s": "紙",
+            "k": "かみ",
+            "ruby": [
+              [
+                0,
+                "かみ"
+              ]
+            ],
+            "d": "紙",
+            "pos": "n",
+            "g": "paper"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "橋",
+            "k": "はし",
+            "ruby": [
+              [
+                0,
+                "はし"
+              ]
+            ],
+            "d": "橋",
+            "pos": "n",
+            "g": "bridge"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "もう",
+            "k": "もう",
+            "ruby": null,
+            "d": "もう",
+            "pos": "adv",
+            "g": "already; any longer (with a negative)"
+          },
+          {
+            "s": "半分",
+            "k": "はんぶん",
+            "ruby": [
+              [
+                0,
+                "はん"
+              ],
+              [
+                1,
+                "ぶん"
+              ]
+            ],
+            "d": "半分",
+            "pos": "n",
+            "g": "half"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "水",
+            "k": "みず",
+            "ruby": [
+              [
+                0,
+                "みず"
+              ]
+            ],
+            "d": "水",
+            "pos": "n",
+            "g": "water"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "沈んでいた",
+            "k": "しずんでいた",
+            "ruby": [
+              [
+                0,
+                "しず"
+              ]
+            ],
+            "d": "沈む",
+            "pos": "v",
+            "g": "had sunk",
+            "df": "沈む",
+            "cf": "plain past progressive"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "Sayo extended white paper over the river, but the end of the bridge tore at once.",
         "t": [
           {
@@ -2068,20 +2405,24 @@ export const STORY = {
         ]
       },
       {
-        "en": "There was no fresh paper on the table: all that remained were the lanterns covered with pictures and stories.",
+        "en": "The sheets from the ceiling were used up, and all that remained were the lanterns covered with pictures and stories.",
         "t": [
           {
-            "s": "机",
-            "k": "つくえ",
+            "s": "天井",
+            "k": "てんじょう",
             "ruby": [
               [
                 0,
-                "つくえ"
+                "てん"
+              ],
+              [
+                1,
+                "じょう"
               ]
             ],
-            "d": null,
+            "d": "天井",
             "pos": "n",
-            "g": "desk; table"
+            "g": "ceiling"
           },
           {
             "s": "の",
@@ -2090,48 +2431,6 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "possessive — \"'s\" / \"of\""
-          },
-          {
-            "s": "上",
-            "k": "うえ",
-            "ruby": [
-              [
-                0,
-                "うえ"
-              ]
-            ],
-            "d": "上",
-            "pos": "n",
-            "g": "above"
-          },
-          {
-            "s": "に",
-            "k": "に",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "to / in / at — destination, place or time"
-          },
-          {
-            "s": "は",
-            "k": "は",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "topic marker — \"as for ...\""
-          },
-          {
-            "s": "新しい",
-            "k": "あたらしい",
-            "ruby": [
-              [
-                0,
-                "あたら"
-              ]
-            ],
-            "d": "新しい",
-            "pos": "adj",
-            "g": "new"
           },
           {
             "s": "紙",
@@ -2147,21 +2446,34 @@ export const STORY = {
             "g": "paper"
           },
           {
-            "s": "が",
-            "k": "が",
+            "s": "は",
+            "k": "は",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "subject marker"
+            "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "なく",
-            "k": "なく",
+            "s": "もう",
+            "k": "もう",
             "ruby": null,
+            "d": "もう",
+            "pos": "adv",
+            "g": "already; any longer (with a negative)"
+          },
+          {
+            "s": "使ってしまい",
+            "k": "つかってしまい",
+            "ruby": [
+              [
+                0,
+                "つか"
+              ]
+            ],
             "d": null,
-            "pos": "adj",
-            "g": "without; not being",
-            "df": "ない",
+            "pos": "v",
+            "g": "had all been used up, and",
+            "df": "使ってしまう",
             "cf": "continuative form"
           },
           {
@@ -7902,8 +8214,71 @@ export const STORY = {
         ]
       },
       {
-        "en": "Beyond the doorway, a wooden gate had appeared where none had been visible before.",
+        "en": "While the song went on, a wooden gate had appeared beyond the doorway, where none had been visible before.",
         "t": [
+          {
+            "s": "歌",
+            "k": "うた",
+            "ruby": [
+              [
+                0,
+                "うた"
+              ]
+            ],
+            "d": "歌",
+            "pos": "n",
+            "g": "song"
+          },
+          {
+            "s": "が",
+            "k": "が",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "subject marker"
+          },
+          {
+            "s": "続く",
+            "k": "つづく",
+            "ruby": [
+              [
+                0,
+                "つづ"
+              ]
+            ],
+            "d": "続く",
+            "pos": "v",
+            "g": "lead on; continue"
+          },
+          {
+            "s": "間",
+            "k": "あいだ",
+            "ruby": [
+              [
+                0,
+                "あいだ"
+              ]
+            ],
+            "d": "間",
+            "pos": "n",
+            "g": "while; during"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
           {
             "s": "戸",
             "k": "と",
@@ -8937,7 +9312,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "One more broad sheet of paper would let her join the bridge all the way to the bank.",
+        "en": "With one more wide sheet of paper, she could have joined the bridge to the bank.",
         "t": [
           {
             "s": "あと",
@@ -9965,7 +10340,7 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "a089cb05",
+  "hash": "41d71b58",
   "art": {
     "cover": false,
     "inline": []

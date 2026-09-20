@@ -5742,7 +5742,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "Then she took her mother’s offered hand and walked beyond the open gate.",
+        "en": "Then Sayo took her mother’s offered hand and walked beyond the open gate.",
         "t": [
           {
             "s": "そして",
@@ -5751,6 +5751,30 @@ export const STORY = {
             "d": null,
             "pos": "adv",
             "g": "and then"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "さよ",
+            "k": "さよ",
+            "ruby": null,
+            "d": null,
+            "pos": "pn",
+            "g": "Sayo"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
           },
           {
             "s": "母",
@@ -10723,7 +10747,7 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "35704c18",
+  "hash": "67281f33",
   "art": {
     "cover": false,
     "inline": []

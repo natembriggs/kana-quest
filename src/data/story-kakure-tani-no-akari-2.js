@@ -36,8 +36,52 @@ export const STORY = {
   "body": [
     [
       {
-        "en": "Kohaku slipped between the stone walls and turned onto a narrow path into the mountains.",
+        "en": "At the bottom of the slope, Kohaku was waiting at the edge of the village.",
         "t": [
+          {
+            "s": "坂",
+            "k": "さか",
+            "ruby": [
+              [
+                0,
+                "さか"
+              ]
+            ],
+            "d": "坂",
+            "pos": "n",
+            "g": "slope"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "下りきると",
+            "k": "おりきると",
+            "ruby": [
+              [
+                0,
+                "お"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "when they reached the bottom",
+            "df": "下りきる",
+            "cf": "\"when\" form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
           {
             "s": "こはく",
             "k": "こはく",
@@ -53,6 +97,79 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "村",
+            "k": "むら",
+            "ruby": [
+              [
+                0,
+                "むら"
+              ]
+            ],
+            "d": "村",
+            "pos": "n",
+            "g": "village"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "はずれ",
+            "k": "はずれ",
+            "ruby": null,
+            "d": null,
+            "pos": "n",
+            "g": "the edge; the outskirts"
+          },
+          {
+            "s": "で",
+            "k": "で",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "at / in / by — place, means or circumstance"
+          },
+          {
+            "s": "待っていた",
+            "k": "まっていた",
+            "ruby": [
+              [
+                0,
+                "ま"
+              ]
+            ],
+            "d": "待つ",
+            "pos": "v",
+            "g": "was waiting",
+            "df": "待つ",
+            "cf": "plain past progressive"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
+        "en": "Then he slipped between the stone walls and turned onto a narrow path into the mountains.",
+        "t": [
+          {
+            "s": "そして",
+            "k": "そして",
+            "ruby": null,
+            "d": null,
+            "pos": "adv",
+            "g": "and then"
           },
           {
             "s": "石垣",
@@ -2003,7 +2120,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "When Aoi touched the paper, that spot alone was warm, like her grandmother’s hand.",
+        "en": "When Aoi touched the paper streamer on the rope, that spot alone was warm, like her grandmother’s hand.",
         "t": [
           {
             "s": "あおい",
@@ -2020,6 +2137,27 @@ export const STORY = {
             "d": null,
             "pos": "part",
             "g": "subject marker"
+          },
+          {
+            "s": "しめ縄",
+            "k": "しめなわ",
+            "ruby": [
+              [
+                2,
+                "なわ"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "sacred straw rope marking a sacred place or object"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
           },
           {
             "s": "紙",
@@ -3594,20 +3732,20 @@ export const STORY = {
         ]
       },
       {
-        "en": "Red and yellow lights stretched across the rain-wet stones.",
+        "en": "Red and yellow light stretched in long streaks across stones wet with mist.",
         "t": [
           {
-            "s": "雨",
-            "k": "あめ",
+            "s": "霧",
+            "k": "きり",
             "ruby": [
               [
                 0,
-                "あめ"
+                "きり"
               ]
             ],
-            "d": "雨",
+            "d": "霧",
             "pos": "n",
-            "g": "rain"
+            "g": "fog"
           },
           {
             "s": "に",
@@ -4118,7 +4256,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "The water where the goldfish swam reflected none of the stars overhead.",
+        "en": "The water the goldfish swam in did not reflect even the lights of the stalls.",
         "t": [
           {
             "s": "金魚",
@@ -4180,6 +4318,14 @@ export const STORY = {
             "g": "to / in / at — destination, place or time"
           },
           {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
             "s": "、",
             "k": "、",
             "d": null,
@@ -4188,17 +4334,21 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "空",
-            "k": "そら",
+            "s": "屋台",
+            "k": "やたい",
             "ruby": [
               [
                 0,
-                "そら"
+                "や"
+              ],
+              [
+                1,
+                "たい"
               ]
             ],
             "d": null,
             "pos": "n",
-            "g": "sky"
+            "g": "market stall"
           },
           {
             "s": "の",
@@ -4209,25 +4359,25 @@ export const STORY = {
             "g": "possessive — \"'s\" / \"of\""
           },
           {
-            "s": "星",
-            "k": "ほし",
+            "s": "光",
+            "k": "ひかり",
             "ruby": [
               [
                 0,
-                "ほし"
+                "ひかり"
               ]
             ],
-            "d": "星",
+            "d": "光",
             "pos": "n",
-            "g": "star"
+            "g": "light"
           },
           {
-            "s": "は",
-            "k": "は",
+            "s": "さえ",
+            "k": "さえ",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "topic marker — \"as for ...\""
+            "g": "even"
           },
           {
             "s": "映っていなかった",
@@ -6598,6 +6748,166 @@ export const STORY = {
     ],
     [
       {
+        "en": "As they left the street, the lights of the stalls dissolved into the mist behind them.",
+        "t": [
+          {
+            "s": "通り",
+            "k": "とおり",
+            "ruby": [
+              [
+                0,
+                "とお"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "street"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
+          },
+          {
+            "s": "出ると",
+            "k": "でると",
+            "ruby": [
+              [
+                0,
+                "で"
+              ]
+            ],
+            "d": "出る",
+            "pos": "v",
+            "g": "when they left",
+            "df": "出る",
+            "cf": "\"when\" form"
+          },
+          {
+            "s": "、",
+            "k": "、",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          },
+          {
+            "s": "屋台",
+            "k": "やたい",
+            "ruby": [
+              [
+                0,
+                "や"
+              ],
+              [
+                1,
+                "たい"
+              ]
+            ],
+            "d": null,
+            "pos": "n",
+            "g": "market stall"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "光",
+            "k": "ひかり",
+            "ruby": [
+              [
+                0,
+                "ひかり"
+              ]
+            ],
+            "d": "光",
+            "pos": "n",
+            "g": "light"
+          },
+          {
+            "s": "は",
+            "k": "は",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "topic marker — \"as for ...\""
+          },
+          {
+            "s": "後ろ",
+            "k": "うしろ",
+            "ruby": [
+              [
+                0,
+                "うし"
+              ]
+            ],
+            "d": "後ろ",
+            "pos": "n",
+            "g": "rear, behind"
+          },
+          {
+            "s": "の",
+            "k": "の",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "霧",
+            "k": "きり",
+            "ruby": [
+              [
+                0,
+                "きり"
+              ]
+            ],
+            "d": "霧",
+            "pos": "n",
+            "g": "fog"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "溶けていった",
+            "k": "とけていった",
+            "ruby": [
+              [
+                0,
+                "と"
+              ]
+            ],
+            "d": null,
+            "pos": "v",
+            "g": "dissolved away",
+            "df": "溶けていく",
+            "cf": "plain past"
+          },
+          {
+            "s": "。",
+            "k": "。",
+            "d": null,
+            "pos": "punct",
+            "ruby": null,
+            "g": null
+          }
+        ]
+      },
+      {
         "en": "Soon they heard a river beneath the mist.",
         "t": [
           {
@@ -8442,7 +8752,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "Cold spray rose from below, but neither of them ran, all the way across.",
+        "en": "Cold spray rose from below, but neither of them ran, right to the far side.",
         "t": [
           {
             "s": "下",
@@ -10054,7 +10364,7 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "261b14d3",
+  "hash": "88214189",
   "art": {
     "cover": false,
     "inline": []
