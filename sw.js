@@ -31,7 +31,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-18f';
+const VERSION = '2026-09-20a';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -46,6 +46,7 @@ const SHELL = [
   'src/kanji.js',
   'src/data/kanji-manifest.js',
   'src/kanji-components.js',
+  'src/kanji-compare.js',
   // The shared component->keyword map only; the per-grade breakdowns
   // (kanji-components-*.js) are lazy, like the kanji and stroke data they
   // load alongside.

@@ -61,6 +61,27 @@
      re-rendered, no timer exists to reset, and closing it puts the learner
      back exactly where they were. Lives outside <main> for the same reason
      #install-banner does — it belongs to the app, not to any one screen. -->
+<!-- Two kanji side by side (kanji-compare.js). Opened from a resolved
+     Definition question — tap any answer that wasn't the right one and the
+     character behind that meaning comes up next to the one just asked
+     about — and from a kanji's own detail screen, which offers the kanji it
+     is most likely to be confused with. Lives out here beside the feedback
+     sheet, and for the same reason: opening it mid-question mounts nothing
+     and re-renders nothing, so the session underneath is untouched and
+     closing it puts the learner back exactly where they were. Everything
+     inside #compare-grid is built by renderCompare() in app.js, since the
+     rows it needs depend on what the two characters actually have. -->
+<div id="compare-sheet" class="sheet" hidden>
+  <div class="sheet-scrim" data-action="compare-close"></div>
+  <div class="sheet-body compare-body" role="dialog" aria-modal="true" aria-labelledby="compare-heading">
+    <div class="sheet-head">
+      <h3 id="compare-heading">Side by side</h3>
+      <button class="btn btn-icon btn-quiet" type="button" data-action="compare-close" aria-label="Close">✕</button>
+    </div>
+    <div id="compare-grid" class="compare-grid"></div>
+  </div>
+</div>
+
 <div id="feedback-sheet" class="sheet" hidden>
   <div class="sheet-scrim" data-action="feedback-close"></div>
   <div class="sheet-body" role="dialog" aria-modal="true" aria-labelledby="feedback-heading">
@@ -706,6 +727,22 @@
            the same editor is opened from three different screens. -->
       <button id="detail-edit-mnemonic" class="btn btn-quiet mnemonic-edit-btn" type="button"></button>
       <div id="detail-mnemonic-editor" class="mnemonic-editor" hidden></div>
+    </div>
+
+    <!-- Kanji only: the other way into the side-by-side comparison. The
+         quiz's own route (a wrong answer on a Definition question) only
+         fires when you have already got something wrong; this one is here
+         whenever the thought "hang on, isn't that the same as..." turns up
+         on its own. Candidates are ranked by rankSimilar() in
+         kanji-compare.js over the kanji this learner is actually studying
+         plus this character's own grade — a look-alike from a grade they
+         have never opened is not a kanji they can be mixing this one up
+         with. Collapsed until asked for, because working the list out means
+         loading those grades' component data. -->
+    <div id="detail-compare-wrap" class="compare-entry" hidden>
+      <button id="detail-compare-toggle" class="btn btn-quiet wide" type="button"
+              data-action="detail-compare-toggle" aria-expanded="false" aria-controls="detail-compare-list">⇄ Compare with a similar kanji</button>
+      <div id="detail-compare-list" class="compare-candidates" hidden></div>
     </div>
 
     <!-- Kanji only: which unit it's taught in (school grade, secondary jōyō

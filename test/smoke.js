@@ -27,6 +27,9 @@ const {
   ensureComponentUnitLoaded, kanjiComponents, unitHasComponents, COMPONENT_MEANINGS,
   resolveMnemonic, hasOwnMnemonic,
 } = await import('../src/kanji-components.js');
+const {
+  componentDiff, comparisonSummary, similarityScore, rankSimilar,
+} = await import('../src/kanji-compare.js');
 const { mergeMnemonics } = await import('../src/merge.js');
 const srs = await import('../src/srs.js');
 const fsrs = await import('../src/fsrs.js');
@@ -1199,6 +1202,22 @@ check('the definition answer is English prose, not a reading',
   /[a-z]/i.test(defOne.answer), defOne.answer);
 check('definition options carry no radical-name text',
   defOne.options.every((o) => !/radical\s*\(no/i.test(o)));
+
+// Every option has to name the kanji it came from: that mapping is what the
+// quiz screen hangs the side-by-side comparison off (armChoiceComparison in
+// app.js), and losing it is exactly the state this feature was built to fix
+// — four English labels on screen and no way back to three of the
+// characters behind them.
+check('every definition option names the kanji it was taken from',
+  defOne.options.every((o) => typeof defOne.source.get(o) === 'string'),
+  defOne.options.filter((o) => !defOne.source.get(o)).join(' | '));
+check('the answer\u2019s own option maps back to the kanji being asked about',
+  defOne.source.get(defOne.answer) === '\u4e00', defOne.source.get(defOne.answer));
+check('each distractor maps to a DIFFERENT kanji, and to the one whose meaning it is',
+  defOne.options.filter((o) => o !== defOne.answer).every((o) => {
+    const from = defOne.source.get(o);
+    return from !== '\u4e00' && meaningLabel(kanjiInfo(grade1, from)) === o;
+  }));
 
 // The bug the tester actually hit: 内 ("inside, within") and 中 ("in,
 // inside") on the same question — different labels, sharing "inside", so
@@ -2551,6 +2570,85 @@ done('component breakdowns: arrangement, standardized meanings, hint coverage');
     mergeMnemonics(undefined, undefined) === undefined);
 }
 done('editable hints: resolution, reset tombstones and cross-device merge');
+
+// --- Two kanji side by side ----------------------------------------------
+//
+// Asked for by a learner in their own words: "let me click on wrong answers
+// to see that kanji [...] helps me look at kanji I tend to get mixed up."
+// The half worth pinning down here is the arithmetic and the wording — which
+// parts count as shared, what containment does to the sentence, and that a
+// pair with nothing in common is dropped rather than padded into a list.
+// Painting the sheet is DOM work and lives in test/wiring.js.
+
+{
+  const part = (c, meaning) => ({ c, meaning });
+  const 待 = [part('彳', 'step'), part('土', 'earth'), part('寸', 'measure')];
+  const 持 = [part('扌', 'hand'), part('土', 'earth'), part('寸', 'measure')];
+
+  const diff = componentDiff('待', 待, '持', 持);
+  check('shared parts are the ones both characters draw',
+    diff.shared.map((p) => p.c).join('') === '土寸', diff.shared.map((p) => p.c).join(''));
+  check('what is left over is what separates them',
+    diff.onlyA.map((p) => p.c).join('') === '彳' && diff.onlyB.map((p) => p.c).join('') === '扌');
+
+  const sentence = comparisonSummary('待', '持', diff);
+  check('the summary names the shared parts and both differences',
+    sentence.includes('土 (earth)') && sentence.includes('彳 (step)') && sentence.includes('扌 (hand)'),
+    sentence);
+
+  // A repeated part (林 is 木 twice) says nothing useful twice over.
+  const 林 = [part('木', 'tree'), part('木', 'tree')];
+  const dup = componentDiff('林', 林, '森', [part('木', 'tree'), part('木', 'tree'), part('木', 'tree')]);
+  check('a part drawn twice is listed once', dup.shared.length === 1 && dup.shared[0].c === '木');
+  check('identical part sets are described as an arrangement difference, not a part difference',
+    comparisonSummary('林', 林, dup).includes('how they sit'), comparisonSummary('林', 林, dup));
+
+  // Containment: 土 has no breakdown of its own, so a plain parts-vs-parts
+  // reading would call it unrelated to 持 — when it is sitting inside it.
+  const inside = componentDiff('土', [], '持', 持);
+  check('a character that IS one of the other\u2019s parts is recognised as such',
+    inside.aInB === true && inside.bInA === false);
+  check('containment is what the summary leads with, and names the right direction',
+    comparisonSummary('土', '持', inside).startsWith('土 is one of the parts 持'),
+    comparisonSummary('土', '持', inside));
+
+  check('two characters with no breakdown at all produce no sentence rather than a vacuous one',
+    comparisonSummary('人', '入', componentDiff('人', [], '入', [])) === '');
+  check('one-sided breakdowns still say the useful half',
+    comparisonSummary('待', '入', componentDiff('待', 待, '入', [])).includes('learned as one shape'),
+    comparisonSummary('待', '入', componentDiff('待', 待, '入', [])));
+
+  // Scoring: a shared LOOK has to outrank a shared meaning or reading, since
+  // that is the confusion this feature exists for.
+  const look = similarityScore('待', 待, null, '持', 持, null);
+  const meaning = similarityScore('待', [], { meanings: ['wait'], quizReadings: [] },
+    'x', [], { meanings: ['wait'], quizReadings: [] });
+  check('two shared parts outrank a shared meaning', look > meaning, `${look} vs ${meaning}`);
+  check('a shared reading counts for something', similarityScore(
+    'a', [], { meanings: [], quizReadings: ['こう'] },
+    'b', [], { meanings: [], quizReadings: ['こう'] },
+  ) > 0);
+  check('nothing in common scores zero — the caller drops those',
+    similarityScore('a', [], { meanings: ['x'], quizReadings: ['あ'] },
+      'b', [], { meanings: ['y'], quizReadings: ['い'] }) === 0);
+  check('a character is never similar to itself',
+    similarityScore('待', 待, null, '待', 待, null) === 0);
+
+  // Ranking over a candidate list, with the resolver injected the way app.js
+  // injects the real lazily-loaded lookup.
+  const parts = { 待: 待, 持: 持, 森: [part('木', 'tree'), part('木', 'tree'), part('木', 'tree')] };
+  const resolve = (c) => ({ parts: parts[c] || [], info: null });
+  const ranked = rankSimilar('待', ['森', '持', '待', '持'], resolve, 6);
+  check('ranking puts the genuine look-alike first', ranked[0] === '持', ranked.join(''));
+  check('ranking drops the character asked about and anything unrelated',
+    ranked.length === 1, ranked.join(''));
+  check('a duplicated candidate is only offered once',
+    rankSimilar('待', ['持', '持', '持'], resolve, 6).length === 1);
+  check('the limit is honoured',
+    rankSimilar('木', ['林', '森', '本', '休'],
+      (c) => ({ parts: [part('木', 'tree')], info: null }), 2).length === 2);
+}
+done('side-by-side comparison: shared parts, containment wording and ranking');
 
 // --- Result ---------------------------------------------------------------
 

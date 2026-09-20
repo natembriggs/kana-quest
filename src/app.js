@@ -50,6 +50,7 @@ import {
   ensureComponentUnitLoaded, kanjiComponents, renderComponentBreakdown,
   resolveMnemonic, hasOwnMnemonic, renderMnemonicEditor,
 } from './kanji-components.js';
+import { componentDiff, comparisonSummary, rankSimilar } from './kanji-compare.js';
 import {
   createWritingAttempt, createFreeAttempt, setupCanvas, clearCanvas, redrawInk, toModelSpace,
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
@@ -75,7 +76,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-18f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-20a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -4017,6 +4018,9 @@ function renderCharacterDetail() {
   // back on when there is something to show, exactly as detail-stroke-wrap
   // is switched by kind here.
   $('detail-components-wrap').hidden = true;
+  // Shown for every kanji (unlike the block above, which needs parts or a
+  // hint to be worth opening) and always collapsed — see paintDetailCompare.
+  paintDetailCompare(course);
 
   $('detail-stroke-wrap').hidden = course.kind === 'vocab';
   if (course.kind !== 'vocab') {
@@ -4335,6 +4339,386 @@ function paintDetailComponents(course, char) {
   // with nothing to say about it yet is the one most worth writing a hint
   // for. Kanji only: kana and vocab have no breakdown of any kind.
   if (course.kind === 'kanji') $('detail-components-wrap').hidden = false;
+}
+
+// --- Side by side: two kanji, and what actually separates them -----------
+//
+// A learner asked for this after a Definition question: the wrong answers
+// are English meanings belonging to characters they never get to see, "and
+// it helps me look at kanji I tend to get mixed up". Two entry points, both
+// leading here:
+//
+//   * a resolved Definition question — tap any answer that wasn't right
+//     (armChoiceComparison above), and its character comes up next to the
+//     one that was asked about;
+//   * a kanji's own detail screen — "Compare with a similar kanji" offers
+//     the characters this one is most likely to be confused with
+//     (paintDetailCompare below).
+//
+// The sheet is built row by row rather than written into index.html because
+// which rows exist depends on the pair: two characters with no breakdown on
+// record get no "Built from" band, and a pair with no hint written for
+// either gets no "Hint" band. Rows are laid out as a two-column grid with
+// full-width band headings between them, so the left and right halves of
+// each row line up — the entire point of showing them side by side is that
+// the eye can run straight across.
+
+/** Which screen the sheet was opened over, so "Full details" can leave in a
+ * direction that makes sense: back into the waiting question, or stacked on
+ * top of the detail screen underneath. */
+let compareFrom = 'quiz';
+
+/** A kanji's component parts, or [] — the lazily-loaded per-grade breakdown
+ * resolved through the character's own unit, the same two-step lookup
+ * componentChars() in kanji.js uses. [] both for a grade with no component
+ * data and for a character KanjiVG cannot break down; neither is an error,
+ * and comparisonSummary() says something sensible about both. */
+function partsOf(char) {
+  const unit = kanjiUnitFor(char);
+  const entry = unit ? kanjiComponents(unit, char) : null;
+  return (entry && entry.parts) ? entry.parts : [];
+}
+
+/** kanjiInfo for a character via its own grade, or null if that grade's data
+ * has not been loaded. Callers here always have it — both entry points
+ * reached the character through an index that only holds loaded grades — but
+ * a null keeps a half-loaded state from throwing over a comparison. */
+function infoOf(char) {
+  const course = kanjiCourseFor(char);
+  return course ? kanjiInfo(course, char) || null : null;
+}
+
+function compareCell() {
+  const cell = document.createElement('div');
+  cell.className = 'compare-cell';
+  return cell;
+}
+
+/** A full-width heading between two rows ("Meaning", "Built from"). */
+function compareBand(grid, text) {
+  const band = document.createElement('div');
+  band.className = 'compare-band';
+  band.textContent = text;
+  grid.appendChild(band);
+}
+
+/** One row: left cell then right cell. CSS Grid aligns their tops for free,
+ * which is what makes running the eye across the row work even when one side
+ * has three meanings and the other has one. */
+function compareRow(grid, left, right) {
+  grid.appendChild(left);
+  grid.appendChild(right);
+}
+
+function compareGlyphCell(char) {
+  const cell = compareCell();
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'compare-glyph';
+  button.lang = 'ja';
+  button.textContent = char;
+  button.setAttribute('aria-label', `Full details for ${char}`);
+  button.addEventListener('click', () => compareFullDetails(char));
+  cell.appendChild(button);
+  return cell;
+}
+
+function compareTextCell(text, className) {
+  const cell = compareCell();
+  const p = document.createElement('p');
+  p.className = className;
+  p.textContent = text;
+  cell.appendChild(p);
+  return cell;
+}
+
+/**
+ * One side's component tiles, with the parts this pair has IN COMMON marked.
+ * Marking the shared ones rather than the different ones is deliberate: the
+ * shared part is the thing that made these two look alike in the first
+ * place, and once it is ringed off on both sides what remains is, visibly,
+ * the difference. The sentence under the row says the same thing in words.
+ */
+function compareParts(parts, shared) {
+  const cell = compareCell();
+  const row = document.createElement('div');
+  row.className = 'component-row compare-part-row';
+  if (!parts.length) {
+    const none = document.createElement('p');
+    none.className = 'hint compare-quiet';
+    none.textContent = 'learned as one shape';
+    cell.appendChild(none);
+    return cell;
+  }
+  parts.forEach((part) => {
+    const tile = document.createElement('div');
+    tile.className = 'component-tile';
+    if (shared.has(part.c)) tile.classList.add('is-shared');
+    const glyph = document.createElement('span');
+    glyph.className = 'component-glyph';
+    glyph.lang = 'ja';
+    glyph.textContent = part.c;
+    const label = document.createElement('span');
+    label.className = 'component-meaning';
+    label.textContent = part.meaning;
+    tile.appendChild(glyph);
+    tile.appendChild(label);
+    // Announced once per tile rather than left to the ring, which a screen
+    // reader cannot see.
+    if (shared.has(part.c)) tile.setAttribute('aria-label', `${part.c}, ${part.meaning} — in both`);
+    row.appendChild(tile);
+  });
+  cell.appendChild(row);
+  return cell;
+}
+
+/** The summary sentence, spanning both columns because it is about the pair
+ * rather than either half. Hidden entirely when there is nothing true to
+ * say — see comparisonSummary(). */
+function compareSummaryLine(grid, text) {
+  if (!text) return;
+  const line = document.createElement('p');
+  line.className = 'hint compare-summary';
+  line.textContent = text;
+  grid.appendChild(line);
+}
+
+function compareDetailsCell(char) {
+  const cell = compareCell();
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'linkish compare-details';
+  button.textContent = `${char} in full →`;
+  button.addEventListener('click', () => compareFullDetails(char));
+  cell.appendChild(button);
+  return cell;
+}
+
+/**
+ * Paints the whole sheet for one pair. `a` is the character the learner
+ * started from (the question's own kanji, or the detail screen's), `b` the
+ * one being held up against it — order is kept throughout so the left column
+ * is always "the one I was looking at".
+ */
+function renderCompare(a, b) {
+  const grid = $('compare-grid');
+  grid.innerHTML = '';
+  const infoA = infoOf(a);
+  const infoB = infoOf(b);
+  const partsA = partsOf(a);
+  const partsB = partsOf(b);
+  const diff = componentDiff(a, partsA, b, partsB);
+  const shared = new Set(diff.shared.map((p) => p.c));
+
+  compareRow(grid, compareGlyphCell(a), compareGlyphCell(b));
+
+  compareBand(grid, 'Meaning');
+  compareRow(grid,
+    compareTextCell(infoA ? infoA.meanings.join(', ') : '', 'compare-meaning'),
+    compareTextCell(infoB ? infoB.meanings.join(', ') : '', 'compare-meaning'));
+
+  // Readings matter here beyond completeness: a pair that looks alike AND
+  // sounds alike is a different (worse) problem from one that only looks
+  // alike, and seeing both lists at once is the only way to tell which.
+  compareBand(grid, 'Readings');
+  compareRow(grid,
+    compareTextCell(compareReadingText(infoA), 'compare-readings'),
+    compareTextCell(compareReadingText(infoB), 'compare-readings'));
+
+  if (partsA.length || partsB.length) {
+    compareBand(grid, 'Built from');
+    compareRow(grid, compareParts(partsA, shared), compareParts(partsB, shared));
+  }
+  compareSummaryLine(grid, comparisonSummary(a, b, diff));
+
+  const hintA = resolveMnemonic(state.profile, kanjiUnitFor(a), a);
+  const hintB = resolveMnemonic(state.profile, kanjiUnitFor(b), b);
+  if (hintA || hintB) {
+    compareBand(grid, 'Hint');
+    compareRow(grid,
+      compareTextCell(hintA ? hintA.text : '', 'compare-hint'),
+      compareTextCell(hintB ? hintB.text : '', 'compare-hint'));
+  }
+
+  compareRow(grid, compareDetailsCell(a), compareDetailsCell(b));
+}
+
+function compareReadingText(info) {
+  if (!info) return '';
+  return info.quizReadings.map((r) => formatReading(info, r)).join(' · ');
+}
+
+/**
+ * Opens the sheet on `a` against `b`. `from` is the screen underneath —
+ * 'quiz' or 'detail' — and only affects where "in full" goes afterwards.
+ *
+ * Nothing underneath is re-rendered, so this is safe mid-question: the
+ * session, the answered buttons and the info panel are all still there when
+ * the sheet closes.
+ *
+ * The await is not usually an await at all — both entry points reached `b`
+ * through data already in memory, so every promise here is already resolved
+ * and the sheet goes up on the next microtask. It exists for the one path
+ * where that isn't true: a kanji search loads every grade's ENTRIES without
+ * their component breakdowns (renderKanjiSearchResults), so a Definition
+ * question drawn from the cross-grade study pool can afterwards offer a
+ * distractor whose parts aren't loaded. Rendering that pair regardless would
+ * have the sheet state, in writing, that a character isn't broken into parts
+ * when it is.
+ */
+async function openCompare(a, b, from = 'quiz') {
+  if (!a || !b || a === b) return;
+  const requestNav = navSeq;
+  await withLoading(ensureCompareData([a, b]));
+  // Left the screen while that was loading — on the rare path where it
+  // really did load something.
+  if (navSeq !== requestNav) return;
+  compareFrom = from;
+  state.compareA = a;
+  state.compareB = b;
+  renderCompare(a, b);
+  $('compare-heading').textContent = `${a} and ${b}`;
+  $('compare-sheet').hidden = false;
+  openDialog($('compare-sheet'));
+}
+
+function closeCompare() {
+  $('compare-sheet').hidden = true;
+  closeDialog($('compare-sheet'));
+  state.compareA = null;
+  state.compareB = null;
+}
+
+/** "in full →", and the glyphs themselves: the whole detail screen for one
+ * of the two. From a question that leaves the session exactly as it is and
+ * comes back to it ('quiz' returnTo, the same trick showKanjiInfo's own
+ * "Full details" uses); from a detail screen it stacks, so Back returns to
+ * the character the comparison started from rather than skipping past it. */
+function compareFullDetails(char) {
+  const course = kanjiCourseFor(char);
+  if (!course) return;
+  closeCompare();
+  // Already showing: the sheet closing IS the whole action, and stacking a
+  // second identical frame would make Back a no-op the first time.
+  if (compareFrom === 'detail' && char === state.detailChar) return;
+  if (compareFrom === 'detail') drillIntoDetail(course, char);
+  else openCharacterDetail(course, char, 'quiz');
+}
+
+// --- Finding something worth comparing against ---------------------------
+
+/** How many look-alikes the detail screen offers. Enough to contain the one
+ * the learner had in mind, small enough to stay a row of tiles rather than a
+ * second screen to read. */
+const COMPARE_CANDIDATE_LIMIT = 6;
+
+/**
+ * The pool rankSimilar() picks from, in tie-break order: everything this
+ * learner is studying first, then the character's own grade.
+ *
+ * Restricting it to those two is the point, not a shortcut. A kanji cannot
+ * be one you "tend to get mixed up" with if you have never met it, so
+ * ranking over all 3,000-odd jōyō characters would bury the two that
+ * actually trip this learner up under look-alikes from grades they have
+ * never opened — while loading every grade's component data to do it.
+ */
+function compareCandidatePool(char) {
+  const pool = [];
+  KANJI_STUDY_MODES.forEach((mode) => {
+    studiedKanji(state.profile.study, mode).forEach((c) => pool.push(c));
+  });
+  const course = kanjiCourseFor(char);
+  if (course) course.chunks.forEach((chunk) => chunk.items.forEach((c) => pool.push(c)));
+  return pool;
+}
+
+/**
+ * Loads just enough of each candidate's grade to score it: the kanji entries
+ * (meanings and readings) and the component breakdowns, but deliberately NOT
+ * the stroke data ensureUnitReady() would also pull — an order of magnitude
+ * more bytes per grade, for a list of tiles that shows neither strokes nor
+ * anything derived from them.
+ */
+async function ensureCompareData(chars) {
+  const units = new Set();
+  chars.forEach((c) => {
+    const unit = kanjiUnitFor(c);
+    if (unit) units.add(unit);
+  });
+  await Promise.all([...units].flatMap((unit) => [
+    ensureKanjiUnitLoaded(unit), ensureComponentUnitLoaded(unit),
+  ]));
+}
+
+/** Resets the detail screen's compare block to its collapsed state. Called
+ * on every render, so paging from one character to the next never leaves the
+ * previous character's candidates on screen. */
+function paintDetailCompare(course) {
+  const wrap = $('detail-compare-wrap');
+  const list = $('detail-compare-list');
+  list.hidden = true;
+  list.innerHTML = '';
+  $('detail-compare-toggle').setAttribute('aria-expanded', 'false');
+  wrap.hidden = course.kind !== 'kanji';
+}
+
+/**
+ * "Compare with a similar kanji": works the candidate list out on first
+ * press rather than at render time, because working it out means loading the
+ * component data for every grade the learner is studying in — real bytes, to
+ * answer a question most visits to this screen never ask.
+ */
+async function toggleDetailCompare() {
+  const list = $('detail-compare-list');
+  const toggle = $('detail-compare-toggle');
+  if (!list.hidden) {
+    list.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    return;
+  }
+  const char = state.detailChar;
+  const pool = compareCandidatePool(char);
+  const requestNav = navSeq;
+  await withLoading(ensureCompareData([char, ...pool]));
+  // Navigated away, or paged to another character, while that was loading.
+  if (navSeq !== requestNav || state.detailChar !== char) return;
+
+  const similar = rankSimilar(char, pool,
+    (c) => ({ parts: partsOf(c), info: infoOf(c) }), COMPARE_CANDIDATE_LIMIT);
+
+  list.innerHTML = '';
+  list.hidden = false;
+  toggle.setAttribute('aria-expanded', 'true');
+  if (!similar.length) {
+    const empty = document.createElement('p');
+    empty.className = 'hint';
+    empty.textContent = 'Nothing close enough yet among the kanji you are studying. '
+      + 'Come back once you have learned a few more.';
+    list.appendChild(empty);
+    return;
+  }
+  similar.forEach((c) => list.appendChild(buildCompareCandidate(char, c)));
+}
+
+/** One candidate tile: the character, what it means, and a tap that opens it
+ * beside the one on screen. */
+function buildCompareCandidate(char, candidate) {
+  const info = infoOf(candidate);
+  const tile = document.createElement('button');
+  tile.type = 'button';
+  tile.className = 'compare-candidate';
+  const glyph = document.createElement('span');
+  glyph.className = 'compare-candidate-glyph';
+  glyph.lang = 'ja';
+  glyph.textContent = candidate;
+  const label = document.createElement('span');
+  label.className = 'compare-candidate-meaning';
+  label.textContent = info ? meaningLabel(info) : '';
+  tile.appendChild(glyph);
+  tile.appendChild(label);
+  tile.setAttribute('aria-label', `Compare ${candidate} with ${char}`);
+  tile.addEventListener('click', () => openCompare(char, candidate, 'detail'));
+  return tile;
 }
 
 /** Writes one hint to the profile and saves. An empty `text` is kept as a
@@ -5267,9 +5651,9 @@ function renderSingleChoice(course, item) {
   }
 
   const isDefinition = state.mode === 'definition';
-  const { options, answer } = isDefinition
+  const { options, answer, source } = isDefinition
     ? buildDefinitionChoices(course, item)
-    : { options: buildChoices(course, item), answer: romajiFor(item) };
+    : { options: buildChoices(course, item), answer: romajiFor(item), source: null };
   session.singleAnswer = answer;
 
   const choices = $('quiz-choices');
@@ -5277,10 +5661,35 @@ function renderSingleChoice(course, item) {
   // two-column layout instead of the five-across kana grid.
   choices.className = isDefinition ? 'choice-grid choice-grid-text' : 'choice-grid';
   options.forEach((value) => {
-    addChoiceButton(choices, value, {
-      datasetKey: 'value', datasetValue: value, onClick: (button) => chooseAnswer(value, button),
+    const button = addChoiceButton(choices, value, {
+      datasetKey: 'value', datasetValue: value, onClick: (el) => tapSingleChoice(value, el),
     });
+    // The character this meaning actually belongs to, parked on the button
+    // so the resolved question can offer it for comparison (see
+    // armChoiceComparison). Deliberately NOT set on the correct answer's
+    // own button: that one's kanji is the character already filling the top
+    // of the screen, and "compare 待 with 待" is not a thing to offer.
+    const from = source && source.get(value);
+    if (from && from !== item) button.dataset.kanji = from;
   });
+}
+
+/**
+ * Every tap on a single-answer button, before and after the question
+ * resolves. One handler rather than two, because the button is the same
+ * button throughout — what changes is what a tap on it means. While the
+ * question is live it answers; once it has resolved (session.locked) a
+ * button carrying someone else's kanji opens the side-by-side comparison
+ * instead. chooseAnswer() would bail on a locked session anyway, so the
+ * order here is belt-and-braces, not load-bearing.
+ */
+function tapSingleChoice(value, button) {
+  const session = state.session;
+  if (session && session.locked && button.dataset.kanji) {
+    openCompare(session.queue[session.position], button.dataset.kanji, 'quiz');
+    return;
+  }
+  chooseAnswer(value, button);
 }
 
 /**
@@ -5336,7 +5745,12 @@ function chooseAnswer(value, button) {
     $('quiz-feedback').textContent = '';
     session.locked = true;
     disableRemainingChoices();
-    if (state.mode === 'definition') showKanjiInfo(getAnyCourse(state.courseId), item);
+    if (state.mode === 'definition') {
+      showKanjiInfo(getAnyCourse(state.courseId), item);
+      // After showKanjiInfo, not before: that function clears
+      // #quiz-word-hint, which this one writes into.
+      armChoiceComparison(item);
+    }
     $('quiz-kana').classList.add('quiz-glyph-tap');
     if (isRatableCorrectAnswer(session)) {
       showRatingBar('quiz-ok', 'quiz-rate');
@@ -5389,6 +5803,46 @@ function chooseAnswer(value, button) {
  * tapped) for however long the learner takes to hit Next. */
 function disableRemainingChoices() {
   $('quiz-choices').querySelectorAll('.choice').forEach((el) => { el.disabled = true; });
+}
+
+/**
+ * Definition mode, once the question is over: the wrong answers become
+ * tappable again, and a tap now opens the side-by-side comparison between
+ * the character that was asked about and the character whose meaning that
+ * button was showing.
+ *
+ * This is the reported gap, in the reporter's own words — "let me click on
+ * wrong answers to see that kanji [...] helps me look at kanji I tend to get
+ * mixed up". A meaning-labelled distractor is the one thing on this screen
+ * that names a character without showing it, and the moment a learner has
+ * just been fooled by one is exactly when they want to see it.
+ *
+ * Runs immediately after disableRemainingChoices() deliberately undoes part
+ * of that function's work rather than complicating it: everything is inert
+ * the instant a question resolves, and only then does a second, narrower
+ * pass hand back the subset that now has something new to do. Only buttons
+ * carrying a dataset.kanji come back (renderSingleChoice sets it on the
+ * distractors and nothing else), so the correct answer stays green and inert
+ * and a kana reading question is untouched.
+ */
+function armChoiceComparison(item) {
+  let armed = 0;
+  $('quiz-choices').querySelectorAll('.choice').forEach((el) => {
+    if (!el.dataset.kanji) return;
+    el.disabled = false;
+    el.classList.add('choice-compare');
+    // The visible text is an English meaning; without this a screen reader
+    // would announce it and give no hint that the button now does something
+    // completely different from what it did ten seconds ago.
+    el.setAttribute('aria-label', `${el.dataset.value} — compare ${el.dataset.kanji} with ${item}`);
+    armed += 1;
+  });
+  // Shares the info panel's one hint line with Yomi mode's "tap a green
+  // reading" (showKanjiInfo) — the two modes never run at once, and one line
+  // is all the room there is on a short phone between the character, the
+  // panel and the Next bar.
+  if (armed) $('quiz-word-hint').textContent = 'Tap a wrong answer to see its kanji beside this one.';
+  return armed;
 }
 
 function revealSingleAnswer(answer) {
@@ -11168,6 +11622,10 @@ function wire() {
   // running through several questions at once.
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
+    // Topmost first: the comparison sheet is the only one of these that can
+    // be opened on top of another screen's own dialog-free content AND over
+    // a live question, so it must be the first thing Escape takes back.
+    if (!$('compare-sheet').hidden) { closeCompare(); return; }
     if (!$('contributions-list-sheet').hidden) { closeContributionsList(); return; }
     if (!$('celebration').hidden) { dismissCelebration(); return; }
     if (!$('font-size-sheet').hidden) { closeFontSizePanel(); return; }
@@ -11233,6 +11691,7 @@ function wire() {
       // re-renders nothing, so the session underneath is untouched.
       case 'open-feedback': openFeedback(); break;
       case 'feedback-close': closeFeedback(); break;
+      case 'compare-close': closeCompare(); break;
       case 'font-size-close': closeFontSizePanel(); break;
       case 'feedback-diag-toggle': {
         const list = $('feedback-diag-list');
@@ -11337,6 +11796,7 @@ function wire() {
       // untouched underneath — no need to re-render it, just show it again.
       case 'open-study-history': openStudyHistory(); break;
       case 'detail-secondary-toggle': toggleDetailSecondary(); break;
+      case 'detail-compare-toggle': await toggleDetailCompare(); break;
       // stories-plan.md §8 — the Stories card, the library, and the reader's
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;

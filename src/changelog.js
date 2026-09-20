@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-20',
+    changes: [
+      'New: you can now put two kanji side by side. Get a kanji’s meaning question right and the other three answers stay tappable — tap one and the kanji behind that meaning comes up next to the one you were just asked about, with both meanings, both readings, what each is built from and both hints. The parts they have in common are ringed on both sides, and a line underneath says what the difference actually is (“Both are built from 田 (rice field). The difference: 町 has 丁 (nail), while 男 has 力 (strength).”). Asked for by a learner who wanted to see the kanji behind a wrong answer.',
+      'New: any kanji’s own page now has a “⇄ Compare with a similar kanji” button, which offers the kanji you are most likely to mix that one up with — ones sharing a part, ones that sit inside it, ones meaning or sounding much the same — picked from what you are actually studying plus the rest of its grade. Tap one for the same side-by-side view.',
+    ],
+  },
+  {
     date: '2026-09-18',
     changes: [
       'Painted covers for all six newest stories: The Wind and the Hat, The Egg Errand, The Clock That Was Five Minutes Fast, Waiting for the Morning Glories, Bread at Half Past Four, and The Tide Road. All 48 stories now have cover art.',

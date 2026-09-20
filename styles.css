@@ -2853,3 +2853,132 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
   line-height: 1.5;
 }
 .celebration-list b { display: block; }
+
+/* --- Side by side: two kanji compared (kanji-compare.js, renderCompare in
+   app.js) -----------------------------------------------------------------
+
+   A two-column grid with full-width band headings between the rows, rather
+   than two independent columns: the whole reason for showing a pair side by
+   side is that the eye can run straight across from one meaning to the
+   other, which only works if the rows line up. CSS Grid aligns them for
+   free, even when one character has three meanings and the other has one. */
+.compare-body { max-width: 540px; }
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  align-items: start;
+}
+.compare-band {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+/* Rules either side of the label, so a band reads as a divider between two
+   rows rather than as a heading belonging to the row above it. */
+.compare-band::before,
+.compare-band::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+/* min-width: 0 or a long unbroken meaning would push its column past its
+   share of the grid instead of wrapping inside it. */
+.compare-cell { min-width: 0; text-align: center; }
+.compare-cell p { margin: 0; }
+.compare-glyph {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1.1;
+  font-size: calc(clamp(52px, 16vw, 76px) * var(--app-font-scale, 1));
+}
+.compare-glyph:active { transform: scale(0.96); }
+.compare-glyph:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 12px; }
+.compare-meaning { font-weight: 700; font-size: calc(16px * var(--app-font-scale, 1)); line-height: 1.3; }
+.compare-readings { color: var(--ink-soft); font-size: calc(15px * var(--app-font-scale, 1)); line-height: 1.4; }
+.compare-hint { font-size: calc(14px * var(--app-font-scale, 1)); line-height: 1.4; color: var(--ink-soft); text-align: left; }
+.compare-quiet { margin: 0; font-style: italic; }
+/* Tighter than the detail screen's own component row: two of these have to
+   sit next to each other in a phone's width. */
+.compare-part-row { gap: 6px; }
+.compare-part-row .component-tile { padding: 4px 6px; min-width: 0; }
+.compare-part-row .component-glyph { font-size: calc(22px * var(--app-font-scale, 1)); }
+/* The part BOTH characters are built from — ringed on both sides at once,
+   so what is left over reads as the difference without having to be marked
+   itself. Marking the shared part rather than the different ones is the
+   whole trick: it is the shared part that made them look alike. */
+.compare-part-row .component-tile.is-shared {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.compare-summary {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  text-align: left;
+  line-height: 1.45;
+}
+.compare-details { font-size: calc(15px * var(--app-font-scale, 1)); }
+
+/* The detail screen's way in — a collapsed row of look-alikes under the
+   component breakdown. */
+.compare-entry { margin-top: 10px; }
+.compare-candidates { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+.compare-candidate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 72px;
+  max-width: 120px;
+  padding: 8px 10px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+}
+.compare-candidate:active { transform: scale(0.96); }
+.compare-candidate-glyph { font-size: calc(30px * var(--app-font-scale, 1)); line-height: 1.1; color: var(--accent); }
+.compare-candidate-meaning {
+  font-size: calc(12px * var(--app-font-scale, 1));
+  line-height: 1.25;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* A Definition question's wrong answers, once it has resolved: still
+   tappable, but now they open the comparison rather than answering
+   anything (armChoiceComparison in app.js). Quieter than a live button and
+   louder than the 0.35 a plain disabled distractor gets — they are no
+   longer the question, but they are no longer inert either. The arrow is
+   the only affordance there is room for on a button whose text is already
+   a full English meaning. */
+.choice.choice-compare { opacity: 0.72; }
+.choice.choice-compare::after {
+  content: ' \21c4';
+  margin-left: 5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.choice.choice-compare.is-wrong::after { color: var(--bad); }
+
+@media (max-width: 360px) {
+  /* Two component tiles per side stop fitting much below this; the meanings
+     under them are what goes first. */
+  .compare-part-row .component-meaning { font-size: calc(10px * var(--app-font-scale, 1)); }
+  .compare-grid { gap: 6px 8px; }
+}

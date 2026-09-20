@@ -401,7 +401,9 @@ export function buildKanjiOptions(course, kanji, mode, progress, { advanced = fa
  * spare `count` safe distractors returns fewer options rather than relaxing
  * the rule; a three-way question is still a question.
  *
- * Returns { options, answer }.
+ * Returns { options, answer, source }, where `source` maps each option's
+ * label back to the kanji it was taken from — the answer's own label
+ * included.
  */
 
 /** The component characters (e.g. 氵) drawn in `char`, or an empty set for a
@@ -418,6 +420,14 @@ export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS
   const banned = meaningKeys(info);
   const used = new Set([answer]);
   const options = [answer];
+  // Which kanji each option's meaning actually belongs to. The mapping has
+  // always existed here — every distractor is lifted off a real entry a
+  // couple of lines below — it just used to be thrown away at the return,
+  // leaving the quiz screen holding four English labels and no way back to
+  // the characters behind three of them. Carrying it out is what lets a
+  // resolved question offer the side-by-side comparison (see
+  // armChoiceComparison in app.js).
+  const source = new Map([[answer, kanji]]);
 
   // A learner can often guess the general theme of a meaning from a common
   // component alone — a water radical (氵) means "something wet" whether or
@@ -446,9 +456,10 @@ export function buildDefinitionChoices(course, kanji, count = DEFINITION_OPTIONS
     if (!label || used.has(label)) continue;
     used.add(label);
     options.push(label);
+    source.set(label, entry.kanji);
   }
 
-  return { options: options.sort((a, b) => a.localeCompare(b)), answer };
+  return { options: options.sort((a, b) => a.localeCompare(b)), answer, source };
 }
 
 /**

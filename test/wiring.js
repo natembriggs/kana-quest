@@ -1730,6 +1730,7 @@ check('definition options use the roomier text grid, not the 5-across kana grid'
 const kanjiGrade1 = KANJI_COURSES.find((c) => c.id === 'kanji-grade-1');
 let defAnswered = 0;
 let defMissDone = false;
+let defCompareDone = false;
 let defMissKanji = null;
 for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
   const kanji = el('quiz-kana').textContent;
@@ -1764,6 +1765,59 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
     check('a correct definition leaves the feedback line empty — the green card says it',
       el('quiz-feedback').textContent === '' && el('quiz-card').className.includes('is-correct'),
       `"${el('quiz-feedback').textContent}"`);
+
+    // A resolved Definition question hands its wrong answers back as a way
+    // into the side-by-side comparison (armChoiceComparison in app.js) — the
+    // reported gap being that a meaning-labelled distractor names a
+    // character the learner never gets to see. Checked once, on the first
+    // clean answer, rather than on every question in the loop.
+    if (!defCompareDone) {
+      defCompareDone = true;
+      const armed = choices.filter((c) => c.dataset.kanji);
+      check('a resolved definition question arms its wrong answers for comparison',
+        armed.length === choices.length - 1, `${armed.length} of ${choices.length}`);
+      check('the correct answer is NOT armed — comparing a kanji with itself is not a thing',
+        !right.dataset.kanji && right.disabled === true);
+      check('armed wrong answers are tappable again, and marked as such',
+        // classList, not className: the stub keeps the two apart (see
+        // makeElement above), and app.js adds this one through classList.
+        armed.every((c) => c.disabled === false && c.classList.contains('choice-compare')),
+        armed.map((c) => `${c.disabled}/${c.classList.contains('choice-compare')}`).join(' | '));
+      check('every armed answer names a kanji other than the one asked about',
+        armed.every((c) => c.dataset.kanji && c.dataset.kanji !== kanji),
+        armed.map((c) => c.dataset.kanji).join(''));
+      check('the info panel says the wrong answers can now be tapped',
+        el('quiz-word-hint').textContent.includes('wrong answer'),
+        `"${el('quiz-word-hint').textContent}"`);
+
+      const other = armed[0].dataset.kanji;
+      fire(armed[0], 'click');
+      // openCompare() makes sure both characters' component data is loaded
+      // before it paints anything (a kanji search can leave a grade's
+      // entries loaded but its breakdowns not), so this needs the same
+      // settle loop every other lazy-loading step in this file uses.
+      for (let i = 0; i < 10; i += 1) await settle();
+      check('tapping a wrong answer opens the side-by-side sheet',
+        el('compare-sheet').hidden === false);
+      check('the sheet names both characters', el('compare-heading').textContent === `${kanji} and ${other}`,
+        el('compare-heading').textContent);
+      const bands = el('compare-grid')._children.filter((c) => c.className.includes('compare-band'));
+      check('the sheet is built as aligned rows under band headings',
+        bands.some((b) => b.textContent === 'Meaning') && bands.some((b) => b.textContent === 'Readings'),
+        bands.map((b) => b.textContent).join(' | '));
+      const glyphs = el('compare-grid')._children.filter((c) => c.className === 'compare-cell');
+      check('both characters are actually painted into the sheet',
+        glyphs.length >= 2 && el('compare-grid')._children.length > 4,
+        `${el('compare-grid')._children.length} cells`);
+      fireAction('compare-close');
+      for (let i = 0; i < 10; i += 1) await settle();
+      check('closing the sheet leaves the question exactly where it was',
+        el('compare-sheet').hidden === true
+        && visible() === 'screen-quiz'
+        && el('quiz-kana').textContent === kanji
+        && right.classList.contains('is-right'),
+        `showing ${visible()} / ${el('quiz-kana').textContent}`);
+    }
   }
   check('a resolved definition question waits for Next instead of auto-advancing',
     quizContinueVisible() && timers.size === 0);
@@ -1772,6 +1826,7 @@ for (let i = 0; i < 30 && visible() === 'screen-quiz'; i += 1) {
   defAnswered += 1;
 }
 check('the definition miss-then-recover path was exercised', defMissDone);
+check('the tap-a-wrong-answer-to-compare path was exercised', defCompareDone);
 check('the definition quiz ends at the summary', visible() === 'screen-summary', `showing ${visible()}`);
 
 const afterDefinition = [...rows.values()][0];
