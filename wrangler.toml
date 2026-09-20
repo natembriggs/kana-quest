@@ -1,0 +1,34 @@
+# Serves the app itself as static assets from Cloudflare.
+#
+# `name` is a deliberate placeholder. It becomes the workers.dev hostname
+# used for verification, and is renamed at cutover once the app's new name
+# is settled — which costs nothing, because a static-asset Worker holds no
+# state of its own. The two Workers that DO hold state (kana-quest-sync,
+# kana-quest-feedback) are never renamed: see rename-and-hosting-plan.md §5.
+name = "kq-site"
+compatibility_date = "2026-09-20"
+
+[assets]
+# No `directory` on purpose. The set of files that may be served is an
+# allowlist held in tools/deploy-site.sh, which stages them and passes
+# --assets. Pointing this at the repo root would serve every design
+# document and the whole tools/ pipeline, and the .assetsignore blacklist
+# that was supposed to prevent that was silently ignored by wrangler — see
+# the header of tools/deploy-site.sh. Deploy with:
+#
+#   tools/deploy-site.sh
+#
+# The app is a single page: screens are switched by show() in app.js, and
+# there is no path-based routing anywhere in src/ (no pushState, no
+# popstate, no pathname routing). So an unknown path is a genuine mistake
+# and must answer 404, NOT index.html.
+#
+# This is the same reasoning sw.js applies to its own offline fallback:
+# handing back HTML for a missing script or data chunk hides the real
+# failure and surfaces later as a confusing parse or decode error. A
+# single-page-application setting here would reintroduce exactly that, for
+# every lazily-fetched kanji grade and story file.
+not_found_handling = "none"
+
+# "/index.html" redirects to "/", keeping one canonical URL for the shell.
+html_handling = "auto-trailing-slash"

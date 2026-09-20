@@ -6,6 +6,15 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8744"],
       "port": 8744
+    },
+    {
+      "name": "staged-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m", "http.server", "8751",
+        "--directory", "/private/tmp/kq-site-dist"
+      ],
+      "port": 8751
     }
   ]
 }
