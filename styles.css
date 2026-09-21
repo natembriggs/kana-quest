@@ -242,7 +242,26 @@ body {
   gap: 18px;
   background: var(--bg);
 }
-.splash-mark { width: 72px; height: 72px; border-radius: 20px; font-size: 28px; }  /* fixed-size logo badge, not reading text */
+.brand-mark.splash-mark { width: 72px; height: 72px; border-radius: 20px; font-size: 28px; }  /* fixed-size logo badge, not reading text */
+
+/* The app icon standing in for the old 字 glyph badge. .brand-mark still
+   supplies the size and the corner radius — the PNG is a full square with
+   opaque corners (checked, not assumed), so nothing rounds it but this —
+   while the accent background and grid centring it used to need are both
+   wrong for an image that carries its own artwork edge to edge. The 🎉 in
+   the contribution celebration still uses the plain badge, which is why
+   this is a modifier rather than a change to .brand-mark itself.
+
+   Qualified as .brand-mark.brand-logo, like .splash-mark above it and
+   for the same reason: .brand-mark is declared ~290 lines further down,
+   so a bare single-class modifier up here loses the cascade to it. That
+   is why the splash badge had been drawing at 52px rather than the 72px
+   .splash-mark asks for. */
+.brand-mark.brand-logo {
+  background: none;
+  display: block;
+  object-fit: cover;
+}
 .splash-spinner {
   width: 28px; height: 28px;
   border-radius: 50%;

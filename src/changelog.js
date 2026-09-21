@@ -19,7 +19,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
-      'New: Kanji Trail has a new app icon — an open book with ひ, カ and 字 beside a winding trail. It represents hiragana, katakana and kanji together. An existing home-screen icon may keep its old picture; the app and your progress still work as before.',
+      'New: Kanji Trail has a new app icon — an open book with ひ, カ and 字 beside a winding trail. It represents hiragana, katakana and kanji together. The same picture now appears inside the app as well, on the opening screens, in place of the plain 字 badge that stood in for it. An existing home-screen icon may keep its old picture; the app and your progress still work as before.',
     ],
   },
   {
