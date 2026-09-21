@@ -75,6 +75,13 @@ check('a manifest entry with no paragraph count yields null rather than NaN',
 check('a position past the end clamps to 1 rather than overflowing the bar',
   storyProgress('alone', { read: { alone: { done: null } }, pos: { alone: { p: 99 } } }, MANIFEST.alone) === 1);
 
+// A bookmark with no saved position (the same state that makes storyReadState
+// call it "reading") must not throw — it should fall back to the bookmark's
+// own paragraph instead of assuming `pos` exists.
+check('a bookmark with no saved position still reports progress instead of throwing',
+  storyProgress('alone', { read: {}, pos: {}, mark: { alone: { p: 3, s: 1 } } }, MANIFEST.alone) === 0.3,
+  String(storyProgress('alone', { read: {}, pos: {}, mark: { alone: { p: 3, s: 1 } } }, MANIFEST.alone)));
+
 // --- groupStoriesForLevel --------------------------------------------------
 
 const l2 = groupStoriesForLevel(MANIFEST, 'L2');

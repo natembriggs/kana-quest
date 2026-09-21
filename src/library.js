@@ -43,9 +43,13 @@ export function storyReadState(id, stories) {
  */
 export function storyProgress(id, stories, entry) {
   if (storyReadState(id, stories) !== 'reading') return null;
-  const pos = stories.pos[id];
   if (!entry?.paras) return null;
-  return Math.min(1, Math.max(0, (pos.p || 0) / entry.paras));
+  const pos = stories.pos[id];
+  // A bookmark alone is enough for storyReadState to call this "reading"
+  // (§7.6), so `pos` is not guaranteed here — fall back to the bookmark's
+  // own paragraph, the very thing that made it "reading" in the first place.
+  const p = pos ? pos.p : stories.mark[id].p;
+  return Math.min(1, Math.max(0, (p || 0) / entry.paras));
 }
 
 /**

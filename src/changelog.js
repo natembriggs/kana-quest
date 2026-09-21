@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
+      'Fixed: the Stories shelf could go completely blank instead of showing your stories. This happened only for a story you had bookmarked but never actually opened a reading session on since — a rare, specific combination — and it blanked the whole shelf, not just that one story’s tile. The shelf now always shows, with that story’s progress bar reflecting your bookmark.',
+    ],
+  },
+  {
+    date: '2026-09-21',
+    changes: [
       'New: painted covers for The Lanterns of the Hidden Valley and Three Bells — a lantern-lit path into the mountains and a sand road to an island bell tower. Each cover stays with its story across all five chapters.',
     ],
   },
