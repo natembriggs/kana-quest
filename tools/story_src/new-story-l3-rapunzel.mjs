@@ -13,7 +13,7 @@ const theStory = expandStory({
     by: 'Claude Opus 5',
     credit: 'Retold by',
     notes: 'An original graded retelling of the Grimm tale, keeping its full arc through to the blinded prince and the tears that heal him; no wording is copied from a published translation.',
-    licence: 'Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain source tale. This Japanese retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['ラプンツェル', '魔女', '塔', 'いばら', '荒れ野'],
   lexicon: lexicon({

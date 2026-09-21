@@ -40,11 +40,11 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
   series: { id: 'kakure-tani-no-akari', part: index + 1, of: 5, name: '隠れ谷の灯り — The Lanterns of the Hidden Valley' },
   source: {
     kind: 'original',
-    text: 'An original five-chapter adventure written for Kana Quest',
+    text: 'An original five-chapter adventure written for Kanji Trail',
     by: 'GPT-6',
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations for level 5. Set in a fictional mountain village in Nagano during Obon. Obon, bon odori, washi craft and lantern-floating provide the cultural setting; the village, song, characters and supernatural customs are invented, not a description of a traditional religious rite. Practices vary by region. Background: Japan National Tourism Organization, “Japan in August”, “Summer traditions in Japan” and “Kiso Valley”. No published story was adapted.',
-    licence: 'Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.',
+    licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
   },
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(

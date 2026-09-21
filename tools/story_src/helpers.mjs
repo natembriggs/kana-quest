@@ -1,4 +1,4 @@
-// Compact authoring helpers for Kana Quest stories.
+// Compact authoring helpers for Kanji Trail stories.
 //
 // Story source stays readable as Japanese with explicit word boundaries:
 //

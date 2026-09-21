@@ -13,7 +13,7 @@ const theStory = expandStory({
     by: 'Claude Opus 5',
     credit: 'Retold by',
     notes: 'An original graded retelling of the familiar tale. The gruesome episode in which Kasim’s body is dismembered and stitched back together is left out entirely; the story keeps Morgiana as the one who saves the household and ends, as the tale does, with her freedom. No wording is copied from a published translation.',
-    licence: 'Public domain source tale. This Japanese retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain source tale. This Japanese retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['アリババ', 'カシム', 'モルジアナ', '盗賊', '洞窟', '金貨'],
   lexicon: lexicon({

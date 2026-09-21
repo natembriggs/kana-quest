@@ -2,7 +2,7 @@ import { expandStory, lexicon, line } from './helpers.mjs';
 
 const SOURCE = (text, notes) => ({
   kind: 'adapted', text, by: 'Sol 5.6', credit: 'Retold by', notes,
-  licence: 'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.',
+  licence: 'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.',
 });
 
 const aroundTheWorld = expandStory({

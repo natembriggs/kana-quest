@@ -11,7 +11,7 @@ const theStory = expandStory({
   source: SOL_SOURCE(
     'The Strange Case of Dr Jekyll and Mr Hyde by Robert Louis Stevenson (1886)',
     'An original chapter-length retelling of the novel’s complete plot, including its final-confession reveal; no wording is copied from a published translation.',
-    'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.',
+    'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['弁護士', '遺言書', '実験室', '自白', '殺人者'],
   lexicon: lexicon({

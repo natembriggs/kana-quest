@@ -19,7 +19,7 @@ const giantTurnip = expandStory({
   source: SOL_SOURCE(
     'Traditional cumulative tale (The Giant Turnip)',
     'An original beginner-level retelling, not a transcription or translation of a published edition.',
-    'Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['かぶ', '植える', '抜ける', '引く'],
   lexicon: lexicon({
@@ -82,7 +82,7 @@ const northWindAndSun = expandStory({
   source: SOL_SOURCE(
     'Traditional fable (The North Wind and the Sun)',
     'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
-    'Public domain (traditional fable). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['北風', '太陽', '上着', '吹く'],
   lexicon: lexicon({

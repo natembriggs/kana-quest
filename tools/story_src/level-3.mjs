@@ -14,7 +14,7 @@ const threeLittlePigs = expandStory({
   source: SOL_SOURCE(
     'Traditional European tale (The Three Little Pigs)',
     'An original graded retelling, using a non-violent version of the ending and no wording from a published edition.',
-    'Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['子ぶた', 'オオカミ', 'レンガ', '煙突', '頑丈'],
   lexicon: lexicon({
@@ -153,7 +153,7 @@ const cinderella = expandStory({
   source: SOL_SOURCE(
     'Traditional European fairy tale (Cinderella)',
     'An original graded retelling based on familiar public-domain motifs rather than a particular literary edition.',
-    'Public domain (traditional fairy tale). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['シンデレラ', '魔法', 'ドレス', 'ガラス', 'パーティー'],
   lexicon: lexicon({

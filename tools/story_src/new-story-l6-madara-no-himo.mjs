@@ -13,7 +13,7 @@ const theStory = expandStory({
     by: 'Claude Opus 5',
     credit: 'Retold by',
     notes: 'An original chapter-length retelling of the complete case, narrated by Watson as the original is. Doyle’s subplot about the travelling people camped on the grounds — a red herring resting on a slur — is left out; nothing else of the plot is changed, and no wording is copied from a published translation.',
-    licence: 'Public domain source story. This Japanese retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain source story. This Japanese retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['ホームズ', 'ワトソン', 'ロイロット', '通気口', '呼び鈴', 'まだら'],
   lexicon: lexicon({

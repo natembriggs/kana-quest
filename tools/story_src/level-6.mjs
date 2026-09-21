@@ -14,7 +14,7 @@ const alice = expandStory({
   source: SOL_SOURCE(
     'Public-domain novel by Lewis Carroll (Alice’s Adventures in Wonderland, 1865), opening episode',
     'An original Japanese retelling and abridgement of the opening episode, not a translation of Carroll’s prose or a modern Japanese edition.',
-    'Public domain (Lewis Carroll d. 1898). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (Lewis Carroll d. 1898). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['アリス', '白ウサギ', 'チョッキ', 'マーマレード', 'ボトル'],
   lexicon: lexicon({
@@ -616,7 +616,7 @@ const wizardOfOz = expandStory({
   source: SOL_SOURCE(
     'Public-domain novel by L. Frank Baum (The Wonderful Wizard of Oz, 1900), opening journey',
     'An original Japanese retelling and abridgement of Dorothy’s arrival and first meetings, not a translation of Baum’s prose or a later adaptation.',
-    'Public domain (L. Frank Baum d. 1919). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (L. Frank Baum d. 1919). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['ドロシー', 'カンザス', 'サイクロン', 'マンチキン', 'エメラルド'],
   lexicon: lexicon({

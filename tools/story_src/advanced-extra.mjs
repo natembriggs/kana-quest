@@ -8,7 +8,7 @@ const treasureIsland = expandStory({
   id: 'takarajima', title: { ja: '宝島', en: 'Treasure Island' }, series: null,
   level: 'L5', gram: 'G5',
   blurb: 'A mysterious map draws young Jim Hawkins into a voyage of mutiny, courage and buried treasure.',
-  source: SOL_SOURCE('Treasure Island by Robert Louis Stevenson (1883)', 'An original graded retelling of the novel’s complete main plot; no wording is copied from a published translation.', 'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.'),
+  source: SOL_SOURCE('Treasure Island by Robert Louis Stevenson (1883)', 'An original graded retelling of the novel’s complete main plot; no wording is copied from a published translation.', 'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.'),
   nw: ['ジム', '海賊', 'スクーナー船', '反乱', '宝島'],
   lexicon: lexicon({
     'ビリー': ['Billy', 'pn'], '箱[はこ]': ['chest, box', 'n'], 'だった': ['was', 'aux', { df: 'だ', cf: 'plain past' }], '二[ふた]人[り]': ['two people', 'num'],
@@ -174,7 +174,7 @@ const frankenstein = expandStory({
   id: 'frankenstein', title: { ja: 'フランケンシュタイン', en: 'Frankenstein' }, series: null,
   level: 'L6', gram: 'G6',
   blurb: 'Victor Frankenstein pursues the secret of life, then confronts the lonely being his ambition brought into the world.',
-  source: SOL_SOURCE('Frankenstein by Mary Shelley (1818)', 'An original chapter-length retelling of the novel’s main arc; no wording is copied from a published translation.', 'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.'),
+  source: SOL_SOURCE('Frankenstein by Mary Shelley (1818)', 'An original chapter-length retelling of the novel’s main arc; no wording is copied from a published translation.', 'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.'),
   nw: ['ヴィクター', 'モンスター', '実験室', '創造', '責任'],
   lexicon: lexicon({
     'ヴィクター': ['Victor', 'pn'], '彼[かれ]': ['he', 'pn'], '自[じ]分[ぶん]': ['oneself; himself', 'pn'], '二[ふた]人[り]': ['two people', 'num'], '一[ひと]人[り]の時[とき]': ['when he was alone', 'n'],

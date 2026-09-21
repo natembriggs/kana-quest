@@ -9,7 +9,7 @@ const theStory = expandStory({
   blurb: "Mei borrows a yellow umbrella from the station and leaves a small repair for its next traveller.",
   nw: ["駅員", "端", "修理", "テープ"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kana Quest", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
   lexicon: lexicon({
     "学[がっ]校[こう]": ["school", "n"],
     "帰[かえ]る": ["return", "v"],

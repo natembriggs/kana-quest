@@ -13,7 +13,7 @@ const theStory = expandStory({
     by: 'Claude Opus 5.0',
     credit: 'Retold by',
     notes: 'An original retelling of the traditional fairy tale, not a transcription or translation of a particular published edition.',
-    licence: 'Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['豆の木', '巨人', '竪琴', 'めんどり', '金貨'],
   lexicon: lexicon({

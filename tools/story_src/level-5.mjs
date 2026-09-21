@@ -14,7 +14,7 @@ const aladdin = expandStory({
   source: SOL_SOURCE(
     'Traditional tale associated with One Thousand and One Nights (Aladdin and the Magic Lamp)',
     'An original retelling assembled from long-established public-domain plot elements, not translated from a particular edition.',
-    'Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['アラジン', 'ランプ', '精霊', '魔術師', '宝石'],
   lexicon: lexicon({
@@ -432,7 +432,7 @@ const pinocchio = expandStory({
   source: SOL_SOURCE(
     'Public-domain novel by Carlo Collodi (The Adventures of Pinocchio, 1883)',
     'An original abridged retelling using familiar episodes from Collodi’s public-domain story, not a translation of its Italian text or a later adaptation.',
-    'Public domain (Carlo Collodi d. 1890). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (Carlo Collodi d. 1890). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['ピノキオ', 'ゼペット', 'サーカス', '妖精', 'クジラ'],
   lexicon: lexicon({

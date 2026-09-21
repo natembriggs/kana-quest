@@ -13,7 +13,7 @@ const antAndGrasshopper = expandStory({
     by: 'Claude Opus 5.0',
     credit: 'Retold by',
     notes: 'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
-    licence: 'Public domain (traditional fable). This retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['きりぎりす', '蟻', '草', '運ぶ'],
   lexicon: lexicon({

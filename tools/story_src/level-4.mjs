@@ -14,7 +14,7 @@ const redRidingHood = expandStory({
   source: SOL_SOURCE(
     'Traditional European fairy tale (Little Red Riding Hood)',
     'An original graded retelling with a non-violent rescue, drawing on common public-domain motifs rather than one edition.',
-    'Public domain (traditional fairy tale). This retelling and its English translation are original to Kana Quest.',
+    'Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['赤ずきん', 'オオカミ', 'バスケット', '猟師', '物置'],
   lexicon: lexicon({
@@ -210,7 +210,7 @@ const bremenMusicians = expandStory({
   source: SOL_SOURCE(
     'Public-domain tale collected by the Brothers Grimm (The Bremen Town Musicians)',
     'An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.',
-    'Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kana Quest.',
+    'Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.',
   ),
   nw: ['ブレーメン', '音楽隊', 'ロバ', '泥棒', 'バンド'],
   lexicon: lexicon({

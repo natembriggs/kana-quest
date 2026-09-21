@@ -14,7 +14,7 @@ const theStory = expandStory({
   source: SOL_SOURCE(
     'Robinson Crusoe by Daniel Defoe (1719)',
     "An original graded retelling of the novel's complete main plot; no wording is copied from a published translation.",
-    'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.',
+    'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.',
   ),
   nw: ['ロビンソン・クルーソー', 'フライデー', '難破船', '無人島', '食人族', '反乱'],
   lexicon: lexicon({

@@ -13,7 +13,7 @@ const theStory = expandStory({
     by: 'Claude Opus 5',
     credit: 'Retold by',
     notes: 'An original graded retelling of the first voyage only — the voyage to Lilliput — rather than a compression of all four. It keeps Swift’s satire of the egg war and Gulliver’s refusal to help enslave Blefuscu; no wording is copied from a published translation.',
-    licence: 'Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.',
+    licence: 'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.',
   },
   nw: ['ガリバー', 'リリパット', 'ブレフスキュ', 'ナルダク', '軍艦', '海峡'],
   lexicon: lexicon({

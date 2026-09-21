@@ -9,7 +9,7 @@ const theStory = expandStory({
   blurb: "On her grandfather’s bookshop’s last day, Nao finds a pencilled note she believes is her own—and meets the person who wrote it.",
   nw: ["古本屋", "店番", "背表紙", "筆跡"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kana Quest", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
   lexicon: lexicon({
     "祖[そ]父[ふ]": ["her grandfather", "n"],
     "古[ふる]本[ほん]屋[や]": ["secondhand bookshop", "n"],
