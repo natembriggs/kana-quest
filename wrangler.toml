@@ -1,12 +1,22 @@
 # Serves the app itself as static assets from Cloudflare.
 #
-# `name` is a deliberate placeholder. It becomes the workers.dev hostname
-# used for verification, and is renamed at cutover once the app's new name
-# is settled — which costs nothing, because a static-asset Worker holds no
-# state of its own. The two Workers that DO hold state (kana-quest-sync,
-# kana-quest-feedback) are never renamed: see rename-and-hosting-plan.md §5.
-name = "kq-site"
+# Named for the app's new name, settled 21 September 2026. This Worker holds
+# no state of its own — it serves static files — so naming it was free to
+# defer and is free to have done. The two Workers that DO hold state
+# (kana-quest-sync, kana-quest-feedback) are never renamed, whatever the app
+# ends up called: see rename-and-hosting-plan.md §5.
+name = "kanjitrail-site"
 compatibility_date = "2026-09-20"
+
+# The apex only, deliberately. A second custom domain on www would serve
+# byte-identical pages from a second hostname, which is the same
+# split-your-own-ranking problem rename-and-hosting-plan.md §8 raises about
+# the dual run — except self-inflicted and permanent. www needs a redirect
+# to the apex rather than a second copy of the site; until that exists,
+# www simply does not resolve, which is honest.
+routes = [
+  { pattern = "kanjitrail.com", custom_domain = true },
+]
 
 [assets]
 # No `directory` on purpose. The set of files that may be served is an

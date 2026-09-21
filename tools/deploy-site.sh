@@ -72,6 +72,19 @@ done
 find "$DIST" -name '.DS_Store' -delete
 find "$DIST" -name '._*' -delete
 
+# The allowlist above works at top-level granularity, which is the right
+# grain for src/ and icons/ but too coarse for assets/: the paintings the
+# app fetches sit in the same tree as the authoring record that produced
+# them. None of the following is ever requested by the browser — checked
+# against src/, sw.js and index.html — and all of it is working material:
+# the art-direction brief, and the generation prompts and source lists for
+# the cover and story paintings.
+find "$DIST/assets" -name 'ART-DIRECTION.md' -delete
+find "$DIST/assets" -name '*-prompts.json' -delete
+find "$DIST/assets" -name '*-sources.json' -delete
+find "$DIST/assets" -name 'cover-prompts.json' -delete
+find "$DIST/assets" -name 'cover-sources.json' -delete
+
 echo "Staged to $DIST"
 echo "  files: $(find "$DIST" -type f | wc -l | tr -d ' ')"
 echo "  size:  $(du -sh "$DIST" | cut -f1 | tr -d ' ')"
@@ -80,7 +93,11 @@ echo "Top level:"
 ls -1 "$DIST" | sed 's/^/  /'
 
 # Anything prose-shaped in the staged tree is a bug in the list above.
-strays="$(find "$DIST" -maxdepth 1 \( -name '*.md' -o -name '.git*' \) -print)"
+# Recursive on purpose. This check used to be -maxdepth 1, which made it
+# blind to exactly the case that matters: prose nested inside an otherwise
+# legitimate served directory. assets/stories/ART-DIRECTION.md sat in the
+# staged tree through every verification run in §6 because of it.
+strays="$(find "$DIST" \( -name '*.md' -o -name '.git*' \) -print)"
 if [ -n "$strays" ]; then
   echo >&2
   echo "Unexpected files staged:" >&2

@@ -46,15 +46,24 @@ ISSUES_ARE_PUBLIC = "false"
 # Browser origins allowed to POST /v1/feedback. Unlike the sync Worker —
 # where possession of the capability *is* the authorization boundary and
 # broad CORS is deliberate — this endpoint creates GitHub issues, so it gets
-# a real allowlist. Comma-separated; the app's GitHub Pages origin plus the
-# local dev server from .claude/launch.json (8744) and the ports tools/
-# serve.sh and the verification copy use.
-ALLOWED_ORIGINS = "https://natembriggs.github.io,http://localhost:8744,http://127.0.0.1:8744,http://localhost:8751,http://127.0.0.1:8751,http://localhost:8000,http://127.0.0.1:8000"
+# a real allowlist. Comma-separated; both live origins plus the local dev
+# server from .claude/launch.json (8744) and the ports tools/serve.sh and
+# the verification copy use.
+#
+# The GitHub Pages origin stays for the whole dual run and is removed only
+# when the old site is genuinely dead — see rename-and-hosting-plan.md §9.
+# Removing it early would silently break the feedback button for exactly
+# the users who have not migrated yet, who are the ones worth hearing from.
+ALLOWED_ORIGINS = "https://kanjitrail.com,https://natembriggs.github.io,http://localhost:8744,http://127.0.0.1:8744,http://localhost:8751,http://127.0.0.1:8751,http://localhost:8000,http://127.0.0.1:8000"
 
 # Hostnames Turnstile is allowed to report having solved the challenge on.
 # Blank disables the check (needed while running on the always-pass test
 # keys, which report whatever hostname asked).
-TURNSTILE_HOSTNAMES = "natembriggs.github.io"
+# NOTE: the matching change in the Cloudflare dashboard — adding
+# kanjitrail.com to the Turnstile widget's own allowed hostnames — is
+# Nathan's to make (§3). Until he does, a challenge solved on the new
+# origin is rejected by Turnstile itself, before this list is consulted.
+TURNSTILE_HOSTNAMES = "kanjitrail.com,natembriggs.github.io"
 
 # Turnstile's documented always-passes test secret. Replaced by a real
 # secret with `wrangler secret put TURNSTILE_SECRET`, which takes precedence
