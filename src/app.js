@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-21f'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-21g'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8813,9 +8813,29 @@ function migrationDismissed() {
   }
 }
 
+// OFF until the new site is right. Held back on 21 September, hours after
+// it went up, because moving people to somewhere still being fixed is
+// worse than moving them late: a learner who migrates onto a broken
+// origin has already left the working one behind, and §4 means there is
+// no walking that back for them.
+//
+// Known outstanding when this was switched off:
+//   - "Always Use HTTPS" not yet on at the zone (§3). The in-page
+//     backstop covers it, but the redirect belongs at the edge.
+//   - Turnstile's dashboard hostname not yet confirmed end to end, so
+//     feedback from the new origin is unproven — and feedback is how a
+//     migrated learner would tell us anything else is wrong.
+//   - Adding to the iOS home screen produced browser chrome rather than
+//     a standalone app, not yet confirmed fixed on a real device.
+//
+// Everything behind this flag is built, tested and verified on both
+// origins. Flip it back to true when those three are done; nothing else
+// needs to change.
+const MIGRATION_NOTICE_ENABLED = false;
+
 function renderMigrationNotice() {
   const card = $('migration-notice');
-  card.hidden = !isLegacyOrigin() || migrationDismissed();
+  card.hidden = !MIGRATION_NOTICE_ENABLED || !isLegacyOrigin() || migrationDismissed();
 }
 
 /** The code route. Routed through the existing Settings sync card rather
