@@ -553,6 +553,126 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "mittsu-no-kane-1": {
+    "title": {
+      "ja": "えんぴつの字",
+      "en": "The Pencil Marks"
+    },
+    "series": {
+      "id": "mittsu-no-kane",
+      "part": 1,
+      "of": 5,
+      "name": "三つの鐘 — Three Bells"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Riku arrives in a fishing town for the summer. A road of sand reaches the island at low tide — and the tide table on his aunt’s shop wall has been altered in pencil.",
+    "hash": "5a1e05a3",
+    "length": 793,
+    "paras": 11,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5",
+      "credit": "Written by"
+    }
+  },
+  "mittsu-no-kane-2": {
+    "title": {
+      "ja": "ひばり丸",
+      "en": "The Hibari-maru"
+    },
+    "series": {
+      "id": "mittsu-no-kane",
+      "part": 2,
+      "of": 5,
+      "name": "三つの鐘 — Three Bells"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "A stranger is stranded on the island and nobody will go and fetch him. In the bag he left behind: one date, written over and over, and the name of a boat.",
+    "hash": "c1c7a4ed",
+    "length": 639,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5",
+      "credit": "Written by"
+    }
+  },
+  "mittsu-no-kane-3": {
+    "title": {
+      "ja": "砂の道",
+      "en": "The Sand Road"
+    },
+    "series": {
+      "id": "mittsu-no-kane",
+      "part": 3,
+      "of": 5,
+      "name": "三つの鐘 — Three Bells"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Riku and Chika cross at dawn to bring him back. Under the bell they find a rope broken short, and a name scratched into the floor.",
+    "hash": "e914d12f",
+    "length": 594,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5",
+      "credit": "Written by"
+    }
+  },
+  "mittsu-no-kane-4": {
+    "title": {
+      "ja": "四十年前の手紙",
+      "en": "A Letter Forty Years Old"
+    },
+    "series": {
+      "id": "mittsu-no-kane",
+      "part": 4,
+      "of": 5,
+      "name": "三つの鐘 — Three Bells"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The man on the island has carried a letter for forty years, addressed to nobody at all — and what it says turns the town’s account of that night inside out.",
+    "hash": "f78bfd30",
+    "length": 658,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5",
+      "credit": "Written by"
+    }
+  },
+  "mittsu-no-kane-5": {
+    "title": {
+      "ja": "鐘を鳴らす",
+      "en": "Ringing the Bell"
+    },
+    "series": {
+      "id": "mittsu-no-kane",
+      "part": 5,
+      "of": 5,
+      "name": "三つの鐘 — Three Bells"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Cut off by the storm with the bell as their only signal, Riku climbs the tower. Whoever hears it will learn what really happened forty years ago.",
+    "hash": "fcd63a69",
+    "length": 725,
+    "paras": 12,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5",
+      "credit": "Written by"
+    }
+  },
   "ningyo-hime": {
     "title": {
       "ja": "人魚姫",

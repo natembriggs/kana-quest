@@ -1,0 +1,1224 @@
+[
+  [
+    [
+      {
+        "tokens": "八月|の|初め|の|午後|、|りく|は|汐見町|で|バス|を|降りた|。",
+        "en": "On an afternoon in early August, Riku got off the bus in the town of Shiomi."
+      },
+      {
+        "tokens": "バス停|は|、|小さな|港|の|すぐ|前|だった|。",
+        "en": "The bus stop was right in front of a small harbour."
+      },
+      {
+        "tokens": "海|の|におい|と|、|船|の|油|の|におい|が|、|いっしょに|風|に|乗ってきた|。",
+        "en": "The smell of the sea and the smell of engine oil came in on the wind together."
+      },
+      {
+        "tokens": "りく|は|十三歳|で|、|この|町|に|来る|の#nominal|は|初めて|だった|。",
+        "en": "Riku was thirteen, and it was his first time in this town."
+      },
+      {
+        "tokens": "夏休み|の|二週間|を|、|港|の|横|で|店|を|やっている|母|の|姉|の|所|で|過ごす|。",
+        "en": "He was to spend two weeks of the summer holiday with his mother’s older sister, who ran a shop beside the harbour."
+      }
+    ],
+    [
+      {
+        "tokens": "港|の|向こう|に|、|低い|島|が|一つ|見えた|。",
+        "en": "Across the harbour, a low island was visible."
+      },
+      {
+        "tokens": "島|の|高い|所|に|は|、|木|で|組んだ|やぐら|が|立っていた|。",
+        "en": "On the island’s high ground stood a tower built of timber."
+      },
+      {
+        "tokens": "やぐら|の|下|に|、|何か|黒くて|丸い|物|が|ぶら下がっていた|が#but|、|遠くて|何か|は|分からなかった|。",
+        "en": "Something black and round hung beneath it, but it was too far away to make out."
+      }
+    ],
+    [
+      {
+        "tokens": "店|は|、|パン|や|野菜|や|釣り|の|道具|を|、|少しずつ|売っていた|。",
+        "en": "The shop sold a little of everything: bread, vegetables, fishing tackle."
+      },
+      {
+        "tokens": "「|よく|来た|ね|」|と|、|おばさん|が|りく|の|荷物|を|受け取った|。",
+        "en": "“You made it,” his aunt said, taking his bag."
+      },
+      {
+        "tokens": "店|の|奥|の|部屋|が|、|りく|の|部屋|に|なった|。",
+        "en": "The room at the back of the shop became Riku’s room."
+      },
+      {
+        "tokens": "りく|が|携帯電話|を|充電器|に|つなぐと|、|おばさん|が|笑った|。",
+        "en": "When Riku plugged his phone into its charger, his aunt laughed."
+      },
+      {
+        "tokens": "「|ここ|は|電波|が|弱い|から|、|港|の|先|まで|行かないと|入らない|よ|」|。",
+        "en": "“The signal’s weak here, so you won’t get any until you’re out past the harbour.”"
+      }
+    ],
+    [
+      {
+        "tokens": "レジ|の|横|の|壁|に|、|紙|が|一枚|はってあった|。",
+        "en": "A sheet of paper was pinned to the wall beside the till."
+      },
+      {
+        "tokens": "上|に|「|潮見表|」|と|大きく|印刷してある|。",
+        "en": "Across the top, in large print, it said TIDE TABLE."
+      },
+      {
+        "tokens": "日ごと|に|、|潮|が|引く|時間|と|満ちる|時間|が|、|細かく|並んでいた|。",
+        "en": "Day by day, the times the tide went out and came in were set out in small figures."
+      },
+      {
+        "tokens": "今日|の|行|だけ|、|印刷した|数字|の|上|に|、|えんぴつ|で|別|の|数字|が|書いてあった|。",
+        "en": "On today’s line alone, different numbers had been written in pencil over the printed ones."
+      },
+      {
+        "tokens": "「|これ|、|何|」|と|りく|が|聞いた|。",
+        "en": "“What’s this?” Riku asked."
+      },
+      {
+        "tokens": "「|印刷|が|まちがっていた|から|、|直した|の#explain|」|と|、|おばさん|は|レジ|の|下|を|見ながら|答えた|。",
+        "en": "“The printing was wrong, so I corrected it,” his aunt answered, looking down under the till."
+      }
+    ],
+    [
+      {
+        "tokens": "夕方|、|店|の|前|に|自転車|が|止まった|。",
+        "en": "In the evening, a bicycle stopped in front of the shop."
+      },
+      {
+        "tokens": "同じ|ぐらい|の|年|の|女の子|が|、|氷|の|箱|を|運んできた|。",
+        "en": "A girl about his own age carried in a box of ice."
+      },
+      {
+        "tokens": "「|ゆきさん|、|氷|、|置いとくね|」|と|、|女の子|が|店|の|中|に|声をかけた|。",
+        "en": "“Yuki-san, I’ll leave the ice here,” the girl called into the shop."
+      },
+      {
+        "tokens": "それから|りく|を|見て|、|「|東京|の|子|」|と|聞いた|。",
+        "en": "Then she looked at Riku and asked, “The one from Tokyo?”"
+      },
+      {
+        "tokens": "りく|が|名前|を|言うと|、|女の子|は|「|ちか|」|と|名乗った|。",
+        "en": "When Riku gave his name, the girl said hers was Chika."
+      },
+      {
+        "tokens": "「|あの|島|、|歩いて行けるんだ|よ|」|と|、|ちか|が|港|の|向こう|を|指さした|。",
+        "en": "“You can walk to that island, you know,” Chika said, pointing across the harbour."
+      }
+    ],
+    [
+      {
+        "tokens": "「|潮|が|引くと|、|海|の|底|が|出て|、|砂|の|道|に|なる|の#explain|」|。",
+        "en": "“When the tide goes out, the sea floor comes up and turns into a road of sand.”"
+      },
+      {
+        "tokens": "りく|は|、|海|の|上|を|歩く|という|話|が|、|すぐに|は|信じられなかった|。",
+        "en": "Riku could not immediately believe the idea of walking across the sea."
+      },
+      {
+        "tokens": "「|一日|に|二回|出る|けど|、|道|が|出ている|間|しか|渡れない|」|。",
+        "en": "“It comes up twice a day, but you can only cross while it’s there.”"
+      },
+      {
+        "tokens": "「|潮|が|満ちたら|、|もう|もどれない|よ|」|と|ちか|は|言った|。",
+        "en": "“Once the tide comes in, there’s no getting back,” Chika said."
+      },
+      {
+        "tokens": "「|島|に|は|何|が|ある|の#question|」|。",
+        "en": "“What’s on the island?”"
+      },
+      {
+        "tokens": "「|昔|の|家|と|、|鐘|が|ある|だけ|だ|よ|」|。",
+        "en": "“Just an old house and a bell.”"
+      }
+    ],
+    [
+      {
+        "tokens": "ちか|は|それだけ|言うと|、|島|の|話|を|やめた|。",
+        "en": "Having said that much, Chika dropped the subject of the island."
+      },
+      {
+        "tokens": "自転車|に|乗って|、|坂|の|上|へ|帰っていった|。",
+        "en": "She got on her bicycle and rode off up the hill."
+      },
+      {
+        "tokens": "店|の|中|で|は|、|おばさん|が|黙って|氷|の|箱|を|片づけていた|。",
+        "en": "Inside the shop, his aunt was putting the box of ice away without a word."
+      },
+      {
+        "tokens": "「|あの|島|、|行ってもいい|」|と|りく|が|聞いた|。",
+        "en": "“Can I go to that island?” Riku asked."
+      },
+      {
+        "tokens": "おばさん|は|箱|を|持った|まま|、|「|行かなくていい|」|と|だけ|答えた|。",
+        "en": "Still holding the box, his aunt answered only, “There’s no need to go.”"
+      }
+    ],
+    [
+      {
+        "tokens": "七時十分前|に|店|の|戸|が|開いて|、|背の高い|、|四十代|ぐらい|の|男の人|が|入ってきた|。",
+        "en": "At ten to seven the shop door opened, and a tall man of about forty-five came in."
+      },
+      {
+        "tokens": "町|の|人|ではない|こと|が|、|りく|に|も|すぐ|分かった|。",
+        "en": "Even Riku could tell at once that he was not from the town."
+      },
+      {
+        "tokens": "男の人|は|棚|から|懐中電灯|を|取って|、|レジ|に|置いた|。",
+        "en": "The man took a torch from the shelf and set it on the counter."
+      },
+      {
+        "tokens": "「|島|へ|行く|道|は|、|今日|は|何時|から|出ますか|」|。",
+        "en": "“What time does the road to the island come up today?”"
+      },
+      {
+        "tokens": "おばさん|の|手|が|、|一瞬|止まった|。",
+        "en": "His aunt’s hands stopped for a moment."
+      },
+      {
+        "tokens": "それから|壁|の|潮見表|を|見て|、|「|七時|から|です|」|と|答えた|。",
+        "en": "Then she looked at the tide table on the wall and answered, “From seven.”"
+      }
+    ],
+    [
+      {
+        "tokens": "男の人|が|出ていって|すぐ|、|店|の|前|を|ちか|が|通った|。",
+        "en": "Just after the man left, Chika passed by in front of the shop."
+      },
+      {
+        "tokens": "りく|が|外|に|出て|今|の|話|を|すると|、|ちか|は|足を止めた|。",
+        "en": "When Riku went out and told her what had just happened, Chika stopped walking."
+      },
+      {
+        "tokens": "「|今日|、|道|が|出てた|の#nominal|は|、|三時|から|七時|まで|だ|よ|」|。",
+        "en": "“The road was up from three until seven today.”"
+      },
+      {
+        "tokens": "「|七時|から|は|、|道|が|しずむ|時間|」|。",
+        "en": "“From seven is when it goes under.”"
+      },
+      {
+        "tokens": "ちか|は|もう|走り出していて|、|りく|も|その|後|を|追った|。",
+        "en": "Chika was already running, and Riku went after her."
+      }
+    ],
+    [
+      {
+        "tokens": "防波堤|に|上ると|、|島|まで|の|砂|の|道|が|、|暗い|海|の|上|に|白く|見えた|。",
+        "en": "From the top of the sea wall, the sand road to the island showed white across the dark water."
+      },
+      {
+        "tokens": "道|の|真ん中|あたり|で|、|懐中電灯|の|光|が|一つ|動いていた|。",
+        "en": "About halfway along it, a single torch beam was moving."
+      },
+      {
+        "tokens": "ちか|が|大きな|声|を|出した|が#but|、|風|が|強くて|、|声|は|前|へ|行かなかった|。",
+        "en": "Chika shouted, but the wind was strong and her voice did not carry."
+      },
+      {
+        "tokens": "光|は|止まらずに|、|島|の|方|へ|進んでいった|。",
+        "en": "The light did not stop; it went on toward the island."
+      },
+      {
+        "tokens": "道|の|低い|所|に|は|、|もう|黒い|水|が|入っていた|。",
+        "en": "Black water had already come into the low part of the road."
+      }
+    ],
+    [
+      {
+        "tokens": "水|は|、|右|から|も|左|から|も|、|静かに|近づいてきた|。",
+        "en": "The water crept in quietly from the right and from the left."
+      },
+      {
+        "tokens": "光|が|島|に|着く|の#nominal|と|、|道|が|消える|の#nominal|は|、|ほとんど|同じ|だった|。",
+        "en": "The light reaching the island and the road disappearing happened at almost the same moment."
+      },
+      {
+        "tokens": "「|あの|人|、|朝|まで|もどれない|」|と|、|ちか|が|小さく|言った|。",
+        "en": "“He can’t get back before morning,” Chika said quietly."
+      },
+      {
+        "tokens": "りく|は|返事をしなかった|。",
+        "en": "Riku did not answer."
+      },
+      {
+        "tokens": "店|の|壁|の|、|えんぴつ|で|書いた|数字|が|、|頭から離れなかった|。",
+        "en": "He could not get the pencilled numbers on the shop wall out of his head."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "その|夜|は|、|風|の|音|で|何度も|目がさめた|。",
+        "en": "That night the sound of the wind woke him again and again."
+      },
+      {
+        "tokens": "朝|、|りく|が|店|に|下りると|、|おばさん|は|もう|仕事|を|始めていた|。",
+        "en": "In the morning, when Riku came down into the shop, his aunt had already started work."
+      },
+      {
+        "tokens": "「|ゆうべ|の|人|、|島|に|渡った|よ|」|と|りく|は|言った|。",
+        "en": "“That man last night crossed to the island,” Riku said."
+      },
+      {
+        "tokens": "おばさん|は|野菜|を|並べる|手|を|止めなかった|。",
+        "en": "His aunt did not stop laying out the vegetables."
+      },
+      {
+        "tokens": "「|島|に|は|家|が|ある|から|、|朝|に|なれば|もどってくる|よ|」|。",
+        "en": "“There’s a house on the island, so he’ll come back in the morning.”"
+      }
+    ],
+    [
+      {
+        "tokens": "けれど|、|昼|に|なっても|、|港|に|人|は|上がってこなかった|。",
+        "en": "But by midday nobody had come up into the harbour."
+      },
+      {
+        "tokens": "りく|は|一人で|防波堤|に|行った|。",
+        "en": "Riku went out to the sea wall on his own."
+      },
+      {
+        "tokens": "潮|は|また|引き始めて|、|砂|の|道|の|先|が|少しだけ|出ていた|。",
+        "en": "The tide had begun to go out again, and the near end of the sand road was just showing."
+      },
+      {
+        "tokens": "島|の|上|の|やぐら|は|、|昼|の|光|の|中|でも|黒く|見えた|。",
+        "en": "Even in the daylight, the tower on the island looked black."
+      },
+      {
+        "tokens": "しばらくして|、|ちか|が|自転車|を|押して|坂|を|下りてきた|。",
+        "en": "After a while, Chika came down the hill pushing her bicycle."
+      }
+    ],
+    [
+      {
+        "tokens": "「|うち|の|おじさん|に|聞いた|けど|、|だれ|も|船|を|出してない|」|と|ちか|は|言った|。",
+        "en": "“I asked my uncle. Nobody has taken a boat out,” Chika said."
+      },
+      {
+        "tokens": "「|自分|で|歩いて|出た|んだから|、|自分|で|帰る|って|」|。",
+        "en": "“He walked out there himself, so he can walk back himself — that’s what they say.”"
+      },
+      {
+        "tokens": "二人|は|防波堤|の|上|を|歩いた|。",
+        "en": "The two of them walked along the top of the sea wall."
+      },
+      {
+        "tokens": "石|の|間|に|、|黒い|かばん|が|一つ|置いてあった|。",
+        "en": "A black bag had been left between the stones."
+      },
+      {
+        "tokens": "りく|が|開けると|、|中|に|は|小さな|手帳|と|、|古い|写真|が|入っていた|。",
+        "en": "When Riku opened it, inside were a small notebook and an old photograph."
+      },
+      {
+        "tokens": "写真|に|は|、|船|の|上|で|笑っている|男の人|が|うつっていた|。",
+        "en": "The photograph showed a man laughing on the deck of a boat."
+      }
+    ],
+    [
+      {
+        "tokens": "手帳|の|ページ|に|は|、|同じ|日付|が|何度も|書いてあった|。",
+        "en": "The same date was written again and again on the pages of the notebook."
+      },
+      {
+        "tokens": "「|九月十二日|」|。",
+        "en": "The twelfth of September."
+      },
+      {
+        "tokens": "その|下|に|、|船|の|名前|らしい|字|が|あった|。",
+        "en": "Beneath it were characters that looked like the name of a boat."
+      },
+      {
+        "tokens": "「|ひばり丸|」|。",
+        "en": "Hibari-maru."
+      },
+      {
+        "tokens": "いちばん|新しい|ページ|に|は|、|「|三|」|という|字|だけ|が|、|丸|で|囲んであった|。",
+        "en": "On the newest page there was only the character for three, with a circle drawn around it."
+      },
+      {
+        "tokens": "ほか|の|ページ|は|、|白い|まま|だった|。",
+        "en": "The other pages were blank."
+      },
+      {
+        "tokens": "ちか|は|手帳|を|長い間|見て|から|、|ポケット|に|入れた|。",
+        "en": "Chika looked at the notebook for a long time, then put it in her pocket."
+      }
+    ],
+    [
+      {
+        "tokens": "港|の|奥|に|、|古い|船小屋|が|ある|。",
+        "en": "At the back of the harbour there is an old boat shed."
+      },
+      {
+        "tokens": "ちか|は|りく|を|連れて|、|その|戸|を|開けた|。",
+        "en": "Chika brought Riku to it and opened the door."
+      },
+      {
+        "tokens": "中|で|、|谷さん|という|年寄り|が|、|網|を|直していた|。",
+        "en": "Inside, an old man called Tani was mending a net."
+      },
+      {
+        "tokens": "ちか|が|手帳|を|見せて|、|「|ひばり丸|って|、|知ってる|」|と|聞いた|。",
+        "en": "Chika showed him the notebook and asked, “Do you know the Hibari-maru?”"
+      },
+      {
+        "tokens": "谷さん|の|手|が|止まった|。",
+        "en": "Tani’s hands stopped."
+      },
+      {
+        "tokens": "「|その|名前|を|聞く|の#nominal|は|、|四十年ぶり|だ|」|。",
+        "en": "“I haven’t heard that name in forty years.”"
+      }
+    ],
+    [
+      {
+        "tokens": "谷さん|は|網|を|置いて|、|島|の|方|を|見た|。",
+        "en": "Tani put down the net and looked toward the island."
+      },
+      {
+        "tokens": "四十年前|の|九月十二日|の|夜|、|大きな|嵐|が|来た|という#hearsay|。",
+        "en": "On the night of the twelfth of September forty years ago, he said, a great storm came."
+      },
+      {
+        "tokens": "昔|は|、|霧|や|嵐|の|夜|に|、|島|の|鐘|を|鳴らした|。",
+        "en": "In the old days, on nights of fog or storm, they rang the bell on the island."
+      },
+      {
+        "tokens": "鐘|の|音|を|たより|に|、|船|は|岩|の|間|の|細い|道|を|通った|。",
+        "en": "Guided by the sound of the bell, boats came through the narrow channel between the rocks."
+      },
+      {
+        "tokens": "けれど|その|夜|、|鐘|は|鳴らなかった|。",
+        "en": "But that night, the bell did not ring."
+      },
+      {
+        "tokens": "ひばり丸|は|岩|に|当たって|、|二人|の|うち|一人|だけ|が|助かった|。",
+        "en": "The Hibari-maru struck the rocks, and of the two men aboard only one lived."
+      },
+      {
+        "tokens": "「|鐘|を|鳴らす|役|の|人|は|、|あの|夜|、|熱を出していた|」|。",
+        "en": "“The man whose job it was to ring the bell had a fever that night.”"
+      }
+    ],
+    [
+      {
+        "tokens": "「|その|人|、|だれ|」|と|ちか|が|聞いた|。",
+        "en": "“Who was that?” Chika asked."
+      },
+      {
+        "tokens": "「|もう|いない|人|だ|」|と|谷さん|は|言って|、|また|網|を|持った|。",
+        "en": "“Someone who’s gone now,” Tani said, and picked up the net again."
+      },
+      {
+        "tokens": "「|あれから|、|だれ|も|鐘|を|鳴らしていない|」|。",
+        "en": "“Nobody has rung that bell since.”"
+      },
+      {
+        "tokens": "「|鐘|は|な|、|船|が|全部|帰る|まで|、|ずっと|鳴らす|もんだ|」|。",
+        "en": "“You ring that bell until every boat is home, mind.”"
+      },
+      {
+        "tokens": "「|一回|や|二回|じゃ|、|何にもならない|」|。",
+        "en": "“Once or twice is no good to anyone.”"
+      },
+      {
+        "tokens": "谷さん|は|、|それきり|何|も|言わなかった|。",
+        "en": "Tani said nothing more after that."
+      }
+    ],
+    [
+      {
+        "tokens": "店|に|もどると|、|おばさん|は|配達|に|出ていた|。",
+        "en": "When Riku got back to the shop, his aunt was out on a delivery."
+      },
+      {
+        "tokens": "りく|は|壁|の|潮見表|の|前|に|立った|。",
+        "en": "He stood in front of the tide table on the wall."
+      },
+      {
+        "tokens": "書きかえてある|の#nominal|は|、|今日|の|行|だけ|ではなかった|。",
+        "en": "Today’s line was not the only one that had been altered."
+      },
+      {
+        "tokens": "明日|も|、|あさって|も|、|その|次|の|日|も|、|えんぴつ|の|字|が|のっていた|。",
+        "en": "Tomorrow, the day after, the day after that — every one of them carried pencil."
+      },
+      {
+        "tokens": "十日先|まで|、|全部|の|数字|が|書きかえてある|。",
+        "en": "Every figure for the next ten days had been changed."
+      },
+      {
+        "tokens": "そして|、|どの|数字|も|、|本当|の|時間|より|四時間|おそかった|。",
+        "en": "And every one of them was four hours later than the true time."
+      }
+    ],
+    [
+      {
+        "tokens": "四時間|おそい|時間|に|島|へ|行けば|、|道|は|もう|しずんでいる|。",
+        "en": "Go to the island four hours late and the road is already under water."
+      },
+      {
+        "tokens": "つまり|、|この|表|を|見た|人|は|、|だれ|も|島|に|渡れない|。",
+        "en": "Which meant that nobody who read this table could cross to the island at all."
+      },
+      {
+        "tokens": "りく|は|紙|から|目を上げた|。",
+        "en": "Riku lifted his eyes from the paper."
+      },
+      {
+        "tokens": "店|の|戸|の|所|に|、|おばさん|が|立って|、|こっち|を|見ていた|。",
+        "en": "His aunt was standing in the shop doorway, watching him."
+      },
+      {
+        "tokens": "手|に|は|、|氷|の|箱|を|持った|まま|だった|。",
+        "en": "She still had the box of ice in her hands."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "次|の|朝|、|りく|が|四時半|に|起きると|、|店|の|中|は|まだ|暗かった|。",
+        "en": "The next morning, when Riku got up at half past four, the shop was still dark."
+      },
+      {
+        "tokens": "おばさん|の|部屋|の|戸|は|開いていて|、|中|に|は|だれ|も|いなかった|。",
+        "en": "His aunt’s bedroom door stood open, and there was nobody inside."
+      },
+      {
+        "tokens": "レジ|の|上|に|、|紙|が|一枚|置いてあった|。",
+        "en": "A sheet of paper had been left on the till."
+      },
+      {
+        "tokens": "「|島|に|行っては|、|だめ|」|。",
+        "en": "Do not go to the island."
+      },
+      {
+        "tokens": "おばさん|の|字|だった|。",
+        "en": "It was his aunt’s handwriting."
+      },
+      {
+        "tokens": "りく|は|その|紙|を|ポケット|に|入れて|、|外|に|出た|。",
+        "en": "Riku put the note in his pocket and went outside."
+      }
+    ],
+    [
+      {
+        "tokens": "港|に|は|、|ちか|が|先|に|来ていた|。",
+        "en": "Chika was already at the harbour."
+      },
+      {
+        "tokens": "「|今日|の|引き潮|は|、|五時十分|」|と|ちか|が|言った|。",
+        "en": "“Low tide is ten past five today,” she said."
+      },
+      {
+        "tokens": "「|もどる|なら|、|七時|までに|道|に|入らないと|、|まにあわない|」|。",
+        "en": "“If we’re coming back, we have to be on the road by seven or we won’t make it.”"
+      },
+      {
+        "tokens": "二人|は|防波堤|から|砂|の|道|に|下りた|。",
+        "en": "The two of them climbed down from the sea wall onto the sand road."
+      },
+      {
+        "tokens": "道|は|思っていた|より|ずっと|広くて|、|白い|貝|が|いくつも|落ちていた|。",
+        "en": "The road was far wider than Riku had imagined, and white shells lay scattered across it."
+      },
+      {
+        "tokens": "両側|に|海|が|ある|のに|、|足|の|下|は|乾いていた|。",
+        "en": "There was sea on both sides, and yet the ground under their feet was dry."
+      }
+    ],
+    [
+      {
+        "tokens": "歩いている|うちに|、|空|が|少しずつ|明るくなった|。",
+        "en": "As they walked, the sky grew gradually lighter."
+      },
+      {
+        "tokens": "道|の|真ん中|あたり|は|低くて|、|水|が|まだ|残っていた|。",
+        "en": "The middle of the road lay low, and water still stood there."
+      },
+      {
+        "tokens": "ちか|が|先|に|入って|、|りく|が|後|に|続いた|。",
+        "en": "Chika went in first, and Riku followed."
+      },
+      {
+        "tokens": "その|時|、|横|から|来た|波|が|、|二人|の|こし|まで|上がった|。",
+        "en": "Just then a wave came in from the side and rose to their waists."
+      },
+      {
+        "tokens": "ちか|は|ポケット|を|おさえた|が#but|、|おそかった|。",
+        "en": "Chika clapped a hand over her pocket, but too late."
+      },
+      {
+        "tokens": "水|から|出した|携帯電話|は|、|画面|が|真っ黒|だった|。",
+        "en": "The phone she pulled out of the water had a completely black screen."
+      }
+    ],
+    [
+      {
+        "tokens": "「|電池|じゃなくて|、|これ|、|もう|だめ|だ|」|と|ちか|は|言った|。",
+        "en": "“It’s not the battery. This one’s finished,” Chika said."
+      },
+      {
+        "tokens": "りく|の|電話|は|、|店|の|充電器|に|差した|まま|だった|。",
+        "en": "Riku’s own phone was still plugged into the charger back at the shop."
+      },
+      {
+        "tokens": "それでも|、|二人|は|前|に|進んだ|。",
+        "en": "Even so, the two of them kept going."
+      },
+      {
+        "tokens": "あの|人|を|むかえに行こうとしている|の#nominal|は|、|二人|だけ|だった|。",
+        "en": "They were the only ones going to fetch the man."
+      }
+    ],
+    [
+      {
+        "tokens": "島|の|岸|は|、|大きな|岩|ばかり|だった|。",
+        "en": "The island’s shore was nothing but big rocks."
+      },
+      {
+        "tokens": "岩|の|間|に|、|細い|道|が|上|へ|続いていた|。",
+        "en": "Between them, a narrow path led upward."
+      },
+      {
+        "tokens": "道|の|途中|に|、|懐中電灯|が|一つ|落ちていた|。",
+        "en": "Partway up, a torch lay on the ground."
+      },
+      {
+        "tokens": "りく|が|拾うと|、|まだ|新しくて|、|店|で|売っている|物|と|同じ|だった|。",
+        "en": "Riku picked it up: still new, and the same one the shop sold."
+      },
+      {
+        "tokens": "砂|の|上|の|足あと|は|、|上|へ|向かう|物|だけ|だった|。",
+        "en": "The footprints in the sand all went upward."
+      },
+      {
+        "tokens": "下りてきた|足あと|は|、|一つ|も|なかった|。",
+        "en": "There was not one coming down."
+      }
+    ],
+    [
+      {
+        "tokens": "坂|を|上りきると|、|古い|木|の|家|が|あった|。",
+        "en": "At the top of the slope stood an old wooden house."
+      },
+      {
+        "tokens": "屋根|の|かわら|が|落ちて|、|戸|は|片方|はずれていた|。",
+        "en": "Tiles had fallen from its roof, and one of its doors hung off."
+      },
+      {
+        "tokens": "その|向こう|に|、|あの|やぐら|が|立っていた|。",
+        "en": "Beyond it stood the tower."
+      },
+      {
+        "tokens": "下|に|ぶら下がっている|黒くて|丸い|物|が|、|鐘|だった|。",
+        "en": "The black round shape hanging beneath it was a bell."
+      },
+      {
+        "tokens": "遠く|から|見た|時|より|ずっと|大きくて|、|りく|の|体|ぐらい|あった|。",
+        "en": "It was far bigger than it had looked from the shore — about the size of Riku himself."
+      },
+      {
+        "tokens": "ちか|は|何|も|言わずに|、|やぐら|の|下|に|入った|。",
+        "en": "Without a word, Chika stepped in under the tower."
+      }
+    ],
+    [
+      {
+        "tokens": "鐘|から|は|、|太い|なわ|が|下がっていた|。",
+        "en": "A thick rope hung from the bell."
+      },
+      {
+        "tokens": "けれど|、|その|なわ|は|短かった|。",
+        "en": "But the rope was short."
+      },
+      {
+        "tokens": "下|から|手|を|のばしても|、|ずっと|届かない|所|で|終わっていた|。",
+        "en": "It ended well above where a raised hand could reach."
+      },
+      {
+        "tokens": "りく|は|、|切れた|先|を|見た|。",
+        "en": "Riku looked at the broken end."
+      },
+      {
+        "tokens": "はさみ|で|切った|形|ではなく|、|細かく|切れて|、|灰色|に|なっていた|。",
+        "en": "It had not been cut with anything: the fibres had parted one by one, and the end had gone grey."
+      },
+      {
+        "tokens": "長い間|、|だれ|も|直していない|切れ方|だった|。",
+        "en": "It was a break nobody had mended in a very long time."
+      }
+    ],
+    [
+      {
+        "tokens": "やぐら|の|下|の|床|は|、|古い|板|だった|。",
+        "en": "The floor under the tower was old boards."
+      },
+      {
+        "tokens": "ちか|が|板|の|上|に|しゃがんで|、|指|で|ほこり|を|はらった|。",
+        "en": "Chika crouched down on them and brushed the dust away with her fingers."
+      },
+      {
+        "tokens": "板|に|、|小さな|字|が|ほってあった|。",
+        "en": "Small characters had been scratched into the wood."
+      },
+      {
+        "tokens": "「|ゆき|」|という|名前|と|、|「|九月十二日|」|という|日付|だった|。",
+        "en": "A name — Yuki — and a date: the twelfth of September."
+      },
+      {
+        "tokens": "くぎ|か|何か|で|、|子ども|が|一字ずつ|ほった|字|だった|。",
+        "en": "A child had scratched them one character at a time, with a nail or something like it."
+      },
+      {
+        "tokens": "ちか|が|ゆっくり|顔を上げて|、|りく|を|見た|。",
+        "en": "Chika slowly raised her head and looked at Riku."
+      }
+    ],
+    [
+      {
+        "tokens": "りく|は|、|その|名前|を|知っていた|。",
+        "en": "Riku knew that name."
+      },
+      {
+        "tokens": "けれど|、|ゆき|という|名前|は|、|めずらしくない|。",
+        "en": "But Yuki is not an unusual name."
+      },
+      {
+        "tokens": "りく|は|、|そう|自分|に|言った|。",
+        "en": "That is what he told himself."
+      },
+      {
+        "tokens": "その|時|、|ちか|が|立ち上がって|、|海|の|方|を|見た|。",
+        "en": "Just then Chika stood up and looked out to sea."
+      },
+      {
+        "tokens": "さっき|歩いてきた|砂|の|道|が|、|もう|、|どこ|に|も|なかった|。",
+        "en": "The sand road they had walked in on was no longer anywhere."
+      },
+      {
+        "tokens": "ちか|は|自分|の|時計|を|見て|、|小さな|声|で|言った|。",
+        "en": "Chika looked at her watch and said, in a small voice:"
+      },
+      {
+        "tokens": "「|まだ|六時半|なのに|、|こんなに|早く|道|が|消える|はずがない|」|。",
+        "en": "“It’s only half past six. The road cannot possibly go this early.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "その|時|、|家|の|方|で|音がした|。",
+        "en": "At that moment there was a sound from the direction of the house."
+      },
+      {
+        "tokens": "戸|の|はずれた|入口|に|、|男の人|が|立っていた|。",
+        "en": "A man was standing in the doorway with its door off."
+      },
+      {
+        "tokens": "おととい|の|夜|、|店|で|懐中電灯|を|買った|人|だった|。",
+        "en": "It was the man who had bought a torch in the shop two nights before."
+      },
+      {
+        "tokens": "男の人|は|、|片方|の|足|を|引きずっていた|。",
+        "en": "He was dragging one leg."
+      },
+      {
+        "tokens": "「|君たち|、|どうやって|来た|」|と|、|その|人|は|言った|。",
+        "en": "“How did you two get here?” he said."
+      },
+      {
+        "tokens": "「|歩いてきました|が#but|、|道|は|もう|ありません|」|と|りく|が|答えた|。",
+        "en": "“We walked, but the road’s gone now,” Riku answered."
+      }
+    ],
+    [
+      {
+        "tokens": "三人|は|、|家|の|中|に|入った|。",
+        "en": "The three of them went inside the house."
+      },
+      {
+        "tokens": "中|は|暗くて|、|床|の|半分|が|ぬけていた|。",
+        "en": "It was dark inside, and half the floor had given way."
+      },
+      {
+        "tokens": "男の人|は|壁|に|もたれて|、|足|を|のばした|。",
+        "en": "The man leaned against the wall and stretched out his leg."
+      },
+      {
+        "tokens": "岩|から|下りる|時|に|、|足首|を|ひねった|という#hearsay|。",
+        "en": "He had twisted his ankle climbing down off the rocks, he said."
+      },
+      {
+        "tokens": "昼|に|一度|下|まで|下りてみた|が#but|、|その|足|で|は|道|を|渡れなかった|。",
+        "en": "He had gone down to the shore once at midday, but on that ankle he could not manage the crossing."
+      },
+      {
+        "tokens": "「|森|と|いいます|」|と|、|その|人|は|名前|を|言った|。",
+        "en": "“My name is Mori,” he said."
+      }
+    ],
+    [
+      {
+        "tokens": "「|どうして|、|あんな|時間|に|島|に|来た|んですか|」|と|ちか|が|聞いた|。",
+        "en": "“Why did you come to the island at that hour?” Chika asked."
+      },
+      {
+        "tokens": "「|店|の|人|が|、|七時|から|道|が|出る|と|言った|から|」|。",
+        "en": "“Because the woman in the shop told me the road came up at seven.”"
+      },
+      {
+        "tokens": "「|あの|人|は|、|うそをついた|んです|」|と|りく|が|言った|。",
+        "en": "“She lied to you,” Riku said."
+      },
+      {
+        "tokens": "森さん|は|、|りく|の|顔|を|見た|。",
+        "en": "Mori looked at Riku’s face."
+      },
+      {
+        "tokens": "「|君|は|、|あの|店|の|子|か|」|。",
+        "en": "“You’re from that shop, are you?”"
+      },
+      {
+        "tokens": "りく|は|、|うなずく|しかなかった|。",
+        "en": "Riku could only nod."
+      }
+    ],
+    [
+      {
+        "tokens": "ちか|が|ポケット|から|手帳|を|出して|、|森さん|に|返した|。",
+        "en": "Chika took the notebook out of her pocket and handed it back to Mori."
+      },
+      {
+        "tokens": "森さん|は|それ|を|見て|、|少しの間|、|黙っていた|。",
+        "en": "Mori looked at it and was silent for a moment."
+      },
+      {
+        "tokens": "「|じゃあ|、|中|を|読んだ|んだね|」|。",
+        "en": "“So you’ve read what’s in it.”"
+      },
+      {
+        "tokens": "「|写真|の|人|は|、|だれ|ですか|」|と|りく|が|聞いた|。",
+        "en": "“Who’s the man in the photograph?” Riku asked."
+      },
+      {
+        "tokens": "「|父|です|」|。",
+        "en": "“My father.”"
+      },
+      {
+        "tokens": "森さん|は|上着|の|内ポケット|から|、|古い|封筒|を|出した|。",
+        "en": "Mori took an old envelope from the inside pocket of his jacket."
+      },
+      {
+        "tokens": "あて名|は|、|町|の|名前|でも|、|人|の|名前|でもなかった|。",
+        "en": "The address on it was neither a town nor a person."
+      },
+      {
+        "tokens": "「|鐘|を|鳴らしてくれた|人|へ|」|と|、|ふるえた|字|で|書いてあった|。",
+        "en": "In a shaky hand it said: To the person who rang the bell."
+      },
+      {
+        "tokens": "「|父|が|書いて|、|出さないまま|死んだ|手紙|です|」|。",
+        "en": "“My father wrote this letter and died without ever sending it.”"
+      }
+    ],
+    [
+      {
+        "tokens": "四十年前|の|九月十二日|、|森さん|の|父|は|ひばり丸|に|乗っていた|。",
+        "en": "On the twelfth of September forty years ago, Mori’s father was aboard the Hibari-maru."
+      },
+      {
+        "tokens": "ひばり丸|は|この|町|の|船|ではなく|、|嵐|の|中|で|岩|の|間|に|入りこんだ|。",
+        "en": "The Hibari-maru was not a boat from this town, and in the storm it had got in among the rocks."
+      },
+      {
+        "tokens": "その|時|、|暗い|海|の|上|で|、|鐘|の|音|が|三つ|聞こえた|。",
+        "en": "Then, out on the dark water, three strikes of a bell."
+      },
+      {
+        "tokens": "父|は|音|の|する|方|へ|船|を|向けて|、|岩|に|乗り上げた|。",
+        "en": "His father turned the boat toward the sound and ran it up onto the rocks."
+      },
+      {
+        "tokens": "船|は|こわれた|が#but|、|父|は|そこ|で|朝|まで|待って|、|助かった|。",
+        "en": "The boat broke up, but his father waited there until morning and lived."
+      },
+      {
+        "tokens": "もう一人|は|、|見つからなかった|。",
+        "en": "The other man was never found."
+      },
+      {
+        "tokens": "「|三つ|で|、|鐘|は|止まりました|」|と|森さん|は|言った|。",
+        "en": "“After three, the bell stopped,” Mori said."
+      }
+    ],
+    [
+      {
+        "tokens": "「|父|は|、|鐘|を|鳴らした|人|が|、|あの|海|で|亡くなった|と|思っていました|」|。",
+        "en": "“My father believed that whoever rang it had died in that sea.”"
+      },
+      {
+        "tokens": "「|だから|、|この|手紙|を|どこ|に|も|出しませんでした|」|。",
+        "en": "“That is why he never sent this letter anywhere.”"
+      },
+      {
+        "tokens": "「|四十年|の|間|、|父|は|あの|音|の|話|を|、|年に一度|だけ|しました|」|。",
+        "en": "“For forty years, he told the story of that sound once a year and no more.”"
+      },
+      {
+        "tokens": "「|春|に|父|が|死んで|、|私|は|この|町|に|来ました|」|。",
+        "en": "“My father died in the spring, and I came to this town.”"
+      },
+      {
+        "tokens": "「|でも|、|町|の|人|は|みんな|、|あの|夜|、|鐘|は|鳴らなかった|と|言います|」|。",
+        "en": "“But everyone in the town says the same thing: that the bell never rang that night.”"
+      }
+    ],
+    [
+      {
+        "tokens": "ちか|が|、|やぐら|の|方|を|指さした|。",
+        "en": "Chika pointed toward the tower."
+      },
+      {
+        "tokens": "「|鐘|、|見ましたか|」|。",
+        "en": "“Did you see the bell?”"
+      },
+      {
+        "tokens": "「|見ました|、|なわ|が|切れています|ね|」|。",
+        "en": "“I did. The rope is broken.”"
+      },
+      {
+        "tokens": "「|三つ|で|切れた|んです|」|と|ちか|は|言った|。",
+        "en": "“It broke after three,” Chika said."
+      },
+      {
+        "tokens": "「|だれか|が|、|あの|上|に|いた|んだ|」|。",
+        "en": "“Somebody was up there.”"
+      },
+      {
+        "tokens": "森さん|は|、|ゆっくり|立ち上がった|。",
+        "en": "Mori got slowly to his feet."
+      }
+    ],
+    [
+      {
+        "tokens": "ちか|は|、|二人|を|やぐら|の|下|に|連れていった|。",
+        "en": "Chika took the other two under the tower."
+      },
+      {
+        "tokens": "そして|、|床|の|板|の|字|を|指|で|なぞった|。",
+        "en": "Then she traced the letters in the floorboards with her finger."
+      },
+      {
+        "tokens": "森さん|は|、|その|前|に|ひざをついて|、|長い間|見ていた|。",
+        "en": "Mori knelt in front of them and looked for a long time."
+      },
+      {
+        "tokens": "「|ゆき|」|と|、|森さん|が|小さく|読んだ|。",
+        "en": "“Yuki,” he read quietly."
+      },
+      {
+        "tokens": "ちか|が|りく|を|見て|、|言った|。",
+        "en": "Chika looked at Riku and said:"
+      },
+      {
+        "tokens": "「|汐見|に|、|ゆき|という|名前|の|人|は|、|一人|しか|いない|」|。",
+        "en": "“There is only one person in Shiomi called Yuki.”"
+      }
+    ],
+    [
+      {
+        "tokens": "りく|は|、|何|も|言えなかった|。",
+        "en": "Riku could not say anything."
+      },
+      {
+        "tokens": "朝|の|はず|なのに|、|島|の|上|が|急に|暗くなった|。",
+        "en": "It was morning, and yet the sky over the island went suddenly dark."
+      },
+      {
+        "tokens": "海|の|色|が|、|灰色|から|黒|に|変わっていた|。",
+        "en": "The sea had turned from grey to black."
+      },
+      {
+        "tokens": "強い|風|が|、|家|の|戸|を|一度|、|大きく|鳴らした|。",
+        "en": "A hard gust rattled the house door, once, loudly."
+      },
+      {
+        "tokens": "やぐら|の|上|で|、|鐘|が|、|ほんの少しだけ|動いた|。",
+        "en": "Up in the tower, the bell moved — just a little."
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "tokens": "雨|は|、|すぐに|来た|。",
+        "en": "The rain came quickly."
+      },
+      {
+        "tokens": "三人|は|、|家|の|奥|の|、|床|の|残っている|所|に|集まった|。",
+        "en": "The three of them gathered at the back of the house, where there was still floor."
+      },
+      {
+        "tokens": "風|が|板|の|すき間|から|入って|、|りく|の|ぬれた|服|を|冷やした|。",
+        "en": "Wind came through the gaps in the boards and chilled Riku’s wet clothes."
+      },
+      {
+        "tokens": "森さん|の|電話|は|電池|が|切れていて|、|ちか|の|電話|は|水|に|入って|動かない|。",
+        "en": "Mori’s phone was out of battery, and Chika’s had been in the water and would not turn on."
+      },
+      {
+        "tokens": "りく|の|電話|は|、|店|の|充電器|に|つながったまま|だった|。",
+        "en": "Riku’s was still on its charger at the shop."
+      }
+    ],
+    [
+      {
+        "tokens": "「|次|に|潮|が|引く|の#nominal|は|、|夜中|の|十二時|ごろ|」|と|ちか|が|言った|。",
+        "en": "“The next low tide is around midnight,” Chika said."
+      },
+      {
+        "tokens": "「|でも|、|この|風|だと|、|道|は|出ない|かもしれない|」|。",
+        "en": "“But with this wind, the road might not come up at all.”"
+      },
+      {
+        "tokens": "だれか|が|探しに来ても|、|この|海|で|島|まで|船|を|出す|に|は|、|理由|が|いる|。",
+        "en": "And even if somebody came looking, taking a boat out to the island in this sea would need a reason."
+      },
+      {
+        "tokens": "りく|は|、|やぐら|の|方|を|見た|。",
+        "en": "Riku looked toward the tower."
+      },
+      {
+        "tokens": "「|鐘|を|鳴らしたら|、|町|から|聞こえますか|」|。",
+        "en": "“If we ring the bell, can they hear it from the town?”"
+      }
+    ],
+    [
+      {
+        "tokens": "「|聞こえる|」|と|森さん|が|言った|。",
+        "en": "“They can,” Mori said."
+      },
+      {
+        "tokens": "「|四十年前|に|、|私|の|父|が|聞いた|」|。",
+        "en": "“My father heard it forty years ago.”"
+      },
+      {
+        "tokens": "「|でも|、|なわ|が|短い|」|と|ちか|が|言った|。",
+        "en": "“But the rope is short,” Chika said."
+      },
+      {
+        "tokens": "森さん|は|自分|の|足|を|見て|、|「|私|は|上がれません|」|と|言った|。",
+        "en": "Mori looked down at his leg and said, “I can’t climb.”"
+      }
+    ],
+    [
+      {
+        "tokens": "やぐら|の|柱|に|は|、|古い|木|の|足場|が|打ちつけてあった|。",
+        "en": "Old wooden footholds had been nailed to the tower’s post."
+      },
+      {
+        "tokens": "りく|は|雨|の|中|で|、|その|足場|に|手をかけた|。",
+        "en": "In the rain, Riku got his hands on them."
+      },
+      {
+        "tokens": "木|は|ぬれていて|、|二回|、|足|が|すべった|。",
+        "en": "The wood was wet, and twice his foot slipped."
+      },
+      {
+        "tokens": "上|まで|行くと|、|鐘|が|目の前|で|風|に|ゆれていた|。",
+        "en": "At the top, the bell was swinging in the wind right in front of him."
+      },
+      {
+        "tokens": "りく|は|自分|の|ベルト|を|はずして|、|短い|なわ|の|先|に|結んだ|。",
+        "en": "Riku took off his belt and tied it to the end of the short rope."
+      },
+      {
+        "tokens": "それでも|まだ|足りなかった|ので|、|ちか|が|上着|を|ぬいで|投げた|。",
+        "en": "It still was not enough, so Chika pulled off her jacket and threw it up."
+      }
+    ],
+    [
+      {
+        "tokens": "下|に|下りると|、|なわ|の|先|が|、|ちょうど|手|の|高さ|に|あった|。",
+        "en": "When he climbed back down, the end of the rope was exactly at hand height."
+      },
+      {
+        "tokens": "ちか|と|りく|は|、|二人|で|なわ|を|引いた|。",
+        "en": "Chika and Riku pulled on it together."
+      },
+      {
+        "tokens": "一回目|は|、|思った|より|小さな|音|だった|。",
+        "en": "The first strike was smaller than they had expected."
+      },
+      {
+        "tokens": "二回目|で|、|鐘|の|中|の|重い|物|が|、|大きく|動いた|。",
+        "en": "On the second, the heavy weight inside the bell swung wide."
+      },
+      {
+        "tokens": "三回目|で|、|音|が|島|の|上|いっぱいに|広がった|。",
+        "en": "On the third, the sound filled the whole top of the island."
+      },
+      {
+        "tokens": "そこで|、|りく|は|手|を|止めなかった|。",
+        "en": "And there, Riku did not stop."
+      }
+    ],
+    [
+      {
+        "tokens": "四回|、|五回|、|六回|。",
+        "en": "Four. Five. Six."
+      },
+      {
+        "tokens": "森さん|が|、|床|に|すわった|まま|数|を|数えた|。",
+        "en": "Sitting on the floor, Mori counted them."
+      },
+      {
+        "tokens": "うで|が|痛くなっても|、|二人|は|引き続けた|。",
+        "en": "Their arms began to hurt, and still the two of them pulled."
+      },
+      {
+        "tokens": "ちか|が|急に|、|りく|の|うで|を|つかんだ|。",
+        "en": "Then Chika suddenly grabbed Riku’s arm."
+      }
+    ],
+    [
+      {
+        "tokens": "海|の|上|に|、|小さな|光|が|一つ|見えた|。",
+        "en": "Out on the water there was one small light."
+      },
+      {
+        "tokens": "その|後ろ|に|、|二つ|、|三つ|と|光|が|続いた|。",
+        "en": "Behind it came a second, and a third."
+      },
+      {
+        "tokens": "いちばん|前|を|来る|の#nominal|は|、|谷さん|の|船|だった|。",
+        "en": "The one in front was Tani’s boat."
+      },
+      {
+        "tokens": "その|船|の|先|に|、|一人|、|立っている|人|が|いた|。",
+        "en": "Someone was standing in its bow."
+      },
+      {
+        "tokens": "おばさん|だった|。",
+        "en": "It was his aunt."
+      }
+    ],
+    [
+      {
+        "tokens": "その|夜|おそく|、|店|の|中|は|明るかった|。",
+        "en": "Late that night, the shop was warm with light."
+      },
+      {
+        "tokens": "ぬれた|服|を|着がえて|、|四人|は|火|の|近く|に|すわった|。",
+        "en": "They changed out of their wet clothes, and the four of them sat near the fire."
+      },
+      {
+        "tokens": "「|今朝|、|私|は|防波堤|に|いて|、|ずっと|島|を|見ていた|」|と|、|おばさん|が|言った|。",
+        "en": "“This morning I was out on the sea wall, watching the island the whole time,” his aunt said."
+      },
+      {
+        "tokens": "それから|、|ゆっくり|話し始めた|。",
+        "en": "Then she began, slowly, to tell it."
+      },
+      {
+        "tokens": "四十年前|の|あの|夜|、|おばさん|は|十二歳|で|、|父親|が|熱を出して|動けなかった|ので|、|かわり|に|島|へ|行った|。",
+        "en": "On that night forty years ago she was twelve, and because her father had a fever and could not move, she went out to the island in his place."
+      }
+    ],
+    [
+      {
+        "tokens": "砂|の|道|は|、|もう|半分|しずんでいた|という#hearsay|。",
+        "en": "The sand road, she said, was already half under water."
+      },
+      {
+        "tokens": "それでも|走って|渡って|、|やぐら|の|下|まで|上がった|。",
+        "en": "She ran across it anyway and climbed up to the foot of the tower."
+      },
+      {
+        "tokens": "なわ|を|引いて|、|三つ|鳴らした|所|で|、|なわ|が|切れた|。",
+        "en": "She pulled the rope, and at the third strike it broke."
+      },
+      {
+        "tokens": "朝|まで|、|あの|床|の|上|で|待っていた|。",
+        "en": "She waited on that floor until morning."
+      },
+      {
+        "tokens": "町|に|もどると|、|船|が|岩|に|当たった|話|を|聞いた|。",
+        "en": "When she got back to the town, she heard that a boat had struck the rocks."
+      },
+      {
+        "tokens": "「|三つ|じゃ|何にもならない|と|思って|、|四十年|たった|」|。",
+        "en": "“Three was no good to anyone. I have thought that for forty years.”"
+      }
+    ],
+    [
+      {
+        "tokens": "森さん|が|、|封筒|を|出して|、|おばさん|の|前|に|置いた|。",
+        "en": "Mori took out the envelope and set it down in front of her."
+      },
+      {
+        "tokens": "「|あなた|の|あの|音|を|、|父|は|四十年|、|覚えていました|」|と|森さん|は|言った|。",
+        "en": "“My father remembered that sound of yours for forty years,” Mori said."
+      },
+      {
+        "tokens": "「|そして|父|は|、|あなた|も|、|あの|夜|の|海|で|亡くなった|と|思っていました|」|。",
+        "en": "“And he believed that you, too, had died in the sea that night.”"
+      },
+      {
+        "tokens": "おばさん|は|手紙|を|両手|で|持った|まま|、|下|を|向いた|。",
+        "en": "She held the letter in both hands and looked down."
+      },
+      {
+        "tokens": "りく|は|、|その|紙|が|小さく|ふるえる|の#nominal|を|見ていた|。",
+        "en": "Riku watched the paper tremble slightly."
+      }
+    ],
+    [
+      {
+        "tokens": "次|の|朝|、|風|は|やんでいた|。",
+        "en": "By the next morning the wind had dropped."
+      },
+      {
+        "tokens": "おばさん|は|壁|の|潮見表|の|前|に|立って|、|消しゴム|を|出した|。",
+        "en": "His aunt stood in front of the tide table on the wall and took out an eraser."
+      },
+      {
+        "tokens": "えんぴつ|の|字|を|、|一行ずつ|消していった|。",
+        "en": "She rubbed out the pencil, one line at a time."
+      },
+      {
+        "tokens": "それから|、|いちばん|下|の|白い|所|に|、|「|九月十二日|、|鐘|を|ならす|」|と|短く|書いた|。",
+        "en": "Then, in the blank space at the bottom, she wrote one short line: “12 September — ring the bell.”"
+      }
+    ],
+    [
+      {
+        "tokens": "その|年|の|九月十二日|、|りく|は|もう一度|、|汐見|に|来た|。",
+        "en": "That year, on the twelfth of September, Riku came back to Shiomi."
+      },
+      {
+        "tokens": "夕方|、|町|の|人|が|集まって|、|砂|の|道|を|渡った|。",
+        "en": "In the evening the people of the town gathered and walked out along the sand road."
+      },
+      {
+        "tokens": "やぐら|の|下|に|は|、|新しい|太い|なわ|が|下がっていた|。",
+        "en": "A new, thick rope hung under the tower."
+      },
+      {
+        "tokens": "鐘|は|、|船|が|全部|港|に|入る|まで|、|ずっと|鳴った|。",
+        "en": "The bell rang until every boat was in the harbour."
+      }
+    ]
+  ]
+]

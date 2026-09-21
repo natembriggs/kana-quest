@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-21',
+    changes: [
+      'New: 三つの鐘 (Three Bells), an original level 4 adventure in five chapters — the first level 4 story that runs as a series. Riku spends the summer with his aunt in a fishing town where a road of sand reaches a small island at low tide, and the tide table on her shop wall has been changed in pencil. A stranger is given the wrong time, walks out anyway, and does not come back. What Riku and Chika find on the island is a bell nobody has rung in forty years, a rope broken short, and a name scratched into the floor. Every sentence has its own English translation and tappable word explanations, and every chapter ends somewhere you will want to know what happens next.',
+    ],
+  },
+  {
     date: '2026-09-20',
     changes: [
       'Improved: 隠れ谷の灯り (The Lanterns of the Hidden Valley) has been edited end to end so each sentence follows the one before it. Chapter one no longer mentions a station Aoi was never at, she now actually arrives at her grandmother’s house before the veranda scene, and the boy in the fox mask asks the cousins to come with him instead of the story simply cutting to them setting off. Later chapters explain where the water is rising from, who the woman waiting at the gate is, and why Ren is the one sent back for help. Thirty-six sentences were added or rewritten across the five chapters; the story is the same, with the gaps filled in.',
