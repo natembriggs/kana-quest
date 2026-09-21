@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
+      'Improved: sending someone a link to the app now shows a proper preview. Pasting the link into a message, or finding the app in a search engine, used to show nothing but the bare address and the words “Kana Quest”, which told a parent who had never heard of it absolutely nothing. It now says what the app is — hiragana and katakana from scratch, all 2,136 jōyō kanji, handwriting and illustrated stories with furigana — along with the app’s icon. Nothing inside the app has changed.',
+    ],
+  },
+  {
+    date: '2026-09-21',
+    changes: [
       'New: 三つの鐘 (Three Bells), an original level 4 adventure in five chapters — the first level 4 story that runs as a series. Riku spends the summer with his aunt in a fishing town where a road of sand reaches a small island at low tide, and the tide table on her shop wall has been changed in pencil. A stranger is given the wrong time, walks out anyway, and does not come back. What Riku and Chika find on the island is a bell nobody has rung in forty years, a rope broken short, and a name scratched into the floor. Every sentence has its own English translation and tappable word explanations, and every chapter ends somewhere you will want to know what happens next.',
     ],
   },

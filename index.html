@@ -7,11 +7,63 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Kana Quest">
-<title>Kana Quest</title>
+
+<!-- The title is what a search result actually shows, so it carries the
+     words a parent would search for rather than the brand alone: nobody
+     googles the app's name, they google "hiragana practice". The name is
+     only the first half of it. See rename-and-hosting-plan.md §7 — the
+     brand half of this line, and of the three og:/JSON-LD copies below,
+     changes at cutover; the descriptive half does not. -->
+<title>Kana Quest — hiragana, katakana and kanji practice for kids</title>
+<meta name="description" content="A free, installable practice app for children learning Japanese: hiragana and katakana from scratch, all 2,136 jōyō kanji, handwriting with stroke-by-stroke marking, and illustrated stories with furigana. Works offline on iPhone, iPad and Android.">
+
+<!-- Link previews (Slack, WhatsApp, Discord, iMessage) and search
+     snippets. No absolute URLs anywhere here on purpose: index.html is
+     served unchanged from GitHub Pages, from the staged local copy on
+     :8751, and later from Cloudflare, and rename-and-hosting-plan.md §6
+     depends on the app hardcoding no origin. Crawlers resolve a relative
+     og:image against the page URL; the ones that insist on absolute get
+     it at cutover, along with the <link rel="canonical"> that belongs
+     here once a second origin exists to be canonical against (§8 — both
+     origins will serve identical pages for the whole dual run, which
+     without it splits the site's own search ranking in two). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kana Quest">
+<meta property="og:title" content="Kana Quest — hiragana, katakana and kanji practice for kids">
+<meta property="og:description" content="Hiragana and katakana from scratch, all 2,136 jōyō kanji, handwriting practice and illustrated stories with furigana. Free, installs to the home screen, works offline.">
+<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:image:alt" content="The Kana Quest app icon">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary">
+
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Structured data. Modest value on its own — the rich result for
+     SoftwareApplication mostly wants an aggregateRating, which this app
+     has no honest source for and must not invent — but it is what tells
+     a crawler this is a free educational app for children rather than a
+     page about Japanese, and it costs one inert script tag. `url` is
+     omitted for the same origin-independence reason as the og: tags. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kana Quest",
+  "description": "A free, installable practice app for children learning Japanese: hiragana and katakana from scratch, all 2,136 jōyō kanji, handwriting with stroke-by-stroke marking, and illustrated stories with furigana.",
+  "applicationCategory": "EducationalApplication",
+  "applicationSubCategory": "Language learning",
+  "operatingSystem": "Any modern web browser (iOS, Android, macOS, Windows)",
+  "browserRequirements": "Requires JavaScript. Installs to the home screen and works offline.",
+  "inLanguage": ["en", "ja"],
+  "teaches": ["Hiragana", "Katakana", "Kanji", "Japanese vocabulary", "Japanese handwriting"],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+  "audience": { "@type": "EducationalAudience", "educationalRole": "student" }
+}
+</script>
 
 <!-- wanakana is a UMD bundle, so it loads as a classic script and provides
      window.wanakana before the ES modules below run. -->
