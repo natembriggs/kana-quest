@@ -74,7 +74,7 @@ export function issueBody({ id, category, details, diagnostics = {}, submittedAt
     '',
     `- Submitted: ${new Date(submittedAt).toISOString()}`,
     '',
-    '_Submitted from KanaQuest. No learner name, progress, sync code, or contact',
+    '_Submitted from Kanji Trail. No learner name, progress, sync code, or contact',
     'details were attached. The text above is exactly what was typed, with',
     '@mentions and issue references defused._',
     '',

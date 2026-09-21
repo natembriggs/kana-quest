@@ -22,6 +22,11 @@ export const CATEGORY_GITHUB_LABEL = {
 
 // Applied to every issue this server creates, and the filter every triage
 // workflow keys off. Never set from user input.
+// NOT renamed with the app, on the same grounds as the identifiers in
+// rename-and-hosting-plan.md §5: this label is applied to every report and
+// is what triage filters on. Renaming it orphans every issue already
+// carrying it and silently changes what the triage routine matches. It is
+// an internal key that happens to read like a name.
 export const SOURCE_LABEL = 'from:kanaquest-app';
 
 // The learner-facing state machine (feedback-plan.md, "Track triage and
