@@ -99,6 +99,10 @@ Still outstanding:
   from the new origin is rejected by Turnstile itself, *before* the
   Worker's own `TURNSTILE_HOSTNAMES` list is consulted — so the Worker
   config being right (it is, §7) is not enough on its own.
+- **Turn on "Always Use HTTPS"** (SSL/TLS → Edge Certificates). The
+  Worker answers on port 80 as well as 443, and `http://kanjitrail.com`
+  was serving the app with a 200 and no redirect. This is a zone setting
+  and cannot be done from here. HSTS is worth considering alongside it.
 - **Decide about `www`** (§6).
 - **Decide about the matching `.app`**, defensively. ~$14/yr. Assessed as
   unnecessary (see the `kanji-trail-app` note in §2), so this is comfort
@@ -214,6 +218,31 @@ that was supposed to catch prose was `-maxdepth 1` and never looked
 inside `assets/stories/`. Both are fixed: the guard is recursive, and
 those files are pruned from the staged copy. Verified against the live
 domain that they, `README.md` and every plan document answer 404.
+
+### The port-80 origin, and why it mattered more than a padlock
+
+GitHub Pages redirects plain HTTP to HTTPS automatically and `github.io`
+is HSTS-preloaded, so this never arose before. A Workers custom domain
+answers on port 80 too, and without the zone's "Always Use HTTPS"
+setting it serves the app there — which Chrome flags with a warning
+beside the address.
+
+The warning is the least of it. **`http://kanjitrail.com` is a different
+origin from `https://kanjitrail.com`**, so it is §4's partitioning trap
+again, self-inflicted — and with the escape hatch shut. Measured in a
+browser rather than assumed: `isSecureContext` false, `crypto.subtle`
+**absent** so sync cannot derive a key, `serviceWorker` **absent** so
+nothing caches or works offline, and `indexedDB` present and writable.
+A learner who landed there would quietly accumulate progress the real
+site can never see, and could not rescue it with a sync code either.
+
+Fixed in two places, deliberately. The zone setting (§3) is the real fix
+and answers with a 301 before anything reaches the browser. The backstop
+is an inline script at the very top of `index.html`, before the manifest
+link and before any module loads, scoped to the live hostname — because
+`tools/serve.sh` serves over plain HTTP to a phone on the LAN and
+`.claude/launch.json` over HTTP on localhost, and redirecting either
+would break both.
 
 `not_found_handling = "none"`, because the app is a single page — screens
 switch via `show()` in app.js and there is no path routing anywhere in
@@ -412,8 +441,8 @@ the conversation to reopen, and it is a different piece of work.
 
 ## 11. Open decisions
 
-- Turnstile dashboard hostname (§3) — the one thing currently blocking
-  feedback from the new origin.
+- "Always Use HTTPS" on the zone (§3). A backstop is shipped, but the
+  redirect belongs at the edge.
 - `www`: redirect to the apex, or leave it not resolving (§6).
 - The `.app` domain, defensively (§3).
 - The canonical link (§8).

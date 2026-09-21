@@ -2,6 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+
+<!-- FIRST, before the manifest link and before any module loads.
+     kanjitrail.com answers on port 80 as well as 443, and plain HTTP is a
+     DIFFERENT ORIGIN from https — so a visitor who arrives there gets an
+     empty app, and anything they then do is written into storage the real
+     site can never read. That is rename-and-hosting-plan.md §4's
+     partitioning trap, self-inflicted, and with the escape hatch shut:
+     crypto.subtle is unavailable outside a secure context, so sync cannot
+     derive a key, so a learner stranded on http cannot even rescue their
+     progress with a code. Service workers do not register there either.
+     Measured, not assumed: isSecureContext false, crypto.subtle absent,
+     serviceWorker absent, indexedDB present and writable.
+
+     The real fix is "Always Use HTTPS" on the zone, which answers with a
+     301 before anything reaches the browser. This is the backstop for the
+     day that setting is off — as it was when the domain was first set up.
+
+     Scoped to the live hostname on purpose. tools/serve.sh serves the app
+     over plain http to a phone on the LAN by IP, and .claude/launch.json
+     over http on localhost; redirecting either would break both. -->
+<script>
+(function () {
+  var host = location.hostname;
+  if (location.protocol === 'http:'
+      && (host === 'kanjitrail.com' || host.slice(-15) === '.kanjitrail.com')) {
+    location.replace('https://' + host + location.pathname + location.search + location.hash);
+  }
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#e8553d">
 <meta name="apple-mobile-web-app-capable" content="yes">

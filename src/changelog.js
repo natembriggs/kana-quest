@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
+      'Fixed: kanjitrail.com now always opens over a secure connection. It was possible to reach the site over an insecure one, where the browser shows a warning beside the address, refuses to save your progress reliably, and switches off syncing altogether — and anything done there was kept separately from your real progress, where the app could not see it. Any address for the site now moves you to the secure version before the app starts.',
+    ],
+  },
+  {
+    date: '2026-09-21',
+    changes: [
       'New: Kanji Trail has a new app icon — an open book with ひ, カ and 字 beside a winding trail. It represents hiragana, katakana and kanji together. An existing home-screen icon may keep its old picture; the app and your progress still work as before.',
     ],
   },
