@@ -43,7 +43,10 @@ PATHS=(
   manifest.webmanifest
   src
   assets
-  icons
+  icons/icon-180.png
+  icons/icon-192.png
+  icons/icon-512.png
+  icons/icon-512-maskable.png
   vendor
 )
 
@@ -64,6 +67,7 @@ for p in "${PATHS[@]}"; do
   if [ -d "$p" ]; then
     rsync -a --exclude='.DS_Store' "$p/" "$DIST/$p/"
   else
+    mkdir -p "$DIST/$(dirname "$p")"
     cp "$p" "$DIST/$p"
   fi
 done
@@ -73,7 +77,7 @@ find "$DIST" -name '.DS_Store' -delete
 find "$DIST" -name '._*' -delete
 
 # The allowlist above works at top-level granularity, which is the right
-# grain for src/ and icons/ but too coarse for assets/: the paintings the
+# grain for src/ but too coarse for assets/: the paintings the
 # app fetches sit in the same tree as the authoring record that produced
 # them. None of the following is ever requested by the browser — checked
 # against src/, sw.js and index.html — and all of it is working material:

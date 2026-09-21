@@ -31,7 +31,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-21d';
+const VERSION = '2026-09-21e';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -40,6 +40,10 @@ const SHELL = [
   'index.html',
   'styles.css',
   'manifest.webmanifest',
+  'icons/icon-180.png?v=book-trail-1',
+  'icons/icon-192.png?v=book-trail-1',
+  'icons/icon-512.png?v=book-trail-1',
+  'icons/icon-512-maskable.png?v=book-trail-1',
   'vendor/wanakana.min.js',
   'src/app.js',
   'src/kana.js',
