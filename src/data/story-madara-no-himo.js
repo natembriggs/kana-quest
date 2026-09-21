@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original chapter-length retelling of the complete case, narrated by Watson as the original is. Doyle’s subplot about the travelling people camped on the grounds — a red herring resting on a slur — is left out; nothing else of the plot is changed, and no wording is copied from a published translation.",
-    "licence": "Public domain source story. This Japanese retelling and its English translation are original to KanjiTrail.",
+    "licence": "Public domain source story. This Japanese retelling and its English translation are original to Kanji Trail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [

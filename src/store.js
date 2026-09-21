@@ -307,7 +307,7 @@ function isObject(value) {
 
 function validateBackup(data) {
   if (!data || data.format !== 'kana-quest-backup' || data.version !== 1 || !Array.isArray(data.profiles)) {
-    throw new Error('That does not look like a supported KanjiTrail backup file.');
+    throw new Error('That does not look like a supported Kanji Trail backup file.');
   }
   const ids = new Set();
   data.profiles.forEach((profile) => {

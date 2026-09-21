@@ -1,6 +1,6 @@
 {
-  "name": "KanjiTrail",
-  "short_name": "KanjiTrail",
+  "name": "Kanji Trail",
+  "short_name": "Kanji Trail",
   "description": "Learn hiragana, katakana and kanji by reading and writing.",
   "start_url": "./",
   "scope": "./",

@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-21c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-21d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8832,7 +8832,7 @@ function migrationShowCode() {
 async function migrationExport() {
   try {
     await exportBackup();
-    $('migration-status').textContent = 'Saved. Open KanjiTrail, choose "I already use this app somewhere else", and load that file.';
+    $('migration-status').textContent = 'Saved. Open Kanji Trail, choose "I already use this app somewhere else", and load that file.';
   } catch {
     $('migration-status').textContent = 'Could not save the file just now. Try the sync code instead.';
   }
@@ -9310,8 +9310,8 @@ async function syncShareCode() {
   if (!syncState || typeof navigator.share !== 'function') return;
   try {
     await navigator.share({
-      title: 'KanjiTrail sync code',
-      text: `KanjiTrail sync code for ${state.profile.name}: ${syncState.code}\n\n`
+      title: 'Kanji Trail sync code',
+      text: `Kanji Trail sync code for ${state.profile.name}: ${syncState.code}\n\n`
         + "Enter this in Settings on another device to keep them in step, or to restore this learner's progress if this device is ever lost.",
     });
   } catch {
@@ -12346,7 +12346,7 @@ function watchForUpdates() {
 }
 
 /**
- * The escape hatch: drop KanjiTrail's caches, unregister this app's worker,
+ * The escape hatch: drop Kanji Trail's caches, unregister this app's worker,
  * and reload from the network. Sibling PWAs on the same origin are left
  * alone. Nothing here touches IndexedDB, so learner progress survives.
  */

@@ -31,7 +31,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-21c';
+const VERSION = '2026-09-21d';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -90,7 +90,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     // Multiple project PWAs can share one origin (notably on GitHub Pages).
-    // Remove only superseded KanjiTrail caches, never a sibling app's data.
+    // Remove only superseded Kanji Trail caches, never a sibling app's data.
     await Promise.all(keys
       .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE)
       .map((key) => caches.delete(key)));
@@ -126,7 +126,7 @@ self.addEventListener('fetch', (event) => {
       }
       return fresh;
     } catch {
-      // Search only KanjiTrail's current cache. A same-origin sibling PWA
+      // Search only Kanji Trail's current cache. A same-origin sibling PWA
       // must never become an accidental fallback source for this app.
       const cache = await caches.open(CACHE);
       const cached = await cache.match(request);

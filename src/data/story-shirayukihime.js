@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling with a gentle resolution and no wording from a published edition.",
-    "licence": "Public domain (traditional tale). This retelling and its English translation are original to KanjiTrail.",
+    "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [

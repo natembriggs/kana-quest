@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original chapter-length retelling of the novel’s complete plot, including its final-confession reveal; no wording is copied from a published translation.",
-    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to KanjiTrail.",
+    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
