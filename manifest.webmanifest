@@ -1,6 +1,6 @@
 {
-  "name": "Kana Quest",
-  "short_name": "Kana",
+  "name": "KanjiTrail",
+  "short_name": "KanjiTrail",
   "description": "Learn hiragana, katakana and kanji by reading and writing.",
   "start_url": "./",
   "scope": "./",

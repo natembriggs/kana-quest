@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original chapter-length retelling of the novel’s main arc; no wording is copied from a published translation.",
-    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kana Quest.",
+    "licence": "Public domain source novel. This Japanese retelling and its English translation are original to KanjiTrail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [

@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-21b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-21c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -851,11 +851,15 @@ function completeOnboarding({ to = renderHome } = {}) {
 /** Screen A — the entry choice. */
 function renderOnboarding() {
   state.onboardingPairing = false;
+  // Here rather than at boot: this is the only screen the label lives on,
+  // and a learner can reach it after the query string has been navigated
+  // away from.
+  applyMigrationArrival();
   show('screen-onboarding');
 }
 
 /**
- * "I already use Kana Quest somewhere else" — straight into the pairing UI
+ * "I already use this app somewhere else" — straight into the pairing UI
  * Settings already has (onboarding-plan.md §3.1). Deliberately the same form,
  * the same submit handler and the same code path as Settings > Sync: a second
  * pairing implementation is a second thing to get wrong about a feature whose
@@ -1668,6 +1672,7 @@ function renderHome() {
   const profile = state.profile;
   $('home-avatar').textContent = profile.emoji;
   $('home-greeting').textContent = profile.name;
+  renderMigrationNotice();
   // Not awaited: this reads IndexedDB, and the rest of the home screen must
   // never wait on it to draw.
   renderSyncNudge();
@@ -8689,7 +8694,7 @@ async function exportBackup() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `kana-quest-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  link.download = `kanjitrail-backup-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -8768,6 +8773,95 @@ async function renderSyncCard(statusOverride) {
   $('sync-status').textContent = statusOverride !== undefined
     ? statusOverride
     : (syncState ? syncStatusText(syncState) : '');
+}
+
+// --- The dual run (rename-and-hosting-plan.md §8) -------------------------
+//
+// One codebase serves both origins, so everything migration-related is
+// gated on WHERE it is running rather than on a build flag. The old origin
+// gets the notice; the new one gets the arriving learner.
+//
+// This is the whole mechanism by which an existing learner finds out the
+// app has moved. Storage is partitioned by origin (§4) and no browser
+// mechanism exists to carry IndexedDB across one, so a learner who simply
+// opens the new site is shown an empty app with no explanation. There is
+// no seamless version of this available to build.
+const LEGACY_ORIGIN_HOST = 'natembriggs.github.io';
+const NEW_SITE_URL = 'https://kanjitrail.com/?from=kq';
+
+// Guarded rather than reading `location` directly, for the same reason the
+// beforeinstallprompt listener below is: test/wiring.js stubs the browser
+// globals as minimally as it can get away with, and app.js runs its
+// top-level boot() as a side effect of being imported there. An origin it
+// cannot determine is treated as not the old one, which errs toward not
+// showing a migration notice to somebody who is not migrating.
+function isLegacyOrigin() {
+  return typeof location === 'object' && location !== null
+    && location.hostname === LEGACY_ORIGIN_HOST;
+}
+
+// Session-only, and deliberately not per-profile like the sync nudge: the
+// move applies to the whole device, and a parent dismissing it while
+// looking at one child's profile has not dealt with it for the others.
+const MIGRATION_DISMISSED_KEY = 'kana-quest-migration-dismissed';
+
+function migrationDismissed() {
+  try {
+    return sessionStorage.getItem(MIGRATION_DISMISSED_KEY) === '1';
+  } catch {
+    return false; // private browsing etc. — err toward still showing it
+  }
+}
+
+function renderMigrationNotice() {
+  const card = $('migration-notice');
+  card.hidden = !isLegacyOrigin() || migrationDismissed();
+}
+
+/** The code route. Routed through the existing Settings sync card rather
+ * than displaying a code here: syncTurnOnFromNudge() already creates a
+ * pairing for a profile that has none, shows the code, and scrolls it into
+ * view, and it is the path the sync nudge has been using all along. */
+function migrationShowCode() {
+  syncTurnOnFromNudge();
+}
+
+/** The file route. exportBackup() writes every learner on the device, not
+ * just the current one, which is why the card names it as the better
+ * choice for a shared device. */
+async function migrationExport() {
+  try {
+    await exportBackup();
+    $('migration-status').textContent = 'Saved. Open KanjiTrail, choose "I already use this app somewhere else", and load that file.';
+  } catch {
+    $('migration-status').textContent = 'Could not save the file just now. Try the sync code instead.';
+  }
+}
+
+/** A new tab, not a navigation: the old site stays open behind it, so a
+ * learner who has not finished copying their code down has not lost it.
+ * No code in the URL, ever — it is key material, and a query string writes
+ * it into history, referrers and every log in between (§4). */
+function migrationOpenNewSite() {
+  window.open(NEW_SITE_URL, '_blank', 'noopener');
+}
+
+/** The other half, on the new origin: ?from=kq says this visitor was sent
+ * by the old site, so the first-run screen names the app they are coming
+ * from instead of leaving them to recognise themselves in a generic "I
+ * already use this app somewhere else". The choice is already first in the
+ * list; this only makes it unmistakable. */
+function applyMigrationArrival() {
+  if (isLegacyOrigin()) return;
+  let from = null;
+  try {
+    from = new URL(location.href).searchParams.get('from');
+  } catch {
+    return; // no location, or one this stub cannot parse — nothing to apply
+  }
+  if (from !== 'kq') return;
+  const label = $('onboarding-connect-label');
+  if (label) label.textContent = 'I already use Kana Quest somewhere else';
 }
 
 // Dismissing hides the home-screen nudge for the rest of THIS browser
@@ -9216,8 +9310,8 @@ async function syncShareCode() {
   if (!syncState || typeof navigator.share !== 'function') return;
   try {
     await navigator.share({
-      title: 'Kana Quest sync code',
-      text: `Kana Quest sync code for ${state.profile.name}: ${syncState.code}\n\n`
+      title: 'KanjiTrail sync code',
+      text: `KanjiTrail sync code for ${state.profile.name}: ${syncState.code}\n\n`
         + "Enter this in Settings on another device to keep them in step, or to restore this learner's progress if this device is ever lost.",
     });
   } catch {
@@ -11765,6 +11859,14 @@ function wire() {
 
   $('feedback-details').addEventListener('input', updateFeedbackCount);
   setupFeedbackVoiceButtons();
+  $('migration-dismiss').addEventListener('click', () => {
+    $('migration-notice').hidden = true;
+    try {
+      sessionStorage.setItem(MIGRATION_DISMISSED_KEY, '1');
+    } catch {
+      // Private browsing: the notice simply comes back, which is the safe way to fail.
+    }
+  });
   $('sync-nudge-dismiss').addEventListener('click', () => {
     $('sync-nudge').hidden = true;
     if (state.profile) dismissSyncNudge(state.profile.id);
@@ -12043,6 +12145,9 @@ function wire() {
         break;
       case 'sync-turn-on': syncTurnOn(); break;
       case 'sync-nudge-turn-on': syncTurnOnFromNudge(); break;
+      case 'migration-show-code': migrationShowCode(); break;
+      case 'migration-export': migrationExport(); break;
+      case 'migration-open-new': migrationOpenNewSite(); break;
       case 'sync-show-code-entry':
         $('sync-code-entry').hidden = false;
         $('sync-code-input').focus();
@@ -12241,7 +12346,7 @@ function watchForUpdates() {
 }
 
 /**
- * The escape hatch: drop Kana Quest's caches, unregister this app's worker,
+ * The escape hatch: drop KanjiTrail's caches, unregister this app's worker,
  * and reload from the network. Sibling PWAs on the same origin are left
  * alone. Nothing here touches IndexedDB, so learner progress survives.
  */

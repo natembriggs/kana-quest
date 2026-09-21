@@ -1,4 +1,4 @@
-/* Kana Quest — mobile-first, large touch targets, light and dark. */
+/* KanjiTrail — mobile-first, large touch targets, light and dark. */
 
 :root {
   --bg: #fdf6f0;
@@ -572,6 +572,18 @@ button.quiz-glyph-tap {
   border-radius: var(--radius);
   padding: 16px;
 }
+/* The dual-run notice (rename-and-hosting-plan.md §8). An ordinary card
+   with the accent brought to its leading edge — this has to be noticed on
+   a screen that already carries a sync nudge and a course nudge, without
+   being dressed as an error. Everything here is a theme token, so it
+   follows light and dark like the rest. Buttons wrap rather than shrink:
+   two full-width rows on a phone beat four squashed ones. */
+.migration-notice {
+  border-left: 4px solid var(--accent);
+}
+.migration-notice .row { flex-wrap: wrap; }
+.migration-notice .row > * { flex: 1 1 12rem; }
+
 .stack { display: flex; flex-direction: column; gap: 12px; }
 .row { display: flex; gap: 10px; }
 .row > * { flex: 1; }

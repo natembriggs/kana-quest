@@ -16,7 +16,7 @@ export const STORY = {
     "text": "Traditional fable (The Tortoise and the Hare)",
     "by": "Claude Opus 5.0",
     "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The fable itself is ancient and has no single identifiable author or copyright holder. Retelling and English translation by Claude Opus 5.0.",
-    "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kana Quest.",
+    "licence": "Public domain (traditional fable). This retelling and its English translation are original to KanjiTrail.",
     "credit": "Retold by",
     "cover": "Cover generated with OpenAI image generation."
   },

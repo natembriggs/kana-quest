@@ -22,11 +22,11 @@ export const STORY = {
   "series": null,
   "source": {
     "kind": "original",
-    "text": "An original story written for Kana Quest",
+    "text": "An original story written for KanjiTrail",
     "by": "Claude Fable 5.1",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.",
+    "licence": "Original to KanjiTrail; Japanese text and English translations may be used and adapted with the app.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "body": [

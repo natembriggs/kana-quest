@@ -13,6 +13,13 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
+      'New: Kana Quest is now called KanjiTrail, and has a new home at kanjitrail.com. It is the same app, made by the same person, with everything you have already done still here — only the name on the front and the address you type have changed. The old name covered the first fortnight of an app that now goes all the way through the 2,136 jōyō kanji, vocabulary, handwriting and the story shelf, and it also belonged to somebody else: a puzzle game of the same name has been on sale for years.',
+      'Important: your progress does not move to the new address by itself. A browser keeps each website\u2019s saved data separately, and there is no way for one site to read another\u2019s — so opening kanjitrail.com for the first time will show you an empty app until you bring your progress across. There is now a notice on the home screen here that does it in two steps: either show this learner\u2019s sync code, or download a progress file covering everyone on this device, and then open the new site and load it in. The old address keeps working normally while you do it.',
+    ],
+  },
+  {
+    date: '2026-09-21',
+    changes: [
       'Improved: sending someone a link to the app now shows a proper preview. Pasting the link into a message, or finding the app in a search engine, used to show nothing but the bare address and the words “Kana Quest”, which told a parent who had never heard of it absolutely nothing. It now says what the app is — hiragana and katakana from scratch, all 2,136 jōyō kanji, handwriting and illustrated stories with furigana — along with the app’s icon. Nothing inside the app has changed.',
     ],
   },

@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original retelling assembled from long-established public-domain plot elements, not translated from a particular edition.",
-    "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kana Quest.",
+    "licence": "Public domain (traditional tale). This retelling and its English translation are original to KanjiTrail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [

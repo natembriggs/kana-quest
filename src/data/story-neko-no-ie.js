@@ -23,12 +23,12 @@ export const STORY = {
   "series": null,
   "source": {
     "kind": "original",
-    "text": "An original story written for Kana Quest",
+    "text": "An original story written for KanjiTrail",
     "by": "GPT-6",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kana Quest; Japanese text and English translations may be used and adapted with the app.",
-    "illustrations": "Inline SVG illustrations drawn by GPT-6 for Kana Quest, using the cover as a character and palette reference.",
+    "licence": "Original to KanjiTrail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline SVG illustrations drawn by GPT-6 for KanjiTrail, using the cover as a character and palette reference.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {

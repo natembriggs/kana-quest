@@ -22,7 +22,7 @@ export const STORY = {
     "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original Japanese retelling and abridgement of the opening episode, not a translation of Carroll’s prose or a modern Japanese edition.",
-    "licence": "Public domain (Lewis Carroll d. 1898). This retelling and its English translation are original to Kana Quest.",
+    "licence": "Public domain (Lewis Carroll d. 1898). This retelling and its English translation are original to KanjiTrail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [

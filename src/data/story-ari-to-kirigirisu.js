@@ -17,7 +17,7 @@ export const STORY = {
     "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition.",
-    "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kana Quest.",
+    "licence": "Public domain (traditional fable). This retelling and its English translation are original to KanjiTrail.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
