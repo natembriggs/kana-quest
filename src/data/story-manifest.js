@@ -570,7 +570,7 @@ export const STORIES = {
     "hash": "5a1e05a3",
     "length": 793,
     "paras": 11,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5",
@@ -594,7 +594,7 @@ export const STORIES = {
     "hash": "c1c7a4ed",
     "length": 639,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5",
@@ -618,7 +618,7 @@ export const STORIES = {
     "hash": "e914d12f",
     "length": 594,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5",
@@ -642,7 +642,7 @@ export const STORIES = {
     "hash": "f78bfd30",
     "length": 658,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5",
@@ -666,7 +666,7 @@ export const STORIES = {
     "hash": "fcd63a69",
     "length": 725,
     "paras": 12,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5",
@@ -823,7 +823,7 @@ export const STORIES = {
     "hash": "7b3f09ea",
     "length": 1055,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -847,7 +847,7 @@ export const STORIES = {
     "hash": "88214189",
     "length": 937,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -871,7 +871,7 @@ export const STORIES = {
     "hash": "fbcf350e",
     "length": 945,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -895,7 +895,7 @@ export const STORIES = {
     "hash": "41d71b58",
     "length": 937,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6",
@@ -919,7 +919,7 @@ export const STORIES = {
     "hash": "67281f33",
     "length": 962,
     "paras": 9,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6",

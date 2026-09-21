@@ -190,3 +190,15 @@ Total: **268,478 bytes (262.2 KiB)** versus 456,322 bytes (445.6 KiB):
 difference in the evening image preserves its generated aspect ratio without
 cropping or stretching. Placements and story text are unchanged; rebuilt
 content-versioned URLs ensure readers receive the approved replacements.
+
+## Series covers: 21 September 2026
+
+The Lanterns of the Hidden Valley and Three Bells each have one painted
+series cover, reused for all five chapter IDs so it remains visible as the
+shelf advances to the next chapter. Hidden Valley shows Aoi, Ren and the
+fox-masked guide at a lantern-lit mountain path; Three Bells shows Riku and
+Chika watching a stranger cross the sand road toward the island bell tower.
+Neither illustration reveals the resolution. Generated with the built-in
+OpenAI image-generation tool; the exact prompts are stored under each
+series' first chapter ID in `cover-prompts.json`. All ten chapter assets
+are 480×640 WebP files within the 60 KiB per-cover budget.

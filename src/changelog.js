@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-21',
     changes: [
+      'New: painted covers for The Lanterns of the Hidden Valley and Three Bells — a lantern-lit path into the mountains and a sand road to an island bell tower. Each cover stays with its story across all five chapters.',
+    ],
+  },
+  {
+    date: '2026-09-21',
+    changes: [
       'Fixed: kanjitrail.com now always opens over a secure connection. It was possible to reach the site over an insecure one, where the browser shows a warning beside the address, refuses to save your progress reliably, and switches off syncing altogether — and anything done there was kept separately from your real progress, where the app could not see it. Any address for the site now moves you to the secure version before the app starts.',
     ],
   },
