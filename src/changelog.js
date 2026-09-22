@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-22',
     changes: [
+      'Changed: review scheduling now spreads review dates out a little instead of always picking the exact same day. Previously, items reviewed together in one session (like a big study session) could all come due again on the exact same future day, leading to a pile-up of reviews after a quiet stretch. Review dates now land within a small window around that day instead, so the daily review count stays steadier.',
       'Fixed: tapping a word in a story to reveal its furigana sometimes did not respond, especially on iPhone, and needed several taps before it worked. The tap is now recognized right away.',
     ],
   },

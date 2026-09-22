@@ -1827,9 +1827,12 @@ check('a review session never teaches', reviewNow.lesson.length === 0);
 
 // Two realistic-cadence correct answers each (see above) earn a longer FSRS
 // interval than the old scheme's fixed 2-day box-2 gap, so `later` has to
-// reach well past it — comfortably past the ~11-day interval two spaced Good
-// answers actually earn under the default FSRS weights.
-const later = now + 15 * DAY;
+// reach well past it — comfortably past the ~13-day interval two spaced Good
+// answers actually earn under the default FSRS weights. nextIntervalDays
+// fuzzes by default (see fsrs.js), so this also has to clear the worst case
+// of two fuzzed intervals landing at the top of their range, not just the
+// unfuzzed sum.
+const later = now + 20 * DAY;
 const reviewLater = srs.buildSession(hiragana, mode, progress, 'review', { now: later });
 check('reviews come due after the interval', reviewLater.quiz.length === 4, `got ${reviewLater.quiz.length}`);
 check('review sessions exclude never-seen characters',

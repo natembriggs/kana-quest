@@ -207,18 +207,50 @@ export function nextState(state, elapsedDays, rating, weights = DEFAULT_WEIGHTS)
 }
 
 /**
+ * Anki-style "fuzz": spreads the mathematically exact interval over a small
+ * random range instead of landing on one single day, so a batch of items
+ * reviewed together (e.g. a big study session) doesn't all come due again on
+ * the exact same day — without this, kana-quest's queue reads as "5-6 items
+ * most days, then a sudden 81" whenever a big session's intervals all land
+ * on the same future date. Ranges/percentages match Anki's own
+ * fuzzedIntervalRange: no fuzz below 2 days (nothing to spread a 1-day gap
+ * over), a fixed [2,3] at exactly 2, then a shrinking percentage (25% / 15%
+ * / 5%) as the interval grows, with an absolute floor so mid-length
+ * intervals still get a visible spread.
+ */
+function fuzzedInterval(ivl, rng) {
+  if (ivl < 2) return ivl;
+  let lo; let hi;
+  if (ivl === 2) {
+    [lo, hi] = [2, 3];
+  } else {
+    let fuzz;
+    if (ivl < 7) fuzz = Math.max(1, Math.round(ivl * 0.25));
+    else if (ivl < 30) fuzz = Math.max(2, Math.round(ivl * 0.15));
+    else fuzz = Math.max(4, Math.round(ivl * 0.05));
+    [lo, hi] = [ivl - fuzz, ivl + fuzz];
+  }
+  return lo + Math.floor(rng() * (hi - lo + 1));
+}
+
+/**
  * $$I(r,S) = \big(r^{1/\text{decay}} - 1\big) / \text{factor} \cdot S$$
  * Days until the next review should happen, given a stability and a target
  * retention — the inverse of retrievability(): "how many days until R(t,S)
  * decays to exactly `requestRetention`". Always at least 1 day (matching
  * upstream) and capped at MAX_INTERVAL_DAYS (see its own comment above).
+ * Fuzzed by default (see fuzzedInterval) — pass `fuzz: false` for a caller
+ * that needs the exact deterministic value (e.g. tests, or previewing an
+ * interval to the user before it's committed).
  */
 export function nextIntervalDays(
   stability, requestRetention = DEFAULT_REQUEST_RETENTION, weights = DEFAULT_WEIGHTS,
-  maxDays = MAX_INTERVAL_DAYS,
+  maxDays = MAX_INTERVAL_DAYS, { fuzz = true, rng = Math.random } = {},
 ) {
   const decay = -weights[20];
   const factor = roundTo(Math.exp(Math.log(0.9) / decay) - 1, 8);
   const modifier = roundTo((requestRetention ** (1 / decay) - 1) / factor, 8);
-  return Math.min(Math.max(1, Math.round(stability * modifier)), maxDays);
+  const base = Math.max(1, Math.round(stability * modifier));
+  const ivl = fuzz ? fuzzedInterval(base, rng) : base;
+  return Math.min(Math.max(1, ivl), maxDays);
 }
