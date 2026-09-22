@@ -5507,10 +5507,45 @@ fireReaderTap(antTokenEl);
 await drain();
 check('tapping the word opens the reader card', el('reader-card').hidden === false);
 
-const revealBtn = findByText(el('reader-card-body'), 'Show definition');
-check('the peek state offers "Show definition"', !!revealBtn);
-fire(revealBtn, 'click');
+// The sheet is dragged between its three heights rather than opened by a
+// button (openReaderCard in app.js). The stub has no layout engine, so every
+// measured detent height here is 0 — what these drags exercise is the state
+// machine on top of them: which detent a release lands on, and when a
+// release means "get rid of it". A move past the 6px slop makes the press a
+// drag; the harness's clock does not advance between fires, so every drag
+// here reads as a flick, which is the one-detent-along case.
+const dragReaderSheet = (dy) => {
+  const card = el('reader-card');
+  fire(card, 'pointerdown', { clientY: 500, pointerId: 1 });
+  fire(card, 'pointermove', { clientY: 500 + dy, pointerId: 1 });
+  fire(card, 'pointerup', { clientY: 500 + dy, pointerId: 1 });
+};
+const detent = () => el('reader-card').dataset.detent;
+
+check('it opens at the peek, where the meaning is still below the sheet edge',
+  detent() === 'peek', detent());
+check('...with the half-cut "Definition" label that says there is more down there',
+  !!findByText(el('reader-card-body'), 'Definition'));
+check('...and no button to press for the meaning any more',
+  !findByText(el('reader-card-body'), 'Show definition'));
+
+dragReaderSheet(-120); // up
+check('a drag up settles on the middle detent, not straight to fully open',
+  detent() === 'mid', detent());
 for (let i = 0; i < 10; i += 1) await settle(); // ensureVocabUnitLoaded is a real dynamic import
+check('the definition is there to read once the sheet has been dragged up',
+  !!findByText(el('reader-card-body'), 'Translate this sentence'));
+
+// The rest of the ladder through the grip rather than more drags: stepping
+// between detents by distance needs the measured heights a real layout
+// engine would give, and the grip walks the very same ladder (the keyboard
+// and VoiceOver path — see bindReaderCardDrag).
+fire(el('reader-card-grip'), 'click');
+check('the grip steps on to fully open', detent() === 'full', detent());
+fire(el('reader-card-grip'), 'click');
+check('...and round again to the peek, rather than sticking at the top',
+  detent() === 'peek', detent());
+fire(el('reader-card-grip'), 'click');
 
 const readerBefore = () => [...rows.values()].find((p) => p.name === 'Reader Kid');
 check('あり is not already in the study list before tapping +Add',
@@ -5544,9 +5579,18 @@ fireReaderAway();
 await drain();
 check('tapping away from any word closes the card', el('reader-card').hidden === true);
 
+// Thrown away by a drag downwards, which is the sheet's own way out. It
+// leaves on a transition rather than blinking out (closeReaderCard's
+// `animate` path), so the teardown lands on the harness's timer queue.
+fireReaderTap(antTokenEl);
+await drain();
+dragReaderSheet(160); // down, from the peek — nothing below it to fall back to
+runTimers();
+check('a drag down from the peek dismisses the sheet', el('reader-card').hidden === true);
+
 fireReaderTap(antTokenEl); // reopens it, fresh
 await drain();
-fire(findByText(el('reader-card-body'), 'Show definition'), 'click');
+dragReaderSheet(-120);
 for (let i = 0; i < 10; i += 1) await settle();
 check('re-opening an already-studied word shows "Studying", not another "+ Add"',
   !!findByText(el('reader-card-body'), 'Studying') && !findByText(el('reader-card-body'), '+ Add'));
@@ -5559,7 +5603,7 @@ check('found a tappable word with no vocab curriculum match',
   !!noEntryTokenEl && noEntryTokenEl.className.includes('reader-tap'));
 fireReaderTap(noEntryTokenEl);
 await drain();
-fire(findByText(el('reader-card-body'), 'Show definition'), 'click');
+dragReaderSheet(-120);
 for (let i = 0; i < 10; i += 1) await settle();
 check('a word outside the vocab curriculum shows neither "+ Add" nor "Studying" — nothing to add',
   !findByText(el('reader-card-body'), '+ Add') && !findByText(el('reader-card-body'), 'Studying'));

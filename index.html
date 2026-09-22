@@ -576,9 +576,14 @@
          very end of the text, not buried in a settings screen. -->
     <p id="reader-source" class="hint reader-source" hidden></p>
 
-    <!-- The definition card (§7.2) — a bottom sheet anchored over the
-         reader, never part of its scroll flow. At most one open at a time. -->
+    <!-- The definition sheet (§7.2) — a bottom sheet anchored over the
+         reader, never part of its scroll flow. At most one open at a time.
+         Dragged up and down between three heights (openReaderCard in
+         app.js); the grip is the same thing said in a form a keyboard or
+         VoiceOver can reach. -->
     <div id="reader-card" class="reader-card" hidden>
+      <div id="reader-card-grip" class="reader-card-grip" role="button" tabindex="0"
+           aria-label="Drag up for the definition, down to close"></div>
       <div id="reader-card-body" class="reader-card-body"></div>
     </div>
 

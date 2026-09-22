@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-22b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-22c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -470,7 +470,9 @@ const state = {
   storyCounted: null,       // Set of exposure keys already counted THIS reading (§6.3)
   readerLookedUp: null,     // Map surface -> token, for the end card (§8.5)
   readerCardKey: null,      // the info panel's open token key, or null
-  readerCardRevealed: false, // has the open panel's "Show definition" been tapped
+  readerCardToken: null,    // the token that panel is open on, for the end card's lookup list
+  readerCardDetent: 'peek', // which of the sheet's three resting heights it is at
+  readerCardRevealed: false, // has the open panel been dragged up past its peek height
   readerFinished: false,
   readerCursor: -1,         // paragraph currently being read, for the resume cursor (readerScrollSync)
   readerMark: null,         // the bookmark's sentence, `{ p, s }` or null (§7.6)
@@ -11201,11 +11203,37 @@ function toggleSentenceTranslation(p, s) {
   if (tDiv) tDiv.hidden = !tDiv.hidden;
 }
 
-function closeReaderCard() {
+function closeReaderCard({ animate = false } = {}) {
+  const card = $('reader-card');
+  cancelReaderCardDismissal();
   state.readerCardKey = null;
+  state.readerCardToken = null;
+  state.readerCardDetent = 'peek';
   state.readerCardRevealed = false;
-  $('reader-card').hidden = true;
+  readerSheet.slots = null;
+  // Thrown away by a downward drag, the sheet is already most of the way off
+  // the bottom of the screen when the thumb lifts — finishing that movement
+  // reads as one gesture, where blinking out of existence mid-flight does
+  // not. Every other way of closing it (tapping away, following a link off
+  // the screen) is not a movement at all and takes the immediate path.
+  if (animate && readerSheet.heights.full > 0) {
+    setReaderCardOffset(readerSheet.heights.full, { animate: true });
+    readerSheet.dismissTimer = setTimeout(() => {
+      readerSheet.dismissTimer = null;
+      if (state.readerCardKey) return; // another word was tapped mid-flight
+      card.hidden = true;
+      $('reader-card-body').innerHTML = '';
+    }, READER_SHEET_SNAP_MS);
+    return;
+  }
+  card.hidden = true;
   $('reader-card-body').innerHTML = '';
+}
+
+function cancelReaderCardDismissal() {
+  if (readerSheet.dismissTimer === null) return;
+  clearTimeout(readerSheet.dismissTimer);
+  readerSheet.dismissTimer = null;
 }
 
 function kanaCourseForChar(ch) {
@@ -11227,10 +11255,262 @@ function openReaderDetail(course, char) {
   openCharacterDetail(course, char, 'reader');
 }
 
-/** The bottom info panel's head — the word itself, large, plus its reading.
- * Shared by the peek state (openReaderCard) and the fully revealed one
- * (revealReaderCardDefinition) so it never has to be rebuilt or flash
- * between the two. */
+// --- The definition sheet (stories-plan.md §7.2) --------------------------
+//
+// Opened by a plain tap on any word (handleReaderTokenTap) — there is
+// nothing small to aim for — and then driven by dragging it, with three
+// resting heights ("detents"):
+//
+//   peek — the word, its reading, and the TOP OF the word "Definition",
+//          deliberately cut through by the sheet's own edge. The meaning
+//          itself sits below that edge, unread: tapping a word to check its
+//          furigana, or to leave a bookmark, must never also blurt out what
+//          it means. The old "Show definition" button enforced that with a
+//          button to find and hit; the sheet now enforces it with geometry,
+//          and the half-cut word is what says there is more down there.
+//   mid  — the definition itself, with "Translate this sentence" cut through
+//          the same way, so wanting only the meaning costs one short drag
+//          rather than opening the whole thing.
+//   full — everything: translate, word details, add-to-study, kanji chips.
+//
+// Each detent is MEASURED off the rendered content rather than hardcoded, so
+// a half-cut line stays half-cut at any --app-font-scale (§8.4) and whatever
+// the labels are reworded to. The sheet is always laid out at its full
+// height and moved with translateY, never resized: what shows is then always
+// the TOP `full - offset` pixels of its content, which is what makes "cut
+// this particular line in half" a thing that can be measured at all — and it
+// keeps the whole gesture on the compositor, so a thumb dragging it never
+// waits on a relayout of the story behind it.
+const READER_SHEET_DETENTS = ['peek', 'mid', 'full'];
+/** How much of the line a detent is anchored on is left showing. A little
+ * over half for the peek: the top of the letterforms carries most of what
+ * makes a word readable, so "Definition" still reads as that word. */
+const READER_SHEET_PEEK_SHARE = 0.58;
+const READER_SHEET_MID_SHARE = 0.5;
+/** Thumb speed at release (px/ms) past which the gesture counts as a flick
+ * onwards to the next detent rather than a placement at the nearest one.
+ * Deliberately high — about 900px/s, roughly a screen height per second. A
+ * gentler threshold turned every ordinary unhurried drag into a flick and
+ * skipped the detent the thumb had actually stopped next to, which is the
+ * opposite of letting a drag stop where it is put. */
+const READER_SHEET_FLING = 0.9;
+/** Kept in step with the transition in styles.css (#reader-card.is-snapping),
+ * since the dismissal has to outlast it before tearing the sheet down. */
+const READER_SHEET_SNAP_MS = 260;
+/** Thumb travel before a press becomes a drag — enough that a tap with an
+ * unsteady thumb still reads as a tap, matching bindReaderBookmarkDrag. */
+const READER_SHEET_SLOP = 6;
+
+/** The sheet's pixel geometry: view state, remeasured on every open, never
+ * saved and never part of the profile — hence here rather than in `state`,
+ * which holds the things the app would be wrong to forget. */
+const readerSheet = {
+  offset: 0,                             // current translateY in px; 0 is fully open
+  heights: { peek: 0, mid: 0, full: 0 }, // visible content height at each detent
+  slots: null,                           // element refs renderReaderCardBody fills in later
+  scrollable: false,                     // content overruns the max-height cap
+  dragging: false,
+  dismissTimer: null,
+};
+
+function setReaderCardOffset(y, { animate = false } = {}) {
+  readerSheet.offset = y;
+  const card = $('reader-card');
+  card.classList.toggle('is-snapping', animate);
+  // Rounded to a tenth: a drag updates this every pointermove, and there is
+  // no sense handing the compositor sub-pixel noise.
+  if (card.style) card.style.transform = `translateY(${Math.round(y * 10) / 10}px)`;
+}
+
+/**
+ * Measures the three detents off the live DOM. `full` is the sheet's own
+ * height — its content's, up to the max-height cap in styles.css — and the
+ * other two are "how tall the sheet has to be for this line to be cut
+ * through at this fraction of its height".
+ *
+ * Rect DIFFERENCES, not absolute tops, so a sheet already translated part of
+ * the way down measures exactly the same as one sitting fully open: there is
+ * no need to undo the transform first, and mid-drag remeasuring (see
+ * fillReaderCardEntry) can't make the sheet jump.
+ *
+ * Everything degrades to 0 where there is no layout engine at all (the
+ * wiring tests' stub DOM), which leaves the sheet at translateY(0) with
+ * every detent reachable — the logical state is what those tests exercise.
+ */
+function measureReaderCard() {
+  const card = $('reader-card');
+  const rectOf = (el) => (el && typeof el.getBoundingClientRect === 'function'
+    ? el.getBoundingClientRect() : null);
+  const cardRect = rectOf(card);
+  const full = cardRect ? cardRect.height || 0 : 0;
+  const cutThrough = (el, share) => {
+    const r = rectOf(el);
+    if (!r || !cardRect || !r.height) return full;
+    return Math.min(full, (r.top - cardRect.top) + r.height * share);
+  };
+  const anchors = readerSheet.slots || {};
+  const mid = cutThrough(anchors.translate, READER_SHEET_MID_SHARE);
+  const peek = cutThrough(anchors.label, READER_SHEET_PEEK_SHARE);
+  // Ordered, whatever the measurements say: an --app-font-scale big enough to
+  // push the translate button past the cap would otherwise leave mid ABOVE
+  // full, and a sheet that opens taller than it can be dragged.
+  readerSheet.heights = {
+    full,
+    mid: Math.min(mid, full),
+    peek: Math.min(peek, mid, full),
+  };
+  readerSheet.scrollable = typeof card.scrollHeight === 'number'
+    && typeof card.clientHeight === 'number'
+    && card.scrollHeight > card.clientHeight + 1;
+}
+
+function setReaderCardDetent(name, { animate = true } = {}) {
+  const detent = READER_SHEET_DETENTS.includes(name) ? name : 'peek';
+  state.readerCardDetent = detent;
+  const card = $('reader-card');
+  // On the element as well as in `state`: it is the one thing about this
+  // sheet that is invisible in a screenshot but decides what a learner can
+  // see, so it is worth being able to read straight off the DOM.
+  card.dataset.detent = detent;
+  // Only the fully open sheet scrolls, and only when its content genuinely
+  // overruns the cap. At peek and mid what lies below the edge is hidden on
+  // purpose, and a sheet that could be scrolled there instead of dragged
+  // would hand over the meaning without the gesture that is meant to ask
+  // for it.
+  card.classList.toggle('is-scrollable', detent === 'full' && readerSheet.scrollable);
+  // Dragging up past the peek IS the act of looking a word up — it is the
+  // moment the learner asked for the meaning, and so what the end card's
+  // "words you looked up" list (§8.5) is counting.
+  if (detent !== 'peek' && !state.readerCardRevealed) {
+    state.readerCardRevealed = true;
+    if (state.readerCardToken) {
+      state.readerLookedUp.set(state.readerCardToken.s, state.readerCardToken);
+    }
+  }
+  setReaderCardOffset(readerSheet.heights.full - readerSheet.heights[detent], { animate });
+}
+
+/** Where the sheet would settle if let go right now: the nearest detent,
+ * bumped one step along by a flick. Returns null for "let it go" — dragged
+ * down well past the peek, or flicked down from the peek itself. */
+function readerSheetRelease(velocity) {
+  const { heights } = readerSheet;
+  const visible = heights.full - readerSheet.offset;
+  let index = 0;
+  let best = Infinity;
+  READER_SHEET_DETENTS.forEach((name, i) => {
+    const gap = Math.abs(heights[name] - visible);
+    if (gap < best) { best = gap; index = i; }
+  });
+  if (velocity > READER_SHEET_FLING) index -= 1;
+  else if (velocity < -READER_SHEET_FLING) index = Math.min(READER_SHEET_DETENTS.length - 1, index + 1);
+  // Below roughly half the peek height there is nothing left worth showing,
+  // so a drag that got that far is read as meaning to be rid of it whether
+  // or not it ended in a flick.
+  if (index < 0) return null;
+  if (heights.peek > 0 && visible < heights.peek * 0.55) return null;
+  return READER_SHEET_DETENTS[index];
+}
+
+/**
+ * The drag itself. Bound once to the sheet — a press anywhere on it starts
+ * one, buttons included: a sheet whose own buttons were dead zones would
+ * catch a thumb every time it landed on "Translate this sentence" on the way
+ * up. A press only BECOMES a drag past READER_SHEET_SLOP, and a real drag
+ * then swallows the click it would otherwise end with (armGhostClickGuard),
+ * so the two never both happen.
+ */
+function bindReaderCardDrag(card) {
+  if (typeof card.addEventListener !== 'function') return;
+  let start = null;
+  // Swallows the click a finished drag would otherwise end with, and only
+  // that one: scoped to the sheet, in the capture phase, so it gets there
+  // before a button inside the sheet does. The app-wide armGhostClickGuard()
+  // would do the same job, but it eats the next click ANYWHERE — including
+  // the tap away from the story that a learner who has just dragged the
+  // sheet open very often makes next, which would then do nothing at all.
+  //
+  // Time-bounded rather than a bare flag, for the same reason that guard is:
+  // not every drag ends in a click (a drag that dismissed the sheet has
+  // nothing left to click, and touch does not always synthesize one), and a
+  // flag left armed would go on to eat a real tap on some later sheet —
+  // which showed up as the first press of a button doing nothing at all.
+  let swallowClickUntil = 0;
+  card.addEventListener('click', (event) => {
+    if (!swallowClickUntil) return;
+    const armed = Date.now() < swallowClickUntil;
+    swallowClickUntil = 0;
+    if (!armed) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+  card.addEventListener('pointerdown', (event) => {
+    if (card.hidden) return;
+    swallowClickUntil = 0;
+    // A sheet scrolled down inside itself owns the gesture — see the
+    // is-scrollable note in setReaderCardDetent.
+    if (card.scrollTop > 0) return;
+    start = { y: event.clientY, offset: readerSheet.offset, at: Date.now(), last: event.clientY, lastAt: Date.now() };
+  });
+  card.addEventListener('pointermove', (event) => {
+    if (!start) return;
+    const dy = event.clientY - start.y;
+    if (!readerSheet.dragging) {
+      if (Math.abs(dy) < READER_SHEET_SLOP) return;
+      readerSheet.dragging = true;
+      if (typeof card.setPointerCapture === 'function') {
+        try { card.setPointerCapture(event.pointerId); } catch { /* not every environment supports this */ }
+      }
+    }
+    start.last = event.clientY;
+    start.lastAt = Date.now();
+    let y = start.offset + dy;
+    // Resistance rather than a wall past fully open: the sheet gives a
+    // little, which says "this is as far as it goes" without feeling stuck.
+    if (y < 0) y /= 3;
+    setReaderCardOffset(Math.min(y, readerSheet.heights.full), { animate: false });
+    event.preventDefault();
+  });
+  const end = () => {
+    if (!start) return;
+    const { last, lastAt, at, y: from } = start;
+    const wasDragging = readerSheet.dragging;
+    start = null;
+    readerSheet.dragging = false;
+    if (!wasDragging) return; // a tap — leave it to whatever was tapped
+    swallowClickUntil = Date.now() + 700;
+    // Speed over the gesture's last leg, not its whole length: a slow drag
+    // that ends in a flick is a flick.
+    const elapsed = Math.max(16, lastAt - at);
+    const target = readerSheetRelease((last - from) / elapsed);
+    if (target === null) closeReaderCard({ animate: true });
+    else setReaderCardDetent(target, { animate: true });
+  };
+  card.addEventListener('pointerup', end);
+  card.addEventListener('pointercancel', end);
+  // The grip is the sheet's affordance for everyone the drag does not reach:
+  // a mouse, a keyboard, a switch, VoiceOver. It steps through the same
+  // detents the drag snaps to rather than opening a separate path.
+  const grip = $('reader-card-grip');
+  if (grip && typeof grip.addEventListener === 'function') {
+    grip.addEventListener('click', () => {
+      const i = READER_SHEET_DETENTS.indexOf(state.readerCardDetent);
+      setReaderCardDetent(READER_SHEET_DETENTS[i < 0 || i >= READER_SHEET_DETENTS.length - 1 ? 0 : i + 1]);
+    });
+  }
+  card.addEventListener('keydown', (event) => {
+    const i = READER_SHEET_DETENTS.indexOf(state.readerCardDetent);
+    if (event.key === 'Escape') { closeReaderCard(); return; }
+    if (event.key === 'ArrowUp') setReaderCardDetent(READER_SHEET_DETENTS[Math.min(READER_SHEET_DETENTS.length - 1, i + 1)]);
+    else if (event.key === 'ArrowDown') {
+      if (i <= 0) closeReaderCard();
+      else setReaderCardDetent(READER_SHEET_DETENTS[i - 1]);
+    } else return;
+    event.preventDefault();
+  });
+}
+
+/** The bottom info panel's head — the word itself, large, plus its reading. */
 function renderReaderCardHead(token) {
   const head = document.createElement('div');
   head.className = 'reader-card-head';
@@ -11247,145 +11527,83 @@ function renderReaderCardHead(token) {
 }
 
 /**
- * stories-plan.md §7.2's info panel, opened by a plain tap on any word
- * (handleReaderTokenTap) rather than a separate button — there is nothing
- * small to aim for. It starts on just the word itself; the definition below
- * stays hidden until asked for (the "Show definition" button, wired to
- * revealReaderCardDefinition), so tapping a word to place-mark it or check
- * the furigana never also blurts out what it means.
+ * Opens the sheet on a word. Everything it will ever show is built here and
+ * now; how much of it can be SEEN is the sheet's own height, nothing else
+ * (see the detent notes above). Nothing is gated behind a tap any more —
+ * what keeps the meaning out of sight at the peek is that it sits below the
+ * sheet's edge, and the drag up is the asking.
  */
 function openReaderCard(p, s, i, token) {
   const key = tokenStateKey(p, s, i);
   if (state.readerCardKey === key) return; // already open for this word
+  cancelReaderCardDismissal();
   state.readerCardKey = key;
+  state.readerCardToken = token;
   state.readerCardRevealed = false;
-  const body = $('reader-card-body');
-  body.innerHTML = '';
-  body.appendChild(renderReaderCardHead(token));
-  $('reader-card').hidden = false;
-  const revealBtn = document.createElement('button');
-  revealBtn.type = 'button';
-  revealBtn.className = 'btn btn-quiet';
-  revealBtn.textContent = 'Show definition';
-  // Stopped here, not left to bubble: revealReaderCardDefinition's first
-  // move is to clear reader-card-body's innerHTML, which detaches this very
-  // button from the document. The delegated listener on `document` (below)
-  // would then find event.target unreachable from `.reader-card` — a
-  // detached node has no path up to it — and read the click as tapping
-  // away, closing the panel it was just asked to fill in.
-  revealBtn.addEventListener('click', (event) => {
-    event.stopPropagation();
-    revealReaderCardDefinition(p, s, i, token);
-  });
-  body.appendChild(revealBtn);
+  const card = $('reader-card');
+  renderReaderCardBody(p, s, i, token);
+  card.hidden = false;
+  measureReaderCard();
+  // Rises into place from below rather than simply appearing at peek height:
+  // the slide is what tells a first-time reader that this thing moves, which
+  // is the whole of the interaction now that it carries no button.
+  setReaderCardOffset(readerSheet.heights.full, { animate: false });
+  void card.offsetHeight; // commit that starting point, so the next line animates FROM it
+  setReaderCardDetent('peek', { animate: true });
+  fillReaderCardEntry(key, token);
 }
 
-/** `token.d`, when present, is already the vocab curriculum's own item id
- * (its dictionary-form surface — vocab-plan.md §3.3), so this needs no
- * lookup step beyond loading that word's own unit. */
-async function revealReaderCardDefinition(p, s, i, token) {
-  const key = tokenStateKey(p, s, i);
-  state.readerCardRevealed = true;
-  state.readerLookedUp.set(token.s, token);
+/**
+ * Everything the sheet shows, in the order the detents cut through it: the
+ * head, the "Definition" label the peek cuts through, the meaning, then the
+ * translate button the mid detent cuts through, then the rest.
+ *
+ * Built synchronously, so the sheet can be measured and dragged the instant
+ * it opens. The parts that need this app's own vocab entry for the word —
+ * which lives in a unit that has to be imported — are left as empty slots
+ * for fillReaderCardEntry. Those slots are handed over by reference rather
+ * than looked up again later: the body is rebuilt per word, so a
+ * querySelector run after an await could write into a sheet that has since
+ * moved on to a different one.
+ */
+function renderReaderCardBody(p, s, i, token) {
   const body = $('reader-card-body');
   body.innerHTML = '';
   body.appendChild(renderReaderCardHead(token));
-  const loading = document.createElement('p');
-  loading.className = 'hint';
-  loading.textContent = 'Loading…';
-  body.appendChild(loading);
 
-  let vocabCourseObj = null;
-  let entry = null;
-  if (token.d) {
-    vocabCourseObj = vocabCourseForId(token.d);
-    if (vocabCourseObj) {
-      await ensureVocabUnitLoaded(vocabCourseObj.unit);
-      if (state.readerCardKey !== key) return; // navigated away mid-load
-      entry = vocabInfo(vocabCourseObj, token.d);
-    }
-  }
-
-  body.innerHTML = '';
-  body.appendChild(renderReaderCardHead(token));
+  const label = document.createElement('p');
+  label.className = 'reader-card-label';
+  label.textContent = 'Definition';
+  body.appendChild(label);
 
   // The headline is what this word means HERE, in the form it is actually
   // written in — "went", not "to go" (story-writing-guide.md §4). A story
   // token always carries one; the curriculum's own gloss is the fallback for
-  // any that doesn't, and the last resort is saying so plainly.
+  // any that doesn't, and that fallback has to wait for the unit to load.
   const gloss = document.createElement('p');
   gloss.className = 'reader-card-gloss';
-  gloss.textContent = token.g
-    || (entry ? wordGlossSummary(entry) : 'not one of the words this app teaches');
+  gloss.textContent = token.g || '';
   body.appendChild(gloss);
 
   // Then what that form IS, and what it comes from: "polite past of 行く —
-  // to go". The dictionary word's own meaning is appended when this app
-  // teaches it, so the learner sees the connection rather than two
-  // unrelated English phrases.
-  if (token.cf && token.df) {
-    const form = document.createElement('p');
-    form.className = 'hint';
-    form.textContent = entry
-      ? `${token.cf} of ${token.df} (${wordMeaningLabel(entry)})`
-      : `${token.cf} of ${token.df}`;
-    body.appendChild(form);
-  } else if (entry && token.g) {
-    // Not inflected, but taught here — show the curriculum's fuller sense
-    // list under the contextual gloss, but only when it genuinely adds
-    // something. A summary that merely restates the contextual gloss and
-    // then trails off into senses this passage doesn't use ("washing,
-    // laundry · relaxation, rejuvenation…") reads as repetition; the full
-    // entry is one tap away behind "Word details" for anyone who wants it.
-    const full = wordGlossSummary(entry);
-    if (full !== token.g && !full.startsWith(token.g)) {
-      const more = document.createElement('p');
-      more.className = 'hint';
-      more.textContent = full;
-      body.appendChild(more);
-    }
-  }
+  // to go". The dictionary word's own meaning is appended by
+  // fillReaderCardEntry where this app teaches it, so the learner sees the
+  // connection rather than two unrelated English phrases.
+  const extra = document.createElement('p');
+  extra.className = 'hint reader-card-extra';
+  extra.textContent = token.cf && token.df ? `${token.cf} of ${token.df}` : '';
+  extra.hidden = !extra.textContent;
+  body.appendChild(extra);
 
-  const translateBtn = document.createElement('button');
-  translateBtn.type = 'button';
-  translateBtn.className = 'btn btn-quiet';
-  translateBtn.textContent = 'Translate this sentence';
-  translateBtn.addEventListener('click', () => { toggleSentenceTranslation(p, s); closeReaderCard(); });
-  body.appendChild(translateBtn);
+  const translate = document.createElement('button');
+  translate.type = 'button';
+  translate.className = 'btn btn-quiet reader-card-translate';
+  translate.textContent = 'Translate this sentence';
+  translate.addEventListener('click', () => { toggleSentenceTranslation(p, s); closeReaderCard(); });
+  body.appendChild(translate);
 
   const chips = document.createElement('div');
   chips.className = 'row reader-card-chips';
-  if (entry && vocabCourseObj) {
-    const wordChip = document.createElement('button');
-    wordChip.type = 'button';
-    wordChip.className = 'btn btn-quiet';
-    wordChip.textContent = 'Word details ›';
-    wordChip.addEventListener('click', () => openReaderDetail(vocabCourseObj, token.d));
-    chips.appendChild(wordChip);
-
-    // One-tap enrollment right at the moment of lookup, alongside — not
-    // replacing — the end-card's own "+ Add" (showReaderEndCard above),
-    // which requires finishing the whole story first. Same enrollment
-    // mechanism and "already studying" check as that button, so the two
-    // never disagree about a word's state.
-    const modes = applicableStudyModes(vocabCourseObj, token.d);
-    const already = modes.length > 0 && modes.every((mode) => isStudying(state.profile.study, token.d, mode));
-    if (modes.length > 0) {
-      const addBtn = document.createElement('button');
-      addBtn.type = 'button';
-      addBtn.className = 'btn btn-quiet';
-      addBtn.textContent = already ? 'Studying' : '+ Add';
-      addBtn.disabled = already;
-      addBtn.addEventListener('click', () => {
-        const { study, unstudy } = state.profile;
-        modes.forEach((mode) => setStudying(study, unstudy, token.d, mode, true));
-        store.saveProfile(state.profile);
-        addBtn.textContent = 'Studying';
-        addBtn.disabled = true;
-      });
-      chips.appendChild(addBtn);
-    }
-  }
   body.appendChild(chips);
 
   if (tokenHasKanji(token)) {
@@ -11408,6 +11626,88 @@ async function revealReaderCardDefinition(p, s, i, token) {
     kanaChips.hidden = chars.length === 0;
     body.appendChild(kanaChips);
   }
+
+  readerSheet.slots = { label, gloss, extra, translate, chips };
+}
+
+/**
+ * The parts of the sheet that need this app's own vocab entry for the word:
+ * the fuller sense list, the way through to the word's own page, and one-tap
+ * enrolment. `token.d`, when present, is already the vocab curriculum's own
+ * item id (its dictionary-form surface — vocab-plan.md §3.3), so this needs
+ * no lookup step beyond loading that word's own unit.
+ *
+ * Everything it adds lands BELOW the peek's edge, so the sheet never shifts
+ * under a thumb as it fills in — only the detents below the peek move, which
+ * is why it remeasures and re-settles afterwards. A drag in progress owns the
+ * sheet's position until it ends, so this leaves that alone.
+ */
+async function fillReaderCardEntry(key, token) {
+  const vocabCourseObj = token.d ? vocabCourseForId(token.d) : null;
+  let entry = null;
+  if (vocabCourseObj) {
+    await ensureVocabUnitLoaded(vocabCourseObj.unit);
+    if (state.readerCardKey !== key) return; // navigated away mid-load
+    entry = vocabInfo(vocabCourseObj, token.d);
+  }
+  const { slots } = readerSheet;
+  if (!slots) return;
+
+  if (!token.g) {
+    slots.gloss.textContent = entry
+      ? wordGlossSummary(entry)
+      : 'not one of the words this app teaches';
+  }
+  if (token.cf && token.df) {
+    if (entry) slots.extra.textContent = `${token.cf} of ${token.df} (${wordMeaningLabel(entry)})`;
+  } else if (entry && token.g) {
+    // Taught here, and not inflected — show the curriculum's fuller sense
+    // list under the contextual gloss, but only where it genuinely adds
+    // something. A summary that merely restates the contextual gloss and
+    // then trails off into senses this passage doesn't use ("washing,
+    // laundry · relaxation, rejuvenation…") reads as repetition; the full
+    // entry is one tap away behind "Word details" for anyone who wants it.
+    const full = wordGlossSummary(entry);
+    if (full !== token.g && !full.startsWith(token.g)) {
+      slots.extra.textContent = full;
+      slots.extra.hidden = false;
+    }
+  }
+
+  if (entry && vocabCourseObj) {
+    const wordChip = document.createElement('button');
+    wordChip.type = 'button';
+    wordChip.className = 'btn btn-quiet';
+    wordChip.textContent = 'Word details ›';
+    wordChip.addEventListener('click', () => openReaderDetail(vocabCourseObj, token.d));
+    slots.chips.appendChild(wordChip);
+
+    // One-tap enrollment right at the moment of lookup, alongside — not
+    // replacing — the end-card's own "+ Add" (showReaderEndCard above),
+    // which requires finishing the whole story first. Same enrollment
+    // mechanism and "already studying" check as that button, so the two
+    // never disagree about a word's state.
+    const modes = applicableStudyModes(vocabCourseObj, token.d);
+    const already = modes.length > 0 && modes.every((mode) => isStudying(state.profile.study, token.d, mode));
+    if (modes.length > 0) {
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'btn btn-quiet';
+      addBtn.textContent = already ? 'Studying' : '+ Add';
+      addBtn.disabled = already;
+      addBtn.addEventListener('click', () => {
+        const { study, unstudy } = state.profile;
+        modes.forEach((mode) => setStudying(study, unstudy, token.d, mode, true));
+        store.saveProfile(state.profile);
+        addBtn.textContent = 'Studying';
+        addBtn.disabled = true;
+      });
+      slots.chips.appendChild(addBtn);
+    }
+  }
+
+  measureReaderCard();
+  if (!readerSheet.dragging) setReaderCardDetent(state.readerCardDetent, { animate: false });
 }
 
 // --- The end card (stories-plan.md §8.5) --------------------------------
@@ -11640,6 +11940,10 @@ function wire() {
   // clickHideFuriganaButton(). Toggled per-question in
   // updateVocabWordDisplay().
   $('quiz-hide-furigana').addEventListener('click', clickHideFuriganaButton);
+
+  // The definition sheet is a fixture of the page, not rebuilt per story, so
+  // its drag is bound once here rather than on every open.
+  bindReaderCardDrag($('reader-card'));
 
   // Stories (stories-plan.md §7/§8) — one delegated listener handles every
   // tap inside the reader: the reveal ladder, the definition card, and the

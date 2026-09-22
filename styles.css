@@ -351,10 +351,19 @@ body {
    four presses on Next after coming back from "Full details" (which
    re-triggers the animation with Next already showing — every other way of
    entering the quiz screen has it hidden, which is why this hid for so
-   long). Those screens therefore fade without rising. */
+   long). Those screens therefore fade without rising.
+
+   The reader is in the same position and joins them for the same reason: its
+   own fixed descendant is the definition sheet, whose resting heights are
+   measured against the bottom of the VIEWPORT (see #reader-card below). A
+   sheet pinned to the bottom of a screen box several times taller than the
+   viewport is not slightly off — it is somewhere down the page entirely. It
+   takes a tap on a word to open, which all but always lands after the 220ms
+   is up, so this is closing a hole rather than fixing a report. */
 @media (prefers-reduced-motion: no-preference) {
   .screen:not([hidden]) { animation: screen-enter 220ms ease-out; }
-  .screen:not([hidden]):has(.bottom-bar) { animation: screen-fade 220ms ease-out; }
+  .screen:not([hidden]):has(.bottom-bar),
+  .screen:not([hidden]):has(.reader-card) { animation: screen-fade 220ms ease-out; }
 }
 @keyframes screen-enter {
   from { opacity: 0; transform: translateY(10px); }
@@ -2499,7 +2508,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    reader's own scroll flow, so neither can reflow a paragraph under a
    learner's thumb (stories-plan.md §5.7/§8.3). Every tap on a word opens
    this (openReaderCard in app.js) starting with just the word itself; the
-   "Show definition" button is what pulls in the rest. */
+   rest is a drag up the sheet away (see #reader-card below). */
 .reader-card {
   position: fixed;
   left: 0;
@@ -2516,6 +2525,65 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .reader-card-body { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; }
 .reader-card-head { display: flex; align-items: baseline; gap: 12px; }
+
+/* The definition sheet specifically — NOT #reader-settings-sheet, which
+   wears the same class and stays an ordinary scrolling panel.
+
+   It is always laid out at its full height and moved with translateY, so
+   what shows is always the TOP of its content and a resting height can be
+   defined as "cut this line in half" (see the detent notes above
+   openReaderCard). overflow is hidden rather than auto for the same reason:
+   at the peek and mid heights, what lies below the edge is out of sight on
+   purpose, and a sheet that could be scrolled there instead of dragged would
+   hand over the meaning without the gesture that is meant to ask for it. */
+#reader-card {
+  max-height: 82vh;
+  overflow: hidden;
+  /* The sheet owns vertical drags on itself; without this the browser reads
+     the same thumb movement as a scroll of the story behind it. */
+  touch-action: none;
+  will-change: transform;
+}
+#reader-card.is-snapping { transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1); }
+/* Only ever set on the fully open sheet, and only where the content really
+   does overrun the cap — an --app-font-scale at the top of its range, say. */
+#reader-card.is-scrollable { overflow-y: auto; touch-action: pan-y; }
+#reader-card .reader-card-body { padding-top: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  #reader-card.is-snapping { transition: none; }
+}
+
+/* The grip: the one piece of the sheet that says "this moves" before anyone
+   has tried moving it. Deliberately not a button with a word on it — the
+   whole point of the sheet is that the definition is behind a gesture rather
+   than behind something to find and hit — but it is focusable and clickable,
+   so a keyboard, a mouse or VoiceOver still has a way through the detents. */
+.reader-card-grip {
+  padding: 10px 0 4px;
+  cursor: grab;
+  touch-action: none;
+}
+.reader-card-grip::before {
+  content: '';
+  display: block;
+  width: 38px;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: var(--line);
+}
+.reader-card-grip:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; border-radius: 8px; }
+
+/* The line the peek height cuts through. Sentence case, not the usual
+   small-caps section label: the top half of "Definition" has to stay
+   readable as that word when the sheet's edge takes the rest of it. */
+.reader-card-label {
+  margin: 0;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.reader-card-extra[hidden] { display: none; }
 /* The reader's tap-a-word definition card — glyph, reading and gloss all
    scale with --app-font-scale (see the comment above `html` near the top of
    this file). */

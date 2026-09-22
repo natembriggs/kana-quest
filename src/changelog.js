@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-22',
     changes: [
+      'Changed: the panel that opens when you tap a word in a story is now dragged rather than tapped. It opens showing the word and its reading, with the word “Definition” half cut off along the bottom edge — drag the panel up and the meaning comes into view, with “Translate this sentence” half showing underneath to say there is more. Drag further for the rest, or down to put it away. Wanting only the meaning no longer means opening the whole thing, and tapping a word to check its reading still never gives the meaning away first.',
+    ],
+  },
+  {
+    date: '2026-09-22',
+    changes: [
       'Changed: review scheduling now spreads review dates out a little instead of always picking the exact same day. Previously, items reviewed together in one session (like a big study session) could all come due again on the exact same future day, leading to a pile-up of reviews after a quiet stretch. Review dates now land within a small window around that day instead, so the daily review count stays steadier.',
       'Fixed: tapping a word in a story to reveal its furigana sometimes did not respond, especially on iPhone, and needed several taps before it worked. The tap is now recognized right away.',
     ],
