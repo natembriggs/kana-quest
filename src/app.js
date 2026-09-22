@@ -11690,6 +11690,29 @@ function wire() {
     if (tapEl) { handleReaderTokenTap(tapEl); return; }
     clearReaderFocus();
   });
+  // Same fix as bindTap above (see its comment), applied to the reveal
+  // ladder specifically: reported to sometimes need several taps on a
+  // phone before the delegated `click` above fires, same as the writing
+  // screen's post-canvas buttons did. Reacting to `pointerup` directly for
+  // touch/pen sidesteps whatever iOS is doing when synthesizing `click`
+  // right after a scroll gesture on the story text; mouse is left to the
+  // `click` listener above (`pointerType === 'mouse'` returns here), and so
+  // is keyboard/assistive-tech activation, which never fires a pointerup at
+  // all. armGhostClickGuard() reuses the same swallow-the-next-click guard
+  // bindTap relies on, so the `click` that iOS still synthesizes afterward
+  // doesn't also call handleReaderTokenTap and double-advance the ladder.
+  document.addEventListener('pointerup', (event) => {
+    if (event.pointerType === 'mouse') return;
+    if (currentScreenId !== 'screen-reader' || !state.readerStory) return;
+    if (event.target.closest(READER_OWNS_ITS_TAPS)) return;
+    if (event.target.closest('.reader-bookmark')) return;
+    if (state.readerMarkArmed) return;
+    const tapEl = event.target.closest('.reader-tap');
+    if (!tapEl) return;
+    event.preventDefault();
+    armGhostClickGuard();
+    handleReaderTokenTap(tapEl);
+  });
   $('story-make-level').addEventListener('click', () => {
     state.profile.settings.readingLevel = state.readerBrowseLevel;
     stampSetting(state.profile, 'readingLevel');
