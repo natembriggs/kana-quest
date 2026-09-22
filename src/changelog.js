@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-22',
+    changes: [
+      'Fixed: tapping a word in a story to reveal its furigana sometimes did not respond, especially on iPhone, and needed several taps before it worked. The tap is now recognized right away.',
+    ],
+  },
+  {
     date: '2026-09-21',
     changes: [
       'Fixed: the Stories shelf could go completely blank instead of showing your stories. This happened only for a story you had bookmarked but never actually opened a reading session on since — a rare, specific combination — and it blanked the whole shelf, not just that one story’s tile. The shelf now always shows, with that story’s progress bar reflecting your bookmark.',
