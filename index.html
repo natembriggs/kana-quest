@@ -861,6 +861,20 @@
       <button id="detail-compare-toggle" class="btn btn-quiet wide" type="button"
               data-action="detail-compare-toggle" aria-expanded="false" aria-controls="detail-compare-list">⇄ Compare with a similar kanji</button>
       <div id="detail-compare-list" class="compare-candidates" hidden></div>
+      <!-- The learner's own pick, for when the look-alike they misread isn't
+           among the suggestions — typically a kanji they read wrongly in a
+           story or quiz. Same matching as the Kanji tab search; see
+           renderDetailCompareSearch() in app.js. -->
+      <div id="detail-compare-search" class="compare-search" hidden>
+        <div class="search-field">
+          <input id="detail-compare-query" type="search" class="search-input"
+                 placeholder="Or find one: kanji, meaning, or reading" aria-label="Find a kanji to compare with"
+                 autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button id="detail-compare-query-clear" class="search-clear" type="button" aria-label="Clear search" hidden>✕</button>
+        </div>
+        <div id="detail-compare-results" class="compare-candidates"></div>
+        <p id="detail-compare-status" class="hint" hidden></p>
+      </div>
     </div>
 
     <!-- Kanji only: which unit it's taught in (school grade, secondary jōyō

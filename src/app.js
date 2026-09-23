@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-22c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-23a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -4708,6 +4708,9 @@ function paintDetailCompare(course) {
   const list = $('detail-compare-list');
   list.hidden = true;
   list.innerHTML = '';
+  $('detail-compare-search').hidden = true;
+  $('detail-compare-query').value = '';
+  renderDetailCompareSearch();
   $('detail-compare-toggle').setAttribute('aria-expanded', 'false');
   wrap.hidden = course.kind !== 'kanji';
 }
@@ -4723,6 +4726,7 @@ async function toggleDetailCompare() {
   const toggle = $('detail-compare-toggle');
   if (!list.hidden) {
     list.hidden = true;
+    $('detail-compare-search').hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
     return;
   }
@@ -4741,6 +4745,9 @@ async function toggleDetailCompare() {
 
   list.innerHTML = '';
   list.hidden = false;
+  // Shown whether or not the ranking found anything — "nothing close enough"
+  // is exactly when a learner who knows what they misread needs the box.
+  $('detail-compare-search').hidden = false;
   toggle.setAttribute('aria-expanded', 'true');
   if (!similar.length) {
     const empty = document.createElement('p');
@@ -4751,6 +4758,74 @@ async function toggleDetailCompare() {
     return;
   }
   similar.forEach((c) => list.appendChild(buildCompareCandidate(char, c, confused.get(c) || 0)));
+}
+
+/** How many search results the compare box shows. Fewer than the Kanji
+ * tab's 60: the learner is looking for one particular character, and a
+ * query vague enough to need more than this is better refined than scrolled. */
+const COMPARE_SEARCH_LIMIT = 12;
+
+// Set once the compare box has kicked off loading every grade's entries —
+// the same one-time load the Kanji tab search does, for the same reason:
+// a query could match in any grade. Entries only; the pair's component data
+// is loaded by openCompare() once one is actually chosen.
+let compareSearchLoadStarted = false;
+
+/**
+ * The compare box's own search: the learner names the kanji they misread
+ * rather than hoping the ranking guessed it. Matches exactly as the Kanji tab
+ * search does (kanjiMatchesSearch), across every grade and whether or not it
+ * is being studied — a misreading in a story can be of any character at all.
+ *
+ * Ordered so the likely target comes first: the character itself if one was
+ * typed or pasted, then kanji this learner is studying (the ones they can
+ * actually be mixing up), then the rest in index order.
+ */
+function renderDetailCompareSearch() {
+  const results = $('detail-compare-results');
+  const status = $('detail-compare-status');
+  const query = $('detail-compare-query').value.trim();
+  const char = state.detailChar;
+  results.innerHTML = '';
+  status.hidden = true;
+  $('detail-compare-query-clear').hidden = !query;
+  if (!query || !char) return;
+
+  if (!areAllKanjiUnitsLoaded()) {
+    status.textContent = 'Searching…';
+    status.hidden = false;
+    if (!compareSearchLoadStarted) {
+      compareSearchLoadStarted = true;
+      Promise.all(KANJI_COURSES.map((c) => ensureKanjiUnitLoaded(c.unit)))
+        .then(() => renderDetailCompareSearch());
+    }
+    return;
+  }
+
+  const queryLower = query.toLowerCase();
+  const queryRomaji = toRomaji(query).toLowerCase();
+  const studied = new Set();
+  KANJI_STUDY_MODES.forEach((mode) => studiedKanji(state.profile.study, mode).forEach((c) => studied.add(c)));
+  const rank = (c) => (c === query ? 0 : studied.has(c) ? 1 : 2);
+  const matches = [];
+  allKanjiIndex().forEach((info, c) => {
+    if (c !== char && kanjiMatchesSearch(info, c, queryLower, queryRomaji)) matches.push(c);
+  });
+  // Array.prototype.sort is stable, so index order survives within a rank.
+  matches.sort((x, y) => rank(x) - rank(y));
+
+  if (!matches.length) {
+    status.textContent = query === char ? 'That is this kanji — search for the one you mixed it up with.' : 'No matches.';
+    status.hidden = false;
+    return;
+  }
+  const confused = confusedKanjiFor(char);
+  matches.slice(0, COMPARE_SEARCH_LIMIT)
+    .forEach((c) => results.appendChild(buildCompareCandidate(char, c, confused.get(c) || 0)));
+  if (matches.length > COMPARE_SEARCH_LIMIT) {
+    status.textContent = `${matches.length - COMPARE_SEARCH_LIMIT} more match — try a more specific search.`;
+    status.hidden = false;
+  }
 }
 
 // At most this many pairs on the summary. The list is already filtered to
@@ -12099,6 +12174,13 @@ function wire() {
   // Live filtering as you type — cheap enough over ~1,000 kanji that a
   // debounce would only add perceived latency for no real benefit.
   $('kanji-search').addEventListener('input', renderCourse);
+
+  $('detail-compare-query').addEventListener('input', renderDetailCompareSearch);
+  $('detail-compare-query-clear').addEventListener('click', () => {
+    $('detail-compare-query').value = '';
+    renderDetailCompareSearch();
+    $('detail-compare-query').focus();
+  });
 
   $('kanji-search-clear').addEventListener('click', () => {
     $('kanji-search').value = '';

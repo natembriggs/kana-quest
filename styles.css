@@ -3034,6 +3034,8 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* The detail screen's way in — a collapsed row of look-alikes under the
    component breakdown. */
 .compare-entry { margin-top: 10px; }
+.compare-search { margin-top: 14px; }
+.compare-search .hint { text-align: center; margin-top: 8px; }
 .compare-candidates { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
 .compare-candidate {
   display: flex;
