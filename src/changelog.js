@@ -13,6 +13,12 @@ export const CHANGELOG = [
   {
     date: '2026-09-23',
     changes: [
+      'New: Kana Quest has moved to its new home, Kanji Trail at kanjitrail.com. If you still use the old address, a box on the home screen now walks you through bringing your progress across, step by step — either with a sync code for one learner (shown right there in the box), or with a progress file that brings every learner on the device at once. The old site keeps working until you have finished.',
+    ],
+  },
+  {
+    date: '2026-09-23',
+    changes: [
       'New: a “Written by” row on the Stories shelf. Tap a writer to show only their stories at that level, with how many each one wrote — handy if you find you prefer one model’s style or find it easier to read. Your choice stays as you move between levels until you tap Anyone.',
       'Changed: story credits now name the exact AI model that wrote each story. Stories that said “GPT-6” now say “GPT-6 Astra”, “Sol 5.6” is now “GPT-5.6 Sol”, and “Claude Opus 5.0” is now “Claude Opus 5”. Different models write in noticeably different styles, so if you find you like one model’s stories best, the credit tells you which ones to look for.',
       'Fixed: chapter books on the Stories shelf now sit in the grid like every other cover, at the same size, instead of taking a whole row and leaving a gap beside the story before them. Their covers also show the Japanese title over the English one, with which chapter you are on.',

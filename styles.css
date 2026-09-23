@@ -611,6 +611,21 @@ button.quiz-glyph-tap {
 }
 .migration-notice .row { flex-wrap: wrap; }
 .migration-notice .row > * { flex: 1 1 12rem; }
+/* Each way across is its own numbered list plus the one button its first
+   step names, ruled off from the other so the two never read as one long
+   list of eight steps. */
+.migration-route {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.migration-route h4 { margin: 0; }
+.migration-steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+/* The code and its Copy button stay side by side, like Settings' own. */
+.migration-notice .sync-code-row { flex-wrap: nowrap; align-items: center; }
+.migration-notice .sync-code-row > * { flex: 0 0 auto; }
 
 .stack { display: flex; flex-direction: column; gap: 12px; }
 .row { display: flex; gap: 10px; }

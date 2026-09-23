@@ -463,18 +463,46 @@
          either is a second thing to get wrong about a feature whose
          failure mode is losing somebody's progress. -->
     <div id="migration-notice" class="card stack migration-notice" hidden>
-      <p><b>Kana Quest is becoming Kanji Trail</b> — same app, same people, new name and new home.</p>
-      <p class="hint">Your progress does not move by itself. Bring it across in one of these two ways, then open the new site. Nothing here switches off, and this app keeps working in the meantime.</p>
-      <div class="row">
-        <button class="btn" type="button" data-action="migration-show-code">Show this learner's sync code</button>
+      <p><b>Kana Quest has moved to Kanji Trail</b> — same app, new name, new address: <b>kanjitrail.com</b>.</p>
+      <p class="hint">Your progress will not move by itself. Choose one of these two ways to bring it with you — each takes about a minute. This site keeps working in the meantime, so nothing is lost if you stop halfway.</p>
+
+      <!-- Numbered, and naming every button by the exact label it has on
+           the other site, because the reader is following them across two
+           tabs: the route's own button, then Open Kanji Trail below, then
+           screens on kanjitrail.com this card cannot show. -->
+      <div class="migration-route">
+        <h4>One learner: use a sync code</h4>
+        <ol class="migration-steps">
+          <li>Tap <b>Show <span class="migration-learner">this learner</span>’s code</b> just below, and write the code down (or tap <b>Copy</b>).</li>
+          <li>Tap <b>Open Kanji Trail</b> at the bottom of this box. It opens in a new tab, so this one stays open.</li>
+          <li>On Kanji Trail, tap <b>+ Add a learner</b>, type any name, pick a badge and tap <b>Create</b>. (The name is replaced by this learner’s own once the code is in.)</li>
+          <li>Tap <b>I already use Kana Quest somewhere else</b>, type the code, and tap <b>Connect</b>.</li>
+        </ol>
+        <button class="btn" type="button" data-action="migration-show-code">Show <span class="migration-learner">this learner</span>’s code</button>
+        <div id="migration-code-row" class="row sync-code-row" hidden>
+          <span id="migration-code" class="sync-code"></span>
+          <button id="migration-copy-code" class="btn btn-quiet" type="button" data-action="migration-copy-code">Copy</button>
+        </div>
+        <p class="hint">More than one learner? Switch to each one and repeat these steps, or use a progress file instead.</p>
+      </div>
+
+      <div class="migration-route">
+        <h4>Everyone on this device: use a progress file</h4>
+        <ol class="migration-steps">
+          <li>Tap <b>Download a progress file</b> just below. It saves to your Downloads (on iPhone or iPad: the <b>Files</b> app &rarr; Downloads).</li>
+          <li>Tap <b>Open Kanji Trail</b> at the bottom of this box.</li>
+          <li>On Kanji Trail’s first screen, <b>Who’s practising?</b>, tap <b>Move progress to another device</b> at the bottom.</li>
+          <li>Tap <b>Load backup file</b> and choose the file you just saved. Then tap the back arrow — every learner is there.</li>
+        </ol>
         <button class="btn" type="button" data-action="migration-export">Download a progress file</button>
       </div>
-      <p class="hint">The sync code moves one learner and keeps working afterwards. The progress file is a one-off snapshot of <b>every</b> learner on this device — the better choice if more than one person uses it.</p>
+
+      <p id="migration-status" class="hint" role="status"></p>
+      <p class="hint">Added Kana Quest to your home screen? Add Kanji Trail the same way (in Safari: Share &rarr; <b>Add to Home Screen</b>), check your progress is there, then remove the old icon.</p>
       <div class="row">
         <button class="btn btn-primary" type="button" data-action="migration-open-new">Open Kanji Trail</button>
         <button id="migration-dismiss" class="btn btn-quiet" type="button">Not now</button>
       </div>
-      <p id="migration-status" class="hint" role="status"></p>
     </div>
 
     <!-- Shown only while this profile has never turned on sync — see

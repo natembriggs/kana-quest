@@ -80,7 +80,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-23d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-23e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -8892,46 +8892,80 @@ function migrationDismissed() {
   }
 }
 
-// OFF until the new site is right. Held back on 21 September, hours after
-// it went up, because moving people to somewhere still being fixed is
-// worse than moving them late: a learner who migrates onto a broken
-// origin has already left the working one behind, and §4 means there is
-// no walking that back for them.
-//
-// Known outstanding when this was switched off:
-//   - "Always Use HTTPS" not yet on at the zone (§3). The in-page
-//     backstop covers it, but the redirect belongs at the edge.
-//   - Turnstile's dashboard hostname not yet confirmed end to end, so
-//     feedback from the new origin is unproven — and feedback is how a
-//     migrated learner would tell us anything else is wrong.
-//   - Adding to the iOS home screen produced browser chrome rather than
-//     a standalone app, not yet confirmed fixed on a real device.
-//
-// Everything behind this flag is built, tested and verified on both
-// origins. Flip it back to true when those three are done; nothing else
-// needs to change.
-const MIGRATION_NOTICE_ENABLED = false;
+// Held back on 21 September, hours after the new site went up, while it was
+// still being fixed — moving people onto a broken origin is worse than
+// moving them late, since §4 means there is no walking it back for them.
+// Switched back on 23 September once Nathan had confirmed the new site was
+// working well.
+const MIGRATION_NOTICE_ENABLED = true;
 
 function renderMigrationNotice() {
   const card = $('migration-notice');
   card.hidden = !MIGRATION_NOTICE_ENABLED || !isLegacyOrigin() || migrationDismissed();
+  // Per learner: the code shown belongs to whoever was open when it was
+  // asked for, so switching learner must not leave theirs on screen under
+  // somebody else's name.
+  $('migration-code-row').hidden = true;
+  $('migration-code').textContent = '';
+  const name = state.profile && state.profile.name;
+  document.querySelectorAll('.migration-learner').forEach((el) => {
+    el.textContent = name || 'this learner';
+  });
 }
 
-/** The code route. Routed through the existing Settings sync card rather
- * than displaying a code here: syncTurnOnFromNudge() already creates a
- * pairing for a profile that has none, shows the code, and scrolls it into
- * view, and it is the path the sync nudge has been using all along. */
-function migrationShowCode() {
-  syncTurnOnFromNudge();
+/**
+ * The code route. Shows the code IN the card rather than jumping to
+ * Settings the way the sync nudge does: the card's numbered steps are what
+ * the learner is following, and leaving for Settings left them behind at
+ * step one. The pairing itself is still Settings' own syncTurnOn() — this
+ * only reads back the code it made, so there is no second implementation of
+ * pairing to get wrong.
+ */
+async function migrationShowCode() {
+  if (!state.profile) return;
+  const status = $('migration-status');
+  let syncState = await store.getSyncState(state.profile.id);
+  if (!syncState) {
+    status.textContent = 'Making a code…';
+    await syncTurnOn();
+    syncState = await store.getSyncState(state.profile.id);
+  }
+  if (!syncState) {
+    status.textContent = 'Could not reach the sync server just now. Check the connection and try again, or use a progress file instead.';
+    return;
+  }
+  status.textContent = '';
+  // Sync is on now, so the "turn on sync" nudge further down is stale.
+  renderSyncNudge();
+  $('migration-code').textContent = syncState.code;
+  $('migration-code-row').hidden = false;
+  $('migration-copy-code').hidden = !navigator.clipboard;
+}
+
+async function migrationCopyCode() {
+  const code = $('migration-code').textContent;
+  if (!code || !navigator.clipboard) return;
+  const button = $('migration-copy-code');
+  try {
+    await navigator.clipboard.writeText(code);
+    button.textContent = 'Copied!';
+    clearTimeout(button._copiedTimer);
+    button._copiedTimer = setTimeout(() => { button.textContent = 'Copy'; }, 2000);
+  } catch {
+    // Clipboard refused (permissions, an old browser): the code is still on
+    // screen to write down, which is what step 1 asks for first anyway.
+  }
 }
 
 /** The file route. exportBackup() writes every learner on the device, not
  * just the current one, which is why the card names it as the better
- * choice for a shared device. */
+ * choice for a shared device. The success line repeats the steps that are
+ * left, because by now the learner's eye is down here, not on the list. */
 async function migrationExport() {
   try {
     await exportBackup();
-    $('migration-status').textContent = 'Saved. Open Kanji Trail, choose "I already use this app somewhere else", and load that file.';
+    $('migration-status').textContent = 'Saved. Now tap Open Kanji Trail, then on its first screen tap '
+      + '"Move progress to another device" → "Load backup file" and choose this file.';
   } catch {
     $('migration-status').textContent = 'Could not save the file just now. Try the sync code instead.';
   }
@@ -12640,6 +12674,7 @@ function wire() {
       case 'sync-turn-on': syncTurnOn(); break;
       case 'sync-nudge-turn-on': syncTurnOnFromNudge(); break;
       case 'migration-show-code': migrationShowCode(); break;
+      case 'migration-copy-code': migrationCopyCode(); break;
       case 'migration-export': migrationExport(); break;
       case 'migration-open-new': migrationOpenNewSite(); break;
       case 'sync-show-code-entry':
