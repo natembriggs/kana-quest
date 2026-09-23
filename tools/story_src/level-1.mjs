@@ -3,7 +3,7 @@ import { expandStory, lexicon, line } from './helpers.mjs';
 const SOL_SOURCE = (text, notes, licence) => ({
   kind: 'adapted',
   text,
-  by: 'GPT-5.6 Sol',
+  by: 'Sol 5.6',
   credit: 'Retold by',
   notes,
   licence,

@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional European fairy tale (Cinderella)",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling based on familiar public-domain motifs rather than a particular literary edition.",
     "licence": "Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.",

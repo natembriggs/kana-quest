@@ -18,14 +18,6 @@ stand in for authorship of the Kana Quest version. Human submissions follow
 the same rule and use the contributor's chosen display name. Both the story
 card and the attribution at the end of the story display this credit.
 
-Credit a model by its full name, version *and* variant, in the maker's own
-order: `Claude Opus 5`, `Claude Fable 5.1`, `GPT-5.6 Sol`, `GPT-6 Astra`,
-`GPT-6 Luna`. Never a bare family version like `GPT-6` — variants of the same
-version write very differently, and the credit is how both the developer
-choosing a model for the next story and readers with a preferred style tell
-them apart. The build rejects a bare `GPT-<version>` or a variant name
-without its version.
-
 ---
 
 ## 1. Before you write

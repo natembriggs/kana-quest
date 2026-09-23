@@ -219,6 +219,33 @@ export function filterShelf(groups, filter, stories) {
 }
 
 /**
+ * Who wrote a shelf entry — its `source.by`, or every distinct one across a
+ * series' chapters (normally just one, but nothing makes a series keep one
+ * writer). Models differ a lot in style and readability, so readers can pick
+ * the writer they get on with; see the "Written by" row in app.js.
+ */
+export function shelfAuthors(group) {
+  const entries = group.kind === 'series' ? group.parts.map((part) => part.entry) : [group.entry];
+  return [...new Set(entries.map((entry) => entry.source?.by).filter(Boolean))];
+}
+
+/** Each writer at this level with how many shelf entries they wrote, most
+ * first (then by name, so the row keeps a stable order). */
+export function authorCounts(groups) {
+  const counts = new Map();
+  groups.forEach((group) => {
+    shelfAuthors(group).forEach((by) => counts.set(by, (counts.get(by) || 0) + 1));
+  });
+  return [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+}
+
+/** The entries written (wholly or in part) by `author`; everything for none. */
+export function filterShelfByAuthor(groups, author) {
+  if (!author) return groups;
+  return groups.filter((group) => shelfAuthors(group).includes(author));
+}
+
+/**
  * The look of a story's generated cover: two hues and the character to put on
  * it, derived from the id so one story always gets the same tile.
  *

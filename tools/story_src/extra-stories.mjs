@@ -1,7 +1,7 @@
 import { expandStory, lexicon, line } from './helpers.mjs';
 
 const SOL_SOURCE = (text, notes, licence = 'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.') => ({
-  kind: 'adapted', text, by: 'GPT-5.6 Sol', credit: 'Retold by', notes, licence,
+  kind: 'adapted', text, by: 'Sol 5.6', credit: 'Retold by', notes, licence,
 });
 
 const ariToHato = expandStory({

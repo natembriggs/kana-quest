@@ -1,6 +1,6 @@
 # 隠れ谷の灯り — The Lanterns of the Hidden Valley
 
-Original five-chapter L5 / G5 adventure. Writer: GPT-6 Astra.
+Original five-chapter L5 / G5 adventure. Writer: GPT-6.
 Each chapter is a normal L5 reading session; the five form one complete story.
 
 ## Scene map and continuity spine

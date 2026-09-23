@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Public-domain tale collected by the Brothers Grimm (The Bremen Town Musicians)",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.",
     "licence": "Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.",

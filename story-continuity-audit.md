@@ -2,8 +2,8 @@
 
 Audit date: 5 September 2026
 
-Scope: the 22 shipped stories credited to GPT-5.6 Sol at the start of the audit.
-`momotaro-1` and `usagi-to-kame`, credited to Claude Opus 5, were read for
+Scope: the 22 shipped stories credited to Sol 5.6 at the start of the audit.
+`momotaro-1` and `usagi-to-kame`, credited to Claude Opus 5.0, were read for
 comparison but are not rated here. Four unshipped story source files being
 written concurrently were deliberately left out.
 
@@ -12,7 +12,7 @@ fifth story at every level the same day as this audit (`29cef88`), taking the
 corpus from 24 stories (the 22 rated here plus `momotaro-1`/`usagi-to-kame`)
 to 30. The six added — `ari-to-kirigirisu` (L1), `urashima-tarou` (L2),
 `jack-to-mame-no-ki` (L3), `ningyo-hime` (L4), `robinson-crusoe` (L5), and
-`jekyll-to-hyde` (L6) — are all credited to Claude Opus 5, like
+`jekyll-to-hyde` (L6) — are all credited to Claude Opus 5.0, like
 `momotaro-1`/`usagi-to-kame`, so they were out of scope by the same
 different-author reasoning as those two, not merely because they were
 unshipped drafts at audit time. None of the six has been continuity-audited

@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Aesop’s fable (The Town Mouse and the Country Mouse)",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling with no loanwords and no wording from a published edition.",
     "licence": "Public domain source tale. This retelling and its English translation are original to Kanji Trail.",

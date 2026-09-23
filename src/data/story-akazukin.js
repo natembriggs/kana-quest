@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional European fairy tale (Little Red Riding Hood)",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling with a non-violent rescue, drawing on common public-domain motifs rather than one edition.",
     "licence": "Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.",

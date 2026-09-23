@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Aesop’s fable (The Ant and the Dove)",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original graded retelling with short, single-clause sentences and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",

@@ -5458,7 +5458,7 @@ fire(storyCard, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real dynamic import
 check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
 check('the reader credits the cover separately from the story author',
-  el('reader-source').textContent.includes('Retold by GPT-5.6 Sol.')
+  el('reader-source').textContent.includes('Retold by Sol 5.6.')
   && el('reader-source').textContent.includes('Cover generated with OpenAI image generation.'));
 
 // ありとはと carries inline illustrations (stories-plan.md §8.8), and this

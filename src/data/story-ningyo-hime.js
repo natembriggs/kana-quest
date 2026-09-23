@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "The Little Mermaid by Hans Christian Andersen (1837)",
-    "by": "Claude Opus 5",
+    "by": "Claude Opus 5.0",
     "credit": "Retold by",
     "notes": "An original retelling of the complete original tale (not the softened Disney version) — it keeps Andersen’s own bittersweet ending, in which she refuses to use the knife, dissolves into foam and rises as a daughter of the air with three hundred years in which to earn a soul; Andersen leaves the prince unnamed, so he is given the invented katakana name Erikku (エリック) for narrative clarity; no wording is copied from a published translation.",
     "licence": "Public domain source story. This Japanese retelling and its English translation are original to Kanji Trail.",

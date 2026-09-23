@@ -17,7 +17,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -36,7 +36,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -93,7 +93,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -112,7 +112,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -131,7 +131,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -150,7 +150,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -169,7 +169,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -207,7 +207,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -226,7 +226,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -245,7 +245,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -283,7 +283,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -302,7 +302,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -321,7 +321,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -359,7 +359,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -378,7 +378,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -397,7 +397,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -435,7 +435,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -454,7 +454,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -473,7 +473,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -530,7 +530,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -549,7 +549,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -688,7 +688,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -707,7 +707,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -726,7 +726,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -745,7 +745,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -783,7 +783,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -802,7 +802,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -826,7 +826,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -850,7 +850,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -874,7 +874,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -898,7 +898,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -922,7 +922,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -941,7 +941,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -960,7 +960,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -979,7 +979,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -1017,7 +1017,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "original",
-      "by": "GPT-6 Astra",
+      "by": "GPT-6",
       "credit": "Written by"
     }
   },
@@ -1036,7 +1036,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -1055,7 +1055,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -1079,7 +1079,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },
@@ -1098,7 +1098,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "Claude Opus 5",
+      "by": "Claude Opus 5.0",
       "credit": "Retold by"
     }
   },
@@ -1141,7 +1141,7 @@ export const STORIES = {
     "cover": true,
     "source": {
       "kind": "adapted",
-      "by": "GPT-5.6 Sol",
+      "by": "Sol 5.6",
       "credit": "Retold by"
     }
   },

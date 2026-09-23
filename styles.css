@@ -2331,6 +2331,8 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 }
 .story-filter::-webkit-scrollbar { display: none; }
 .story-filter .segment { flex: 0 0 auto; }
+.story-filter-label { flex: 0 0 auto; align-self: center; margin-right: 2px; }
+.story-filter-count { margin-left: 6px; opacity: 0.6; font-weight: 400; }
 .story-filter-empty { text-align: center; padding: 18px 0; }
 
 /* An inline illustration, between two paragraphs (§8.8). `aspect-ratio` is set

@@ -44,6 +44,7 @@ import { STORIES } from './data/story-manifest.js';
 import {
   storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
   shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
+  authorCounts, filterShelfByAuthor,
 } from './library.js';
 import { buildStrokeSVG, animateStrokes, ensureStrokeUnitLoaded } from './strokes.js';
 import {
@@ -79,7 +80,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-23c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-23d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -488,6 +489,7 @@ const state = {
   readerShowRomaji: false,
   readerShowPictures: true, // §8.8 — on by default, per device, never synced
   storyFilter: 'all', // §8.7's shelf filter — session-only, like readerBrowseLevel
+  storyAuthor: null, // the shelf's "Written by" filter (source.by), null for anyone — session-only too
   readerShowAllTranslations: false,
   readerTextSize: 3,        // 1-5, index into READER_TEXT_SIZES; persisted per device
   readerScrollY: 0,         // where in the story we were when leaving for a detail screen
@@ -9822,9 +9824,13 @@ function renderStoriesLibrary() {
 
   const list = $('story-list');
   list.innerHTML = '';
-  const groups = sortShelf(groupStoriesForLevel(STORIES, browse), profile.stories);
+  const levelGroups = sortShelf(groupStoriesForLevel(STORIES, browse), profile.stories);
+  renderStoryAuthorFilter(levelGroups);
+  // The writer narrows first and the read-state counts follow it, so "Unread
+  // 3" under "GPT-6 Astra" means three unread Astra stories, not three overall.
+  const groups = filterShelfByAuthor(levelGroups, state.storyAuthor);
   renderStoryFilter(groups, profile);
-  if (groups.length === 0) {
+  if (levelGroups.length === 0) {
     const p = document.createElement('p');
     p.className = 'hint';
     p.textContent = 'Nothing at this level yet — more stories are on the way.';
@@ -9835,7 +9841,9 @@ function renderStoriesLibrary() {
   if (shown.length === 0) {
     const p = document.createElement('p');
     p.className = 'hint story-filter-empty';
-    p.textContent = state.storyFilter === 'unread'
+    p.textContent = groups.length === 0
+      ? `No stories by ${state.storyAuthor} at this level yet. Try another level, or tap Anyone.`
+      : state.storyFilter === 'unread'
       ? 'You have read everything at this level. Try the next one along.'
       : 'Nothing here yet.';
     list.appendChild(p);
@@ -9881,6 +9889,58 @@ function renderStoryFilter(groups, profile) {
       renderStoriesLibrary();
     });
     row.appendChild(btn);
+  });
+}
+
+/**
+ * The "Written by" filter: one button per writer at this level, with counts.
+ * Different models write in noticeably different styles and at different
+ * readability, so a reader who likes one can find the rest of its stories.
+ *
+ * Hidden when everything at a level has the same writer — there is nothing
+ * to choose — unless the reader picked a writer on another level, in which
+ * case it stays (with that writer at 0) so the choice is visible and can be
+ * cleared rather than silently emptying the shelf.
+ */
+function renderStoryAuthorFilter(groups) {
+  const row = $('story-author-filter');
+  row.innerHTML = '';
+  const authors = authorCounts(groups);
+  const picked = state.storyAuthor;
+  if (picked && !authors.some(([by]) => by === picked)) authors.push([picked, 0]);
+  row.hidden = authors.length < 2 && !picked;
+  if (row.hidden) return;
+  const label = document.createElement('span');
+  label.className = 'hint story-filter-label';
+  label.textContent = 'Written by';
+  row.appendChild(label);
+  [[null, 'Anyone', groups.length], ...authors.map(([by, n]) => [by, by, n])].forEach(([by, text, n]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    const active = picked === by;
+    btn.className = `segment${active ? ' active' : ''}`;
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    // The count in its own lighter span: "Claude Fable 5.1 1" otherwise runs
+    // the model's version number straight into how many stories it wrote.
+    btn.textContent = text;
+    const count = document.createElement('span');
+    count.className = 'story-filter-count';
+    count.textContent = n;
+    btn.appendChild(count);
+    btn.setAttribute('aria-label', `${text}, ${n} ${n === 1 ? 'story' : 'stories'}`);
+    btn.addEventListener('click', () => {
+      state.storyAuthor = by;
+      renderStoriesLibrary();
+    });
+    row.appendChild(btn);
+  });
+  // The row scrolls sideways on a phone, so a writer picked on one level can
+  // sit off the right edge on the next — bring it into view once laid out.
+  requestAnimationFrame(() => {
+    const active = row.querySelector('.segment.active');
+    if (!active) return;
+    const overhang = active.getBoundingClientRect().right - row.getBoundingClientRect().right;
+    if (overhang > 0) row.scrollLeft += overhang + 8;
   });
 }
 

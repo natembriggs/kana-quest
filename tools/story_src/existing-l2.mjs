@@ -12,9 +12,9 @@ function credit(story) {
     ...story,
     source: {
       ...story.source,
-      by: 'Claude Opus 5',
+      by: 'Claude Opus 5.0',
       credit: 'Retold by',
-      notes: `${note} Retelling and English translation by Claude Opus 5.`,
+      notes: `${note} Retelling and English translation by Claude Opus 5.0.`,
     },
   };
 }

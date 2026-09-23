@@ -19,7 +19,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Public-domain novel by L. Frank Baum (The Wonderful Wizard of Oz, 1900), opening journey",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original Japanese retelling and abridgement of Dorothy’s arrival and first meetings, not a translation of Baum’s prose or a later adaptation.",
     "licence": "Public domain (L. Frank Baum d. 1919). This retelling and its English translation are original to Kanji Trail.",

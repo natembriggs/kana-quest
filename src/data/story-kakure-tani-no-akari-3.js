@@ -28,7 +28,7 @@ export const STORY = {
   "source": {
     "kind": "original",
     "text": "An original five-chapter adventure written for Kanji Trail",
-    "by": "GPT-6 Astra",
+    "by": "GPT-6",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for level 5. Set in a fictional mountain village in Nagano during Obon. Obon, bon odori, washi craft and lantern-floating provide the cultural setting; the village, song, characters and supernatural customs are invented, not a description of a traditional religious rite. Practices vary by region. Background: Japan National Tourism Organization, “Japan in August”, “Summer traditions in Japan” and “Kiso Valley”. No published story was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",

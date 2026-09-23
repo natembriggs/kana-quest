@@ -1,6 +1,6 @@
 # New stories — 16 September 2026
 
-Six original stories by GPT-6 Astra. Each was planned by scene and drafted as prose
+Six original stories by GPT-6. Each was planned by scene and drafted as prose
 before word boundaries, readings, glosses and translations were added.
 The prose below includes the changes from the language and continuity passes.
 

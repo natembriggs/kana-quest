@@ -5,6 +5,7 @@
 import {
   storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
   shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
+  shelfAuthors, authorCounts, filterShelfByAuthor,
 } from '../src/library.js';
 
 let failures = 0;
@@ -209,6 +210,33 @@ check('filtering to unread leaves only the unread',
     .map((g) => g.id).sort().join() === 'long,middling,short');
 check('a filter that matches nothing returns nothing rather than everything',
   filterShelf(groupStoriesForLevel(MANIFEST, 'L2'), 'read', { read: {}, pos: {} }).length === 0);
+
+// --- shelfAuthors, authorCounts and filterShelfByAuthor ---------------------
+
+const by = (who) => ({ by: who, credit: 'Written by' });
+const authorManifest = {
+  a: story('L5', { source: by('GPT-6 Astra') }),
+  b: story('L5', { source: by('GPT-5.6 Sol') }),
+  c: story('L5', { source: by('GPT-6 Astra') }),
+  'mixed-1': part('L5', 'mixed', 1, 2),
+  'mixed-2': part('L5', 'mixed', 2, 2),
+};
+authorManifest['mixed-1'].source = by('GPT-5.6 Sol');
+authorManifest['mixed-2'].source = by('Claude Opus 5');
+const authorShelf = groupStoriesForLevel(authorManifest, 'L5');
+const mixed = authorShelf.find((g) => g.kind === 'series');
+check('a series lists every writer across its chapters, once each',
+  shelfAuthors(mixed).join() === 'GPT-5.6 Sol,Claude Opus 5', shelfAuthors(mixed).join());
+check('writers are counted per shelf entry, most first then by name',
+  JSON.stringify(authorCounts(authorShelf))
+    === JSON.stringify([['GPT-5.6 Sol', 2], ['GPT-6 Astra', 2], ['Claude Opus 5', 1]]),
+  JSON.stringify(authorCounts(authorShelf)));
+check('no writer picked filters nothing out',
+  filterShelfByAuthor(authorShelf, null).length === authorShelf.length);
+check('picking a writer keeps their stories and any series they wrote part of',
+  filterShelfByAuthor(authorShelf, 'GPT-5.6 Sol').map((g) => g.id).sort().join() === 'b,mixed');
+check('a writer with nothing here leaves the shelf empty',
+  filterShelfByAuthor(authorShelf, 'GPT-6 Luna').length === 0);
 
 // --- coverPlaceholder ------------------------------------------------------
 

@@ -10,7 +10,7 @@ const antAndGrasshopper = expandStory({
   source: {
     kind: 'adapted',
     text: 'Traditional fable (The Ant and the Grasshopper)',
-    by: 'Claude Opus 5',
+    by: 'Claude Opus 5.0',
     credit: 'Retold by',
     notes: 'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
     licence: 'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',

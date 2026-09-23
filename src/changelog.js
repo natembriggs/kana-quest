@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-23',
     changes: [
+      'New: a “Written by” row on the Stories shelf. Tap a writer to show only their stories at that level, with how many each one wrote — handy if you find you prefer one model’s style or find it easier to read. Your choice stays as you move between levels until you tap Anyone.',
       'Changed: story credits now name the exact AI model that wrote each story. Stories that said “GPT-6” now say “GPT-6 Astra”, “Sol 5.6” is now “GPT-5.6 Sol”, and “Claude Opus 5.0” is now “Claude Opus 5”. Different models write in noticeably different styles, so if you find you like one model’s stories best, the credit tells you which ones to look for.',
       'Fixed: chapter books on the Stories shelf now sit in the grid like every other cover, at the same size, instead of taking a whole row and leaving a gap beside the story before them. Their covers also show the Japanese title over the English one, with which chapter you are on.',
       'New: the “⇄ Compare with a similar kanji” button on a kanji’s page now has a search box under its suggestions. If you misread one kanji as another in a story or quiz, open the one you misread, tap Compare, and search for what you thought it was — by the kanji itself, its meaning, or a reading — then tap it to see the two side by side. It searches every kanji, not just the ones you are studying.',

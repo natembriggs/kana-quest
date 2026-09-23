@@ -19,7 +19,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Public-domain novel by Lewis Carroll (Alice’s Adventures in Wonderland, 1865), opening episode",
-    "by": "GPT-5.6 Sol",
+    "by": "Sol 5.6",
     "credit": "Retold by",
     "notes": "An original Japanese retelling and abridgement of the opening episode, not a translation of Carroll’s prose or a modern Japanese edition.",
     "licence": "Public domain (Lewis Carroll d. 1898). This retelling and its English translation are original to Kanji Trail.",
