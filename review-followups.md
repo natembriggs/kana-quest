@@ -389,7 +389,7 @@ supposed to be current without opening eight other files.
   genuinely unbuilt. The continuity audit's revisions were spot-checked and
   genuinely applied (typos and unmotivated details gone, sentence counts
   match). Its scope is now six stories behind the current count — the six
-  added since are all Claude Opus 5.0-credited like the two originally
+  added since are all Claude Opus 5-credited like the two originally
   excluded, so they're out of scope by the audit's own different-author
   logic, but none has actually been continuity-checked.
 - **`writing-mode-plan.md`** — two genuine follow-ups from real use since

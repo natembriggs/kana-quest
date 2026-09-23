@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional Japanese folktale (浦島太郎, Urashima Tarō)",
-    "by": "Claude Opus 5.0",
+    "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the traditional folktale, not a transcription or translation of a particular published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",

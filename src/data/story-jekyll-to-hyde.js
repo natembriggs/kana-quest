@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "The Strange Case of Dr Jekyll and Mr Hyde by Robert Louis Stevenson (1886)",
-    "by": "Claude Opus 5.0",
+    "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original chapter-length retelling of the novel’s complete plot, including its final-confession reveal; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",

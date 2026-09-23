@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional tale associated with One Thousand and One Nights (Aladdin and the Magic Lamp)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original retelling assembled from long-established public-domain plot elements, not translated from a particular edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",

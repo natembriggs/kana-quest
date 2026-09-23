@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Public-domain novel by Carlo Collodi (The Adventures of Pinocchio, 1883)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original abridged retelling using familiar episodes from Collodi’s public-domain story, not a translation of its Italian text or a later adaptation.",
     "licence": "Public domain (Carlo Collodi d. 1890). This retelling and its English translation are original to Kanji Trail.",

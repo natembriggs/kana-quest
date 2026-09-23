@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-23b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-23c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -11868,7 +11868,7 @@ function prefetchNextChapter(id) {
 /**
  * `source.credit` ("Written by"/"Retold by"/"Adapted by"/"Translated by",
  * see validateStory in tools/build_story_data.mjs) says WHO did what to this
- * story, which `source.by` alone does not — "Claude Opus 5.0" gives no hint
+ * story, which `source.by` alone does not — "Claude Opus 5" gives no hint
  * whether that's the original author or someone retelling a public-domain
  * tale, and readers were asking exactly that question with no way to answer
  * it from this screen. Led with credit + by, ahead of the older `text`/

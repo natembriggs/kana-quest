@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional European tale (Hansel and Gretel)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original graded retelling with a softened ending and no wording from a published edition.",
     "licence": "Public domain source tale. This retelling and its English translation are original to Kanji Trail.",

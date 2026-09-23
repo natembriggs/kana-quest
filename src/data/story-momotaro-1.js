@@ -14,8 +14,8 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional Japanese folktale (Momotarō)",
-    "by": "Claude Opus 5.0",
-    "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The story itself is a public-domain folk tale with no single identifiable author. Retelling and English translation by Claude Opus 5.0.",
+    "by": "Claude Opus 5",
+    "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The story itself is a public-domain folk tale with no single identifiable author. Retelling and English translation by Claude Opus 5. Retelling and English translation by Claude Opus 5.",
     "licence": "Public domain (traditional folk tale). This retelling and its English translation are original to Kanji Trail.",
     "credit": "Retold by",
     "cover": "Cover generated with OpenAI image generation."

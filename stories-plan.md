@@ -1978,7 +1978,7 @@ credited `Retold by` an LLM (recorded per-story in `source.by`), and
 familiar public-domain motifs rather than a particular literary edition." The
 six added in `29cef88` (The Ant and the Grasshopper, Urashima Tarō, Jack and
 the Beanstalk, The Little Mermaid, Robinson Crusoe, Dr Jekyll and Mr Hyde —
-one per level) are all credited to Claude Opus 5.0, like `momotaro-1` and
+one per level) are all credited to Claude Opus 5, like `momotaro-1` and
 `usagi-to-kame` before them; the six added in the sixth-story round (The Crow
 and the Pitcher, かさじぞう, Rapunzel, Ali Baba, Gulliver's first voyage, The
 Adventure of the Speckled Band) are credited to Claude Opus 5.
@@ -1986,7 +1986,7 @@ Adventure of the Speckled Band) are credited to Claude Opus 5.
 On 16 September 2026, six original standalone stories brought the total to
 42: 猫の家 (L1), 二つのお弁当 (L2), 旅する傘 (L3), 最後の渡し船
 (L4), 一日だけの本屋 (L5), and 宛先のない返事 (L6). These have
-`source.kind: 'original'` and are credited `Written by GPT-6`. Their Japanese
+`source.kind: 'original'` and are credited `Written by GPT-6 Astra`. Their Japanese
 prose and English translations were written for Kana Quest; no published
 work was adapted. Scene maps and the final prose are in
 `tools/story_src/new-stories-2026-09-16.md`.

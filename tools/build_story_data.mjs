@@ -156,6 +156,12 @@ export function validateStory(story, ids) {
   if (!['Written by', 'Retold by', 'Adapted by', 'Translated by'].includes(story.source?.credit)) {
     errors.push(`${story.id}: unsupported source credit ${story.source?.credit}`);
   }
+  // A model credit names the exact model, family version and variant both
+  // ("GPT-6 Astra", "GPT-5.6 Sol", "Claude Opus 5"): variants of one version
+  // write very differently, and a bare "GPT-6" hides which one it was.
+  if (/^GPT-[\d.]+$/.test(story.source?.by ?? '') || /^(Sol|Luna|Astra)\b/.test(story.source?.by ?? '')) {
+    errors.push(`${story.id}: source.by "${story.source.by}" must name the model as "GPT-<version> <variant>", e.g. "GPT-6 Astra"`);
+  }
   const sentences = story.body?.flat() || [];
   const [minSentences, maxSentences] = SENTENCE_LIMITS[story.level] || [1, Infinity];
   // Over the maximum is an error — an L1 story of forty sentences is not an
