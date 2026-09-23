@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional fable (The North Wind and the Sun)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition.",
     "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.",

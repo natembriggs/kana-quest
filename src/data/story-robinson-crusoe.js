@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Robinson Crusoe by Daniel Defoe (1719)",
-    "by": "Claude Opus 5.0",
+    "by": "Claude Opus 5",
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel's complete main plot; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",

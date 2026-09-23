@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional European tale (The Three Little Pigs)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original graded retelling, using a non-violent version of the ending and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",

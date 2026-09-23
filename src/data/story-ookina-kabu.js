@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Traditional cumulative tale (The Giant Turnip)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original beginner-level retelling, not a transcription or translation of a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",

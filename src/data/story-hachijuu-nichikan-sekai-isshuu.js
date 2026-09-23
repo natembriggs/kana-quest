@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Around the World in Eighty Days by Jules Verne (1872)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel’s main journey; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",

@@ -1,7 +1,7 @@
 import { expandStory, lexicon, line } from './helpers.mjs';
 
 const SOL_SOURCE = (text, notes, licence) => ({
-  kind: 'adapted', text, by: 'Claude Opus 5.0', credit: 'Retold by', notes, licence,
+  kind: 'adapted', text, by: 'Claude Opus 5', credit: 'Retold by', notes, licence,
 });
 
 const theStory = expandStory({

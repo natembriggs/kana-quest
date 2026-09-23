@@ -9,7 +9,7 @@ const theStory = expandStory({
   blurb: "While clearing her late mother’s house, Ritsu finds a sealed letter and hopes it will explain a silence in her family.",
   nw: ["宛名", "便箋", "筆跡", "切り株", "最期"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
   lexicon: lexicon({
     "母[はは]": ["her mother", "n"],
     "机[つくえ]": ["desk; table", "n"],

@@ -14,7 +14,7 @@ export const STORY = {
   "source": {
     "kind": "adapted",
     "text": "Treasure Island by Robert Louis Stevenson (1883)",
-    "by": "Sol 5.6",
+    "by": "GPT-5.6 Sol",
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel’s complete main plot; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",
