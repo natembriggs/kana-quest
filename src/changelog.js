@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-23',
     changes: [
+      'Fixed: chapter books on the Stories shelf now sit in the grid like every other cover, at the same size, instead of taking a whole row and leaving a gap beside the story before them. Their covers also show the Japanese title over the English one, with which chapter you are on.',
       'New: the “⇄ Compare with a similar kanji” button on a kanji’s page now has a search box under its suggestions. If you misread one kanji as another in a story or quiz, open the one you misread, tap Compare, and search for what you thought it was — by the kanji itself, its meaning, or a reading — then tap it to see the two side by side. It searches every kanji, not just the ones you are studying.',
     ],
   },

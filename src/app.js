@@ -79,7 +79,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-23a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-23b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -10184,9 +10184,13 @@ function buildSeriesCard(group, profile) {
   const subtitle = standing.done === standing.total
     ? `all ${standing.total} chapters read`
     : `chapter ${standing.done + 1} of ${group.of || standing.total}`;
+  // Series names are written "隠れ谷の灯り — The Lanterns of the Hidden
+  // Valley"; split them so the cover shows Japanese over English like any
+  // other tile, with the chapter standing after the English.
+  const [nameJa, nameEn] = group.name.split(' — ');
   const head = buildStoryTile(face.id, face.entry, profile, {
-    titleJa: group.name,
-    titleEn: subtitle,
+    titleJa: nameJa,
+    titleEn: nameEn ? `${nameEn} · ${subtitle}` : subtitle,
     blurb: standing.current ? standing.current.entry.blurb : 'Read again from the beginning.',
   });
   head.classList.add('story-series-head');
@@ -10200,6 +10204,7 @@ function buildSeriesCard(group, profile) {
   chapters.hidden = true;
   const setOpen = (open) => {
     chapters.hidden = !open;
+    wrap.classList.toggle('is-open', open);
     toggle.textContent = open ? 'Hide chapters' : `All ${group.parts.length} chapters`;
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   };

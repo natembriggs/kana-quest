@@ -2300,10 +2300,12 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .story-cover-popup-meta { margin: 0; font-size: calc(11px * var(--app-font-scale, 1)); }
 
 /* A series is one tile that opens to its current chapter, plus a toggle
-   revealing the rest (§8.2) — tall enough with that toggle and list that it
-   spans the grid's full width rather than squeezing into one column. */
-.story-series { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; }
-.story-series-head { max-width: 260px; }
+   revealing the rest (§8.2). Closed, it sits in one grid cell like any other
+   cover, so the shelf has no hole beside it; open, it takes the full row so
+   the chapter list has room, while its cover keeps the one-column width. */
+.story-series { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.story-series.is-open { grid-column: 1 / -1; }
+.story-series.is-open .story-series-head { width: calc((100% - 14px) / 2); }
 .story-series-toggle { align-self: flex-start; padding: 4px 0; }
 .story-series-chapters { gap: 6px; }
 

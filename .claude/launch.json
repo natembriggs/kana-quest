@@ -9,11 +9,8 @@
     },
     {
       "name": "staged-site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": [
-        "-m", "http.server", "8751",
-        "--directory", "/private/tmp/kq-site-dist"
-      ],
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /private/tmp/kq-site-dist && exec python3 -m http.server 8751"],
       "port": 8751
     }
   ]
