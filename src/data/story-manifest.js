@@ -964,6 +964,126 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "saigo-no-otehon-1": {
+    "title": {
+      "ja": "休みの札",
+      "en": "The \"Closed\" Sign"
+    },
+    "series": {
+      "id": "saigo-no-otehon",
+      "part": 1,
+      "of": 5,
+      "name": "最後のお手本 — The Last Lesson"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Clearing out her late grandfather’s calligraphy school, Mio finds a letter hidden behind the “Closed Today” sign: the first clue in a trail of kanji he left across town. Someone else is already following it.",
+    "hash": "5db04d6e",
+    "length": 1422,
+    "paras": 14,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "saigo-no-otehon-2": {
+    "title": {
+      "ja": "黒い傘の男",
+      "en": "The Man with the Black Umbrella"
+    },
+    "series": {
+      "id": "saigo-no-otehon",
+      "part": 2,
+      "of": 5,
+      "name": "最後のお手本 — The Last Lesson"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Someone got into the school without breaking the lock. A child’s practice sheet, a wish on a shrine tablet, and a stranger who drops a key that should not exist.",
+    "hash": "a7f09e81",
+    "length": 1055,
+    "paras": 10,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "saigo-no-otehon-3": {
+    "title": {
+      "ja": "峠の茶屋",
+      "en": "The Teahouse on the Pass"
+    },
+    "series": {
+      "id": "saigo-no-otehon",
+      "part": 3,
+      "of": 5,
+      "name": "最後のお手本 — The Last Lesson"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "The next character points up the mountain. An old man will hand over the box only if Mio brings “the other one” — and then a storm traps everyone at the top of the pass.",
+    "hash": "3e734db1",
+    "length": 953,
+    "paras": 10,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "saigo-no-otehon-4": {
+    "title": {
+      "ja": "三つの字",
+      "en": "Three Characters"
+    },
+    "series": {
+      "id": "saigo-no-otehon",
+      "part": 4,
+      "of": 5,
+      "name": "最後のお手本 — The Last Lesson"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Waiting out the storm, Mio learns why someone left home twenty years ago, and three sheets of paper point to a drawer nobody knew was there.",
+    "hash": "e43e2ee4",
+    "length": 1420,
+    "paras": 15,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "saigo-no-otehon-5": {
+    "title": {
+      "ja": "八つ目の引き出し",
+      "en": "The Eighth Drawer"
+    },
+    "series": {
+      "id": "saigo-no-otehon",
+      "part": 5,
+      "of": 5,
+      "name": "最後のお手本 — The Last Lesson"
+    },
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "A night race to reach a desk before it leaves for market, a drawer that opens only for someone who remembers her first lesson, and the last thing her grandfather wrote.",
+    "hash": "f5e8fdab",
+    "length": 1217,
+    "paras": 12,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "takarajima": {
     "title": {
       "ja": "宝島",
