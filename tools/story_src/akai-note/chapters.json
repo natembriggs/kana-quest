@@ -1,0 +1,1092 @@
+[
+  [
+    [
+      {
+        "jp": "十月の雨の夕方、みかは町の図書館で本を片づけていた。",
+        "tokens": "十月|の|雨|の|夕方|、|みか|は|町|の|図書館|で|本|を|片づけていた|。",
+        "en": "On a rainy October evening, Mika was putting away books in the town library."
+      },
+      {
+        "jp": "閉館まで、あと十分だった。",
+        "tokens": "閉館|まで|、|あと|十分|だった|。",
+        "en": "There were ten minutes until closing time."
+      },
+      {
+        "jp": "古い木の床は、歩くたびに音を立てた。",
+        "tokens": "古い|木|の|床|は|、|歩く|たびに|音|を|立てた|。",
+        "en": "The old wooden floor creaked with every step."
+      },
+      {
+        "jp": "弟のれんは、窓の近くで絵本を読んでいた。",
+        "tokens": "弟|の|れん|は|、|窓|の|近く|で|絵本|を|読んでいた|。",
+        "en": "Her younger brother Ren was reading a picture book by the window."
+      },
+      {
+        "jp": "明日は学校の遠足で、黄色いバスに乗る予定だ。",
+        "tokens": "明日|は|学校|の|遠足|で|、|黄色い|バス|に|乗る|予定|だ|。",
+        "en": "Tomorrow he was going on a school trip on a yellow bus."
+      },
+      {
+        "jp": "バスは町の橋を渡って、山の公園へ行く。",
+        "tokens": "バス|は|町|の|橋|を|渡って|、|山|の|公園|へ|行く|。",
+        "en": "The bus would cross the town bridge and go to a park in the mountains."
+      },
+      {
+        "jp": "れんは楽しみで、朝からその話ばかりしていた。",
+        "tokens": "れん|は|楽しみ|で|、|朝|から|その|話|ばかり|していた|。",
+        "en": "Ren was so excited that he had talked about it all day."
+      },
+      {
+        "jp": "れんは何度も窓から道を見た。",
+        "tokens": "れん|は|何度も|窓|から|道|を|見た|。",
+        "en": "He kept looking out of the window at the road."
+      },
+      {
+        "jp": "みかは弟に、お弁当を忘れないように言った。",
+        "tokens": "みか|は|弟|に|、|お弁当|を|忘れない|ように|言った|。",
+        "en": "Mika reminded him not to forget his lunch."
+      }
+    ],
+    [
+      {
+        "jp": "みかが返却箱を開けると、知らない赤いノートが一冊入っていた。",
+        "tokens": "みか|が|返却|箱|を|開けると|、|知らない|赤い|ノート|が|一冊|入っていた|。",
+        "en": "When Mika opened the returns box, she found an unfamiliar red notebook inside."
+      },
+      {
+        "jp": "表紙にも背にも、名前はない。",
+        "tokens": "表紙|にも|背|にも|、|名前|は|ない|。",
+        "en": "There was no name on its cover or spine."
+      },
+      {
+        "jp": "みかは今日、赤いノートを持った人を見ていなかった。",
+        "tokens": "みか|は|今日|、|赤い|ノート|を|持った|人|を|見ていなかった|。",
+        "en": "Mika had not seen anyone with a red notebook that day."
+      },
+      {
+        "jp": "表紙は少しぬれているのに、ページは乾いていた。",
+        "tokens": "表紙|は|少し|ぬれている|のに|、|ページ|は|乾いていた|。",
+        "en": "The cover was a little wet, but the pages were dry."
+      },
+      {
+        "jp": "中には日付が一つずつ書いてあった。",
+        "tokens": "中|には|日付|が|一つずつ|書いてあった|。",
+        "en": "Inside, a date was written on each page."
+      },
+      {
+        "jp": "しかし、どのページも白いままだった。",
+        "tokens": "しかし|、|どの|ページ|も|白い|まま|だった|。",
+        "en": "Yet all the pages were blank."
+      },
+      {
+        "jp": "最後のページだけ、明日の日付の下に短い文があった。",
+        "tokens": "最後|の|ページ|だけ|、|明日|の|日付|の|下|に|短い|文|が|あった|。",
+        "en": "Only the last page held a short sentence under tomorrow's date."
+      },
+      {
+        "jp": "文字は、まだ光っていた。",
+        "tokens": "文字|は|、|まだ|光っていた|。",
+        "en": "The writing still glistened."
+      },
+      {
+        "jp": "「七時十五分。橋で黄色いバスが止まる」みかは首をかしげた。",
+        "tokens": "「|七時十五分|。|橋|で|黄色い|バス|が|止まる|」|みか|は|首をかしげた|。",
+        "en": "“Seven fifteen. A yellow bus stops at the bridge.” Mika tilted her head in puzzlement."
+      }
+    ],
+    [
+      {
+        "jp": "その時、司書の佐藤さんが電気を消し始めた。",
+        "tokens": "その|時|、|司書|の|佐藤さん|が|電気|を|消し始めた|。",
+        "en": "Just then, Ms Sato the librarian began turning off the lights."
+      },
+      {
+        "jp": "みかはノートを見せた。",
+        "tokens": "みか|は|ノート|を|見せた|。",
+        "en": "Mika showed her the notebook."
+      },
+      {
+        "jp": "「忘れ物でしょうか」と聞くと、佐藤さんの顔から笑顔が消えた。",
+        "tokens": "「|忘れ物|でしょう|か|」|と|聞くと|、|佐藤さん|の|顔|から|笑顔|が|消えた|。",
+        "en": "When Mika asked, “Has someone left this behind?”, the smile disappeared from Ms Sato's face."
+      },
+      {
+        "jp": "佐藤さんは何も言わず、ノートを受け取った。",
+        "tokens": "佐藤さん|は|何も|言わず|、|ノート|を|受け取った|。",
+        "en": "Ms Sato took the notebook without a word."
+      },
+      {
+        "jp": "机の真ん中にそれを置いた。",
+        "tokens": "机|の|真ん中|に|それ|を|置いた|。",
+        "en": "She placed it in the middle of the desk."
+      },
+      {
+        "jp": "ところが、文字を見たとたん、手が止まった。",
+        "tokens": "ところが|、|文字|を|見た|とたん|、|手|が|止まった|。",
+        "en": "But as soon as she read the words, her hand stopped."
+      },
+      {
+        "jp": "佐藤さんは窓の外を見た。",
+        "tokens": "佐藤さん|は|窓の外|を|見た|。",
+        "en": "Ms Sato looked out of the window."
+      },
+      {
+        "jp": "「この橋は、どこの橋だろう」町には橋が三つある。",
+        "tokens": "「|この|橋|は|、|どこ|の|橋|だろう|」|町|には|橋|が|三つ|ある|。",
+        "en": "“Which bridge does this mean?” There were three bridges in town."
+      },
+      {
+        "jp": "一番大きな橋は、遠足のバスがいつも通る橋だ。",
+        "tokens": "一番|大きな|橋|は|、|遠足|の|バス|が|いつも|通る|橋|だ|。",
+        "en": "The biggest was the bridge the school bus always used."
+      }
+    ],
+    [
+      {
+        "jp": "窓の外で、川の水がいつもより速く流れていた。",
+        "tokens": "窓の外|で|、|川|の|水|が|いつも|より|速く|流れていた|。",
+        "en": "Outside the window, the river was flowing faster than usual."
+      },
+      {
+        "jp": "雨はさらに強くなった。",
+        "tokens": "雨|は|さらに|強く|なった|。",
+        "en": "The rain grew heavier still."
+      },
+      {
+        "jp": "図書館の前の道にも水がたまり始めた。",
+        "tokens": "図書館|の|前|の|道|にも|水|が|たまり始めた|。",
+        "en": "Water was beginning to collect on the road in front of the library too."
+      },
+      {
+        "jp": "れんが来て、みかの横からノートをのぞいた。",
+        "tokens": "れん|が|来て|、|みか|の|横|から|ノート|を|のぞいた|。",
+        "en": "Ren came over and peered at the notebook beside Mika."
+      },
+      {
+        "jp": "「ぼくのバスも、黄色いよ」みかは笑おうとしたが、うまくできなかった。",
+        "tokens": "「|ぼく|の|バス|も|、|黄色い|よ|」|みか|は|笑おう|と|した|が|、|うまく|できなかった|。",
+        "en": "“My bus is yellow too.” Mika tried to smile, but could not."
+      },
+      {
+        "jp": "佐藤さんがノートを閉じた。",
+        "tokens": "佐藤さん|が|ノート|を|閉じた|。",
+        "en": "Ms Sato closed the notebook."
+      },
+      {
+        "jp": "みかはノートを返してほしかったが、何も言えなかった。",
+        "tokens": "みか|は|ノート|を|返してほしかった|が|、|何も|言えなかった|。",
+        "en": "Mika wanted her to give it back, but could not say anything."
+      },
+      {
+        "jp": "「今日は帰ろう。雨がひどくなる前に」と佐藤さんが言った。",
+        "tokens": "「|今日|は|帰ろう|。|雨|が|ひどく|なる|前|に|」|と|佐藤さん|が|言った|。",
+        "en": "“Let's go home before the rain gets worse,” Ms Sato said."
+      }
+    ],
+    [
+      {
+        "jp": "三人が出口へ歩き出すと、後ろで紙の音がした。",
+        "tokens": "三人|が|出口|へ|歩き出すと|、|後ろ|で|紙|の|音がした|。",
+        "en": "As the three walked towards the exit, they heard paper rustle behind them."
+      },
+      {
+        "jp": "誰もノートに触っていない。",
+        "tokens": "誰も|ノート|に|触っていない|。",
+        "en": "No one had touched the notebook."
+      },
+      {
+        "jp": "佐藤さんが開くと、さっきの文の下に新しい文字が増えていた。",
+        "tokens": "佐藤さん|が|開くと|、|さっき|の|文|の|下|に|新しい|文字|が|増えていた|。",
+        "en": "When Ms Sato opened it, new words had appeared below the first sentence."
+      },
+      {
+        "jp": "インクはまだぬれているように見えた。",
+        "tokens": "インク|は|まだ|ぬれている|ように|見えた|。",
+        "en": "The ink still looked wet."
+      },
+      {
+        "jp": "そこには「乗っているのは、れん」と書いてあった。",
+        "tokens": "そこ|には|「|乗っている|の|は|、|れん|」|と|書いてあった|。",
+        "en": "It said, “Ren is on it.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "jp": "その夜、みかはなかなか眠れなかった。",
+        "tokens": "その夜|、|みか|は|なかなか|眠れなかった|。",
+        "en": "That night, Mika could not get to sleep."
+      },
+      {
+        "jp": "母は「古いノートのいたずらよ」と言った。",
+        "tokens": "母|は|「|古い|ノート|の|いたずら|よ|」|と|言った|。",
+        "en": "“Someone's playing a trick with an old notebook,” her mother said."
+      },
+      {
+        "jp": "しかし、れんの名前を知っている人は少ない。",
+        "tokens": "しかし|、|れん|の|名前|を|知っている|人|は|少ない|。",
+        "en": "But few people knew Ren's name."
+      },
+      {
+        "jp": "みかは母に、れんは明日の遠足に行かない方がいいと言った。",
+        "tokens": "みか|は|母|に|、|れん|は|明日|の|遠足|に|行かない|方|が|いい|と|言った|。",
+        "en": "Mika told her mother that Ren should not go on tomorrow's trip."
+      },
+      {
+        "jp": "母は朝になったら学校に電話すると約束した。",
+        "tokens": "母|は|朝|に|なったら|学校|に|電話すると|約束した|。",
+        "en": "Her mother promised to call the school in the morning."
+      },
+      {
+        "jp": "五時半、れんは友達と学校へ出かけた。",
+        "tokens": "五時半|、|れん|は|友達|と|学校|へ|出かけた|。",
+        "en": "At half past five, Ren went to school with a friend."
+      },
+      {
+        "jp": "母はまだノートを信じていなかった。",
+        "tokens": "母|は|まだ|ノート|を|信じていなかった|。",
+        "en": "Their mother still did not believe the notebook."
+      },
+      {
+        "jp": "みかは弟を止めたかったが、れんは遠足を楽しみにしていた。",
+        "tokens": "みか|は|弟|を|止めたかった|が|、|れん|は|遠足|を|楽しみにしていた|。",
+        "en": "Mika wanted to stop her brother, but he was looking forward to the trip."
+      },
+      {
+        "jp": "みかは窓の外の雨を見た。",
+        "tokens": "みか|は|窓の外|の|雨|を|見た|。",
+        "en": "Mika watched the rain beyond the window."
+      },
+      {
+        "jp": "母はれんの名前を、ノートで何度も確かめた。",
+        "tokens": "母|は|れん|の|名前|を|、|ノート|で|何度も|確かめた|。",
+        "en": "Her mother checked Ren's name in the notebook again and again."
+      },
+      {
+        "jp": "橋の下を流れる川の音が、ここまで聞こえる気がした。",
+        "tokens": "橋|の|下|を|流れる|川|の|音|が|、|ここ|まで|聞こえる|気がした|。",
+        "en": "Mika thought she could hear the river under the bridge from here."
+      }
+    ],
+    [
+      {
+        "jp": "夜明け前、佐藤さんから電話が来た。",
+        "tokens": "夜明け前|、|佐藤さん|から|電話|が|来た|。",
+        "en": "Before dawn, Ms Sato called."
+      },
+      {
+        "jp": "「ノートに別の文が出たの」みかは母と図書館へ急いだ。",
+        "tokens": "「|ノート|に|別の|文|が|出た#appeared|の|」|みか|は|母|と|図書館|へ|急いだ|。",
+        "en": "“Another sentence has appeared in the notebook.” Mika hurried to the library with her mother."
+      },
+      {
+        "jp": "ページには「六時。青い傘が川に落ちる」と書いてあった。",
+        "tokens": "ページ|には|「|六時|。|青い|傘|が|川|に|落ちる|」|と|書いてあった|。",
+        "en": "The page said, “Six o'clock. A blue umbrella falls into the river.”"
+      },
+      {
+        "jp": "図書館の時計は五時五十八分を指していた。",
+        "tokens": "図書館|の|時計|は|五時五十八分|を|指していた|。",
+        "en": "The library clock showed five fifty-eight."
+      },
+      {
+        "jp": "佐藤さんの青い傘は、入口の外に立てかけてあった。",
+        "tokens": "佐藤さん|の|青い|傘|は|、|入口|の|外|に|立てかけてあった|。",
+        "en": "Ms Sato's blue umbrella was leaning outside the entrance."
+      },
+      {
+        "jp": "みかは傘を中へ入れようとした。",
+        "tokens": "みか|は|傘|を|中|へ|入れようとした|。",
+        "en": "Mika tried to bring it inside."
+      },
+      {
+        "jp": "佐藤さんが取りに行く前に、強い風が吹いた。",
+        "tokens": "佐藤さん|が|取りに行く|前|に|、|強い|風|が|吹いた|。",
+        "en": "Before Ms Sato could reach it, a strong wind blew."
+      },
+      {
+        "jp": "傘は道を転がり、川へ落ちた。",
+        "tokens": "傘|は|道|を|転がり|、|川|へ|落ちた|。",
+        "en": "The umbrella rolled along the road and fell into the river."
+      },
+      {
+        "jp": "三人は言葉を失った。",
+        "tokens": "三人|は|言葉を失った|。",
+        "en": "All three were speechless."
+      },
+      {
+        "jp": "川の水は昨日より茶色かった。",
+        "tokens": "川|の|水|は|昨日|より|茶色かった|。",
+        "en": "The river was browner than it had been yesterday."
+      },
+      {
+        "jp": "時計はちょうど六時を指していた。",
+        "tokens": "時計|は|ちょうど|六時|を|指していた|。",
+        "en": "The clock pointed to exactly six."
+      }
+    ],
+    [
+      {
+        "jp": "佐藤さんはすぐ警察に電話した。",
+        "tokens": "佐藤さん|は|すぐ|警察|に|電話した|。",
+        "en": "Ms Sato called the police at once."
+      },
+      {
+        "jp": "母も学校に連絡したが、まだ誰も出なかった。",
+        "tokens": "母|も|学校|に|連絡した|が|、|まだ|誰も|出なかった|。",
+        "en": "Mika's mother tried the school, but no one answered yet."
+      },
+      {
+        "jp": "みかはノートの橋を調べようと言った。",
+        "tokens": "みか|は|ノート|の|橋|を|調べよう|と|言った|。",
+        "en": "Mika suggested checking the bridge in the notebook."
+      },
+      {
+        "jp": "三人は車で一番大きな橋へ向かった。",
+        "tokens": "三人|は|車|で|一番|大きな|橋|へ|向かった|。",
+        "en": "The three drove to the biggest bridge."
+      },
+      {
+        "jp": "道路には水がたまり、車はゆっくりしか進めなかった。",
+        "tokens": "道路|には|水|が|たまり|、|車|は|ゆっくり|しか|進めなかった|。",
+        "en": "Water lay across the road, and the car could only move slowly."
+      },
+      {
+        "jp": "まだ暗く、車のライトが雨に白く光った。",
+        "tokens": "まだ|暗く|、|車|の|ライト|が|雨|に|白く|光った|。",
+        "en": "It was still dark, and the car's headlights shone white through the rain."
+      },
+      {
+        "jp": "橋の手前に着くと、佐藤さんが川側の壁を指さした。",
+        "tokens": "橋|の|手前|に|着くと|、|佐藤さん|が|川側|の|壁|を|指さした|。",
+        "en": "When they reached the near end of the bridge, Ms Sato pointed to the wall on the river side."
+      },
+      {
+        "jp": "大きなひびが一本、橋の壁にあった。",
+        "tokens": "大きな|ひび|が|一本|、|橋|の|壁|に|あった|。",
+        "en": "There was a large crack in the bridge wall."
+      }
+    ],
+    [
+      {
+        "jp": "母は写真を撮り、もう一度警察に電話した。",
+        "tokens": "母|は|写真|を|撮り|、|もう一度|警察|に|電話した|。",
+        "en": "Mika's mother took a photograph and called the police again."
+      },
+      {
+        "jp": "今度は消防の人も来るという。",
+        "tokens": "今度|は|消防|の|人|も|来る|という|。",
+        "en": "This time, firefighters were coming too."
+      },
+      {
+        "jp": "橋のそばには図書館の屋根も見えた。",
+        "tokens": "橋|の|そば|には|図書館|の|屋根|も|見えた|。",
+        "en": "They could also see the library roof near the bridge."
+      },
+      {
+        "jp": "警察の車が橋の入口をふさいだ。",
+        "tokens": "警察|の|車|が|橋|の|入口|を|ふさいだ|。",
+        "en": "A police car blocked the entrance to the bridge."
+      },
+      {
+        "jp": "一台の車が来たが、警察の人が止めた。",
+        "tokens": "一台|の|車|が|来た|が|、|警察|の|人|が|止めた|。",
+        "en": "A car approached, but a police officer stopped it."
+      },
+      {
+        "jp": "警察の人が、向こう側にも車を回した。",
+        "tokens": "警察|の|人|が|、|向こう|側|にも|車|を|回した|。",
+        "en": "The police sent a car to the far side as well."
+      },
+      {
+        "jp": "黄色いバスはまだ来ていなかった。",
+        "tokens": "黄色い|バス|は|まだ|来ていなかった|。",
+        "en": "The yellow bus had not arrived yet."
+      },
+      {
+        "jp": "母は学校からの返事を待っていた。",
+        "tokens": "母|は|学校|から|の|返事|を|待っていた|。",
+        "en": "Mika's mother waited for the school to call back."
+      },
+      {
+        "jp": "みかは深く息をした。",
+        "tokens": "みか|は|深く|息|を|した#breath|。",
+        "en": "Mika took a deep breath."
+      },
+      {
+        "jp": "「これで大丈夫だね」佐藤さんは答えず、開いたノートを見ていた。",
+        "tokens": "「|これで|大丈夫|だ|ね|」|佐藤さん|は|答えず|、|開いた|ノート|を|見ていた|。",
+        "en": "“We're safe now, aren't we?” Ms Sato did not answer; she was looking at the open notebook."
+      }
+    ],
+    [
+      {
+        "jp": "七時十五分の文が、ゆっくり消えていった。",
+        "tokens": "七時十五分|の|文|が|、|ゆっくり|消えていった|。",
+        "en": "The sentence about seven fifteen slowly disappeared."
+      },
+      {
+        "jp": "ページが風もないのに揺れた。",
+        "tokens": "ページ|が|風|も|ない|のに|揺れた|。",
+        "en": "The page trembled though there was no wind."
+      },
+      {
+        "jp": "その下に、新しい文が現れた。",
+        "tokens": "その|下|に|、|新しい|文|が|現れた|。",
+        "en": "New words appeared beneath it."
+      },
+      {
+        "jp": "そこには「バスは古い道へ。七時四十分、山の曲がり角」と書いてあった。",
+        "tokens": "そこ|には|「|バス|は|古い|道|へ|。|七時四十分|、|山|の|曲がり角|」|と|書いてあった|。",
+        "en": "It said, “The bus takes the old road. Seven forty, the bend on the mountain.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "jp": "橋が通れなくなれば、遠足のバスは山の古い道を使う。",
+        "tokens": "橋|が|通れなくなれば|、|遠足|の|バス|は|山|の|古い|道|を|使う|。",
+        "en": "With the bridge closed, the school bus would take the old mountain road."
+      },
+      {
+        "jp": "母は学校に何度も電話した。",
+        "tokens": "母|は|学校|に|何度も|電話した|。",
+        "en": "Mika's mother called the school again and again."
+      },
+      {
+        "jp": "ようやく先生が出たが、バスはもう学校を出ていた。",
+        "tokens": "ようやく|先生|が|出た#answered|が|、|バス|は|もう|学校|を|出ていた|。",
+        "en": "At last a teacher answered, but the bus had already left."
+      },
+      {
+        "jp": "「引き返すように伝えます」と先生は言った。",
+        "tokens": "「|引き返す|ように|伝えます|」|と|先生|は|言った|。",
+        "en": "“I'll tell them to turn back,” the teacher said."
+      },
+      {
+        "jp": "しかし、山の中では電話がつながりにくい。",
+        "tokens": "しかし|、|山|の|中|では|電話|が|つながりにくい|。",
+        "en": "But phone reception was poor in the mountains."
+      },
+      {
+        "jp": "先生は運転手の番号に何度もかけた。",
+        "tokens": "先生|は|運転手|の|番号|に|何度も|かけた|。",
+        "en": "The teacher tried the driver's number repeatedly."
+      }
+    ],
+    [
+      {
+        "jp": "佐藤さんは町の地図を広げた。",
+        "tokens": "佐藤さん|は|町|の|地図|を|広げた|。",
+        "en": "Ms Sato spread out a map of the town."
+      },
+      {
+        "jp": "古い道には急な曲がり角が三つある。",
+        "tokens": "古い|道|には|急な|曲がり角|が|三つ|ある|。",
+        "en": "The old road had three sharp bends."
+      },
+      {
+        "jp": "どこを指すのか、ノートには書いていない。",
+        "tokens": "どこ|を|指す|のか|、|ノート|には|書いていない|。",
+        "en": "The notebook did not say which one it meant."
+      },
+      {
+        "jp": "佐藤さんは三つの角に指で丸をつけた。",
+        "tokens": "佐藤さん|は|三つ|の|角|に|指|で|丸|を|つけた|。",
+        "en": "Ms Sato circled all three bends with her finger."
+      },
+      {
+        "jp": "みかは、ページの端に小さな黒い線を見つけた。",
+        "tokens": "みか|は|、|ページ|の|端|に|小さな|黒い|線|を|見つけた|。",
+        "en": "Mika noticed a thin black line at the edge of the page."
+      },
+      {
+        "jp": "それは川から山へ伸びる道に見えた。",
+        "tokens": "それ|は|川|から|山|へ|伸びる|道|に|見えた|。",
+        "en": "It looked like a road running from the river towards the mountains."
+      },
+      {
+        "jp": "「この線、地図と同じじゃない？」佐藤さんが地図を重ねると、線は二番目の曲がり角で終わった。",
+        "tokens": "「|この|線|、|地図|と|同じ|じゃ|ない|？|」|佐藤さん|が|地図|を|重ねると|、|線|は|二番目|の|曲がり角|で|終わった|。",
+        "en": "“Isn't this the same as the map?” When Ms Sato laid the map over the page, the line ended at the second bend."
+      },
+      {
+        "jp": "そこは水が道の下を通る場所だった。",
+        "tokens": "そこ|は|水|が|道|の|下|を|通る|場所|だった|。",
+        "en": "That was where water passed beneath the road."
+      },
+      {
+        "jp": "大雨の日には水が集まりやすい。",
+        "tokens": "大雨|の|日|には|水|が|集まりやすい|。",
+        "en": "Water gathered there easily in heavy rain."
+      }
+    ],
+    [
+      {
+        "jp": "母は警察に場所を伝えた。",
+        "tokens": "母|は|警察|に|場所|を|伝えた|。",
+        "en": "Mika's mother told the police the location."
+      },
+      {
+        "jp": "みかたちは車から降り、橋のそばの店で待つことになった。",
+        "tokens": "みかたち|は|車|から|降り|、|橋|の|そば|の|店|で|待つ|ことに|なった|。",
+        "en": "They got out of the car and were told to wait in a shop beside the bridge."
+      },
+      {
+        "jp": "警察の人は、子どもを山へ連れて行けないと言った。",
+        "tokens": "警察|の|人|は|、|子ども|を|山|へ|連れて行けない|と|言った|。",
+        "en": "The police officer said they could not take children into the mountains."
+      },
+      {
+        "jp": "みかも、ここにいた方が連絡を受けやすいと分かった。",
+        "tokens": "みか|も|、|ここ|に|いた|方|が|連絡|を|受けやすい|と|分かった|。",
+        "en": "Mika understood it would be easier to receive updates here, too."
+      },
+      {
+        "jp": "佐藤さんの携帯電話に、学校から電話が入った。",
+        "tokens": "佐藤さん|の|携帯電話|に|、|学校|から|電話|が|入った|。",
+        "en": "A call from the school came through on Ms Sato's mobile."
+      },
+      {
+        "jp": "運転手には連絡が取れないという。",
+        "tokens": "運転手|には|連絡|が|取れない|という|。",
+        "en": "They still could not reach the driver."
+      },
+      {
+        "jp": "先生は別の車でバスを追っている。",
+        "tokens": "先生|は|別の|車|で|バス|を|追っている|。",
+        "en": "A teacher was following the bus in another car."
+      },
+      {
+        "jp": "時計は七時三十分だった。",
+        "tokens": "時計|は|七時三十分|だった|。",
+        "en": "It was seven thirty."
+      },
+      {
+        "jp": "バスの窓には、れんが座っているはずだ。",
+        "tokens": "バス|の|窓|には|、|れん|が|座っている|はず|だ|。",
+        "en": "Ren ought to be sitting by a bus window."
+      },
+      {
+        "jp": "あと十分しかない。",
+        "tokens": "あと|十分|しかない|。",
+        "en": "There were only ten minutes left."
+      },
+      {
+        "jp": "みかは店の窓から、山の方を見つめた。",
+        "tokens": "みか|は|店|の|窓|から|、|山|の|方|を|見つめた|。",
+        "en": "Mika stared towards the mountains through the shop window."
+      },
+      {
+        "jp": "雲が低く、道は見えない。",
+        "tokens": "雲|が|低く|、|道|は|見えない|。",
+        "en": "The clouds were low, and she could not see the road."
+      }
+    ],
+    [
+      {
+        "jp": "店の人がみかに温かいお茶を出した。",
+        "tokens": "店|の|人|が|みか|に|温かい|お茶|を|出した#served|。",
+        "en": "The shopkeeper brought Mika some hot tea."
+      },
+      {
+        "jp": "みかはカップに触れなかった。",
+        "tokens": "みか|は|カップ|に|触れ|なかった|。",
+        "en": "Mika did not touch the cup."
+      },
+      {
+        "jp": "突然、遠くで大きな音がした。",
+        "tokens": "突然|、|遠く|で|大きな|音がした|。",
+        "en": "Suddenly, a loud sound came from far away."
+      },
+      {
+        "jp": "店の棚のコップが一つ揺れた。",
+        "tokens": "店|の|棚|の|コップ|が|一つ|揺れた|。",
+        "en": "A cup on the shop shelf shook."
+      },
+      {
+        "jp": "地面も少し揺れた。",
+        "tokens": "地面|も|少し|揺れた|。",
+        "en": "The ground shook a little too."
+      },
+      {
+        "jp": "電話が鳴った。",
+        "tokens": "電話|が|鳴った|。",
+        "en": "The phone rang."
+      },
+      {
+        "jp": "「山の道が崩れました」と警察の人が言った。",
+        "tokens": "「|山|の|道|が|崩れました|」|と|警察|の|人|が|言った|。",
+        "en": "“The mountain road has collapsed,” a police officer said."
+      },
+      {
+        "jp": "バスは曲がり角の手前で止まり、子どもたちは無事らしい。",
+        "tokens": "バス|は|曲がり角|の|手前|で|止まり|、|子どもたち|は|無事|らしい|。",
+        "en": "The bus had stopped before the bend, and the children seemed safe."
+      },
+      {
+        "jp": "みかは壁にもたれた。",
+        "tokens": "みか|は|壁|に|もたれた|。",
+        "en": "Mika leaned against the wall."
+      },
+      {
+        "jp": "ところが、電話の向こうで、別の声がした。",
+        "tokens": "ところが|、|電話|の|向こう|で|、|別の|声|が|した#heard|。",
+        "en": "But she heard another voice at the other end of the call."
+      },
+      {
+        "jp": "「待って。人数が合わない」と電話の向こうの声が言った。",
+        "tokens": "「|待って|。|人数|が|合わない|」|と|電話|の|向こう|の|声|が|言った|。",
+        "en": "“Wait. The numbers don't match,” the voice said."
+      }
+    ],
+    [
+      {
+        "jp": "みかがノートを見ると、黒い線の先に一つの名前が浮かんでいた。",
+        "tokens": "みか|が|ノート|を|見ると|、|黒い|線|の|先に|一つ|の|名前|が|浮かんでいた|。",
+        "en": "When Mika looked at the notebook, one name had appeared at the end of the black line."
+      },
+      {
+        "jp": "そこには「れん」と書いてあった。",
+        "tokens": "そこ|には|「|れん|」|と|書いてあった|。",
+        "en": "It said, “Ren.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "jp": "母は警察の人と話しつづけた。",
+        "tokens": "母|は|警察|の|人|と|話しつづけた|。",
+        "en": "Mika's mother kept talking to the police."
+      },
+      {
+        "jp": "バスには子どもが二十四人乗っていた。",
+        "tokens": "バス|には|子ども|が|二十四人|乗っていた|。",
+        "en": "There had been twenty-four children on the bus."
+      },
+      {
+        "jp": "安全な場所にいるのは二十三人だけだ。",
+        "tokens": "安全な|場所|に|いる|の|は|二十三人|だけ|だ|。",
+        "en": "Only twenty-three were in a safe place."
+      },
+      {
+        "jp": "母の手は電話を握ったまま震えていた。",
+        "tokens": "母|の|手|は|電話|を|握った|まま|震えていた|。",
+        "en": "Her mother's hand trembled as she held the phone."
+      },
+      {
+        "jp": "先生が名簿を二回読んでも、数は変わらなかった。",
+        "tokens": "先生|が|名簿|を|二回|読んでも|、|数|は|変わらなかった|。",
+        "en": "The teacher read the register twice, but the number did not change."
+      },
+      {
+        "jp": "運転手は、れんが外へ出たところを見ていないという。",
+        "tokens": "運転手|は|、|れん|が|外|へ|出た|ところ|を|見ていない|という|。",
+        "en": "The driver said he had not seen Ren leave the bus."
+      },
+      {
+        "jp": "みかは「バスの中をもう一度見て」と叫んだ。",
+        "tokens": "みか|は|「|バス|の|中|を|もう一度|見て|」|と|叫んだ|。",
+        "en": "“Look inside the bus again!” Mika shouted."
+      }
+    ],
+    [
+      {
+        "jp": "佐藤さんがみかの肩に手を置いた。",
+        "tokens": "佐藤さん|が|みか|の|肩|に|手|を|置いた|。",
+        "en": "Ms Sato put a hand on Mika's shoulder."
+      },
+      {
+        "jp": "ノートの文字が少しずつ増えていた。",
+        "tokens": "ノート|の|文字|が|少しずつ|増えていた|。",
+        "en": "More words were appearing in the notebook, a little at a time."
+      },
+      {
+        "jp": "「赤いかばん。道の下」れんのかばんは赤い。",
+        "tokens": "「|赤い|かばん|。|道|の|下|」|れん|の|かばん|は|赤い|。",
+        "en": "“Red bag. Below the road.” Ren's bag was red."
+      },
+      {
+        "jp": "みかは、朝れんがそれを背負って出たのを見ている。",
+        "tokens": "みか|は|、|朝|れん|が|それ|を|背負って|出た|のを|見ている|。",
+        "en": "Mika had seen him leave with it on his back that morning."
+      },
+      {
+        "jp": "母がその言葉を警察に伝えた。",
+        "tokens": "母|が|その|言葉|を|警察|に|伝えた|。",
+        "en": "Her mother told the police what the notebook said."
+      },
+      {
+        "jp": "消防の人たちは、崩れた道の下を探し始めた。",
+        "tokens": "消防|の|人たち|は|、|崩れた|道|の|下|を|探し始めた|。",
+        "en": "The firefighters began searching below the collapsed road."
+      }
+    ],
+    [
+      {
+        "jp": "その間、みかは先週のれんの言葉を思い出した。",
+        "tokens": "その間|、|みか|は|先週|の|れん|の|言葉|を|思い出した|。",
+        "en": "Meanwhile, Mika remembered what Ren had said the previous week."
+      },
+      {
+        "jp": "「図書館の下に、古い水の道があるんだって」れんは町の古い地図を見つけて、楽しそうに話していた。",
+        "tokens": "「|図書館|の|下|に|、|古い|水|の|道|が|ある|んだ|って|」|れん|は|町|の|古い|地図|を|見つけて|、|楽しそうに|話していた|。",
+        "en": "“There used to be a waterway under the library.” He had found an old map of the town and talked about it excitedly."
+      },
+      {
+        "jp": "みかはその時、あまり聞いていなかった。",
+        "tokens": "みか|は|その|時|、|あまり|聞いていなかった|。",
+        "en": "Mika had not paid much attention then."
+      },
+      {
+        "jp": "みかは母にその話をした。",
+        "tokens": "みか|は|母|に|その|話|を|した#told|。",
+        "en": "She told her mother about the map."
+      },
+      {
+        "jp": "母はすぐ警察に伝えた。",
+        "tokens": "母|は|すぐ|警察|に|伝えた|。",
+        "en": "Her mother passed it on to the police immediately."
+      },
+      {
+        "jp": "古い道の下にも、水の道があるのだろうか。",
+        "tokens": "古い|道|の|下|にも|、|水|の|道|が|あるのだろうか|。",
+        "en": "Could there be a waterway under the old road too?"
+      },
+      {
+        "jp": "れんはそこへ落ちたのかもしれない。",
+        "tokens": "れん|は|そこ|へ|落ちたのかもしれない|。",
+        "en": "Perhaps Ren had fallen into it."
+      }
+    ],
+    [
+      {
+        "jp": "警察からまた電話が来た。",
+        "tokens": "警察|から|また|電話|が|来た|。",
+        "en": "The police called again."
+      },
+      {
+        "jp": "消防の人が道の下で赤いかばんを見つけた。",
+        "tokens": "消防|の|人|が|道|の|下|で|赤い|かばん|を|見つけた|。",
+        "en": "A firefighter had found the red bag below the road."
+      },
+      {
+        "jp": "かばんの近くには、細い穴があった。",
+        "tokens": "かばん|の|近く|には|、|細い|穴|が|あった|。",
+        "en": "There was a narrow hole near it."
+      },
+      {
+        "jp": "穴は古い水のトンネルにつながっているらしい。",
+        "tokens": "穴|は|古い|水|の|トンネル|に|つながっている|らしい|。",
+        "en": "The hole seemed to lead into an old drainage tunnel."
+      },
+      {
+        "jp": "れんは道が崩れた時、そこへ落ちたのかもしれない。",
+        "tokens": "れん|は|道|が|崩れた|時|、|そこ|へ|落ちたのかもしれない|。",
+        "en": "Perhaps Ren had fallen into it when the road collapsed."
+      },
+      {
+        "jp": "みかは息を止めた。",
+        "tokens": "みか|は|息|を|止めた|。",
+        "en": "Mika held her breath."
+      },
+      {
+        "jp": "雨は店の屋根を強くたたいた。",
+        "tokens": "雨|は|店|の|屋根|を|強く|たたいた|。",
+        "en": "Rain beat hard on the shop roof."
+      },
+      {
+        "jp": "だが雨の水がトンネルに流れ込んでいた。",
+        "tokens": "だが|雨|の|水|が|トンネル|に|流れ込んでいた|。",
+        "en": "But rainwater was pouring into the tunnel."
+      },
+      {
+        "jp": "消防の人が中を照らしたが、れんは見えなかった。",
+        "tokens": "消防|の|人|が|中|を|照らした|が|、|れん|は|見えなかった|。",
+        "en": "A firefighter shone a light inside, but could not see Ren."
+      },
+      {
+        "jp": "れんの声も聞こえなかった。",
+        "tokens": "れん|の|声|も|聞こえなかった|。",
+        "en": "They could not hear his voice either."
+      }
+    ],
+    [
+      {
+        "jp": "みかはノートに向かって言った。",
+        "tokens": "みか|は|ノート|に|向かって|言った|。",
+        "en": "Mika spoke to the notebook."
+      },
+      {
+        "jp": "指は小さく震えていた。",
+        "tokens": "指|は|小さく|震えていた|。",
+        "en": "Her fingers trembled slightly."
+      },
+      {
+        "jp": "「どこにいるの。教えて」白いページには何も現れない。",
+        "tokens": "「|どこ|に|いる|の|。|教えて|」|白い|ページ|には|何も|現れない|。",
+        "en": "“Where is he? Tell me.” Nothing appeared on the white page."
+      },
+      {
+        "jp": "代わりに、れんの名前の横の黒い線が長くなった。",
+        "tokens": "代わりに|、|れん|の|名前|の|横|の|黒い|線|が|長くなった|。",
+        "en": "Instead, the black line beside Ren's name grew longer."
+      },
+      {
+        "jp": "みかは線を指で追った。",
+        "tokens": "みか|は|線|を|指|で|追った|。",
+        "en": "Mika traced the line with her finger."
+      },
+      {
+        "jp": "それはトンネルの先の、もう一つの出口まで続いていた。",
+        "tokens": "それ|は|トンネル|の|先|の|、|もう|一つ|の|出口|まで|続いていた|。",
+        "en": "It ran to another opening at the far end of the tunnel."
+      },
+      {
+        "jp": "みかは、線が道ではなく、トンネルを示していると分かった。",
+        "tokens": "みか|は|、|線|が|道|ではなく|、|トンネル|を|示している|と|分かった|。",
+        "en": "Mika realised the line showed the tunnel, not the road."
+      },
+      {
+        "jp": "みかは、れんが話していた古い地図を思い出した。",
+        "tokens": "みか|は|、|れん|が|話していた|古い|地図|を|思い出した|。",
+        "en": "Mika remembered the old map Ren had told her about."
+      },
+      {
+        "jp": "出口の上に、一つの時刻が現れた。",
+        "tokens": "出口|の|上|に|、|一つ|の|時刻|が|現れた|。",
+        "en": "A time appeared above the opening."
+      },
+      {
+        "jp": "みかは急いで時計を見た。",
+        "tokens": "みか|は|急いで|時計|を|見た|。",
+        "en": "Mika looked quickly at the clock."
+      },
+      {
+        "jp": "そこには「八時」と書いてあった。",
+        "tokens": "そこ|には|「|八時|」|と|書いてあった|。",
+        "en": "It said, “Eight o'clock.”"
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "jp": "時計は七時五十二分だった。",
+        "tokens": "時計|は|七時五十二分|だった|。",
+        "en": "It was seven fifty-two."
+      },
+      {
+        "jp": "八時まで、あと八分しかない。",
+        "tokens": "八時|まで|、|あと|八分|しかない|。",
+        "en": "There were only eight minutes until eight."
+      },
+      {
+        "jp": "みかは地図でトンネルの出口を探した。",
+        "tokens": "みか|は|地図|で|トンネル|の|出口|を|探した|。",
+        "en": "Mika searched the map for the tunnel's other opening."
+      },
+      {
+        "jp": "出口は、古い道の下ではなかった。",
+        "tokens": "出口|は|、|古い|道|の|下|ではなかった|。",
+        "en": "It was not beneath the old road."
+      },
+      {
+        "jp": "図書館の裏の川岸にある。",
+        "tokens": "図書館|の|裏|の|川岸|に|ある|。",
+        "en": "It was on the riverbank behind the library."
+      },
+      {
+        "jp": "「すぐ近くだ」と佐藤さんが言った。",
+        "tokens": "「|すぐ|近く|だ|」|と|佐藤さん|が|言った|。",
+        "en": "“That's close,” Ms Sato said."
+      },
+      {
+        "jp": "みかたちは店の中に残り、母が警察に出口を伝えた。",
+        "tokens": "みかたち|は|店|の|中|に|残り|、|母|が|警察|に|出口|を|伝えた|。",
+        "en": "Mika and Ms Sato stayed in the shop while her mother gave the police the location."
+      },
+      {
+        "jp": "母は何度も同じ場所を説明した。",
+        "tokens": "母|は|何度も|同じ|場所|を|説明した|。",
+        "en": "Her mother repeated the location several times."
+      },
+      {
+        "jp": "電話の向こうで、人が走る音がした。",
+        "tokens": "電話|の|向こう|で|、|人|が|走る|音がした|。",
+        "en": "Mika could hear people running at the other end of the line."
+      },
+      {
+        "jp": "消防の人たちが川岸へ向かった。",
+        "tokens": "消防|の|人たち|が|川岸|へ|向かった|。",
+        "en": "The firefighters headed for the riverbank."
+      }
+    ],
+    [
+      {
+        "jp": "七時五十五分、図書館の裏から笛の音が聞こえた。",
+        "tokens": "七時五十五分|、|図書館|の|裏|から|笛|の|音|が|聞こえた|。",
+        "en": "At seven fifty-five, a whistle sounded from behind the library."
+      },
+      {
+        "jp": "みかは窓へ走った。",
+        "tokens": "みか|は|窓|へ|走った|。",
+        "en": "Mika ran to the window."
+      },
+      {
+        "jp": "雨の中で、消防の人が手を振っていた。",
+        "tokens": "雨|の|中|で|、|消防|の|人|が|手|を|振っていた|。",
+        "en": "In the rain, a firefighter was waving."
+      },
+      {
+        "jp": "しかし、その人の横にれんはいない。",
+        "tokens": "しかし|、|その|人|の|横|に|れん|は|いない|。",
+        "en": "But Ren was not beside him."
+      },
+      {
+        "jp": "細い出口は泥でふさがっていた。",
+        "tokens": "細い|出口|は|泥|で|ふさがっていた|。",
+        "en": "Mud blocked the narrow opening."
+      },
+      {
+        "jp": "消防の人が耳を当てた。",
+        "tokens": "消防|の|人|が|耳|を|当てた|。",
+        "en": "The firefighter put an ear against it."
+      },
+      {
+        "jp": "中から小さな声が聞こえるという。",
+        "tokens": "中|から|小さな|声|が|聞こえる|という|。",
+        "en": "He said he could hear a small voice inside."
+      },
+      {
+        "jp": "みかは両手を握りしめた。",
+        "tokens": "みか|は|両手|を|握りしめた|。",
+        "en": "Mika clasped her hands tightly."
+      },
+      {
+        "jp": "「れんだ」とみかは言った。",
+        "tokens": "「|れん|だ|」|と|みか|は|言った|。",
+        "en": "“It's Ren,” she said."
+      }
+    ],
+    [
+      {
+        "jp": "消防の人たちが泥を取り除いた。",
+        "tokens": "消防|の|人たち|が|泥|を|取り除いた|。",
+        "en": "The firefighters cleared away the mud."
+      },
+      {
+        "jp": "七時五十八分、小さな手が穴から出てきた。",
+        "tokens": "七時五十八分|、|小さな|手|が|穴|から|出てきた|。",
+        "en": "At seven fifty-eight, a small hand came out of the hole."
+      },
+      {
+        "jp": "その後で、れんが出てきた。",
+        "tokens": "その後|で|、|れん|が|出てきた|。",
+        "en": "Then Ren came out."
+      },
+      {
+        "jp": "顔は泥だらけだったが、自分の足で立っていた。",
+        "tokens": "顔|は|泥だらけ|だった|が|、|自分|の|足|で|立っていた|。",
+        "en": "His face was covered in mud, but he could stand on his own."
+      },
+      {
+        "jp": "消防の人が毛布をかけた。",
+        "tokens": "消防|の|人|が|毛布|を|かけた#blanket|。",
+        "en": "A firefighter wrapped a blanket around him."
+      },
+      {
+        "jp": "みかは店の外へ飛び出した。",
+        "tokens": "みか|は|店|の|外|へ|飛び出した|。",
+        "en": "Mika ran out of the shop."
+      },
+      {
+        "jp": "母も後から走ってきた。",
+        "tokens": "母|も|後|から|走ってきた|。",
+        "en": "Her mother ran after her."
+      },
+      {
+        "jp": "ほかの子どもたちも、みんな無事だった。",
+        "tokens": "ほかの|子どもたち|も|、|みんな|無事|だった|。",
+        "en": "All the other children were safe too."
+      },
+      {
+        "jp": "れんは二人を見て、急に泣き出した。",
+        "tokens": "れん|は|二人|を|見て|、|急に|泣き出した|。",
+        "en": "When Ren saw them, he suddenly began to cry."
+      }
+    ],
+    [
+      {
+        "jp": "「バスのドアが開かなかったから、外から開けようとした」と、れんは話した。",
+        "tokens": "「|バス|の|ドア|が|開かなかった|から|、|外|から|開けようとした|」|と|、|れん|は|話した|。",
+        "en": "“The bus door would not open, so I tried to open it from outside,” Ren explained."
+      },
+      {
+        "jp": "後ろの小さな窓から外へ出た時、地面がさらに崩れた。",
+        "tokens": "後ろ|の|小さな|窓|から|外|へ|出た|時|、|地面|が|さらに|崩れた|。",
+        "en": "When he climbed out of a small rear window, the ground gave way further."
+      },
+      {
+        "jp": "穴の中に落ちたが、トンネルを通れば川へ出られると思ったのだ。",
+        "tokens": "穴|の|中|に|落ちた|が|、|トンネル|を|通れば|川|へ|出られる|と|思った|のだ|。",
+        "en": "He had fallen into the hole, but thought he could reach the river through the tunnel."
+      },
+      {
+        "jp": "「あの地図を見ていて、よかった」と、れんは言った。",
+        "tokens": "「|あの|地図|を|見ていて|、|よかった|」|と|、|れん|は|言った|。",
+        "en": "“I'm glad I looked at that map,” Ren said."
+      },
+      {
+        "jp": "みかはれんの手を強く握った。",
+        "tokens": "みか|は|れん|の|手|を|強く|握った|。",
+        "en": "Mika gripped his hand tightly."
+      },
+      {
+        "jp": "れんもその手を離さなかった。",
+        "tokens": "れん|も|その手|を|離さなかった|。",
+        "en": "He would not let go of hers either."
+      },
+      {
+        "jp": "「もう、一人で行かないで」れんはうなずいた。",
+        "tokens": "「|もう|、|一人で|行かないで|」|れん|は|うなずいた|。",
+        "en": "“Don't go off on your own again.” Ren nodded."
+      }
+    ],
+    [
+      {
+        "jp": "佐藤さんがノートを開いた。",
+        "tokens": "佐藤さん|が|ノート|を|開いた|。",
+        "en": "Ms Sato opened the notebook."
+      },
+      {
+        "jp": "八時の文字が消え、ページは白くなった。",
+        "tokens": "八時|の|文字|が|消え|、|ページ|は|白くなった|。",
+        "en": "The words about eight o'clock disappeared, leaving the page blank."
+      },
+      {
+        "jp": "みかはしばらくその白さを見つめた。",
+        "tokens": "みか|は|しばらく|その|白さ|を|見つめた|。",
+        "en": "Mika gazed at that blankness for a while."
+      },
+      {
+        "jp": "「今度は、何も書いてないね」とれんが言った。",
+        "tokens": "「|今度|は|、|何も|書いてない|ね|」|と|れん|が|言った|。",
+        "en": "“There's nothing written this time,” Ren said."
+      },
+      {
+        "jp": "佐藤さんはノートを閉じた。",
+        "tokens": "佐藤さん|は|ノート|を|閉じた|。",
+        "en": "Ms Sato closed the notebook."
+      },
+      {
+        "jp": "「明日は、まだ決まっていないんだよ」雨は弱くなり、川の向こうに朝の光が見えた。",
+        "tokens": "「|明日|は|、|まだ|決まっていない|んだよ|」|雨|は|弱くなり|、|川|の|向こう|に|朝|の|光|が|見えた|。",
+        "en": "“Tomorrow hasn't been decided yet.” The rain eased, and morning light appeared beyond the river."
+      }
+    ]
+  ]
+]

@@ -66,6 +66,11 @@ import { STORY as lesson2 } from '../src/data/story-saigo-no-otehon-2.js';
 import { STORY as lesson3 } from '../src/data/story-saigo-no-otehon-3.js';
 import { STORY as lesson4 } from '../src/data/story-saigo-no-otehon-4.js';
 import { STORY as lesson5 } from '../src/data/story-saigo-no-otehon-5.js';
+import { STORY as red1 } from '../src/data/story-akai-nooto-1.js';
+import { STORY as red2 } from '../src/data/story-akai-nooto-2.js';
+import { STORY as red3 } from '../src/data/story-akai-nooto-3.js';
+import { STORY as red4 } from '../src/data/story-akai-nooto-4.js';
+import { STORY as red5 } from '../src/data/story-akai-nooto-5.js';
 
 
 const corpus = [
@@ -73,6 +78,7 @@ const corpus = [
   c1, c2, c3, c4, c5, c6, c7, c8, d1, d2, d3, d4, d5, d6, d7, d8,
   e1, e2, e3, e4, e5, e6, e7, e8, lantern1, lantern2, lantern3, lantern4, lantern5,
   bell1, bell2, bell3, bell4, bell5, lesson1, lesson2, lesson3, lesson4, lesson5,
+  red1, red2, red3, red4, red5,
   f1, f2, f3, f4, f5, f6, f7, f8,
 ];
 let failures = 0;

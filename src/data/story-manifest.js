@@ -458,6 +458,126 @@ export const STORIES = {
       "credit": "Written by"
     }
   },
+  "akai-nooto-1": {
+    "title": {
+      "ja": "明日のページ",
+      "en": "Tomorrow's Page"
+    },
+    "series": {
+      "id": "akai-nooto",
+      "part": 1,
+      "of": 5,
+      "name": "赤いノート — The Red Notebook"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "A red notebook appears in the library returns box. Its first warning names the bus Ren will take tomorrow.",
+    "hash": "147cc946",
+    "length": 446,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "akai-nooto-2": {
+    "title": {
+      "ja": "橋の向こう",
+      "en": "Beyond the Bridge"
+    },
+    "series": {
+      "id": "akai-nooto",
+      "part": 2,
+      "of": 5,
+      "name": "赤いノート — The Red Notebook"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "A small prediction comes true. Mika helps close a cracked bridge, but the words on the page change.",
+    "hash": "3fdf06bb",
+    "length": 463,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "akai-nooto-3": {
+    "title": {
+      "ja": "古い道",
+      "en": "The Old Road"
+    },
+    "series": {
+      "id": "akai-nooto",
+      "part": 3,
+      "of": 5,
+      "name": "赤いノート — The Red Notebook"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The bus is already on the old mountain road. A line in the notebook points to a bend above the river.",
+    "hash": "d6eab294",
+    "length": 418,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "akai-nooto-4": {
+    "title": {
+      "ja": "一人足りない",
+      "en": "One Missing"
+    },
+    "series": {
+      "id": "akai-nooto",
+      "part": 4,
+      "of": 5,
+      "name": "赤いノート — The Red Notebook"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The bus stops before the landslide, but one child is missing. A red bag is found below the road.",
+    "hash": "9e304ce7",
+    "length": 424,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "akai-nooto-5": {
+    "title": {
+      "ja": "まだ書かれていない朝",
+      "en": "The Unwritten Morning"
+    },
+    "series": {
+      "id": "akai-nooto",
+      "part": 5,
+      "of": 5,
+      "name": "赤いノート — The Red Notebook"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The notebook points beneath the town and gives Mika eight minutes to find the other end of the tunnel.",
+    "hash": "65c380c8",
+    "length": 400,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
   "akazukin": {
     "title": {
       "ja": "赤ずきん",

@@ -14,6 +14,7 @@ export const CHANGELOG = [
     date: '2026-09-24',
     changes: [
       'New: “The Last Lesson” (最後のお手本), a five-chapter mystery at Level 5. Mio’s late grandfather taught calligraphy, and he has left her a trail of clues across town, each one a kanji to take apart into smaller pieces. You can solve them along with her. Someone else is following the same trail.',
+      'New: 赤いノート (The Red Notebook), a five-chapter Level 4 suspense story. A notebook in the library predicts that a school bus will stop at a bridge. When Mika prevents that danger, the writing changes—and her younger brother is still on the bus. Each chapter has sentence translations and word explanations.',
     ],
   },
   {
