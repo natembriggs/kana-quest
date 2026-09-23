@@ -7,7 +7,9 @@ import { STORY as MOMOTARO } from '../../src/data/story-momotaro-1.js';
 import { STORY as USAGI } from '../../src/data/story-usagi-to-kame.js';
 
 function credit(story) {
-  const note = story.source.notes.replace(/ Retelling and English translation by Claude Opus 5\.0\.$/, '');
+  // This reads the generated file back in, so strip every copy of the credit
+  // (including the old "5.0" spelling) or each rebuild appends another one.
+  const note = story.source.notes.replace(/( Retelling and English translation by Claude Opus 5(\.0)?\.)+$/, '');
   return {
     ...story,
     source: {
