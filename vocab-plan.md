@@ -1423,3 +1423,26 @@ and A level) — it's ordered, not levelled. `vocab.js` sorts the group last
 of everything, after A level: it's the one group here that isn't
 curriculum at all, purely bonus reinforcement of words already met via
 kanji study.
+
+## 14. Words from stories (bonus group "S")
+
+Added 2026-09-24, after a review of every story's vocabulary
+(`story-writing-guide.md` §5a). Stories kept meeting everyday words the list
+did not teach — 机, 旅, ここ, また, みんな — mostly for two reasons in
+`build_vocab_data.py` itself: words assigned to a theme tile that is later
+dropped for being under `MIN_UNIT_SIZE` vanish (the K and O passes count them
+as claimed), and `commonness_of()` scores kana words on a kana surface the
+subtitle list often lacks, so ここ lands at cx 60, past `COMMONNESS_MAX`.
+Both bugs still stand for the rest of the list.
+
+`tools/vocab_src/story_words.tsv` lists the words, one per line, each pinned
+to its JMdict `ent_seq`. Pinning matters because a story's spelling is often
+a homograph: without it, のぞく resolves to 除く ("to remove") and うつる to
+移る. The build keeps the story's spelling as the surface, so the reader
+links the word it shows. It scores commonness over every spelling of the
+entry (`story_commonness()`), and emits 40-word "S" tiles ordered by
+commonness under `GROUP_LABELS["S"]` = "From stories", sorted last in
+`vocab.js`. The first batch is 959 words, chosen from ~1,100 priority-tagged
+story words by excluding grammar patterns (ことになる), counters, names,
+dated words and wrong-homograph matches. `tools/check_story_vocab.py`
+suggests later additions.

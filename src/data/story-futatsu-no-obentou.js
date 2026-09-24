@@ -109,7 +109,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -188,7 +188,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -270,7 +270,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -363,7 +363,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -379,7 +379,7 @@ export const STORY = {
             "s": "かばん",
             "k": "かばん",
             "ruby": null,
-            "d": null,
+            "d": "かばん",
             "pos": "n",
             "g": "bag"
           },
@@ -519,7 +519,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -563,7 +563,7 @@ export const STORY = {
             "s": "おにぎり",
             "k": "おにぎり",
             "ruby": null,
-            "d": null,
+            "d": "おにぎり",
             "pos": "n",
             "g": "rice ball"
           },
@@ -652,7 +652,7 @@ export const STORY = {
             "s": "おにぎり",
             "k": "おにぎり",
             "ruby": null,
-            "d": null,
+            "d": "おにぎり",
             "pos": "n",
             "g": "rice ball"
           },
@@ -763,7 +763,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -973,7 +973,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -1322,7 +1322,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -1441,7 +1441,7 @@ export const STORY = {
             "s": "ベンチ",
             "k": "ベンチ",
             "ruby": null,
-            "d": null,
+            "d": "ベンチ",
             "pos": "n",
             "g": "bench"
           },
@@ -1544,7 +1544,7 @@ export const STORY = {
                 "とう"
               ]
             ],
-            "d": null,
+            "d": "お弁当",
             "pos": "n",
             "g": "packed lunch"
           },
@@ -1730,7 +1730,7 @@ export const STORY = {
             "s": "おにぎり",
             "k": "おにぎり",
             "ruby": null,
-            "d": null,
+            "d": "おにぎり",
             "pos": "n",
             "g": "rice ball"
           },
@@ -1807,7 +1807,7 @@ export const STORY = {
             "s": "おにぎり",
             "k": "おにぎり",
             "ruby": null,
-            "d": null,
+            "d": "おにぎり",
             "pos": "n",
             "g": "rice ball"
           },
@@ -1974,7 +1974,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "62f2677c",
+  "hash": "5a31bffc",
+  "was": [
+    "62f2677c"
+  ],
   "art": {
     "cover": true,
     "inline": []

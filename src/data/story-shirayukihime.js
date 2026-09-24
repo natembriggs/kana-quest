@@ -22,8 +22,7 @@ export const STORY = {
   },
   "nw": [
     "白雪姫",
-    "マジックミラー",
-    "ドワーフ",
+    "小人",
     "りんご",
     "嫉妬"
   ],
@@ -117,7 +116,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -243,7 +242,7 @@ export const STORY = {
                 "おう"
               ]
             ],
-            "d": null,
+            "d": "王",
             "pos": "n",
             "g": "king"
           },
@@ -281,7 +280,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -334,7 +333,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -467,12 +466,42 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "マジックミラー",
-            "k": "マジックミラー",
+            "s": "魔法",
+            "k": "まほう",
+            "ruby": [
+              [
+                0,
+                "ま"
+              ],
+              [
+                1,
+                "ほう"
+              ]
+            ],
+            "d": "魔法",
+            "pos": "n",
+            "g": "magic"
+          },
+          {
+            "s": "の",
+            "k": "の",
             "ruby": null,
             "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "鏡",
+            "k": "かがみ",
+            "ruby": [
+              [
+                0,
+                "かがみ"
+              ]
+            ],
+            "d": "鏡",
             "pos": "n",
-            "g": "magic mirror"
+            "g": "mirror"
           },
           {
             "s": "に",
@@ -604,10 +633,15 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "ミラー",
-            "k": "ミラー",
-            "ruby": null,
-            "d": null,
+            "s": "鏡",
+            "k": "かがみ",
+            "ruby": [
+              [
+                0,
+                "かがみ"
+              ]
+            ],
+            "d": "鏡",
             "pos": "n",
             "g": "mirror"
           },
@@ -668,7 +702,7 @@ export const STORY = {
                 "こた"
               ]
             ],
-            "d": null,
+            "d": "答える",
             "pos": "v",
             "g": "kept answering",
             "df": "答える",
@@ -709,10 +743,15 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "ミラー",
-            "k": "ミラー",
-            "ruby": null,
-            "d": null,
+            "s": "鏡",
+            "k": "かがみ",
+            "ruby": [
+              [
+                0,
+                "かがみ"
+              ]
+            ],
+            "d": "鏡",
             "pos": "n",
             "g": "mirror"
           },
@@ -857,7 +896,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -890,7 +929,7 @@ export const STORY = {
                 "りゅうど"
               ]
             ],
-            "d": null,
+            "d": "狩人",
             "pos": "n",
             "g": "huntsman"
           },
@@ -911,7 +950,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -1018,7 +1057,7 @@ export const STORY = {
                 "りゅうど"
               ]
             ],
-            "d": null,
+            "d": "狩人",
             "pos": "n",
             "g": "huntsman"
           },
@@ -1260,7 +1299,7 @@ export const STORY = {
     ],
     [
       {
-        "en": "At night, she found a small cottage.",
+        "en": "At night, she found a little house.",
         "t": [
           {
             "s": "夜",
@@ -1292,17 +1331,22 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
           {
-            "s": "コテージ",
-            "k": "コテージ",
-            "ruby": null,
+            "s": "家",
+            "k": "いえ",
+            "ruby": [
+              [
+                0,
+                "いえ"
+              ]
+            ],
             "d": null,
             "pos": "n",
-            "g": "cottage"
+            "g": "house"
           },
           {
             "s": "を",
@@ -1402,7 +1446,7 @@ export const STORY = {
             "s": "カップ",
             "k": "カップ",
             "ruby": null,
-            "d": null,
+            "d": "カップ",
             "pos": "n",
             "g": "cups"
           },
@@ -1455,7 +1499,7 @@ export const STORY = {
                 "は"
               ]
             ],
-            "d": null,
+            "d": "疲れ果てる",
             "pos": "v",
             "g": "was exhausted",
             "df": "疲れ果てる",
@@ -1503,7 +1547,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -1555,7 +1599,7 @@ export const STORY = {
             "s": "そこ",
             "k": "そこ",
             "ruby": null,
-            "d": null,
+            "d": "そこ",
             "pos": "n",
             "g": "there"
           },
@@ -1608,10 +1652,19 @@ export const STORY = {
             "g": "possessive — \"'s\" / \"of\""
           },
           {
-            "s": "ドワーフ",
-            "k": "ドワーフ",
-            "ruby": null,
-            "d": null,
+            "s": "小人",
+            "k": "こびと",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
+            "d": "小人",
             "pos": "n",
             "g": "dwarfs"
           },
@@ -1677,9 +1730,18 @@ export const STORY = {
         "en": "They were surprised, but heard her story and invited her to stay.",
         "t": [
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -2085,7 +2147,7 @@ export const STORY = {
                 "まよ"
               ]
             ],
-            "d": null,
+            "d": "道に迷う",
             "pos": "v",
             "g": "lost his way",
             "df": "道に迷う",
@@ -2102,12 +2164,21 @@ export const STORY = {
         ]
       },
       {
-        "en": "The dwarfs gave the prince lodging in their cottage.",
+        "en": "The dwarfs gave the prince lodging in their house.",
         "t": [
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -2146,12 +2217,17 @@ export const STORY = {
             "g": "object marker"
           },
           {
-            "s": "コテージ",
-            "k": "コテージ",
-            "ruby": null,
+            "s": "家",
+            "k": "いえ",
+            "ruby": [
+              [
+                0,
+                "いえ"
+              ]
+            ],
             "d": null,
             "pos": "n",
-            "g": "cottage"
+            "g": "house"
           },
           {
             "s": "に",
@@ -2170,7 +2246,7 @@ export const STORY = {
                 "と"
               ]
             ],
-            "d": null,
+            "d": "泊める",
             "pos": "v",
             "g": "gave lodging to",
             "df": "泊める",
@@ -2466,7 +2542,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -2479,10 +2555,15 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "ミラー",
-            "k": "ミラー",
-            "ruby": null,
-            "d": null,
+            "s": "鏡",
+            "k": "かがみ",
+            "ruby": [
+              [
+                0,
+                "かがみ"
+              ]
+            ],
+            "d": "鏡",
             "pos": "n",
             "g": "mirror"
           },
@@ -2503,7 +2584,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -2564,7 +2645,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "Disguised as an old woman, she came selling a corset.",
+        "en": "Disguised as an old woman, she came selling pretty laces.",
         "t": [
           {
             "s": "老婆",
@@ -2579,7 +2660,7 @@ export const STORY = {
                 "ば"
               ]
             ],
-            "d": null,
+            "d": "老婆",
             "pos": "n",
             "g": "old woman"
           },
@@ -2636,12 +2717,22 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "コルセット",
-            "k": "コルセット",
+            "s": "きれいな",
+            "k": "きれいな",
             "ruby": null,
-            "d": null,
+            "d": "きれい",
+            "pos": "adj",
+            "g": "pretty",
+            "df": "きれい",
+            "cf": "na-adjective form"
+          },
+          {
+            "s": "ひも",
+            "k": "ひも",
+            "ruby": null,
+            "d": "ひも",
             "pos": "n",
-            "g": "corset"
+            "g": "cord; laces"
           },
           {
             "s": "を",
@@ -2715,7 +2806,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -2769,15 +2860,44 @@ export const STORY = {
         ]
       },
       {
-        "en": "The corset was pulled tight and she collapsed.",
+        "en": "The laces were pulled tight around her chest, and she collapsed.",
         "t": [
           {
-            "s": "コルセット",
-            "k": "コルセット",
+            "s": "その",
+            "k": "その",
+            "ruby": null,
+            "d": "その",
+            "pos": "adj",
+            "g": "those"
+          },
+          {
+            "s": "ひも",
+            "k": "ひも",
+            "ruby": null,
+            "d": "ひも",
+            "pos": "n",
+            "g": "cord; laces"
+          },
+          {
+            "s": "で",
+            "k": "で",
             "ruby": null,
             "d": null,
+            "pos": "part",
+            "g": "at / in / by — place, means or circumstance"
+          },
+          {
+            "s": "胸",
+            "k": "むね",
+            "ruby": [
+              [
+                0,
+                "むね"
+              ]
+            ],
+            "d": "胸",
             "pos": "n",
-            "g": "corset"
+            "g": "chest"
           },
           {
             "s": "を",
@@ -2832,7 +2952,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -2900,9 +3020,18 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -2919,9 +3048,9 @@ export const STORY = {
             "s": "ひも",
             "k": "ひも",
             "ruby": null,
-            "d": null,
+            "d": "ひも",
             "pos": "n",
-            "g": "cord"
+            "g": "cord; laces"
           },
           {
             "s": "を",
@@ -3112,7 +3241,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -3164,7 +3293,7 @@ export const STORY = {
             "s": "くし",
             "k": "くし",
             "ruby": null,
-            "d": null,
+            "d": "くし",
             "pos": "n",
             "g": "comb"
           },
@@ -3310,7 +3439,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -3529,7 +3658,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -3727,9 +3856,18 @@ export const STORY = {
         "en": "She did not wake when the dwarfs called.",
         "t": [
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -3778,7 +3916,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "目を覚ます",
             "pos": "v",
             "g": "did not wake",
             "df": "目を覚ます",
@@ -3831,7 +3969,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -3847,7 +3985,7 @@ export const STORY = {
             "s": "ガラス",
             "k": "ガラス",
             "ruby": null,
-            "d": null,
+            "d": "ガラス",
             "pos": "n",
             "g": "glass"
           },
@@ -3889,7 +4027,7 @@ export const STORY = {
                 "ね"
               ]
             ],
-            "d": null,
+            "d": "寝かせる",
             "pos": "v",
             "g": "laying; laid and",
             "df": "寝かせる",
@@ -3932,7 +4070,7 @@ export const STORY = {
                 "まも"
               ]
             ],
-            "d": null,
+            "d": "見守る",
             "pos": "v",
             "g": "watched over",
             "df": "見守る",
@@ -4018,7 +4156,7 @@ export const STORY = {
                 "そく"
               ]
             ],
-            "d": null,
+            "d": "約束どおり",
             "pos": "adv",
             "g": "as promised"
           },
@@ -4054,7 +4192,7 @@ export const STORY = {
             "s": "ガラス",
             "k": "ガラス",
             "ruby": null,
-            "d": null,
+            "d": "ガラス",
             "pos": "n",
             "g": "glass"
           },
@@ -4111,9 +4249,18 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -4194,7 +4341,7 @@ export const STORY = {
                 "おう"
               ]
             ],
-            "d": null,
+            "d": "王",
             "pos": "n",
             "g": "king"
           },
@@ -4247,7 +4394,7 @@ export const STORY = {
             "s": "ガラス",
             "k": "ガラス",
             "ruby": null,
-            "d": null,
+            "d": "ガラス",
             "pos": "n",
             "g": "glass"
           },
@@ -4335,7 +4482,7 @@ export const STORY = {
                 "で"
               ]
             ],
-            "d": null,
+            "d": "申し出る",
             "pos": "v",
             "g": "offered",
             "df": "申し出る",
@@ -4430,7 +4577,7 @@ export const STORY = {
                 "ゆ"
               ]
             ],
-            "d": null,
+            "d": "揺れる",
             "pos": "v",
             "g": "shook",
             "df": "揺れる",
@@ -4469,7 +4616,7 @@ export const STORY = {
             "s": "かけら",
             "k": "かけら",
             "ruby": null,
-            "d": null,
+            "d": "かけら",
             "pos": "n",
             "g": "piece"
           },
@@ -4572,7 +4719,7 @@ export const STORY = {
                 "ひめ"
               ]
             ],
-            "d": null,
+            "d": "姫",
             "pos": "n",
             "g": "princess"
           },
@@ -4617,9 +4764,18 @@ export const STORY = {
         "en": "The dwarfs rejoiced at their reunion.",
         "t": [
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -4767,7 +4923,7 @@ export const STORY = {
                 "おう"
               ]
             ],
-            "d": null,
+            "d": "王",
             "pos": "n",
             "g": "king"
           },
@@ -4845,7 +5001,7 @@ export const STORY = {
                 "りゅうど"
               ]
             ],
-            "d": null,
+            "d": "狩人",
             "pos": "n",
             "g": "huntsman"
           },
@@ -4870,7 +5026,7 @@ export const STORY = {
                 "ひ"
               ]
             ],
-            "d": null,
+            "d": "王妃",
             "pos": "n",
             "g": "queen"
           },
@@ -4940,9 +5096,18 @@ export const STORY = {
         "en": "The dwarfs showed the poisoned apple to the king.",
         "t": [
           {
-            "s": "ドワーフたち",
-            "k": "ドワーフたち",
-            "ruby": null,
+            "s": "小人たち",
+            "k": "こびとたち",
+            "ruby": [
+              [
+                0,
+                "こ"
+              ],
+              [
+                1,
+                "びと"
+              ]
+            ],
             "d": null,
             "pos": "n",
             "g": "the dwarfs"
@@ -4985,7 +5150,7 @@ export const STORY = {
                 "おう"
               ]
             ],
-            "d": null,
+            "d": "王",
             "pos": "n",
             "g": "king"
           },
@@ -5034,7 +5199,7 @@ export const STORY = {
                 "おう"
               ]
             ],
-            "d": null,
+            "d": "王",
             "pos": "n",
             "g": "king"
           },
@@ -5177,12 +5342,42 @@ export const STORY = {
             "g": "topic marker — \"as for ...\""
           },
           {
-            "s": "マジックミラー",
-            "k": "マジックミラー",
+            "s": "魔法",
+            "k": "まほう",
+            "ruby": [
+              [
+                0,
+                "ま"
+              ],
+              [
+                1,
+                "ほう"
+              ]
+            ],
+            "d": "魔法",
+            "pos": "n",
+            "g": "magic"
+          },
+          {
+            "s": "の",
+            "k": "の",
             "ruby": null,
             "d": null,
+            "pos": "part",
+            "g": "possessive — \"'s\" / \"of\""
+          },
+          {
+            "s": "鏡",
+            "k": "かがみ",
+            "ruby": [
+              [
+                0,
+                "かがみ"
+              ]
+            ],
+            "d": "鏡",
             "pos": "n",
-            "g": "magic mirror"
+            "g": "mirror"
           },
           {
             "s": "を",
@@ -5376,7 +5571,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "0123c6fc",
+  "hash": "9c0a03b0",
+  "was": [
+    "0123c6fc"
+  ],
   "art": {
     "cover": true,
     "inline": []

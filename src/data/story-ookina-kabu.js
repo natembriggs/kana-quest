@@ -35,7 +35,7 @@ export const STORY = {
             "s": "おじいさん",
             "k": "おじいさん",
             "ruby": null,
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "g": "old man; grandfather"
           },
@@ -56,7 +56,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -64,7 +64,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -154,7 +154,7 @@ export const STORY = {
             "s": "やりました",
             "k": "やりました",
             "ruby": null,
-            "d": null,
+            "d": "やる",
             "pos": "v",
             "g": "gave; watered",
             "df": "やる",
@@ -177,7 +177,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -223,7 +223,7 @@ export const STORY = {
             "s": "おじいさん",
             "k": "おじいさん",
             "ruby": null,
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "g": "old man; grandfather"
           },
@@ -239,7 +239,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -299,7 +299,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -320,7 +320,7 @@ export const STORY = {
                 "ぬ"
               ]
             ],
-            "d": null,
+            "d": "抜ける",
             "pos": "v",
             "g": "did not come out",
             "df": "抜ける",
@@ -343,7 +343,7 @@ export const STORY = {
             "s": "おばあさん",
             "k": "おばあさん",
             "ruby": null,
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "g": "old woman; grandmother"
           },
@@ -453,7 +453,7 @@ export const STORY = {
                 "ぬ"
               ]
             ],
-            "d": null,
+            "d": "抜ける",
             "pos": "v",
             "g": "did not come out",
             "df": "抜ける",
@@ -573,7 +573,7 @@ export const STORY = {
             "s": "みんな",
             "k": "みんな",
             "ruby": null,
-            "d": null,
+            "d": "みんな",
             "pos": "n",
             "g": "everyone"
           },
@@ -632,7 +632,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -661,7 +661,7 @@ export const STORY = {
                 "ぬ"
               ]
             ],
-            "d": null,
+            "d": "抜ける",
             "pos": "v",
             "g": "came out; was pulled free",
             "df": "抜ける",
@@ -684,7 +684,7 @@ export const STORY = {
             "s": "みんな",
             "k": "みんな",
             "ruby": null,
-            "d": null,
+            "d": "みんな",
             "pos": "n",
             "g": "everyone"
           },
@@ -749,7 +749,7 @@ export const STORY = {
             "s": "みんな",
             "k": "みんな",
             "ruby": null,
-            "d": null,
+            "d": "みんな",
             "pos": "n",
             "g": "everyone"
           },
@@ -765,7 +765,7 @@ export const STORY = {
             "s": "かぶ",
             "k": "かぶ",
             "ruby": null,
-            "d": null,
+            "d": "かぶ",
             "pos": "n",
             "g": "turnip"
           },
@@ -804,7 +804,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "14ee2f46",
+  "hash": "ba4f6de3",
+  "was": [
+    "14ee2f46"
+  ],
   "art": {
     "cover": true,
     "inline": []

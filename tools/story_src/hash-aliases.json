@@ -1,0 +1,209 @@
+{
+ "_about": "Hashes a story's saved reading positions may still carry, from before a change that did not move any sentence. build_story_data.mjs emits them as `was`, and the reader resumes a position saved against any of them (stories-plan.md §3.5). Add the old hash here ONLY when every paragraph keeps its sentence count; an edit that adds, removes or splits sentences must reset positions.",
+ "akai-nooto-1": [
+  "147cc946"
+ ],
+ "akai-nooto-2": [
+  "3fdf06bb"
+ ],
+ "akai-nooto-3": [
+  "d6eab294"
+ ],
+ "akai-nooto-4": [
+  "9e304ce7"
+ ],
+ "akai-nooto-5": [
+  "65c380c8"
+ ],
+ "akazukin": [
+  "1a5405c9"
+ ],
+ "aladdin-to-mahou-no-lamp": [
+  "2d94e603"
+ ],
+ "ali-baba": [
+  "2c792325"
+ ],
+ "ari-to-hato": [
+  "2a0d43f9"
+ ],
+ "ari-to-kirigirisu": [
+  "6f8ed185"
+ ],
+ "asagao-o-matsu-asa": [
+  "5bf147a7"
+ ],
+ "atesaki-no-nai-henji": [
+  "52c8197c"
+ ],
+ "bijoto-yajuu": [
+  "7bcff17c"
+ ],
+ "bremen-no-ongakutai": [
+  "509417a7"
+ ],
+ "cinderella": [
+  "1317286f"
+ ],
+ "dracula": [
+  "924261d4",
+  "cf079585"
+ ],
+ "frankenstein": [
+  "4aa379a1"
+ ],
+ "fushigi-no-kuni-no-alice": [
+  "d75fa228"
+ ],
+ "futatsu-no-obentou": [
+  "62f2677c"
+ ],
+ "gofun-hayai-tokei": [
+  "b2f3a08b"
+ ],
+ "goldilocks": [
+  "0a01f882",
+  "e8432603"
+ ],
+ "gulliver-ryokouki": [
+  "4e219391"
+ ],
+ "hachijuu-nichikan-sekai-isshuu": [
+  "4d2ab6b1"
+ ],
+ "hansel-to-gretel": [
+  "79dfddf3"
+ ],
+ "ichinichi-dake-no-honya": [
+  "4c29fab4"
+ ],
+ "jack-to-mame-no-ki": [
+  "dd8d645f"
+ ],
+ "jekyll-to-hyde": [
+  "cda112d6"
+ ],
+ "kakure-tani-no-akari-1": [
+  "7b3f09ea"
+ ],
+ "kakure-tani-no-akari-2": [
+  "88214189"
+ ],
+ "kakure-tani-no-akari-3": [
+  "fbcf350e"
+ ],
+ "kakure-tani-no-akari-4": [
+  "41d71b58"
+ ],
+ "kakure-tani-no-akari-5": [
+  "67281f33"
+ ],
+ "karasu-to-mizugame": [
+  "57d9fab3"
+ ],
+ "kasa-jizou": [
+  "45e4fcb2"
+ ],
+ "kaze-to-boushi": [
+  "9dfa8a45"
+ ],
+ "kitakaze-to-taiyou": [
+  "cfa96ebe"
+ ],
+ "lion-to-nezumi": [
+  "8415b708"
+ ],
+ "machi-no-nezumi-inaka-no-nezumi": [
+  "1e9e9e7c"
+ ],
+ "madara-no-himo": [
+  "636ee940"
+ ],
+ "mittsu-no-kane-1": [
+  "5a1e05a3"
+ ],
+ "mittsu-no-kane-2": [
+  "c1c7a4ed"
+ ],
+ "mittsu-no-kane-3": [
+  "e914d12f"
+ ],
+ "mittsu-no-kane-4": [
+  "f78bfd30"
+ ],
+ "mittsu-no-kane-5": [
+  "fcd63a69"
+ ],
+ "momotaro-1": [
+  "0ef67772"
+ ],
+ "neko-no-ie": [
+  "b1a2da86"
+ ],
+ "ningyo-hime": [
+  "8eb3f325"
+ ],
+ "ookami-ga-kita": [
+  "9092f754"
+ ],
+ "ookina-kabu": [
+  "14ee2f46"
+ ],
+ "oz-no-mahoutsukai": [
+  "b5cd31b2"
+ ],
+ "pinocchio": [
+  "50b78ed1"
+ ],
+ "rapunzel": [
+  "80d65d43"
+ ],
+ "robinson-crusoe": [
+  "fb226830"
+ ],
+ "saigo-no-otehon-1": [
+  "5db04d6e"
+ ],
+ "saigo-no-otehon-2": [
+  "a7f09e81"
+ ],
+ "saigo-no-otehon-3": [
+  "3e734db1"
+ ],
+ "saigo-no-otehon-4": [
+  "e43e2ee4"
+ ],
+ "saigo-no-otehon-5": [
+  "f5e8fdab"
+ ],
+ "saigo-no-watashibune": [
+  "a81ca412"
+ ],
+ "sanbiki-no-kobuta": [
+  "53fcb72f"
+ ],
+ "shio-no-michi": [
+  "b61c343a"
+ ],
+ "shirayukihime": [
+  "0123c6fc"
+ ],
+ "tabi-suru-kasa": [
+  "ef498206"
+ ],
+ "takarajima": [
+  "85faf413"
+ ],
+ "tamago-no-otsukai": [
+  "0d60b8ce"
+ ],
+ "urashima-tarou": [
+  "23ed476c"
+ ],
+ "usagi-to-kame": [
+  "e36577d2"
+ ],
+ "yojihan-no-pan": [
+  "99c3953b"
+ ]
+}

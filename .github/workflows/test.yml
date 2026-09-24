@@ -41,3 +41,45 @@ jobs:
         run: node test/run-node.mjs
       - name: Check build-time story art
         run: node test/build-story-art.mjs
+
+  # Ships main to kanjitrail.com once the suites pass, so a PR merged from
+  # a phone or a cloud session goes live without a local session running
+  # tools/deploy-site.sh. Pull requests are tested but never deployed.
+  # Needs the CLOUDFLARE_API_TOKEN secret (Workers Scripts: Edit, plus
+  # Workers Routes: Edit for the kanjitrail.com custom domain) and the
+  # CLOUDFLARE_ACCOUNT_ID repo variable.
+  deploy:
+    needs: [test, test-node]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # One deploy at a time, in push order, so an older commit can never
+    # land on top of a newer one.
+    concurrency:
+      group: deploy-site
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Stage and deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          SITE_DIST: ${{ runner.temp }}/kq-site-dist
+          # Pinned to the version local deploys use.
+          WRANGLER: wrangler@4.125.0
+        run: tools/deploy-site.sh
+
+      - name: Confirm the live version matches
+        run: |
+          want="$(grep -m1 -o "VERSION = '[^']*'" sw.js)"
+          for i in 1 2 3 4 5 6; do
+            got="$(curl -fsS https://kanjitrail.com/sw.js | grep -m1 -o "VERSION = '[^']*'" || true)"
+            [ "$got" = "$want" ] && { echo "Live: $got"; exit 0; }
+            sleep 10
+          done
+          echo "Expected $want, kanjitrail.com serves ${got:-nothing}" >&2
+          exit 1

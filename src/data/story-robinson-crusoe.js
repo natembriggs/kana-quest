@@ -37,7 +37,7 @@ export const STORY = {
             "s": "イギリス",
             "k": "イギリス",
             "ruby": null,
-            "d": null,
+            "d": "イギリス",
             "pos": "pn",
             "g": "England"
           },
@@ -496,7 +496,7 @@ export const STORY = {
             "s": "あこがれていた",
             "k": "あこがれていた",
             "ruby": null,
-            "d": null,
+            "d": "あこがれる",
             "pos": "v",
             "g": "longed for",
             "df": "あこがれる",
@@ -616,7 +616,7 @@ export const STORY = {
                 "そむ"
               ]
             ],
-            "d": null,
+            "d": "背く",
             "pos": "v",
             "g": "going against",
             "df": "背く",
@@ -831,7 +831,7 @@ export const STORY = {
                 "ゆ"
               ]
             ],
-            "d": null,
+            "d": "揺れる",
             "pos": "v",
             "g": "rocking; rocked and",
             "df": "揺れる",
@@ -902,7 +902,7 @@ export const STORY = {
                 "たす"
               ]
             ],
-            "d": null,
+            "d": "助かる",
             "pos": "v",
             "g": "was saved",
             "df": "助かる",
@@ -942,7 +942,7 @@ export const STORY = {
                 "ど"
               ]
             ],
-            "d": null,
+            "d": "二度と",
             "pos": "adv",
             "g": "never again"
           },
@@ -999,7 +999,7 @@ export const STORY = {
                 "ちか"
               ]
             ],
-            "d": null,
+            "d": "誓う",
             "pos": "v",
             "g": "swore",
             "df": "誓う",
@@ -1022,7 +1022,7 @@ export const STORY = {
             "s": "けれども",
             "k": "けれども",
             "ruby": null,
-            "d": null,
+            "d": "けれども",
             "pos": "adv",
             "g": "but, however"
           },
@@ -1099,7 +1099,7 @@ export const STORY = {
                 "ちか"
               ]
             ],
-            "d": null,
+            "d": "誓い",
             "pos": "n",
             "g": "oath"
           },
@@ -1377,7 +1377,7 @@ export const STORY = {
                 "せん"
               ]
             ],
-            "d": null,
+            "d": "商船",
             "pos": "n",
             "g": "merchant ship"
           },
@@ -1651,7 +1651,7 @@ export const STORY = {
                 "ぞく"
               ]
             ],
-            "d": null,
+            "d": "海賊",
             "pos": "n",
             "g": "pirates"
           },
@@ -1737,7 +1737,7 @@ export const STORY = {
                 "と"
               ]
             ],
-            "d": null,
+            "d": "捕らえる",
             "pos": "v",
             "g": "being captured; was captured and",
             "df": "捕らえる",
@@ -1841,7 +1841,7 @@ export const STORY = {
                 "ぶね"
               ]
             ],
-            "d": null,
+            "d": "小舟",
             "pos": "n",
             "g": "small boat"
           },
@@ -2095,7 +2095,7 @@ export const STORY = {
                 "えん"
               ]
             ],
-            "d": null,
+            "d": "農園",
             "pos": "n",
             "g": "plantation"
           },
@@ -2143,7 +2143,7 @@ export const STORY = {
                 "ねん"
               ]
             ],
-            "d": null,
+            "d": "数年",
             "pos": "n",
             "g": "a few years"
           },
@@ -2187,7 +2187,7 @@ export const STORY = {
             "s": "けれども",
             "k": "けれども",
             "ruby": null,
-            "d": null,
+            "d": "けれども",
             "pos": "adv",
             "g": "but, however"
           },
@@ -2203,7 +2203,7 @@ export const STORY = {
             "s": "また",
             "k": "また",
             "ruby": null,
-            "d": null,
+            "d": "また",
             "pos": "adv",
             "g": "again"
           },
@@ -2869,7 +2869,7 @@ export const STORY = {
                 "なが"
               ]
             ],
-            "d": null,
+            "d": "押し流す",
             "pos": "v",
             "g": "drove along, swept",
             "df": "押し流す",
@@ -2968,7 +2968,7 @@ export const STORY = {
                 "あ"
               ]
             ],
-            "d": null,
+            "d": "乗り上げる",
             "pos": "v",
             "g": "running aground",
             "df": "乗り上げる",
@@ -3040,7 +3040,7 @@ export const STORY = {
                 "ぶね"
               ]
             ],
-            "d": null,
+            "d": "小舟",
             "pos": "n",
             "g": "small boat"
           },
@@ -3149,7 +3149,7 @@ export const STORY = {
             "s": "けれども",
             "k": "けれども",
             "ruby": null,
-            "d": null,
+            "d": "けれども",
             "pos": "adv",
             "g": "but, however"
           },
@@ -3166,7 +3166,7 @@ export const STORY = {
                 "なみ"
               ]
             ],
-            "d": null,
+            "d": "大波",
             "pos": "n",
             "g": "a huge wave"
           },
@@ -3191,7 +3191,7 @@ export const STORY = {
                 "ぶね"
               ]
             ],
-            "d": null,
+            "d": "小舟",
             "pos": "n",
             "g": "small boat"
           },
@@ -3424,7 +3424,7 @@ export const STORY = {
             "s": "やっと",
             "k": "やっと",
             "ruby": null,
-            "d": null,
+            "d": "やっと",
             "pos": "adv",
             "g": "at last, barely"
           },
@@ -3462,7 +3462,7 @@ export const STORY = {
                 "つ"
               ]
             ],
-            "d": null,
+            "d": "たどり着く",
             "pos": "v",
             "g": "reached, struggled to",
             "df": "たどり着く",
@@ -3537,7 +3537,7 @@ export const STORY = {
             "s": "しばらく",
             "k": "しばらく",
             "ruby": null,
-            "d": null,
+            "d": "しばらく",
             "pos": "adv",
             "g": "for a while"
           },
@@ -3601,7 +3601,7 @@ export const STORY = {
                 "まわ"
               ]
             ],
-            "d": null,
+            "d": "見回す",
             "pos": "v",
             "g": "when he looked around",
             "df": "見回す",
@@ -3694,7 +3694,7 @@ export const STORY = {
                 "たす"
               ]
             ],
-            "d": null,
+            "d": "助かる",
             "pos": "v",
             "g": "was saved",
             "df": "助かる",
@@ -4176,7 +4176,7 @@ export const STORY = {
                 "こめ"
               ]
             ],
-            "d": null,
+            "d": "米",
             "pos": "n",
             "g": "rice"
           },
@@ -4192,7 +4192,7 @@ export const STORY = {
             "s": "チーズ",
             "k": "チーズ",
             "ruby": null,
-            "d": null,
+            "d": "チーズ",
             "pos": "n",
             "g": "cheese"
           },
@@ -4259,7 +4259,7 @@ export const STORY = {
                 "つ"
               ]
             ],
-            "d": null,
+            "d": "詰める",
             "pos": "v",
             "g": "packed",
             "df": "詰める",
@@ -4332,7 +4332,7 @@ export const STORY = {
             "s": "のこぎり",
             "k": "のこぎり",
             "ruby": null,
-            "d": null,
+            "d": "のこぎり",
             "pos": "n",
             "g": "saw"
           },
@@ -4364,7 +4364,7 @@ export const STORY = {
             "s": "くぎ",
             "k": "くぎ",
             "ruby": null,
-            "d": null,
+            "d": "くぎ",
             "pos": "n",
             "g": "nails"
           },
@@ -4458,7 +4458,7 @@ export const STORY = {
             "s": "そして",
             "k": "そして",
             "ruby": null,
-            "d": null,
+            "d": "そして",
             "pos": "adv",
             "g": "and then"
           },
@@ -4471,7 +4471,7 @@ export const STORY = {
                 "ほ"
               ]
             ],
-            "d": null,
+            "d": "帆",
             "pos": "n",
             "g": "sail"
           },
@@ -4517,7 +4517,7 @@ export const STORY = {
                 "だ"
               ]
             ],
-            "d": null,
+            "d": "運び出す",
             "pos": "v",
             "g": "carried out",
             "df": "運び出す",
@@ -4608,7 +4608,7 @@ export const STORY = {
                 "ふく"
               ]
             ],
-            "d": null,
+            "d": "往復",
             "pos": "v",
             "g": "going back and forth; went and",
             "df": "往復する",
@@ -4925,7 +4925,7 @@ export const STORY = {
                 "つくえ"
               ]
             ],
-            "d": null,
+            "d": "机",
             "pos": "n",
             "g": "desk"
           },
@@ -4950,7 +4950,7 @@ export const STORY = {
                 "か"
               ]
             ],
-            "d": null,
+            "d": "金貨",
             "pos": "n",
             "g": "gold coins"
           },
@@ -5125,7 +5125,7 @@ export const STORY = {
             "s": "それでも",
             "k": "それでも",
             "ruby": null,
-            "d": null,
+            "d": "それでも",
             "pos": "adv",
             "g": "even so, nevertheless"
           },
@@ -5207,7 +5207,7 @@ export const STORY = {
             "s": "また",
             "k": "また",
             "ruby": null,
-            "d": null,
+            "d": "また",
             "pos": "adv",
             "g": "again"
           },
@@ -5339,7 +5339,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -5406,7 +5406,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "真水",
             "pos": "n",
             "g": "fresh water"
           },
@@ -5542,7 +5542,7 @@ export const STORY = {
             "s": "テント",
             "k": "テント",
             "ruby": null,
-            "d": null,
+            "d": "テント",
             "pos": "n",
             "g": "tent"
           },
@@ -5727,7 +5727,7 @@ export const STORY = {
             "s": "はしご",
             "k": "はしご",
             "ruby": null,
-            "d": null,
+            "d": "はしご",
             "pos": "n",
             "g": "ladder"
           },
@@ -5889,7 +5889,7 @@ export const STORY = {
                 "くつ"
               ]
             ],
-            "d": null,
+            "d": "洞窟",
             "pos": "n",
             "g": "cave"
           },
@@ -5990,7 +5990,7 @@ export const STORY = {
             "s": "そこ",
             "k": "そこ",
             "ruby": null,
-            "d": null,
+            "d": "そこ",
             "pos": "n",
             "g": "there"
           },
@@ -6023,7 +6023,7 @@ export const STORY = {
             "s": "しるし",
             "k": "しるし",
             "ruby": null,
-            "d": null,
+            "d": "しるし",
             "pos": "n",
             "g": "a mark"
           },
@@ -6101,7 +6101,7 @@ export const STORY = {
             "s": "しるし",
             "k": "しるし",
             "ruby": null,
-            "d": null,
+            "d": "しるし",
             "pos": "n",
             "g": "a mark"
           },
@@ -6117,7 +6117,7 @@ export const STORY = {
             "s": "つけ",
             "k": "つけ",
             "ruby": null,
-            "d": null,
+            "d": "つける",
             "pos": "v",
             "g": "adding; added and",
             "df": "つける",
@@ -6228,7 +6228,7 @@ export const STORY = {
             "s": "インク",
             "k": "インク",
             "ruby": null,
-            "d": null,
+            "d": "インク",
             "pos": "n",
             "g": "ink"
           },
@@ -6560,7 +6560,7 @@ export const STORY = {
                 "だ"
               ]
             ],
-            "d": null,
+            "d": "投げ出す",
             "pos": "v",
             "g": "was thrown out, was cast away",
             "df": "投げ出す",
@@ -6578,7 +6578,7 @@ export const STORY = {
             "s": "けれども",
             "k": "けれども",
             "ruby": null,
-            "d": null,
+            "d": "けれども",
             "pos": "adv",
             "g": "but, however"
           },
@@ -6620,7 +6620,7 @@ export const STORY = {
                 "たす"
               ]
             ],
-            "d": null,
+            "d": "助かる",
             "pos": "v",
             "g": "was saved",
             "df": "助かる",
@@ -6975,7 +6975,7 @@ export const STORY = {
                 "はい"
               ]
             ],
-            "d": null,
+            "d": "手に入る",
             "pos": "v",
             "g": "did not come to hand",
             "df": "手に入る",
@@ -7153,7 +7153,7 @@ export const STORY = {
             "s": "ごみ",
             "k": "ごみ",
             "ruby": null,
-            "d": null,
+            "d": "ごみ",
             "pos": "n",
             "g": "sweepings, rubbish"
           },
@@ -7272,7 +7272,7 @@ export const STORY = {
             "s": "そこ",
             "k": "そこ",
             "ruby": null,
-            "d": null,
+            "d": "そこ",
             "pos": "n",
             "g": "there"
           },
@@ -7469,7 +7469,7 @@ export const STORY = {
                 "めぐ"
               ]
             ],
-            "d": null,
+            "d": "恵み",
             "pos": "n",
             "g": "blessing, gift"
           },
@@ -7621,7 +7621,7 @@ export const STORY = {
             "s": "かけて",
             "k": "かけて",
             "ruby": null,
-            "d": null,
+            "d": "かける",
             "pos": "v",
             "g": "taking; over the course of",
             "df": "かける",
@@ -7660,7 +7660,7 @@ export const STORY = {
             "s": "やっと",
             "k": "やっと",
             "ruby": null,
-            "d": null,
+            "d": "やっと",
             "pos": "adv",
             "g": "at last, barely"
           },
@@ -7780,7 +7780,7 @@ export const STORY = {
             "s": "つぶし",
             "k": "つぶし",
             "ruby": null,
-            "d": null,
+            "d": "つぶす",
             "pos": "v",
             "g": "crushing; crushed and",
             "df": "つぶす",
@@ -7842,7 +7842,7 @@ export const STORY = {
                 "き"
               ]
             ],
-            "d": null,
+            "d": "土器",
             "pos": "n",
             "g": "pottery"
           },
@@ -7916,7 +7916,7 @@ export const STORY = {
                 "き"
               ]
             ],
-            "d": null,
+            "d": "土器",
             "pos": "n",
             "g": "pottery"
           },
@@ -7937,7 +7937,7 @@ export const STORY = {
                 "わ"
               ]
             ],
-            "d": null,
+            "d": "割れる",
             "pos": "v",
             "g": "cracked",
             "df": "割れる",
@@ -7963,7 +7963,7 @@ export const STORY = {
             "s": "やがて",
             "k": "やがて",
             "ruby": null,
-            "d": null,
+            "d": "やがて",
             "pos": "adv",
             "g": "soon, before long"
           },
@@ -7997,7 +7997,7 @@ export const STORY = {
                 "に"
               ]
             ],
-            "d": null,
+            "d": "煮る",
             "pos": "v",
             "g": "can be boiled",
             "df": "煮る",
@@ -8007,7 +8007,7 @@ export const STORY = {
             "s": "つぼ",
             "k": "つぼ",
             "ruby": null,
-            "d": null,
+            "d": "つぼ",
             "pos": "n",
             "g": "pot"
           },
@@ -8080,7 +8080,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -8105,7 +8105,7 @@ export const STORY = {
                 "あな"
               ]
             ],
-            "d": null,
+            "d": "落とし穴",
             "pos": "n",
             "g": "pit trap"
           },
@@ -8149,7 +8149,7 @@ export const STORY = {
                 "かこ"
               ]
             ],
-            "d": null,
+            "d": "囲い",
             "pos": "n",
             "g": "pen, enclosure"
           },
@@ -8214,7 +8214,7 @@ export const STORY = {
             "s": "やがて",
             "k": "やがて",
             "ruby": null,
-            "d": null,
+            "d": "やがて",
             "pos": "adv",
             "g": "soon, before long"
           },
@@ -8231,7 +8231,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -8291,7 +8291,7 @@ export const STORY = {
             "s": "バター",
             "k": "バター",
             "ruby": null,
-            "d": null,
+            "d": "バター",
             "pos": "n",
             "g": "butter"
           },
@@ -8307,7 +8307,7 @@ export const STORY = {
             "s": "チーズ",
             "k": "チーズ",
             "ruby": null,
-            "d": null,
+            "d": "チーズ",
             "pos": "n",
             "g": "cheese"
           },
@@ -8332,7 +8332,7 @@ export const STORY = {
                 "はい"
               ]
             ],
-            "d": null,
+            "d": "手に入る",
             "pos": "v",
             "g": "came to be available to him",
             "df": "手に入る",
@@ -8364,7 +8364,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -8613,7 +8613,7 @@ export const STORY = {
                 "すこ"
               ]
             ],
-            "d": null,
+            "d": "少しずつ",
             "pos": "adv",
             "g": "little by little"
           },
@@ -8880,7 +8880,7 @@ export const STORY = {
                 "こころ"
               ]
             ],
-            "d": null,
+            "d": "心から",
             "pos": "adv",
             "g": "from the heart, sincerely"
           },
@@ -8893,7 +8893,7 @@ export const STORY = {
                 "いの"
               ]
             ],
-            "d": null,
+            "d": "祈る",
             "pos": "v",
             "g": "prayed",
             "df": "祈る",
@@ -9720,7 +9720,7 @@ export const STORY = {
                 "ど"
               ]
             ],
-            "d": null,
+            "d": "立ち止まる",
             "pos": "v",
             "g": "stopped dead",
             "df": "立ち止まる",
@@ -10222,7 +10222,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -10690,7 +10690,7 @@ export const STORY = {
                 "ち"
               ]
             ],
-            "d": null,
+            "d": "散らばる",
             "pos": "v",
             "g": "lying scattered",
             "df": "散らばる",
@@ -10971,7 +10971,7 @@ export const STORY = {
                 "と"
               ]
             ],
-            "d": null,
+            "d": "捕らえる",
             "pos": "v",
             "g": "captured",
             "df": "捕らえる",
@@ -11543,7 +11543,7 @@ export const STORY = {
             "s": "まっすぐ",
             "k": "まっすぐ",
             "ruby": null,
-            "d": null,
+            "d": "まっすぐ",
             "pos": "adv",
             "g": "straight"
           },
@@ -11873,7 +11873,7 @@ export const STORY = {
             "s": "つけ",
             "k": "つけ",
             "ruby": null,
-            "d": null,
+            "d": "つける",
             "pos": "v",
             "g": "adding; added and",
             "df": "つける",
@@ -11944,7 +11944,7 @@ export const STORY = {
             "s": "そして",
             "k": "そして",
             "ruby": null,
-            "d": null,
+            "d": "そして",
             "pos": "adv",
             "g": "and then"
           },
@@ -12113,7 +12113,7 @@ export const STORY = {
                 "らい"
               ]
             ],
-            "d": null,
+            "d": "家来",
             "pos": "n",
             "g": "servant, retainer"
           },
@@ -12152,7 +12152,7 @@ export const STORY = {
                 "ちか"
               ]
             ],
-            "d": null,
+            "d": "誓う",
             "pos": "v",
             "g": "swore",
             "df": "誓う",
@@ -12756,7 +12756,7 @@ export const STORY = {
             "s": "うち",
             "k": "うち",
             "ruby": null,
-            "d": null,
+            "d": "うち",
             "pos": "n",
             "g": "within"
           },
@@ -12814,7 +12814,7 @@ export const STORY = {
                 "ゆう"
               ]
             ],
-            "d": null,
+            "d": "自由に",
             "pos": "adv",
             "g": "freely"
           },
@@ -12900,7 +12900,7 @@ export const STORY = {
                 "き"
               ]
             ],
-            "d": null,
+            "d": "読み聞かせる",
             "pos": "v",
             "g": "reading aloud; read aloud and",
             "df": "読み聞かせる",
@@ -13513,7 +13513,7 @@ export const STORY = {
             "s": "また",
             "k": "また",
             "ruby": null,
-            "d": null,
+            "d": "また",
             "pos": "adv",
             "g": "again"
           },
@@ -14022,7 +14022,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -14089,7 +14089,7 @@ export const STORY = {
                 "ま"
               ]
             ],
-            "d": null,
+            "d": "間もなく",
             "pos": "adv",
             "g": "before long"
           },
@@ -14126,7 +14126,7 @@ export const STORY = {
             "s": "イギリス",
             "k": "イギリス",
             "ruby": null,
-            "d": null,
+            "d": "イギリス",
             "pos": "pn",
             "g": "England"
           },
@@ -14191,7 +14191,7 @@ export const STORY = {
             "s": "けれども",
             "k": "けれども",
             "ruby": null,
-            "d": null,
+            "d": "けれども",
             "pos": "adv",
             "g": "but, however"
           },
@@ -14208,7 +14208,7 @@ export const STORY = {
                 "ぶね"
               ]
             ],
-            "d": null,
+            "d": "小舟",
             "pos": "n",
             "g": "small boat"
           },
@@ -14545,7 +14545,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -14813,7 +14813,7 @@ export const STORY = {
             "s": "イギリス",
             "k": "イギリス",
             "ruby": null,
-            "d": null,
+            "d": "イギリス",
             "pos": "pn",
             "g": "England"
           },
@@ -15054,7 +15054,7 @@ export const STORY = {
                 "こた"
               ]
             ],
-            "d": null,
+            "d": "答える",
             "pos": "v",
             "g": "replied",
             "df": "答える",
@@ -15705,7 +15705,7 @@ export const STORY = {
                 "ぎ"
               ]
             ],
-            "d": null,
+            "d": "山羊",
             "pos": "n",
             "g": "goats"
           },
@@ -15755,7 +15755,7 @@ export const STORY = {
                 "かた"
               ]
             ],
-            "d": null,
+            "d": "使い方",
             "pos": "n",
             "g": "how to use"
           },
@@ -15853,7 +15853,7 @@ export const STORY = {
             "s": "イギリス",
             "k": "イギリス",
             "ruby": null,
-            "d": null,
+            "d": "イギリス",
             "pos": "pn",
             "g": "England"
           },
@@ -15993,7 +15993,7 @@ export const STORY = {
                 "えん"
               ]
             ],
-            "d": null,
+            "d": "農園",
             "pos": "n",
             "g": "plantation"
           },
@@ -16640,7 +16640,7 @@ export const STORY = {
             "s": "そして",
             "k": "そして",
             "ruby": null,
-            "d": null,
+            "d": "そして",
             "pos": "adv",
             "g": "and then"
           },
@@ -16687,7 +16687,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "fb226830",
+  "hash": "167a3d13",
+  "was": [
+    "fb226830"
+  ],
   "art": {
     "cover": true,
     "inline": []

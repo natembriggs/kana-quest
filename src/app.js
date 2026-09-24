@@ -182,7 +182,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24g'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-24i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -11379,13 +11379,21 @@ function observeReaderReflow() {
   readerReflowObserver.observe($('reader-body'));
 }
 
+/** Whether a position saved against hash `h` still points at the same
+ * sentences: the current hash, or an older one the build vouches for
+ * (`was`, from tools/story_src/hash-aliases.json) because the edit since
+ * moved no sentence. */
+function sameStoryText(story, h) {
+  return h === story.hash || (Array.isArray(story.was) && story.was.includes(h));
+}
+
 /** The saved bookmark for a story, or null — refusing a mark saved against a
  * different version of the text, exactly as the resume cursor does (§3.5).
  * A sentence index is meaningless once the sentences have moved. */
 function savedReaderMark(story, id) {
   const saved = state.profile.stories && state.profile.stories.mark
     && state.profile.stories.mark[id];
-  if (!saved || saved.h !== story.hash) return null;
+  if (!saved || !sameStoryText(story, saved.h)) return null;
   if (!(saved.p >= 0) || saved.p >= story.body.length) return null;
   if (!(saved.s >= 0) || saved.s >= story.body[saved.p].length) return null;
   return { p: saved.p, s: saved.s };
@@ -12212,7 +12220,7 @@ function scrollToResumePosition(story, id) {
   // A hash mismatch means the story was edited since this position was
   // saved — clamp to the paragraph rather than trust a sentence index that
   // may no longer line up (stories-plan.md §3.5).
-  const pIndex = Math.min(saved.h === story.hash ? saved.p : 0, story.body.length - 1);
+  const pIndex = Math.min(sameStoryText(story, saved.h) ? saved.p : 0, story.body.length - 1);
   const target = $('reader-body').querySelector(`.reader-para[data-p="${pIndex}"]`);
   if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
 }

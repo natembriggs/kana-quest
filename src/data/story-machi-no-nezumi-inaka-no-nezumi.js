@@ -60,7 +60,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -188,7 +188,7 @@ export const STORY = {
             "s": "いとこ",
             "k": "いとこ",
             "ruby": null,
-            "d": null,
+            "d": "いとこ",
             "pos": "n",
             "g": "cousin"
           },
@@ -261,7 +261,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -307,7 +307,7 @@ export const STORY = {
                 "み"
               ]
             ],
-            "d": null,
+            "d": "木の実",
             "pos": "n",
             "g": "nuts"
           },
@@ -673,7 +673,7 @@ export const STORY = {
             "s": "ごちそう",
             "k": "ごちそう",
             "ruby": null,
-            "d": null,
+            "d": "ごちそう",
             "pos": "n",
             "g": "feast"
           },
@@ -971,7 +971,7 @@ export const STORY = {
                 "つくえ"
               ]
             ],
-            "d": null,
+            "d": "机",
             "pos": "n",
             "g": "table"
           },
@@ -1042,7 +1042,7 @@ export const STORY = {
                 "し"
               ]
             ],
-            "d": null,
+            "d": "菓子",
             "pos": "n",
             "g": "sweets"
           },
@@ -1370,7 +1370,7 @@ export const STORY = {
                 "つくえ"
               ]
             ],
-            "d": null,
+            "d": "机",
             "pos": "n",
             "g": "table"
           },
@@ -1517,7 +1517,7 @@ export const STORY = {
                 "ふる"
               ]
             ],
-            "d": null,
+            "d": "震える",
             "pos": "v",
             "g": "while trembling",
             "df": "震える",
@@ -1812,7 +1812,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -2149,7 +2149,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "1e9e9e7c",
+  "hash": "78578c74",
+  "was": [
+    "1e9e9e7c"
+  ],
   "art": {
     "cover": true,
     "inline": []

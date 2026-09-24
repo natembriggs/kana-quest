@@ -657,7 +657,7 @@ export const STORY = {
                 "たか"
               ]
             ],
-            "d": null,
+            "d": "背が高い",
             "pos": "adj",
             "g": "tall (of a person)"
           },
@@ -881,7 +881,7 @@ export const STORY = {
             "s": "かぶります",
             "k": "かぶります",
             "ruby": null,
-            "d": null,
+            "d": "かぶる",
             "pos": "v",
             "g": "puts on (a hat)",
             "df": "かぶる",
@@ -1054,7 +1054,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "9dfa8a45",
+  "hash": "5411b86f",
+  "was": [
+    "9dfa8a45"
+  ],
   "art": {
     "cover": true,
     "inline": []

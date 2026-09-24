@@ -4005,8 +4005,8 @@
     "運ぶ",
     "plain past 〜てくる form"
   ],
-  "帳面": [
-    "帳[ちょう]面[めん]",
+  "ノート": [
+    "ノート",
     "notebook",
     "n",
     "",
@@ -5065,9 +5065,9 @@
     "直す",
     "plain past progressive"
   ],
-  "針目": [
-    "針[はり]目[め]",
-    "stitches",
+  "縫い目": [
+    "縫[ぬ]い目[め]",
+    "stitches; seam",
     "n",
     "",
     ""
@@ -6242,9 +6242,9 @@
     "ほどける",
     "plain past 〜ていく form"
   ],
-  "小片": [
-    "小[しょう]片[へん]",
-    "small scrap; fragment",
+  "切れ端": [
+    "切[き]れ端[はし]",
+    "scrap; torn-off piece",
     "n",
     "",
     ""

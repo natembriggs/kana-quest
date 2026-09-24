@@ -338,7 +338,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "男の人",
             "pos": "n",
             "g": "man"
           },
@@ -647,7 +647,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "男の人",
             "pos": "n",
             "g": "man"
           },
@@ -688,7 +688,7 @@ export const STORY = {
             "s": "しっかり",
             "k": "しっかり",
             "ruby": null,
-            "d": null,
+            "d": "しっかり",
             "pos": "adv",
             "g": "firmly, tightly"
           },
@@ -793,7 +793,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "男の人",
             "pos": "n",
             "g": "man"
           },
@@ -817,7 +817,7 @@ export const STORY = {
             "s": "しっかり",
             "k": "しっかり",
             "ruby": null,
-            "d": null,
+            "d": "しっかり",
             "pos": "adv",
             "g": "firmly, tightly"
           },
@@ -1025,7 +1025,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "男の人",
             "pos": "n",
             "g": "man"
           },
@@ -1267,7 +1267,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "cfa96ebe",
+  "hash": "d6235878",
+  "was": [
+    "cfa96ebe"
+  ],
   "art": {
     "cover": true,
     "inline": []

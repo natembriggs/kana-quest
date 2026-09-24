@@ -435,6 +435,15 @@ survives most edits and being a paragraph out is a two-second inconvenience,
 where being sent back to the start of a chapter is enough to stop someone
 reading.
 
+Two refinements (2026-09-24). The hash leaves out each token's `d`: which
+curriculum entry a word links to changes every time the vocabulary list
+grows, and it moves no sentence. And an edit that keeps every paragraph's
+sentence count, like a word swap or a reading fix, can keep old positions:
+`tools/story_src/hash-aliases.json` lists the earlier hashes, the build emits
+them as `was`, and the reader resumes a position saved against any of them.
+The first use was the story-vocabulary review, which changed 100 sentences
+and relinked most of the corpus.
+
 ### 3.6 Translations
 
 Every sentence has an English translation, and it is **sentence-for-sentence,

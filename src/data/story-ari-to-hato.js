@@ -179,7 +179,7 @@ export const STORY = {
             "s": "すべりました",
             "k": "すべりました",
             "ruby": null,
-            "d": null,
+            "d": "すべる",
             "pos": "v",
             "g": "slipped",
             "df": "すべる",
@@ -277,7 +277,7 @@ export const STORY = {
                 "なが"
               ]
             ],
-            "d": null,
+            "d": "流される",
             "pos": "v",
             "g": "was swept away",
             "df": "流される",
@@ -875,7 +875,7 @@ export const STORY = {
             "s": "かみました",
             "k": "かみました",
             "ruby": null,
-            "d": null,
+            "d": "かむ",
             "pos": "v",
             "g": "bit",
             "df": "かむ",
@@ -1067,5 +1067,8 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "2a0d43f9"
+  "hash": "5945e2be",
+  "was": [
+    "2a0d43f9"
+  ]
 };

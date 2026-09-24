@@ -90,6 +90,8 @@ SRC = ROOT / "data_src"
 DATA_DIR = ROOT.parent / "src" / "data"
 JMDICT = SRC / "JMdict_e"
 EXAMPLES = SRC / "examples.utf"  # Tanaka Corpus, via WWWJDIC — see build_examples()
+# Hand-reviewed words met in stories — see the "Story words" pass in main().
+STORY_WORDS = ROOT / "vocab_src" / "story_words.tsv"
 
 random.seed(20260828)  # reproducible builds — same output until the sources or this script change
 
@@ -179,6 +181,36 @@ def commonness_of(entry_xml, surface):
         order_w *= STEM_PENALTY
         order_s *= STEM_PENALTY
     return math.sqrt(order_w * order_s), is_written_common(entry_xml), is_spoken
+def story_commonness(entry_xml, surface):
+    """commonness_of() for a story word, scoring the SPOKEN signal on every
+    spelling of the entry rather than on the surface alone. Both corpora
+    under-count kana: the subtitle list's tokenizer drops words like ここ
+    and また outright, and the Tanaka index files ここ under its rare
+    kanji spelling 此処 — so scored on the kana surface alone, the
+    commonest words in the language come out as "Specialist words"."""
+    tanaka_freq, subtitle_freq = freq_tables()
+    spellings = [surface] + [html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", entry_xml)] \
+        + [html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", entry_xml)]
+    signals = [spoken_signal(s, tanaka_freq, subtitle_freq) for s in dict.fromkeys(spellings)]
+    s_band = min(band for band, _ in signals)
+    w_band = written_band(entry_xml)
+    if not curated_common(entry_xml):
+        w_band *= STEM_PENALTY
+        s_band *= STEM_PENALTY
+    return math.sqrt(w_band * s_band), is_written_common(entry_xml), any(sp for _, sp in signals)
+
+
+def load_story_words():
+    """(surface, reading, ent_seq) per line of STORY_WORDS, in file order."""
+    words = []
+    for line in STORY_WORDS.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        surface, reading, seq = line.split("\t")[:3]
+        words.append((surface, reading, seq))
+    return words
+
+
 MAX_MIS = 8
 MAX_SP = 16
 
@@ -355,6 +387,59 @@ def segment_spans(keb, alignment):
     return spans
 
 
+# A kana surface can belong to several JMdict entries that share its
+# reading: なる/なる is both 成る "to become" and 生る "to bear fruit". Every
+# pass in main() claims a word by its surface, so whichever entry gets
+# there first becomes THE entry for that id, and every story token that
+# autoLinks to なる opens it. Nothing here can pick the right one on its
+# own: 生る even has the better written band (nf07 against 成る's nf34), and
+# no check on a story token's reading can catch it, because the readings
+# are identical. So the keys where the wrong entry would win are pinned by
+# hand: (surface, reading) -> the keb (or, for an entry with no
+# kanji at all, the ent_seq) of the entry to keep. pick_homographs() drops
+# the others from the candidate pool. The kept entry takes the key's best
+# frequency signal: the corpora count the kana surface, not an entry, so
+# 生る's nf07 is really a count of なる, the word 成る is. That keeps the
+# word where it was in the list (成る's own cx is past COMMONNESS_MAX, and
+# would drop なる altogether). It also skips the gloss-keyword theme
+# passes (classify, classify_a) and is placed by commonness alone: these
+# are wide, everyday words, and a keyword match on one of their glosses
+# says nothing about the topic ("to grow" put 成る in theme 4.4, whose
+# Higher tile is too small to ship, and なる went with it). The id is the
+# surface either way, so a learner's progress on なる carries over to the
+# corrected entry.
+HOMOGRAPH_PINS = {
+    ("なる", "なる"): "成る",  # not 生る "to bear fruit"
+    ("そう", "そう"): "然う",  # the adverb "so, like that"; not the 〜そう "seeming" suffix
+}
+
+
+def pick_homographs(candidates):
+    """Apply HOMOGRAPH_PINS: under each pinned (surface, reading) key, keep
+    only the pinned entry, carrying the key's best rank and cx and marked
+    `pinned` so the theme passes leave it alone. Fails loudly on a pin that
+    no longer matches, so a JMdict update cannot quietly send なる back to
+    "to bear fruit"."""
+    by_key = defaultdict(list)
+    for c in candidates:
+        by_key[(c["surface"], c["reading"])].append(c)
+    dropped = set()
+    for key, pin in HOMOGRAPH_PINS.items():
+        group = by_key.get(key, [])
+        keep = [c for c in group if pin == c["seq"] or pin in c["kebs"]]
+        if len(keep) != 1:
+            raise SystemExit(f"HOMOGRAPH_PINS {key} -> {pin} matches {len(keep)} of "
+                             f"{len(group)} candidates; update the pin")
+        kept = keep[0]
+        kept["rank"] = min(c["rank"] for c in group)
+        kept["cx"] = min(c["cx"] for c in group)
+        kept["written"] = any(c["written"] for c in group)
+        kept["spoken"] = any(c["spoken"] for c in group)
+        kept["pinned"] = True
+        dropped.update(id(c) for c in group if c is not kept)
+    return [c for c in candidates if id(c) not in dropped]
+
+
 def parse_jmdict():
     text = JMDICT.read_text(encoding="utf-8")
     raw_entries = re.findall(r"<entry>.*?</entry>", text, re.S)
@@ -505,6 +590,10 @@ def parse_jmdict():
             "glosses": glosses, "senses": extract_senses(e, reading),
             "pos": pos_category(pos_tags), "uk": uk,
             "rank": rank,
+            # Which JMdict entry this is, for pick_homographs(): a kana
+            # surface does not say (成る and 生る are both なる/なる).
+            "seq": re.search(r"<ent_seq>(\d+)</ent_seq>", e).group(1),
+            "kebs": kebs_all,
         })
 
         if keb and KANJI_ONLY_RE.match(keb) and not BAD_KEB_INF.search(e):
@@ -702,6 +791,12 @@ GROUP_LABELS = {
     # anyone reading real Japanese. Ordered by commonness, like "K" is by
     # kanji grade.
     "O": "Other common words",
+    # "S<n>" units — words a learner met in a story that the passes above
+    # left out, hand-reviewed one by one in tools/vocab_src/story_words.tsv
+    # (see story-writing-guide.md §5a). Mostly everyday words the frequency
+    # passes missed — 机, ここ, みんな — plus the story vocabulary worth
+    # keeping: 提灯, 盆踊り, 魔女.
+    "S": "From stories",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -745,7 +840,26 @@ def unit_group(unit):
         return "K"
     if unit.startswith("O") and unit[1:].isdigit():
         return "O"
+    if unit.startswith("S") and unit[1:].isdigit():
+        return "S"
     return "C" if unit.startswith("C") else unit.split(".")[0]
+
+
+def unit_ships(unit, records):
+    """Whether a unit survives the MIN_UNIT_SIZE cut at the end of main().
+    Core, A12 and the story-words tiles are hand-reviewed lists, not quotas,
+    and ship at any size. Every later pass that skips a word "some unit
+    already teaches" must ask this, not merely whether a unit holds it: a
+    theme tile about to be dropped for being too small takes its words
+    with it, and 旅行, 海外 and 予約 had no entry at all that way."""
+    return (len(records) >= MIN_UNIT_SIZE or unit.startswith("C") or unit == "A12"
+            or unit_group(unit) == "S")
+
+
+def taught_surfaces(unit_records):
+    """Every surface a unit that will ship (unit_ships) teaches."""
+    return {r["w"] for unit, recs in unit_records.items() if unit_ships(unit, recs)
+            for r in recs}
 
 
 # --- Theme classification ---------------------------------------------------
@@ -999,7 +1113,7 @@ def classify_a(candidate):
     phase 7's module-docstring comment), and keeping them as two flat dicts
     means neither classify() nor THEME_KEYWORDS needs to know phase 7
     exists at all."""
-    if looks_like_proper_noun(candidate["glosses"]):
+    if candidate.get("pinned") or looks_like_proper_noun(candidate["glosses"]):
         return None
     text = " ".join(candidate["glosses"][:2]).lower()
     for unit, keywords in THEME_KEYWORDS_A.items():
@@ -1038,8 +1152,9 @@ def classify(candidate):
     """First theme unit (in THEME_KEYWORDS' own order) whose keyword list
     matches any of this candidate's first two glosses. None if nothing
     matches — an unmatched word is simply left out of this first pass rather
-    than forced into a wrong unit; see the module docstring."""
-    if looks_like_proper_noun(candidate["glosses"]):
+    than forced into a wrong unit; see the module docstring. A pinned
+    homograph is never matched (see HOMOGRAPH_PINS)."""
+    if candidate.get("pinned") or looks_like_proper_noun(candidate["glosses"]):
         return None
     text = " ".join(candidate["glosses"][:2]).lower()
     for unit, keywords in THEME_KEYWORDS.items():
@@ -1605,7 +1720,7 @@ def choose_examples(shortlist, sentences):
 
 
 def build_examples(unit_records, keb_readings, stem_index, example_glosses,
-                   example_senses, idiomatic):
+                   example_senses, idiomatic, pinned_heads):
     """Give every word the `ex` sentences its detail screen shows, wherever
     the corpus has them, and return the glossary the app needs to answer a tap
     on any word inside one.
@@ -1615,7 +1730,12 @@ def build_examples(unit_records, keb_readings, stem_index, example_glosses,
     fewer than EXAMPLES_PER_WORD of, will take a longer sentence, or one with
     an unglossed kanji elsewhere in it, or the word appearing inside a longer
     token instead of as one of its own — but never a sentence that fails to
-    gloss the taught word itself."""
+    gloss the taught word itself.
+
+    `pinned_heads` is (surface, reading) -> kanji spellings for each
+    HOMOGRAPH_PINS word. The index's bare kana head is as ambiguous as the
+    surface (永遠なる is なる, but not 成る; 降りそう is そう, but not 然う),
+    so a pinned word only takes a sentence whose index names its entry."""
     sentences, prior = parse_examples()
 
     # (surface, reading) -> every record teaching that word; a word can be
@@ -1688,6 +1808,9 @@ def build_examples(unit_records, keb_readings, stem_index, example_glosses,
                 continue
             for surface, token, is_head in hits:
                 for reading in wanted[surface]:
+                    heads = pinned_heads.get((surface, reading))
+                    if heads and (token is None or token["head"] not in heads):
+                        continue
                     # The sentence has to read the word the way THIS entry
                     # says it is read: 開く is ひらく in one entry and あく in
                     # another, and a sentence belongs to only one of them.
@@ -1921,11 +2044,21 @@ def main():
 
     (candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool,
      example_glosses, example_senses, idiomatic) = parse_jmdict()
+    candidates = pick_homographs(candidates)
+    pinned_heads = {(c["surface"], c["reading"]): set(c["kebs"])
+                    for c in candidates if c.get("pinned") and c["kebs"]}
 
     print("Building entry index for Core lookups...")
     text = JMDICT.read_text(encoding="utf-8")
     raw_entries = re.findall(r"<entry>.*?</entry>", text, re.S)
     entry_index = build_entry_index(raw_entries)
+    story_words = load_story_words()
+    wanted_seqs = {seq for _, _, seq in story_words}
+    story_entries = {}
+    for e in raw_entries:
+        m = re.search(r"<ent_seq>(\d+)</ent_seq>", e)
+        if m and m.group(1) in wanted_seqs:
+            story_entries[m.group(1)] = e
     del text, raw_entries
 
     # Keyed by OUTPUT unit id, not theme — a theme's 'h' words land under
@@ -2111,8 +2244,7 @@ def main():
     kanji_manifest = load_js_const("src/data/kanji-manifest.js", "KANJI_UNITS")
     primary_grades = [g for g in kanji_manifest if g.isdigit() and 1 <= int(g) <= 6]
 
-    already_covered = {r["w"] for recs in unit_records.values() for r in recs}
-    k_seen = set(already_covered)
+    k_seen = taught_surfaces(unit_records)
     k_unit_labels = {}
     k_chunk_index = 0
     k_current = []
@@ -2193,7 +2325,7 @@ def main():
     # kanji page happens to list it. This pass exists to make the claim "the
     # app teaches the common words" actually true; it is ordered by
     # commonness, so O1 is the most common of what is left. ---
-    already_claimed = {r["w"] for recs in unit_records.values() for r in recs}
+    already_claimed = taught_surfaces(unit_records)
     leftovers = [
         c for c in candidates
         if c["surface"] not in already_claimed and c["cx"] <= COMMONNESS_MAX
@@ -2252,12 +2384,59 @@ def main():
     print(f"Other common words: {o_total} words across {o_index} units "
           f"(everything at cx <= {COMMONNESS_MAX} that no theme, A-level or kanji-page unit claimed)")
 
+    # --- Story words (S1, S2, ...): hand-reviewed words from the stories
+    # that nothing above claimed. Pinned by JMdict ent_seq, not looked up
+    # by spelling, because the story's own spelling is often a homograph
+    # (のぞく, うつる) and find_entry() would take whichever entry comes
+    # first. The story's spelling is kept as the surface — 子ども stays 子ども,
+    # a kana word stays kana — so the reader links the word it shows. A
+    # surface some other unit already teaches is skipped: ids are surfaces,
+    # and two units cannot both own one. Ordered by commonness, like O.
+    # "Teaches" means a unit that will ship (unit_ships). ---
+    claimed = taught_surfaces(unit_records)
+    story_records = []
+    story_skipped = []
+    for surface, reading, seq in story_words:
+        e = story_entries.get(seq)
+        if e is None or surface in claimed:
+            story_skipped.append(surface)
+            continue
+        forms = {html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", e)} \
+            | {html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", e)}
+        readings = {kata_to_hira(html.unescape(r)) for r in re.findall(r"<reb>(.*?)</reb>", e)}
+        if surface not in forms or reading not in readings:
+            story_skipped.append(surface)
+            continue
+        fs = re.search(r"<sense>.*?</sense>", e, re.S).group(0)
+        pos_tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", fs)]
+        glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
+        cx, is_written, is_spoken = story_commonness(e, surface)
+        story_records.append((cx, len(reading), surface, reading, glosses, extract_senses(e, reading),
+                              pos_category(pos_tags), bool(KANA_ONLY_RE.match(surface)), is_written, is_spoken))
+        claimed.add(surface)
+    story_records.sort(key=lambda r: (r[0], r[1]))
+    s_total = 0
+    for i in range(0, len(story_records), COMMON_UNIT_SIZE):
+        uid = f"S{i // COMMON_UNIT_SIZE + 1}"
+        for cx, _len, surface, reading, glosses, senses, pos, uk, is_written, is_spoken in story_records[i:i + COMMON_UNIT_SIZE]:
+            unit_records[uid].append(make_record(
+                uid, "s", surface, reading, glosses, senses, pos, uk,
+                kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+                reading_to_kanji, taught_kanji, kanji_only_pool,
+                cx=cx, written=is_written, spoken=is_spoken,
+            ))
+            s_total += 1
+    s_units = [f"S{n}" for n in range(1, (len(story_records) + COMMON_UNIT_SIZE - 1) // COMMON_UNIT_SIZE + 1)]
+    for n, uid in enumerate(s_units, start=1):
+        UNIT_LABELS[uid] = "Words from stories" if len(s_units) == 1 else f"Words from stories (part {n} of {len(s_units)})"
+    print(f"Story words: {s_total} words across {len(s_units)} units"
+          + (f" ({len(story_skipped)} skipped — already taught, or not the entry's own spelling: "
+             f"{'、'.join(story_skipped)})" if story_skipped else ""))
+
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
-        if unit.startswith("C") or unit == "A12":
-            continue
-        if len(unit_records[unit]) < MIN_UNIT_SIZE:
+        if not unit_ships(unit, unit_records[unit]):
             dropped.append((unit, len(unit_records[unit])))
             del unit_records[unit]
     if dropped:
@@ -2269,7 +2448,7 @@ def main():
     # ("C", "1".."5", "H", "A"), but sorting tags as plain strings would put
     # "C"/"H"/"A" out of teaching order — fine for the manifest (compareUnits
     # in vocab.js sorts for real at runtime) but confusing to read here.
-    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K", "O"])}
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K", "O", "S"])}
     # (group order, then the unit's own trailing number — e.g. "1.1" -> 1,
     # "1.8" -> 8, "K10" -> 10 -- so "K10" sorts after "K2" the way it should;
     # a plain string sort would put it before, since "1" < "2" character by
@@ -2283,13 +2462,15 @@ def main():
         a_n = sum(1 for r in recs if r["lv"] == "a")
         k_n = sum(1 for r in recs if r["lv"] == "k")
         o_n = sum(1 for r in recs if r["lv"] == "o")
+        s_n = sum(1 for r in recs if r["lv"] == "s")
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
         print(f"  {unit:6} {label:40} {len(recs):3} words "
-              f"({f_n} f / {h_n} h / {a_n} a / {k_n} k / {o_n} o)")
+              f"({f_n} f / {h_n} h / {a_n} a / {k_n} k / {o_n} o / {s_n} s)")
 
     # --- Example sentences, once every unit's records exist ---
     example_glossary = build_examples(unit_records, keb_readings, stem_index,
-                                      example_glosses, example_senses, idiomatic)
+                                      example_glosses, example_senses, idiomatic,
+                                      pinned_heads)
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)

@@ -671,7 +671,7 @@ export const STORY = {
             "s": "おつかい",
             "k": "おつかい",
             "ruby": null,
-            "d": null,
+            "d": "おつかい",
             "pos": "n",
             "g": "errand"
           },
@@ -783,7 +783,7 @@ export const STORY = {
                 "な"
               ]
             ],
-            "d": null,
+            "d": "鳴く",
             "pos": "v",
             "g": "barked",
             "df": "鳴く",
@@ -918,7 +918,7 @@ export const STORY = {
             "s": "ポケット",
             "k": "ポケット",
             "ruby": null,
-            "d": null,
+            "d": "ポケット",
             "pos": "n",
             "g": "pocket"
           },
@@ -1741,7 +1741,7 @@ export const STORY = {
                 "な"
               ]
             ],
-            "d": null,
+            "d": "鳴く",
             "pos": "v",
             "g": "does not bark",
             "df": "鳴く",
@@ -2020,7 +2020,7 @@ export const STORY = {
             "s": "ポケット",
             "k": "ポケット",
             "ruby": null,
-            "d": null,
+            "d": "ポケット",
             "pos": "n",
             "g": "pocket"
           },
@@ -2158,7 +2158,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "0d60b8ce",
+  "hash": "d0a5110c",
+  "was": [
+    "0d60b8ce"
+  ],
   "art": {
     "cover": true,
     "inline": []

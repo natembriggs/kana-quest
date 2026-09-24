@@ -64,7 +64,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -113,7 +113,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -121,7 +121,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -190,7 +190,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -215,7 +215,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "目を覚ます",
             "pos": "v",
             "g": "woke up",
             "df": "目を覚ます",
@@ -238,7 +238,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -347,7 +347,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -391,7 +391,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -451,7 +451,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -472,7 +472,7 @@ export const STORY = {
                 "に"
               ]
             ],
-            "d": null,
+            "d": "逃がす",
             "pos": "v",
             "g": "let go",
             "df": "逃がす",
@@ -526,7 +526,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -563,7 +563,7 @@ export const STORY = {
             "s": "かかりました",
             "k": "かかりました",
             "ruby": null,
-            "d": null,
+            "d": "かかる",
             "pos": "v",
             "g": "was caught",
             "df": "かかる",
@@ -586,7 +586,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -664,7 +664,7 @@ export const STORY = {
             "s": "ねずみ",
             "k": "ねずみ",
             "ruby": null,
-            "d": null,
+            "d": "ねずみ",
             "pos": "n",
             "g": "mouse"
           },
@@ -840,7 +840,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -901,7 +901,7 @@ export const STORY = {
                 "ちい"
               ]
             ],
-            "d": null,
+            "d": "小さな",
             "pos": "adj",
             "g": "small"
           },
@@ -954,7 +954,7 @@ export const STORY = {
             "s": "しし",
             "k": "しし",
             "ruby": null,
-            "d": null,
+            "d": "しし",
             "pos": "n",
             "g": "lion"
           },
@@ -993,7 +993,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "8415b708",
+  "hash": "16d7ee2a",
+  "was": [
+    "8415b708"
+  ],
   "art": {
     "cover": true,
     "inline": []
