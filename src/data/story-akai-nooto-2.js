@@ -31,7 +31,8 @@ export const STORY = {
     "by": "GPT-6 Astra",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for Level 4. The town, people, notebook and events are invented. No published text was adapted.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -5357,7 +5358,7 @@ export const STORY = {
   ],
   "hash": "3fdf06bb",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

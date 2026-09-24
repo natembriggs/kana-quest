@@ -202,3 +202,14 @@ Neither illustration reveals the resolution. Generated with the built-in
 OpenAI image-generation tool; the exact prompts are stored under each
 series' first chapter ID in `cover-prompts.json`. All ten chapter assets
 are 480×640 WebP files within the 60 KiB per-cover budget.
+
+## Series covers: 24 September 2026
+
+The Red Notebook and The Last Lesson each have one painted series cover,
+reused for all five chapter IDs. The Red Notebook shows Mika finding the
+notebook in a rainy library while Ren reads nearby. The Last Lesson shows
+Mio discovering a note in her grandfather's canal-side calligraphy school.
+Both depict the opening without revealing later clues. Generated with the
+built-in OpenAI image-generation tool; full prompts are stored under each
+series' first chapter ID in `cover-prompts.json`. Each of the ten chapter
+assets is a 480×640 WebP file below 60 KiB.

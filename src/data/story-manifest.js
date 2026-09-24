@@ -475,7 +475,7 @@ export const STORIES = {
     "hash": "147cc946",
     "length": 446,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
@@ -499,7 +499,7 @@ export const STORIES = {
     "hash": "3fdf06bb",
     "length": 463,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
@@ -523,7 +523,7 @@ export const STORIES = {
     "hash": "d6eab294",
     "length": 418,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
@@ -547,7 +547,7 @@ export const STORIES = {
     "hash": "9e304ce7",
     "length": 424,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
@@ -571,7 +571,7 @@ export const STORIES = {
     "hash": "65c380c8",
     "length": 400,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
@@ -1101,7 +1101,7 @@ export const STORIES = {
     "hash": "5db04d6e",
     "length": 1422,
     "paras": 14,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -1125,7 +1125,7 @@ export const STORIES = {
     "hash": "a7f09e81",
     "length": 1055,
     "paras": 10,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -1149,7 +1149,7 @@ export const STORIES = {
     "hash": "3e734db1",
     "length": 953,
     "paras": 10,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -1173,7 +1173,7 @@ export const STORIES = {
     "hash": "e43e2ee4",
     "length": 1420,
     "paras": 15,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -1197,7 +1197,7 @@ export const STORIES = {
     "hash": "f5e8fdab",
     "length": 1217,
     "paras": 12,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",

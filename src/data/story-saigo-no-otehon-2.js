@@ -31,7 +31,8 @@ export const STORY = {
     "by": "Claude Opus 5.5",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for level 5. The trail is built from real character structure: 休 is 人 beside 木, 明 is 日 beside 月, 天 is 一 over 大, and 峠 is a character made in Japan from 山, 上 and 下. Reading 親 as 立 + 木 + 見, “a parent standing on a tree, watching”, is a popular folk explanation rather than the character’s actual etymology; the story presents it as something the grandfather taught. 永字八法, the teaching that 永 contains the eight basic strokes, is a standard first lesson in calligraphy. Tenmangū shrines enshrine Sugawara no Michizane as a deity of learning and calligraphy, votive ema tablets carry written wishes, and kakizome is the year’s first calligraphy in early January. The canal town of Funaki, Meigetsudō, the shrine, the teahouse, the Takagi typeface and every character are invented.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -11616,7 +11617,7 @@ export const STORY = {
   ],
   "hash": "a7f09e81",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };
