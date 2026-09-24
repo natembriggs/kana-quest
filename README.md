@@ -35,6 +35,11 @@ node test/build-story-art.mjs # build-time WebP dimensions, budgets and cache ve
 
 All of them must be run from the repo root.
 
+Away from a Mac, `node test/run-node.mjs` runs every `test/*.js` suite
+under Node instead (or `node test/run-node.mjs test/smoke.js` for one).
+CI runs both. Node is also stricter: it fails a suite on an unhandled
+promise rejection, which JavaScriptCore's shell silently ignores.
+
 To regenerate the kanji data in `src/data/` (e.g. after changing `GRADES`
 in `tools/build_kanji_data.py`):
 

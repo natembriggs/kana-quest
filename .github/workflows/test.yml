@@ -25,3 +25,19 @@ jobs:
             "$JSC" -m "$f" || failed=1
           done
           exit "$failed"
+
+  # The same suites under Node (test/run-node.mjs). Node fails a suite on
+  # an unhandled promise rejection, which JavaScriptCore's shell silently
+  # drops — so this catches a throw inside an async handler that the job
+  # above cannot see. Also runs the Node-only story-art check.
+  test-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run every test/*.js suite under Node
+        run: node test/run-node.mjs
+      - name: Check build-time story art
+        run: node test/build-story-art.mjs

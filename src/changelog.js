@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-09-24',
     changes: [
+      'Fixed: when an update arrives, the app no longer restarts in the middle of a lesson, a quiz or a story. It waits until you are back on the home screen.',
+      'Fixed: the app now keeps everything it needs to start offline after an update, not just most of it.',
       'New: from chapter 2 onward, a “← Chapter 1” (and so on) button at the top of the story takes you back to the chapter before.',
       'Changed: at the end of a chapter, you now go straight to “Read chapter 2 →” (or whichever comes next) and “Back to stories”, with a note that the story continues — no more “Finished reading!” button that made it look like the story was over.',
       'New: painted covers for The Red Notebook and The Last Lesson. Each book keeps its cover as you move through all five chapters.',

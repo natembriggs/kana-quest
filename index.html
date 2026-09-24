@@ -95,8 +95,11 @@
 </script>
 
 <!-- wanakana is a UMD bundle, so it loads as a classic script and provides
-     window.wanakana before the ES modules below run. -->
-<script src="vendor/wanakana.min.js"></script>
+     window.wanakana before the ES modules below run. `defer` keeps it from
+     blocking the parse of the ~100KB of markup below (and with it the
+     splash): deferred classic scripts and module scripts run in document
+     order once parsing ends, so this still runs before src/app.js. -->
+<script defer src="vendor/wanakana.min.js"></script>
 </head>
 <body>
 

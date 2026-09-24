@@ -132,6 +132,40 @@ let imageRejected = false;
 try { await dispatchFetch({ ...imageRequest, url: imageRequest.url.replace('01.webp', 'missing.webp') }); } catch { imageRejected = true; }
 check('an unseen offline painting never receives the HTML shell', imageRejected);
 
+// Every module the app imports statically has to be in SHELL. The activate
+// handler above deletes the previous version's cache, so a boot-time module
+// left out of SHELL is gone from the cache after every update until the
+// next online launch — and one missing module is enough to stop the app
+// starting at all offline. (fsrs.js, vocab.js and vocab-manifest.js were
+// all missing when this check was added.) Lazy `import()`s are excluded
+// on purpose: see the note on heavy per-grade data at the top of sw.js.
+function staticImports(path, seen = new Set()) {
+  if (seen.has(path)) return seen;
+  seen.add(path);
+  const source = readFile(path);
+  const dir = path.slice(0, path.lastIndexOf('/') + 1);
+  const pattern = /(?:^|\n)\s*(?:import|export)\s[^'"`;]*?from\s*['"](\.[^'"]+)['"]|(?:^|\n)\s*import\s*['"](\.[^'"]+)['"]/g;
+  for (const match of source.matchAll(pattern)) {
+    const parts = `${dir}${match[1] || match[2]}`.split('/');
+    const resolved = [];
+    parts.forEach((part) => {
+      if (part === '..') resolved.pop();
+      else if (part !== '.') resolved.push(part);
+    });
+    staticImports(resolved.join('/'), seen);
+  }
+  return seen;
+}
+const bootModules = [...staticImports('src/app.js')];
+const missingFromShell = bootModules.filter((path) => !SHELL.includes(path));
+check('every module app.js imports at boot is precached',
+  bootModules.length > 20 && missingFromShell.length === 0,
+  missingFromShell.join(', ') || `only ${bootModules.length} modules found`);
+const indexScripts = [...readFile('index.html').matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map((m) => m[1]);
+check('every script index.html loads is precached',
+  indexScripts.length >= 2 && indexScripts.every((src) => SHELL.includes(src)),
+  indexScripts.filter((src) => !SHELL.includes(src)).join(', '));
+
 print('');
 if (failures) throw new Error(`${failures} failure(s)`);
 print('all service-worker tests passed');

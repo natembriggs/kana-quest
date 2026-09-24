@@ -4,7 +4,8 @@ Date: 20 August 2026
 
 **This is a historical review, kept as the record of the original audit and
 its fixes.** For the current, actively-maintained punch list of outstanding
-work, see `review-followups.md` (2026-09-08 as of this note) instead.
+work, see `review-2026-09-24.md` instead (`review-followups.md` covers the
+2026-09-02 to 2026-09-08 cycle in between).
 
 **Checked against current code 2026-09-08:** of the two items this note used
 to flag as still open, the home-screen kanji total is now fixed (`07fd5ed` —

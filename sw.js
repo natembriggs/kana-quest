@@ -31,7 +31,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-24e';
+const VERSION = '2026-09-24f';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -57,6 +57,12 @@ const SHELL = [
   // load alongside.
   'src/data/components.js',
   'src/srs.js',
+  'src/fsrs.js',
+  'src/vocab.js',
+  // Imported at boot like everything else here (test/service-worker.js
+  // checks this list against app.js's real import graph); ~200KB, but the
+  // app cannot start without it.
+  'src/data/vocab-manifest.js',
   'src/store.js',
   'src/merge.js',
   'src/contributions.js',

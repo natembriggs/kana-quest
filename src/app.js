@@ -80,7 +80,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24e'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-24f'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -549,6 +549,7 @@ function show(screenId) {
   currentScreenId = screenId;
   updateInstallBannerVisibility();
   window.scrollTo(0, 0);
+  reloadIfUpdateWaiting();
 }
 
 let currentScreenId = null;
@@ -593,7 +594,10 @@ async function renderProfiles() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'profile-card';
-    button.innerHTML = `<span class="avatar">${profile.emoji}</span><span class="profile-name"></span>`;
+    button.innerHTML = '<span class="avatar"></span><span class="profile-name"></span>';
+    // textContent for both: the emoji arrives from a backup file or a sync
+    // just as the name does, so neither is markup this page should parse.
+    button.querySelector('.avatar').textContent = profile.emoji;
     button.querySelector('.profile-name').textContent = profile.name;
     button.addEventListener('click', () => openProfile(profile));
     list.appendChild(button);
@@ -12881,8 +12885,48 @@ export function renderInstallBanner() {
 // updateViaCache 'none' (never cache the worker script), actively check for
 // an update on launch and whenever the app is brought back to the front, and
 // reload once a new worker takes control. See sw.js for the other half.
+//
+// "Once" is not "at once", though. update() runs every time the app comes
+// back to the front, and a release can land several times a day, so the
+// new worker routinely takes over while the learner is halfway through a
+// quiz, a writing drill or a story chapter. Reloading right then threw all
+// of that away and dropped them on the profile picker. The reload now
+// waits until they are somewhere with nothing in flight: the profile
+// picker or the home screen, with no sheet open over it (a half-written
+// feedback report is in flight too). Until then the old page keeps running
+// the old code, which is exactly what it was doing a moment earlier.
 
 let reloadingForUpdate = false;
+let updateWaiting = false;
+
+const UPDATE_RELOAD_SAFE_SCREENS = new Set(['screen-profiles', 'screen-home']);
+// Reloading from the home screen reopens the same profile (boot() reads
+// this), so the update costs a blink rather than a trip via the picker.
+const UPDATE_RESUME_PROFILE_KEY = 'kanji-trail-update-resume-profile';
+
+function reloadIfUpdateWaiting() {
+  if (!updateWaiting || reloadingForUpdate) return;
+  if (!UPDATE_RELOAD_SAFE_SCREENS.has(currentScreenId)) return;
+  if ([...document.querySelectorAll('.sheet')].some((sheet) => !sheet.hidden)) return;
+  reloadingForUpdate = true;
+  if (currentScreenId === 'screen-home' && state.profile) {
+    try { sessionStorage.setItem(UPDATE_RESUME_PROFILE_KEY, state.profile.id); } catch { /* private browsing etc. */ }
+  }
+  window.location.reload();
+}
+
+/** The other half of UPDATE_RESUME_PROFILE_KEY: read once, then forgotten,
+ * so an ordinary relaunch still starts at the profile picker. */
+async function resumeProfileAfterUpdate() {
+  let id = null;
+  try {
+    id = sessionStorage.getItem(UPDATE_RESUME_PROFILE_KEY);
+    sessionStorage.removeItem(UPDATE_RESUME_PROFILE_KEY);
+  } catch { return; }
+  if (!id) return;
+  const profile = await store.getProfile(id);
+  if (profile) await openProfile(profile);
+}
 
 function watchForUpdates() {
   if (!('serviceWorker' in navigator)) return;
@@ -12900,10 +12944,10 @@ function watchForUpdates() {
 
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (!hadController) return; // first-ever activation, not an update
-    // A new worker took over: the page is running old code, so reload once.
-    if (reloadingForUpdate) return;
-    reloadingForUpdate = true;
-    window.location.reload();
+    // A new worker took over: the page is running old code, so reload once
+    // it is safe to (see above) — straight away if it already is.
+    updateWaiting = true;
+    reloadIfUpdateWaiting();
   });
 
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
@@ -13791,6 +13835,7 @@ async function boot() {
   wire();
   store.requestPersistence();
   await renderProfiles();
+  await resumeProfileAfterUpdate();
   hideSplash();
   watchForUpdates();
   watchLifecycleForSync();

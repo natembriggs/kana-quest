@@ -60,6 +60,14 @@ function makeElement(id = '') {
       },
     },
     addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
+    // closeDialog() (app.js) unhooks its focus trap with this. Without it
+    // the throw lands inside an async click handler, which JavaScriptCore
+    // drops silently as an unhandled rejection — the checks after it all
+    // passed, and only Node noticed the error.
+    removeEventListener(type, fn) {
+      const list = this._listeners[type];
+      if (list) this._listeners[type] = list.filter((f) => f !== fn);
+    },
     appendChild(child) { this._children.push(child); return child; },
     setAttribute(name, value) { this._attrs[name] = String(value); },
     getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
@@ -107,6 +115,10 @@ function makeElement(id = '') {
       return this._children.filter((c) => c.className.split(/\s+/).includes(wanted));
     },
     closest() { return null; },
+    // closeDialog() again: it blurs whatever focus is left inside the sheet.
+    contains(node) {
+      return node === this || this._children.some((c) => c.contains && c.contains(node));
+    },
     _children: [],
     _found: new Map(),
     _attrs: {},
@@ -257,6 +269,7 @@ globalThis.sessionStorage = {
   _data: new Map(),
   getItem(key) { return this._data.has(key) ? this._data.get(key) : null; },
   setItem(key, value) { this._data.set(key, String(value)); },
+  removeItem(key) { this._data.delete(key); },
 };
 // Fired synchronously — the app defers scrollIntoView by a frame purely to
 // let a just-unhidden screen's layout settle, which the stub has no layout

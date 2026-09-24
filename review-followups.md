@@ -1,5 +1,10 @@
 # Review follow-ups (as of 2026-09-08)
 
+**Superseded 2026-09-24 by `review-2026-09-24.md`**, which is now the
+current punch list and carries forward every item below that is still
+open. This file is kept as the record of the 2026-09-02 to 2026-09-08
+cycle.
+
 Consolidated punch list from the 2026-09-02/03 review (codebase map, code
 health, pedagogy research, hands-on UI walkthrough, synthesis, plus two
 rounds of live-usage feedback on the first feature it produced). Full raw
