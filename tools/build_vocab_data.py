@@ -387,6 +387,59 @@ def segment_spans(keb, alignment):
     return spans
 
 
+# A kana surface can belong to several JMdict entries that share its
+# reading: なる/なる is both 成る "to become" and 生る "to bear fruit". Every
+# pass in main() claims a word by its surface, so whichever entry gets
+# there first becomes THE entry for that id, and every story token that
+# autoLinks to なる opens it. Nothing here can pick the right one on its
+# own: 生る even has the better written band (nf07 against 成る's nf34), and
+# no check on a story token's reading can catch it, because the readings
+# are identical. So the keys where the wrong entry would win are pinned by
+# hand: (surface, reading) -> the keb (or, for an entry with no
+# kanji at all, the ent_seq) of the entry to keep. pick_homographs() drops
+# the others from the candidate pool. The kept entry takes the key's best
+# frequency signal: the corpora count the kana surface, not an entry, so
+# 生る's nf07 is really a count of なる, the word 成る is. That keeps the
+# word where it was in the list (成る's own cx is past COMMONNESS_MAX, and
+# would drop なる altogether). It also skips the gloss-keyword theme
+# passes (classify, classify_a) and is placed by commonness alone: these
+# are wide, everyday words, and a keyword match on one of their glosses
+# says nothing about the topic ("to grow" put 成る in theme 4.4, whose
+# Higher tile is too small to ship, and なる went with it). The id is the
+# surface either way, so a learner's progress on なる carries over to the
+# corrected entry.
+HOMOGRAPH_PINS = {
+    ("なる", "なる"): "成る",  # not 生る "to bear fruit"
+    ("そう", "そう"): "然う",  # the adverb "so, like that"; not the 〜そう "seeming" suffix
+}
+
+
+def pick_homographs(candidates):
+    """Apply HOMOGRAPH_PINS: under each pinned (surface, reading) key, keep
+    only the pinned entry, carrying the key's best rank and cx and marked
+    `pinned` so the theme passes leave it alone. Fails loudly on a pin that
+    no longer matches, so a JMdict update cannot quietly send なる back to
+    "to bear fruit"."""
+    by_key = defaultdict(list)
+    for c in candidates:
+        by_key[(c["surface"], c["reading"])].append(c)
+    dropped = set()
+    for key, pin in HOMOGRAPH_PINS.items():
+        group = by_key.get(key, [])
+        keep = [c for c in group if pin == c["seq"] or pin in c["kebs"]]
+        if len(keep) != 1:
+            raise SystemExit(f"HOMOGRAPH_PINS {key} -> {pin} matches {len(keep)} of "
+                             f"{len(group)} candidates; update the pin")
+        kept = keep[0]
+        kept["rank"] = min(c["rank"] for c in group)
+        kept["cx"] = min(c["cx"] for c in group)
+        kept["written"] = any(c["written"] for c in group)
+        kept["spoken"] = any(c["spoken"] for c in group)
+        kept["pinned"] = True
+        dropped.update(id(c) for c in group if c is not kept)
+    return [c for c in candidates if id(c) not in dropped]
+
+
 def parse_jmdict():
     text = JMDICT.read_text(encoding="utf-8")
     raw_entries = re.findall(r"<entry>.*?</entry>", text, re.S)
@@ -537,6 +590,10 @@ def parse_jmdict():
             "glosses": glosses, "senses": extract_senses(e, reading),
             "pos": pos_category(pos_tags), "uk": uk,
             "rank": rank,
+            # Which JMdict entry this is, for pick_homographs(): a kana
+            # surface does not say (成る and 生る are both なる/なる).
+            "seq": re.search(r"<ent_seq>(\d+)</ent_seq>", e).group(1),
+            "kebs": kebs_all,
         })
 
         if keb and KANJI_ONLY_RE.match(keb) and not BAD_KEB_INF.search(e):
@@ -1039,7 +1096,7 @@ def classify_a(candidate):
     phase 7's module-docstring comment), and keeping them as two flat dicts
     means neither classify() nor THEME_KEYWORDS needs to know phase 7
     exists at all."""
-    if looks_like_proper_noun(candidate["glosses"]):
+    if candidate.get("pinned") or looks_like_proper_noun(candidate["glosses"]):
         return None
     text = " ".join(candidate["glosses"][:2]).lower()
     for unit, keywords in THEME_KEYWORDS_A.items():
@@ -1078,8 +1135,9 @@ def classify(candidate):
     """First theme unit (in THEME_KEYWORDS' own order) whose keyword list
     matches any of this candidate's first two glosses. None if nothing
     matches — an unmatched word is simply left out of this first pass rather
-    than forced into a wrong unit; see the module docstring."""
-    if looks_like_proper_noun(candidate["glosses"]):
+    than forced into a wrong unit; see the module docstring. A pinned
+    homograph is never matched (see HOMOGRAPH_PINS)."""
+    if candidate.get("pinned") or looks_like_proper_noun(candidate["glosses"]):
         return None
     text = " ".join(candidate["glosses"][:2]).lower()
     for unit, keywords in THEME_KEYWORDS.items():
@@ -1645,7 +1703,7 @@ def choose_examples(shortlist, sentences):
 
 
 def build_examples(unit_records, keb_readings, stem_index, example_glosses,
-                   example_senses, idiomatic):
+                   example_senses, idiomatic, pinned_heads):
     """Give every word the `ex` sentences its detail screen shows, wherever
     the corpus has them, and return the glossary the app needs to answer a tap
     on any word inside one.
@@ -1655,7 +1713,12 @@ def build_examples(unit_records, keb_readings, stem_index, example_glosses,
     fewer than EXAMPLES_PER_WORD of, will take a longer sentence, or one with
     an unglossed kanji elsewhere in it, or the word appearing inside a longer
     token instead of as one of its own — but never a sentence that fails to
-    gloss the taught word itself."""
+    gloss the taught word itself.
+
+    `pinned_heads` is (surface, reading) -> kanji spellings for each
+    HOMOGRAPH_PINS word. The index's bare kana head is as ambiguous as the
+    surface (永遠なる is なる, but not 成る; 降りそう is そう, but not 然う),
+    so a pinned word only takes a sentence whose index names its entry."""
     sentences, prior = parse_examples()
 
     # (surface, reading) -> every record teaching that word; a word can be
@@ -1728,6 +1791,9 @@ def build_examples(unit_records, keb_readings, stem_index, example_glosses,
                 continue
             for surface, token, is_head in hits:
                 for reading in wanted[surface]:
+                    heads = pinned_heads.get((surface, reading))
+                    if heads and (token is None or token["head"] not in heads):
+                        continue
                     # The sentence has to read the word the way THIS entry
                     # says it is read: 開く is ひらく in one entry and あく in
                     # another, and a sentence belongs to only one of them.
@@ -1961,6 +2027,9 @@ def main():
 
     (candidates, all_kebs, readings_by_keb, keb_readings, kanji_only_pool,
      example_glosses, example_senses, idiomatic) = parse_jmdict()
+    candidates = pick_homographs(candidates)
+    pinned_heads = {(c["surface"], c["reading"]): set(c["kebs"])
+                    for c in candidates if c.get("pinned") and c["kebs"]}
 
     print("Building entry index for Core lookups...")
     text = JMDICT.read_text(encoding="utf-8")
@@ -2392,7 +2461,8 @@ def main():
 
     # --- Example sentences, once every unit's records exist ---
     example_glossary = build_examples(unit_records, keb_readings, stem_index,
-                                      example_glosses, example_senses, idiomatic)
+                                      example_glosses, example_senses, idiomatic,
+                                      pinned_heads)
 
     # --- Assign ids (collision-safe) and write files ---
     DATA_DIR.mkdir(parents=True, exist_ok=True)

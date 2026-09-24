@@ -5747,7 +5747,7 @@ export const STORY = {
             "s": "ならない",
             "k": "ならない",
             "ruby": null,
-            "d": null,
+            "d": "なる",
             "pos": "v",
             "g": "does not amount to",
             "df": "なる",
@@ -5884,7 +5884,7 @@ export const STORY = {
             "s": "なる",
             "k": "なる",
             "ruby": null,
-            "d": null,
+            "d": "なる",
             "pos": "v",
             "g": "turn into"
           },
