@@ -13,7 +13,14 @@
 //      python3 -m http.server sends Last-Modified but no Cache-Control, so
 //      Safari applies *heuristic* freshness and can serve a stale file
 //      without revalidating — network-first isn't enough on its own. Every
-//      request here is therefore made with cache: 'no-store'.
+//      request here is therefore made with cache: 'no-cache' (REVALIDATE
+//      below), which means "always ask the server": the browser never trusts
+//      its own idea of freshness, but it does send the ETag/Last-Modified it
+//      has, so a file that hasn't changed comes back as a bodiless 304 and is
+//      served from the HTTP cache. This used to be 'no-store', which avoids
+//      staleness just as well but skips the HTTP cache entirely — no
+//      validators sent, so every launch downloaded the whole app (~450KB
+//      gzipped) again even when nothing had changed.
 //
 //   2. If install fails, the new worker never activates and the old one keeps
 //      serving the old files forever. cache.addAll() is atomic, so one slow
@@ -31,9 +38,13 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-24h';
+const VERSION = '2026-09-24i';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
+
+// See note 1 above. test/service-worker.js checks every network fetch here
+// uses it, so neither 'no-store' nor the default mode creeps back in.
+const REVALIDATE = { cache: 'no-cache' };
 
 const SHELL = [
   './',
@@ -57,19 +68,32 @@ const SHELL = [
   // load alongside.
   'src/data/components.js',
   'src/srs.js',
+  'src/fsrs.js',
+  'src/vocab.js',
+  // Imported at boot like everything else here (test/service-worker.js
+  // checks this list against app.js's real static- and lazy-import graph);
+  // ~200KB, but the app cannot start without it.
+  'src/data/vocab-manifest.js',
   'src/store.js',
   'src/merge.js',
   'src/contributions.js',
+  // These five are no longer on app.js's STATIC import graph (S4:
+  // review-2026-09-24.md) — each is fetched with a plain import() the
+  // first time it's actually needed (Settings, the feedback sheet, a
+  // paired profile's own sync attempt, opening a story). They stay here
+  // regardless: SHELL is what makes those screens still work OFFLINE after
+  // one online visit, which has nothing to do with when they're fetched.
+  'src/changelog.js',
   'src/feedback.js',
   'src/sync-protocol.js',
   'src/sync-transport.js',
+  'src/reader.js',
+
   'src/strokes.js',
   'src/data/stroke-kana.js',
   'src/stroke-geometry.js',
   'src/stroke-grader.js',
   'src/writing.js',
-  'src/changelog.js',
-  'src/reader.js',
   'src/library.js',
   'src/furigana.js',
   'src/data/story-manifest.js',
@@ -80,7 +104,7 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(CACHE);
     await Promise.all(SHELL.map(async (path) => {
       try {
-        const response = await fetch(path, { cache: 'no-store' });
+        const response = await fetch(path, REVALIDATE);
         if (response.ok) await cache.put(path, response);
       } catch {
         // Tolerated on purpose — see note 2 above.
@@ -122,7 +146,7 @@ self.addEventListener('fetch', (event) => {
       // By URL rather than by Request: a navigate-mode Request cannot be
       // rebuilt with different cache options, and this app sends no headers
       // or credentials worth preserving.
-      const fresh = await fetch(request.url, { cache: 'no-store' });
+      const fresh = await fetch(request.url, REVALIDATE);
       if (fresh.ok) {
         const cache = await caches.open(CACHE);
         // Keep the worker alive until the runtime response is safely cached.

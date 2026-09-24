@@ -13,6 +13,10 @@ export const CHANGELOG = [
   {
     date: '2026-09-24',
     changes: [
+      'Changed: on a device with only one profile, the app now opens straight into it instead of stopping at the profile picker first. “Switch profile” still takes you to the picker.',
+      'Faster start-up: the app downloads less before it opens, and no longer downloads itself again every time you open it.',
+      'Fixed: when an update arrives, the app no longer restarts in the middle of a lesson, a quiz or a story. It waits until you are back on the home screen.',
+      'Fixed: the app now keeps everything it needs to start offline after an update, not just most of it.',
       'Fixed: 36 common words were missing from Vocabulary, including 旅行, 海外, 予約, 観光, 給料 and 留学. They were in topics too small to show, and dropped along with them. They are now in the Kanji words and Common words lists, and 印 and 往復 in stories open their vocabulary pages. 旅, 机, 王, 漢字 and 大事 move from “From stories” to the lists they belong in; your progress on them is kept.',
       'Fixed: なる now means “to become”. The word list had it as a rarely used なる meaning “to bear fruit”, so tapping なった or なって in a story opened the wrong meaning. そう is fixed the same way: it now means “so; like that” instead of the 〜そう ending (“looks like”). Your progress on both words is kept, and their example sentences now use the right meaning.',
       'Fixed: two more wrong readings in stories. In Goldilocks and the Three Bears, 三つ is now read みっつ (it said さんつ), and in Dracula, 帰国 is now read きこく (it said かえこく). Tapping either word opens its vocabulary page as before, and you keep your place in both stories.',

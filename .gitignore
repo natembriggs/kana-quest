@@ -28,3 +28,6 @@ feedback-server/.dev.vars
 
 # Wrangler scratch state from running d1/deploy commands at the repo root.
 .wrangler/
+
+# Temporary git worktrees Claude Code creates for isolated subagents.
+.claude/worktrees/

@@ -60,6 +60,14 @@ function makeElement(id = '') {
       },
     },
     addEventListener(type, fn) { (this._listeners[type] ||= []).push(fn); },
+    // closeDialog() (app.js) unhooks its focus trap with this. Without it
+    // the throw lands inside an async click handler, which JavaScriptCore
+    // drops silently as an unhandled rejection — the checks after it all
+    // passed, and only Node noticed the error.
+    removeEventListener(type, fn) {
+      const list = this._listeners[type];
+      if (list) this._listeners[type] = list.filter((f) => f !== fn);
+    },
     appendChild(child) { this._children.push(child); return child; },
     setAttribute(name, value) { this._attrs[name] = String(value); },
     getAttribute(name) { return name in this._attrs ? this._attrs[name] : null; },
@@ -107,6 +115,10 @@ function makeElement(id = '') {
       return this._children.filter((c) => c.className.split(/\s+/).includes(wanted));
     },
     closest() { return null; },
+    // closeDialog() again: it blurs whatever focus is left inside the sheet.
+    contains(node) {
+      return node === this || this._children.some((c) => c.contains && c.contains(node));
+    },
     _children: [],
     _found: new Map(),
     _attrs: {},
@@ -257,6 +269,7 @@ globalThis.sessionStorage = {
   _data: new Map(),
   getItem(key) { return this._data.has(key) ? this._data.get(key) : null; },
   setItem(key, value) { this._data.set(key, String(value)); },
+  removeItem(key) { this._data.delete(key); },
 };
 // Fired synchronously — the app defers scrollIntoView by a frame purely to
 // let a just-unhidden screen's layout settle, which the stub has no layout
@@ -373,6 +386,8 @@ check('the app and service-worker versions stay in step',
 
 const visible = () => screenIds.find((id) => !el(id).hidden);
 check('boots to the profile screen', visible() === 'screen-profiles', `showing ${visible()}`);
+check('resolveBootProfile: zero profiles opens nothing (first-run create form)',
+  await appModule.resolveBootProfile() === null);
 
 /** Fires the delegated [data-action] click handler for `action`, the same
  * way a real tap on the button carrying it would. */
@@ -385,6 +400,39 @@ fire(el('new-profile-form'), 'submit');
 for (let i = 0; i < 10; i += 1) await settle();
 
 check('a profile was persisted', rows.size === 1, `${rows.size} rows`);
+
+// --- Auto-open on a single-profile device ----------------------------------
+//
+// boot() itself already ran once, above, before any profile existed — it
+// cannot be re-run here to prove the "exactly one profile" branch without
+// also re-running wire() (double-binding every delegated listener) and
+// watchForUpdates()/watchLifecycleForSync() (double-binding the
+// service-worker and visibility listeners), none of which this stub can
+// undo. So this exercises resolveBootProfile() directly instead: it is the
+// one place boot() decides between auto-opening a profile and falling back
+// to renderProfiles(), and boot()'s own body (see src/app.js) is a plain
+// `if (bootProfile) await openProfile(bootProfile); else await
+// renderProfiles();` around its answer — openProfile()'s own routing to
+// home vs. onboarding is exercised directly, and thoroughly, further down
+// this file (createLearner/reopenLearner).
+{
+  const onlyProfile = [...rows.values()][0];
+  const resolved = await appModule.resolveBootProfile();
+  check('resolveBootProfile: exactly one profile is the one boot() should open',
+    resolved && resolved.id === onlyProfile.id, JSON.stringify(resolved));
+}
+
+// The other half of the auto-open decision: an update reload's resume key
+// wins even over "exactly one profile", and reading it is one-shot.
+{
+  const onlyProfile = [...rows.values()][0];
+  sessionStorage.setItem('kanji-trail-update-resume-profile', onlyProfile.id);
+  const resolved = await appModule.resolveBootProfile();
+  check('resolveBootProfile: a resume key is honoured',
+    resolved && resolved.id === onlyProfile.id, JSON.stringify(resolved));
+  check('resolveBootProfile: the resume key is one-shot',
+    sessionStorage.getItem('kanji-trail-update-resume-profile') === null);
+}
 // First run now stops at the self-placement flow (onboarding-plan.md) before
 // the home screen. The dedicated onboarding checks at the end of this file
 // cover the flow itself; the rest of this run wants the app as an already-
@@ -3193,8 +3241,15 @@ check('reopening settings remembers the chosen colour, not just coral again',
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
 await settle();
+check('exactly one profile exists here, which is the point of the check below', rows.size === 1, rows.size);
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'switch-profile' } }) } });
 for (let i = 0; i < 10; i += 1) await settle(); // renderProfiles() awaits store.listProfiles()
+// The single-profile auto-open on boot (resolveBootProfile() in src/app.js)
+// deliberately does not apply to this in-app action: switch-profile always
+// shows the picker, even with only one profile to show, because that is the
+// only way to reach "add a second profile".
+check('switch-profile shows the picker even with only one profile to switch to',
+  visible() === 'screen-profiles', `showing ${visible()}`);
 check('leaving to the profile picker resets to the neutral default, not the last profile\'s colour',
   document.documentElement.dataset.accent === 'coral', document.documentElement.dataset.accent);
 check('the profile card is there to click back into', el('profile-list')._children.length > 0,
@@ -3207,7 +3262,11 @@ check('reopening the profile re-applies its own chosen colour',
   document.documentElement.dataset.accent === otherSwatch.dataset.color,
   document.documentElement.dataset.accent);
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
-await settle();
+// renderChangelog() now awaits changelog.js's own lazy import() (S4) before
+// it fills #changelog-current-list/#changelog-history in — the first open
+// in this run is the real, uncached load, so this drains several ticks
+// rather than the usual one.
+for (let i = 0; i < 10; i += 1) await settle();
 
 // --- Settings: changelog ---------------------------------------------------
 // CHANGELOG[0] (src/changelog.js) is always shown; everything older is
@@ -3244,7 +3303,7 @@ await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
 await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
-await settle();
+for (let i = 0; i < 10; i += 1) await settle();
 check('reopening settings starts the changelog collapsed again, regardless of how it was left',
   el('changelog-history').hidden === true && el('changelog-toggle').textContent === 'Show previous updates',
   `hidden=${el('changelog-history').hidden}, toggle="${el('changelog-toggle').textContent}"`);
@@ -4701,6 +4760,9 @@ async function reopenLearner(name) {
 const skipper = await createLearner('Skipper');
 check('a brand-new learner reaches the entry choice, not the home screen',
   visible() === 'screen-onboarding', `showing ${visible()}`);
+check('two profiles now exist, which is the point of the check below', rows.size === 2, rows.size);
+check('resolveBootProfile: two or more profiles is a real choice — opens nothing',
+  await appModule.resolveBootProfile() === null);
 
 fireAction('onboarding-beginner');
 await drain();

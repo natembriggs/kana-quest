@@ -36,10 +36,6 @@ import {
 } from './srs.js';
 import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
-import {
-  renderSentence, tokenAtLevel, exposureTargetsForToken, tokenHasKanji,
-  storyOccurrenceIndex, sentenceAtReadingEdge, advanceMark, compareMarks,
-} from './reader.js';
 import { STORIES } from './data/story-manifest.js';
 import {
   storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, prevInSeries, storyLabel,
@@ -60,27 +56,133 @@ import {
   renderGuide, markGuideStrokeDone, markGuideStrokeReview, setGuidePeekFull, setStrokePeek,
 } from './writing.js';
 import { STRICTNESS_LEVELS, DEFAULT_STRICTNESS } from './stroke-grader.js';
-import { CHANGELOG } from './changelog.js';
 import {
   acknowledgeCelebrations, applyStatusResult, CATEGORY_LABEL as CONTRIBUTION_KIND,
   CLOSED_STATUSES, contributionSummary, normalizeContribution, pendingCelebrations,
   refreshableContributions, sortedContributions, STATUS_STAGE, STATUS_TEXT,
 } from './contributions.js';
-import {
-  collectDiagnostics, describeDiagnostics, errorText,
-  fetchStatuses, getTurnstileToken, newFeedbackId, newReceiptToken, submitFeedback,
-} from './feedback.js';
 import * as store from './store.js';
-import { syncProfile } from './sync-protocol.js';
-import {
-  transport, generateCode, normalizeCode, formatCode, deriveKeys, encryptProfile, decryptProfile,
-} from './sync-transport.js';
+
+// --- Lazily-loaded modules (review-2026-09-24.md S4) -----------------------
+//
+// Five files (changelog.js, feedback.js, sync-protocol.js,
+// sync-transport.js, reader.js) used to be plain `import ... from` above,
+// on `src/app.js`'s STATIC import graph — the bytes a learner downloads and
+// parses before the profile picker can even show up — even though none of
+// them is ever touched before the profile picker or the home screen. Each
+// is now fetched with a plain `import()` instead, the same lazy pattern
+// ensureKanjiUnitLoaded()/ensureStoryLoaded() already use for per-grade and
+// per-story data, the first time something actually needs it: Settings for
+// the changelog, the feedback sheet (or a background contribution-status
+// check) for feedback, a paired profile's own sync attempt for sync (an
+// unpaired one never fetches either sync file at all), and opening a story
+// for the reader. Each `loadX()` below caches the one in-flight `import()`
+// so a second call (a double-tap on "Settings", two autoSync triggers
+// racing) reuses it rather than firing a second fetch; the loaded module's
+// exports are re-bound onto the same `let`-declared names the static
+// imports used to provide, so almost every call site below is unchanged
+// and just has to run after its `loadX()` has resolved (openFeedback() and
+// reopenDraft() needed a small restructure — see their own comments).
+// `sw.js`'s SHELL list still precaches all five (see its header comment)
+// so opening any of these screens still works offline after the first
+// online visit — this only changes when they are fetched, never whether
+// they still work without a network.
+
+/** For the lazy loaders below: a failed import() (a dropped connection, say)
+ * must not be cached as the answer for the rest of the session, or that
+ * screen stays broken until the app restarts. Clears the cached promise,
+ * then rethrows so this caller still sees the failure. */
+function forgetFailedLoad(clear) {
+  return (error) => { clear(); throw error; };
+}
+
+let CHANGELOG;
+let changelogLoading = null;
+function loadChangelog() {
+  if (!changelogLoading) {
+    changelogLoading = import('./changelog.js').then((mod) => { ({ CHANGELOG } = mod); return mod; })
+      .catch(forgetFailedLoad(() => { changelogLoading = null; }));
+  }
+  return changelogLoading;
+}
+
+let collectDiagnostics;
+let describeDiagnostics;
+let errorText;
+let fetchStatuses;
+let getTurnstileToken;
+let newFeedbackId;
+let newReceiptToken;
+let submitFeedback;
+let feedbackLoading = null;
+function loadFeedback() {
+  if (!feedbackLoading) {
+    feedbackLoading = import('./feedback.js').then((mod) => {
+      ({
+        collectDiagnostics, describeDiagnostics, errorText,
+        fetchStatuses, getTurnstileToken, newFeedbackId, newReceiptToken, submitFeedback,
+      } = mod);
+      return mod;
+    }).catch(forgetFailedLoad(() => { feedbackLoading = null; }));
+  }
+  return feedbackLoading;
+}
+
+let syncProfile;
+let transport;
+let generateCode;
+let normalizeCode;
+let formatCode;
+let deriveKeys;
+let encryptProfile;
+let decryptProfile;
+let syncLoading = null;
+/** Both sync modules together: nothing in this app ever needs one without
+ * the other (sync-protocol.js's syncProfile() is always called with
+ * sync-transport.js's transport/encryptProfile/decryptProfile). */
+function loadSync() {
+  if (!syncLoading) {
+    syncLoading = Promise.all([
+      import('./sync-protocol.js'),
+      import('./sync-transport.js'),
+    ]).then(([protocolMod, transportMod]) => {
+      ({ syncProfile } = protocolMod);
+      ({
+        transport, generateCode, normalizeCode, formatCode, deriveKeys, encryptProfile, decryptProfile,
+      } = transportMod);
+      return { ...protocolMod, ...transportMod };
+    }).catch(forgetFailedLoad(() => { syncLoading = null; }));
+  }
+  return syncLoading;
+}
+
+let renderSentence;
+let tokenAtLevel;
+let exposureTargetsForToken;
+let tokenHasKanji;
+let storyOccurrenceIndex;
+let sentenceAtReadingEdge;
+let advanceMark;
+let compareMarks;
+let readerLoading = null;
+function loadReader() {
+  if (!readerLoading) {
+    readerLoading = import('./reader.js').then((mod) => {
+      ({
+        renderSentence, tokenAtLevel, exposureTargetsForToken, tokenHasKanji,
+        storyOccurrenceIndex, sentenceAtReadingEdge, advanceMark, compareMarks,
+      } = mod);
+      return mod;
+    }).catch(forgetFailedLoad(() => { readerLoading = null; }));
+  }
+  return readerLoading;
+}
 
 // Search matches a typed reading against romaji regardless of which script
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24h'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-24i'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -549,6 +651,7 @@ function show(screenId) {
   currentScreenId = screenId;
   updateInstallBannerVisibility();
   window.scrollTo(0, 0);
+  reloadIfUpdateWaiting();
 }
 
 let currentScreenId = null;
@@ -593,7 +696,10 @@ async function renderProfiles() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'profile-card';
-    button.innerHTML = `<span class="avatar">${profile.emoji}</span><span class="profile-name"></span>`;
+    button.innerHTML = '<span class="avatar"></span><span class="profile-name"></span>';
+    // textContent for both: the emoji arrives from a backup file or a sync
+    // just as the name does, so neither is markup this page should parse.
+    button.querySelector('.avatar').textContent = profile.emoji;
     button.querySelector('.profile-name').textContent = profile.name;
     button.addEventListener('click', () => openProfile(profile));
     list.appendChild(button);
@@ -809,15 +915,21 @@ async function openProfile(profile) {
  * and receipt rather than minting new ones: the server resolves a repeat id
  * to the row it already has, so a learner tapping this five times still
  * produces one issue.
+ *
+ * Passes its draft straight into openFeedback() rather than setting
+ * state.feedbackDraft after calling it: openFeedback() is async now (it
+ * awaits feedback.js's lazy load), so a second, later assignment here would
+ * race its own — on a slow first load, openFeedback()'s blank draft could
+ * finish arriving after this one and silently replace it.
  */
-function reopenDraft(contribution) {
-  openFeedback();
-  state.feedbackDraft = {
+async function reopenDraft(contribution) {
+  const draft = {
     id: contribution.id,
     receiptToken: contribution.receiptToken,
     category: contribution.category,
     diagnostics: contribution.pendingDiagnostics || {},
   };
+  await openFeedback(draft);
   // Every title is now derived FROM the details (deriveFeedbackTitle,
   // defined below) — so if it still matches, it carries nothing details
   // doesn't already have. Older drafts, from before the form was a single
@@ -828,8 +940,7 @@ function reopenDraft(contribution) {
   const titleIsDerived = title === deriveFeedbackTitle(details);
   $('feedback-details').value = title && details && !titleIsDerived
     ? `${title}\n\n${details}` : (details || title);
-  $('feedback-include-details').checked = Object.keys(state.feedbackDraft.diagnostics).length > 0;
-  renderFeedbackDiagnostics();
+  $('feedback-include-details').checked = Object.keys(draft.diagnostics).length > 0;
   updateFeedbackCount();
 }
 
@@ -8699,6 +8810,11 @@ function renderSettings() {
   }
   $('app-version').textContent = APP_VERSION;
   $('transfer-status').textContent = '';
+  // Hidden until renderChangelog()'s load resolves and sets it for real —
+  // otherwise, on the very first Settings open before changelog.js is
+  // cached, its default (visible) markup would offer to expand a history
+  // list that isn't built yet.
+  $('changelog-toggle').hidden = true;
   renderChangelog();
   if (hasProfile) {
     // Reset synchronously, right now — not inside renderSyncCard() below,
@@ -8722,8 +8838,18 @@ function renderSettings() {
  * is always shown; everything older is built into #changelog-history,
  * collapsed, behind the toggle. Rebuilt fresh (and re-collapsed) every time
  * Settings opens, rather than trying to remember whether it was left
- * expanded. */
-function renderChangelog() {
+ * expanded.
+ *
+ * Fire-and-forget, like renderSyncCard() just above renderSettings(): not
+ * awaited there, so a Settings open never waits on the network. `await
+ * loadChangelog()` below is a no-op after the first call, in this session,
+ * anywhere the changelog was needed — the import() promise is cached. */
+async function renderChangelog() {
+  // A failed load leaves the section empty; the next Settings open retries.
+  try { await loadChangelog(); } catch { return; }
+  // Settings may already be closed again by the time changelog.js's fetch
+  // resolves (a fast tap in, tap out) — nothing left to fill in.
+  if ($('screen-settings').hidden) return;
   const [latest, ...previous] = CHANGELOG;
 
   $('changelog-current-date').textContent = latest.date;
@@ -9114,6 +9240,11 @@ function countProgressChanges(before, after) {
 async function runSync({
   code, docId, aesKey, knownVersion, localChanged, adoptIncomingIdentity = false,
 }) {
+  // Every caller (autoSync, syncTurnOn, syncEnterCode, syncNow) already
+  // awaits loadSync() itself before it can even produce a docId/aesKey to
+  // call this with — this is just belt and braces, and a no-op by then
+  // (the import() promise is cached).
+  await loadSync();
   const profile = state.profile;
   const result = await syncProfile({
     transport,
@@ -9240,6 +9371,9 @@ async function autoSync({ force = false } = {}) {
 
   autoSyncRunning = true;
   try {
+    // Only reached once syncState exists above — an unpaired profile (most
+    // of them) never fetches sync-protocol.js/sync-transport.js at all.
+    await loadSync();
     const { docId, aesKey } = await deriveKeys(syncState.code);
     const result = await runSync({
       code: syncState.code,
@@ -9272,6 +9406,7 @@ async function syncTurnOn() {
     // orphaning the previous document on the server (harmless — the 5-year
     // sweep cleans it up — but pointless, and the wrong default when
     // another device may still be paired on the old code).
+    await loadSync();
     const rememberedCode = await store.getRememberedSyncCode(state.profile.id);
     const code = rememberedCode || generateCode();
     const { docId, aesKey } = await deriveKeys(code);
@@ -9328,6 +9463,16 @@ async function syncTurnOnFromNudge() {
 
 async function syncEnterCode(event) {
   event.preventDefault();
+  // Before formatCode/normalizeCode below — both are sync-transport.js
+  // exports, same lazy load as everything else in this section. If that
+  // load fails, report it the way any other failed connect is reported
+  // (the catch below) rather than ignoring the tap.
+  try {
+    await loadSync();
+  } catch {
+    await renderSyncCard(syncFailureMessage('error'));
+    return;
+  }
   const code = formatCode(normalizeCode($('sync-code-input').value));
   if (!code) return;
   setSyncBusy(true);
@@ -9368,6 +9513,7 @@ async function syncNow() {
   setSyncBusy(true);
   $('sync-status').textContent = 'Syncing…';
   try {
+    await loadSync();
     const { docId, aesKey } = await deriveKeys(syncState.code);
     await performSync({
       code: syncState.code,
@@ -12084,7 +12230,12 @@ async function openStory(id) {
   if (!manifestEntry) return;
   closeStoryPopover();
   const requestNav = navSeq;
-  const story = await withLoading(ensureStoryLoaded(id));
+  // reader.js is loaded alongside the story itself — screen-reader is
+  // reachable only through here (and its own chapter-to-chapter/back links,
+  // which call this same function), so this one await covers every reader.js
+  // call below, in this function and in every reader-screen function it
+  // leads to.
+  const [story] = await withLoading(Promise.all([ensureStoryLoaded(id), loadReader()]));
   if (navSeq !== requestNav) return;
 
   state.readerStoryId = id;
@@ -12752,6 +12903,7 @@ function wire() {
           const syncState = await store.getSyncState(deletedProfileId);
           if (syncState && syncState.version != null) {
             try {
+              await loadSync();
               await transport.remove(syncState.docId, syncState.version);
             } catch {
               // Offline, or the remote delete otherwise failed — the
@@ -12889,8 +13041,69 @@ export function renderInstallBanner() {
 // updateViaCache 'none' (never cache the worker script), actively check for
 // an update on launch and whenever the app is brought back to the front, and
 // reload once a new worker takes control. See sw.js for the other half.
+//
+// "Once" is not "at once", though. update() runs every time the app comes
+// back to the front, and a release can land several times a day, so the
+// new worker routinely takes over while the learner is halfway through a
+// quiz, a writing drill or a story chapter. Reloading right then threw all
+// of that away and dropped them on the profile picker. The reload now
+// waits until they are somewhere with nothing in flight: the profile
+// picker or the home screen, with no sheet open over it (a half-written
+// feedback report is in flight too). Until then the old page keeps running
+// the old code, which is exactly what it was doing a moment earlier.
 
 let reloadingForUpdate = false;
+let updateWaiting = false;
+
+const UPDATE_RELOAD_SAFE_SCREENS = new Set(['screen-profiles', 'screen-home']);
+// Reloading from the home screen reopens the same profile (boot() reads
+// this), so the update costs a blink rather than a trip via the picker.
+const UPDATE_RESUME_PROFILE_KEY = 'kanji-trail-update-resume-profile';
+
+function reloadIfUpdateWaiting() {
+  if (!updateWaiting || reloadingForUpdate) return;
+  if (!UPDATE_RELOAD_SAFE_SCREENS.has(currentScreenId)) return;
+  if ([...document.querySelectorAll('.sheet')].some((sheet) => !sheet.hidden)) return;
+  reloadingForUpdate = true;
+  if (currentScreenId === 'screen-home' && state.profile) {
+    try { sessionStorage.setItem(UPDATE_RESUME_PROFILE_KEY, state.profile.id); } catch { /* private browsing etc. */ }
+  }
+  window.location.reload();
+}
+
+/**
+ * The single "which profile should boot() open automatically, if any" step.
+ * Two independent reasons can answer that, checked in order:
+ *
+ * - The other half of UPDATE_RESUME_PROFILE_KEY: an update reload from the
+ *   home screen (reloadIfUpdateWaiting() above) is resuming the exact
+ *   session it just interrupted, not making a fresh choice. That's more
+ *   specific than "there's only one profile", so it's checked first and
+ *   wins even on a single-profile device. Reading it is one-shot regardless
+ *   of whether the id still resolves to a profile — a key pointing at a
+ *   since-deleted profile must not linger and hijack the next ordinary
+ *   relaunch.
+ * - Otherwise, a device with exactly one saved profile: the picker's one
+ *   card can only ever be tapped, so skip the tap and open it directly.
+ *   Two or more profiles is a real choice and keeps the picker; zero keeps
+ *   today's first-run create form (renderProfiles() handles both of those).
+ *   This deliberately does NOT apply to the in-app "switch profile" action
+ *   (see its case in wire() below), which always shows the picker even
+ *   with one profile — that's the only way to reach "add a second profile".
+ */
+export async function resolveBootProfile() {
+  let resumeId = null;
+  try {
+    resumeId = sessionStorage.getItem(UPDATE_RESUME_PROFILE_KEY);
+    sessionStorage.removeItem(UPDATE_RESUME_PROFILE_KEY);
+  } catch { /* private browsing etc. */ }
+  if (resumeId) {
+    const resumed = await store.getProfile(resumeId);
+    if (resumed) return resumed;
+  }
+  const profiles = await store.listProfiles();
+  return profiles.length === 1 ? profiles[0] : null;
+}
 
 function watchForUpdates() {
   if (!('serviceWorker' in navigator)) return;
@@ -12908,10 +13121,10 @@ function watchForUpdates() {
 
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (!hadController) return; // first-ever activation, not an update
-    // A new worker took over: the page is running old code, so reload once.
-    if (reloadingForUpdate) return;
-    reloadingForUpdate = true;
-    window.location.reload();
+    // A new worker took over: the page is running old code, so reload once
+    // it is safe to (see above) — straight away if it already is.
+    updateWaiting = true;
+    reloadIfUpdateWaiting();
   });
 
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
@@ -12980,10 +13193,16 @@ function feedbackRoute() {
  * CONTRIBUTION_KIND labelling (for older reports in "My contributions")
  * still exist; nothing asks the learner to pick one any more.
  */
-function openFeedback() {
+/**
+ * `draft` lets reopenDraft() (below) hand in an existing draft's id/receipt
+ * instead of minting a fresh one — see its own comment. Left out, this
+ * mints a blank one the ordinary way.
+ */
+async function openFeedback(draft = null) {
+  await loadFeedback();
   const sheet = $('feedback-sheet');
   stopFeedbackVoice();
-  state.feedbackDraft = {
+  state.feedbackDraft = draft || {
     id: newFeedbackId(),
     receiptToken: newReceiptToken(),
     category: 'other',
@@ -13425,6 +13644,7 @@ async function catchUpOnContributions({ force = false } = {}) {
 
   contributionRefreshRunning = true;
   try {
+    await loadFeedback();
     const results = await fetchStatuses(refreshableContributions(state.profile.contributions || {}));
     // null means the request could not be made at all. "No news" — never
     // "everything reverted".
@@ -13798,7 +14018,22 @@ function watchLifecycleForSync() {
 async function boot() {
   wire();
   store.requestPersistence();
-  await renderProfiles();
+  // Render whichever screen boot lands on before bringing the splash down,
+  // so a device that auto-opens straight into a profile (or resumes one
+  // after an update reload) never shows a flash of the picker underneath.
+  // If opening it fails for any reason, fall back to the picker: a launch
+  // that never gets past the splash leaves no way to switch or recover.
+  const bootProfile = await resolveBootProfile();
+  let opened = false;
+  if (bootProfile) {
+    try {
+      await openProfile(bootProfile);
+      opened = true;
+    } catch (error) {
+      console.error('Opening the only profile at launch failed', error);
+    }
+  }
+  if (!opened) await renderProfiles();
   hideSplash();
   watchForUpdates();
   watchLifecycleForSync();
