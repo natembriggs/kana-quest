@@ -12915,17 +12915,38 @@ function reloadIfUpdateWaiting() {
   window.location.reload();
 }
 
-/** The other half of UPDATE_RESUME_PROFILE_KEY: read once, then forgotten,
- * so an ordinary relaunch still starts at the profile picker. */
-async function resumeProfileAfterUpdate() {
-  let id = null;
+/**
+ * The single "which profile should boot() open automatically, if any" step.
+ * Two independent reasons can answer that, checked in order:
+ *
+ * - The other half of UPDATE_RESUME_PROFILE_KEY: an update reload from the
+ *   home screen (reloadIfUpdateWaiting() above) is resuming the exact
+ *   session it just interrupted, not making a fresh choice. That's more
+ *   specific than "there's only one profile", so it's checked first and
+ *   wins even on a single-profile device. Reading it is one-shot regardless
+ *   of whether the id still resolves to a profile — a key pointing at a
+ *   since-deleted profile must not linger and hijack the next ordinary
+ *   relaunch.
+ * - Otherwise, a device with exactly one saved profile: the picker's one
+ *   card can only ever be tapped, so skip the tap and open it directly.
+ *   Two or more profiles is a real choice and keeps the picker; zero keeps
+ *   today's first-run create form (renderProfiles() handles both of those).
+ *   This deliberately does NOT apply to the in-app "switch profile" action
+ *   (see its case in wire() below), which always shows the picker even
+ *   with one profile — that's the only way to reach "add a second profile".
+ */
+export async function resolveBootProfile() {
+  let resumeId = null;
   try {
-    id = sessionStorage.getItem(UPDATE_RESUME_PROFILE_KEY);
+    resumeId = sessionStorage.getItem(UPDATE_RESUME_PROFILE_KEY);
     sessionStorage.removeItem(UPDATE_RESUME_PROFILE_KEY);
-  } catch { return; }
-  if (!id) return;
-  const profile = await store.getProfile(id);
-  if (profile) await openProfile(profile);
+  } catch { /* private browsing etc. */ }
+  if (resumeId) {
+    const resumed = await store.getProfile(resumeId);
+    if (resumed) return resumed;
+  }
+  const profiles = await store.listProfiles();
+  return profiles.length === 1 ? profiles[0] : null;
 }
 
 function watchForUpdates() {
@@ -13834,8 +13855,22 @@ function watchLifecycleForSync() {
 async function boot() {
   wire();
   store.requestPersistence();
-  await renderProfiles();
-  await resumeProfileAfterUpdate();
+  // Render whichever screen boot lands on before bringing the splash down,
+  // so a device that auto-opens straight into a profile (or resumes one
+  // after an update reload) never shows a flash of the picker underneath.
+  // If opening it fails for any reason, fall back to the picker: a launch
+  // that never gets past the splash leaves no way to switch or recover.
+  const bootProfile = await resolveBootProfile();
+  let opened = false;
+  if (bootProfile) {
+    try {
+      await openProfile(bootProfile);
+      opened = true;
+    } catch (error) {
+      console.error('Opening the only profile at launch failed', error);
+    }
+  }
+  if (!opened) await renderProfiles();
   hideSplash();
   watchForUpdates();
   watchLifecycleForSync();
