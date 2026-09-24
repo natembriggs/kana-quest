@@ -1237,10 +1237,15 @@ let crossGradeOverlap = 0, crossGradeTotal = 0;
 for (const kanji of allKanjiIndex.keys()) {
   crossGradeTotal += 1;
   const answerKeys = meaningKeys(kanjiInfo(allKanjiCourse, kanji));
-  const { options, answer } = buildDefinitionChoices(allKanjiCourse, kanji);
+  const { options, answer, source } = buildDefinitionChoices(allKanjiCourse, kanji);
   for (const label of options) {
     if (label === answer) continue;
-    const other = [...allKanjiIndex.values()].find((e) => meaningLabel(e) === label);
+    // The kanji actually offered, via `source` — not the first kanji whose
+    // label matches. Two kanji can share a label: 賞 and 奬 are both "prize,
+    // reward", but only 賞 also means "praise". Looking up by label found
+    // 賞 even when 奬 was the one offered, which made this check fail about
+    // one run in forty (揚, "raise, praise") on a question that was fine.
+    const other = allKanjiIndex.get(source.get(label));
     if (other && [...meaningKeys(other)].some((m) => answerKeys.has(m))) crossGradeOverlap += 1;
   }
 }
