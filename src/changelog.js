@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-09-24',
     changes: [
+      'Changed: on a device with only one profile, the app now opens straight into it instead of stopping at the profile picker first. “Switch profile” still takes you to the picker.',
+      'Faster start-up: the app downloads less before it opens, and no longer downloads itself again every time you open it.',
       'Fixed: when an update arrives, the app no longer restarts in the middle of a lesson, a quiz or a story. It waits until you are back on the home screen.',
       'Fixed: the app now keeps everything it needs to start offline after an update, not just most of it.',
       'New: from chapter 2 onward, a “← Chapter 1” (and so on) button at the top of the story takes you back to the chapter before.',

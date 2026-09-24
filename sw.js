@@ -38,7 +38,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-24f';
+const VERSION = '2026-09-24g';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -71,22 +71,29 @@ const SHELL = [
   'src/fsrs.js',
   'src/vocab.js',
   // Imported at boot like everything else here (test/service-worker.js
-  // checks this list against app.js's real import graph); ~200KB, but the
-  // app cannot start without it.
+  // checks this list against app.js's real static- and lazy-import graph);
+  // ~200KB, but the app cannot start without it.
   'src/data/vocab-manifest.js',
   'src/store.js',
   'src/merge.js',
   'src/contributions.js',
+  // These five are no longer on app.js's STATIC import graph (S4:
+  // review-2026-09-24.md) — each is fetched with a plain import() the
+  // first time it's actually needed (Settings, the feedback sheet, a
+  // paired profile's own sync attempt, opening a story). They stay here
+  // regardless: SHELL is what makes those screens still work OFFLINE after
+  // one online visit, which has nothing to do with when they're fetched.
+  'src/changelog.js',
   'src/feedback.js',
   'src/sync-protocol.js',
   'src/sync-transport.js',
+  'src/reader.js',
+
   'src/strokes.js',
   'src/data/stroke-kana.js',
   'src/stroke-geometry.js',
   'src/stroke-grader.js',
   'src/writing.js',
-  'src/changelog.js',
-  'src/reader.js',
   'src/library.js',
   'src/furigana.js',
   'src/data/story-manifest.js',

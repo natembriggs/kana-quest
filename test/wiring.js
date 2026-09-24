@@ -3262,7 +3262,11 @@ check('reopening the profile re-applies its own chosen colour',
   document.documentElement.dataset.accent === otherSwatch.dataset.color,
   document.documentElement.dataset.accent);
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
-await settle();
+// renderChangelog() now awaits changelog.js's own lazy import() (S4) before
+// it fills #changelog-current-list/#changelog-history in — the first open
+// in this run is the real, uncached load, so this drains several ticks
+// rather than the usual one.
+for (let i = 0; i < 10; i += 1) await settle();
 
 // --- Settings: changelog ---------------------------------------------------
 // CHANGELOG[0] (src/changelog.js) is always shown; everything older is
@@ -3299,7 +3303,7 @@ await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'close-settings' } }) } });
 await settle();
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'open-settings' } }) } });
-await settle();
+for (let i = 0; i < 10; i += 1) await settle();
 check('reopening settings starts the changelog collapsed again, regardless of how it was left',
   el('changelog-history').hidden === true && el('changelog-toggle').textContent === 'Show previous updates',
   `hidden=${el('changelog-history').hidden}, toggle="${el('changelog-toggle').textContent}"`);

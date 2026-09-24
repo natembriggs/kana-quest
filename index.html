@@ -70,6 +70,43 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=book-trail-1">
 <link rel="stylesheet" href="styles.css">
 
+<!-- Every module left on src/app.js's STATIC import graph, so the browser
+     fetches all of it in parallel with app.js itself instead of only
+     discovering each one after parsing app.js far enough to reach its
+     import — modulepreload is a fetch hint, not an eval order guarantee,
+     so this changes nothing about when each module actually runs.
+     review-2026-09-24.md S4. Five modules that used to be static
+     (src/changelog.js, src/feedback.js, src/sync-protocol.js,
+     src/sync-transport.js, src/reader.js) are deliberately NOT here any
+     more: each is now fetched with a plain import() only once something
+     on screen actually needs it (Settings, the feedback sheet, a paired
+     profile's sync attempt, opening a story) — see the "Lazily-loaded
+     modules" comment in src/app.js. test/service-worker.js checks this
+     list against app.js's real import graph both ways, so it cannot drift
+     silently in either direction. -->
+<link rel="modulepreload" href="src/kana.js">
+<link rel="modulepreload" href="src/kanji.js">
+<link rel="modulepreload" href="src/data/kanji-manifest.js">
+<link rel="modulepreload" href="src/vocab.js">
+<link rel="modulepreload" href="src/data/vocab-manifest.js">
+<link rel="modulepreload" href="src/srs.js">
+<link rel="modulepreload" href="src/fsrs.js">
+<link rel="modulepreload" href="src/furigana.js">
+<link rel="modulepreload" href="src/data/story-manifest.js">
+<link rel="modulepreload" href="src/library.js">
+<link rel="modulepreload" href="src/strokes.js">
+<link rel="modulepreload" href="src/data/stroke-kana.js">
+<link rel="modulepreload" href="src/kanji-components.js">
+<link rel="modulepreload" href="src/data/components.js">
+<link rel="modulepreload" href="src/kanji-compare.js">
+<link rel="modulepreload" href="src/confusions.js">
+<link rel="modulepreload" href="src/writing.js">
+<link rel="modulepreload" href="src/stroke-grader.js">
+<link rel="modulepreload" href="src/stroke-geometry.js">
+<link rel="modulepreload" href="src/contributions.js">
+<link rel="modulepreload" href="src/store.js">
+<link rel="modulepreload" href="src/merge.js">
+
 <!-- Structured data. Modest value on its own — the rich result for
      SoftwareApplication mostly wants an aggregateRating, which this app
      has no honest source for and must not invent — but it is what tells
