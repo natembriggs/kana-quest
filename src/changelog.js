@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-24',
     changes: [
+      'Fixed: two more wrong readings in stories. In Goldilocks and the Three Bears, 三つ is now read みっつ (it said さんつ), and in Dracula, 帰国 is now read きこく (it said かえこく). Tapping either word opens its vocabulary page as before, and you keep your place in both stories.',
       'Changed: we checked every story for words that are rare, old-fashioned or unnatural, so you spend your effort on Japanese you will meet again. In The Lanterns of the Hidden Valley the old word 帳面 (a ledger) is now ノート. Snow White now has a 魔法の鏡 and 七人の小人 instead of マジックミラー and ドワーフ, Frankenstein makes a 怪物 rather than a モンスター, and the Bremen animals join a 音楽隊. About 100 sentences in 18 stories changed, including six wrong readings (宝石 is ほうせき, 一週間 is いっしゅうかん). You keep your place in every story.',
       'New: a “From stories” group in Vocabulary, with 959 words you meet in the stories that were missing from the word list — everyday words like 机, 旅, ここ and みんな, and story words like 提灯 and 魔女. Tapping one of these words in a story now opens its full vocabulary page.',
       'New: from chapter 2 onward, a “← Chapter 1” (and so on) button at the top of the story takes you back to the chapter before.',
