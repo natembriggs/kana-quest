@@ -69,22 +69,38 @@ function parseExportedObject(source, name) {
   return Function(`"use strict"; return (${match[1]});`)();
 }
 
-async function vocabLookup() {
-  const source = await fs.readFile(path.join(DATA_DIR, 'vocab-lookup.js'), 'utf8');
-  return parseExportedObject(source, 'VOCAB_LOOKUP');
-}
-
 /** Every real vocabulary item id (including a homograph's "surface|reading"
  * form, e.g. 市場|いちば) — what token.d actually links to at runtime (see
- * openReaderDetail/vocabCourseForId in app.js), unlike vocabLookup() above,
- * which is surface-keyed and used only for autoLink()'s best-guess fallback
- * when a token has no explicit `d`. Validating an explicit `d` against the
- * surface-only map instead of this one rejected every correctly-disambiguated
- * homograph link a story author wrote. */
+ * openReaderDetail/vocabCourseForId in app.js). */
 async function vocabIds() {
   const source = await fs.readFile(path.join(DATA_DIR, 'vocab-manifest.js'), 'utf8');
   const units = parseExportedObject(source, 'VOCAB_UNITS');
   return new Set(Object.values(units).flat());
+}
+
+function kataToHira(text) {
+  return text.replace(/[ァ-ヶ]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+}
+
+/** Spelling -> [{ id, r, alt }] for every vocabulary entry, read from the
+ * unit files: a spelling can be more than one word (家 is いえ, 年 is とし and
+ * ねん), and autoLink() has to know which one a story token is. `alt` is the
+ * other readings of the same word (VOCAB_READINGS: 頭 あたま is also かしら). */
+async function vocabWords() {
+  const manifest = await fs.readFile(path.join(DATA_DIR, 'vocab-manifest.js'), 'utf8');
+  const units = parseExportedObject(manifest, 'VOCAB_UNITS');
+  const lookup = await fs.readFile(path.join(DATA_DIR, 'vocab-lookup.js'), 'utf8');
+  const alternates = parseExportedObject(lookup, 'VOCAB_READINGS');
+  const words = new Map();
+  for (const unit of Object.keys(units)) {
+    const file = await fs.readFile(path.join(DATA_DIR, `vocab-${unit}.js`), 'utf8');
+    const entries = JSON.parse(file.slice(file.indexOf('['), file.lastIndexOf(']') + 1));
+    entries.forEach(({ id, w, r }) => {
+      if (!words.has(w)) words.set(w, []);
+      words.get(w).push({ id, r: kataToHira(r), alt: (alternates[id] || []).map(kataToHira) });
+    });
+  }
+  return words;
 }
 
 /** A saved reading position is a (paragraph, sentence) index, so the hash
@@ -100,24 +116,99 @@ function contentHash(body) {
   return crypto.createHash('sha256').update(JSON.stringify(text)).digest('hex').slice(0, 8);
 }
 
-function autoLink(token, lookup) {
+/** Whether a conjugated token read `reading` can be the dictionary form
+ * `df` read `entry`: the part of the entry's reading before df's trailing
+ * kana must begin the token's reading (開いた/ひらいた is 開く/ひらく, not
+ * 開く/あく). 来る changes its stem (来た is きた), so its く may be any of
+ * く, き, こ. */
+function sameStem(df, entry, reading) {
+  const tail = df.match(/[ぁ-ゖ]*$/)[0];
+  if (tail === df) return true; // all kana: the spelling is the reading
+  let stem = entry.endsWith(tail) ? entry.slice(0, entry.length - tail.length) : entry;
+  if (df.endsWith('来る') && stem.endsWith('く')) {
+    stem = stem.slice(0, -1);
+    return reading.startsWith(stem) && 'くきこ'.includes(reading[stem.length]);
+  }
+  return reading.startsWith(stem);
+}
+
+/** The token's reading from where `word` starts inside it: a phrase token
+ * like あなたを愛しています (df 愛する) or ご命令ください (命令する) has text
+ * before the word, read from its own ruby. */
+function readingAt(token, word) {
+  const reading = kataToHira(token.k);
+  const start = token.s.indexOf(word[0]);
+  if (start <= 0) return reading;
+  const ruby = new Map((token.ruby || []).map(([index, kana]) => [index, kana]));
+  let prefix = '';
+  for (let i = 0; i < start; i += 1) {
+    if (ruby.has(i)) prefix += kataToHira(ruby.get(i));
+    else if (KANJI_RE.test(token.s[i])) return reading; // no ruby to go by
+    else prefix += kataToHira(token.s[i]);
+  }
+  return reading.startsWith(prefix) ? reading.slice(prefix.length) : reading;
+}
+
+/** Whether `token` reads as the vocabulary word `entry`, spelled `spelling`:
+ * from where the word starts in the token, its reading begins with the
+ * word's reading, or another reading of the same word, up to any trailing
+ * kana (途中で is 途中, 開いた is 開く|ひらく, 家/いえ is not 家/け). */
+function readsAs(token, spelling, entry) {
+  const from = readingAt(token, spelling);
+  return [entry.r, ...entry.alt].some((r) => sameStem(spelling, r, from));
+}
+
+/** The id of the entry among `entries` whose reading `matches` — its own
+ * reading first, then another reading of the same word — or null. */
+function linkByReading(entries, matches) {
+  return entries?.find(({ r }) => matches(r))?.id
+    || entries?.find(({ alt }) => alt.some(matches))?.id
+    || null;
+}
+
+/**
+ * Links a token to the vocabulary entry it is, when it has no explicit `d`.
+ * By spelling AND reading: a spelling alone can be another word — 家/いえ
+ * used to open the curriculum's 家/け, 人/ひと its 人/じん — so a token whose
+ * reading matches no entry for its spelling, nor another reading JMdict
+ * gives the same word, stays unlinked. Its own reading, gloss and
+ * conjugation still show in the reader.
+ *
+ * An explicit `d` is kept when the token reads as that word (readsAs), and
+ * otherwise dropped with a warning and linked afresh: the two oldest stories
+ * are rebuilt from their own generated output (existing-l2.mjs), so their
+ * `d` arrives looking explicit, and a stale one (家 to 家/け) would
+ * otherwise outlive the entry it pointed at.
+ */
+function autoLink(token, words, warnings = []) {
   if (token.pos === 'punct') return token;
-  // An author can suppress a misleading surface match (家/いえ must not
-  // open the curriculum's 家/け entry). Keep this source-only sentinel out
-  // of the runtime format; the story's own reading and gloss still work.
+  // An author can still suppress a link outright. Keep this source-only
+  // sentinel out of the runtime format.
   if (token.d === false) return { ...token, d: null };
-  let d = token.d;
-  if (!d && Object.prototype.hasOwnProperty.call(lookup, token.s)) d = token.s;
-  if (!d && token.df && Object.prototype.hasOwnProperty.call(lookup, token.df)) d = token.df;
+  if (token.d) {
+    const spelling = token.d.split('|')[0];
+    const entry = words.get(spelling)?.find(({ id }) => id === token.d);
+    if (!entry || readsAs(token, spelling, entry)) return token; // a missing id fails validateStory
+    warnings.push(`${token.s}〔${token.k}〕 is not read as ${token.d} (${entry.r}); linked afresh`);
+  }
+  const reading = kataToHira(token.k);
+  let d = linkByReading(words.get(token.s), (r) => r === reading);
+  if (!d && token.df) {
+    const from = readingAt(token, token.df);
+    d = linkByReading(words.get(token.df), (r) => sameStem(token.df, r, from));
+  }
   // Noun+する verbs (約束する, 説明する, ...) deconjugate to a df that isn't
   // itself a vocab entry — only the bare noun is (約束, 説明). Fall back to
   // that noun so these link like any other vocab word instead of silently
   // going unlinked.
   if (!d && token.df && token.df.endsWith('する')) {
     const noun = token.df.slice(0, -2);
-    if (noun && Object.prototype.hasOwnProperty.call(lookup, noun)) d = noun;
+    if (noun) {
+      const from = readingAt(token, noun);
+      d = linkByReading(words.get(noun), (r) => from.startsWith(r));
+    }
   }
-  return { ...token, d: d || null };
+  return { ...token, d };
 }
 
 function sentenceText(sentence) {
@@ -447,8 +538,9 @@ function manifestModule(stories) {
 }
 
 async function main() {
-  const lookup = await vocabLookup();
+  const words = await vocabWords();
   const ids = await vocabIds();
+  const linkWarnings = [];
   const sources = await loadSourceStories();
   const coverSources = JSON.parse(await fs.readFile(path.join(ART_DIR, 'cover-sources.json'), 'utf8'));
   // Earlier hashes a position may have been saved against, for edits that
@@ -462,7 +554,7 @@ async function main() {
     existingIds.add(source.id);
     const body = source.body.map((paragraph) => paragraph.map((sentence) => ({
       ...sentence,
-      t: sentence.t.map((token) => autoLink(token, lookup)),
+      t: sentence.t.map((token) => autoLink(token, words, linkWarnings)),
     })));
     // `hash` covers `body` alone, and `art` is deliberately not part of it —
     // adding or changing a picture must not move anybody's saved place (§3.5).
@@ -507,6 +599,7 @@ async function main() {
     console.log(`  ${level}: ${count} stories, ${withKatakana} with katakana, ${words} distinct katakana words`);
   });
   report.warnings.forEach((warning) => console.log(`  warning: ${warning}`));
+  [...new Set(linkWarnings)].forEach((warning) => console.log(`  link: ${warning}`));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

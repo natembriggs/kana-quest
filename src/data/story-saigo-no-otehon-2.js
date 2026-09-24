@@ -503,7 +503,7 @@ export const STORY = {
             "s": "なくなっていません",
             "k": "なくなっていません",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "has not gone missing",
             "df": "なくなる",
@@ -959,7 +959,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -1305,7 +1305,7 @@ export const STORY = {
                 "かた"
               ]
             ],
-            "d": "方",
+            "d": "方|かた",
             "pos": "n",
             "g": "person (polite)"
           },
@@ -4051,7 +4051,7 @@ export const STORY = {
             "s": "つく",
             "k": "つく",
             "ruby": null,
-            "d": null,
+            "d": "つく",
             "pos": "v",
             "g": "is attached; has (in its name)"
           },
@@ -4248,7 +4248,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -6333,7 +6333,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -10398,7 +10398,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -11247,7 +11247,7 @@ export const STORY = {
             "s": "ついた",
             "k": "ついた",
             "ruby": null,
-            "d": null,
+            "d": "つく",
             "pos": "v",
             "g": "attached; with (a cord) on",
             "df": "つく",
@@ -11311,7 +11311,7 @@ export const STORY = {
             "s": "さした",
             "k": "さした",
             "ruby": null,
-            "d": null,
+            "d": "さす",
             "pos": "v",
             "g": "holding up (an umbrella)",
             "df": "さす",

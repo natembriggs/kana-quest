@@ -9300,7 +9300,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },

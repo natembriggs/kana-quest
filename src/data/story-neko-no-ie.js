@@ -74,7 +74,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -280,7 +280,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -437,7 +437,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -499,7 +499,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -598,7 +598,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -1008,7 +1008,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -1078,7 +1078,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },
@@ -1156,7 +1156,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house; home"
           },

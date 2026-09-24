@@ -470,7 +470,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -5681,7 +5681,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -7223,7 +7223,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -8015,7 +8015,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -8258,7 +8258,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "seemed to have opened",
             "df": "開く",
@@ -8446,7 +8446,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "act or fact; nominaliser"
           },
@@ -9714,7 +9714,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "expectation; ought to"
           },
@@ -10331,7 +10331,7 @@ export const STORY = {
                 "はい"
               ]
             ],
-            "d": "入れる",
+            "d": "入る",
             "pos": "v",
             "g": "can enter",
             "df": "入る",
@@ -10479,7 +10479,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "act or fact; nominaliser"
           },
@@ -10736,7 +10736,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -11140,7 +11140,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "act or fact; nominaliser"
           },

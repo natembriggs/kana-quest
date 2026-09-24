@@ -1549,7 +1549,7 @@ export const STORY = {
                 "え"
               ]
             ],
-            "d": "得る",
+            "d": "得る|える",
             "pos": "v",
             "g": "gained",
             "df": "得る",
@@ -3521,7 +3521,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -4608,7 +4608,7 @@ export const STORY = {
                 "ふく"
               ]
             ],
-            "d": null,
+            "d": "往復",
             "pos": "v",
             "g": "going back and forth; went and",
             "df": "往復する",
@@ -6384,7 +6384,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -6413,7 +6413,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -7029,7 +7029,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -7743,7 +7743,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stone"
           },
@@ -9353,7 +9353,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -10901,7 +10901,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -11857,7 +11857,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -11982,7 +11982,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -14618,7 +14618,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -15509,7 +15509,7 @@ export const STORY = {
             "s": "たち",
             "k": "たち",
             "ruby": null,
-            "d": null,
+            "d": "たち",
             "pos": "part",
             "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
           },
@@ -15594,7 +15594,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "things; matters"
           },
@@ -16030,7 +16030,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "for; because of"
           },
@@ -16124,7 +16124,7 @@ export const STORY = {
             "s": "すべて",
             "k": "すべて",
             "ruby": null,
-            "d": null,
+            "d": "すべて",
             "pos": "n",
             "g": "all of it"
           },
@@ -16601,7 +16601,7 @@ export const STORY = {
             "s": "すべて",
             "k": "すべて",
             "ruby": null,
-            "d": null,
+            "d": "すべて",
             "pos": "n",
             "g": "all of it"
           },
@@ -16648,7 +16648,7 @@ export const STORY = {
             "s": "すべて",
             "k": "すべて",
             "ruby": null,
-            "d": null,
+            "d": "すべて",
             "pos": "n",
             "g": "all of it"
           },

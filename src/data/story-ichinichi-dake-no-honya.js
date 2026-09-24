@@ -2431,7 +2431,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "previous"
           },
@@ -2688,7 +2688,7 @@ export const STORY = {
                 "した"
               ]
             ],
-            "d": null,
+            "d": "下",
             "pos": "n",
             "g": "underneath"
           },
@@ -2987,7 +2987,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "previous"
           },
@@ -4619,7 +4619,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened, and",
             "df": "開く",
@@ -5706,7 +5706,7 @@ export const STORY = {
             "s": "なくなったら",
             "k": "なくなったら",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "if it disappeared",
             "df": "なくなる",
@@ -5785,7 +5785,7 @@ export const STORY = {
             "s": "なくなりそうだった",
             "k": "なくなりそうだった",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "seemed likely to disappear",
             "df": "なくなる",
@@ -5837,7 +5837,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "人",
             "pos": "n",
             "g": "person"
           },
@@ -6683,7 +6683,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -6963,7 +6963,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "人",
             "pos": "n",
             "g": "person"
           },

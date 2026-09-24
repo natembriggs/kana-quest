@@ -1068,7 +1068,7 @@ export const STORY = {
             "s": "かもしれない",
             "k": "かもしれない",
             "ruby": null,
-            "d": null,
+            "d": "かもしれない",
             "pos": "aux",
             "g": "might; perhaps"
           },
@@ -3685,7 +3685,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -6588,7 +6588,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },

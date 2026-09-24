@@ -1123,7 +1123,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -1789,7 +1789,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },

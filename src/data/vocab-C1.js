@@ -19,8 +19,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -89,8 +90,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "cx": 60.0,
+    "cx": 30.0,
     "cl": 9,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -172,8 +174,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "cx": 60.0,
+    "cx": 27.93,
     "cl": 9,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -318,8 +321,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C1",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 10.95,
+    "cl": 7,
+    "sk": true,
     "sn": [
       3,
       3
@@ -435,16 +439,24 @@ export const VOCAB_ENTRIES = [
         ]
       },
       {
-        "j": "急ぎません。ゆっくりお願いします。",
-        "en": "There's no rush. If you would, in your own time.",
+        "j": "予約は一週間前にお願いします。",
+        "en": "Please make your reservation one week in advance.",
         "r": [
-          [0, 1, "いそ"],
-          [11, 1, "ねが"]
+          [0, 1, "よ"],
+          [1, 1, "やく"],
+          [3, 1, "いっ"],
+          [4, 1, "しゅう"],
+          [5, 1, "かん"],
+          [6, 1, "ぜん"],
+          [9, 1, "ねが"]
         ],
         "w": [
-          [0, 5, "急ぐ"],
-          [6, 4],
-          [10, 6]
+          [0, 2],
+          [2, 1, "は@*"],
+          [3, 3],
+          [6, 1, "前#1392580"],
+          [7, 1, "に@*"],
+          [8, 6]
         ]
       },
       {
@@ -620,7 +632,7 @@ export const VOCAB_ENTRIES = [
         "r": [
           [4, 1, "いち"],
           [5, 1, "にち"],
-          [7, 1, "じっ"],
+          [7, 1, "じゅっ"],
           [8, 1, "ぷん"],
           [10, 1, "すす"]
         ],
@@ -628,7 +640,7 @@ export const VOCAB_ENTRIES = [
           [0, 3, "いいえ#1583250"],
           [4, 2, "一日|いちにち"],
           [6, 1, "に@*"],
-          [7, 2, "十分|じっぷん"],
+          [7, 2, "十分|じゅっぷん"],
           [9, 1, "も@*"],
           [10, 2, "進む|すすむ"],
           [12, 3, "のです"]
@@ -651,8 +663,9 @@ export const VOCAB_ENTRIES = [
     "pos": "v",
     "th": "C1",
     "lv": "f",
-    "cx": 48.37,
-    "cl": 9,
+    "cx": 6.24,
+    "cl": 5,
+    "sk": true,
     "sn": [
       3,
       3

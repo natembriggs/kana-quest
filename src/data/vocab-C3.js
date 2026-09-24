@@ -43,21 +43,21 @@ export const VOCAB_ENTRIES = [
     ],
     "sp": [
       "鉛",
-      "座",
-      "弦",
-      "中",
-      "戦",
+      "頬",
+      "記",
+      "週",
+      "稀",
       "粁",
-      "表",
-      "胴",
-      "垢",
+      "無",
+      "的",
+      "霊",
       "右",
-      "小",
-      "麹",
-      "肌",
-      "上",
-      "版",
-      "姉"
+      "人",
+      "革",
+      "卓",
+      "鎖",
+      "側",
+      "俗"
     ],
     "ex": [
       {
@@ -142,22 +142,22 @@ export const VOCAB_ENTRIES = [
       "たれ"
     ],
     "sp": [
-      "同",
-      "桑",
-      "人",
-      "冠",
-      "躯",
-      "檻",
-      "音",
-      "雷",
-      "臼",
-      "魚",
-      "耳",
-      "住",
-      "御",
-      "負",
-      "命",
-      "鶴"
+      "編",
+      "儘",
+      "商",
+      "供",
+      "崖",
+      "脈",
+      "難",
+      "舅",
+      "途",
+      "得",
+      "狼",
+      "汗",
+      "凧",
+      "陵",
+      "数",
+      "封"
     ],
     "ex": [
       {
@@ -238,8 +238,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 53.1,
-    "cl": 9,
+    "cx": 6.86,
+    "cl": 5,
+    "sk": true,
     "sn": [
       2,
       2
@@ -313,27 +314,24 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 41.71,
-    "cl": 9,
+    "cx": 5.39,
+    "cl": 5,
+    "sk": true,
     "uk": true,
     "ex": [
       {
-        "j": "いつ帰るか彼は私にいいませんでした。",
-        "en": "He hasn't told me when he will return.",
+        "j": "いつ旅行においでになりますか。",
+        "en": "When will you go on a journey?",
         "r": [
-          [2, 1, "かえ"],
-          [5, 1, "かれ"],
-          [7, 1, "わたし"]
+          [2, 1, "りょ"],
+          [3, 1, "こう"]
         ],
         "w": [
           [0, 2, "何時|いつ"],
           [2, 2],
-          [4, 1, "か@*"],
-          [5, 1, "彼|かれ"],
-          [6, 1, "は@*"],
-          [7, 1, "私|わたし"],
-          [8, 1, "に@*"],
-          [9, 8, "言う|いう"]
+          [4, 1, "に@*"],
+          [5, 8, "お出でになる"],
+          [13, 1, "か@*"]
         ]
       },
       {
@@ -383,8 +381,9 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -470,8 +469,9 @@ export const VOCAB_ENTRIES = [
     "pos": "adv",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "sn": [
       3,
       3
@@ -549,8 +549,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "sn": [
       3,
       1,
@@ -625,9 +626,10 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "C3",
     "lv": "f",
-    "cx": 43.3,
-    "cl": 9,
+    "cx": 5.59,
+    "cl": 5,
     "wr": true,
+    "sk": true,
     "uk": true,
     "ex": [
       {
@@ -706,8 +708,9 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "sn": [
       1,
       3,
@@ -792,8 +795,9 @@ export const VOCAB_ENTRIES = [
     "pos": "adj",
     "th": "C3",
     "lv": "f",
-    "cx": 150.0,
+    "cx": 19.36,
     "cl": 9,
+    "sk": true,
     "sn": [
       2,
       1
@@ -982,8 +986,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "sn": [
       2,
       1,
@@ -1072,8 +1077,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
-    "cl": 9,
+    "cx": 7.75,
+    "cl": 6,
+    "sk": true,
     "sn": [
       2,
       3
@@ -1235,8 +1241,9 @@ export const VOCAB_ENTRIES = [
     "pos": "other",
     "th": "C3",
     "lv": "f",
-    "cx": 60.0,
+    "cx": 21.91,
     "cl": 9,
+    "sk": true,
     "sn": [
       1,
       3

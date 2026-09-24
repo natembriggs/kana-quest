@@ -479,7 +479,7 @@ export const STORY = {
             "s": "クラブ",
             "k": "クラブ",
             "ruby": null,
-            "d": null,
+            "d": "クラブ",
             "pos": "n",
             "g": "club"
           },
@@ -1606,7 +1606,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -3912,7 +3912,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -4355,7 +4355,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -5961,7 +5961,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -6572,7 +6572,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -7124,7 +7124,7 @@ export const STORY = {
                 "ふん"
               ]
             ],
-            "d": "五分",
+            "d": null,
             "pos": "n",
             "g": "five minutes"
           },
@@ -7656,7 +7656,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -7782,7 +7782,7 @@ export const STORY = {
             "s": "クラブ",
             "k": "クラブ",
             "ruby": null,
-            "d": null,
+            "d": "クラブ",
             "pos": "n",
             "g": "club"
           },
@@ -8101,7 +8101,7 @@ export const STORY = {
                 "え"
               ]
             ],
-            "d": "得る",
+            "d": "得る|える",
             "pos": "v",
             "g": "gained",
             "df": "得る",
@@ -8434,7 +8434,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "held; opened",
             "df": "開く",
@@ -9091,7 +9091,7 @@ export const STORY = {
             "s": "クラブ",
             "k": "クラブ",
             "ruby": null,
-            "d": null,
+            "d": "クラブ",
             "pos": "n",
             "g": "club"
           },

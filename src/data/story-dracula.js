@@ -4782,7 +4782,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -4999,7 +4999,7 @@ export const STORY = {
             "s": "よう",
             "k": "よう",
             "ruby": null,
-            "d": null,
+            "d": "よう",
             "pos": "part",
             "g": "so that; in such a way"
           },
@@ -6103,7 +6103,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -7805,7 +7805,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -9236,7 +9236,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because, since"
           },
@@ -9910,7 +9910,7 @@ export const STORY = {
             "s": "たち",
             "k": "たち",
             "ruby": null,
-            "d": null,
+            "d": "たち",
             "pos": "part",
             "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
           },
@@ -11037,7 +11037,7 @@ export const STORY = {
             "s": "たち",
             "k": "たち",
             "ruby": null,
-            "d": null,
+            "d": "たち",
             "pos": "part",
             "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
           },
@@ -11363,7 +11363,7 @@ export const STORY = {
             "s": "たち",
             "k": "たち",
             "ruby": null,
-            "d": null,
+            "d": "たち",
             "pos": "part",
             "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
           },
@@ -11818,7 +11818,7 @@ export const STORY = {
                 "こく"
               ]
             ],
-            "d": "帰国",
+            "d": null,
             "pos": "v",
             "g": "had returned home",
             "df": "帰国する",
@@ -11878,7 +11878,7 @@ export const STORY = {
                 "まち"
               ]
             ],
-            "d": "街",
+            "d": null,
             "pos": "n",
             "g": "street, town"
           },
@@ -12767,7 +12767,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "for the sake of"
           },
@@ -12975,7 +12975,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -14082,7 +14082,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because, since"
           },
@@ -14328,7 +14328,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -15257,7 +15257,7 @@ export const STORY = {
                 "ひたい"
               ]
             ],
-            "d": "額",
+            "d": null,
             "pos": "n",
             "g": "forehead"
           },
@@ -16333,7 +16333,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -17564,7 +17564,7 @@ export const STORY = {
                 "ひたい"
               ]
             ],
-            "d": "額",
+            "d": null,
             "pos": "n",
             "g": "forehead"
           },
@@ -17900,7 +17900,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },

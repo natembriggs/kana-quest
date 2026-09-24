@@ -2,6 +2,7 @@
 //   /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc -m test/stories.js
 
 import { STORIES } from '../src/data/story-manifest.js';
+import { VOCAB_UNITS } from '../src/data/vocab-manifest.js';
 import { STORY as a1 } from '../src/data/story-ari-to-hato.js';
 import { STORY as a2 } from '../src/data/story-kitakaze-to-taiyou.js';
 import { STORY as a3 } from '../src/data/story-ookina-kabu.js';
@@ -95,13 +96,24 @@ for (let n = 1; n <= 6; n += 1) {
   check(`L${n} has stories`, corpus.some((story) => story.level === `L${n}`));
 }
 
-// A source author can opt out of a wrong homograph without losing the
-// story-local definition or disabling useful links on neighbouring words.
+// A story word links by spelling AND reading (autoLink in
+// tools/build_story_data.mjs): 家/いえ must open the curriculum's いえ, never
+// another word spelled 家 — it used to open the suffix 家/け.
 const catStoryTokens = a7.body.flat().flatMap((sentence) => sentence.t);
-check('家/いえ does not link to the curriculum 家/け', catStoryTokens
-  .filter((token) => token.s === '家').every((token) => token.d === null && !!token.g));
+const houseTokens = catStoryTokens.filter((token) => token.s === '家');
+const houseUnit = Object.keys(VOCAB_UNITS).find((unit) => VOCAB_UNITS[unit].includes(houseTokens[0]?.d));
+const houseEntry = houseUnit
+  && (await import(`../src/data/vocab-${houseUnit}.js`)).VOCAB_ENTRIES.find((entry) => entry.id === houseTokens[0].d);
+check('家/いえ links to the curriculum word read いえ', houseTokens.length > 0
+  && houseTokens.every((token) => token.k === 'いえ' && token.d === houseTokens[0].d)
+  && houseEntry?.r === 'いえ', `${houseTokens[0]?.d} is read ${houseEntry?.r}`);
 check('猫 still links to its vocabulary entry', catStoryTokens
   .filter((token) => token.s === '猫').every((token) => token.d === '猫'));
+// An author can still opt a word out without losing its story-local
+// definition: なお is the adverb in the curriculum, and Nao in this story.
+const naoTokens = e7.body.flat().flatMap((sentence) => sentence.t).filter((token) => token.s === 'なお');
+check('Nao (なお) stays unlinked, as its source asks', naoTokens.length > 0
+  && naoTokens.every((token) => token.d === null && !!token.g));
 
 corpus.forEach((story) => {
   check(`${story.id}: manifest entry`, !!STORIES[story.id]);

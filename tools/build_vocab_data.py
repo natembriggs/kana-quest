@@ -82,8 +82,8 @@ sys.path.insert(0, str(ROOT))
 from build_kanji_data import (  # noqa: E402
     parse_kanjidic, build_stem_index, align_word, credited_reading,
     kata_to_hira, written_band, is_kanji, reading_parts, stem_variants,
-    load_tanaka_freq, load_subtitle_freq, spoken_signal, is_written_common,
-    curated_common, STEM_PENALTY,
+    load_tanaka_freq, load_subtitle_freq, subtitle_lookup, frequency_band,
+    is_written_common, curated_common, STEM_PENALTY, SPOKEN_RANK_CUTOFF,
 )
 
 SRC = ROOT / "data_src"
@@ -152,6 +152,7 @@ def commonness_tier(cx):
 # Loaded once on first use rather than at import: the two corpora take a few
 # seconds to read and rank, and every caller below wants the same tables.
 _FREQ_TABLES = None
+_TANAKA_READINGS = None
 
 
 def freq_tables():
@@ -162,36 +163,125 @@ def freq_tables():
     return _FREQ_TABLES
 
 
-def commonness_of(entry_xml, surface):
-    """(cx, is_written_common, is_spoken_common) for one JMdict entry.
+def tanaka_readings():
+    """(uses, readings): how often the Tanaka Corpus index uses each written
+    form, and how often it annotates each reading of it — 家(いえ) 2,099
+    times, 家(け) 10. load_tanaka_freq() counts the same uses by written form
+    alone, which is all the corpus rank below can see."""
+    global _TANAKA_READINGS
+    if _TANAKA_READINGS is None:
+        uses, readings = Counter(), defaultdict(Counter)
+        for line in EXAMPLES.read_text(encoding="utf-8").splitlines():
+            if not line.startswith("B: "):
+                continue
+            for raw in line[3:].split():
+                m = B_TOKEN_RE.match(raw)
+                if not m:
+                    continue
+                head, reading = m.group(1), m.group(2)
+                uses[head] += 1
+                if reading and not reading.startswith("#"):
+                    readings[head][kata_to_hira(reading)] += 1
+        _TANAKA_READINGS = (uses, readings)
+    return _TANAKA_READINGS
 
-    Scored on the SURFACE the learner actually sees — a `uk` word is looked
-    up by its kana form, which is what the corpora count for it too. The
-    STEM_PENALTY mirrors build_kanji_data's choose_examples(): a word
+
+# Readings of each written form among the priority-tagged JMdict entries (the
+# candidate pool) — filled by parse_jmdict(), used by reading_share() to say
+# which readings an unannotated corpus use could belong to.
+COMMON_READINGS = defaultdict(set)
+# No reading of a form is ever scored as if it had fewer than this share of
+# its uses: the corpus is ~150,000 sentences, not all of Japanese, and a
+# reading it never happens to annotate is rare, not nonexistent.
+MIN_READING_SHARE = 0.001
+# Fewer corpus uses than this and a form's annotations are too few to say
+# how its readings split.
+MIN_APPORTIONED_USES = 20
+# A second reading of a form the list already teaches (年 is とし in Core, ねん
+# in the corpus) gets its own entry only if the Tanaka Corpus annotates at
+# least this many uses of it. JMdict alone lists every reading a spelling has
+# ever had; the corpus says which ones people read.
+MIN_SECOND_READING_USES = 5
+
+
+def reading_share(form, reading):
+    """The fraction of `form`'s corpus uses that are read `reading`.
+
+    Both frequency corpora count written forms, not words, so every reading of
+    a homograph inherits the whole form's count: 家/け (the -ke of 田中家)
+    scored exactly as common as 家/いえ, and won the tie on being the shorter
+    reading. That is how the list came to teach 家/け, 人/じん, 下/もと,
+    前/ぜん and 石/こく, and to link every story's いえ, ひと, した, まえ and
+    いし to them. The Tanaka Corpus annotates the reading of most homograph
+    uses, so it can apportion them.
+
+    Where it annotates at least half a form's uses, the annotations are taken
+    as a sample of all of them. Where it annotates few (前: 3 uses marked ぜん
+    out of 1,296), the annotations are the marked exceptions, and the
+    unmarked uses belong to the common readings it never marks. A form with
+    one known reading (此処, whose few annotations all say ここ) keeps its
+    whole count, and so does a form the corpus never annotates or barely
+    uses (連れ: 6 uses, one marked つれ): there is nothing to apportion by."""
+    uses, readings = tanaka_readings()
+    total = uses.get(form, 0)
+    counts = readings.get(form)
+    known = COMMON_READINGS.get(form, set()) | set(counts or ()) | {reading}
+    if total < MIN_APPORTIONED_USES or not counts or len(known) == 1:
+        return 1.0
+    annotated = sum(counts.values())
+    if annotated * 2 >= total:
+        return max(counts[reading] / annotated, MIN_READING_SHARE)
+    unmarked = [r for r in known if not counts[r]]
+    if not unmarked:
+        return 1.0  # 品: two uses marked ひん and one しな, 35 unmarked — no telling
+    if counts[reading]:
+        return max(counts[reading] / total, MIN_READING_SHARE)
+    return max((total - annotated) / total / len(unmarked), MIN_READING_SHARE)
+
+
+def reading_spoken_signal(form, reading):
+    """spoken_signal() for one reading of a written form. A reading with share
+    p of the form's uses is scored at corpus rank / p, which is where Zipf's
+    law puts a word with p of the count — so 家/いえ keeps 家's rank and
+    家/け (10 of 2,258 uses) falls to the bottom of both corpora."""
+    tanaka_freq, subtitle_freq = freq_tables()
+    share = reading_share(form, reading) if reading and not KANA_ONLY_RE.match(form) else 1.0
+    ranks = [tanaka_freq.get(form), subtitle_lookup(form, subtitle_freq)]
+    ranks = [None if r is None else r / share for r in ranks]
+    band = min(frequency_band(r) for r in ranks)
+    return band, any(r is not None and r <= SPOKEN_RANK_CUTOFF for r in ranks)
+
+
+def commonness_of(entry_xml, surface, reading):
+    """(cx, is_written_common, is_spoken_common) for one reading of one
+    JMdict entry, shown as `surface`. Low cx is common.
+
+    The spoken signal is apportioned to this reading (reading_share). A kana
+    surface is scored on every spelling of the entry, keeping the best: both
+    corpora under-count kana words — the subtitle list's tokenizer drops ここ,
+    また and みんな outright, and the Tanaka index files ここ under its kanji
+    spelling 此処 — so scored on the kana alone the commonest words in the
+    language came out rarer than COMMONNESS_MAX and were never taught. A
+    kanji surface is scored on itself, and on the entry's other kanji
+    spellings only when neither corpus has it at all (子ども, counted as
+    子供): an entry's other spellings can be other words' too (文/ふみ is
+    also 書), and its kana is shared with too many words to vouch for it
+    (け, か, もと).
+
+    The STEM_PENALTY mirrors build_kanji_data's choose_examples(): a word
     JMdict's hand-curated everyday list (ichi1/ichi2) doesn't vouch for may
     owe its corpus counts to derived forms a tokenizer split off (具体 from
     具体的/具体化), so it is not allowed to rank as if those counts were its
-    own. Returns cx as a float; low is common.
+    own.
     """
-    tanaka_freq, subtitle_freq = freq_tables()
-    w_band = written_band(entry_xml)
-    s_band, is_spoken = spoken_signal(surface, tanaka_freq, subtitle_freq)
-    order_w, order_s = w_band, s_band
-    if not curated_common(entry_xml):
-        order_w *= STEM_PENALTY
-        order_s *= STEM_PENALTY
-    return math.sqrt(order_w * order_s), is_written_common(entry_xml), is_spoken
-def story_commonness(entry_xml, surface):
-    """commonness_of() for a story word, scoring the SPOKEN signal on every
-    spelling of the entry rather than on the surface alone. Both corpora
-    under-count kana: the subtitle list's tokenizer drops words like ここ
-    and また outright, and the Tanaka index files ここ under its rare
-    kanji spelling 此処 — so scored on the kana surface alone, the
-    commonest words in the language come out as "Specialist words"."""
-    tanaka_freq, subtitle_freq = freq_tables()
-    spellings = [surface] + [html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", entry_xml)] \
-        + [html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", entry_xml)]
-    signals = [spoken_signal(s, tanaka_freq, subtitle_freq) for s in dict.fromkeys(spellings)]
+    kebs = [html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", entry_xml)]
+    if KANA_ONLY_RE.match(surface):
+        spellings = [surface] + kebs + [html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", entry_xml)]
+    else:
+        tanaka_freq, subtitle_freq = freq_tables()
+        known = surface in tanaka_freq or subtitle_lookup(surface, subtitle_freq) is not None
+        spellings = [surface] if known else [surface] + kebs
+    signals = [reading_spoken_signal(s, reading) for s in dict.fromkeys(spellings)]
     s_band = min(band for band, _ in signals)
     w_band = written_band(entry_xml)
     if not curated_common(entry_xml):
@@ -527,10 +617,12 @@ def parse_jmdict():
         # furigana over (§6.2, §5.2).
         surface = reb if uk else keb
         reading = kata_to_hira(reb)
-        cx, is_written, is_spoken = commonness_of(e, surface)
+        COMMON_READINGS[surface].add(reading)
         candidates.append({
             "surface": surface, "keb": None if uk else keb, "reading": reading,
-            "cx": cx, "written": is_written, "spoken": is_spoken,
+            # Scored once the loop is done — reading_share() needs every
+            # common reading of a form, not just the ones seen so far.
+            "xml": e,
             # First-sense `glosses` and all-sense `senses` are deliberately
             # both kept — see the comment above extract_senses for why the
             # word-selection path must not widen.
@@ -543,6 +635,8 @@ def parse_jmdict():
             tokens = {w for w in re.findall(r"[a-z]+", glosses[0].lower()) if w not in stop_tokens}
             kanji_only_pool.setdefault(len(keb), []).append((keb, tokens, rank))
 
+    for c in candidates:
+        c["cx"], c["written"], c["spoken"] = commonness_of(c.pop("xml"), c["surface"], c["reading"])
     print(f"  {len(candidates)} priority-tagged candidates, {len(all_kebs)} distinct kanji/kana surfaces")
     print(f"  {len(example_glosses)} example-sentence gloss keys "
           f"({len(example_senses)} of them sense-by-sense), "
@@ -555,8 +649,11 @@ def build_entry_index(raw_entries):
     """first-k_ele -> raw entry text, and first-r_ele (for kana-only entries,
     no k_ele at all) -> raw entry text. First entry wins on a collision,
     matching JMdict's own convention that the first sense/entry for a headword
-    is its primary one. Used by find_entry() for CORE_ENTRIES lookups."""
-    by_keb, by_reb_only = {}, {}
+    is its primary one. Used by find_entry() for CORE_ENTRIES lookups. The
+    third index keeps every entry per first k_ele, in JMdict order, for a
+    lookup that knows which reading it wants (家 is three entries: け, いえ,
+    うち)."""
+    by_keb, by_reb_only, all_by_keb = {}, {}, defaultdict(list)
     for e in raw_entries:
         k_els = re.findall(r"<k_ele>(.*?)</k_ele>", e, re.S)
         r_els = re.findall(r"<r_ele>(.*?)</r_ele>", e, re.S)
@@ -564,23 +661,34 @@ def build_entry_index(raw_entries):
             m = re.search(r"<keb>(.*?)</keb>", k_els[0])
             if m:
                 by_keb.setdefault(html.unescape(m.group(1)), e)
+                all_by_keb[html.unescape(m.group(1))].append(e)
         elif r_els:
             m = re.search(r"<reb>(.*?)</reb>", r_els[0])
             if m:
                 by_reb_only.setdefault(html.unescape(m.group(1)), e)
-    return by_keb, by_reb_only
+    return by_keb, by_reb_only, all_by_keb
 
 
-def find_entry(entry_index, keb=None, reb=None):
+def find_entry(entry_index, keb=None, reb=None, reading=None):
     """Exact lookup for CORE_ENTRIES: the entry whose first k_ele (or, if
     keb is None, first r_ele with NO k_ele at all) matches exactly. Unlike
     the frequency pass, Core words are specified by their EXACT intended
     surface, not discovered by ranking — see the module comment above
     CORE_ENTRIES for why that matters for words like する/いる, whose
     best-ranked reading match by pure priority number is a same-sounding but
-    wrong-meaning homograph."""
-    by_keb, by_reb_only = entry_index
-    e = by_keb.get(keb) if keb else by_reb_only.get(reb)
+    wrong-meaning homograph.
+
+    With `reading`, the entry is the first one headed `keb` that has that
+    reading — a priority-tagged one if any is — and the word is read that
+    way, for callers that already know which homograph they mean."""
+    by_keb, by_reb_only, all_by_keb = entry_index
+    if keb and reading:
+        matches = [e for e in all_by_keb.get(keb, ())
+                   if reading in (kata_to_hira(html.unescape(r)) for r in re.findall(r"<reb>(.*?)</reb>", e))]
+        common = [e for e in matches if "<ke_pri>" in e or "<re_pri>" in e]
+        e = (common or matches or [None])[0]
+    else:
+        e = by_keb.get(keb) if keb else by_reb_only.get(reb)
     if e is None:
         return None
     rebs_all = [html.unescape(x) for x in re.findall(r"<reb>(.*?)</reb>", e)]
@@ -589,9 +697,9 @@ def find_entry(entry_index, keb=None, reb=None):
     pos_tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", fs)]
     glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
     uk = ("<misc>&uk;</misc>" in fs) or keb is None  # first sense only — see parse_jmdict's note on 行く
-    reading = kata_to_hira(rebs_all[0])
+    reading = reading or kata_to_hira(rebs_all[0])
     surface = reading if uk else keb
-    cx, is_written, is_spoken = commonness_of(e, surface)
+    cx, is_written, is_spoken = commonness_of(e, surface, reading)
     return {
         "surface": surface, "keb": None if uk else keb, "reading": reading,
         "glosses": glosses, "senses": extract_senses(e, reading),
@@ -1922,25 +2030,109 @@ def make_record(unit, level, surface, reading, glosses, senses, pos, uk,
     return record
 
 
-def assign_ids(records):
-    """vocab-plan.md §3.3: id is the surface form, or surface|reading on a
-    within-unit homograph collision (開く|ひらく vs 開く|あく)."""
-    by_surface = {}
-    for r in records:
-        by_surface.setdefault(r["w"], []).append(r)
-    out = {}
-    for surface, group in by_surface.items():
-        if len(group) == 1:
-            out[surface] = group[0]
-        else:
-            for r in group:
-                out[f"{surface}|{r['r']}"] = r
-    return out
+# The order the build claims words in, by unit group — Core first, the
+# story-words tiles last. assign_ids() gives a new word's bare spelling to
+# whichever reading was claimed first.
+CLAIM_ORDER = ["C", "1", "2", "3", "4", "5", "H", "A", "K", "O", "S"]
+
+
+def load_shipped_ids():
+    """(surface, reading) -> id for every word in the vocab-<unit>.js files
+    already in src/data — the ids learners' progress is stored under. Read
+    before this build overwrites or deletes any of them."""
+    shipped = {}
+    for path in DATA_DIR.glob("vocab-*.js"):
+        if path.stem in ("vocab-manifest", "vocab-lookup"):
+            continue
+        text = path.read_text(encoding="utf-8")
+        entries = json.loads(text[text.index("["):text.rindex("]") + 1])
+        for entry in entries:
+            shipped[(entry["w"], entry["r"])] = entry["id"]
+    return shipped
+
+
+def assign_ids(unit_records, shipped):
+    """{unit: {id: record}}, with ids unique across the whole list.
+
+    vocab-plan.md §3.3: an id is the surface form. Two readings of one
+    spelling are two words and need two ids (年 is とし in Core and ねん in
+    the O group), so one keeps the bare surface and the other is
+    surface|reading.
+
+    Progress is stored per id and there is no way to rename one, so a word
+    keeps the id it last shipped under (`shipped`, see load_shipped_ids):
+    that is why 市場 is still 市場|いちば and 市場|しじょう, and why 実 stays
+    じつ though み is now taught too. A new word takes its bare spelling if no
+    word keeps it, otherwise spelling|reading, in CLAIM_ORDER. A bare id
+    whose word is no longer taught passes to the next reading of that
+    spelling — 家 was the suffix け and is now いえ, 人 was じん and is now
+    ひと — so a learner who studied the old word keeps that progress on the
+    word the story reader and kanji pages now show."""
+    ordered = [(unit, r) for unit in sorted(unit_records, key=lambda u: CLAIM_ORDER.index(unit_group(u)))
+               for r in unit_records[unit]]
+    seen = {}
+    for unit, r in ordered:
+        key = (r["w"], r["r"])
+        if key in seen:
+            raise SystemExit(f"{r['w']}〔{r['r']}〕 is taught twice, in {seen[key]} and {unit}")
+        seen[key] = unit
+    ids, used = {}, set()
+    for _unit, r in ordered:
+        old = shipped.get((r["w"], r["r"]))
+        if old and old not in used:
+            ids[id(r)] = old
+            used.add(old)
+    for _unit, r in ordered:
+        if id(r) not in ids:
+            wid = r["w"] if r["w"] not in used else f"{r['w']}|{r['r']}"
+            if wid in used:
+                raise SystemExit(f"no free id for {r['w']}〔{r['r']}〕")
+            ids[id(r)] = wid
+            used.add(wid)
+    return {unit: {ids[id(r)]: r for r in recs} for unit, recs in unit_records.items()}
+
+
+def other_readings(entry_index, surface, reading):
+    """The readings of the JMdict entry a kanji word comes from, other than
+    its own: 行き先 いきさき is also ゆきさき, one word read two ways. Found by
+    spelling and reading, a priority-tagged entry first — the same choice
+    find_entry() makes. Readings JMdict restricts to another spelling, or
+    marks as not a reading of any kanji spelling, are left out."""
+    if KANA_ONLY_RE.match(surface):
+        return []
+    for want_common in (True, False):
+        for e in entry_index[2].get(surface, ()):
+            if want_common != ("<ke_pri>" in e or "<re_pri>" in e):
+                continue
+            readings = []
+            for r_ele in re.findall(r"<r_ele>(.*?)</r_ele>", e, re.S):
+                restr = [html.unescape(x) for x in re.findall(r"<re_restr>(.*?)</re_restr>", r_ele)]
+                if "<re_nokanji/>" in r_ele or (restr and surface not in restr):
+                    continue
+                readings.append(kata_to_hira(html.unescape(re.search(r"<reb>(.*?)</reb>", r_ele).group(1))))
+            if reading in readings:
+                return [r for r in dict.fromkeys(readings) if r != reading]
+    return []
+
+
+def drop_small_units(unit_records):
+    """Deletes every unit under MIN_UNIT_SIZE, in place, and returns them as
+    (unit, size) pairs. Core, A12 and story-words tiles are hand-picked lists,
+    not quotas, and are kept at any size."""
+    dropped = []
+    for unit in list(unit_records):
+        if unit.startswith("C") or unit == "A12" or unit_group(unit) == "S":
+            continue
+        if len(unit_records[unit]) < MIN_UNIT_SIZE:
+            dropped.append((unit, len(unit_records[unit])))
+            del unit_records[unit]
+    return dropped
 
 
 def main():
     if not JMDICT.exists():
         raise SystemExit(f"Missing {JMDICT} — run tools/fetch_kanji_sources.sh first.")
+    shipped_ids = load_shipped_ids()
 
     print("Loading kanji course data (quiz readings, taught-kanji pool)...")
     quiz_readings, taught_kanji = load_kanji_quiz_data()
@@ -2027,6 +2219,32 @@ def main():
     candidates = [c for c in candidates if c["surface"] not in excluded_surfaces]
     candidates.sort(key=lambda c: (c["rank"], len(c["reading"])))
 
+    # Each written form's main reading: the one the corpus uses most
+    # (reading_share), the more common entry (cx) breaking a tie. JMdict
+    # tags every reading of 家, 人 or 前 alike, so without this the shortest
+    # reading (け, じん, ぜん) came first. Only a form's main reading can join a
+    # theme unit, and any other reading has to earn its own entry later.
+    main_reading = {}
+    for c in sorted(candidates, key=lambda c: (-reading_share(c["surface"], c["reading"]), c["cx"])):
+        main_reading.setdefault(c["surface"], c["reading"])
+
+    # (surface, reading) pairs already taught. A second reading of a taught
+    # form is a different word and can have an entry too (年 is とし in Core
+    # and ねん elsewhere) — see assign_ids() for how the two get distinct ids
+    # — but only one the corpus actually attests (second_reading_ok), so a
+    # form's leftover dictionary readings do not ride in on its count.
+    claimed_words = {(r["w"], r["r"]) for recs in unit_records.values() for r in recs}
+    taught_forms = {w for w, _ in claimed_words}
+
+    def second_reading_ok(surface, reading):
+        _uses, readings = tanaka_readings()
+        return readings.get(surface, {}).get(reading, 0) >= MIN_SECOND_READING_USES
+
+    def claim(unit, record):
+        unit_records[unit].append(record)
+        claimed_words.add((record["w"], record["r"]))
+        taught_forms.add(record["w"])
+
     level_counts = {"f": 0, "h": 0}
     unit_level_counts = {}
     unclassified = 0
@@ -2034,6 +2252,8 @@ def main():
     for c in candidates:
         if level_counts["f"] >= WORDS_PER_LEVEL["f"] and level_counts["h"] >= WORDS_PER_LEVEL["h"]:
             break
+        if c["reading"] != main_reading[c["surface"]] or c["surface"] in taught_forms:
+            continue
         unit = classify(c)
         if unit is None:
             unclassified += 1
@@ -2060,7 +2280,7 @@ def main():
         # separate unit ("2.4h") from its 'f' words, see phase 6's
         # module-docstring comment.
         out_unit = f"{unit}h" if level == "h" else unit
-        unit_records[out_unit].append(record)
+        claim(out_unit, record)
         level_counts[level] += 1
         unit_level_counts[(unit, level)] = unit_level_counts.get((unit, level), 0) + 1
         used_surfaces.add(c["surface"])
@@ -2088,7 +2308,7 @@ def main():
             reading_to_kanji, taught_kanji, kanji_only_pool,
             cx=entry["cx"], written=entry["written"], spoken=entry["spoken"],
         )
-        unit_records["A12"].append(record)
+        claim("A12", record)
 
     # --- A level (A1-A11): next slice of the SAME frequency-ranked pool,
     # picking up wherever the 'f'/'h' pass above left off (its own
@@ -2101,7 +2321,8 @@ def main():
     for c in candidates:
         if a_count >= WORDS_PER_LEVEL["a"]:
             break
-        if c["surface"] in used_surfaces:
+        if c["surface"] in used_surfaces or c["surface"] in taught_forms \
+                or c["reading"] != main_reading[c["surface"]]:
             continue
         unit = classify_a(c)
         if unit is None:
@@ -2115,13 +2336,21 @@ def main():
             reading_to_kanji, taught_kanji, kanji_only_pool,
             cx=c["cx"], written=c["written"], spoken=c["spoken"],
         )
-        unit_records[unit].append(record)
+        claim(unit, record)
         a_count += 1
         a_unit_counts[unit] = a_unit_counts.get(unit, 0) + 1
         used_surfaces.add(c["surface"])
 
     print(f"A level words: {a_count} at 'a' "
           f"({a_unclassified} remaining candidates matched no A-level theme either)")
+
+    # A theme or A-level unit too small to ship is dropped now, before the
+    # passes below, rather than at the end: those passes skip every word
+    # already claimed, and a word claimed only by a unit about to be dropped
+    # (机 by 3.2, 旅 by 2.5) used to end up with no entry at all.
+    dropped = drop_small_units(unit_records)
+    claimed_words = {(r["w"], r["r"]) for recs in unit_records.values() for r in recs}
+    taught_forms = {w for w, _ in claimed_words}
 
     # --- Kanji words (K1, K2, ...): not part of vocab-plan.md §2.3 at all —
     # a user-requested bonus group, not a curriculum tier. A kanji's own
@@ -2148,18 +2377,15 @@ def main():
     # pools every other vocab word gets, and find_entry gives the SAME
     # record shape as everything else via make_record(). A surface CAN be
     # a homograph, though (石 is both こく, a unit of measure, and いし,
-    # "stone") — find_entry always resolves to whichever entry's FIRST
-    # k_ele matches, which is occasionally not the reading kanji-data's own
-    # alignment actually credited this word for. Checked against kanji-
-    # data's own `kana` field (ground truth for what that word's kanji page
-    # actually shows) and skipped on a mismatch — about 1% of candidates,
-    # not worth teaching a reading the kanji page itself doesn't display.
+    # "stone"), so the lookup asks for the reading kanji-data's own `kana`
+    # field gives it — ground truth for what that word's kanji page actually
+    # shows. It used to take the first entry for the spelling and skip the
+    # word on a mismatch, which is how 石/いし and 家/いえ went untaught.
     KANJI_WORD_UNIT_SIZE = 40
     kanji_manifest = load_js_const("src/data/kanji-manifest.js", "KANJI_UNITS")
     primary_grades = [g for g in kanji_manifest if g.isdigit() and 1 <= int(g) <= 6]
 
-    already_covered = {r["w"] for recs in unit_records.values() for r in recs}
-    k_seen = set(already_covered)
+    k_seen = set()
     k_unit_labels = {}
     k_chunk_index = 0
     k_current = []
@@ -2170,6 +2396,14 @@ def main():
     def flush_kanji_words():
         nonlocal k_chunk_index, k_current, k_current_grades
         if not k_current:
+            return
+        # Same as flush_other_words(): a short last tile joins the previous.
+        if len(k_current) < MIN_UNIT_SIZE and k_chunk_index:
+            for rec in k_current:
+                rec["th"] = f"K{k_chunk_index}"
+            unit_records[f"K{k_chunk_index}"].extend(k_current)
+            k_current = []
+            k_current_grades = set()
             return
         k_chunk_index += 1
         uid = f"K{k_chunk_index}"
@@ -2189,13 +2423,22 @@ def main():
         kentries = load_js_const(f"src/data/kanji-grade-{grade}.js", "KANJI_ENTRIES")
         for kentry in kentries:
             for w in kentry["words"]:
-                surface = w["kanji"]
-                if surface in k_seen:
+                if (w["kanji"], w["kana"]) in k_seen:
                     continue
-                k_seen.add(surface)
-                entry = find_entry(entry_index, keb=surface)
-                if entry is None or entry["reading"] != w["kana"]:
+                k_seen.add((w["kanji"], w["kana"]))
+                entry = find_entry(entry_index, keb=w["kanji"], reading=w["kana"])
+                if entry is None:
                     k_mismatches += 1
+                    continue
+                # The page shows this word, so it gets an entry unless it is
+                # already taught — compared on the entry's own surface, since
+                # a kana word's surface is its kana (沢山 is taught as たくさん,
+                # in Core) — or its spelling is taught with another reading
+                # and the corpus does not attest this one (頭/とう beside
+                # 頭/あたま is attested, so both are taught).
+                if (entry["surface"], entry["reading"]) in claimed_words:
+                    continue
+                if entry["surface"] in taught_forms and not second_reading_ok(entry["surface"], entry["reading"]):
                     continue
                 record = make_record(
                     f"K{k_chunk_index + 1}", "k", entry["surface"], entry["reading"], entry["glosses"], entry["senses"], entry["pos"], entry["uk"],
@@ -2204,6 +2447,8 @@ def main():
                     cx=entry["cx"], written=entry["written"], spoken=entry["spoken"],
                 )
                 k_current.append(record)
+                claimed_words.add((record["w"], record["r"]))
+                taught_forms.add(record["w"])
                 k_current_grades.add(grade)
                 k_total += 1
                 if len(k_current) >= KANJI_WORD_UNIT_SIZE:
@@ -2228,7 +2473,7 @@ def main():
 
     UNIT_LABELS.update(k_unit_labels)
     print(f"Kanji words: {k_total} words across {k_chunk_index} units "
-          f"({k_mismatches} skipped — find_entry's homograph did not match the kanji page's own reading)")
+          f"({k_mismatches} skipped — no JMdict entry has the kanji page's own reading)")
 
     # --- Other common words (O1, O2, ...): everything under COMMONNESS_MAX
     # that nothing above claimed. The groups above are all quota-shaped —
@@ -2240,10 +2485,9 @@ def main():
     # kanji page happens to list it. This pass exists to make the claim "the
     # app teaches the common words" actually true; it is ordered by
     # commonness, so O1 is the most common of what is left. ---
-    already_claimed = {r["w"] for recs in unit_records.values() for r in recs}
     leftovers = [
         c for c in candidates
-        if c["surface"] not in already_claimed and c["cx"] <= COMMONNESS_MAX
+        if (c["surface"], c["reading"]) not in claimed_words and c["cx"] <= COMMONNESS_MAX
     ]
     leftovers.sort(key=lambda c: (c["cx"], len(c["reading"])))
 
@@ -2255,6 +2499,15 @@ def main():
     def flush_other_words():
         nonlocal o_chunk, o_index, o_total
         if not o_chunk:
+            return
+        # A last tile too short to ship joins the one before it, rather than
+        # being dropped with its words.
+        if len(o_chunk) < MIN_UNIT_SIZE and o_index:
+            for rec in o_chunk:
+                rec["th"] = f"O{o_index}"
+            unit_records[f"O{o_index}"].extend(o_chunk)
+            o_total += len(o_chunk)
+            o_chunk = []
             return
         o_index += 1
         uid = f"O{o_index}"
@@ -2271,9 +2524,16 @@ def main():
         o_chunk = []
 
     for c in leftovers:
-        if c["surface"] in o_seen:
+        # A form's second reading needs the corpus to attest it. Either way
+        # its cx counts only that reading's share of the form's uses, so
+        # leftovers, in cx order, meet a form's common reading first.
+        if (c["surface"], c["reading"]) in o_seen:
             continue
-        o_seen.add(c["surface"])
+        if c["surface"] in taught_forms and not second_reading_ok(c["surface"], c["reading"]):
+            continue
+        o_seen.add((c["surface"], c["reading"]))
+        claimed_words.add((c["surface"], c["reading"]))
+        taught_forms.add(c["surface"])
         record = make_record(
             "O", "o", c["surface"], c["reading"], c["glosses"], c["senses"], c["pos"], c["uk"],
             kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
@@ -2305,19 +2565,14 @@ def main():
     # (のぞく, うつる) and find_entry() would take whichever entry comes
     # first. The story's spelling is kept as the surface — 子ども stays 子ども,
     # a kana word stays kana — so the reader links the word it shows. A
-    # surface some other unit already teaches is skipped: ids are surfaces,
-    # and two units cannot both own one. Ordered by commonness, like O.
-    # "Teaches" means a unit that survives the MIN_UNIT_SIZE cut below: a
-    # word claimed only by a theme tile about to be dropped (机 by 3.2, 旅
-    # by 2.5) has no entry at all, which is how it came to need one here. ---
-    claimed = {r["w"] for unit, recs in unit_records.items()
-               if len(recs) >= MIN_UNIT_SIZE or unit.startswith("C") or unit == "A12"
-               for r in recs}
+    # word some other unit already teaches is skipped. The same spelling
+    # with another reading is a different word and is kept (assign_ids()
+    # gives it a surface|reading id). Ordered by commonness, like O. ---
     story_records = []
     story_skipped = []
     for surface, reading, seq in story_words:
         e = story_entries.get(seq)
-        if e is None or surface in claimed:
+        if e is None or (surface, reading) in claimed_words:
             story_skipped.append(surface)
             continue
         forms = {html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", e)} \
@@ -2329,10 +2584,10 @@ def main():
         fs = re.search(r"<sense>.*?</sense>", e, re.S).group(0)
         pos_tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", fs)]
         glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
-        cx, is_written, is_spoken = story_commonness(e, surface)
+        cx, is_written, is_spoken = commonness_of(e, surface, reading)
         story_records.append((cx, len(reading), surface, reading, glosses, extract_senses(e, reading),
                               pos_category(pos_tags), bool(KANA_ONLY_RE.match(surface)), is_written, is_spoken))
-        claimed.add(surface)
+        claimed_words.add((surface, reading))
     story_records.sort(key=lambda r: (r[0], r[1]))
     s_total = 0
     for i in range(0, len(story_records), COMMON_UNIT_SIZE):
@@ -2353,15 +2608,10 @@ def main():
              f"{'、'.join(story_skipped)})" if story_skipped else ""))
 
     # --- Drop near-empty units, report sizes ---
-    dropped = []
-    for unit in list(unit_records):
-        # A story-words tile is a hand-reviewed list, not a quota — its
-        # last, shorter tile is still words someone chose to teach.
-        if unit.startswith("C") or unit == "A12" or unit_group(unit) == "S":
-            continue
-        if len(unit_records[unit]) < MIN_UNIT_SIZE:
-            dropped.append((unit, len(unit_records[unit])))
-            del unit_records[unit]
+    # Theme and A-level units were cut after their own passes, and the K and
+    # O passes fold a short last tile into the one before, so this is only a
+    # safety net for a unit a future pass leaves short.
+    dropped += drop_small_units(unit_records)
     if dropped:
         print(f"Dropped {len(dropped)} units below MIN_UNIT_SIZE={MIN_UNIT_SIZE}: {dropped}")
 
@@ -2447,12 +2697,18 @@ def main():
 
     manifest_units = {}
     lookup = {}
-    for unit, recs in unit_records.items():
-        by_id = assign_ids(recs)
+    ids_by_unit = assign_ids(unit_records, shipped_ids)
+    for unit, by_id in ids_by_unit.items():
         manifest_units[unit] = list(by_id.keys())
         entries_out = [{"id": wid, **rec} for wid, rec in by_id.items()]
-        for wid in by_id:
-            lookup[by_id[wid]["w"]] = unit  # last unit wins on a cross-unit surface clash — rare, acceptable for v1
+        for wid, rec in by_id.items():
+            # Every id, and every spelling: a spelling names the unit of its
+            # bare id (or, for 市場, of its first reading). The story build
+            # reads each entry's reading from the unit files before linking
+            # a story word to it — see autoLink() in build_story_data.mjs.
+            lookup[wid] = unit
+            if wid == rec["w"] or rec["w"] not in lookup:
+                lookup[rec["w"]] = unit
         out_path = DATA_DIR / f"vocab-{unit}.js"
         js = header + [
             "export const VOCAB_ENTRIES = " + encode_entries(entries_out) + ";",
@@ -2474,8 +2730,7 @@ def main():
     # commonness-ordered list, so X1 is the 40 most common words the app
     # teaches, full stop — no theme quota, no kanji-grade ordering.
     common_order = []
-    for unit, recs in unit_records.items():
-        by_id = assign_ids(recs)
+    for unit, by_id in ids_by_unit.items():
         for wid, rec in by_id.items():
             # A K-group word can sit above COMMONNESS_MAX (it earned its
             # place by being on a kanji's page, not by frequency); it still
@@ -2547,11 +2802,19 @@ def main():
     manifest_path.write_text("\n".join(manifest_js), encoding="utf-8")
 
     lookup_path = DATA_DIR / "vocab-lookup.js"
+    alternates = {wid: alt for by_id in ids_by_unit.values() for wid, rec in by_id.items()
+                  if (alt := other_readings(entry_index, rec["w"], rec["r"]))}
     lookup_js = header + [
-        "// surface -> home unit id, for cross-unit lookup with no grade\n"
-        "// context (word detail links, and later story annotation — see\n"
-        "// vocab-plan.md §3.4/§10).",
+        "// Build-time only: tools/build_story_data.mjs and\n"
+        "// tools/check_story_vocab.py read this; the app never fetches it.\n"
+        "//\n"
+        "// VOCAB_LOOKUP: spelling, and every id, -> home unit id.",
         "export const VOCAB_LOOKUP = " + json.dumps(lookup, ensure_ascii=False, indent=2) + ";",
+        "",
+        "// VOCAB_READINGS: id -> the other readings of the same JMdict entry\n"
+        "// (頭 あたま is also かしら, 描く えがく is also かく), so a story that\n"
+        "// reads a word the other way still links to it. Only ids that have any.",
+        "export const VOCAB_READINGS = " + json.dumps(alternates, ensure_ascii=False, indent=2) + ";",
         "",
     ]
     lookup_path.write_text("\n".join(lookup_js), encoding="utf-8")

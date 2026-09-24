@@ -1521,7 +1521,7 @@ export const STORY = {
             "s": "ネズミ",
             "k": "ネズミ",
             "ruby": null,
-            "d": null,
+            "d": "ネズミ",
             "pos": "n",
             "g": "mice"
           },

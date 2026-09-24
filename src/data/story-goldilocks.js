@@ -331,7 +331,7 @@ export const STORY = {
                 "さん"
               ]
             ],
-            "d": "三つ",
+            "d": null,
             "pos": "num",
             "g": "three things"
           },
@@ -893,7 +893,7 @@ export const STORY = {
                 "さん"
               ]
             ],
-            "d": "三つ",
+            "d": null,
             "pos": "num",
             "g": "three things"
           },
@@ -1354,7 +1354,7 @@ export const STORY = {
                 "さん"
               ]
             ],
-            "d": "三つ",
+            "d": null,
             "pos": "num",
             "g": "three things"
           },
@@ -1718,7 +1718,7 @@ export const STORY = {
                 "さん"
               ]
             ],
-            "d": "三つ",
+            "d": null,
             "pos": "num",
             "g": "three things"
           },

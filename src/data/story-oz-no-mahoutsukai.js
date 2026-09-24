@@ -609,7 +609,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": "空",
+            "d": "空|そら",
             "pos": "n",
             "g": "air, sky"
           },
@@ -1523,7 +1523,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -2238,7 +2238,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": "空",
+            "d": "空|そら",
             "pos": "n",
             "g": "air, sky"
           },
@@ -2417,7 +2417,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -5748,7 +5748,7 @@ export const STORY = {
                 "ひたい"
               ]
             ],
-            "d": "額",
+            "d": null,
             "pos": "n",
             "g": "forehead"
           },
@@ -5834,7 +5834,7 @@ export const STORY = {
                 "しるし"
               ]
             ],
-            "d": null,
+            "d": "印",
             "pos": "n",
             "g": "mark, sign"
           },
@@ -7930,7 +7930,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -10648,7 +10648,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -10764,7 +10764,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -11863,7 +11863,7 @@ export const STORY = {
                 "とお"
               ]
             ],
-            "d": "通り",
+            "d": "通り|とおり",
             "pos": "exp",
             "g": "is true, is as said",
             "df": "通り",
@@ -11922,7 +11922,7 @@ export const STORY = {
                 "ほか"
               ]
             ],
-            "d": "他",
+            "d": "他|ほか",
             "pos": "adj",
             "g": "other"
           },
@@ -12902,7 +12902,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },

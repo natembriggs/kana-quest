@@ -1057,7 +1057,7 @@ export const STORY = {
             "s": "たち",
             "k": "たち",
             "ruby": null,
-            "d": null,
+            "d": "たち",
             "pos": "part",
             "g": "plural suffix — marks a group, \"-s\" or \"and the others\""
           },
@@ -4358,7 +4358,7 @@ export const STORY = {
             "s": "なくなった",
             "k": "なくなった",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "disappeared",
             "df": "なくなる",

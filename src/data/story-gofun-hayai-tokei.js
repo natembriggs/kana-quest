@@ -1165,7 +1165,7 @@ export const STORY = {
                 "した"
               ]
             ],
-            "d": null,
+            "d": "下",
             "pos": "n",
             "g": "underneath"
           },
@@ -3337,7 +3337,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "the house"
           },

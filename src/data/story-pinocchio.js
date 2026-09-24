@@ -1085,7 +1085,7 @@ export const STORY = {
                 "じゅう"
               ]
             ],
-            "d": "町中",
+            "d": null,
             "pos": "n",
             "g": "throughout the town"
           },
@@ -5196,7 +5196,7 @@ export const STORY = {
             "s": "つかない",
             "k": "つかない",
             "ruby": null,
-            "d": null,
+            "d": "つく",
             "pos": "v",
             "g": "will not tell",
             "df": "つく",
@@ -5737,7 +5737,7 @@ export const STORY = {
             "s": "よう",
             "k": "よう",
             "ruby": null,
-            "d": null,
+            "d": "よう",
             "pos": "part",
             "g": "so that; request marker"
           },
@@ -6596,7 +6596,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -6784,7 +6784,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -6930,7 +6930,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -7130,7 +7130,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -7178,7 +7178,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -7533,7 +7533,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -7720,7 +7720,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -7785,7 +7785,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "remains open",
             "df": "開く",
@@ -7996,7 +7996,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -8088,7 +8088,7 @@ export const STORY = {
             "s": "クジラ",
             "k": "クジラ",
             "ruby": null,
-            "d": null,
+            "d": "クジラ",
             "pos": "n",
             "g": "whale"
           },
@@ -9827,7 +9827,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "expectation; intended purpose"
           },

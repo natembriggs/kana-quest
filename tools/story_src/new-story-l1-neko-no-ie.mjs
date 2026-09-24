@@ -15,7 +15,7 @@ const theStory = expandStory({
   art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }] },
   lexicon: lexicon({
     "はな": ["Hana", "pn"],
-    "家[いえ]": ["house; home", "n", {"d": false}],
+    "家[いえ]": ["house; home", "n"],
     "猫[ねこ]": ["cat", "n"],
     "います": ["is here", "v", {"df": "いる", "cf": "polite present/future"}],
     "小[ちい]さい": ["small", "adj"],

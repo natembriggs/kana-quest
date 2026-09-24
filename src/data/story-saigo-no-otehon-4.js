@@ -509,7 +509,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -609,7 +609,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -1976,7 +1976,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -3009,7 +3009,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -4446,7 +4446,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -4813,7 +4813,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -6891,7 +6891,7 @@ export const STORY = {
             "s": "かもしれない",
             "k": "かもしれない",
             "ruby": null,
-            "d": null,
+            "d": "かもしれない",
             "pos": "aux",
             "g": "might; may"
           },
@@ -7327,7 +7327,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -8019,7 +8019,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -11082,7 +11082,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; matter; (about)"
           },
@@ -14578,7 +14578,7 @@ export const STORY = {
                 "なん"
               ]
             ],
-            "d": "何",
+            "d": null,
             "pos": "pn",
             "g": "what"
           },

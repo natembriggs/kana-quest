@@ -1975,7 +1975,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -2447,7 +2447,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -2785,7 +2785,7 @@ export const STORY = {
                 "まち"
               ]
             ],
-            "d": "街",
+            "d": null,
             "pos": "n",
             "g": "streets"
           },
@@ -6030,7 +6030,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stone"
           },
@@ -7715,7 +7715,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -10187,7 +10187,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -12877,7 +12877,7 @@ export const STORY = {
             "s": "かもしれない",
             "k": "かもしれない",
             "ruby": null,
-            "d": null,
+            "d": "かもしれない",
             "pos": "aux",
             "g": "might; perhaps"
           },
@@ -14008,7 +14008,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "should; expected to"
           },
@@ -14542,7 +14542,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },

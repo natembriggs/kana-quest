@@ -471,7 +471,7 @@ export const STORY = {
                 "か"
               ]
             ],
-            "d": null,
+            "d": "描く",
             "pos": "v",
             "g": "draw, and",
             "df": "描く",
@@ -1935,7 +1935,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -2935,7 +2935,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "before"
           },
@@ -2956,7 +2956,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": null,
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "open, and",
             "df": "開く",
@@ -3780,7 +3780,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -4246,7 +4246,7 @@ export const STORY = {
                 "か"
               ]
             ],
-            "d": null,
+            "d": "描く",
             "pos": "v",
             "g": "drew",
             "df": "描く",
@@ -4690,7 +4690,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "before"
           },
@@ -4739,7 +4739,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": null,
+            "d": "空|そら",
             "pos": "n",
             "g": "sky"
           },
@@ -4931,7 +4931,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": null,
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened up (gradually)",
             "df": "開く",
@@ -5190,7 +5190,7 @@ export const STORY = {
                 "か"
               ]
             ],
-            "d": null,
+            "d": "描く",
             "pos": "v",
             "g": "drew",
             "df": "描く",

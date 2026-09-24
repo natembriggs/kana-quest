@@ -1210,7 +1210,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "in front"
           },

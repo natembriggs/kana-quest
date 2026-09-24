@@ -85,7 +85,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -894,7 +894,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "in front of"
           },
@@ -1513,7 +1513,7 @@ export const STORY = {
             "s": "ください",
             "k": "ください",
             "ruby": null,
-            "d": null,
+            "d": "ください",
             "pos": "aux",
             "g": "please do"
           },
@@ -2069,7 +2069,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },

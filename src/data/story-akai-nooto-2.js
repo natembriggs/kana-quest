@@ -1541,7 +1541,7 @@ export const STORY = {
                 "ぶん"
               ]
             ],
-            "d": "文",
+            "d": null,
             "pos": "n",
             "g": "sentence"
           },
@@ -4394,7 +4394,7 @@ export const STORY = {
                 "がわ"
               ]
             ],
-            "d": "側",
+            "d": null,
             "pos": "n",
             "g": "side"
           },
@@ -4822,7 +4822,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -4920,7 +4920,7 @@ export const STORY = {
                 "ぶん"
               ]
             ],
-            "d": "文",
+            "d": null,
             "pos": "n",
             "g": "sentence"
           },
@@ -5116,7 +5116,7 @@ export const STORY = {
                 "ぶん"
               ]
             ],
-            "d": "文",
+            "d": null,
             "pos": "n",
             "g": "sentence"
           },

@@ -6579,7 +6579,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "supposed to be"
           },

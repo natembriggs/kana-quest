@@ -13,6 +13,16 @@ export const CHANGELOG = [
   {
     date: '2026-09-24',
     changes: [
+      'Fixed: tapping some of the commonest words in a story opened a different word spelled the same way. 家 (いえ, house) opened 家 read け, the “-ke” of a family name; 人 (ひと) opened the suffix じん, as in “-ian”; and 下, 前, 石, 心, 空, 床 and 頭 did the same. A story word now opens a vocabulary word only when it is read the same way, so 空 read そら opens “sky”, not 空 read から, “empty”.',
+      'Changed: the word list now teaches the everyday readings. 家 is いえ, 人 is ひと, 下 is した, 前 is まえ and 心 is こころ. If you had studied one of these, your progress carries over to the everyday word. Words like 空 (そら), 金 (きん), 方 (かた) and 通り (とおり) now have their own entry next to the reading already taught.',
+      'New: about 220 more common words, including ここ, また, すぐ, なぜ, おいしい and かわいい, which were counted as rare before because they are usually written in kana. 机 and 旅, which had gone missing, are back too. A few rarely used readings were taken out, such as 字 read あざ and 軒 read のき.',
+      'Changed: because of this, the “By commonness” vocabulary order has been reshuffled, so many tiles now hold different words. Everything you have learned is kept, word by word.',
+      'Fixed: a vocabulary course card only says “Common words 1” for the topic units it belongs to. In the “By commonness” order a card said “Common words 1 · Everyday essentials”, and now just says “Everyday essentials”; the “Other common words” cards are fixed the same way.',
+    ],
+  },
+  {
+    date: '2026-09-24',
+    changes: [
       'Changed: we checked every story for words that are rare, old-fashioned or unnatural, so you spend your effort on Japanese you will meet again. In The Lanterns of the Hidden Valley the old word 帳面 (a ledger) is now ノート. Snow White now has a 魔法の鏡 and 七人の小人 instead of マジックミラー and ドワーフ, Frankenstein makes a 怪物 rather than a モンスター, and the Bremen animals join a 音楽隊. About 100 sentences in 18 stories changed, including six wrong readings (宝石 is ほうせき, 一週間 is いっしゅうかん). You keep your place in every story.',
       'New: a “From stories” group in Vocabulary, with 959 words you meet in the stories that were missing from the word list — everyday words like 机, 旅, ここ and みんな, and story words like 提灯 and 魔女. Tapping one of these words in a story now opens its full vocabulary page.',
       'New: from chapter 2 onward, a “← Chapter 1” (and so on) button at the top of the story takes you back to the chapter before.',

@@ -41,7 +41,7 @@ const theStory = expandStory({
     "今[きょ]日[う]": ["today", "n"],
     "近[ちか]く": ["nearby", "n"],
     "働[はたら]いています": ["is working", "v", {"df": "働く", "cf": "polite present progressive"}],
-    "前[まえ]": ["in front", "n", {"d": false}],
+    "前[まえ]": ["in front", "n"],
     "公[こう]園[えん]": ["park", "n"],
     "持[も]って": ["carrying", "v", {"df": "持つ", "cf": "te-form"}],
     "来[き]ました": ["came", "v", {"df": "来る", "cf": "polite past"}],

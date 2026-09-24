@@ -487,7 +487,7 @@ export const STORY = {
             "s": "ください",
             "k": "ください",
             "ruby": null,
-            "d": null,
+            "d": "ください",
             "pos": "aux",
             "g": "please do"
           },
@@ -2692,7 +2692,7 @@ export const STORY = {
             "s": "ください",
             "k": "ください",
             "ruby": null,
-            "d": null,
+            "d": "ください",
             "pos": "aux",
             "g": "please do"
           },

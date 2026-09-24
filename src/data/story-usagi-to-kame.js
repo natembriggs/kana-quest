@@ -90,7 +90,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -179,7 +179,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -322,7 +322,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -564,7 +564,7 @@ export const STORY = {
           {
             "s": "こと",
             "k": "こと",
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "ruby": null,
             "g": "nominaliser — turns a verb into \"the act of ...\""
@@ -714,7 +714,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -892,7 +892,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -936,7 +936,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -1140,7 +1140,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"
@@ -1245,7 +1245,7 @@ export const STORY = {
           {
             "s": "うさぎ",
             "k": "うさぎ",
-            "d": null,
+            "d": "うさぎ",
             "pos": "pn",
             "ruby": null,
             "g": "hare, rabbit"

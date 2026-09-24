@@ -974,7 +974,7 @@ export const STORY = {
                 "あ"
               ]
             ],
-            "d": "空く",
+            "d": null,
             "pos": "v",
             "g": "cleared; free",
             "df": "空く",
@@ -1126,7 +1126,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house"
           },
@@ -1297,7 +1297,7 @@ export const STORY = {
                 "ひと"
               ]
             ],
-            "d": null,
+            "d": "人",
             "pos": "n",
             "g": "person"
           },
@@ -1909,7 +1909,7 @@ export const STORY = {
             "s": "ただ",
             "k": "ただ",
             "ruby": null,
-            "d": null,
+            "d": "ただ",
             "pos": "adv",
             "g": "however"
           },
@@ -2319,7 +2319,7 @@ export const STORY = {
             "s": "なくなった",
             "k": "なくなった",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "came to an end",
             "df": "なくなる",
@@ -2616,7 +2616,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -2770,7 +2770,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -2816,7 +2816,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house"
           },
@@ -4032,7 +4032,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house"
           },
@@ -4239,7 +4239,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "in front"
           },
@@ -5556,7 +5556,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house"
           },
@@ -5846,7 +5846,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "expected to be true"
           },
@@ -6766,7 +6766,7 @@ export const STORY = {
                 "がわ"
               ]
             ],
-            "d": "側",
+            "d": null,
             "pos": "n",
             "g": "side"
           },
@@ -7557,7 +7557,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "in front"
           },
@@ -8336,7 +8336,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "house"
           },
@@ -8630,7 +8630,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": null,
+            "d": "空|そら",
             "pos": "n",
             "g": "sky"
           },
@@ -8909,7 +8909,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -9300,7 +9300,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -9600,7 +9600,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -9778,7 +9778,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -10158,7 +10158,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -10768,7 +10768,7 @@ export const STORY = {
                 "した"
               ]
             ],
-            "d": null,
+            "d": "下",
             "pos": "n",
             "g": "beneath"
           },
@@ -11289,7 +11289,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },

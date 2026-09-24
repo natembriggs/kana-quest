@@ -157,12 +157,21 @@ curriculum, add it there properly** — a line in
 its distractors — rather than smuggling it in through a story. §5a says which
 words qualify.
 
-Check the linked entry's reading and sense, too. A matching spelling alone
-can point to a different word: the curriculum's 家/け entry is not 家/いえ.
-Use an explicit vocabulary id for the correct homograph when one exists.
-Otherwise set `d: false` in the source lexicon entry's extra fields to
-suppress automatic linking. The builder emits `d: null`; the reader still
-shows the story's own reading, meaning and conjugation details.
+The builder links by spelling **and reading**: a token links only to an
+entry read the way the story reads it (or another reading JMdict gives the
+same word — 頭 あたま is also かしら). A spelling the curriculum teaches with
+two readings has two ids, the second carrying its reading (年 and 年|ねん,
+空 and 空|そら), and 空/そら finds 空|そら by itself. A token whose reading
+matches nothing stays unlinked, and an explicit `d` whose reading does not
+match is dropped with a `link:` line in the build output.
+
+Check the linked entry's sense, though — a matching reading can still be a
+different word. The curriculum's なる is "to bear fruit", not "to become",
+and なお is an adverb, not the name Nao. Use an explicit vocabulary id for
+the correct homograph when one exists. Otherwise set `d: false` in the
+source lexicon entry's extra fields to suppress automatic linking. The
+builder emits `d: null`; the reader still shows the story's own reading,
+meaning and conjugation details.
 
 ---
 
@@ -359,7 +368,7 @@ is caught at authoring time rather than found by a learner:
 - every sentence has a non-empty translation
 - every non-punctuation token has a gloss (`g`)
 - every token containing kanji has per-character ruby
-- every `d` resolves in `VOCAB_LOOKUP`
+- every `d` is a real vocabulary id, read the way the story reads it
 - `df` and `cf` are both present or both absent
 
 What it does **not** check, and a human must:

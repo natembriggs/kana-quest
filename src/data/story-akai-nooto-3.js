@@ -2128,7 +2128,7 @@ export const STORY = {
                 "お"
               ]
             ],
-            "d": "降り",
+            "d": "降りる",
             "pos": "v",
             "g": "got out",
             "df": "降りる",
@@ -3036,7 +3036,7 @@ export const STORY = {
             "s": "はず",
             "k": "はず",
             "ruby": null,
-            "d": null,
+            "d": "はず",
             "pos": "n",
             "g": "supposed to be"
           },
@@ -3082,7 +3082,7 @@ export const STORY = {
                 "ぷん"
               ]
             ],
-            "d": "十分",
+            "d": null,
             "pos": "n",
             "g": "ten minutes"
           },

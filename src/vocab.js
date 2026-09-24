@@ -155,12 +155,14 @@ export function unitGroupLabel(unit) {
 
 /**
  * "Common words 1" / "Common words 2" for a GCSE-style themed unit, or null
- * for Core, an A-level unit, or a kanji-words unit — none of the three is
+ * for every other group — Core, A level, the kanji-words, other-common-words
+ * and story-words groups, and the commonness axis's X units. None of them is
  * levelled: Core is the app's own beyond-the-spec spine, A level (phase 7)
  * is a single frequency band with no further Foundation/Higher-style split
- * of its own, and the kanji-words bonus group isn't levelled at all, just
- * ordered (unitGroupLabel's own label already says everything any of these
- * three would need to add). Kept
+ * of its own, and the rest are ordered lists, not tiers (unitGroupLabel's
+ * own label already says everything any of them would need to add). Asked
+ * the other way round — which groups ARE themed — so that a group added
+ * later is unlevelled by default rather than labelled "Common words 1". Kept
  * named around "level" rather than "tier" in the DOM/CSS sense used
  * elsewhere in this app — kanji and kana mastery already own the word
  * "tier" for Leitner box (0-4), an unrelated axis (matching vocab-plan.md
@@ -174,8 +176,8 @@ export function unitGroupLabel(unit) {
  */
 export function unitLevelLabel(unit) {
   const group = unitGroup(unit);
-  if (group === 'C' || group === 'A' || group === 'K' || group === 'S') return null;
-  return unit.endsWith('h') ? 'Common words 2' : 'Common words 1';
+  if (group === 'H') return 'Common words 2';
+  return /^[1-5]$/.test(group) ? 'Common words 1' : null;
 }
 
 /** The short badge text for a unit tile ("2.4" either way) — inside the
@@ -294,7 +296,8 @@ export function vocabUnitFor(id) {
 }
 
 // Surface form -> every id sharing it — almost always exactly one, except
-// the single homograph collision above (§3.3) — so a kanji detail page's own
+// for a spelling taught with two readings (§3.3: 年 and 年|ねん, 市場|いちば
+// and 市場|しじょう) — so a kanji detail page's own
 // "common words" list (kanji.js's own JMdict-derived word list, built
 // independently of this file's separate frequency-based curriculum) can
 // check whether one of ITS words is also something taught here, without
@@ -309,15 +312,18 @@ unitByWord.forEach((_unit, id) => {
 /**
  * The vocab word id matching a {kanji, kana} pair from elsewhere in the app,
  * or null if that exact word isn't part of the taught vocab curriculum at
- * all. Disambiguates the one homograph collision (市場) by kana; an
- * unmatched kana on an ambiguous surface falls back to the first id, which
- * only ever affects that single pair.
+ * all. A spelling taught with two readings is told apart by kana: the
+ * second reading's id carries it (空|そら), so a kana matching no id's
+ * suffix means the reading behind the bare id (空, read から) — and failing
+ * that, as for 市場 whose ids both carry a reading, the first id.
  */
 export function vocabIdForWord(kanji, kana) {
   const candidates = idsBySurface.get(kanji);
   if (!candidates) return null;
   if (candidates.length === 1) return candidates[0];
-  return candidates.find((id) => id.endsWith(`|${kana}`)) || candidates[0];
+  return candidates.find((id) => id.endsWith(`|${kana}`))
+    || candidates.find((id) => id === kanji)
+    || candidates[0];
 }
 
 const loadedUnits = new Set();

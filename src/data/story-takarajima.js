@@ -1152,7 +1152,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "fact; act of"
           },
@@ -1676,7 +1676,7 @@ export const STORY = {
                 "しるし"
               ]
             ],
-            "d": null,
+            "d": "印",
             "pos": "n",
             "g": "mark"
           },
@@ -5075,7 +5075,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "part",
             "g": "because; for the purpose"
           },
@@ -6982,7 +6982,7 @@ export const STORY = {
                 "いか"
               ]
             ],
-            "d": "怒る",
+            "d": null,
             "pos": "adj",
             "g": "angry",
             "df": "怒る",

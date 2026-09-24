@@ -4525,7 +4525,7 @@ export const STORY = {
                 "あ"
               ]
             ],
-            "d": "空く",
+            "d": null,
             "pos": "v",
             "g": "cleared; free",
             "df": "空く",
@@ -6462,7 +6462,7 @@ export const STORY = {
             "s": "なくなり",
             "k": "なくなり",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "disappeared, and",
             "df": "なくなる",
@@ -6660,7 +6660,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened, and",
             "df": "開く",
@@ -7138,7 +7138,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -9207,7 +9207,7 @@ export const STORY = {
             "s": "ついた",
             "k": "ついた",
             "ruby": null,
-            "d": null,
+            "d": "つく",
             "pos": "v",
             "g": "covered with; had stuck to",
             "df": "つく",

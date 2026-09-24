@@ -495,7 +495,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -3685,7 +3685,7 @@ export const STORY = {
             "s": "みな",
             "k": "みな",
             "ruby": null,
-            "d": null,
+            "d": "みな",
             "pos": "pn",
             "g": "all; everyone"
           },
@@ -5034,7 +5034,7 @@ export const STORY = {
             "s": "なくなった",
             "k": "なくなった",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "ran out, was gone",
             "df": "なくなる",
@@ -5196,7 +5196,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; experience; what happened"
           },
@@ -5321,7 +5321,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; experience; what happened"
           },
@@ -5840,7 +5840,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -7809,7 +7809,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -7848,7 +7848,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "nominalizer — turns a verb or clause into \"the act/fact of ~\""
           },
@@ -8957,7 +8957,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing; experience; what happened"
           },

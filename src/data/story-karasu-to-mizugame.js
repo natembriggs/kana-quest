@@ -687,7 +687,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stone"
           },
@@ -752,7 +752,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stone"
           },
@@ -913,7 +913,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stone"
           },

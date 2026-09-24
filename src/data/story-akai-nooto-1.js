@@ -279,7 +279,7 @@ export const STORY = {
                 "ぷん"
               ]
             ],
-            "d": "十分",
+            "d": null,
             "pos": "n",
             "g": "ten minutes"
           },
@@ -349,7 +349,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "floor"
           },
@@ -1895,7 +1895,7 @@ export const STORY = {
             "s": "まま",
             "k": "まま",
             "ruby": null,
-            "d": null,
+            "d": "まま",
             "pos": "part",
             "g": "remaining as; still in the same state"
           },
@@ -2064,7 +2064,7 @@ export const STORY = {
                 "ぶん"
               ]
             ],
-            "d": "文",
+            "d": null,
             "pos": "n",
             "g": "sentence"
           },
@@ -4637,7 +4637,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "when she opened",
             "df": "開く",
@@ -4676,7 +4676,7 @@ export const STORY = {
                 "ぶん"
               ]
             ],
-            "d": "文",
+            "d": null,
             "pos": "n",
             "g": "sentence"
           },

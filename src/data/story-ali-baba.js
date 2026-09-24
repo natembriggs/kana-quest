@@ -1259,7 +1259,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -1460,7 +1460,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -1629,7 +1629,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -1996,7 +1996,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened",
             "df": "開く",
@@ -5331,7 +5331,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -5644,7 +5644,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -5837,7 +5837,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -6460,7 +6460,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -6982,7 +6982,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -7144,7 +7144,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -7234,7 +7234,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -7473,7 +7473,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },
@@ -7684,7 +7684,7 @@ export const STORY = {
                 "かしら"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "the chief"
           },

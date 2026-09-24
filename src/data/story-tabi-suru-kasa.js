@@ -214,7 +214,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": null,
+            "d": "空|そら",
             "pos": "n",
             "g": "sky"
           },
@@ -364,7 +364,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -2030,7 +2030,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -2807,7 +2807,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "前",
             "pos": "n",
             "g": "ahead"
           },
@@ -2966,7 +2966,7 @@ export const STORY = {
                 "した"
               ]
             ],
-            "d": null,
+            "d": "下",
             "pos": "n",
             "g": "beneath"
           },

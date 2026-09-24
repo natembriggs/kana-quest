@@ -667,7 +667,7 @@ when you want to force it, but it shouldn't be needed.
 | `src/vocab.js` | Vocabulary courses (built from `src/data/vocab-manifest.js`), Meaning/Recall question building, per-mode rollups. See `vocab-plan.md` |
 | `src/data/vocab-manifest.js` | Generated data: unit id → ordered word list, plus group/label metadata — always loaded |
 | `src/data/vocab-*.js` | Generated data: full vocabulary entries (readings, glosses, ruby alignment, distractor pools) per unit — do not hand-edit. Loaded lazily the first time that unit is opened |
-| `src/data/vocab-lookup.js` | Generated data: surface form → vocab unit, for cross-unit lookup — used at story build time, not fetched by the running app |
+| `src/data/vocab-lookup.js` | Generated data: surface form and id → vocab unit, and each word's other JMdict readings — used at story build time, not fetched by the running app |
 | `src/reader.js` | Pure rendering for Stories: per-learner script rendering, the furigana-hiding rules and the exposure-occurrence counter. See `stories-plan.md` §5-§6 |
 | `src/data/story-manifest.js` | Generated data: id → `{title, series, level, blurb, hash, length}` for every story — always loaded, small |
 | `src/data/story-*.js` | Generated data: one full story's tokenised body — do not hand-edit, see `story-writing-guide.md`. Loaded lazily when that story is opened |
@@ -691,7 +691,7 @@ when you want to force it, but it shouldn't be needed.
 | `tools/kanji_src/kanji-mnemonics.tsv` | Hand-maintained: one hint per kanji — written from the component keywords and their arrangement where there is a breakdown, and from the shape of the character itself where there isn't. The build script warns about any line that fails to use one of its own kanji's components |
 | `tools/build_vocab_data.py` | Reads `tools/data_src/` and `tools/vocab_src/`, writes `src/data/vocab-manifest.js` + `vocab-*.js` + `vocab-lookup.js` |
 | `tools/story_src/` | Hand-tokenised story source, one file per story — see `story-writing-guide.md`. No morphological tokenizer is used; the author sets every token boundary and reading directly |
-| `tools/build_story_data.mjs` | Reads `tools/story_src/` and `src/data/vocab-lookup.js` (for `d`, the vocab-id link, at build time only), writes `src/data/story-manifest.js` + `story-*.js` |
+| `tools/build_story_data.mjs` | Reads `tools/story_src/` and the vocab data in `src/data/` (for `d`, the vocab-id link, matched by spelling and reading, at build time only), writes `src/data/story-manifest.js` + `story-*.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
 with `wanakana.toKatakana`, and every romaji prompt is derived with

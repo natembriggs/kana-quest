@@ -1452,7 +1452,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": "空",
+            "d": "空|そら",
             "pos": "n",
             "g": "sky, air"
           },

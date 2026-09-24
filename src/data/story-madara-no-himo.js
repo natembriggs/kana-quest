@@ -875,7 +875,7 @@ export const STORY = {
             "s": "ついて",
             "k": "ついて",
             "ruby": null,
-            "d": null,
+            "d": "つく",
             "pos": "v",
             "g": "following",
             "df": "つく",
@@ -1285,7 +1285,7 @@ export const STORY = {
                 "くん"
               ]
             ],
-            "d": "君",
+            "d": "君|くん",
             "pos": "n",
             "g": "Mr — familiar name suffix"
           },
@@ -4274,7 +4274,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing, matter"
           },
@@ -4480,7 +4480,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing, matter"
           },
@@ -5282,7 +5282,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing, matter"
           },
@@ -6656,7 +6656,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "opened, and ...",
             "df": "開く",
@@ -9193,7 +9193,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "flew open",
             "df": "開く",
@@ -9283,7 +9283,7 @@ export const STORY = {
                 "せ"
               ]
             ],
-            "d": "背",
+            "d": null,
             "pos": "n",
             "g": "height, stature"
           },
@@ -9886,7 +9886,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "the floor"
           },
@@ -10330,7 +10330,7 @@ export const STORY = {
                 "ねん"
               ]
             ],
-            "d": "年",
+            "d": null,
             "pos": "n",
             "g": "a year"
           },
@@ -11276,7 +11276,7 @@ export const STORY = {
                 "いし"
               ]
             ],
-            "d": "石",
+            "d": "石|いし",
             "pos": "n",
             "g": "stones"
           },
@@ -11606,7 +11606,7 @@ export const STORY = {
                 "ゆか"
               ]
             ],
-            "d": "床",
+            "d": "床|ゆか",
             "pos": "n",
             "g": "the floor"
           },
@@ -12673,7 +12673,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "n",
             "g": "for the purpose of"
           },
@@ -15172,7 +15172,7 @@ export const STORY = {
                 "ひら"
               ]
             ],
-            "d": "開く",
+            "d": "開く|ひらく",
             "pos": "v",
             "g": "stood open",
             "df": "開く",
@@ -15374,7 +15374,7 @@ export const STORY = {
                 "あたま"
               ]
             ],
-            "d": "頭",
+            "d": "頭|あたま",
             "pos": "n",
             "g": "head"
           },
@@ -15412,7 +15412,7 @@ export const STORY = {
                 "じ"
               ]
             ],
-            "d": "地",
+            "d": null,
             "pos": "n",
             "g": "ground colour"
           },
@@ -16699,7 +16699,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "n",
             "g": "for the purpose of"
           },
@@ -16807,7 +16807,7 @@ export const STORY = {
             "s": "ため",
             "k": "ため",
             "ruby": null,
-            "d": null,
+            "d": "ため",
             "pos": "n",
             "g": "for the purpose of"
           },
@@ -17129,7 +17129,7 @@ export const STORY = {
                 "がわ"
               ]
             ],
-            "d": "側",
+            "d": null,
             "pos": "n",
             "g": "side"
           },
@@ -17621,7 +17621,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing, matter"
           },
@@ -17698,7 +17698,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "n",
             "g": "thing, matter"
           },

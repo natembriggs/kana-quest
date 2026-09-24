@@ -3171,7 +3171,7 @@ export const STORY = {
             "s": "なくなった",
             "k": "なくなった",
             "ruby": null,
-            "d": null,
+            "d": "なくなる",
             "pos": "v",
             "g": "ran out, was gone",
             "df": "なくなる",
@@ -3284,7 +3284,7 @@ export const STORY = {
                 "きん"
               ]
             ],
-            "d": "金",
+            "d": "金|きん",
             "pos": "n",
             "g": "gold"
           },
@@ -3544,7 +3544,7 @@ export const STORY = {
                 "きん"
               ]
             ],
-            "d": "金",
+            "d": "金|きん",
             "pos": "n",
             "g": "gold"
           },
@@ -3848,7 +3848,7 @@ export const STORY = {
                 "きん"
               ]
             ],
-            "d": "金",
+            "d": "金|きん",
             "pos": "n",
             "g": "gold"
           },
@@ -5014,7 +5014,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": "空",
+            "d": "空|そら",
             "pos": "n",
             "g": "sky"
           },

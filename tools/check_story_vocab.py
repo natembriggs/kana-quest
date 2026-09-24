@@ -85,14 +85,53 @@ def load_stories():
 
 
 def load_vocab_readings():
-    """vocab id -> reading, for the linked-entry reading check."""
+    """vocab id -> the word's readings, for the linked-entry reading check:
+    its own, then the other readings JMdict gives the same entry
+    (VOCAB_READINGS — 頭 あたま is also かしら)."""
     readings = {}
     for path in glob.glob(str(DATA / "vocab-*.js")):
         if path.endswith(("vocab-manifest.js", "vocab-lookup.js")):
             continue
         for entry in load_js_object(path, "VOCAB_ENTRIES"):
-            readings[entry["id"]] = entry["r"]
+            readings[entry["id"]] = [kata_to_hira(entry["r"])]
+    for wid, alt in load_js_object(DATA / "vocab-lookup.js", "VOCAB_READINGS").items():
+        readings[wid] += [kata_to_hira(r) for r in alt]
     return readings
+
+
+def reads_as(token, wid, readings):
+    """Whether a story token reads as the vocabulary word it links to — the
+    same rule as readsAs() in tools/build_story_data.mjs. From where the
+    word's spelling starts in the token, the token's reading must begin with
+    one of the word's readings, up to any trailing kana: 途中で is 途中,
+    開いた is 開く|ひらく, but 家/いえ is not 家/け."""
+    spelling = wid.split("|")[0]
+    reading = kata_to_hira(token["k"])
+    start = token["s"].find(spelling[0])
+    if start > 0:
+        ruby = dict((i, kana) for i, kana in token.get("ruby") or [])
+        prefix = ""
+        for i in range(start):
+            if i in ruby:
+                prefix += kata_to_hira(ruby[i])
+            elif KANJI_RE.match(token["s"][i]):
+                prefix = None
+                break
+            else:
+                prefix += kata_to_hira(token["s"][i])
+        if prefix is not None and reading.startswith(prefix):
+            reading = reading[len(prefix):]
+    tail = re.search(r"[ぁ-ゖ]*$", spelling).group(0)
+    if tail == spelling:
+        return True
+    for r in readings:
+        stem = r[:len(r) - len(tail)] if tail and r.endswith(tail) else r
+        if spelling.endswith("来る") and stem.endswith("く"):
+            if reading.startswith(stem[:-1]) and reading[len(stem) - 1:len(stem)] in ("く", "き", "こ"):
+                return True
+        elif reading.startswith(stem):
+            return True
+    return False
 
 
 def load_jmdict():
@@ -181,8 +220,8 @@ def main():
                     reasons = None
                     if token.get("d"):
                         linked = vocab_readings.get(token["d"])
-                        if not token.get("df") and linked and kata_to_hira(token["k"]) != linked:
-                            reasons = [f"linked:{token['d']} is read {linked}"]
+                        if linked and not reads_as(token, token["d"], linked):
+                            reasons = [f"linked:{token['d']} is read {'/'.join(linked)}"]
                     elif lemma not in lookup and token["s"] not in lookup:
                         ok = reviewed.get(lemma)
                         if ok and LEVELS.index(ok["from"]) <= level:

@@ -291,7 +291,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -543,7 +543,7 @@ export const STORY = {
             "s": "こと",
             "k": "こと",
             "ruby": null,
-            "d": null,
+            "d": "こと",
             "pos": "part",
             "g": "about; the matter of"
           },
@@ -865,7 +865,7 @@ export const STORY = {
                 "そら"
               ]
             ],
-            "d": null,
+            "d": "空|そら",
             "pos": "n",
             "g": "sky"
           },
@@ -3178,7 +3178,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -3396,7 +3396,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -3956,7 +3956,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
@@ -4555,7 +4555,7 @@ export const STORY = {
                 "いえ"
               ]
             ],
-            "d": null,
+            "d": "家",
             "pos": "n",
             "g": "home"
           },
