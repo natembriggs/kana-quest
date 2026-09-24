@@ -1,10 +1,16 @@
 # Kanji meanings audit — truncated meanings lists
 
-Status: **audit complete, 2026-09-24, no fix applied yet.** Triggered by a
-live bug report: 調's detail screen showed meanings `tune, tone, meter, key
-(music)` with no mention of "investigate" — despite the screen's own example
-words (調べ/調査 "investigation", しらべる "to examine") being built entirely
-around that sense.
+Status: **fixed, 2026-09-24.** Triggered by a live bug report: 調's detail
+screen showed meanings `tune, tone, meter, key (music)` with no mention of
+"investigate" — despite the screen's own example words (調べ/調査
+"investigation", しらべる "to examine") being built entirely around that
+sense. All 128 kanji flagged below now have their missing meaning restored,
+via `MEANING_INCLUDE` in `tools/build_kanji_data.py` (same shape as the
+existing `OBSCURE_WORD_OVERRIDE`) and a full regeneration of every
+`kanji-grade-*.js` file. A regression test (`test/smoke.js`) asserts all 128
+fixes stay present. See "Recommended fix" below for exactly how it was
+applied, and its own note on the small amount of incidental, harmless JMdict
+gloss-wording drift the regeneration picked up along the way.
 
 ## Root cause
 
@@ -284,24 +290,44 @@ a nuance — same pattern as 調:
 - **見** (grade 1) — missing **opinion** (見解, 意見 — a distinct sense from
   "see/hopes/chances").
 
-## Recommended fix
+## Fix, as built
 
-Same shape as `OBSCURE_WORD_OVERRIDE` already in `build_kanji_data.py`: add
-a small, hand-maintained override table (e.g. `MEANING_INCLUDE = {"調":
-["investigate"], "悪": ["evil"], ...}`) consulted in `parse_kanjidic()` so an
-override's meanings are guaranteed to survive the cut — by adding one extra
-slot per override rather than dropping an existing meaning, so this doesn't
-also need re-litigating what today's kept 4 should be. Then re-run
-`tools/build_kanji_data.py` (needs `tools/fetch_kanji_sources.sh` first,
-~90MB, not committed) and diff the output — expect changes confined to the
-overridden kanji; anything else changing would mean EDRDG's dictionaries
-moved since this data was last generated, which would need a look before
-committing.
+Same shape as `OBSCURE_WORD_OVERRIDE` already in `build_kanji_data.py`: a
+small, hand-maintained `MEANING_INCLUDE` table (all 128 kanji from the table
+above, one missing meaning each) consulted in `parse_kanjidic()` so an
+override's meaning is guaranteed to survive the cut — added as an extra
+slot per override rather than dropping one of the kept four, so this never
+also relitigated what today's kept 4 should be.
 
-Not built yet — this file is the audit only. Full raw data (all 711
-truncated kanji, not just the 128 flagged here) is in the session's
-scratch output if useful, but wasn't included here to keep this file
-reviewable.
+Building it required `tools/fetch_kanji_sources.sh` (KANJIDIC2/JMdict,
+~90MB) and, less obviously, `tools/fetch_kanjivg.sh` too — `main()`'s
+beyond-jōyō (grade 9) selection needs KanjiVG stroke data to pick which
+non-jōyō kanji are "drawable," and skipping that fetch silently produced
+zero beyond-jōyō candidates on a first attempt, which would have wiped all
+six `kanji-grade-9-*.js` units from the manifest. Caught before committing
+by diffing the regenerated output against the prior committed data and
+noticing grade 9 had vanished; fetching KanjiVG and re-running restored the
+correct 897-kanji beyond-jōyō set. Worth remembering next time this script
+is re-run: skipping the KanjiVG fetch doesn't error, it just quietly drops
+that whole unit group.
+
+The regeneration also picked up a small amount of **incidental, unrelated
+drift** — JMdict/subtitle-frequency snapshots had moved since this data was
+last generated, months earlier. Checked programmatically (comparing every
+kanji entry's JSON before/after, not just eyeballing): of 3,033 kanji, 128
+entries changed exactly as intended (a meaning added, nothing else), and 24
+changed for an unrelated reason — a reading-example word swapped for an
+equally valid alternative, an "en" gloss reworded ("to drop in (at)" → "to
+drop by"), or a `spoken` tag flipping. All 24 were read by hand; none lost
+content or introduced anything wrong, just newer-but-equally-correct
+dictionary wording. None of the 24 overlap with the 128 intentional fixes
+except two kanji (労, 脇) that got both an intentional and an incidental
+change in the same entry.
+
+A regression test (`test/smoke.js`, "meanings: previously-truncated
+headline senses are kept") now asserts all 128 fixes are present, so a
+future regeneration — including one that also picks up fresh upstream
+drift — can't silently lose them again.
 
 ## Open questions
 
