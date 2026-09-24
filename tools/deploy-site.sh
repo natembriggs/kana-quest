@@ -116,4 +116,4 @@ if [ "${1:-}" = "--stage-only" ]; then
 fi
 
 echo
-npx wrangler deploy --assets "$DIST"
+npx --yes "${WRANGLER:-wrangler}" deploy --assets "$DIST"
