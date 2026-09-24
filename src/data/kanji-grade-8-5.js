@@ -3570,7 +3570,8 @@ export const KANJI_ENTRIES = [
       "musical score",
       "music",
       "note",
-      "staff"
+      "staff",
+      "genealogy"
     ],
     "words": [
       {
@@ -6461,7 +6462,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "抹殺",
         "kana": "まっさつ",
-        "en": "erasure",
+        "en": "elimination (of a person, group, etc.)",
         "written": false,
         "spoken": true
       },
@@ -8177,7 +8178,8 @@ export const KANJI_ENTRIES = [
       "bargain",
       "reason",
       "charge",
-      "suspicion"
+      "suspicion",
+      "honest"
     ],
     "words": [
       {
@@ -9558,7 +9560,8 @@ export const KANJI_ENTRIES = [
       "ooze",
       "flow",
       "soak in",
-      "penetrate"
+      "penetrate",
+      "secrete"
     ],
     "words": [
       {

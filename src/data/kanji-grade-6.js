@@ -20,7 +20,8 @@ export const KANJI_ENTRIES = [
       "row",
       "and",
       "besides",
-      "as well as"
+      "as well as",
+      "line up"
     ],
     "words": [
       {
@@ -738,7 +739,8 @@ export const KANJI_ENTRIES = [
       "wound",
       "hurt",
       "injure",
-      "impair"
+      "impair",
+      "injury"
     ],
     "words": [
       {
@@ -813,7 +815,8 @@ export const KANJI_ENTRIES = [
       "tenderness",
       "excel",
       "surpass",
-      "actor"
+      "actor",
+      "superiority"
     ],
     "words": [
       {
@@ -1159,7 +1162,8 @@ export const KANJI_ENTRIES = [
       "engrave",
       "cut fine",
       "chop",
-      "hash"
+      "hash",
+      "time"
     ],
     "words": [
       {
@@ -4017,7 +4021,8 @@ export const KANJI_ENTRIES = [
       "scroll",
       "volume",
       "book",
-      "part"
+      "part",
+      "roll up"
     ],
     "words": [
       {
@@ -4181,7 +4186,8 @@ export const KANJI_ENTRIES = [
       "dry",
       "parch",
       "ebb",
-      "recede"
+      "recede",
+      "interfere"
     ],
     "words": [
       {
@@ -6213,7 +6219,8 @@ export const KANJI_ENTRIES = [
       "melodious",
       "clear",
       "bright",
-      "serene"
+      "serene",
+      "cheerful"
     ],
     "words": [
       {
@@ -10711,7 +10718,8 @@ export const KANJI_ENTRIES = [
       "renowned",
       "publish",
       "write",
-      "remarkable"
+      "remarkable",
+      "literary work"
     ],
     "words": [
       {
@@ -11243,7 +11251,8 @@ export const KANJI_ENTRIES = [
       "back",
       "amidst",
       "in",
-      "reverse"
+      "reverse",
+      "inside"
     ],
     "words": [
       {
@@ -11315,7 +11324,8 @@ export const KANJI_ENTRIES = [
       "supplement",
       "supply",
       "make good",
-      "offset"
+      "offset",
+      "compensate"
     ],
     "words": [
       {
@@ -11982,7 +11992,8 @@ export const KANJI_ENTRIES = [
       "sincerity",
       "admonish",
       "warn",
-      "prohibit"
+      "prohibit",
+      "truth"
     ],
     "words": [
       {
@@ -12381,7 +12392,8 @@ export const KANJI_ENTRIES = [
       "fare",
       "fee",
       "hire",
-      "rent"
+      "rent",
+      "wages"
     ],
     "words": [
       {
@@ -13043,7 +13055,7 @@ export const KANJI_ENTRIES = [
         "kana": "とざす",
         "en": "to shut",
         "written": true,
-        "spoken": true
+        "spoken": false
       },
       "しめる": {
         "kanji": "閉める",
@@ -13267,7 +13279,8 @@ export const KANJI_ENTRIES = [
       "exclude",
       "division (x/3)",
       "remove",
-      "abolish"
+      "abolish",
+      "except"
     ],
     "words": [
       {

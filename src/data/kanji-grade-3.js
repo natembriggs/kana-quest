@@ -46,7 +46,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "丁目",
         "kana": "ちょうめ",
-        "en": "district of a town",
+        "en": "nth district of a town",
         "written": false,
         "spoken": true
       }
@@ -742,7 +742,8 @@ export const KANJI_ENTRIES = [
       "substitute",
       "change",
       "convert",
-      "replace"
+      "replace",
+      "period"
     ],
     "words": [
       {
@@ -947,7 +948,8 @@ export const KANJI_ENTRIES = [
       "use",
       "send on a mission",
       "order",
-      "messenger"
+      "messenger",
+      "ambassador"
     ],
     "words": [
       {
@@ -1246,7 +1248,8 @@ export const KANJI_ENTRIES = [
       "tool",
       "utensil",
       "means",
-      "possess"
+      "possess",
+      "counter for armor, suits, sets of furniture"
     ],
     "words": [
       {
@@ -1572,7 +1575,8 @@ export const KANJI_ENTRIES = [
       "exertion",
       "endeavour",
       "encourage",
-      "strive"
+      "strive",
+      "diligent"
     ],
     "words": [
       {
@@ -2273,7 +2277,8 @@ export const KANJI_ENTRIES = [
       "accept",
       "undergo",
       "answer (phone)",
-      "take"
+      "take",
+      "receive"
     ],
     "words": [
       {
@@ -2715,7 +2720,8 @@ export const KANJI_ENTRIES = [
       "fate",
       "command",
       "decree",
-      "destiny"
+      "destiny",
+      "life"
     ],
     "words": [
       {
@@ -4839,7 +4845,8 @@ export const KANJI_ENTRIES = [
       "degrees",
       "occurrence",
       "time",
-      "counter for occurrences"
+      "counter for occurrences",
+      "attitude"
     ],
     "words": [
       {
@@ -5129,7 +5136,8 @@ export const KANJI_ENTRIES = [
       "duty",
       "war",
       "campaign",
-      "drafted labor"
+      "drafted labor",
+      "role"
     ],
     "words": [
       {
@@ -5363,7 +5371,8 @@ export const KANJI_ENTRIES = [
       "breath",
       "respiration",
       "son",
-      "interest (on money)"
+      "interest (on money)",
+      "rest"
     ],
     "words": [
       {
@@ -5444,7 +5453,8 @@ export const KANJI_ENTRIES = [
       "bad",
       "vice",
       "rascal",
-      "false"
+      "false",
+      "evil"
     ],
     "words": [
       {
@@ -5992,7 +6002,8 @@ export const KANJI_ENTRIES = [
       "throw",
       "discard",
       "abandon",
-      "launch into"
+      "launch into",
+      "invest in"
     ],
     "words": [
       {
@@ -6823,7 +6834,8 @@ export const KANJI_ENTRIES = [
       "darkness",
       "disappear",
       "shade",
-      "informal"
+      "informal",
+      "grow dark"
     ],
     "words": [
       {
@@ -8652,7 +8664,8 @@ export const KANJI_ENTRIES = [
       "extinguish",
       "blow out",
       "turn off",
-      "neutralize"
+      "neutralize",
+      "cancel"
     ],
     "words": [
       {
@@ -10102,7 +10115,8 @@ export const KANJI_ENTRIES = [
       "inter-",
       "mutual",
       "together",
-      "each other"
+      "each other",
+      "minister of state"
     ],
     "words": [
       {
@@ -11674,7 +11688,8 @@ export const KANJI_ENTRIES = [
       "practice",
       "gloss",
       "train",
-      "drill"
+      "drill",
+      "refine"
     ],
     "words": [
       {
@@ -12776,7 +12791,8 @@ export const KANJI_ENTRIES = [
       "tune",
       "tone",
       "meter",
-      "key (music)"
+      "key (music)",
+      "investigate"
     ],
     "words": [
       {
@@ -13948,7 +13964,7 @@ export const KANJI_ENTRIES = [
       "すすむ": {
         "kanji": "進む",
         "kana": "すすむ",
-        "en": "to advance",
+        "en": "to advance (spatially)",
         "written": true,
         "spoken": true
       },
@@ -14133,7 +14149,8 @@ export const KANJI_ENTRIES = [
       "section",
       "bureau",
       "dept",
-      "class"
+      "class",
+      "part"
     ],
     "words": [
       {

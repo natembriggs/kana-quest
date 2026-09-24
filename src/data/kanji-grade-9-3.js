@@ -1924,7 +1924,8 @@ export const KANJI_ENTRIES = [
       "ignorance",
       "darkness",
       "get",
-      "receive"
+      "receive",
+      "Mongolia"
     ],
     "words": [
       {
@@ -2401,7 +2402,8 @@ export const KANJI_ENTRIES = [
       "some",
       "one",
       "or",
-      "possibly"
+      "possibly",
+      "a certain"
     ],
     "words": [
       {

@@ -2135,7 +2135,7 @@ export const KANJI_ENTRIES = [
       "テイ": {
         "kanji": "鄭声",
         "kana": "ていせい",
-        "en": "(decadent) music of the state of Zheng",
+        "en": "licentious music",
         "written": false,
         "spoken": false
       }

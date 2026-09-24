@@ -549,7 +549,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "寂しい",
         "kana": "さびしい",
-        "en": "lonely",
+        "en": "lonely (e.g. person, feeling)",
         "written": false,
         "spoken": true
       },
@@ -591,7 +591,7 @@ export const KANJI_ENTRIES = [
       "さびしい": {
         "kanji": "寂しい",
         "kana": "さびしい",
-        "en": "lonely",
+        "en": "lonely (e.g. person, feeling)",
         "written": false,
         "spoken": true
       },
@@ -1058,7 +1058,8 @@ export const KANJI_ENTRIES = [
       "vulgar",
       "customs",
       "manners",
-      "worldliness"
+      "worldliness",
+      "mundane things"
     ],
     "words": [
       {
@@ -2524,7 +2525,8 @@ export const KANJI_ENTRIES = [
       "pity",
       "be sparing of",
       "frugal",
-      "stingy"
+      "stingy",
+      "regret"
     ],
     "words": [
       {
@@ -6056,7 +6058,8 @@ export const KANJI_ENTRIES = [
       "pathetic",
       "grief",
       "sorrow",
-      "pathos"
+      "pathos",
+      "pity"
     ],
     "words": [
       {
@@ -7195,7 +7198,8 @@ export const KANJI_ENTRIES = [
       "reap",
       "cut",
       "clip",
-      "trim"
+      "trim",
+      "prune"
     ],
     "words": [
       {
@@ -8473,7 +8477,8 @@ export const KANJI_ENTRIES = [
       "truss",
       "arrest",
       "bind",
-      "tie"
+      "tie",
+      "restrain"
     ],
     "words": [
       {
@@ -10311,7 +10316,8 @@ export const KANJI_ENTRIES = [
       "clod",
       "lump",
       "chunk",
-      "clot"
+      "clot",
+      "mass"
     ],
     "words": [
       {
@@ -10444,7 +10450,8 @@ export const KANJI_ENTRIES = [
       "cash",
       "bad habit",
       "humble prefix",
-      "gift"
+      "gift",
+      "cut paper"
     ],
     "words": [
       {
@@ -10627,7 +10634,8 @@ export const KANJI_ENTRIES = [
       "armpit",
       "the other way",
       "another place",
-      "flank"
+      "flank",
+      "supporting role"
     ],
     "words": [
       {
@@ -10647,7 +10655,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "脇見",
         "kana": "わきみ",
-        "en": "looking from the side",
+        "en": "looking aside",
         "written": false,
         "spoken": false
       },

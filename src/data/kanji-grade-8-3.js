@@ -17,7 +17,8 @@ export const KANJI_ENTRIES = [
       "raise",
       "elevate",
       "hoist",
-      "praise"
+      "praise",
+      "fry in deep fat"
     ],
     "words": [
       {
@@ -2321,7 +2322,8 @@ export const KANJI_ENTRIES = [
       "length",
       "ten shaku",
       "measure",
-      "Mr."
+      "Mr.",
+      "height"
     ],
     "words": [
       {
@@ -3044,8 +3046,7 @@ export const KANJI_ENTRIES = [
       "テイ"
     ],
     "uncommonReadings": [
-      "ジョウ",
-      "さだ"
+      "ジョウ"
     ],
     "readingExamples": {
       "テイ": {
@@ -3059,13 +3060,6 @@ export const KANJI_ENTRIES = [
         "kanji": "貞和",
         "kana": "じょうわ",
         "en": "Jōwa era (of the Northern Court) (1345.10.21-1350.2.27)",
-        "written": false,
-        "spoken": false
-      },
-      "さだ": {
-        "kanji": "貞はる",
-        "kana": "さだはる",
-        "en": "to harp too long on a subject",
         "written": false,
         "spoken": false
       }
@@ -3276,7 +3270,8 @@ export const KANJI_ENTRIES = [
       "pointed",
       "sharpness",
       "edge",
-      "weapon"
+      "weapon",
+      "sharp"
     ],
     "words": [
       {
@@ -3411,7 +3406,8 @@ export const KANJI_ENTRIES = [
       "ardent",
       "violent",
       "vehement",
-      "furious"
+      "furious",
+      "severe"
     ],
     "words": [
       {
@@ -4306,7 +4302,8 @@ export const KANJI_ENTRIES = [
       "paint",
       "plaster",
       "daub",
-      "smear"
+      "smear",
+      "coating"
     ],
     "words": [
       {
@@ -6352,7 +6349,8 @@ export const KANJI_ENTRIES = [
       "flip",
       "turn over",
       "wave",
-      "flutter"
+      "flutter",
+      "change (mind)"
     ],
     "words": [
       {
@@ -7244,7 +7242,8 @@ export const KANJI_ENTRIES = [
       "villa",
       "inn",
       "cottage",
-      "feudal manor"
+      "feudal manor",
+      "solemn"
     ],
     "words": [
       {
@@ -7524,7 +7523,8 @@ export const KANJI_ENTRIES = [
       "feelings",
       "heart",
       "yearn",
-      "miss someone"
+      "miss someone",
+      "breast"
     ],
     "words": [
       {
@@ -7826,7 +7826,8 @@ export const KANJI_ENTRIES = [
       "annexed",
       "accompany",
       "marry",
-      "suit"
+      "suit",
+      "attach"
     ],
     "words": [
       {
@@ -7995,7 +7996,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "栄冠",
         "kana": "えいかん",
-        "en": "laurels",
+        "en": "crown of victory",
         "written": true,
         "spoken": false
       },

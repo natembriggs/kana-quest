@@ -3039,7 +3039,8 @@ export const KANJI_ENTRIES = [
       "reasonable",
       "just",
       "natural",
-      "superb"
+      "superb",
+      "plausible"
     ],
     "words": [
       {

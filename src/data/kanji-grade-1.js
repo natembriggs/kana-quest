@@ -616,7 +616,8 @@ export const KANJI_ENTRIES = [
       "in",
       "inside",
       "middle",
-      "mean"
+      "mean",
+      "center"
     ],
     "words": [
       {
@@ -5633,7 +5634,7 @@ export const KANJI_ENTRIES = [
       "たち": {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop in (at)",
+        "en": "to drop by",
         "written": true,
         "spoken": true
       },
@@ -6095,7 +6096,8 @@ export const KANJI_ENTRIES = [
       "see",
       "hopes",
       "chances",
-      "idea"
+      "idea",
+      "opinion"
     ],
     "words": [
       {
@@ -6617,7 +6619,7 @@ export const KANJI_ENTRIES = [
         "kana": "うき",
         "en": "rainy season",
         "written": true,
-        "spoken": true
+        "spoken": false
       }
     ],
     "quizOn": [
@@ -6641,7 +6643,7 @@ export const KANJI_ENTRIES = [
         "kana": "うき",
         "en": "rainy season",
         "written": true,
-        "spoken": true
+        "spoken": false
       },
       "あめ": {
         "kanji": "雨",

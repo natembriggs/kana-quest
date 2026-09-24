@@ -244,7 +244,8 @@ export const KANJI_ENTRIES = [
       "wear",
       "wrap",
       "tie",
-      "follow around"
+      "follow around",
+      "collect"
     ],
     "words": [
       {
@@ -1595,7 +1596,8 @@ export const KANJI_ENTRIES = [
       "vine",
       "tendril",
       "influence",
-      "connections"
+      "connections",
+      "spread"
     ],
     "words": [
       {
@@ -1833,17 +1835,27 @@ export const KANJI_ENTRIES = [
       "mow down (the enemy)"
     ],
     "words": [],
-    "quizOn": [],
+    "quizOn": [
+      "チ"
+    ],
     "quizKun": [
       "なぐ",
       "なぎ"
     ],
     "quizReadings": [
+      "チ",
       "なぐ",
       "なぎ"
     ],
     "uncommonReadings": [],
     "readingExamples": {
+      "チ": {
+        "kanji": "薙髪",
+        "kana": "ちはつ",
+        "en": "shaving one's head (esp. upon entering the Buddhist priesthood)",
+        "written": false,
+        "spoken": false
+      },
       "なぐ": {
         "kanji": "薙ぐ",
         "kana": "なぐ",

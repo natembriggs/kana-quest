@@ -90,7 +90,8 @@ export const KANJI_ENTRIES = [
       "undertake",
       "scheme",
       "design",
-      "attempt"
+      "attempt",
+      "plan"
     ],
     "words": [
       {
@@ -611,7 +612,8 @@ export const KANJI_ENTRIES = [
       "fresh",
       "vivid",
       "clear",
-      "brilliant"
+      "brilliant",
+      "Korea"
     ],
     "words": [
       {
@@ -1130,7 +1132,8 @@ export const KANJI_ENTRIES = [
       "transit",
       "ford",
       "ferry",
-      "cross"
+      "cross",
+      "deliver"
     ],
     "words": [
       {
@@ -1746,7 +1749,8 @@ export const KANJI_ENTRIES = [
       "stab",
       "protruding",
       "thrust",
-      "pierce"
+      "pierce",
+      "collision"
     ],
     "words": [
       {
@@ -1952,7 +1956,8 @@ export const KANJI_ENTRIES = [
       "coach",
       "command",
       "urge",
-      "lead"
+      "lead",
+      "supervise"
     ],
     "words": [
       {
@@ -3397,7 +3402,8 @@ export const KANJI_ENTRIES = [
       "bases",
       "fort",
       "rampart",
-      "walls"
+      "walls",
+      "base(ball)"
     ],
     "words": [
       {
@@ -6116,7 +6122,8 @@ export const KANJI_ENTRIES = [
       "undress",
       "removing",
       "escape from",
-      "get rid of"
+      "get rid of",
+      "take off"
     ],
     "words": [
       {
@@ -6192,7 +6199,8 @@ export const KANJI_ENTRIES = [
       "push",
       "stop",
       "check",
-      "subdue"
+      "subdue",
+      "press"
     ],
     "words": [
       {
@@ -6287,7 +6295,8 @@ export const KANJI_ENTRIES = [
       "overthrow",
       "fall",
       "collapse",
-      "drop"
+      "drop",
+      "break down"
     ],
     "words": [
       {
@@ -6770,7 +6779,8 @@ export const KANJI_ENTRIES = [
       "tassel",
       "tuft",
       "fringe",
-      "bunch"
+      "bunch",
+      "lock (hair)"
     ],
     "words": [
       {
@@ -7060,7 +7070,8 @@ export const KANJI_ENTRIES = [
       "plane",
       "sharpen",
       "whittle",
-      "pare"
+      "pare",
+      "shave"
     ],
     "words": [
       {
@@ -7371,7 +7382,8 @@ export const KANJI_ENTRIES = [
       "do",
       "change",
       "make",
-      "benefit"
+      "benefit",
+      "good"
     ],
     "words": [
       {
@@ -7752,7 +7764,8 @@ export const KANJI_ENTRIES = [
       "indications",
       "sign",
       "omen",
-      "symptom"
+      "symptom",
+      "collect"
     ],
     "words": [
       {
@@ -8075,7 +8088,8 @@ export const KANJI_ENTRIES = [
       "grow late",
       "night watch",
       "sit up late",
-      "of course"
+      "of course",
+      "more and more"
     ],
     "words": [
       {
@@ -9205,7 +9219,8 @@ export const KANJI_ENTRIES = [
       "re-",
       "return",
       "revert",
-      "resume"
+      "resume",
+      "go backwards"
     ],
     "words": [
       {
@@ -9339,7 +9354,8 @@ export const KANJI_ENTRIES = [
       "quake",
       "shake",
       "tremble",
-      "quiver"
+      "quiver",
+      "shiver"
     ],
     "words": [
       {
@@ -11053,7 +11069,8 @@ export const KANJI_ENTRIES = [
       "thong",
       "beginning",
       "inception",
-      "end"
+      "end",
+      "mental or emotional state"
     ],
     "words": [
       {
@@ -11328,7 +11345,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "返却",
         "kana": "へんきゃく",
-        "en": "return of something",
+        "en": "return (of something borrowed or entrusted)",
         "written": false,
         "spoken": true
       },
@@ -11641,7 +11658,8 @@ export const KANJI_ENTRIES = [
       "penetrate",
       "clear",
       "pierce",
-      "strike home"
+      "strike home",
+      "sit up (all night)"
     ],
     "words": [
       {
@@ -11770,7 +11788,8 @@ export const KANJI_ENTRIES = [
       "char",
       "hurry",
       "impatient",
-      "irritate"
+      "irritate",
+      "burn"
     ],
     "words": [
       {

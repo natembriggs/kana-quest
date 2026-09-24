@@ -577,9 +577,9 @@ export const KANJI_ENTRIES = [
         "spoken": true
       },
       {
-        "kanji": "掛け",
-        "kana": "かけ",
-        "en": "credit",
+        "kanji": "切っ掛け",
+        "kana": "きっかけ",
+        "en": "chance",
         "written": true,
         "spoken": false
       }
@@ -607,9 +607,9 @@ export const KANJI_ENTRIES = [
         "spoken": true
       },
       "かけ": {
-        "kanji": "掛け",
-        "kana": "かけ",
-        "en": "credit",
+        "kanji": "切っ掛け",
+        "kana": "きっかけ",
+        "en": "chance",
         "written": true,
         "spoken": false
       },
@@ -720,7 +720,8 @@ export const KANJI_ENTRIES = [
       "thorn",
       "pierce",
       "stab",
-      "prick"
+      "prick",
+      "calling card"
     ],
     "words": [
       {
@@ -2575,7 +2576,8 @@ export const KANJI_ENTRIES = [
       "armor",
       "high (voice)",
       "A grade",
-      "first class"
+      "first class",
+      "carapace"
     ],
     "words": [
       {
@@ -3869,7 +3871,8 @@ export const KANJI_ENTRIES = [
       "intimidate",
       "dignity",
       "majesty",
-      "menace"
+      "menace",
+      "threaten"
     ],
     "words": [
       {
@@ -4479,7 +4482,8 @@ export const KANJI_ENTRIES = [
       "yell",
       "cry",
       "call",
-      "scream"
+      "scream",
+      "summon"
     ],
     "words": [
       {
@@ -5364,7 +5368,8 @@ export const KANJI_ENTRIES = [
       "rapids",
       "current",
       "torrent",
-      "shallows"
+      "shallows",
+      "shoal"
     ],
     "words": [
       {
@@ -5769,7 +5774,8 @@ export const KANJI_ENTRIES = [
       "consolation",
       "amusement",
       "seduce",
-      "cheer"
+      "cheer",
+      "comfort"
     ],
     "words": [
       {
@@ -6345,7 +6351,8 @@ export const KANJI_ENTRIES = [
       "falsehood",
       "lie",
       "deceive",
-      "pretend"
+      "pretend",
+      "forgery"
     ],
     "words": [
       {
@@ -7452,7 +7459,8 @@ export const KANJI_ENTRIES = [
       "Mr.",
       "hall",
       "mansion",
-      "palace"
+      "palace",
+      "temple"
     ],
     "words": [
       {
@@ -7743,7 +7751,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "嫌い",
         "kana": "きらい",
-        "en": "disliked",
+        "en": "disliking",
         "written": true,
         "spoken": true
       },
@@ -7802,7 +7810,7 @@ export const KANJI_ENTRIES = [
       "きらい": {
         "kanji": "嫌い",
         "kana": "きらい",
-        "en": "disliked",
+        "en": "disliking",
         "written": true,
         "spoken": true
       },
@@ -10081,7 +10089,8 @@ export const KANJI_ENTRIES = [
       "axis",
       "pivot",
       "stem",
-      "stalk"
+      "stalk",
+      "counter for book scrolls"
     ],
     "words": [
       {
@@ -11162,7 +11171,8 @@ export const KANJI_ENTRIES = [
       "peaceful",
       "calm",
       "peace",
-      "easy"
+      "easy",
+      "Thailand"
     ],
     "words": [
       {
@@ -12666,7 +12676,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "踊り",
         "kana": "おどり",
-        "en": "dance",
+        "en": "dancing",
         "written": true,
         "spoken": true
       },

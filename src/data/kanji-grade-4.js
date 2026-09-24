@@ -559,7 +559,8 @@ export const KANJI_ENTRIES = [
       "transmit",
       "go along",
       "walk along",
-      "follow"
+      "follow",
+      "legend"
     ],
     "words": [
       {
@@ -1513,9 +1514,9 @@ export const KANJI_ENTRIES = [
     "uncommonReadings": [],
     "readingExamples": {
       "ドウ": {
-        "kanji": "労働",
-        "kana": "ろうどう",
-        "en": "labor",
+        "kanji": "労働者",
+        "kana": "ろうどうしゃ",
+        "en": "worker",
         "written": true,
         "spoken": true
       },
@@ -1599,7 +1600,8 @@ export const KANJI_ENTRIES = [
       "portent",
       "10**12",
       "trillion",
-      "sign"
+      "sign",
+      "omen"
     ],
     "words": [
       {
@@ -2225,7 +2227,8 @@ export const KANJI_ENTRIES = [
       "separate",
       "branch off",
       "diverge",
-      "fork"
+      "fork",
+      "specially"
     ],
     "words": [
       {
@@ -2713,7 +2716,8 @@ export const KANJI_ENTRIES = [
       "labor",
       "thank for",
       "reward for",
-      "toil"
+      "toil",
+      "trouble"
     ],
     "words": [
       {
@@ -2757,9 +2761,9 @@ export const KANJI_ENTRIES = [
     ],
     "readingExamples": {
       "ロウ": {
-        "kanji": "労働",
-        "kana": "ろうどう",
-        "en": "labor",
+        "kanji": "労働者",
+        "kana": "ろうどうしゃ",
+        "en": "worker",
         "written": true,
         "spoken": true
       },
@@ -3263,7 +3267,8 @@ export const KANJI_ENTRIES = [
       "nonplussed",
       "three (in documents)",
       "going",
-      "coming"
+      "coming",
+      "participate"
     ],
     "words": [
       {
@@ -3353,7 +3358,8 @@ export const KANJI_ENTRIES = [
       "director",
       "official",
       "govt office",
-      "rule"
+      "rule",
+      "administer"
     ],
     "words": [
       {
@@ -3629,7 +3635,8 @@ export const KANJI_ENTRIES = [
       "utensil",
       "vessel",
       "receptacle",
-      "implement"
+      "implement",
+      "instrument"
     ],
     "words": [
       {
@@ -4149,7 +4156,8 @@ export const KANJI_ENTRIES = [
       "lose",
       "error",
       "fault",
-      "disadvantage"
+      "disadvantage",
+      "loss"
     ],
     "words": [
       {
@@ -4402,7 +4410,7 @@ export const KANJI_ENTRIES = [
         "kana": "うき",
         "en": "rainy season",
         "written": true,
-        "spoken": true
+        "spoken": false
       }
     ],
     "quizOn": [
@@ -7295,7 +7303,8 @@ export const KANJI_ENTRIES = [
       "lumber",
       "log",
       "timber",
-      "wood"
+      "wood",
+      "materials"
     ],
     "words": [
       {
@@ -7727,7 +7736,8 @@ export const KANJI_ENTRIES = [
       "plan",
       "suggestion",
       "draft",
-      "ponder"
+      "ponder",
+      "proposition"
     ],
     "words": [
       {
@@ -8050,7 +8060,8 @@ export const KANJI_ENTRIES = [
       "signpost",
       "seal",
       "mark",
-      "stamp"
+      "stamp",
+      "target"
     ],
     "words": [
       {
@@ -8501,7 +8512,8 @@ export const KANJI_ENTRIES = [
       "request",
       "want",
       "wish for",
-      "require"
+      "require",
+      "demand"
     ],
     "words": [
       {
@@ -8634,7 +8646,8 @@ export const KANJI_ENTRIES = [
       "reign",
       "be at peace",
       "calm down",
-      "subdue"
+      "subdue",
+      "rule"
     ],
     "words": [
       {
@@ -9908,7 +9921,8 @@ export const KANJI_ENTRIES = [
       "heat",
       "temperature",
       "fever",
-      "mania"
+      "mania",
+      "passion"
     ],
     "words": [
       {
@@ -9980,7 +9994,8 @@ export const KANJI_ENTRIES = [
       "breed",
       "care for",
       "shepherd",
-      "feed"
+      "feed",
+      "pasture"
     ],
     "words": [
       {
@@ -10102,7 +10117,8 @@ export const KANJI_ENTRIES = [
       "products",
       "bear",
       "give birth",
-      "yield"
+      "yield",
+      "property"
     ],
     "words": [
       {
@@ -10552,7 +10568,8 @@ export const KANJI_ENTRIES = [
       "volume",
       "product (x*y)",
       "acreage",
-      "contents"
+      "contents",
+      "pile up"
     ],
     "words": [
       {
@@ -10823,7 +10840,8 @@ export const KANJI_ENTRIES = [
       "pipe",
       "tube",
       "wind instrument",
-      "drunken talk"
+      "drunken talk",
+      "control"
     ],
     "words": [
       {
@@ -10897,7 +10915,8 @@ export const KANJI_ENTRIES = [
       "node",
       "season",
       "period",
-      "occasion"
+      "occasion",
+      "joint"
     ],
     "words": [
       {
@@ -11732,9 +11751,9 @@ export const KANJI_ENTRIES = [
         "spoken": true
       },
       "いい": {
-        "kanji": "どうでも良い",
-        "kana": "どうでもいい",
-        "en": "inconsequential",
+        "kanji": "と良い",
+        "kana": "といい",
+        "en": "(I) hope that ...",
         "written": false,
         "spoken": true
       }
@@ -12331,7 +12350,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "自覚",
         "kana": "じかく",
-        "en": "self-consciousness",
+        "en": "self-awareness",
         "written": true,
         "spoken": true
       }
@@ -13436,13 +13455,11 @@ export const KANJI_ENTRIES = [
       "セン"
     ],
     "quizKun": [
-      "えらぶ",
-      "よる"
+      "えらぶ"
     ],
     "quizReadings": [
       "セン",
-      "えらぶ",
-      "よる"
+      "えらぶ"
     ],
     "uncommonReadings": [],
     "readingExamples": {
@@ -13458,13 +13475,6 @@ export const KANJI_ENTRIES = [
         "kana": "えらぶ",
         "en": "to choose",
         "written": true,
-        "spoken": true
-      },
-      "よる": {
-        "kanji": "選る",
-        "kana": "よる",
-        "en": "to choose",
-        "written": false,
         "spoken": true
       }
     }
@@ -13735,7 +13745,8 @@ export const KANJI_ENTRIES = [
       "connection",
       "barrier",
       "gateway",
-      "involve"
+      "involve",
+      "concerning"
     ],
     "words": [
       {

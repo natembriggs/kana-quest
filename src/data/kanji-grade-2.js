@@ -2441,7 +2441,8 @@ export const KANJI_ENTRIES = [
       "-times",
       "round",
       "game",
-      "revolve"
+      "revolve",
+      "counter for occurrences"
     ],
     "words": [
       {
@@ -8893,7 +8894,8 @@ export const KANJI_ENTRIES = [
       "dainty",
       "get thin",
       "taper",
-      "slender"
+      "slender",
+      "detailed"
     ],
     "words": [
       {
@@ -9860,7 +9862,8 @@ export const KANJI_ENTRIES = [
       "going",
       "journey",
       "carry out",
-      "conduct"
+      "conduct",
+      "bank"
     ],
     "words": [
       {
@@ -12735,7 +12738,8 @@ export const KANJI_ENTRIES = [
       "chirp",
       "cry",
       "bark",
-      "sound"
+      "sound",
+      "ring"
     ],
     "words": [
       {

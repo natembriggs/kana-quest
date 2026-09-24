@@ -1175,6 +1175,160 @@ for (const [kanji, expected] of [['根', 'radical'], ['基', 'radical (chem)']])
 }
 done('meanings are definitions only, without discarding real ones');
 
+// --- Meanings: truncation didn't drop a kanji's own headline sense --------
+//
+// build_kanji_data.py's parse_kanjidic() keeps only the first 4 non-radical
+// meanings in KANJIDIC's own (not importance-ranked) order — see
+// kanji-meanings-audit.md. 調 was the live bug report that found this: its
+// meanings read "tune, tone, meter, key (music)" with no mention of
+// "investigate", despite its own example words (調べ/調査, "investigation")
+// being built entirely around that sense. MEANING_INCLUDE in that script
+// now guarantees each of these as an extra slot; this is the regression
+// test that a future regen (a fresh KANJIDIC/JMdict fetch) doesn't quietly
+// lose them again.
+const MEANING_TRUNCATION_FIXES = [
+  ["中", "center"],
+  ["見", "opinion"],
+  ["回", "counter for occurrences"],
+  ["細", "detailed"],
+  ["行", "bank"],
+  ["鳴", "ring"],
+  ["代", "period"],
+  ["具", "counter for armor, suits, sets of furniture"],
+  ["勉", "diligent"],
+  ["使", "ambassador"],
+  ["受", "receive"],
+  ["命", "life"],
+  ["度", "attitude"],
+  ["役", "role"],
+  ["悪", "evil"],
+  ["投", "invest in"],
+  ["息", "rest"],
+  ["暗", "grow dark"],
+  ["消", "cancel"],
+  ["相", "minister of state"],
+  ["練", "refine"],
+  ["調", "investigate"],
+  ["部", "part"],
+  ["伝", "legend"],
+  ["兆", "omen"],
+  ["別", "specially"],
+  ["労", "trouble"],
+  ["参", "participate"],
+  ["司", "administer"],
+  ["器", "instrument"],
+  ["失", "loss"],
+  ["材", "materials"],
+  ["案", "proposition"],
+  ["標", "target"],
+  ["求", "demand"],
+  ["治", "rule"],
+  ["牧", "pasture"],
+  ["産", "property"],
+  ["積", "pile up"],
+  ["熱", "passion"],
+  ["節", "joint"],
+  ["管", "control"],
+  ["関", "concerning"],
+  ["余", "remainder"],
+  ["句", "counter for haiku"],
+  ["常", "always"],
+  ["応", "reply"],
+  ["往", "going"],
+  ["得", "profit"],
+  ["情", "circumstances"],
+  ["暴", "violence"],
+  ["断", "decision"],
+  ["確", "confirm"],
+  ["編", "editing"],
+  ["解", "understanding"],
+  ["義", "meaning"],
+  ["費", "waste"],
+  ["額", "amount"],
+  ["並", "line up"],
+  ["傷", "injury"],
+  ["優", "superiority"],
+  ["刻", "time"],
+  ["干", "interfere"],
+  ["巻", "roll up"],
+  ["朗", "cheerful"],
+  ["著", "literary work"],
+  ["裏", "inside"],
+  ["補", "compensate"],
+  ["誠", "truth"],
+  ["除", "except"],
+  ["賃", "wages"],
+  ["鮮", "Korea"],
+  ["企", "plan"],
+  ["渡", "deliver"],
+  ["督", "supervise"],
+  ["突", "collision"],
+  ["塁", "base(ball)"],
+  ["脱", "take off"],
+  ["倒", "break down"],
+  ["押", "press"],
+  ["房", "lock (hair)"],
+  ["削", "shave"],
+  ["為", "good"],
+  ["更", "more and more"],
+  ["徴", "collect"],
+  ["震", "shiver"],
+  ["戻", "go backwards"],
+  ["緒", "mental or emotional state"],
+  ["徹", "sit up (all night)"],
+  ["焦", "burn"],
+  ["刺", "calling card"],
+  ["甲", "carapace"],
+  ["威", "threaten"],
+  ["喚", "summon"],
+  ["瀬", "shoal"],
+  ["慰", "comfort"],
+  ["偽", "forgery"],
+  ["殿", "temple"],
+  ["軸", "counter for book scrolls"],
+  ["泰", "Thailand"],
+  ["揚", "fry in deep fat"],
+  ["丈", "height"],
+  ["鋭", "sharp"],
+  ["烈", "severe"],
+  ["塗", "coating"],
+  ["翻", "change (mind)"],
+  ["荘", "solemn"],
+  ["懐", "breast"],
+  ["添", "attach"],
+  ["俗", "mundane things"],
+  ["惜", "regret"],
+  ["哀", "pity"],
+  ["刈", "prune"],
+  ["塊", "mass"],
+  ["幣", "cut paper"],
+  ["縛", "restrain"],
+  ["脇", "supporting role"],
+  ["譜", "genealogy"],
+  ["廉", "honest"],
+  ["泌", "secrete"],
+  ["栓", "stopper"],
+  ["臆", "cowardly"],
+  ["賦", "installment"],
+  ["蒙", "Mongolia"],
+  ["或", "a certain"],
+  ["尤", "plausible"],
+  ["蔓", "spread"],
+  ["纏", "collect"],
+];
+let meaningTruncationMissing = 0;
+for (const [kanji, expected] of MEANING_TRUNCATION_FIXES) {
+  const course = KANJI_COURSES.find((c) => c.index.has(kanji));
+  if (!course) continue; // not in a currently-loaded course; skip rather than fail
+  if (!kanjiInfo(course, kanji).meanings.includes(expected)) {
+    meaningTruncationMissing += 1;
+    print(`  ${kanji} is missing "${expected}": ${kanjiInfo(course, kanji).meanings.join(', ')}`);
+  }
+}
+check('every audited truncated-meaning fix is present',
+  meaningTruncationMissing === 0, `${meaningTruncationMissing} missing`);
+done('meanings: previously-truncated headline senses are kept');
+
 // --- Definition mode choices ----------------------------------------------
 
 // Four options (two rows of two), not ten: English definitions are long, and

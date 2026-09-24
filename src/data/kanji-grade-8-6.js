@@ -843,7 +843,8 @@ export const KANJI_ENTRIES = [
       "plug",
       "bolt",
       "cork",
-      "bung"
+      "bung",
+      "stopper"
     ],
     "words": [
       {
@@ -7594,7 +7595,8 @@ export const KANJI_ENTRIES = [
       "timidity",
       "heart",
       "mind",
-      "fear"
+      "fear",
+      "cowardly"
     ],
     "words": [
       {
@@ -8226,7 +8228,8 @@ export const KANJI_ENTRIES = [
       "levy",
       "ode",
       "prose",
-      "poem"
+      "poem",
+      "installment"
     ],
     "words": [
       {

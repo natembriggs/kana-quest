@@ -469,7 +469,8 @@ export const KANJI_ENTRIES = [
       "too much",
       "myself",
       "surplus",
-      "other"
+      "other",
+      "remainder"
     ],
     "words": [
       {
@@ -1651,7 +1652,8 @@ export const KANJI_ENTRIES = [
       "phrase",
       "clause",
       "sentence",
-      "passage"
+      "passage",
+      "counter for haiku"
     ],
     "words": [
       {
@@ -3371,7 +3373,7 @@ export const KANJI_ENTRIES = [
       {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop in (at)",
+        "en": "to drop by",
         "written": true,
         "spoken": true
       },
@@ -3409,7 +3411,7 @@ export const KANJI_ENTRIES = [
       "よる": {
         "kanji": "立ち寄る",
         "kana": "たちよる",
-        "en": "to drop in (at)",
+        "en": "to drop by",
         "written": true,
         "spoken": true
       },
@@ -3818,7 +3820,8 @@ export const KANJI_ENTRIES = [
       "usual",
       "ordinary",
       "normal",
-      "common"
+      "common",
+      "always"
     ],
     "words": [
       {
@@ -4207,7 +4210,8 @@ export const KANJI_ENTRIES = [
       "journey",
       "travel",
       "chase away",
-      "let go"
+      "let go",
+      "going"
     ],
     "words": [
       {
@@ -4270,7 +4274,8 @@ export const KANJI_ENTRIES = [
       "gain",
       "get",
       "find",
-      "earn"
+      "earn",
+      "profit"
     ],
     "words": [
       {
@@ -4500,7 +4505,8 @@ export const KANJI_ENTRIES = [
       "apply",
       "answer",
       "yes",
-      "OK"
+      "OK",
+      "reply"
     ],
     "words": [
       {
@@ -4716,7 +4722,8 @@ export const KANJI_ENTRIES = [
       "feelings",
       "emotion",
       "passion",
-      "sympathy"
+      "sympathy",
+      "circumstances"
     ],
     "words": [
       {
@@ -5158,7 +5165,7 @@ export const KANJI_ENTRIES = [
       "さずかる": {
         "kanji": "授かる",
         "kana": "さずかる",
-        "en": "to be awarded (e.g. a prize)",
+        "en": "to be granted (e.g. a title)",
         "written": false,
         "spoken": false
       }
@@ -5786,7 +5793,8 @@ export const KANJI_ENTRIES = [
       "severance",
       "decline",
       "refuse",
-      "apologize"
+      "apologize",
+      "decision"
     ],
     "words": [
       {
@@ -6024,7 +6032,8 @@ export const KANJI_ENTRIES = [
       "outburst",
       "rave",
       "fret",
-      "force"
+      "force",
+      "violence"
     ],
     "words": [
       {
@@ -8602,7 +8611,8 @@ export const KANJI_ENTRIES = [
       "assurance",
       "firm",
       "tight",
-      "hard"
+      "hard",
+      "confirm"
     ],
     "words": [
       {
@@ -9839,7 +9849,8 @@ export const KANJI_ENTRIES = [
       "compilation",
       "knit",
       "plait",
-      "braid"
+      "braid",
+      "editing"
     ],
     "words": [
       {
@@ -10141,7 +10152,8 @@ export const KANJI_ENTRIES = [
       "righteousness",
       "justice",
       "morality",
-      "honor"
+      "honor",
+      "meaning"
     ],
     "words": [
       {
@@ -11077,7 +11089,8 @@ export const KANJI_ENTRIES = [
       "unravel",
       "notes",
       "key",
-      "explanation"
+      "explanation",
+      "understanding"
     ],
     "words": [
       {
@@ -12213,7 +12226,8 @@ export const KANJI_ENTRIES = [
       "expense",
       "cost",
       "spend",
-      "consume"
+      "consume",
+      "waste"
     ],
     "words": [
       {
@@ -13793,7 +13807,8 @@ export const KANJI_ENTRIES = [
       "forehead",
       "tablet",
       "plaque",
-      "framed picture"
+      "framed picture",
+      "amount"
     ],
     "words": [
       {
