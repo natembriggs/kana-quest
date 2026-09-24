@@ -132,6 +132,25 @@ let imageRejected = false;
 try { await dispatchFetch({ ...imageRequest, url: imageRequest.url.replace('01.webp', 'missing.webp') }); } catch { imageRejected = true; }
 check('an unseen offline painting never receives the HTML shell', imageRejected);
 
+// Every network fetch the worker makes, precache and runtime alike, has to
+// revalidate with the server ('no-cache') rather than skip the HTTP cache
+// ('no-store', which re-downloads the whole app on every launch) or trust
+// it (the default, which lets Safari serve a stale file) — see note 1 at
+// the top of sw.js.
+const fetchModes = [];
+globalThis.fetch = async (url, init) => {
+  fetchModes.push(init && init.cache);
+  return { ok: true, clone() { return {}; } };
+};
+cachePutBlocker = null;
+await dispatchWait('install');
+const precacheFetches = fetchModes.length;
+await dispatchFetch({ method: 'GET', mode: 'navigate', url: 'https://example.test/kana-quest/' });
+check('install precaches the shell', precacheFetches === SHELL.length, `${precacheFetches} of ${SHELL.length}`);
+check('every worker fetch revalidates instead of skipping the HTTP cache',
+  fetchModes.length === SHELL.length + 1 && fetchModes.every((mode) => mode === 'no-cache'),
+  [...new Set(fetchModes)].join(', '));
+
 // Every module the app imports statically has to be in SHELL. The activate
 // handler above deletes the previous version's cache, so a boot-time module
 // left out of SHELL is gone from the cache after every update until the

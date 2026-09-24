@@ -13,7 +13,14 @@
 //      python3 -m http.server sends Last-Modified but no Cache-Control, so
 //      Safari applies *heuristic* freshness and can serve a stale file
 //      without revalidating — network-first isn't enough on its own. Every
-//      request here is therefore made with cache: 'no-store'.
+//      request here is therefore made with cache: 'no-cache' (REVALIDATE
+//      below), which means "always ask the server": the browser never trusts
+//      its own idea of freshness, but it does send the ETag/Last-Modified it
+//      has, so a file that hasn't changed comes back as a bodiless 304 and is
+//      served from the HTTP cache. This used to be 'no-store', which avoids
+//      staleness just as well but skips the HTTP cache entirely — no
+//      validators sent, so every launch downloaded the whole app (~450KB
+//      gzipped) again even when nothing had changed.
 //
 //   2. If install fails, the new worker never activates and the old one keeps
 //      serving the old files forever. cache.addAll() is atomic, so one slow
@@ -34,6 +41,10 @@
 const VERSION = '2026-09-24f';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
+
+// See note 1 above. test/service-worker.js checks every network fetch here
+// uses it, so neither 'no-store' nor the default mode creeps back in.
+const REVALIDATE = { cache: 'no-cache' };
 
 const SHELL = [
   './',
@@ -86,7 +97,7 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(CACHE);
     await Promise.all(SHELL.map(async (path) => {
       try {
-        const response = await fetch(path, { cache: 'no-store' });
+        const response = await fetch(path, REVALIDATE);
         if (response.ok) await cache.put(path, response);
       } catch {
         // Tolerated on purpose — see note 2 above.
@@ -128,7 +139,7 @@ self.addEventListener('fetch', (event) => {
       // By URL rather than by Request: a navigate-mode Request cannot be
       // rebuilt with different cache options, and this app sends no headers
       // or credentials worth preserving.
-      const fresh = await fetch(request.url, { cache: 'no-store' });
+      const fresh = await fetch(request.url, REVALIDATE);
       if (fresh.ok) {
         const cache = await caches.open(CACHE);
         // Keep the worker alive until the runtime response is safely cached.
