@@ -252,13 +252,31 @@ class StubSpeechRecognition {
   }
 }
 
+// Just enough of the History API for show()'s Back-gesture wiring: real
+// push/replace state, since SCREEN_BACK_HANDLERS and the popstate-vs-show
+// bookkeeping depend on it actually accumulating, but no real navigation —
+// nothing in these tests dispatches a real popstate.
+globalThis.history = {
+  _stack: [null],
+  get state() { return this._stack[this._stack.length - 1]; },
+  pushState(state) { this._stack.push(state); },
+  replaceState(state) { this._stack[this._stack.length - 1] = state; },
+  back() { if (this._stack.length > 1) this._stack.pop(); },
+};
+
+// Real enough to register and fire a popstate listener (see firePopstate()
+// below) — every other window listener (the sweep's load-as-you-scroll
+// handler, etc.) is still a plain no-op, since nothing here needs to fire
+// those.
+const windowListeners = {};
 globalThis.window = {
   wanakana: globalThis.wanakana,
   scrollTo() {},
   innerHeight: 812,
-  addEventListener() {},
+  addEventListener(type, fn) { (windowListeners[type] ||= []).push(fn); },
   removeEventListener() {},
   SpeechRecognition: StubSpeechRecognition,
+  history: globalThis.history,
 };
 let clipboardText = null;
 globalThis.navigator = { clipboard: { async writeText(text) { clipboardText = text; } } };
@@ -392,6 +410,15 @@ check('resolveBootProfile: zero profiles opens nothing (first-run create form)',
 /** Fires the delegated [data-action] click handler for `action`, the same
  * way a real tap on the button carrying it would. */
 const fireAction = (action) => fire(document, 'click', { target: { closest: () => ({ dataset: { action } }) } });
+
+/** Simulates the system Back gesture / browser Back button: pops the stub
+ * history stack (matching what really happens before popstate ever fires)
+ * and runs every registered popstate listener — see show()'s history.push/
+ * replaceState and wire()'s popstate handler in app.js. */
+function firePopstate() {
+  globalThis.history.back();
+  (windowListeners.popstate || []).forEach((fn) => fn({}));
+}
 
 // --- Create a learner -----------------------------------------------------
 
@@ -5725,6 +5752,69 @@ check('a recognition that never starts gives the button back',
 check('...and says so rather than leaving a dead mic',
   el('feedback-error').textContent.includes('you can still type'),
   `"${el('feedback-error').textContent}"`);
+
+// --- Android/browser Back gesture ------------------------------------------
+// See U1 in review-2026-09-24.md: before this, the app never touched the
+// History API, so the system Back gesture (and the browser Back button)
+// always left the app outright, wherever you were — mid-quiz included.
+// show() now pushes a history entry per non-hub screen, and wire()'s
+// popstate handler runs the same logic that screen's own on-screen back
+// button does (see SCREEN_BACK_HANDLERS in app.js).
+
+// The generic stub element (makeElement) defaults every id's `hidden` to
+// false, unlike a real DOM reflecting index.html's own `hidden` attribute —
+// harmless everywhere else, since those tests only ever check a sheet's
+// hidden state right after explicitly toggling it, but closeTopmostSheet()
+// checks every sheet's CURRENT state, so a sheet some earlier section left
+// open (or never touched) would wrongly look "in the way" here. Force a
+// clean, all-closed slate before testing Back against them.
+['compare-sheet', 'contributions-list-sheet', 'celebration', 'font-size-sheet',
+  'reader-settings-sheet', 'feedback-sheet'].forEach((id) => { el(id).hidden = true; });
+
+fireAction('go-home');
+await settle();
+check('back-gesture setup: on the home screen', visible() === 'screen-home', visible());
+
+fireAction('open-stories');
+await settle();
+check('opening Stories shows the stories screen', visible() === 'screen-stories', visible());
+firePopstate();
+await settle();
+check('Back from Stories goes home, same as its own back button', visible() === 'screen-home', visible());
+
+fireAction('open-settings');
+await settle();
+check('opening Settings shows the settings screen', visible() === 'screen-settings', visible());
+firePopstate();
+await settle();
+check('Back from Settings goes home, same as its own back button', visible() === 'screen-home', visible());
+
+fireAction('open-contributions');
+await settle();
+check('opening Contributions shows that screen', visible() === 'screen-contributions', visible());
+firePopstate();
+await settle();
+check('Back from Contributions goes home, same as its own back button', visible() === 'screen-home', visible());
+
+// A sheet open over a screen takes priority, same as Escape: Back closes
+// just the sheet, and the entry it had to pop to get there is put straight
+// back — otherwise this one gesture would close the sheet AND leave the
+// screen underneath, instead of just the sheet.
+fireAction('open-settings');
+await settle();
+el('font-size-sheet').hidden = false;
+const depthWithSheetOpen = globalThis.history._stack.length;
+firePopstate();
+await settle();
+check('Back closes an open sheet instead of leaving the screen underneath',
+  el('font-size-sheet').hidden === true && visible() === 'screen-settings',
+  `sheet hidden=${el('font-size-sheet').hidden}, showing ${visible()}`);
+check("...and the screen's own history entry was restored, not spent on the sheet",
+  globalThis.history._stack.length === depthWithSheetOpen, globalThis.history._stack.length);
+firePopstate();
+await settle();
+check('a second Back now genuinely leaves the screen, exactly like the first one would have without a sheet in the way',
+  visible() === 'screen-home', visible());
 
 // --- data-action coverage -------------------------------------------------
 

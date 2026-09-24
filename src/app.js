@@ -652,9 +652,29 @@ function show(screenId) {
   updateInstallBannerVisibility();
   window.scrollTo(0, 0);
   reloadIfUpdateWaiting();
+
+  // The app never touched the History API before this, so in a standalone
+  // PWA on Android the Back gesture (and the browser Back button) always
+  // left the app outright, whether you were in a quiz, a story or Settings
+  // — there was never anything for it to pop instead. Every screen but the
+  // three hubs below (where Back leaving the app is exactly right) now
+  // pushes an entry; the popstate handler further down runs the same logic
+  // the screen's own on-screen back button does. Landing on a hub always
+  // replaces rather than pushes, which collapses however deep the stack
+  // got back to one entry, so Back from home/profiles/onboarding always
+  // exits in one press no matter the path taken to get there.
+  const historyState = { screen: screenId };
+  lastScreenHistoryState = historyState;
+  if (HUB_SCREENS.has(screenId)) {
+    history.replaceState(historyState, '');
+  } else {
+    history.pushState(historyState, '');
+  }
 }
 
 let currentScreenId = null;
+const HUB_SCREENS = new Set(['screen-profiles', 'screen-home', 'screen-onboarding']);
+let lastScreenHistoryState = null;
 
 // A lesson, a quiz/writing question, or the session summary all put
 // something the learner needs to reach right at the bottom of the screen —
@@ -12279,6 +12299,143 @@ async function openStory(id) {
   scrollToResumePosition(story, id);
 }
 
+// --- Back navigation (Android/desktop-browser Back, see show()) ----------
+//
+// Each of these is exactly what the matching screen's own on-screen back
+// button already did — factored out to a named function so the popstate
+// handler in wire() can run the same logic a system Back gesture triggers,
+// not just a tap. SCREEN_BACK_HANDLERS below maps a screen to its function.
+
+// Back out one level: the course screen returns to the script picker. But
+// if a kanji search is active, back out of search first — otherwise this
+// would strand the learner on the script picker with no visible way back to
+// the grade/mode UI the search had hidden (see renderCourse()), since the
+// search box's own value is easy to miss. Shared with screen-stories, whose
+// search box is always hidden, so the check there is always false.
+function backFromGoHome() {
+  if (!$('kanji-search-wrap').hidden && $('kanji-search').value.trim()) {
+    $('kanji-search').value = '';
+    renderCourse();
+  } else if (state.profile) renderHome(); else renderProfiles();
+}
+
+// Return to the course screen — from a finished session, or from settings
+// opened while on it.
+function backFromGoCourse() {
+  // Leaving the overview drops any half-made "Mark as known" selection — it
+  // must not resurface on the next overview opened, which may be a
+  // different course or mode entirely.
+  state.overviewSelect = null;
+  state.overviewSelectPurpose = null;
+  state.overviewNotice = null;
+  if (state.profile) renderCourse(); else renderProfiles();
+}
+
+function backFromCloseSettings() {
+  if (!state.profile) renderProfiles();
+  // Settings reached from the first-run flow has no home screen behind it
+  // yet, so its back button goes where its Cancel does.
+  else if (state.onboardingPairing) renderOnboarding();
+  else if (state.settingsReturn === 'screen-course') renderCourse();
+  else renderHome();
+}
+
+// Returns wherever the detail screen was opened from — the set overview
+// (scrolled back to whichever character was being looked at, not the top of
+// a list that can run to 200 characters) normally, or the session summary
+// if that is where its now-tappable chips sent us.
+function backFromDetail() {
+  // Deliberately show() and not renderQuestion() — the quiz screen is still
+  // sitting there fully graded, and re-rendering it would reset the very
+  // answer panel this screen was opened from.
+  if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
+  else if (state.detailReturn === 'writing' && state.session) show('screen-writing');
+  else if (state.detailReturn === 'summary') show('screen-summary');
+  else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
+  else if (state.detailReturn === 'lesson' && state.session) show('screen-lesson');
+  else if (state.detailReturn === 'stack' && state.detailStack.length) {
+    // One level back up a drill-in chain (drillIntoDetail): return to the
+    // detail screen this one was opened FROM, restoring that screen's own
+    // return so the next press keeps unwinding.
+    const { courseId, char, returnTo } = state.detailStack.pop();
+    openCharacterDetail(getAnyCourse(courseId), char, returnTo);
+  } else if (state.detailReturn === 'reader' && state.readerStory) {
+    show('screen-reader');
+    restoreReaderScroll();
+  }
+  else renderOverview(state.detailChar);
+}
+
+function backFromContributions() {
+  if (state.contributionsReturn === 'screen-settings') renderSettings();
+  else renderHome();
+}
+
+function backFromReader() {
+  flushReaderMark();
+  if (readerObserver) readerObserver.disconnect();
+  if (readerReflowObserver) readerReflowObserver.disconnect();
+  closeReaderCard();
+  openStoriesLibrary();
+}
+
+function backFromQuitSession() {
+  stopLessonStrokeLoop(); // in case quit happened mid-lesson, not from the quiz
+  if (state.session) clearTimeout(state.session.pendingAdvance);
+  settlePendingGrade();
+  // Anything this session enrolled but never got round to teaching goes
+  // back, so backing out of the wrong unit leaves no trace on the study
+  // list (releaseSessionEnrollments, feedback #16). After settlePendingGrade,
+  // so a just-answered item counts as taught.
+  releaseSessionEnrollments();
+  state.session = null;
+  renderCourse();
+  // Whatever was answered before quitting is already graded and saved
+  // locally — finishSession() pushes that; quitting early must too, or it
+  // just sits on this device until some later trigger happens to fire.
+  // state.session is already null above, which is what lets autoSync run
+  // at all (§4.4).
+  autoSync({ force: true });
+}
+
+// One function per screen that pushes a history entry (see show()) and has
+// its own back action — a system Back gesture on that screen runs the same
+// function its on-screen back button does. Hub screens (HUB_SCREENS) are
+// deliberately absent: Back from any of them exits the app, same as before.
+const SCREEN_BACK_HANDLERS = {
+  'screen-course': backFromGoHome,
+  'screen-stories': backFromGoHome,
+  'screen-overview': backFromGoCourse,
+  'screen-summary': backFromGoCourse,
+  'screen-settings': backFromCloseSettings,
+  'screen-character-detail': backFromDetail,
+  'screen-study-history': () => show('screen-character-detail'),
+  'screen-contributions': backFromContributions,
+  'screen-reader': backFromReader,
+  'screen-lesson': backFromQuitSession,
+  'screen-writing': backFromQuitSession,
+  'screen-quiz': backFromQuitSession,
+  'screen-sweep': cancelSweep,
+  'screen-onboarding-guide': renderOnboarding,
+  'screen-onboarding-placement': renderOnboarding,
+};
+
+// The sheets Escape already knows how to back out of, topmost first — the
+// comparison sheet is the only one of these that can be opened on top of
+// another screen's own dialog-free content AND over a live question, so it
+// must be the first thing either Escape or Back takes back. Returns whether
+// something was actually closed, so a caller (Back) can tell "there was a
+// sheet in the way" from "there wasn't."
+function closeTopmostSheet() {
+  if (!$('compare-sheet').hidden) { closeCompare(); return true; }
+  if (!$('contributions-list-sheet').hidden) { closeContributionsList(); return true; }
+  if (!$('celebration').hidden) { dismissCelebration(); return true; }
+  if (!$('font-size-sheet').hidden) { closeFontSizePanel(); return true; }
+  if (!$('reader-settings-sheet').hidden) { $('reader-settings-sheet').hidden = true; return true; }
+  if (!$('feedback-sheet').hidden) { closeFeedback(); return true; }
+  return false;
+}
+
 // --- Wiring ---------------------------------------------------------------
 
 function wire() {
@@ -12624,14 +12781,23 @@ function wire() {
   // running through several questions at once.
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    // Topmost first: the comparison sheet is the only one of these that can
-    // be opened on top of another screen's own dialog-free content AND over
-    // a live question, so it must be the first thing Escape takes back.
-    if (!$('compare-sheet').hidden) { closeCompare(); return; }
-    if (!$('contributions-list-sheet').hidden) { closeContributionsList(); return; }
-    if (!$('celebration').hidden) { dismissCelebration(); return; }
-    if (!$('font-size-sheet').hidden) { closeFontSizePanel(); return; }
-    if (!$('feedback-sheet').hidden) closeFeedback();
+    closeTopmostSheet();
+  });
+
+  // Android's Back gesture and the browser Back button both fire this — see
+  // show() for why every non-hub screen now has something to pop. A sheet
+  // open over the current screen takes priority, same as Escape: the
+  // gesture has already popped the screen's own history entry to get here
+  // (a sheet never pushes one of its own), so put it back once the sheet is
+  // closed — otherwise this one Back press would close the sheet AND leave
+  // the screen underneath, instead of just the sheet.
+  window.addEventListener('popstate', () => {
+    if (closeTopmostSheet()) {
+      history.pushState(lastScreenHistoryState, '');
+      return;
+    }
+    const backAction = SCREEN_BACK_HANDLERS[currentScreenId];
+    if (backAction) backAction();
   });
 
   // Arrow keys page the detail screen, matching the swipe — a desktop has
@@ -12712,34 +12878,14 @@ function wire() {
           ? 'Up to date.'
           : 'Could not check just now — you may be offline.';
         break;
-      case 'contributions-back':
-        if (state.contributionsReturn === 'screen-settings') renderSettings();
-        else renderHome();
-        break;
+      case 'contributions-back': backFromContributions(); break;
       case 'celebration-dismiss': await dismissCelebration(); break;
       case 'open-transfer': renderSettings(); break;
       // Back out one level: the course screen returns to the script picker.
-      // But if a kanji search is active, back out of search first — otherwise
-      // this button would strand the learner on the script picker with no
-      // visible way back to the grade/mode UI the search had hidden (see
-      // renderCourse()), since the search box's own value is easy to miss.
-      case 'go-home':
-        if (!$('kanji-search-wrap').hidden && $('kanji-search').value.trim()) {
-          $('kanji-search').value = '';
-          renderCourse();
-        } else if (state.profile) renderHome(); else renderProfiles();
-        break;
+      case 'go-home': backFromGoHome(); break;
       // Return to the course screen — from a finished session, or from
       // settings opened while on it.
-      case 'go-course':
-        // Leaving the overview drops any half-made "Mark as known"
-        // selection — it must not resurface on the next overview opened,
-        // which may be a different course or mode entirely.
-        state.overviewSelect = null;
-        state.overviewSelectPurpose = null;
-        state.overviewNotice = null;
-        if (state.profile) renderCourse(); else renderProfiles();
-        break;
+      case 'go-course': backFromGoCourse(); break;
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
       case 'overview-select-toggle': toggleOverviewSelectMode('known'); break;
@@ -12773,27 +12919,7 @@ function wire() {
       // the session summary if that is where its now-tappable chips sent us.
       case 'detail-prev': pageDetail(-1); break;
       case 'detail-next': pageDetail(1); break;
-      case 'detail-back':
-        // Deliberately show() and not renderQuestion() — the quiz screen is
-        // still sitting there fully graded, and re-rendering it would reset
-        // the very answer panel this screen was opened from.
-        if (state.detailReturn === 'quiz' && state.session) show('screen-quiz');
-        else if (state.detailReturn === 'writing' && state.session) show('screen-writing');
-        else if (state.detailReturn === 'summary') show('screen-summary');
-        else if (state.detailReturn === 'course') renderCourse(); // opened from a search result
-        else if (state.detailReturn === 'lesson' && state.session) show('screen-lesson');
-        else if (state.detailReturn === 'stack' && state.detailStack.length) {
-          // One level back up a drill-in chain (drillIntoDetail): return to
-          // the detail screen this one was opened FROM, restoring that
-          // screen's own return so the next press keeps unwinding.
-          const { courseId, char, returnTo } = state.detailStack.pop();
-          openCharacterDetail(getAnyCourse(courseId), char, returnTo);
-        } else if (state.detailReturn === 'reader' && state.readerStory) {
-          show('screen-reader');
-          restoreReaderScroll();
-        }
-        else renderOverview(state.detailChar);
-        break;
+      case 'detail-back': backFromDetail(); break;
       // Opened only from the detail screen, which is still sitting there
       // untouched underneath — no need to re-render it, just show it again.
       case 'open-study-history': openStudyHistory(); break;
@@ -12802,42 +12928,12 @@ function wire() {
       // stories-plan.md §8 — the Stories card, the library, and the reader's
       // own back/settings controls.
       case 'open-stories': openStoriesLibrary(); break;
-      case 'reader-back':
-        flushReaderMark();
-        if (readerObserver) readerObserver.disconnect();
-        if (readerReflowObserver) readerReflowObserver.disconnect();
-        closeReaderCard();
-        openStoriesLibrary();
-        break;
+      case 'reader-back': backFromReader(); break;
       case 'reader-settings': $('reader-settings-sheet').hidden = false; break;
       case 'reader-settings-close': $('reader-settings-sheet').hidden = true; break;
       case 'study-history-back': show('screen-character-detail'); break;
-      case 'close-settings':
-        if (!state.profile) renderProfiles();
-        // Settings reached from the first-run flow has no home screen behind
-        // it yet, so its back button goes where its Cancel does.
-        else if (state.onboardingPairing) renderOnboarding();
-        else if (state.settingsReturn === 'screen-course') renderCourse();
-        else renderHome();
-        break;
-      case 'quit-session':
-        stopLessonStrokeLoop(); // in case quit happened mid-lesson, not from the quiz
-        if (state.session) clearTimeout(state.session.pendingAdvance);
-        settlePendingGrade();
-        // Anything this session enrolled but never got round to teaching
-        // goes back, so backing out of the wrong unit leaves no trace on
-        // the study list (releaseSessionEnrollments, feedback #16). After
-        // settlePendingGrade, so a just-answered item counts as taught.
-        releaseSessionEnrollments();
-        state.session = null;
-        renderCourse();
-        // Whatever was answered before quitting is already graded and
-        // saved locally — finishSession() pushes that; quitting early must
-        // too, or it just sits on this device until some later trigger
-        // happens to fire. state.session is already null above, which is
-        // what lets autoSync run at all (§4.4).
-        autoSync({ force: true });
-        break;
+      case 'close-settings': backFromCloseSettings(); break;
+      case 'quit-session': backFromQuitSession(); break;
       // Quiz screen only (#quiz-exit-save) — everything quit-session already
       // does (progress was saved as each question was graded; nothing here
       // is "at risk"), but routed through finishSession() instead of
