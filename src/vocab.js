@@ -76,6 +76,9 @@ function unitGroup(unit) {
   // "O<n>" — the rest of the common-word list (build_vocab_data.py's "Other
   // common words"). One browse group, same shape as "K".
   if (unit.startsWith('O') && /^\d+$/.test(unit.slice(1))) return 'O';
+  // "S<n>" — hand-reviewed words met in stories that no other group
+  // teaches (build_vocab_data.py's "Story words"). Same shape as "O".
+  if (unit.startsWith('S') && /^\d+$/.test(unit.slice(1))) return 'S';
   // "X<n>" — the commonness axis. Its browse group is the word's own
   // COMMONNESS tier rather than a fixed tag, so the group strip reads as the
   // frequency ladder ("Everyday essentials", "Very common words", ...). The
@@ -94,13 +97,17 @@ function unitGroup(unit) {
  * kanji-words bonus group last of all — it's the one group here that isn't
  * curriculum at all (see unitGroup above), so it trails even A level.
  * Theme groups '1'..'5' sort by their own numeral; a plain Number() on
- * 'C'/'H'/'A'/'K' would be NaN, so those are special-cased instead of
- * folded into the same arithmetic. */
+ * 'C'/'H'/'A'/'K'/'O'/'S' would be NaN, so those are special-cased instead
+ * of folded into the same arithmetic. The two unordered bonus pools after
+ * the kanji words — the rest of the common-word list, then the words met in
+ * stories — come last. */
 function groupRank(group) {
   if (group === 'C') return -1;
   if (group === 'H') return 100;
   if (group === 'A') return 101;
   if (group === 'K') return 102;
+  if (group === 'O') return 103;
+  if (group === 'S') return 104;
   return Number(group);
 }
 
@@ -167,7 +174,7 @@ export function unitGroupLabel(unit) {
  */
 export function unitLevelLabel(unit) {
   const group = unitGroup(unit);
-  if (group === 'C' || group === 'A' || group === 'K') return null;
+  if (group === 'C' || group === 'A' || group === 'K' || group === 'S') return null;
   return unit.endsWith('h') ? 'Common words 2' : 'Common words 1';
 }
 

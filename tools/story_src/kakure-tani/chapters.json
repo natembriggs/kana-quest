@@ -146,11 +146,11 @@
         "en": "Ren brought it straight out."
       },
       {
-        "tokens": "箱|の|中|に|は|、|底|の|破れた|提灯|と|、|小さな|帳面|が|入っていた|。",
+        "tokens": "箱|の|中|に|は|、|底|の|破れた|提灯|と|、|小さな|ノート|が|入っていた|。",
         "en": "Inside were a lantern with a torn base and a small notebook."
       },
       {
-        "tokens": "帳面|の|表紙|に|は|、|子供|の|字|で|「|さよ|へ|、|来年|も|橋|で|」|と|書かれていた|。",
+        "tokens": "ノート|の|表紙|に|は|、|子供|の|字|で|「|さよ|へ|、|来年|も|橋|で|」|と|書かれていた|。",
         "en": "On the cover, a child had written, “To Sayo: at the bridge again next year.”"
       },
       {
@@ -172,7 +172,7 @@
     ],
     [
       {
-        "tokens": "あおい|は|帳面|を|開き|、|川|に|かかる|橋|の|絵|を|見つけた|。",
+        "tokens": "あおい|は|ノート|を|開き|、|川|に|かかる|橋|の|絵|を|見つけた|。",
         "en": "Aoi opened the notebook and found a drawing of a bridge over a river."
       },
       {
@@ -390,11 +390,11 @@
         "en": "Ren took his phone out of his bag, but the screen showed no signal."
       },
       {
-        "tokens": "あおい|は|祖母|の|帳面|を|持ってきた|こと|を|確かめた|。",
+        "tokens": "あおい|は|祖母|の|ノート|を|持ってきた|こと|を|確かめた|。",
         "en": "Aoi checked that she had brought her grandmother’s notebook."
       },
       {
-        "tokens": "「|この|帳面|なら|、|うち|の|物|だから|いい|んだね|」|。",
+        "tokens": "「|この|ノート|なら|、|うち|の|物|だから|いい|んだね|」|。",
         "en": "“This notebook is all right, then, because it belongs to our family.”"
       },
       {
@@ -514,7 +514,7 @@
         "en": "Even when Ren aimed his torch at it, the white mist only threw the light back."
       },
       {
-        "tokens": "あおい|は|帳面|を|開き|、|描かれていない|橋|の|真ん中|を|見た|。",
+        "tokens": "あおい|は|ノート|を|開き|、|描かれていない|橋|の|真ん中|を|見た|。",
         "en": "Aoi opened the notebook and looked at the blank centre of the drawn bridge."
       },
       {
@@ -648,7 +648,7 @@
         "en": "The woman wore an old indigo kimono, one sleeve mended with white thread."
       },
       {
-        "tokens": "その|針目|は|、|祖母|が|あおい|の|浴衣|を|直した|時|の|針目|に|似ていた|。",
+        "tokens": "その|縫い目|は|、|祖母|が|あおい|の|浴衣|を|直した|時|の|縫い目|に|似ていた|。",
         "en": "The stitches resembled those her grandmother had used to mend Aoi’s summer yukata."
       }
     ],
@@ -658,7 +658,7 @@
         "en": "“Are you Sayo?” Aoi asked."
       },
       {
-        "tokens": "女|は|、|あおい|が|胸|に|抱えている|帳面|を|見た|。",
+        "tokens": "女|は|、|あおい|が|胸|に|抱えている|ノート|を|見た|。",
         "en": "The woman looked at the notebook Aoi was holding to her chest."
       },
       {
@@ -854,7 +854,7 @@
         "en": "Even so, unless someone stayed, there would be nobody to hear the vanishing stories."
       },
       {
-        "tokens": "あおい|は|帳面|の|白い|ページ|に|、|さよ|の|母|の|話|を|書いた|。",
+        "tokens": "あおい|は|ノート|の|白い|ページ|に|、|さよ|の|母|の|話|を|書いた|。",
         "en": "On a blank page of the notebook, Aoi wrote down the story of Sayo’s mother."
       },
       {
@@ -870,7 +870,7 @@
         "en": "Kohaku accompanied Ren to the start of the mountain path, then returned to the riverbank."
       },
       {
-        "tokens": "窓|から|金色|の|光|が|見えなくなると|、|あおい|の|手|の|中|で|、|帳面|が|急に|冷たくなった|。",
+        "tokens": "窓|から|金色|の|光|が|見えなくなると|、|あおい|の|手|の|中|で|、|ノート|が|急に|冷たくなった|。",
         "en": "When the golden light vanished from the window, the notebook suddenly grew cold in Aoi’s hands."
       }
     ]
@@ -954,7 +954,7 @@
         "en": "“If we cut them, they’ll never be the same again.”"
       },
       {
-        "tokens": "あおい|は|帳面|に|書いた|話|を|見せた|。",
+        "tokens": "あおい|は|ノート|に|書いた|話|を|見せた|。",
         "en": "Aoi showed her the stories she had written in the notebook."
       },
       {
@@ -1018,7 +1018,7 @@
         "en": "Then she could picture Ren’s face, but his name would no longer come."
       },
       {
-        "tokens": "恐ろしくなって|帳面|を|開くと|、|書いたばかり|の|字|まで|薄く|見えた|。",
+        "tokens": "恐ろしくなって|ノート|を|開くと|、|書いたばかり|の|字|まで|薄く|見えた|。",
         "en": "Frightened, she opened the notebook, and even the writing she had just added looked faint."
       },
       {
@@ -1134,7 +1134,7 @@
         "en": "With one more wide sheet of paper, she could have joined the bridge to the bank."
       },
       {
-        "tokens": "帳面|に|は|、|祖母|と|さよ|が|描いた|橋|の|ページ|が|残っていた|。",
+        "tokens": "ノート|に|は|、|祖母|と|さよ|が|描いた|橋|の|ページ|が|残っていた|。",
         "en": "The notebook still held the page with the bridge her grandmother and Sayo had drawn."
       },
       {
@@ -1182,7 +1182,7 @@
         "en": "Only the tip of its right ear was black, and the red cord was tied around its neck."
       },
       {
-        "tokens": "帳面|の|絵|と|同じ|狐|が|、|あおい|を|見て|小さく|頭を下げた|。",
+        "tokens": "ノート|の|絵|と|同じ|狐|が|、|あおい|を|見て|小さく|頭を下げた|。",
         "en": "The fox from the notebook’s drawing looked at Aoi and gave a small bow."
       }
     ],
@@ -1222,7 +1222,7 @@
         "en": "Her grandmother took a folded sheet of washi from her bag."
       },
       {
-        "tokens": "来年|、|一緒に|新しい|提灯|を|作ろう|と|、|あの|帳面|に|約束|を|書いた|のだという|。",
+        "tokens": "来年|、|一緒に|新しい|提灯|を|作ろう|と|、|あの|ノート|に|約束|を|書いた|のだという|。",
         "en": "She explained that she had written a promise in the notebook to make a new lantern together the following year."
       },
       {
@@ -1294,7 +1294,7 @@
         "en": "“It looks as though everything has gone,” Sayo said."
       },
       {
-        "tokens": "あおい|は|帳面|を|持ち上げ|、|「|聞いた|こと#matter|は|、|まだ|ここ|に|あります|」|と|答えた|。",
+        "tokens": "あおい|は|ノート|を|持ち上げ|、|「|聞いた|こと#matter|は|、|まだ|ここ|に|あります|」|と|答えた|。",
         "en": "Aoi lifted the notebook and replied, “The things you told me are still here.”"
       },
       {
@@ -1324,7 +1324,7 @@
         "en": "The house’s windows and roof slowly sank into the mist."
       },
       {
-        "tokens": "あおい|の|足元|へ|、|白い|紙|の|小片|が|流れてきた|。",
+        "tokens": "あおい|の|足元|へ|、|白い|紙|の|切れ端|が|流れてきた|。",
         "en": "A small scrap of white paper floated to Aoi’s feet."
       },
       {
@@ -1332,7 +1332,7 @@
         "en": "Only the end of a bridge and a little black ear remained on it."
       },
       {
-        "tokens": "あおい|は|拾い上げ|、|祖母|に|も|見せてから|、|帳面|の|間|に|挟んだ|。",
+        "tokens": "あおい|は|拾い上げ|、|祖母|に|も|見せてから|、|ノート|に|挟んだ|。",
         "en": "Aoi picked it up, showed her grandmother, and tucked it between the notebook’s pages."
       },
       {
@@ -1388,7 +1388,7 @@
         "en": "A little red cord lay in front of the shrine, but there was no bell."
       },
       {
-        "tokens": "家|に|戻った|あおい|は|、|新しい|帳面|の|最初|に|、|隠れ谷|と|大きく|書いた|。",
+        "tokens": "家|に|戻った|あおい|は|、|新しい|ノート|の|最初|に|、|隠れ谷|と|大きく|書いた|。",
         "en": "Back at the house, Aoi wrote “Hidden Valley” in large letters on the first page of a new notebook."
       },
       {
@@ -1400,7 +1400,7 @@
         "en": "Aoi’s phone rang, but this time she left it face down until the story was finished."
       },
       {
-        "tokens": "午後|に|は|村|の|人|も|訪ねてきて|、|帳面|の|ページ|は|少しずつ|増えていった|。",
+        "tokens": "午後|に|は|村|の|人|も|訪ねてきて|、|ノート|の|ページ|は|少しずつ|増えていった|。",
         "en": "In the afternoon, villagers came to visit, and the notebook slowly filled with more pages."
       }
     ],
@@ -1410,7 +1410,7 @@
         "en": "The following summer, Aoi searched for the valley’s blue shadow from the bus window."
       },
       {
-        "tokens": "袋|の|中|に|は|、|みんな|の|話|を|写した|帳面|と|、|新しい|筆|が|入っていた|。",
+        "tokens": "袋|の|中|に|は|、|みんな|の|話|を|写した|ノート|と|、|新しい|筆|が|入っていた|。",
         "en": "In her bag were a notebook of everyone’s stories and a new brush."
       },
       {

@@ -24,8 +24,7 @@ export const STORY = {
     "ブレーメン",
     "音楽隊",
     "ロバ",
-    "泥棒",
-    "バンド"
+    "泥棒"
   ],
   "body": [
     [
@@ -80,7 +79,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "年を取った",
@@ -95,7 +94,7 @@ export const STORY = {
                 "と"
               ]
             ],
-            "d": null,
+            "d": "年を取る",
             "pos": "adj",
             "g": "old, aged",
             "df": "年を取る",
@@ -309,7 +308,7 @@ export const STORY = {
             "s": "ない",
             "k": "ない",
             "ruby": null,
-            "d": "ある",
+            "d": "ない",
             "pos": "adj",
             "g": "there is none",
             "df": "ある",
@@ -363,7 +362,7 @@ export const STORY = {
             "s": "そこで",
             "k": "そこで",
             "ruby": null,
-            "d": null,
+            "d": "そこで",
             "pos": "adv",
             "g": "so; therefore"
           },
@@ -496,7 +495,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "疲れた",
@@ -677,7 +676,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "The donkey asked, “Shall we form a band together?”",
+        "en": "The donkey asked, “Why not come and join the band with me?”",
         "t": [
           {
             "s": "ロバ",
@@ -721,34 +720,47 @@ export const STORY = {
             "g": "together"
           },
           {
-            "s": "バンド",
-            "k": "バンド",
-            "ruby": null,
-            "d": null,
-            "pos": "n",
-            "g": "band"
-          },
-          {
-            "s": "を",
-            "k": "を",
-            "ruby": null,
-            "d": null,
-            "pos": "part",
-            "g": "object marker"
-          },
-          {
-            "s": "作りませんか",
-            "k": "つくりませんか",
+            "s": "音楽隊",
+            "k": "おんがくたい",
             "ruby": [
               [
                 0,
-                "つく"
+                "おん"
+              ],
+              [
+                1,
+                "がく"
+              ],
+              [
+                2,
+                "たい"
               ]
             ],
-            "d": "作る",
+            "d": null,
+            "pos": "n",
+            "g": "musical group; band"
+          },
+          {
+            "s": "に",
+            "k": "に",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "to / in / at — destination, place or time"
+          },
+          {
+            "s": "入りませんか",
+            "k": "はいりませんか",
+            "ruby": [
+              [
+                0,
+                "はい"
+              ]
+            ],
+            "d": "入る",
             "pos": "v",
-            "g": "shall we form?",
-            "df": "作る",
+            "g": "won’t you join?",
+            "df": "入る",
             "cf": "polite negative question invitation"
           },
           {
@@ -888,7 +900,7 @@ export const STORY = {
                 "つぎ"
               ]
             ],
-            "d": null,
+            "d": "次に",
             "pos": "adv",
             "g": "next"
           },
@@ -1021,7 +1033,7 @@ export const STORY = {
                 "だ"
               ]
             ],
-            "d": null,
+            "d": "追い出す",
             "pos": "v",
             "g": "was driven out",
             "df": "追い出す",
@@ -1065,7 +1077,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "“With that voice, you can sing a lovely melody,” said the donkey.",
+        "en": "“With that voice, you can sing lovely songs,” said the donkey.",
         "t": [
           {
             "s": "「",
@@ -1081,7 +1093,7 @@ export const STORY = {
             "ruby": null,
             "d": "その",
             "pos": "adj",
-            "g": "that; the previously mentioned"
+            "g": "that"
           },
           {
             "s": "声",
@@ -1115,12 +1127,17 @@ export const STORY = {
             "cf": "na-adjective form"
           },
           {
-            "s": "メロディー",
-            "k": "メロディー",
-            "ruby": null,
-            "d": null,
+            "s": "歌",
+            "k": "うた",
+            "ruby": [
+              [
+                0,
+                "うた"
+              ]
+            ],
+            "d": "歌",
             "pos": "n",
-            "g": "melody"
+            "g": "song"
           },
           {
             "s": "を",
@@ -1203,7 +1220,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "The cat joined the band too.",
+        "en": "The cat joined them too.",
         "t": [
           {
             "s": "猫",
@@ -1227,12 +1244,21 @@ export const STORY = {
             "g": "also, too / even"
           },
           {
-            "s": "バンド",
-            "k": "バンド",
-            "ruby": null,
-            "d": null,
+            "s": "仲間",
+            "k": "なかま",
+            "ruby": [
+              [
+                0,
+                "なか"
+              ],
+              [
+                1,
+                "ま"
+              ]
+            ],
+            "d": "仲間",
             "pos": "n",
-            "g": "band"
+            "g": "companions"
           },
           {
             "s": "に",
@@ -1312,7 +1338,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "鳴いている",
@@ -1323,25 +1349,16 @@ export const STORY = {
                 "な"
               ]
             ],
-            "d": null,
+            "d": "鳴く",
             "pos": "v",
             "g": "was crowing",
             "df": "鳴く",
             "cf": "plain present progressive"
           },
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -1383,18 +1400,9 @@ export const STORY = {
         "en": "The rooster said, “The farmer intends to sell me at tomorrow’s market.”",
         "t": [
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -1428,7 +1436,7 @@ export const STORY = {
                 "ふ"
               ]
             ],
-            "d": null,
+            "d": "農夫",
             "pos": "n",
             "g": "farmer"
           },
@@ -1488,7 +1496,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "私",
@@ -1568,7 +1576,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "“Then please sing the high chorus,” said the donkey.",
+        "en": "“Then please sing with us in that high voice,” said the donkey.",
         "t": [
           {
             "s": "「",
@@ -1595,6 +1603,14 @@ export const STORY = {
             "g": "if so; in that case"
           },
           {
+            "s": "その",
+            "k": "その",
+            "ruby": null,
+            "d": "その",
+            "pos": "adj",
+            "g": "that"
+          },
+          {
             "s": "高い",
             "k": "たかい",
             "ruby": [
@@ -1608,20 +1624,42 @@ export const STORY = {
             "g": "high, loud"
           },
           {
-            "s": "コーラス",
-            "k": "コーラス",
-            "ruby": null,
-            "d": null,
+            "s": "声",
+            "k": "こえ",
+            "ruby": [
+              [
+                0,
+                "こえ"
+              ]
+            ],
+            "d": "声",
             "pos": "n",
-            "g": "chorus"
+            "g": "voice"
           },
           {
-            "s": "を",
-            "k": "を",
+            "s": "で",
+            "k": "で",
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "object marker"
+            "g": "with, as — the group doing something together"
+          },
+          {
+            "s": "一緒に",
+            "k": "いっしょに",
+            "ruby": [
+              [
+                0,
+                "いっ"
+              ],
+              [
+                1,
+                "しょ"
+              ]
+            ],
+            "d": "一緒に",
+            "pos": "adv",
+            "g": "together"
           },
           {
             "s": "歌って",
@@ -1707,18 +1745,9 @@ export const STORY = {
         "en": "The rooster joined, and the four animals set off.",
         "t": [
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -2047,7 +2076,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "休むことにしました",
@@ -2078,18 +2107,9 @@ export const STORY = {
         "en": "The rooster climbed to the crown of a tree.",
         "t": [
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -2127,7 +2147,7 @@ export const STORY = {
             "s": "てっぺん",
             "k": "てっぺん",
             "ruby": null,
-            "d": null,
+            "d": "てっぺん",
             "pos": "n",
             "g": "top, crown"
           },
@@ -2321,7 +2341,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "泥棒たち",
@@ -2352,7 +2372,7 @@ export const STORY = {
             "s": "ごちそう",
             "k": "ごちそう",
             "ruby": null,
-            "d": null,
+            "d": "ごちそう",
             "pos": "n",
             "g": "feast, fine food"
           },
@@ -2412,7 +2432,7 @@ export const STORY = {
             "s": "ソーセージ",
             "k": "ソーセージ",
             "ruby": null,
-            "d": null,
+            "d": "ソーセージ",
             "pos": "n",
             "g": "sausages"
           },
@@ -2642,7 +2662,7 @@ export const STORY = {
                 "あし"
               ]
             ],
-            "d": null,
+            "d": "前足",
             "pos": "n",
             "g": "front legs"
           },
@@ -2683,7 +2703,7 @@ export const STORY = {
             "s": "かけました",
             "k": "かけました",
             "ruby": null,
-            "d": null,
+            "d": "かける",
             "pos": "v",
             "g": "placed, propped",
             "df": "かける",
@@ -2888,18 +2908,9 @@ export const STORY = {
         "en": "The rooster climbed onto the cat.",
         "t": [
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -2969,7 +2980,7 @@ export const STORY = {
             "s": "そして",
             "k": "そして",
             "ruby": null,
-            "d": null,
+            "d": "そして",
             "pos": "adv",
             "g": "and then"
           },
@@ -3002,7 +3013,7 @@ export const STORY = {
             "s": "いっせいに",
             "k": "いっせいに",
             "ruby": null,
-            "d": null,
+            "d": "いっせいに",
             "pos": "adv",
             "g": "all at once"
           },
@@ -3057,7 +3068,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "The thieves thought an eerie monster had come.",
+        "en": "The thieves thought an eerie ghost had come.",
         "t": [
           {
             "s": "泥棒たち",
@@ -3108,12 +3119,17 @@ export const STORY = {
             "cf": "na-adjective form"
           },
           {
-            "s": "モンスター",
-            "k": "モンスター",
-            "ruby": null,
-            "d": null,
+            "s": "お化け",
+            "k": "おばけ",
+            "ruby": [
+              [
+                1,
+                "ば"
+              ]
+            ],
+            "d": "お化け",
             "pos": "n",
-            "g": "monster"
+            "g": "ghost; monster"
           },
           {
             "s": "が",
@@ -3341,7 +3357,7 @@ export const STORY = {
             "s": "ごちそう",
             "k": "ごちそう",
             "ruby": null,
-            "d": null,
+            "d": "ごちそう",
             "pos": "n",
             "g": "feast, fine food"
           },
@@ -3400,7 +3416,7 @@ export const STORY = {
             "s": "それぞれ",
             "k": "それぞれ",
             "ruby": null,
-            "d": null,
+            "d": "それぞれ",
             "pos": "adv",
             "g": "each; respectively"
           },
@@ -3425,7 +3441,7 @@ export const STORY = {
                 "どこ"
               ]
             ],
-            "d": null,
+            "d": "寝床",
             "pos": "n",
             "g": "place to sleep; bed"
           },
@@ -3506,7 +3522,7 @@ export const STORY = {
             "s": "わら",
             "k": "わら",
             "ruby": null,
-            "d": null,
+            "d": "わら",
             "pos": "n",
             "g": "straw"
           },
@@ -3583,7 +3599,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "寝ました",
@@ -3676,18 +3692,9 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -3727,7 +3734,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "眠りました",
@@ -4139,7 +4146,7 @@ export const STORY = {
                 "ほ"
               ]
             ],
-            "d": null,
+            "d": "吠える",
             "pos": "v",
             "g": "barked",
             "df": "吠える",
@@ -4208,7 +4215,7 @@ export const STORY = {
             "s": "ズボン",
             "k": "ズボン",
             "ruby": null,
-            "d": null,
+            "d": "ズボン",
             "pos": "n",
             "g": "trousers"
           },
@@ -4224,7 +4231,7 @@ export const STORY = {
             "s": "かみつきました",
             "k": "かみつきました",
             "ruby": null,
-            "d": null,
+            "d": "かみつく",
             "pos": "v",
             "g": "bit into",
             "df": "かみつく",
@@ -4262,7 +4269,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "ロバ",
@@ -4289,7 +4296,7 @@ export const STORY = {
                 "け"
               ]
             ],
-            "d": null,
+            "d": "蹴る",
             "pos": "v",
             "g": "kicking; kicked and",
             "df": "蹴る",
@@ -4407,18 +4414,9 @@ export const STORY = {
             "g": "from / because"
           },
           {
-            "s": "雄鶏",
+            "s": "おんどり",
             "k": "おんどり",
-            "ruby": [
-              [
-                0,
-                "おん"
-              ],
-              [
-                1,
-                "どり"
-              ]
-            ],
+            "ruby": null,
             "d": null,
             "pos": "n",
             "g": "rooster"
@@ -4636,7 +4634,7 @@ export const STORY = {
                 "ぶつ"
               ]
             ],
-            "d": null,
+            "d": "怪物",
             "pos": "n",
             "g": "monsters"
           },
@@ -4736,7 +4734,7 @@ export const STORY = {
                 "ど"
               ]
             ],
-            "d": null,
+            "d": "二度と",
             "pos": "adv",
             "g": "never again"
           },
@@ -4801,7 +4799,7 @@ export const STORY = {
             "ruby": null,
             "d": "その",
             "pos": "adj",
-            "g": "that; the previously mentioned"
+            "g": "that"
           },
           {
             "s": "家",
@@ -4854,7 +4852,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "Every evening, they practised as a band.",
+        "en": "Every evening, the four of them practised their songs.",
         "t": [
           {
             "s": "毎晩",
@@ -4882,12 +4880,21 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "バンド",
-            "k": "バンド",
-            "ruby": null,
+            "s": "四匹",
+            "k": "よんひき",
+            "ruby": [
+              [
+                0,
+                "よん"
+              ],
+              [
+                1,
+                "ひき"
+              ]
+            ],
             "d": null,
-            "pos": "n",
-            "g": "band"
+            "pos": "num",
+            "g": "four animals"
           },
           {
             "s": "で",
@@ -4895,7 +4902,28 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
+          },
+          {
+            "s": "歌",
+            "k": "うた",
+            "ruby": [
+              [
+                0,
+                "うた"
+              ]
+            ],
+            "d": "歌",
+            "pos": "n",
+            "g": "song"
+          },
+          {
+            "s": "を",
+            "k": "を",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "object marker"
           },
           {
             "s": "練習しました",
@@ -4927,7 +4955,7 @@ export const STORY = {
         ]
       },
       {
-        "en": "Travellers heard their concerts in the forest.",
+        "en": "Travellers in the forest heard the four of them perform.",
         "t": [
           {
             "s": "旅人",
@@ -4942,7 +4970,7 @@ export const STORY = {
                 "びと"
               ]
             ],
-            "d": null,
+            "d": "旅人",
             "pos": "n",
             "g": "travellers"
           },
@@ -4968,6 +4996,31 @@ export const STORY = {
             "g": "forest, woods"
           },
           {
+            "s": "で",
+            "k": "で",
+            "ruby": null,
+            "d": null,
+            "pos": "part",
+            "g": "with, as — the group doing something together"
+          },
+          {
+            "s": "四匹",
+            "k": "よんひき",
+            "ruby": [
+              [
+                0,
+                "よん"
+              ],
+              [
+                1,
+                "ひき"
+              ]
+            ],
+            "d": null,
+            "pos": "num",
+            "g": "four animals"
+          },
+          {
             "s": "の",
             "k": "の",
             "ruby": null,
@@ -4976,12 +5029,21 @@ export const STORY = {
             "g": "possessive — \"'s\" / \"of\""
           },
           {
-            "s": "コンサート",
-            "k": "コンサート",
-            "ruby": null,
-            "d": "コンサート",
+            "s": "演奏",
+            "k": "えんそう",
+            "ruby": [
+              [
+                0,
+                "えん"
+              ],
+              [
+                1,
+                "そう"
+              ]
+            ],
+            "d": "演奏",
             "pos": "n",
-            "g": "concert"
+            "g": "musical performance; playing"
           },
           {
             "s": "を",
@@ -5057,7 +5119,7 @@ export const STORY = {
                 "ご"
               ]
             ],
-            "d": null,
+            "d": "最後まで",
             "pos": "adv",
             "g": "in the end; ever"
           },
@@ -5109,7 +5171,7 @@ export const STORY = {
             "s": "それでも",
             "k": "それでも",
             "ruby": null,
-            "d": null,
+            "d": "それでも",
             "pos": "adv",
             "g": "even so, nevertheless"
           },
@@ -5145,7 +5207,7 @@ export const STORY = {
             "ruby": null,
             "d": null,
             "pos": "part",
-            "g": "at / in / by — place, means or circumstance"
+            "g": "with, as — the group doing something together"
           },
           {
             "s": "幸せに",
@@ -5189,7 +5251,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "509417a7",
+  "hash": "59f2cdb5",
+  "was": [
+    "509417a7"
+  ],
   "art": {
     "cover": true,
     "inline": []

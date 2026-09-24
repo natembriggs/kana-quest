@@ -87,8 +87,17 @@ async function vocabIds() {
   return new Set(Object.values(units).flat());
 }
 
+/** A saved reading position is a (paragraph, sentence) index, so the hash
+ * that guards it (stories-plan.md §3.5) covers what can move a sentence: the
+ * text, readings, glosses and translations. Not `d`: which curriculum entry
+ * a word links to changes whenever the vocabulary list grows, and that must
+ * no more cost a reader their place than adding a picture does. */
 function contentHash(body) {
-  return crypto.createHash('sha256').update(JSON.stringify(body)).digest('hex').slice(0, 8);
+  const text = body.map((paragraph) => paragraph.map((sentence) => ({
+    ...sentence,
+    t: sentence.t.map(({ d, ...token }) => token),
+  })));
+  return crypto.createHash('sha256').update(JSON.stringify(text)).digest('hex').slice(0, 8);
 }
 
 function autoLink(token, lookup) {
@@ -442,6 +451,9 @@ async function main() {
   const ids = await vocabIds();
   const sources = await loadSourceStories();
   const coverSources = JSON.parse(await fs.readFile(path.join(ART_DIR, 'cover-sources.json'), 'utf8'));
+  // Earlier hashes a position may have been saved against, for edits that
+  // moved no sentence — see the file's own _about.
+  const hashAliases = JSON.parse(await fs.readFile(path.join(SOURCE_DIR, 'hash-aliases.json'), 'utf8'));
   const existingIds = new Set();
   const report = { warnings: [], katakana: {} };
   const stories = [];
@@ -454,7 +466,9 @@ async function main() {
     })));
     // `hash` covers `body` alone, and `art` is deliberately not part of it —
     // adding or changing a picture must not move anybody's saved place (§3.5).
-    const story = { ...source, body, hash: contentHash(body) };
+    const hash = contentHash(body);
+    const was = (hashAliases[source.id] || []).filter((old) => old !== hash);
+    const story = { ...source, body, hash, ...(was.length ? { was } : {}) };
     const { warnings, katakana } = validateStory(story, ids);
     story.art = await resolveArt(story);
     if (story.art.cover) {

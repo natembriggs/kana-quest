@@ -3670,13 +3670,14 @@ const higherUnits = VOCAB_COURSES.map((c) => c.unit).filter((u) => u.endsWith('h
 check('at least one theme produced a Higher-tier unit', higherUnits.length > 0, higherUnits.length);
 
 const vocabGroupChips = () => el('unit-groups')._children;
-// The four non-curriculum groups trail the five themes, in this order:
-// Common words 2 (the Higher tier of each theme), A level, then the two
-// bonus pools — kanji-page words, and the rest of the common-word list that
-// no theme quota reached ("Other common words", see build_vocab_data.py).
-const groupTail = () => vocabGroupChips().slice(-4).map((c) => c.dataset.group).join(' | ');
-check('the syllabus axis trails its five themes with the two tiers then the two bonus pools',
-  groupTail() === 'Common words 2 | A level | From kanji pages | Other common words',
+// The five non-curriculum groups trail the five themes, in this order:
+// Common words 2 (the Higher tier of each theme), A level, then the three
+// bonus pools — kanji-page words, the rest of the common-word list that no
+// theme quota reached ("Other common words"), and the reviewed words met in
+// stories ("From stories"), see build_vocab_data.py.
+const groupTail = () => vocabGroupChips().slice(-5).map((c) => c.dataset.group).join(' | ');
+check('the syllabus axis trails its five themes with the two tiers then the three bonus pools',
+  groupTail() === 'Common words 2 | A level | From kanji pages | Other common words | From stories',
   groupTail());
 
 await openUnitGroup('Common words 2');

@@ -1952,8 +1952,7 @@ export const VOCAB_ENTRIES = [
       ],
       [
         1,
-        "ざく",
-        "サク"
+        "ざく"
       ]
     ],
     "mis": [

@@ -153,7 +153,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -174,7 +174,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -289,7 +289,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -377,7 +377,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "when it flowers",
             "df": "咲く",
@@ -582,7 +582,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -614,7 +614,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -687,7 +687,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -703,7 +703,7 @@ export const STORY = {
             "s": "ベランダ",
             "k": "ベランダ",
             "ruby": null,
-            "d": null,
+            "d": "ベランダ",
             "pos": "n",
             "g": "balcony"
           },
@@ -728,7 +728,7 @@ export const STORY = {
                 "あ"
               ]
             ],
-            "d": null,
+            "d": "日当たり",
             "pos": "n",
             "g": "sunlight; exposure to the sun"
           },
@@ -997,7 +997,7 @@ export const STORY = {
             "s": "うち",
             "k": "うち",
             "ruby": null,
-            "d": null,
+            "d": "うち",
             "pos": "n",
             "g": "our house; ours"
           },
@@ -1022,7 +1022,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -1060,7 +1060,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "flowered; bloomed",
             "df": "咲く",
@@ -1161,7 +1161,7 @@ export const STORY = {
             "s": "ベランダ",
             "k": "ベランダ",
             "ruby": null,
-            "d": null,
+            "d": "ベランダ",
             "pos": "n",
             "g": "balcony"
           },
@@ -1205,7 +1205,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -1293,7 +1293,7 @@ export const STORY = {
             "s": "しおれていた",
             "k": "しおれていた",
             "ruby": null,
-            "d": null,
+            "d": "しおれる",
             "pos": "v",
             "g": "was wilted",
             "df": "しおれる",
@@ -1355,7 +1355,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "was not in bloom",
             "df": "咲く",
@@ -1480,7 +1480,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -1541,7 +1541,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -1711,7 +1711,7 @@ export const STORY = {
                 "ふ"
               ]
             ],
-            "d": null,
+            "d": "増やす",
             "pos": "v",
             "g": "increased, and",
             "df": "増やす",
@@ -1734,7 +1734,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -1824,7 +1824,7 @@ export const STORY = {
             "s": "それでも",
             "k": "それでも",
             "ruby": null,
-            "d": null,
+            "d": "それでも",
             "pos": "adv",
             "g": "even so, nevertheless"
           },
@@ -1858,7 +1858,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "did not flower",
             "df": "咲く",
@@ -1906,7 +1906,7 @@ export const STORY = {
             "s": "ページ",
             "k": "ページ",
             "ruby": null,
-            "d": null,
+            "d": "ページ",
             "pos": "n",
             "g": "page(s)"
           },
@@ -1975,7 +1975,7 @@ export const STORY = {
                 "がつ"
               ]
             ],
-            "d": null,
+            "d": "八月",
             "pos": "n",
             "g": "August"
           },
@@ -2038,7 +2038,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "if they do not flower",
             "df": "咲く",
@@ -2085,7 +2085,7 @@ export const STORY = {
             "s": "ない",
             "k": "ない",
             "ruby": null,
-            "d": "ある",
+            "d": "ない",
             "pos": "adj",
             "g": "there is nothing",
             "df": "ある",
@@ -2166,7 +2166,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -2266,7 +2266,7 @@ export const STORY = {
                 "がつ"
               ]
             ],
-            "d": null,
+            "d": "八月",
             "pos": "n",
             "g": "August"
           },
@@ -2305,7 +2305,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -2378,7 +2378,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -2394,7 +2394,7 @@ export const STORY = {
             "s": "ベランダ",
             "k": "ベランダ",
             "ruby": null,
-            "d": null,
+            "d": "ベランダ",
             "pos": "n",
             "g": "balcony"
           },
@@ -2415,7 +2415,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -2431,7 +2431,7 @@ export const STORY = {
             "s": "じっと",
             "k": "じっと",
             "ruby": null,
-            "d": null,
+            "d": "じっと",
             "pos": "adv",
             "g": "fixedly; without moving"
           },
@@ -2526,7 +2526,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "will flower"
           },
@@ -2621,7 +2621,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -2675,7 +2675,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -2696,7 +2696,7 @@ export const STORY = {
                 "ゆび"
               ]
             ],
-            "d": null,
+            "d": "指さす",
             "pos": "v",
             "g": "pointed at",
             "df": "指さす",
@@ -2719,7 +2719,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -2864,7 +2864,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -3509,7 +3509,7 @@ export const STORY = {
                 "けい"
               ]
             ],
-            "d": null,
+            "d": "目覚まし時計",
             "pos": "n",
             "g": "alarm clock"
           },
@@ -3591,7 +3591,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "目が覚める",
             "pos": "v",
             "g": "when he woke up",
             "df": "目が覚める",
@@ -3797,7 +3797,7 @@ export const STORY = {
                 "ざ"
               ]
             ],
-            "d": null,
+            "d": "目覚まし",
             "pos": "n",
             "g": "alarm"
           },
@@ -3849,7 +3849,7 @@ export const STORY = {
             "s": "ベランダ",
             "k": "ベランダ",
             "ruby": null,
-            "d": null,
+            "d": "ベランダ",
             "pos": "n",
             "g": "balcony"
           },
@@ -3993,7 +3993,7 @@ export const STORY = {
                 "はな"
               ]
             ],
-            "d": null,
+            "d": "花びら",
             "pos": "n",
             "g": "petals"
           },
@@ -4046,7 +4046,7 @@ export const STORY = {
             "s": "しわ",
             "k": "しわ",
             "ruby": null,
-            "d": null,
+            "d": "しわ",
             "pos": "n",
             "g": "wrinkles"
           },
@@ -4085,7 +4085,7 @@ export const STORY = {
             "s": "それでも",
             "k": "それでも",
             "ruby": null,
-            "d": null,
+            "d": "それでも",
             "pos": "adv",
             "g": "even so, nevertheless"
           },
@@ -4409,7 +4409,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -4534,7 +4534,7 @@ export const STORY = {
             "s": "ベランダ",
             "k": "ベランダ",
             "ruby": null,
-            "d": null,
+            "d": "ベランダ",
             "pos": "n",
             "g": "balcony"
           },
@@ -4625,7 +4625,7 @@ export const STORY = {
                 "ちゃ"
               ]
             ],
-            "d": null,
+            "d": "麦茶",
             "pos": "n",
             "g": "barley tea"
           },
@@ -4669,7 +4669,7 @@ export const STORY = {
                 "はち"
               ]
             ],
-            "d": null,
+            "d": "鉢",
             "pos": "n",
             "g": "flowerpot"
           },
@@ -4760,7 +4760,7 @@ export const STORY = {
                 "すこ"
               ]
             ],
-            "d": null,
+            "d": "少しずつ",
             "pos": "adv",
             "g": "little by little"
           },
@@ -4812,7 +4812,7 @@ export const STORY = {
             "s": "つぼみ",
             "k": "つぼみ",
             "ruby": null,
-            "d": null,
+            "d": "つぼみ",
             "pos": "n",
             "g": "flower bud"
           },
@@ -4837,7 +4837,7 @@ export const STORY = {
                 "だ"
               ]
             ],
-            "d": null,
+            "d": "動き出す",
             "pos": "v",
             "g": "began to move",
             "df": "動き出す",
@@ -5029,7 +5029,7 @@ export const STORY = {
                 "まえ"
               ]
             ],
-            "d": null,
+            "d": "目の前",
             "pos": "n",
             "g": "right in front of (his eyes)"
           },
@@ -5050,7 +5050,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "flowered; bloomed",
             "df": "咲く",
@@ -5264,7 +5264,7 @@ export const STORY = {
                 "さ"
               ]
             ],
-            "d": null,
+            "d": "咲く",
             "pos": "v",
             "g": "had been flowering",
             "df": "咲く",
@@ -5298,7 +5298,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -5555,7 +5555,7 @@ export const STORY = {
             "s": "おばあちゃん",
             "k": "おばあちゃん",
             "ruby": null,
-            "d": null,
+            "d": "おばあちゃん",
             "pos": "n",
             "g": "his grandmother"
           },
@@ -5685,7 +5685,7 @@ export const STORY = {
             "s": "ページ",
             "k": "ページ",
             "ruby": null,
-            "d": null,
+            "d": "ページ",
             "pos": "n",
             "g": "page(s)"
           },
@@ -5791,7 +5791,7 @@ export const STORY = {
                 "がつ"
               ]
             ],
-            "d": null,
+            "d": "九月",
             "pos": "n",
             "g": "September"
           },
@@ -5963,7 +5963,7 @@ export const STORY = {
             "s": "ページ",
             "k": "ページ",
             "ruby": null,
-            "d": null,
+            "d": "ページ",
             "pos": "n",
             "g": "page(s)"
           },
@@ -5979,7 +5979,7 @@ export const STORY = {
             "s": "めくって",
             "k": "めくって",
             "ruby": null,
-            "d": null,
+            "d": "めくる",
             "pos": "v",
             "g": "turning (pages), and",
             "df": "めくる",
@@ -6200,7 +6200,7 @@ export const STORY = {
             "s": "ページ",
             "k": "ページ",
             "ruby": null,
-            "d": null,
+            "d": "ページ",
             "pos": "n",
             "g": "page(s)"
           },
@@ -6240,7 +6240,7 @@ export const STORY = {
             "s": "こう",
             "k": "こう",
             "ruby": null,
-            "d": null,
+            "d": "こう",
             "pos": "adv",
             "g": "like this; as follows"
           },
@@ -6293,7 +6293,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -6389,7 +6389,7 @@ export const STORY = {
                 "がお"
               ]
             ],
-            "d": null,
+            "d": "朝顔",
             "pos": "n",
             "g": "morning glory (a flower)"
           },
@@ -6434,7 +6434,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "5bf147a7",
+  "hash": "19f1553f",
+  "was": [
+    "5bf147a7"
+  ],
   "art": {
     "cover": true,
     "inline": []

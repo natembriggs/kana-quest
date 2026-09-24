@@ -77,7 +77,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -124,7 +124,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -230,7 +230,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -274,7 +274,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -368,7 +368,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -384,7 +384,7 @@ export const STORY = {
             "s": "くちばし",
             "k": "くちばし",
             "ruby": null,
-            "d": null,
+            "d": "くちばし",
             "pos": "n",
             "g": "beak"
           },
@@ -451,7 +451,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -472,7 +472,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -529,7 +529,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -586,7 +586,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -632,7 +632,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -731,7 +731,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -786,7 +786,7 @@ export const STORY = {
                 "みず"
               ]
             ],
-            "d": null,
+            "d": "水がめ",
             "pos": "n",
             "g": "water jar, pitcher"
           },
@@ -892,7 +892,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -1037,7 +1037,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -1102,7 +1102,7 @@ export const STORY = {
             "s": "からす",
             "k": "からす",
             "ruby": null,
-            "d": null,
+            "d": "からす",
             "pos": "n",
             "g": "crow"
           },
@@ -1157,7 +1157,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "57d9fab3",
+  "hash": "affc903e",
+  "was": [
+    "57d9fab3"
+  ],
   "art": {
     "cover": true,
     "inline": []

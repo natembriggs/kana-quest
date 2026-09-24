@@ -20,7 +20,7 @@ export const STORY = {
     "credit": "Retold by",
     "cover": "Cover generated with OpenAI image generation."
   },
-  "hash": "e36577d2",
+  "hash": "cbbd6f9d",
   "nw": [
     "競争",
     "追い越す",
@@ -140,7 +140,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -203,7 +203,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -381,7 +381,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -405,7 +405,7 @@ export const STORY = {
           {
             "s": "では",
             "k": "では",
-            "d": null,
+            "d": "では",
             "pos": "conj",
             "ruby": null,
             "g": "well then, in that case"
@@ -730,7 +730,7 @@ export const STORY = {
           {
             "s": "あっという間に",
             "k": "あっというまに",
-            "d": null,
+            "d": "あっという間に",
             "pos": "adv",
             "ruby": [
               [
@@ -743,7 +743,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -759,7 +759,7 @@ export const STORY = {
           {
             "s": "追い越しました",
             "k": "おいこしました",
-            "d": null,
+            "d": "追い越す",
             "pos": "v",
             "ruby": [
               [
@@ -807,7 +807,7 @@ export const STORY = {
           {
             "s": "楽勝",
             "k": "らくしょう",
-            "d": null,
+            "d": "楽勝",
             "pos": "n",
             "ruby": [
               [
@@ -994,7 +994,7 @@ export const STORY = {
           {
             "s": "昼寝",
             "k": "ひるね",
-            "d": null,
+            "d": "昼寝",
             "pos": "n",
             "ruby": [
               [
@@ -1049,7 +1049,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -1177,7 +1177,7 @@ export const STORY = {
           {
             "s": "さますと",
             "k": "さますと",
-            "d": null,
+            "d": "さます",
             "pos": "v",
             "ruby": null,
             "g": "when (he) woke up",
@@ -1337,7 +1337,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -1420,7 +1420,7 @@ export const STORY = {
           {
             "s": "かめ",
             "k": "かめ",
-            "d": null,
+            "d": "かめ",
             "pos": "pn",
             "ruby": null,
             "g": "tortoise, turtle"
@@ -1436,7 +1436,7 @@ export const STORY = {
           {
             "s": "にっこり",
             "k": "にっこり",
-            "d": null,
+            "d": "にっこり",
             "pos": "adv",
             "ruby": null,
             "g": "with a broad smile"
@@ -1557,7 +1557,7 @@ export const STORY = {
           {
             "s": "ちゃんと",
             "k": "ちゃんと",
-            "d": null,
+            "d": "ちゃんと",
             "pos": "adv",
             "ruby": null,
             "g": "properly, surely"
@@ -1624,5 +1624,8 @@ export const STORY = {
   "art": {
     "cover": true,
     "inline": []
-  }
+  },
+  "was": [
+    "e36577d2"
+  ]
 };

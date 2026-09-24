@@ -1,0 +1,969 @@
+# Story words added to the vocabulary list (tools/build_vocab_data.py, "From stories" units S1...).
+#
+# Every word here was met in a Kanji Trail story, had no curriculum entry, and was reviewed as worth
+# studying: common in speech or writing (JMdict priority-tagged), not a name, not a grammar pattern, and
+# not a spelling of an entry the list already teaches. Pinned to an exact JMdict entry (ent_seq) so a
+# homograph cannot slip in: のぞく is 覗く "to peek", not 除く "to remove".
+#
+# Add a line when tools/check_story_vocab.py reports a story word that deserves a real entry (see
+# story-writing-guide.md §5a). Columns, tab-separated: surface, reading, JMdict ent_seq, first story
+# level it appeared at, English (for humans; the build takes meanings from JMdict).
+男の人	おとこのひと	1420020	L1	man
+かぶ	かぶ	1499280	L1	turnip (Brassica rapa)
+かむ	かむ	1209240	L1	to bite
+からす	からす	1171450	L1	crow (Corvus spp.); raven
+くちばし	くちばし	1565560	L1	beak; bill
+しし	しし	1311070	L1	lion
+すべる	すべる	1208640	L1	to slide; to glide; to skate
+背が高い	せがたかい	1472660	L1	tall (of a person)
+流される	ながされる	2860956	L1	to drift; to be carried away; to be swept awa
+逃がす	にがす	1450320	L1	to set free; to let go; to release
+ねずみ	ねずみ	1397840	L1	mouse; rat
+水がめ	みずがめ	1371980	L1	water jug
+いつまでも	いつまでも	1188880	L2	forever; eternally; for good
+追い越す	おいこす	1432280	L2	to pass (e.g. car); to overtake
+おいしい	おいしい	1486650	L2	good(-tasting); nice; delicious
+おおかみ	おおかみ	1560940	L2	wolf (Canis lupus)
+大みそか	おおみそか	1413190	L2	New Year's Eve
+おじいさん	おじいさん	1002320	L2	grandfather
+おつかい	おつかい	1001980	L2	errand; mission; going on an errand
+おにぎり	おにぎり	1001620	L2	onigiri; rice ball (often triangular, sometim
+おびえる	おびえる	1236630	L2	to become frightened; to be frightened (of); 
+お湯	おゆ	1002510	L2	hot water
+かさ	かさ	1207670	L2	conical hat (East-Asian style); coolie hat
+菓子	かし	1195670	L2	confectionery; sweets; candy
+かぶせる	かぶせる	1484320	L2	to cover (with something)
+亀	かめ	1224260	L2	tortoise; turtle
+雉	きじ	1591200	L2	green pheasant (Phasianus versicolor); Japane
+木の実	きのみ	1534550	L2	fruit of a tree; nut; berry
+この間	このあいだ	1004690	L2	the other day; lately; recently
+米	こめ	1508750	L2	(husked grains of) rice
+さます	さます	1206060	L2	to awaken; to arouse from sleep
+猿	さる	1177390	L2	monkey (esp. the Japanese macaque, Macaca fus
+ちゃんと	ちゃんと	1007720	L2	diligently; seriously; earnestly
+積もる	つもる	1382990	L2	to pile up; to accumulate
+手ぬぐい	てぬぐい	1598400	L2	tenugui; (hand) towel (usu. thin cotton cloth
+にっこり	にっこり	1632320	L2	sweetly (smiling); broadly (grinning)
+昼寝	ひるね	1426370	L2	(afternoon) nap; sleeping during the day; sie
+ベンチ	べんち	1120280	L2	bench
+餅	もち	1535790	L2	mochi; small rice cake made from glutinous ri
+やっつける	やっつける	1612950	L2	to beat; to attack (an enemy); to do away wit
+ようこそ	ようこそ	1013100	L2	welcome
+楽勝	らくしょう	1207390	L2	easy victory; walkover
+あの人	あのひと	1000440	L3	he; she; that person
+一度も	いちども	2266600	L3	(not) even once; (not) ever
+うん	うん	1001090	L3	yes; yeah; uh huh
+煙突	えんとつ	1177320	L3	chimney; smokestack; funnel (of a ship)
+お金持ち	おかねもち	2429350	L3	rich person; wealthy person
+お腹が空く	おなかがすく	2021520	L3	to get hungry; to become hungry
+斧	おの	1497080	L3	axe; ax; hatchet
+檻	おり	1568410	L3	cage; pen; (jail) cell
+形見	かたみ	1250260	L3	memento (esp. of a deceased person); keepsake
+かぼちゃ	かぼちゃ	1582580	L3	pumpkin (Cucurbita sp.); squash
+ガラス	がらす	1040380	L3	glass; pane
+木こり	きこり	1350000	L3	woodcutter; lumberjack; logger
+キャンディー	きゃんでぃー	1042080	L3	candy; sweets
+クッキー	くっきー	1043760	L3	cookie; biscuit
+国中	くにじゅう	1286850	L3	all over the country; everywhere in the count
+くぼみ	くぼみ	1246830	L3	hollow; cavity; dent
+くれる	くれる	1269130	L3	to give; to let (one) have
+小石	こいし	1348400	L3	pebble; small stone
+差し出す	さしだす	1291230	L3	to hold out; to extend (e.g. a hand)
+さまよう	さまよう	1566730	L3	to loiter; to putter; to prowl
+冷める	さめる	1556750	L3	to cool down; to get cold
+末っ子	すえっこ	1584380	L3	youngest child
+それで	それで	1007000	L3	so; therefore; and
+たどる	たどる	1416690	L3	to follow (a road, path, etc.); to trace
+ダンス	だんす	1077250	L3	dance; dancing
+中くらい	ちゅうくらい	1581680	L3	(about) medium; middle; average
+チョコレート	ちょこれーと	1078270	L3	chocolate
+テープ	てーぷ	1078750	L3	tape
+飛び去る	とびさる	1485300	L3	to fly away; to flee away; to scatter
+取りかえる	とりかえる	1326830	L3	to exchange; to swap; to barter
+馬車	ばしゃ	1471780	L3	coach (horse-drawn); carriage; wagon
+ぴったり	ぴったり	1010900	L3	tightly; closely
+降り始める	ふりはじめる	1282760	L3	to begin to fall (of rain, snow, etc.)
+ほしがる	ほしがる	1611550	L3	to appear to want to have (something); to obv
+ホーム	ほーむ	1121740	L3	platform
+枕	まくら	1524860	L3	pillow; bolster
+魔女	まじょ	1524150	L3	witch
+魔法使い	まほうつかい	1524240	L3	magician; wizard; sorcerer
+継母	ままはは	1251850	L3	stepmother
+見比べる	みくらべる	1604440	L3	to compare with the eye; to judge by comparis
+見守る	みまもる	1259680	L3	to watch over; to keep watch over; to keep an
+読み書き	よみかき	1456250	L3	reading and writing
+沸かす	わかす	1501660	L3	to boil; to heat (a liquid); to prepare (a ba
+朝顔	あさがお	1428330	L4	Japanese morning glory (Ipomoea nil); picotee
+あさって	あさって	1584640	L4	day after tomorrow
+足場	あしば	1404860	L4	scaffold; scaffolding
+泡	あわ	1517510	L4	bubble; foam; froth
+いたずら	いたずら	1151580	L4	mischief; prank; trick
+いっせいに	いっせいに	1164050	L4	simultaneously; all at once; in unison
+インク	いんく	1022210	L4	ink
+動き出す	うごきだす	2012540	L4	to start to move; to get going; to come alive
+うち	うち	1191740	L4	one's house; one's home; one's family
+うなずく	うなずく	1574310	L4	to nod; to bow one's head in assent; to agree
+遠足	えんそく	1178260	L4	school trip; field trip; excursion
+追い出す	おいだす	1432350	L4	to expel; to drive out
+王妃	おうひ	1181670	L4	queen (consort); empress (consort)
+音がする	おとがする	2826774	L4	to make a sound; to give off a sound
+男たち	おとこたち	2854195	L4	men; males
+おととい	おととい	1576050	L4	day before yesterday
+おばあさん	おばあさん	1002330	L4	grandmother
+おばあちゃん	おばあちゃん	2009460	L4	granny; grandma; gran
+お化け	おばけ	1001670	L4	ghost; apparition
+お弁当	おべんとう	1513065	L4	bento; Japanese box lunch
+女の人	おんなのひと	1344980	L4	woman
+怪物	かいぶつ	1200330	L4	monster
+かえって	かえって	1226610	L4	on the contrary; rather; instead
+帰り道	かえりみち	1221260	L4	the way back; the way home; return trip
+隠れる	かくれる	1170660	L4	to hide; to conceal oneself; to take cover
+駆けつける	かけつける	1590110	L4	to run to; to come running; to rush (someplac
+かけら	かけら	1254090	L4	fragment; broken piece; chip
+かける	かける	1207610	L4	to hang up (e.g. a coat, a picture on the wal
+かげ	かげ	1590150	L4	shade; shadow
+かご	かご	1590200	L4	basket (shopping, etc.); hamper; cage
+カップ	かっぷ	1037670	L4	cup (drinking vessel, measure, brassiere, pri
+かばん	かばん	1208910	L4	bag; satchel; briefcase
+かぶる	かぶる	1484330	L4	to put on (one's head); to wear; to have on
+かみつく	かみつく	1209220	L4	to bite (at); to snap at
+かめ	かめ	1491110	L4	earthenware pot
+狩人	かりゅうど	1328750	L4	hunter
+かわいい	かわいい	1577200	L4	cute; adorable; charming
+乾く	かわく	1209650	L4	to get dry
+かわら	かわら	1209580	L4	tile (e.g. roof)
+気がする	きがする	1221540	L4	to feel (as if); to have a feeling (that); to
+急に	きゅうに	2269050	L4	swiftly; rapidly; quickly
+きらきら	きらきら	1003500	L4	glittering; sparkling; glistening
+金貨	きんか	1242680	L4	gold coin
+銀貨	ぎんか	1243450	L4	silver coin
+九月	くがつ	1243660	L4	September
+くぎ	くぎ	1436840	L4	nail; spike; tack
+くし	くし	1246490	L4	comb
+くっつく	くっつく	1003860	L4	to adhere to; to stick to; to cling to
+携帯電話	けいたいでんわ	1250690	L4	mobile phone; cell phone
+消しゴム	けしごむ	1350080	L4	eraser; rubber
+蹴る	ける	1333400	L4	to kick
+こう	こう	1004310	L4	in this way; like this; so
+ここ	ここ	1288810	L4	here; this place
+答える	こたえる	1449540	L4	to answer; to reply
+コップ	こっぷ	1050390	L4	glass (drinking vessel); tumbler
+子どもたち	こどもたち	1307870	L4	children; kids
+小人	こびと	2860036	L4	little person (in folklore and fantasy, e.g. 
+混む	こむ	2849867	L4	to be crowded; to be packed; to be congested
+ごちそう	ごちそう	1593590	L4	treat (esp. food and drink); entertainment; t
+最後まで	さいごまで	1293830	L4	to the end; to the last
+咲く	さく	1297210	L4	to bloom; to flower; to blossom
+叫び声	さけびごえ	1235900	L4	shout; yell; scream
+差す	さす	1291330	L4	to shine
+さっき	さっき	1005180	L4	a short while ago; a moment ago; just now
+触る	さわる	1357980	L4	to touch; to feel; to handle
+しおれる	しおれる	1158690	L4	to wither; to wilt; to droop
+司書	ししょ	1306670	L4	librarian
+しばらく	しばらく	1304420	L4	for a moment; for a minute
+しわ	しわ	1569740	L4	wrinkle; crease
+時刻表	じこくひょう	1316230	L4	timetable; schedule
+じっと	じっと	1005870	L4	motionlessly (e.g. stand, wait); (be) still
+ジャム	じゃむ	1065680	L4	jam
+十月	じゅうがつ	1334570	L4	October
+すぐ	すぐ	1430610	L4	immediately; at once; right away
+すぐに	すぐに	1430620	L4	immediately; right away; at once
+少しずつ	すこしずつ	1348880	L4	little by little; bit by bit
+全て	すべて	1595730	L4	everything; all; the whole
+すると	すると	1006280	L4	(and) then; and; thereupon
+ずきん	ずきん	1450830	L4	headgear (esp. one made of cloth); hood; kerc
+ズボン	ずぼん	1074260	L4	trousers; pants
+背負う	せおう	1472860	L4	to carry on one's back
+船頭	せんどう	1736390	L4	captain (of a Japanese-style boat); skipper
+そこ	そこ	1006670	L4	there (place relatively near listener)
+そこで	そこで	1406090	L4	so; accordingly; now
+そして	そして	1006730	L4	and; and then; thus
+そっと	そっと	1006810	L4	softly; gently; quietly
+その間	そのあいだ	2712120	L4	in the meanwhile; during the time
+その後	そのあと	1006860	L4	after that; afterwards; thereafter
+それぞれ	それぞれ	1596690	L4	each; respectively
+そんなに	そんなに	2008740	L4	so much; so; like that
+ソーセージ	そーせーじ	1075300	L4	sausage
+助かる	たすかる	1344380	L4	to be saved; to be rescued; to survive
+楽しみにする	たのしみにする	1207260	L4	to look forward to
+旅人	たびびと	1553210	L4	traveller; traveler; wayfarer
+たまる	たまる	1552650	L4	to collect; to gather; to save
+短刀	たんとう	1418800	L4	short sword; knife; dagger
+だが	だが	2055530	L4	but; however; (and) yet
+だめ	だめ	1409110	L4	no good; not serving its purpose; useless
+小さな	ちいさな	2136180	L4	small; little; tiny
+茶色い	ちゃいろい	1983730	L4	light brown; tawny
+茶わん	ちゃわん	1597530	L4	rice bowl; tea cup; teacup
+疲れ果てる	つかれはてる	1483760	L4	to get tired out; to be exhausted
+次に	つぎに	2600340	L4	next; then; after that
+机	つくえ	1220210	L4	desk
+つける	つける	1495770	L4	to attach; to join; to connect
+つながる	つながる	1251880	L4	to be connected (to); to be joined together; 
+つぼみ	つぼみ	1571800	L4	(flower) bud
+摘む	つむ	1437060	L4	to pick; to pluck
+てっぺん	てっぺん	1440340	L4	top; summit; apex
+天気予報	てんきよほう	1438770	L4	weather forecast; weather report
+盗賊	とうぞく	1448470	L4	thief; robber; burglar
+ところが	ところが	1008570	L4	even so; however; still
+図書室	としょしつ	1370440	L4	library (usu. single-room); small library
+年を取る	としをとる	1468190	L4	to grow old; to age
+閉じ込める	とじこめる	1508560	L4	to lock up; to shut up; to imprison
+飛び起きる	とびおきる	1485290	L4	to jump up to one's feet
+泊める	とめる	1474860	L4	to give shelter to; to lodge; to put up
+取り除く	とりのぞく	1326780	L4	to remove; to deinstall; to take away
+トンネル	とんねる	1087630	L4	tunnel
+どんどん	どんどん	1009320	L4	drumming (noise); beating; pounding
+ない	ない	1529520	L4	nonexistent; not being (there)
+なかなか	なかなか	1599420	L4	very; considerably; easily
+流れ込む	ながれこむ	1552150	L4	to flow into; to pour into; to stream into
+鳴く	なく	1532870	L4	to make sound (of an animal); to call; to cry
+二度と	にどと	2110850	L4	never again
+縫う	ぬう	1517700	L4	to sew; to stitch
+寝かせる	ねかせる	1359970	L4	to put to bed; to let sleep
+ネックレス	ねっくれす	1093000	L4	necklace
+寝床	ねどこ	1360150	L4	bed; berth; crib
+農夫	のうふ	1470760	L4	(male) farmer; peasant; farmhand
+乗り上げる	のりあげる	1354950	L4	to run up onto (e.g. sidewalk); to run agroun
+乗り場	のりば	1600520	L4	place for boarding vehicles; bus stop; bus te
+呪い	のろい	1330100	L4	curse; spell; malediction
+ノート	のーと	1093450	L4	notebook; copy-book; exercise book
+走り出す	はしりだす	1402480	L4	to begin to run; to start running; to break i
+鉢	はち	1477090	L4	bowl; pot; basin
+八月	はちがつ	1476730	L4	August
+花びら	はなびら	1194520	L4	petal
+バス停	ばすてい	1098580	L4	bus stop
+日当たり	ひあたり	1601420	L4	exposure to the sun; sunny place
+光る	ひかる	1272820	L4	to shine; to glitter; to be bright
+引き返す	ひきかえす	1169140	L4	to turn back; to go back; to come back
+日ごと	ひごと	1730220	L4	every day; daily
+人たち	ひとたち	1368740	L4	people
+一つずつ	ひとつずつ	1575930	L4	one by one; one each; one at a time
+一晩	ひとばん	1165960	L4	one night; one evening
+一晩中	ひとばんじゅう	1611360	L4	all night long; all through the night
+ひび	ひび	1010590	L4	crack; fissure
+冷やす	ひやす	1556770	L4	to cool; to chill; to refrigerate
+ふさがる	ふさがる	1602570	L4	to be closed; to be blocked; to be healed (e.
+ふさぐ	ふさぐ	1602590	L4	to stop up; to close up; to block (up)
+振る	ふる	1361330	L4	to wave; to shake; to swing
+震える	ふるえる	1366310	L4	to shiver; to shake; to quake
+振る舞う	ふるまう	1603090	L4	to behave; to conduct oneself; to act
+ぶら下がる	ぶらさがる	1011240	L4	to hang down (from); to dangle; to swing
+閉館	へいかん	1508620	L4	closing (for the day; of a library, museum, c
+返却	へんきゃく	1512180	L4	return of something; repayment
+ベランダ	べらんだ	1119940	L4	balcony
+ベルト	べると	1120070	L4	belt (worn around the waist)
+ページ	ぺーじ	1120410	L4	page
+吠える	ほえる	1603420	L4	to bark; to howl; to bay
+ほか	ほか	1203260	L4	another place; some other place; somewhere el
+歩道橋	ほどうきょう	1514430	L4	footbridge; pedestrian bridge; pedestrian ove
+防波堤	ぼうはてい	1520560	L4	breakwater; mole
+前足	まえあし	1581120	L4	forefoot; forefeet; foreleg
+曲がり角	まがりかど	1239710	L4	(street) corner; turn (in the road); bend
+また	また	1524930	L4	again; once more; once again
+真っ黒	まっくろ	1604050	L4	pitch-black; jet-black; black
+丸	まる	1216250	L4	circle
+道に迷う	みちにまよう	2132030	L4	to lose one's way; to get lost
+みんな	みんな	1202150	L4	everyone; everybody; all
+麦茶	むぎちゃ	1476230	L4	barley tea
+目が覚める	めがさめる	2143090	L4	to wake up; to awake; to perk up
+めくる	めくる	1257810	L4	to turn over; to turn (pages); to leaf throug
+目覚まし	めざまし	1535340	L4	alarm clock
+目覚まし時計	めざましどけい	1604940	L4	alarm clock
+目の前	めのまえ	1808020	L4	before one's eyes; in front of one; under one
+目を覚ます	めをさます	1535200	L4	to wake up
+もう一度	もういちど	2005860	L4	once more; again
+もたれる	もたれる	1564380	L4	to lean against; to lean on; to recline on
+もてなし	もてなし	1012630	L4	hospitality; reception; treatment
+物置	ものおき	1502690	L4	storage room; storeroom; lumber room
+やがて	やがて	1012730	L4	before long; soon; shortly
+約束どおり	やくそくどおり	2131660	L4	as promised
+約束を守る	やくそくをまもる	2100680	L4	to keep a promise; to keep one's word
+やぐら	やぐら	1559990	L4	turret; watchtower
+やる	やる	1012980	L4	to do; to undertake; to perform
+ゆうべ	ゆうべ	1542640	L4	last night; yesterday evening
+指さす	ゆびさす	1309790	L4	to point at
+揺れる	ゆれる	1545710	L4	to shake; to sway; to rock
+ようやく	ようやく	1394600	L4	finally; at last
+読みにくい	よみにくい	1688500	L4	hard to read; illegible
+弱る	よわる	1324650	L4	to weaken; to grow weak; to wane
+ライト	らいと	1137950	L4	light
+猟師	りょうし	1554450	L4	hunter; huntsman
+レジ	れじ	1145130	L4	(cash) register
+老婆	ろうば	1561130	L4	old woman
+渡し船	わたしぶね	1444600	L4	ferry; ferryboat
+わら	わら	1562710	L4	straw
+空き家	あきや	1675850	L5	vacant house; unoccupied house
+あこがれる	あこがれる	1453810	L5	to long for; to yearn for; to hanker after
+朝一番	あさいちばん	2135190	L5	first thing in the morning
+朝焼け	あさやけ	1428380	L5	morning glow; sunrise colors; sunrise colours
+あせる	あせる	1350780	L5	to be in a hurry; to be impatient; to be anxi
+あっという間に	あっというまに	1000390	L5	in an instant; in a flash; in the blink of an
+後で	あとで	1269350	L5	later (on); afterwards
+言い返す	いいかえす	1264290	L5	to talk back; to answer back; to retort
+イギリス	いぎりす	1021160	L5	United Kingdom; UK; Britain
+いくつか	いくつか	1219970	L5	(a) few; some; several
+石垣	いしがき	1382540	L5	stone wall
+石段	いしだん	1382720	L5	(flight of) stone steps; stone stairway
+痛める	いためる	1432720	L5	to hurt; to injure; to cause pain
+一番上	いちばんうえ	2103660	L5	highest; uppermost; topmost
+一夜	いちや	1576310	L5	one night; all night; overnight
+いつの間にか	いつのまにか	1188850	L5	before one knows; before one becomes aware of
+祈る	いのる	1222770	L5	to pray; to say a prayer; to say grace
+今ごろ	いまごろ	1289160	L5	about this time; about now
+いらっしゃい	いらっしゃい	1000920	L5	come; go; stay
+いらっしゃる	いらっしゃる	1000940	L5	to come; to go; to be (somewhere)
+イルカ	いるか	1201670	L5	dolphin (or other small toothed whales, incl.
+浮かび上がる	うかびあがる	1497350	L5	to rise to the surface
+浮く	うく	1497420	L5	to float
+薄れる	うすれる	1475520	L5	to fade; to become dim
+打ち明ける	うちあける	1588130	L5	to confide; to reveal; to disclose
+うちわ	うちわ	1419250	L5	uchiwa; type of traditional Japanese handheld
+美しさ	うつくしさ	2765450	L5	beauty
+埋もれる	うもれる	1524540	L5	to be buried; to be covered; to be hidden
+敬う	うやまう	1250700	L5	to show respect for; to revere; to honour
+エプロン	えぷろん	1029760	L5	apron
+絵馬	えま	1577420	L5	votive tablet; wooden tablet usu. filled out 
+エメラルド	えめらるど	1029970	L5	emerald
+縁側	えんがわ	1177630	L5	engawa; external corridor on the outer side o
+縁台	えんだい	1177640	L5	bench
+王	おう	1629200	L5	king; ruler; sovereign
+大きさ	おおきさ	1412910	L5	size; dimensions; volume
+大波	おおなみ	1414760	L5	billow; surge; large wave
+おかえり	おかえり	1612780	L5	return
+起き上がる	おきあがる	1223650	L5	to rise; to get up; to stand up
+遅らせる	おくらせる	1422010	L5	to delay; to postpone; to put off
+送り	おくり	1402630	L5	seeing off; sending off
+送り出す	おくりだす	1402680	L5	to show (someone) out; to see (someone) off; 
+押し流す	おしながす	1180450	L5	to wash away; to sweep away; to carry away
+お葬式	おそうしき	2854977	L5	funeral
+落ち葉	おちば	1585070	L5	fallen leaves; leaf litter; falling leaves
+落とし穴	おとしあな	1548640	L5	pitfall; trap; pit
+お願い	おねがい	2036870	L5	request; favour (to ask); wish
+帯	おび	1410410	L5	obi (kimono sash)
+お参り	おまいり	1001950	L5	visit (to a shrine, grave, etc.); worship
+おまわりさん	おまわりさん	1002120	L5	police officer
+思い浮かべる	おもいうかべる	1658200	L5	to remember; to recall; to call to mind
+思い込む	おもいこむ	1309230	L5	to be convinced (that); to be under the impre
+親方	おやかた	1365360	L5	master; boss; chief
+海賊	かいぞく	1201600	L5	pirate
+懐中電灯	かいちゅうでんとう	1200600	L5	(electric) torch; flashlight
+買い取る	かいとる	1473640	L5	to buy; to purchase; to buy out
+カウンター	かうんたー	1036930	L5	counter; counting device
+帰す	かえす	1221240	L5	to send (someone) back; to send (someone) hom
+変える	かえる	1510650	L5	to change; to alter; to transform
+書き初め	かきぞめ	1589950	L5	first calligraphy of the year
+書き留める	かきとめる	1343940	L5	to write down; to make a note of; to put on r
+書き残す	かきのこす	1701810	L5	to leave (a note, will, etc.) behind
+賭け	かけ	1590040	L5	bet; wager; stake
+欠ける	かける	1253920	L5	to chip; to be chipped; to break (off)
+賭ける	かける	1444840	L5	to wager; to bet; to risk
+囲い	かこい	1155950	L5	enclosure; fence; wall
+重なる	かさなる	1335800	L5	to be piled up; to lie on top of one another
+片足	かたあし	1681050	L5	one foot; one leg
+カタカナ	かたかな	1511600	L5	katakana; angular Japanese syllabary used pri
+窯	かま	1546450	L5	stove; furnace; kiln
+紙袋	かみぶくろ	1311580	L5	paper bag
+乾かす	かわかす	1209630	L5	to dry (clothes, etc.); to desiccate
+川下	かわしも	1390050	L5	downstream
+川辺	かわべ	1636650	L5	riverside; riverbank; edge of a river
+看護師	かんごし	1928100	L5	(hospital) nurse; registered nurse; RN
+ガラス戸	がらすど	1610800	L5	glass door
+気がつく	きがつく	1591050	L5	to notice; to realize; to realise
+きちんと	きちんと	1003400	L5	properly; accurately; exactly
+きっと	きっと	1003430	L5	surely; undoubtedly; almost certainly
+狐	きつね	1267340	L5	fox (esp. the red fox, Vulpes vulpes)
+木戸	きど	1534630	L5	wicket gate; wooden door
+気にする	きにする	1221680	L5	to mind (negative nuance); to care about; to 
+気になる	きになる	1221690	L5	to weigh on one's mind; to bother one; to wor
+救出	きゅうしゅつ	1229180	L5	rescue; extricate; reclaim
+きれい	きれい	1591900	L5	pretty; lovely; beautiful
+切れ端	きれはし	1384930	L5	fragment; scrap; cut end
+気を失う	きをうしなう	2083650	L5	to lose consciousness; to faint; to black out
+逆風	ぎゃくふう	1227190	L5	headwind; adverse wind
+ぎりぎり	ぎりぎり	1003660	L5	just barely; only just; at the very limit
+くぐる	くぐる	1609710	L5	to go under; to pass under; to go through
+口ずさむ	くちずさむ	1275720	L5	to hum (a tune); to sing to oneself; to croon
+暗闇	くらやみ	1154370	L5	darkness; the dark
+軍艦	ぐんかん	1247830	L5	warship; battleship
+境内	けいだい	1236020	L5	grounds (esp. of shrines and temples); compou
+家来	けらい	1192530	L5	retainer; vassal; follower
+けれども	けれども	2853889	L5	but; however; although
+コイン	こいん	1049870	L5	coin
+こういう	こういう	1004320	L5	such; this sort of; like this
+交番	こうばん	1272500	L5	police box; koban; small neighborhood police 
+こぐ	こぐ	1400530	L5	to row; to paddle; to scull
+心から	こころから	1853490	L5	from the bottom of one's heart; heartily; sin
+こする	こする	1298910	L5	to rub; to scrub; to scrape
+こっそり	こっそり	1004520	L5	stealthily; secretly; in secret
+小舟	こぶね	1348250	L5	small boat
+こぼれる	こぼれる	1557650	L5	to spill; to fall out of; to overflow
+コンピューター	こんぴゅーたー	1053350	L5	computer
+碁	ご	1270870	L5	go (board game)
+ご主人	ごしゅじん	1270390	L5	your husband; her husband
+ごみ	ごみ	1369900	L5	rubbish; trash; garbage
+ごめん	ごめん	1270670	L5	I'm sorry; my apologies; excuse me
+裂け目	さけめ	1558620	L5	tear; rip; rent
+裂ける	さける	1558610	L5	to split; to tear; to burst
+さっそく	さっそく	1400300	L5	at once; immediately; without delay
+さっと	さっと	1005200	L5	quickly (esp. actions)
+悟る	さとる	1270850	L5	to sense; to perceive; to notice
+サファイア	さふぁいあ	1057110	L5	sapphire
+サーカス	さーかす	1054750	L5	circus
+財宝	ざいほう	1296990	L5	treasure
+しかけ	しかけ	1594100	L5	device; contrivance; mechanism
+しかたない	しかたない	1305440	L5	there's no (other) way
+敷く	しく	1497020	L5	to spread out (e.g. a futon); to lay out
+静けさ	しずけさ	1381830	L5	stillness; silence; quiet
+下書き	したがき	1185370	L5	draft; rough copy
+七月	しちがつ	1319280	L5	July
+しっかり	しっかり	1594400	L5	tightly (holding on); firmly; securely
+占める	しめる	1389460	L5	to account for; to make up; to take up
+湿る	しめる	1320390	L5	to become damp; to become moist; to become we
+しゃがむ	しゃがむ	1005630	L5	to squat; to crouch
+シャッター	しゃったー	1061440	L5	(camera) shutter
+商船	しょうせん	1347110	L5	merchant ship
+商店街	しょうてんがい	1347190	L5	shopping district; shopping street; downtown
+書道	しょどう	1344130	L5	calligraphy (esp. Asian calligraphy based on 
+ショー	しょー	1062240	L5	show; performance
+しるし	しるし	1168060	L5	mark; sign
+診療所	しんりょうじょ	1610680	L5	clinic; medical office; infirmary
+地主	じぬし	1421150	L5	landowner; landlord; landlady
+ジャングル	じゃんぐる	1065790	L5	jungle
+十一月	じゅういちがつ	1334480	L5	November
+銃声	じゅうせい	1337070	L5	sound of a gunshot; report of a gun
+じゅうたん	じゅうたん	1595370	L5	carpet; rug; runner
+呪文	じゅもん	1330160	L5	spell; charm; incantation
+自由に	じゆうに	1318740	L5	freely; at liberty; at will
+水車	すいしゃ	1371600	L5	water wheel
+水夫	すいふ	1372000	L5	sailor; seaman
+水路	すいろ	1372290	L5	waterway; canal; channel
+数年	すうねん	1373230	L5	several years; a few years
+杉	すぎ	1373520	L5	Japanese cedar (Cryptomeria japonica)
+杉林	すぎばやし	1886830	L5	cryptomeria forest
+スケジュール	すけじゅーる	1068870	L5	schedule; program; calendar
+鈴	すず	1557580	L5	bell (often globular)
+硯	すずり	1956220	L5	inkstone
+ステージ	すてーじ	1070320	L5	stage (platform)
+スマホ	すまほ	2641300	L5	smartphone; smart phone
+墨	すみ	1521510	L5	sumi; India ink; Chinese ink
+ずいぶん	ずいぶん	1372800	L5	very; extremely; surprisingly
+責任感	せきにんかん	1645890	L5	sense of responsibility
+せみ	せみ	1387080	L5	cicada; locust
+船内	せんない	2015970	L5	on-board ship; inboard
+そういう	そういう	1394680	L5	such; like that; that sort of
+そうすれば	そうすれば	2084030	L5	if so; in that case; in that situation
+添える	そえる	1596490	L5	to garnish; to accompany (as a card does a gi
+袖	そで	1406000	L5	sleeve
+供える	そなえる	1233580	L5	to offer; to sacrifice; to dedicate
+そのまま	そのまま	1406030	L5	without change; as is
+背く	そむく	1472680	L5	to run counter to; to go against; to disobey
+染める	そめる	1391160	L5	to dye; to colour; to color
+それでも	それでも	1406060	L5	but (still); and yet; nevertheless
+それに	それに	1007040	L5	besides; in addition; also
+それより	それより	2026520	L5	apart from that; other than that; leaving tha
+そろう	そろう	1406110	L5	to be complete; to be all present; to make a 
+象	ぞう	1351830	L5	elephant (Elephantidae spp.)
+大群	たいぐん	1413520	L5	large crowd; large herd; large flock
+畳	たたみ	1356750	L5	tatami mat; Japanese straw floor coverings
+立ち止まる	たちどまる	1551350	L5	to stop (in one's tracks); to come to a stop;
+立てこもる	たてこもる	1597080	L5	to shut oneself in (one's house, room, etc.);
+たどり着く	たどりつく	1416680	L5	to (finally) arrive at; to reach (at last); t
+貯める	ためる	1427160	L5	to save up (money)
+樽	たる	1633680	L5	cask; barrel
+たんす	たんす	1418990	L5	chest of drawers; bureau; cabinet
+田んぼ	たんぼ	1442840	L5	rice field; rice paddy; paddy field
+大根	だいこん	1413730	L5	daikon (variety of large white Oriental radis
+大事	だいじ	1413940	L5	important; serious; crucial
+大事にする	だいじにする	2837822	L5	to take good care of; to treasure; to value
+ダイヤモンド	だいやもんど	1076890	L5	diamond
+抱き合う	だきあう	1516350	L5	to embrace each other
+抱きしめる	だきしめる	1516320	L5	to hug (someone) tight; to embrace; to give (
+団子	だんご	1419240	L5	dango; dumpling (usu. sweet); doughboy
+だんだん	だんだん	1597350	L5	gradually; by degrees; little by little
+誓い	ちかい	1381200	L5	oath; vow
+チケット	ちけっと	1077720	L5	ticket
+茶屋	ちゃや	1422620	L5	teahouse; (Edo period) rest stop
+提灯	ちょうちん	1436450	L5	paper lantern; Chinese lantern; Japanese lant
+ちょっと	ちょっと	1163940	L5	a little; a bit; slightly
+散らばる	ちらばる	1303480	L5	to be scattered about; to disperse; to be lit
+チーズ	ちーず	1077330	L5	cheese
+ついていく	ついていく	1495580	L5	to accompany; to follow; to keep up with
+次から次へと	つぎからつぎへと	2017030	L5	in succession; one after another
+作り方	つくりかた	1297430	L5	style of building; construction; workmanship
+作り直す	つくりなおす	1297370	L5	to remake; to rebuild
+つなぐ	つなぐ	1251900	L5	to connect; to link together
+つば	つば	1408410	L5	saliva; spit; spittle
+つぶす	つぶす	1433820	L5	to smash; to crush; to flatten
+つぼ	つぼ	1433870	L5	pot; jar; vase
+積み上げる	つみあげる	1382940	L5	to pile up; to make a heap; to lay (e.g. bric
+積み込む	つみこむ	1382890	L5	to load (with goods, cargo); to put on board;
+詰める	つめる	1226510	L5	to stuff into; to jam; to cram
+つらい	つらい	1365860	L5	painful; bitter; heart-breaking
+釣る	つる	1434120	L5	to fish; to angle; to catch
+連れ戻す	つれもどす	1559350	L5	to bring back
+敵意	てきい	1437110	L5	hostility; animosity; enmity
+手に入れる	てにいれる	1327230	L5	to obtain; to get; to procure
+手を振る	てをふる	1896090	L5	to wave one's hand
+店長	てんちょう	1440730	L5	shop manager
+テント	てんと	1081040	L5	tent
+出来上がる	できあがる	1340610	L5	to be completed; to be finished; to be ready 
+では	では	1008450	L5	then; well; so
+父さん	とうさん	1610490	L5	father; dad; papa
+戸口	とぐち	1267000	L5	door; doorway
+閉じこもる	とじこもる	1508570	L5	to seclude oneself; to shut oneself away
+鳥居	とりい	1430280	L5	torii (Shinto shrine archway)
+砦	とりで	1295240	L5	fort; fortress; stronghold
+取り残す	とりのこす	1326740	L5	to leave behind
+どういう	どういう	1008920	L5	what kind of; what sort of; what
+洞窟	どうくつ	1453860	L5	cave; cavern; grotto
+土器	どき	1445310	L5	earthenware
+奴隷	どれい	1445650	L5	slave; servant
+ドーム	どーむ	1087780	L5	dome
+投げ入れる	なげいれる	1447060	L5	to throw into; to dump in together
+投げ出す	なげだす	1447040	L5	to throw down; to throw out; to stretch out (
+名乗る	なのる	1531650	L5	to give one's name (as); to introduce oneself
+涙を流す	なみだをながす	1899300	L5	to shed tears
+荷台	にだい	1195370	L5	(truck) load-carrying tray; (bicycle) luggage
+煮る	にる	1322540	L5	to boil; to simmer; to stew
+縫い目	ぬいめ	1599960	L5	seam; stitch; suture
+抜く	ぬく	1478190	L5	to pull out; to draw out; to extract
+抜ける	ぬける	1478200	L5	to come out; to fall out; to be omitted
+農園	のうえん	1470610	L5	farm; plantation
+逃す	のがす	1450430	L5	to miss (e.g. a chance); to lose; to let get 
+のこぎり	のこぎり	1232930	L5	saw
+飲ませる	のませる	1613430	L5	to make (someone) drink; to force to drink; t
+飲み干す	のみほす	1169780	L5	to drink up; to drink to the last drop; to dr
+のり	のり	1267400	L5	paste; glue
+乗り込む	のりこむ	1354910	L5	to board (a train, plane, etc.); to get into 
+のれん	のれん	1419890	L5	(short) curtain hung at shop entrance; split 
+はぐれる	はぐれる	2801130	L5	to lose sight of (one's companions); to stray
+運び込む	はこびこむ	1172640	L5	to carry in; to bring in
+はさみ	はさみ	1573820	L5	scissors; shears; clippers
+はしご	はしご	1436480	L5	ladder
+走り回る	はしりまわる	1402430	L5	to run around
+原っぱ	はらっぱ	1261150	L5	open field; empty lot; plain
+腹を立てる	はらをたてる	1902600	L5	to take offense; to take offence; to get angr
+半紙	はんし	1479360	L5	Japanese calligraphy paper (approx. 25cm by 3
+バザール	ばざーる	1098360	L5	bazaar; bazar
+バター	ばたー	1098620	L5	butter
+パン屋	ぱんや	1103480	L5	bakery; baker
+率いる	ひきいる	1551210	L5	to lead; to spearhead (a group); to command (
+ひげ	ひげ	1601810	L5	moustache; mustache; beard
+引っ込める	ひっこめる	1169400	L5	to draw in; to take in; to retract
+筆跡	ひっせき	1487850	L5	handwriting
+人影	ひとかげ	1580660	L5	figure of a person; figures of people
+一つ一つ	ひとつひとつ	1160830	L5	one-by-one; separately; in detail
+ひどい	ひどい	1602060	L5	cruel; heartless; hard
+火鉢	ひばち	1194210	L5	brazier; hibachi
+姫	ひめ	1602150	L5	young lady of noble birth; princess (esp. in 
+ひも	ひも	1487970	L5	string; cord
+ひらがな	ひらがな	1507090	L5	hiragana; cursive Japanese syllabary used pri
+平たい	ひらたい	1506900	L5	flat; even; level
+昼ごはん	ひるごはん	1602340	L5	lunch; midday meal
+昼過ぎ	ひるすぎ	1426280	L5	just past noon; afternoon
+ピストル	ぴすとる	1106660	L5	pistol
+風車	ふうしゃ	1583710	L5	windmill; wind turbine
+風鈴	ふうりん	1500090	L5	wind chime; wind bell
+吹き飛ばす	ふきとばす	1370690	L5	to blow away; to blow off; to blow up
+ふた	ふた	1204540	L5	cover; lid; cap
+フック	ふっく	1110940	L5	hook
+不動産屋	ふどうさんや	1494230	L5	real estate agent; realtor
+船乗り	ふなのり	1624840	L5	sailor; seaman; mariner
+増やす	ふやす	1602880	L5	to increase; to add to; to augment
+振り向く	ふりむく	1361190	L5	to turn one's face; to turn around; to look o
+古本屋	ふるほんや	1266170	L5	secondhand bookshop; secondhand bookstore; se
+無事に	ぶじに	1530040	L5	safely; without incident; without mishap
+平原	へいげん	1507260	L5	plain; moor; prairie
+帆	ほ	1481240	L5	sail
+ほこり	ほこり	1565750	L5	dust
+ほとんど	ほとんど	1522050	L5	almost; nearly; mostly
+ほどける	ほどける	1198920	L5	to come loose; to come untied; to come undone
+掘り返す	ほりかえす	1603570	L5	to dig up; to turn up; to tear up
+彫る	ほる	1427950	L5	to carve; to engrave; to sculpt
+本調子	ほんちょうし	1523000	L5	one's normal condition; one's usual state
+盆踊り	ぼんおどり	1523780	L5	Bon Festival dance; Lantern Festival dance
+ポケット	ぽけっと	1124970	L5	pocket
+ポスター	ぽすたー	1125110	L5	poster
+前かけ	まえかけ	1392720	L5	apron (waist-down); waist apron
+まず	まず	1387240	L5	first (of all); firstly; to begin with
+間違いなく	まちがいなく	2748410	L5	clearly; unmistakably; certainly
+町外れ	まちはずれ	1428760	L5	outskirts (of a town); edge (of a town); just
+まっすぐ	まっすぐ	1580600	L5	straight (ahead); direct; upright
+まねる	まねる	1363760	L5	to mimic; to imitate
+魔法	まほう	1524230	L5	magic; witchcraft; sorcery
+真水	まみず	1364020	L5	fresh water
+間もなく	まもなく	1215290	L5	soon; shortly; before long
+丸太	まるた	1216560	L5	log
+マント	まんと	1130140	L5	mantle; cloak; manteau
+見合わせる	みあわせる	1259570	L5	to exchange glances; to look at each other
+見失う	みうしなう	1259640	L5	to lose sight of; to miss
+磨く	みがく	1523940	L5	to polish; to shine; to burnish
+右上	みぎうえ	1171140	L5	upper right
+見知らぬ	みしらぬ	1259860	L5	strange; unfamiliar; unknown
+店番	みせばん	1440790	L5	tending a store
+乱す	みだす	1548930	L5	to throw into disorder; to disarrange; to dis
+迎え入れる	むかえいれる	1253220	L5	to show in; to usher in
+向こう岸	むこうぎし	1277150	L5	opposite bank; farther shore
+息子さん	むすこさん	1404400	L5	son
+恵み	めぐみ	1250470	L5	blessing; grace
+メッセージ	めっせーじ	1133570	L5	message
+メモ	めも	1133830	L5	note; memo; memorandum
+申し出	もうしで	1362920	L5	proposal; offer; request
+申し出る	もうしでる	1362930	L5	to offer; to propose; to suggest
+モザイク	もざいく	1134820	L5	mosaic
+持ち上げる	もちあげる	1315610	L5	to elevate; to raise; to lift up
+持ち直す	もちなおす	1315670	L5	to recover; to rally; to improve
+もちろん	もちろん	1535780	L5	of course; certainly; naturally
+もらう	もらう	1535910	L5	to receive; to take; to accept
+モンスーン	もんすーん	1136100	L5	monsoon
+夜勤	やきん	1536650	L5	night duty; night shift; night work
+山羊	やぎ	1303200	L5	goat
+役に立たない	やくにたたない	1912970	L5	of no avail; useless
+屋台	やたい	1182720	L5	cart (esp. a food cart); stall; stand
+やっと	やっと	1012800	L5	at last; finally
+破れる	やぶれる	1471210	L5	to get torn; to tear; to rip
+山道	やまみち	1303090	L5	mountain road; mountain trail
+夕立	ゆうだち	1542820	L5	(sudden, heavy) shower (on a summer afternoon
+浴衣	ゆかた	1584990	L5	yukata; light cotton kimono worn in the summe
+揺らす	ゆらす	1545640	L5	to rock; to shake; to swing
+妖精	ようせい	1545330	L5	fairy; sprite; elf
+横顔	よこがお	1180670	L5	profile; face in profile; face seen from the 
+横たわる	よこたわる	1180590	L5	to lie down; to stretch out
+読み聞かせる	よみきかせる	1688480	L5	to read aloud; to read to someone
+よろしい	よろしい	1224880	L5	good; OK; all right
+ラム	らむ	2842178	L5	rum
+ランプ	らんぷ	1140360	L5	lamp; light
+両目	りょうめ	1810450	L5	both eyes
+料理人	りょうりにん	1644930	L5	cook; chef
+ルビー	るびー	1144130	L5	ruby
+ろうそく	ろうそく	1561240	L5	candle
+和紙	わし	1562100	L5	washi; Japanese paper
+ああ	ああ	1565440	L6	ah!; oh!; alas!
+青白い	あおじろい	1381760	L6	pale; pallid
+赤	あか	2013900	L6	red; crimson; scarlet
+明かす	あかす	1532220	L6	to pass (the night); to spend
+欺く	あざむく	1225420	L6	to deceive; to delude; to trick
+温める	あたためる	1586440	L6	to warm (up); to heat (up)
+宛名	あてな	1586520	L6	name and address (on an envelope, etc.); (add
+危ない	あぶない	1218380	L6	dangerous; risky; hazardous
+雨水	あまみず	1576440	L6	rain water
+あまりに	あまりに	1543890	L6	too (much); overly; excessively
+荒らす	あらす	1281480	L6	to lay waste; to devastate; to damage
+歩き回る	あるきまわる	1514310	L6	to walk about; to walk around; to walk to and
+荒れる	あれる	1281490	L6	to become stormy; to become rough (of the sea
+杏	あんず	1586930	L6	apricot (Prunus armeniaca)
+あんなに	あんなに	1981450	L6	to that extent; to that degree; so much
+言い聞かせる	いいきかせる	1264280	L6	to tell; to (try to) persuade; to advise
+生き返る	いきかえる	1378600	L6	to revive; to come to oneself; to be restored
+行き先	いきさき	1281720	L6	destination
+息を引き取る	いきをひきとる	2098620	L6	to die; to draw one's last breath; to breathe
+いじめる	いじめる	1195140	L6	to ill-treat; to bully; to torment
+一月	いちがつ	1162120	L6	January
+一撃	いちげき	1162090	L6	one blow; one hit; one stroke
+一族	いちぞく	1164440	L6	family; relatives; dependents
+一列	いちれつ	1167430	L6	(a) row; line
+一気に	いっきに	1161730	L6	in one go; in one gulp; in one breath
+いつでも	いつでも	1577130	L6	always; all the time; at all times
+いとこ	いとこ	1335290	L6	cousin (male)
+営む	いとなむ	1173420	L6	to run (a business); to operate; to conduct
+緯度	いど	1158490	L6	latitude
+今でも	いまでも	1288920	L6	even now; still; as yet
+インド	いんど	1023840	L6	India
+打ち勝つ	うちかつ	1408680	L6	to conquer (e.g. an enemy); to defeat
+うなり声	うなりごえ	2444800	L6	groan; moan
+裏返し	うらがえし	1550620	L6	inside out; upside down
+エンジン	えんじん	1030950	L6	engine
+遠慮なく	えんりょなく	1178460	L6	without reservation; freely; frankly
+追いかける	おいかける	1608720	L6	to chase; to run after; to pursue
+追い払う	おいはらう	1432380	L6	to drive away; to clear; to scatter
+老いる	おいる	1560990	L6	to age; to grow old
+多く	おおく	1861770	L6	many; much; plenty
+大粒	おおつぶ	1415180	L6	large drop (of rain, sweat, tears, etc.); lar
+おかわり	おかわり	1612800	L6	another helping; second helping; seconds
+奥様	おくさま	1179630	L6	wife; your wife; his wife
+押し入れ	おしいれ	1589110	L6	closet (built into the wall, usu. with slidin
+押し切る	おしきる	1180270	L6	to overcome (opposition); to push past; to fo
+押しつぶす	おしつぶす	1180310	L6	to crush; to squash; to flatten
+お互い	おたがい	1979930	L6	each other; one another
+脅し	おどし	1630260	L6	threat
+溺れる	おぼれる	1437560	L6	to struggle in the water; to sink below the s
+思える	おもえる	1309440	L6	to seem; to appear likely
+重荷	おもに	1579940	L6	heavy load; heavy luggage; heavy freight
+およそ	およそ	1523450	L6	about; roughly; approximately
+折れる	おれる	1385920	L6	to break; to be broken; to snap
+オレンジ	おれんじ	1035860	L6	orange (fruit, colour)
+恩師	おんし	1183160	L6	teacher (to whom one owes a debt of gratitude
+海藻	かいそう	1201590	L6	seaweed
+懐中時計	かいちゅうどけい	2846023	L6	pocket watch
+飼い猫	かいねこ	1839870	L6	pet cat
+解剖学	かいぼうがく	1199280	L6	anatomy
+かかる	かかる	1207590	L6	to take (a resource, e.g. time or money)
+書き込む	かきこむ	1343730	L6	to fill in (field, entry, etc.); to fill out 
+鍵をかける	かぎをかける	1260500	L6	to lock (a door, etc.); to lock up
+駆け寄る	かけよる	1244750	L6	to run up to; to rush over
+飾り	かざり	1357160	L6	decoration; ornament; trimmings
+舵	かじ	1408990	L6	rudder; helm
+鍛冶屋	かじや	1704590	L6	smith; blacksmith
+片っ端から	かたっぱしから	1511580	L6	absolutely every little bit; everything from 
+片付け	かたづけ	1511780	L6	tidying up; finishing
+傾き	かたむき	1249410	L6	slope; inclination; list
+傾ける	かたむける	1249420	L6	to incline; to lean; to tip
+片目	かため	1511830	L6	one eye; one of one's eyes
+語り	かたり	1270930	L6	talk; recital
+語り合う	かたりあう	1270960	L6	to talk together
+勝手に	かってに	1346200	L6	arbitrarily; of its own accord; without askin
+かつて	かつて	1581210	L6	once; before; formerly
+金具	かなぐ	1242790	L6	metal fittings; metal fixtures
+枯れ葉	かれは	1590730	L6	dead leaf; dry leaves
+代わりに	かわりに	1590790	L6	instead of; in place of; as a substitute for
+棺	かん	1955980	L6	coffin; casket
+漢字	かんじ	1213170	L6	kanji; Chinese character
+カーテン	かーてん	1036290	L6	curtain; curtains
+崖	がけ	1204380	L6	cliff; precipice
+聞き取る	ききとる	1505800	L6	to catch (someone's words); to make out; to f
+傷つく	きずつく	1591240	L6	to be wounded; to get injured
+木箱	きばこ	1534830	L6	wooden box; wooden crate
+客間	きゃくま	1226710	L6	drawing room; parlor; parlour
+キャラメル	きゃらめる	2480290	L6	caramel (soft candy)
+吸血鬼	きゅうけつき	1228310	L6	vampire; bloodsucker
+脅威	きょうい	1238090	L6	threat; menace
+虚栄心	きょえいしん	1609670	L6	vanity
+切り株	きりかぶ	1591790	L6	tree stump; stubble (rice, etc.)
+切り出す	きりだす	1580950	L6	to quarry; to cut (timber); to cut and carry 
+銀色	ぎんいろ	1243560	L6	silver (color, colour)
+杭	くい	1279450	L6	stake; post; pile
+鎖	くさり	1291730	L6	chain; chains
+砕ける	くだける	1295190	L6	to break (into pieces); to be broken; to be s
+くだらない	くだらない	1184360	L6	trivial; trifling; insignificant
+首飾り	くびかざり	1329280	L6	necklace; choker
+組み立てる	くみたてる	1397580	L6	to assemble; to put together; to set up
+クリスマス	くりすます	1044830	L6	Christmas
+経度	けいど	1251630	L6	longitude
+削る	けずる	1298090	L6	to shave (wood, leather, etc.); to sharpen (e
+嫌悪	けんお	1257280	L6	disgust; hate; repugnance
+拳銃	けんじゅう	1257760	L6	pistol; handgun
+木陰	こかげ	1534570	L6	shade of a tree; bower
+故郷	こきょう	2853884	L6	hometown; birthplace; native place
+こちら	こちら	1004500	L6	this way; this direction
+小瓶	こびん	1348720	L6	small bottle
+こもる	こもる	1593430	L6	to shut oneself in (e.g. one's room); to be c
+これから	これから	1004790	L6	from now on; after this; in the future
+頃	ころ	1579080	L6	(approximate) time; around; about
+転げ落ちる	ころげおちる	1441030	L6	to fall off; to tumble down
+こわばる	こわばる	1609790	L6	to stiffen; to become stiff; to harden
+婚約者	こんやくしゃ	1638860	L6	fiance; fiancee
+サイクロン	さいくろん	1055630	L6	cyclone
+裁判官	さいばんかん	1296130	L6	judge
+柵	さく	1298250	L6	fence; paling; railing
+支え	ささえ	1310080	L6	support; stay; prop
+挿絵	さしえ	1593750	L6	illustration (in a book, newspaper, etc.); pi
+差し込む	さしこむ	1291170	L6	to insert; to put in; to thrust in
+砂州	さす	1291560	L6	sandbar; sandbank; shoal
+三月	さんがつ	1300250	L6	March
+仕方がない	しかたがない	1305420	L6	there's no (other) way
+しかも	しかも	1506050	L6	moreover; furthermore
+叱る	しかる	1319580	L6	to scold; to chide; to rebuke
+四月	しがつ	1307180	L6	April
+沈める	しずめる	1431680	L6	to sink (e.g. a ship); to submerge
+視線	しせん	1312060	L6	one's line of sight; one's gaze; one's eyes (
+執事	しつじ	1319650	L6	steward; butler
+忍び込む	しのびこむ	1467430	L6	to creep in; to steal in; to sneak in
+しまう	しまう	1305380	L6	to finish; to stop; to end
+絞める	しめる	1280820	L6	to strangle; to constrict
+修道院	しゅうどういん	1332240	L6	monastery; convent; cloister
+種族	しゅぞく	1328840	L6	race; tribe; ethnic group
+使用人	しようにん	1306280	L6	employee; servant
+仕業	しわざ	1304870	L6	deed (esp. negative); act; action
+針路	しんろ	1366280	L6	course; direction
+実験室	じっけんしつ	1320990	L6	laboratory
+実際に	じっさいに	1321120	L6	actually; really; truly
+慈悲	じひ	1315440	L6	mercy; compassion; clemency
+砂利	じゃり	1291660	L6	gravel; ballast; pebbles
+十字架	じゅうじか	1334650	L6	cross (for crucifixion); the Cross (of Christ
+住人	じゅうにん	1334110	L6	dweller; inhabitant; resident
+順番に	じゅんばんに	2704010	L6	in turns; in series; in order
+末に	すえに	1525280	L6	finally; after; following
+隙間	すきま	1253790	L6	gap; opening; aperture
+筋書き	すじがき	1241790	L6	synopsis; plot; outline
+すでに	すでに	1220310	L6	already
+すまない	すまない	1610020	L6	inexcusable; unjustifiable; unpardonable
+座り込む	すわりこむ	1291790	L6	to (enter and) sit down; to plop oneself down
+聖水	せいすい	2115820	L6	holy water
+聖なる	せいなる	2084380	L6	holy; sacred
+背丈	せたけ	1472760	L6	stature; height
+世話をする	せわをする	2253800	L6	to take care of
+船室	せんしつ	1392000	L6	stateroom; cabin
+扇子	せんす	1390730	L6	folding fan
+全戸	ぜんこ	1395150	L6	all the houses (in an area); all the apartmen
+全財産	ぜんざいさん	2101150	L6	everything one owns
+前輪	ぜんりん	1581150	L6	front wheel
+そうして	そうして	1612860	L6	and; like that
+それ以来	それいらい	1007090	L6	since then; from that time; ever since
+確かに	たしかに	1205770	L6	surely; certainly
+たたむ	たたむ	1356780	L6	to fold (clothes, umbrella)
+立ち尽くす	たちつくす	1852180	L6	to keep standing; to stand motionless
+束ねる	たばねる	1581320	L6	to tie up in a bundle (e.g. straw, hair, bill
+たび	たび	1445150	L6	time (three times, each time, etc.); times
+旅	たび	1553120	L6	travel; trip; journey
+試しに	ためしに	2826921	L6	as a test; as an experiment; by way of experi
+ためらう	ためらう	1573390	L6	to hesitate; to waver
+抱き上げる	だきあげる	1516380	L6	to hold up in one's arms
+チェック	ちぇっく	1077550	L6	check (pattern); plaid
+誓う	ちかう	1381210	L6	to swear; to vow; to take an oath
+地平線	ちへいせん	1421440	L6	horizon (related to land)
+地名	ちめい	1421500	L6	place name; toponym
+挑発	ちょうはつ	1428260	L6	provocation; stirring up; arousal
+塵	ちり	1369910	L6	dust
+杖	つえ	1356620	L6	cane; walking stick; staff
+使い方	つかいかた	1305950	L6	way of using (something); way to use; how to 
+仕える	つかえる	1304760	L6	to serve; to work for; to attend
+つかむ	つかむ	1433650	L6	to seize; to catch; to grasp
+浸かる	つかる	1433670	L6	to be submerged; to be soaked
+突き止める	つきとめる	1456670	L6	to determine (esp. a culprit or underlying ca
+突き抜ける	つきぬける	1456820	L6	to pierce through; to break through
+尽きる	つきる	1370070	L6	to be used up; to be run out; to be exhausted
+作り変える	つくりかえる	1297360	L6	to remake; to remold; to remould
+償う	つぐなう	1346020	L6	to make up for; to compensate for; to indemni
+付け加える	つけくわえる	1495790	L6	to add (one thing to another); to add (a few 
+都合がいい	つごうがいい	2264750	L6	convenient
+つたう	つたう	1441850	L6	to move along; to go alongside; to walk along
+包み	つつみ	1515340	L6	bundle; package; parcel
+つながり	つながり	1251870	L6	connection; link; relationship
+つぶやく	つぶやく	1565120	L6	to mutter; to murmur; to grumble
+つまむ	つまむ	1598080	L6	to pinch; to hold (between one's fingers); to
+詰まる	つまる	1226480	L6	to be packed (with); to be filled; to be full
+手なずける	てなずける	1598380	L6	to tame
+手に入る	てにはいる	1327220	L6	to obtain; to come into possession of; to get
+出会い	であい	1338400	L6	meeting; rendezvous; encounter
+出入り口	でいりぐち	1598540	L6	exit and entrance
+出て行く	でていく	2200300	L6	to go out and away; to leave
+とある	とある	2129760	L6	a certain ...
+峠	とうげ	1454420	L6	(mountain) pass; highest point on a mountain 
+とうとう	とうとう	1449890	L6	finally; at last; in the end
+遠ざける	とおざける	1177840	L6	to keep away; to keep at a distance
+通り抜ける	とおりぬける	1433010	L6	to go through; to pass through; to get throug
+途切れる	とぎれる	1598690	L6	to break off; to come to an end; to be interr
+解ける	とける	1198910	L6	to be solved; to be worked out
+閉ざす	とざす	1508540	L6	to shut; to close; to fasten
+跳び上がる	とびあがる	1429690	L6	to jump up; to leap up; to spring up
+飛び込む	とびこむ	1598890	L6	to jump in; to leap in; to plunge into
+捕らえる	とらえる	1598960	L6	to catch; to capture; to seize
+トースト	とーすと	1084540	L6	toast
+どうか	どうか	1632200	L6	please; if you would; would you mind
+どうしても	どうしても	1466950	L6	by all means; at any cost; no matter what
+同封	どうふう	1453340	L6	enclosing (e.g. with a letter)
+どこか	どこか	1189000	L6	somewhere
+どこにも	どこにも	2170870	L6	(not) anywhere; nowhere
+仲間たち	なかまたち	2850713	L6	companions; friends; comrades
+長い間	ながいあいだ	1429760	L6	long time; long interval; for quite some time
+投げ落とす	なげおとす	1447090	L6	to throw down
+投げ捨てる	なげすてる	1447030	L6	to throw away
+投げつける	なげつける	1447350	L6	to throw at; to fling at; to hurl at
+納屋	なや	1470020	L6	barn (for storage); shed; outbuilding
+悩ます	なやます	1469840	L6	to afflict; to torment; to harass
+並べる	ならべる	1508390	L6	to line up; to set up; to arrange in a line
+憎しみ	にくしみ	1403400	L6	hatred
+憎む	にくむ	1403440	L6	to hate; to detest
+逃げ込む	にげこむ	1450370	L6	to take refuge in; to succeed in running away
+逃げ道	にげみち	1612480	L6	way out; means to escape; escape route
+日没	にちぼつ	1464450	L6	sunset
+二倍	にばい	1462920	L6	double; twice (as much); twofold
+ニンニク	にんにく	1599940	L6	garlic (Allium sativum)
+拭う	ぬぐう	1357220	L6	to wipe; to mop up
+沼	ぬま	1350010	L6	marsh; swamp; wetland
+眠気	ねむけ	1529340	L6	sleepiness; drowsiness
+根元	ねもと	2848281	L6	base (of a plant, tree, pillar, etc.); (part 
+年賀状	ねんがじょう	1468250	L6	New Year's card
+乗り継ぐ	のりつぐ	1354870	L6	to connect (with a different flight, train, e
+廃墟	はいきょ	1472050	L6	ruins (of a building, town, etc.); remains
+這う	はう	1474200	L6	to crawl; to creep; to go on all fours
+はく	はく	1607260	L6	to put on (lower-body clothing, e.g. pants, s
+伯爵	はくしゃく	1474260	L6	count; earl
+運び出す	はこびだす	1172650	L6	to carry out (of somewhere); to transport; to
+挟む	はさむ	1600740	L6	to hold between (e.g. one's fingers, chopstic
+走り去る	はしりさる	1402440	L6	to run away; to run off
+果てしない	はてしない	1192890	L6	endless; boundless; everlasting
+はねる	はねる	1429620	L6	to jump; to leap; to prance
+はまる	はまる	1601030	L6	to fit; to get into; to go into
+帆船	はんせん	1583230	L6	sailing ship; sailing boat; sailing vessel
+バスケット	ばすけっと	1098430	L6	basket
+パンフレット	ぱんふれっと	1103450	L6	pamphlet; brochure; leaflet
+被害者	ひがいしゃ	1484370	L6	victim; injured party; sufferer
+引き裂く	ひきさく	1169210	L6	to tear up; to tear off; to rip up
+引き延ばす	ひきのばす	1601770	L6	to stretch larger
+引き寄せる	ひきよせる	1168870	L6	to draw (something) toward one; to pull towar
+日ごとに	ひごとに	1464860	L6	day by day; every day; by the day
+一人暮らし	ひとりぐらし	1613340	L6	living by oneself; living alone
+独り言	ひとりごと	1455670	L6	soliloquy; monologue; speaking to oneself
+一人ずつ	ひとりずつ	2836378	L6	one by one; one at a time; in turn
+響く	ひびく	1238610	L6	to resound; to be heard far away
+秘める	ひめる	1483980	L6	to hide; to keep to oneself
+広間	ひろま	1633240	L6	hall; saloon; spacious room
+火をつける	ひをつける	2202160	L6	to ignite; to set fire to
+便箋	びんせん	1512640	L6	writing paper; stationery; notepaper
+封	ふう	1499580	L6	seal
+封じる	ふうじる	1980510	L6	to seal (e.g. a letter)
+復讐	ふくしゅう	1500840	L6	revenge
+膨らむ	ふくらむ	1519990	L6	to expand; to swell (out); to get big
+伏せる	ふせる	1500220	L6	to lay (something) face down; to place upside
+フランス語	ふらんすご	1111590	L6	French (language)
+振り上げる	ふりあげる	1851690	L6	to raise (a sword, fist, etc.); to lift; to t
+降り出す	ふりだす	1282770	L6	to begin to rain; to begin to snow
+噴水	ふんすい	1504610	L6	water fountain
+ぶつかる	ぶつかる	1011180	L6	to bump into; to run into; to collide with
+ブリキ	ぶりき	1629420	L6	tin plate
+別人	べつじん	1583920	L6	different person; another person; someone els
+ベル	べる	1120010	L6	bell
+ベール	べーる	1119330	L6	veil
+ペンキ	ぺんき	1121390	L6	paint
+報じる	ほうじる	1515650	L6	to report; to inform
+誇らしい	ほこらしい	1267730	L6	proud; haughty; arrogant
+ほどく	ほどく	1198900	L6	to undo; to untie; to unfasten
+本棚	ほんだな	1522980	L6	bookshelves; bookshelf; bookcase
+本土	ほんど	1627340	L6	mainland; the country proper
+ボトル	ぼとる	1124170	L6	bottle
+薪	まき	1365010	L6	piece(s) of firewood (esp. chopped or split f
+混じる	まじる	1603930	L6	to be mixed; to be blended with; to be combin
+まずい	まずい	1495000	L6	bad(-tasting); unpalatable; unsavoury
+真っ青	まっさお	1604080	L6	deep blue; bright blue
+マッチ	まっち	1128430	L6	match (for lighting a fire)
+見上げる	みあげる	1259740	L6	to look up at; to raise one's eyes
+見かける	みかける	1604430	L6	to (happen to) see; to notice; to catch sight
+右上がり	みぎあがり	2237400	L6	rising diagonally up and to the right
+水たまり	みずたまり	1371280	L6	puddle; pool of water
+道端	みちばた	1454230	L6	roadside; wayside
+身につける	みにつける	1980660	L6	to learn; to acquire knowledge
+見回す	みまわす	1259400	L6	to look around; to survey
+見回る	みまわる	1641610	L6	to make one's rounds; to patrol
+見分ける	みわける	1260020	L6	to distinguish; to recognize; to recognise
+結びつける	むすびつける	1254650	L6	to tie (to); to fasten; to attach
+結び目	むすびめ	1254660	L6	knot
+眼鏡	めがね	1577670	L6	glasses; eyeglasses; spectacles
+申す	もうす	1363090	L6	to say; to be called
+盲目	もうもく	1534340	L6	blindness
+持ち帰る	もちかえる	1658430	L6	to take home; to carry home; to bring back ho
+やかん	やかん	1605370	L6	kettle
+役場	やくば	1538030	L6	town hall
+痩せる	やせる	1605510	L6	to become thin; to lose weight; to slim
+屋根裏	やねうら	1815850	L6	attic; loft
+やめる	やめる	1310680	L6	to stop (an activity); to cease; to discontin
+やり取り	やりとり	1012940	L6	giving and taking; exchange (of letters); arg
+床下	ゆかした	1349420	L6	under the floor
+歪む	ゆがむ	1585360	L6	to warp; to bend; to contort
+輸血	ゆけつ	1538810	L6	blood transfusion
+湯飲み	ゆのみ	1612130	L6	teacup
+揺るがす	ゆるがす	1612140	L6	to shake; to swing; to sway
+用心深い	ようじんぶかい	1546330	L6	careful; cautious; wary
+予定どおり	よていどおり	1543290	L6	as planned; according to plan
+呼び戻す	よびもどす	1266410	L6	to call (someone) back; to recall; to call ho
+呼び鈴	よびりん	1266430	L6	bell (used for summoning or signalling); buzz
+読み返す	よみかえす	1456320	L6	to reread; to read again
+レンガ	れんが	1559090	L6	brick
+老眼鏡	ろうがんきょう	1644540	L6	reading (farsighted) glasses; spectacles for 
+六月	ろくがつ	1561330	L6	June
+若返る	わかがえる	1324450	L6	to be rejuvenated; to feel young again
+輪ゴム	わごむ	1555720	L6	rubber band; elastic band
+わざと	わざと	1410760	L6	on purpose; deliberately; intentionally
+わずか	わずか	1240750	L6	a little; a few; small
+割れる	われる	1208020	L6	to break; to be smashed
+ワンピース	わんぴーす	1149240	L6	dress

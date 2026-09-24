@@ -1,0 +1,1263 @@
+{
+ "_about": "Words tools/check_story_vocab.py raised and a person reviewed as right for the story. 'from' is the lowest level the word was approved at: a use at a lower level is raised again. Notes starting 'check:' are approved but worth a native speaker's second look. See story-writing-guide.md §5a.",
+ "あて名": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "あとで": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "あれから": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "いかだ": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "いくつも": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "いなくなる": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "いばら": {
+  "from": "L3",
+  "note": "story-critical (the thorns that blind the prince)"
+ },
+ "うそをつく": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "うなだれる": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "うまく": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "おかげ": {
+  "from": "L3",
+  "note": "everyday kana word or expression"
+ },
+ "おかみ": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "おじいちゃん": {
+  "from": "L5",
+  "note": "everyday word"
+ },
+ "おじさん": {
+  "from": "L3",
+  "note": "everyday word"
+ },
+ "おそく": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "おばあさま": {
+  "from": "L4",
+  "note": "respectful form of an everyday word"
+ },
+ "おばさん": {
+  "from": "L2",
+  "note": "everyday word"
+ },
+ "おんどり": {
+  "from": "L4",
+  "note": "rooster; usually written in kana"
+ },
+ "お姫さま": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "お孫さん": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "お手本": {
+  "from": "L5",
+  "note": "story-critical (the model sheet a calligraphy pupil copies)"
+ },
+ "お盆": {
+  "from": "L5",
+  "note": "Obon in 隠れ谷の灯り; a tray in Aladdin (linked to nothing, so the gloss decides)"
+ },
+ "お腹いっぱい": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "お腹がすく": {
+  "from": "L1",
+  "note": "set phrase built from common words"
+ },
+ "かけのぼる": {
+  "from": "L2",
+  "note": "everyday kana word or expression"
+ },
+ "かけ直す": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "かじる": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "かちり": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "かまど": {
+  "from": "L3",
+  "note": "the standard word in Japanese Hansel and Gretel and Jack"
+ },
+ "きしむ": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "きびだんご": {
+  "from": "L2",
+  "note": "story-critical (Momotarō)"
+ },
+ "きりぎりす": {
+  "from": "L1",
+  "note": "the grasshopper of the fable; written in kana because L1 has no katakana"
+ },
+ "こうして": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "こぎ出す": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "こすれる": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "こねる": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "このまま": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "こらえる": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "これなら": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "これほど": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "これ以上": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "ごめんなさい": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "ご主人さま": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "さとうきび": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "さびつく": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "しばらくして": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "しばらくしてから": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "しばらくすると": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "しぶき": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "しめ縄": {
+  "from": "L5",
+  "note": "story-critical, cultural"
+ },
+ "しわだらけ": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "ずぶぬれ": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "そうね": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "そうめん": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "その代わり": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "その手": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "その日": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "それきり": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "それだけ": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "それなのに": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "それまで": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "それ以上": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "たまご焼き": {
+  "from": "L2",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "だからこそ": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "ちゃぶ台": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "ちょうどよい": {
+  "from": "L3",
+  "note": "everyday kana word or expression"
+ },
+ "ともる": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "どこでも": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "どさり": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "どれも": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "どんぶらこ": {
+  "from": "L2",
+  "note": "the traditional sound of the peach floating downstream (Momotarō)"
+ },
+ "なぞる": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "においがする": {
+  "from": "L3",
+  "note": "set phrase built from common words"
+ },
+ "のどがかわく": {
+  "from": "L1",
+  "note": "set phrase built from common words"
+ },
+ "ばらばら": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "ひげそり": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "ひざをつく": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "ふりをする": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "ほえ声": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "ほとり": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "まずは": {
+  "from": "L5",
+  "note": "everyday kana word or expression"
+ },
+ "まだら": {
+  "from": "L6",
+  "note": "story-critical (the speckled band)"
+ },
+ "むかしむかし": {
+  "from": "L2",
+  "note": "the standard opening of a folk tale"
+ },
+ "めんどり": {
+  "from": "L3",
+  "note": "story-critical (the hen that lays golden eggs)"
+ },
+ "もうすぐ": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "もどってくる": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
+ "ゆがめる": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "よーい": {
+  "from": "L2",
+  "note": "the call before a race; story-critical"
+ },
+ "アリババ": {
+  "from": "L4",
+  "note": "name"
+ },
+ "ウサギ": {
+  "from": "L6",
+  "note": "animal name (the White Rabbit)"
+ },
+ "オウム": {
+  "from": "L5",
+  "note": "animal name (the parrot)"
+ },
+ "オオカミ": {
+  "from": "L3",
+  "note": "animal name, normally katakana"
+ },
+ "キツネ": {
+  "from": "L5",
+  "note": "animal name, normally katakana"
+ },
+ "クサリヘビ": {
+  "from": "L6",
+  "note": "story-critical (the swamp adder)"
+ },
+ "クジラ": {
+  "from": "L5",
+  "note": "animal name, normally katakana"
+ },
+ "クローゼット": {
+  "from": "L4",
+  "note": "loanword, normal in katakana"
+ },
+ "コオロギ": {
+  "from": "L5",
+  "note": "animal name (the talking cricket)"
+ },
+ "スペイン人": {
+  "from": "L5",
+  "note": "nationality"
+ },
+ "チーター": {
+  "from": "L6",
+  "note": "animal name (the cheetah in The Speckled Band)"
+ },
+ "トウモロコシ畑": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "トカゲ": {
+  "from": "L6",
+  "note": "animal name"
+ },
+ "ナイトキャップ": {
+  "from": "L4",
+  "note": "the grandmother’s nightcap in Red Riding Hood"
+ },
+ "ネコ": {
+  "from": "L5",
+  "note": "animal name, normally katakana"
+ },
+ "バイソン": {
+  "from": "L5",
+  "note": "animal name"
+ },
+ "バックミラー": {
+  "from": "L6",
+  "note": "loanword, normal in katakana"
+ },
+ "バラ": {
+  "from": "L4",
+  "note": "loanword, normal in katakana"
+ },
+ "パンくず": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "ヒヒ": {
+  "from": "L6",
+  "note": "animal name"
+ },
+ "フロントガラス": {
+  "from": "L6",
+  "note": "loanword, normal in katakana"
+ },
+ "ペルシャ": {
+  "from": "L4",
+  "note": "place name"
+ },
+ "ホームズ": {
+  "from": "L6",
+  "note": "name"
+ },
+ "マーマレード": {
+  "from": "L6",
+  "note": "loanword, normal in katakana"
+ },
+ "メモ用紙": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "ランタン": {
+  "from": "L5",
+  "note": "loanword, normal in katakana"
+ },
+ "リンゴ": {
+  "from": "L5",
+  "note": "everyday word; katakana is normal"
+ },
+ "レーズン": {
+  "from": "L6",
+  "note": "loanword, normal in katakana"
+ },
+ "ロバ": {
+  "from": "L4",
+  "note": "animal name, normally katakana"
+ },
+ "一つ目": {
+  "from": "L6",
+  "note": "number or time expression"
+ },
+ "一回分": {
+  "from": "L6",
+  "note": "number or time expression"
+ },
+ "一文字": {
+  "from": "L5",
+  "note": "number or time expression"
+ },
+ "一番目": {
+  "from": "L3",
+  "note": "number or time expression"
+ },
+ "一粒": {
+  "from": "L5",
+  "note": "number or time expression"
+ },
+ "三つ目": {
+  "from": "L6",
+  "note": "number or time expression"
+ },
+ "中ほど": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "亡きがら": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "人形劇": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "付いていく": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "何か月も": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "何度も": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "作業台": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "保釈金": {
+  "from": "L5",
+  "note": "plot-relevant (Fogg bails Passepartout)"
+ },
+ "値札": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "傘立て": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "元に戻る": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "充電器": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "入れ忘れる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "入道雲": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "八分": {
+  "from": "L4",
+  "note": "number or time expression"
+ },
+ "八十日目": {
+  "from": "L5",
+  "note": "number or time expression"
+ },
+ "八時": {
+  "from": "L4",
+  "note": "number or time expression"
+ },
+ "公爵夫人": {
+  "from": "L6",
+  "note": "a character (the Duchess)"
+ },
+ "内ポケット": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "出ていく": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "出てくる": {
+  "from": "L2",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "創造主": {
+  "from": "L6",
+  "note": "the creature’s word for Victor; 創造者 was replaced"
+ },
+ "力いっぱい": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "力尽きる": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "助け出す": {
+  "from": "L3",
+  "note": "compound of common words"
+ },
+ "十一時": {
+  "from": "L6",
+  "note": "number or time expression"
+ },
+ "十二時": {
+  "from": "L3",
+  "note": "number or time expression"
+ },
+ "十字を切る": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "取り返しのつかない": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "古道具屋": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "召し使い": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "吐き捨てる": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "向き直る": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "命を絶つ": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "声をかける": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "変わっている": {
+  "from": "L2",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "夜ごと": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "好き勝手": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "娘さん": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "子ぶた": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "家を出る": {
+  "from": "L3",
+  "note": "set phrase built from common words"
+ },
+ "巻きつく": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "帰ってくる": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "干し肉": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "年に一度": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "座面": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "引っかく": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "待ち伏せる": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "心を動かす": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "息をつく": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "息を吐く": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "息を止める": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "懸賞金": {
+  "from": "L6",
+  "note": "plot-relevant"
+ },
+ "戻ってくる": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "手に取る": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "手をかける": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "手を合わせる": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "折りたたむ": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "折り畳み傘": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "抱きとめる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "拾い集める": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "探検船": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "握りしめる": {
+  "from": "L4",
+  "note": "compound of common words"
+ },
+ "揺りかご": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "揺れ": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "数か月": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "数日後": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "数週間": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "旅行鞄": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "明": {
+  "from": "L5",
+  "note": "a calligraphy character the story is about"
+ },
+ "暮らし始める": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "書き始める": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "書き終わる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "書き足す": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "木の下": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "木切れ": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "木彫り職人": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "東インド": {
+  "from": "L5",
+  "note": "historical place name (Gulliver)"
+ },
+ "正気を失う": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "歩き出す": {
+  "from": "L2",
+  "note": "compound of common words"
+ },
+ "歩き去る": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "歩き始める": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "歩き続ける": {
+  "from": "L4",
+  "note": "compound of common words"
+ },
+ "残り少ない": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "残骸": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "段ボール箱": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "段差": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "毒入り": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "気が進む": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "永": {
+  "from": "L5",
+  "note": "a calligraphy character the story is about"
+ },
+ "油さし": {
+  "from": "L6",
+  "note": "the Tin Woodman’s oilcan (replaced オイル缶)"
+ },
+ "油を差す": {
+  "from": "L6",
+  "note": "the usual collocation for oiling a joint"
+ },
+ "油売り": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "油紙": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "泥だらけ": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "海氷": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "湯呑み": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "潮汐表": {
+  "from": "L6",
+  "note": "the same object as 潮見表, in a more technical story (L6)"
+ },
+ "潮見表": {
+  "from": "L4",
+  "note": "story-critical (a tide table decides the plot)"
+ },
+ "火かき棒": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "灯籠": {
+  "from": "L5",
+  "note": "story-critical: lanterns floated down the river at Obon (灯籠流し)"
+ },
+ "無人島": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "焼きたて": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "熱に浮かされる": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "片づける": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "牢": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "犬ぞり": {
+  "from": "L6",
+  "note": "plot-relevant (the chase across the ice)"
+ },
+ "狂わせる": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "玉手箱": {
+  "from": "L2",
+  "note": "story-critical (Urashima Tarō)"
+ },
+ "王さま": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "瓦屋根": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "町全体": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "目がさめる": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "目の当たりにする": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "目を丸くする": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "目を止める": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "眠り薬": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "眠れる": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "着がえる": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "短剣": {
+  "from": "L6",
+  "note": "plot-relevant"
+ },
+ "破れ目": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "礼拝堂": {
+  "from": "L6",
+  "note": "plot-relevant"
+ },
+ "祠": {
+  "from": "L5",
+  "note": "story-critical (the small shrine at the edge of the village)"
+ },
+ "窓枠": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "窓辺": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "立てかける": {
+  "from": "L4",
+  "note": "compound of common words"
+ },
+ "竪琴": {
+  "from": "L3",
+  "note": "check: the standard word in Japanese retellings of Jack (金の竪琴), but uncommon for L3; ハープ is the everyday word"
+ },
+ "笑いかける": {
+  "from": "L4",
+  "note": "compound of common words"
+ },
+ "絞首台": {
+  "from": "L6",
+  "note": "plot-relevant"
+ },
+ "継父": {
+  "from": "L6",
+  "note": "plot-relevant (Roylott)"
+ },
+ "罪悪感": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "羊飼い": {
+  "from": "L2",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "翌晩": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "老紳士": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "背にする": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "背の低い": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "背を向ける": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "背表紙": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "脱げる": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "腕を組む": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "膝をつく": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "舟": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "航海日誌": {
+  "from": "L6",
+  "note": "plot-relevant (the Demeter’s log)"
+ },
+ "船小屋": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "良いこと": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "良くなる": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "色とりどり": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "荒れ野": {
+  "from": "L3",
+  "note": "check: the usual word in Grimm translations, but literary for L3; 荒れ地 is similar in frequency"
+ },
+ "覆いかぶさる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "見": {
+  "from": "L5",
+  "note": "a calligraphy character the story is about"
+ },
+ "見に来る": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "見る間に": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "観察日記": {
+  "from": "L4",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "言葉を失う": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "話し始める": {
+  "from": "L4",
+  "note": "compound of common words"
+ },
+ "貨物船": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "走り出る": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "足を止める": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "踏みしめる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "踏みつける": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "身に着ける": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "身を寄せ合う": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "透ける": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "這い下りる": {
+  "from": "L6",
+  "note": "compound of common words"
+ },
+ "通い始める": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "通気口": {
+  "from": "L6",
+  "note": "story-critical (the ventilator the snake comes through)"
+ },
+ "逮捕状": {
+  "from": "L5",
+  "note": "plot-relevant (Fix waits for a warrant)"
+ },
+ "道を開く": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "遺言書": {
+  "from": "L6",
+  "note": "story-critical (Jekyll’s will)"
+ },
+ "郵便船": {
+  "from": "L5",
+  "note": "check: a period word for a mail steamer; understandable but rare"
+ },
+ "釣りざお": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "鉄格子": {
+  "from": "L6",
+  "note": "plot-relevant"
+ },
+ "銀行強盗": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "錠前屋": {
+  "from": "L6",
+  "note": "check: natural in a period setting; 鍵屋 is the everyday word"
+ },
+ "鍵穴": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "閉じこめる": {
+  "from": "L3",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "開けごま": {
+  "from": "L4",
+  "note": "story-critical (Ali Baba)"
+ },
+ "間を置く": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "隠し場所": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "集合住宅": {
+  "from": "L6",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "難破船": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "青い鳥": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "音楽隊": {
+  "from": "L4",
+  "note": "story-critical (ブレーメンの音楽隊)"
+ },
+ "頭を下げる": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "顔を上げる": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "顔を合わせる": {
+  "from": "L5",
+  "note": "set phrase built from common words"
+ },
+ "食人族": {
+  "from": "L5",
+  "note": "check: the usual rendering in Robinson Crusoe retellings; a sensitive term"
+ },
+ "飲みこむ": {
+  "from": "L5",
+  "note": "compound of common words"
+ },
+ "首をかしげる": {
+  "from": "L4",
+  "note": "set phrase built from common words"
+ },
+ "首を切る": {
+  "from": "L6",
+  "note": "set phrase built from common words"
+ },
+ "骨董市": {
+  "from": "L5",
+  "note": "ordinary word; natural and fine at this level"
+ },
+ "魔術師": {
+  "from": "L5",
+  "note": "check: standard for the Maghrebi sorcerer in translations of Aladdin, but 魔法使い is the everyday word"
+ }
+}

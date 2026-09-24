@@ -90,6 +90,8 @@ SRC = ROOT / "data_src"
 DATA_DIR = ROOT.parent / "src" / "data"
 JMDICT = SRC / "JMdict_e"
 EXAMPLES = SRC / "examples.utf"  # Tanaka Corpus, via WWWJDIC — see build_examples()
+# Hand-reviewed words met in stories — see the "Story words" pass in main().
+STORY_WORDS = ROOT / "vocab_src" / "story_words.tsv"
 
 random.seed(20260828)  # reproducible builds — same output until the sources or this script change
 
@@ -179,6 +181,36 @@ def commonness_of(entry_xml, surface):
         order_w *= STEM_PENALTY
         order_s *= STEM_PENALTY
     return math.sqrt(order_w * order_s), is_written_common(entry_xml), is_spoken
+def story_commonness(entry_xml, surface):
+    """commonness_of() for a story word, scoring the SPOKEN signal on every
+    spelling of the entry rather than on the surface alone. Both corpora
+    under-count kana: the subtitle list's tokenizer drops words like ここ
+    and また outright, and the Tanaka index files ここ under its rare
+    kanji spelling 此処 — so scored on the kana surface alone, the
+    commonest words in the language come out as "Specialist words"."""
+    tanaka_freq, subtitle_freq = freq_tables()
+    spellings = [surface] + [html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", entry_xml)] \
+        + [html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", entry_xml)]
+    signals = [spoken_signal(s, tanaka_freq, subtitle_freq) for s in dict.fromkeys(spellings)]
+    s_band = min(band for band, _ in signals)
+    w_band = written_band(entry_xml)
+    if not curated_common(entry_xml):
+        w_band *= STEM_PENALTY
+        s_band *= STEM_PENALTY
+    return math.sqrt(w_band * s_band), is_written_common(entry_xml), any(sp for _, sp in signals)
+
+
+def load_story_words():
+    """(surface, reading, ent_seq) per line of STORY_WORDS, in file order."""
+    words = []
+    for line in STORY_WORDS.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        surface, reading, seq = line.split("\t")[:3]
+        words.append((surface, reading, seq))
+    return words
+
+
 MAX_MIS = 8
 MAX_SP = 16
 
@@ -702,6 +734,12 @@ GROUP_LABELS = {
     # anyone reading real Japanese. Ordered by commonness, like "K" is by
     # kanji grade.
     "O": "Other common words",
+    # "S<n>" units — words a learner met in a story that the passes above
+    # left out, hand-reviewed one by one in tools/vocab_src/story_words.tsv
+    # (see story-writing-guide.md §5a). Mostly everyday words the frequency
+    # passes missed — 机, ここ, みんな — plus the story vocabulary worth
+    # keeping: 提灯, 盆踊り, 魔女.
+    "S": "From stories",
 }
 UNIT_LABELS = {
     "C1": "Classroom and survival", "C2": "Numbers, counters, time, dates",
@@ -745,6 +783,8 @@ def unit_group(unit):
         return "K"
     if unit.startswith("O") and unit[1:].isdigit():
         return "O"
+    if unit.startswith("S") and unit[1:].isdigit():
+        return "S"
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
@@ -1926,6 +1966,13 @@ def main():
     text = JMDICT.read_text(encoding="utf-8")
     raw_entries = re.findall(r"<entry>.*?</entry>", text, re.S)
     entry_index = build_entry_index(raw_entries)
+    story_words = load_story_words()
+    wanted_seqs = {seq for _, _, seq in story_words}
+    story_entries = {}
+    for e in raw_entries:
+        m = re.search(r"<ent_seq>(\d+)</ent_seq>", e)
+        if m and m.group(1) in wanted_seqs:
+            story_entries[m.group(1)] = e
     del text, raw_entries
 
     # Keyed by OUTPUT unit id, not theme — a theme's 'h' words land under
@@ -2252,10 +2299,65 @@ def main():
     print(f"Other common words: {o_total} words across {o_index} units "
           f"(everything at cx <= {COMMONNESS_MAX} that no theme, A-level or kanji-page unit claimed)")
 
+    # --- Story words (S1, S2, ...): hand-reviewed words from the stories
+    # that nothing above claimed. Pinned by JMdict ent_seq, not looked up
+    # by spelling, because the story's own spelling is often a homograph
+    # (のぞく, うつる) and find_entry() would take whichever entry comes
+    # first. The story's spelling is kept as the surface — 子ども stays 子ども,
+    # a kana word stays kana — so the reader links the word it shows. A
+    # surface some other unit already teaches is skipped: ids are surfaces,
+    # and two units cannot both own one. Ordered by commonness, like O.
+    # "Teaches" means a unit that survives the MIN_UNIT_SIZE cut below: a
+    # word claimed only by a theme tile about to be dropped (机 by 3.2, 旅
+    # by 2.5) has no entry at all, which is how it came to need one here. ---
+    claimed = {r["w"] for unit, recs in unit_records.items()
+               if len(recs) >= MIN_UNIT_SIZE or unit.startswith("C") or unit == "A12"
+               for r in recs}
+    story_records = []
+    story_skipped = []
+    for surface, reading, seq in story_words:
+        e = story_entries.get(seq)
+        if e is None or surface in claimed:
+            story_skipped.append(surface)
+            continue
+        forms = {html.unescape(k) for k in re.findall(r"<keb>(.*?)</keb>", e)} \
+            | {html.unescape(r) for r in re.findall(r"<reb>(.*?)</reb>", e)}
+        readings = {kata_to_hira(html.unescape(r)) for r in re.findall(r"<reb>(.*?)</reb>", e)}
+        if surface not in forms or reading not in readings:
+            story_skipped.append(surface)
+            continue
+        fs = re.search(r"<sense>.*?</sense>", e, re.S).group(0)
+        pos_tags = [t.strip("&;") for t in re.findall(r"<pos>&(.*?);</pos>", fs)]
+        glosses = [html.unescape(g) for g in re.findall(r"<gloss(?:\s[^>]*)?>(.*?)</gloss>", fs, re.S)]
+        cx, is_written, is_spoken = story_commonness(e, surface)
+        story_records.append((cx, len(reading), surface, reading, glosses, extract_senses(e, reading),
+                              pos_category(pos_tags), bool(KANA_ONLY_RE.match(surface)), is_written, is_spoken))
+        claimed.add(surface)
+    story_records.sort(key=lambda r: (r[0], r[1]))
+    s_total = 0
+    for i in range(0, len(story_records), COMMON_UNIT_SIZE):
+        uid = f"S{i // COMMON_UNIT_SIZE + 1}"
+        for cx, _len, surface, reading, glosses, senses, pos, uk, is_written, is_spoken in story_records[i:i + COMMON_UNIT_SIZE]:
+            unit_records[uid].append(make_record(
+                uid, "s", surface, reading, glosses, senses, pos, uk,
+                kanjidic, stem_index, quiz_readings, all_kebs, readings_by_keb,
+                reading_to_kanji, taught_kanji, kanji_only_pool,
+                cx=cx, written=is_written, spoken=is_spoken,
+            ))
+            s_total += 1
+    s_units = [f"S{n}" for n in range(1, (len(story_records) + COMMON_UNIT_SIZE - 1) // COMMON_UNIT_SIZE + 1)]
+    for n, uid in enumerate(s_units, start=1):
+        UNIT_LABELS[uid] = "Words from stories" if len(s_units) == 1 else f"Words from stories (part {n} of {len(s_units)})"
+    print(f"Story words: {s_total} words across {len(s_units)} units"
+          + (f" ({len(story_skipped)} skipped — already taught, or not the entry's own spelling: "
+             f"{'、'.join(story_skipped)})" if story_skipped else ""))
+
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
-        if unit.startswith("C") or unit == "A12":
+        # A story-words tile is a hand-reviewed list, not a quota — its
+        # last, shorter tile is still words someone chose to teach.
+        if unit.startswith("C") or unit == "A12" or unit_group(unit) == "S":
             continue
         if len(unit_records[unit]) < MIN_UNIT_SIZE:
             dropped.append((unit, len(unit_records[unit])))
@@ -2269,7 +2371,7 @@ def main():
     # ("C", "1".."5", "H", "A"), but sorting tags as plain strings would put
     # "C"/"H"/"A" out of teaching order — fine for the manifest (compareUnits
     # in vocab.js sorts for real at runtime) but confusing to read here.
-    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K", "O"])}
+    group_order = {g: i for i, g in enumerate(["C", "1", "2", "3", "4", "5", "H", "A", "K", "O", "S"])}
     # (group order, then the unit's own trailing number — e.g. "1.1" -> 1,
     # "1.8" -> 8, "K10" -> 10 -- so "K10" sorts after "K2" the way it should;
     # a plain string sort would put it before, since "1" < "2" character by
@@ -2283,9 +2385,10 @@ def main():
         a_n = sum(1 for r in recs if r["lv"] == "a")
         k_n = sum(1 for r in recs if r["lv"] == "k")
         o_n = sum(1 for r in recs if r["lv"] == "o")
+        s_n = sum(1 for r in recs if r["lv"] == "s")
         label = UNIT_LABELS[unit[:-1]] if unit.endswith("h") else UNIT_LABELS[unit]
         print(f"  {unit:6} {label:40} {len(recs):3} words "
-              f"({f_n} f / {h_n} h / {a_n} a / {k_n} k / {o_n} o)")
+              f"({f_n} f / {h_n} h / {a_n} a / {k_n} k / {o_n} o / {s_n} s)")
 
     # --- Example sentences, once every unit's records exist ---
     example_glossary = build_examples(unit_records, keb_readings, stem_index,

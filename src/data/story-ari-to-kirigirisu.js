@@ -559,7 +559,7 @@ export const STORY = {
             "s": "また",
             "k": "また",
             "ruby": null,
-            "d": null,
+            "d": "また",
             "pos": "adv",
             "g": "again"
           },
@@ -1135,7 +1135,10 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "6f8ed185",
+  "hash": "f8c5c699",
+  "was": [
+    "6f8ed185"
+  ],
   "art": {
     "cover": true,
     "inline": []

@@ -20,7 +20,7 @@ export const STORY = {
     "credit": "Retold by",
     "cover": "Cover generated with OpenAI image generation."
   },
-  "hash": "0ef67772",
+  "hash": "b8cbcae8",
   "nw": [
     "桃",
     "鬼",
@@ -82,7 +82,7 @@ export const STORY = {
           {
             "s": "おじいさん",
             "k": "おじいさん",
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "ruby": null,
             "g": "old man; grandfather"
@@ -98,7 +98,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -142,7 +142,7 @@ export const STORY = {
           {
             "s": "おじいさん",
             "k": "おじいさん",
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "ruby": null,
             "g": "old man; grandfather"
@@ -243,7 +243,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -458,7 +458,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -579,7 +579,7 @@ export const STORY = {
           {
             "s": "おじいさん",
             "k": "おじいさん",
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "ruby": null,
             "g": "old man; grandfather"
@@ -595,7 +595,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -995,7 +995,7 @@ export const STORY = {
           {
             "s": "おじいさん",
             "k": "おじいさん",
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "ruby": null,
             "g": "old man; grandfather"
@@ -1011,7 +1011,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -1132,7 +1132,7 @@ export const STORY = {
           {
             "s": "やっつけます",
             "k": "やっつけます",
-            "d": null,
+            "d": "やっつける",
             "pos": "v",
             "ruby": null,
             "g": "will defeat, will beat",
@@ -1163,7 +1163,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -1380,7 +1380,7 @@ export const STORY = {
           {
             "s": "猿",
             "k": "さる",
-            "d": null,
+            "d": "猿",
             "pos": "n",
             "ruby": [
               [
@@ -1401,7 +1401,7 @@ export const STORY = {
           {
             "s": "雉",
             "k": "きじ",
-            "d": null,
+            "d": "雉",
             "pos": "n",
             "ruby": [
               [
@@ -1491,7 +1491,7 @@ export const STORY = {
           {
             "s": "もらって",
             "k": "もらって",
-            "d": null,
+            "d": "もらう",
             "pos": "v",
             "ruby": null,
             "g": "received and",
@@ -1880,7 +1880,7 @@ export const STORY = {
           {
             "s": "とうとう",
             "k": "とうとう",
-            "d": null,
+            "d": "とうとう",
             "pos": "adv",
             "ruby": null,
             "g": "at last, finally"
@@ -2156,7 +2156,7 @@ export const STORY = {
           {
             "s": "おじいさん",
             "k": "おじいさん",
-            "d": null,
+            "d": "おじいさん",
             "pos": "n",
             "ruby": null,
             "g": "old man; grandfather"
@@ -2172,7 +2172,7 @@ export const STORY = {
           {
             "s": "おばあさん",
             "k": "おばあさん",
-            "d": null,
+            "d": "おばあさん",
             "pos": "n",
             "ruby": null,
             "g": "old woman; grandmother"
@@ -2224,7 +2224,7 @@ export const STORY = {
           {
             "s": "みんな",
             "k": "みんな",
-            "d": null,
+            "d": "みんな",
             "pos": "n",
             "ruby": null,
             "g": "everyone"
@@ -2240,7 +2240,7 @@ export const STORY = {
           {
             "s": "いつまでも",
             "k": "いつまでも",
-            "d": null,
+            "d": "いつまでも",
             "pos": "adv",
             "ruby": null,
             "g": "forever, for ever after"
@@ -2290,5 +2290,8 @@ export const STORY = {
   "art": {
     "cover": true,
     "inline": []
-  }
+  },
+  "was": [
+    "0ef67772"
+  ]
 };

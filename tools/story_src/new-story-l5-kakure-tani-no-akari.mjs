@@ -36,7 +36,7 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
   level: 'L5',
   gram: 'G5',
   blurb: blurbs[index],
-  nw: ['提灯', '灯籠', '和紙', 'お盆', '盆踊り', '帳面', '祠'],
+  nw: ['提灯', '灯籠', '和紙', 'お盆', '盆踊り', '祠'],
   series: { id: 'kakure-tani-no-akari', part: index + 1, of: 5, name: '隠れ谷の灯り — The Lanterns of the Hidden Valley' },
   source: {
     kind: 'original',

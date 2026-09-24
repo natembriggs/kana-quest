@@ -106,6 +106,13 @@ check('猫 still links to its vocabulary entry', catStoryTokens
 corpus.forEach((story) => {
   check(`${story.id}: manifest entry`, !!STORIES[story.id]);
   check(`${story.id}: explicit writer credit`, !!story.source.by && !!story.source.credit);
+  // `was` lists older hashes a saved position may carry (build_story_data.mjs,
+  // tools/story_src/hash-aliases.json) — never the current one, never empty.
+  if (story.was !== undefined) {
+    check(`${story.id}: earlier hashes are distinct 8-hex hashes`,
+      Array.isArray(story.was) && story.was.length > 0
+      && story.was.every((h) => /^[0-9a-f]{8}$/.test(h) && h !== story.hash));
+  }
   check(`${story.id}: manifest writer matches`, STORIES[story.id]?.source?.by === story.source.by);
   check(`${story.id}: manifest and story agree on cover availability`,
     STORIES[story.id]?.cover === story.art.cover);

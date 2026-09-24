@@ -152,8 +152,10 @@ it would have a real entry. Rejected, for three reasons:
 
 So: `g` explains everything, and `d` links to the curriculum only where a
 real entry already exists. **If a word genuinely belongs in the
-curriculum, add it there properly** — in `build_vocab_data.py`, with its
-distractors — rather than smuggling it in through a story.
+curriculum, add it there properly** — a line in
+`tools/vocab_src/story_words.tsv`, then `build_vocab_data.py`, which gives it
+its distractors — rather than smuggling it in through a story. §5a says which
+words qualify.
 
 Check the linked entry's reading and sense, too. A matching spelling alone
 can point to a different word: the curriculum's 家/け entry is not 家/いえ.
@@ -224,6 +226,67 @@ next has to work out they are the same thing.
    elegance — the alignment is the feature.
 3. **The translation is ours.** A published English translation of a
    public-domain Japanese text is a separate copyrighted work.
+
+---
+
+## 5a. Choosing words
+
+Every word the vocabulary list does not teach costs the learner a lookup and
+a gloss to hold in their head. **Up to L5, each such word must be worth that
+effort:** common in real speech or writing, so the learner will meet it again,
+or critical to the story (玉手箱, 灯籠, the swamp adder). A word that is merely
+*correct* is not enough. L6 has no vocabulary ceiling, but it is still read by
+learners, and its Japanese must still be what a person would write today.
+
+The vocabulary list is a frequency cut, not a syllabus, and it has gaps; a
+story is never limited to it. But anything outside it gets a second look,
+and these are the ways shipped stories went wrong:
+
+- **An old or specialist word where an everyday one exists.** 帳面 is a
+  ledger, and archaic as a notebook; it appeared nineteen times in a Level 5
+  story. Use ノート (or 手帳 for a pocket diary). Likewise 縫い目 not 針目,
+  切れ端 not 小片.
+- **A modern loanword where Japanese tellings of the tale use a native
+  word.** Snow White has 魔法の鏡 and 七人の小人, not マジックミラー (which is
+  a one-way mirror) and ドワーフ; Frankenstein made a 怪物, not a モンスター;
+  the Bremen animals join a 音楽隊, not a バンド, and the robbers flee an
+  お化け. Before choosing katakana, check how the story is told in Japanese
+  picture books and translations. The old rule that forced katakana into
+  every story above L2 is gone (§1); nothing needs padding with it.
+- **A loanword or name whose Japanese meaning differs.** シャーベット is a
+  frozen dessert, not a drink; ヒョウ is a leopard, not a cheetah (チーター).
+- **An unreal spelling or reading.** 防りやすい (守りやすい); 布袋, which
+  every reader takes as ほてい (布の袋); 宝石 read たからいし (ほうせき);
+  一週間 read いちしゅうかん (いっしゅうかん). A word normally written in
+  kana stays in kana: おんどり, not 雄鶏.
+
+### Run the vocabulary checker
+
+After `node tools/build_story_data.mjs`, run
+
+```sh
+python3 tools/check_story_vocab.py <story-id>
+```
+
+It lists every word the curriculum does not teach that JMdict and the two
+frequency corpora say is uncommon, archaic, oddly spelled or normally written
+in kana, and every linked word whose curriculum entry has a different reading
+from the story's (家/いえ opening 家/け). For each one, do one of three things:
+
+1. **Change the story**, if a more natural or more useful word exists.
+2. **Add it to the curriculum**, if it is common and worth studying: a line
+   in `tools/vocab_src/story_words.tsv` (pinned to its JMdict entry, so a
+   homograph cannot slip in), then `python3 tools/build_vocab_data.py` and
+   rebuild the stories. The learner can then study it and see it in more
+   example sentences, and the checker stops raising it.
+3. **Approve it for the story**, if it is right here but not flashcard
+   material (names, story-critical props, set phrases): an entry in
+   `tools/story_src/vocab-reviewed.json` with the lowest level it is approved
+   at and a one-line reason. A use at a lower level is raised again. Start the
+   reason with `check:` if a native speaker should look at it.
+
+The checker cannot hear collocation or register. A word it passes can still
+be wrong in context, so the read-through in §6 still applies.
 
 ---
 
@@ -308,6 +371,10 @@ What it does **not** check, and a human must:
 - rendaku — 三匹 is さんびき, not さんひき
 - that the Japanese is something a person would actually say
 
+`tools/check_story_vocab.py` (§5a) covers part of the last point. It flags
+rare, archaic and oddly spelled words, and linked words with the wrong
+reading. It is advice, run by hand, not a build gate.
+
 ---
 
 ## 8. Sourcing and licence
@@ -384,6 +451,8 @@ If you do add pictures:
 - [ ] Every token has a contextual gloss, particles included
 - [ ] Every inflected token has `df` + `cf`, using the §4 labels
 - [ ] Every sentence has a natural English translation
+- [ ] `tools/check_story_vocab.py <id>` raises nothing unreviewed (§5a):
+      every word outside the curriculum is common or critical to the story
 - [ ] Compound readings and rendaku checked by hand
 - [ ] `source` filled in honestly, licence checked
 - [ ] Read end-to-end in the app, at a phone width, before shipping
