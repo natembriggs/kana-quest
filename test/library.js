@@ -3,7 +3,7 @@
 //   /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc -m test/library.js
 
 import {
-  storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
+  storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, prevInSeries, storyLabel,
   shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
   shelfAuthors, authorCounts, filterShelfByAuthor,
 } from '../src/library.js';
@@ -138,6 +138,11 @@ check('the next part follows', nextInSeries(MANIFEST, 'saga-1') === 'saga-2');
 check('the last part has no next', nextInSeries(MANIFEST, 'saga-3') === null);
 check('a standalone story has no next', nextInSeries(MANIFEST, 'alone') === null);
 check('an unknown id has no next, and does not throw', nextInSeries(MANIFEST, 'nope') === null);
+
+check('the previous part comes before', prevInSeries(MANIFEST, 'saga-2') === 'saga-1');
+check('the first part has no previous', prevInSeries(MANIFEST, 'saga-1') === null);
+check('a standalone story has no previous', prevInSeries(MANIFEST, 'alone') === null);
+check('an unknown id has no previous, and does not throw', prevInSeries(MANIFEST, 'nope') === null);
 
 // A withdrawn or not-yet-written part leaves a gap. Walking the manifest
 // steps over it; incrementing `part` would offer a story that does not exist.

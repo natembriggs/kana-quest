@@ -120,6 +120,19 @@ export function seriesStanding(group, stories) {
  * skips the gap instead of offering a story that does not exist.
  */
 export function nextInSeries(manifest, id) {
+  return seriesNeighbour(manifest, id, 1);
+}
+
+/**
+ * The part before this one, or null at the start of a series (and for
+ * anything standalone). What the reader's "← Chapter N" button at the top
+ * of chapter 2 onward opens. Skips gaps the same way nextInSeries does.
+ */
+export function prevInSeries(manifest, id) {
+  return seriesNeighbour(manifest, id, -1);
+}
+
+function seriesNeighbour(manifest, id, step) {
   const entry = manifest[id];
   if (!entry?.series) return null;
   const group = Object.entries(manifest)
@@ -127,8 +140,8 @@ export function nextInSeries(manifest, id) {
     .map(([otherId, other]) => ({ id: otherId, part: other.series.part }))
     .sort((a, b) => a.part - b.part);
   const at = group.findIndex((part) => part.id === id);
-  if (at === -1 || at === group.length - 1) return null;
-  return group[at + 1].id;
+  if (at === -1) return null;
+  return group[at + step]?.id ?? null;
 }
 
 /**

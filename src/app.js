@@ -42,7 +42,7 @@ import {
 } from './reader.js';
 import { STORIES } from './data/story-manifest.js';
 import {
-  storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, storyLabel,
+  storyReadState, storyProgress, groupStoriesForLevel, seriesStanding, nextInSeries, prevInSeries, storyLabel,
   shelfReadState, sortShelf, shelfCounts, filterShelf, coverPlaceholder,
   authorCounts, filterShelfByAuthor,
 } from './library.js';
@@ -80,7 +80,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24d'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-24e'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -11303,6 +11303,14 @@ function creditFinishedReading() {
  * end of chapter 1 for the end of the story.
  */
 function renderReaderEnding(id) {
+  // The top of the reader too: chapter 2 onward gets a way back to the
+  // chapter before, for anyone who wants to reread how it ended.
+  const prev = prevInSeries(STORIES, id);
+  const prevBtn = $('reader-prev-chapter');
+  prevBtn.hidden = !prev;
+  prevBtn.onclick = prev ? () => openStory(prev) : null;
+  if (prev) prevBtn.textContent = `← Chapter ${STORIES[prev].series.part}`;
+
   const next = nextInSeries(STORIES, id);
   $('reader-finished').hidden = !!next;
   $('reader-continue').hidden = !next;
@@ -12166,7 +12174,7 @@ function wire() {
   // must not be read as tapping away: the definition card and settings sheet
   // (tapping inside a panel must not dismiss it), the top bar, the end card,
   // and the Finished button.
-  const READER_OWNS_ITS_TAPS = '.reader-card, .topbar, .reader-end, .reader-continue, #reader-finished';
+  const READER_OWNS_ITS_TAPS = '.reader-card, .topbar, .reader-end, .reader-continue, #reader-finished, #reader-prev-chapter';
   // On `document`, not on #screen-reader: the screen section sits inside
   // #app's own side padding, so a thumb landing in the outer margin — a
   // natural place to tap for "never mind" — hits <main> and would never

@@ -2368,6 +2368,7 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    nerve (§8.3). The top bar and progress line stay minimal on purpose. */
 .reader-topbar h2 { font-size: calc(16px * var(--app-font-scale, 1)); }
 .reader-progress { height: 4px; margin: 4px 0 12px; }
+.reader-prev-chapter { margin: 0 0 8px; }
 .reader-body {
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
                "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
