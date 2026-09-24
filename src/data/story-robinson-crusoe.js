@@ -4608,7 +4608,7 @@ export const STORY = {
                 "ふく"
               ]
             ],
-            "d": null,
+            "d": "往復",
             "pos": "v",
             "g": "going back and forth; went and",
             "df": "往復する",

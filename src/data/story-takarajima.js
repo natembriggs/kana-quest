@@ -1676,7 +1676,7 @@ export const STORY = {
                 "しるし"
               ]
             ],
-            "d": null,
+            "d": "印",
             "pos": "n",
             "g": "mark"
           },

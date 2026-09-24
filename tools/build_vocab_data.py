@@ -845,6 +845,23 @@ def unit_group(unit):
     return "C" if unit.startswith("C") else unit.split(".")[0]
 
 
+def unit_ships(unit, records):
+    """Whether a unit survives the MIN_UNIT_SIZE cut at the end of main().
+    Core, A12 and the story-words tiles are hand-reviewed lists, not quotas,
+    and ship at any size. Every later pass that skips a word "some unit
+    already teaches" must ask this, not merely whether a unit holds it: a
+    theme tile about to be dropped for being too small takes its words
+    with it, and 旅行, 海外 and 予約 had no entry at all that way."""
+    return (len(records) >= MIN_UNIT_SIZE or unit.startswith("C") or unit == "A12"
+            or unit_group(unit) == "S")
+
+
+def taught_surfaces(unit_records):
+    """Every surface a unit that will ship (unit_ships) teaches."""
+    return {r["w"] for unit, recs in unit_records.items() if unit_ships(unit, recs)
+            for r in recs}
+
+
 # --- Theme classification ---------------------------------------------------
 #
 # English-gloss keyword matching over the (already frequency-filtered)
@@ -2227,8 +2244,7 @@ def main():
     kanji_manifest = load_js_const("src/data/kanji-manifest.js", "KANJI_UNITS")
     primary_grades = [g for g in kanji_manifest if g.isdigit() and 1 <= int(g) <= 6]
 
-    already_covered = {r["w"] for recs in unit_records.values() for r in recs}
-    k_seen = set(already_covered)
+    k_seen = taught_surfaces(unit_records)
     k_unit_labels = {}
     k_chunk_index = 0
     k_current = []
@@ -2309,7 +2325,7 @@ def main():
     # kanji page happens to list it. This pass exists to make the claim "the
     # app teaches the common words" actually true; it is ordered by
     # commonness, so O1 is the most common of what is left. ---
-    already_claimed = {r["w"] for recs in unit_records.values() for r in recs}
+    already_claimed = taught_surfaces(unit_records)
     leftovers = [
         c for c in candidates
         if c["surface"] not in already_claimed and c["cx"] <= COMMONNESS_MAX
@@ -2376,12 +2392,8 @@ def main():
     # a kana word stays kana — so the reader links the word it shows. A
     # surface some other unit already teaches is skipped: ids are surfaces,
     # and two units cannot both own one. Ordered by commonness, like O.
-    # "Teaches" means a unit that survives the MIN_UNIT_SIZE cut below: a
-    # word claimed only by a theme tile about to be dropped (机 by 3.2, 旅
-    # by 2.5) has no entry at all, which is how it came to need one here. ---
-    claimed = {r["w"] for unit, recs in unit_records.items()
-               if len(recs) >= MIN_UNIT_SIZE or unit.startswith("C") or unit == "A12"
-               for r in recs}
+    # "Teaches" means a unit that will ship (unit_ships). ---
+    claimed = taught_surfaces(unit_records)
     story_records = []
     story_skipped = []
     for surface, reading, seq in story_words:
@@ -2424,11 +2436,7 @@ def main():
     # --- Drop near-empty units, report sizes ---
     dropped = []
     for unit in list(unit_records):
-        # A story-words tile is a hand-reviewed list, not a quota — its
-        # last, shorter tile is still words someone chose to teach.
-        if unit.startswith("C") or unit == "A12" or unit_group(unit) == "S":
-            continue
-        if len(unit_records[unit]) < MIN_UNIT_SIZE:
+        if not unit_ships(unit, unit_records[unit]):
             dropped.append((unit, len(unit_records[unit])))
             del unit_records[unit]
     if dropped:
