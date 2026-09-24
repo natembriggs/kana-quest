@@ -2617,6 +2617,8 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
    (stories-plan.md §8.3 — everything on this screen that isn't the story is
    a failure of nerve). */
 .reader-finished { margin: 8px 0 4px; }
+.reader-continue { margin: 8px 0 4px; }
+.reader-continue .hint { margin-top: 0; }
 
 .reader-end { margin-top: 16px; }
 .reader-end-word {

@@ -80,7 +80,7 @@ import {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-24d'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -11269,7 +11269,18 @@ function markParagraphExposed(pEl) {
  * not something the app guessed.
  */
 function finishReading() {
-  if (state.readerFinished) return;
+  if (!creditFinishedReading()) return;
+  showReaderEndCard();
+}
+
+/**
+ * The bookkeeping half of finishReading, shared with a chapter's own ending
+ * (the "Read chapter N" / "Back to stories" pair that replaces "Finished
+ * reading!" whenever another chapter follows). Returns false if it had
+ * already run for this open.
+ */
+function creditFinishedReading() {
+  if (state.readerFinished) return false;
   state.readerFinished = true;
   $('reader-body').querySelectorAll('.reader-para').forEach((el) => {
     if (el.dataset.seen === '1') markParagraphExposed(el);
@@ -11282,7 +11293,26 @@ function finishReading() {
   setReaderMark(null);
   markStoryFinished(state.readerStoryId);
   $('reader-finished').hidden = true;
-  showReaderEndCard();
+  return true;
+}
+
+/**
+ * Sets up the bottom of the reader for this story: "Finished reading!" for
+ * a story that really ends here, or — for a chapter with another after it —
+ * straight to "Read chapter N →" / "Back to stories", so nobody mistakes the
+ * end of chapter 1 for the end of the story.
+ */
+function renderReaderEnding(id) {
+  const next = nextInSeries(STORIES, id);
+  $('reader-finished').hidden = !!next;
+  $('reader-continue').hidden = !next;
+  if (!next) return;
+  const { part, of } = STORIES[id].series;
+  const nextPart = STORIES[next].series.part;
+  $('reader-continue-note').textContent = `End of chapter ${part} of ${of} — the story continues in chapter ${nextPart}.`;
+  const nextBtn = $('reader-continue-next');
+  nextBtn.textContent = `Read chapter ${nextPart} →`;
+  nextBtn.onclick = () => { creditFinishedReading(); openStory(next); };
 }
 
 // --- profile.stories bookkeeping (stories-plan.md §9) ------------------
@@ -12070,7 +12100,7 @@ async function openStory(id) {
     : story.title.ja;
   prefetchNextChapter(id);
   $('reader-end').hidden = true;
-  $('reader-finished').hidden = false;
+  renderReaderEnding(id);
   closeReaderCard();
   renderReaderBody();
   renderReaderSource(story);
@@ -12136,7 +12166,7 @@ function wire() {
   // must not be read as tapping away: the definition card and settings sheet
   // (tapping inside a panel must not dismiss it), the top bar, the end card,
   // and the Finished button.
-  const READER_OWNS_ITS_TAPS = '.reader-card, .topbar, .reader-end, #reader-finished';
+  const READER_OWNS_ITS_TAPS = '.reader-card, .topbar, .reader-end, .reader-continue, #reader-finished';
   // On `document`, not on #screen-reader: the screen section sits inside
   // #app's own side padding, so a thumb landing in the outer margin — a
   // natural place to tap for "never mind" — hits <main> and would never
@@ -12207,6 +12237,10 @@ function wire() {
     window.addEventListener('scroll', readerScrollSync, { passive: true });
   }
   $('reader-end-library').addEventListener('click', openStoriesLibrary);
+  $('reader-continue-library').addEventListener('click', () => {
+    creditFinishedReading();
+    openStoriesLibrary();
+  });
   loadReaderSettings();
   applyReaderSettings();
   $('reader-text-size').addEventListener('input', (event) => {

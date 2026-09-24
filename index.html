@@ -589,6 +589,19 @@
          part of the end card below: this is what OPENS that card. -->
     <button id="reader-finished" class="btn btn-primary wide reader-finished" type="button">Finished reading!</button>
 
+    <!-- A chapter with another one after it ends here instead: no "Finished
+         reading!" and no end card, since the story isn't over — just the
+         way on to the next chapter, or back out. Tapping either still
+         credits the chapter exactly as "Finished reading!" would
+         (finishReading in app.js). -->
+    <div id="reader-continue" class="card reader-continue" hidden>
+      <p id="reader-continue-note" class="hint"></p>
+      <div class="row">
+        <button id="reader-continue-next" class="btn btn-primary" type="button"></button>
+        <button id="reader-continue-library" class="btn" type="button">Back to stories</button>
+      </div>
+    </div>
+
     <!-- The end card (stories-plan.md §8.5) — no quiz, just the words
          actually looked up (a definition tap, the stronger signal — not a
          pronunciation-only tap), each with a one-tap, entirely optional
