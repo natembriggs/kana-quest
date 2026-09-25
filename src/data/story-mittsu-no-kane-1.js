@@ -30,9 +30,21 @@ export const STORY = {
     "text": "An original five-chapter adventure written for Kanji Trail",
     "by": "Claude Opus 5",
     "credit": "Written by",
+    "illustrations": "Inline painting generated with OpenAI image generation, using the chapter cover as a character and palette reference.",
     "notes": "Original Japanese prose and English translations for level 4. A sand road that surfaces at low tide is a real landform — a tombolo — and several in Japan can be walked at the times a published tide table gives. Fog bells were genuinely used as navigational aids here: the first in Japan was installed at Shiriyazaki Lighthouse in 1877 and replaced two years later because a bell carried too poorly, and sound fog signals were later discontinued as ships’ own navigation improved. The town of Shiomi, the island, its bell and the custom of ringing it until every boat is home, the Hibari-maru and every character are invented; nothing here describes a real place or a real loss at sea. Background: Japan National Tourism Organization regional guides on tidal sand roads, and the Japanese Wikipedia article 霧信号所.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/mittsu-no-kane-1/01.webp?v=41cbaf05bfdf6a04",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "body": [
     [
@@ -8628,9 +8640,5 @@ export const STORY = {
   "hash": "e98554f3",
   "was": [
     "5a1e05a3"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -213,3 +213,14 @@ Both depict the opening without revealing later clues. Generated with the
 built-in OpenAI image-generation tool; full prompts are stored under each
 series' first chapter ID in `cover-prompts.json`. Each of the ten chapter
 assets is a 480×640 WebP file below 60 KiB.
+
+## Inline painting: Three Bells, 25 September 2026
+
+`mittsu-no-kane-1/01.webp` follows paragraph 1 of The Pencil Marks. Riku
+looks across Shiomi harbour toward the wooded island and its timber tower;
+the small hanging shape remains indistinct, as it does in the prose. The
+painting uses the chapter cover as a character and palette reference. The
+prompt and generated-original record are in that chapter's
+`painted-prompts.json` and `painted-sources.json`. The 960×559 WebP is 149,244
+bytes (quality 86). Its placement stays outside the story body, so saved
+reading positions are unchanged.

@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "reference": "cover.webp",
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: wide inline picture-book painting for a Japanese graded-reading chapter\nInput images: Image 1 is the character and palette reference: Riku is 13, Japanese, with short dark hair, a pale grey shirt, dark shorts and a black backpack. Keep the story's restrained coastal palette; do not copy the cover composition.\nPrimary request: illustrate the opening of chapter one of Three Bells, after the prose introduces the island and its wooden tower.\nScene/backdrop: Early August afternoon in the small Japanese fishing town of Shiomi. A modest harbour lies directly beyond a quiet bus stop.\nSubject: Riku, seen mostly from behind in the near foreground, has just arrived and looks across the harbour at a low rocky island with a wooded high point and a small timber tower. Something dark and round hangs beneath the distant tower roof, too small to identify.\nStyle/medium: softly painted storybook gouache, broad smooth colour shapes, gentle contours, restrained surface texture, simple expressive character design consistent with the supplied cover.\nComposition/framing: wide landscape, around 12:7; small clear view of Riku near the foreground, calm open water across the middle, island and tower as distant focal point; uncluttered, readable at phone width.\nLighting/mood: warm natural afternoon light; quiet, inviting arrival with a hint of mystery.\nColor palette: warm ivory sky, muted teal harbour water, sage and deep indigo island, ochre shoreline, tiny terracotta accent only if natural.\nConstraints: child-appropriate Japanese coast; original character design; one boy only, one distant timber tower and only one small indistinct dark hanging shape; no legible text, no supernatural elements; useful wide composition with calm edges.\nAvoid: multiple bells, clear bell detail, sunset or night, storm, danger, flooding, sand road, stranger, later clues, photo realism, action posing, lettering, labels, border, logo, watermark."
+    }
+  ]
+}
