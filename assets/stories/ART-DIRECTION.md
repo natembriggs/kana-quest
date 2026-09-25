@@ -216,11 +216,13 @@ assets is a 480×640 WebP file below 60 KiB.
 
 ## Inline painting: Three Bells, 25 September 2026
 
-`mittsu-no-kane-1/01.webp` follows paragraph 1 of The Pencil Marks. Riku
-looks across Shiomi harbour toward the wooded island and its timber tower;
-the small hanging shape remains indistinct, as it does in the prose. The
-painting uses the chapter cover as a character and palette reference. The
-prompt and generated-original record are in that chapter's
-`painted-prompts.json` and `painted-sources.json`. The 960×559 WebP is 149,244
-bytes (quality 86). Its placement stays outside the story body, so saved
+Three paintings accompany chapter 1 of Three Bells. `01.webp` follows
+paragraph 1: Riku sees the island tower across the harbour, but its hanging
+shape is only a tiny indistinct mark. `02.webp` follows paragraph 3, as Riku
+notices the altered tide table in his aunt's shop. `03.webp` follows
+paragraph 9, as Riku and Chika spot the lone torch on the sand road. Its
+distant tower has the same tiny, indistinct hanging mark as `01.webp`. All
+three use the chapter cover for character and palette reference. Prompts and
+generated-original records are in the chapter's `painted-prompts.json` and
+`painted-sources.json`. The pictures stay outside the story body, so saved
 reading positions are unchanged.
