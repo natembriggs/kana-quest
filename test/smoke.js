@@ -2913,6 +2913,118 @@ done('side-by-side comparison: shared parts, containment wording and ranking');
 }
 done('confusion tracking: caps, session pairs and merge-by-max');
 
+// --- My progress (progress-history.js) ---------------------------------------
+{
+  const ph = await import('../src/progress-history.js');
+  const DAY = 24 * 60 * 60 * 1000;
+  const t0 = new Date(2026, 0, 10, 12).getTime();
+
+  // Every new history entry carries the box it landed on.
+  const graded = srs.grade(srs.newRecord(), true, t0);
+  check('a graded event records its resulting box', graded.history[0][2] === graded.box);
+  const yGraded = srs.gradeYomi(srs.newYomiRecord(), false, t0);
+  check('a graded yomi event records its resulting streak', yGraded.history[0][2] === 0);
+
+  // Legacy [ts, ok] entries are replayed; the last point is pinned to the
+  // record's real box.
+  let legacy = srs.newRecord();
+  [0, 1, 3, 7, 15].forEach((d) => { legacy = srs.grade(legacy, true, t0 + d * DAY); });
+  const exact = ph.recordBoxTimeline(legacy);
+  legacy.history = legacy.history.map(([ts, ok]) => [ts, ok]);
+  const replayed = ph.recordBoxTimeline(legacy);
+  check('replaying legacy history reproduces the boxes plain answers produced',
+    JSON.stringify(exact) === JSON.stringify(replayed), JSON.stringify([exact, replayed]));
+  legacy.box = 6;
+  check('the last point is pinned to the record\'s current box', ph.recordBoxTimeline(legacy).at(-1)[1] === 6);
+  const capped = { ...legacy, seen: 400 };
+  check('a capped history counts as started before its oldest surviving event',
+    ph.recordBoxTimeline(capped)[0][0] === -Infinity);
+
+  // A kana item: status climbs from started (2) upward, and a miss drops it back.
+  let rec = srs.newRecord();
+  rec = srs.grade(rec, true, t0);
+  rec = srs.grade(rec, false, t0 + 2 * DAY);
+  const profile = { progress: { 'recognition:あ': rec }, study: {}, unstudy: {} };
+  const now = t0 + 5 * DAY;
+  const tl = ph.itemStatusTimeline(profile, 'kana', 'recognition', 'あ', now);
+  check('an item\'s status timeline is started from its first graded event',
+    tl.find(([, status]) => status >= 2)[0] === t0);
+  check('a miss drops the item back to "started"', tl.find(([ts]) => ts === t0 + 2 * DAY)[1] === 2);
+  check('the timeline ends on the current status at now', tl.at(-1)[0] === now);
+
+  // Series: kana items count at every level up to their own.
+  const kanaCourse = COURSES[0];
+  const series = ph.buildProgressSeries({
+    items: srs.allItems(kanaCourse, 'recognition'), kind: 'kana', mode: 'recognition', profile, range: 'week', now,
+  });
+  check('a week is seven end-of-day samples plus now', series.times.length === 8 && series.times.at(-1) === now);
+  check('the latest column matches currentLevelCounts', ph.PROGRESS_LEVELS.every((l) => (
+    series.counts[l.id].at(-1) === ph.currentLevelCounts({
+      items: srs.allItems(kanaCourse, 'recognition'), kind: 'kana', mode: 'recognition', profile,
+    })[l.id]
+  )));
+  check('nothing counts before it was studied', series.counts.started[0] === 0);
+  check('the one studied kana counts as started now', series.counts.started.at(-1) === 1);
+  check('kana have no "added" line', !ph.levelsForKind('kana').some((l) => l.id === 'added'));
+
+  // Kanji: only counted while on the study list, and Yomi is the lowest reading.
+  let on = srs.gradeYomi(srs.newYomiRecord(), true, t0);
+  on = srs.gradeYomi(on, true, t0 + 3 * DAY);
+  const kun = srs.gradeYomi(srs.newYomiRecord(), false, t0 + DAY);
+  const kanjiProfile = {
+    progress: { 'recognition:生:セイ': on, 'recognition:生:い': kun, 'recognition:生': { box: 0, history: [] } },
+    study: { 生: { recognition: t0 - DAY } },
+    unstudy: { 水: { recognition: t0 + 2 * DAY } },
+  };
+  kanjiProfile.progress['writing:水'] = srs.grade(srs.newRecord(), true, t0);
+  const kanjiTl = ph.itemTierTimeline(kanjiProfile.progress, 'kanji', 'recognition', '生');
+  check('a kanji\'s Yomi tier is its weakest reading once both exist',
+    kanjiTl.find(([ts]) => ts === t0 + DAY)[1] === 1);
+  const kSeries = ph.buildProgressSeries({
+    items: ['生', '水'], kind: 'kanji', mode: 'recognition', profile: kanjiProfile, range: 'week', now,
+  });
+  check('an enrolled kanji counts as added', kSeries.counts.added.at(-1) === 1);
+  const wSeries = ph.buildProgressSeries({
+    items: ['水'], kind: 'kanji', mode: 'writing', profile: { ...kanjiProfile, unstudy: { 水: { writing: t0 + 2 * DAY } } }, range: 'week', now,
+  });
+  check('a removed kanji stops counting at its removal', wSeries.counts.started.at(-1) === 0
+    && wSeries.times.some((t, i) => t > t0 && t < t0 + 2 * DAY && wSeries.counts.started[i] === 1));
+
+  const timelines = ph.buildItemTimelines({
+    items: ['生'], kind: 'kanji', mode: 'recognition', profile: kanjiProfile, now,
+  });
+  check('firstReachedTime finds the moment a level was first reached',
+    ph.firstReachedTime(timelines, 'started', 1) === t0);
+  check('firstReachedTime is null for a level never reached',
+    ph.firstReachedTime(timelines, 'wellKnown', 1) === null);
+
+  // Goals.
+  const settings = { progressGoals: { 'hiragana|recognition|all': { learning: 10 } } };
+  const goals = ph.goalsForScope({
+    settings, scopeId: 'hiragana|recognition|all', kind: 'kana', total: 46, subject: 'Hiragana · Reading', scopeName: 'Hiragana',
+  });
+  check('kana get half and all goals per level plus the user\'s own',
+    goals.length === 4 * 2 + 1 && goals.some((g) => g.auto === 'half' && g.value === 23));
+  const pending = ph.pendingGoalCelebrations(goals, {
+    added: 46, started: 46, learning: 30, doingWell: 5, wellKnown: 0,
+  }, {});
+  check('reaching several automatic goals at once shows only the strongest',
+    pending.show.filter((g) => g.auto).length === 1 && pending.show.some((g) => g.id === 'auto|hiragana|recognition|all|learning|half'));
+  check('...and the user\'s own goal alongside it', pending.show.some((g) => !g.auto && g.value === 10));
+  check('...while every reached goal is marked', pending.mark.length === 4);
+  const shown = Object.fromEntries(pending.mark.map((id) => [id, 1]));
+  check('a goal is celebrated once, ever',
+    ph.pendingGoalCelebrations(goals, { started: 46, learning: 30 }, shown).mark.length === 0);
+  check('no automatic goals for kanji',
+    ph.goalsForScope({ settings: {}, scopeId: 'kanji|writing|all', kind: 'kanji', total: 2000 }).length === 0);
+
+  const year = ph.sampleTimes('year', now);
+  check('a year is 52 weekly samples plus now', year.length === 53);
+  const all = ph.sampleTimes('all', now, now - 1000 * DAY);
+  check('all time stays a bounded number of points', all.length < 170 && all[0] <= now - 990 * DAY);
+}
+done('my progress: history replay, level series, enrollment windows and goals');
+
 // --- Result ---------------------------------------------------------------
 
 print('');

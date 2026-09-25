@@ -38,7 +38,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-24i';
+const VERSION = '2026-09-25a';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -68,6 +68,7 @@ const SHELL = [
   // load alongside.
   'src/data/components.js',
   'src/srs.js',
+  'src/progress-history.js',
   'src/fsrs.js',
   'src/vocab.js',
   // Imported at boot like everything else here (test/service-worker.js

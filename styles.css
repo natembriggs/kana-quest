@@ -57,6 +57,18 @@
   --tier-4: #2e8b3d;
   --tier-4-ink: #ffffff;
 
+  /* "My progress" chart lines, one per level. The same green ramp as the
+     tiers above so a level reads the same on the chart as on the overview,
+     but stepped so the lightest line still clears 2:1 against --surface
+     (the tile fills above are backgrounds and needn't). Checked as an
+     ordinal ramp for both themes. "Added" is a neutral, dashed, since it is
+     enrollment rather than a degree of knowing. */
+  --progress-added: var(--ink-soft);
+  --progress-started: #7fc485;
+  --progress-learning: #45a04e;
+  --progress-doingWell: #2b7d37;
+  --progress-wellKnown: #17542a;
+
   /* Text-size control (see the pinch-to-open panel in app.js —
      bindPinchZoom()/openFontSizePanel()). Set as an inline style on
      <html> once a saved or slider-chosen value loads (applyFontScale()),
@@ -106,6 +118,12 @@
     --tier-3-ink: #ffffff;
     --tier-4: #57c765;
     --tier-4-ink: #0c1f0e;
+
+    /* Dark steps of the same ramp, lightest = best known, as the tiers. */
+    --progress-started: #2c5e33;
+    --progress-learning: #3f9a4c;
+    --progress-doingWell: #62c46f;
+    --progress-wellKnown: #a6e3ad;
   }
 }
 
@@ -1822,7 +1840,8 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 /* Milestone celebration (review-followups.md item 4) — the same restrained
    .card surface used throughout, not a new visual language: no confetti,
    animation, or colour beyond the accent already used for a milestone-worthy
-   character stroke. Centered and a touch larger than plain body text is the
+   character stroke (a goal from My progress reached in the same session
+   adds the one burst, see .celebration-burst). Centered and a touch larger than plain body text is the
    entire distinction from an ordinary card. */
 .milestone-card { text-align: center; border-color: var(--accent); }
 .milestone-card p { margin: 0; font-size: calc(18px * var(--app-font-scale, 1)); font-weight: 600; }
@@ -2145,6 +2164,139 @@ button.word-add-badge:active { background: var(--accent); color: var(--accent-in
 .study-history-row-fail { color: var(--bad); }
 .study-history-row-added { color: var(--ink-soft); }
 .study-history-row-mode { color: var(--ink-soft); font-size: calc(13px * var(--app-font-scale, 1)); }
+
+/* --- My progress (screen-progress, see renderProgress() in app.js) ------- */
+
+.progress-level-added { --level: var(--progress-added); }
+.progress-level-started { --level: var(--progress-started); }
+.progress-level-learning { --level: var(--progress-learning); }
+.progress-level-doingWell { --level: var(--progress-doingWell); }
+.progress-level-wellKnown { --level: var(--progress-wellKnown); }
+
+.progress-scope { display: flex; align-items: center; gap: 10px; }
+.progress-scope-select {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.progress-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+.progress-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  cursor: pointer;
+}
+.progress-legend-item.is-off { color: var(--ink-soft); background: transparent; }
+.progress-legend-item.is-off .progress-legend-swatch { background: transparent; }
+.progress-legend-swatch {
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--level);
+  border: 1px solid var(--level);
+  flex-shrink: 0;
+}
+.progress-level-added .progress-legend-swatch { background: transparent; border-style: dashed; }
+.progress-legend-count { font-variant-numeric: tabular-nums; }
+
+.progress-chart {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 4px 0;
+}
+.progress-svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+.progress-grid { stroke: var(--line); stroke-width: 1; }
+.progress-axis { stroke: var(--ink-soft); stroke-width: 1; opacity: 0.5; }
+.progress-tick-label { font-size: calc(11px * var(--app-font-scale, 1)); fill: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.progress-line {
+  fill: none;
+  stroke: var(--level);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.progress-line.progress-level-added { stroke-dasharray: 2 5; }
+.progress-goal { stroke: var(--level); stroke-width: 1.5; stroke-dasharray: 7 5; opacity: 0.8; }
+.progress-goal-label { font-size: calc(11px * var(--app-font-scale, 1)); fill: var(--ink-soft); font-weight: 600; }
+.progress-milestone { fill: var(--level); stroke: var(--surface); stroke-width: 2; }
+.progress-crosshair { stroke: var(--ink-soft); stroke-width: 1; }
+.progress-hit { cursor: crosshair; }
+.progress-readout { min-height: 1.4em; font-variant-numeric: tabular-nums; }
+.progress-heading { margin: 8px 0 0; }
+
+.progress-goals { display: flex; flex-direction: column; gap: 6px; }
+.progress-goal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.progress-goal-name { font-weight: 600; flex: 1; }
+.progress-goal-now { margin: 0; font-variant-numeric: tabular-nums; }
+.progress-goal-input {
+  width: 7em;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  text-align: right;
+}
+
+.progress-milestones { display: flex; flex-direction: column; gap: 2px; }
+.progress-milestone-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.progress-milestone-mark { color: var(--level); width: 1.2em; flex-shrink: 0; }
+.progress-milestone-text { flex: 1; }
+.progress-milestone-row:not(.is-reached) .progress-milestone-text { color: var(--ink-soft); }
+.progress-milestone-when { margin: 0; flex-shrink: 0; }
+
+/* Goal celebrations — here and on the session summary's milestone card.
+   The one place the app throws confetti: a goal is something the learner
+   chose for themselves, so reaching it earns a little more than the
+   restrained set-complete note. */
+.progress-celebration, .milestone-card { position: relative; overflow: visible; }
+.progress-celebration-head { font-size: calc(20px * var(--app-font-scale, 1)); }
+.progress-celebration-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.celebration-burst { position: absolute; left: 50%; top: 40%; width: 0; height: 0; pointer-events: none; }
+.celebration-bit {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0;
+  animation: celebration-fly 1100ms ease-out forwards;
+}
+@keyframes celebration-fly {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .celebration-bit { display: none; }
+}
 
 /* --- Stories (stories-plan.md) ------------------------------------------
    Not a fifth course card — see §8.1 for why. Everything below is either

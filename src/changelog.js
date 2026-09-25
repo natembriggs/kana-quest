@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-25',
+    changes: [
+      'New: “📈 My progress”, next to “View set overview” on every course. It charts how many kana, kanji or words you have at each level — added, started, learning, doing well and well known — over the past week, month, year or all time, for one mode at a time. Kanji and vocabulary can show everything or one grade or level. Tap a level above the chart to show or hide its line, and tap or drag across the chart to see the numbers on any day.',
+      'New: goals. Set a number for any level on My progress and it appears on the chart as a dashed line, with no deadline. When you reach it you get a celebration — at the end of the session that got you there, or when you next open My progress — and it is listed under Milestones with the date. Hiragana and katakana come with goals already set: half of the script and all of it, at every level.',
+    ],
+  },
+  {
     date: '2026-09-24',
     changes: [
       'Changed: on a device with only one profile, the app now opens straight into it instead of stopping at the profile picker first. “Switch profile” still takes you to the picker.',

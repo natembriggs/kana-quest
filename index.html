@@ -90,6 +90,7 @@
 <link rel="modulepreload" href="src/vocab.js">
 <link rel="modulepreload" href="src/data/vocab-manifest.js">
 <link rel="modulepreload" href="src/srs.js">
+<link rel="modulepreload" href="src/progress-history.js">
 <link rel="modulepreload" href="src/fsrs.js">
 <link rel="modulepreload" href="src/furigana.js">
 <link rel="modulepreload" href="src/data/story-manifest.js">
@@ -1109,6 +1110,46 @@
   </section>
 
   <!-- ---------------------------------------------------------------- -->
+  <!-- My progress: one script/mode/unit's mastery levels over time, with
+       goals drawn as horizontal lines and celebrated once when reached.
+       Built by renderProgress() in app.js from src/progress-history.js. -->
+  <section id="screen-progress" class="screen" hidden>
+    <header class="topbar">
+      <button class="btn btn-icon" type="button" data-action="go-course" aria-label="Back">←</button>
+      <h2 id="progress-title">My progress</h2>
+      <span></span>
+      <button class="btn btn-icon btn-quiet feedback-icon" type="button" data-action="open-feedback" aria-label="Send feedback">💬</button>
+    </header>
+    <div id="progress-mode-picker" class="segmented" role="tablist" aria-label="Mode"></div>
+    <!-- Kanji and vocabulary only: every unit at once, or one grade/level. -->
+    <label id="progress-scope-wrap" class="progress-scope" hidden>
+      <span>Showing</span>
+      <select id="progress-scope" class="progress-scope-select"></select>
+    </label>
+
+    <div id="progress-celebration" class="card milestone-card progress-celebration" role="status" hidden>
+      <div id="progress-celebration-burst" class="celebration-burst" aria-hidden="true"></div>
+      <p class="progress-celebration-head">🎉 Goal reached!</p>
+      <ul id="progress-celebration-list" class="progress-celebration-list"></ul>
+      <button class="btn btn-quiet" type="button" data-action="progress-celebration-dismiss">Nice!</button>
+    </div>
+
+    <div id="progress-range" class="segmented" role="tablist" aria-label="Time range"></div>
+    <!-- Legend and line toggles in one: tap a level to show or hide its line. -->
+    <div id="progress-legend" class="progress-legend" role="group" aria-label="Lines to show"></div>
+    <div id="progress-chart" class="progress-chart"></div>
+    <p id="progress-readout" class="hint progress-readout" aria-live="polite"></p>
+    <p id="progress-empty" class="hint" hidden>Nothing studied here yet — once you practise, your progress shows up here day by day.</p>
+
+    <h3 class="progress-heading">Goals</h3>
+    <p class="hint">Pick a number for any level and it appears on the chart as a dashed line. Each line counts everything at that level or better.</p>
+    <div id="progress-goals" class="progress-goals"></div>
+
+    <h3 class="progress-heading">Milestones</h3>
+    <div id="progress-milestones" class="progress-milestones"></div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
   <section id="screen-lesson" class="screen" hidden>
     <header class="topbar">
       <button class="btn btn-icon" type="button" data-action="quit-session" aria-label="Back">✕</button>
@@ -1510,7 +1551,10 @@
          the rest of the summary (score, missed chips, what's-next actions)
          stays exactly as informative as any other session. -->
     <div id="summary-milestone" class="card milestone-card" hidden>
+      <div id="summary-burst" class="celebration-burst" aria-hidden="true"></div>
       <p id="summary-milestone-text"></p>
+      <!-- Goals from My progress reached this session (sessionGoalCelebrations). -->
+      <ul id="summary-goals" class="progress-celebration-list" hidden></ul>
     </div>
     <p id="summary-score" class="score"></p>
     <div id="summary-list" class="chip-grid"></div>

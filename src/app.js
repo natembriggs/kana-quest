@@ -34,6 +34,11 @@ import {
   addExposure, recordDemotionStrike, recomputeYomiRollupFromProgress,
   muteFuriganaKey,
 } from './srs.js';
+import {
+  PROGRESS_LEVELS, PROGRESS_RANGES, levelById, levelsForKind, progressScopeId, goalsForScope,
+  buildItemTimelines, firstActivity, sampleTimes, seriesFromTimelines, currentLevelCounts,
+  pendingGoalCelebrations, firstReachedIndex, firstReachedTime,
+} from './progress-history.js';
 import { RATING } from './fsrs.js';
 import { isReadingHidden } from './furigana.js';
 import { STORIES } from './data/story-manifest.js';
@@ -182,7 +187,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-24i'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-25a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
@@ -553,6 +558,10 @@ const state = {
   // The self-placement sweep in progress, or null — see openSweep(). Session
   // only: an abandoned sweep has claimed nothing.
   sweep: null,
+  // "My progress" (openProgress): which script/unit is charted, the time
+  // range, the lines toggled off, and any celebration on screen. Session-
+  // only — goals themselves live in profile.settings.progressGoals.
+  progressView: null,
   detailCourseId: null,
   detailChar: null,
   // Detail screens opened on top of one another (drillIntoDetail below):
@@ -2545,9 +2554,18 @@ function renderCourse() {
   viewSet.innerHTML = '📋 View set overview';
   viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
 
+  // Every level's count over days, weeks or a year, with goals — for the
+  // whole script (or any one unit), not just this card's unit.
+  const viewProgress = document.createElement('button');
+  viewProgress.type = 'button';
+  viewProgress.className = 'btn overview-button';
+  viewProgress.innerHTML = '📈 My progress';
+  viewProgress.addEventListener('click', () => openProgress());
+
   const row = document.createElement('div');
   row.className = 'row';
   row.appendChild(viewSet);
+  row.appendChild(viewProgress);
   card.appendChild(row);
 
   // Review / Test unlearned / Learn, stacked in the order the app wants a
@@ -4136,6 +4154,519 @@ function renderStudyHistory() {
   if (!empty) graph.appendChild(buildStudyHistorySVG(events));
 
   renderStudyHistoryList(events);
+}
+
+// --- My progress ------------------------------------------------------------
+//
+// One script/mode/unit's mastery levels over time (screen-progress). The
+// counting all lives in progress-history.js; this section draws it, keeps
+// the learner's goals, and celebrates reaching them. See that module's header
+// for where the past comes from and what each level counts.
+
+/** Which units the scope picker offers: every unit at once ('all'), or one.
+ * Kana scripts are a single course, so they only ever have 'all'. */
+function progressCourses(script, unit) {
+  const courses = coursesForScript(script);
+  return unit === 'all' ? courses : courses.filter((c) => c.unit === unit);
+}
+
+function progressScopeLabel(script, unit) {
+  if (script.kind === 'kana') return script.name;
+  if (unit === 'all') return script.kind === 'kanji' ? 'All kanji' : 'All vocabulary';
+  return script.kind === 'kanji' ? unitLabel(unit) : vocabUnitLabel(unit);
+}
+
+/** Everything goalsForScope/currentLevelCounts need for one scope. */
+function progressScope(script, mode, unit) {
+  const items = progressCourses(script, unit).flatMap((c) => allItems(c, mode));
+  const label = progressScopeLabel(script, unit);
+  const scopeId = progressScopeId(script.id, mode, unit);
+  return {
+    scopeId,
+    items,
+    goals: goalsForScope({
+      settings: state.profile.settings,
+      scopeId,
+      kind: script.kind,
+      total: new Set(items).size,
+      subject: `${label} · ${modeName(mode, script.kind)}`,
+      scopeName: label,
+    }),
+  };
+}
+
+/**
+ * Goals reached in this script/mode by the session that just finished, as
+ * celebration lines for the summary screen. Checks the all-units scope plus
+ * every single-unit scope the learner has set a goal on — the session may
+ * have been a cross-unit review, so the current grade alone isn't enough.
+ * Marks everything reached as shown; the caller's save persists it.
+ */
+function sessionGoalCelebrations(course, mode, { skipAutoStarted = false } = {}) {
+  const script = SCRIPTS.find((s) => s.id === state.scriptId);
+  if (!script || script.kind !== course.kind) return [];
+  const { profile } = state;
+  const units = new Set(['all']);
+  Object.keys(profile.settings.progressGoals || {}).forEach((id) => {
+    const [scriptId, goalMode, unit] = id.split('|');
+    if (scriptId === script.id && goalMode === mode && unit) units.add(unit);
+  });
+  const texts = [];
+  units.forEach((unit) => {
+    const scope = progressScope(script, mode, unit);
+    if (!scope.goals.length) return;
+    const counts = currentLevelCounts({
+      items: scope.items, kind: script.kind, mode, profile,
+    });
+    const pending = pendingGoalCelebrations(scope.goals, counts, profile.milestonesShown || {});
+    if (!pending.mark.length) return;
+    profile.milestonesShown = profile.milestonesShown || {};
+    pending.mark.forEach((id) => { profile.milestonesShown[id] = Date.now(); });
+    pending.show
+      // "All of Hiragana started" is the set-complete milestone the summary
+      // is already showing in its own words — said once is enough.
+      .filter((g) => !(skipAutoStarted && g.auto && g.level === 'started'))
+      .forEach((g) => texts.push(g.auto ? g.text : `Goal reached: ${g.text}`));
+  });
+  return texts;
+}
+
+/** A short burst of emoji flying out of `el` — the celebration's one bit of
+ * motion, and skipped entirely for anyone who has asked for less. */
+function fireCelebrationBurst(el) {
+  el.innerHTML = '';
+  const reduce = typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  const glyphs = ['🎉', '✨', '⭐', '🌸', '🎊'];
+  for (let i = 0; i < 16; i += 1) {
+    const span = document.createElement('span');
+    span.className = 'celebration-bit';
+    span.textContent = glyphs[i % glyphs.length];
+    const angle = (i / 16) * Math.PI * 2;
+    const dist = 70 + (i % 3) * 25;
+    span.style.cssText = `--dx:${Math.round(Math.cos(angle) * dist)}px;`
+      + `--dy:${Math.round(Math.sin(angle) * dist * 0.6 - 30)}px;`
+      + `animation-delay:${(i % 4) * 60}ms`;
+    el.appendChild(span);
+  }
+}
+
+function openProgress() {
+  const script = currentScript();
+  const prior = state.progressView;
+  state.progressView = {
+    scriptId: script.id,
+    unit: 'all',
+    // The range and hidden lines carry over between visits in one sitting —
+    // someone who only watches "well known" shouldn't re-hide the rest
+    // every time — but not across reloads.
+    range: prior ? prior.range : 'month',
+    hidden: prior ? prior.hidden : new Set(),
+    celebrating: [],
+    cache: null,
+  };
+  renderProgress();
+  show('screen-progress');
+}
+
+function switchProgressMode(modeId) {
+  if (modeId === state.mode) return;
+  state.mode = modeId;
+  state.progressView.celebrating = [];
+  renderProgress();
+}
+
+function setProgressGoal(levelId, raw) {
+  const view = state.progressView;
+  const script = SCRIPTS.find((s) => s.id === view.scriptId);
+  const { profile } = state;
+  const scopeId = progressScopeId(script.id, state.mode, view.unit);
+  const all = { ...(profile.settings.progressGoals || {}) };
+  const own = { ...(all[scopeId] || {}) };
+  const value = Math.floor(Number(raw));
+  if (Number.isFinite(value) && value > 0) own[levelId] = value; else delete own[levelId];
+  if (Object.keys(own).length) all[scopeId] = own; else delete all[scopeId];
+  profile.settings.progressGoals = all;
+  stampSetting(profile, 'progressGoals');
+  // A goal set at or below where you already are is simply "reached" — it
+  // is recorded as such without a celebration, which is for getting there.
+  const scope = progressScope(script, state.mode, view.unit);
+  const counts = currentLevelCounts({
+    items: scope.items, kind: script.kind, mode: state.mode, profile,
+  });
+  const already = pendingGoalCelebrations(scope.goals.filter((g) => !g.auto), counts, profile.milestonesShown || {});
+  if (already.mark.length) {
+    profile.milestonesShown = profile.milestonesShown || {};
+    already.mark.forEach((id) => { profile.milestonesShown[id] = Date.now(); });
+  }
+  store.saveProfile(profile);
+  renderProgress();
+}
+
+function renderProgress() {
+  const view = state.progressView;
+  const { profile } = state;
+  const script = SCRIPTS.find((s) => s.id === view.scriptId);
+  const { kind } = script;
+  if (!modesForKind(kind).some((m) => m.id === state.mode)) state.mode = defaultModeForKind(kind);
+  const { mode } = state;
+  const now = Date.now();
+
+  $('progress-title').textContent = `My progress · ${script.name}`;
+  renderProgressModePicker(kind);
+  renderProgressScopePicker(script);
+  renderProgressRangePicker();
+
+  const scope = progressScope(script, mode, view.unit);
+  // Reading the history is the slow part (thousands of records for all
+  // kanji), and a range switch or a line toggle doesn't change it.
+  const cacheKey = `${scope.scopeId}|${Object.keys(profile.progress).length}`;
+  if (!view.cache || view.cache.key !== cacheKey) {
+    view.cache = {
+      key: cacheKey,
+      timelines: buildItemTimelines({
+        items: scope.items, kind, mode, profile, now,
+      }),
+    };
+  }
+  const { timelines } = view.cache;
+  const times = sampleTimes(view.range, now, firstActivity(timelines, now));
+  const counts = seriesFromTimelines(timelines, times);
+  const last = times.length - 1;
+  const current = {};
+  PROGRESS_LEVELS.forEach((l) => { current[l.id] = counts[l.id][last]; });
+
+  // Anything reached since last time — a goal crossed by a "Mark as known",
+  // or an automatic kana goal first seen here — is celebrated on arrival.
+  const pending = pendingGoalCelebrations(scope.goals, current, profile.milestonesShown || {});
+  if (pending.mark.length) {
+    profile.milestonesShown = profile.milestonesShown || {};
+    pending.mark.forEach((id) => { profile.milestonesShown[id] = Date.now(); });
+    store.saveProfile(profile);
+    if (pending.show.length) {
+      view.celebrating = pending.show.map((g) => g.text);
+      fireCelebrationBurst($('progress-celebration-burst'));
+    }
+  }
+  const celebration = $('progress-celebration');
+  celebration.hidden = view.celebrating.length === 0;
+  const celebrationList = $('progress-celebration-list');
+  celebrationList.innerHTML = '';
+  view.celebrating.forEach((text) => {
+    const li = document.createElement('li');
+    li.textContent = text;
+    celebrationList.appendChild(li);
+  });
+
+  const levels = levelsForKind(kind);
+  renderProgressLegend(levels, current);
+  const visible = levels.filter((l) => !view.hidden.has(l.id));
+  const empty = PROGRESS_LEVELS.every((l) => current[l.id] === 0)
+    && timelines.every((tl) => tl.every(([, status]) => status === 0));
+  $('progress-empty').hidden = !empty;
+  const chart = $('progress-chart');
+  chart.innerHTML = '';
+  chart.appendChild(buildProgressChart({
+    times, counts, visible, goals: scope.goals.filter((g) => visible.some((l) => l.id === g.level)), range: view.range,
+  }));
+  setProgressReadout(times, counts, visible, last);
+
+  renderProgressGoals(scope, levels, current);
+  renderProgressMilestones(scope, timelines, current, kind);
+}
+
+function renderProgressModePicker(kind) {
+  const picker = $('progress-mode-picker');
+  picker.innerHTML = '';
+  modesForKind(kind).forEach((mode) => {
+    if (isModeComingSoon(mode, kind)) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    const active = state.mode === mode.id;
+    button.className = `segment${active ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+    button.textContent = modeName(mode.id, kind);
+    button.addEventListener('click', () => switchProgressMode(mode.id));
+    picker.appendChild(button);
+  });
+}
+
+function renderProgressScopePicker(script) {
+  const wrap = $('progress-scope-wrap');
+  wrap.hidden = script.kind === 'kana';
+  if (script.kind === 'kana') return;
+  const select = $('progress-scope');
+  select.innerHTML = '';
+  const addOption = (parent, value, label) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    if (value === state.progressView.unit) option.selected = true;
+    parent.appendChild(option);
+  };
+  addOption(select, 'all', progressScopeLabel(script, 'all'));
+  // Grouped the way the course screen's unit picker groups them.
+  unitGroupsFor(script.kind).forEach((group) => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = group.label;
+    group.units.forEach((unit) => addOption(optgroup, unit, progressScopeLabel(script, unit)));
+    select.appendChild(optgroup);
+  });
+  select.value = state.progressView.unit;
+  select.onchange = () => {
+    state.progressView.unit = select.value;
+    state.progressView.celebrating = [];
+    renderProgress();
+  };
+}
+
+function renderProgressRangePicker() {
+  const picker = $('progress-range');
+  picker.innerHTML = '';
+  PROGRESS_RANGES.forEach((range) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    const active = state.progressView.range === range.id;
+    button.className = `segment${active ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+    button.textContent = range.label;
+    button.addEventListener('click', () => {
+      state.progressView.range = range.id;
+      renderProgress();
+    });
+    picker.appendChild(button);
+  });
+}
+
+function renderProgressLegend(levels, current) {
+  const legend = $('progress-legend');
+  legend.innerHTML = '';
+  levels.forEach((level) => {
+    const on = !state.progressView.hidden.has(level.id);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `progress-legend-item progress-level-${level.id}${on ? '' : ' is-off'}`;
+    button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    button.innerHTML = '<span class="progress-legend-swatch"></span><span class="progress-legend-label"></span><b class="progress-legend-count"></b>';
+    button.querySelector('.progress-legend-label').textContent = level.label;
+    button.querySelector('.progress-legend-count').textContent = String(current[level.id]);
+    button.addEventListener('click', () => {
+      const { hidden } = state.progressView;
+      if (hidden.has(level.id)) hidden.delete(level.id); else hidden.add(level.id);
+      renderProgress();
+    });
+    legend.appendChild(button);
+  });
+}
+
+/** Integer tick step giving about four gridlines up to `max`. */
+function progressTickStep(max) {
+  const rough = Math.max(1, max / 4);
+  const mag = 10 ** Math.floor(Math.log10(rough));
+  const step = [1, 2, 5, 10].map((m) => m * mag).find((s) => s >= rough);
+  return Math.max(1, Math.round(step));
+}
+
+function progressDateLabel(ts, range, withYear = false) {
+  const opts = range === 'year' || range === 'all'
+    ? { month: 'short', day: 'numeric', ...(withYear ? { year: 'numeric' } : {}) }
+    : { weekday: range === 'week' ? 'short' : undefined, month: 'short', day: 'numeric' };
+  return new Intl.DateTimeFormat(undefined, opts).format(ts);
+}
+
+function setProgressReadout(times, counts, visible, index) {
+  const when = index === times.length - 1 ? 'Now' : progressDateLabel(times[index], 'year', true);
+  const parts = visible.map((l) => `${l.label} ${counts[l.id][index]}`);
+  $('progress-readout').textContent = parts.length ? `${when}: ${parts.join(' · ')}` : 'Tap a level above to show its line.';
+}
+
+/**
+ * The line chart: one 2px line per visible level, goals as dashed
+ * horizontals in the same colour, a ring on the point where a goal was
+ * crossed inside this range, and a tap/drag crosshair whose values read out
+ * underneath. Colours come from CSS (--progress-* in styles.css), per theme.
+ */
+function buildProgressChart({
+  times, counts, visible, goals, range,
+}) {
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  // Sized for a phone: the SVG scales to the card's width, and at about
+  // 360 units wide a unit is about a pixel, so the 11px labels stay 11px.
+  const W = 360;
+  const H = 220;
+  const PAD_L = 30;
+  const PAD_R = 8;
+  const PAD_T = 14;
+  const PAD_B = 24;
+  const plotW = W - PAD_L - PAD_R;
+  const plotH = H - PAD_T - PAD_B;
+  const el = (tag, attrs, cls) => {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (cls) node.setAttribute('class', cls);
+    return node;
+  };
+
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Progress over time' }, 'progress-svg');
+  let max = 4;
+  visible.forEach((l) => { counts[l.id].forEach((n) => { if (n > max) max = n; }); });
+  goals.forEach((g) => { if (g.value > max) max = g.value; });
+  const step = progressTickStep(max);
+  const yMax = Math.ceil(max / step) * step;
+  const t0 = times[0];
+  const t1 = times[times.length - 1];
+  const x = (t) => PAD_L + (t1 === t0 ? plotW : ((t - t0) / (t1 - t0)) * plotW);
+  const y = (n) => PAD_T + plotH - (n / yMax) * plotH;
+
+  for (let v = 0; v <= yMax; v += step) {
+    svg.appendChild(el('line', {
+      x1: PAD_L, x2: W - PAD_R, y1: y(v), y2: y(v),
+    }, v === 0 ? 'progress-axis' : 'progress-grid'));
+    const label = el('text', { x: PAD_L - 6, y: y(v) + 4, 'text-anchor': 'end' }, 'progress-tick-label');
+    label.textContent = String(v);
+    svg.appendChild(label);
+  }
+
+  // About five date labels, the last always "Now".
+  const TICKS = Math.min(5, times.length);
+  let lastText = null;
+  for (let i = 0; i < TICKS; i += 1) {
+    const index = TICKS === 1 ? times.length - 1 : Math.round(((times.length - 1) * i) / (TICKS - 1));
+    const isNow = index === times.length - 1;
+    const text = isNow ? 'Now' : progressDateLabel(times[index], range);
+    if (text === lastText) continue;
+    lastText = text;
+    const label = el('text', {
+      x: x(times[index]),
+      y: H - 8,
+      'text-anchor': i === 0 ? 'start' : isNow ? 'end' : 'middle',
+    }, 'progress-tick-label');
+    label.textContent = text;
+    svg.appendChild(label);
+  }
+
+  goals.forEach((goal) => {
+    const reached = counts[goal.level][times.length - 1] >= goal.value;
+    svg.appendChild(el('line', {
+      x1: PAD_L, x2: W - PAD_R, y1: y(goal.value), y2: y(goal.value),
+    }, `progress-goal progress-level-${goal.level}`));
+    // Left end: the lines finish on the right, where the latest (and usually
+    // highest) values sit, so a label there collides with them.
+    const label = el('text', { x: PAD_L + 4, y: y(goal.value) - 5, 'text-anchor': 'start' }, 'progress-goal-label');
+    label.textContent = `${goal.label}${reached ? ' ✓' : ''}`;
+    svg.appendChild(label);
+  });
+
+  visible.forEach((level) => {
+    const points = counts[level.id].map((n, i) => `${x(times[i]).toFixed(1)},${y(n).toFixed(1)}`);
+    svg.appendChild(el('polyline', { points: points.join(' ') }, `progress-line progress-level-${level.id}`));
+  });
+
+  // Milestone rings: where a goal's line was crossed within this range.
+  goals.forEach((goal) => {
+    const series = counts[goal.level];
+    const index = firstReachedIndex(series, goal.value);
+    if (index <= 0) return; // not reached, or already reached before this range
+    const dot = el('circle', { cx: x(times[index]), cy: y(series[index]), r: 6 }, `progress-milestone progress-level-${goal.level}`);
+    const title = el('title', {});
+    title.textContent = `${goal.text} — ${progressDateLabel(times[index], 'year', true)}`;
+    dot.appendChild(title);
+    svg.appendChild(dot);
+  });
+
+  // Crosshair: follows a finger or pointer, snapping to the nearest sample.
+  const cross = el('line', {
+    x1: 0, x2: 0, y1: PAD_T, y2: PAD_T + plotH,
+  }, 'progress-crosshair');
+  cross.setAttribute('visibility', 'hidden');
+  svg.appendChild(cross);
+  const hit = el('rect', {
+    x: PAD_L, y: 0, width: plotW, height: H, fill: 'transparent',
+  }, 'progress-hit');
+  svg.appendChild(hit);
+  const track = (event) => {
+    const box = svg.getBoundingClientRect();
+    if (!box.width) return;
+    const vx = ((event.clientX - box.left) / box.width) * W;
+    const t = t0 + ((vx - PAD_L) / plotW) * (t1 - t0);
+    let index = 0;
+    times.forEach((ts, i) => { if (Math.abs(ts - t) < Math.abs(times[index] - t)) index = i; });
+    cross.setAttribute('x1', x(times[index]));
+    cross.setAttribute('x2', x(times[index]));
+    cross.setAttribute('visibility', 'visible');
+    setProgressReadout(times, counts, visible, index);
+  };
+  hit.addEventListener('pointermove', track);
+  hit.addEventListener('pointerdown', track);
+  hit.addEventListener('pointerleave', () => {
+    cross.setAttribute('visibility', 'hidden');
+    setProgressReadout(times, counts, visible, times.length - 1);
+  });
+  return svg;
+}
+
+function renderProgressGoals(scope, levels, current) {
+  const box = $('progress-goals');
+  box.innerHTML = '';
+  const own = (state.profile.settings.progressGoals || {})[scope.scopeId] || {};
+  levels.forEach((level) => {
+    const row = document.createElement('label');
+    row.className = `progress-goal-row progress-level-${level.id}`;
+    row.innerHTML = '<span class="progress-legend-swatch"></span><span class="progress-goal-name"></span><span class="progress-goal-now hint"></span>';
+    row.querySelector('.progress-goal-name').textContent = level.label;
+    row.querySelector('.progress-goal-now').textContent = `now ${current[level.id]}`;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '1';
+    input.inputMode = 'numeric';
+    input.className = 'progress-goal-input';
+    input.placeholder = 'No goal';
+    input.setAttribute('aria-label', `Goal for ${level.label}`);
+    input.value = own[level.id] ? String(own[level.id]) : '';
+    input.addEventListener('change', () => setProgressGoal(level.id, input.value));
+    row.appendChild(input);
+    box.appendChild(row);
+  });
+}
+
+function renderProgressMilestones(scope, timelines, current, kind) {
+  const box = $('progress-milestones');
+  box.innerHTML = '';
+  const rank = (g) => PROGRESS_LEVELS.findIndex((l) => l.id === g.level);
+  const goals = [...scope.goals].sort((a, b) => (a.value - b.value) || (rank(a) - rank(b)));
+  if (!goals.length) {
+    const p = document.createElement('p');
+    p.className = 'hint';
+    p.textContent = kind === 'kana'
+      ? 'Nothing here yet.'
+      : 'Set a goal above and it shows up here — with the date you reach it.';
+    box.appendChild(p);
+    return;
+  }
+  const dateFmt = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  goals.forEach((goal) => {
+    const level = levelById(goal.level);
+    const have = current[goal.level];
+    const reached = have >= goal.value;
+    const row = document.createElement('div');
+    row.className = `progress-milestone-row progress-level-${goal.level}${reached ? ' is-reached' : ''}`;
+    row.innerHTML = '<span class="progress-milestone-mark"></span><span class="progress-milestone-text"></span><span class="progress-milestone-when hint"></span>';
+    row.querySelector('.progress-milestone-mark').textContent = reached ? '★' : '☆';
+    const what = goal.auto ? `${goal.label.split(':')[0]} ${level.phrase}` : `${goal.value} ${level.phrase}`;
+    row.querySelector('.progress-milestone-text').textContent = goal.auto ? `${what} (${goal.value})` : what;
+    let when;
+    if (reached) {
+      const ts = firstReachedTime(timelines, goal.level, goal.value);
+      when = Number.isFinite(ts) ? dateFmt.format(ts) : 'Reached';
+    } else {
+      when = `${goal.value - have} to go`;
+    }
+    row.querySelector('.progress-milestone-when').textContent = when;
+    box.appendChild(row);
+  });
 }
 
 function renderCharacterDetail() {
@@ -8664,8 +9195,24 @@ function finishSession() {
     profile.milestonesShown = profile.milestonesShown || {};
     milestones.forEach((m) => { profile.milestonesShown[m.id] = Date.now(); });
   }
-  $('summary-milestone').hidden = !milestoneToShow;
+  // Goals from "My progress" (and kana's automatic half/all goals) this
+  // session carried over the line — marked shown in the same save.
+  const goalTexts = sessionGoalCelebrations(course, state.mode, {
+    skipAutoStarted: !!milestoneToShow && course.kind === 'kana',
+  });
+  $('summary-milestone').hidden = !milestoneToShow && goalTexts.length === 0;
+  $('summary-milestone-text').hidden = !milestoneToShow;
   $('summary-milestone-text').textContent = milestoneToShow ? milestoneToShow.text : '';
+  const goalList = $('summary-goals');
+  goalList.innerHTML = '';
+  goalList.hidden = goalTexts.length === 0;
+  goalTexts.forEach((text) => {
+    const li = document.createElement('li');
+    li.textContent = `🎉 ${text}`;
+    goalList.appendChild(li);
+  });
+  if (goalTexts.length) fireCelebrationBurst($('summary-burst'));
+  else $('summary-burst').innerHTML = '';
 
   // "Practise N missed" (below) carries the PRIOR summary's full result set
   // forward as session.carriedResults, so a learner who got 9 of 10 right,
@@ -12407,6 +12954,7 @@ const SCREEN_BACK_HANDLERS = {
   'screen-stories': backFromGoHome,
   'screen-overview': backFromGoCourse,
   'screen-summary': backFromGoCourse,
+  'screen-progress': backFromGoCourse,
   'screen-settings': backFromCloseSettings,
   'screen-character-detail': backFromDetail,
   'screen-study-history': () => show('screen-character-detail'),
@@ -12886,6 +13434,10 @@ function wire() {
       // Return to the course screen — from a finished session, or from
       // settings opened while on it.
       case 'go-course': backFromGoCourse(); break;
+      case 'progress-celebration-dismiss':
+        state.progressView.celebrating = [];
+        $('progress-celebration').hidden = true;
+        break;
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
       case 'overview-select-toggle': toggleOverviewSelectMode('known'); break;

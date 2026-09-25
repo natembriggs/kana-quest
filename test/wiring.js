@@ -5019,6 +5019,15 @@ async function answerOneQuestion(answer) {
     `hidden=${el('summary-milestone').hidden}, text="${el('summary-milestone-text').textContent}"`);
   check('the milestone is recorded in profile.milestonesShown, keyed by script',
     !!rows.get(hiraProfile.id).milestonesShown['kana-hiragana']);
+  // Everything but the last kana was marked known, so this same session
+  // also crossed kana's automatic goals — shown as the single strongest one,
+  // never as a second "all started" line beside the milestone above.
+  check('the strongest automatic kana goal reached is celebrated alongside it',
+    el('summary-goals').hidden === false && el('summary-goals')._children.length === 1
+    && el('summary-goals')._children[0].textContent.includes('Half of Hiragana well known'),
+    el('summary-goals')._children.map((c) => c.textContent).join(' | '));
+  check('every automatic goal reached is recorded as shown',
+    !!rows.get(hiraProfile.id).milestonesShown['auto|hiragana|recognition|all|started|all']);
 
   // --- ...and does not re-fire on a later, ordinary session over the same
   // now-finished script ("Practise again" — ignores due dates, quizzes
@@ -5815,6 +5824,69 @@ firePopstate();
 await settle();
 check('a second Back now genuinely leaves the screen, exactly like the first one would have without a sheet in the way',
   visible() === 'screen-home', visible());
+
+// --- My progress --------------------------------------------------------------
+{
+  await reopenLearner('Hiragana Finisher');
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'hiragana'), 'click');
+  await settle();
+  const progressBtn = buttonsIn(el('course-list')._children[0])
+    .find((b) => (b.innerHTML || '').includes('My progress'));
+  check('the course card offers My progress', !!progressBtn);
+  fire(progressBtn, 'click');
+  await settle();
+  check('My progress opens', visible() === 'screen-progress', visible());
+  check('kana have no unit picker', el('progress-scope-wrap').hidden === true);
+  check('the chart is drawn', el('progress-chart')._children.length === 1);
+  const legend = el('progress-legend')._children;
+  check('one legend toggle per kana level (no "added")', legend.length === 4, legend.length);
+  check('every range is offered', el('progress-range')._children.length === 4);
+  check('kana carry automatic half/all milestones',
+    el('progress-milestones')._children.length === 8, el('progress-milestones')._children.length);
+
+  fire(legend[0], 'click');
+  await settle();
+  check('a legend toggle turns its line off',
+    el('progress-legend')._children[0].getAttribute('aria-pressed') === 'false');
+  fire(el('progress-range')._children[2], 'click');
+  await settle();
+  check('switching range keeps the screen', visible() === 'screen-progress');
+
+  const learner = [...rows.values()].find((p) => p.name === 'Hiragana Finisher');
+  const goalRow = el('progress-goals')._children.find((r) => r.className.includes('progress-level-learning'));
+  const input = goalRow._children.find((c) => c.className === 'progress-goal-input');
+  input.value = '5000';
+  fire(input, 'change');
+  await drain(10);
+  const saved = rows.get(learner.id);
+  check('a goal is saved to the profile\'s settings',
+    saved.settings.progressGoals['hiragana|recognition|all'].learning === 5000,
+    JSON.stringify(saved.settings.progressGoals));
+  check('...stamped for sync', Number.isFinite(saved.settingsUpdatedAt.progressGoals));
+  check('...and listed as a milestone still to go',
+    el('progress-milestones')._children.length === 9);
+
+  fireAction('go-course');
+  await settle();
+  check('back from My progress returns to the course', visible() === 'screen-course', visible());
+
+  // Kanji: the unit picker lists every unit plus "All kanji".
+  fireAction('go-home');
+  await settle();
+  fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
+  await settle();
+  fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('My progress')), 'click');
+  await settle();
+  check('kanji My progress opens', visible() === 'screen-progress', visible());
+  check('kanji show a unit picker', el('progress-scope-wrap').hidden === false);
+  check('kanji have an "added" line', el('progress-legend')._children.length === 5);
+  el('progress-scope').value = '1';
+  el('progress-scope').onchange();
+  await settle();
+  check('picking a grade keeps the screen', visible() === 'screen-progress');
+  fireAction('go-course');
+  await settle();
+}
 
 // --- data-action coverage -------------------------------------------------
 

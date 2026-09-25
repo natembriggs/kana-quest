@@ -2,7 +2,13 @@
 // plus the rule that decides when a new chunk of characters is allowed to be
 // introduced.
 //
-// Every grading event is appended to the item's history as [timestamp, 0|1].
+// Every grading event is appended to the item's history as
+// [timestamp, 0|1, box] — the third element is the box (streak, for a
+// gradeYomi record) the record landed on after that event, so "My progress"
+// (progress-history.js) can read how well known an item was on any past
+// date exactly, instead of re-deriving it by replaying FSRS. Entries written
+// before it existed are plain [timestamp, 0|1]; readers index [0]/[1] only
+// and every one of them tolerates the extra element.
 // `box`/`streak` are a derived convenience (see boxFromStability below), not
 // the real scheduling state any more — the history and the FSRS
 // `stability`/`difficulty` pair are. Both record shapes below (grade()'s
@@ -531,7 +537,7 @@ export function grade(record, correct, now = Date.now(), {
     rec.intervalDays = 0;
     rec.due = now; // immediately due again
   }
-  rec.history.push([now, correct ? 1 : 0]);
+  rec.history.push([now, correct ? 1 : 0, rec.box]);
   if (rec.history.length > MAX_HISTORY) {
     rec.history.splice(0, rec.history.length - MAX_HISTORY);
   }
@@ -1124,7 +1130,7 @@ export function gradeYomi(record, correct, now = Date.now(), {
     rec.intervalDays = 0;
     rec.due = now;
   }
-  rec.history.push([now, correct ? 1 : 0]);
+  rec.history.push([now, correct ? 1 : 0, rec.streak]);
   if (rec.history.length > MAX_HISTORY) {
     rec.history.splice(0, rec.history.length - MAX_HISTORY);
   }
