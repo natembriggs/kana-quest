@@ -30,6 +30,18 @@ const blurbs = [
   'A cracked bell sounds across the water, an old promise finds its answer, and Aoi must decide what to carry home.',
 ];
 
+const inlineArt = [
+  [],
+  [],
+  [],
+  [
+    { after: 2, file: '01.webp' },
+    { after: 5, file: '02.webp' },
+    { after: 8, file: '03.webp' },
+  ],
+  [],
+];
+
 export const STORY_SOURCES = chapters.map((body, index) => expandStory({
   id: `kakure-tani-no-akari-${index + 1}`,
   title: { ja: titles[index][0], en: titles[index][1] },
@@ -43,9 +55,11 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     text: 'An original five-chapter adventure written for Kanji Trail',
     by: 'GPT-6 Astra',
     credit: 'Written by',
+    illustrations: inlineArt[index].length ? 'Inline paintings generated with OpenAI image generation, using the approved Kasa Jizō paintings for the simpler inline style and the chapter cover for Aoi and Ren character reference and palette.' : undefined,
     notes: 'Original Japanese prose and English translations for level 5. Set in a fictional mountain village in Nagano during Obon. Obon, bon odori, washi craft and lantern-floating provide the cultural setting; the village, song, characters and supernatural customs are invented, not a description of a traditional religious rite. Practices vary by region. Background: Japan National Tourism Organization, “Japan in August”, “Summer traditions in Japan” and “Kiso Valley”. No published story was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
   },
+  art: inlineArt[index].length ? { inline: inlineArt[index] } : undefined,
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => entries[key]?.[0] || key).join('|'),

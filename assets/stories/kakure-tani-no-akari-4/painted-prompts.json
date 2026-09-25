@@ -1,0 +1,63 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "references": [
+    { "file": "../kasa-jizou/01.webp", "role": "approved simplified inline style" },
+    { "file": "../kasa-jizou/02.webp", "role": "approved simplified inline style" },
+    { "file": "../kasa-jizou/03.webp", "role": "approved simplified inline style" },
+    { "file": "cover.webp", "role": "Aoi and Ren character identity and palette only" }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story. Wide inline story picture for chapter four of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline style references; Image 4 is only a character and palette reference for Aoi and Ren. In Sayo’s small paper workshop beside the river at night, Aoi, a Japanese teenager with long dark hair, an ivory short-sleeved top, deep blue-grey skirt and brown shoulder bag, sits beside Sayo, an elderly Japanese woman with silver hair in a low bun, a muted plum work robe and sage apron. Sayo carefully cuts a narrow strip from the edge of an old lantern picture showing a woman in snow. Aoi watches with a small open notebook nearby; a few pale paper strips lie on the long table. Keep only the two women. Broad smooth matte colour areas, gentle contours, minimal faces and folds, very little texture, quiet workshop shapes, one warm lantern glow against cool blue night. Wide 12:7 composition. No readable writing, lettering, border, logo or watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story. Wide inline story picture for chapter four of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline style references; Image 4 is only a character and palette reference for Aoi and Ren. At night, show the paper workshop doorway and dark river. On the near bank, Aoi in an ivory top, deep blue-grey skirt and brown shoulder bag stands beside Sayo, an elderly woman with silver hair, a muted plum robe and sage apron. Across the water, Ren, a Japanese teenage boy with short dark hair, pale grey shirt, dark shorts and black backpack, stands beside Aoi’s elderly white-haired grandmother with a walking stick. A few villagers hold paper lanterns, making a small trail of golden lights across the far bank. The white paper bridge is made from overlapping sheets and reaches directly across the water, without timber, posts or rails. Broad smooth matte colours, gentle contours, minimal faces and folds, very little texture, quiet layered background; cool midnight blue with warm lantern light. Wide 12:7. No readable text, border, logo or watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story. Wide inline story picture for chapter four of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline style references; Image 4 is only a character and palette reference for Aoi and Ren. On the white paper bridge over the river, Aoi, with long dark hair, ivory top, deep blue-grey skirt and brown shoulder bag, reaches the far bank and grasps Ren’s outstretched hand. She carries one small cracked bronze bell on a muted red cord in her other hand. Show one simple overlapping pale paper patch over the tear in the bridge. Behind her, Sayo, an elderly woman with silver hair in a low bun, muted plum robe and sage apron, braces the wooden gate at the workshop doorway with both hands; Sayo’s figure is only beginning to grow faint in its warm light. Keep one bridge, one gate and one bell; do not show what happens after this chapter. Broad smooth matte colour areas, gentle contours, minimal faces and folds, very little texture, quiet river and mountain shapes. Wide 12:7. No extra people or objects, text, lettering, border, logo or watermark."
+    }
+  ],
+  "initialBatch": "01a0d9b2-e081-7fb3-b02b-2b58b470b653",
+  "initialImages": {
+    "01.webp": "exec-d598a416-a297-4677-81e1-46a98e87c789.png",
+    "02.webp": "exec-99afc8f8-ec76-47aa-9506-fc81f0b7287c.png",
+    "03.webp": "exec-c89ec44d-5a12-443d-8f27-f4e91c686ed9.png"
+  },
+  "selectedVersion": "Approved simplified edit matching Kasa Jizō inline art, 25 September 2026.",
+  "finalStyleTransfer": {
+    "tool": "OpenAI built-in image-generation editing",
+    "batch": "01a0d9b2-e081-7fb3-b02b-2b58b470b653",
+    "styleReferences": [
+      "../kasa-jizou/01.webp",
+      "../kasa-jizou/02.webp",
+      "../kasa-jizou/03.webp"
+    ],
+    "jobs": [
+      {
+        "file": "01.webp",
+        "input": "exec-d598a416-a297-4677-81e1-46a98e87c789.png",
+        "output": "exec-875a743d-8a10-461a-9e50-2733ffa265d2.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are the approved Kasa Jizō inline style references. Simplify Image 1 to match the broad, calm painted treatment of Images 2–4 while preserving its chapter-four scene exactly: Aoi watches Sayo cut a narrow paper strip from an old lantern picture at a long table in the nighttime workshop. Keep the two women, their ages and faces, Aoi's ivory top, dark blue-grey skirt and shoulder bag, Sayo's silver low bun, plum robe and sage apron, their poses, scissors, old illustrated lantern paper, notebook, paper strips, shelves, open doorway and composition. Preserve exactly the scene and objects. Flatten into broad mostly smooth matte colour areas, clean gently imperfect contours, minimal hair marks and folds, and only one simple shadow per surface. Reduce small details, lantern patterns, wood lines, cloth folds, hair strands, background objects and fine water reflections substantially. Keep the old illustration recognisable but unreadable, with no text. Wide landscape, 12:7 feel. Avoid changing identities, expressions, clothing colours, gesture, object counts or scene; adding details; cover-level texture, grain, fine marks, photorealism, 3D, text, border, logo or watermark."
+      },
+      {
+        "file": "02.webp",
+        "input": "exec-99afc8f8-ec76-47aa-9506-fc81f0b7287c.png",
+        "output": "exec-bd8ff21a-7536-4ac4-a0e3-aa223097a382.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are the approved Kasa Jizō inline style references. Simplify Image 1 to match the broad, calm painted treatment of Images 2–4, and correct the crossing: the bridge must be made from paper, not timber. Preserve the exact scene and composition with Aoi and Sayo on the near bank, Ren beside Aoi's white-haired grandmother and villagers on the far bank, their established clothing, faces, poses and lanterns. Replace only the long timber deck, posts and supports with a broad gently curved white paper bridge made from overlapping paper sheets, reaching directly across the dark water with no wood, posts, railing or supports. Keep the groups and lantern trail clear. Flatten all areas into broad mostly smooth matte colour shapes, clean gently imperfect contours, minimal hair marks and folds, and only one simple shadow per surface. Reduce fine foliage, houses, roof tiles, star specks and rippling water reflections; make the banks and mountain background a few quiet layers. Wide landscape, 12:7 feel. Avoid wooden planks, timber supports, rails, a second bridge, moving characters, changed clothing or identities, a storm, extra main characters, cover-level texture, grain, fine marks, photorealism, 3D, text, border, logo or watermark."
+      },
+      {
+        "file": "03.webp",
+        "input": "exec-c89ec44d-5a12-443d-8f27-f4e91c686ed9.png",
+        "output": "exec-9ef16b6b-239c-4190-a953-c04617e4f78a.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are the approved Kasa Jizō inline style references. Simplify Image 1 to match the broad, calm painted treatment of Images 2–4 while preserving its final-crossing scene exactly. Keep Aoi reaching Ren's hand while carrying one small cracked bronze bell on the red cord; preserve their identities, established clothing, faces, pose, the white paper bridge and its single patch, river banks, gate and Sayo. Sayo must brace the gate with both hands. Keep her only slightly faint in the warm doorway, not gone. Flatten into broad mostly smooth matte colour areas, clean gently imperfect contours, minimal hair marks and folds, and only one simple shadow per surface. Reduce detailed rocks, foliage, distant houses, stars, water reflections and timber marks substantially; keep the river and mountains as a few quiet broad shapes. Wide landscape, 12:7 feel. Avoid changing the central hand-grasp or bell, removing Sayo, altering the story beat, making the bridge wooden, adding objects or people, extra bells or gates, cover-level texture, grain, fine marks, photorealism, 3D, text, border, logo or watermark."
+      }
+    ],
+    "sharedPrompt": "Preserve the scene, people, clothing colours, poses, objects and wide composition. Match the approved Kasa Jizō inline art: broad mostly smooth matte colour areas, gentle clean contours, clear silhouettes, minimal faces and folds, one simple shadow per surface, and quiet background shapes. Reduce texture, small surface marks, fine hair, folds, detailed foliage, repeated highlights and tiny background objects. No added story objects, text, border, logo or watermark."
+  }
+}
