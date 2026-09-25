@@ -13,6 +13,15 @@ gold and terracotta red. Vary the proportions with each setting. Faces use
 small dark eyes and minimal expressive features, with natural proportions.
 Original character designs; no film-adaptation costumes or likenesses.
 
+## Inline art default
+
+Keep detailed gouache texture for covers. For inline story illustrations,
+default to the simpler painted treatment approved for Kasa Jizō: broad smooth
+colour areas, gentle contours, minimal surface texture, few purposeful folds
+and shadows, and quiet simplified backgrounds. Use Kasa Jizō's `01.webp`,
+`02.webp` and `03.webp` as style references. A story cover may guide character
+identity and palette, but should not set the detail level for inline art.
+
 Portrait 3:4, full bleed, no lettering, title, border or watermark. Titles
 remain in the adjacent library text. Depict an opening situation, never a
 resolution; mystery covers must not expose their solution.

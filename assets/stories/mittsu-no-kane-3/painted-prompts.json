@@ -1,0 +1,68 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "references": [
+    {
+      "file": "../kasa-jizou/01.webp",
+      "role": "simplified inline style"
+    },
+    {
+      "file": "../kasa-jizou/02.webp",
+      "role": "simplified inline style"
+    },
+    {
+      "file": "../mittsu-no-kane-1/cover.webp",
+      "role": "character identity and palette only"
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story. Simple flat-colour inline story picture for Three Bells chapter three. Images 1 and 2 are style references: match clean simple Kasa Jizō inline art. Image 3 is only a character identity reference for Riku and Chika; do not copy its rich cover detail or texture. Show Riku and Chika beginning their dawn crossing on the exposed sand road. Before sunrise on a calm summer morning at Shiomi, a broad white sand road reaches from shore toward a low wooded island with sea on both sides. Riku, thirteen, has short dark hair, pale grey shirt, dark shorts and black backpack; Chika has a dark ponytail, rust-orange top and light neutral skirt. They walk side by side and look ahead; a few white shells lie on the sand. Landscape about 12:7, figures on the left third, broad road leading to island, two water bands and pale dawn sky. Flat matte colour planes, gentle outlines, tiny dark eyes, minimal faces, one simple shadow per surface, quiet layered background. Keep the road dry and fully walkable. No waves, phones, rising danger, bell detail, extra people, lettering, border, logo or watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story. Simple flat-colour inline story picture for Three Bells chapter three. Images 1 and 2 are style references: match clean simple Kasa Jizō inline art. Image 3 is only a character identity reference for Riku and Chika; do not copy its rich cover detail or texture. Show the moment Riku and Chika first see the huge bell beneath the island tower. Early morning on the rocky island summit, a small old wooden house with a few missing roof tiles and one loose hanging door stands near a timber tower. Riku in pale grey shirt, dark shorts and black backpack stands beside Chika in rust-orange top and light neutral skirt. They look up at one large dark bronze bell hanging below the tower roof; it is about as tall as Riku. Chika is just stepping under the tower. Landscape 12:7; teens small under the simple timber tower, single clear bell with Riku for scale, damaged house to one side. Flat matte colours, clean gently imperfect outlines, tiny dark eyes, minimal face detail, broad shapes, one simple shadow and quiet rocks and trees. Show exactly one recognizable bell, because the prose has now named it. No elaborate carving, rich cover-level detail, multiple bells, new clues, extra people, lettering, border, logo or watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story. Simple flat-colour inline story picture for Three Bells chapter three. Images 1 and 2 are style references: match clean simple Kasa Jizō inline art. Image 3 is only a character identity reference for Riku and Chika; do not copy its rich cover detail or texture. Show Riku and Chika discovering that the sand road has vanished and the island is cut off. A little after sunrise on the rocky island shore, looking toward the mainland, the former sand road is completely underwater and cannot be seen. Riku and Chika stand together above the shore, damp at the hems from crossing; Chika holds up her wristwatch in disbelief while Riku looks across the water. Keep Riku's pale grey shirt, dark shorts and black backpack, and Chika's rust-orange top, light neutral skirt and dark ponytail. Wide 12:7; children in one foreground group, broad calm water between island and mainland, simple tower and house behind them. The watch face is blank with no digits. Flat matte colours, clean gentle outlines, minimal faces and folds, broad quiet seascape, one simple shadow per surface. No exposed sand road, clocks with numbers, rescue boats, storm, extra people, lettering, border, logo or watermark."
+    }
+  ],
+  "selectedVersion": "Simplified inline paintings matching the Kasa Jizō style, 25 September 2026.",
+  "finalStyleTransfer": {
+    "tool": "OpenAI built-in image-generation editing",
+    "batch": "01a0d913-ac1f-7ed2-8352-c30c2c65f8ce",
+    "styleReferences": [
+      "../kasa-jizou/01.webp",
+      "../kasa-jizou/02.webp",
+      "../kasa-jizou/03.webp"
+    ],
+    "selectedVersion": "Kasa Jizō inline style-transfer edit, 25 September 2026.",
+    "jobs": [
+      {
+        "file": "01.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-ef894293-6ed3-4d6f-a797-4a0b55c032c7.png",
+        "output": "exec-5bce1dab-b9ba-4a06-a8f8-0157b51f08f3.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target. Preserve its scene exactly: Riku and Chika walking at dawn along the exposed sand road toward the wooded island and distant bell tower. Keep their clothing, ages, poses, relative placement, landscape framing, and story beat unchanged. Images 2–4 are the approved Kasa Jizō inline style references. Flatten Image 1 to match them: broad smooth matte colour areas, simple clearly separated silhouettes, gentle clean contours, quiet background shapes, very few purposeful shadows, minimal face and hair marks. Reduce the sea to a few broad calm colour bands, the sand to one pale shape with only a few shells, the island to a handful of dark green and grey shapes, and the dawn sky to simple horizontal bands. Keep the path obviously exposed and walkable. Remove tiny surface marks, texture, grain, detailed foliage, fine rocks, hair strands, fabric folds and repeated water highlights. Wide landscape 12:7. No text, numerals, border, logo, watermark, extra people, storm, or added objects."
+      },
+      {
+        "file": "02.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-850545ee-04bf-48a2-a58c-d134ed1f6e34.png",
+        "output": "exec-5a726cc1-9e61-44f7-a452-e0a0a3ecafb8.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are approved Kasa Jizō inline style references. Keep the chapter-three scene and composition: Riku and Chika first see a single large dark bronze bell hanging beneath the simple timber tower on the island summit. Preserve both teens, their clothing and poses, the bell for scale, and the modest damaged-roof house. Simplify the image to match the references: broad smooth matte colour blocks, clear silhouettes, gentle contours, tiny minimal faces, very few shadows, and quiet background shapes. Reduce the tower to a few broad timbers, the house to simple planes, and the island to a handful of rocks and trees. Remove texture, grain, elaborate carving, detailed wood grain, fine foliage, rocks, hair strands, fabric folds and repeated marks. Wide landscape 12:7. Show exactly one bell; no text, border, logo, watermark, extra people, or added clues."
+      },
+      {
+        "file": "03.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-712da437-d6a3-4edf-aeb6-be3873ecfa0e.png",
+        "output": "exec-1b15c4b7-bcd4-4ec2-baf5-691994ce3668.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are approved Kasa Jizō inline style references. Keep the chapter-three scene and composition: Riku and Chika stand on the island shore, the sand road has disappeared underwater, and Chika checks her wristwatch while Riku looks across the water. Preserve their clothing, poses, island shore, distant mainland, and the watch. Simplify the image to match the references: broad smooth matte colour blocks, clear silhouettes, gentle contours, tiny minimal faces, very few shadows, and a quiet seascape. Use only broad sea, shore and sky bands, a few simple distant shapes, and no visible sand road. Keep the watch face blank. Remove texture, grain, many water highlights, detailed foliage and rocks, hair strands, fabric folds and tiny surface marks. Wide landscape 12:7. No digits, text, border, logo, watermark, extra people, or added objects."
+      }
+    ]
+  }
+}

@@ -30,6 +30,25 @@ const blurbs = [
   'The man on the island has carried a letter for forty years, addressed to nobody at all — and what it says turns the town’s account of that night inside out.',
   'Cut off by the storm with the bell as their only signal, Riku climbs the tower. Whoever hears it will learn what really happened forty years ago.',
 ];
+const inlineArt = [
+  [
+    { after: 1, file: '01.webp' },
+    { after: 3, file: '02.webp' },
+    { after: 9, file: '03.webp' },
+  ],
+  [
+    { after: 3, file: '01.webp' },
+    { after: 5, file: '02.webp' },
+    { after: 8, file: '03.webp' },
+  ],
+  [
+    { after: 1, file: '01.webp' },
+    { after: 5, file: '02.webp' },
+    { after: 8, file: '03.webp' },
+  ],
+  [],
+  [],
+];
 
 export const STORY_SOURCES = chapters.map((body, index) => expandStory({
   id: `mittsu-no-kane-${index + 1}`,
@@ -44,15 +63,11 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     text: 'An original five-chapter adventure written for Kanji Trail',
     by: 'Claude Opus 5',
     credit: 'Written by',
-    illustrations: index === 0 ? 'Inline paintings generated with OpenAI image generation, using the chapter cover as a character and palette reference.' : undefined,
+    illustrations: index < 3 ? 'Inline paintings generated with OpenAI image generation, using the chapter cover for character reference and Kasa Jizō for the simpler inline style.' : undefined,
     notes: 'Original Japanese prose and English translations for level 4. A sand road that surfaces at low tide is a real landform — a tombolo — and several in Japan can be walked at the times a published tide table gives. Fog bells were genuinely used as navigational aids here: the first in Japan was installed at Shiriyazaki Lighthouse in 1877 and replaced two years later because a bell carried too poorly, and sound fog signals were later discontinued as ships’ own navigation improved. The town of Shiomi, the island, its bell and the custom of ringing it until every boat is home, the Hibari-maru and every character are invented; nothing here describes a real place or a real loss at sea. Background: Japan National Tourism Organization regional guides on tidal sand roads, and the Japanese Wikipedia article 霧信号所.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
   },
-  art: index === 0 ? { inline: [
-    { after: 1, file: '01.webp' },
-    { after: 3, file: '02.webp' },
-    { after: 9, file: '03.webp' },
-  ] } : undefined,
+  art: inlineArt[index].length ? { inline: inlineArt[index] } : undefined,
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => entries[key]?.[0] || key).join('|'),

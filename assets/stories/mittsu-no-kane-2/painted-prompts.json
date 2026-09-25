@@ -1,0 +1,92 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "references": [
+    {
+      "file": "../kasa-jizou/01.webp",
+      "role": "simplified inline style"
+    },
+    {
+      "file": "../kasa-jizou/02.webp",
+      "role": "simplified inline style"
+    },
+    {
+      "file": "../mittsu-no-kane-1/cover.webp",
+      "role": "character identity and palette only"
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story. Simple wide inline story painting for Three Bells chapter two. Images 1 and 2 are style references for the approved simple Kasa Jizō inline art: broad smooth colour areas, clear silhouettes, minimal surface detail. Image 3 is character and palette reference only for Riku and Chika; do not copy its detailed cover rendering. Show Riku and Chika finding and examining the stranger's bag at the sea wall. At midday in Shiomi, they crouch beside a small black shoulder bag between stone blocks. Riku has short dark hair, a pale grey shirt, dark shorts and black backpack; Chika has a dark ponytail, rust-orange top and light neutral skirt. Riku holds a small old photograph of a laughing man on a boat; Chika studies a plain notebook before slipping it into her pocket. Landscape 12:7, two teens grouped near the bag, calm harbour bands behind them. Flat broad colour planes, gentle clean contours, one or two simple shadows, very little texture. No legible writing or numbers, no extra people, phones, visible bell, later clues, border, caption, logo or watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story. Simple wide inline story painting for Three Bells chapter two. Images 1 and 2 are style references for the approved simple Kasa Jizō inline art: broad smooth colour areas, clear silhouettes, minimal surface detail. Image 3 is character and palette reference only for Riku and Chika; do not copy its detailed cover rendering. Show Chika and Riku speaking with Tani in the old boat shed, just after he stops mending his net. The modest timber shed opens onto a quiet strip of harbour. Chika and Riku stand near the doorway in their established rust-orange and pale-grey outfits. Elderly Japanese fisherman Tani has short grey hair, a weathered kind face, deep indigo work jacket and dark trousers. A half-mended net rests across his lap; his hands pause as he looks toward the island. Landscape 12:7, three characters in an uncluttered grouping. Flat broad colour planes, gently curved contours, limited folds and shadows, sparse detail. Present-day scene only; no identifiable hanging object under any distant tower, no storm flashback, no readable text, no extra people, border, caption, logo or watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story. Simple wide inline story painting for Three Bells chapter two. Images 1 and 2 are style references for the approved simple Kasa Jizō inline art: broad smooth colour areas, clear silhouettes, minimal surface detail. Image 3 is character and palette reference only for Riku; do not copy its detailed cover rendering. Show Riku looking up from the altered tide table to find his aunt in the shop doorway. The next day inside Yuki's small harbour shop, Riku, thirteen, short dark hair, pale grey shirt and dark shorts, stands by the wall table without his backpack. His middle-aged aunt stands in the open doorway holding the insulated box of ice and looking at him. A simple printed grid on the wall has several pencil strokes across its rows. Landscape 12:7, Riku and the table on one side, aunt and doorway on the other. Flat smooth colour shapes, gentle outlines, minimal faces and folds, quiet simplified shelves. No readable words, dates or numerals, no other people, detailed goods, visible bell, later clues, border, caption, logo or watermark."
+    }
+  ],
+  "styleRefinements": [
+    {
+      "stage": "Second simplification pass, selected",
+      "tool": "OpenAI built-in image generation",
+      "sharedPrompt": "Use case: style-transfer. Simple flat painted story illustration. Preserve the scene, people, clothing colours, poses, objects and wide composition. Match Kasa Jizō inline art with clean bold shapes, flat matte colour fills, smooth gently imperfect outlines and only one simple shadow shape per surface. Faces have tiny dark eyes and minimal nose and mouth marks; hair is a few solid shapes with no strands. Backgrounds use only a few large quiet blocks. Avoid gradients, grain, canvas texture, surface marks, fine fabric folds, hair strands, detailed boards, fine net mesh, fine foliage, tiny inventory, eye highlights, realistic detail, 3D lighting, extra story objects, text, border, logo or watermark.",
+      "jobs": [
+        {
+          "file": "01.webp",
+          "reference": "exec-bcef7863-343e-42d2-9525-dd1a1705c919.png",
+          "addition": "Reduce the harbour to broad bands of sky, sea, wall and island. Make the bag a simple silhouette, the photo one pale rectangle with a tiny figure, and the notebook a plain dark shape. Keep the circled mark faint and unreadable."
+        },
+        {
+          "file": "02.webp",
+          "reference": "exec-0028cb40-72d9-4e51-902e-ec45d93405a6.png",
+          "addition": "Reduce Tani's net to a loose grey shape crossed by only a few widely spaced lines. Turn the timber shed and harbour into simple blocks. Keep the three figures' clothing colours and paused-net gesture."
+        },
+        {
+          "file": "03.webp",
+          "reference": "exec-8a1215ce-ae3c-4983-8a78-b408b5a194a3.png",
+          "addition": "Make the tide table a simple grid with a few pencil strokes. Reduce shelves to three or four broad coloured blocks. Keep Riku, his aunt and the doorway ice box as the central shapes."
+        }
+      ]
+    }
+  ],
+  "selectedVersion": "Simplified inline paintings matching the Kasa Jizō style, 25 September 2026.",
+  "finalStyleTransfer": {
+    "tool": "OpenAI built-in image-generation editing",
+    "batch": "01a0d913-ac1f-7ed2-8352-c30c2c65f8ce",
+    "styleReferences": [
+      "../kasa-jizou/01.webp",
+      "../kasa-jizou/02.webp",
+      "../kasa-jizou/03.webp"
+    ],
+    "selectedVersion": "Kasa Jizō inline style-transfer edit, 25 September 2026.",
+    "jobs": [
+      {
+        "file": "01.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-84e8f5ff-13d4-446c-b021-72a29312b15a.png",
+        "output": "exec-bde3cc8a-332a-4d98-bc26-952214bc6e15.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are approved Kasa Jizō inline style references. Keep the chapter-two scene and composition: Riku and Chika examine the small black bag at the harbour sea wall; Riku holds the old photograph and Chika studies the notebook. Preserve their clothing, characters, pose, and the harbour setting. Simplify the image to match the references: broad smooth matte colour blocks, simple clear silhouettes, gentle contours, tiny minimal faces, very few shadows, and only a few quiet background shapes. Reduce the sea, harbour, sky, boats and stone wall to broad simple forms. Make objects instantly legible with almost no surface marks. Remove texture, grain, fine hair strands, detailed buildings, little boat parts, many water highlights, and folds. Wide landscape 12:7. No text, border, logo, watermark, extra people, or new story objects."
+      },
+      {
+        "file": "02.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-2d9b8522-32ae-45ea-9720-e1426971a40d.png",
+        "output": "exec-9ca56d0e-5930-4fc7-8435-0513c945afef.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are approved Kasa Jizō inline style references. Keep the chapter-two scene and composition: Riku and Chika speak with elderly fisherman Tani in his modest boat shed; Tani has paused while mending a net. Preserve the three characters, clothing colours, poses, net and open harbour doorway. Simplify the image to match the references: broad smooth matte colour blocks, clear silhouettes, gentle contours, tiny minimal faces, very few shadows, and a few quiet background shapes. Reduce the net to a loose grey form with only a handful of widely spaced lines; reduce the shed and harbour to large simple shapes. Remove texture, grain, fine hair strands, detailed timber grain, fine net mesh, numerous objects, little folds, and tiny marks. Wide landscape 12:7. No text, border, logo, watermark, extra people, or new story objects."
+      },
+      {
+        "file": "03.webp",
+        "inputBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+        "input": "exec-5a99f832-ba30-4810-bb65-2805b708b80b.png",
+        "output": "exec-17dec373-8fb4-4f1b-b03e-17e42ea2dcbb.png",
+        "prompt": "Use case: style-transfer. Asset type: inline story illustration for a Japanese reading app. Image 1 is the edit target; Images 2–4 are approved Kasa Jizō inline style references. Keep the chapter-two scene and composition: Riku sees his aunt in the doorway of her small harbour shop beside the altered tide table. Preserve Riku, his aunt, the wall table and the insulated ice box, along with their clothing and positions. Simplify the image to match the references: broad smooth matte colour blocks, clear silhouettes, gentle contours, tiny minimal faces, very few shadows, and quiet simple background shapes. Make shelves sparse; make the tide table a plain grid with a few pencil strokes but no legible writing. Remove texture, grain, fine hair strands, detailed goods, folds, and small surface marks. Wide landscape 12:7. No text, numerals, border, logo, watermark, extra people, or new story objects."
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI image generation; Kasa Jizō was used for the simplified style and the series cover for character identity.",
+  "batch": "01a0d913-ac1f-7ed2-8352-c30c2c65f8ce",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-bde3cc8a-332a-4d98-bc26-952214bc6e15.png",
+    "02.webp": "exec-9ca56d0e-5930-4fc7-8435-0513c945afef.png",
+    "03.webp": "exec-17dec373-8fb4-4f1b-b03e-17e42ea2dcbb.png"
+  },
+  "originalPaintedImages": {
+    "01.webp": "exec-75c25935-f5fe-48fa-bfaa-054d6d5e6d0e.png",
+    "02.webp": "exec-d94925d4-99b8-4043-ac6a-6c6f7f8de852.png",
+    "03.webp": "exec-a7499977-ec06-49e1-99a4-f03417d26a15.png"
+  },
+  "simplificationPassOne": {
+    "01.webp": "exec-bcef7863-343e-42d2-9525-dd1a1705c919.png",
+    "02.webp": "exec-0028cb40-72d9-4e51-902e-ec45d93405a6.png",
+    "03.webp": "exec-8a1215ce-ae3c-4983-8a78-b408b5a194a3.png"
+  },
+  "selectedVersion": "Kasa Jizō inline style-transfer edit, 25 September 2026.",
+  "previousBatch": "01a0d7e4-835f-7530-9a62-7bc089af8319",
+  "previousSelectedImages": {
+    "01.webp": "exec-84e8f5ff-13d4-446c-b021-72a29312b15a.png",
+    "02.webp": "exec-2d9b8522-32ae-45ea-9720-e1426971a40d.png",
+    "03.webp": "exec-5a99f832-ba30-4810-bb65-2805b708b80b.png"
+  }
+}

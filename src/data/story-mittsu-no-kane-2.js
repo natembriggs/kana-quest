@@ -30,9 +30,33 @@ export const STORY = {
     "text": "An original five-chapter adventure written for Kanji Trail",
     "by": "Claude Opus 5",
     "credit": "Written by",
+    "illustrations": "Inline paintings generated with OpenAI image generation, using the chapter cover for character reference and Kasa Jizō for the simpler inline style.",
     "notes": "Original Japanese prose and English translations for level 4. A sand road that surfaces at low tide is a real landform — a tombolo — and several in Japan can be walked at the times a published tide table gives. Fog bells were genuinely used as navigational aids here: the first in Japan was installed at Shiriyazaki Lighthouse in 1877 and replaced two years later because a bell carried too poorly, and sound fog signals were later discontinued as ships’ own navigation improved. The town of Shiomi, the island, its bell and the custom of ringing it until every boat is home, the Hibari-maru and every character are invented; nothing here describes a real place or a real loss at sea. Background: Japan National Tourism Organization regional guides on tidal sand roads, and the Japanese Wikipedia article 霧信号所.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 3,
+        "src": "assets/stories/mittsu-no-kane-2/01.webp?v=cdb981fa2863c1af",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/mittsu-no-kane-2/02.webp?v=1e9d89944687a50c",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 8,
+        "src": "assets/stories/mittsu-no-kane-2/03.webp?v=b88d1110c6ea0e7c",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -6965,9 +6989,5 @@ export const STORY = {
   "hash": "13ec0fc5",
   "was": [
     "c1c7a4ed"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
