@@ -33,6 +33,10 @@ export const STORY = {
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
     "cover": "Cover generated with OpenAI image generation."
   },
+  "art": {
+    "cover": true,
+    "inline": []
+  },
   "body": [
     [
       {
@@ -11729,9 +11733,5 @@ export const STORY = {
   "hash": "86a0d492",
   "was": [
     "7b3f09ea"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -1,0 +1,17 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI image generation; the approved Kasa Jizō paintings were used for the simplified inline style and the chapter cover for Aoi's character identity and palette.",
+  "batch": "01a0da6f-7de2-7cb2-9ea7-76eec3682536",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-52494a4c-21d0-4f5d-9b33-54c143ea5ee9.png",
+    "02.webp": "exec-9e29d5ad-57b9-4a5f-a4b3-316534f701d3.png",
+    "03.webp": "exec-30daf5d9-1016-412e-8967-49a51091a8c7.png"
+  },
+  "previousSelectedImages": {
+    "01.webp": "exec-196d7169-b680-44b2-96e9-a4b934a45ccd.png",
+    "02.webp": "exec-f7d87c7f-6300-4a7e-b6bf-0a4f923f132d.png",
+    "03.webp": "exec-e0bae1d8-bbd2-45a1-8fab-ce7a2b0be2f1.png"
+  },
+  "selectedVersion": "Simplified inline paintings matching the approved Kasa Jizō style, 25 September 2026."
+}

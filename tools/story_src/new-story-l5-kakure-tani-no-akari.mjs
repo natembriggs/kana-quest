@@ -39,7 +39,11 @@ const inlineArt = [
     { after: 5, file: '02.webp' },
     { after: 8, file: '03.webp' },
   ],
-  [],
+  [
+    { after: 0, file: '01.webp' },
+    { after: 3, file: '02.webp' },
+    { after: 8, file: '03.webp' },
+  ],
 ];
 
 export const STORY_SOURCES = chapters.map((body, index) => expandStory({

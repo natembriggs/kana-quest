@@ -1,0 +1,59 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "references": [
+    { "file": "../kasa-jizou/01.webp", "role": "approved simplified inline style" },
+    { "file": "../kasa-jizou/02.webp", "role": "approved simplified inline style" },
+    { "file": "../kasa-jizou/03.webp", "role": "approved simplified inline style" },
+    { "file": "cover.webp", "role": "Aoi character identity and palette only" },
+    { "file": "../kakure-tani-no-akari-4/02.webp", "role": "paper bridge and clothing continuity only" }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Create one wide inline story illustration for chapter five of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline paintings: use their broad, smooth matte colour areas, gently imperfect contours, sparse texture, simple shadows and quiet backgrounds. Image 4 is the story cover for Aoi's identity and palette only. Image 5 is the previous chapter illustration for the established bridge and clothing only; simplify its detail to match Images 1–3. Show the first paragraph's moment on a misty riverbank at night: Aoi kneels on wet stones and offers one small cracked bronze bell on a muted red cord to Kohaku, now a small white fox. Only the tip of the fox's right ear is black. A thin warm golden light comes from the crack in the bell; behind them the wooden gate of the old riverside paper workshop stands open, and a broad white paper bridge across dark water has just turned gold as it reaches the gate. Aoi is a Japanese teenager with long dark hair tied back, ivory short-sleeved top, deep blue-grey skirt and brown shoulder bag. Keep the fox and bell clearly readable, with a few broad river, bank, house and mountain shapes. Wide landscape, about 12:7. Gentle, quiet wonder, no storm drama. No boy beside the fox, no second fox, no extra bell, no villagers, no lanterns, no lettering, text, border, logo or watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story. Create one wide inline story illustration for chapter five of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline paintings: broad, smooth matte colour areas, gently imperfect contours, sparse texture, minimal faces and folds, simple shadows and quiet layered backgrounds. Image 4 is the cover for character and palette guidance only. Image 5 is the previous chapter scene for the shape of the paper bridge and established clothing continuity only; simplify it to match Images 1–3. Show the farewell crossing from paragraph 3 at night: a gently curved white paper bridge spans a dark blue river from an old house to the near bank. Two faint, translucent villagers walk quietly toward the bank on the bridge: a woman who once dried radishes and a child carrying a simple fishing rod. On the bank, a few townspeople hold warm lanterns low and make space for them to pass. Use a small number of clear human silhouettes, with broad gold light reflected on the water and quiet mountain shapes beyond. Wide landscape, about 12:7. Warm, respectful, still, with broad smooth forms and very little detail. Keep the bridge visibly made from white paper, not wood. Do not show Aoi or Ren in foreground, no crowd, no ghostly horror, no extra bridge, no words or writing on lanterns, no lettering, text, border, logo or watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story. Create one wide inline story illustration for chapter five of The Lanterns of the Hidden Valley. Images 1–3 are the approved simple Kasa Jizō inline paintings: broad, smooth matte colour areas, gently imperfect contours, minimal texture, spare faces and folds, simple shadows, quiet backgrounds. Image 4 is the story cover for Aoi's identity and palette only. Image 5 is the previous chapter art for character and clothing continuity only; simplify it to match Images 1–3. Show the following summer on Aoi's grandmother's wooden veranda in soft daylight. Aoi, a Japanese teenager with long dark hair tied back, an ivory short-sleeved top, deep blue-grey skirt and brown shoulder bag beside her, sits next to a small child who holds a round bamboo lantern frame steady. Aoi gently shows the child how to overlap two edges of pale washi paper. One newly finished, simple round lantern rests between them; one whole panel is deliberately blank and has no name or marks. A few broad garden greens and distant blue mountains beyond the veranda. Wide landscape, about 12:7. Quiet, hopeful scene about teaching a craft forward, clean simple shapes and a few purposeful lines. No other people, no extra lanterns, no writing, lettering, text, border, logo or watermark."
+    }
+  ],
+  "initialBatch": "01a0da6f-7de2-7cb2-9ea7-76eec3682536",
+  "initialImages": {
+    "01.webp": "exec-196d7169-b680-44b2-96e9-a4b934a45ccd.png",
+    "02.webp": "exec-f7d87c7f-6300-4a7e-b6bf-0a4f923f132d.png",
+    "03.webp": "exec-e0bae1d8-bbd2-45a1-8fab-ce7a2b0be2f1.png"
+  },
+  "selectedVersion": "Simplified inline paintings matching the approved Kasa Jizō style, 25 September 2026.",
+  "finalStyleTransfer": {
+    "tool": "OpenAI built-in image-generation editing",
+    "styleReferences": ["../kasa-jizou/01.webp", "../kasa-jizou/02.webp", "../kasa-jizou/03.webp"],
+    "selectedVersion": "Kasa Jizō inline style-transfer edit, 25 September 2026.",
+    "jobs": [
+      {
+        "file": "01.webp",
+        "input": "exec-196d7169-b680-44b2-96e9-a4b934a45ccd.png",
+        "output": "exec-52494a4c-21d0-4f5d-9b33-54c143ea5ee9.png",
+        "prompt": "Use case: style-transfer. Preserve the exact scene and all characters, clothing, poses, objects and wide composition. Match the approved Kasa Jizō inline paintings: broad mostly smooth matte colour planes, gentle clean contours, clear silhouettes, minimal faces and folds, one simple shadow per surface, and quiet background shapes. Reduce individual stones, fine water ripples, foliage, roof marks and small texture. Keep the single cracked bell, red cord, white fox with only the tip of its right ear black, open gate and gold-lit white paper bridge. No added people or objects; no text, border, logo or watermark."
+      },
+      {
+        "file": "02.webp",
+        "input": "exec-f7d87c7f-6300-4a7e-b6bf-0a4f923f132d.png",
+        "output": "exec-9e29d5ad-57b9-4a5f-a4b3-316534f701d3.png",
+        "prompt": "Use case: style-transfer. Preserve the exact farewell scene and wide river composition. Keep two faint villagers walking on the broad white paper bridge—a woman carrying radishes and a child with a fishing rod—and a few townspeople holding lanterns on the near bank. Match the approved Kasa Jizō inline paintings: broad mostly smooth matte colour areas, gentle imperfect contours, simple shadows, minimal faces and folds, quiet layered background. Reduce small rocks, leaves, roof details, fine water reflections and tiny internal marks substantially. Keep the bridge visibly paper and the villagers soft and translucent. No new people, objects, writing, text, border, logo or watermark."
+      },
+      {
+        "file": "03.webp",
+        "input": "exec-e0bae1d8-bbd2-45a1-8fab-ce7a2b0be2f1.png",
+        "output": "exec-30daf5d9-1016-412e-8967-49a51091a8c7.png",
+        "prompt": "Use case: style-transfer. Preserve the exact following-summer veranda scene, people, poses, clothing, lantern craft and wide daylight composition. Match the approved Kasa Jizō inline paintings: broad mostly smooth matte colour areas, gentle clean contours, minimal faces and folds, one simple shadow per surface, quiet background shapes. Reduce fine hair, cloth, veranda boards, bamboo marks, paper grain, leaves, roof lines and small background details. Keep Aoi teaching the small child to overlap washi on a bamboo lantern frame and retain a blank unmarked lantern panel. No added people or objects, no text, border, logo or watermark."
+      }
+    ]
+  }
+}

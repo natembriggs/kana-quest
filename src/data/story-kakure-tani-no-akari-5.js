@@ -29,9 +29,33 @@ export const STORY = {
     "text": "An original five-chapter adventure written for Kanji Trail",
     "by": "GPT-6 Astra",
     "credit": "Written by",
+    "illustrations": "Inline paintings generated with OpenAI image generation, using the approved Kasa Jizō paintings for the simpler inline style and the chapter cover for Aoi and Ren character reference and palette.",
     "notes": "Original Japanese prose and English translations for level 5. Set in a fictional mountain village in Nagano during Obon. Obon, bon odori, washi craft and lantern-floating provide the cultural setting; the village, song, characters and supernatural customs are invented, not a description of a traditional religious rite. Practices vary by region. Background: Japan National Tourism Organization, “Japan in August”, “Summer traditions in Japan” and “Kiso Valley”. No published story was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/kakure-tani-no-akari-5/01.webp?v=2d8bf54d4eed8ca8",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/kakure-tani-no-akari-5/02.webp?v=103b697717edb3dd",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 8,
+        "src": "assets/stories/kakure-tani-no-akari-5/03.webp?v=23010c86c590ff19",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -10666,9 +10690,5 @@ export const STORY = {
   "hash": "f409e2ed",
   "was": [
     "67281f33"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
