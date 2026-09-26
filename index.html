@@ -1188,7 +1188,12 @@
       <div id="lesson-word" class="word-slot" hidden></div>
     </div>
     <p id="lesson-hint" class="hint">Say it out loud, then remember it — it's coming up in the quiz.</p>
-    <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
+    <!-- The lesson step appears for every study type, so keep its Next / Start
+         quiz action thumb-reachable on kana, vocabulary and kanji lessons alike.
+         Same viewport-fixed bar used by the quiz and writing result screens. -->
+    <div class="bottom-bar">
+      <button id="lesson-next" class="btn btn-primary wide" type="button">Next</button>
+    </div>
   </section>
 
   <!-- ---------------------------------------------------------------- -->

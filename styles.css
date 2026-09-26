@@ -414,6 +414,10 @@ body {
    the character instead, and the answers sit just above Next whatever the
    screen height. On a short screen the auto margin simply collapses to
    nothing and the layout behaves exactly as it did before. */
+/* The lesson's Next / Start quiz button is always visible inside its fixed
+   .bottom-bar, so leave enough scroll clearance for the tallest teach card. */
+#screen-lesson:has(#lesson-next:not([hidden])) { padding-bottom: 92px; }
+
 /* Room for the pinned #writing-result bar while it's showing (same
    reservation quiz's bottom-bar makes, and the same button/rate-row shapes)
    so the board/kanji-info above can scroll clear of it instead of sitting

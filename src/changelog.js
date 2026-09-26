@@ -11,6 +11,13 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-26',
+    changes: [
+      'New: painted illustrations now appear in chapters 1–3 of The Three Bells and chapters 4–5 of The Lanterns of the Hidden Valley.',
+      'Fixed: the Next button stays within reach while you learn, even when a character’s detail card is taller than the screen.',
+    ],
+  },
+  {
     date: '2026-09-25',
     changes: [
       'New: “📈 My progress”, next to “View set overview” on every course. It charts how many kana, kanji or words you have at each level — added, started, learning, doing well and well known — over the past week, month, year or all time, for one mode at a time. Kanji and vocabulary can show everything or one grade or level. Tap a level above the chart to show or hide its line, and tap or drag across the chart to see the numbers on any day.',
