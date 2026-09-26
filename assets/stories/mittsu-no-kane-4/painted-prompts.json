@@ -1,0 +1,46 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "references": [
+    {
+      "file": "../kasa-jizou/01.webp",
+      "role": "simple painted inline style reference"
+    },
+    {
+      "file": "../kasa-jizou/02.webp",
+      "role": "simple painted inline style reference"
+    },
+    {
+      "file": "../kasa-jizou/03.webp",
+      "role": "simple painted inline style reference"
+    },
+    {
+      "file": "cover.webp",
+      "role": "Riku and Chika identity and palette only"
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: wide inline picture-book illustration for a Japanese reading app\nInput images: Images 1–3 are the approved simple Kasa Jizō inline-art references; use only their broad painted treatment, calm shapes and gentle contours. Image 4 is only a character and palette reference for Riku and Chika; do not copy its cover detail or composition.\nPrimary request: illustrate the moment in chapter four of Three Bells when Riku and Chika learn why Mori is stranded on the island.\nScene/backdrop: Inside a small, old timber house near the island bell tower on a clear late-summer morning. The room is dim and quiet. Part of the floor has fallen away, leaving an obvious but small gap along one side.\nSubject: Mori, a Japanese man in his early fifties with short, slightly tousled dark hair and a muted charcoal-indigo jacket and trousers, sits safely against a wall with one ankle extended, explaining that he twisted it. Riku, a thirteen-year-old Japanese boy with short dark hair, pale grey shirt, dark shorts and black backpack, and Chika, a Japanese girl of similar age with a dark ponytail, rust-orange top and light neutral skirt, listen nearby. Keep their established designs from Image 4. Show exactly these three people; their faces are small and simply expressive.\nStyle/medium: simple painted storybook art matching Images 1–3: broad smooth matte colour areas, gentle contours, simple clear silhouettes, minimal faces and folds, very little texture, one or two quiet shadows.\nComposition/framing: wide 12:7 landscape, medium-wide view with the three figures grouped on intact floor to one side, the damaged floor visible but not dominant; uncluttered room with a small bright doorway edge.\nLighting/mood: soft morning light from the entrance; thoughtful, slightly uneasy, safe and child-appropriate.\nColor palette: warm ivory light, muted teal-grey shadows, weathered brown timber, sage and indigo, restrained terracotta on Chika.\nConstraints: Keep the floor damage modest and the figures safely away from it. Preserve the supplied characters' clothing and age. No photograph or letter yet; no other people; no second house or extra bell.\nAvoid: rich cover-level detail, grain, fine wood marks, detailed floor debris, threatening expressions, injury close-up, gore, dramatic collapse, extra characters, text, readable writing, numerals, border, logo, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: wide inline picture-book illustration for a Japanese reading app\nInput images: Images 1–3 are the approved simple Kasa Jizō inline-art references; use only their broad painted treatment, calm shapes and gentle contours. Image 4 is only a character and palette reference for the modern story; do not copy its composition.\nPrimary request: illustrate the memory Mori tells in chapter four of Three Bells: forty years ago, his father's boat turned toward the island bell after three strikes in a storm.\nScene/backdrop: Night on a rocky Japanese coast in an old-fashioned but ordinary fishing town, forty years earlier. Dark sea, a few broad wave shapes and two simple low rocks; the distant wooded island holds a small timber bell tower.\nSubject: one modest wooden fishing boat, still afloat and intact, turns toward the island's single bell tower. One small adult fisherman silhouette at the helm is seen from behind. Show exactly one bell under the tower roof; suggest its three strikes with three faint, simple curved sound ripples visible against the dark sky.\nStyle/medium: simple painted picture-book art matching Images 1–3: broad smooth matte colour areas, gentle clean contours, minimal surface texture, restrained shadows and a quiet simplified background.\nComposition/framing: wide 12:7 landscape, boat in the lower right moving toward the small island tower at upper left; open dark water separates them; readable at phone width.\nLighting/mood: a stormy, nearly moonless night, solemn and tense but child-appropriate; the distant bell and sound ripples are subtle focal points.\nColor palette: midnight indigo and muted teal sea, charcoal rocks and sky, a few warm ivory accents on the boat and sound ripples, muted sage island.\nConstraints: This is a memory of the moment the father hears the signal and turns toward it. Keep the boat intact and at sea; no aftermath, no wreck, no drowning or people in the water. Exactly one boat, one tower, one bell, one small helmsman silhouette; no modern items.\nAvoid: cover-level detail, grain, individual wave highlights, lightning, huge waves, perilous action, broken boat, multiple bells, extra boats, extra people, ghosts, text, numerals, lettering, border, logo, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story\nAsset type: wide inline picture-book illustration for a Japanese reading app\nInput images: Images 1–3 are the approved simple Kasa Jizō inline-art references; use only their broad painted treatment, calm shapes and gentle contours. Image 4 is only a character and palette reference for Riku and Chika; do not copy its cover detail or composition.\nPrimary request: illustrate the closing moment of chapter four of Three Bells, when the first hard gust comes and the island bell moves just a little.\nScene/backdrop: The small wooded island near Shiomi in the morning. The sky over it has suddenly darkened; the surrounding sea has shifted from grey to deep indigo. Wind moves through the trees and grass.\nSubject: In the foreground, Riku, a thirteen-year-old Japanese boy with short dark hair, pale grey shirt, dark shorts and black backpack; Chika, a Japanese girl with a dark ponytail, rust-orange top and light neutral skirt; and Mori, a Japanese man in his early fifties with short dark hair and muted charcoal-indigo jacket and trousers, all look toward the timber tower. Keep Riku and Chika consistent with Image 4. Atop the island, exactly one large dark bell hangs beneath the tower roof and has only begun to tilt slightly in the gust; the rope remains visibly broken and short.\nStyle/medium: simple painted storybook art matching Images 1–3: broad smooth matte colour areas, gentle contours, minimal faces and folds, quiet simplified background, very little texture.\nComposition/framing: wide 12:7 landscape, all three figures small but readable at the lower left, island tower and single bell clearly visible at upper right, broad sea and darkening sky as simple shapes.\nLighting/mood: sudden wind and a serious turning point, atmospheric but child-appropriate, no lightning or catastrophe.\nColor palette: muted teal-grey sea changing to midnight indigo, sage trees, charcoal-indigo clouds, warm ivory remaining at the horizon, restrained terracotta accent on Chika.\nConstraints: Show one tower and one bell only, its movement barely perceptible and not yet ringing. Keep the three people together, safe on the island. Show no boats or rescue; this is the suspenseful end of chapter four.\nAvoid: cover-level detail, grain, fine leaves, repeated wave highlights, rain, lightning, huge waves, flood, bell ringing, sound waves, new ropes, extra people, extra towers or bells, text, numerals, lettering, border, logo, watermark."
+    }
+  ],
+  "edits": [
+    {
+      "file": "03.webp",
+      "reference": "exec-4bd27b0b-70af-44e9-a278-3b637593166a.png",
+      "prompt": "Use case: precise-object-edit\nAsset type: wide inline story illustration for a Japanese reading app\nInput images: Image 1 is the edit target.\nPrimary request: remove the black backpack from Mori, the tall adult figure on the far left, and restore his jacket naturally.\nConstraints: Change only Mori's backpack. Continue the muted charcoal-indigo jacket across his back and shoulders, with a natural jacket silhouette and no strap or bag. Keep Riku's black backpack exactly as it is. Keep Chika, Mori, Riku, their poses, faces, bodies, clothing colours, proportions and positions unchanged. Keep the tower, one slightly tilting bell, island, sea, rocks, sky, wind and all other pixels of the scene as close to the original as possible. Preserve the wide framing, painterly treatment and lighting.\nAvoid: removing or altering Riku's backpack; changing any person's identity or pose; adding any object; changing the bell, tower, sea or weather; text, border, logo or watermark."
+    }
+  ],
+  "selectedVersion": "Chapter-four scenes generated and selected; the third scene was edited to remove a stray backpack from Mori."
+}

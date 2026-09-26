@@ -1,0 +1,15 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI image generation, using the approved Kasa Jizō inline paintings for simple painted style and the Three Bells cover for character identity and palette.",
+  "batch": "01a0dcc5-8ab8-75e0-bb63-7e09e5847065",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-f155e5eb-7670-49b5-a33b-9cc64afa1870.png",
+    "02.webp": "exec-2878adef-ac73-4238-b910-1dccc5ee16a8.png",
+    "03.webp": "exec-468dca35-04db-4f60-87cd-a92adda19ede.png"
+  },
+  "originalPaintedImages": {
+    "03.webp": "exec-4bd27b0b-70af-44e9-a278-3b637593166a.png"
+  },
+  "selectedVersion": "Kasa Jizō simplified inline art treatment for Three Bells chapter four, 26 September 2026."
+}
