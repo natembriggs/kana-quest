@@ -132,6 +132,10 @@
   "from": "L1",
   "note": "the grasshopper of the fable; written in kana because L1 has no katakana"
  },
+ "くるまる": {
+  "from": "L6",
+  "note": "natural verb for wrapping oneself up in a blanket or jacket"
+ },
  "こうして": {
   "from": "L5",
   "note": "everyday kana word or expression"
@@ -220,6 +224,10 @@
   "from": "L5",
   "note": "everyday kana word or expression"
  },
+ "そのとき": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
  "その代わり": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
@@ -296,6 +304,10 @@
   "from": "L3",
   "note": "set phrase built from common words"
  },
+ "ねえ": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
  "のどがかわく": {
   "from": "L1",
   "note": "set phrase built from common words"
@@ -311,6 +323,14 @@
  "ひざをつく": {
   "from": "L4",
   "note": "set phrase built from common words"
+ },
+ "ひとつずつ": {
+  "from": "L6",
+  "note": "everyday kana word or expression"
+ },
+ "ふっと": {
+  "from": "L6",
+  "note": "common mimetic adverb"
  },
  "ふりをする": {
   "from": "L4",
@@ -347,6 +367,10 @@
  "もう一回": {
   "from": "L2",
   "note": "everyday spoken phrase (\"one more time\"); more natural in a child-facing request than もう一度"
+ },
+ "もう無理": {
+  "from": "L6",
+  "note": "everyday casual phrase, 'I can't any more'"
  },
  "もどってくる": {
   "from": "L4",
@@ -476,6 +500,10 @@
   "from": "L5",
   "note": "loanword, normal in katakana"
  },
+ "リュック": {
+  "from": "L6",
+  "note": "everyday loanword for a backpack"
+ },
  "リンゴ": {
   "from": "L5",
   "note": "everyday word; katakana is normal"
@@ -515,6 +543,10 @@
  "三つ目": {
   "from": "L6",
   "note": "number or time expression"
+ },
+ "三十分": {
+  "from": "L6",
+  "note": "number + minutes counter; ordinary"
  },
  "中ほど": {
   "from": "L6",
@@ -684,6 +716,10 @@
   "from": "L3",
   "note": "set phrase built from common words"
  },
+ "山岳部": {
+  "from": "L6",
+  "note": "ordinary name of a school mountaineering club"
+ },
  "巻きつく": {
   "from": "L6",
   "note": "compound of common words"
@@ -780,6 +816,10 @@
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
  },
+ "救助隊": {
+  "from": "L6",
+  "note": "standard word for a rescue team, as police and news use it"
+ },
  "数か月": {
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
@@ -787,6 +827,10 @@
  "数日後": {
   "from": "L4",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "数歩": {
+  "from": "L6",
+  "note": "common counter expression, 'a few steps'"
  },
  "数週間": {
   "from": "L5",
@@ -968,6 +1012,22 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "登山口": {
+  "from": "L6",
+  "note": "story-critical mountain term (trailhead); the everyday word for it"
+ },
+ "登山届": {
+  "from": "L6",
+  "note": "story-critical: the hiking-plan form Daiki skips; standard term in Japanese mountain-safety notices"
+ },
+ "登山道": {
+  "from": "L6",
+  "note": "story-critical mountain term (the marked hiking trail); everyday word on any Japanese trail sign"
+ },
+ "登山靴": {
+  "from": "L6",
+  "note": "ordinary word for hiking boots; sets up the trainers that slip"
+ },
  "目がさめる": {
   "from": "L4",
   "note": "set phrase built from common words"
@@ -1132,6 +1192,10 @@
   "from": "L4",
   "note": "ordinary word; natural and fine at this level"
  },
+ "言うとおり": {
+  "from": "L6",
+  "note": "common set phrase, 'just as (someone) says'"
+ },
  "言葉を失う": {
   "from": "L4",
   "note": "set phrase built from common words"
@@ -1151,6 +1215,10 @@
  "足を止める": {
   "from": "L4",
   "note": "set phrase built from common words"
+ },
+ "足元": {
+  "from": "L6",
+  "note": "everyday word for the ground underfoot"
  },
  "踏みしめる": {
   "from": "L6",
@@ -1255,6 +1323,10 @@
  "頭を下げる": {
   "from": "L5",
   "note": "set phrase built from common words"
+ },
+ "顔をしかめる": {
+  "from": "L6",
+  "note": "common set phrase for wincing"
  },
  "顔を上げる": {
   "from": "L4",
