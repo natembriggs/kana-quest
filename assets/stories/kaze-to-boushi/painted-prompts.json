@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained detail and warm colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kaze-to-boushi/cover.webp",
+      "role": "Taro's character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: first wide inline picture-book painting for a Japanese graded-reading story\nPrimary request: show a strong wind blowing Taro's red hat into a tall park tree while he watches from below.\nScene/backdrop: A neighbourhood park on a breezy day, a large leafy tree, a simple path and quiet distant greenery.\nSubject: Taro is a small Japanese boy with tousled dark hair, a mustard-yellow jacket over a pale shirt, blue trousers and simple light shoes, matching the story cover's character and palette. His red hat has just caught on a high branch; he reaches up toward it. A few leaves blow across the scene.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, restrained detail and a quiet background.\nComposition/framing: wide landscape around 12:7; show Taro, the high tree branch and red hat clearly in one readable scene at phone width, without copying the cover composition.\nLighting/mood: bright, breezy daytime, a little surprising but cheerful.\nColor palette: warm ivory light, sage and muted green leaves, ochre-mustard jacket, soft blue trousers and one clear terracotta-red hat.\nConstraints: one boy and one red hat, original child-appropriate design, natural proportions; Taro's head is bare because the hat has blown away.\nAvoid: additional people, a second hat, dangerous climbing, a storm, text, lettering, labels, title, border, logo, watermark, dense leaf texture, photorealism."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: second wide inline picture-book painting for a Japanese graded-reading story\nPrimary request: show a tall older girl reaching the red hat down from the high branch for small Taro.\nScene/backdrop: The same leafy neighbourhood park and tall tree on a breezy day.\nSubject: Taro, the small boy with tousled dark hair, mustard-yellow jacket, pale shirt, blue trousers and light shoes, waits beneath the branch and looks up. A taller Japanese girl who has just arrived stands beside him; she has simple dark hair and modest sage and warm-ivory clothes. She reaches up naturally and takes Taro's red hat from the low end of the branch, ready to pass it down. The hat is no longer on Taro's head.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, restrained detail and a quiet background. Keep Taro's design consistent with the first scene.\nComposition/framing: wide landscape around 12:7; show both children, the branch and the red hat clearly, with the girl visibly taller than Taro; natural child proportions and a calm two-layer park background; do not copy the cover composition.\nLighting/mood: gentle bright daylight, kind and helpful.\nColor palette: warm ivory light, sage and muted green leaves, Taro's ochre jacket and blue trousers, the girl's muted sage and ivory clothes, one clear terracotta-red hat.\nConstraints: one small boy, one taller girl, one red hat; the girl reaches from the ground and does not climb; child-appropriate, no lettering.\nAvoid: extra people, multiple hats, a ladder or dangerous climbing, strong storm, text, labels, title, border, logo, watermark, photorealism, dense leaf texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: third wide inline picture-book painting for a Japanese graded-reading story\nPrimary request: show Taro wearing the red hat again and holding it on with one hand because the wind is still strong.\nScene/backdrop: The same neighbourhood park, with the tall tree and a few leaves moving in the wind.\nSubject: Taro, the small boy with tousled dark hair, mustard-yellow jacket, pale shirt, blue trousers and light shoes, now wears his red hat and keeps one hand gently on it. His expression is relieved and happy. The hat stays securely on his head. A few leaves stream across the background; the older girl may stand quietly nearby, but Taro remains the clear focus.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture and restrained detail. Keep Taro's design consistent with the earlier scenes.\nComposition/framing: wide landscape around 12:7, medium-wide view of Taro from head to knees with the red hat and hand clearly visible; simple park background; do not copy the cover composition.\nLighting/mood: bright daytime, warm and reassuring.\nColor palette: warm ivory daylight, sage and muted green leaves, ochre-mustard jacket, soft blue trousers and one clear terracotta-red hat.\nConstraints: one red hat, worn by Taro and held in place by his own hand; natural child proportions and child-appropriate original design.\nAvoid: hat flying away again, duplicate hats, danger, extra people as focal subjects, text, lettering, labels, title, border, logo, watermark, photorealism, dense texture."
+    }
+  ]
+}

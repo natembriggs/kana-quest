@@ -26,7 +26,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for Taro’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/kaze-to-boushi/01.webp?v=1c679ef6b588d027",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/kaze-to-boushi/02.webp?v=892b7ce9f554b26e",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/kaze-to-boushi/03.webp?v=8ba3766ce6d16193",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -1057,9 +1081,5 @@ export const STORY = {
   "hash": "5411b86f",
   "was": [
     "9dfa8a45"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

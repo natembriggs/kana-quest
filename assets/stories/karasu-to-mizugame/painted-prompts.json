@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/karasu-to-mizugame/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: first wide inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the crow discovering that the water in the garden jar is too low for its beak to reach.\nScene/backdrop: A quiet sun-warmed garden on a very hot day, with pale dry earth, a few leaves and simple distant greenery.\nSubject: One large black crow with a softly rounded dark indigo-black body, small dark eye and long curved black beak looks down into a tall terracotta water jar. The jar contains only a little water at the very bottom; the crow's beak cannot reach it. Keep the crow's recognisable silhouette and palette from the story cover, but use the simpler inline treatment.\nStyle/medium: softly painted children's storybook gouache following the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, restrained detail and a quiet background.\nComposition/framing: wide landscape around 12:7, medium-wide view with the crow and complete jar clearly visible at phone width; the low water level is understandable without any labels; do not copy the cover composition.\nLighting/mood: bright, warm summer daylight; thirsty and thoughtful, not distressed.\nColor palette: deep muted indigo-black crow, terracotta and warm ochre jar, warm ivory ground, a few sage green leaves and a quiet blue-green distance.\nConstraints: show only one crow and one large clay jar; the water stays low and visibly out of reach. Original illustration, natural bird anatomy, child-appropriate.\nAvoid: stones in the jar, drinking, extra birds or people, human hands or clothing, text, lettering, labels, title, border, logo, watermark, dense texture, photorealism."
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: second wide inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the crow's clever solution: it drops small stones into the heavy jar, making the low water rise toward the rim.\nScene/backdrop: The same warm garden on the hot day, with pale earth and a quiet wash of sage green in the distance.\nSubject: The same large black crow with a muted indigo sheen and long curved beak studies the terracotta jar. A few rounded small stones are visible inside the jar beneath the water, and one more stone is just falling from the crow's beak. The water now stands high near the rim, showing that it rose; the crow has not started drinking yet.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows and restrained detail. Keep the crow and jar design consistent with the first scene.\nComposition/framing: wide landscape around 12:7, medium-wide view; crow, jar, falling stone, and high water line all clearly legible at phone width, simple background; do not copy the cover composition.\nLighting/mood: warm summer daylight; focused, hopeful discovery.\nColor palette: deep muted indigo-black crow, terracotta and ochre jar, warm ivory ground, soft teal-blue water, restrained sage greenery.\nConstraints: one crow, one jar; natural bird anatomy; water near the top because stones have raised it. Child-appropriate, original illustration.\nAvoid: drinking, overflowing or spilled water, a jar being pushed or tilted, extra birds or people, hands, clothing, text, lettering, labels, title, border, logo, watermark, dense texture, photorealism."
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: third wide inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the crow finally drinking the water it raised to the top of the jar, relieved and happy.\nScene/backdrop: The same quiet garden in warm summer daylight, with pale ground and only a few simple leaves and distant greens.\nSubject: One large black crow with a muted indigo sheen bends its long curved beak to drink from the now-full terracotta water jar. Its posture is relaxed and its small dark eye looks content. A few rounded stones may be just visible beneath the high water surface, but the drinking crow is the focus.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, restrained detail. Keep the crow and jar recognisable and consistent with the two earlier scenes.\nComposition/framing: wide landscape around 12:7, medium-wide view; show the crow's beak meeting the high water and the jar clearly, with the whole crow readable at phone width; quiet uncluttered garden; do not copy the cover composition.\nLighting/mood: warm clear summer daylight, calm satisfaction.\nColor palette: deep muted indigo-black crow, terracotta and ochre jar, warm ivory earth, soft teal-blue water, a few sage green leaves.\nConstraints: one crow, one jar, natural bird anatomy, child-appropriate; water is high enough to drink.\nAvoid: extra birds or people, spilled or overflowing water, a second water vessel, human clothing, text, lettering, labels, title, border, logo, watermark, dense texture, photorealism."
+    }
+  ]
+}

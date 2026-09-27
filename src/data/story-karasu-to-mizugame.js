@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition. The crow is written in hiragana rather than the usual katakana カラス, since a first-level story is read entirely in hiragana.",
     "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/karasu-to-mizugame/01.webp?v=ca5c5686a0bb12ac",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/karasu-to-mizugame/02.webp?v=2a30724418b83908",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 4,
+        "src": "assets/stories/karasu-to-mizugame/03.webp?v=9425ee6819cd3ec9",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "からす",
@@ -1160,9 +1184,5 @@ export const STORY = {
   "hash": "affc903e",
   "was": [
     "57d9fab3"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/ari-to-kirigirisu/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate paragraph one of “The Ant and the Grasshopper”: a cheerful green grasshopper sings in a summer meadow while a small brown ant carries food home.\nScene/backdrop: Warm summer grassland with a few tall grasses and small white flowers; distant fields stay quiet and simplified.\nSubject: Keep both insect characters recognisable and consistent with the story cover: a green grasshopper with long curved antennae and folded angular hind legs; a small dark reddish-brown ant carrying one golden seed. The grasshopper sings with a gently open mouth. Show no instrument, since none is in the text.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, a few soft shadows, restrained detail.\nComposition/framing: landscape around 12:7; one clear focal scene with the grasshopper and ant both large enough to read at phone width, natural insect proportions, a simple two-layer meadow background; do not copy the cover composition.\nLighting/mood: clear warm summer daylight, calm and inviting.\nColor palette: fresh muted sage and meadow greens, warm ivory light, ochre seed and grass, soft blue-green distance; restrained terracotta accents only if natural.\nConstraints: represent the opening paragraph faithfully; the ant is working while the grasshopper sings. Original character design, child-appropriate, no human clothing, no instrument.\nAvoid: extra insects, anthropomorphic human hands, musical notation, lettering, labels, title, border, logo, watermark, dense grass texture, photorealism."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate paragraph two of “The Ant and the Grasshopper”: winter has arrived, and the outdoors is very cold after the grasshopper ignored the ant's warning.\nScene/backdrop: A quiet winter meadow, pale snow and frost on low grasses, a small rounded anthill with a simple dark doorway in the distance.\nSubject: The same small green grasshopper character: rounded green head, long curved antennae, folded angular hind legs, no clothes. It is outside beside the frosted grass, body slightly hunched and antennae lowered against the cold, alert but unharmed. The dark reddish-brown ant is only a small, safe silhouette just inside the burrow entrance; do not show food or the later reunion.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, a few soft shadows, restrained detail. Keep the grasshopper's character design consistent with the opening painting.\nComposition/framing: landscape around 12:7, one clear focal scene, grasshopper prominent but not oversized, small anthill and sparse winter meadow behind; readable at phone width and not a copy of the cover composition.\nLighting/mood: crisp muted winter daylight, quiet and chilly but child-appropriate.\nColor palette: cool blue-grey and muted indigo shadows, warm ivory snow, subdued sage stems, a tiny ochre patch of earth near the burrow.\nConstraints: show winter cold without danger or distress; natural insect anatomy and scale; no clothing, no instrument, no legible text.\nAvoid: shared meal, food, extra insects or people, harsh blizzard, ice crystals rendered in tiny detail, photorealism, lettering, labels, title, border, logo, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: third wide inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate paragraph three of “The Ant and the Grasshopper”: the hungry grasshopper asks the ant for food, the ant shares, and they eat together.\nScene/backdrop: A small, welcoming chamber in the ant's earthen home during winter. Soft rounded earth walls, a simple burrow opening with faint cool snow outside, and a few stored grains kept tidy and sparse.\nSubject: The same green grasshopper from the previous paintings, with a rounded head, long antennae and folded angular hind legs, sits with the small dark reddish-brown ant. The ant offers a golden seed or a few grain pieces, and both eat together with gentle, relieved expressions. Use simple expressive insect forelegs, not human hands.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows, quiet simplified background. Keep both character designs consistent with the earlier scenes.\nComposition/framing: landscape around 12:7, medium-wide view at insect height; show both friends and the shared food clearly, with the warm burrow opening behind them; uncluttered and readable at phone width.\nLighting/mood: warm soft amber light inside against cool winter light at the entrance; kind, calm and welcoming.\nColor palette: warm ochre earth, muted terracotta and ivory highlights, the same sage green grasshopper, dark reddish-brown ant, restrained cool indigo-blue outside.\nConstraints: depict the text's shared meal faithfully; natural insect scale and anatomy, child-appropriate, no clothes or utensils.\nAvoid: more insects, people, human furniture, elaborate food spread, the grasshopper alone, any threat or shame, legible text, lettering, labels, title, border, logo, watermark, photorealism."
+    }
+  ]
+}

@@ -14,7 +14,10 @@ const theStory = expandStory({
     credit: 'Retold by',
     notes: 'An original beginner-level retelling of the ancient fable, written without reference to a specific edition. The crow is written in hiragana rather than the usual katakana カラス, since a first-level story is read entirely in hiragana.',
     licence: 'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for character identity and palette.',
   },
+  // The low water, the crow's stone solution, and its successful drink.
+  art: { inline: [{ after: 1, file: '01.webp' }, { after: 3, file: '02.webp' }, { after: 4, file: '03.webp' }] },
   nw: ['からす', '水がめ', 'くちばし', '石'],
   lexicon: lexicon({
     'ある': ['a certain, one', 'adj'],

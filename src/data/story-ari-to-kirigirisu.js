@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition.",
     "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/ari-to-kirigirisu/01.webp?v=fcdc1bcab0a2e1b9",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/ari-to-kirigirisu/02.webp?v=ee004543cc16ea5e",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/ari-to-kirigirisu/03.webp?v=f061818c3b27eaf4",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "きりぎりす",
@@ -1138,9 +1162,5 @@ export const STORY = {
   "hash": "f8c5c699",
   "was": [
     "6f8ed185"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

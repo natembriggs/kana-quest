@@ -16,7 +16,10 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for Taro’s character identity and palette.',
   },
+  // Hat caught in the tree, help from the tall girl, then Taro holds it on.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   lexicon: lexicon({
     'たろう': ['Taro', 'pn'],
     '今[きょ]日[う]': ['today', 'n'],

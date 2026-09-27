@@ -14,7 +14,10 @@ const antAndGrasshopper = expandStory({
     credit: 'Retold by',
     notes: 'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
     licence: 'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style and the story cover for character identity and palette.',
   },
+  // Summer work, winter cold, then the ant shares food; one scene per paragraph.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   nw: ['きりぎりす', '蟻', '草', '運ぶ'],
   lexicon: lexicon({
     '夏[なつ]': ['summer', 'n'],
