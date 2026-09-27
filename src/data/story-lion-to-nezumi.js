@@ -4,7 +4,7 @@
 export const STORY = {
   "id": "lion-to-nezumi",
   "title": {
-    "ja": "ししとねずみ",
+    "ja": "ライオンとねずみ",
     "en": "The Lion and the Mouse"
   },
   "series": null,
@@ -39,7 +39,7 @@ export const STORY = {
     ]
   },
   "nw": [
-    "しし",
+    "ライオン",
     "ねずみ",
     "網",
     "助ける"
@@ -79,10 +79,10 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -205,10 +205,10 @@ export const STORY = {
         "en": "The lion woke up.",
         "t": [
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -406,10 +406,10 @@ export const STORY = {
         "en": "The lion laughed.",
         "t": [
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -541,10 +541,10 @@ export const STORY = {
             "g": null
           },
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -601,10 +601,10 @@ export const STORY = {
         "en": "The lion called loudly.",
         "t": [
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -855,10 +855,10 @@ export const STORY = {
         "en": "The lion became free.",
         "t": [
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -969,10 +969,10 @@ export const STORY = {
             "g": "and / with — joins nouns, or marks a quote"
           },
           {
-            "s": "しし",
-            "k": "しし",
+            "s": "ライオン",
+            "k": "ライオン",
             "ruby": null,
-            "d": "しし",
+            "d": null,
             "pos": "n",
             "g": "lion"
           },
@@ -1011,8 +1011,9 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "16d7ee2a",
+  "hash": "463ce6cc",
   "was": [
-    "8415b708"
+    "8415b708",
+    "16d7ee2a"
   ]
 };

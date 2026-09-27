@@ -99,14 +99,14 @@ export const STORIES = {
   },
   "lion-to-nezumi": {
     "title": {
-      "ja": "ししとねずみ",
+      "ja": "ライオンとねずみ",
       "en": "The Lion and the Mouse"
     },
     "series": null,
     "level": "L1",
     "gram": "G1",
     "blurb": "A lion spares a tiny mouse and later discovers that help can come from anyone.",
-    "hash": "16d7ee2a",
+    "hash": "463ce6cc",
     "length": 88,
     "paras": 2,
     "cover": true,

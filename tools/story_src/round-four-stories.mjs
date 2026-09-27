@@ -6,7 +6,7 @@ const SOL_SOURCE = (text, notes) => ({
 });
 
 const lionAndMouse = expandStory({
-  id: 'lion-to-nezumi', title: { ja: 'ししとねずみ', en: 'The Lion and the Mouse' }, series: null,
+  id: 'lion-to-nezumi', title: { ja: 'ライオンとねずみ', en: 'The Lion and the Mouse' }, series: null,
   level: 'L1', gram: 'G1',
   blurb: 'A lion spares a tiny mouse and later discovers that help can come from anyone.',
   source: {
@@ -15,10 +15,10 @@ const lionAndMouse = expandStory({
   },
   // The lion releases the mouse, then the mouse frees the lion; one scene per paragraph.
   art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }] },
-  nw: ['しし', 'ねずみ', '網', '助ける'],
+  nw: ['ライオン', 'ねずみ', '網', '助ける'],
   lexicon: lexicon({
     'でも': ['but, however', 'adv'],
-    '森[もり]': ['forest', 'n'], 'しし': ['lion', 'n'], '眠[ねむ]っていました': ['was sleeping', 'v', { df: '眠る', cf: 'polite past progressive' }],
+    '森[もり]': ['forest', 'n'], 'ライオン': ['lion', 'n'], '眠[ねむ]っていました': ['was sleeping', 'v', { df: '眠る', cf: 'polite past progressive' }],
     '小[ちい]さな': ['small', 'adj'], 'ねずみ': ['mouse', 'n'], '背[せ]中[なか]': ['back', 'n'], '走[はし]りました': ['ran', 'v', { df: '走る', cf: 'polite past' }],
     '目[め]を覚[さ]ましました': ['woke up', 'v', { df: '目を覚ます', cf: 'polite past' }], 'つかまえました': ['caught', 'v', { df: 'つかまえる', cf: 'polite past' }],
     '食[た]べないで': ['please do not eat', 'v', { df: '食べる', cf: 'te-form negative request' }], 'いつか': ['someday', 'adv'], '助[たす]けます': ['will help', 'v', { df: '助ける', cf: 'polite present' }], '言[い]いました': ['said', 'v', { df: '言う', cf: 'polite past' }],
@@ -32,22 +32,22 @@ const lionAndMouse = expandStory({
   }),
   body: [
     [
-    line('森[もり]|で|、|しし|が|眠[ねむ]っていました|。', 'A lion was sleeping in the forest.'),
+    line('森[もり]|で|、|ライオン|が|眠[ねむ]っていました|。', 'A lion was sleeping in the forest.'),
     line('小[ちい]さな|ねずみ|が|背[せ]中[なか]|を|走[はし]りました|。', 'A little mouse ran across his back.'),
-    line('しし|は|目[め]を覚[さ]ましました|。', 'The lion woke up.'),
+    line('ライオン|は|目[め]を覚[さ]ましました|。', 'The lion woke up.'),
     line('ねずみ|を|つかまえました|。', 'He caught the mouse.'),
     line('「|食[た]べないで|。|いつか|助[たす]けます|」|と|ねずみ|は|言[い]いました|。', '“Please do not eat me. Someday I will help you,” said the mouse.'),
-    line('しし|は|笑[わら]いました|。', 'The lion laughed.'),
+    line('ライオン|は|笑[わら]いました|。', 'The lion laughed.'),
     line('でも|、|ねずみ|を|逃[に]がしました|。', 'But he let the mouse go.'),
     ],
     [
-    line('何[なん]日[にち]か後[ご]|、|しし|は|網[あみ]|に|かかりました|。', 'Several days later, the lion was caught in a net.'),
-    line('しし|は|大[おお]きな|声[こえ]|で|呼[よ]びました|。', 'The lion called loudly.'),
+    line('何[なん]日[にち]か後[ご]|、|ライオン|は|網[あみ]|に|かかりました|。', 'Several days later, the lion was caught in a net.'),
+    line('ライオン|は|大[おお]きな|声[こえ]|で|呼[よ]びました|。', 'The lion called loudly.'),
     line('ねずみ|は|声[こえ]|を|聞[き]きました|。', 'The mouse heard him.'),
     line('急[いそ]いで|来[き]ました|。', 'It came quickly.'),
     line('歯[は]|で|網[あみ]|を|切[き]りました|。', 'It cut the net with its teeth.'),
-    line('しし|は|自[じ]由[ゆう]になりました|。', 'The lion became free.'),
-    line('「|小[ちい]さな|友[とも]だち|、|ありがとう|」|と|しし|は|言[い]いました|。', '“Thank you, my little friend,” said the lion.'),
+    line('ライオン|は|自[じ]由[ゆう]になりました|。', 'The lion became free.'),
+    line('「|小[ちい]さな|友[とも]だち|、|ありがとう|」|と|ライオン|は|言[い]いました|。', '“Thank you, my little friend,” said the lion.'),
     ],
   ],
 });
