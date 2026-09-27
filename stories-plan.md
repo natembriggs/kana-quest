@@ -142,14 +142,14 @@ checks (§4.6).
 
 ### 2.2 The ladder
 
-| Level | Shown as | Vocabulary allowed | Grammar tier | Sentence length | Episode length | Katakana |
-| --- | --- | --- | --- | --- | --- | --- |
-| **L1** | First steps | Core (`C1`–`C6`) only | ≤ G1 | ≤ 8 tokens | 8–15 sentences | none |
-| **L2** | Getting going | + themes 1.x–2.x, `lv:'f'` | ≤ G2 | ≤ 12 | 15–25 | ≤ 4 words |
-| **L3** | Everyday | + all `lv:'f'` | ≤ G3 | ≤ 16 | 25–40 | unrestricted |
-| **L4** | Wider world | + all `lv:'h'` | ≤ G4 | ≤ 22 | 40–60 | unrestricted |
-| **L5** | Confident | + all `lv:'a'` | ≤ G5 | unrestricted | 60–120 | unrestricted |
-| **L6** | Unabridged | unrestricted | ≤ G6 | — | a real chapter | unrestricted |
+| Level | Shown as | Vocabulary allowed | Grammar tier | Sentence length | Episode length |
+| --- | --- | --- | --- | --- | --- |
+| **L1** | First steps | Core (`C1`–`C6`) only | ≤ G1 | ≤ 8 tokens | 8–15 sentences |
+| **L2** | Getting going | + themes 1.x–2.x, `lv:'f'` | ≤ G2 | ≤ 12 | 15–25 |
+| **L3** | Everyday | + all `lv:'f'` | ≤ G3 | ≤ 16 | 25–40 |
+| **L4** | Wider world | + all `lv:'h'` | ≤ G4 | ≤ 22 | 40–60 |
+| **L5** | Confident | + all `lv:'a'` | ≤ G5 | unrestricted | 60–120 |
+| **L6** | Unabridged | unrestricted | ≤ G6 | — | a real chapter |
 
 Cumulative, like the vocab tiers themselves: L3 means "L2 and more", never
 "instead of L2".
@@ -161,15 +161,17 @@ Same for length: over the maximum is an error, under the minimum is a warning,
 because a tight complete tale two sentences short of its band beats the two
 sentences of padding a hard error would ask for.
 
-The katakana column counts **distinct words, not characters** — シンデレラ
-fifteen times is one word to learn. Above L2 there is deliberately no floor
-either: katakana practice is a property of the corpus, not a tax on every
-story, and the build reports per-level coverage rather than enforcing it
-(§4.6). The rule this replaced required twelve katakana *characters* in every
-L3-and-above story, which is the reason there is not one Japanese folk tale
-above L2 in the shipped corpus — it would have failed the build on principle.
-Katakana below L3 is readable because §5.6 renders it with hiragana ruby until
-the learner has met its characters.
+**Script is not part of the ladder.** Katakana is allowed at every level,
+on the same terms as any other word: use it where Japanese uses it. It used
+to have a column here — none at L1, four distinct words at L2, and before
+that a *minimum* of twelve katakana characters in every L3+ story — and each
+version made the corpus worse. The minimum kept every Japanese folk tale out
+of L3; the cap had the L1 Lion and the Mouse call its lion しし rather than
+ライオン, trading a word every English speaker already knows for one no
+Japanese child says. Katakana is readable at every level because §5.6 renders
+it with hiragana ruby, and that ruby never hides by exposure until the learner
+starts katakana. The build reports per-level katakana coverage rather than
+enforcing anything (§4.6).
 
 The `K*` kanji-words group (`vocab-plan.md` §13) is deliberately **not** part
 of any level's allowance. It is a bonus group assembled from example words on
@@ -183,7 +185,7 @@ a build-time check can actually verify (§4.6). Each is cumulative.
 
 | Tier | Adds |
 | --- | --- |
-| **G1** | です/ます/ました/ません, は を に で と も, い- and な-adjectives in predicate position, あります/います, numbers and counters. One clause per sentence. |
+| **G1** | です/ます/ました/ません, は を に で と も, い- and な-adjectives in predicate position, あります/います, numbers and counters, a direct quotation (「ありがとう」と言いました). One clause per sentence. |
 | **G2** | て-form linking two clauses, 〜ている, 〜たい, 〜ましょう, から (reason), が (but), short quotations with と |
 | **G3** | plain forms (dictionary, た, ない), short relative clauses, 〜ので/〜けど, 〜と思う, potential 〜える/〜られる, 〜たり |
 | **G4** | conditionals (〜たら/〜ば/〜と/〜なら), 〜ながら, 〜そう/〜よう/〜らしい, 〜てしまう/〜ておく/〜てみる, comparatives |
@@ -670,14 +672,14 @@ built; §12.1 says why and what replaced them. What
 | sentence count over the level's maximum, or under an absolute floor of 6 | |
 | lookup tokens per sentence over the level's guide | |
 | grammar tier above the level's | |
-| distinct katakana words over the level's budget (§2.2) | |
 | every level has at least one story | |
 
 Two of those used to be stricter and were making the corpus worse rather than
 better: **exactly six stories per level**, which meant the corpus could only
 grow six at a time in lockstep, and **at least twelve katakana characters per
 L3+ story**, which is why no Japanese folk tale sits above L2. Both are now
-reported, not enforced.
+reported, not enforced. The katakana *cap* that replaced the minimum (none at
+L1, four words at L2) went the same way for the opposite reason (§2.2).
 
 ---
 
@@ -835,13 +837,19 @@ Four consequences:
 
 Romaji is still one tap further up the ladder, for anyone who wants it.
 
-**What this leaves of the authoring constraint** is a budget rather than a
-ban, and §2.2 carries it: L1 admits no katakana, L2 admits four distinct
-katakana words, and above L2 there is no ceiling. L1 stays at zero not because
-katakana cannot be rendered but because a learner's first eight-to-fifteen
-sentences of Japanese have no room for a second script. L2's small budget
-keeps a first graded page from filling with ruby; it is not a claim that the
-fifth katakana word would be dishonest.
+5. **Before the learner starts katakana, the ruby is obligatory.** §6.1's
+   exposure rule would otherwise hide こーひー after four sightings, and
+   seeing a word four times does not teach anyone its characters. So while
+   the learner has no claim on any katakana character, a word with a
+   katakana span keeps its ruby however often it has been seen; only their
+   own mute hides it. Once katakana is started, the ordinary rules apply.
+
+**What this leaves of the authoring constraint** is nothing at all. Katakana
+is allowed at every level (§2.2), and the only question is the one asked of
+every word: is this what a Japanese speaker would write? The L1/L2 cap this
+replaced existed because a learner's first page seemed to have no room for a
+second script; in practice it pushed authors to swap free loanwords for rare
+native ones, which is the opposite of what a beginner needs.
 
 ### 5.7 The pipeline in one place
 
@@ -887,7 +895,8 @@ may not have met (§5.6) — often both at once, as 白ウサギ does. That ruby
    §5.2's principle: a learner with any claim at all on a character should get
    the chance to recall it, since a tap is cheap and a missed recall is not.
 2. **The word has been seen four times in stories with its ruby showing**
-   (§6.2, §6.3).
+   (§6.2, §6.3) — except a word with katakana in it, for a learner who has
+   not started katakana at all (§5.6 point 5).
 3. **The learner muted it by hand** — the existing `muted` map and its "hide
    furigana in future" affordance, reachable from the definition card.
 4. It carries no ruby at all, in which case there is nothing to hide.

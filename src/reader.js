@@ -137,7 +137,16 @@ function spansKnown(spans, view) {
 
 function spansHidden(spans, token, view) {
   if (!spans.length) return false;
-  return isReadingHidden(exposureWordKey(token.s), {
+  const key = exposureWordKey(token.s);
+  // A learner who has not started katakana at all cannot read a katakana
+  // word however often they have seen it, so exposure never hides its ruby
+  // (§5.6): only their own mute can. This is what lets every level use
+  // ライオン and コーヒー — words an English speaker knows the moment they
+  // hear them — instead of dodging them for a native word nobody says.
+  if (view.katakanaStarted === false && spans.some((span) => span.kind === 'katakana')) {
+    return isReadingHidden(key, { exposure: {}, muted: view.muted, known: false });
+  }
+  return isReadingHidden(key, {
     exposure: view.exposure, muted: view.muted, known: spansKnown(spans, view),
   });
 }

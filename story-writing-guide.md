@@ -34,14 +34,14 @@ Pick the level first, and write to it — don't write freely and grade it
 afterwards, which produces a text that fails the vocabulary gate in fifty
 places and is easier to rewrite than to fix.
 
-| Level | Vocabulary ceiling | Grammar | Sentence | Episode | Katakana |
-| --- | --- | --- | --- | --- | --- |
-| L1 | Core (`C1`–`C6`) | ≤ G1 | ≤ 8 tokens | 8–15 sentences | none |
-| L2 | + `lv:'f'` themes 1.x–2.x | ≤ G2 | ≤ 12 | 15–25 | ≤ 4 words |
-| L3 | + all `lv:'f'` | ≤ G3 | ≤ 16 | 25–40 | as the story needs |
-| L4 | + all `lv:'h'` | ≤ G4 | ≤ 22 | 40–60 | as the story needs |
-| L5 | + all `lv:'a'` | ≤ G5 | — | 60–120 | as the story needs |
-| L6 | unrestricted | ≤ G6 | — | a real chapter | as the story needs |
+| Level | Vocabulary ceiling | Grammar | Sentence | Episode |
+| --- | --- | --- | --- | --- |
+| L1 | Core (`C1`–`C6`) | ≤ G1 | ≤ 8 tokens | 8–15 sentences |
+| L2 | + `lv:'f'` themes 1.x–2.x | ≤ G2 | ≤ 12 | 15–25 |
+| L3 | + all `lv:'f'` | ≤ G3 | ≤ 16 | 25–40 |
+| L4 | + all `lv:'h'` | ≤ G4 | ≤ 22 | 40–60 |
+| L5 | + all `lv:'a'` | ≤ G5 | — | 60–120 |
+| L6 | unrestricted | ≤ G6 | — | a real chapter |
 
 Every column is a **ceiling, not a target**. Writing an L4 story in G2 grammar
 is fine — an easy read at a wide vocabulary is a good thing for a story to be.
@@ -49,7 +49,7 @@ Landing two sentences under the episode band is fine, and warns rather than
 fails, because padding to reach a number makes a worse story.
 
 The grammar tiers are in `stories-plan.md` §2.3. The short version: G1 is
-です/ます and one clause; G2 adds て-form, 〜ている and simple reasons; G3 adds
+です/ます, one clause, and a direct quotation (「ありがとう」と言いました); G2 adds て-form, 〜ている and simple reasons; G3 adds
 plain forms and short relative clauses; G4 adds conditionals; G5 adds passive,
 causative and keigo; G6 is anything.
 
@@ -62,21 +62,24 @@ Two exceptions, both because the kanji spelling is not what anyone writes:
 words normally written in kana (きびだんご, ゆっくり, おじいさん), and
 onomatopoeia (どんぶらこ, にっこり).
 
-**Katakana is welcome from L2 up.** A learner who has not met its characters
-sees hiragana ruby above it — コーヒー with こーひー, 白ウサギ with しろ and
-うさぎ — so a loanword costs a beginner a glance, not a wall
-(`stories-plan.md` §5.6). Two limits, and both are about pacing rather than
-honesty:
+**Katakana is allowed at every level, L1 included.** Use a katakana word
+whenever it is the word a Japanese speaker would actually use: ライオン, not
+しし; パン, ジュース, バス, テレビ. A learner who has not met its characters sees
+hiragana ruby above it — コーヒー with こーひー, 白ウサギ with しろ and うさぎ —
+and until they start the katakana course that ruby never hides by exposure
+(`stories-plan.md` §5.6). So a loanword costs a beginner a glance, not a wall.
 
-- **L1: none.** The first eight to fifteen sentences of someone's Japanese
-  have no room for a second script.
-- **L2: four distinct katakana words.** Repeats are free — シンデレラ fifteen
-  times counts once — but a first graded page covered in ruby is not a page
-  anybody enjoys.
+For this app's readers, most loanwords are the *easiest* words on the page:
+an English speaker who sounds out らいおん has understood the word before the
+gloss opens. Dodging one for a rarer native word to satisfy a script rule
+makes the text harder, not easier. The earlier caps (none at L1, four words at
+L2) did exactly that — the L1 Lion and the Mouse shipped as ししとねずみ — and
+are gone.
 
-**Above L2 there is no minimum.** A story does not owe the reader katakana
-practice; the corpus provides that. An L3 Japanese folk tale with no katakana
-in it at all is exactly as valid as an L3 retelling of Cinderella.
+The limits on katakana are the ordinary limits on any word (§5a): use the
+word Japanese uses, not a katakana word *because* it is katakana. Snow White
+still has 魔法の鏡, not マジックミラー. And there is no minimum: an L3 folk tale
+with no katakana at all is exactly as valid as an L3 retelling of Cinderella.
 
 ---
 
@@ -251,8 +254,12 @@ and these are the ways shipped stories went wrong:
   a one-way mirror) and ドワーフ; Frankenstein made a 怪物, not a モンスター;
   the Bremen animals join a 音楽隊, not a バンド, and the robbers flee an
   お化け. Before choosing katakana, check how the story is told in Japanese
-  picture books and translations. The old rule that forced katakana into
-  every story above L2 is gone (§1); nothing needs padding with it.
+  picture books and translations.
+- **The reverse: a native word where Japanese uses the loanword.** A lion is
+  ライオン in every Japanese picture book; しし is a literary or dialect word
+  that no child says, and for an English speaker it is a new word where
+  ライオン was a free one. Likewise ボール, not 球; ケーキ, not 洋菓子. Neither
+  script is a goal (§1): the word a Japanese speaker would use is.
 - **A loanword or name whose Japanese meaning differs.** シャーベット is a
   frozen dessert, not a drink; ヒョウ is a leopard, not a cheetah (チーター).
 - **An unreal spelling or reading.** 防りやすい (守りやすい); 布袋, which
@@ -445,7 +452,7 @@ If you do add pictures:
 - [ ] Paragraph breaks follow scenes, not an arbitrary sentence count
 - [ ] A reader unfamiliar with the source can explain what happened and why
 - [ ] Ordinary Japanese with kanji (except kana-normal words and onomatopoeia)
-- [ ] Katakana within the level's budget — none at L1, four words at L2
+- [ ] Katakana wherever Japanese uses it, native words wherever Japanese uses them
 - [ ] Verb chains, suffixes and idioms merged into single tokens
 - [ ] No word split across tokens
 - [ ] Every token has a contextual gloss, particles included

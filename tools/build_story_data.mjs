@@ -27,7 +27,7 @@ const KANJI_RE = /[㐀-䶿一-鿿]/;
 // with hiragana for casual elongation (よーい, "reeeady") and proves nothing
 // about whether a word is actually katakana on its own — counting it here
 // made a stray よーい in the L2 usagi-to-kame story register as "katakana"
-// and fail the L1/L2 katakana budget below.
+// and skew the per-level katakana report.
 const KATAKANA_RE = /[ァ-ヺ]/;
 // A whole katakana run: starts on a syllable, then takes ー and ・ freely.
 // Mirrors reader.js's katakanaRuns, which is what actually decides where one
@@ -42,20 +42,12 @@ const SENTENCE_LIMITS = {
 const TOKEN_LIMITS = { L1: 8, L2: 12, L3: 16, L4: 22 };
 // Below this there is no story to read, whatever the level says.
 const MIN_SENTENCES = 6;
-// How many DISTINCT katakana words a level may contain. Distinct words, not
-// characters: シンデレラ fifteen times is one word to learn, and the old
-// character count made a story's cost look fifteen times worse than it was.
-//
-// L1 is zero because the learner's first eight-to-fifteen sentences of
-// Japanese have no room for a second script. From L2 up katakana is welcome —
-// it is rendered with hiragana ruby until the learner has met its characters
-// (stories-plan.md §5.6), so it costs a beginner a glance, not a wall — and
-// the small L2 budget only keeps that first graded page from filling with
-// ruby. Above L2 there is no ceiling and, deliberately, no floor: katakana
-// practice is a property of the corpus, not a tax on every story. The old
-// "L3+ needs 12 katakana characters" rule is why no Japanese folk tale could
-// sit at L3.
-const KATAKANA_BUDGET = { L1: 0, L2: 4 };
+// Katakana is allowed at every level and counted only for the report at the
+// end of the build. It used to be capped (none at L1, four words at L2), and
+// the cap made authors dodge the word Japanese actually uses — a lion became
+// しし rather than ライオン, which is harder for an English-speaking beginner,
+// not easier. Unknown katakana is rendered with hiragana ruby that exposure
+// never hides until the learner starts katakana (stories-plan.md §5.6).
 
 function parseExportedObject(source, name) {
   // Non-greedy up to the FIRST "\n});": a file with more than one export
@@ -220,10 +212,6 @@ export function validateStory(story, ids) {
     });
     if (!/[。！？]$/.test(sentenceText(sentence))) where(p, s, 'does not end in sentence punctuation');
   }));
-  const budget = KATAKANA_BUDGET[story.level];
-  if (budget !== undefined && katakana.size > budget) {
-    errors.push(`${story.id}: ${story.level} allows ${budget} distinct katakana words, found ${katakana.size} (${[...katakana].join(', ')})`);
-  }
   if (errors.length) throw new Error(errors.join('\n'));
   return { warnings, katakana: katakana.size };
 }

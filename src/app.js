@@ -10445,6 +10445,9 @@ function buildReaderView() {
     inWindow: (ch) => !!windowUnits && windowUnits.has(kanjiUnitFor(ch)),
     isKanjiKnown,
     isKatakanaRunKnown,
+    // Before any katakana is studied, its ruby is never exposure-hidden
+    // (reader.js's spansHidden, stories-plan.md §5.6).
+    katakanaStarted: katakanaCourseItems().some(isKatakanaCharKnown),
     exposure: profile.exposure,
     muted: profile.muted,
   };

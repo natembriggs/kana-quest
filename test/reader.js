@@ -259,6 +259,22 @@ muteFuriganaKey(coffeeMuted, coffeeWordKey, 5_000);
 check('a katakana word can be muted by hand like any other',
   isTokenFuriganaHidden(coffeeLoanword, baseView({ muted: coffeeMuted })));
 
+// Before any katakana is studied, exposure never hides a katakana word's
+// ruby: seeing ライオン four times does not teach anyone ラ, イ and ン.
+check('no katakana studied yet: a katakana word keeps its ruby however often it was seen',
+  !isTokenFuriganaHidden(coffeeLoanword, baseView({ exposure: coffeePromoted, katakanaStarted: false })));
+const rabbitPromoted = {};
+[1_000, 2_000, 3_000, 4_000].forEach((t) => addExposure(rabbitPromoted, exposureWordKey('白ウサギ'), t));
+check('...and so does a mixed word, even with its kanji known',
+  isTokenFuriganaHidden(whiteRabbit, baseView({ stage: 'kanji', exposure: rabbitPromoted }))
+  && !isTokenFuriganaHidden(whiteRabbit, baseView({
+    stage: 'kanji', isKanjiKnown: () => true, exposure: rabbitPromoted, katakanaStarted: false,
+  })));
+check('...but the learner\'s own mute still hides it',
+  isTokenFuriganaHidden(coffeeLoanword, baseView({ muted: coffeeMuted, katakanaStarted: false })));
+check('...and a kanji-only word is unaffected by the katakana course',
+  isTokenFuriganaHidden(denshaToken, hidingView({ exposure: promotedExposure, katakanaStarted: false })));
+
 // --- exposureTargetsForToken (§6.2): the word key AND one per ruby position ---
 
 const kanjiStageView = baseView({ stage: 'kanji' });

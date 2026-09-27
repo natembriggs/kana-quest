@@ -135,13 +135,6 @@ corpus.forEach((story) => {
       check(`${story.id}: painted dimensions and credit`, art.width > 0 && art.height > 0 && !!story.source.illustrations);
     }
   }
-  // Match the current writing guide: L1 none, L2 up to four distinct
-  // words (including the title), and no minimum or maximum above L2.
-  const katakana = new Set();
-  function countKatakana(text) {
-    (text.match(/[ァ-ヺ][ァ-ヺー・]*/g) || []).forEach((word) => katakana.add(word.replace(/・$/, '')));
-  }
-  countKatakana(story.title.ja);
   story.body.flat().forEach((sentence, sentenceIndex) => {
     check(`${story.id} sentence ${sentenceIndex + 1}: translation`, !!sentence.en?.trim());
     check(`${story.id} sentence ${sentenceIndex + 1}: tokens`, sentence.t.length > 0);
@@ -155,11 +148,8 @@ corpus.forEach((story) => {
       check(`${label}: conjugation fields paired`, !!token.df === !!token.cf);
       const kanji = [...token.s].filter((character) => /[㐀-䶿一-鿿]/.test(character)).length;
       check(`${label}: every kanji has ruby`, kanji === (token.ruby || []).length);
-      countKatakana(token.s);
     });
   });
-  if (story.level === 'L1') check(`${story.id}: no L1 katakana`, katakana.size === 0);
-  if (story.level === 'L2') check(`${story.id}: at most four L2 katakana words`, katakana.size <= 4);
 });
 
 if (failures) throw new Error(`${failures} story contract check(s) failed`);
