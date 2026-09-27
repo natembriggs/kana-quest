@@ -1,0 +1,29 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Supplied visual reference for approved inline style only: broad smooth colour areas, gentle contours and minimal texture."
+    },
+    {
+      "file": "assets/stories/machi-no-nezumi-inaka-no-nezumi/cover.webp",
+      "role": "Supplied visual reference for mouse character identity and clothing colours only."
+    },
+    {
+      "file": "exec-e82fa207-5cf9-4729-a6ab-13a1d36105d3.png",
+      "role": "Scene 01 supplied only to the second generation for mouse character continuity."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the opening country meal in “The Town Mouse and the Country Mouse”: a country mouse welcomes his visiting town cousin and serves simple food.\nInput images: Image 1, the town-mouse story cover, is character identity and colour guidance only. Image 2, the approved Kasa Jizō inline painting, is style guidance only.\nScene/backdrop: a quiet countryside field in soft daylight, with a small patch of barley and a few simple leaves; no buildings are needed.\nSubject: show the same two original mouse cousins as the cover: the warm brown Country Mouse in a simple russet vest and the grey Town Mouse in a small muted indigo coat. They sit together at a low leaf used as a plate, holding or sharing only a few beans, nuts and barley. The Country Mouse offers the plain food with a welcoming expression; the Town Mouse samples a little and looks reserved but polite.\nStyle/medium: children's picture-book painting in the approved simpler Kasa Jizō inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, very few purposeful folds and shadows, quiet simplified background. Keep detail substantially simpler than the story cover. Soft flat painted planes, no individual fur strands.\nComposition/framing: full-bleed landscape around 12:7, medium-wide view; both small mice and the modest leaf meal are clearly readable, with calm open space around them.\nLighting/mood: gentle warm daytime light, quiet and homely.\nColor palette: warm ivory, field sage and muted greens, natural ochre, the mice's russet and indigo clothing.\nConstraints: exactly two mice; keep their cover identities and colours; a small plain country meal; landscape inline composition.\nAvoid: town mansion, grand feast, cat, danger, people, extra animals, extra food piles, photorealism, detailed fur, lettering, symbols, title, border, logo, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the danger at the town-house feast in “The Town Mouse and the Country Mouse”: a cat has appeared and the two mouse cousins hurry toward safety.\nInput images: Image 1, the story cover, guides the two mouse cousins' identity and colours only. Image 2, the approved Kasa Jizō inline painting, guides the simpler smooth painted treatment. Image 3, the first inline scene, guides mouse character continuity only; do not copy its field setting or meal.\nScene/backdrop: a quiet, elegant dining room at night with a long table and a few remaining fish, fruit and sweets. A small mouse hole is visible low in the wall. A doorway stands open in the distance.\nSubject: show exactly the same two mouse cousins as in the references: warm brown Country Mouse in a russet vest and grey Town Mouse in a muted indigo coat. A large but non-threatening grey cat has just leapt from behind the table; both mice hurry together toward the small wall hole, alert and frightened but unharmed. The scene captures the sudden danger without showing an attack.\nStyle/medium: children's picture-book painting in the approved simpler Kasa Jizō inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows, and a quiet simplified background. Keep detail substantially simpler than the story cover and avoid individual fur strands.\nComposition/framing: full-bleed landscape around 12:7, medium-wide view; show both mice, the leaping cat, a small portion of the feast table, and the mouse hole clearly, with uncluttered shapes and readable silhouettes.\nLighting/mood: soft warm lamplight in a shadowy room, momentary tension kept gentle and child-friendly.\nColor palette: warm ivory, muted indigo and russet clothing, soft brown wood, muted gold fruit and cool grey cat.\nConstraints: exactly two mouse cousins and one cat; both mice remain unharmed; no resolution or return to the countryside.\nAvoid: claws touching mice, injury, violence, extra animals, extra people, detailed fur, dense texture, photorealism, lettering, title, border, logo, watermark."
+    }
+  ]
+}

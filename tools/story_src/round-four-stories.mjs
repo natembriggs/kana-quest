@@ -56,7 +56,12 @@ const townAndCountryMouse = expandStory({
   id: 'machi-no-nezumi-inaka-no-nezumi', title: { ja: '町のねずみと田舎のねずみ', en: 'The Town Mouse and the Country Mouse' }, series: null,
   level: 'L2', gram: 'G2',
   blurb: 'Two mouse cousins compare a quiet country meal with a splendid but dangerous feast.',
-  source: SOL_SOURCE('Aesop’s fable (The Town Mouse and the Country Mouse)', 'An original graded retelling with no loanwords and no wording from a published edition.'),
+  source: {
+    ...SOL_SOURCE('Aesop’s fable (The Town Mouse and the Country Mouse)', 'An original graded retelling with no loanwords and no wording from a published edition.'),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for mouse identity and palette.',
+  },
+  // The country meal opens the story; the sudden cat preserves the danger without revealing the return home.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }] },
   nw: ['田舎', '町', 'ごちそう', '安全'],
   lexicon: lexicon({
     '田[いな]舎[か]': ['countryside', 'n'], '田[いな]舎[か]のねずみ': ['Country Mouse', 'pn'],
