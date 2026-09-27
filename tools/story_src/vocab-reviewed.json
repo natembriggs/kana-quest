@@ -341,8 +341,8 @@
   "note": "story-critical (the hen that lays golden eggs)"
  },
  "もうすぐ": {
-  "from": "L6",
-  "note": "everyday kana word or expression"
+  "from": "L3",
+  "note": "everyday kana word or expression; very common in speech"
  },
  "もう一回": {
   "from": "L2",
@@ -399,6 +399,10 @@
  "スペイン人": {
   "from": "L5",
   "note": "nationality"
+ },
+ "ソーラーパネル": {
+  "from": "L3",
+  "note": "story-critical (the reason for the trip); the everyday Japanese word for solar panels"
  },
  "チーター": {
   "from": "L6",
@@ -483,6 +487,10 @@
  "ロバ": {
   "from": "L4",
   "note": "animal name, normally katakana"
+ },
+ "ローバー": {
+  "from": "L3",
+  "note": "story-critical (the lunar rover the whole adventure happens in); the standard Japanese word, as in 月面ローバー"
  },
  "一つ目": {
   "from": "L6",
