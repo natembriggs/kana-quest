@@ -16,11 +16,16 @@ const giantTurnip = expandStory({
   level: 'L1',
   gram: 'G1',
   blurb: 'A turnip will not come out of the ground until a whole family of helpers pulls together.',
-  source: SOL_SOURCE(
-    'Traditional cumulative tale (The Giant Turnip)',
-    'An original beginner-level retelling, not a transcription or translation of a published edition.',
-    'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
-  ),
+  source: {
+    ...SOL_SOURCE(
+      'Traditional cumulative tale (The Giant Turnip)',
+      'An original beginner-level retelling, not a transcription or translation of a published edition.',
+      'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
+    ),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the farmer’s character identity and palette.',
+  },
+  // Watering the grown turnip, the couple pulling, then the whole team; one per paragraph.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   nw: ['かぶ', '植える', '抜ける', '引く'],
   lexicon: lexicon({
     'おじいさん': ['old man; grandfather', 'n'],

@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original beginner-level retelling, not a transcription or translation of a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the farmer’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/ookina-kabu/01.webp?v=1f8c9d856ff0fc28",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/ookina-kabu/02.webp?v=31049884ee99d83d",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/ookina-kabu/03.webp?v=7bbf034358775545",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "かぶ",
@@ -807,9 +831,5 @@ export const STORY = {
   "hash": "ba4f6de3",
   "was": [
     "14ee2f46"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/ookina-kabu/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of the first paragraph of “The Giant Turnip”: an old farmer has cared for a turnip until it has grown large.\nScene/backdrop: A small, peaceful vegetable garden with dark soil, a few low rows and quiet distant trees.\nSubject: Keep the farmer consistent with the story cover: a kind elderly Japanese man with a white moustache and beard, straw hat, cream shirt, dark indigo vest, and simple brown work trousers. He kneels beside a large leafy turnip and gently waters it with a plain watering can. The turnip is clearly much larger than the small one he planted, but remains rooted in the soil.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows and folds, quiet simplified background. Use natural proportions and much less detail than the story cover.\nComposition/framing: landscape around 12:7, medium-wide garden view; farmer and leafy turnip are the clear focal subjects, both fully readable at phone width. Use two or three calm background layers and leave open space around them.\nLighting/mood: soft morning daylight, patient and hopeful.\nColor palette: warm ivory light, muted sage and teal leaves, rich but simplified soil browns, indigo vest, cream shirt, straw ochre hat, restrained plum and lavender only in small natural accents.\nConstraints: show the old man tending the grown turnip; no other people or animals in this first scene. Full bleed landscape picture, no words or symbols.\nAvoid: oversized fantasy proportions, harvesting, pulling the turnip, extra vegetables crowding the scene, photorealism, highly detailed foliage, lettering, labels, title, border, logo, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph two of “The Giant Turnip”: the old man and old woman pull together, but the turnip remains stuck in the ground.\nScene/backdrop: The same small vegetable garden and quiet distant trees as the previous painting; simple dark soil and a few low garden rows.\nSubject: The same elderly farmer from the story cover, with white beard, straw hat, cream shirt, dark indigo vest and brown work trousers, now joined by an elderly woman with silver hair in a low bun, a muted plum top and a simple sage apron. They stand behind one another in a gentle tugging line, both holding the large turnip's thick leafy stems and leaning back with effort. The enormous pale turnip is still firmly rooted, with a little soil around its base. Their faces show focused effort, not distress.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified background. Keep the farmer consistent with the cover and use much less detail than cover art.\nComposition/framing: landscape around 12:7, medium-wide view; show both adults, the leafy stems, and the clearly rooted turnip in one readable line, with enough space between figures for distinct silhouettes. Two or three calm background layers; readable at phone width.\nLighting/mood: warm gentle daylight, light-hearted teamwork.\nColor palette: warm ivory light, muted sage leaves and apron, indigo vest, cream shirt, subdued plum top, ochre straw hat, rich but simplified soil.\nConstraints: only the old man and old woman are pulling in this scene; the turnip does not come out yet. Full bleed picture, no words or symbols.\nAvoid: girl, dog, cat or any other helper, turnip lifted out, strain or danger, tangled limbs, crowded garden, photorealism, dense texture, lettering, labels, title, border, logo, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph three of “The Giant Turnip”: the whole team pulls together and the giant turnip comes free.\nScene/backdrop: The same simple vegetable garden, with low rows, quiet trees and a patch of dark soil around the turnip.\nSubject: Show exactly five helpers in a cheerful pulling line: the same elderly farmer from the cover in his straw hat, cream shirt, indigo vest and brown trousers; the elderly woman in a muted plum top and sage apron; one young girl in simple everyday clothes; one friendly medium-sized dog; and one small cat. The farmer is nearest the giant leafy turnip, the woman holds onto him, the girl holds onto her, the dog holds the girl's skirt gently with its mouth, and the cat holds the dog's tail gently. The enormous pale turnip has just popped free from the soil and is lifted only a little, with a few broad soil clumps falling. Everyone is smiling, balanced and safe.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background. Keep the farmer consistent with the cover; use much less detail than cover art. Keep all five silhouettes distinct and readable.\nComposition/framing: landscape around 12:7, medium-wide side view of the entire five-member pulling line and the freed turnip; show every helper from head to tail and the turnip clearly. Keep the figures large enough to read at phone width, with two or three calm background layers.\nLighting/mood: warm, gentle late-afternoon daylight, joyful teamwork.\nColor palette: warm ivory light, muted sage and teal greens, indigo vest, cream shirt, plum and sage clothing accents, pale turnip with a soft violet crown, simple earth browns.\nConstraints: exactly one old man, one old woman, one girl, one dog and one cat. The turnip is free from the earth, and all helpers are happy and unharmed. No meal or extra characters. Full bleed landscape picture, no words or symbols.\nAvoid: additional people or animals, broken plant stems, exaggerated flying turnip, anyone falling, tangled bodies, harsh expressions, photorealism, dense texture, lettering, labels, title, border, logo, watermark."
+    }
+  ]
+}
