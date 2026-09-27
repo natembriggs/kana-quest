@@ -53,8 +53,8 @@
   "note": "everyday kana word or expression"
  },
  "おじいちゃん": {
-  "from": "L5",
-  "note": "everyday word"
+  "from": "L2",
+  "note": "everyday word: what a child calls a grandfather; far more natural in a modern family story than おじいさん"
  },
  "おじさん": {
   "from": "L3",
@@ -344,6 +344,10 @@
   "from": "L6",
   "note": "everyday kana word or expression"
  },
+ "もう一回": {
+  "from": "L2",
+  "note": "everyday spoken phrase (\"one more time\"); more natural in a child-facing request than もう一度"
+ },
  "もどってくる": {
   "from": "L4",
   "note": "everyday kana word or expression"
@@ -420,6 +424,10 @@
   "from": "L5",
   "note": "animal name"
  },
+ "バタ足": {
+  "from": "L2",
+  "note": "story-critical: the standard term every Japanese child learns for the flutter kick in first swimming lessons"
+ },
  "バックミラー": {
   "from": "L6",
   "note": "loanword, normal in katakana"
@@ -439,6 +447,10 @@
  "フロントガラス": {
   "from": "L6",
   "note": "loanword, normal in katakana"
+ },
+ "プールサイド": {
+  "from": "L2",
+  "note": "the ordinary Japanese word for the edge of a swimming pool; setting-critical and transparent to English readers"
  },
  "ペルシャ": {
   "from": "L4",
