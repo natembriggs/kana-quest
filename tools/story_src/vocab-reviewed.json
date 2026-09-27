@@ -12,6 +12,10 @@
   "from": "L4",
   "note": "everyday kana word or expression"
  },
+ "いいよ": {
+  "from": "L4",
+  "note": "everyday kana word or expression"
+ },
  "いかだ": {
   "from": "L5",
   "note": "everyday kana word or expression"
@@ -495,6 +499,10 @@
  "中ほど": {
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "二人分": {
+  "from": "L4",
+  "note": "ordinary compound (二人 + 分, \"enough for two\"); natural at this level"
  },
  "亡きがら": {
   "from": "L6",
@@ -1259,5 +1267,9 @@
  "魔術師": {
   "from": "L5",
   "note": "check: standard for the Maghrebi sorcerer in translations of Aladdin, but 魔法使い is the everyday word"
+ },
+ "麦わら帽子": {
+  "from": "L4",
+  "note": "story-critical (the boy’s straw hat, which identifies him); common everyday compound"
  }
 }

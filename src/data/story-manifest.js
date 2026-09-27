@@ -673,6 +673,126 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "kagefumi-1": {
+    "title": {
+      "ja": "石段の影ふみ",
+      "en": "Shadow Tag on the Steps"
+    },
+    "series": {
+      "id": "kagefumi",
+      "part": 1,
+      "of": 5,
+      "name": "影ふみ — Shadow Tag"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Grandma’s old photo has one shadow too many. That evening, a boy in a straw hat joins Haru and Sora’s game on the shrine steps — and runs off with Sora’s shadow.",
+    "hash": "ed2889e1",
+    "length": 724,
+    "paras": 10,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "kagefumi-2": {
+    "title": {
+      "ja": "影のない朝",
+      "en": "A Morning Without a Shadow"
+    },
+    "series": {
+      "id": "kagefumi",
+      "part": 2,
+      "of": 5,
+      "name": "影ふみ — Shadow Tag"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Sora has no shadow, and people are starting to forget him. Grandma remembers the rest of the old saying: by the third sunset, nobody will remember him at all.",
+    "hash": "b9d19bf0",
+    "length": 713,
+    "paras": 10,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "kagefumi-3": {
+    "title": {
+      "ja": "麦わら帽子",
+      "en": "The Straw Hat"
+    },
+    "series": {
+      "id": "kagefumi",
+      "part": 3,
+      "of": 5,
+      "name": "影ふみ — Shadow Tag"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "The boy has waited sixty years for a shadow of his own, and he will not give Sora’s back. But when he runs, he leaves his hat behind.",
+    "hash": "61c4feca",
+    "length": 603,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "kagefumi-4": {
+    "title": {
+      "ja": "柱のしるし",
+      "en": "Marks on the Pillar"
+    },
+    "series": {
+      "id": "kagefumi",
+      "part": 4,
+      "of": 5,
+      "name": "影ふみ — Shadow Tag"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "A name inside a straw hat, a pillar marked with two children’s heights, and a shadow in an old photo that has lost its hat overnight.",
+    "hash": "d3dc6964",
+    "length": 720,
+    "paras": 10,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "kagefumi-5": {
+    "title": {
+      "ja": "三回目の夕日",
+      "en": "The Third Sunset"
+    },
+    "series": {
+      "id": "kagefumi",
+      "part": 5,
+      "of": 5,
+      "name": "影ふみ — Shadow Tag"
+    },
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "One sunset left, and a sky full of cloud. Haru climbs the steps with the photo, the hat and her grandmother.",
+    "hash": "01fc9c5f",
+    "length": 695,
+    "paras": 13,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "mittsu-no-kane-1": {
     "title": {
       "ja": "えんぴつの字",

@@ -1,0 +1,1276 @@
+[
+ [
+  [
+   {
+    "tokens": "はる|の|家|は|、|町|の|外れ|の|、|古い|石段|の|下|に|ある|。",
+    "en": "Haru’s house stood at the foot of an old flight of stone steps on the edge of town."
+   },
+   {
+    "tokens": "石段|は|百段|あって|、|いちばん|上|に|は|小さな|神社|が|ある|。",
+    "en": "There were a hundred steps, and at the very top was a small shrine."
+   },
+   {
+    "tokens": "石段|は|西|を|向いていて|、|夕方|に|なると|、|夕日|が|まっすぐ|当たった|。",
+    "en": "The steps faced west, and in the evening the setting sun shone straight onto them."
+   },
+   {
+    "tokens": "夏休み|の|間|、|お母さん|は|毎日|夜|おそく|まで|仕事|だった|。",
+    "en": "All through the summer holidays, their mother worked late into the evening every day."
+   },
+   {
+    "tokens": "だから|、|昼間|は|、|はる|と|弟|の|そら|と|おばあちゃん|の|三人|で|過ごした|。",
+    "en": "So in the daytime it was just the three of them: Haru, her little brother Sora and their grandmother."
+   },
+   {
+    "tokens": "この|古い|家|は|、|おばあちゃん|が|子ども|の|ころ|から|住んでいる|家|だった|。",
+    "en": "This old house was the one their grandmother had lived in since she was a child."
+   }
+  ],
+  [
+   {
+    "tokens": "八月|の|ある#certain|日#day|、|おばあちゃん|が|古い|アルバム|を|出して|、|二人|に|見せてくれた|。",
+    "en": "One day in August, their grandmother brought out an old photo album and showed it to the two of them."
+   },
+   {
+    "tokens": "白黒|の|写真|の|中|で|、|小さな|女の子|が|石段|の|前|に|立っていた|。",
+    "en": "In a black-and-white photo, a little girl stood in front of the stone steps."
+   },
+   {
+    "tokens": "「|これ|が|私|、|六歳|の|時|」|と|おばあちゃん|が|言った|。",
+    "en": "“This is me, when I was six,” their grandmother said."
+   },
+   {
+    "tokens": "女の子|の|足元|から|、|影|が|一つ|のびていた|。",
+    "en": "A shadow stretched out from the girl’s feet."
+   },
+   {
+    "tokens": "けれど|、|その|となり|に|、|もう一つ|影|が|あった|。",
+    "en": "But next to it there was another shadow."
+   },
+   {
+    "tokens": "つば|の|広い|帽子|を|かぶった|、|男の子|の|影|だった|。",
+    "en": "It was the shadow of a boy in a wide-brimmed hat."
+   },
+   {
+    "tokens": "影|は|ある|のに|、|そこ|に|は|だれ|も|立っていなかった|。",
+    "en": "The shadow was there, yet nobody was standing in that spot."
+   }
+  ],
+  [
+   {
+    "tokens": "「|この|影|、|だれ|の#whose|」|と|そら|が|聞いた|。",
+    "en": "“Whose shadow is this?” Sora asked."
+   },
+   {
+    "tokens": "「|さあ|、|だれ|かしら|」|と|おばあちゃん|は|首をかしげた|。",
+    "en": "“Now, I wonder,” their grandmother said, tilting her head."
+   },
+   {
+    "tokens": "「|私|に|は|兄弟|が|いない|し|、|写真|を|とった|の#nominal|は|父|だ|し|ね|」|。",
+    "en": "“I have no brothers or sisters, and it was my father who took the photo.”"
+   },
+   {
+    "tokens": "「|昔|から|、|こう|写っている|の#explain|」|。",
+    "en": "“It has always come out like this.”"
+   },
+   {
+    "tokens": "「|たぶん|、|写真|の|まちがい|ね|」|。",
+    "en": "“It must be a fault in the photo.”"
+   },
+   {
+    "tokens": "おばあちゃん|は|そう|言って|、|アルバム|を|たんす|に|しまった|。",
+    "en": "With that, she put the album away in the chest of drawers."
+   }
+  ],
+  [
+   {
+    "tokens": "夕方|に|なると|、|そら|が|「|影ふみ|しよう|」|と|言い出した|。",
+    "en": "When evening came, Sora said, “Let’s play shadow tag.”"
+   },
+   {
+    "tokens": "影ふみ|は|、|相手|の|影|を|ふんだら|勝ち|という|遊び|だ|。",
+    "en": "Shadow tag is a game where you win by stepping on the other player’s shadow."
+   },
+   {
+    "tokens": "二人|が|くつ|を|はいていると|、|おばあちゃん|が|台所|から|顔を出した|。",
+    "en": "As the two of them were putting their shoes on, their grandmother looked out of the kitchen."
+   },
+   {
+    "tokens": "「|石段|で|影ふみ|を|する|なら|、|夕日|が|山|に|かかる|前|に|帰ってきなさい|」|。",
+    "en": "“If you’re playing shadow tag on the steps, come home before the sun touches the mountain.”"
+   },
+   {
+    "tokens": "「|山|に|かかっている|間|に|影|を|ふむと|、|影|が|はがれてしまう|から|ね|」|。",
+    "en": "“If you step on a shadow while the sun is on the mountain, the shadow comes loose.”"
+   },
+   {
+    "tokens": "「|私|の|母|が|、|よく|そう|言っていた|」|。",
+    "en": "“My mother used to say that a lot.”"
+   },
+   {
+    "tokens": "「|はがれたら|、|どう|なる|の#question|」|と|はる|が|聞いた|。",
+    "en": "“What happens if it comes loose?” Haru asked."
+   },
+   {
+    "tokens": "おばあちゃん|は|少し|考えてから|、|「|その|先|は|、|忘れちゃった|」|と|笑った|。",
+    "en": "Their grandmother thought for a moment, then laughed. “I’ve forgotten the rest.”"
+   }
+  ],
+  [
+   {
+    "tokens": "二人|は|、|石段|の|下|の|方|で|遊び始めた|。",
+    "en": "The two of them started playing near the bottom of the steps."
+   },
+   {
+    "tokens": "夕方|の|影|は|長くて|、|にげる|の#nominal|が|とても|大変|だった|。",
+    "en": "The evening shadows were long, so getting away was hard work."
+   },
+   {
+    "tokens": "そら|は|笑いながら|、|何度|も|はる|の|影|を|ふんだ|。",
+    "en": "Laughing, Sora stepped on Haru’s shadow again and again."
+   },
+   {
+    "tokens": "山|の|上|の|空|が|、|少しずつ|オレンジ色|に|なってきた|。",
+    "en": "Above the mountains, the sky was slowly turning orange."
+   }
+  ],
+  [
+   {
+    "tokens": "気がつくと|、|石段|の|途中|に|、|男の子|が|一人|すわっていた|。",
+    "en": "Then Haru noticed a boy sitting partway up the steps."
+   },
+   {
+    "tokens": "そら|と|同じ|ぐらい|の|年|で|、|古い|麦わら帽子|を|かぶっていた|。",
+    "en": "He was about the same age as Sora, and he wore an old straw hat."
+   },
+   {
+    "tokens": "「|ぼく|も|入れて|」|と|、|男の子|が|言った|。",
+    "en": "“Let me play too,” the boy said."
+   },
+   {
+    "tokens": "近所|の|子|なら|みんな|知っている|のに|、|はる|は|一度|も|見たことがない|顔|だった|。",
+    "en": "Haru knew every child in the neighbourhood, yet she had never once seen his face."
+   },
+   {
+    "tokens": "そら|は|すぐに|「|いいよ|」|と|答えた|。",
+    "en": "Sora answered straight away. “Sure.”"
+   }
+  ],
+  [
+   {
+    "tokens": "男の子|は|、|とても|足が速かった|。",
+    "en": "The boy was very quick on his feet."
+   },
+   {
+    "tokens": "石段|の|上|も|下|も|、|自分|の|家|の|庭|のように|走り回った|。",
+    "en": "He ran all over the steps, top and bottom, as if they were his own garden."
+   },
+   {
+    "tokens": "はる|は|一度|、|男の子|の|影|を|ふもうとした|。",
+    "en": "Once, Haru tried to step on the boy’s shadow."
+   },
+   {
+    "tokens": "けれど|、|足元|の|どこ|を|ふんでも|、|何|も|ふんだ|気がしなかった|。",
+    "en": "But wherever she stepped around his feet, it did not feel as if she had stepped on anything."
+   },
+   {
+    "tokens": "男の子|の|足元|だけ|、|石段|が|夕日|で|明るかった|。",
+    "en": "Only around the boy’s feet were the steps bright with evening sun."
+   }
+  ],
+  [
+   {
+    "tokens": "やがて|、|夕日|の|下|の|方|が|、|西|の|山|に|かかった|。",
+    "en": "Before long, the bottom of the setting sun touched the mountains to the west."
+   },
+   {
+    "tokens": "石段|の|上|の|影|が|、|急に|黒く|、|長く|なった|。",
+    "en": "The shadows on the steps suddenly grew darker and longer."
+   },
+   {
+    "tokens": "はる|は|、|おばあちゃん|の|言葉|を|思い出した|。",
+    "en": "Haru remembered what her grandmother had said."
+   },
+   {
+    "tokens": "「|そら|、|もう|帰ろう|」|。",
+    "en": "“Sora, let’s go home now.”"
+   }
+  ],
+  [
+   {
+    "tokens": "その|時|、|男の子|が|そら|の|後ろ|に|回った|。",
+    "en": "At that moment, the boy slipped round behind Sora."
+   },
+   {
+    "tokens": "そして|、|そら|の|影|の|頭|の|所|を|、|両足|で|ふんだ|。",
+    "en": "And he stepped with both feet on the head of Sora’s shadow."
+   },
+   {
+    "tokens": "紙|を|はがす|ような|、|小さな|音|が|した|。",
+    "en": "There was a small sound, like paper being peeled away."
+   },
+   {
+    "tokens": "そら|の|影|が|、|石段|から|ふわりと|起き上がった|。",
+    "en": "Sora’s shadow rose gently up off the steps."
+   },
+   {
+    "tokens": "影|は|、|するすると|男の子|の|足元|へ|すべっていった|。",
+    "en": "The shadow slid smoothly across to the boy’s feet."
+   },
+   {
+    "tokens": "男の子|の|足元|に|、|初めて|黒い|影|が|できた|。",
+    "en": "For the first time, there was a dark shadow at the boy’s feet."
+   },
+   {
+    "tokens": "男の子|は|、|石段|を|上|の|方|へ|駆け上がっていった|。",
+    "en": "The boy ran off up the steps."
+   },
+   {
+    "tokens": "そして|、|石段|の|上|の|暗い|所|で|、|見えなくなった|。",
+    "en": "And at the dark top of the steps, he was gone."
+   }
+  ],
+  [
+   {
+    "tokens": "「|今|の|子|、|だれ|」|と|そら|が|言った|。",
+    "en": "“Who was that?” Sora said."
+   },
+   {
+    "tokens": "はる|は|答えずに|、|そら|の|足元|を|見た|。",
+    "en": "Haru didn’t answer. She looked at Sora’s feet."
+   },
+   {
+    "tokens": "夕日|の|最後|の|赤い|光|が|、|石段|に|当たっていた|。",
+    "en": "The last red light of the setting sun lay across the steps."
+   },
+   {
+    "tokens": "はる|の|影|は|、|石段|の|上|に|長く|のびていた|。",
+    "en": "Haru’s shadow stretched long up the steps."
+   },
+   {
+    "tokens": "けれど|、|となり|に|立っている|そら|の|足元|に|は|、|何|も|なかった|。",
+    "en": "But at the feet of Sora, standing right beside her, there was nothing at all."
+   }
+  ]
+ ],
+ [
+  [
+   {
+    "tokens": "次|の|朝|、|はる|は|早く|目がさめた|。",
+    "en": "The next morning, Haru woke early."
+   },
+   {
+    "tokens": "ゆうべ|の|こと|は|、|夢|だった|ような|気がした|。",
+    "en": "What had happened last night felt like a dream."
+   },
+   {
+    "tokens": "台所|に|行くと|、|そら|は|もう|窓|の|そば|で|朝ごはん|を|食べていた|。",
+    "en": "When she went into the kitchen, Sora was already eating breakfast by the window."
+   },
+   {
+    "tokens": "朝|の|光|が|、|窓|から|いっぱいに|入っていた|。",
+    "en": "Morning light was pouring in through the window."
+   },
+   {
+    "tokens": "テーブル|に|も|、|いす|に|も|、|はっきりした|影|が|あった|。",
+    "en": "The table and the chairs all had sharp, clear shadows."
+   },
+   {
+    "tokens": "けれど|、|そら|の|影|だけ|が|、|どこ|に|も|なかった|。",
+    "en": "But Sora’s shadow was nowhere to be seen."
+   }
+  ],
+  [
+   {
+    "tokens": "「|おばあちゃん|」|と|、|はる|は|小さな|声|で|呼んだ|。",
+    "en": "“Grandma,” Haru called in a small voice."
+   },
+   {
+    "tokens": "おばあちゃん|は|そら|の|足元|を|見て|、|持っていた|おはし|を|落とした|。",
+    "en": "Their grandmother looked at Sora’s feet and dropped the chopsticks she was holding."
+   },
+   {
+    "tokens": "「|ゆうべ|、|石段|で|影ふみ|を|した|の#question|」|と|おばあちゃん|が|聞いた|。",
+    "en": "“Did you play shadow tag on the steps last night?” she asked."
+   },
+   {
+    "tokens": "はる|は|、|麦わら帽子|の|男の子|の|話|を|した|。",
+    "en": "Haru told her about the boy in the straw hat."
+   },
+   {
+    "tokens": "そら|は|自分|の|足元|を|見ながら|、|何度|も|足|を|動かした|。",
+    "en": "Sora watched his own feet as he moved them again and again."
+   }
+  ],
+  [
+   {
+    "tokens": "おばあちゃん|は|、|長い|間|黙っていた|。",
+    "en": "Their grandmother was silent for a long time."
+   },
+   {
+    "tokens": "それから|、|遠く|の|物|を|見る|ような|目|で|話し始めた|。",
+    "en": "Then she began to speak, with a look in her eyes as if she were seeing something far away."
+   },
+   {
+    "tokens": "「|母|の|話|に|は|、|続き|が|あった|の#explain|」|。",
+    "en": "“My mother’s story had more to it.”"
+   },
+   {
+    "tokens": "「|影|を|なくした|子|の|こと|は|、|みんな|が|少しずつ|忘れていく|」|。",
+    "en": "“A child who loses their shadow is slowly forgotten by everyone.”"
+   },
+   {
+    "tokens": "「|遠く|の|人|から|先|に|、|近く|の|人|は|後|で|」|。",
+    "en": "“People far away first, and the ones close by later.”"
+   },
+   {
+    "tokens": "「|そして|、|三回目|の|夕日|が|しずむと|、|もう|だれ|も|覚えていない|」|。",
+    "en": "“And once the third sun has set, nobody remembers them at all.”"
+   },
+   {
+    "tokens": "「|どうして|、|今|まで|思い出さなかった|の#explain|かしら|」|と|、|おばあちゃん|は|小さく|言った|。",
+    "en": "“Why didn’t I remember that until now?” their grandmother said quietly."
+   }
+  ],
+  [
+   {
+    "tokens": "お母さん|は|、|もう|仕事|に|出ていた|。",
+    "en": "Their mother had already left for work."
+   },
+   {
+    "tokens": "はる|は|電話|を|かけようとした|が#but|、|何|と|言えばいい|のか|分からなかった|。",
+    "en": "Haru was about to phone her, but she didn’t know what she could say."
+   },
+   {
+    "tokens": "影|が|なくなった|と|言っても|、|信じてくれる|はず|が|ない|。",
+    "en": "If she said his shadow had gone, there was no way her mother would believe her."
+   },
+   {
+    "tokens": "はる|は|、|とにかく|そら|を|連れて|外|に|出てみる|ことにした|。",
+    "en": "Whatever happened, Haru decided to take Sora outside and see."
+   }
+  ],
+  [
+   {
+    "tokens": "家|の|前|で|、|となり|の|山田さん|が|花|に|水|を|やっていた|。",
+    "en": "In front of the house, Mrs Yamada from next door was watering her flowers."
+   },
+   {
+    "tokens": "山田さん|は|毎朝|、|そら|に|「|おはよう|、|そらくん|」|と|声をかける|人|だ|。",
+    "en": "Every single morning, Mrs Yamada called out, “Morning, Sora!”"
+   },
+   {
+    "tokens": "「|おはよう|、|はるちゃん|」|と|、|山田さん|が|笑った|。",
+    "en": "“Morning, Haru,” Mrs Yamada said with a smile."
+   },
+   {
+    "tokens": "けれど|、|そら|の|方|は|一度|も|見なかった|。",
+    "en": "But she never once looked Sora’s way."
+   },
+   {
+    "tokens": "まるで|、|そこ|に|だれ|も|いない|ようだった|。",
+    "en": "It was just as if nobody were there."
+   },
+   {
+    "tokens": "そら|が|、|はる|の|手|を|強く|にぎった|。",
+    "en": "Sora squeezed Haru’s hand tight."
+   }
+  ],
+  [
+   {
+    "tokens": "昼|に|、|二人|は|学校|の|プール|へ|行った|。",
+    "en": "At midday, the two of them went to the school pool."
+   },
+   {
+    "tokens": "プール|の|前|に|、|そら|の|友だち|の|ゆうと|が|いた|。",
+    "en": "Sora’s friend Yuto was outside the pool."
+   },
+   {
+    "tokens": "「|ゆうと|」|と|そら|が|手|を|ふった|。",
+    "en": "“Yuto!” Sora waved."
+   },
+   {
+    "tokens": "ゆうと|は|、|ふしぎそうに|あたり|を|見回した|。",
+    "en": "Yuto looked around, puzzled."
+   },
+   {
+    "tokens": "それから|、|ほか|の|友だち|と|プール|に|入っていった|。",
+    "en": "Then he went into the pool with his other friends."
+   },
+   {
+    "tokens": "帰り道|、|そら|は|ずっと|下|を|向いて|歩いた|。",
+    "en": "On the way home, Sora walked with his head down the whole time."
+   },
+   {
+    "tokens": "夏|の|強い|日|の|下|で|、|はる|の|影|だけ|が|道|に|黒く|うつっていた|。",
+    "en": "Under the fierce summer sun, only Haru’s shadow lay dark on the road."
+   }
+  ],
+  [
+   {
+    "tokens": "家|に|帰ると|、|はる|は|ペン|で|、|自分|の|左手|に|大きく|書いた|。",
+    "en": "When they got home, Haru took a pen and wrote in big letters on her own left hand."
+   },
+   {
+    "tokens": "「|そら|、|七歳|、|弟|」|。",
+    "en": "“Sora. Seven. My brother.”"
+   },
+   {
+    "tokens": "「|何|してる|の#question|」|と|そら|が|聞いた|。",
+    "en": "“What are you doing?” Sora asked."
+   },
+   {
+    "tokens": "「|忘れない|ように|」|と|はる|は|言った|。",
+    "en": "“So I don’t forget,” Haru said."
+   },
+   {
+    "tokens": "そら|は|、|はる|の|手|の|字|を|、|指|で|一つずつ|なぞった|。",
+    "en": "Sora traced the letters on Haru’s hand one by one with his finger."
+   }
+  ],
+  [
+   {
+    "tokens": "夕方|が|近づくと|、|はる|は|くつ|を|はいた|。",
+    "en": "As evening drew near, Haru put on her shoes."
+   },
+   {
+    "tokens": "「|あの|子|は|、|夕日|が|山|に|かかった|時|に|出てきた|」|。",
+    "en": "“That boy came out when the sun touched the mountain.”"
+   },
+   {
+    "tokens": "「|だから|、|今日|も|きっと|、|あの|時間|に|石段|に|来る|」|。",
+    "en": "“So he’s sure to come to the steps at that time today, too.”"
+   },
+   {
+    "tokens": "「|影|を|ふんで|取った|んだから|、|ふみ返せば|、|もどる|かもしれない|」|。",
+    "en": "“He took it by stepping on it, so if we step on it back, it might come back.”"
+   },
+   {
+    "tokens": "おばあちゃん|は|、|自分|の|ひざ|を|悲しそうに|見た|。",
+    "en": "Their grandmother looked sadly down at her knees."
+   },
+   {
+    "tokens": "「|私|の|ひざ|で|は|、|もう|石段|は|上れない|の#explain|」|。",
+    "en": "“With my knees, I can’t climb those steps any more.”"
+   },
+   {
+    "tokens": "「|気をつけて|、|暗く|なる|前|に|帰ってくる|のよ|」|。",
+    "en": "“Be careful, and come back before it gets dark.”"
+   }
+  ],
+  [
+   {
+    "tokens": "石段|は|、|きのう|と|同じように|赤く|そまっていた|。",
+    "en": "The steps were stained red, just as they had been the day before."
+   },
+   {
+    "tokens": "二人|は|、|きのう|遊んだ|所|に|立って|待った|。",
+    "en": "The two of them stood and waited where they had played the day before."
+   },
+   {
+    "tokens": "夕日|が|山|に|かかった|時|、|上|の|方|で|小さな|足音|が|した|。",
+    "en": "As the sun touched the mountain, they heard small footsteps higher up."
+   },
+   {
+    "tokens": "麦わら帽子|の|男の子|が|、|石段|の|真ん中|に|すわっていた|。",
+    "en": "The boy in the straw hat was sitting halfway up the steps."
+   },
+   {
+    "tokens": "その|足元|に|は|、|はっきりと|影|が|あった|。",
+    "en": "At his feet there was a clear, sharp shadow."
+   },
+   {
+    "tokens": "そら|の|影|だった|。",
+    "en": "It was Sora’s shadow."
+   }
+  ],
+  [
+   {
+    "tokens": "「|その|影|、|返して|」|と|、|はる|は|言った|。",
+    "en": "“Give that shadow back,” Haru said."
+   },
+   {
+    "tokens": "男の子|は|、|はる|を|見て|、|少し|だけ|笑った|。",
+    "en": "The boy looked at Haru and gave a small smile."
+   },
+   {
+    "tokens": "「|六十年|、|待ったんだ|」|。",
+    "en": "“I’ve waited sixty years.”"
+   },
+   {
+    "tokens": "「|あした|の|夕日|が|しずんだら|、|この|影|は|、|ぼく|の|もの|に|なる|」|。",
+    "en": "“When tomorrow’s sun goes down, this shadow will be mine.”"
+   },
+   {
+    "tokens": "「|そうしたら|、|ぼく|は|やっと|家|に|帰れる|」|。",
+    "en": "“Then at last I can go home.”"
+   },
+   {
+    "tokens": "男の子|は|、|そら|の|方|を|見た|。",
+    "en": "The boy looked over at Sora."
+   },
+   {
+    "tokens": "「|そして|今度|は|、|その|子|が|ここ|で|待つ|番|だ|」|。",
+    "en": "“And then it’s his turn to wait here.”"
+   }
+  ]
+ ],
+ [
+  [
+   {
+    "tokens": "「|ここ|で|待つ|って|、|どういうこと|」|と|、|はる|は|聞いた|。",
+    "en": "“What do you mean, wait here?” Haru asked."
+   },
+   {
+    "tokens": "男の子|は|、|石段|の|下|の|町|を|見下ろした|。",
+    "en": "The boy looked down at the town below the steps."
+   },
+   {
+    "tokens": "「|影|の|ない|子|は|、|この|石段|から|出られない|」|。",
+    "en": "“A child with no shadow can’t leave these steps.”"
+   },
+   {
+    "tokens": "「|だれか|に|見える|の#nominal|も|、|夕日|が|山|に|かかっている|間|だけ|だ|」|。",
+    "en": "“And people can only see you while the sun is on the mountain.”"
+   },
+   {
+    "tokens": "「|毎日|、|この|時間|だけ|、|ぼく|は|ここ|に|いる|」|。",
+    "en": "“Every day, for just this little while, I’m here.”"
+   }
+  ],
+  [
+   {
+    "tokens": "「|六十年|前|、|ぼく|も|ここ|で|影ふみ|を|していた|」|。",
+    "en": "“Sixty years ago, I was playing shadow tag here too.”"
+   },
+   {
+    "tokens": "「|気がついたら|影|が|なくて|、|三日|で|みんな|が|ぼく|を|忘れた|」|。",
+    "en": "“The next thing I knew, my shadow was gone, and in three days everyone had forgotten me.”"
+   },
+   {
+    "tokens": "「|父さん|も|、|母さん|も|」|。",
+    "en": "“My dad. My mum.”"
+   },
+   {
+    "tokens": "男の子|は|、|もう一人|、|だれか|の|名前|を|言いかけて|、|やめた|。",
+    "en": "The boy started to say one more name, then stopped."
+   },
+   {
+    "tokens": "「|それから|、|夕方|に|ここ|で|遊ぶ|子|は|、|一人|も|来なかった|」|。",
+    "en": "“After that, no child ever came here to play in the evening.”"
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|急に|石段|を|駆け上がった|。",
+    "en": "Suddenly Haru ran up the steps."
+   },
+   {
+    "tokens": "そして|、|男の子|の|足元|の|影|を|、|力いっぱい|ふんだ|。",
+    "en": "And she stamped as hard as she could on the shadow at the boy’s feet."
+   },
+   {
+    "tokens": "けれど|、|影|は|少し|も|動かなかった|。",
+    "en": "But the shadow did not move at all."
+   },
+   {
+    "tokens": "「|だめ|だ|よ|」|と|男の子|が|言った|。",
+    "en": "“That won’t work,” the boy said."
+   },
+   {
+    "tokens": "「|影|は|、|自分|の|足|で|ふまないと|、|もどらない|」|。",
+    "en": "“A shadow only comes back if you step on it with your own feet.”"
+   },
+   {
+    "tokens": "「|その|子|の|足|で|、|ぼく|に|追いつける|と|思う|」|。",
+    "en": "“Do you think his legs can catch me?”"
+   }
+  ],
+  [
+   {
+    "tokens": "そら|は|、|はる|の|手|を|はなして|、|走り出した|。",
+    "en": "Sora let go of Haru’s hand and ran."
+   },
+   {
+    "tokens": "男の子|は|、|笑いながら|石段|を|駆け上がった|。",
+    "en": "Laughing, the boy ran up the steps."
+   },
+   {
+    "tokens": "そら|は|何度|も|、|自分|の|影|に|足|を|のばした|。",
+    "en": "Again and again, Sora stretched out a foot toward his own shadow."
+   },
+   {
+    "tokens": "けれど|、|影|は|いつも|、|あと|少し|の|所|で|にげていった|。",
+    "en": "But every time, the shadow slipped away just out of reach."
+   },
+   {
+    "tokens": "そら|の|足|が|石段|に|引っかかって|、|そら|は|ころんだ|。",
+    "en": "Sora’s foot caught on a step, and he fell."
+   }
+  ],
+  [
+   {
+    "tokens": "その|時|、|強い|風|が|ふいて|、|男の子|の|麦わら帽子|が|飛んだ|。",
+    "en": "Just then a strong wind blew, and the boy’s straw hat flew off."
+   },
+   {
+    "tokens": "帽子|は|、|はる|の|足元|に|落ちた|。",
+    "en": "The hat landed at Haru’s feet."
+   },
+   {
+    "tokens": "はる|が|拾って|顔|を|上げると|、|夕日|の|最後|の|光|が|消える|ところ|だった|。",
+    "en": "As Haru picked it up and raised her head, the last of the sunlight was just fading."
+   },
+   {
+    "tokens": "男の子|は|、|帽子|を|取りに|もどろうとした|。",
+    "en": "The boy tried to come back for his hat."
+   },
+   {
+    "tokens": "けれど|、|その|体|は|、|もう|半分|透き通っていた|。",
+    "en": "But he was already half see-through."
+   },
+   {
+    "tokens": "「|それ|、|ぼく|の#whose|」|という|声|だけ|が|残って|、|男の子|は|消えた|。",
+    "en": "“That’s mine,” said his voice, and then only the voice was left as the boy vanished."
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|そら|の|ひざ|の|血|を|ハンカチ|で|ふいた|。",
+    "en": "Haru wiped the blood off Sora’s knee with her handkerchief."
+   },
+   {
+    "tokens": "そら|は|泣かなかった|。",
+    "en": "Sora didn’t cry."
+   },
+   {
+    "tokens": "ただ|、|「|ぼく|も|、|あの|子|みたいに|なる|の#question|」|と|聞いた|。",
+    "en": "He only asked, “Am I going to end up like him?”"
+   },
+   {
+    "tokens": "はる|は|「|ならない|」|と|言った|。",
+    "en": "“No, you’re not,” Haru said."
+   },
+   {
+    "tokens": "けれど|、|どう|すればいい|のか|は|、|分からなかった|。",
+    "en": "But she did not know what to do."
+   }
+  ],
+  [
+   {
+    "tokens": "家|に|帰ると|、|お母さん|が|仕事|から|もどっていた|。",
+    "en": "When they got home, their mother was back from work."
+   },
+   {
+    "tokens": "「|おかえり|、|はる|」|と|、|お母さん|は|はる|だけ|を|見て|言った|。",
+    "en": "“Welcome home, Haru,” said their mother, looking only at Haru."
+   },
+   {
+    "tokens": "げんかん|で|、|お母さん|が|そら|の|小さな|くつ|を|手|に|取った|。",
+    "en": "In the entrance hall, she picked up Sora’s small shoes."
+   },
+   {
+    "tokens": "「|この|くつ|、|だれ|の#whose|かしら|」|。",
+    "en": "“Whose shoes are these, I wonder?”"
+   },
+   {
+    "tokens": "「|はる|の#whose|にしては|、|小さい|わね|」|。",
+    "en": "“They’re too small to be yours, Haru.”"
+   },
+   {
+    "tokens": "そら|は|、|お母さん|の|エプロン|を|引っ張った|。",
+    "en": "Sora tugged at his mother’s apron."
+   },
+   {
+    "tokens": "お母さん|は|、|何か|に|引っかかった|のか|と|、|エプロン|を|見た|だけ|だった|。",
+    "en": "She only glanced down at her apron, as if it had caught on something."
+   },
+   {
+    "tokens": "そら|は|、|何|も|言わずに|自分|の|部屋|へ|走っていった|。",
+    "en": "Without a word, Sora ran off to his room."
+   }
+  ],
+  [
+   {
+    "tokens": "台所|から|、|おばあちゃん|が|出てきた|。",
+    "en": "Their grandmother came out of the kitchen."
+   },
+   {
+    "tokens": "「|あの|子|は|…|…|」|と|言って|、|おばあちゃん|は|少し|黙った|。",
+    "en": "“That boy…” she began, and fell silent for a moment."
+   },
+   {
+    "tokens": "「|そら|は|、|どこ|」|。",
+    "en": "“Where’s Sora?”"
+   },
+   {
+    "tokens": "名前|が|出てくる|まで|に|、|少し|時間|が|かかった|。",
+    "en": "It had taken a moment for the name to come."
+   },
+   {
+    "tokens": "はる|は|、|その|少し|の|時間|が|こわかった|。",
+    "en": "That moment frightened Haru."
+   }
+  ],
+  [
+   {
+    "tokens": "その|夜|、|はる|は|ねむれなかった|。",
+    "en": "That night, Haru couldn’t sleep."
+   },
+   {
+    "tokens": "はる|は|、|そっと|たんす|から|アルバム|を|出した|。",
+    "en": "Quietly, she took the album out of the chest of drawers."
+   },
+   {
+    "tokens": "あの|写真|を|、|もう一度|見たかった|。",
+    "en": "She wanted to look at that photo again."
+   },
+   {
+    "tokens": "女の子|の|となり|に|は|、|やっぱり|男の子|の|影|が|あった|。",
+    "en": "The boy’s shadow was still there beside the girl."
+   },
+   {
+    "tokens": "けれど|、|何か|が|ちがった|。",
+    "en": "But something was different."
+   },
+   {
+    "tokens": "影|の|頭|に|、|帽子|が|なかった|。",
+    "en": "The shadow had no hat on its head."
+   },
+   {
+    "tokens": "はる|は|、|つくえ|の|上|の|麦わら帽子|を|見た|。",
+    "en": "Haru looked at the straw hat on her desk."
+   },
+   {
+    "tokens": "帽子|の|内側|に|、|うすく|なった|字|で|、|名前|が|書いてあった|。",
+    "en": "Inside the hat, in faded letters, a name was written."
+   },
+   {
+    "tokens": "「|まもる|」|。",
+    "en": "“Mamoru.”"
+   }
+  ]
+ ],
+ [
+  [
+   {
+    "tokens": "次|の|朝|、|はる|は|目|を|あけると|、|すぐに|左手|を|見た|。",
+    "en": "The next morning, as soon as Haru opened her eyes, she looked at her left hand."
+   },
+   {
+    "tokens": "「|そら|、|七歳|、|弟|」|。",
+    "en": "“Sora. Seven. My brother.”"
+   },
+   {
+    "tokens": "字|を|読んでも|、|少し|の|間|、|それ|が|だれ|の|こと|か|分からなかった|。",
+    "en": "Even after she had read it, for a moment she did not know who it meant."
+   },
+   {
+    "tokens": "すぐに|思い出した|が#but|、|はる|の|背中|は|冷たく|なった|。",
+    "en": "It came back to her straight away, but a chill ran down her back."
+   },
+   {
+    "tokens": "手|の|字|が|うすく|なっていた|ので|、|はる|は|ペン|で|もう一度|こく|書いた|。",
+    "en": "The writing on her hand had faded, so Haru went over it again with the pen, darker this time."
+   }
+  ],
+  [
+   {
+    "tokens": "台所|で|は|、|おばあちゃん|が|朝ごはん|を|作っていた|。",
+    "en": "In the kitchen, their grandmother was making breakfast."
+   },
+   {
+    "tokens": "テーブル|に|は|、|はし|が|二人分|しか|並んでいなかった|。",
+    "en": "Only two pairs of chopsticks had been laid on the table."
+   },
+   {
+    "tokens": "はる|が|もう一人分|を|置くと|、|おばあちゃん|は|「|あら|」|と|言って|、|しばらく|考えた|。",
+    "en": "When Haru set down one more pair, her grandmother said, “Oh,” and thought for a while."
+   },
+   {
+    "tokens": "「|そう|だった|、|そら|の|分|ね|」|。",
+    "en": "“That’s right. Sora’s.”"
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|麦わら帽子|と|アルバム|を|テーブル|に|置いた|。",
+    "en": "Haru put the straw hat and the album on the table."
+   },
+   {
+    "tokens": "そして|、|ゆうべ|見た|こと|を|全部|話した|。",
+    "en": "And she told her everything she had seen the night before."
+   },
+   {
+    "tokens": "おばあちゃん|は|写真|を|見てから|、|帽子|の|中|の|字|を|指|で|なぞった|。",
+    "en": "Her grandmother looked at the photo, then traced the name inside the hat with her finger."
+   },
+   {
+    "tokens": "「|まもる|」|と|、|おばあちゃん|は|声に出して|読んだ|。",
+    "en": "“Mamoru,” she read aloud."
+   },
+   {
+    "tokens": "「|知らない|名前|だ|わ|」|。",
+    "en": "“It’s not a name I know.”"
+   },
+   {
+    "tokens": "けれど|、|そう|言った|おばあちゃん|の|目|から|、|なみだ|が|一つ|落ちた|。",
+    "en": "But as she said it, a single tear fell from her eye."
+   },
+   {
+    "tokens": "「|おかしい|ね|。|どうして|泣いている|の#explain|かしら|」|。",
+    "en": "“How strange. Why am I crying?”"
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|あの|子|の|言葉|を|思い出していた|。",
+    "en": "Haru was thinking back over what the boy had said."
+   },
+   {
+    "tokens": "六十年|前|、|まもる|の|家族|は|、|三日|で|まもる|を|忘れた|。",
+    "en": "Sixty years ago, Mamoru’s family had forgotten him in three days."
+   },
+   {
+    "tokens": "けれど|、|人|は|忘れても|、|物|は|残る|。",
+    "en": "But even when people forget, things remain."
+   },
+   {
+    "tokens": "写真|の|影|は|、|あの|子|と|同じ|時|に|帽子|を|なくした#past|。",
+    "en": "The shadow in the photo had lost its hat at the same moment as the boy."
+   },
+   {
+    "tokens": "それなら|、|写真|で|おばあちゃん|の|となり|に|いた|の#nominal|は|、|まもる|だ|。",
+    "en": "So the one beside Grandma in the photo was Mamoru."
+   },
+   {
+    "tokens": "この|家|の|どこか|に|、|まもる|の|物|が|残っている|かもしれない|。",
+    "en": "Something of Mamoru’s might still be somewhere in this house."
+   },
+   {
+    "tokens": "はる|は|、|家|の|中|を|一部屋|ずつ|見て回った|。",
+    "en": "Haru went through the house, one room at a time."
+   }
+  ],
+  [
+   {
+    "tokens": "いちばん|おく|の|部屋|に|、|黒くて|太い|柱|が|一本|あった|。",
+    "en": "In the room at the very back stood a thick, dark pillar."
+   },
+   {
+    "tokens": "柱|に|は|、|小さな|横|の|線|が|いくつも|ついていた|。",
+    "en": "There were lots of little lines marked across the pillar."
+   },
+   {
+    "tokens": "子ども|の|背|の|高さ|を|、|毎年|はかった|線|だ|。",
+    "en": "They were the lines of a child’s height, measured every year."
+   },
+   {
+    "tokens": "線|の|横|に|は|、|「|ちえ|、|五さい|」|「|ちえ|、|六さい|」|と|書いてあった|。",
+    "en": "Beside the lines was written “Chie, 5”, “Chie, 6”."
+   },
+   {
+    "tokens": "ちえ|は|、|おばあちゃん|の|名前|だ|。",
+    "en": "Chie was their grandmother’s name."
+   },
+   {
+    "tokens": "けれど|、|その|となり|に|、|もう一列|、|線|が|並んでいた|。",
+    "en": "But next to them was another column of lines."
+   },
+   {
+    "tokens": "そちら|の|線|は|、|「|八さい|」|の|所|で|終わっていた|。",
+    "en": "Those lines stopped at “8”."
+   },
+   {
+    "tokens": "名前|の|所|に|は|、|「|まもる|」|と|書いてあった|。",
+    "en": "Where the name went, it said “Mamoru”."
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|おばあちゃん|を|柱|の|前|に|連れてきた|。",
+    "en": "Haru brought her grandmother to the pillar."
+   },
+   {
+    "tokens": "「|この|線|、|ずっと|親戚|の|子|の#whose|だ|と|思っていた|の#explain|」|と|、|おばあちゃん|は|言った|。",
+    "en": "“I always thought these lines were some cousin’s,” her grandmother said."
+   },
+   {
+    "tokens": "それから|柱|に|手|を|当てて|、|長い|間|動かなかった|。",
+    "en": "Then she laid her hand on the pillar and did not move for a long time."
+   },
+   {
+    "tokens": "「|お兄ちゃん|」|と|、|おばあちゃん|が|小さく|言った|。",
+    "en": "“Big brother,” she said softly."
+   },
+   {
+    "tokens": "「|私|に|は|、|兄|が|いた|」|。",
+    "en": "“I had a brother.”"
+   },
+   {
+    "tokens": "「|まもるお兄ちゃん|は|、|いつも|麦わら帽子|を|かぶっていた|」|。",
+    "en": "“My brother Mamoru always wore a straw hat.”"
+   }
+  ],
+  [
+   {
+    "tokens": "おばあちゃん|は|、|柱|に|もたれて|話し始めた|。",
+    "en": "Leaning against the pillar, their grandmother began to talk."
+   },
+   {
+    "tokens": "「|あの|写真|の|日|、|兄|と|二人|で|、|石段|で|影ふみ|を|していた|の#explain|」|。",
+    "en": "“On the day of that photo, my brother and I were playing shadow tag on the steps.”"
+   },
+   {
+    "tokens": "「|夕日|が|山|に|かかった|時|、|父|が|カメラ|を|向けた|」|。",
+    "en": "“When the sun touched the mountain, my father pointed his camera at us.”"
+   },
+   {
+    "tokens": "「|父|が|シャッター|を|切った|の#nominal|と|、|私|が|兄|の|影|を|ふんだ|の#nominal|は|、|同じ|時|だった|」|。",
+    "en": "“My father pressed the shutter at the very moment I stepped on my brother’s shadow.”"
+   },
+   {
+    "tokens": "「|兄|は|、|三日|たったら|、|いなくなった|」|。",
+    "en": "“Three days later, my brother was gone.”"
+   },
+   {
+    "tokens": "「|そして|私|は|、|兄|の|こと|を|全部|忘れた|」|。",
+    "en": "“And I forgot everything about him.”"
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|アルバム|の|写真|を|もう一度|見た|。",
+    "en": "Haru looked at the photo in the album again."
+   },
+   {
+    "tokens": "影|は|、|今|も|女の子|の|となり|に|立っていた|。",
+    "en": "The shadow was still standing beside the girl."
+   },
+   {
+    "tokens": "「|影|は|、|なくなったんじゃない|」|と|、|はる|は|言った|。",
+    "en": "“His shadow never disappeared,” Haru said."
+   },
+   {
+    "tokens": "「|六十年|、|ずっと|この|写真|の|中|に|いたんだ|」|。",
+    "en": "“For sixty years, it’s been right here in this photo.”"
+   }
+  ],
+  [
+   {
+    "tokens": "自分|の|影|は|、|自分|の|足|で|ふめば|もどる|。",
+    "en": "If you step on your own shadow with your own feet, it comes back."
+   },
+   {
+    "tokens": "あの|子|は|、|そう|言っていた|。",
+    "en": "That was what the boy had said."
+   },
+   {
+    "tokens": "それなら|、|まもる|が|この|写真|の|影|を|ふめば|、|まもる|の|影|が|もどる|かもしれない|。",
+    "en": "Then if Mamoru stepped on the shadow in this photo, his shadow might come back to him."
+   },
+   {
+    "tokens": "自分|の|影|が|あれば|、|そら|の|影|は|もう|いらない|。",
+    "en": "And if he had his own shadow, he would not need Sora’s any more."
+   },
+   {
+    "tokens": "はる|は|、|写真|を|アルバム|から|、|そっと|はがした|。",
+    "en": "Carefully, Haru peeled the photo out of the album."
+   }
+  ],
+  [
+   {
+    "tokens": "昼|を|過ぎると|、|空|に|雲|が|出てきた|。",
+    "en": "After midday, clouds came into the sky."
+   },
+   {
+    "tokens": "三時|に|は|、|町|の|上|が|すっかり|灰色|に|なった|。",
+    "en": "By three o’clock, the sky over the town had turned completely grey."
+   },
+   {
+    "tokens": "夕日|が|出なければ|、|影|は|できない|。",
+    "en": "If the sun did not come out, there would be no shadows."
+   },
+   {
+    "tokens": "そら|が|、|はる|の|となり|に|来て|、|窓|から|空|を|見上げた|。",
+    "en": "Sora came to Haru’s side and looked up at the sky through the window."
+   },
+   {
+    "tokens": "はる|は|、|そら|の|横顔|を|見て|、|息|を|止めた|。",
+    "en": "Haru glanced at his face and caught her breath."
+   },
+   {
+    "tokens": "そら|の|顔|の|向こう|に|、|窓|の|わく|が|、|うすく|見えていた|。",
+    "en": "Through Sora’s face, she could faintly see the window frame."
+   }
+  ]
+ ],
+ [
+  [
+   {
+    "tokens": "五時|に|なると|、|はる|は|そら|の|手|を|引いて|、|げんかん|に|出た|。",
+    "en": "At five o’clock, Haru took Sora by the hand and went to the front door."
+   },
+   {
+    "tokens": "手|に|は|、|写真|と|麦わら帽子|を|持っていた|。",
+    "en": "In her hands she held the photo and the straw hat."
+   },
+   {
+    "tokens": "げんかん|に|は|、|おばあちゃん|が|つえ|を|持って|立っていた|。",
+    "en": "Their grandmother was standing in the entrance hall with her walking stick."
+   },
+   {
+    "tokens": "「|私|も|行く|」|。",
+    "en": "“I’m coming too.”"
+   },
+   {
+    "tokens": "「|でも|、|おばあちゃん|、|ひざ|が|」|と|、|はる|が|言った|。",
+    "en": "“But Grandma, your knees,” said Haru."
+   },
+   {
+    "tokens": "「|兄|は|、|六十年|も|一人|で|待っていた|のよ|」|。",
+    "en": "“My brother waited sixty years all on his own.”"
+   },
+   {
+    "tokens": "「|今度|は|、|私|が|行く|番|」|。",
+    "en": "“This time, it’s my turn to go.”"
+   }
+  ],
+  [
+   {
+    "tokens": "雲|の|下|の|石段|は|、|いつも|より|ずっと|暗かった|。",
+    "en": "Under the clouds, the steps were much darker than usual."
+   },
+   {
+    "tokens": "おばあちゃん|は|、|一段|ずつ|、|ゆっくり|上った|。",
+    "en": "Their grandmother climbed slowly, one step at a time."
+   },
+   {
+    "tokens": "はる|と|そら|が|、|両側|から|おばあちゃん|の|うで|を|支えた|。",
+    "en": "Haru and Sora held her arms from either side."
+   }
+  ],
+  [
+   {
+    "tokens": "六時半|を|過ぎた|ころ|、|西|の|空|の|雲|の|下|が|、|少し|だけ|赤く|なった|。",
+    "en": "A little after half past six, the underside of the clouds in the west turned faintly red."
+   },
+   {
+    "tokens": "気がつくと|、|石段|の|上|の|方|に|、|帽子|の|ない|男の子|が|立っていた|。",
+    "en": "Then they saw a boy with no hat standing higher up the steps."
+   },
+   {
+    "tokens": "足元|に|は|、|そら|の|影|が|うすく|広がっていた|。",
+    "en": "Sora’s shadow lay faint and spread out at his feet."
+   },
+   {
+    "tokens": "男の子|は|、|はる|の|手|の|帽子|を|見た|。",
+    "en": "The boy looked at the hat in Haru’s hand."
+   },
+   {
+    "tokens": "それから|、|はる|の|後ろ|の|おばあちゃん|を|見た|。",
+    "en": "Then he looked at the old woman behind her."
+   }
+  ],
+  [
+   {
+    "tokens": "男の子|の|顔|が|、|ゆっくり|変わった|。",
+    "en": "The boy’s face slowly changed."
+   },
+   {
+    "tokens": "「|…|…|ちえ|」|。",
+    "en": "“…Chie?”"
+   },
+   {
+    "tokens": "おばあちゃん|は|つえ|を|落として|、|石段|に|ひざをついた|。",
+    "en": "Their grandmother dropped her stick and knelt on the step."
+   },
+   {
+    "tokens": "「|お兄ちゃん|、|ごめんね|」|。",
+    "en": "“I’m sorry, big brother.”"
+   },
+   {
+    "tokens": "「|あの|日|、|私|が|影|を|ふんだ|の#explain|」|。",
+    "en": "“That day, I was the one who stepped on your shadow.”"
+   },
+   {
+    "tokens": "まもる|は|、|首を横にふった|。",
+    "en": "Mamoru shook his head."
+   },
+   {
+    "tokens": "「|ちえ|の|せい|じゃない|よ|」|。",
+    "en": "“It wasn’t your fault, Chie.”"
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|写真|を|出して|、|まもる|に|見せた|。",
+    "en": "Haru took out the photo and showed it to Mamoru."
+   },
+   {
+    "tokens": "「|まもるさん|の|影|は|、|ここ|に|ある|」|。",
+    "en": "“Your shadow is here, Mamoru.”"
+   },
+   {
+    "tokens": "まもる|は|、|写真|の|中|の|自分|の|影|を|、|じっと|見つめた|。",
+    "en": "Mamoru stared at his own shadow in the photo."
+   },
+   {
+    "tokens": "「|でも|、|日|が|当たらないと|、|影|は|動かない|」|。",
+    "en": "“But a shadow can’t move unless the sun is on it.”"
+   }
+  ],
+  [
+   {
+    "tokens": "その|時|、|雲|に|細い|切れ目|が|できた|。",
+    "en": "Just then, a thin gap opened in the clouds."
+   },
+   {
+    "tokens": "赤い|光|が|一本|、|石段|の|上|に|まっすぐ|落ちてきた|。",
+    "en": "A single beam of red light fell straight onto the steps."
+   },
+   {
+    "tokens": "切れ目|の|向こう|に|、|山|に|かかった|夕日|が|見えた|。",
+    "en": "Through the gap they could see the setting sun resting on the mountain."
+   },
+   {
+    "tokens": "石段|の|上|に|、|三つ|の|影|が|長く|のびた|。",
+    "en": "Three shadows stretched long up the steps."
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|光|の|当たっている|段|に|、|写真|を|置いた|。",
+    "en": "Haru laid the photo on a step where the light was falling."
+   },
+   {
+    "tokens": "写真|の|中|の|影|が|、|ふるえる|ように|少し|動いた|。",
+    "en": "The shadow in the photo moved a little, as if it were trembling."
+   },
+   {
+    "tokens": "まもる|が|、|その|影|の|上|に|、|そっと|足|を|のせた|。",
+    "en": "Mamoru gently set his foot on the shadow."
+   },
+   {
+    "tokens": "写真|の|中|から|、|黒い|影|が|水|のように|流れ出して|、|まもる|の|足元|に|広がった|。",
+    "en": "A dark shadow flowed out of the photo like water and spread around Mamoru’s feet."
+   },
+   {
+    "tokens": "まもる|の|足元|の|影|は|、|二つ|に|なった|。",
+    "en": "Now there were two shadows at Mamoru’s feet."
+   }
+  ],
+  [
+   {
+    "tokens": "「|そら|」|と|、|まもる|が|言った|。",
+    "en": "“Sora,” said Mamoru."
+   },
+   {
+    "tokens": "「|自分|の|影|は|、|自分|で|ふむんだ|」|。",
+    "en": "“You have to step on your own shadow yourself.”"
+   },
+   {
+    "tokens": "まもる|は|、|今度|は|にげなかった|。",
+    "en": "This time, Mamoru didn’t run."
+   },
+   {
+    "tokens": "そら|は|、|まもる|の|足元|の|もう一つ|の|影|を|、|両足|で|強く|ふんだ|。",
+    "en": "Sora stamped hard with both feet on the other shadow at Mamoru’s feet."
+   },
+   {
+    "tokens": "紙|を|はりつける|ような|、|小さな|音|が|した|。",
+    "en": "There was a small sound, like paper being pressed flat."
+   },
+   {
+    "tokens": "影|は|石段|の|上|を|すべって|、|そら|の|足元|に|もどってきた|。",
+    "en": "The shadow slid across the step and came back to Sora’s feet."
+   }
+  ],
+  [
+   {
+    "tokens": "はる|は|、|麦わら帽子|を|まもる|の|頭|に|かぶせた|。",
+    "en": "Haru put the straw hat on Mamoru’s head."
+   },
+   {
+    "tokens": "まもる|は|、|おばあちゃん|の|前|に|しゃがんだ|。",
+    "en": "Mamoru crouched down in front of their grandmother."
+   },
+   {
+    "tokens": "「|ちえ|、|大きく|なった|ね|」|。",
+    "en": "“You’ve grown up, Chie.”"
+   },
+   {
+    "tokens": "おばあちゃん|は|泣きながら|笑った|。",
+    "en": "Their grandmother laughed through her tears."
+   },
+   {
+    "tokens": "「|お兄ちゃん|は|、|小さい|まま|ね|」|。",
+    "en": "“And you’re still little, big brother.”"
+   }
+  ],
+  [
+   {
+    "tokens": "「|もう|、|帰れる|」|と|、|まもる|は|言った|。",
+    "en": "“I can go home now,” said Mamoru."
+   },
+   {
+    "tokens": "まもる|は|、|影|と|いっしょに|、|石段|を|一段|ずつ|下りていった|。",
+    "en": "With his shadow beside him, Mamoru went down the steps one at a time."
+   },
+   {
+    "tokens": "いちばん|下|の|段|で|、|まもる|は|振り返って|、|大きく|手|を|ふった|。",
+    "en": "At the bottom step, he turned round and gave a big wave."
+   },
+   {
+    "tokens": "最後|の|光|が|消えた|時|、|そこ|に|は|もう|、|だれ|も|いなかった|。",
+    "en": "When the last of the light was gone, there was no one there any more."
+   }
+  ],
+  [
+   {
+    "tokens": "家|に|帰ると|、|お母さん|が|げんかん|に|走ってきた|。",
+    "en": "When they got home, their mother came running to the door."
+   },
+   {
+    "tokens": "「|そら|、|こんな|おそく|まで|、|どこ|に|行っていた|の#question|」|。",
+    "en": "“Sora, where have you been until this late?”"
+   },
+   {
+    "tokens": "お母さん|は|、|そら|を|強く|だきしめた|。",
+    "en": "She hugged Sora tight."
+   },
+   {
+    "tokens": "台所|の|テーブル|に|は|、|はし|が|四人分|並んでいた|。",
+    "en": "On the kitchen table, four pairs of chopsticks were laid out."
+   }
+  ],
+  [
+   {
+    "tokens": "その|夜|、|はる|は|写真|を|アルバム|に|もどそうとして|、|手|を|止めた|。",
+    "en": "That night, as Haru went to put the photo back in the album, she stopped."
+   },
+   {
+    "tokens": "写真|の|中|で|、|小さな|ちえ|の|となり|に|、|麦わら帽子|の|男の子|が|立って|笑っていた|。",
+    "en": "In the photo, next to little Chie, a boy in a straw hat stood smiling."
+   },
+   {
+    "tokens": "二人|の|足元|に|は|、|影|が|ちゃんと|二つ|あった|。",
+    "en": "At their feet were two shadows, just as there should be."
+   },
+   {
+    "tokens": "おばあちゃん|は|、|その|夜|おそく|まで|、|兄|の|話|を|してくれた|。",
+    "en": "Late into that night, their grandmother told them about her brother."
+   }
+  ],
+  [
+   {
+    "tokens": "次|の|夏|も|、|はる|と|そら|は|、|石段|で|影ふみ|を|した|。",
+    "en": "The next summer, Haru and Sora played shadow tag on the steps again."
+   },
+   {
+    "tokens": "けれど|、|夕日|が|山|に|かかる|前|に|は|、|いつも|家|に|帰った|。",
+    "en": "But they always went home before the sun touched the mountain."
+   }
+  ]
+ ]
+]

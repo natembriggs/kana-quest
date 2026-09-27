@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-27',
+    changes: [
+      'New: 影ふみ (Shadow Tag), an original level 4 story in five chapters — with real magic in it. Grandma says never to play shadow tag on the shrine steps while the sun is touching the mountain. Haru and her little brother Sora play anyway, and a boy in an old straw hat joins in, steps on Sora’s shadow and runs off with it. The next morning Sora has no shadow, and one by one people start to forget he exists. Haru has until the third sunset to get it back, and the only clue is an old photo of Grandma with one shadow too many. Every sentence has its own English translation and tappable word explanations.',
+    ],
+  },
+  {
     date: '2026-09-26',
     changes: [
       'New: painted illustrations now appear in chapters 1–3 of The Three Bells and chapters 4–5 of The Lanterns of the Hidden Valley.',
