@@ -13,6 +13,8 @@ export const CHANGELOG = [
   {
     date: '2026-09-27',
     changes: [
+      'New: four short stories, one chapter each. Level 1 — ケーキを見てください (Please Watch the Cake): Mum asks the new robot to watch the cake, and it does exactly that. Level 2 — ゆず先生 (Teacher Yuzu): eight-year-old Yuzu teaches her seventy-year-old grandpa to swim. Level 3 — 動かない地球 (The Earth That Stays Put): Chie and her mum lose their way back to their Moon base, and she finds it by knowing the lunar sky. Level 6 — 近道 (The Shortcut): a seventeen-year-old takes his little brother up a mountain and has to decide how to get them both down.',
+      'Changed: stories at every level can now use katakana words such as ライオン, ケーキ and ロボット, instead of avoiding them. The Lion and the Mouse now calls its lion ライオン rather than しし. Until you start katakana, a katakana word always shows its reading in hiragana above it, however many times you have seen it.',
       'New: 影ふみ (Shadow Tag), an original level 4 story in five chapters — with real magic in it. Grandma says never to play shadow tag on the shrine steps while the sun is touching the mountain. Haru and her little brother Sora play anyway, and a boy in an old straw hat joins in, steps on Sora’s shadow and runs off with it. The next morning Sora has no shadow, and one by one people start to forget he exists. Haru has until the third sunset to get it back, and the only clue is an old photo of Grandma with one shadow too many. Every sentence has its own English translation and tappable word explanations.',
     ],
   },

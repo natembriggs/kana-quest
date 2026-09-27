@@ -78,6 +78,25 @@ export const STORIES = {
       "credit": "Written by"
     }
   },
+  "keeki-o-mite-kudasai": {
+    "title": {
+      "ja": "ケーキを見てください",
+      "en": "Please Watch the Cake"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "Mum asks the family’s brand-new robot to watch the cake while she goes out. The robot is very good at doing exactly what it is told.",
+    "hash": "b474f978",
+    "length": 121,
+    "paras": 4,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "kitakaze-to-taiyou": {
     "title": {
       "ja": "北風と太陽",
@@ -306,6 +325,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "yuzu-sensei": {
+    "title": {
+      "ja": "ゆず先生",
+      "en": "Teacher Yuzu"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Grandpa is seventy and has never learned to swim. He says he simply doesn’t want to. His eight-year-old granddaughter Yuzu has other ideas.",
+    "hash": "becbd886",
+    "length": 288,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "cinderella": {
     "title": {
       "ja": "シンデレラ",
@@ -455,6 +493,25 @@ export const STORIES = {
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "ugokanai-chikyuu": {
+    "title": {
+      "ja": "動かない地球",
+      "en": "The Earth That Stays Put"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Chie has lived on the Moon for a year, long enough to know its sky by heart. On the last afternoon before the two-week night, that matters more than any map.",
+    "hash": "972015b7",
+    "length": 554,
+    "paras": 7,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
       "credit": "Written by"
     }
   },
@@ -1378,6 +1435,25 @@ export const STORIES = {
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "chikamichi": {
+    "title": {
+      "ja": "近道",
+      "en": "The Shortcut"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "Seventeen-year-old Daiki takes his little brother up a mountain for the first time. On the way down, with the last bus about to leave, he spots a path that isn’t on the map.",
+    "hash": "dc2bb81a",
+    "length": 1325,
+    "paras": 11,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
       "credit": "Written by"
     }
   },

@@ -43,7 +43,8 @@ const theStory = expandStory({
     '後[うし]ろ': ['the back; behind', 'n'],
     '持[も]って': ['held, and', 'v', { df: '持つ', cf: 'te-form' }],
     '持[も]っている': ['am holding on — “I’ve got you”', 'v', { df: '持つ', cf: 'plain present progressive' }],
-    '走[はし]って': ['rode on (lit. ran), and', 'v', { df: '走る', cf: 'te-form' }],
+    'ペダル': ['pedals', 'n'],
+    'こいで': ['pedalling, and', 'v', { df: 'こぐ', cf: 'te-form' }],
     '見[み]ました': ['looked', 'v', { df: '見る', cf: 'polite past' }],
     'ずっと': ['far, a long way', 'adv'],
     '手[て]': ['hand(s)', 'n'],
@@ -108,7 +109,7 @@ const theStory = expandStory({
     [
       line('去[きょ]年[ねん]|の|春[はる]|、|おじいちゃん|は|ゆず|に|自[じ]転[てん]車[しゃ]|を|教[おし]えました|。', 'Last spring, Grandpa had taught Yuzu to ride a bike.'),
       line('おじいちゃん|は|自[じ]転[てん]車[しゃ]|の|後[うし]ろ|を|持[も]って|、|「|持[も]っている|よ|」|と|言[い]いました|。', 'He held on to the back of the bike and said, “I’ve got you.”'),
-      line('ゆず|は|走[はし]って|、|走[はし]って|、|後[うし]ろ|を|見[み]ました|。', 'Yuzu pedalled and pedalled, and then she looked back.'),
+      line('ゆず|は|ペダル|を|こいで|、|こいで|、|後[うし]ろ|を|見[み]ました|。', 'Yuzu pedalled and pedalled, and then she looked back.'),
       line('おじいちゃん|は|ずっと|後[うし]ろ|で|手[て]|を|振[ふ]っていました|。', 'Grandpa was far behind her, waving.'),
     ],
     [
