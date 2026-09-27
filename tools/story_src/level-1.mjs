@@ -79,11 +79,16 @@ const northWindAndSun = expandStory({
   level: 'L1',
   gram: 'G1',
   blurb: 'The North Wind and the Sun each try to make a traveller remove his coat.',
-  source: SOL_SOURCE(
-    'Traditional fable (The North Wind and the Sun)',
-    'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
-    'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
-  ),
+  source: {
+    ...SOL_SOURCE(
+      'Traditional fable (The North Wind and the Sun)',
+      'An original beginner-level retelling of the ancient fable, written without reference to a specific edition.',
+      'Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.',
+    ),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the traveler’s character identity and palette.',
+  },
+  // The challenge, the North Wind's gust, then warm sunlight; one scene per paragraph.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   nw: ['北風', '太陽', '上着', '吹く'],
   lexicon: lexicon({
     '北[きた]風[かぜ]': ['North Wind', 'pn'],

@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the ancient fable, written without reference to a specific edition.",
     "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the traveler’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/kitakaze-to-taiyou/01.webp?v=f083dd8124b05e8b",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/kitakaze-to-taiyou/02.webp?v=ce9f83698a5b4270",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/kitakaze-to-taiyou/03.webp?v=4c8d087bb32bc6dc",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "北風",
@@ -1270,9 +1294,5 @@ export const STORY = {
   "hash": "d6235878",
   "was": [
     "cfa96ebe"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

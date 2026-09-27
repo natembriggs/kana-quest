@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kitakaze-to-taiyou/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the opening paragraph of “The North Wind and the Sun”: the North Wind and the Sun disagree about which is stronger.\nScene/backdrop: A quiet mountain pass beneath a clear, pale sky, with a low path and a few simple distant hills. Keep the setting open and uncluttered.\nSubject: Show the North Wind as sweeping, curling blue-grey gusts crossing the pass, facing a large warm golden sun in the sky. Their opposing forces are clear through the cool flowing wind and steady warm light. Do not include the traveler yet.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful soft shadows, quiet simplified background. Original design, not based on any film or adaptation.\nComposition/framing: landscape around 12:7; the golden sun and blue-grey wind are the two clear focal elements, balanced across the open sky above the small path; readable at phone width. Keep the lower half calm with only two or three simple landscape layers.\nLighting/mood: gentle clear daylight, a playful but calm sense of challenge.\nColor palette: warm ivory sky, restrained ochre gold and muted terracotta sunlight, midnight indigo and soft blue-grey wind, muted teal and sage hills.\nConstraints: represent the opening conversation symbolically without any words or faces; no traveler in this scene. Full bleed landscape illustration.\nAvoid: lettering, speech bubbles, title, border, logo, watermark, photorealism, highly detailed clouds, dense texture, dramatic storm, extra characters."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the North Wind's turn in “The North Wind and the Sun”: the wind blows hard at a traveler, who firmly holds his coat closed.\nScene/backdrop: An open path winding through a quiet mountain valley, with simple distant hills and a few grasses leaning in the wind.\nSubject: The same traveler shown on the story cover: a young adult Japanese man with tousled short dark hair, wearing a mustard-ochre coat, a rust-red scarf, dark charcoal trousers and simple travel pack straps. He leans gently into the gust, one hand holding the front of his coat firmly closed. Blue-grey flowing gusts stream past him and lift the edge of his scarf, but the coat stays on. His face is focused, not frightened.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, only a few purposeful folds and soft shadows, quiet simplified background. Keep the traveler recognisable with natural proportions; the simpler inline treatment must have much less detail than the cover.\nComposition/framing: landscape around 12:7, medium-wide view; traveler prominent near the center, complete upper body and coat visible, with a few blue-grey wind shapes crossing the scene; two or three calm landscape layers, readable at phone width. Do not copy the cover composition.\nLighting/mood: cool breezy daylight, energetic but safe and playful.\nColor palette: warm ivory sky, muted sage and teal hills, midnight indigo and blue-grey gusts, mustard ochre coat, restrained rust-red scarf.\nConstraints: faithfully show the traveler holding his coat tightly against the North Wind; he remains fully dressed and unharmed. Full bleed landscape picture, no words or symbols.\nAvoid: exposing skin, pulling the coat off, fear, storm damage, extreme weather, additional people, busy mountain detail, photorealism, lettering, speech bubbles, labels, title, border, logo, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the Sun's turn in “The North Wind and the Sun”: gentle warm sunlight reaches the traveler on the mountain path.\nScene/backdrop: The same open mountain path and quiet distant hills as the earlier inline scene, now calm under a clear warm sky.\nSubject: The same traveler from the story cover and previous scene: young adult Japanese man with tousled short dark hair, mustard-ochre coat, rust-red scarf, dark charcoal trousers and simple pack straps. He stands comfortably in gentle sunlight, his coat still on and no longer pulled tight against the wind. A soft golden sunbeam falls across his shoulder; the earlier gusts have faded. His expression is relaxed and mildly pleased.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, only a few purposeful folds and soft shadows, quiet simplified background. Keep the traveler recognisable and visually consistent with scene two; use much less detail than the cover.\nComposition/framing: landscape around 12:7, medium-wide view with the traveler prominent against two or three calm landscape layers and an open warm sky; readable at phone width. Do not copy the cover composition.\nLighting/mood: gentle golden warmth after the cool gusts, calm and kind.\nColor palette: warm ivory and ochre sunlight, muted sage and teal hills, midnight indigo only in soft distant shadows, mustard coat and restrained rust-red scarf.\nConstraints: no storm and no struggle in this scene; keep the traveler's coat on. Full bleed landscape picture, no words or symbols.\nAvoid: showing the traveler remove or carry the coat, a changed outfit, extra people, a dramatic victory pose, detailed background, photorealism, lettering, speech bubbles, labels, title, border, logo, watermark."
+    }
+  ]
+}

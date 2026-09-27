@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the traveler’s character identity and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-6a9d66d4-036b-47f4-8a87-3f5e77b38f9d.png",
+    "02.webp": "exec-76bc3c07-0e2a-46e9-8448-54ded9d72446.png",
+    "03.webp": "exec-d62ff777-bbb3-4aae-912a-67e7dc2515ed.png"
+  }
+}
