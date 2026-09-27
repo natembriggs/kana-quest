@@ -18,7 +18,25 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with short, single-clause sentences and no wording from a published edition.",
     "licence": "Public domain source tale. This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the lion and mouse character identities and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/lion-to-nezumi/01.webp?v=66dc8f454fef455d",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/lion-to-nezumi/02.webp?v=deb93acc9fa43078",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "しし",
@@ -996,9 +1014,5 @@ export const STORY = {
   "hash": "16d7ee2a",
   "was": [
     "8415b708"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

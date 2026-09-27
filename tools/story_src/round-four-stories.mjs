@@ -9,7 +9,12 @@ const lionAndMouse = expandStory({
   id: 'lion-to-nezumi', title: { ja: 'ししとねずみ', en: 'The Lion and the Mouse' }, series: null,
   level: 'L1', gram: 'G1',
   blurb: 'A lion spares a tiny mouse and later discovers that help can come from anyone.',
-  source: SOL_SOURCE('Aesop’s fable (The Lion and the Mouse)', 'An original graded retelling with short, single-clause sentences and no wording from a published edition.'),
+  source: {
+    ...SOL_SOURCE('Aesop’s fable (The Lion and the Mouse)', 'An original graded retelling with short, single-clause sentences and no wording from a published edition.'),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the lion and mouse character identities and palette.',
+  },
+  // The lion releases the mouse, then the mouse frees the lion; one scene per paragraph.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }] },
   nw: ['しし', 'ねずみ', '網', '助ける'],
   lexicon: lexicon({
     'でも': ['but, however', 'adv'],

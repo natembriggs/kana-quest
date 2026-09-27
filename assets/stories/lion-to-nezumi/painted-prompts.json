@@ -1,0 +1,33 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/lion-to-nezumi/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the end of the first paragraph of “The Lion and the Mouse”: after the lion has let the mouse go, the small mouse stands safely beside him.\nScene/backdrop: A quiet forest clearing beneath one broad tree, with only a few simple leaves, soft grass and distant green shapes.\nSubject: Keep the lion consistent with the story cover: a large, gentle tawny-gold lion with a full russet-brown mane and rounded paws, now awake and relaxed. Beside his lowered front paw, show a tiny grey mouse with round ears and a thin tail, standing freely and looking up at him. The lion looks down with a mild amused smile; the mouse looks relieved and grateful. Both are unharmed.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows, quiet simplified background. Use natural, kind animal expressions and much less detail than the story cover.\nComposition/framing: landscape around 12:7, medium-wide view at animal height; make the mouse clearly visible beside the lion's paw while keeping the lion's face and mane readable. Use two or three calm background layers; open composition, readable at phone width.\nLighting/mood: soft warm forest daylight, calm and kind.\nColor palette: warm ivory light, tawny ochre lion, muted russet mane, quiet sage and teal greens, small grey mouse.\nConstraints: depict the moment after the lion releases the mouse; the mouse is free and safe, and the lion is gentle. Original picture-book scene, full bleed, no words.\nAvoid: open jaws, sharp teeth, fear, injury, cage, net, other animals or people, dense foliage, photorealism, lettering, speech bubbles, title, border, logo, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading fable\nPrimary request: illustrate the end of the second paragraph of “The Lion and the Mouse”: a tiny mouse has gnawed through the net, freeing the lion.\nScene/backdrop: A quiet forest clearing with a few simple tree trunks and leafy shapes, matching the calm setting of the earlier painting.\nSubject: The same large tawny-gold lion with a full russet-brown mane, and the same tiny grey mouse with round ears and a thin tail. The lion sits safely free beside a loosely torn hunting net; a few broad rope loops rest on the ground without covering or hurting him. The small mouse stands beside the opening it made, and the lion lowers his head toward it with a grateful, gentle expression.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows and folds, quiet simplified background. Keep both animal designs consistent with scene one; use much less detail than the cover.\nComposition/framing: landscape around 12:7, medium-wide view at animal height; show the lion, mouse, and clear opening in the net together, all readable at phone width. Use two or three calm background layers and leave open space around the subjects.\nLighting/mood: soft warm forest daylight, relieved and kind.\nColor palette: tawny ochre lion, muted russet mane, gentle grey mouse, warm ivory highlights, quiet sage and teal greens.\nConstraints: faithfully show the mouse freeing the lion with its teeth; both animals are safe and unharmed. Keep the net visibly cut open but simple and untangled. Full bleed picture, no words or symbols.\nAvoid: fear, injury, tight ropes, an intact net trapping the lion, aggressive teeth, extra people or animals, cluttered forest, photorealism, lettering, speech bubbles, title, border, logo, watermark."
+    }
+  ]
+}
