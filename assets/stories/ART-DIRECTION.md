@@ -223,6 +223,16 @@ built-in OpenAI image-generation tool; full prompts are stored under each
 series' first chapter ID in `cover-prompts.json`. Each of the ten chapter
 assets is a 480×640 WebP file below 60 KiB.
 
+## Series cover: Shadow Tag, 27 September 2026
+
+One painted cover is shared by all five chapter IDs. Haru and Sora stand at
+the foot of the shrine steps at sunset, looking toward a straw-hat-shaped
+shadow with no visible owner. The image establishes the mystery without
+revealing who the shadow belongs to. Generated and refined with the built-in
+OpenAI image-generation tool; both prompts and the edit reference are recorded
+under `kagefumi-1` in `cover-prompts.json` and `cover-sources.json`. All five
+assets are 480×640 WebP files below 60 KiB.
+
 ## Inline painting: Three Bells, 25 September 2026
 
 Three paintings accompany chapter 1 of Three Bells. `01.webp` follows

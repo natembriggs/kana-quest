@@ -69,7 +69,12 @@
     "saigo-no-otehon-2": "exec-6d2899b2-a79f-4026-8433-49ef9c20c0ec.png",
     "saigo-no-otehon-3": "exec-6d2899b2-a79f-4026-8433-49ef9c20c0ec.png",
     "saigo-no-otehon-4": "exec-6d2899b2-a79f-4026-8433-49ef9c20c0ec.png",
-    "saigo-no-otehon-5": "exec-6d2899b2-a79f-4026-8433-49ef9c20c0ec.png"
+    "saigo-no-otehon-5": "exec-6d2899b2-a79f-4026-8433-49ef9c20c0ec.png",
+    "kagefumi-1": "exec-8e2012fd-f488-441f-97e3-f61e9eace65f.png",
+    "kagefumi-2": "exec-8e2012fd-f488-441f-97e3-f61e9eace65f.png",
+    "kagefumi-3": "exec-8e2012fd-f488-441f-97e3-f61e9eace65f.png",
+    "kagefumi-4": "exec-8e2012fd-f488-441f-97e3-f61e9eace65f.png",
+    "kagefumi-5": "exec-8e2012fd-f488-441f-97e3-f61e9eace65f.png"
   },
   "batches": {
     "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
@@ -100,7 +105,12 @@
     "saigo-no-otehon-2": "01a0d279-13c5-7091-ad21-b33f81400a1f",
     "saigo-no-otehon-3": "01a0d279-13c5-7091-ad21-b33f81400a1f",
     "saigo-no-otehon-4": "01a0d279-13c5-7091-ad21-b33f81400a1f",
-    "saigo-no-otehon-5": "01a0d279-13c5-7091-ad21-b33f81400a1f"
+    "saigo-no-otehon-5": "01a0d279-13c5-7091-ad21-b33f81400a1f",
+    "kagefumi-1": "01a0e4d5-84af-7550-9fbb-cca461e4afa7",
+    "kagefumi-2": "01a0e4d5-84af-7550-9fbb-cca461e4afa7",
+    "kagefumi-3": "01a0e4d5-84af-7550-9fbb-cca461e4afa7",
+    "kagefumi-4": "01a0e4d5-84af-7550-9fbb-cca461e4afa7",
+    "kagefumi-5": "01a0e4d5-84af-7550-9fbb-cca461e4afa7"
   },
   "references": {
     "pinocchio": [
@@ -112,6 +122,12 @@
       {
         "role": "style reference",
         "source": "assets/stories/rapunzel/cover.webp"
+      }
+    ],
+    "kagefumi-1": [
+      {
+        "role": "edit target",
+        "source": "exec-51efae62-f024-421e-b7f6-833fb425ed95.png"
       }
     ]
   }
