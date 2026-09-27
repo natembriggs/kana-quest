@@ -22,7 +22,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for lunch-box design and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/futatsu-no-obentou/01.webp?v=c9094f58d2c8375e",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/futatsu-no-obentou/02.webp?v=a05db0b9039acc85",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/futatsu-no-obentou/03.webp?v=5a8621982ce1661d",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "body": [
     [
@@ -1977,9 +2001,5 @@ export const STORY = {
   "hash": "5a31bffc",
   "was": [
     "62f2677c"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

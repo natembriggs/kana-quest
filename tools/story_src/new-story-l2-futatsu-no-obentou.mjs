@@ -9,7 +9,9 @@ const theStory = expandStory({
   blurb: "Yuta takes the wrong lunch box to school, and lunchtime turns into an unexpected family picnic.",
   nw: ["お弁当", "おにぎり"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for lunch-box design and palette."},
+  // The mix-up, the school-lunch reveal, then the park picnic; three scenes across four paragraphs.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   lexicon: lexicon({
     "朝[あさ]": ["morning", "n"],
     "お父[とう]さん": ["Dad", "n"],

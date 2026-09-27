@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for lunch-box design and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-01f562f2-9005-41cf-819e-5d287acd4752.png",
+    "02.webp": "exec-b7c09dea-e2a6-43d3-8e98-4d95b6346222.png",
+    "03.webp": "exec-12d7a9cb-7892-4a02-8945-a8e6b5a27f04.png"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/futatsu-no-obentou/cover.webp",
+      "role": "Lunch-box design and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of the first paragraph of “The Two Lunch Boxes”: Dad has made two different-sized lunches, and Yuta mistakenly puts Dad's larger lunch in his school bag.\nScene/backdrop: A quiet, sunlit home kitchen in the morning, with a simple counter, window and a few calm household shapes.\nSubject: Show a Japanese father in a plain light shirt and muted indigo apron, beside his elementary-school-age son Yuta, who has short dark hair and simple everyday school clothes. On the counter are two packed lunches matching the story cover: a large warm wooden-coloured bento box with a dark teal band and a smaller terracotta-red box with a simple pale pattern. Yuta is placing the large lunch into his dark navy school backpack while Dad is turned toward the counter, unaware of the mix-up.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background. Use the cover only as guidance for the bento boxes and palette; keep the inline detail simpler than the cover.\nComposition/framing: landscape around 12:7, medium-wide kitchen view; make both bento boxes and Yuta's choice of the large one easy to read, with father, child and bag clearly separated. Use two or three calm background layers.\nLighting/mood: warm morning light, gentle domestic calm with a subtle hint of comic mix-up.\nColor palette: warm ivory light, natural wood ochre, dark teal and muted indigo, small terracotta accents.\nConstraints: exactly two lunch boxes, and Yuta takes the larger one. Original family design, full bleed landscape picture, no words.\nAvoid: food on the counter, a third lunch box, text or labels, logos, busy kitchen details, photorealism, dense surface texture, title, border, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph two of “The Two Lunch Boxes”: at school, Yuta opens Dad's larger lunch, sees four rice balls, and the teacher phones Dad.\nScene/backdrop: A quiet, sunlit school lunch area with a simple table, a window and very few background details.\nSubject: The same elementary-school-age boy Yuta with short dark hair, simple school clothes and a dark navy backpack sits beside his open large wooden-coloured bento with its dark teal band. Exactly four small rice balls are visible inside. Yuta looks surprised as he recognizes this is Dad's lunch. Beside him, a kind female teacher in simple muted plum and cream clothes holds a plain phone to her ear while speaking calmly; no other pupils are present.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful shadows, quiet simplified background. Keep Yuta's look consistent with the first scene; use the cover only for the bento palette, not as a detail reference.\nComposition/framing: landscape around 12:7, medium-wide view; clearly show the boy, the open lunch with exactly four rice balls, and the teacher with a simple phone. Keep the rice balls visibly separate and large enough to count at phone width. Use two or three calm background layers.\nLighting/mood: soft midday light, mild surprise and reassuring help.\nColor palette: warm ivory, natural wood ochre, dark teal, navy blue, muted sage and a restrained plum accent.\nConstraints: exactly four rice balls in Yuta's open bento; the teacher is calling Dad. No visible text on the phone or in the room. Full bleed landscape picture.\nAvoid: extra food, extra people, readable screens, writing, logos, cluttered classroom, distress, photorealism, dense surface texture, speech bubbles, title, border, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of the final paragraph of “The Two Lunch Boxes”: Yuta shares a rice ball with his father during a cheerful park picnic with their teacher.\nScene/backdrop: A peaceful green park near the school, with one simple bench and a few soft trees in the background.\nSubject: The same Japanese father and elementary-school-age boy Yuta from the first scene sit together with their kind female teacher on the bench. Dad wears a plain light shirt and muted indigo apron or jacket; Yuta has short dark hair and simple school clothes; the teacher wears muted plum and cream. Yuta smiles and offers one rice ball to Dad, who accepts it warmly. On their laps or the bench are the two story-cover lunch boxes: the larger wooden-coloured bento with a dark teal band and the smaller terracotta-red patterned bento; the teacher has her own simple lunch box. Keep the lunch scene tidy and intimate.\nStyle/medium: softly painted children's storybook gouache in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and soft shadows, quiet simplified background. Keep Yuta consistent with the earlier scene; use the cover only for the box design and palette.\nComposition/framing: landscape around 12:7, medium-wide view at seated eye level; show all three people, the bench, and the shared rice ball clearly. Keep faces and hands simple and readable at phone width, with two or three calm background layers.\nLighting/mood: warm soft afternoon daylight, relaxed family warmth.\nColor palette: warm ivory light, sage and teal park greens, natural wood ochre, dark teal, terracotta-red, restrained indigo and plum.\nConstraints: include exactly the father, Yuta and the teacher; show Yuta offering one rice ball to Dad. Full bleed landscape scene with no words or symbols.\nAvoid: extra people, a picnic blanket covered with food, additional lunch boxes beyond their two and the teacher's one, detailed park scenery, photorealism, dense texture, lettering, speech bubbles, title, border, logo, watermark."
+    }
+  ]
+}
