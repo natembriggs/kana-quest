@@ -16,7 +16,10 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for character identity and palette.',
   },
+  // Mio sets out, notices the missing note, then remembers what to buy.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   lexicon: lexicon({
     'みお': ['Mio', 'pn'],
     'お母[かあ]さん': ['Mum', 'n'],

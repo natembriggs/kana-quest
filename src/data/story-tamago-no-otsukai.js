@@ -27,7 +27,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/tamago-no-otsukai/01.webp?v=be35fa4835785fd2",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/tamago-no-otsukai/02.webp?v=4b036d0c0fd971cf",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/tamago-no-otsukai/03.webp?v=f8c69497e8375e9a",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -2161,9 +2185,5 @@ export const STORY = {
   "hash": "d0a5110c",
   "was": [
     "0d60b8ce"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

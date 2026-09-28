@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/tamago-no-otsukai/cover.webp",
+      "role": "Viewed as character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 0 of “The Egg Errand”: Mio is ready to go to the shop on her first errand, carrying the money and small note Mum gave her.\nScene/backdrop: A quiet Japanese family home in the morning. Show a simple doorway and a low table, with Mum staying home beside the baby's sleeping futon.\nSubject: Mio is an elementary-school-age Japanese girl with dark hair in a low ponytail, a terracotta-red cardigan, navy skirt, small red backpack and a simple cream canvas shopping bag. Her mother is an adult Japanese woman with dark hair in a low bun, a muted sage top and pale cream apron. Mum sits beside the sleeping baby and places a few plain coins and a small blank paper slip on the low table for Mio to collect. Mio is just gathering them before stepping out. Make the paper completely blank; do not draw any writing.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified background. Use warm ivory, sage, muted teal, indigo, soft ochre and restrained terracotta. Keep the detail flatter and simpler than cover art.\nComposition/framing: full-bleed landscape about 12:7, a wide side view of the home interior; show mother and sleeping baby in one calm area, Mio and the open doorway in another, with the small table between them. Two or three quiet depth layers.\nLighting/mood: soft morning daylight, loving and reassuring, with a little first-errand anticipation.\nConstraints: one child, one mother, one sleeping baby; the money and blank note are visible. No text, lettering, title, labels, border or watermark. Original composition.\nAvoid: copying a portrait-cover layout, extra people, extra children, visible writing on the note, readable signs, brand marks, photorealism, dense texture, clutter, dramatic lighting, logos."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 1 of “The Egg Errand”: after running away from a large barking dog, Mio reaches the shop and discovers the note is missing from her pocket.\nScene/backdrop: A modest neighbourhood shop entrance beside a quiet road, shown with simple shelves just inside and a low hedge along the path. Keep all signs blank and the background uncluttered.\nSubject: The same elementary-school-age Japanese girl, Mio, with dark hair in a low ponytail, terracotta-red cardigan, navy skirt, small red backpack and cream canvas shopping bag. She stands by the shop doorway, looking worried as she checks her empty pocket. A large but ordinary family dog is a short distance away behind the low hedge; it has barked but is not snarling or lunging. Mio is startled and has just run, but is now safe at the shop. Do not show the missing note.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified background. Use warm ivory, sage, muted teal, indigo, soft ochre and restrained terracotta. Keep detail flatter and simpler than cover art.\nComposition/framing: full-bleed landscape about 12:7, medium-wide view. Focus on Mio checking her pocket near the shop entrance; show the large dog clearly but small and safely separated in the background. Two or three calm depth layers.\nLighting/mood: soft daylight, a moment of worry settling into puzzlement; gentle rather than frightening.\nConstraints: exactly one girl and one dog; the note is absent. No words, lettering, readable signs, title, labels, border or watermark. Original composition.\nAvoid: extra people, aggressive teeth, attack, chase action, injury, speech bubbles, text, logos, photorealism, dense texture, busy shelves, dramatic shadows."
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 2 of “The Egg Errand”: at the shop counter, Mio remembers that she should buy eggs and asks the shopkeeper for them.\nScene/backdrop: A small neighbourhood grocery with a simple wooden counter and a few quiet shelves of jars and vegetables. Keep shelves orderly and any packaging blank.\nSubject: The same elementary-school-age Japanese girl, Mio, with dark hair in a low ponytail, terracotta-red cardigan, navy skirt, small red backpack and cream canvas shopping bag. A kind middle-aged Japanese woman shopkeeper stands behind the counter with a small plain basket of eggs. Mio has just remembered what to ask for; she looks relieved and points gently toward the eggs. The shopkeeper smiles and reaches toward the basket. Show no note, since Mio lost it.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified background. Use warm ivory, sage, muted teal, indigo, soft ochre and restrained terracotta. Keep detail flatter and simpler than cover art.\nComposition/framing: full-bleed landscape about 12:7, medium-wide two-shot at counter height; keep Mio's relieved expression and the basket of eggs easy to read, with two or three calm depth layers.\nLighting/mood: soft shop light, a small moment of confidence and relief.\nConstraints: one girl, one middle-aged shopkeeper, a simple basket of eggs, no note. No words, lettering, price labels, signs, title, border or watermark. Original composition.\nAvoid: extra people, readable packaging, text or symbols, a dog, photorealism, dense texture, clutter, dramatic lighting, logos."
+    }
+  ]
+}
