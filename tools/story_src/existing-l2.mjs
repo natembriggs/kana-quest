@@ -32,4 +32,13 @@ const momotaroArt = {
   ],
 };
 
-export const STORY_SOURCES = [credit(MOMOTARO, momotaroArt), credit(USAGI)];
+const usagiArt = {
+  credit: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the hare and tortoise character identities and palette.',
+  inline: [
+    { after: 1, file: '01.webp' },
+    { after: 3, file: '02.webp' },
+    { after: 5, file: '03.webp' },
+  ],
+};
+
+export const STORY_SOURCES = [credit(MOMOTARO, momotaroArt), credit(USAGI, usagiArt)];

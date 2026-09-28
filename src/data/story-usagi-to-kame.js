@@ -18,7 +18,8 @@ export const STORY = {
     "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The fable itself is ancient and has no single identifiable author or copyright holder. Retelling and English translation by Claude Opus 5.",
     "licence": "Public domain (traditional fable). This retelling and its English translation are original to Kanji Trail.",
     "credit": "Retold by",
-    "cover": "Cover generated with OpenAI image generation."
+    "cover": "Cover generated with OpenAI image generation.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the hare and tortoise character identities and palette."
   },
   "hash": "cbbd6f9d",
   "nw": [
@@ -1623,7 +1624,26 @@ export const STORY = {
   ],
   "art": {
     "cover": true,
-    "inline": []
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/usagi-to-kame/01.webp?v=06f671cc91abe52f",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/usagi-to-kame/02.webp?v=82a124a88bf7cb46",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/usagi-to-kame/03.webp?v=d9f6c9c6ef0ee227",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "was": [
     "e36577d2"

@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the hare and tortoise character identities and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-6e017737-b77c-422e-ba3f-37416226c29b.png",
+    "02.webp": "exec-5a1a0809-c6a2-4264-821f-afd630ccaf4f.png",
+    "03.webp": "exec-182bb744-4b74-4014-a757-f0c6cd201db5.png"
+  }
+}

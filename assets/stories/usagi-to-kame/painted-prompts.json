@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/usagi-to-kame/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Create a single quiet inline story illustration for a Japanese folktale, landscape 12:7 composition. In a simple forest clearing, a small warm-brown hare stands upright and lightly teases a calm green tortoise, while the tortoise looks determined and gestures toward a race. The characters are friendly and expressive, with rounded gentle contours, broad smooth colour areas, minimal texture, quiet simplified forest background, soft natural palette. Keep the image uncluttered and clearly readable at small inline size. No text, lettering, speech bubbles, border, frame, watermark, or logo. Style consistent with polished, restrained children's storybook art, simpler and flatter than a detailed cover illustration."
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "prompt": "Single landscape inline illustration for a gentle Japanese children's folktale, 12:7 composition. A warm-brown hare has raced ahead and rests beneath the shade of one broad tree, eyes peacefully closed; farther along a simple curving forest path, a small green tortoise keeps walking steadily. Quiet visual contrast between the hare's nap and tortoise's persistence, no danger or outcome revealed. Restrained storybook illustration: broad smooth colour shapes, soft gentle contours, very little surface texture, sparse simplified foliage and background, muted greens and warm earth colours; clear readable silhouettes at small size. No lettering, no speech bubbles, no border or frame, no watermark, no logo."
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "prompt": "Single landscape inline illustration for a gentle Japanese children's folktale, 12:7 composition. At a simple mountain crest, a small green tortoise has already reached the top and pauses calmly; a warm-brown hare is just behind, scrambling up the last part of the path with a surprised but kind expression. The scene conveys the race's result without showing celebration or adding an ending beyond this moment. Broad smooth colour areas, gentle rounded contours, very minimal texture, uncluttered hillside and quiet soft-green valley in the distance, muted natural palette. Keep both characters clearly readable at small inline size. No text, lettering, speech bubbles, border, frame, watermark, or logo."
+    }
+  ]
+}
