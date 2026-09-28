@@ -245,3 +245,15 @@ three use the chapter cover for character and palette reference. Prompts and
 generated-original records are in the chapter's `painted-prompts.json` and
 `painted-sources.json`. The pictures stay outside the story body, so saved
 reading positions are unchanged.
+
+## Story covers: 28 September 2026
+
+Four new stories now have covers: *The Shortcut* shows Daiki and Shō at an
+autumn trailhead as their bus departs; *Please Watch the Cake* shows Kota's
+household robot beside an intact strawberry cake; *The Earth That Stays Put*
+shows Chie looking from her lunar room toward Earth; and *Teacher Yuzu* shows
+Yuzu helping her grandfather begin a swimming lesson. Each depicts an opening
+moment without revealing the story's outcome. Generated with the built-in
+OpenAI image-generation tool; prompts and original PNG source names are
+recorded in `cover-prompts.json` and `cover-sources.json`. All four exported
+covers are 480×640 WebP files below 60 KiB.
