@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours and minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/rapunzel/cover.webp",
+      "role": "Character identity and clothing palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Rapunzel”\nPrimary request: depict the opening garden scene from paragraph 0: at night, Rapunzel’s father quietly gathers a few leafy greens from the edge of the witch’s garden.\nScene/backdrop: a small cottage beyond a low garden hedge, rows of broad leafy vegetables in a quiet moonlit garden, deep forest shapes behind it.\nSubject: one worried middle-aged husband in simple muted brown clothes bends to gather a small bundle of greens, moving carefully and looking toward the cottage. Keep the action gentle and readable.\nStyle/medium: children’s storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background. Much simpler than a detailed cover painting.\nComposition/framing: landscape close to the project's 12:7 inline shape; medium-wide view with the man and greens as clear focal points, two or three broad depth layers.\nLighting/mood: cool moonlight with a small warm glow at the cottage window; restrained suspense, not frightening.\nColor palette: midnight indigo, muted teal and sage, warm ivory and a little ochre.\nConstraints: original character and setting design; no lettering, title, border, frame, or watermark.\nAvoid: visible witch, confrontation, baby, prince, magic effects, text, ornate detail, photorealism, glossy 3D, dense texture, violence."
+    }
+  ]
+}

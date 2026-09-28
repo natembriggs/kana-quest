@@ -14,7 +14,10 @@ const theStory = expandStory({
     credit: 'Retold by',
     notes: 'An original graded retelling of the Grimm tale, keeping its full arc through to the blinded prince and the tears that heal him; no wording is copied from a published translation.',
     licence: 'Public domain source tale. This Japanese retelling and its English translation are original to Kanji Trail.',
+    illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Rapunzel’s character identity and palette.',
   },
+  // The opening nocturnal garden scene introduces the bargain without revealing later events.
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   nw: ['ラプンツェル', '魔女', '塔', 'いばら', '荒れ野'],
   lexicon: lexicon({
     // --- function words needing a story-local sense ---
