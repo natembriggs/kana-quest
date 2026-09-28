@@ -67,7 +67,7 @@ MNEMONICS_TSV = ROOT / "tools" / "kanji_src" / "kanji-mnemonics.tsv"
 # rest of the jōyō set is a one-line change here plus authored mnemonics for
 # the new units in kanji-mnemonics.tsv — the rest of the pipeline is
 # unit-agnostic.
-UNITS = ("1", "2", "3", "4", "5", "6")
+UNITS = ("1", "2", "3", "4", "5", "6", "8-1", "8-2", "8-3", "8-4", "8-5", "8-6")
 
 # Kanji whose KanjiVG decomposition is structurally valid but useless to a
 # learner, and which the automatic guards below don't catch. Each was read
@@ -100,6 +100,36 @@ HAND_SUPPRESSED = set(
     # 熟 (孰 "which"), 保 (呆 "be amazed"), 補 (甫 "for the first time"),
     # 接 (妾 "concubine").
     "任就敬熟保補接"
+    # secondary 8-1..8-6 (2026-09-28), the same four groups again. The same
+    # element named twice, split round what it encloses: 歳 and 滅 (戌), 黙
+    # (黒), 充 (允), 憩 (息), 謄 (朕), 塞 (三).
+    "歳滅黙充憩謄塞"
+    # a part with no defensible keyword on a tile, or a wrong element: 妊廷淫
+    # (壬, the calendar sign again), 随堕 (陏 "melon", the wrong element),
+    # 罰 (䚯, a truncated gloss), 塾 (孰 "which"), 稽 (尤 "reasonable"),
+    # 挨 (矣, a sentence particle), 逓 (乕, a tiger variant that is not
+    # what the character draws).
+    "妊廷淫随堕罰塾稽挨逓"
+    # breakdowns that leave strokes out: 介 = 人+丿+丨, 遣 = ⻌+中, 継 = 糸+米,
+    # 徴 = 彳+攵, 汚 = 氵+二, 恵 = 由+心 (its top is 叀, as with 専), 渋 =
+    # 氵+止, 舞 = 丿+一+舛, 監 = 臣+皿.
+    "介遣継徴汚恵渋舞監"
+    # 侵 = 亻+⺕, 寝 = 宀+⺦, 華 = 艹+丨, 微 = 彳+攵, 薦 = 艹+广+灬, 兼 =
+    # 八+⺕+丨+丨, 斉 = 文+二, 斎 (斉 three times), 免 = 𠂊+儿, 帝 = 亠+冖+巾,
+    # 隠 (its 工 is missing), 慶 = 广+心+夂.
+    "侵寝華微薦兼斉斎免帝隠慶"
+    # 遂 = ⻌+豕 (its 丷 is missing), 衰 (衣 split round 口+口), 浸 = 氵+⺕,
+    # 穏 (its 工 is missing, as with 隠).
+    "遂衰浸穏"
+    # 菌 (囗 split round 禾), 那 = 二+⻏, 哀 (衣 split round 口).
+    "菌那哀"
+    # 敢 = 耳+攵, 挿 (千 twice over 十+日), 拳 = 二+人+手 (its 丷 is
+    # missing), 遷 = ⻌+覀, 帥 = 丿+巾, 褒 (衣 split round 保).
+    "敢挿拳遷帥褒"
+    # 脊 = 人+二+二+月, 膝 (its 人 is missing), 侯 = 亻+矢, 畏 = 田+一, 嗅
+    # (犬 named beside a 臭 that already has one), 戚 (戊 split round 尗), 隙
+    # (小 split round 日).
+    "脊膝侯畏嗅戚隙"
 )
 
 # KANJIDIC lists a radical's own NAME as if it were a meaning ("one radical

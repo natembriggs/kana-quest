@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-09-28',
+    changes: [
+      'New: memory hints for all 1,110 secondary-school kanji, so every one of the 2,136 jōyō kanji now has one. 958 of the new hints break the kanji into its parts — 艦 (warship) is a boat beside oversee, 峠 (mountain pass) is a mountain beside above and below — and the rest describe what the character looks like. As before, you can rewrite any hint in your own words.',
+    ],
+  },
+  {
     date: '2026-09-27',
     changes: [
       'New: four short stories, one chapter each. Level 1 — ケーキを見てください (Please Watch the Cake): Mum asks the new robot to watch the cake, and it does exactly that. Level 2 — ゆず先生 (Teacher Yuzu): eight-year-old Yuzu teaches her seventy-year-old grandpa to swim. Level 3 — 動かない地球 (The Earth That Stays Put): Chie and her mum lose their way back to their Moon base, and she finds it by knowing the lunar sky. Level 6 — 近道 (The Shortcut): a seventeen-year-old takes his little brother up a mountain and has to decide how to get them both down.',

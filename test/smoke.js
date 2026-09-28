@@ -2652,8 +2652,10 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
     hintOnly > 100, `only ${hintOnly}`);
   check('every entry has a hint — an entry with nothing to say is no entry',
     emptyHint.length === 0, emptyHint.join(' '));
+  const uncoveredKanji = KANJI_COURSES.filter((c) => !unitHasComponents(c.unit))
+    .reduce((n, c) => n + c.chunks.flatMap((ch) => ch.items).length, 0);
   check('kanji outside the covered grades have no record at all',
-    atomic > compound, `${atomic} uncovered vs ${compound} compound`);
+    uncoveredKanji > 0 && atomic === uncoveredKanji, `${atomic} with no record vs ${uncoveredKanji} uncovered`);
   check('every breakdown has a known arrangement and at least two parts, '
     + 'and every hint-only entry has none',
     badArrangement.length === 0, badArrangement.join(' '));
@@ -2664,26 +2666,28 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
   check('every mnemonic uses each of its own components\u2019 keywords',
     unusedKeyword.length === 0, unusedKeyword.slice(0, 8).join(' '));
   // A ceiling, not a target: the map is built from the components actually
-  // used, so this only catches it blowing up. Grades 1-6 use 486; raise the
-  // bound when a new grade is covered, not to make a failure go away.
+  // used, so this only catches it blowing up. Grades 1-6 use 486 and all of
+  // jōyō 776; raise the bound when a new grade is covered, not to make a
+  // failure go away.
   check('the shared component map is not larger than what is actually used',
-    Object.keys(COMPONENT_MEANINGS).length < 600,
+    Object.keys(COMPONENT_MEANINGS).length < 900,
     `${Object.keys(COMPONENT_MEANINGS).length} components`);
 
   // Every kanji in a covered grade has a hint of some kind — that is the
   // whole point of giving hint-only entries to characters with no parts.
-  const grade1 = KANJI_COURSES.find((c) => c.unit === '1').chunks.flatMap((c) => c.items);
-  const grade1WithHints = grade1.filter((k) => kanjiComponents('1', k));
+  const hintless = covered.flatMap((unit) => KANJI_COURSES.find((c) => c.unit === unit)
+    .chunks.flatMap((c) => c.items)
+    .filter((k) => !kanjiComponents(unit, k)));
   check('every kanji in a covered grade has a hint, breakdown or not',
-    grade1WithHints.length === grade1.length,
-    `${grade1.length - grade1WithHints.length} missing: `
-    + grade1.filter((k) => !kanjiComponents('1', k)).join(''));
+    hintless.length === 0, `${hintless.length} missing: ${hintless.slice(0, 20).join('')}`);
+  check('every jōyō unit is covered', ['1', '2', '3', '4', '5', '6', '8-1', '8-2', '8-3',
+    '8-4', '8-5', '8-6'].every(unitHasComponents), covered.join(' '));
 
   // A grade with no data must answer "no record", not throw — that is how
   // every screen distinguishes "nothing to show" from "not covered yet": it
   // doesn't.
   check('an uncovered grade returns no record rather than failing',
-    kanjiComponents('8-1', KANJI_COURSES.find((c) => c.unit === '8-1').chunks[0].items[0]) === null);
+    kanjiComponents('9-1', KANJI_COURSES.find((c) => c.unit === '9-1').chunks[0].items[0]) === null);
 }
 done('component breakdowns: arrangement, standardized meanings, hint coverage');
 

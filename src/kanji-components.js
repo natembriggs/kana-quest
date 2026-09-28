@@ -14,8 +14,9 @@
 // for the sake of the three screens that want components. A screen that
 // wants both awaits both; every other screen pays nothing.
 //
-// Only the units in COMPONENT_UNITS have data (grades 1-3 — see the plan's
-// §8 first-pass scope). Everything here returns null for anything else,
+// Only the units in COMPONENT_UNITS have data — all of jōyō: grades 1-6 and
+// the secondary sub-units 8-1..8-6 (kanji-mnemonic-plan.md §9.5/§9.6). The
+// beyond-jōyō names & places units (9-*) have none yet. Everything here returns null for anything else,
 // which is the same answer a kanji with no entry gets, so no caller needs to
 // know the difference.
 //
@@ -30,7 +31,10 @@ import { COMPONENT_MEANINGS } from './data/components.js';
  * with UNITS in tools/build_kanji_components.py — a unit listed here with no
  * data file would throw on import, so the loader treats a failed import as
  * "no components" rather than an error (see ensureComponentUnitLoaded). */
-const COMPONENT_UNITS = new Set(['1', '2', '3', '4', '5', '6']);
+const COMPONENT_UNITS = new Set([
+  '1', '2', '3', '4', '5', '6',
+  '8-1', '8-2', '8-3', '8-4', '8-5', '8-6',
+]);
 
 const byUnit = new Map();       // unit -> { kanji: entry }
 const loadedUnits = new Set();

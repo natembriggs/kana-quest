@@ -1197,6 +1197,30 @@ useless or off-tone on a tile (任's 壬 "9th calendar sign", 接's 妾
 "concubine"). All 35 of the new ones still get an appearance hint, per
 §9.4.
 
+### 9.6 Secondary jōyō, 8-1..8-6 (2026-09-28)
+
+The remaining 1,110 jōyō kanji, by the same route as §9.5, done first so the
+component-first teaching order in kanji-expansion-plan.md §3 has a
+decomposition for every jōyō kanji to sort on. `UNITS` and `COMPONENT_UNITS`
+gained 8-1..8-6. **All 2,136 jōyō kanji now carry a hint**, 1,732 with a
+breakdown (958 of them secondary); 776 distinct components. The beyond-jōyō
+names & places units (9-*) are still uncovered.
+
+About 160 new keyword rows in `component-keywords.tsv`, for the same four
+reasons as §9.5: no KANJIDIC entry (尞 bonfire, 夹 sandwiched, 舛 opposing
+feet), a borrowed or archaic first gloss (甫 "for the first time" → garden
+plot, 而 "and yet" → beard, 致 "doth" → deliver), off-tone for a child
+(斬 "beheading" → chop), and — the biggest group — a collision with a
+keyword an existing component already carried: 包 "wrap" (勹's), 屋 "roof"
+(宀's), 卉 "grass" (艹's), 竜/龍 "dragon" (辰's, kept as "great dragon").
+
+`HAND_SUPPRESSED` grew from 39 to 97, all in the same four groups: the same
+element split round its contents (歳, 滅, 黙, 衰, 哀, 褒, 戚, 隙), a part
+with no defensible keyword or the wrong element (妊/廷/淫's 壬 again, 随/堕's
+陏 "melon"), and — the most common here — breakdowns that leave strokes out
+(介 = 人+丿+丨, 遣 = ⻌+中, 監 = 臣+皿, 敢 = 耳+攵). Every one of them still
+gets an appearance hint, per §9.4.
+
 ---
 
 ## 10. Editable hints (2026-09-05)
