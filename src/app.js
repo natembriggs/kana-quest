@@ -189,7 +189,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-28b'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-28c'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
@@ -2608,18 +2608,22 @@ function renderCourse() {
   viewSet.innerHTML = '📋 View set overview';
   viewSet.addEventListener('click', () => openOverview(course, currentChunk.items[0]));
 
-  // Every level's count over days, weeks or a year, with goals — for the
-  // whole script (or any one unit), not just this card's unit.
-  const viewProgress = document.createElement('button');
-  viewProgress.type = 'button';
-  viewProgress.className = 'btn overview-button';
-  viewProgress.innerHTML = '📈 My progress';
-  viewProgress.addEventListener('click', () => openProgress());
-
   const row = document.createElement('div');
   row.className = 'row';
   row.appendChild(viewSet);
-  row.appendChild(viewProgress);
+  // Every level's count over days, weeks or a year, with goals — for the
+  // whole script (or any one unit), not just this card's unit. Kanji and
+  // vocabulary show it in the quick-action row at the top instead
+  // (#quick-progress), where it no longer drifts down the page as pickers
+  // are added above this card; kana has no quick actions, so it stays here.
+  if (!QUICK_ACTION_POOLS[script.kind]) {
+    const viewProgress = document.createElement('button');
+    viewProgress.type = 'button';
+    viewProgress.className = 'btn overview-button';
+    viewProgress.innerHTML = '📈 My progress';
+    viewProgress.addEventListener('click', () => openProgress());
+    row.appendChild(viewProgress);
+  }
   card.appendChild(row);
 
   // Review / Test unlearned / Learn, stacked in the order the app wants a
@@ -13513,6 +13517,7 @@ function wire() {
       // The set overview's "Mark as known" select mode — see the section of
       // that name above renderOverview's helpers.
       case 'overview-select-toggle': toggleOverviewSelectMode('known'); break;
+      case 'open-progress': openProgress(); break;
       case 'open-waiting': {
         const poolId = $('quick-waiting').dataset.kind === 'vocab'
           ? VOCAB_WAITING_POOL_ID : WAITING_POOL_ID;

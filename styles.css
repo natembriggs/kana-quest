@@ -1041,9 +1041,14 @@ button.quiz-glyph-tap {
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .actions .btn { padding: 0 10px; }
 .actions .btn b { font-weight: 800; }
-/* The waiting-list link sits under the 2-up Review/Learn pair as a full
-   row of its own — it is a third, lesser action about the pair above it,
-   not a fourth quarter of a 2x2 grid (see renderQuickActions in app.js). */
+/* Review / Learn / My progress, three abreast. A label that doesn't fit a
+   third of a phone's width wraps inside its button rather than squeezing
+   the others. */
+#quick-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#quick-actions .btn { padding: 6px 8px; line-height: 1.2; }
+/* The waiting-list link sits under the Review/Learn/My progress row as a
+   full row of its own — a lesser action about the pair beside it, not a
+   fourth column (see renderQuickActions in app.js). */
 #quick-waiting { grid-column: 1 / -1; }
 
 /* Review / Test unlearned / Learn on the course card: stacked full-width

@@ -5941,7 +5941,10 @@ check('a second Back now genuinely leaves the screen, exactly like the first one
   await settle();
   fire(el('script-list')._children.find((c) => c.dataset.script === 'kanji'), 'click');
   await settle();
-  fire(buttonsIn(el('course-list')._children[0]).find((b) => (b.innerHTML || '').includes('My progress')), 'click');
+  check('kanji offer My progress in the quick-action row, not on the unit card',
+    el('quick-actions').hidden === false
+    && !buttonsIn(el('course-list')._children[0]).some((b) => (b.innerHTML || '').includes('My progress')));
+  fireAction('open-progress');
   await settle();
   check('kanji My progress opens', visible() === 'screen-progress', visible());
   check('kanji show a unit picker', el('progress-scope-wrap').hidden === false);

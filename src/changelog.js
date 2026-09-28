@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-09-28',
     changes: [
+      'Changed: for kanji and vocabulary, “📈 My progress” now sits at the top next to Review and Learn, instead of on the card further down the page.',
       'New: choose the order you learn kanji in, with the new buttons above the grade list. School grade is still the default. JLPT teaches N5 up to N1 (there is no official JLPT kanji list, so these are Jonathan Waller’s widely used estimates). Kanji Trail follows school grades, but teaches a kanji before any kanji built from it — so 成 (turn into) now comes before 城 (castle), whose hint is “earth beside turn into”, and 寸 comes just before 村. You can switch at any time without losing anything you have learned. Thank you for suggesting this!',
       'New: memory hints for all 1,110 secondary-school kanji, so every one of the 2,136 jōyō kanji now has one. 958 of the new hints break the kanji into its parts — 艦 (warship) is a boat beside oversee, 峠 (mountain pass) is a mountain beside above and below — and the rest describe what the character looks like. As before, you can rewrite any hint in your own words.',
     ],
