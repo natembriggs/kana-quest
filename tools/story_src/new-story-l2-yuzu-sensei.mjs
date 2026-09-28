@@ -16,6 +16,7 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizo inline treatment and original character designs based on the story text.',
   },
   lexicon: lexicon({
     'ゆず': ['Yuzu (a girl’s name)', 'pn'],
@@ -98,6 +99,7 @@ const theStory = expandStory({
     'もう一[いっ]回[かい]': ['one more time', 'adv'],
     'お願[ねが]いします': ['please', 'exp'],
   }),
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   body: [
     [
       line('ゆず|は|八[はっ]歳[さい]|で#and|、|泳[およ]ぎ|が|上[じょう]手[ず]|です|。', 'Yuzu is eight, and she is a good swimmer.'),

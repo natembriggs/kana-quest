@@ -25,7 +25,31 @@ export const STORY = {
     "by": "Claude Opus 5.5",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizo inline treatment and original character designs based on the story text."
+  },
+  "art": {
+    "cover": false,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/yuzu-sensei/01.webp?v=b3819c1a446c71c2",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/yuzu-sensei/02.webp?v=776649f68853198e",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/yuzu-sensei/03.webp?v=4886ff6ca936906f",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -3030,9 +3054,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "becbd886",
-  "art": {
-    "cover": false,
-    "inline": []
-  }
+  "hash": "becbd886"
 };

@@ -1,0 +1,34 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the Japanese graded-reading story “Teacher Yuzu”\nPrimary request: show the story’s opening scene in which Yuzu promises to teach her grandfather to swim, while he pretends he does not want to and holds his newspaper upside down.\nScene/backdrop: a quiet, modest Japanese sitting room on a Saturday morning, with a low table and a simple window; keep the background uncluttered.\nSubject: Yuzu is an eight-year-old Japanese girl with a neat short black bob, wearing simple everyday clothes in muted terracotta and indigo. Her Japanese grandfather is seventy, with soft grey hair and a kind, ordinary face, wearing a sage cardigan over an ivory shirt. She speaks with lively confidence and gestures toward herself as the teacher; he sits holding an obviously upside-down but completely blank, unlettered newspaper, gently trying to look unconcerned.\nStyle/medium: children’s storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, restrained shading, few purposeful details.\nComposition/framing: landscape about 12:7, medium-wide view, both people clearly readable at small inline size, quiet two-layer room background.\nLighting/mood: soft morning daylight, affectionate and lightly comic.\nColor palette: warm ivory, muted indigo, sage green and restrained terracotta.\nConstraints: original character designs; depict only this opening moment. Keep expressions gentle and natural.\nAvoid: legible newspaper text, lettering of any kind, speech bubbles, captions, border, frame, watermark, logo, extra people, ornate room details, photorealism, glossy 3D, dense texture."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for “Teacher Yuzu”\nPrimary request: depict the moment Grandpa finally and slowly steps into the town swimming pool after hesitating at the cold water.\nScene/backdrop: a calm, uncluttered municipal pool with a pale blue-green shallow end, simple pool edge and a few quiet windows; no crowd.\nSubject: the same seventy-year-old Japanese grandfather, soft grey hair and kind natural face, now wearing simple dark indigo swim trunks, carefully lowering one foot into the shallow water with a hesitant, slightly cold expression. Yuzu, his eight-year-old granddaughter with a neat short black bob, wears a simple muted terracotta one-piece swimsuit and waits nearby in the shallow end, encouraging him. Keep the characters consistent with the previous illustration.\nStyle/medium: gentle children’s storybook painting following the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, restrained shading and quiet simplified background.\nComposition/framing: landscape about 12:7, medium-wide and readable at small inline size; show the waterline and both characters clearly.\nLighting/mood: soft daylight, light-hearted and reassuring, no drama.\nColor palette: pale blue-green water, warm ivory pool deck, muted indigo, sage and restrained terracotta.\nConstraints: show him entering slowly, not swimming yet; age-appropriate modest swimwear and natural anatomy.\nAvoid: other people, dramatic splashing, distress, lettering or signs, speech bubbles, captions, borders, frames, watermarks, logos, photorealism, glossy 3D, dense texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for “Teacher Yuzu”\nPrimary request: show Yuzu supporting Grandpa as he practices his first flutter kick in the pool, just before she quietly lets go.\nScene/backdrop: the same calm town pool, viewed close to the waterline with a simple pale blue-green background and no crowd.\nSubject: the same seventy-year-old Japanese grandfather with soft grey hair wears modest dark indigo swim trunks. He floats in shallow water with his eyes squeezed shut and makes a small, gentle flutter kick, nervous but safe. His granddaughter Yuzu, eight years old with a short black bob and a muted terracotta one-piece swimsuit, stands beside him and supports him steadily with both hands under his tummy, beginning to ease her hands away. Their faces and bodies are relaxed; no fear or struggle.\nStyle/medium: simple painted children's storybook art following the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful shadows, quiet simplified background.\nComposition/framing: landscape about 12:7, medium view of both figures at water level, their supportive pose clearly readable at small inline size.\nLighting/mood: soft indoor daylight, encouraging and tender, lightly comic.\nColor palette: cool pale blue-green water, warm ivory highlights, muted indigo, sage and restrained terracotta.\nConstraints: depict only this practice moment; age-appropriate modest swimwear, natural anatomy and a safe shallow pool.\nAvoid: other people, distress, deep water, dramatic splashes, lettering, signs, captions, speech bubbles, borders, frames, watermarks, logos, photorealism, glossy 3D, dense texture."
+    }
+  ]
+}
