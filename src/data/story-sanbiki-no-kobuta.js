@@ -18,7 +18,19 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling, using a non-violent version of the ending and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the three pigs’ character identities and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/sanbiki-no-kobuta/01.webp?v=ce1dc18b5cf561bc",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "子ぶた",
@@ -2617,9 +2629,5 @@ export const STORY = {
   "hash": "0abe7784",
   "was": [
     "53fcb72f"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

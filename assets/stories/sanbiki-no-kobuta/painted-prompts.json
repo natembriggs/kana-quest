@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours and minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/sanbiki-no-kobuta/cover.webp",
+      "role": "Character identity and clothing palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story illustration for the graded-reader story “The Three Little Pigs”\nPrimary request: show the end of paragraph 1: the youngest pig carefully lays bricks one at a time while his two older brothers laugh at his slow work.\nScene/backdrop: a simple clearing at the edge of a green forest, with a small neat stack of red-orange bricks in front and a few straw bundles and wooden branches off to the sides.\nSubject: exactly three friendly pink piglets. The youngest wears a cream shirt and rust-orange overalls and concentrates on setting one brick into a low wall. His brothers wear cream shirts with simple blue and muted-green overalls, standing nearby and smiling at how long the work is taking. Use the story cover only for these character identities and clothing colours.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, simplified quiet background; distinctly simpler than the textured cover.\nComposition/framing: landscape about 12:7 for the reader, medium-wide, with the bricklaying pig as the clear focal subject and the two brothers secondary, two or three broad depth layers.\nLighting/mood: warm clear afternoon, industrious and lightly playful.\nColor palette: warm ivory, soft sky blue, sage and muted teal, restrained terracotta, natural pink.\nConstraints: exactly three pigs; depict steady bricklaying before any wolf arrives. No lettering, title, border, frame, or watermark.\nAvoid: wolf, completed house, danger, violence, extra animals, text, photorealism, glossy 3D, dense brush texture, highly detailed background."
+    }
+  ]
+}
