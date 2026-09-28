@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original beginner-level retelling of the traditional folktale, not a transcription or translation of a particular published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Tarō’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/urashima-tarou/01.webp?v=db04653159bee9b9",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/urashima-tarou/02.webp?v=78e6e7a4340168e5",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/urashima-tarou/03.webp?v=49e684c8ef1a304b",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "亀",
@@ -3549,9 +3573,5 @@ export const STORY = {
   "hash": "7a4bbefc",
   "was": [
     "23ed476c"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -14,7 +14,10 @@ const theStory = expandStory({
     credit: 'Retold by',
     notes: 'An original beginner-level retelling of the traditional folktale, not a transcription or translation of a particular published edition.',
     licence: 'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Tarō’s character identity and palette.',
   },
+  // Tarō returns the turtle, arrives at the Dragon Palace, and receives the closed box.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   nw: ['亀', '竜宮城', '乙姫', '玉手箱', '漁師', '煙'],
   lexicon: lexicon({
     // A second が, used as the "but" conjunction rather than the subject marker.
