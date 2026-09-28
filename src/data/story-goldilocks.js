@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with a gentle ending and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Goldilocks’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/goldilocks/01.webp?v=e20c0696c81da30a",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/goldilocks/02.webp?v=a92f5a8a03b3032d",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/goldilocks/03.webp?v=015cfd36f6680072",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "ゴルディロックス",
@@ -3773,9 +3797,5 @@ export const STORY = {
   "was": [
     "0a01f882",
     "e8432603"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

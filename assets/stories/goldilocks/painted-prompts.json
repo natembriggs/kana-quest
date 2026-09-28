@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours and minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/goldilocks/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Goldilocks and the Three Bears”\nPrimary request: illustrate the opening paragraph after paragraph 0: Goldilocks has found a quiet cottage in the forest, knocked, heard no reply, and noticed the door slightly open.\nScene/backdrop: a small, welcoming timber cottage at the edge of a green English woodland, with a simple path and rounded trees in soft layers. The front door stands slightly ajar.\nSubject: Goldilocks, a young girl with long golden-blonde hair, a simple muted blue dress over a cream blouse, pauses at the doorway and looks inside with gentle curiosity. Use the story cover only as a guide for her character identity and blonde, blue and cream palette; make the inline drawing much simpler than the cover.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, soft contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7, medium-wide view, girl and open doorway clearly readable at small inline size, two or three broad depth layers.\nLighting/mood: soft morning light, curious and calm.\nColor palette: warm ivory, muted blue, honey ochre, gentle sage and soft brown.\nConstraints: the bear family is away from home; show only the empty doorway and Goldilocks at the threshold, before she enters and explores the cottage.\nAvoid: bears, food, bowls, a broken chair, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture, threatening mood."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Goldilocks and the Three Bears”\nPrimary request: illustrate the end of paragraph 1: Goldilocks has sampled the three bowls of soup, found Baby Bear’s just right, then tested three chairs and broken the smallest one.\nScene/backdrop: a simple cottage dining room with a wooden table and three clearly different-sized chairs. Keep the furnishings quiet and uncluttered.\nSubject: Goldilocks, a young girl with long golden-blonde hair, muted blue dress and cream blouse, stands beside the smallest chair, which has a simple cracked seat and one fallen piece on the floor. She looks surprised and concerned, not hurt. The two larger chairs remain intact. On the table behind her are three bowls in large, medium and small sizes; the small bowl is empty, the other two still hold a little soup. Use the cover only as a guide for Goldilocks’ identity and blonde, blue and cream palette; make this scene much simpler than the cover.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7, medium-wide view, broken little chair and Goldilocks clearly readable at small inline size, the three chairs and bowls legible as simple grouped shapes, two or three broad depth layers.\nLighting/mood: soft indoor daylight, a small moment of surprise with a gentle, safe feeling.\nColor palette: warm ivory, muted blue, honey ochre wood, soft brown and quiet sage accents.\nConstraints: bears are still away from home. Chair is broken but no one is injured. Show exactly three chairs and three bowls, sized large, medium and small. No readable writing on any object.\nAvoid: bears, extra bowls or chairs, scattered food, danger, injury, angry faces, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Goldilocks and the Three Bears”\nPrimary request: illustrate the ending in paragraph 3: after Goldilocks apologises and helps repair Baby Bear’s chair, the bear family and Goldilocks share warm soup together.\nScene/backdrop: a quiet forest cottage dining room, with a simple wooden table, a repaired small chair, and a window with soft green woodland beyond.\nSubject: Goldilocks, a young girl with long golden-blonde hair, a muted blue dress and cream blouse, sits with three friendly bears. Father Bear is large and warm brown, Mother Bear medium-sized and soft golden brown, Baby Bear small and light honey brown. All four sit comfortably around the table with one simple bowl of warm soup each; Baby Bear sits proudly on the repaired little chair. Use the cover only as a guide for Goldilocks’ identity and blonde, blue and cream palette; keep the inline painting simpler than the cover. Original gentle bear designs.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gently curved contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified background.\nComposition/framing: landscape around 12:7, medium-wide balanced group scene, four figures and the repaired little chair clearly readable at small inline size, two or three broad depth layers.\nLighting/mood: warm afternoon light, safe, forgiving and quietly joyful.\nColor palette: warm ivory, muted blue, soft honey, cocoa brown, gentle sage and ochre.\nConstraints: this is the peaceful final meal after the repair. Show exactly three bears and one girl, and exactly four soup bowls. No readable writing or labels.\nAvoid: broken furniture, injury, frightening expressions, extra characters, magic, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture, exaggerated cartoon features."
+    }
+  ]
+}

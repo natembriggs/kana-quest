@@ -139,7 +139,13 @@ const goldilocks = expandStory({
   title: { ja: 'ゴルディロックスと三びきのくま', en: 'Goldilocks and the Three Bears' },
   series: null, level: 'L3', gram: 'G3',
   blurb: 'Three bears return from a walk to find that a curious visitor has tested everything in their cottage.',
-  source: SOL_SOURCE('Traditional British tale (Goldilocks and the Three Bears)', 'An original graded retelling with a gentle ending and no wording from a published edition.'),
+  source: {
+    ...SOL_SOURCE('Traditional British tale (Goldilocks and the Three Bears)', 'An original graded retelling with a gentle ending and no wording from a published edition.'),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Goldilocks’s character identity and palette.',
+  },
+  // Goldilocks at the cottage, the broken little chair, then the repaired
+  // chair and shared meal at the end.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   nw: ['ゴルディロックス', 'スープ', 'いす', 'ベッド', 'ぴったり'],
   lexicon: lexicon({
     'ある': ['a certain', 'adj'], 'だった': ['were; was', 'aux', { df: 'だ', cf: 'plain past' }], 'が#but': ['but, although', 'part'],
