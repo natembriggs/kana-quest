@@ -18,7 +18,8 @@ export const STORY = {
     "notes": "An original, simplified retelling written for this app -- not a transcription or translation of any specific existing edition. The story itself is a public-domain folk tale with no single identifiable author. Retelling and English translation by Claude Opus 5.",
     "licence": "Public domain (traditional folk tale). This retelling and its English translation are original to Kanji Trail.",
     "credit": "Retold by",
-    "cover": "Cover generated with OpenAI image generation."
+    "cover": "Cover generated with OpenAI image generation.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, following the approved Kasa Jizō inline treatment and using the story cover for the old woman’s character identity and palette."
   },
   "hash": "b8cbcae8",
   "nw": [
@@ -2289,7 +2290,26 @@ export const STORY = {
   ],
   "art": {
     "cover": true,
-    "inline": []
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/momotaro-1/01.webp?v=da49be2640785d92",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 4,
+        "src": "assets/stories/momotaro-1/02.webp?v=b664a0e6fd061f08",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/momotaro-1/03.webp?v=7905d13b7ddc3036",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "was": [
     "0ef67772"

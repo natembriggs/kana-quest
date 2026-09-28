@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Supplied reference for approved inline style only: broad smooth colour areas, gentle contours and minimal texture."
+    },
+    {
+      "file": "assets/stories/momotaro-1/cover.webp",
+      "role": "Supplied reference for the elderly woman’s character identity and colours in scene 01, and for the traditional palette only in later scenes."
+    },
+    {
+      "file": "exec-4b5a26b3-826a-4fe1-afb9-ee4b050e06d0.png",
+      "role": "Scene 01 supplied to scene 02 as palette guidance only."
+    },
+    {
+      "file": "exec-d95cb3ea-44fa-4471-817a-e737d576f8cc.png",
+      "role": "Scene 02 supplied to scene 03 for Momotarō and companion identity and clothing colours only."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph two of “Momotarō”: the old couple discover a lively baby inside the giant peach.\nInput images: Image 1, the Momotarō story cover, guides the old woman's identity and colours only. Image 2, the approved Kasa Jizō inline painting, guides the simpler smooth painted treatment only.\nScene/backdrop: the old couple's quiet, simple wooden home, with a low table and a soft morning light through one window.\nSubject: the same kind elderly Japanese woman from the cover, with grey hair in a bun and a plain deep-indigo kimono with a muted rust sash, kneels beside her grey-haired husband in modest muted clothes. Between them, the huge pink peach has been carefully opened into two halves, revealing a small healthy baby boy wrapped fully in a plain warm-ivory cloth. The couple look joyfully surprised and tender. Keep all hands gentle and clearly separate.\nStyle/medium: children's storybook painting in the approved simpler Kasa Jizō inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background. Keep detail much simpler than the cover; no individual hair strands or dense wood grain.\nComposition/framing: full-bleed landscape around 12:7, medium-wide view at the couple's eye level; clearly show the two peach halves, safely swaddled baby and both adults, with simple readable silhouettes.\nLighting/mood: soft warm indoor daylight, tender wonder.\nColor palette: warm ivory, soft peach pink, muted indigo, a small rust-red accent, quiet wood ochre.\nConstraints: exactly the elderly couple and one fully swaddled baby; the baby is safely covered; peach split open; use the cover only to keep the woman's appearance and palette consistent.\nAvoid: nudity, additional people, extra babies, knives, injury, photorealism, detailed texture, lettering, title, border, logo, watermark."
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate paragraph five of “Momotarō”: Momotarō leaves home and welcomes a dog, monkey and pheasant as companions by sharing millet dumplings.\nInput images: Image 1, the Momotarō cover, guides only the warm traditional palette. Image 2, the approved Kasa Jizō inline painting, guides the smooth, simple painted style. Image 3, the peach-birth scene, is a palette reference for the story only; do not repeat its characters or setting.\nScene/backdrop: a quiet country path leading away from a small village, with low green hills and a few simple plants.\nSubject: show one young Japanese man, Momotarō, with short dark hair tied back, wearing a plain muted-indigo travel jacket, warm-ivory shirt, rust-red sash and simple straw sandals. He carries a small cloth bundle. Beside him are exactly one friendly tan dog, one small russet-brown monkey and one green-and-teal pheasant. Momotarō offers a small millet dumpling to the animals as they agree to travel with him; show one dumpling in each animal's possession, three in total.\nStyle/medium: children's storybook painting in the approved simpler Kasa Jizō inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, very few purposeful folds and shadows, quiet simplified background. Keep all forms clearer and simpler than the cover, with no fine fur or feather detail.\nComposition/framing: full-bleed landscape around 12:7, medium-wide view; clearly separate Momotarō, the three distinct animals and their small dumplings. Leave open space along the path toward the right.\nLighting/mood: soft late-morning daylight, friendly and purposeful.\nColor palette: warm ivory, sage greens, muted indigo, a small rust accent, natural ochre and quiet teal.\nConstraints: exactly one young man, one dog, one monkey, one pheasant and three small millet dumplings; no other people or animals.\nAvoid: weapons, fighting, extra companions, extra dumplings, detailed fur or feathers, photorealism, dense texture, lettering, title, border, logo, watermark."
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate paragraph six of “Momotarō”: Momotarō and his three animal companions arrive by boat at Ogre Island, where large ogres are waiting on shore.\nInput images: Image 1, the first inline painting, guides the old couple's colour palette only. Image 2, the second inline painting, guides Momotarō and the three animal companions' identity and clothing colours only. Image 3, the approved Kasa Jizō inline painting, guides the smooth, simple painted style.\nScene/backdrop: a small wooden boat has just reached the shore of a rocky, forested island; calm blue water and a simple distant headland.\nSubject: show the same young Momotarō from the previous scene, wearing a muted-indigo jacket, warm-ivory shirt and rust sash, standing with exactly one tan dog, one russet-brown monkey and one green-and-teal pheasant in their small boat. On the shore beyond them stand two or three very large original ogres, visible as broad friendly storybook figures waiting. The travellers look alert and brave; the ogres look surprised, not furious. Keep the two groups clearly separated across a short stretch of shore and water.\nStyle/medium: children's storybook painting in the approved simpler Kasa Jizō inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background. Use large readable shapes and simple faces, much less detail than a cover.\nComposition/framing: full-bleed landscape around 12:7, medium-wide view from near the boat; the small party occupies one side and the much taller ogres the other so the scale difference reads clearly.\nLighting/mood: soft daylight with gentle anticipation, no frightening menace.\nColor palette: warm ivory, muted indigo and rust, sage greens, sea teal, a few subdued ochre and blue-grey shapes.\nConstraints: exactly one young man, one dog, one monkey, one pheasant and two or three ogres; show arrival and the waiting encounter only.\nAvoid: fighting, weapons, injury, blood, victory, treasure, extra animals or travellers, photorealism, detailed fur or scales, lettering, title, border, logo, watermark."
+    }
+  ]
+}
