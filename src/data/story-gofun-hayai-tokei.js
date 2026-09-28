@@ -27,7 +27,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Satoshi’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/gofun-hayai-tokei/01.webp?v=c30d1ac39719defd",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/gofun-hayai-tokei/02.webp?v=0b7449cb97756563",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/gofun-hayai-tokei/03.webp?v=8b0a833d6cee8dba",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -3580,9 +3604,5 @@ export const STORY = {
   "hash": "ed0ca823",
   "was": [
     "b2f3a08b"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

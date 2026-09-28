@@ -16,7 +16,11 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Satoshi’s character identity and palette.',
   },
+  // Opening routine, the attendant's explanation, then Satoshi setting his
+  // own watch while he and Kenji wait together.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 5, file: '03.webp' }] },
   lexicon: lexicon({
     'さとし': ['Satoshi', 'pn'],
     'けんじ': ['Kenji', 'pn'],
