@@ -96,7 +96,13 @@ const hanselAndGretel = expandStory({
   id: 'hansel-to-gretel', title: { ja: 'ヘンゼルとグレーテル', en: 'Hansel and Gretel' }, series: null,
   level: 'L3', gram: 'G3',
   blurb: 'A brother and sister follow a trail through the forest and outwit the witch in a sweet-covered house.',
-  source: SOL_SOURCE('Traditional European tale (Hansel and Gretel)', 'An original graded retelling with a softened ending and no wording from a published edition.'),
+  source: {
+    ...SOL_SOURCE('Traditional European tale (Hansel and Gretel)', 'An original graded retelling with a softened ending and no wording from a published edition.'),
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Hansel and Gretel’s character identities and palette.',
+  },
+  // Pebbles under moonlight, the sweet-covered cottage, then the siblings'
+  // safe escape with the chest.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   nw: ['ヘンゼル', 'グレーテル', 'パンくず', 'キャンディー', '魔女'],
   lexicon: lexicon({
     '全[ぜん]部[ぶ]': ['all, everything', 'n'],
