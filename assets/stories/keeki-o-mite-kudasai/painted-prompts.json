@@ -1,0 +1,34 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 0 of “Please Watch the Cake”: a new family robot is left to watch the cake while Mum goes out shopping.\nScene/backdrop: A simple, sunlit Japanese family kitchen with a small table, a doorway, and only a few quiet household shapes.\nSubject: A small original humanoid home robot stands beside a plain round strawberry cake on a ceramic plate, calmly fixing its gaze on the cake. Give the robot a rounded cream-coloured head and body, muted teal shoulder joints, a small dark indigo face panel with two simple pale eyes, and compact friendly proportions. Mum, an adult Japanese woman with dark hair and a simple muted plum cardigan over an ivory top, is just leaving through the doorway after gesturing toward the cake. Kota, an elementary-school-age Japanese boy with short dark hair and a muted teal top, watches from the kitchen edge. Keep the robot design simple and recognizable for later scenes.\nStyle/medium: children's picture-book gouache in the project's approved simple inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and soft shadows, quiet simplified backgrounds. Use warm ivory, muted teal, sage, indigo, soft ochre and a small terracotta accent; keep inline detail simpler than a cover.\nComposition/framing: full-bleed landscape, about 12:7; medium-wide view with the robot and cake as the clear focal pair, Mum visible moving toward the doorway, and Kota secondary. Two or three calm depth layers.\nLighting/mood: gentle morning light, domestic warmth, light comic anticipation.\nConstraints: show the cake still whole and Mum going out; no text, lettering, title, labels, border or watermark. Original character designs.\nAvoid: extra people, clutter, extra food, a second cake, a screen with symbols, photorealism, dense texture, dramatic lighting, speech bubbles, logos."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 1 of “Please Watch the Cake”: Kota has eaten the whole cake while the robot carefully kept watching it.\nScene/backdrop: The same simple family kitchen and small table in soft daylight, with a quiet warm ivory wall and only a few broad background shapes.\nSubject: Keep the same character designs throughout this story: a small rounded cream-coloured home robot with muted teal shoulder joints and a dark indigo face panel with two pale oval eyes; Kota is an elementary-school-age Japanese boy with short dark hair and a muted teal top. The cake is now completely gone from its plain ceramic plate, leaving only a few tiny crumbs. The robot is still looking intently at the empty plate, while Kota sits close by with a sheepish, quietly pleased expression. No cream on his face yet.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, few soft shadows, quiet simplified background. Large calm shapes in warm ivory, muted teal, sage, indigo and natural wood; simple readable silhouettes and restrained detail.\nComposition/framing: full-bleed landscape, about 12:7, medium-wide seated eye-level view. Make the empty plate, robot's fixed gaze and Kota's expression easy to read at small size. Two or three calm depth layers.\nLighting/mood: gentle midday light, quiet visual humour.\nConstraints: the cake has been fully eaten; show an empty plate with only a few crumbs, the robot continues watching it, and Kota has no visible cream on his face. No text, lettering, title, labels, border or watermark.\nAvoid: a whole or partly remaining cake, extra food, extra people, dramatic reaction, photorealism, dense texture, busy kitchen, speech bubbles, logos."
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: third wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 2 of “Please Watch the Cake”: Kota asks the robot to keep a secret, and the robot agrees.\nScene/backdrop: The same quiet family kitchen in soft afternoon light, simplified to a warm ivory wall, a small table and a few gentle teal and sage shapes.\nSubject: Keep the same original characters: Kota is an elementary-school-age Japanese boy with short dark hair and a muted teal top; beside him is a small rounded cream-coloured home robot with muted teal shoulder joints, a dark indigo face panel and two pale oval eyes. Kota leans close and makes a small discreet “keep it secret” gesture with one finger near his lips. The robot gives a calm, polite nod. The moment feels private and lightly comic, with no visible writing or symbols on the robot.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, restrained folds and soft shadows, quiet simplified backgrounds. Use warm ivory, muted teal, sage, indigo and natural wood. Keep the silhouettes and faces simple and readable at small size.\nComposition/framing: full-bleed landscape, about 12:7, medium two-shot at eye level. Keep the boy's discreet gesture and the robot's nod clear, with uncluttered negative space and two or three calm depth layers.\nLighting/mood: soft afternoon daylight, conspiratorial but sweet, never ominous.\nConstraints: only Kota and the robot; show their silent agreement without speech bubbles, captions, text, lettering, title, labels, border or watermark. Original character designs.\nAvoid: Mum or other people, a cake, cream on the boy, readable symbols or screens, photorealism, dense texture, dramatic shadows, logos."
+    }
+  ]
+}

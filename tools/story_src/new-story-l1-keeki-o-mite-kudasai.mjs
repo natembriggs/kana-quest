@@ -8,6 +8,8 @@ const theStory = expandStory({
   gram: 'G1',
   blurb: 'Mum asks the family’s brand-new robot to watch the cake while she goes out. The robot is very good at doing exactly what it is told.',
   nw: ['ロボット', 'ケーキ', '見る', '食べる', '内緒'],
+  // Setup, the robot watching an empty plate, then Kota asking it to keep a secret.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }, { after: 2, file: '03.webp' }] },
   series: null,
   source: {
     kind: 'original',
@@ -16,6 +18,7 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and original character designs.',
   },
   lexicon: lexicon({
     'こうた': ['Kota (a boy’s name)', 'pn'],

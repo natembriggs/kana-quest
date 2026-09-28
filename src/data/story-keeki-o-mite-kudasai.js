@@ -17,6 +17,29 @@ export const STORY = {
     "食べる",
     "内緒"
   ],
+  "art": {
+    "cover": false,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/keeki-o-mite-kudasai/01.webp?v=135438df9d91fb91",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/keeki-o-mite-kudasai/02.webp?v=8156fc0bd2488451",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/keeki-o-mite-kudasai/03.webp?v=7e63da8209a92c3f",
+        "width": 960,
+        "height": 559
+      }
+    ]
+  },
   "series": null,
   "source": {
     "kind": "original",
@@ -24,7 +47,8 @@ export const STORY = {
     "by": "Claude Opus 5.5",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and original character designs."
   },
   "body": [
     [
@@ -1278,9 +1302,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "b474f978",
-  "art": {
-    "cover": false,
-    "inline": []
-  }
+  "hash": "b474f978"
 };
