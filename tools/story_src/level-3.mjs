@@ -150,11 +150,14 @@ const cinderella = expandStory({
   level: 'L3',
   gram: 'G3',
   blurb: 'A mistreated young woman receives one magical night at the palace and leaves a glass slipper behind.',
-  source: SOL_SOURCE(
-    'Traditional European fairy tale (Cinderella)',
-    'An original graded retelling based on familiar public-domain motifs rather than a particular literary edition.',
-    'Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.',
-  ),
+  source: {
+    ...SOL_SOURCE(
+      'Traditional European fairy tale (Cinderella)',
+      'An original graded retelling based on familiar public-domain motifs rather than a particular literary edition.',
+      'Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.',
+    ),
+    illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Cinderella’s character identity and palette.',
+  },
   nw: ['シンデレラ', '魔法', 'ドレス', 'ガラス', 'パーティー'],
   lexicon: lexicon({
     'シンデレラ': ['Cinderella', 'pn'],
@@ -293,6 +296,7 @@ const cinderella = expandStory({
     '国[くに]の仕[し]事[ごと]': ['work of governing the country', 'n'],
     '学[まな]び始[はじ]めた': ['began to learn', 'v', { df: '学び始める', cf: 'plain past' }],
   }),
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   body: [
     [
       line('シンデレラ|は|継[まま]母[はは]|と|二[ふた]人[り]|の|姉[あね]|と|暮[く]らしていた|。', 'Cinderella lived with her stepmother and two older sisters.'),

@@ -18,6 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling based on familiar public-domain motifs rather than a particular literary edition.",
     "licence": "Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Cinderella’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "nw": [
@@ -27,6 +28,17 @@ export const STORY = {
     "ガラス",
     "パーティー"
   ],
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/cinderella/01.webp?v=8fd19b1f5be4d32d",
+        "width": 960,
+        "height": 560
+      }
+    ]
+  },
   "body": [
     [
       {
@@ -4339,9 +4351,5 @@ export const STORY = {
   "hash": "3504853b",
   "was": [
     "1317286f"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

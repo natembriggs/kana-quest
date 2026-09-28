@@ -1,0 +1,28 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours, minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/cinderella/cover.webp",
+      "role": "Character identity and palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the Japanese graded-reading story “Cinderella”\nPrimary request: depict the opening situation: Cinderella works in the house in her worn ash-dusted clothes, quietly alone for a moment.\nScene/backdrop: a modest old European cottage kitchen, with a simple hearth and a small view of the garden tree through an open doorway; keep the room quiet and uncluttered.\nSubject: Cinderella is a young woman with warm brown hair tied in a low bun, wearing the story-cover character’s simple russet dress and cream apron, now dusty with a little hearth ash. She kneels beside the hearth with a small hand broom, pausing with a thoughtful, lonely but calm expression. Use the cover only to guide her hair, russet-and-ivory clothing and palette; make this scene much simpler than the cover.\nStyle/medium: gentle children’s storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, soft contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7; medium-wide view with Cinderella clearly readable at small inline size, two or three broad depth layers.\nLighting/mood: soft late-afternoon light, tender and resilient, not bleak.\nColor palette: warm ivory, muted russet and ochre, quiet sage, and soft indigo shadows.\nConstraints: original character design; illustrate only the opening paragraph, before the invitation or fairy appears.\nAvoid: other people, magic, carriage, glass slippers, legible text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture, dramatic misery."
+    }
+  ]
+}
