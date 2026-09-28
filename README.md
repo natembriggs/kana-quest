@@ -232,7 +232,13 @@ jōyō ("Secondary school", everything else in general use, split into six
 frequency-ordered sub-units so no single one is unwieldy; see
 `kanji-expansion-plan.md` §8), plus a "Names & places" set beyond jōyō
 (jinmeiyō and other common non-jōyō kanji, also split into six sub-units; see
-§5). Kanji has three modes rather than two:
+§5). That is the default **school grade** order; a picker on the kanji
+screen switches to **JLPT** (N5 → N1, by Jonathan Waller's community lists,
+then the kanji on no list) or **Kanji Trail** (school grade, except that a
+kanji used as a part of another is taught first, so every memory hint only
+uses parts already learned). The same kanji in every order, and progress is
+kept per kanji, so switching loses nothing — see `kanji-expansion-plan.md`
+§3. Kanji has three modes rather than two:
 **Definition**, **Yomi** and **Writing**. Selecting Definition hides the kana
 courses, since kana has no English meaning to quiz. Each mode keeps entirely
 separate progress.
@@ -557,9 +563,9 @@ the reasoning behind a tolerance or a piece of UX is recoverable later.
 
 ## What is not built yet
 
-- **The rest of `kanji-expansion-plan.md`** — grouping kanji by JLPT level or
-  frequency instead of school grade (phase 7). Full jōyō coverage, the
-  explicit study list, lazy per-grade data loading, and the beyond-jōyō
+- **The rest of `kanji-expansion-plan.md`** — a pure frequency order (phase
+  7 shipped school grade, JLPT and Kanji Trail instead). Full jōyō coverage,
+  the explicit study list, lazy per-grade data loading, and the beyond-jōyō
   "names & places" set (phase 8) are all done — see that document's phase
   table.
 - **Serialized stories** — every one of the 36 shipped stories is standalone;
@@ -656,6 +662,7 @@ when you want to force it, but it shouldn't be needed.
 | `src/kana.js` | Kana tables, chunking, romaji answer checking |
 | `src/kanji.js` | Kanji courses (built from `src/data/kanji-manifest.js`, one grade's real data loaded lazily on demand — see below), reading-choice selection, kanji-level rollup |
 | `src/data/kanji-manifest.js` | Generated data: just the character list per grade — always loaded, enough to build the course skeleton without fetching anything else |
+| `src/data/kanji-orders.js` | Generated data: the JLPT and Kanji Trail teaching orders, as a character list per unit — always loaded, re-cuts of the manifest's kanji whose data stays in their school-grade files |
 | `src/data/kanji-grade-*.js` | Generated data: readings/meanings/example words per kanji, one file per grade — do not hand-edit, see below. Fetched lazily the first time that grade is opened, not on startup |
 | `src/srs.js` | FSRS-backed scheduling (kana/kanji/vocab) + per-reading scheduling (kanji) + the pace-suggestion rule + `masteryTier` (overview colour-coding) |
 | `src/fsrs.js` | The FSRS-6 algorithm itself — difficulty/stability update formulas, retrievability, interval calculation. No app dependencies; srs.js is its only caller |
@@ -691,6 +698,8 @@ when you want to force it, but it shouldn't be needed.
 | `tools/build_kanji_data.py` | Reads `tools/data_src/`, writes `src/data/kanji-manifest.js` + `kanji-grade-*.js` |
 | `tools/fetch_kanjivg.sh` | Downloads KanjiVG stroke SVGs into `tools/data_src/kanjivg/` (not committed, ~13MB) |
 | `tools/build_stroke_data.py` | Reads `tools/data_src/kanjivg/` (and the manifest above), writes `src/data/stroke-kana.js` + `stroke-grade-*.js` |
+| `tools/build_kanji_orders.py` | Reads the manifest, the component files and `tools/kanji_src/jlpt-levels.tsv`; writes `src/data/kanji-orders.js`. Re-run after either other kanji build script |
+| `tools/kanji_src/jlpt-levels.tsv` | Estimated JLPT level per kanji, from Jonathan Waller's lists (see Credits) |
 | `tools/build_kanji_components.py` | Reads `tools/data_src/kanjivg/` (for KanjiVG's `kvg:element`/`kvg:position` component metadata), KANJIDIC2, and the two hand-maintained seed files below; writes `src/data/components.js` + `kanji-components-*.js` |
 | `tools/kanji_src/component-keywords.tsv` | Hand-maintained: the standardized English keyword for each kanji component, where KANJIDIC's own first gloss is wrong for the job (亻 is "person", not "radical number 9") or missing entirely. Every entry is a dictionary meaning, a traditional Kangxi radical name, or the attested etymological sense — see the file's own header |
 | `tools/kanji_src/kanji-mnemonics.tsv` | Hand-maintained: one hint per kanji — written from the component keywords and their arrangement where there is a breakdown, and from the shape of the character itself where there isn't. The build script warns about any line that fails to use one of its own kanji's components |
@@ -717,6 +726,10 @@ the breakdowns shown on kanji detail and lesson screens, come from
 Component meanings come from those components' own KANJIDIC2 entries where
 they have one, and otherwise from the traditional Kangxi 214-radical names;
 the mnemonic sentences themselves are this project's own.
+JLPT levels are Jonathan Waller's community estimates from
+[tanos.co.uk/jlpt](https://www.tanos.co.uk/jlpt/), CC BY, as compiled in
+David Gouveia's [kanji-data](https://github.com/davidluzgouveia/kanji-data)
+(MIT); the JLPT itself publishes no official kanji list.
 Vocabulary example sentences come from the [Tanaka
 Corpus](https://www.edrdg.org/wiki/index.php/Tanaka_Corpus) as distributed
 with WWWJDIC and maintained by the [Tatoeba Project](https://tatoeba.org/),

@@ -4,7 +4,8 @@ Status: phases 0-6 and 8 done (example-word ranking fix, study-list model and
 scheduling, enrollment UI, review scope toggle, kanji search, lazy per-grade
 data loading, all 2,136 jōyō kanji, and the beyond-jōyō "names & places" set),
 plus two bug fixes (§4.3) and a placement test (§2.9) requested outside the
-phase plan. Phase 7 (JLPT/frequency orderings) is next. Supersedes the kanji
+phase plan, and phase 7's ordering picker (school grade, JLPT, Kanji Trail —
+§3.5). Supersedes the kanji
 bullet under *What is not built yet* in the README.
 
 Three separable pieces of work, deliberately phased in this order:
@@ -606,6 +607,51 @@ The ordering picker sits next to the existing mode picker. Switching it
 re-groups the same kanji and the same records; the only per-ordering state is
 which unit you are currently on, stored per ordering so switching to JLPT and
 back does not lose your place in grade order.
+
+### 3.5 How phase 7 actually landed (2026-09-28)
+
+Three orders, not the planned three: **school grade** (still the default),
+**JLPT**, and — replacing raw frequency — **Kanji Trail**, a
+components-first order prompted by kana-quest-feedback#25. A learner found
+城 ("earth beside turn into") taught before 成 ("turn into"): the grade
+order is KANJIDIC's grade, then code point, so a hint could lean on a kanji
+still months away. Kanji Trail is school-grade order with one change: before
+teaching a kanji, any jōyō kanji its component breakdown uses is taught first
+(depth-first, so a component's own components come before it). Components
+cross grade boundaries — 寸 (grade 6) is taught in stage 1, just before 村 —
+but never out of the names & places set; there, the tile's own keyword is
+enough, as for 氵. 151 kanji move ahead, 131 of them into an earlier stage.
+The component data this sorts on was extended to all of secondary jōyō
+first (kanji-mnemonic-plan.md §9.6) so the order covers every jōyō kanji.
+
+**JLPT** uses Jonathan Waller's N5-N1 lists (§3.3's community list; CC BY,
+via David Gouveia's kanji-data), committed as
+`tools/kanji_src/jlpt-levels.tsv`. 2,211 kanji are listed, including 247 of
+the names & places set at N1; the 172 jōyō kanji on no list come after N1
+as "Other jōyō", then the rest of names & places. Inside a level, school-grade
+order. N3, N2 and N1 split into ~180-kanji parts, the secondary sub-unit size.
+
+**Data.** `tools/build_kanji_orders.py` writes `src/data/kanji-orders.js`
+(16 KB, always loaded and precached like the manifest): per order, one
+character string per unit. No kanji data moves — as with vocab's commonness
+units, an order course is a view whose `.index` reads through to the kanji's
+school-grade home course on every access, so the existing lazy per-grade
+loading (every session already loads its items' home units) serves every
+order unchanged. Unit keys are unique across orders (`N3-1`, `T4`, `9-2`),
+so one key names one course everywhere — `kanjiCourseForUnit()` in kanji.js.
+
+**What follows the order and what doesn't.** `activeKanjiCourses()` in
+app.js drives the unit picker, "Learn N next", the onboarding sweep, totals,
+the home tile and My progress. School grade itself stays behind the stories'
+furigana window (graded by school year), a kanji's detail-screen unit label,
+and the jōyō milestone. Unit milestones are keyed by course id, so a school
+grade's milestone keeps its old `kanji-grade-N` id and a JLPT unit earns its
+own. Kanji Trail reuses the school-grade names & places courses outright.
+
+The setting is `kanjiOrder` on the profile (store.js), synced like the other
+settings; `setKanjiOrder` mirrors `setVocabProgression`. §3.4's "remember
+the unit per order" was not needed: switching re-homes to the new order's
+first unit, as vocab does, and nothing about progress depends on it.
 
 ---
 
@@ -1257,7 +1303,7 @@ Each phase leaves both test suites green and is independently shippable.
 | 4 | Kanji search (§2.2). | **Done** — see §2.8 |
 | 5 | Split `kanji-data.js` and `stroke-data.js` into lazily-loaded chunks (§4), still grade-only. The riskiest phase; nothing user-visible changes. | **Done** — see §4.1 |
 | 6 | All 2,136 jōyō (§4), on top of the now-lazy loading. | **Done** — see §4.2 |
-| 7 | JLPT and frequency orderings, ordering picker (§3). | Not started |
+| 7 | JLPT and Kanji Trail orderings, ordering picker (§3, §3.5). | Done (2026-09-28); frequency order not built |
 | 8 | Beyond-jōyō set (§5). | **Done** — see §5.1 |
 | 9 | README, `APP_VERSION` / sw.js `VERSION` bump, service worker `SHELL` review. | Not started |
 

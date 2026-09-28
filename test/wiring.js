@@ -1446,6 +1446,72 @@ check('returning to the primary group lands back on the grade last selected ther
 fire(el('grade-picker')._children.find((b) => b.dataset.grade === '1'), 'click'); // back to grade 1
 await settle();
 
+// The three kanji teaching orders (kanji-expansion-plan.md §3): the same
+// kanji, re-cut. Switching must rebuild the unit row from the new order,
+// open a real course card on it, and switch back cleanly — everything after
+// this block assumes school grade 1 is selected again.
+const orderSegments = () => el('kanji-order-picker')._children;
+check('the kanji screen offers three teaching orders, school grade first',
+  el('kanji-order-picker').hidden === false
+  && orderSegments().map((b) => b.textContent).join(' | ') === 'School grade | JLPT | Kanji Trail',
+  orderSegments().map((b) => b.textContent).join(' | '));
+check('school grade is the selected order by default',
+  orderSegments()[0].className.includes('active'));
+fire(orderSegments().find((b) => b.textContent === 'JLPT'), 'click');
+await settle();
+check('switching to JLPT rebuilds the unit groups as JLPT levels, N5 first and open',
+  unitGroupChips().map((c) => c.dataset.group).join(' | ')
+    === 'N5 | N4 | N3 | N2 | N1 | Other jōyō | Names & places'
+  && unitGroupChips()[0].className.includes('active'),
+  unitGroupChips().map((c) => `${c.dataset.group}${c.className.includes('active') ? '*' : ''}`).join(' | '));
+check('the JLPT view opens on N5\'s own course card',
+  (el('course-list')._children[0].innerHTML || '').includes('日本語能力試験 N5'),
+  el('course-list')._children[0].innerHTML);
+check('the JLPT hint says the levels are estimates',
+  el('kanji-order-hint').textContent.includes('no official JLPT kanji list'));
+check('the switch is saved on the profile', [...rows.values()][0].settings.kanjiOrder === 'jlpt',
+  JSON.stringify([...rows.values()][0].settings));
+await openUnitGroup('N3');
+check('a big JLPT level is split into parts, each its own tile',
+  gradePickerButtons().map((b) => b.dataset.grade).join(',') === 'N3-1,N3-2',
+  gradePickerButtons().map((b) => b.dataset.grade).join(','));
+
+fire(orderSegments().find((b) => b.textContent === 'Kanji Trail'), 'click');
+await settle();
+check('switching to Kanji Trail rebuilds the unit groups as stages, then secondary and names',
+  unitGroupChips().map((c) => c.dataset.group).join(' | ')
+    === 'Kanji Trail stage | Secondary school | Names & places',
+  unitGroupChips().map((c) => c.dataset.group).join(' | '));
+check('Kanji Trail opens on stage 1',
+  (el('course-list')._children[0].innerHTML || '').includes('漢字トレイル 1')
+  && gradePickerButtons()[0].className.includes('active'),
+  el('course-list')._children[0].innerHTML);
+const trailViewSetButton = buttonsIn(el('course-list')._children[0])
+  .find((b) => (b.innerHTML || '').includes('View set overview'));
+fire(trailViewSetButton, 'click');
+for (let i = 0; i < 10; i += 1) await settle();
+const trailTiles = el('overview-grid')._children.map((t) => t.textContent);
+check('stage 1 teaches 寸 before 村, which is built from it, though 寸 is a grade 6 kanji',
+  trailTiles.includes('寸') && trailTiles.indexOf('寸') < trailTiles.indexOf('村'),
+  trailTiles.join(''));
+fire(el('overview-grid')._children[trailTiles.indexOf('寸')], 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // lazy-loads grade 6, 寸's home unit
+check('a kanji pulled forward into a trail stage still opens with its real readings',
+  el('detail-glyph').textContent === '寸' && el('detail-meanings').textContent.length > 0,
+  `glyph "${el('detail-glyph').textContent}", meanings "${el('detail-meanings').textContent}"`);
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
+await settle();
+
+fire(orderSegments().find((b) => b.textContent === 'School grade'), 'click');
+await settle();
+check('switching back to school grade restores the original groups with grade 1 selected',
+  unitGroupChips().map((c) => c.dataset.group).join(' | ')
+    === 'Primary school grade | Secondary school | Names & places'
+  && gradePickerButtons().find((b) => b.className.includes('active')).dataset.grade === '1',
+  unitGroupChips().map((c) => c.dataset.group).join(' | '));
+
 const kanjiModes = el('mode-picker')._children;
 check('kanji offers three modes', kanjiModes.length === 3,
   kanjiModes.map((b) => b.textContent).join(' | '));

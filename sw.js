@@ -38,7 +38,7 @@
 // fetch handler actually sees a request for one. Only the always-needed
 // manifest and kana stroke data are small enough to be worth precaching.
 
-const VERSION = '2026-09-28a';
+const VERSION = '2026-09-28b';
 const CACHE_PREFIX = 'kana-quest-';
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 
@@ -60,6 +60,9 @@ const SHELL = [
   'src/kana.js',
   'src/kanji.js',
   'src/data/kanji-manifest.js',
+  // The JLPT and Kanji Trail teaching orders — small, and needed as soon as
+  // the kanji course list is built, like the manifest itself.
+  'src/data/kanji-orders.js',
   'src/kanji-components.js',
   'src/kanji-compare.js',
   'src/confusions.js',

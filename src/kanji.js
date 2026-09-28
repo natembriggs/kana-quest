@@ -1,4 +1,5 @@
-// Kanji courses (one per school grade), and the reading-quiz question logic.
+// Kanji courses (one per school grade, plus the JLPT and Kanji Trail
+// re-cuts of the same kanji), and the reading-quiz question logic.
 //
 // Data comes from tools/build_kanji_data.py, which distills KANJIDIC2 and
 // JMdict down to src/data/: for each kanji, its on'yomi, kun'yomi, English
@@ -17,6 +18,7 @@
 // ensureUnitReady().
 
 import { KANJI_UNITS, NO_YOMI_CHARS, NO_MEANING_CHARS } from './data/kanji-manifest.js';
+import { KANJI_ORDER_UNITS } from './data/kanji-orders.js';
 import {
   yomiKey, isReadingStudied, recomputeYomiRollupFromProgress,
 } from './srs.js';
@@ -171,15 +173,64 @@ function compareUnits(a, b) {
   return 0;
 }
 
+// Unit keys, across all three teaching orders (kanji-expansion-plan.md §3).
+// Every key is unique across orders, so a unit key alone names one course:
+//   school grade  "1".."6", "8-1".."8-6", "9-1".."9-6"
+//   JLPT          "N5", "N4", "N3-1".."N1-7", "NJ" (jōyō on no JLPT list),
+//                 "NP-1".."NP-4" (the names & places kanji on no list)
+//   Kanji Trail   "T1".."T6", "T8-1".."T8-6", then the school-grade
+//                 names & places units themselves, reused unchanged
+const JLPT_UNIT = /^N([1-5])(?:-(\d+))?$/;
+
 export function unitLabel(unit) {
+  const jlpt = unit.match(JLPT_UNIT);
+  if (jlpt) return `JLPT N${jlpt[1]}${jlpt[2] ? ` · ${jlpt[2]}` : ''}`;
+  if (unit === 'NJ') return 'Other jōyō';
+  if (unit.startsWith('NP-')) return `Names & places ${unit.slice(3)}`;
+  if (unit.startsWith('T8-')) return `Secondary ${unit.slice(3)}`;
+  if (unit.startsWith('T')) return `Stage ${unit.slice(1)}`;
   if (unit.startsWith('9-')) return `Names & places ${unit.slice(2)}`;
   if (unit.startsWith('8-')) return `Secondary ${unit.slice(2)}`;
   return `Grade ${unit}`;
 }
 function unitNative(unit) {
+  const jlpt = unit.match(JLPT_UNIT);
+  if (jlpt) return `日本語能力試験 N${jlpt[1]}${jlpt[2] ? ` · ${jlpt[2]}` : ''}`;
+  if (unit === 'NJ') return 'その他の常用漢字';
+  if (unit.startsWith('NP-')) return `人名・地名 ${unit.slice(3)}`;
+  if (unit.startsWith('T8-')) return `中学以降 ${unit.slice(3)}`;
+  if (unit.startsWith('T')) return `漢字トレイル ${unit.slice(1)}`;
   if (unit.startsWith('9-')) return `人名・地名 ${unit.slice(2)}`;
   if (unit.startsWith('8-')) return `中学以降 ${unit.slice(2)}`;
   return `小学${unit}年生`;
+}
+
+/** The heading a unit sits under in the unit picker. Consecutive units with
+ * the same heading form one group (app.js's unitGroupsFor). */
+export function unitGroupLabel(unit) {
+  const jlpt = unit.match(JLPT_UNIT);
+  if (jlpt) return `N${jlpt[1]}`;
+  if (unit === 'NJ') return 'Other jōyō';
+  if (unit.startsWith('NP-') || unit.startsWith('9-')) return 'Names & places';
+  if (unit.startsWith('T8-') || unit.startsWith('8-')) return 'Secondary school';
+  if (unit.startsWith('T')) return 'Kanji Trail stage';
+  return 'Primary school grade';
+}
+
+/** Short text for a unit's picker tile — "1".."6" for elementary, "S1".."S6"
+ * for secondary jōyō, "N1".."N6" for the school-grade names & places units.
+ * Inside a JLPT level, just the part number, since the group chip above
+ * already says which level; a level with one part shows the level itself. */
+export function unitBadge(unit) {
+  const jlpt = unit.match(JLPT_UNIT);
+  if (jlpt) return jlpt[2] || `N${jlpt[1]}`;
+  if (unit === 'NJ') return 'Jōyō';
+  if (unit.startsWith('NP-')) return unit.slice(3);
+  if (unit.startsWith('T8-')) return `S${unit.slice(3)}`;
+  if (unit.startsWith('T')) return unit.slice(1);
+  if (unit.startsWith('9-')) return `N${unit.slice(2)}`;
+  if (unit.startsWith('8-')) return `S${unit.slice(2)}`;
+  return unit;
 }
 
 /**
@@ -191,12 +242,20 @@ function unitNative(unit) {
  * that). `.index` starts empty; ensureKanjiUnitLoaded() below fills it in
  * place the first time this unit's real data is needed.
  */
+function exclusionsFor(chars) {
+  return {
+    recognition: new Set(chars.filter((k) => NO_YOMI_CHARS.includes(k))),
+    definition: new Set(chars.filter((k) => NO_MEANING_CHARS.includes(k))),
+  };
+}
+
 function buildKanjiCourse(unit) {
   const chars = KANJI_UNITS[unit];
   return {
     id: `kanji-grade-${unit}`,
     kind: 'kanji',
     unit,
+    order: 'grade',
     name: `Kanji · ${unitLabel(unit)}`,
     native: unitNative(unit),
     chunks: buildChunks(`kanji-grade-${unit}`, chars),
@@ -209,19 +268,97 @@ function buildKanjiCourse(unit) {
     // meaning at all (KANJIDIC's only gloss for them is their own radical
     // name), so Definition is skipped the same way. srs.js honours both when
     // picking items.
-    excludeForMode: {
-      recognition: new Set(chars.filter((k) => NO_YOMI_CHARS.includes(k))),
-      definition: new Set(chars.filter((k) => NO_MEANING_CHARS.includes(k))),
-    },
+    excludeForMode: exclusionsFor(chars),
   };
 }
 
+/** The school-grade courses: the app's default order, and the HOME of every
+ * kanji's data — each kanji's readings, meanings and strokes live in its
+ * school-grade unit's files, whichever order it is being taught in. */
 export const KANJI_COURSES = Object.keys(KANJI_UNITS)
   .sort(compareUnits)
   .map(buildKanjiCourse);
 
+const homeCourseByUnit = new Map(KANJI_COURSES.map((c) => [c.unit, c]));
+
+/**
+ * A course in one of the other two orders (JLPT, Kanji Trail) — the same
+ * shape as a school-grade course, over kanji whose data lives in several
+ * school-grade units at once. Like vocab's commonness units (vocab.js), it is
+ * a second view, never a second copy: `.index` is read through to the home
+ * courses on every access rather than filled in, so it can never go stale
+ * as home units load behind it, and nothing needs to load it separately —
+ * whatever loads a kanji's home unit (ensureKanjiUnitLoaded, via app.js's
+ * ensureUnitsReady over kanjiUnitFor, which every session start already
+ * does) makes it visible here too. Rebuilding a map over ~185 kanji per
+ * access is cheap next to anything that reads it.
+ */
+function buildOrderCourse(order, unit, chars) {
+  const id = `kanji-${order}-${unit}`;
+  const course = {
+    id,
+    kind: 'kanji',
+    unit,
+    order,
+    name: `Kanji · ${unitLabel(unit)}`,
+    native: unitNative(unit),
+    chunks: buildChunks(id, chars),
+    excludeForMode: exclusionsFor(chars),
+  };
+  Object.defineProperty(course, 'index', {
+    enumerable: true,
+    get() {
+      const index = new Map();
+      chars.forEach((kanji) => {
+        const home = homeCourseByUnit.get(unitByChar.get(kanji));
+        const info = home && home.index.get(kanji);
+        if (info) index.set(kanji, info);
+      });
+      return index;
+    },
+  });
+  return course;
+}
+
+/** The three teaching orders, in the order the picker offers them. */
+export const KANJI_ORDERS = ['grade', 'jlpt', 'trail'];
+
+const COURSES_BY_ORDER = {
+  grade: KANJI_COURSES,
+  jlpt: Object.entries(KANJI_ORDER_UNITS.jlpt)
+    .map(([unit, chars]) => buildOrderCourse('jlpt', unit, Array.from(chars))),
+  // Kanji Trail never reorders the beyond-jōyō names & places units (see
+  // tools/build_kanji_orders.py), so it ends with the school-grade ones
+  // themselves rather than copies of them.
+  trail: [
+    ...Object.entries(KANJI_ORDER_UNITS.trail)
+      .map(([unit, chars]) => buildOrderCourse('trail', unit, Array.from(chars))),
+    ...KANJI_COURSES.filter((c) => c.unit.startsWith('9-')),
+  ],
+};
+
+/** The course list for one order, in teaching order. An unknown order (a
+ * profile synced from a newer build, say) falls back to school grade. */
+export function kanjiCoursesFor(order) {
+  return COURSES_BY_ORDER[order] || KANJI_COURSES;
+}
+
+/** Every kanji course in every order, each once — for anything that
+ * resolves a course by id (session restore, ALL_COURSES in app.js).
+ * Browsing and totals must use ONE order's list, never this, or every kanji
+ * would be counted three times. */
+export const KANJI_ALL_COURSES = [...new Set(Object.values(COURSES_BY_ORDER).flat())];
+
+const courseByUnit = new Map(KANJI_ALL_COURSES.map((c) => [c.unit, c]));
+
+/** The course a unit key names, in whichever order it belongs to — unit
+ * keys are unique across orders (see unitLabel above). */
+export function kanjiCourseForUnit(unit) {
+  return courseByUnit.get(unit);
+}
+
 export function getKanjiCourse(courseId) {
-  return KANJI_COURSES.find((c) => c.id === courseId);
+  return KANJI_ALL_COURSES.find((c) => c.id === courseId);
 }
 
 // char -> unit, built once from the manifest — cheap (~3,000 entries at most)

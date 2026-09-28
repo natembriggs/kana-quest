@@ -87,6 +87,7 @@
 <link rel="modulepreload" href="src/kana.js">
 <link rel="modulepreload" href="src/kanji.js">
 <link rel="modulepreload" href="src/data/kanji-manifest.js">
+<link rel="modulepreload" href="src/data/kanji-orders.js">
 <link rel="modulepreload" href="src/vocab.js">
 <link rel="modulepreload" href="src/data/vocab-manifest.js">
 <link rel="modulepreload" href="src/srs.js">
@@ -799,6 +800,13 @@
          store.js's defaultSettings(). -->
     <div id="vocab-progression-picker" class="segmented" role="tablist" aria-label="Vocabulary order" hidden></div>
     <p id="vocab-progression-hint" class="hint" hidden></p>
+
+    <!-- Kanji only: which order the kanji are taught in — school grade (the
+         default), JLPT level, or Kanji Trail (components first). The same
+         kanji in every order, so switching keeps every record; see kanjiOrder
+         in store.js's defaultSettings() and kanji-expansion-plan.md §3. -->
+    <div id="kanji-order-picker" class="segmented" role="tablist" aria-label="Kanji order" hidden></div>
+    <p id="kanji-order-hint" class="hint" hidden></p>
 
     <div id="unit-groups" class="unit-group-row" role="group" aria-label="Unit group" hidden></div>
     <div id="grade-picker" class="unit-row" role="group" aria-label="Unit" hidden></div>

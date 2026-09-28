@@ -103,6 +103,12 @@ export function defaultSettings() {
   // grouped and ordered differently, so switching costs no progress — a
   // word's records are keyed by the word, not by the unit it was met in.
   // Same no-migration fallback as the fields above.
+  // kanjiOrder is the kanji twin of vocabProgression: 'grade' (the default —
+  // school grade 1-6, then secondary), 'jlpt' (N5 → N1, community lists) or
+  // 'trail' (school grade, but a component kanji taught before anything
+  // built from it). The same kanji in all three; see kanji-expansion-plan.md
+  // §3. Same no-migration fallback: an old profile reads as undefined, which
+  // kanjiCoursesFor() treats as 'grade'.
   return {
     newPerSession: 5,
     maxReviews: 15,
@@ -110,6 +116,7 @@ export function defaultSettings() {
     writingModePreference: 'guided',
     accentColor: 'coral',
     vocabProgression: 'common',
+    kanjiOrder: 'grade',
   };
 }
 

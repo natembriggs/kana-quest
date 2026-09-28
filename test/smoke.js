@@ -16,6 +16,7 @@ const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, meaningKeys,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, effectiveQuizReadings,
+  KANJI_ORDERS, KANJI_ALL_COURSES, kanjiCoursesFor, kanjiCourseForUnit,
 } = await import('../src/kanji.js');
 // strokesFor/hasStrokes are pure lookups (no DOM access at import or call
 // time); buildStrokeSVG/animateStrokes touch `document` and are exercised in
@@ -2690,6 +2691,79 @@ done('mark as known: sure/think claims, staggered batches, per-kind enrollment a
     kanjiComponents('9-1', KANJI_COURSES.find((c) => c.unit === '9-1').chunks[0].items[0]) === null);
 }
 done('component breakdowns: arrangement, standardized meanings, hint coverage');
+
+// --- Teaching orders ---------------------------------------------------------
+//
+// The three orders are views over ONE set of kanji (kanji-expansion-plan.md
+// §3): every order must teach every kanji exactly once, and the Kanji Trail
+// order exists for one property — no kanji is taught before a jōyō kanji its
+// own breakdown is built from (kana-quest-feedback#25). This is the guard
+// that keeps a data refresh from quietly bringing 城-before-成 back.
+
+{
+  const gradeSequence = KANJI_COURSES.flatMap((c) => c.chunks.flatMap((ch) => ch.items));
+  const gradeSet = new Set(gradeSequence);
+  check('the picker offers exactly the three orders, school grade first',
+    KANJI_ORDERS.join(',') === 'grade,jlpt,trail', KANJI_ORDERS.join(','));
+  check('an unknown or missing order falls back to school grade',
+    kanjiCoursesFor(undefined) === KANJI_COURSES && kanjiCoursesFor('nonsense') === KANJI_COURSES);
+  for (const order of KANJI_ORDERS) {
+    const sequence = kanjiCoursesFor(order).flatMap((c) => c.chunks.flatMap((ch) => ch.items));
+    check(`${order}: teaches every kanji exactly once`,
+      sequence.length === gradeSequence.length && new Set(sequence).size === sequence.length
+      && sequence.every((k) => gradeSet.has(k)),
+      `${sequence.length} items, ${new Set(sequence).size} distinct, ${gradeSequence.length} expected`);
+  }
+  const allUnits = KANJI_ALL_COURSES.map((c) => c.unit);
+  check('unit keys are unique across every order, so a key names one course',
+    new Set(allUnits).size === allUnits.length
+    && KANJI_ALL_COURSES.every((c) => kanjiCourseForUnit(c.unit) === c),
+    allUnits.join(' '));
+  const ids = KANJI_ALL_COURSES.map((c) => c.id);
+  check('course ids are unique across every order', new Set(ids).size === ids.length);
+
+  const trail = kanjiCoursesFor('trail').flatMap((c) => c.chunks.flatMap((ch) => ch.items));
+  const at = new Map(trail.map((k, i) => [k, i]));
+  const joyo = new Set(KANJI_COURSES.filter((c) => !c.unit.startsWith('9-'))
+    .flatMap((c) => c.chunks.flatMap((ch) => ch.items)));
+  const late = [];
+  for (const kanji of trail) {
+    const entry = kanjiComponents(kanjiUnitFor(kanji), kanji);
+    if (!entry) continue;
+    for (const part of entry.parts) {
+      if (joyo.has(part.c) && at.get(part.c) > at.get(kanji)) late.push(`${kanji}(${part.c})`);
+    }
+  }
+  check('Kanji Trail: no kanji comes before a jōyō kanji it is built from',
+    late.length === 0, late.slice(0, 12).join(' '));
+  check('Kanji Trail: 成 (turn into) now comes before 城 (castle), the reported case',
+    at.get('成') < at.get('城'));
+  check('Kanji Trail: a grade 6 component is pulled forward into stage 1 when grade 1 needs it',
+    kanjiCourseForUnit('T1').chunks.some((ch) => ch.items.includes('寸')));
+  check('Kanji Trail: names & places kanji are never pulled forward into a jōyō stage',
+    kanjiCoursesFor('trail').filter((c) => c.unit.startsWith('T'))
+      .every((c) => c.chunks.every((ch) => ch.items.every((k) => joyo.has(k)))));
+
+  const jlpt = kanjiCoursesFor('jlpt');
+  check('JLPT: N5 comes first and starts with 一',
+    jlpt[0].unit === 'N5' && jlpt[0].chunks[0].items[0] === '一', jlpt[0].unit);
+  check('JLPT: levels run N5 to N1, then the kanji on no list',
+    jlpt.map((c) => c.unit.split('-')[0]).filter((u, i, a) => a.indexOf(u) === i).join(',')
+      === 'N5,N4,N3,N2,N1,NJ,NP',
+    jlpt.map((c) => c.unit).join(','));
+  check('JLPT: no unit is over 250 kanji', jlpt.every((c) => c.chunks.flatMap((ch) => ch.items).length <= 250),
+    jlpt.map((c) => `${c.unit}:${c.chunks.flatMap((ch) => ch.items).length}`).join(' '));
+
+  // An order course reads its kanji data through from their school-grade
+  // home units: nothing loads it separately, so this is the property the
+  // quiz depends on.
+  const n5 = kanjiCourseForUnit('N5');
+  check('a JLPT unit sees its kanji data through their home grades, already loaded here',
+    n5.index.size === n5.chunks.flatMap((ch) => ch.items).length
+    && kanjiInfo(n5, '一') === kanjiInfo(KANJI_COURSES[0], '一'),
+    `${n5.index.size} of ${n5.chunks.flatMap((ch) => ch.items).length}`);
+}
+done('teaching orders: coverage, unit keys, components first, JLPT levels');
 
 // --- The learner's own hints ---------------------------------------------
 //

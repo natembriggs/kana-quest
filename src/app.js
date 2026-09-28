@@ -4,9 +4,11 @@ import {
   COURSES, romajiFor, writingPromptFor, buildChoices,
 } from './kana.js';
 import {
-  KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, formatReading,
+  KANJI_COURSES, KANJI_ALL_COURSES, KANJI_ORDERS, kanjiCoursesFor, kanjiCourseForUnit,
+  kanjiInfo, readingExample, meaningLabel, formatReading,
   buildKanjiOptions, buildAdvancedAdditions, buildDefinitionChoices, recomputeKanjiRollup,
   ensureKanjiUnitLoaded, kanjiUnitFor, areAllKanjiUnitsLoaded, unitLabel,
+  unitGroupLabel as kanjiUnitGroupLabel, unitBadge as kanjiUnitBadge,
   effectiveQuizReadings,
 } from './kanji.js';
 import {
@@ -187,10 +189,10 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-28a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-09-28b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
-const ALL_COURSES = [...COURSES, ...KANJI_COURSES, ...VOCAB_ALL_COURSES];
+const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
 
 /**
  * A merged index spanning every grade's kanji — needed whenever something
@@ -282,9 +284,9 @@ const ALL_KANJI_POOL_ID = 'all-kanji';
 
 /**
  * A synthetic pool spanning EVERY kanji unit's chunks, back to back in the
- * same order the grade picker lists them (KANJI_COURSES is already sorted
- * that way — see compareUnits in kanji.js). This is what "Learn N next"
- * draws from: new kanji are taught in one continuous curriculum order, not
+ * same order the grade picker lists them — the learner's chosen teaching
+ * order (activeKanjiCourses below), already sorted. This is what "Learn N
+ * next" draws from: new kanji are taught in one continuous curriculum order, not
  * reset to the start of whichever unit happens to be selected below, so
  * picking a different grade-picker tile must not change what "next" means.
  * Contrast with studyListPool just above, which is scoped to what's already
@@ -296,8 +298,9 @@ const ALL_KANJI_POOL_ID = 'all-kanji';
  * reuse any single course's Set, which only ever covered its own kanji.
  */
 function allKanjiPool() {
+  const courses = activeKanjiCourses();
   const excludeForMode = {};
-  KANJI_COURSES.forEach((course) => {
+  courses.forEach((course) => {
     Object.entries(course.excludeForMode).forEach(([mode, excluded]) => {
       (excludeForMode[mode] ??= new Set());
       excluded.forEach((kanji) => excludeForMode[mode].add(kanji));
@@ -307,7 +310,7 @@ function allKanjiPool() {
     id: ALL_KANJI_POOL_ID,
     kind: 'kanji',
     name: 'Kanji',
-    chunks: KANJI_COURSES.flatMap((course) => course.chunks),
+    chunks: courses.flatMap((course) => course.chunks),
     excludeForMode,
     index: allKanjiIndex(),
   };
@@ -320,6 +323,17 @@ function allKanjiPool() {
  * cached. Word ids are unique across the whole manifest, so a plain union is
  * exact.
  */
+/** The kanji course list for the open profile's chosen teaching order —
+ * school grade (the default), JLPT or Kanji Trail; see `kanjiOrder` in
+ * store.js's defaultSettings() and kanji-expansion-plan.md §3. The same
+ * kanji in every order, re-cut, so every browse list, every total and "Learn
+ * N next" goes through here. Anything tied to school grade as such — the
+ * stories' furigana window, "Grade N complete" milestones, a kanji's own home
+ * unit — keeps using KANJI_COURSES directly. */
+function activeKanjiCourses(profile = state.profile) {
+  return kanjiCoursesFor(profile ? profile.settings.kanjiOrder : 'grade');
+}
+
 /** The vocab course list for the open profile's chosen progression — see
  * `vocabProgression` in store.js's defaultSettings(). Every browse list and
  * every total goes through here; only id lookups use VOCAB_ALL_COURSES. */
@@ -452,21 +466,11 @@ const SCRIPTS = [
   { id: 'vocab', kind: 'vocab', name: 'Vocabulary', native: '単語', sample: '語' },
 ];
 
-// Unit ids ("1".."6", "8-1".."8-6", "9-1".."9-N") in teaching order —
-// KANJI_COURSES is already sorted that way (see compareUnits in kanji.js).
+// School-grade unit ids ("1".."6", "8-1".."8-6", "9-1".."9-N") in grade
+// order — KANJI_COURSES is already sorted that way (see compareUnits in
+// kanji.js). For what is tied to school grade itself (the stories' furigana
+// window); the unit picker lists the learner's chosen order instead.
 const KANJI_UNIT_IDS = KANJI_COURSES.map((c) => c.unit);
-
-// Which group a unit belongs to, and the heading shown above its row in the
-// grade picker — checked in this order since '8-'/'9-' are also matched by
-// nothing else. Elementary units ("1".."6") have no dash at all.
-const KANJI_UNIT_GROUPS = [
-  { test: (unit) => unit.startsWith('9-'), label: 'Names & places' },
-  { test: (unit) => unit.startsWith('8-'), label: 'Secondary school' },
-  { test: (unit) => true, label: 'Primary school grade' },
-];
-function kanjiUnitGroup(unit) {
-  return KANJI_UNIT_GROUPS.find((g) => g.test(unit));
-}
 
 const EMOJI_CHOICES = [
   '🌱', '🦊', '🐧', '🐙', '🦉', '🐳', '🍡', '🌸', '⚡️', '🚀', '🐢', '🍄',
@@ -624,7 +628,7 @@ function currentScript() {
 /** The course the current script + grade selection resolves to. */
 function currentCourse() {
   const kind = currentScript().kind;
-  if (kind === 'kanji') return getAnyCourse(`kanji-grade-${state.kanjiUnit}`);
+  if (kind === 'kanji') return kanjiCourseForUnit(selectedUnit('kanji'));
   if (kind === 'vocab') return getAnyCourse(`vocab-${state.vocabUnit}`);
   return getAnyCourse(state.scriptId);
 }
@@ -632,7 +636,7 @@ function currentCourse() {
 /** Every course a script covers — one for kana, one per grade for kanji,
  * one per teaching unit for vocab. */
 function coursesForScript(script) {
-  if (script.kind === 'kanji') return KANJI_COURSES;
+  if (script.kind === 'kanji') return activeKanjiCourses();
   if (script.kind === 'vocab') return activeVocabCourses();
   return [getAnyCourse(script.id)];
 }
@@ -1963,28 +1967,17 @@ function renderModePicker(script, profile) {
   $('mode-hint').textContent = modeHint(state.mode, kind);
 }
 
-// Short badge text for the grade-picker tile — "1".."6" for elementary,
-// "S1".."S6" for secondary jōyō sub-units, "N1".."N6" for beyond-jōyō names
-// & places sub-units (see kanji-expansion-plan.md §5/§8).
-function unitBadge(unit) {
-  if (unit.startsWith('9-')) return `N${unit.slice(2)}`;
-  if (unit.startsWith('8-')) return `S${unit.slice(2)}`;
-  return unit;
-}
-
 /**
  * The unit groups a script's picker splits into, in teaching order:
- * [{ label, units }]. Kanji groups come from KANJI_UNIT_GROUPS (a per-unit
- * test table); vocab groups are baked into the unit id itself (§2.3's Core
+ * [{ label, units }]. Kanji groups come from kanji.js's unitGroupLabel;
+ * vocab groups are baked into the unit id itself (§2.3's Core
  * spine first, then the five GCSE-style theme groups), so vocab.js's
  * unitGroupLabel answers directly. Both unit lists are already in teaching
  * order, so grouping consecutive runs is enough — no sorting here.
  */
 function unitGroupsFor(kind) {
-  const units = kind === 'kanji' ? KANJI_UNIT_IDS : activeVocabCourses().map((c) => c.unit);
-  const labelFor = kind === 'kanji'
-    ? (unit) => kanjiUnitGroup(unit).label
-    : (unit) => vocabUnitGroupLabel(unit);
+  const units = (kind === 'kanji' ? activeKanjiCourses() : activeVocabCourses()).map((c) => c.unit);
+  const labelFor = kind === 'kanji' ? kanjiUnitGroupLabel : vocabUnitGroupLabel;
   const groups = [];
   units.forEach((unit) => {
     const label = labelFor(unit);
@@ -1998,16 +1991,20 @@ function unitGroupsFor(kind) {
 /** The real course behind a unit id, for whichever of the two unit-bearing
  * kinds is being browsed. */
 function unitCourse(kind, unit) {
-  return getAnyCourse(kind === 'kanji' ? `kanji-grade-${unit}` : `vocab-${unit}`);
+  return kind === 'kanji' ? kanjiCourseForUnit(unit) : getAnyCourse(`vocab-${unit}`);
 }
 
 function selectedUnit(kind) {
-  if (kind === 'kanji') return state.kanjiUnit;
-  // The remembered unit belongs to whichever progression was on screen when
-  // it was chosen — switching progressions (or opening a profile that uses
-  // the other one) leaves it pointing at a unit the active axis doesn't
-  // have. Fall back to that axis's first unit rather than rendering a course
-  // screen for a unit no tile on it can select.
+  // The remembered unit belongs to whichever progression (or kanji teaching
+  // order) was on screen when it was chosen — switching (or opening a
+  // profile that uses another one) leaves it pointing at a unit the active
+  // axis doesn't have. Fall back to that axis's first unit rather than
+  // rendering a course screen for a unit no tile on it can select.
+  if (kind === 'kanji') {
+    const courses = activeKanjiCourses();
+    if (!courses.some((c) => c.unit === state.kanjiUnit)) state.kanjiUnit = courses[0].unit;
+    return state.kanjiUnit;
+  }
   const active = activeVocabCourses();
   if (!active.some((c) => c.unit === state.vocabUnit)) {
     state.vocabUnit = active[0].unit;
@@ -2093,7 +2090,7 @@ function renderGradePicker(script) {
     button.className = `grade${u === unit ? ' active' : ''}`;
     button.dataset.grade = u;
     button.innerHTML = '<span class="grade-number"></span><span class="grade-dot"></span>';
-    button.querySelector('.grade-number').textContent = kind === 'kanji' ? unitBadge(u) : vocabUnitBadge(u);
+    button.querySelector('.grade-number').textContent = kind === 'kanji' ? kanjiUnitBadge(u) : vocabUnitBadge(u);
     button.querySelector('.grade-dot').textContent = stats.due > 0 ? '•' : '';
     const name = kind === 'kanji' ? course.name : vocabUnitLabel(u);
     button.setAttribute('aria-label', `${name}, ${stats.started} of ${stats.total} started`);
@@ -2196,6 +2193,62 @@ function setVocabProgression(pref) {
   // re-homes it on the next read, and the group memory keyed by the old
   // axis's labels is equally stale.
   state.lastUnitByGroup = {};
+  renderCourse();
+}
+
+const KANJI_ORDER_LABELS = { grade: 'School grade', jlpt: 'JLPT', trail: 'Kanji Trail' };
+const KANJI_ORDER_HINTS = {
+  grade: 'Grades 1 to 6, then secondary school, as taught in Japanese schools.',
+  jlpt: 'N5 up to N1. There is no official JLPT kanji list; these levels are'
+    + ' Jonathan Waller\u2019s widely used estimates (tanos.co.uk).',
+  trail: 'School-grade order, except that a kanji used as a part of another comes'
+    + ' first, so every hint only uses parts you have already learned.',
+};
+
+/**
+ * Kanji only: which order the kanji are taught in — kanji-expansion-plan.md
+ * §3. The same kanji in all three, and a kanji's records are keyed by the
+ * kanji itself, so switching only re-cuts what "Learn next" offers and how
+ * the units are grouped; nothing learned is lost. Said on screen for the same
+ * reason the vocabulary picker says it.
+ */
+function renderKanjiOrderPicker() {
+  const picker = $('kanji-order-picker');
+  const hint = $('kanji-order-hint');
+  const script = SCRIPTS.find((s) => s.id === state.scriptId);
+  if (!script || script.kind !== 'kanji') {
+    picker.hidden = true;
+    hint.hidden = true;
+    return;
+  }
+  picker.hidden = false;
+  hint.hidden = false;
+  const current = KANJI_ORDERS.includes(state.profile.settings.kanjiOrder)
+    ? state.profile.settings.kanjiOrder
+    : 'grade';
+  picker.innerHTML = '';
+  KANJI_ORDERS.forEach((pref) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `segment${pref === current ? ' active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', pref === current ? 'true' : 'false');
+    button.textContent = KANJI_ORDER_LABELS[pref];
+    button.addEventListener('click', () => setKanjiOrder(pref));
+    picker.appendChild(button);
+  });
+  hint.textContent = `${KANJI_ORDER_HINTS[current]} Switching keeps everything you have learned.`;
+}
+
+function setKanjiOrder(pref) {
+  state.profile.settings.kanjiOrder = pref;
+  stampSetting(state.profile, 'kanjiOrder');
+  store.saveProfile(state.profile);
+  // As with setVocabProgression: the remembered unit and group memory belong
+  // to the order being left; selectedUnit() re-homes the unit on next read.
+  Object.keys(state.lastUnitByGroup)
+    .filter((key) => key.startsWith('kanji:'))
+    .forEach((key) => { delete state.lastUnitByGroup[key]; });
   renderCourse();
 }
 
@@ -2461,6 +2514,7 @@ function renderCourse() {
   // Before renderGradePicker: switching progression changes which units
   // exist, and the picker below must be drawn from the new axis.
   renderVocabProgressionPicker();
+  renderKanjiOrderPicker();
   renderGradePicker(script);
   // Before renderQuickActions: an outstanding OFFER takes the accent off
   // Learn (starting from scratch is the wrong first move for someone who
@@ -10235,9 +10289,17 @@ function readerScriptStage(profile) {
  * unit". Null if no kanji has been introduced at all (stage isn't 'kanji'
  * yet, so callers only reach this once it's non-null in practice). */
 function frontierKanjiUnit(profile) {
+  const course = frontierKanjiCourse(profile, KANJI_COURSES);
+  return course ? course.unit : null;
+}
+
+/** The furthest-along course of `courses` (in list order) with anything
+ * enrolled or introduced, or null. frontierKanjiUnit above asks it of the
+ * school-grade courses, which is what the stories' furigana window is keyed
+ * to; the home tile asks it of the learner's own teaching order. */
+function frontierKanjiCourse(profile, courses) {
   let frontier = null;
-  KANJI_UNIT_IDS.forEach((unit) => {
-    const course = getAnyCourse(`kanji-grade-${unit}`);
+  courses.forEach((course) => {
     // Enrolled OR introduced — matches anyKanjiStarted's own criterion for
     // 'kanji' stage above. Enrollment happens before the first progress
     // record does (see "Learn N next"), so checking progress alone would
@@ -10249,17 +10311,19 @@ function frontierKanjiUnit(profile) {
         isStudying(profile.study, char, mode) || !!profile.progress[itemKey(mode, char)]
       ))
     )));
-    if (started) frontier = unit;
+    if (started) frontier = course;
   });
   return frontier;
 }
 
-/** The kanji unit the home tile scopes its figure to: the frontier unit if
- * anything has been started, else the very first unit — so a brand-new
- * learner sees "Grade 1: 0/80" rather than nothing scoped at all (see
+/** The kanji course the home tile scopes its figure to, in the learner's
+ * own teaching order: the frontier course if anything has been started,
+ * else the very first — so a brand-new learner sees "Grade 1: 0/80" (or
+ * "JLPT N5: 0/79") rather than nothing scoped at all (see
  * review-followups.md's "Chunk-relative progress on home tiles"). */
-function currentKanjiUnit(profile) {
-  return frontierKanjiUnit(profile) || KANJI_UNIT_IDS[0];
+function currentKanjiCourse(profile) {
+  const courses = activeKanjiCourses(profile);
+  return frontierKanjiCourse(profile, courses) || courses[0];
 }
 
 /** Whether `unit` belongs to the jōyō set (kanji-expansion-plan.md §5) —
@@ -10273,8 +10337,8 @@ function isJoyoUnit(unit) {
 
 /**
  * Milestone celebration (review-followups.md item 4): the fixed catalogue of
- * sets this pass recognizes — each kana script, each kanji grade, and jōyō
- * kanji as a whole. Vocab tiers and story levels are deliberately not
+ * sets this pass recognizes — each kana script, each kanji unit (in whichever
+ * teaching order it was finished in), and jōyō kanji as a whole. Vocab tiers and story levels are deliberately not
  * covered. `id` is the key persisted forever in profile.milestonesShown once
  * shown; `text` is the summary-screen copy, matching the app's own plain,
  * factual tone (src/changelog.js) rather than exclamation-heavy hype.
@@ -10282,8 +10346,11 @@ function isJoyoUnit(unit) {
 function kanaMilestone(course) {
   return { id: `kana-${course.id}`, text: `All of ${course.name} learned.` };
 }
-function kanjiGradeMilestone(unit) {
-  return { id: `kanji-grade-${unit}`, text: `${unitLabel(unit)} kanji complete.` };
+/** Keyed by the course id, which for a school grade is the same
+ * `kanji-grade-<unit>` it always was, so a milestone already shown stays
+ * shown; a JLPT or Kanji Trail unit gets its own (`kanji-jlpt-N5`). */
+function kanjiUnitMilestone(course) {
+  return { id: course.id, text: `${unitLabel(course.unit)} kanji complete.` };
 }
 const JOYO_MILESTONE = { id: 'kanji-joyo', text: 'All jōyō kanji complete.' };
 
@@ -10331,9 +10398,12 @@ function newlyCompletedMilestones(course, mode, before, profile) {
     return results;
   }
   if (course.kind === 'kanji' && course.unit) {
-    const grade = kanjiGradeMilestone(course.unit);
-    if (!shown[grade.id]) results.push(grade);
-    if (isJoyoUnit(course.unit) && !shown[JOYO_MILESTONE.id]) {
+    const unitDone = kanjiUnitMilestone(course);
+    if (!shown[unitDone.id]) results.push(unitDone);
+    // Any order's unit can finish off jōyō: a JLPT or Kanji Trail unit
+    // mixes kanji from several school grades, so this checks the
+    // school-grade courses themselves rather than the unit just finished.
+    if (!shown[JOYO_MILESTONE.id]) {
       const joyoDone = KANJI_COURSES.filter((c) => isJoyoUnit(c.unit)).every((c) => {
         const stats = courseStats(c, mode, profile);
         return stats.total > 0 && stats.started >= stats.total;
@@ -10356,11 +10426,10 @@ function newlyCompletedMilestones(course, mode, before, profile) {
  * the beyond-jōyō names & places expansion (kanji-expansion-plan.md §5).
  */
 function kanjiHomeProgress(mode, profile) {
-  const unit = currentKanjiUnit(profile);
-  const course = getAnyCourse(`kanji-grade-${unit}`);
+  const course = currentKanjiCourse(profile);
   const chunk = courseStats(course, mode, profile);
   if (chunk.started < chunk.total) {
-    return { label: unitLabel(unit), started: chunk.started, total: chunk.total };
+    return { label: unitLabel(course.unit), started: chunk.started, total: chunk.total };
   }
   const joyo = KANJI_COURSES.filter((c) => isJoyoUnit(c.unit)).reduce((acc, c) => {
     const stats = courseStats(c, mode, profile);
@@ -10370,7 +10439,7 @@ function kanjiHomeProgress(mode, profile) {
 }
 
 /** The vocab course the home tile scopes its figure to, mirroring
- * currentKanjiUnit: the furthest-along course (in the learner's active
+ * currentKanjiCourse: the furthest-along course (in the learner's active
  * progression — commonness tiers by default) with anything introduced, or
  * the very first course if nothing has been started yet. Vocab has no
  * enrollment gate of its own to check (vocab-plan.md §4.3 gates on the study
