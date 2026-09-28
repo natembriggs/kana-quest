@@ -1,0 +1,38 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Written style guidance only: broad smooth colour areas, gentle contours and minimal texture. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Written style guidance only: quiet simplified background and readable silhouettes. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Written style guidance only: restrained details and warm/cool colour areas. Not supplied as an image input."
+    },
+    {
+      "file": "assets/stories/jack-to-mame-no-ki/cover.webp",
+      "role": "Character identity and clothing palette guidance only; not supplied as an image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Jack and the Beanstalk”\nPrimary request: depict the end of paragraph 2: the morning after Jack and his mother throw away the beans, a huge beanstalk has grown from the garden up beyond the clouds.\nScene/backdrop: a modest cottage garden in clear morning light, with the leafy beanstalk rising from the earth and disappearing through soft clouds into a pale blue sky.\nSubject: Jack is a slim boy with short tousled brown hair, cream shirt, simple brown vest and trousers, and sturdy dark boots. His mother stands beside him in a plain muted-plum dress and apron. They look up at the extraordinary plant with quiet amazement. Use the story cover only to guide Jack’s character identity and cream, brown and muted green palette; keep the inline illustration much simpler than the cover.\nStyle/medium: gentle children's storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7; Jack and his mother small but readable at the base, the beanstalk a bold winding shape that leads the eye up into clouds, two or three broad depth layers.\nLighting/mood: fresh morning light, wonder and a hint of adventure.\nColor palette: warm ivory, muted leaf greens, soft sky blue, subdued brown and a little ochre.\nConstraints: show the new plant and the two family members looking up. Original cottage and character designs. No readable writing.\nAvoid: giants, castles, gold, other people, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture, frightening mood."
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Jack and the Beanstalk”\nPrimary request: depict the end of paragraph 4: Jack slips out from his hiding place after the giant falls asleep, takes a small bag of gold coins, and prepares to escape.\nScene/backdrop: a simple room in a high castle, with a broad wooden table, one large chair, a small stone hearth and a doorway leading toward the outside.\nSubject: Jack is a slim boy with short tousled brown hair, cream shirt, simple brown vest and trousers, and sturdy dark boots. He quietly carries a modest cloth bag with a few gold coins visible. A very large but peaceful giant sleeps in a chair in the background after his meal. Use the story cover only to guide Jack’s identity and muted cream, brown and green palette; keep this inline art much simpler than the cover.\nStyle/medium: gentle children's storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7, medium-wide view; Jack and the small bag are the focal point, with the sleeping giant clearly much larger but secondary, two or three broad depth layers.\nLighting/mood: soft daylight, quiet suspense without fear.\nColor palette: warm ivory, muted brown, soft indigo shadows, subdued leafy green outside, restrained golden coins.\nConstraints: the giant is asleep and unharmed. Show Jack moving quietly toward the exit with the bag. Original character design; no readable writing.\nAvoid: violence, angry faces, frightening expressions, extra people, exposed oven flames, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline picture-book painting for the graded-reading story “Jack and the Beanstalk”\nPrimary request: depict the central action near the end of paragraph 7: Jack uses an axe to chop the enormous beanstalk at its base while his mother stands nearby.\nScene/backdrop: a simple cottage garden under a high blue sky. The thick green beanstalk rises out of frame beside the cottage; a few broad leaves and a low fence keep the background quiet.\nSubject: Jack is a slim boy with short tousled brown hair, cream shirt, brown vest and trousers, and sturdy dark boots. He swings a plain axe into the plant’s thick base with focused effort. His mother, in a muted plum dress and pale apron, stands several steps away, watching alertly. Use the story cover only to guide Jack’s identity and cream, brown and green palette; keep the inline illustration much simpler than the cover.\nStyle/medium: gentle children's storybook painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background.\nComposition/framing: landscape around 12:7, medium-wide view focused on Jack, the axe and the broad stalk base, two or three clear depth layers.\nLighting/mood: bright daytime, urgent but steady and reassuring.\nColor palette: muted leaf greens, warm ivory, subdued brown, pale sky blue and restrained plum.\nConstraints: show only the plant being chopped at ground level; the beanstalk has begun to split but is still upright. The giant and anything above the clouds are outside the frame. The action is directed at the plant, not at a person. No readable writing.\nAvoid: falling people, injury, violence toward a character, axe near a person, frightening expressions, extra characters, readable text, lettering, title, border, frame, watermark, logo, photorealism, glossy 3D, dense texture."
+    }
+  ]
+}

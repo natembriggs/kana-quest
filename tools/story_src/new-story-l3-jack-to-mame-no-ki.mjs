@@ -14,7 +14,11 @@ const theStory = expandStory({
     credit: 'Retold by',
     notes: 'An original retelling of the traditional fairy tale, not a transcription or translation of a particular published edition.',
     licence: 'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
+    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Jack’s character identity and palette.',
   },
+  // The beanstalk’s arrival, Jack's quiet escape with the coins, and the
+  // decisive cut at its base.
+  art: { inline: [{ after: 2, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 7, file: '03.webp' }] },
   nw: ['豆の木', '巨人', '竪琴', 'めんどり', '金貨'],
   lexicon: lexicon({
     '昔[むかし]': ['long ago', 'adv'],

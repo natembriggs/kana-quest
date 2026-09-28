@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original retelling of the traditional fairy tale, not a transcription or translation of a particular published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Jack’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 2,
+        "src": "assets/stories/jack-to-mame-no-ki/01.webp?v=ebb4f38ddd5bfc81",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 4,
+        "src": "assets/stories/jack-to-mame-no-ki/02.webp?v=89fb3a51388f3ff4",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 7,
+        "src": "assets/stories/jack-to-mame-no-ki/03.webp?v=3f3606766fd8a302",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "豆の木",
@@ -5250,9 +5274,5 @@ export const STORY = {
   "hash": "aef6865a",
   "was": [
     "dd8d645f"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Jack’s character identity and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-4a46832b-850b-40d4-85e8-d361f3846f2e.png",
+    "02.webp": "exec-0be00950-8097-44b3-9c29-b0956adaf342.png",
+    "03.webp": "exec-4ddacdaa-279f-48b1-9799-25c37fd6250b.png"
+  }
+}
