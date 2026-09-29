@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/mittsu-no-kane-4/cover.webp",
+      "role": "Riku and Chika's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline illustration for chapter 4 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the Three Bells series cover for Riku and Chika's character identity and palette only.\nPrimary request: Show the quiet moment Mori reveals his father's old unsent envelope to Riku and Chika in the damaged island house.\nScene/backdrop: A small, weather-darkened wooden house on a rocky island. Keep the background sparse: simple dark timber walls, a few intact floorboards, and a hint of the storm outside a plain window. Leave the broken part of the floor distant and unobtrusive.\nSubject: Mori, a middle-aged man with dark tousled hair in plain travel clothes, sits carefully against the wall with one leg extended after twisting his ankle. Chika, a young woman with dark hair tied back and a muted rust-red top, has just returned a small notebook to him. Mori holds out a blank, old cream-colored envelope, slightly worn at the edges, as Riku watches in silence. Riku is a boy with dark hair, a pale grey shirt, black shorts and a simple dark backpack set beside him. Keep their expressions restrained and thoughtful, with no exaggerated distress.\nStyle/medium: Follow Image 1's approved inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background. Use Image 2 only for Riku and Chika's character identity and palette; use a simpler detail level than the cover.\nComposition/framing: Wide landscape near 12:7. Three depth layers at most. Arrange the three people in a calm triangular grouping, with the plain envelope visible between them as the focal object. Natural proportions and simple readable gestures.\nLighting/mood: Soft, subdued daylight from a cloudy window; intimate, reflective, and not frightening.\nColor palette: Warm ivory, muted charcoal timber, subdued teal-grey, rust red, sage and soft ochre.\nConstraints: Depict only the scene described in paragraph 3. The envelope and notebook must have no legible writing, marks or labels. No visible words, captions, lettering, border, watermark, decorative frame, extra people, or later-story revelations."
+    }
+  ]
+}
