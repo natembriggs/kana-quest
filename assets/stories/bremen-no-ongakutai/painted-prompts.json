@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/bremen-no-ongakutai/cover.webp",
+      "role": "Character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: single landscape inline picture for a graded Japanese story reader\nInput images: Image 1 is the approved Kasa Jizō inline style reference only; Image 2 is the Bremen Town Musicians story cover, for the animals' identity and palette only.\nPrimary request: Show the four animal musicians setting out together along a quiet woodland path after they have met, before any house or thieves appear.\nScene/backdrop: a simple forest path with a few soft sage-green trees and warm ivory sky; keep the background quiet and minimal.\nSubject: one grey-brown donkey with a simple packsaddle, one small brown-and-white dog, one grey tabby cat, and one orange rooster. Keep the four animals distinct, gentle and natural, traveling together in a small group. The donkey walks in front, the dog, cat and rooster follow close behind; they look companionable and lively as they make music together, without instruments or props.\nStyle/medium: broad smooth painted colour areas, gentle contours, minimal texture, few purposeful marks, and quiet simplified backgrounds, matching Image 1's inline treatment. Use Image 2 only for recognizable character shapes and palette, not for its detail level.\nComposition/framing: wide landscape composition, approximately 12:7 aspect ratio, all four animals fully visible and clearly readable at small size, arranged along the path with breathing room.\nLighting/mood: soft late-afternoon light, warm, hopeful and calm.\nColor palette: muted grey-brown, brown and white, soft tabby grey, restrained rooster orange, sage greens, warm ivory and ochre.\nConstraints: depict only this non-spoiler traveling scene from the story. Preserve exactly four animals: donkey, dog, cat and rooster. No people, house, thieves, text, letters, numbers, border, watermark, or decorative frame."
+    }
+  ]
+}

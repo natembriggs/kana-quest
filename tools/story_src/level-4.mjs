@@ -211,11 +211,15 @@ const bremenMusicians = expandStory({
   level: 'L4',
   gram: 'G4',
   blurb: 'Four ageing animals form a band, frighten a houseful of thieves, and discover a home together.',
-  source: SOL_SOURCE(
-    'Public-domain tale collected by the Brothers Grimm (The Bremen Town Musicians)',
-    'An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.',
-    'Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.',
-  ),
+  source: {
+    ...SOL_SOURCE(
+      'Public-domain tale collected by the Brothers Grimm (The Bremen Town Musicians)',
+      'An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.',
+      'Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.',
+    ),
+    illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the four musicians’ character identities and palette.",
+  },
+  art: { inline: [{ after: 2, file: '01.webp' }] },
   nw: ['ブレーメン', '音楽隊', 'ロバ', '泥棒'],
   lexicon: lexicon({
     '昔[むかし]': ['long ago', 'adv'],
