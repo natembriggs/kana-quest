@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/kagefumi-4/cover.webp",
+      "role": "Haru's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 4 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the shared series cover, for Haru's character identity and palette only.\nPrimary request: Show Haru and her grandmother in the quiet back room beside an old wooden pillar, as the grandmother recognizes the height marks of the brother she had forgotten.\nScene/backdrop: A modest back room in an old Japanese home. One thick, dark wooden pillar stands clearly in view, with two simple columns of small horizontal child-height marks carved or drawn into it; one column stops lower than the other. Keep the rest of the room spare and quiet.\nSubject: Haru, a young girl with long dark hair and muted teal clothes, stands beside her elderly grandmother. The grandmother has a soft grey hair bun and simple muted plum and sage clothing; she gently rests one hand on the pillar and looks moved, as though a long-lost memory has returned. Haru watches her with quiet attention.\nStyle/medium: Follow Image 1's inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, and quiet simplified backgrounds. Use Image 2 only for Haru's character identity and palette, not its detailed cover rendering.\nComposition/framing: Wide landscape near 12:7, with the marked pillar as the focal form and the two figures clearly readable beside it; simple two or three depth layers.\nLighting/mood: Soft natural daylight, intimate, reflective and tender.\nColor palette: Muted teal, sage, warm ivory, plum, soft ochre and dark warm wood.\nConstraints: Depict the moment from paragraph 5. The pillar may have plain marks only: no legible names, numbers, letters, writing, captions, text, border, watermark or decorative frame. No photographs or later-story scenes."
+    }
+  ]
+}
