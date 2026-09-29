@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+    },
+    {
+      "file": "assets/stories/ali-baba/cover.webp",
+      "role": "Ali Baba’s character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for “Ali Baba and the Forty Thieves”\nPrimary request: depict the end of paragraph 1: Ali Baba hides high in a tree as a group of mounted thieves reaches a rock face, and the chief's words cause a hidden entrance to open.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides Ali Baba's character identity and palette only.\nScene/backdrop: a quiet rocky clearing in a Persian mountain forest, with one broad old tree in the foreground and a simple rock face beyond it.\nSubject: Ali Baba, a woodcutter wearing the same wrapped blue headcloth, ochre tunic and dark vest as the cover, peers cautiously from a low branch. In the distance, mounted travelers with a few heavy sacks gather before the rock; the chief stands at the opening as a concealed stone doorway slides aside. No treasure is visible inside.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful details and a quiet simplified background; simpler than the cover.\nComposition/framing: wide landscape about 12:7, tree and hidden Ali Baba large in one foreground area, the small riders and opening readable in the opposite midground, balanced open rock and foliage.\nLighting/mood: soft late afternoon forest light, hushed and suspenseful.\nColor palette: warm ochre, natural stone grey, muted leaf green, soft blue shadows and a small dark opening.\nConstraints: show only the arrival and opening described in paragraph 1. Do not show cave treasure or any later events. No lettering, numbers, labels, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, violence, clutter, text."
+    }
+  ]
+}

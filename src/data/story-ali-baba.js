@@ -18,7 +18,19 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling of the familiar tale. The gruesome episode in which Kasim’s body is dismembered and stitched back together is left out entirely; the story keeps Morgiana as the one who saves the household and ends, as the tale does, with her freedom. No wording is copied from a published translation.",
     "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Ali Baba’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/ali-baba/01.webp?v=714ed947bc90a519",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "アリババ",
@@ -8191,9 +8203,5 @@ export const STORY = {
   "hash": "e1165288",
   "was": [
     "2c792325"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
