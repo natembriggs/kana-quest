@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+    },
+    {
+      "file": "assets/stories/asagao-o-matsu-asa/cover.webp",
+      "role": "Kenta’s character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for “Waiting for the Morning Glories”\nPrimary request: depict the end of paragraph 3: on an evening balcony, Kenta's grandmother points out the faint blue tip of the largest morning-glory bud.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides Kenta's character identity and palette only.\nScene/backdrop: a quiet apartment balcony in late summer, with a potted morning-glory vine on a simple support and soft shapes of nearby homes beyond the railing.\nSubject: Kenta, the short dark-haired boy in a plain ivory T-shirt and navy shorts from the cover, leans close to the plant. His grandmother, a kind older woman with soft grey hair and a muted lavender cardigan, points gently to the largest closed bud, where a tiny hint of blue shows at its tip.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful details, a quiet simplified background, simpler than the cover.\nComposition/framing: wide landscape about 12:7, Kenta, grandmother's pointing hand and the small blue-tipped bud clearly readable; keep the plant recognizable but uncluttered.\nLighting/mood: warm subdued evening light, attentive and gently hopeful.\nColor palette: soft leaf green, muted lavender, warm ivory, navy blue and a restrained small touch of flower blue.\nConstraints: show only the discovery from paragraph 3, with a single closed bud showing just a little blue. No open flowers, diary writing, lettering, numbers, labels, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, dramatic lighting, clutter, text."
+    }
+  ]
+}

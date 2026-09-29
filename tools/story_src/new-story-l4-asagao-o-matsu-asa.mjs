@@ -16,7 +16,9 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted. Morning glories really do open before dawn and close as the day heats up, which is the whole plot.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
+    illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Kenta’s character identity and palette.",
   },
+  art: { inline: [{ after: 3, file: '01.webp' }] },
   lexicon: lexicon({
     'けんた': ['Kenta', 'pn'],
     'ゆい': ['Yui', 'pn'],

@@ -25,7 +25,19 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted. Morning glories really do open before dawn and close as the day heats up, which is the whole plot.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Kenta’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 3,
+        "src": "assets/stories/asagao-o-matsu-asa/01.webp?v=37d04540e7732e61",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -6437,9 +6449,5 @@ export const STORY = {
   "hash": "19f1553f",
   "was": [
     "5bf147a7"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
