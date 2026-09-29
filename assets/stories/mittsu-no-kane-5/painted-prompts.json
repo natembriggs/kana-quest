@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/mittsu-no-kane-5/cover.webp",
+      "role": "Riku and Chika's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline illustration for chapter 5 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the Three Bells series cover for Riku and Chika's character identity and palette only.\nPrimary request: Show Riku and Chika pulling together on the bell rope in the rain, just as the tower bell swings and its third strike begins to ring.\nScene/backdrop: A simple wooden bell tower on a small rocky island above a storm-dark sea. Show sturdy upright beams and a few wet wooden footholds; the sky is cloudy and the sea rough, without visible boats or lights.\nSubject: Riku, a boy with dark hair, a pale grey shirt and black shorts, and Chika, a young woman with dark hair tied back and a muted rust-red top, stand safely on the tower's lower platform and pull the same rope together. A short old rope is extended with Riku's plain dark belt and Chika's muted jacket, tied simply in a secure-looking line. Above them, a large bronze bell swings gently from its beam. Their faces are focused and determined, not frightened.\nStyle/medium: Follow Image 1's approved inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, and quiet simplified backgrounds. Use Image 2 only for Riku and Chika's identity and palette; keep detail simpler than the cover.\nComposition/framing: Wide landscape near 12:7. Three depth layers at most. The two figures and the bell form a clear readable triangle, with the joined rope visible. Natural proportions and simple hands.\nLighting/mood: Cool storm light with a small warm-brown highlight on the bell; urgent but hopeful.\nColor palette: Muted blue-grey, warm ivory, charcoal timber, rust red, soft bronze and restrained ochre.\nConstraints: Depict only the rope-pulling scene from paragraph 4. No text, letters, numbers, captions, border, watermark, decorative frame, extra people, boats, rescue lights, or events from later paragraphs."
+    }
+  ]
+}
