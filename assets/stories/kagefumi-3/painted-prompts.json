@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/kagefumi-3/cover.webp",
+      "role": "Haru's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 3 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the shared series cover, for Haru's character identity and palette only.\nPrimary request: Illustrate the moment the evening wind blows the boy's straw hat down the shrine steps to Haru, while the last sunlight fades and the boy becomes faintly transparent.\nScene/backdrop: Broad old stone steps leading to a small hilltop shrine at the edge of town. The last warm light reaches across the steps; the mountain horizon is darkening. Keep the setting quiet and simplified.\nSubject: Haru, a young girl with long dark hair and muted teal clothes, stands lower on the steps, bending slightly toward an old wide-brimmed straw hat that has landed beside her feet. Partway up, one boy about her little brother's age, in plain simple clothes, reaches toward his hat as the wind catches his clothes. He is becoming softly translucent from the edges as the sunset fades, still calm and recognizably human.\nStyle/medium: Follow Image 1's inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful marks and shadows, and a quiet simplified background. Use Image 2 only for Haru's identity and palette, not its detailed cover rendering.\nComposition/framing: Wide landscape near 12:7, Haru, the boy, and the fallen hat all clearly readable, arranged along the stone steps with breathing room.\nLighting/mood: Soft final amber sunset fading to muted blue-grey evening; poignant and mysterious but not frightening.\nColor palette: Warm ivory, muted teal, soft ochre, stone grey, sage and restrained blue-grey.\nConstraints: Show only this event at the end of paragraph 4. Do not include Sora, blood, injury, a detached shadow, the inside of the hat, writing, names, text, lettering, numbers, border, watermark or decorative frame."
+    }
+  ]
+}
