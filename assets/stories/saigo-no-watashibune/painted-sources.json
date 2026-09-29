@@ -1,0 +1,9 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Saki’s character identity and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-26e7f454-4ef7-4cc2-adc0-e6c0053beba5.png"
+  }
+}

@@ -9,7 +9,8 @@ const theStory = expandStory({
   blurb: "Saki misses the last ferry while bringing her grandfather his repaired radio, but the ferryman has another way to help.",
   nw: ["渡し船", "船頭", "上流", "向こう岸", "歩道橋"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."},
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Saki’s character identity and palette.'},
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   lexicon: lexicon({
     "さき": ["Saki", "pn"],
     "修[しゅう]理[り]した": ["repaired", "v", {"df": "修理する", "cf": "plain past (modifying a noun)"}],

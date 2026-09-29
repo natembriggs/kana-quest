@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/saigo-no-watashibune/cover.webp",
+      "role": "Saki's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline illustration for the Japanese graded-reading story “The Last Ferry”\nInput images: Image 1 is the approved inline-art style reference only; Image 2 is Saki's character and palette reference only, not an edit target.\nPrimary request: Depict the opening moment described in paragraph 0: Saki hurries down a sloping path toward a river while carrying a small box with her grandfather's repaired radio inside. Across the water, his home is visible on the opposite bank.\nScene/backdrop: A quiet rural Japanese riverside at late afternoon, with the sloped path leading diagonally down toward a small ferry landing, calm river and a modest house across the water.\nSubject: Saki, a Japanese girl with dark hair tied back in a low ponytail with a muted red tie, wearing a simple rust-red jacket and dark indigo skirt. She holds a modest rectangular box carefully in both arms as she runs.\nStyle/medium: Gentle hand-painted picture-book illustration, much simpler than the cover: broad smooth colour areas, soft confident contours, only a few purposeful folds and shadows, minimal surface texture, natural proportions and a small expressive face. Quiet simplified background with two or three depth layers. Muted rust, indigo, sage, warm ivory, soft teal and ochre.\nComposition/framing: Full-bleed 12:7 landscape composition, medium-wide view. Saki is the clear focal figure near the left third, moving down the slope toward the right; river and opposite bank remain legible. Keep her and the box large enough to read at small inline size.\nLighting/mood: Soft warm late-afternoon light; earnest, hopeful urgency.\nConstraints: Match only this opening setup, without revealing later story events. No lettering, signs, readable text, borders, captions, or watermarks.\nAvoid: Detailed cover-level brush texture, busy tiny background features, photorealism, glossy 3D, flat geometric clip-art, caricature, extra people, a visible radio outside its box, extra parcels, or any text."
+    }
+  ]
+}
