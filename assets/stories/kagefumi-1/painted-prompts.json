@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/kagefumi-1/cover.webp",
+      "role": "Character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 1 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the chapter cover, for Haru and Sora's character identity and palette only.\nPrimary request: Show the moment an unfamiliar boy in an old wide-brimmed straw hat asks to join Haru and Sora's shadow-tag game on the shrine steps.\nScene/backdrop: A long old flight of broad stone steps on the edge of a small Japanese town, with a little shrine far above. Late summer evening, west-facing steps catching warm sunset light; quiet, simple distant shapes.\nSubject: Haru, a girl with long dark hair in a muted teal top and skirt, and her younger brother Sora, a small dark-haired boy in a light ivory shirt and blue shorts, stand near the foot of the steps. Partway up sits a friendly-looking boy about Sora's age, wearing a plain old straw hat with a wide brim and simple, modest clothes. He has just asked to join their game; the siblings look toward him. Natural child proportions and restrained expressions.\nStyle/medium: Follow Image 1's inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, a few purposeful marks and quiet simplified backgrounds. Use Image 2 only for Haru and Sora's identity and palette, not for its detailed cover rendering.\nComposition/framing: Wide landscape near 12:7, all three children readable, the stone steps lead the eye up toward the seated boy; use only a few broad layers and leave breathing room.\nLighting/mood: Soft amber evening sun, warm and gently mysterious, without menace.\nColor palette: Muted teal, ivory, blue, sage, stone grey, soft ochre and warm sunset gold.\nConstraints: Stay at the friendly invitation moment before the children play. Do not show the boy's shadow or lack of one, any detached shadow, the old photograph, a supernatural effect, the later shadow-taking event, or anything from later chapters. No text, lettering, numbers, border, watermark or decorative frame."
+    }
+  ]
+}
