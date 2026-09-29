@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/kagefumi-5/cover.webp",
+      "role": "Haru and Sora's character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 7,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline illustration for chapter 5 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the Kagefumi series cover for Haru and Sora's character identity and palette only.\nPrimary request: Illustrate the moment Sora stamps on his own shadow at Mamoru's feet, helping it slide back to him on the shrine steps at sunset.\nScene/backdrop: A quiet flight of broad old stone steps leading uphill toward a small shrine. A narrow warm-red beam of late sunlight falls across a few steps beneath a cloudy sky.\nSubject: Sora, a small boy with short dark hair, a light grey shirt and dark shorts, stamps with both feet on a separate dark shadow stretched across the step near Mamoru. The shadow is just beginning to slide back toward Sora's own feet, like a low ribbon of dark water. Mamoru is a slight hatless boy on the higher step, watching calmly. Haru, a slightly older girl with a long dark ponytail and muted teal clothes, stands to one side holding a small old photograph and a plain straw hat. Their elderly grandmother watches nearby with a walking stick, wearing simple muted plum and sage clothes. Keep the group legible and the emotion quiet.\nStyle/medium: Follow Image 1's approved inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background. Use Image 2 only for Haru and Sora's identity and palette; keep detail simpler than the cover.\nComposition/framing: Wide landscape close to 12:7. Three depth layers at most. The children, two separate shadows and the sunlit steps are the clear focal elements; natural proportions and simple readable poses.\nLighting/mood: Soft overcast dusk with one restrained stripe of red-gold sunlight, tender and quietly magical.\nColor palette: Warm stone, muted teal, soft grey, sage, plum, dark warm brown and subdued red-gold.\nConstraints: Depict only this paragraph's action, with the shadow in motion but not yet visibly merged with Sora's. No legible marks or writing on the photo, no captions, lettering, border, watermark, decorative frame or later-story events."
+    }
+  ]
+}
