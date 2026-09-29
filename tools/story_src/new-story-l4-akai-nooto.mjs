@@ -47,10 +47,12 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     ...(index === 0 ? { illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.' } : {}),
     ...(index === 1 ? { illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.' } : {}),
     ...(index === 2 ? { illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.' } : {}),
+    ...(index === 3 ? { illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.' } : {}),
   },
   ...(index === 0 ? { art: { inline: [{ after: 2, file: '01.webp' }] } } : {}),
   ...(index === 1 ? { art: { inline: [{ after: 2, file: '01.webp' }] } } : {}),
   ...(index === 2 ? { art: { inline: [{ after: 1, file: '01.webp' }] } } : {}),
+  ...(index === 3 ? { art: { inline: [{ after: 3, file: '01.webp' }] } } : {}),
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => {

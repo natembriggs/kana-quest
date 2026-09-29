@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+    },
+    {
+      "file": "assets/stories/akai-nooto-4/cover.webp",
+      "role": "Mika’s character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for chapter 4, “One Missing,” in The Red Notebook\nPrimary request: illustrate the end of paragraph 3: in heavy rain below a collapsed road, firefighters find a small red schoolbag beside a narrow opening that may lead into an old drainage tunnel.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides Mika's identity and palette only; Mika is not present in this scene.\nScene/backdrop: a quiet, rain-darkened roadside cut below a broken mountain road, with the small tunnel opening set into earth and stone; keep surroundings simple.\nSubject: one clearly visible red schoolbag rests on wet ground near the narrow black opening; two firefighters in understated muted protective clothing search with a handheld light, looking into the passage. No child or person inside the tunnel.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment, broad mostly smooth colour areas, gentle contours, minimal texture, a few purposeful details, quieter and simpler than the cover.\nComposition/framing: wide landscape about 12:7, bag and small opening are the focal point, firefighters provide scale, quiet layered background, readable at small size.\nLighting/mood: soft grey rain light, subdued and suspenseful without danger spectacle.\nColor palette: soft slate blue-grey rain and stone, earth brown, restrained vivid red bag, muted rescue clothing.\nConstraints: depict only the discovery from paragraph 3. The opening is small and narrow. Do not show a child, rescue, injury, collapse in progress, or any outcome. No lettering, labels, numerals, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, dramatic disaster spectacle, clutter, text."
+    }
+  ]
+}
