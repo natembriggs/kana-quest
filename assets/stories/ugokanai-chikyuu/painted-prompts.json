@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference for broad smooth colour areas, gentle contours and minimal texture; supplied as image input."
+    },
+    {
+      "file": "assets/stories/ugokanai-chikyuu/cover.webp",
+      "role": "Chie's character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for the graded-reader “The Earth That Stays Put”\nPrimary request: depict the end of paragraph 1: Chie and her mother set off in their lunar rover before the long night, and Chie looks back to see the blue Earth above the base.\nInput images: Image 1 is the approved inline style reference only; Image 2 guides Chie's character identity and palette only.\nScene/backdrop: quiet grey lunar hills around a small base and a few simple solar panels beneath a deep black sky; the blue Earth hangs above the base.\nSubject: a compact practical rover travels away from the Moon base. Chie, a twelve-year-old girl with dark hair tied back, wears the simple blue-grey uniform from the cover and turns to look back through the rover's open side. Her mother drives. Keep both calm and readable, with no helmet indoors.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background; distinctly simpler than the textured cover.\nComposition/framing: medium-wide landscape about 12:7; rover and two people in the foreground, base and blue Earth clear but secondary in the distance; two or three broad depth layers.\nLighting/mood: cool late-afternoon light before lunar night, thoughtful and calm.\nColor palette: warm ivory, midnight indigo, muted teal, soft grey, with the Earth as a restrained blue accent.\nConstraints: portray only the departure and Chie's backward glance from paragraph 1. Do not hint that anyone will become lost. No lettering, signs, labels, title, border, frame, or watermark.\nAvoid: stranded rover, blank screen, lost characters, radio distress, rescue, photorealism, glossy 3D, dense brush texture, busy background."
+    }
+  ]
+}
