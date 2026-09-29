@@ -1,0 +1,9 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.",
+  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-26d9e748-937e-4a46-8310-793a2b9fe2af.png"
+  }
+}

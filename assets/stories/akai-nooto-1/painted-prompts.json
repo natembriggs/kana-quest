@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas, gentle contours and minimal texture; supplied as image input."
+    },
+    {
+      "file": "assets/stories/akai-nooto-1/cover.webp",
+      "role": "Mika's character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for chapter 1 of “The Red Notebook”\nPrimary request: depict the end of paragraph 2: in the nearly closing library, Mika shows a plain red notebook to librarian Ms Sato; Ms Sato receives it and her smile fades as she notices something inside.\nInput images: Image 1 is the approved simple inline style reference; Image 2 guides Mika's character identity and palette only.\nScene/backdrop: a quiet town library at a rainy October dusk, with one desk, a few shelves and a darkening rain-streaked window; a ceiling lamp is being switched off in the distance.\nSubject: Mika is a dark-haired young woman in a muted teal cardigan over an ivory top, matching the cover's character identity and palette. She stands at one side of the desk, concerned. Ms Sato, a kind middle-aged librarian in simple understated clothes, sits at the desk and pauses with one hand near the open notebook. The notebook has a plain red cover; its pages are pale and show no visible marks.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background; distinctly simpler than the textured cover.\nComposition/framing: medium-wide landscape about 12:7, both faces and the red notebook clearly readable as shapes, two or three broad depth layers, no cramped details.\nLighting/mood: warm library lamplight against cool rainy evening, quiet suspense without fear.\nColor palette: warm ivory, midnight indigo, muted teal and restrained red.\nConstraints: show only the librarian's first worried reaction from paragraph 2. No readable writing, letters, numbers, signs, captions, title, border, frame or watermark.\nAvoid: supernatural effects, ominous horror, future events, readable notebook text, photorealism, glossy 3D, dense brush texture, cluttered shelves."
+    }
+  ]
+}
