@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple-inline style and quiet colour/contour treatment; supplied as image input."
+    },
+    {
+      "file": "assets/stories/tabi-suru-kasa/cover.webp",
+      "role": "Mei's character identity and uniform palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story illustration for the graded-reader story “The Travelling Umbrella”\nPrimary request: show the end of paragraph 3: at home, Mei carefully presses a small round white piece of repair tape over a tiny hole near the edge of her borrowed yellow umbrella. Her mother sits close by and has just offered a small roll of tape, warmly watching.\nScene/backdrop: a simple, calm Japanese home interior, with one low table and a quiet window; keep background objects sparse.\nSubject: Mei has dark hair and wears a simple navy school uniform with a muted red bow. She focuses on placing the white circle over the hole in the yellow umbrella. Her mother sits beside her in simple muted teal and ivory clothes, holding the tape roll. The story cover is reference only for Mei’s identity, dark hair and uniform palette; do not copy its detailed rendering.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, simplified quiet background; distinctly simpler than the textured cover.\nComposition/framing: landscape around 12:7, medium-wide, with the umbrella, hands and patch as the clear focal point, two or three broad depth layers.\nLighting/mood: soft warm indoor daylight, caring and quietly industrious.\nColor palette: warm ivory, midnight indigo, muted teal, ochre yellow and a restrained touch of terracotta red.\nConstraints: depict only this repair moment, before Mei returns the umbrella to the station. Keep the canopy geometry and hands natural and readable. No lettering, signs, captions, title, border, frame or watermark.\nAvoid: later station scene, boy, rain indoors, extra patches, busy props, malformed umbrella geometry, photorealism, glossy 3D, dense brush texture, highly detailed background."
+    }
+  ]
+}
