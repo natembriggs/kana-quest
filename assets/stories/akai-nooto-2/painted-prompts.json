@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas, gentle contours and minimal texture; supplied as image input."
+    },
+    {
+      "file": "assets/stories/akai-nooto-2/cover.webp",
+      "role": "Mika's character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for chapter 2 of “The Red Notebook”\nPrimary request: depict the end of paragraph 2: before dawn in steady rain, Mika, her mother and librarian Ms Sato reach the largest town bridge; Ms Sato points out one large crack in the river-side wall.\nInput images: Image 1 is the approved simple inline style reference; Image 2 guides Mika's character identity and palette only.\nScene/backdrop: a quiet town bridge in grey dawn rain, with shallow puddles on the road, a swollen brown river below, and a few simple rooftops beyond.\nSubject: Mika, a dark-haired young woman in a muted teal cardigan over ivory, stands beside her mother and Ms Sato near the bridge entrance. Ms Sato points toward one clear crack in the concrete side wall. The mother looks at the crack with concern. Show the crack as a warning they can inspect safely; the bridge is intact.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background; distinctly simpler than the textured cover.\nComposition/framing: medium-wide landscape about 12:7, the three figures small but readable, the bridge wall crack visible as the focal clue, two or three broad depth layers.\nLighting/mood: cool early-morning light and steady rain, careful concern without panic.\nColor palette: warm ivory, midnight indigo, muted teal, soft slate-grey and restrained brown.\nConstraints: show only their discovery of the crack from paragraph 2. Keep everyone safely on the approach; no collapse, damage beyond the single crack, or traffic crossing. No lettering, signs, numbers, captions, title, border, frame or watermark.\nAvoid: falling bridge, flood disaster, injuries, panic, police or fire crew (they arrive in the following paragraph), photorealism, glossy 3D, dense brush texture, busy background."
+    }
+  ]
+}

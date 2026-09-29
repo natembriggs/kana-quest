@@ -32,7 +32,19 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for Level 4. The town, people, notebook and events are invented. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mika’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 2,
+        "src": "assets/stories/akai-nooto-2/01.webp?v=789761c5bec21403",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -5359,9 +5371,5 @@ export const STORY = {
   "hash": "8026ebc3",
   "was": [
     "3fdf06bb"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
