@@ -16,6 +16,7 @@ export const STORY = {
     "text": "The Little Mermaid by Hans Christian Andersen (1837)",
     "by": "Claude Opus 5",
     "credit": "Retold by",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for the mermaid's character identity and palette.",
     "notes": "An original retelling of the complete original tale (not the softened Disney version) — it keeps Andersen’s own bittersweet ending, in which she refuses to use the knife, dissolves into foam and rises as a daughter of the air with three hundred years in which to earn a soul; Andersen leaves the prince unnamed, so he is given the invented katakana name Erikku (エリック) for narrative clarity; no wording is copied from a published translation.",
     "licence": "Public domain source story. This Japanese retelling and its English translation are original to Kanji Trail.",
     "cover": "Cover generated with OpenAI image generation."
@@ -27,6 +28,17 @@ export const STORY = {
     "エリック",
     "意識"
   ],
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/ningyo-hime/01.webp?v=36e206523656cbfb",
+        "width": 960,
+        "height": 560
+      }
+    ]
+  },
   "body": [
     [
       {
@@ -8764,9 +8776,5 @@ export const STORY = {
   "hash": "a46d3a79",
   "was": [
     "8eb3f325"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

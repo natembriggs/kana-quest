@@ -12,6 +12,7 @@ const theStory = expandStory({
     text: 'The Little Mermaid by Hans Christian Andersen (1837)',
     by: 'Claude Opus 5',
     credit: 'Retold by',
+    illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for the mermaid's character identity and palette.",
     notes: 'An original retelling of the complete original tale (not the softened Disney version) — it keeps Andersen’s own bittersweet ending, in which she refuses to use the knife, dissolves into foam and rises as a daughter of the air with three hundred years in which to earn a soul; Andersen leaves the prince unnamed, so he is given the invented katakana name Erikku (エリック) for narrative clarity; no wording is copied from a published translation.',
     licence: 'Public domain source story. This Japanese retelling and its English translation are original to Kanji Trail.',
   },
@@ -244,6 +245,7 @@ const theStory = expandStory({
     '泣[な]く': ['cry, weep', 'v', { df: '泣く', cf: 'plain present' }],
     'できました': ['was able to', 'v', { df: 'できる', cf: 'polite past' }],
   }),
+  art: { inline: [{ after: 1, file: '01.webp' }] },
   body: [
     [
       line('深[ふか]い|海[うみ]|の|底[そこ]|に|、|海[うみ]|の|王[おう]さま|の|大[おお]きな|お城[しろ]|が|ありました|。', 'Deep at the bottom of the sea stood the great palace of the sea king.'),
