@@ -47,9 +47,11 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
     ...(index === 0 ? {
       illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru and Sora's character identity and palette.",
+    } : index === 1 ? {
+      illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru and Sora's character identity and palette.",
     } : {}),
   },
-  ...(index === 0 ? { art: { inline: [{ after: 5, file: '01.webp' }] } } : {}),
+  ...(index === 0 ? { art: { inline: [{ after: 5, file: '01.webp' }] } } : index === 1 ? { art: { inline: [{ after: 0, file: '01.webp' }] } } : {}),
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => {
