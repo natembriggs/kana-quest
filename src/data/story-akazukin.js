@@ -18,7 +18,19 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with a non-violent rescue, drawing on common public-domain motifs rather than one edition.",
     "licence": "Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Little Red Riding Hood’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 1,
+        "src": "assets/stories/akazukin/01.webp?v=483c31bdd2933b6e",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "赤ずきん",
@@ -4029,9 +4041,5 @@ export const STORY = {
   "hash": "749165b8",
   "was": [
     "1a5405c9"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

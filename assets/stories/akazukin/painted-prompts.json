@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+    },
+    {
+      "file": "assets/stories/akazukin/cover.webp",
+      "role": "Little Red Riding Hood’s character identity and palette only; supplied as image input."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for “Little Red Riding Hood”\nPrimary request: depict the end of paragraph 1: Little Red Riding Hood has promised to stay on the path and sets out for the forest with a basket for her grandmother.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides the girl's identity and palette only.\nScene/backdrop: a quiet village edge opening onto a broad forest path, with a small cottage set back among simple trees.\nSubject: the young girl from the cover, with brown hair, cream dress, muted green sleeves and her familiar bright red hood and cape, walks toward the forest carrying a small woven basket with bread and a closed jam jar. Her mother remains near the cottage doorway in the background.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment, broad smooth colour areas, gentle contours, minimal texture and a few purposeful details; simpler and quieter than the cover.\nComposition/framing: wide landscape about 12:7, girl and basket clearly readable in the foreground, path leading into the trees, cottage and mother softly simplified in the distance.\nLighting/mood: calm morning light, warm and reassuring.\nColor palette: warm cream, muted leaf green, restrained vivid red, soft gold morning light, quiet forest greens.\nConstraints: show only the departure in paragraph 1. The basket contains only bread and a small closed jam jar. Keep the path clear and continuous. No wolf, flowers, danger, lettering, labels, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, ominous shadows, clutter, text."
+    }
+  ]
+}
