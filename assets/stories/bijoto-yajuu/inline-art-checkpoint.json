@@ -1,0 +1,16 @@
+{
+  "unit": "bijoto-yajuu",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Merchant approaching lit castle in snowy forest"
+    }
+  ],
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-037fd12b-eafa-4903-bad2-b82418b0ea89.png",
+  "hash": "e9de2a45",
+  "fetchError": "cannot open .git/FETCH_HEAD: Operation not permitted",
+  "generationCalls": 1,
+  "fetchStatus": "succeeded with elevated permissions on 2026-10-01"
+}

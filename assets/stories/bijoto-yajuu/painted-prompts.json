@@ -1,0 +1,16 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline treatment inspected before generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: one inline landscape illustration for Kanji Trail Beauty and the Beast, after paragraph 0. Show an older French merchant in a plain indigo travelling cloak and muted terracotta scarf, walking through a snowy forest toward the warmly lit open doorway of a large stone castle. He has grey hair and a simple small face, natural proportions. Quiet hopeful evening mood, broad snow shapes, only three depth layers. Gentle painted picture-book style: broad smooth colour areas, soft contours, minimal texture and detail, a few purposeful shadows; warm ivory snow, midnight indigo trees, sage stone and ochre doorway light. Full bleed wide 12:7 landscape. The castle and merchant are clear at small inline size. Depict only this opening arrival; no Beast, Belle, rose, magical objects, future events, film costumes, text, signage, lettering, borders or watermark. Avoid rich cover texture, photorealism and busy background."
+    }
+  ]
+}

@@ -18,7 +18,19 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling drawing on the public-domain fairy tale, with no wording from a published edition.",
     "licence": "Public domain source tale. This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, following the approved simple Kasa Jizō inline treatment.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/bijoto-yajuu/01.webp?v=a7688aa239d4112a",
+        "width": 960,
+        "height": 559
+      }
+    ]
   },
   "nw": [
     "ベル",
@@ -6441,9 +6453,5 @@ export const STORY = {
   "hash": "e9de2a45",
   "was": [
     "7bcff17c"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
