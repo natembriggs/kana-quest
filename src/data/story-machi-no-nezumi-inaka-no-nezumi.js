@@ -18,7 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with no loanwords and no wording from a published edition.",
     "licence": "Public domain source tale. This retelling and its English translation are original to Kanji Trail.",
-    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for mouse identity and palette.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for mouse identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -33,6 +33,12 @@ export const STORY = {
       {
         "after": 1,
         "src": "assets/stories/machi-no-nezumi-inaka-no-nezumi/02.webp?v=a358526b4a9bd335",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/machi-no-nezumi-inaka-no-nezumi/03.webp?v=b5e583cfcb0dbc53",
         "width": 960,
         "height": 560
       }

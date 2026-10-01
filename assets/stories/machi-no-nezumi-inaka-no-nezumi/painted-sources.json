@@ -1,10 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for mouse character identity and colours.",
+  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for mouse identity and palette.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
     "01.webp": "exec-e82fa207-5cf9-4729-a6ab-13a1d36105d3.png",
-    "02.webp": "exec-409de4ab-7f11-43ed-a0f2-df11d46341b7.png"
+    "02.webp": "exec-409de4ab-7f11-43ed-a0f2-df11d46341b7.png",
+    "03.webp": "exec-bb53758d-d494-4d73-a9c8-62a03436be9f.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

@@ -1,0 +1,52 @@
+{
+  "unit": "machi-no-nezumi-inaka-no-nezumi",
+  "title": "The Town Mouse and the Country Mouse",
+  "selectedAt": "2026-10-01T13:36:50Z",
+  "readingPositionHash": "78578c74",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Existing painting: the Country Mouse shares beans, nuts and barley with his town cousin in the quiet field.",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "scene": "Existing painting: a cat startles the two cousins at the town-house feast as they flee toward a mouse hole.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "The Country Mouse is home in the field again, calmly savouring a few beans and barley in warm morning sunshine; exactly one mouse, peaceful closing moment.",
+      "status": "generated and registered"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-e82fa207-5cf9-4729-a6ab-13a1d36105d3.png"
+    },
+    "02.webp": {
+      "status": "existing",
+      "original": "exec-409de4ab-7f11-43ed-a0f2-df11d46341b7.png"
+    },
+    "03.webp": {
+      "original": "exec-bb53758d-d494-4d73-a9c8-62a03436be9f.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "78578c74",
+    "paragraphPlacements": [
+      0,
+      1,
+      1
+    ],
+    "imageBytes": {
+      "03.webp": 123824
+    }
+  }
+}
