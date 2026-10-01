@@ -16,6 +16,18 @@
     {
       "file": "assets/stories/ookami-ga-kita/cover.webp",
       "role": "Character identity and clothing palette guidance only; supplied as an image input for scene 01 only."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Supplied image input for scene 03 style only: approved broad smooth colour areas, gentle contours and restrained detail."
+    },
+    {
+      "file": "assets/stories/ookami-ga-kita/cover.webp",
+      "role": "Supplied image input for scene 03 shepherd-boy identity and clothing palette only."
+    },
+    {
+      "file": "assets/stories/ookami-ga-kita/01.webp",
+      "role": "Supplied image input for scene 03 continuity of the boy and sheep only; not composition or texture."
     }
   ],
   "scenes": [
@@ -28,6 +40,11 @@
       "file": "02.webp",
       "after": 1,
       "prompt": "Use case: illustration-story\nAsset type: second wide landscape inline picture-book painting for a Japanese graded-reading story\nPrimary request: illustrate the end of paragraph 1 of “The Boy Who Cried Wolf”: after the frightened sheep are found, the boy apologizes and begins working honestly as trust slowly returns.\nScene/backdrop: A peaceful open hillside pasture above a mountain village at sunset. Use a few broad shapes for the grass, low fence, simple shepherd's hut and distant rounded hills; keep the setting much simpler than a cover painting.\nSubject: The same shepherd boy throughout this story: a Japanese boy with short dark hair, a simple brown straw hat, cream shirt, muted brown vest and work trousers, and sturdy plain boots. He stands with a safely gathered small flock of white sheep, speaking apologetically to two village helpers. One adult villager gives a gentle, understanding nod; the other stands beside a simple farm tool. Their expressions are calm, and the boy looks sincere. No wolf is present.\nStyle/medium: children's picture-book gouache in the approved simple inline treatment: broad smooth colour areas, gently curved contours, minimal surface texture, few purposeful folds and soft shadows, quiet simplified background. Use muted sage and teal greens, warm ivory, soft ochre, terracotta and restrained indigo. Keep the design flatter and less detailed than cover art, with clearly readable silhouettes.\nComposition/framing: full-bleed landscape about 12:7, medium-wide view with the boy and two villagers in a relaxed group at one side, sheep gathered nearby, and open hillside around them. Two or three broad depth layers only.\nLighting/mood: soft evening light, reflective, gentle and hopeful.\nConstraints: show a quiet apology and a small return of trust, with sheep found and safe. No text, lettering, title, labels, border or watermark. Original supporting character designs.\nAvoid: wolf, chase, danger, crying, angry gestures, weapons, dramatic action, busy village architecture, detailed forest, photorealism, dense texture, logos."
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: one wide landscape inline picture-book painting for the Japanese graded-reading story “The Boy Who Cried Wolf”.\nInput images: Image 1 is the story cover for the shepherd boy’s identity and clothing palette only. Image 2 is Kasa Jizō 02.webp for the approved smooth inline style only. Image 3 is existing scene 01.webp for the boy’s face, clothes and sheep continuity only; do not copy its villagers-going-home composition or detailed surface texture.\nPrimary request: illustrate the true-wolf crisis in paragraph 1, before the existing image of the found flock and apology: a real wolf has emerged, the boy calls for help, and the frightened sheep flee.\nScene/backdrop: a quiet hillside pasture near the edge of a simple dark-green forest, with a small shepherd’s hut and the empty path toward a distant village. Keep the setting to broad calm shapes and two or three depth layers.\nSubject: the same Japanese shepherd boy from the references, with short dark hair, a simple brown straw hat, cream shirt, muted brown vest and work trousers, boots and a plain shepherd’s crook. He stands on the hillside calling for help toward the empty village path. A small flock of white sheep move together away from a grey wolf that has just emerged at a distance from the forest. The wolf stays well away from the sheep; no contact or harm. No villagers are present because they no longer believe the warning.\nStyle/medium: gentle painted children’s-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful shadows and a quiet simplified background. Make it substantially simpler than the cover and older existing scenes, with clean readable silhouettes and no fine fur or grass marks.\nComposition/framing: full-bleed landscape near the project’s 12:7 inline ratio, medium-wide view. Keep the boy and sheep clear in the foreground, with the distant wolf visible but secondary at the forest edge; leave open space between them to keep the scene nonviolent.\nLighting/mood: gentle daylight with a moment of uncertainty; child-friendly, never frightening.\nColor palette: soft sage pasture, muted forest teal, warm ivory sheep, the boy’s brown and cream clothing, a restrained grey wolf and soft ochre path.\nConstraints: show only the crisis before the sheep are found and the boy apologises. Exactly one boy, a small flock and one distant wolf. This image will appear before the existing apology scene after paragraph 1, so keep the narrative moment earlier than that existing scene.\nAvoid: attack, biting, blood, injury, snarling, bared teeth, close contact, villagers, tools or weapons, dramatic horror lighting, the sheep already found, apology, lettering, speech bubbles, labels, symbols, border, logo or watermark."
     }
   ]
 }

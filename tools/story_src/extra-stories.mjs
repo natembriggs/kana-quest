@@ -70,10 +70,10 @@ const ookamiGaKita = expandStory({
   blurb: 'A bored shepherd boy learns why a true warning needs the trust of its listeners.',
   source: {
     ...SOL_SOURCE('Aesop’s fable (The Boy Who Cried Wolf)', 'An original graded retelling with a non-violent ending and no wording from a published edition.'),
-    illustrations: 'Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the shepherd boy’s character identity and palette.',
+    illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the shepherd boy’s character identity and palette.',
   },
-  // The first prank, then the sheep safely found and the boy apologizing.
-  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }] },
+  // False alarm, true-wolf crisis, then the found sheep and apology in source order.
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '03.webp' }, { after: 1, file: '02.webp' }] },
   nw: ['羊飼い', 'おおかみ', 'うそ', '信じる'],
   lexicon: lexicon({
     '山[やま]': ['mountain', 'n'], '近[ちか]い': ['near', 'adj'], '村[むら]': ['village', 'n'], 'として': ['as; in the role of', 'part'], '日[ひ]': ['day', 'n'],

@@ -18,7 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with a non-violent ending and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
-    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the shepherd boy’s character identity and palette.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the shepherd boy’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -27,6 +27,12 @@ export const STORY = {
       {
         "after": 0,
         "src": "assets/stories/ookami-ga-kita/01.webp?v=b75fbbc355d7d40b",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/ookami-ga-kita/03.webp?v=6816052db837b66d",
         "width": 960,
         "height": 560
       },

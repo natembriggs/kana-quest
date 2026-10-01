@@ -1,10 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for the shepherd boy’s character identity and palette.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
     "01.webp": "exec-36a7827a-5d75-41b4-8a9d-c4044d37a486.png",
-    "02.webp": "exec-4474ef65-2460-4792-b336-a1e467cb1375.png"
+    "02.webp": "exec-4474ef65-2460-4792-b336-a1e467cb1375.png",
+    "03.webp": "exec-843a5e98-9bd0-45e7-ab12-9a8cf33f8058.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

@@ -1,0 +1,57 @@
+{
+  "unit": "ookami-ga-kita",
+  "title": "The Boy Who Cried Wolf",
+  "selectedAt": "2026-10-01T14:37:20Z",
+  "readingPositionHash": "b40b199d",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Existing painting: after the first false alarm, the boy laughs as the annoyed villagers head toward the village.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "The real wolf appears at the forest edge while the boy calls for help and the frightened sheep flee; everyone remains unharmed. This crisis scene is registered before the existing ending scene.",
+      "status": "generated and registered"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "scene": "Existing painting: the flock has been found, and the boy apologises to two village helpers as trust begins to return.",
+      "status": "existing"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-36a7827a-5d75-41b4-8a9d-c4044d37a486.png"
+    },
+    "02.webp": {
+      "status": "existing",
+      "original": "exec-4474ef65-2460-4792-b336-a1e467cb1375.png"
+    },
+    "03.webp": {
+      "original": "exec-843a5e98-9bd0-45e7-ab12-9a8cf33f8058.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "b40b199d",
+    "paragraphPlacements": [
+      0,
+      1,
+      1
+    ],
+    "sourceOrder": [
+      "01.webp",
+      "03.webp",
+      "02.webp"
+    ],
+    "imageBytes": {
+      "03.webp": 146412
+    }
+  }
+}
