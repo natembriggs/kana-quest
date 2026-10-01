@@ -11,7 +11,19 @@ export const STORY = {
   "level": "L5",
   "gram": "G5",
   "blurb": "Shipwrecked among people fifteen centimetres tall, Gulliver becomes their hero, then refuses the one order that would have kept him one.",
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/gulliver-ryokouki/01.webp?v=60f05c46f5da7e85",
+        "width": 960,
+        "height": 560
+      }
+    ]
+  },
   "source": {
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
     "kind": "adapted",
     "text": "Gulliver’s Travels by Jonathan Swift (1726)",
     "by": "Claude Opus 5",
@@ -10811,9 +10823,5 @@ export const STORY = {
   "hash": "b746ebe7",
   "was": [
     "4e219391"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

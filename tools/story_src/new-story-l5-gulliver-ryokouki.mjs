@@ -7,7 +7,9 @@ const theStory = expandStory({
   level: 'L5',
   gram: 'G5',
   blurb: 'Shipwrecked among people fifteen centimetres tall, Gulliver becomes their hero, then refuses the one order that would have kept him one.',
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   source: {
+    illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.',
     kind: 'adapted',
     text: 'Gulliver’s Travels by Jonathan Swift (1726)',
     by: 'Claude Opus 5',

@@ -1,0 +1,14 @@
+{
+  "unit": "gulliver-ryokouki",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Gulliver aboard intact Antelope at start of voyage"
+    }
+  ],
+  "hash": "b746ebe7",
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png",
+  "generationCalls": 1
+}

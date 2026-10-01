@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Inline style reference supplied."
+    },
+    {
+      "file": "assets/stories/gulliver-ryokouki/cover.webp",
+      "role": "Character identity and palette only, supplied."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: inline landscape painting for Kanji Trail Gulliver’s Travels after paragraph 0.\nInput images: Kasa Jizō image is inline simplicity reference; Gulliver cover is character identity and palette only.\nShow Lemuel Gulliver, a ship's doctor, aboard the intact sailing ship Antelope in 1699, looking thoughtfully across a calm open sea at the beginning of his voyage toward the East Indies. Young adult man with tousled curly brown hair, simple natural face, indigo long coat, ochre waistcoat, ivory neckcloth and brown breeches, matching cover identity. He stands near a plain wooden rail; a single broad sail and mast establish the ship, minimal rigging. Quiet hopeful morning light.\nPainted picture-book art with broad smooth colour areas, gentle contours, minimal texture and only a few shadows. Simplified background with three broad depth layers. Much simpler than cover. Muted teal sea, warm ivory sail, indigo coat, ochre wood.\nFull bleed 12:7 landscape. Gulliver large and readable.\nNo wreck, storm, tiny people, islands, future events, text, lettering, signs, borders or watermarks. Avoid dense rigging, busy details, paper grain and cover-level brush texture."
+    }
+  ]
+}
