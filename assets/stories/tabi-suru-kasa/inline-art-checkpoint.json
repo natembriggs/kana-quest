@@ -1,0 +1,59 @@
+{
+  "unit": "tabi-suru-kasa",
+  "title": "The Travelling Umbrella",
+  "selectedAt": "2026-10-01T18:40:21Z",
+  "readingPositionHash": "09cef2a7",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "scene": "Existing painting: at home, Mei carefully presses one small round white repair patch over the hole in the borrowed yellow umbrella, with her mother beside her.",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 0,
+      "scene": "After school, Mei stands at the station entrance as the rain begins and looks up at the sky; she has no umbrella.",
+      "status": "generated"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "At the station entrance, a kind attendant offers Mei a plain yellow umbrella; Mei has taken out a coin and the attendant gently indicates no payment is needed.",
+      "status": "generated"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-1708ca67-cbe5-455a-a6d5-e9cc31246cc9.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-d5159774-cc7c-416f-9591-4e8aebc06594.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-aad2162b-10c5-4d05-b2f0-3c6098d1bbb1.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "09cef2a7",
+    "paragraphPlacements": [
+      0,
+      1,
+      3
+    ],
+    "imageBytes": {
+      "02.webp": 79078,
+      "03.webp": 79866
+    },
+    "allImageBytes": {
+      "01.webp": 65828,
+      "02.webp": 79078,
+      "03.webp": 79866
+    }
+  }
+}

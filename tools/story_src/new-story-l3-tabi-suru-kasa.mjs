@@ -9,9 +9,9 @@ const theStory = expandStory({
   blurb: "Mei borrows a yellow umbrella from the station and leaves a small repair for its next traveller.",
   nw: ["駅員", "端", "修理", "テープ"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mei’s character identity and palette."},
-  // Mei applies one neat circular patch to the borrowed yellow umbrella.
-  art: { inline: [{ after: 3, file: '01.webp' }] },
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Mei’s character identity and palette."},
+  // Inline scenes show Mei in the rain, receiving the umbrella, then repairing it.
+  art: { inline: [{ after: 0, file: '02.webp' }, { after: 1, file: '03.webp' }, { after: 3, file: '01.webp' }] },
   lexicon: lexicon({
     "学[がっ]校[こう]": ["school", "n"],
     "帰[かえ]る": ["return", "v"],
