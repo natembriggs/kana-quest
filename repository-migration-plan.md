@@ -183,8 +183,17 @@ installed-app lifecycle.
 The replacement worker should:
 
 - Cache the migration page and its small dependency set for offline export.
-- Serve the recovery page from its own cache whenever the network returns a
-  non-OK response, not only when the fetch throws. The current app worker
+- Fall back to its cache whenever the network returns a non-OK response,
+  not only when the fetch throws, under a narrow rule:
+  - **Navigation requests** may fall back to the cached recovery page.
+  - **Scripts, styles, images, the manifest and icons** may fall back only
+    to their own cached copy at the same URL, never to HTML.
+  - **Anything else**, or a subresource with no cached copy, keeps its
+    original failure.
+
+  This matches the app worker's existing rule (the shell is a fallback for
+  navigations only), and it is what keeps the "no HTML-as-script"
+  requirement below true. The current app worker
   passes an HTTP error straight through (`sw.js` returns `fresh` whether or
   not `fresh.ok`), so during the §8 gap between renaming the old repository
   and publishing the new one, an installed copy would show GitHub's 404
@@ -197,9 +206,26 @@ The replacement worker should:
 - Activate only after its essential files have been fetched successfully.
   This deliberately reverses the app worker's tolerant install (its note 2:
   a single failed file must not block an update). That trade is right for a
-  large app and wrong for a recovery page that must work offline. If the
-  strict install fails, the old app worker keeps serving the old app, whose
-  migration notice still offers both routes, so failure is safe.
+  large app and wrong for a recovery page that must work offline.
+
+  A failed install does **not** leave the device running the old app. The
+  old app worker is network-first: while online it fetches the published
+  recovery HTML and runtime-caches it under the same keys as the old shell.
+  The device then runs recovery HTML under the old worker, with whatever
+  recovery files that worker happened to cache. Three rules keep that state
+  recoverable:
+  - **No shared paths.** Every recovery dependency lives at a path the old
+    app never used (for example under `recovery/`, with a content version in
+    the URL). Offline, the old worker can never serve an old-app file in
+    place of a recovery file. A missing file fails cleanly instead of
+    loading mixed old and new code.
+  - **An inline fallback in the HTML.** A small inline script detects that
+    the recovery module failed to load. It then says that progress is still
+    saved on this device and that the page needs one online visit to finish
+    setting up. It does not open IndexedDB or write anything.
+  - **Retry on every load.** The page registers its worker on every load, so
+    the next online visit retries the install. Saved data is never touched
+    by a failed install.
 - Remove obsolete app caches only after the replacement is ready.
 - Restrict cleanup to this application's recognised caches; preserve other
   applications sharing the GitHub Pages origin.
@@ -209,6 +235,13 @@ The replacement worker should:
   needed for a working transition.
 
 Test an old installed copy, an ordinary browser tab, and an offline launch.
+Also test the failed-install path explicitly. Publish the new page, make one
+essential file fail so the new worker cannot install, load once online
+through the old worker, then relaunch offline. The result must be either a
+working recovery page (from the old worker's runtime cache) or the inline
+fallback message. It must never be mixed old and new code, an empty "no
+learners" screen, or lost data. Then reconnect and confirm that the install
+succeeds and the page recovers fully.
 An offline device may continue running its cached old app until it reconnects;
 the transition must still retrieve its latest saved progress. Decide and test
 how an open session finishes before it is replaced, and prevent partially
@@ -244,6 +277,7 @@ data. Verify the result in Kanji Trail, not just the placeholder's status text.
 | Database cannot be opened | Clear storage error, without replacement data |
 | Old installed app and cached worker | Safe transition to the placeholder |
 | Interrupted worker update | Previously working recovery/app remains usable |
+| New page published, worker install fails, then offline launch | Working recovery page or inline fallback; no mixed code; data intact; recovers when online |
 | Old address returns 404 (cutover gap) | Installed copy still shows the cached recovery page |
 | Open old app requests a grade data file | Visible failure, no HTML-as-script, progress intact |
 | Another tab saves progress during transfer | Latest saved changes can still be exported and synced |
@@ -277,23 +311,33 @@ Publish the migration page at the existing Kana Quest address first, while
 the full repository still has its original name. Do not replace the full
 app's `main` with the placeholder. Keep Cloudflare's app deployment intact.
 
-Publish from an orphan `gh-pages` branch:
+Publish from an orphan `gh-pages` branch, built outside the working
+checkout. Do not run `git switch --orphan` in the app checkout: it removes
+every tracked file from the working directory, including the staging tool,
+and other sessions may be using that checkout at the same time.
 
-1. Create `gh-pages` with `git switch --orphan gh-pages`, so it shares no
-   history with `main`.
-2. Commit only the reviewed public payload from the §2 staging tool. Include
-   `.nojekyll`: Pages uses the legacy (Jekyll) build, which skips files and
-   folders beginning with `_`, and the current repository carries a
-   `.nojekyll` for the same reason.
-3. Push it, then switch the Pages source from `main` `/` to `gh-pages` `/`.
-4. From then on, pushes to `main` deploy only Cloudflare; the old address
+1. Run the §2 staging tool from the app checkout. It writes the public
+   payload to a temporary directory outside the repository and prints its
+   file list for review. Include `.nojekyll`: Pages uses the legacy (Jekyll)
+   build, which skips files and folders beginning with `_`, and the current
+   repository carries a `.nojekyll` for the same reason.
+2. Inspect the payload (§6) in that temporary directory.
+3. In a separate temporary directory, `git init`, copy in the payload,
+   commit it, and push it as the new branch
+   (`git push <origin-url> HEAD:gh-pages`). Its history has no connection
+   to `main`.
+4. Switch the Pages source from `main` `/` to `gh-pages` `/`.
+5. From then on, pushes to `main` deploy only Cloudflare; the old address
    changes only when `gh-pages` does.
 
+Later updates follow the same pattern: stage, inspect, then make a fresh
+single-branch clone of `gh-pages` in a temporary directory, replace its
+contents with the new payload, commit, and push. The app checkout never
+leaves `main`.
+
 The orphan branch already has exactly the fresh, public-only history that
-the new public repository needs, so §8 step 6 publishes this same branch
-rather than rebuilding the payload. Updates before the cutover are new
-commits on `gh-pages`, produced by the staging tool and inspected before
-each push.
+the new public repository needs, so §8 step 7 publishes this same branch
+rather than rebuilding the payload.
 
 This separates the user-facing retirement from the repository move and
 allows problems to be caught before the final cutover.
@@ -399,8 +443,32 @@ they push.
 - `test` (`jsc`, macOS): on pull requests, a nightly `schedule` (for example
   `cron: '30 3 * * *'`, UTC), and `workflow_dispatch`, which adds a "Run
   workflow" button. Not on pushes to `main`. A nightly failure does not undo
-  a deploy; GitHub emails the failure, and the fix goes forward as a normal
-  push.
+  a deploy; the fix goes forward as a normal push.
+
+**Accepted tradeoff (1 October 2026):** a problem that only Safari's engine
+reveals can now reach `kanjitrail.com` and stay there for up to a day before
+the nightly `jsc` run flags it. Nathan accepted this in exchange for keeping
+deploys immediate and within the free allowance.
+
+**The failure alert must be verified, not assumed.** The nightly job is now
+the only CI safeguard for Safari's engine, so its failure has to reach
+Nathan. GitHub sends notifications for a scheduled run to the user who
+created or last changed the schedule, and only if that user's notification
+settings allow it. A cloud session that pushes the change through an app or
+bot identity could leave nobody notified. When making the change:
+
+- Confirm that the commit adding the `schedule` was pushed by Nathan's own
+  account.
+- Trigger a deliberately failing manual run, for example a temporary
+  `workflow_dispatch` input that makes the job exit 1, and confirm Nathan
+  receives the alert.
+- Belt and braces: on failure, the nightly job opens (or comments on) a
+  GitHub issue labelled `ci-nightly`, which does not depend on anyone's
+  notification settings.
+- Re-check after anyone else edits the schedule line.
+
+See
+[GitHub's notification documentation](https://docs.github.com/en/actions/concepts/workflows-and-actions/notifications-for-workflow-runs).
 - Optional refinement: a cheap Linux step before the nightly `jsc` job skips
   it when `main` has not changed since its last successful run, so quiet
   days cost nothing.
@@ -462,6 +530,7 @@ the live app, or recall copies/forks already obtained while it was public.
 - [ ] Holding page deployed from an orphan `gh-pages` branch and verified at
       the old address.
 - [ ] CI switched to the §8.1 shape and a deploy verified while still public.
+- [ ] Nightly `jsc` failure alert verified with a deliberate failed run.
 - [ ] Full repository renamed to `kanji-trail` and made private.
 - [ ] All known remotes and integrations (§8 step 5) updated before name reuse.
 - [ ] Fresh public `kana-quest` created and Pages verified.
