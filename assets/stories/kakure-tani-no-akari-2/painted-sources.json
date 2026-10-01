@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Inline paintings generated with OpenAI image generation, using the approved Kasa Jizō paintings for the simpler inline style and the chapter cover for Aoi and Ren character reference and palette.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-b204d16c-648a-4d96-88ec-86e95306674c.png",
+    "02.webp": "exec-68107042-b1d2-4d2b-8f9c-e035bcfd34a3.png",
+    "03.webp": "exec-4a672f04-1998-455e-b24d-9189d610b954.png"
+  }
+}

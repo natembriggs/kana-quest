@@ -1,0 +1,30 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference supplied for all three scenes."
+    },
+    {
+      "file": "assets/stories/kakure-tani-no-akari-2/cover.webp",
+      "role": "Character identity and palette only, supplied for all three scenes."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: first of three inline paintings for Kanji Trail chapter 2, The Bridge in the Mist; place after paragraph 0. Input images: the approved Kasa Jizō painting is the style reference; the chapter cover guides Aoi, Ren, and Kohaku’s character identity and palette only. Show Aoi following Kohaku along a narrow cedar-forest path in the evening mist, holding a softly glowing paper lantern at chest height. Ren walks close beside her and turns at a bend to look back, where the stone wall and village have disappeared behind pale mist. Kohaku leads ahead in his simple fox mask. Long soft bands of daylight remain in the treetops; broad damp leaves and tree trunks frame the path. Keep expressions thoughtful and calm. Broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, three quiet depth layers; simpler than cover. Full bleed 12:7 landscape, clear figures and lantern. Palette of muted indigo, sage cedar green, warm ivory mist, muted teal and a small ochre lantern glow. Match paragraph 0 only. No festival stalls, no bridge, no text, lettering, border or watermark. Avoid busy foliage and rich cover-level brush texture."
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story. Asset type: second of three inline paintings for Kanji Trail chapter 2, The Bridge in the Mist; place after paragraph 3. Input images: the approved Kasa Jizō painting is style reference; chapter cover guides Aoi, Ren, and Kohaku identity and palette only. Show Aoi bringing her warm paper lantern close to a shallow pool beside a misty mountain festival street. The pool surface reveals a clear blue daytime sky while the lantern’s warm light and the red and yellow stall lights do not reflect there. Behind her are a few simple festival stalls and quiet vendors wearing plain pale paper masks; Kohaku stands nearby. Suggest the iron wind chime with a simple hanging shape, no motion marks or text. Broad smooth colour areas, gentle contours, minimal surface texture, few folds, quiet simplified background with three layers, simpler than cover. Full bleed 12:7 landscape, Aoi and the unusual pool reflection are easy to read. Muted indigo mist, sage and teal, warm ivory paper masks, restrained red, yellow, and lantern gold. Match paragraph 3 only; no bridge, no mother’s voice scene, no later events. No readable text, signs, lettering, border or watermark. Avoid dense stalls, detail and cover-level brush texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "prompt": "Use case: illustration-story. Asset type: third of three inline paintings for Kanji Trail chapter 2, The Bridge in the Mist; place after paragraph 7. Input images: the approved Kasa Jizō painting is style reference; chapter cover guides Aoi and Ren identity and palette only. Show Aoi and Ren carefully crossing the damaged wooden bridge above a deep mist-filled valley. Aoi leads with a small glowing paper lantern; two newly visible wooden planks emerge in its warm light just ahead of them. Ren steadies himself with one hand on Aoi’s shoulder as they move slowly, leaving measured space between steps. Show the far bank close by but do not show anything beyond it. Broad smooth colour areas, gentle contours, minimal texture, just a few purposeful shadows, simplified quiet background with three depth layers. Full bleed 12:7 landscape; figures, lantern and incomplete bridge are clear at small size. Muted indigo and teal mist, dark simple bridge wood, warm ivory clothing and restrained lantern gold. Match paragraph 7 only. No text, lettering, border, watermark, no supernatural figures and no later river or village. Avoid dramatic peril, busy detail, photorealism and cover-level texture."
+    }
+  ]
+}

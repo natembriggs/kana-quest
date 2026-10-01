@@ -1,0 +1,51 @@
+{
+  "unit": "kakure-tani-no-akari-2",
+  "title": "The Bridge in the Mist",
+  "selectedAt": "2026-10-01T08:32:21Z",
+  "readingPositionHash": "6e13ab73",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Aoi follows Kohaku and Ren into the misty cedar forest; the village wall disappears."
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "scene": "Aoi’s lantern reveals blue daylight in the still pool among the paper-masked festival stalls."
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "scene": "Aoi and Ren cross the broken mist bridge on slowly appearing lantern-lit planks."
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "original": "exec-b204d16c-648a-4d96-88ec-86e95306674c.png",
+      "status": "generated"
+    },
+    "02.webp": {
+      "original": "exec-68107042-b1d2-4d2b-8f9c-e035bcfd34a3.png",
+      "status": "generated"
+    },
+    "03.webp": {
+      "original": "exec-4a672f04-1998-455e-b24d-9189d610b954.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "6e13ab73",
+    "paragraphPlacements": [
+      0,
+      3,
+      7
+    ],
+    "imageBytes": {
+      "01.webp": 131802,
+      "02.webp": 127044,
+      "03.webp": 83860
+    }
+  }
+}
