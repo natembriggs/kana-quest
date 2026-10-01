@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Rapunzel’s character identity and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for Rapunzel’s character identity and palette.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-3bfce121-a3de-4e18-92b3-6ea9b79b1c9a.png"
+    "01.webp": "exec-3bfce121-a3de-4e18-92b3-6ea9b79b1c9a.png",
+    "02.webp": "exec-e993c1e7-ab54-4194-809e-cdbf827785b2.png",
+    "03.webp": "exec-1fb4ca68-9ca7-43e7-bd95-f4aa50112b9b.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

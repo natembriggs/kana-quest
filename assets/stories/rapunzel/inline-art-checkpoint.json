@@ -1,0 +1,53 @@
+{
+  "unit": "rapunzel",
+  "title": "Rapunzel",
+  "selectedAt": "2026-10-01T15:38:20Z",
+  "readingPositionHash": "3904a4c4",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Existing painting: Rapunzel’s father quietly gathers a few greens from the witch’s garden at night.",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "The prince secretly watches the witch climb Rapunzel’s golden hair toward the tower window; before the prince calls or climbs.",
+      "status": "generated and registered"
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "scene": "Rapunzel and the prince gently begin weaving silk thread into a short unfinished ladder inside the tower; before any escape or discovery.",
+      "status": "generated and registered"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-3bfce121-a3de-4e18-92b3-6ea9b79b1c9a.png"
+    },
+    "02.webp": {
+      "original": "exec-e993c1e7-ab54-4194-809e-cdbf827785b2.png",
+      "status": "generated"
+    },
+    "03.webp": {
+      "original": "exec-1fb4ca68-9ca7-43e7-bd95-f4aa50112b9b.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "3904a4c4",
+    "paragraphPlacements": [
+      0,
+      2,
+      3
+    ],
+    "imageBytes": {
+      "02.webp": 68790,
+      "03.webp": 80768
+    }
+  }
+}

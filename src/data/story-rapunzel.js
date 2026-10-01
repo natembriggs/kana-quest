@@ -18,7 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling of the Grimm tale, keeping its full arc through to the blinded prince and the tears that heal him; no wording is copied from a published translation.",
     "licence": "Public domain source tale. This Japanese retelling and its English translation are original to Kanji Trail.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Rapunzel’s character identity and palette.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover for Rapunzel’s character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -29,6 +29,18 @@ export const STORY = {
         "src": "assets/stories/rapunzel/01.webp?v=5b5bfc3c3c23a4e0",
         "width": 960,
         "height": 559
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/rapunzel/02.webp?v=2a2127bd7c6d8832",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/rapunzel/03.webp?v=1decaffab0f5ed17",
+        "width": 960,
+        "height": 560
       }
     ]
   },
