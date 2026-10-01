@@ -239,7 +239,8 @@ const shirayukihime = expandStory({
   id: 'shirayukihime', title: { ja: '白雪姫', en: 'Snow White' }, series: null,
   level: 'L4', gram: 'G4',
   blurb: 'A princess escapes a jealous queen and finds an unexpected home beyond the forest.',
-  source: SOL_SOURCE('Traditional European tale (Snow White)', 'An original graded retelling with a gentle resolution and no wording from a published edition.'),
+  source: { ...SOL_SOURCE('Traditional European tale (Snow White)', 'An original graded retelling with a gentle resolution and no wording from a published edition.'), illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.' },
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   nw: ['白雪姫', '小人', 'りんご', '嫉妬'],
   lexicon: lexicon({
     'そこ': ['there', 'n'], 'です': ['is', 'aux'], 'では': ['as for; by means of', 'part'], '魔[ま]法[ほう]': ['magic', 'n'], '胸[むね]': ['chest', 'n'],

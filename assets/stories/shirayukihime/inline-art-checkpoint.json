@@ -1,0 +1,14 @@
+{
+  "unit": "shirayukihime",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Snow White walks alone deeper into forest"
+    }
+  ],
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "hash": "9c0a03b0",
+  "original": "exec-f55f0d07-de31-4ad7-9cb1-536edb9018ba.png",
+  "generationCalls": 1
+}

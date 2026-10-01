@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference supplied to generation."
+    },
+    {
+      "file": "assets/stories/shirayukihime/cover.webp",
+      "role": "Character identity and palette only, supplied to generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: one inline landscape painting for Kanji Trail Snow White, after paragraph 0.\nInput images: Image 1 is the Kasa Jizō inline style reference only. Image 2 is the Snow White cover for character identity and palette only; do not copy its cottage or rich texture.\nPrimary request: Snow White walks alone deeper into a quiet forest, after escaping the huntsman. Depict only the end of paragraph 0, before she discovers any cottage.\nSubject: young woman with long loose black hair, warm pale skin, small expressive face, plain ivory long-sleeved dress with muted terracotta overdress and a small simple gold circlet, matching the cover. She walks carefully along a winding forest path with a thoughtful uncertain but brave expression.\nStyle: match Image 1 broad smooth colour areas, gentle contours, minimal surface texture, only a few purposeful folds and shadows, natural proportions. Much simpler than Image 2. Quiet background with three broad depth layers and a few sage and teal trees.\nComposition: full-bleed 12:7 landscape, figure large and readable near centre-left with path continuing into soft forest light.\nPalette: warm ivory, terracotta, sage green, muted teal, restrained indigo shadows and ochre light.\nConstraints: no cottage, dwarfs, queen, huntsman, apples, mirror, later events, extra people, lettering, text, borders or watermarks. No film-adaptation costumes. Avoid dense foliage detail, paper grain, heavy brush texture, photorealism or glossy 3D."
+    }
+  ]
+}
