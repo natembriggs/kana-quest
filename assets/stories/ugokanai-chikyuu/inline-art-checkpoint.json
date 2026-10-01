@@ -1,0 +1,61 @@
+{
+  "unit": "ugokanai-chikyuu",
+  "title": "The Earth That Stays Put",
+  "selectedAt": "2026-10-01T19:41:52Z",
+  "readingPositionHash": "972015b7",
+  "planned": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "scene": "Chie looks from her Moon-base bedroom window at the blue Earth above the same grey hill, with old rover tracks visible below.",
+      "status": "generated"
+    },
+    {
+      "file": "01.webp",
+      "after": 1,
+      "scene": "Existing painting: Chie and her mother leave the lunar base in the rover, with Chie looking back at the blue Earth above it.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "scene": "Inside the rover after its screen fails, Chie points toward the blue Earth visible through the window while her mother begins to steer that way; the rescue is not shown.",
+      "status": "generated"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-e49987fd-3602-4937-bfbd-78708fb3f08e.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-5d730f5f-40a7-4ceb-8e91-6ddf24d7e10a.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-944fde37-0dbd-4312-bd1b-36977287f7ef.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "972015b7",
+    "paragraphPlacements": [
+      0,
+      1,
+      4
+    ],
+    "imageBytes": {
+      "02.webp": 89936,
+      "03.webp": 71974
+    },
+    "allImageBytes": {
+      "01.webp": 99750,
+      "02.webp": 89936,
+      "03.webp": 71974
+    },
+    "storyContentUnchanged": true,
+    "imageBudgetPassed": true
+  }
+}

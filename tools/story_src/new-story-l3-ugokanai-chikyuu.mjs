@@ -16,10 +16,10 @@ const theStory = expandStory({
     credit: 'Written by',
     notes: 'Original Japanese prose and English translations written for this reading level. No published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
-    illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Chie’s character identity and palette.',
+    illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Chie’s character identity and palette.',
   },
-  // Chie looks back at the blue Earth as she and her mother leave the base.
-  art: { inline: [{ after: 1, file: '01.webp' }] },
+  // A fixed view of Earth anchors Chie's memory, then guides the rover home.
+  art: { inline: [{ after: 0, file: '02.webp' }, { after: 1, file: '01.webp' }, { after: 4, file: '03.webp' }] },
   lexicon: lexicon({
     // people
     'ちえ': ['Chie (a girl’s name)', 'pn'],
