@@ -1,0 +1,14 @@
+{
+  "unit": "ichinichi-dake-no-honya",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Nao behind counter on final morning"
+    }
+  ],
+  "hash": "c180cac2",
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-3fbff3d0-1f39-49fe-a5de-9f38ed414e6e.png",
+  "generationCalls": 1
+}

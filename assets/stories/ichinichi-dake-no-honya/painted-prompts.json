@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference supplied."
+    },
+    {
+      "file": "assets/stories/ichinichi-dake-no-honya/cover.webp",
+      "role": "Nao identity and palette only, supplied."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: one inline landscape painting for Kanji Trail A Bookshop for One Day, after paragraph 0.\nInput images: Kasa Jizō image is approved inline simplicity reference. Bookshop cover is Nao identity and palette only, not its rich texture or later book-reading scene.\nShow Nao taking her place behind the counter of her grandfather's small secondhand bookshop on its last morning. She stands with hands resting lightly on the counter, looking thoughtfully toward the open entrance. Young Japanese woman with dark hair in a loose bun, ivory blouse and muted teal apron, matching cover. Simple natural face and proportions. A few stacks of closed books and broad shelf shapes establish the shop. Soft morning light through wooden doorway, quiet bittersweet mood.\nBroad smooth colour areas, gentle contours, minimal surface texture, just a few purposeful folds and shadows. Three quiet depth layers, simplified shelves with plain colour book spines. Warm ivory, teal, ochre wood and terracotta accents. Full bleed 12:7 landscape, Nao large and clearly readable.\nOpening setup only: no pencilled note, open book, future visitors or resolution. Omit closure sign to keep image text-free. No lettering, readable book titles, captions, borders or watermark. Avoid dense shelving detail, paper grain, cover-level brush texture, photorealism and glossy 3D."
+    }
+  ]
+}
