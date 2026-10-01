@@ -31,7 +31,7 @@ const blurbs = [
 ];
 
 const inlineArt = [
-  [],
+  [{ after: 0, file: '01.webp' }],
   [],
   [],
   [

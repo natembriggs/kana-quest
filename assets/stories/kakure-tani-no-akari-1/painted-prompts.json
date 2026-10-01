@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline style supplied."
+    },
+    {
+      "file": "assets/stories/kakure-tani-no-akari-1/cover.webp",
+      "role": "Aoi identity and palette only, supplied."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: one inline landscape painting for Kanji Trail The Lantern with No Name, chapter 1, after paragraph 0.\nInput images: Kasa Jizō is approved simple inline style only; chapter cover is Aoi character identity and palette only.\nShow Aoi arriving at her grandmother's simple wooden gate in a small mountain village in Nagano on a warm August late afternoon. Young Japanese woman with dark hair in a loose low bun, ivory short-sleeved blouse, muted teal long skirt and plain tan shoulder bag, matching cover. She walks up the final slope and toward the gate. Beyond the gate a modest old house with dark roof; across broad green rice fields, a few village roofs and blue mountains with white clouds. Warm light on roof, cool blue valley. Quiet arrival mood.\nBroad smooth colour areas, gentle contours, minimal surface texture, three simple depth layers, few purposeful folds/shadows. Much simpler than cover. Warm ivory, muted teal, sage, ochre wood, restrained indigo. Full bleed 12:7 landscape, Aoi clear and large.\nOnly opening arrival. No lantern, masked boy, Ren, festival, mist bridge or later plot details. No readable text, signage, lettering, borders or watermarks. Avoid cover-level brush texture, dense foliage, photorealism and glossy 3D."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "unit": "kakure-tani-no-akari-1",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Aoi arrives at grandmother gate"
+    }
+  ],
+  "hash": "86a0d492",
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-6433f320-50ed-486e-8bd5-61d9ad1092a9.png",
+  "generationCalls": 1
+}
