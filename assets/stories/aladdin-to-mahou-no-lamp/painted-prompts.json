@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference supplied."
+    },
+    {
+      "file": "assets/stories/aladdin-to-mahou-no-lamp/cover.webp",
+      "role": "Character identity and palette only, supplied."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: one inline painting for Kanji Trail Aladdin and the Magic Lamp after paragraph 0.\nInput images: Image 1 is approved Kasa Jizō inline style only; Image 2 is Aladdin cover for character identity and palette only, not its cave or texture.\nPrimary request: Aladdin carries a modest tied cloth bundle of market goods in both arms while working in a lively bazaar, helping support his mother. Show the opening everyday market work only.\nSubject: young man with warm brown skin, short dark hair, simple indigo wrapped headcloth and loose indigo tunic and trousers with a terracotta sash, matching the cover. Natural proportions, small gentle expressive face, focused and earnest.\nScene: a traditional market street with two simple shaded stalls, broad pottery and cloth shapes and a few quiet background marketgoers. Keep Aladdin and bundle clearly readable.\nStyle: match Image 1 smooth broad colour areas, gentle contours, minimal texture, few purposeful folds and shadows. Simplified quiet background with three depth layers. No dense decorative patterns or paper grain. Much simpler than the cover.\nPalette: warm ivory, indigo, sage, muted teal, terracotta and ochre. Soft warm daylight.\nComposition: full bleed 12:7 landscape, medium-wide view with Aladdin dominant.\nConstraints: no magician, lamp, genie, cave, palace or later story events; no film-adaptation costume or likeness. No readable text, signs, lettering, captions, borders or watermark. Avoid photorealism, glossy 3D and cover-level texture."
+    }
+  ]
+}

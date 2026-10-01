@@ -18,7 +18,19 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original retelling assembled from long-established public-domain plot elements, not translated from a particular edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/aladdin-to-mahou-no-lamp/01.webp?v=7eed47eb80b93952",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "アラジン",
@@ -10490,9 +10502,5 @@ export const STORY = {
   "hash": "306f4d8b",
   "was": [
     "2d94e603"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

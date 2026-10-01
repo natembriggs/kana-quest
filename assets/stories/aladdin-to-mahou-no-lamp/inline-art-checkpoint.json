@@ -1,0 +1,14 @@
+{
+  "unit": "aladdin-to-mahou-no-lamp",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Aladdin carrying goods through bazaar"
+    }
+  ],
+  "hash": "306f4d8b",
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-83c3b36e-5efa-4461-be54-da69376042a3.png",
+  "generationCalls": 1
+}

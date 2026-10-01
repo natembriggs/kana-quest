@@ -11,11 +11,12 @@ const aladdin = expandStory({
   level: 'L5',
   gram: 'G5',
   blurb: 'A poor market worker finds a lamp of impossible power and must outwit the magician who buried it.',
-  source: SOL_SOURCE(
+  source: { ...SOL_SOURCE(
     'Traditional tale associated with One Thousand and One Nights (Aladdin and the Magic Lamp)',
     'An original retelling assembled from long-established public-domain plot elements, not translated from a particular edition.',
     'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
-  ),
+  ), illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.' },
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   nw: ['アラジン', 'ランプ', '精霊', '魔術師', '宝石'],
   lexicon: lexicon({
     '遠[とお]い': ['faraway, distant', 'adj'],
