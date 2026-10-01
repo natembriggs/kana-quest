@@ -297,16 +297,11 @@ export async function resolveArt(story, artRoot = ART_DIR) {
     }
     let total = 0;
     let paintedTotal = 0;
-    const seen = new Set();
     for (const item of art.inline) {
       if (!Number.isInteger(item.after) || item.after < 0 || item.after >= story.body.length) {
         errors.push(`${story.id}: inline picture after paragraph ${item.after}, which does not exist`);
         continue;
       }
-      if (seen.has(item.after)) {
-        errors.push(`${story.id}: two inline pictures after paragraph ${item.after}`);
-      }
-      seen.add(item.after);
       if (typeof item.file !== 'string' || !/^[a-zA-Z0-9_-]+\.(svg|webp)$/.test(item.file)) {
         errors.push(`${story.id}: inline art must name a local .svg or .webp file`);
         continue;

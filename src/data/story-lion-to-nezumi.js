@@ -35,6 +35,12 @@ export const STORY = {
         "src": "assets/stories/lion-to-nezumi/02.webp?v=deb93acc9fa43078",
         "width": 960,
         "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/lion-to-nezumi/03.webp?v=0b665ad71fdc5fc2",
+        "width": 960,
+        "height": 560
       }
     ]
   },

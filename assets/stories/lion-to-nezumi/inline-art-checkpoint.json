@@ -1,0 +1,55 @@
+{
+  "unit": "lion-to-nezumi",
+  "title": "The Lion and the Mouse",
+  "selectedAt": "2026-10-01T11:34:53Z",
+  "readingPositionHash": "463ce6cc",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Existing painting: after the lion lets the mouse go, the little mouse stands safely beside his paw.",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "scene": "Existing painting: the mouse has gnawed through the net and freed the lion.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "A closer final moment: the freed lion gently thanks his tiny mouse friend; the torn net is quiet in the background.",
+      "status": "generated and registered"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-6e76356d-8d5e-490f-b5d6-b0a8d7d57587.png"
+    },
+    "02.webp": {
+      "status": "existing",
+      "original": "exec-7ed480a5-fe7b-4bd7-8f77-b46082ad1c50.png"
+    },
+    "03.webp": {
+      "original": "exec-de01c38d-1f80-451a-bbaa-4efedae813f2.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "463ce6cc",
+    "paragraphPlacements": [
+      0,
+      1,
+      1
+    ],
+    "imageBytes": {
+      "01.webp": 84438,
+      "02.webp": 115666,
+      "03.webp": 126940
+    },
+    "totalImageBytes": 327044
+  }
+}

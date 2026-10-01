@@ -5,6 +5,7 @@
   "prompts": "painted-prompts.json",
   "images": {
     "01.webp": "exec-6e76356d-8d5e-490f-b5d6-b0a8d7d57587.png",
-    "02.webp": "exec-7ed480a5-fe7b-4bd7-8f77-b46082ad1c50.png"
+    "02.webp": "exec-7ed480a5-fe7b-4bd7-8f77-b46082ad1c50.png",
+    "03.webp": "exec-de01c38d-1f80-451a-bbaa-4efedae813f2.png"
   }
 }

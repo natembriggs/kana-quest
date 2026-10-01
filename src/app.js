@@ -11409,13 +11409,18 @@ function renderReaderBody() {
   const container = $('reader-body');
   container.innerHTML = '';
   const art = (state.readerShowPictures && state.readerStory.art?.inline) || [];
-  const artAfter = new Map(art.map((item) => [item.after, item]));
+  const artAfter = new Map();
+  for (const item of art) {
+    const pictures = artAfter.get(item.after) || [];
+    pictures.push(item);
+    artAfter.set(item.after, pictures);
+  }
   state.readerStory.body.forEach((para, pIndex) => {
     container.appendChild(renderReaderParagraph(para, pIndex));
-    const picture = artAfter.get(pIndex);
-    if (!picture) return;
-    const figure = buildReaderArt(picture);
-    if (figure) container.appendChild(figure);
+    for (const picture of artAfter.get(pIndex) || []) {
+      const figure = buildReaderArt(picture);
+      if (figure) container.appendChild(figure);
+    }
   });
   // The DOM was just thrown away and rebuilt — put the place-keeper back.
   setReaderActiveToken(state.readerActiveKey);
