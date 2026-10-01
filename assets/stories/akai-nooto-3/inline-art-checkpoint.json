@@ -1,0 +1,61 @@
+{
+  "unit": "akai-nooto-3",
+  "title": "The Old Road",
+  "selectedAt": "2026-10-01T22:44:22Z",
+  "readingPositionHash": "add63eed",
+  "planned": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "scene": "On a rainy morning outside the school, the yellow bus has already departed toward the distant mountain road while a teacher tries to reach its driver by phone; no danger or later event is shown.",
+      "status": "generated"
+    },
+    {
+      "file": "01.webp",
+      "after": 1,
+      "scene": "Existing painting: Mika and Ms Sato compare the red notebook’s small black line with the folded town map and identify the second bend.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "scene": "At the small shop beside the bridge, Mika waits and watches the cloud-hidden mountain through the window while Ms Sato takes a call and an untouched cup of tea sits nearby.",
+      "status": "generated"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-220daff2-c122-482e-a7f7-1f0ec533cb4f.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-7f6e5916-afde-4f57-b3ab-dda50aced71c.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-c8352b2a-49cc-4854-9c25-59b55f3c481d.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "add63eed",
+    "paragraphPlacements": [
+      0,
+      1,
+      2
+    ],
+    "imageBytes": {
+      "02.webp": 78046,
+      "03.webp": 54452
+    },
+    "allImageBytes": {
+      "01.webp": 77530,
+      "02.webp": 78046,
+      "03.webp": 54452
+    },
+    "storyContentUnchanged": true,
+    "imageBudgetPassed": true
+  }
+}
