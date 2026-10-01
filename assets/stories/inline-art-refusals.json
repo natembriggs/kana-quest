@@ -1,0 +1,12 @@
+{
+  "refusals": [
+    {
+      "unit": "cinderella",
+      "title": "Cinderella",
+      "reportedByUserAt": "2026-10-01",
+      "refusedScene": "Additional scenes beyond the existing 01.webp; the exact refused prompt is not present in the current project records.",
+      "outcome": "Keep the existing 01.webp as the sole Cinderella illustration and skip all further image-generation attempts.",
+      "basis": "The user reports that the image-generation tool refused additional Cinderella art. The precise refusal response and reason are unavailable; no copyright reason is assumed."
+    }
+  ]
+}

@@ -18,6 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with short, single-clause sentences and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Two original inline SVG drawings and one inline painting generated with OpenAI built-in image generation, using the approved Kasa Jizō inline treatment and the story cover only for the dove’s appearance and palette.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -30,6 +31,12 @@ export const STORY = {
       {
         "after": 1,
         "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 200\" role=\"img\" class=\"story-art-svg\">\n  <rect x=\"0\" y=\"0\" width=\"400\" height=\"200\" rx=\"10\" fill=\"var(--art-sky)\"/>\n  <path d=\"M0 140 C60 130 110 156 170 146 S268 128 322 144 S382 156 400 150 L400 200 L0 200 Z\" fill=\"var(--art-water)\"/>\n  <path d=\"M332 116 C354 110 374 116 400 110 L400 200 L320 200 Z\" fill=\"var(--art-bank)\"/>\n  <g transform=\"translate(92 48)\">\n    <ellipse cx=\"0\" cy=\"0\" rx=\"28\" ry=\"16\" fill=\"var(--art-pale)\" stroke=\"var(--art-ink)\" stroke-width=\"1.6\"/>\n    <path d=\"M-17 -5 q19 -21 36 -2 q-17 11 -36 2 Z\" fill=\"var(--art-water-far)\" stroke=\"var(--art-ink)\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n    <path d=\"M-27 2 q-14 5 -20 14 q16 -3 24 -8 Z\" fill=\"var(--art-pale)\" stroke=\"var(--art-ink)\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n    <circle cx=\"20\" cy=\"-6\" r=\"2.1\" fill=\"var(--art-ink)\"/>\n    <path d=\"M27 -4 l11 3 l-11 4 Z\" fill=\"var(--art-accent)\"/>\n  </g>\n  <path d=\"M118 82 q7 16 3 30\" stroke=\"var(--art-leaf-vein)\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\" stroke-dasharray=\"4 7\"/>\n  <g transform=\"translate(196 132) rotate(-8)\">\n    <ellipse cx=\"0\" cy=\"0\" rx=\"56\" ry=\"17\" fill=\"var(--art-leaf)\"/>\n    <path d=\"M-56 0 L56 0\" stroke=\"var(--art-leaf-vein)\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n    <g stroke=\"var(--art-leaf-vein)\" stroke-width=\"1.5\" stroke-linecap=\"round\" opacity=\"0.9\" fill=\"none\">\n      <path d=\"M-28 0 l-11 -8\"/><path d=\"M-7 0 l-9 -9\"/><path d=\"M15 0 l-7 -9\"/><path d=\"M34 0 l-5 -8\"/>\n    </g>\n  </g>\n  <g fill=\"var(--art-ink)\" transform=\"translate(190 114) scale(1.35)\">\n    <ellipse cx=\"-12\" cy=\"0\" rx=\"6.5\" ry=\"5.5\"/>\n    <ellipse cx=\"0\" cy=\"0\" rx=\"4.5\" ry=\"4\"/>\n    <ellipse cx=\"10\" cy=\"-1\" rx=\"7.5\" ry=\"6.5\"/>\n    <circle cx=\"13\" cy=\"-5\" r=\"1.6\" fill=\"var(--art-pale)\"/>\n    <g stroke=\"var(--art-ink)\" stroke-width=\"1.7\" stroke-linecap=\"round\" fill=\"none\">\n      <path d=\"M-3 4 L-7 11\"/><path d=\"M1 4 L2 12\"/><path d=\"M6 3 L11 11\"/>\n      <path d=\"M14 -8 L20 -14\"/><path d=\"M17 -6 L24 -10\"/>\n    </g>\n  </g>\n</svg>"
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/ari-to-hato/03.webp?v=ceddce65dd562030",
+        "width": 960,
+        "height": 560
       }
     ]
   },

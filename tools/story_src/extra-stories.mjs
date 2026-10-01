@@ -9,12 +9,14 @@ const ariToHato = expandStory({
   title: { ja: 'ありとはと', en: 'The Ant and the Dove' },
   series: null, level: 'L1', gram: 'G1',
   blurb: 'A dove helps a tiny ant, and the ant soon finds a way to return the kindness.',
-  source: SOL_SOURCE('Aesop’s fable (The Ant and the Dove)', 'An original graded retelling with short, single-clause sentences and no wording from a published edition.'),
+  source: {
+    ...SOL_SOURCE('Aesop’s fable (The Ant and the Dove)', 'An original graded retelling with short, single-clause sentences and no wording from a published edition.'),
+    illustrations: 'Two original inline SVG drawings and one inline painting generated with OpenAI built-in image generation, using the approved Kasa Jizō inline treatment and the story cover only for the dove’s appearance and palette.',
+  },
   // Inline art (stories-plan.md §8.8). `after` is a paragraph index, and the
-  // files live in assets/stories/ari-to-hato/. Both pictures show a situation
-  // the paragraph above them has already established, never what happens
-  // next — a picture that spoils its own scene is worse than no picture.
-  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }] },
+  // files live in assets/stories/ari-to-hato/. Each picture follows an intact
+  // paragraph and depicts its established scene without revealing another.
+  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }, { after: 2, file: '03.webp' }] },
   nw: ['あり', 'はと', '葉', '助けます'],
   lexicon: lexicon({
     'ある日[ひ]': ['one day', 'adv'], 'あり': ['ant', 'n'], '川[かわ]': ['river', 'n'], '水[みず]': ['water', 'n'],

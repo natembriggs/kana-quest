@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/ari-to-hato/cover.webp",
+      "role": "Dove/ant identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline story illustration for the Japanese graded-reading fable “The Ant and the Dove”.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the existing story cover, used only to keep the white dove, dark ant, and gentle palette recognisable; do not copy its composition or its detailed cover rendering.\nPrimary request: Illustrate the end of paragraph 2, at the instant the tiny ant bites the hunter’s foot and interrupts his aim at the dove.\nScene/backdrop: A quiet riverbank under one broad tree, with a few soft leaves, low grasses, calm water and open pale sky. Keep the background very simple.\nSubject: In the lower foreground, a small dark ant clearly touches and bites the edge of a hunter’s simple sandal. The hunter is a modestly dressed adult man in muted brown and slate clothing; show a mild surprised flinch as he pauses with a simple wooden bow and nocked arrow lowered safely away from the dove. Above him, the familiar white dove with pale grey wing accents perches safely on a branch, looking down with wings just beginning to open. The ant must remain visibly tiny but readable.\nStyle/medium: Gentle painted children’s-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful shadows, natural proportions and quiet simplified forms. Keep detail much simpler than the cover.\nComposition/framing: Wide landscape close to the project’s 12:7 inline ratio, medium-wide view with three clear layers: sandal and ant in the foreground, hunter near the tree trunk, dove on a branch above. Keep every story-relevant figure legible at phone width.\nLighting/mood: Soft daylight, a small moment of comic interruption, calm and kind.\nColor palette: Muted river blue, leaf green, warm ivory, soft grey, restrained brown and slate; preserve the simple white dove and dark ant.\nConstraints: Show only the interruption beginning, before an arrow is released; the dove is safe, nobody is injured, and there is no blood. Full-bleed image with no text.\nAvoid: Any wound, violence, a launched arrow, a frightened or hurt bird, dramatic action, extra people or animals, photorealism, detailed cover-style texture, lettering, captions, border, logo or watermark."
+    }
+  ]
+}

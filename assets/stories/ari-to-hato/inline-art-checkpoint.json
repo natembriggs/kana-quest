@@ -1,0 +1,52 @@
+{
+  "unit": "ari-to-hato",
+  "title": "The Ant and the Dove",
+  "selectedAt": "2026-10-01T10:34:53Z",
+  "readingPositionHash": "5945e2be",
+  "planned": [
+    {
+      "file": "01.svg",
+      "after": 0,
+      "scene": "Existing project SVG: the ant is swept along in the river.",
+      "status": "existing"
+    },
+    {
+      "file": "02.svg",
+      "after": 1,
+      "scene": "Existing project SVG: the dove drops a leaf and the ant rides it to the bank.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "scene": "A tiny ant bites the hunter’s sandal while he aims his bow toward the dove above; the interruption is beginning, with no injury and no arrow released.",
+      "status": "generated and registered"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.svg": {
+      "status": "existing",
+      "original": "project-authored SVG"
+    },
+    "02.svg": {
+      "status": "existing",
+      "original": "project-authored SVG"
+    },
+    "03.webp": {
+      "original": "exec-79d33a19-55e0-4a1f-8e81-0cb2a507a0eb.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "5945e2be",
+    "paragraphPlacements": [
+      0,
+      1,
+      2
+    ],
+    "imageBytes": {
+      "03.webp": 121480
+    }
+  }
+}
