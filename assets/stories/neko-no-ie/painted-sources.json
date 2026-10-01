@@ -1,0 +1,9 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "The new inline painting was generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Hana and the cat’s character identity and palette.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "03.webp": "exec-4914b42b-c504-4722-853f-99fbd9903872.png"
+  }
+}

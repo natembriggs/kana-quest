@@ -1,0 +1,52 @@
+{
+  "unit": "neko-no-ie",
+  "title": "A House for the Cat",
+  "selectedAt": "2026-10-01T12:35:21Z",
+  "readingPositionHash": "5cdad836",
+  "planned": [
+    {
+      "file": "01.svg",
+      "after": 0,
+      "scene": "Existing SVG: Hana brings a large box while the cat is shown with its familiar small box.",
+      "status": "existing"
+    },
+    {
+      "file": "02.svg",
+      "after": 1,
+      "scene": "Existing SVG: the cat inspects the new large cardboard house.",
+      "status": "existing"
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "scene": "Hana brings a simple toy dog toward the large cardboard house while the ginger cat watches from near its small box; show this setup before the story’s final comparison.",
+      "status": "generated and registered"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.svg": {
+      "status": "existing",
+      "original": "project-authored SVG"
+    },
+    "02.svg": {
+      "status": "existing",
+      "original": "project-authored SVG"
+    },
+    "03.webp": {
+      "original": "exec-4914b42b-c504-4722-853f-99fbd9903872.png",
+      "status": "generated"
+    }
+  },
+  "verification": {
+    "hash": "5cdad836",
+    "paragraphPlacements": [
+      0,
+      1,
+      2
+    ],
+    "imageBytes": {
+      "03.webp": 82022
+    }
+  }
+}

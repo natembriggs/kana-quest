@@ -9,10 +9,9 @@ const theStory = expandStory({
   blurb: "Hana makes a big new house for her cat, but the cat has its own idea of a good home.",
   nw: ["家", "猫", "箱", "中", "入る", "入れる", "犬", "人形"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", "illustrations": "Inline SVG illustrations drawn by GPT-6 Astra for Kanji Trail, using the cover as a character and palette reference."},
-  // Scene openings only: the familiar small box, then an inspection of the
-  // new house. Leave the cat's choice and the toy-dog ending to the prose.
-  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }] },
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", "illustrations": "The first two inline SVG illustrations were drawn by GPT-6 Astra for Kanji Trail; a third inline painting was generated with OpenAI image generation in the approved Kasa Jizō style, using the cover for character identity and palette."},
+  // Place the toy dog arriving at the new house before the final comparison.
+  art: { inline: [{ after: 0, file: '01.svg' }, { after: 1, file: '02.svg' }, { after: 2, file: '03.webp' }] },
   lexicon: lexicon({
     "はな": ["Hana", "pn"],
     "家[いえ]": ["house; home", "n", {"d": false}],

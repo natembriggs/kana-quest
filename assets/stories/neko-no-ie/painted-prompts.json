@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style reference, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/neko-no-ie/cover.webp",
+      "role": "Character identity and palette guidance only, supplied to image generation."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "03.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture-book painting for the Japanese graded-reading story “A House for the Cat”.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the story cover for Hana and the ginger cat’s character identity and palette only; do not copy its portrait composition or cover-level detail.\nPrimary request: Illustrate the opening action of paragraph 2: Hana returns carrying a simple toy dog and brings it to the large cardboard house.\nScene/backdrop: A calm, sunlit family room with a large handmade cardboard house and one familiar small box nearby. Keep furniture and window details sparse.\nSubject: Hana, a young Japanese girl with dark hair in a loose bun, an ivory shirt and blue overalls, holds a small plain toy dog in both hands as she brings it toward the doorway of the large cardboard house. A ginger tabby cat with a white muzzle, chest and paws watches from near its small familiar box. The cat is curious but has not yet made any new choice.\nStyle/medium: Gentle painted children’s-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful shadows, natural proportions and a quiet simplified background. Use the cover only for character identity and palette; make this much simpler than the cover and readable beside the existing simple SVG illustrations.\nComposition/framing: Wide landscape close to the project’s 12:7 inline ratio; medium-wide view with Hana, toy dog, large cardboard house and cat all clearly legible at phone width. Use two or three calm background layers and an open composition.\nLighting/mood: Soft warm daylight, playful and calm.\nColor palette: Warm cardboard brown, muted blue overalls, ivory, ginger orange, soft white and quiet sage/teal room colours.\nConstraints: Show only the toy dog arriving at the large house, before any final comparison or resolution. Full-bleed image, no text or readable marks.\nAvoid: Captions, lettering, labels, speech bubbles, borders, watermarks, the cat sleeping in the small box, the final small-house/big-house comparison, extra people or animals, detailed cover-like texture, photorealism or glossy 3D."
+    }
+  ]
+}
