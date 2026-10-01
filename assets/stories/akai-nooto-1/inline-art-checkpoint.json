@@ -1,0 +1,61 @@
+{
+  "unit": "akai-nooto-1",
+  "title": "Tomorrow's Page",
+  "selectedAt": "2026-10-01T20:42:52Z",
+  "readingPositionHash": "ba754c2b",
+  "planned": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "scene": "Mika puts away books in the nearly closing library while Ren reads beside the rainy window and glances toward the road; warm interior against cool October dusk, with no bus yet present.",
+      "status": "generated"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "Mika opens the library returns box and discovers one unfamiliar plain red notebook with a slightly damp cover and dry, blank pages; no visible writing or librarian yet.",
+      "status": "generated"
+    },
+    {
+      "file": "01.webp",
+      "after": 2,
+      "scene": "Existing painting: Mika shows the plain red notebook to librarian Ms Sato, whose smile fades as she sees something inside.",
+      "status": "existing"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-26d9e748-937e-4a46-8310-793a2b9fe2af.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-8ecff21d-7121-456c-a0da-39ea3e388df1.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-2e6dabc7-5b7b-409b-909e-f3c40a9b750a.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "ba754c2b",
+    "paragraphPlacements": [
+      0,
+      1,
+      2
+    ],
+    "imageBytes": {
+      "02.webp": 79782,
+      "03.webp": 45868
+    },
+    "allImageBytes": {
+      "01.webp": 75760,
+      "02.webp": 79782,
+      "03.webp": 45868
+    },
+    "storyContentUnchanged": true,
+    "imageBudgetPassed": true
+  }
+}
