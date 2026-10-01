@@ -57,9 +57,9 @@
     }
   },
   "publication": {
-    "commitStatus": "committed locally",
-    "pushStatus": "pending until a successful fetch establishes the remote position",
-    "pushAttempted": false,
-    "lastFetchError": "git fetch failed before network access: cannot open .git/FETCH_HEAD: Operation not permitted"
+    "unitCommit": "874fa50",
+    "unitCommitPushed": true,
+    "fetchStatus": "successful after elevated access",
+    "pushStatus": "pushed"
   }
 }
