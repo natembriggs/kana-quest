@@ -1,0 +1,61 @@
+{
+  "unit": "akai-nooto-2",
+  "title": "Beyond the Bridge",
+  "selectedAt": "2026-10-01T21:43:22Z",
+  "readingPositionHash": "8026ebc3",
+  "planned": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "scene": "At home in the rainy night, Mika sits awake at the window while her mother checks the open red notebook and remains doubtful; quiet unease, with no visible writing.",
+      "status": "generated"
+    },
+    {
+      "file": "03.webp",
+      "after": 1,
+      "scene": "Before dawn at the library entrance, a gust rolls Ms Sato’s blue umbrella into the brown river as Mika, her mother and Ms Sato watch from the safe bank; no injuries or text.",
+      "status": "generated"
+    },
+    {
+      "file": "01.webp",
+      "after": 2,
+      "scene": "Existing painting: Mika, her mother and Ms Sato reach the largest bridge and find one large crack in its river-side wall.",
+      "status": "existing"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-5844fe2b-f5df-4753-8f24-f5140e1908e9.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-8214298a-f4d2-4562-a031-814b5551d86f.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-0ec23682-030b-494e-951b-f30cf1bd3aa8.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "8026ebc3",
+    "paragraphPlacements": [
+      0,
+      1,
+      2
+    ],
+    "imageBytes": {
+      "02.webp": 42272,
+      "03.webp": 93368
+    },
+    "allImageBytes": {
+      "01.webp": 116760,
+      "02.webp": 42272,
+      "03.webp": 93368
+    },
+    "storyContentUnchanged": true,
+    "imageBudgetPassed": true
+  }
+}
