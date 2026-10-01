@@ -1,9 +1,11 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the three pigs’ character identities and palette.",
-  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the three pigs’ character identities and palette.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-f3bd121e-7d1f-42b1-8a36-b4bb943aedfb.png"
+    "01.webp": "exec-f3bd121e-7d1f-42b1-8a36-b4bb943aedfb.png",
+    "02.webp": "exec-163f3e02-37ef-4a9d-a748-f59ad1d4358a.png",
+    "03.webp": "exec-20a3c9bc-116f-4f78-95e2-42ac4bdd65a7.png"
   }
 }

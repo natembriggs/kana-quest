@@ -17,10 +17,10 @@ const threeLittlePigs = expandStory({
       'An original graded retelling, using a non-violent version of the ending and no wording from a published edition.',
       'Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.',
     ),
-    illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the three pigs’ character identities and palette.',
+    illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the three pigs’ character identities and palette.',
   },
-  // The youngest pig carefully lays bricks while his brothers laugh at the slower work.
-  art: { inline: [{ after: 1, file: '01.webp' }] },
+  // Three inline scenes show the bricklaying, the pigs reaching safety, and the chimney scene.
+  art: { inline: [{ after: 1, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 3, file: '03.webp' }] },
   nw: ['子ぶた', 'オオカミ', 'レンガ', '煙突', '頑丈'],
   lexicon: lexicon({
     '昔[むかし]': ['long ago', 'adv'],

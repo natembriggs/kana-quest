@@ -1,0 +1,65 @@
+{
+  "unit": "sanbiki-no-kobuta",
+  "title": "The Three Little Pigs",
+  "selectedAt": "2026-10-01T16:38:21Z",
+  "readingPositionHash": "0abe7784",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "scene": "Existing painting: the youngest pig carefully lays bricks one at a time while his two older brothers laugh at his slow work.",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "After the straw and wooden houses are destroyed, all three pigs reach the sturdy brick house safely while the wolf remains outside at a distance; no contact, injury or violence.",
+      "status": "generated"
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "scene": "Inside the brick house, the youngest pig tends a large pot as steam rises; outside, the startled wolf turns away from the chimney and bounds safely toward the forest, with no contact or injury.",
+      "status": "generated"
+    }
+  ],
+  "status": "art complete and rebuild verified",
+  "images": {
+    "01.webp": {
+      "status": "existing",
+      "original": "exec-f3bd121e-7d1f-42b1-8a36-b4bb943aedfb.png"
+    },
+    "02.webp": {
+      "status": "generated",
+      "original": "exec-163f3e02-37ef-4a9d-a748-f59ad1d4358a.png"
+    },
+    "03.webp": {
+      "status": "generated",
+      "original": "exec-20a3c9bc-116f-4f78-95e2-42ac4bdd65a7.png"
+    }
+  },
+  "generationCalls": 2,
+  "verification": {
+    "hash": "0abe7784",
+    "paragraphPlacements": [
+      1,
+      2,
+      3
+    ],
+    "imageBytes": {
+      "02.webp": 140894,
+      "03.webp": 108826
+    },
+    "allImageBytes": {
+      "01.webp": 93564,
+      "02.webp": 140894,
+      "03.webp": 108826
+    }
+  },
+  "publication": {
+    "commitStatus": "committed locally",
+    "pushStatus": "pending until a successful fetch establishes the remote position",
+    "pushAttempted": false,
+    "lastFetchError": "git fetch failed before network access: cannot open .git/FETCH_HEAD: Operation not permitted"
+  }
+}
