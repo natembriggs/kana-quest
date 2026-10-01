@@ -1,0 +1,14 @@
+{
+  "unit": "hachijuu-nichikan-sekai-isshuu",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Fogg checks watch beside departing train"
+    }
+  ],
+  "hash": "a5bf5231",
+  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+  "original": "exec-54d7d04b-41ad-409e-a312-b06f5fdb7ea0.png",
+  "generationCalls": 1
+}

@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved inline style supplied."
+    },
+    {
+      "file": "assets/stories/hachijuu-nichikan-sekai-isshuu/cover.webp",
+      "role": "Character identity and palette only, supplied."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story. Asset type: one inline landscape painting for Kanji Trail Around the World in Eighty Days after paragraph 0.\nInput images: Kasa Jizō is simplicity/style reference only. Fogg cover is character identity and palette only, keep detail much simpler.\nShow Phileas Fogg at an 1872 railway platform preparing to depart on his journey. He calmly checks a gold pocket watch, holding a modest brown travelling case. Match cover: adult gentleman with short brown hair, curled brown moustache, black top hat, long indigo coat, charcoal waistcoat, ivory shirt and dark cravat. Natural proportions and small expressive face.\nBehind him an intact steam train, simplified to broad ochre and charcoal shapes, soft ivory steam, and two broad platform columns. No intricate mechanics or crowd. Quiet purposeful departure mood.\nStyle: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simple background with three depth layers. Muted indigo, ivory, teal, ochre and warm brown. Full bleed 12:7 landscape, Fogg clear and large at small inline size.\nConstraints: opening departure only, no later travel locations or plot revelations. No lettering, readable clock numbers, signs, captions, borders or watermarks. Avoid cover-level brush grain, busy architecture, photorealism or glossy 3D."
+    }
+  ]
+}

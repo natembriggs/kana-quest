@@ -9,7 +9,8 @@ const aroundTheWorld = expandStory({
   id: 'hachijuu-nichikan-sekai-isshuu', title: { ja: '八十日間世界一周', en: 'Around the World in Eighty Days' }, series: null,
   level: 'L5', gram: 'G5',
   blurb: 'Phileas Fogg wagers that modern transport can carry him around the world in eighty days—but the timetable is only the beginning.',
-  source: SOURCE('Around the World in Eighty Days by Jules Verne (1872)', 'An original graded retelling of the novel’s main journey; no wording is copied from a published translation.'),
+  source: { ...SOURCE('Around the World in Eighty Days by Jules Verne (1872)', 'An original graded retelling of the novel’s main journey; no wording is copied from a published translation.'), illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.' },
+  art: { inline: [{ after: 0, file: '01.webp' }] },
   nw: ['フォッグ', 'パスパルトゥー', 'スケジュール', '汽船', '時差'],
   lexicon: lexicon({
     'が#but': ['but, although', 'part'], 'では': ['in; as for', 'part'], 'ではなかった': ['was not', 'aux', { df: 'だ', cf: 'polite past negative' }],
