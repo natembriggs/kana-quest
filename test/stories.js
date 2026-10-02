@@ -127,11 +127,10 @@ corpus.forEach((story) => {
     STORIES[story.id]?.cover === story.art.cover);
   check(`${story.id}: installed covers have an artwork credit`,
     !story.art.cover || !!story.source.cover);
-  const placements = new Set();
   for (const art of story.art.inline) {
-    check(`${story.id}: illustration follows a unique existing paragraph`,
-      Number.isInteger(art.after) && art.after >= 0 && art.after < story.body.length && !placements.has(art.after));
-    placements.add(art.after);
+    // Short stories can place several scenes after the same paragraph.
+    check(`${story.id}: illustration follows an existing paragraph`,
+      Number.isInteger(art.after) && art.after >= 0 && art.after < story.body.length);
     check(`${story.id}: one illustration format`, !!art.svg !== !!art.src);
     if (art.src) {
       check(`${story.id}: painted illustration has a versioned local URL`,

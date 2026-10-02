@@ -23,7 +23,9 @@ try {
   await assert.rejects(resolveArt({ ...story, source: {} }, root), /credit/);
   await assert.rejects(resolveArt({ ...story, art: { inline: [{ after: 0, file: '../scene.webp' }] } }, root), /local/);
   await assert.rejects(resolveArt({ ...story, art: { inline: [{ after: 9, file: 'scene.webp' }] } }, root), /does not exist/);
-  await assert.rejects(resolveArt({ ...story, art: { inline: [story.art.inline[0], story.art.inline[0]] } }, root), /two inline/);
+  // Multiple scenes after one paragraph are intentional in short stories.
+  const sharedPlacement = await resolveArt({ ...story, art: { inline: [story.art.inline[0], story.art.inline[0]] } }, root);
+  assert.deepEqual(sharedPlacement.inline.map(art => art.after), [0, 0]);
   // Fill a valid RIFF metadata chunk so this budget check does not depend
   // on how well the current illustration happens to compress.
   const atLimit = Buffer.alloc(150 * 1024);
