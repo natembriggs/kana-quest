@@ -189,7 +189,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-09-28c'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-10-02a'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
@@ -6257,6 +6257,9 @@ function renderLesson() {
     $('lesson-word').hidden = true;
     $('lesson-hint').textContent = "Say it out loud, then remember it — it's coming up in the quiz.";
   }
+
+  // Apply after the course-specific renderer, which resets the glyph class.
+  $('lesson-kana').classList.add('lesson-glyph-tap');
 
   // Writing mode: watch the stroke order drawn in, on repeat, before being
   // quizzed on it — introducing a brand-new character is exactly when
@@ -13086,6 +13089,11 @@ function wire() {
   });
 
   $('lesson-next').addEventListener('click', advanceLesson);
+  $('lesson-kana').addEventListener('click', () => {
+    const session = state.session;
+    if (!session) return;
+    openFromLesson(getAnyCourse(state.courseId), session.lesson[session.lessonIndex]);
+  });
   // Vocabulary's reveal ladder (vocab-plan.md §5.2) — a no-op outside a
   // vocab Meaning question's definition stage, see clickVocabWord().
   $('quiz-kana').addEventListener('click', clickVocabWord);

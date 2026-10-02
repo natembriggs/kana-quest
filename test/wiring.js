@@ -1860,6 +1860,21 @@ fire(defLearn, 'click');
 for (let i = 0; i < 10; i += 1) await settle(); // lazy grade load — see the earlier kanji session start
 check('a definition session opens the lesson screen', visible() === 'screen-lesson', `showing ${visible()}`);
 check('the definition lesson shows the meaning', el('lesson-meanings').textContent.length > 0);
+const definitionLessonGlyph = el('lesson-kana').textContent;
+const definitionLessonCounter = el('lesson-counter').textContent;
+check('Learn New offers a native button with a tap affordance',
+  /<button\b[^>]*id="lesson-kana"[^>]*type="button"/.test(html)
+  && el('lesson-kana').classList.contains('lesson-glyph-tap'));
+fire(el('lesson-kana'), 'click');
+for (let i = 0; i < 10; i += 1) await settle(); // first detail visit also loads stroke data
+check('tapping the new kanji immediately opens its full details',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === definitionLessonGlyph,
+  `showing ${visible()}, glyph "${el('detail-glyph').textContent}"`);
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('Back preserves the current Learn New card and session position',
+  visible() === 'screen-lesson' && el('lesson-kana').textContent === definitionLessonGlyph
+  && el('lesson-counter').textContent === definitionLessonCounter);
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   fire(el('lesson-next'), 'click');
   await settle();
@@ -3765,6 +3780,21 @@ check('"Learn next" teaches from the start of the vocab curriculum (Core), not t
   visible() === 'screen-lesson'
   && coreVocabCourse.chunks.flatMap((c) => c.items).some((id) => id.split('|')[0] === el('lesson-kana').textContent),
   `showing ${visible()}, lesson word "${el('lesson-kana').textContent}" while browsing ${travelUnit}`);
+
+const vocabLessonGlyph = el('lesson-kana').textContent;
+const vocabLessonCounter = el('lesson-counter').textContent;
+check('vocabulary lessons also retain the glyph tap affordance',
+  el('lesson-kana').classList.contains('lesson-glyph-tap'));
+fire(el('lesson-kana'), 'click');
+await settle();
+check('tapping a new vocabulary word opens that word, rather than a component kanji',
+  visible() === 'screen-character-detail' && el('detail-glyph').textContent === vocabLessonGlyph
+  && el('detail-meanings').textContent.length > 0);
+fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+await settle();
+check('Back from vocabulary details preserves the Learn New card and session position',
+  visible() === 'screen-lesson' && el('lesson-kana').textContent === vocabLessonGlyph
+  && el('lesson-counter').textContent === vocabLessonCounter);
 
 for (let i = 0; i < 10 && visible() === 'screen-lesson'; i += 1) {
   fire(el('lesson-next'), 'click');
