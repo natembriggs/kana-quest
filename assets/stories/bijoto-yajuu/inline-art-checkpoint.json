@@ -1,16 +1,67 @@
 {
-  "unit": "bijoto-yajuu",
-  "planned": [
+  "storyId": "bijoto-yajuu",
+  "title": "Beauty and the Beast",
+  "status": "refused; two images registered and rebuild verified",
+  "baseline": {
+    "readingPositionHash": "e9de2a45",
+    "paragraphCount": 4,
+    "existingInline": [
+      {
+        "file": "01.webp",
+        "after": 0,
+        "reuse": true,
+        "scene": "An older French merchant in a plain dark-blue travelling cloak walks through a snowy forest toward the warmly lit open doorway of a large stone castle."
+      }
+    ]
+  },
+  "images": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Merchant approaching lit castle in snowy forest"
+      "reuse": true,
+      "status": "existing; reused, registered and rebuilt",
+      "scene": "The merchant approaches the warmly lit castle through a snowy forest.",
+      "generatedOriginal": "exec-037fd12b-eafa-4903-bad2-b82418b0ea89.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "reuse": false,
+      "status": "registered and rebuilt",
+      "scene": "Belle, in the castle’s splendid guest room after choosing to go in her father’s place, quietly takes in the spacious room and its tall window; the snowy French countryside is visible outside. Do not show later events.",
+      "generatedOriginal": "exec-3851e9b0-cd86-4ce6-a340-73071dc18193.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02"
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "reuse": false,
+      "status": "refused",
+      "scene": "In the castle library, Belle reads a large old story aloud while the Beast listens quietly beside her; a few simple books and a calm garden glimpse make a warm, tentative friendship scene, with no transformation or later events.",
+      "refusal": {
+        "unit": "bijoto-yajuu",
+        "title": "Beauty and the Beast",
+        "refusedScene": "03.webp after paragraph 2: Belle reads aloud to the Beast in the castle library.",
+        "outcome": "The built-in image-generation request was rejected by the safety system (moderation_blocked; output stage; category other; request ID d96ee0bc-512c-4f70-a811-309050aafc55). No further image-generation calls will be made for this unit. Preserve the existing 01.webp and successfully generated 02.webp; skip this unit in future runs.",
+        "reason": "The tool did not provide a specific reason."
+      }
     }
   ],
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-037fd12b-eafa-4903-bad2-b82418b0ea89.png",
-  "hash": "e9de2a45",
-  "fetchError": "cannot open .git/FETCH_HEAD: Operation not permitted",
-  "generationCalls": 1,
-  "fetchStatus": "succeeded with elevated permissions on 2026-10-01"
+  "priorCheckpoint": {
+    "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
+    "generationCalls": 1,
+    "fetchError": "cannot open .git/FETCH_HEAD: Operation not permitted"
+  },
+  "remoteStatus": "The single git fetch attempt for this run failed with “cannot open .git/FETCH_HEAD: Operation not permitted”; push is deferred.",
+  "nextAction": "No further generation calls for this refused unit. Skip this unit in future art runs. This run could not fetch; push its local completion commit only after a later run establishes a safe remote position.",
+  "generationCalls": 3,
+  "thisRunGenerationCalls": 2,
+  "refusal": {
+    "unit": "bijoto-yajuu",
+    "title": "Beauty and the Beast",
+    "refusedScene": "03.webp after paragraph 2: Belle reads aloud to the Beast in the castle library.",
+    "outcome": "The built-in image-generation request was rejected by the safety system (moderation_blocked; output stage; category other; request ID d96ee0bc-512c-4f70-a811-309050aafc55). No further image-generation calls will be made for this unit. Preserve the existing 01.webp and successfully generated 02.webp; skip this unit in future runs.",
+    "reason": "The tool did not provide a specific reason."
+  }
 }

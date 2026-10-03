@@ -204,8 +204,8 @@ const beautyAndBeast = expandStory({
   id: 'bijoto-yajuu', title: { ja: '美女と野獣', en: 'Beauty and the Beast' }, series: null,
   level: 'L4', gram: 'G4',
   blurb: 'Belle enters an enchanted castle and learns to see beyond its master’s frightening appearance.',
-  source: { ...SOL_SOURCE('Traditional French tale (Beauty and the Beast)', 'An original graded retelling drawing on the public-domain fairy tale, with no wording from a published edition.'), illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, following the approved simple Kasa Jizō inline treatment.' },
-  art: { inline: [{ after: 0, file: '01.webp' }] },
+  source: { ...SOL_SOURCE('Traditional French tale (Beauty and the Beast)', 'An original graded retelling drawing on the public-domain fairy tale, with no wording from a published edition.'), illustrations: 'Two inline paintings generated with OpenAI built-in image generation for Kanji Trail, following the approved simple Kasa Jizō inline treatment; the requested third image was refused by the tool.' },
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 1, file: '02.webp' }] },
   nw: ['ベル', 'ビースト', 'バラ', '魔法', '約束'],
   lexicon: lexicon({
     '田[いな]舎[か]': ['countryside', 'n'], '二[ふた]人[り]': ['two people', 'num'], '代[か]わり': ['in place of', 'n'], '自[じ]分[ぶん]': ['oneself', 'pn'],

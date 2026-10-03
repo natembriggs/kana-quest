@@ -7,6 +7,13 @@
       "refusedScene": "Additional scenes beyond the existing 01.webp; the exact refused prompt is not present in the current project records.",
       "outcome": "Keep the existing 01.webp as the sole Cinderella illustration and skip all further image-generation attempts.",
       "basis": "The user reports that the image-generation tool refused additional Cinderella art. The precise refusal response and reason are unavailable; no copyright reason is assumed."
+    },
+    {
+      "unit": "bijoto-yajuu",
+      "title": "Beauty and the Beast",
+      "refusedScene": "03.webp after paragraph 2: Belle reads aloud to the Beast in the castle library.",
+      "outcome": "The built-in image-generation request was rejected by the safety system (moderation_blocked; output stage; category other; request ID d96ee0bc-512c-4f70-a811-309050aafc55). No further image-generation calls will be made for this unit. Preserve the existing 01.webp and successfully generated 02.webp; skip this unit in future runs.",
+      "reason": "The tool did not provide a specific reason."
     }
   ]
 }
