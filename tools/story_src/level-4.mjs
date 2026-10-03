@@ -217,9 +217,9 @@ const bremenMusicians = expandStory({
       'An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.',
       'Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.',
     ),
-    illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the four musicians’ character identities and palette.",
+    illustrations: "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment, the cover for the four animals’ identities and palette, and the existing first inline painting for group continuity.",
   },
-  art: { inline: [{ after: 2, file: '01.webp' }] },
+  art: { inline: [{ after: 0, file: '02.webp' }, { after: 2, file: '01.webp' }, { after: 3, file: '03.webp' }] },
   nw: ['ブレーメン', '音楽隊', 'ロバ', '泥棒'],
   lexicon: lexicon({
     '昔[むかし]': ['long ago', 'adv'],

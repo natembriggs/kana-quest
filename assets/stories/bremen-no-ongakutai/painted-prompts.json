@@ -3,11 +3,23 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference, supplied to image generation."
+      "role": "Approved simple inline style reference; supplied for the broad smooth colour areas and gentle contours."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline style reference; supplied for quiet backgrounds and simplified forms."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline style reference; supplied for gentle painted colour treatment."
     },
     {
       "file": "assets/stories/bremen-no-ongakutai/cover.webp",
-      "role": "Character identity and palette guidance only, supplied to image generation."
+      "role": "The four animals’ character identity and palette only; not a detail or style target."
+    },
+    {
+      "file": "assets/stories/bremen-no-ongakutai/01.webp",
+      "role": "Existing inline painting for animal appearance and palette continuity only; use the Kasa Jizō references for the simpler style."
     }
   ],
   "scenes": [
@@ -15,6 +27,16 @@
       "file": "01.webp",
       "after": 2,
       "prompt": "Use case: illustration-story\nAsset type: single landscape inline picture for a graded Japanese story reader\nInput images: Image 1 is the approved Kasa Jizō inline style reference only; Image 2 is the Bremen Town Musicians story cover, for the animals' identity and palette only.\nPrimary request: Show the four animal musicians setting out together along a quiet woodland path after they have met, before any house or thieves appear.\nScene/backdrop: a simple forest path with a few soft sage-green trees and warm ivory sky; keep the background quiet and minimal.\nSubject: one grey-brown donkey with a simple packsaddle, one small brown-and-white dog, one grey tabby cat, and one orange rooster. Keep the four animals distinct, gentle and natural, traveling together in a small group. The donkey walks in front, the dog, cat and rooster follow close behind; they look companionable and lively as they make music together, without instruments or props.\nStyle/medium: broad smooth painted colour areas, gentle contours, minimal texture, few purposeful marks, and quiet simplified backgrounds, matching Image 1's inline treatment. Use Image 2 only for recognizable character shapes and palette, not for its detail level.\nComposition/framing: wide landscape composition, approximately 12:7 aspect ratio, all four animals fully visible and clearly readable at small size, arranged along the path with breathing room.\nLighting/mood: soft late-afternoon light, warm, hopeful and calm.\nColor palette: muted grey-brown, brown and white, soft tabby grey, restrained rooster orange, sage greens, warm ivory and ochre.\nConstraints: depict only this non-spoiler traveling scene from the story. Preserve exactly four animals: donkey, dog, cat and rooster. No people, house, thieves, text, letters, numbers, border, watermark, or decorative frame."
+    },
+    {
+      "file": "02.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline story painting for the graded reader story “The Bremen Town Musicians”, about 12:7 composition.\nPrimary request: depict paragraph 0: the elderly donkey leaves the flour mill after his owner tells him there is no more work, setting out on the road toward Bremen.\n\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides the four animals’ character identity and palette only. Image 5 is the existing inline painting, for donkey appearance and palette continuity only; follow the Kasa references for simplicity.\n\nScene/backdrop: a modest old stone-and-timber flour mill at the edge of a quiet rural German village, opening onto a leafy country lane. A single empty flour sack rests beside the mill door. Soft countryside shapes recede in the distance.\nSubject: one elderly grey-brown donkey with the same gentle face and simple brown packsaddle as in the reference images. He walks away from the mill toward the open road with a calm, newly hopeful expression. Show only the donkey; the dog, cat and rooster have not joined him yet.\nStyle/medium: simple children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful marks, quiet simplified background, and much less detail than the cover.\nComposition/framing: wide landscape around 12:7; the donkey and mill doorway are clear at small reader size, with open path leading forward. Keep the sack small and secondary.\nLighting/mood: soft late-afternoon light, gentle and hopeful.\nColor palette: muted grey-brown, warm ivory stone, soft sage foliage, restrained ochre and terracotta.\nConstraints: only one donkey and no other animals or people. Do not show a band, dog, cat, rooster, Bremen city, text, letters, numbers, signage, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic lighting and clutter."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline story painting for the graded reader story “The Bremen Town Musicians”, about 12:7 composition.\nPrimary request: depict paragraph 3, when the four animals rest in the forest at night and see a lighted house where thieves are feasting.\n\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides the four animals’ character identity and palette only. Image 5 is the existing inline painting, for their established appearance and palette continuity only; follow the Kasa references for simplicity.\n\nScene/backdrop: a quiet forest edge in rural Germany at nightfall, with a small old stone-and-timber cottage visible through the trees. Warm light glows from one window. Inside, distant simple silhouettes of several thieves sit around a table with a modest feast. Keep the cabin secondary and the trees quiet.\nSubject: exactly four companion animals in the foreground: the grey-brown donkey, brown-and-white dog, grey tabby cat and orange rooster. They have paused outside the house. The rooster is perched high in a tree as described; the other three look toward the warm window, alert and curious. No animal tower.\nStyle/medium: simple children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful marks, quiet simplified background, less detail than the cover.\nComposition/framing: wide landscape around 12:7; all four animals remain distinct and readable at small reader size. Place the lit window in the middle distance, framed by simple tree shapes, with a clear separation between the animals outside and the tiny silhouettes indoors.\nLighting/mood: cool blue-grey dusk and muted forest green against a gentle warm amber window glow; suspenseful but not frightening.\nColor palette: muted grey-brown, brown and white, soft tabby grey, restrained rooster orange, sage greens, warm ivory, ochre and midnight indigo.\nConstraints: show only the discovery and pause from paragraph 3. Keep exactly four animals. Do not show the animals entering, stacking, making a noise, frightening or chasing the thieves, eating, or living in the house. No readable text, letters, numbers, signs, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic lighting and clutter."
     }
   ]
 }

@@ -18,15 +18,27 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling of the familiar plot, not a translation of the Grimms’ German text or a modern edition.",
     "licence": "Public domain (original collectors Jacob Grimm d. 1863 and Wilhelm Grimm d. 1859). This retelling and translation are original to Kanji Trail.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the four musicians’ character identities and palette.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment, the cover for the four animals’ identities and palette, and the existing first inline painting for group continuity.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
     "cover": true,
     "inline": [
       {
+        "after": 0,
+        "src": "assets/stories/bremen-no-ongakutai/02.webp?v=5f32811ee0a82ec2",
+        "width": 960,
+        "height": 560
+      },
+      {
         "after": 2,
         "src": "assets/stories/bremen-no-ongakutai/01.webp?v=ea9246b4f7468293",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/bremen-no-ongakutai/03.webp?v=49527b6d840aa0b3",
         "width": 960,
         "height": 560
       }

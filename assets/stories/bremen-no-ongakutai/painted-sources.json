@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for the four musicians’ character identities and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment, the cover for the four animals’ identities and palette, and the existing first inline painting for group continuity.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-1e0f4185-a759-4ad7-82d5-110c55e2d368.png"
+    "01.webp": "exec-1e0f4185-a759-4ad7-82d5-110c55e2d368.png",
+    "02.webp": "exec-e5473b90-f9ca-4783-8fc0-9932e728198d.png",
+    "03.webp": "exec-2f46c145-a57f-4605-a08a-cd4921b59cc9.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

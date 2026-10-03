@@ -1,0 +1,45 @@
+{
+  "unit": "bremen-no-ongakutai",
+  "title": "The Bremen Town Musicians",
+  "status": "complete",
+  "storyHashBefore": "59f2cdb5",
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "registered",
+      "reuseExisting": false,
+      "sceneDescription": "In a rural German setting, the elderly grey-brown donkey leaves a modest flour mill for the road to Bremen after losing his work. One empty flour sack rests by the mill door; no other animals have joined him yet.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-e5473b90-f9ca-4783-8fc0-9932e728198d.png",
+      "finalPath": "assets/stories/bremen-no-ongakutai/02.webp"
+    },
+    {
+      "file": "01.webp",
+      "after": 2,
+      "state": "reused_registered",
+      "reuseExisting": true,
+      "sceneDescription": "Existing image: the donkey, dog, tabby cat and orange rooster set out together along a woodland path.",
+      "finalPath": "assets/stories/bremen-no-ongakutai/01.webp"
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "state": "registered",
+      "reuseExisting": false,
+      "sceneDescription": "At dusk, the same four animals pause at the forest edge and see a warmly lit German cottage with thieves sharing a feast inside. The rooster is high in a tree; the animals remain outside and no confrontation or animal tower is shown.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-2f46c145-a57f-4605-a08a-cd4921b59cc9.png",
+      "finalPath": "assets/stories/bremen-no-ongakutai/03.webp"
+    }
+  ],
+  "note": "Generate only the two missing scenes. Preserve and reuse existing 01.webp. Story text, translations, vocabulary and reading-position hash must remain unchanged.",
+  "generationCalls": 2,
+  "storyHashAfter": "59f2cdb5",
+  "verification": {
+    "rebuiltFromStorySource": true,
+    "registeredInlineCount": 3,
+    "contentAndVocabularyDigestUnchanged": "b2c92c8eded5ed5eacc3025fa9a0d6e27c344bff19ada43a3734503d0a0d8472",
+    "allFinalDimensions": "960x560",
+    "generationCalls": 2,
+    "totalAssetBytes": 441330
+  }
+}
