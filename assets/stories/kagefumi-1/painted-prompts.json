@@ -3,11 +3,23 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference, supplied to image generation."
+      "role": "Approved inline style reference; broad smooth colour areas and gentle contours."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference; quiet backgrounds and simplified forms, supplied for the new scenes."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference; gentle painted colour treatment, supplied for the new scenes."
     },
     {
       "file": "assets/stories/kagefumi-1/cover.webp",
-      "role": "Character identity and palette guidance only, supplied to image generation."
+      "role": "Character identity and palette guidance for Haru and Sora only; not a detail target."
+    },
+    {
+      "file": "assets/stories/kagefumi-1/01.webp",
+      "role": "Existing inline image for Haru and Sora appearance and palette continuity only; not a scene or detail target."
     }
   ],
   "scenes": [
@@ -15,6 +27,16 @@
       "file": "01.webp",
       "after": 5,
       "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 1 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the chapter cover, for Haru and Sora's character identity and palette only.\nPrimary request: Show the moment an unfamiliar boy in an old wide-brimmed straw hat asks to join Haru and Sora's shadow-tag game on the shrine steps.\nScene/backdrop: A long old flight of broad stone steps on the edge of a small Japanese town, with a little shrine far above. Late summer evening, west-facing steps catching warm sunset light; quiet, simple distant shapes.\nSubject: Haru, a girl with long dark hair in a muted teal top and skirt, and her younger brother Sora, a small dark-haired boy in a light ivory shirt and blue shorts, stand near the foot of the steps. Partway up sits a friendly-looking boy about Sora's age, wearing a plain old straw hat with a wide brim and simple, modest clothes. He has just asked to join their game; the siblings look toward him. Natural child proportions and restrained expressions.\nStyle/medium: Follow Image 1's inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, a few purposeful marks and quiet simplified backgrounds. Use Image 2 only for Haru and Sora's identity and palette, not for its detailed cover rendering.\nComposition/framing: Wide landscape near 12:7, all three children readable, the stone steps lead the eye up toward the seated boy; use only a few broad layers and leave breathing room.\nLighting/mood: Soft amber evening sun, warm and gently mysterious, without menace.\nColor palette: Muted teal, ivory, blue, sage, stone grey, soft ochre and warm sunset gold.\nConstraints: Stay at the friendly invitation moment before the children play. Do not show the boy's shadow or lack of one, any detached shadow, the old photograph, a supernatural effect, the later shadow-taking event, or anything from later chapters. No text, lettering, numbers, border, watermark or decorative frame."
+    },
+    {
+      "file": "02.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline story painting for chapter 1 of “Shadow Tag on the Steps”, about 12:7 composition.\nPrimary request: depict paragraph 0’s opening setting: Haru and Sora spend the summer with their grandmother at her old home beneath the shrine steps.\n\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s character identity and palette only. Image 5 is an existing inline image and guides only the siblings’ appearance and colour continuity, not the scene or detail level.\n\nScene/backdrop: a quiet old Japanese wooden house stands immediately beside the foot of a long flight of broad stone steps on the edge of a small town. The steps rise westward toward a small shrine visible at the top. Summer greenery borders the stone. The house’s simple engawa porch opens toward the steps.\nSubject: Haru, a girl with long dark hair in a muted teal top and skirt, and her younger brother Sora, a small boy with short dark hair, an ivory shirt and blue shorts, stand together near their grandmother on the porch. Their grandmother is a kind elderly Japanese woman with soft grey hair and simple plum-coloured home clothing. They share a calm summer-afternoon moment; this is the old family home where she has lived since childhood.\nStyle/medium: children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful details, and quiet simplified backgrounds. Simpler and flatter than the story cover.\nComposition/framing: wide landscape about 12:7; the old house, the two siblings and the stone steps leading to the small shrine are all readable at thumbnail size. Keep the figures modest in scale so the setting is clear.\nLighting/mood: warm western evening sunlight falls across the steps, gentle and familiar.\nColor palette: muted teal, ivory, blue, warm stone grey, sage greens, wood brown and soft sunset gold.\nConstraints: depict only the ordinary opening family setting. Do not show the straw-hat boy, unusual shadows, shadow tag, old photo album, supernatural effects, text, lettering, numbers, shrine sign, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic lighting and clutter."
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline story painting for chapter 1 of “Shadow Tag on the Steps”, about 12:7 composition.\nPrimary request: depict paragraph 7: the western sunset touches the mountain, and Haru remembers Grandma’s warning and tells Sora they should go home.\n\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s character identity and palette only. Image 5 is an existing inline image and guides only the siblings’ appearance and colour continuity, not the scene or detail level.\n\nScene/backdrop: at the foot of the same long Japanese shrine steps, the setting sun’s lower edge has reached the western mountain. The steps rise toward the small shrine above; the low sun paints the upper sky muted orange-red.\nSubject: exactly two children, Haru and Sora. Haru, with long dark hair and muted teal clothes, turns toward her younger brother, a short dark-haired boy in an ivory shirt and blue shorts, gently urging him home. Both are on the lower steps.\nImportant visual detail: their two ordinary shadows remain naturally attached at their feet and stretch long up the stone steps as evening falls. The shadows are simple, dark and visibly connected to each child; no separate or personless shadow appears.\nStyle/medium: children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful marks and quiet simplified backgrounds. Simpler and flatter than the cover.\nComposition/framing: wide landscape about 12:7; keep both children and the two long connected shadows readable at small reader size. Let the steps lead upward into the darkening distance without revealing anything at the top.\nLighting/mood: last warm red-gold sunset fading into cool evening stone and indigo.\nColor palette: muted teal, ivory, blue, stone grey, sage, restrained orange-red and midnight indigo.\nConstraints: depict only the moment of deciding to return home before the next event. Show exactly two children. Do not show the straw-hat boy, a third figure, a detached or missing shadow, shadows peeling away, magical effects, the old photo album, text, lettering, numbers, shrine signs, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic horror lighting and clutter."
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "unit": "kagefumi-1",
+  "title": "Shadow Tag on the Steps",
+  "status": "complete",
+  "storyHashBefore": "ed2889e1",
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "Opening setting in summer: Haru and Sora spend the day with their grandmother at the old Japanese wooden house at the foot of one hundred west-facing stone steps, with a small shrine high above.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-7e1b5afb-82b6-4a39-a655-9fe3d886b676.png",
+      "bytes": 151960,
+      "dimensions": "960x559"
+    },
+    {
+      "file": "01.webp",
+      "after": 5,
+      "state": "reused_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Existing image: the unfamiliar boy in a straw hat invites Haru and Sora to join their shadow-tag game on the shrine steps."
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "As sunset reaches the western mountain, Haru and Sora turn toward home while their ordinary attached shadows stretch long across the stone steps. Do not show the mysterious boy or detached shadows.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-e7280b02-8da5-4c1a-b39d-f7aa0f4ae56a.png",
+      "bytes": 152498,
+      "dimensions": "960x560"
+    }
+  ],
+  "note": "Generate only the two missing scenes. Preserve and reuse existing 01.webp. Story text, translations, vocabulary and reading-position hash must remain unchanged.",
+  "generationTool": "OpenAI built-in image generation",
+  "generationCalls": 2,
+  "exportedBytes": {
+    "01.webp": 147162,
+    "02.webp": 151960,
+    "03.webp": 152498
+  },
+  "storyHashAfter": "ed2889e1",
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "totalAssetBytes": 451620,
+  "totalAssetBudgetBytes": 460800,
+  "dimensions": {
+    "01.webp": "960x560",
+    "02.webp": "960x559",
+    "03.webp": "960x560"
+  }
+}

@@ -32,15 +32,27 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for Level 4. 影ふみ (shadow tag) is a real Japanese children’s game in which you win by stepping on another player’s shadow, and marking children’s heights on a wooden pillar each year is a familiar Japanese household custom. The saying about sunset, the magic, the town and every character are invented; no published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru and Sora's character identity and palette.",
+    "illustrations": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. Haru and Sora's chapter cover guides their identity and palette; the existing first painting is reused for continuity, and the two new paintings were generated with OpenAI built-in image generation.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
     "cover": true,
     "inline": [
       {
+        "after": 0,
+        "src": "assets/stories/kagefumi-1/02.webp?v=cb68a30afd4a6223",
+        "width": 960,
+        "height": 559
+      },
+      {
         "after": 5,
         "src": "assets/stories/kagefumi-1/01.webp?v=99548d489a067a6a",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 7,
+        "src": "assets/stories/kagefumi-1/03.webp?v=e26457898085e03a",
         "width": 960,
         "height": 560
       }
