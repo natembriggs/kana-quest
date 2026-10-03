@@ -3,11 +3,23 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied to the new scenes."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied to the new scenes."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied to the new scenes."
     },
     {
       "file": "assets/stories/ali-baba/cover.webp",
-      "role": "Ali Baba’s character identity and palette only; supplied as image input."
+      "role": "Ali Baba’s character identity and palette only; not used as the inline detail target."
+    },
+    {
+      "file": "assets/stories/ali-baba/01.webp",
+      "role": "Existing first inline image supplied to the new scenes for Ali Baba’s clothing and character continuity only."
     }
   ],
   "scenes": [
@@ -15,6 +27,21 @@
       "file": "01.webp",
       "after": 1,
       "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for “Ali Baba and the Forty Thieves”\nPrimary request: depict the end of paragraph 1: Ali Baba hides high in a tree as a group of mounted thieves reaches a rock face, and the chief's words cause a hidden entrance to open.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides Ali Baba's character identity and palette only.\nScene/backdrop: a quiet rocky clearing in a Persian mountain forest, with one broad old tree in the foreground and a simple rock face beyond it.\nSubject: Ali Baba, a woodcutter wearing the same wrapped blue headcloth, ochre tunic and dark vest as the cover, peers cautiously from a low branch. In the distance, mounted travelers with a few heavy sacks gather before the rock; the chief stands at the opening as a concealed stone doorway slides aside. No treasure is visible inside.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful details and a quiet simplified background; simpler than the cover.\nComposition/framing: wide landscape about 12:7, tree and hidden Ali Baba large in one foreground area, the small riders and opening readable in the opposite midground, balanced open rock and foliage.\nLighting/mood: soft late afternoon forest light, hushed and suspenseful.\nColor palette: warm ochre, natural stone grey, muted leaf green, soft blue shadows and a small dark opening.\nConstraints: show only the arrival and opening described in paragraph 1. Do not show cave treasure or any later events. No lettering, numbers, labels, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, violence, clutter, text."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for Kanji Trail’s original retelling of Ali Baba and the Forty Thieves from the Arabian Nights\nPrimary request: depict the end of paragraph 2: Ali Baba opens the cave, discovers its treasure, and takes only three sacks of gold home.\nInput images: Images 1–3 are approved Kasa Jizō inline paintings and guide only the simple broad-shape treatment. Image 4 guides Ali Baba’s identity and palette only. Image 5 is the existing first inline painting and guides Ali Baba’s clothing and character continuity only; do not copy its richer detail.\nScene/backdrop: the mouth of a broad cave in the rocky Persian mountain forest, with the open rock entrance and a quiet view toward the forest outside.\nSubject: Ali Baba, with the same navy wrapped headcloth, ochre tunic and dark vest seen in Images 4–5, stands at the cave threshold. Beyond him, broad simple heaps of gold coins, silver coins and folded colourful cloth fill the cave. He takes only three small tied sacks of gold; his three donkeys wait outside with one sack each.\nStyle/medium: simple children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, and quiet backgrounds, much simpler than the cover and existing first image.\nComposition/framing: wide landscape about 12:7; make Ali Baba and the three sacks the clear focal point, with the treasure and three donkeys readable in two or three broad depth layers.\nLighting/mood: soft daylight from the cave entrance, wonder without menace.\nColor palette: warm ochre, muted gold, natural stone grey, deep indigo, restrained teal and quiet forest green.\nConstraints: the story is explicitly set in Persia; use a respectful Persian folktale setting and clothing, not Japanese scenery and not caricatured exotic motifs. Show only the discovery and modest taking of treasure from paragraph 2. No thieves, no violence, no visible words or symbols, no lettering, labels, border, frame or watermark.\nAvoid: photorealism, glossy 3D, rich cover texture, dense brushwork, busy background, threatening mood, clutter, text.",
+      "generatedOriginal": "exec-2e06a136-eef0-45d3-9771-1d8e4c361278.png",
+      "status": "registered and rebuilt"
+    },
+    {
+      "file": "03.webp",
+      "after": 9,
+      "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for Kanji Trail’s original retelling of Ali Baba and the Forty Thieves from the Arabian Nights\nPrimary request: depict the end of paragraph 9: Ali Baba frees Morgiana and welcomes her as his son’s wife; the three begin a peaceful life together.\nInput images: Images 1–3 are approved Kasa Jizō inline paintings and guide only the simple broad-shape treatment. Image 4 guides Ali Baba’s character identity and palette only. Image 5 is the existing first inline painting and guides Ali Baba’s clothing and character continuity only; do not copy its richer detail.\nScene/backdrop: a quiet Persian home courtyard in soft evening light, with a simple arched doorway, one leafy potted plant and a plain low table.\nSubject: Ali Baba, in his familiar navy wrapped headcloth, ochre tunic and dark vest, warmly welcomes Morgiana and his adult son into the household. Morgiana is a young Persian woman with dark hair in a simple muted-plum and sage outfit; the son wears understated cream and indigo clothing. Their expressions are relieved and kind. A small cloth pouch with a few gold coins rests on the table, suggesting the treasure they will use gradually.\nStyle/medium: simple children’s picture-book painting in the approved Kasa Jizō inline treatment, broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, and a quiet simplified background, much simpler than the cover.\nComposition/framing: wide landscape about 12:7; show all three family members in one calm welcoming moment, with clear silhouettes and only two or three broad depth layers.\nLighting/mood: gentle warm evening light, gratitude, freedom and a hopeful new beginning.\nColor palette: warm ivory, muted gold, sage, terracotta, deep indigo and quiet stone neutrals.\nConstraints: the source tale is set in Persia; use a respectful Persian folktale home setting and clothing, not Japanese scenery and not caricatured exotic motifs. Show only the peaceful final scene described by paragraph 9. No thieves, weapons, violence, wedding pageantry, lettering, labels, border, frame or watermark.\nAvoid: photorealism, glossy 3D, rich cover texture, dense brushwork, clutter, exaggerated expressions, text.",
+      "generatedOriginal": "exec-83e33231-a152-42bc-a368-d43a4f2a7888.png",
+      "status": "registered and rebuilt"
     }
-  ]
+  ],
+  "generationNotes": "The two missing scenes were each generated with a separate text-plus-reference call through OpenAI built-in image generation. The approved Kasa Jizō paintings guided the simpler inline treatment; the story cover guided Ali Baba’s identity and palette, and 01.webp guided his continuity only. Generated originals are retained in the task’s built-in generated-images folder."
 }

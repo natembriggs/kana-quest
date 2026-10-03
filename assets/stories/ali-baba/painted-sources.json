@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Ali Baba’s character identity and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved simple Kasa Jizō inline treatment and the cover for Ali Baba’s identity and palette.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-701c6032-67db-4e4e-8e52-2785e3b845e2.png"
+    "01.webp": "exec-701c6032-67db-4e4e-8e52-2785e3b845e2.png",
+    "02.webp": "exec-2e06a136-eef0-45d3-9771-1d8e4c361278.png",
+    "03.webp": "exec-83e33231-a152-42bc-a368-d43a4f2a7888.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

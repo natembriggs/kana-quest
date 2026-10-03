@@ -1,0 +1,49 @@
+{
+  "storyId": "ali-baba",
+  "title": "Ali Baba and the Forty Thieves",
+  "status": "complete",
+  "baseline": {
+    "readingPositionHash": "e1165288",
+    "paragraphCount": 10,
+    "existingInline": [
+      {
+        "file": "01.webp",
+        "after": 1,
+        "reuse": true,
+        "scene": "Ali Baba hides in a tree as the mounted thieves arrive at the rock face and their chief opens the hidden entrance."
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "reuse": true,
+      "status": "registered and rebuilt",
+      "scene": "Ali Baba hides in a tree as the mounted thieves arrive at the rock face and their chief opens the hidden entrance.",
+      "generatedOriginal": "exec-701c6032-67db-4e4e-8e52-2785e3b845e2.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0df87-b427-7a91-b801-c43a554a105c"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "reuse": false,
+      "status": "registered and rebuilt",
+      "scene": "After the thieves leave, Ali Baba opens the cave and discovers heaps of gold coins, silver coins and folded beautiful cloth; outside, he takes only three sacks of gold and loads them onto his three donkeys.",
+      "generatedOriginal": "exec-2e06a136-eef0-45d3-9771-1d8e4c361278.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02"
+    },
+    {
+      "file": "03.webp",
+      "after": 9,
+      "reuse": false,
+      "status": "registered and rebuilt",
+      "scene": "In a peaceful Persian courtyard, Ali Baba warmly welcomes Morgiana and his son into the family; the three share a quiet meal and a modest pouch of treasure rests nearby, suggesting their new life.",
+      "generatedOriginal": "exec-83e33231-a152-42bc-a368-d43a4f2a7888.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02"
+    }
+  ],
+  "generationCalls": 2,
+  "thisRunGenerationCalls": 2,
+  "nextAction": "Complete. Three inline paintings are registered, built, and verified; reading-position hash remains e1165288."
+}
