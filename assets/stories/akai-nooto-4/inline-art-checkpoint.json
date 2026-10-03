@@ -1,0 +1,111 @@
+{
+  "storyId": "akai-nooto-4",
+  "title": "One Missing",
+  "status": "complete and rebuild verified",
+  "baseline": {
+    "readingPositionHash": "2b8ac911",
+    "paragraphCount": 5,
+    "existingInline": [
+      {
+        "file": "01.webp",
+        "after": 3,
+        "reuse": true,
+        "scene": "Firefighters find Ren's red schoolbag by the small opening of an old drainage tunnel below the collapsed road, in heavy rain. Keep the discovery and danger subdued; do not show Ren or any rescue outcome."
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "reuse": false,
+      "status": "registered and verified",
+      "scene": "At a roadside assembly area after the Japanese school excursion coach has stopped before the landslide, Mika's mother speaks urgently to a local police officer while the teacher checks the attendance register and Mika calls toward the bus. Use a modest white Japanese chartered coach, not a yellow American school bus; no lettering.",
+      "generatedOriginal": "exec-f24c6fdd-4cf2-4470-ac91-6f1c2d929b6e.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02",
+      "export": {
+        "width": 960,
+        "height": 559,
+        "bytes": 118568
+      }
+    },
+    {
+      "file": "03.webp",
+      "after": 2,
+      "reuse": false,
+      "status": "registered and verified",
+      "scene": "Mika tells her mother about Ren's old town map; her mother immediately shows the simple hand-drawn map to a Japanese police officer. Suggest a small Japanese town and an old waterway route without readable labels or text.",
+      "generatedOriginal": "exec-20e0e0cf-3dad-497f-a314-64db7c603dec.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02",
+      "export": {
+        "width": 960,
+        "height": 559,
+        "bytes": 84206
+      }
+    },
+    {
+      "file": "01.webp",
+      "after": 3,
+      "reuse": true,
+      "status": "registered and verified",
+      "scene": "Firefighters find Ren's red schoolbag by the small opening of an old drainage tunnel below the collapsed road, in heavy rain."
+    }
+  ],
+  "nextAction": null,
+  "imageBytes": {
+    "01.webp": {
+      "width": 960,
+      "height": 560,
+      "bytes": 124180
+    },
+    "02.webp": {
+      "width": 960,
+      "height": 559,
+      "bytes": 118568
+    },
+    "03.webp": {
+      "width": 960,
+      "height": 559,
+      "bytes": 84206
+    }
+  },
+  "totalBytes": 326954,
+  "existing01Unchanged": true,
+  "unitBatch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "generationCalls": 2,
+  "verification": {
+    "readingPositionHash": "2b8ac911",
+    "storyBodyUnchanged": true,
+    "translationsUnchanged": true,
+    "vocabularyUnchanged": true,
+    "placements": [
+      0,
+      2,
+      3
+    ],
+    "registeredAssets": [
+      "assets/stories/akai-nooto-4/02.webp",
+      "assets/stories/akai-nooto-4/03.webp",
+      "assets/stories/akai-nooto-4/01.webp"
+    ],
+    "imageBytes": {
+      "01.webp": {
+        "width": 960,
+        "height": 560,
+        "bytes": 124180
+      },
+      "02.webp": {
+        "width": 960,
+        "height": 559,
+        "bytes": 118568
+      },
+      "03.webp": {
+        "width": 960,
+        "height": 559,
+        "bytes": 84206
+      }
+    },
+    "totalBytes": 326954,
+    "existing01Unchanged": true
+  }
+}
