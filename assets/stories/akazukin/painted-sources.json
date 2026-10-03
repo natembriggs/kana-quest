@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Little Red Riding Hood’s character identity and palette.",
-  "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Little Red Riding Hood’s character identity and palette.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-4532a82a-14d4-459e-a543-4b2689a5418a.png"
+    "01.webp": "exec-4532a82a-14d4-459e-a543-4b2689a5418a.png",
+    "02.webp": "exec-b8c97cd5-d8d9-4997-8a30-3b0b2abd57dd.png",
+    "03.webp": "exec-eb11e70a-58ab-49ef-ad3a-a8c682059151.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

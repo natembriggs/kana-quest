@@ -17,9 +17,9 @@ const redRidingHood = expandStory({
       'An original graded retelling with a non-violent rescue, drawing on common public-domain motifs rather than one edition.',
       'Public domain (traditional fairy tale). This retelling and its English translation are original to Kanji Trail.',
     ),
-    illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Little Red Riding Hood’s character identity and palette.",
+    illustrations: "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Little Red Riding Hood’s character identity and palette.",
   },
-  art: { inline: [{ after: 1, file: '01.webp' }] },
+  art: { inline: [{ after: 1, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 6, file: '03.webp' }] },
   nw: ['赤ずきん', 'オオカミ', '猟師', '物置'],
   lexicon: lexicon({
     '小[ちい]さな': ['little, small', 'adj'],

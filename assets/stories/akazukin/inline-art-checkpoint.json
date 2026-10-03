@@ -1,0 +1,43 @@
+{
+  "storyId": "akazukin",
+  "title": "Little Red Riding Hood",
+  "status": "complete",
+  "baseline": {
+    "readingPositionHash": "749165b8",
+    "paragraphCount": 7,
+    "existingInline": [
+      {
+        "file": "01.webp",
+        "after": 1,
+        "reuse": true,
+        "scene": "Little Red Riding Hood sets out from the village for her grandmother's cottage, carrying bread and jam in a basket; her mother remains by the doorway."
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "01.webp",
+      "after": 1,
+      "reuse": true,
+      "status": "registered and rebuilt",
+      "scene": "Little Red Riding Hood sets out from the village for her grandmother's cottage, carrying bread and jam in a basket; her mother remains by the doorway."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "reuse": false,
+      "status": "registered and rebuilt",
+      "scene": "On a quiet forest path, the red-hooded girl pauses to pick a few flowers away from the path while a large wolf gestures toward them with a gentle voice and a sly expression. Keep the European fairy-tale woodland setting from the source and cover; no danger or chase.",
+      "generatedOriginal": "exec-b8c97cd5-d8d9-4997-8a30-3b0b2abd57dd.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02"
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "reuse": false,
+      "status": "registered and rebuilt",
+      "scene": "In the grandmother's cottage after the danger has passed, Little Red Riding Hood, her recovered grandmother, and the helpful hunter share bread and jam at a small table. The wolf is absent; the mood is warm and reflective."
+    }
+  ],
+  "nextAction": "Complete. Three inline paintings are registered, built, and verified; reading-position hash remains 749165b8."
+}
