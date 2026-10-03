@@ -1,0 +1,111 @@
+{
+  "storyId": "akai-nooto-5",
+  "title": "The Unwritten Morning",
+  "status": "complete and rebuild verified",
+  "baseline": {
+    "readingPositionHash": "d8b0feea",
+    "paragraphCount": 5,
+    "existingInline": [
+      {
+        "file": "01.webp",
+        "after": 1,
+        "reuse": true,
+        "scene": "From inside the shop, Mika sees a firefighter signalling from the rain-darkened riverbank behind the library; Ren is not yet visible."
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "reuse": false,
+      "status": "registered and verified",
+      "scene": "Inside a small Japanese neighbourhood shop, Mika's mother points to the riverbank behind the library on an unlabeled folded town map while giving the police the location by phone. Mika and Ms Sato listen; rain softens the window and simple shop shelves. No rescue or Ren is shown.",
+      "generatedOriginal": "exec-f029437b-8725-44e1-b76a-4fd0cca169dd.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02",
+      "export": {
+        "width": 960,
+        "height": 559,
+        "bytes": 84318
+      }
+    },
+    {
+      "file": "01.webp",
+      "after": 1,
+      "reuse": true,
+      "status": "registered and verified",
+      "scene": "Mika sees a firefighter waving from the riverbank through the shop window while rain falls; Ren is not beside the firefighter."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "reuse": false,
+      "status": "registered and verified",
+      "scene": "At the shop entrance in the rain, Mika grips Ren's hand as he stands on his own, muddy but uninjured, with a blanket around his shoulders. Their mother and a Japanese firefighter join them; keep the reunion gentle and no disaster spectacle.",
+      "generatedOriginal": "exec-6f0df7e6-5ae8-4fbd-bad0-6e14a65525ef.png",
+      "generatedIn": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02",
+      "export": {
+        "width": 960,
+        "height": 559,
+        "bytes": 96708
+      }
+    }
+  ],
+  "nextAction": null,
+  "imageBytes": {
+    "01.webp": {
+      "width": 960,
+      "height": 560,
+      "bytes": 102520
+    },
+    "02.webp": {
+      "width": 960,
+      "height": 559,
+      "bytes": 84318
+    },
+    "03.webp": {
+      "width": 960,
+      "height": 559,
+      "bytes": 96708
+    }
+  },
+  "totalBytes": 283546,
+  "existing01Unchanged": true,
+  "unitBatch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "generationCalls": 2,
+  "verification": {
+    "readingPositionHash": "d8b0feea",
+    "storyBodyUnchanged": true,
+    "translationsUnchanged": true,
+    "vocabularyUnchanged": true,
+    "placements": [
+      0,
+      1,
+      3
+    ],
+    "registeredAssets": [
+      "assets/stories/akai-nooto-5/02.webp",
+      "assets/stories/akai-nooto-5/01.webp",
+      "assets/stories/akai-nooto-5/03.webp"
+    ],
+    "imageBytes": {
+      "01.webp": {
+        "width": 960,
+        "height": 560,
+        "bytes": 102520
+      },
+      "02.webp": {
+        "width": 960,
+        "height": 559,
+        "bytes": 84318
+      },
+      "03.webp": {
+        "width": 960,
+        "height": 559,
+        "bytes": 96708
+      }
+    },
+    "totalBytes": 283546,
+    "existing01Unchanged": true
+  }
+}
