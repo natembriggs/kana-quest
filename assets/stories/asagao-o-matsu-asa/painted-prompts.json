@@ -3,11 +3,15 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input."
+      "role": "Approved simple inline style reference for broad smooth colour areas and gentle contours; supplied as image input for both new scenes."
     },
     {
       "file": "assets/stories/asagao-o-matsu-asa/cover.webp",
-      "role": "Kenta’s character identity and palette only; supplied as image input."
+      "role": "Kenta’s character identity and palette only; supplied as image input for both new scenes."
+    },
+    {
+      "file": "assets/stories/asagao-o-matsu-asa/01.webp",
+      "role": "Grandmother’s character identity and clothing only; supplied as image input for the predawn scene."
     }
   ],
   "scenes": [
@@ -15,6 +19,16 @@
       "file": "01.webp",
       "after": 3,
       "prompt": "Use case: illustration-story\nAsset type: landscape inline story painting for “Waiting for the Morning Glories”\nPrimary request: depict the end of paragraph 3: on an evening balcony, Kenta's grandmother points out the faint blue tip of the largest morning-glory bud.\nInput images: Image 1 is the approved simple inline style reference for broad smooth colour areas and gentle contours. Image 2 guides Kenta's character identity and palette only.\nScene/backdrop: a quiet apartment balcony in late summer, with a potted morning-glory vine on a simple support and soft shapes of nearby homes beyond the railing.\nSubject: Kenta, the short dark-haired boy in a plain ivory T-shirt and navy shorts from the cover, leans close to the plant. His grandmother, a kind older woman with soft grey hair and a muted lavender cardigan, points gently to the largest closed bud, where a tiny hint of blue shows at its tip.\nStyle/medium: gentle children's picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful details, a quiet simplified background, simpler than the cover.\nComposition/framing: wide landscape about 12:7, Kenta, grandmother's pointing hand and the small blue-tipped bud clearly readable; keep the plant recognizable but uncluttered.\nLighting/mood: warm subdued evening light, attentive and gently hopeful.\nColor palette: soft leaf green, muted lavender, warm ivory, navy blue and a restrained small touch of flower blue.\nConstraints: show only the discovery from paragraph 3, with a single closed bud showing just a little blue. No open flowers, diary writing, lettering, numbers, labels, symbols, border, frame, or watermark.\nAvoid: photorealism, glossy 3D, dense brush texture, dramatic lighting, clutter, text."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story.\nAsset: landscape inline painting for “Waiting for the Morning Glories”, intended aspect ratio about 12:7 (960×560 composition).\nPrimary request: depict the end of paragraph 1, when Kenta has hurried out to the balcony and finds that not a single flower is open.\n\nInput images: Image 1 is the approved simple Kasa Jizō inline style reference only. Image 2 guides Kenta’s character identity and palette only.\n\nScene: a quiet afternoon on a modest Japanese apartment balcony in late summer, with a sliding glass door, a simple balcony railing, and soft shapes of nearby Japanese homes beyond. A potted morning-glory vine climbs a light bamboo or thin garden support.\nSubject: Kenta, the same short dark-haired boy wearing a plain ivory T-shirt and navy shorts, leans close to inspect the plant. Show exactly five small closed buds; their tips look slightly wilted. No flowers are open. His face shows mild worry and curiosity, not distress.\nStyle: gentle children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background, and much simpler detail than the cover.\nComposition: wide landscape framing; Kenta, the potted vine and five closed buds remain clear at reader thumbnail size. Warm muted afternoon light, calm mood. Palette of leaf green, warm ivory, navy, muted terracotta and soft summer gold.\nConstraints: match only the balcony and closed-bud moment in paragraph 1. Keep the buds closed; do not show a blue tip, open flowers, grandmother, diary, writing, text, numbers, labels, signs, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic lighting and clutter."
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "prompt": "Use case: illustration-story.\nAsset: landscape inline painting for “Waiting for the Morning Glories”, intended aspect ratio about 12:7.\nPrimary request: depict paragraph 5 at cool predawn, as the morning glories slowly open in front of Kenta.\n\nInput images: Image 1 is the approved simple Kasa Jizō inline style reference only. Image 2 guides Kenta’s character identity and palette only. Image 3 guides the grandmother’s character identity and clothing only.\n\nScene: the same quiet Japanese apartment balcony and potted morning-glory vine from the existing scene. The sky is a soft pale blue-grey just before sunrise. Kenta and his grandmother sit beside the pot with one plain glass of cold barley tea each. They have quietly waited together, leaning toward the vine as dawn begins.\nSubject: the same short dark-haired boy in an ivory T-shirt and navy shorts, and the same kind elderly woman with soft grey hair and a muted lavender cardigan. Show exactly three clear blue morning-glory flowers, opening gently on the vine, with only a few remaining closed buds. Their expressions are attentive and quietly delighted.\nStyle: children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background, simpler than the cover. Match the calm character palette without copying the cover’s detailed texture.\nComposition: wide landscape; the pair, potted vine, all three blue flowers and two small glasses read clearly at thumbnail size. Cool predawn light with a faint warm glow from a nearby kitchen window.\nConstraints: show only the early-morning opening moment from paragraph 5. Keep exactly three blue flowers. No diary, readable writing, lettering, numbers, labels, signs, border, frame or watermark.\nAvoid photorealism, glossy 3D, dense brush texture, dramatic lighting and clutter."
     }
   ]
 }

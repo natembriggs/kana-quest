@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Kenta’s character identity and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment, the cover for Kenta’s character identity and palette, and the existing first inline painting for the grandmother’s identity.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-ee288a03-d085-40f7-828f-8d6870b8d23a.png"
+    "01.webp": "exec-ee288a03-d085-40f7-828f-8d6870b8d23a.png",
+    "02.webp": "exec-9220073a-0275-48fc-b80a-1059a1ed51de.png",
+    "03.webp": "exec-60e8854d-cf6d-4b7e-b80d-3183fcd2214b.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

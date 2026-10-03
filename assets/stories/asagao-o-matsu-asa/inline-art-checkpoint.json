@@ -1,0 +1,44 @@
+{
+  "unit": "asagao-o-matsu-asa",
+  "title": "Waiting for the Morning Glories",
+  "status": "complete",
+  "storyHashBefore": "19f1553f",
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 1,
+      "state": "registered",
+      "reuseExisting": false,
+      "sceneDescription": "Afternoon on a modest Japanese apartment balcony: Kenta has hurried outside and leans toward the potted morning glory, studying its five closed buds, whose tips look slightly wilted. Keep the buds closed and show no open flowers.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-9220073a-0275-48fc-b80a-1059a1ed51de.png",
+      "finalPath": "assets/stories/asagao-o-matsu-asa/02.webp"
+    },
+    {
+      "file": "01.webp",
+      "after": 3,
+      "state": "reused_registered",
+      "reuseExisting": true,
+      "sceneDescription": "Existing image: Kenta and his grandmother notice a tiny blue tip on the largest closed bud at dusk.",
+      "finalPath": "assets/stories/asagao-o-matsu-asa/01.webp"
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "state": "registered",
+      "reuseExisting": false,
+      "sceneDescription": "Cool predawn on the same Japanese apartment balcony: Kenta and his grandmother sit by the pot with two simple glasses of barley tea as exactly three blue morning-glory flowers slowly open. Pale dawn light begins to soften the sky.",
+      "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-60e8854d-cf6d-4b7e-b80d-3183fcd2214b.png",
+      "finalPath": "assets/stories/asagao-o-matsu-asa/03.webp"
+    }
+  ],
+  "note": "Only the two missing scenes are to be generated. Existing 01.webp is preserved and reused. Story text, translations, vocabulary and reading-position hash must remain unchanged.",
+  "generationCalls": 2,
+  "storyHashAfter": "19f1553f",
+  "verification": {
+    "rebuiltFromStorySource": true,
+    "registeredInlineCount": 3,
+    "contentAndVocabularyDigestUnchanged": "baf7d5da5c5c61a6143806b6d377268e3079d6cc970a4b457f9f3ca68e10c342",
+    "allFinalDimensions": "960x560",
+    "generatedImageCalls": 2
+  }
+}
