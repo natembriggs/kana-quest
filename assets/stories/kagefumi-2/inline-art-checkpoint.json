@@ -1,0 +1,73 @@
+{
+  "unit": "kagefumi-2",
+  "title": "A Morning Without a Shadow",
+  "status": "complete",
+  "storyHashBefore": "b9d19bf0",
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "state": "reused_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Existing image: Haru enters the sunny family kitchen while Sora eats breakfast; furniture casts sharp shadows, but Sora has none."
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "In front of the family home on a quiet Japanese neighborhood lane, Mrs Yamada waters flowers and greets Haru without looking toward Sora. Sora squeezes Haru’s hand. Morning light, restrained domestic background, no visible writing.",
+      "attempts": [
+        {
+          "call": 1,
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-7f4e7c29-d96e-4e78-8469-808ddf230163.png",
+          "validation": "The generated scene shows a cast shadow beneath Sora, contradicting the chapter’s established missing-shadow condition.",
+          "prompt": "Use case: illustration-story.\nAsset type: landscape inline painting for chapter 2 of the graded Japanese reader “A Morning Without a Shadow”, about 12:7 composition.\nPrimary request: depict paragraph 4: Mrs Yamada greets Haru in front of the house but does not look toward Sora, as Sora squeezes Haru’s hand.\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s identity and palette only. Image 5 is the existing chapter illustration and guides only the siblings’ appearance and palette continuity, not the scene or detail level.\nScene/backdrop: a quiet residential lane in a small Japanese town beside a modest Japanese family home, simple tiled roof and wooden entry, a few flowerpots outside. Soft morning sunlight. Keep the background calm and uncluttered.\nSubject: exactly three people. Haru is a girl with long dark hair in muted teal clothes; Sora is her younger brother, a small dark-haired boy in an ivory shirt and blue shorts. They stand together on the path, with Sora holding Haru’s hand tightly. Their neighbor Mrs Yamada, a friendly middle-aged Japanese woman in simple everyday clothes, waters flowers with a small watering can and smiles toward Haru. She does not turn or look toward Sora, who stands clearly beside his sister.\nStyle/medium: children’s picture-book painting with the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful marks and quiet simplified backgrounds. Much simpler than either cover.\nComposition/framing: wide landscape about 12:7; all three people and Sora holding Haru’s hand are readable at thumbnail size. Place the neighbor and flowers to one side, leaving open space around the siblings.\nLighting/mood: clear gentle morning light; quiet, tender and unsettling without horror.\nColor palette: warm ivory, muted teal, blue, soft sage, wood brown, and a few restrained flower colours.\nConstraints: show only the moment from paragraph 4. Exactly three people; do not show anyone else. Keep Sora fully visible beside Haru even as the neighbor ignores him. No visible writing or signs, text, lettering, numbers, border, watermark, decorative frame, supernatural glow, ghosts, or detached shadows.\nAvoid American suburban cues, photorealism, glossy 3D, dense brush texture, dramatic lighting, and clutter."
+        },
+        {
+          "call": 2,
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-bcf50288-8b8a-44b2-8569-fce377070e50.png",
+          "validation": "Accepted on visual review: Sora is holding Haru’s hand, Mrs Yamada looks toward Haru and not Sora, the Japanese residential setting matches paragraph 4, and no distinct cast shadow is visible from Sora.",
+          "prompt": "Use case: illustration-story.\nAsset type: landscape inline painting for chapter 2 of the graded Japanese reader “A Morning Without a Shadow”, about 12:7 composition.\nPrimary request: depict paragraph 4: Mrs Yamada greets Haru in front of the house but does not look toward Sora, as Sora squeezes Haru’s hand.\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s identity and palette only. Image 5 is the existing chapter illustration and guides only the siblings’ appearance and palette continuity, not the scene or detail level.\nScene/backdrop: a quiet residential lane in a small Japanese town beside a modest Japanese family home, simple tiled roof and wooden entry, a few flowerpots outside. Soft morning sunlight. Keep the background calm and uncluttered.\nSubject: exactly three people. Haru is a girl with long dark hair in muted teal clothes; Sora is her younger brother, a small dark-haired boy in an ivory shirt and blue shorts. They stand together on the path, with Sora holding Haru’s hand tightly. Their neighbor Mrs Yamada, a friendly middle-aged Japanese woman in simple everyday clothes, waters flowers with a small watering can and smiles toward Haru. She does not turn or look toward Sora, who stands clearly beside his sister.\nCritical continuity: Sora has lost his shadow. Do not draw any shadow, dark patch, silhouette, or cast shadow beneath or behind Sora. Haru and Mrs Yamada may cast ordinary shadows; Sora must cast none, even though the morning light is bright.\nStyle/medium: children’s picture-book painting with the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful marks and quiet simplified backgrounds. Much simpler than either cover.\nComposition/framing: wide landscape about 12:7; all three people and Sora holding Haru’s hand are readable at thumbnail size. Place the neighbor and flowers to one side, leaving open space around the siblings.\nLighting/mood: clear gentle morning light; quiet, tender and unsettling without horror.\nColor palette: warm ivory, muted teal, blue, soft sage, wood brown, and a few restrained flower colours.\nConstraints: show only the moment from paragraph 4. Exactly three people; do not show anyone else. Keep Sora fully visible beside Haru even as the neighbor ignores him. No visible writing or signs, text, lettering, numbers, border, watermark, decorative frame, supernatural glow, ghosts, detached shadows, or extra figures.\nAvoid American suburban cues, photorealism, glossy 3D, dense brush texture, dramatic lighting, and clutter."
+        }
+      ],
+      "bytes": 152514,
+      "dimensions": "960x560"
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "At the red shrine steps in sunset light, Haru and Sora wait below as the straw-hat boy sits halfway up. A single clear child-shaped shadow lies at his feet; the children recognize it as Sora’s. Depict only this reveal, no later dialogue or events.",
+      "bytes": 152262,
+      "dimensions": "960x560"
+    }
+  ],
+  "generationCalls": 3,
+  "note": "Generate only 02.webp and 03.webp. Preserve and reuse existing 01.webp. Keep all story text, translations, vocabulary, and reading-position hashes unchanged.",
+  "generationCallsThisRun": 0,
+  "exporterAttemptThisRun": 1,
+  "exporterStatus": "success",
+  "exporterAttemptCount": 2,
+  "exportedBytes": {
+    "01.webp": 73932,
+    "02.webp": 152514,
+    "03.webp": 152262
+  },
+  "dimensions": {
+    "01.webp": "960x560",
+    "02.webp": "960x560",
+    "03.webp": "960x560"
+  },
+  "totalAssetBytes": 378708,
+  "totalAssetBudgetBytes": 460800,
+  "storyHashAfter": "b9d19bf0",
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true
+}

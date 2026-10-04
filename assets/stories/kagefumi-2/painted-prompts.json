@@ -3,11 +3,27 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference, supplied to image generation."
+      "role": "Approved inline style reference; broad smooth colour areas and gentle contours."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference; quiet backgrounds and simplified forms."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference; gentle painted colour treatment."
     },
     {
       "file": "assets/stories/kagefumi-2/cover.webp",
-      "role": "Character identity and palette guidance only, supplied to image generation."
+      "role": "Haru and Sora identity and palette only; not a detail target."
+    },
+    {
+      "file": "assets/stories/kagefumi-2/01.webp",
+      "role": "Existing inline image for the siblings’ identity and colour continuity only."
+    },
+    {
+      "file": "assets/stories/kagefumi-1/01.webp",
+      "role": "Straw-hat boy identity and hat only; do not copy the scene or detail."
     }
   ],
   "scenes": [
@@ -15,6 +31,16 @@
       "file": "01.webp",
       "after": 0,
       "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 2 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the shared series cover, for Haru and Sora's character identity and palette only.\nPrimary request: Illustrate the first morning after Sora has lost his shadow, as Haru notices the sunny kitchen floor has clear shadows from the furniture but none from Sora.\nScene/backdrop: A quiet, modest family kitchen in morning light, with a simple table and chairs near a window. Warm sun falls across a wood floor; keep the room uncluttered and background shapes restrained.\nSubject: Sora, a small dark-haired boy in a light ivory shirt and blue shorts, sits at the table by the window eating breakfast. Haru, his older sister with long dark hair and muted teal clothes, has just come into the room and looks toward him with worried surprise. The table legs and chairs cast clear, sharp shadows on the floor, while the sunny patch immediately around Sora's feet has no cast shadow.\nStyle/medium: Follow Image 1's inline treatment: broad mostly smooth colour areas, gentle contours, minimal surface texture, a few purposeful marks, and a quiet simplified background. Use Image 2 only for Haru and Sora's character identity and palette, not for its cover detail.\nComposition/framing: Wide landscape near 12:7, both children and the contrasting floor shadows readable at small size; simple three-quarter room view with comfortable breathing room.\nLighting/mood: Clear soft morning sunlight, quiet and concerned rather than frightening.\nColor palette: Warm ivory, soft ochre sunlight, restrained teal, blue, sage, and muted wood brown.\nConstraints: Show only this opening morning discovery from paragraph 0. Keep Sora present and ordinary-looking; no ghost, supernatural glow, detached shadow, photograph, other family members, text, letters, numbers, border, watermark, or decorative frame."
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline painting for chapter 2 of the graded Japanese reader “A Morning Without a Shadow”, about 12:7 composition.\nPrimary request: depict paragraph 4: Mrs Yamada greets Haru in front of the house but does not look toward Sora, as Sora squeezes Haru’s hand.\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s identity and palette only. Image 5 is the existing chapter illustration and guides only the siblings’ appearance and palette continuity, not the scene or detail level.\nScene/backdrop: a quiet residential lane in a small Japanese town beside a modest Japanese family home, simple tiled roof and wooden entry, a few flowerpots outside. Soft morning sunlight. Keep the background calm and uncluttered.\nSubject: exactly three people. Haru is a girl with long dark hair in muted teal clothes; Sora is her younger brother, a small dark-haired boy in an ivory shirt and blue shorts. They stand together on the path, with Sora holding Haru’s hand tightly. Their neighbor Mrs Yamada, a friendly middle-aged Japanese woman in simple everyday clothes, waters flowers with a small watering can and smiles toward Haru. She does not turn or look toward Sora, who stands clearly beside his sister.\nCritical continuity: Sora has lost his shadow. Do not draw any shadow, dark patch, silhouette, or cast shadow beneath or behind Sora. Haru and Mrs Yamada may cast ordinary shadows; Sora must cast none, even though the morning light is bright.\nStyle/medium: children’s picture-book painting with the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful marks and quiet simplified backgrounds. Much simpler than either cover.\nComposition/framing: wide landscape about 12:7; all three people and Sora holding Haru’s hand are readable at thumbnail size. Place the neighbor and flowers to one side, leaving open space around the siblings.\nLighting/mood: clear gentle morning light; quiet, tender and unsettling without horror.\nColor palette: warm ivory, muted teal, blue, soft sage, wood brown, and a few restrained flower colours.\nConstraints: show only the moment from paragraph 4. Exactly three people; do not show anyone else. Keep Sora fully visible beside Haru even as the neighbor ignores him. No visible writing or signs, text, lettering, numbers, border, watermark, decorative frame, supernatural glow, ghosts, detached shadows, or extra figures.\nAvoid American suburban cues, photorealism, glossy 3D, dense brush texture, dramatic lighting, and clutter."
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "prompt": "Use case: illustration-story.\nAsset type: landscape inline painting for chapter 2 of the graded Japanese reader “A Morning Without a Shadow”, about 12:7 composition.\nPrimary request: depict paragraph 8 only: at sunset, Haru and Sora wait on the shrine steps and see the straw-hat boy sitting halfway up, with Sora’s clear shadow at his feet.\nInput images: Images 1, 2 and 3 are approved Kasa Jizō inline style references only. Image 4 guides Haru and Sora’s identity and palette only. Image 5 guides the unfamiliar straw-hat boy’s appearance and hat only; do not copy its scene or detail.\nScene/backdrop: a long flight of old stone steps in a small Japanese town, rising to a small shrine above. The stones are stained red by the setting sun, matching the preceding chapter’s shrine steps. Keep the background quiet and simplified.\nSubject: exactly three children. At the bottom of the steps, Haru, a girl with long dark hair in muted teal clothes, and Sora, her younger brother with short dark hair, an ivory shirt and blue shorts, stand together and look upward. Halfway up the stairs sits the unfamiliar boy about Sora’s age, wearing a simple wide-brimmed straw hat and modest muted clothes, as in Image 5.\nImportant story detail: a single sharp child-shaped shadow lies clearly on the stone step at the seated boy’s feet. It is a flat dark shadow on the ground and represents Sora’s lost shadow; it is not a fourth person and has no face, texture or glowing effect.\nStyle/medium: simple children’s picture-book painting in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful details, and a quiet simplified background. Much simpler than either story cover.\nComposition/framing: wide landscape about 12:7. Show the two siblings in the foreground and the seated boy partway up the receding steps. Keep all three children and the one flat shadow distinct and readable at small size.\nLighting/mood: warm red-gold sunset fading into cool evening stone; mysterious but not frightening.\nColor palette: muted teal, ivory, blue, soft stone grey, restrained sunset red and warm gold, with quiet indigo shadows.\nConstraints: depict only the reveal already stated in paragraph 8. Exactly three children and one flat shadow. Do not show dialogue, the next day, any threat, anyone leaving, another shadow, extra people, text, lettering, numbers, signs, border, watermark or decorative frame.\nAvoid American or European setting cues, photorealism, glossy 3D, dense brush texture, horror lighting and clutter."
     }
   ]
 }
