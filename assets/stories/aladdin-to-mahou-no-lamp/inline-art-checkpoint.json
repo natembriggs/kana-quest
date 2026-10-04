@@ -1,14 +1,43 @@
 {
+  "schemaVersion": 1,
   "unit": "aladdin-to-mahou-no-lamp",
+  "title": "Aladdin and the Magic Lamp",
+  "status": "complete",
+  "storyHashBefore": "306f4d8b",
+  "paragraphCount": 11,
   "planned": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Aladdin carrying goods through bazaar"
+      "scene": "Aladdin carries a tied cloth bundle of market goods through the bazaar, helping support his mother.",
+      "action": "reuse-existing",
+      "original": "exec-83c3b36e-5efa-4461-be54-da69376042a3.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "In the underground garden, Aladdin holds the tarnished old lamp while jewel-like fruit glows softly on a few branches around him.",
+      "action": "generated-original-saved",
+      "original": "exec-2a17e8bc-ecc1-43f1-a6ee-7f9ccbb0fb7b.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 10,
+      "scene": "Aladdin and the princess welcome children at the newly built town school, a modest community place among the town's pale-stone buildings.",
+      "action": "generated-original-saved",
+      "original": "exec-802faf4a-930e-4d63-bb8f-9a70866fce65.png"
     }
   ],
-  "hash": "306f4d8b",
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-83c3b36e-5efa-4461-be54-da69376042a3.png",
-  "generationCalls": 1
+  "generationCallsBeforeThisRun": 1,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/level-5.mjs",
+  "storyHashAfter": "306f4d8b",
+  "registeredAssets": [
+    "assets/stories/aladdin-to-mahou-no-lamp/01.webp",
+    "assets/stories/aladdin-to-mahou-no-lamp/02.webp",
+    "assets/stories/aladdin-to-mahou-no-lamp/03.webp"
+  ],
+  "dimensions": "all three images are 960x560 WebP",
+  "totalImageBytes": 324056,
+  "verification": "story rebuild succeeded; body and all non-art story fields are unchanged; 01.webp byte-for-byte unchanged; three registered placements verified; total image size is within 450 KiB budget"
 }

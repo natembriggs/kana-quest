@@ -3,18 +3,39 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference supplied."
+      "role": "Approved inline style reference: smooth broad colour areas, gentle contours, minimal texture, and a quiet background."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference for simple landscape composition and restrained detail."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference for soft warm lighting and simplified forms."
     },
     {
       "file": "assets/stories/aladdin-to-mahou-no-lamp/cover.webp",
-      "role": "Character identity and palette only, supplied."
+      "role": "Aladdin's character identity and palette only; do not copy its cave composition, texture, or detail level."
     }
   ],
   "scenes": [
     {
       "file": "01.webp",
       "after": 0,
-      "prompt": "Use case: illustration-story. Asset type: one inline painting for Kanji Trail Aladdin and the Magic Lamp after paragraph 0.\nInput images: Image 1 is approved Kasa Jizō inline style only; Image 2 is Aladdin cover for character identity and palette only, not its cave or texture.\nPrimary request: Aladdin carries a modest tied cloth bundle of market goods in both arms while working in a lively bazaar, helping support his mother. Show the opening everyday market work only.\nSubject: young man with warm brown skin, short dark hair, simple indigo wrapped headcloth and loose indigo tunic and trousers with a terracotta sash, matching the cover. Natural proportions, small gentle expressive face, focused and earnest.\nScene: a traditional market street with two simple shaded stalls, broad pottery and cloth shapes and a few quiet background marketgoers. Keep Aladdin and bundle clearly readable.\nStyle: match Image 1 smooth broad colour areas, gentle contours, minimal texture, few purposeful folds and shadows. Simplified quiet background with three depth layers. No dense decorative patterns or paper grain. Much simpler than the cover.\nPalette: warm ivory, indigo, sage, muted teal, terracotta and ochre. Soft warm daylight.\nComposition: full bleed 12:7 landscape, medium-wide view with Aladdin dominant.\nConstraints: no magician, lamp, genie, cave, palace or later story events; no film-adaptation costume or likeness. No readable text, signs, lettering, captions, borders or watermark. Avoid photorealism, glossy 3D and cover-level texture."
+      "status": "reuse-existing",
+      "original": "exec-83c3b36e-5efa-4461-be54-da69376042a3.png",
+      "prompt": "Use case: illustration-story. Asset type: inline story painting for Kanji Trail, Aladdin and the Magic Lamp. This existing opening image is retained unchanged; no generation call for this scene."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story. Asset type: one inline painting for Kanji Trail's Aladdin and the Magic Lamp, placed after paragraph 2. Input images: Images 1–3 are approved Kasa Jizō inline paintings for the simple painted treatment only. Image 4 is the Aladdin cover for character identity and palette only; do not copy its cave composition, texture, or level of detail. Primary request: show Aladdin in the underground garden just after finding the old lamp. Scene: a small number of fruit-bearing branches with ruby, sapphire, and emerald-coloured fruit glow gently in a shadowy stone garden; Aladdin, in the indigo wrapped headcloth and loose indigo tunic with terracotta sash from the cover, holds a simple tarnished old lamp and looks at it with quiet curiosity. Keep the lamp clearly visible but modest. Style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, natural proportions, small expressive features, quiet simplified background with two or three depth layers; simpler than cover art. Palette: warm ivory stone, muted teal and sage shadows, restrained jewel tones, indigo and terracotta clothing. Composition: full-bleed landscape 12:7, medium-wide, one clear focal subject, readable at small size. Constraints: a traditional faraway-land folk-tale setting consistent with the text, not Japan; no Japanese architecture or symbols, no lettering, signs, labels, borders, watermark, film-adaptation costume or likeness, photorealism, glossy 3D, dense ornament, or cover-level texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 10,
+      "prompt": "Use case: illustration-story. Asset type: one closing inline painting for Kanji Trail's Aladdin and the Magic Lamp, placed after paragraph 10. Input images: Images 1–3 are approved Kasa Jizō inline paintings for the simple painted treatment only. Image 4 is the Aladdin cover for Aladdin's character identity and palette only; do not copy its cave composition, texture, or level of detail. Primary request: show Aladdin and the princess welcoming children at the town school described in the final paragraph. Scene: Aladdin, recognisable by the cover's dark indigo wrapped headcloth, loose indigo clothes and terracotta sash, stands with the princess in a modest elegant muted-teal and ochre outfit at the open doorway of a newly built school. A few children arrive with plain books; pale-stone town buildings sit quietly behind them. Their expressions are warm and hopeful, with the school and children as the clear story moment. Style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, natural proportions, small expressive features, quiet simplified background with two or three depth layers; simpler than cover art. Palette: warm ivory, muted teal, sage, ochre, indigo and a restrained terracotta accent. Composition: full-bleed landscape 12:7, medium-wide, clean silhouettes, readable at small size. Constraints: traditional faraway-land folk-tale setting consistent with the text, not Japan and not a modern American school; no Japanese architecture or symbols, no school bus, no readable text or signage, lettering, captions, borders, watermark, film-adaptation costume or likeness, photorealism, glossy 3D, dense ornament, or cover-level texture."
     }
-  ]
+  ],
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02"
 }
