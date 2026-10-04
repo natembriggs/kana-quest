@@ -6,8 +6,20 @@
       "role": "Approved inline style reference, supplied to image generation."
     },
     {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference; simplified forms and quiet background."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference; broad smooth painted colour areas."
+    },
+    {
       "file": "assets/stories/kagefumi-3/cover.webp",
       "role": "Haru's character identity and palette guidance only, supplied to image generation."
+    },
+    {
+      "file": "assets/stories/kagefumi-3/01.webp",
+      "role": "Existing chapter image for Haru and the straw-hat boy’s identity and palette continuity only."
     }
   ],
   "scenes": [
@@ -15,6 +27,18 @@
       "file": "01.webp",
       "after": 4,
       "prompt": "Use case: illustration-story\nAsset type: one landscape inline picture for chapter 3 of a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the shared series cover, for Haru's character identity and palette only.\nPrimary request: Illustrate the moment the evening wind blows the boy's straw hat down the shrine steps to Haru, while the last sunlight fades and the boy becomes faintly transparent.\nScene/backdrop: Broad old stone steps leading to a small hilltop shrine at the edge of town. The last warm light reaches across the steps; the mountain horizon is darkening. Keep the setting quiet and simplified.\nSubject: Haru, a young girl with long dark hair and muted teal clothes, stands lower on the steps, bending slightly toward an old wide-brimmed straw hat that has landed beside her feet. Partway up, one boy about her little brother's age, in plain simple clothes, reaches toward his hat as the wind catches his clothes. He is becoming softly translucent from the edges as the sunset fades, still calm and recognizably human.\nStyle/medium: Follow Image 1's inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful marks and shadows, and a quiet simplified background. Use Image 2 only for Haru's identity and palette, not its detailed cover rendering.\nComposition/framing: Wide landscape near 12:7, Haru, the boy, and the fallen hat all clearly readable, arranged along the stone steps with breathing room.\nLighting/mood: Soft final amber sunset fading to muted blue-grey evening; poignant and mysterious but not frightening.\nColor palette: Warm ivory, muted teal, soft ochre, stone grey, sage and restrained blue-grey.\nConstraints: Show only this event at the end of paragraph 4. Do not include Sora, blood, injury, a detached shadow, the inside of the hat, writing, names, text, lettering, numbers, border, watermark or decorative frame."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "sceneDescription": "On the shrine’s stone steps at sunset, Haru stamps on the straw-hat boy’s shadow, but it does not move.",
+      "prompt": "Use case: illustration-story.\nAsset type: quiet landscape inline story painting, chapter 3 of the graded Japanese reader “The Straw Hat”.\nInput images: Images 1–3 set the approved simple Kasa Jizō inline treatment only. Image 4 guides Haru’s appearance and palette only. Image 5 guides the two children’s identity and clothing colors only.\nPrimary request: show paragraph 2: Haru steps on the straw-hat boy’s shadow, but the shadow does not move.\nScene/backdrop: a few broad grey stone steps at a small Japanese shrine at sunset. Show only one simple shrine-roof shape and a soft mountain shape in the distance; no dense foliage or detailed town.\nSubject and clear action: exactly two children. The straw-hat boy stands still, wearing his old woven hat, a plain pale shirt and dark shorts. Haru, with long tied-back dark hair and a muted teal outfit, leans down and presses one shoe firmly onto the boy’s shadow. Make the point of contact unmistakable: her shoe visibly overlaps the dark child-shaped shadow on the stone.\nCritical detail: the boy’s shadow is clearly present and lies directly from his feet toward Haru across one step. It stays still beneath her shoe. The paragraph says this shadow exists; do not remove it.\nStyle: much simpler than the cover. Broad smooth opaque colour shapes, gentle clean contours, minimal texture, only a few folds and face marks, quiet empty background. No mottled stone, tiny foliage marks, visible paper grain, or intricate brush detail. Picture-book gouache shapes, restrained and calm.\nComposition: wide 12:7 landscape. Medium-close view: both children’s faces, Haru’s shoe, the boy’s feet, and the shadow contact point are large and easy to read at thumbnail size. Use only three or four simple step bands.\nLighting/mood: soft amber evening sun, curious and quietly mysterious, never frightening.\nPalette: warm ivory, muted teal, soft ochre, simple stone grey, sage and blue-grey.\nAvoid: extra people, extra or detached shadows, translucent body, ghost glow, injury, detailed architecture, busy backgrounds, photorealism, glossy 3D, text, lettering, signs, numbers, border, watermark or frame."
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "sceneDescription": "In the modest Japanese home's genkan, their mother pauses with Sora's small shoes in hand while Sora gently tugs her apron; she looks puzzled, and Haru watches, worried.",
+      "prompt": "Use case: illustration-story.\nAsset type: quiet landscape inline story painting for chapter 3, “The Straw Hat,” in a graded Japanese reader.\nInput images: Images 1–3 define only the approved Kasa Jizō inline treatment: broad smooth colour shapes, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Haru’s appearance and palette only. Image 5 guides Haru and Sora’s appearance and clothing palette only.\nPrimary request: depict paragraph 6, when the children arrive home and their mother picks up Sora’s little shoes but does not remember whose they are.\nScene/backdrop: a modest Japanese home’s genkan entrance. Clearly show a low tiled or stone shoe area below a raised wooden floor, a simple shoe cabinet and the interior threshold. Keep the room sparse and distinctly Japanese, not a Western foyer.\nSubject: exactly three people. Haru, a dark-haired older sister in muted teal, watches with a worried expression. Their mother, a Japanese woman just back from work in simple everyday clothes and an apron, holds a small pair of children’s shoes and looks puzzled at them, not at Sora. Sora, a small dark-haired boy in a pale shirt and dark shorts, gently tugs her apron while standing beside her. The mother does not react to Sora; he is still visible to the viewer.\nStyle: the approved simple Kasa Jizō inline treatment, much simpler than the chapter cover: broad smooth colour areas, gentle clean contours, minimal texture, a few purposeful folds and face marks, uncluttered background. No intricate patterns.\nComposition/framing: wide landscape about 12:7. Show all three faces, the small shoes in the mother’s hands, Sora tugging her apron, and the genkan threshold clearly at small size.\nLighting/mood: warm quiet indoor evening light; tender but unsettling, never frightening.\nPalette: warm ivory, muted teal, soft sage, wood brown and restrained blue-grey.\nAvoid: extra people, American foyer details, coat racks packed with coats, outdoor street, school imagery, frightening ghosts, text, lettering, signs, numbers, border, watermark or decorative frame."
     }
   ]
 }
