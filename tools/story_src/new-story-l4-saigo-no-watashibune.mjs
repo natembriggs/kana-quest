@@ -9,8 +9,8 @@ const theStory = expandStory({
   blurb: "Saki misses the last ferry while bringing her grandfather his repaired radio, but the ferryman has another way to help.",
   nw: ["渡し船", "船頭", "上流", "向こう岸", "歩道橋"],
   series: null,
-  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", illustrations: 'Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Saki’s character identity and palette.'},
-  art: { inline: [{ after: 0, file: '01.webp' }] },
+  source: {"kind": "original", "text": "An original story written for Kanji Trail", "by": "GPT-6 Astra", "credit": "Written by", "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.", "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.", illustrations: 'Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover and existing 01.webp guide Saki’s identity and palette only; 01.webp is reused, and 02.webp and 03.webp were generated with OpenAI built-in image generation.'},
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 2, file: '02.webp' }, { after: 7, file: '03.webp' }] },
   lexicon: lexicon({
     "さき": ["Saki", "pn"],
     "修[しゅう]理[り]した": ["repaired", "v", {"df": "修理する", "cf": "plain past (modifying a noun)"}],

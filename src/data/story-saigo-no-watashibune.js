@@ -25,7 +25,7 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Saki’s character identity and palette.",
+    "illustrations": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover and existing 01.webp guide Saki’s identity and palette only; 01.webp is reused, and 02.webp and 03.webp were generated with OpenAI built-in image generation.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -34,6 +34,18 @@ export const STORY = {
       {
         "after": 0,
         "src": "assets/stories/saigo-no-watashibune/01.webp?v=ecf2e6b59987b420",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/saigo-no-watashibune/02.webp?v=9125737304864063",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 7,
+        "src": "assets/stories/saigo-no-watashibune/03.webp?v=d030eaeff4f30860",
         "width": 960,
         "height": 560
       }

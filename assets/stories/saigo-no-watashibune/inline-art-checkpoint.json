@@ -1,0 +1,101 @@
+{
+  "storyId": "saigo-no-watashibune",
+  "title": "The Last Ferry",
+  "status": "complete",
+  "storyHashBefore": "f08c11d9",
+  "paragraphCount": 8,
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "state": "reuse_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Reuse Saki hurrying down the slope toward the river carrying the repaired radio box.",
+      "selectedOriginal": "exec-26e7f454-4ef7-4cc2-adc0-e6c0053beba5.png",
+      "attempts": []
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "At early dusk Saki reaches the rural Japanese ferry landing too late and watches the little boat begin to leave the opposite bank; she still holds the radio box.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-87a1fc1f-b444-4d78-8e47-9329693cabae.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T12:24Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-87a1fc1f-b444-4d78-8e47-9329693cabae.png",
+          "validation": "Selected: Saki waits at a rural Japanese landing as the last ferry departs across the river, holding the repaired-radio box; no text or American-coded details."
+        }
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "The next morning Saki sits opposite her grandfather in his modest Japanese home; two rice bowls and the repaired radio are nearby as he listens to her school news.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-fffb18a2-f089-4681-a486-cd31895ad2e6.png",
+      "attempts": [
+        {
+          "call": 2,
+          "run": "2026-10-04T12:24Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-fffb18a2-f089-4681-a486-cd31895ad2e6.png",
+          "validation": "Selected: Saki sits opposite her grandfather in a modest Japanese home the next morning; two rice bowls and the radio are visible, and he listens warmly to her school news."
+        }
+      ]
+    }
+  ],
+  "generationCallsPlanned": 2,
+  "generationCalls": 2,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "Generate only 02.webp and 03.webp. Preserve and reuse existing 01.webp after paragraph 0. The story uses a Japanese rural riverside setting, schoolgirl Saki, her grandfather, and a ferry; use culturally consistent Japanese details and no American-coded traffic or props. Keep the original Japanese prose, translations, vocabulary and reading-position hash unchanged.",
+  "storyHashAfter": "f08c11d9",
+  "assetValidation": {
+    "assets": [
+      {
+        "file": "01.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 130294
+      },
+      {
+        "file": "02.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 97788
+      },
+      {
+        "file": "03.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 77880
+      }
+    ],
+    "totalBytes": 305962,
+    "maxIndividualBytes": 153600,
+    "maxCombinedBytes": 460800,
+    "reused01Sha256MatchesHead": true
+  },
+  "sourceRegistration": "tools/story_src/new-story-l4-saigo-no-watashibune.mjs",
+  "rebuiltData": "src/data/story-saigo-no-watashibune.js",
+  "registeredAssets": [
+    "assets/stories/saigo-no-watashibune/01.webp",
+    "assets/stories/saigo-no-watashibune/02.webp",
+    "assets/stories/saigo-no-watashibune/03.webp"
+  ],
+  "originals": [
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-87a1fc1f-b444-4d78-8e47-9329693cabae.png",
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-fffb18a2-f089-4681-a486-cd31895ad2e6.png"
+  ]
+}
