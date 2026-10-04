@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "unit": "gulliver-ryokouki",
   "title": "Gulliver’s Travels",
-  "status": "complete; committed locally; push withheld after fetch failure",
+  "status": "complete; committed and pushed",
   "storyHashBefore": "b746ebe7",
   "paragraphCount": 12,
   "planned": [
