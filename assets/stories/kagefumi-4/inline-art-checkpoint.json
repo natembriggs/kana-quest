@@ -1,0 +1,82 @@
+{
+  "unit": "kagefumi-4",
+  "title": "Marks on the Pillar",
+  "status": "complete",
+  "storyHashBefore": "d3dc6964",
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "In the morning, Haru sits up in her Japanese bedroom and checks the faded reminder on her left palm, then darkens the small, indistinct marks with a pen. No legible writing.",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T03:42Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-74b57565-3d7b-4f80-8448-f61cd3932000.png",
+          "validation": "Selected: Haru studies the marks on her palm while holding a pen; the quiet Japanese room is clear from the futon and shoji, and the marks are not readable.",
+          "prompt": "Use case: illustration-story\nAsset type: one landscape inline story painting for chapter 4, “Marks on the Pillar,” in a graded Japanese reader.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler inline treatment: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 is the shared series cover, for Haru’s character identity and palette only. Image 5 is the existing painting for this chapter and guides Haru’s appearance and colours only; do not copy its composition or the cover’s detailed rendering.\nPrimary request: depict paragraph 0: the next morning, Haru checks the faded reminder on her left hand and goes over it again with a pen.\nScene/backdrop: a quiet morning in a modest Japanese home, with Haru seated on a simple futon in a sparse tatami room. A shoji window lets in soft pale daylight; use only a few broad shapes and no busy room details.\nSubject: Haru is a young girl with long dark hair tied back, wearing her familiar muted teal clothes. She sits up and looks closely at her open left palm, holding a simple pen in her right hand as she carefully darkens a few tiny, pale, non-legible marks on her skin. The hand gesture and her concerned, thoughtful face are the focal points. Keep both hands natural and clearly formed.\nStyle/medium: children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad mostly smooth colour shapes, gentle contours, minimal surface texture, a few purposeful folds and shadows, and a quiet simplified background. Much simpler than any cover.\nComposition/framing: wide landscape near 12:7, medium close view of Haru seated, with her face, left palm and pen large and readable; two or three calm depth layers and breathing room.\nLighting/mood: soft early-morning light, intimate and reflective, with a small note of unease but never frightening.\nColor palette: warm ivory, muted teal, sage, soft ochre, simple natural wood and a little blue-grey.\nConstraints: show no other person. No readable letters, numbers, words or symbols on the hand, pen, room, or elsewhere; only faint abstract marks. No text, captions, lettering, border, watermark or decorative frame. No later-story clues or supernatural effects."
+        }
+      ],
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-74b57565-3d7b-4f80-8448-f61cd3932000.png",
+      "bytes": 60186,
+      "dimensions": "960x560"
+    },
+    {
+      "file": "01.webp",
+      "after": 5,
+      "state": "reused_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Existing painting: Haru and her grandmother stand by the old wooden pillar as the grandmother touches the childhood height marks and remembers her brother.",
+      "bytes": 63796,
+      "dimensions": "960x560"
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "At a low table in the old Japanese home, Haru carefully lifts a black-and-white photograph from the album; the picture shows her grandmother as a child beside the distinct shadow of a boy in a wide-brimmed straw hat. No readable writing or later resolution.",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T03:42Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-9560192a-1ebd-4a46-a0d5-bd6c26054d8a.png",
+          "validation": "Selected: Haru carefully lifts the album photograph; the old monochrome image shows the girl and the separate straw-hat-shaped shadow without later resolution or readable writing.",
+          "prompt": "Use case: illustration-story\nAsset type: one quiet landscape inline story painting for chapter 4, “Marks on the Pillar,” in a graded Japanese reader.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler treatment: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Haru’s character identity and palette only. Image 5 is the existing painting for this chapter and guides Haru’s appearance and colours only; do not copy its composition or cover-like detail.\nPrimary request: depict paragraph 8: Haru carefully peels an old photograph from the album, hoping to help the boy whose shadow appears in the picture.\nScene/backdrop: a simple old Japanese home with a low wooden table and an open clothbound photo album. Keep the room quiet, uncluttered and secondary.\nSubject: Haru, a young girl with long dark hair tied back and a muted teal outfit, uses both hands to lift the corner of a small black-and-white photograph from one album page. Make the careful peeling action clear. The old photograph itself is visible and shows a little girl on stone shrine steps; beside her is the distinct shadow of a boy wearing a wide-brimmed straw hat, but no boy is physically present in the photo. Haru’s face is thoughtful and intent.\nStyle/medium: children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad smooth colour shapes, gentle contours, minimal surface texture, a few purposeful folds and shadows, and a quiet simplified background. Much simpler than a cover.\nComposition/framing: wide landscape near 12:7, medium view with Haru’s face, both hands and the lifted photograph large and readable. The photograph is a modest focal detail, not a complex picture-within-picture; use only a few broad shapes.\nLighting/mood: soft overcast afternoon light, careful and quietly hopeful, never frightening.\nColor palette: warm ivory, muted teal, soft wood brown, sage and restrained blue-grey; keep the photograph softly monochrome.\nConstraints: depict only this moment from paragraph 8. No grandmother or Sora. The boy appears only as a shadow inside the photograph. No other supernatural effects, readable writing, names, numbers, text, captions, lettering, border, watermark or decorative frame."
+        }
+      ],
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-9560192a-1ebd-4a46-a0d5-bd6c26054d8a.png",
+      "bytes": 78016,
+      "dimensions": "960x560"
+    }
+  ],
+  "generationCallsPlanned": 2,
+  "generationCalls": 2,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "Completed: reused 01.webp and generated/exported 02.webp and 03.webp. The chapter has three registered inline paintings; its Japanese text, translations, vocabulary and reading-position hash remain unchanged.",
+  "exporterStatus": "success",
+  "exportedBytes": {
+    "01.webp": 63796,
+    "02.webp": 60186,
+    "03.webp": 78016
+  },
+  "dimensions": {
+    "01.webp": "960x560",
+    "02.webp": "960x560",
+    "03.webp": "960x560"
+  },
+  "totalAssetBytes": 201998,
+  "totalAssetBudgetBytes": 460800,
+  "storyHashAfter": "d3dc6964"
+}

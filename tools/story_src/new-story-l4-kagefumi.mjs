@@ -52,12 +52,12 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     } : index === 2 ? {
       illustrations: "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment. The chapter cover guides Haru's character identity and palette only; the existing first painting is reused for continuity, and two new paintings accompany paragraphs 2 and 6.",
     } : index === 3 ? {
-      illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru's character identity and palette.",
+      illustrations: "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The chapter cover and existing first painting guide Haru’s character identity and palette; the existing 01.webp is reused, and two new paintings accompany paragraphs 0 and 8.",
     } : index === 4 ? {
       illustrations: "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru and Sora's character identity and palette.",
     } : {}),
   },
-  ...(index === 0 ? { art: { inline: [{ after: 0, file: '02.webp' }, { after: 5, file: '01.webp' }, { after: 7, file: '03.webp' }] } } : index === 1 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 8, file: '03.webp' }] } } : index === 2 ? { art: { inline: [{ after: 2, file: '02.webp' }, { after: 4, file: '01.webp' }, { after: 6, file: '03.webp' }] } } : index === 3 ? { art: { inline: [{ after: 5, file: '01.webp' }] } } : index === 4 ? { art: { inline: [{ after: 7, file: '01.webp' }] } } : {}),
+  ...(index === 0 ? { art: { inline: [{ after: 0, file: '02.webp' }, { after: 5, file: '01.webp' }, { after: 7, file: '03.webp' }] } } : index === 1 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 8, file: '03.webp' }] } } : index === 2 ? { art: { inline: [{ after: 2, file: '02.webp' }, { after: 4, file: '01.webp' }, { after: 6, file: '03.webp' }] } } : index === 3 ? { art: { inline: [{ after: 0, file: '02.webp' }, { after: 5, file: '01.webp' }, { after: 8, file: '03.webp' }] } } : index === 4 ? { art: { inline: [{ after: 7, file: '01.webp' }] } } : {}),
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => {

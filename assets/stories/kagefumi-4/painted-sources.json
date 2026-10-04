@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Haru's character identity and palette.",
+  "credit": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The chapter cover and existing 01.webp guide Haru’s identity and palette; 01.webp is reused, and 02.webp and 03.webp were generated with OpenAI built-in image generation.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-f2b37ed6-9320-47e0-a227-5566ff0daeee.png"
+    "01.webp": "exec-f2b37ed6-9320-47e0-a227-5566ff0daeee.png",
+    "02.webp": "exec-74b57565-3d7b-4f80-8448-f61cd3932000.png",
+    "03.webp": "exec-9560192a-1ebd-4a46-a0d5-bd6c26054d8a.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }
