@@ -42,6 +42,18 @@ export const STORY = {
         "src": "assets/stories/kakure-tani-no-akari-1/01.webp?v=483f1c6a71fe5382",
         "width": 960,
         "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/kakure-tani-no-akari-1/02.webp?v=8974ad57eb811754",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 7,
+        "src": "assets/stories/kakure-tani-no-akari-1/03.webp?v=08ec8a3eaa63257e",
+        "width": 960,
+        "height": 559
       }
     ]
   },

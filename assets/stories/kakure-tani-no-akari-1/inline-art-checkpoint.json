@@ -1,14 +1,74 @@
 {
+  "schemaVersion": 1,
   "unit": "kakure-tani-no-akari-1",
+  "title": "The Lantern with No Name",
+  "selectedAt": "2026-10-04T21:40:36Z",
+  "readingPositionHash": "86a0d492",
+  "status": "complete; three paintings registered; rebuild and content verification succeeded",
   "planned": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Aoi arrives at grandmother gate"
+      "scene": "Aoi arrives at her grandmother's gate above a mountain village in Nagano.",
+      "action": "reuse-existing",
+      "original": "exec-6433f320-50ed-486e-8bd5-61d9ad1092a9.png",
+      "status": "existing"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "scene": "On the veranda, Aoi holds a bamboo lantern hoop steady while her grandmother pastes a thin sheet of washi paper over a tear; several simple round lanterns rest nearby.",
+      "action": "generate",
+      "status": "generated, exported, registered and verified",
+      "original": "exec-3578404b-e83a-4a7f-bf73-e41410db73c3.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "scene": "At the wooden gate at dusk, Aoi and Ren face Kohaku, a small boy in a fox mask with one black-tipped ear and a red cord without a bell; Aoi holds the repaired lantern as he asks them to come help.",
+      "action": "generate",
+      "status": "generated, exported, registered and verified",
+      "original": "exec-6ca7d320-e2f4-4b54-8159-d1a9fab14471.png"
     }
   ],
-  "hash": "86a0d492",
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-6433f320-50ed-486e-8bd5-61d9ad1092a9.png",
-  "generationCalls": 1
+  "generationCallsBeforeThisRun": 1,
+  "generationCallsPlannedThisRun": 2,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/new-story-l5-kakure-tani-no-akari.mjs",
+  "registeredAssetsBeforeThisRun": [
+    "assets/stories/kakure-tani-no-akari-1/01.webp"
+  ],
+  "registeredAssets": [
+    "assets/stories/kakure-tani-no-akari-1/01.webp",
+    "assets/stories/kakure-tani-no-akari-1/02.webp",
+    "assets/stories/kakure-tani-no-akari-1/03.webp"
+  ],
+  "verification": {
+    "storyHashBefore": "86a0d492",
+    "storyHashAfter": "86a0d492",
+    "paragraphPlacements": [
+      0,
+      1,
+      7
+    ],
+    "imageBytes": {
+      "01.webp": 152348,
+      "02.webp": 100100,
+      "03.webp": 114854
+    },
+    "totalImageBytes": 367302,
+    "dimensions": {
+      "01.webp": "960x560",
+      "02.webp": "960x560",
+      "03.webp": "960x559"
+    },
+    "existing01Sha256": "483f1c6a71fe53820437f1007b33713b409eee513bbd0d201295808ffb36c708",
+    "content": "Japanese/English story body, translations, vocabulary and reading-position hash unchanged; existing 01.webp preserved byte-for-byte.",
+    "rebuild": "node tools/build_story_data.mjs succeeded"
+  },
+  "remoteSync": {
+    "previousRunPushError": "git push origin main rejected: [rejected] main -> main (fetch first); remote contained work not present locally.",
+    "resolution": "This run fetched origin/main at 337aa27, confirmed its changes do not overlap this unit, and rebased the completed art commit without conflict.",
+    "nextAction": "If a post-rebase push is rejected, next run should use its single fetch and rebase safely before another attempt."
+  }
 }

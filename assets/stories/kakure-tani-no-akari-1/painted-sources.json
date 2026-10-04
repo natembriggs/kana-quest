@@ -4,6 +4,8 @@
   "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-6433f320-50ed-486e-8bd5-61d9ad1092a9.png"
+    "01.webp": "exec-6433f320-50ed-486e-8bd5-61d9ad1092a9.png",
+    "02.webp": "exec-3578404b-e83a-4a7f-bf73-e41410db73c3.png",
+    "03.webp": "exec-6ca7d320-e2f4-4b54-8159-d1a9fab14471.png"
   }
 }
