@@ -1,0 +1,101 @@
+{
+  "storyId": "ningyo-hime",
+  "title": "The Little Mermaid",
+  "status": "complete",
+  "storyHashBefore": "a46d3a79",
+  "paragraphCount": 9,
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "In the quiet underwater palace, the youngest mermaid listens as her grandmother tells her that she may visit the surface when she turns fifteen. Show a gentle exchange between the two, with simple hints of the sea-king’s palace and open blue water beyond.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-b0c1685f-a396-461e-940c-db703e8b599a.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T11:23Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-b0c1685f-a396-461e-940c-db703e8b599a.png",
+          "validation": "Selected: the youngest mermaid listens to her grandmother in the quiet underwater palace; two figures, no surface-world story events."
+        }
+      ]
+    },
+    {
+      "file": "01.webp",
+      "after": 1,
+      "state": "reuse_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Reuse the existing painting of the mermaid seeing Prince Erikku aboard the warmly lit ship at dusk.",
+      "selectedOriginal": "exec-7e08486f-229e-4474-9210-0ea15a9a81fb.png",
+      "attempts": []
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "In a simple fairy-tale palace hall, the mermaid, now walking on legs in a plain light dress, dances carefully while Prince Erikku watches with gentle, sibling-like affection. Keep the mood tender and restrained, without romantic staging or pain imagery.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-c756790e-1ec4-4db6-8bfe-50a0339b1bea.png",
+      "attempts": [
+        {
+          "call": 2,
+          "run": "2026-10-04T11:23Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-c756790e-1ec4-4db6-8bfe-50a0339b1bea.png",
+          "validation": "Selected: the mermaid dances in a simple palace hall in a modest ivory dress while Prince Erikku watches kindly at a respectful distance; two figures, no film-coded costume, no romance or pain imagery."
+        }
+      ]
+    }
+  ],
+  "generationCallsPlanned": 2,
+  "generationCalls": 2,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "Generate only 02.webp and 03.webp. Preserve and reuse existing 01.webp after paragraph 1. Keep the fairy-tale sea kingdom and ship consistent with the story; do not introduce a modern or American setting. Preserve story text, translations, vocabulary and reading-position hash.",
+  "storyHashAfter": "a46d3a79",
+  "assetValidation": {
+    "assets": [
+      {
+        "file": "01.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 70996
+      },
+      {
+        "file": "02.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 89418
+      },
+      {
+        "file": "03.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 71442
+      }
+    ],
+    "totalBytes": 231856,
+    "maxIndividualBytes": 153600,
+    "maxCombinedBytes": 460800,
+    "reused01Sha256MatchesHead": true
+  },
+  "sourceRegistration": "tools/story_src/new-story-l4-ningyo-hime.mjs",
+  "rebuiltData": "src/data/story-ningyo-hime.js",
+  "registeredAssets": [
+    "assets/stories/ningyo-hime/02.webp",
+    "assets/stories/ningyo-hime/01.webp",
+    "assets/stories/ningyo-hime/03.webp"
+  ],
+  "originals": [
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-b0c1685f-a396-461e-940c-db703e8b599a.png",
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-c756790e-1ec4-4db6-8bfe-50a0339b1bea.png"
+  ]
+}

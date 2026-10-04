@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for the mermaid's character identity and palette.",
+  "credit": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover and existing 01.webp guide the mermaid and Prince Erikku’s identity and palette only. 01.webp is reused; 02.webp and 03.webp were generated with OpenAI built-in image generation.",
   "batch": "01a0df87-b427-7a91-b801-c43a554a105c",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-7e08486f-229e-4474-9210-0ea15a9a81fb.png"
+    "01.webp": "exec-7e08486f-229e-4474-9210-0ea15a9a81fb.png",
+    "02.webp": "exec-b0c1685f-a396-461e-940c-db703e8b599a.png",
+    "03.webp": "exec-c756790e-1ec4-4db6-8bfe-50a0339b1bea.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0df87-b427-7a91-b801-c43a554a105c",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

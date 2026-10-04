@@ -3,11 +3,23 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference, supplied to image generation."
+      "role": "Approved inline style reference: broad smooth colour areas, gentle contours, minimal texture."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference: broad smooth colour areas, gentle contours, minimal texture."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference: broad smooth colour areas, gentle contours, minimal texture."
     },
     {
       "file": "assets/stories/ningyo-hime/cover.webp",
-      "role": "The mermaid's character identity and palette guidance only, supplied to image generation."
+      "role": "The mermaid’s character identity and palette guidance only."
+    },
+    {
+      "file": "assets/stories/ningyo-hime/01.webp",
+      "role": "The existing painting guides the mermaid and prince’s character identity and palette only."
     }
   ],
   "scenes": [
@@ -15,6 +27,16 @@
       "file": "01.webp",
       "after": 1,
       "prompt": "Use case: illustration-story\nAsset type: one landscape inline illustration for a graded Japanese reader.\nInput images: Image 1 is the approved Kasa Jizō inline style reference only. Image 2 is the Little Mermaid cover for the mermaid's character identity and palette only.\nPrimary request: Show the little mermaid surfacing at dusk and catching her first glimpse of Prince Erikku aboard a warmly lit ship.\nScene/backdrop: A calm evening sea beneath a pale twilight sky. A modest sailing ship rests nearby, its few windows and deck lanterns glowing softly; keep the waves low and simple.\nSubject: In the foreground, the young mermaid with long flowing dark hair and a muted sea-green tail is just above the water, looking toward the ship. On the deck, the young prince stands among a few small, indistinct birthday guests; keep him recognizable as the focus of her gaze, but do not add a crown or elaborate costume. Her expression is quietly wonderstruck.\nStyle/medium: Follow Image 1's approved inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, and quiet simplified backgrounds. Use Image 2 only for the mermaid's identity and palette; use a much simpler detail level than the cover.\nComposition/framing: Wide landscape near 12:7. Mermaid in the near water on one side, ship and small deck figures in the other third, with open sea between. Two or three calm depth layers and one clear focal relationship.\nLighting/mood: Gentle twilight blue and soft warm lantern light; lyrical and hopeful.\nColor palette: Muted sea-green, deep teal, warm ivory, dusk blue and quiet amber.\nConstraints: Depict only paragraph 1's first sight of the prince, before the storm. No rough waves, shipwreck, rescue, leg transformation, text, lettering, birthday signs, border, watermark or decorative frame."
+    },
+    {
+      "file": "02.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: a wide landscape inline painting, about 12:7, for a graded Japanese reader’s original fairy-tale retelling of “The Little Mermaid.”\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler inline style: broad smooth colour areas, gentle contours, minimal texture, quiet backgrounds. Images 4–5 guide only the mermaid’s character identity and palette; do not copy their surface-world ship composition or richer detail.\nPrimary request: depict paragraph 0: the youngest mermaid listens as her grandmother tells her she may visit the surface when she turns fifteen.\nScene/backdrop: a quiet underwater sea-kingdom palace with one simple pale stone arch and a large open window facing upward through blue water toward a small, soft patch of surface light. A few broad ribbons of kelp and faint bubbles suggest depth, with no crowded coral garden or elaborate architecture.\nSubject: exactly two people. The youngest mermaid is a young teenager with long flowing dark hair, a muted sea-green tail, and a simple shell-like top matching the project cover’s identity and palette. She floats beside a low stone ledge, listening with open curiosity. Her grandmother is an elderly mermaid with gentle silver hair and a plain flowing teal robe, speaking to her with a kind, reassuring expression. Keep both faces simple and natural.\nStyle/medium: restrained children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad smooth colour planes, gentle contours, minimal surface texture, few purposeful folds and shadows, and quiet simplified backgrounds. Use much less detail than the cover.\nComposition/framing: wide landscape near 12:7. The two figures form a calm readable grouping beside the open palace window; their faces and gestures are clear. Use two or three broad depth layers and generous open water.\nLighting/mood: soft blue-green underwater light with a pale warm shaft from the surface; calm, intimate, full of anticipation.\nColor palette: muted sea-green, deep teal, warm ivory, dusk blue, soft coral and quiet amber.\nConstraints: depict only paragraph 0. Exactly two figures: the youngest mermaid and her grandmother. No sisters, king, prince, ship, surface people, writing, signs, text, captions, lettering, border, watermark or decorative frame. No recognizable film-adaptation likeness or costume."
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "prompt": "Use case: illustration-story\nAsset type: a quiet wide landscape inline painting, about 12:7, for a graded Japanese reader’s original fairy-tale retelling of “The Little Mermaid.”\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler inline style: broad smooth colour areas, gentle contours, minimal texture, quiet backgrounds. Images 4–5 guide only the mermaid and Prince Erikku’s identity and palette; do not copy the surface-world ship composition, deck crowd, or richer detail.\nPrimary request: depict paragraph 4: the mermaid, now with human legs, dances carefully in the palace while Prince Erikku watches her with the affection of a younger sister.\nScene/backdrop: a simple old fairy-tale palace hall with a pale stone floor, one broad arch, and a quiet wall in the distance. Keep the architecture generic and softly simplified, with no ornate crowd or elaborate decorations.\nSubject: exactly two people. The little mermaid has long flowing dark hair and wears a plain, modest warm-ivory dress with a simple skirt; her two legs and pale shoes are visible as she performs one graceful dance step. Her posture is poised, with a small moment of strain in her step but no visible injury. Prince Erikku, a young man with dark hair in a simple muted-blue tunic over a light shirt, stands nearby and watches with gentle, sibling-like affection. He does not touch her. Their expressions are quiet and kind, not romantic.\nStyle/medium: restrained children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad smooth colour planes, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background. Keep the image simpler and less detailed than the series cover.\nComposition/framing: wide landscape near 12:7. Show the mermaid’s full dance step and the prince clearly at a respectful distance; two or three calm depth layers, with ample room around them.\nLighting/mood: warm, soft daylight in the hall; tender, bittersweet and restrained.\nColor palette: warm ivory, muted sea-green accents, soft blue, pale stone, quiet amber and gentle teal.\nConstraints: depict only paragraph 4. Exactly two people. No mermaid tail, no wedding, no princess bride, no knife, no witch, no wounds, no blood, no text, signs, captions, lettering, border, watermark or decorative frame. No recognizable film-adaptation likeness or costume."
     }
   ]
 }
