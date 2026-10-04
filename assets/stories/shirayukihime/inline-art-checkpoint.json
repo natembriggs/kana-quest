@@ -1,14 +1,102 @@
 {
-  "unit": "shirayukihime",
-  "planned": [
+  "storyId": "shirayukihime",
+  "title": "Snow White",
+  "status": "complete",
+  "storyHashBefore": "9c0a03b0",
+  "paragraphCount": 4,
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Snow White walks alone deeper into forest"
+      "state": "reuse_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Reuse the existing painting of Snow White walking alone into a quiet forest after the huntsman lets her escape.",
+      "selectedOriginal": "exec-f55f0d07-de31-4ad7-9cb1-536edb9018ba.png",
+      "attempts": []
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "In the woodland cottage, Snow White is welcomed by exactly seven adult miners and helps set a simple meal; warm, safe domestic scene before any later danger.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-650d1ea3-824e-469b-9b5f-5ac87b9bbd2f.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T13:25Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-650d1ea3-824e-469b-9b5f-5ac87b9bbd2f.png",
+          "validation": "Selected: Snow White is welcomed at a cottage table by seven adult miners; exactly eight figures, safe domestic moment, no queen, danger or film-adaptation identifiers."
+        }
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "state": "generated_selected",
+      "reuseExisting": false,
+      "sceneDescription": "At the ending, Snow White and the prince visit the seven adult miner friends at their cottage; a peaceful friendly reunion with no wedding or danger.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-cab36b71-bdf8-4015-85e3-d3f02c41b431.png",
+      "attempts": [
+        {
+          "call": 2,
+          "run": "2026-10-04T13:25Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-cab36b71-bdf8-4015-85e3-d3f02c41b431.png",
+          "validation": "Selected: Snow White and the prince visit exactly seven adult friends at their woodland cottage; nine people total, warm reunion, no wedding or danger."
+        }
+      ]
     }
   ],
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "hash": "9c0a03b0",
-  "original": "exec-f55f0d07-de31-4ad7-9cb1-536edb9018ba.png",
-  "generationCalls": 1
+  "generationCallsPlanned": 2,
+  "generationCalls": 3,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "The prior checkpoint confirms 01.webp was already generated and rebuilt; the fresh fetch confirms that work is present remotely. Under the current three-image requirement, preserve and reuse it, generate only 02.webp and 03.webp, and do not repeat its generation. This retelling identifies its source as the traditional European tale, so use a simple European fairy-tale forest and cottage. No Disney likeness, violence, embedded text, or story-text/vocabulary/hash changes.",
+  "storyHashAfter": "9c0a03b0",
+  "generationCallsPriorToThisRun": 1,
+  "assetValidation": {
+    "assets": [
+      {
+        "file": "01.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 143514
+      },
+      {
+        "file": "02.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 97590
+      },
+      {
+        "file": "03.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 148344
+      }
+    ],
+    "totalBytes": 389448,
+    "maxIndividualBytes": 153600,
+    "maxCombinedBytes": 460800,
+    "reused01Sha256MatchesHead": true
+  },
+  "sourceRegistration": "tools/story_src/extra-stories.mjs",
+  "rebuiltData": "src/data/story-shirayukihime.js",
+  "registeredAssets": [
+    "assets/stories/shirayukihime/01.webp",
+    "assets/stories/shirayukihime/02.webp",
+    "assets/stories/shirayukihime/03.webp"
+  ],
+  "originals": [
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-650d1ea3-824e-469b-9b5f-5ac87b9bbd2f.png",
+    "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-cab36b71-bdf8-4015-85e3-d3f02c41b431.png"
+  ]
 }

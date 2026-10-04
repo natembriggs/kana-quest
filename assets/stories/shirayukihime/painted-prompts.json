@@ -3,11 +3,23 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Approved inline style reference supplied to generation."
+      "role": "Approved simple inline style reference: broad smooth colour, gentle contours, minimal texture."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline style reference: broad smooth colour, gentle contours, minimal texture."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline style reference: broad smooth colour, gentle contours, minimal texture."
     },
     {
       "file": "assets/stories/shirayukihime/cover.webp",
-      "role": "Character identity and palette only, supplied to generation."
+      "role": "Snow White character identity and palette only."
+    },
+    {
+      "file": "assets/stories/shirayukihime/01.webp",
+      "role": "Snow White identity and palette continuity only; not a composition reference."
     }
   ],
   "scenes": [
@@ -15,6 +27,16 @@
       "file": "01.webp",
       "after": 0,
       "prompt": "Use case: illustration-story\nAsset type: one inline landscape painting for Kanji Trail Snow White, after paragraph 0.\nInput images: Image 1 is the Kasa Jizō inline style reference only. Image 2 is the Snow White cover for character identity and palette only; do not copy its cottage or rich texture.\nPrimary request: Snow White walks alone deeper into a quiet forest, after escaping the huntsman. Depict only the end of paragraph 0, before she discovers any cottage.\nSubject: young woman with long loose black hair, warm pale skin, small expressive face, plain ivory long-sleeved dress with muted terracotta overdress and a small simple gold circlet, matching the cover. She walks carefully along a winding forest path with a thoughtful uncertain but brave expression.\nStyle: match Image 1 broad smooth colour areas, gentle contours, minimal surface texture, only a few purposeful folds and shadows, natural proportions. Much simpler than Image 2. Quiet background with three broad depth layers and a few sage and teal trees.\nComposition: full-bleed 12:7 landscape, figure large and readable near centre-left with path continuing into soft forest light.\nPalette: warm ivory, terracotta, sage green, muted teal, restrained indigo shadows and ochre light.\nConstraints: no cottage, dwarfs, queen, huntsman, apples, mirror, later events, extra people, lettering, text, borders or watermarks. No film-adaptation costumes. Avoid dense foliage detail, paper grain, heavy brush texture, photorealism or glossy 3D."
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "prompt": "Use case: illustration-story\nAsset type: one quiet wide landscape inline painting, about 12:7, for Kanji Trail’s original graded retelling of the traditional European fairy tale “Snow White.”\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler style: broad smooth colour areas, gentle contours, minimal texture, quiet backgrounds. Image 4 is the Snow White cover and guides only her character identity and palette. Image 5 is the existing 01.webp and guides her identity and palette only; do not copy its forest-path composition or its exact framing.\nPrimary request: depict an earlier scene from paragraph 1: Snow White has found the small woodland cottage and is welcomed by its seven adult miner residents. Show the beginning of her friendly life there, before any later visitor or danger.\nScene/backdrop: a small, simple European fairy-tale cottage in a quiet forest clearing, with a modest wooden table and a sunlit window. Keep the room orderly, warm and uncluttered; use only a few broad background shapes.\nSubject: exactly eight people: Snow White and seven adult miners of short stature, shown as respectful, individual grown people in plain work clothes, not caricatures and not resembling any film adaptation. Snow White has long loose black hair, warm pale skin, a plain ivory long-sleeved dress, muted terracotta overdress and a small simple gold circlet, matching the cover’s identity and palette. She smiles gently as she helps set a simple meal; the seven miners in muted indigo, sage, brown and teal work clothes welcome her around the table. Give all seven miners distinct, simple silhouettes and faces so the group reads as seven.\nStyle/medium: restrained children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad mostly smooth colour planes, gentle contours, minimal texture, a few purposeful folds and shadows, natural proportions, and a quiet simplified background. Keep the painting simpler and less detailed than the cover.\nComposition/framing: wide landscape near 12:7. Snow White is clearly visible among the seven miners; keep the table and cottage legible without crowding. Use two or three calm depth layers and strong readable silhouettes.\nLighting/mood: soft afternoon light from the window, safe, welcoming and companionable.\nColor palette: warm ivory, muted terracotta, sage green, muted teal, indigo and quiet ochre.\nConstraints: exactly eight people total: Snow White plus seven adult miners. Depict only the cottage welcome and shared domestic life from paragraph 1. No prince, queen, old-woman disguise, laces, comb, apple, magic mirror, danger, text, lettering, border, watermark, or recognizable film-adaptation costume or likeness."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: one quiet wide landscape inline painting, about 12:7, for Kanji Trail’s original graded retelling of the traditional European fairy tale “Snow White.”\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler style: broad smooth colour areas, gentle contours, minimal texture, quiet backgrounds. Image 4 is the Snow White cover and guides only her character identity and palette. Image 5 is the existing 01.webp and guides her identity and palette only; do not copy its forest-path composition or its exact framing.\nPrimary request: depict the closing moment from paragraph 3: Snow White and the prince go together to visit her seven friends at their woodland cottage.\nScene/backdrop: a peaceful European fairy-tale forest clearing in gentle morning light, with the small cottage visible behind the group and a simple path leading toward it. Keep trees and cottage broad and uncluttered.\nSubject: exactly nine people: Snow White, the prince, and seven adult miners of short stature, shown respectfully as individual grown people in plain everyday clothing, not caricatures and not resembling a film adaptation. Snow White has long loose black hair, warm pale skin, an ivory dress with a muted terracotta overdress and a small simple gold circlet. The prince wears plain muted-blue travel clothes without a crown or ornate costume. Snow White and the prince approach the cottage as friends; the seven miners greet them warmly near the path. Keep all seven companions distinguishable as a small group.\nStyle/medium: restrained children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad mostly smooth colour planes, gentle contours, minimal surface texture, a few purposeful folds and shadows, natural proportions and a quiet simplified background. Keep the painting simpler and less detailed than the cover.\nComposition/framing: wide landscape near 12:7. Place Snow White and the prince in the foreground walking toward the seven companions near the cottage; make the reunion readable at thumbnail size with two or three broad depth layers and no crowded detail.\nLighting/mood: clear soft morning light, warm, peaceful and friendly.\nColor palette: warm ivory, muted terracotta, soft blue, sage green, muted teal and quiet ochre.\nConstraints: exactly nine people total: Snow White, one prince, and seven adult miners. Show friendship and a visit only. No wedding, kiss, crown ceremony, queen, mirror, apple, sleeping figure, violence, text, lettering, border, watermark, or recognizable film-adaptation costume or likeness."
     }
   ]
 }

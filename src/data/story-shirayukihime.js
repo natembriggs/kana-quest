@@ -18,7 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling with a gentle resolution and no wording from a published edition.",
     "licence": "Public domain (traditional tale). This retelling and its English translation are original to Kanji Trail.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
+    "illustrations": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment and the Snow White cover only for character identity and palette. 01.webp is reused; 02.webp and 03.webp were generated with OpenAI built-in image generation.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -27,6 +27,18 @@ export const STORY = {
       {
         "after": 0,
         "src": "assets/stories/shirayukihime/01.webp?v=7d48583a3bc53750",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/shirayukihime/02.webp?v=6d46becf587ed858",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/shirayukihime/03.webp?v=3423ea05e95b6a87",
         "width": 960,
         "height": 560
       }

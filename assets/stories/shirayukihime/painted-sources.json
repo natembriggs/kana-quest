@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
+  "credit": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment and the Snow White cover only for character identity and palette. 01.webp is reused; 02.webp and 03.webp were generated with OpenAI built-in image generation.",
   "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-f55f0d07-de31-4ad7-9cb1-536edb9018ba.png"
+    "01.webp": "exec-f55f0d07-de31-4ad7-9cb1-536edb9018ba.png",
+    "02.webp": "exec-650d1ea3-824e-469b-9b5f-5ac87b9bbd2f.png",
+    "03.webp": "exec-cab36b71-bdf8-4015-85e3-d3f02c41b431.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }
