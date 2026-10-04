@@ -80,6 +80,11 @@ import { STORY as a9 } from '../src/data/story-keeki-o-mite-kudasai.js';
 import { STORY as b9 } from '../src/data/story-yuzu-sensei.js';
 import { STORY as c9 } from '../src/data/story-ugokanai-chikyuu.js';
 import { STORY as f9 } from '../src/data/story-chikamichi.js';
+import { STORY as pets1 } from '../src/data/story-nanakai-no-petto-shittaa-1.js';
+import { STORY as pets2 } from '../src/data/story-nanakai-no-petto-shittaa-2.js';
+import { STORY as pets3 } from '../src/data/story-nanakai-no-petto-shittaa-3.js';
+import { STORY as pets4 } from '../src/data/story-nanakai-no-petto-shittaa-4.js';
+import { STORY as pets5 } from '../src/data/story-nanakai-no-petto-shittaa-5.js';
 
 
 const corpus = [
@@ -89,6 +94,7 @@ const corpus = [
   bell1, bell2, bell3, bell4, bell5, lesson1, lesson2, lesson3, lesson4, lesson5,
   red1, red2, red3, red4, red5, shadow1, shadow2, shadow3, shadow4, shadow5,
   f1, f2, f3, f4, f5, f6, f7, f8, a9, b9, c9, f9,
+  pets1, pets2, pets3, pets4, pets5,
 ];
 let failures = 0;
 function check(name, condition, detail = '') {

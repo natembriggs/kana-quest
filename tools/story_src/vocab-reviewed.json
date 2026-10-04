@@ -76,6 +76,10 @@
   "from": "L4",
   "note": "rooster; usually written in kana"
  },
+ "お世話": {
+  "from": "L3",
+  "note": "ordinary polite form of 世話, the word a notice offering pet care would use"
+ },
  "お姫さま": {
   "from": "L4",
   "note": "ordinary word; natural and fine at this level"
@@ -189,7 +193,7 @@
   "note": "compound of common words"
  },
  "しばらくして": {
-  "from": "L4",
+  "from": "L3",
   "note": "everyday kana word or expression"
  },
  "しばらくしてから": {
@@ -388,6 +392,10 @@
   "from": "L4",
   "note": "name"
  },
+ "インコ": {
+  "from": "L3",
+  "note": "story-critical (Pii-chan is a budgie); the everyday word for a pet budgie"
+ },
  "ウサギ": {
   "from": "L6",
   "note": "animal name (the White Rabbit)"
@@ -428,6 +436,10 @@
   "from": "L3",
   "note": "story-critical (the reason for the trip); the everyday Japanese word for solar panels"
  },
+ "ダメ": {
+  "from": "L3",
+  "note": "katakana spelling of だめ for the budgie’s parrot-voice, a Japanese convention"
+ },
  "チーター": {
   "from": "L6",
   "note": "animal name (the cheetah in The Speckled Band)"
@@ -439,6 +451,10 @@
  "トカゲ": {
   "from": "L6",
   "note": "animal name"
+ },
+ "トントン": {
+  "from": "L3",
+  "note": "everyday onomatopoeia for light tapping"
  },
  "ナイトキャップ": {
   "from": "L4",
@@ -471,6 +487,10 @@
  "ヒヒ": {
   "from": "L6",
   "note": "animal name"
+ },
+ "ピンポーン": {
+  "from": "L3",
+  "note": "the standard Japanese sound of a doorbell"
  },
  "フロントガラス": {
   "from": "L6",
@@ -547,6 +567,10 @@
  "三十分": {
   "from": "L6",
   "note": "number + minutes counter; ordinary"
+ },
+ "三階": {
+  "from": "L3",
+  "note": "third floor; さんがい is the usual reading of the everyday counter"
  },
  "中ほど": {
   "from": "L6",
@@ -651,6 +675,10 @@
  "助け出す": {
   "from": "L3",
   "note": "compound of common words"
+ },
+ "動物病院": {
+  "from": "L3",
+  "note": "the ordinary word for a vet’s; transparent compound"
  },
  "十一時": {
   "from": "L6",
@@ -836,6 +864,10 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "文句を言う": {
+  "from": "L3",
+  "note": "common everyday phrase “to complain”"
+ },
  "旅行鞄": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
@@ -857,7 +889,7 @@
   "note": "compound of common words"
  },
  "書き足す": {
-  "from": "L6",
+  "from": "L3",
   "note": "compound of common words"
  },
  "木の下": {
@@ -891,6 +923,10 @@
  "歩き始める": {
   "from": "L6",
   "note": "compound of common words"
+ },
+ "歩き方": {
+  "from": "L3",
+  "note": "transparent compound (歩く + 方) and central to the Gorō thread"
  },
  "歩き続ける": {
   "from": "L4",
@@ -1345,7 +1381,7 @@
   "note": "compound of common words"
  },
  "首をかしげる": {
-  "from": "L4",
+  "from": "L3",
   "note": "set phrase built from common words"
  },
  "首を切る": {
@@ -1359,6 +1395,10 @@
  "魔術師": {
   "from": "L5",
   "note": "check: standard for the Maghrebi sorcerer in translations of Aladdin, but 魔法使い is the everyday word"
+ },
+ "鳥かご": {
+  "from": "L3",
+  "note": "story-critical (the budgie’s cage); ordinary everyday word"
  },
  "麦わら帽子": {
   "from": "L4",

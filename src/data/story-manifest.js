@@ -439,6 +439,126 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "nanakai-no-petto-shittaa-1": {
+    "title": {
+      "ja": "夏休みの約束",
+      "en": "The Summer Holiday Deal"
+    },
+    "series": {
+      "id": "nanakai-no-petto-shittaa",
+      "part": 1,
+      "of": 5,
+      "name": "七階のペットシッター — The Seventh-Floor Pet Sitters"
+    },
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Hayato wants a puppy. Mum says he can’t even feed a goldfish. So on the first day of the summer holidays, he and his big sister Kotone pin a notice up by the lift: “We look after pets.”",
+    "hash": "da295c36",
+    "length": 374,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "nanakai-no-petto-shittaa-2": {
+    "title": {
+      "ja": "しゃべるピーちゃん",
+      "en": "Pii-chan Talks"
+    },
+    "series": {
+      "id": "nanakai-no-petto-shittaa",
+      "part": 2,
+      "of": 5,
+      "name": "七階のペットシッター — The Seventh-Floor Pet Sitters"
+    },
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Pii-chan the budgie says “Good morning” and “Pii-chan is cute” — but not, however hard Hayato tries, “Hayato”. Then he leaves her cage door open.",
+    "hash": "5dbf377c",
+    "length": 379,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "nanakai-no-petto-shittaa-3": {
+    "title": {
+      "ja": "ゆっくり歩くゴロー",
+      "en": "Gorō Takes His Time"
+    },
+    "series": {
+      "id": "nanakai-no-petto-shittaa",
+      "part": 3,
+      "of": 5,
+      "name": "七階のペットシッター — The Seventh-Floor Pet Sitters"
+    },
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Mr Ōkawa on the fifth floor has hurt his leg, and his old dog Gorō will not take one step with anybody else.",
+    "hash": "5d326cf4",
+    "length": 387,
+    "paras": 6,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "nanakai-no-petto-shittaa-4": {
+    "title": {
+      "ja": "もちはどこ？",
+      "en": "Where’s Mochi?"
+    },
+    "series": {
+      "id": "nanakai-no-petto-shittaa",
+      "part": 4,
+      "of": 5,
+      "name": "七階のペットシッター — The Seventh-Floor Pet Sitters"
+    },
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Kotone and Hayato are feeding a white cat called Mochi while her owner is away. On the second morning, Mochi is nowhere in the flat.",
+    "hash": "0424af9d",
+    "length": 387,
+    "paras": 4,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "nanakai-no-petto-shittaa-5": {
+    "title": {
+      "ja": "七階の新しい家族",
+      "en": "New Family on the Seventh Floor"
+    },
+    "series": {
+      "id": "nanakai-no-petto-shittaa",
+      "part": 5,
+      "of": 5,
+      "name": "七階のペットシッター — The Seventh-Floor Pet Sitters"
+    },
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Mr Ōkawa is moving somewhere dogs aren’t allowed. Hayato wanted a puppy — but a whole summer of pet-sitting has changed his mind.",
+    "hash": "996bdf03",
+    "length": 395,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "rapunzel": {
     "title": {
       "ja": "ラプンツェル",
