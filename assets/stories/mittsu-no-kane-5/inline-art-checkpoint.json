@@ -1,0 +1,94 @@
+{
+  "storyId": "mittsu-no-kane-5",
+  "title": "Ringing the Bell",
+  "status": "complete",
+  "storyHashBefore": "c80ed100",
+  "paragraphCount": 12,
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "Inside the weathered Japanese island house during the sudden rain, Riku, Chika and Mori gather on the small part of the floor that remains. Wind slips through gaps in the boards; Riku sits in wet clothes, while Chika checks her water-damaged phone and Mori looks at his dead phone. Keep the room sparse and the people calm but cold.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-89313aac-be0d-48cc-ad8f-8c997db3fdc9.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T10:20Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-89313aac-be0d-48cc-ad8f-8c997db3fdc9.png",
+          "validation": "Selected: exactly Riku, Chika and Mori shelter on the remaining floorboards; phones and storm match paragraph 0. Quiet Japanese timber room; no later clue or text."
+        }
+      ]
+    },
+    {
+      "file": "01.webp",
+      "after": 4,
+      "state": "reused_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Reuse the existing painting of Riku and Chika pulling the bell rope together in the storm.",
+      "selectedOriginal": "exec-9e4b566c-6d90-4b6a-9341-0c1b9ee7b3bb.png",
+      "attempts": []
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "From the Japanese island bell tower in the rain, Riku and Chika see a small fishing boat approach across dark water, a warm light at its bow and two fainter lights behind. Riku recognizes his aunt standing at the bow; Mori watches from the tower platform. Show exactly these four people and no other close figures.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-d37b3078-dcbd-40c1-9367-99caa5f98f8e.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T10:20Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-d37b3078-dcbd-40c1-9367-99caa5f98f8e.png",
+          "validation": "Selected: the three characters watch a Japanese coastal boat approach with a woman at the bow and small lights on the water. No arrival, reunion, or extra figures."
+        }
+      ]
+    }
+  ],
+  "generationCallsPlanned": 2,
+  "generationCalls": 2,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "Generate only 02.webp and 03.webp. Preserve and reuse the existing 01.webp after paragraph 4. Story text, translations, vocabulary and reading-position hash must remain unchanged.",
+  "storyHashAfter": "c80ed100",
+  "export": {
+    "status": "success",
+    "assetBudgetBytes": 153600,
+    "totalBudgetBytes": 460800,
+    "totalAssetBytes": 315644,
+    "images": [
+      {
+        "file": "01.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 106214,
+        "status": "reused_existing"
+      },
+      {
+        "file": "02.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 110682,
+        "status": "generated_and_exported"
+      },
+      {
+        "file": "03.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 98748,
+        "status": "generated_and_exported"
+      }
+    ]
+  },
+  "nextAction": "Complete. Three inline paintings are registered, rebuilt and verified; reading-position hash remains c80ed100."
+}

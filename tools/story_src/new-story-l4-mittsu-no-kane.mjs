@@ -51,7 +51,11 @@ const inlineArt = [
     { after: 3, file: '01.webp' },
     { after: 6, file: '03.webp' },
   ],
-  [{ after: 4, file: '01.webp' }],
+  [
+    { after: 0, file: '02.webp' },
+    { after: 4, file: '01.webp' },
+    { after: 6, file: '03.webp' },
+  ],
 ];
 
 export const STORY_SOURCES = chapters.map((body, index) => expandStory({
@@ -72,7 +76,7 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
       : index === 3
         ? 'Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover guides Riku and Chika’s identity and palette; existing 01.webp is reused, and two new paintings accompany paragraphs 0 and 6.'
         : index === 4
-          ? "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Riku and Chika's character identity and palette."
+          ? 'Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover guides Riku and Chika’s identity and palette; existing 01.webp is reused, and two new paintings accompany paragraphs 0 and 6.'
           : undefined,
     notes: 'Original Japanese prose and English translations for level 4. A sand road that surfaces at low tide is a real landform — a tombolo — and several in Japan can be walked at the times a published tide table gives. Fog bells were genuinely used as navigational aids here: the first in Japan was installed at Shiriyazaki Lighthouse in 1877 and replaced two years later because a bell carried too poorly, and sound fog signals were later discontinued as ships’ own navigation improved. The town of Shiomi, the island, its bell and the custom of ringing it until every boat is home, the Hibari-maru and every character are invented; nothing here describes a real place or a real loss at sea. Background: Japan National Tourism Organization regional guides on tidal sand roads, and the Japanese Wikipedia article 霧信号所.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
