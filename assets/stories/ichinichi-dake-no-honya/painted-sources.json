@@ -1,9 +1,11 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for Nao’s character identity and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the story cover only for Nao's character identity and palette.",
   "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-3fbff3d0-1f39-49fe-a5de-9f38ed414e6e.png"
+    "01.webp": "exec-3fbff3d0-1f39-49fe-a5de-9f38ed414e6e.png",
+    "02.webp": "exec-d8eeeb5b-4971-4cff-9b26-1353083dbe0e.png",
+    "03.webp": "exec-86e4c498-43ca-4d1e-af48-ab6cd880bbda.png"
   }
 }

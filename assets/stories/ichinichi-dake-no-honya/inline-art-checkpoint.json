@@ -1,14 +1,44 @@
 {
+  "schemaVersion": 1,
   "unit": "ichinichi-dake-no-honya",
+  "title": "A Bookshop for One Day",
+  "status": "complete; three paintings registered; rebuild and content verification succeeded",
+  "storyHashBefore": "c180cac2",
+  "paragraphCount": 10,
   "planned": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Nao behind counter on final morning"
+      "scene": "Nao takes charge behind the counter of her grandfather's secondhand bookshop on its last day.",
+      "action": "reuse-existing",
+      "original": "exec-3fbff3d0-1f39-49fe-a5de-9f38ed414e6e.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "scene": "On a rainy afternoon, Nao and an adult visitor in a blue coat recognize the same thin ship-adventure book across the shop counter.",
+      "action": "generated-original",
+      "original": "exec-d8eeeb5b-4971-4cff-9b26-1353083dbe0e.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 9,
+      "scene": "Nao places the ship-adventure book, cover facing outward, on the newly cleared shelf at the café next door.",
+      "action": "generated-original",
+      "original": "exec-86e4c498-43ca-4d1e-af48-ab6cd880bbda.png"
     }
   ],
-  "hash": "c180cac2",
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-3fbff3d0-1f39-49fe-a5de-9f38ed414e6e.png",
-  "generationCalls": 1
+  "generationCallsBeforeThisRun": 1,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/new-story-l5-ichinichi-dake-no-honya.mjs",
+  "registeredAssets": [
+    "assets/stories/ichinichi-dake-no-honya/01.webp",
+    "assets/stories/ichinichi-dake-no-honya/02.webp",
+    "assets/stories/ichinichi-dake-no-honya/03.webp"
+  ],
+  "sizeBudget": "01.webp was preserved byte-for-byte. Each file is below 150 KiB; combined size is 256,982 bytes (251.0 KiB), below 450 KiB.",
+  "dimensions": "All three final WebP files are 960×560.",
+  "totalImageBytes": 256982,
+  "storyHashAfter": "c180cac2",
+  "verification": "Story rebuild succeeded. Japanese/English body, translations, vocabulary, and reading-position hash are unchanged; existing 01.webp is byte-for-byte unchanged. Three registered images at paragraphs 0, 3, and 9; all 960×560 WebP files meet per-image and combined size budgets."
 }
