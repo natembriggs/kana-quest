@@ -1,9 +1,16 @@
 {
   "tool": "OpenAI built-in image generation",
-  "credit": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved simple Kasa Jizō inline treatment and the Gulliver cover for character identity and palette only.",
   "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
   "prompts": "painted-prompts.json",
   "images": {
-    "01.webp": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png"
+    "01.webp": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png",
+    "02.webp": "exec-31dab178-4416-4e50-a5ec-82e0397ee81b.png",
+    "03.webp": "exec-a9e8e167-46df-40da-9b8e-63de847fe2f6.png"
+  },
+  "imageBatches": {
+    "01.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "02.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+    "03.webp": "01a0f468-4d05-7242-807c-c67fb6b64f02"
   }
 }

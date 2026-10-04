@@ -3,18 +3,39 @@
   "visualGuidance": [
     {
       "file": "assets/stories/kasa-jizou/01.webp",
-      "role": "Inline style reference supplied."
+      "role": "Approved inline style reference: smooth broad colour areas, gentle contours, minimal texture, quiet background."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved inline style reference for simple landscape composition and restrained detail."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved inline style reference for soft warm lighting and simplified forms."
     },
     {
       "file": "assets/stories/gulliver-ryokouki/cover.webp",
-      "role": "Character identity and palette only, supplied."
+      "role": "Gulliver's character identity and palette only; do not copy the cover's scale composition, detail, or texture."
     }
   ],
   "scenes": [
     {
       "file": "01.webp",
       "after": 0,
-      "prompt": "Use case: illustration-story. Asset type: inline landscape painting for Kanji Trail Gulliver’s Travels after paragraph 0.\nInput images: Kasa Jizō image is inline simplicity reference; Gulliver cover is character identity and palette only.\nShow Lemuel Gulliver, a ship's doctor, aboard the intact sailing ship Antelope in 1699, looking thoughtfully across a calm open sea at the beginning of his voyage toward the East Indies. Young adult man with tousled curly brown hair, simple natural face, indigo long coat, ochre waistcoat, ivory neckcloth and brown breeches, matching cover identity. He stands near a plain wooden rail; a single broad sail and mast establish the ship, minimal rigging. Quiet hopeful morning light.\nPainted picture-book art with broad smooth colour areas, gentle contours, minimal texture and only a few shadows. Simplified background with three broad depth layers. Much simpler than cover. Muted teal sea, warm ivory sail, indigo coat, ochre wood.\nFull bleed 12:7 landscape. Gulliver large and readable.\nNo wreck, storm, tiny people, islands, future events, text, lettering, signs, borders or watermarks. Avoid dense rigging, busy details, paper grain and cover-level brush texture."
+      "status": "reuse-existing",
+      "original": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png",
+      "prompt": "Existing opening image retained unchanged; no generation call for this scene."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story. Asset type: one landscape inline painting for Kanji Trail's Gulliver’s Travels, placed after paragraph 2. Input images: Images 1–3 are the approved Kasa Jizō inline paintings for style only. Image 4 is the Gulliver cover for character identity and palette only; do not copy its giant-on-beach composition, cover texture, or detail level. Primary request: show the moment Gulliver wakes on the shore in Lilliput and first notices its tiny inhabitants. Subject: Lemuel Gulliver, an adult English ship's surgeon with tousled brown curls, indigo long coat, ochre waistcoat, ivory neckcloth and brown breeches matching the cover, lies on a simple grassy shore, astonished but unharmed. A few fine threads lightly tether his sleeves and one hand to the ground. A small group of people no more than fifteen centimetres tall flee across his legs after his shout; a few carry tiny simple bows as described, with no arrows in flight. Keep the scale clear but the people gentle and nonthreatening. Scene: quiet green shore with a few broad grasses and a distant soft horizon, no clutter. Style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, natural proportions, small expressive features, quiet simplified background with two or three depth layers; simpler than cover art. Palette: warm ivory, midnight indigo, muted teal, soft sage, ochre and restrained brown. Composition: full-bleed 12:7 landscape, medium-wide, Gulliver is the clear focal subject and remains readable at small size. Constraints: match this early paragraph only; no arrows, wounds, storm, shipwreck action, later events, Japanese setting, text, lettering, signs, borders, watermark, photorealism, glossy 3D, dense rigging or cover-level texture."
+    },
+    {
+      "file": "03.webp",
+      "after": 11,
+      "prompt": "Use case: illustration-story. Asset type: one closing landscape inline painting for Kanji Trail's Gulliver’s Travels, placed after paragraph 11. Input images: Images 1–3 are the approved Kasa Jizō inline paintings for style only. Image 4 is the Gulliver cover for Gulliver's character identity and palette only; do not copy the beach composition, texture, or detail level. Primary request: show Gulliver reunited with his wife and children at their home in England after he has returned safely. Scene: Gulliver bends down carefully to embrace his wife and two children at the doorway of a modest late-seventeenth-century English home. The family is relieved and joyful. Keep the domestic setting simple, with a warm window and a few broad wooden and ivory shapes; no maps or ships. Subject: Gulliver's tousled brown curls, indigo coat, ochre waistcoat and ivory neckcloth match the cover; wife and children wear simple period-appropriate English clothes in muted teal, sage and warm ivory. Their expressions are gentle, natural and small-featured. Style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, quiet simplified background with two or three depth layers; simpler than cover art. Palette: warm ivory, midnight indigo, muted teal, sage, ochre and restrained terracotta. Composition: full-bleed 12:7 landscape, medium-wide, family clearly readable and one calm focal grouping. Constraints: depict only the written homecoming, no foreshadowing of another voyage, no tiny people, ships, text, lettering, signage, borders, watermark, photorealism, glossy 3D, elaborate interior or cover-level texture."
     }
-  ]
+  ],
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02"
 }

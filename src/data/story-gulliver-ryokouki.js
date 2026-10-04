@@ -19,11 +19,23 @@ export const STORY = {
         "src": "assets/stories/gulliver-ryokouki/01.webp?v=60f05c46f5da7e85",
         "width": 960,
         "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/gulliver-ryokouki/02.webp?v=8a1ebf4d53d79ad1",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 11,
+        "src": "assets/stories/gulliver-ryokouki/03.webp?v=4ae3ad8cd94df75d",
+        "width": 960,
+        "height": 559
       }
     ]
   },
   "source": {
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
+    "illustrations": "Inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved simple Kasa Jizō inline treatment and the cover only for character identity and palette.",
     "kind": "adapted",
     "text": "Gulliver’s Travels by Jonathan Swift (1726)",
     "by": "Claude Opus 5",

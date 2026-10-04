@@ -1,14 +1,43 @@
 {
+  "schemaVersion": 1,
   "unit": "gulliver-ryokouki",
+  "title": "Gulliver’s Travels",
+  "status": "complete; committed locally; push withheld after fetch failure",
+  "storyHashBefore": "b746ebe7",
+  "paragraphCount": 12,
   "planned": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Gulliver aboard intact Antelope at start of voyage"
+      "scene": "Gulliver stands aboard the intact Antelope at the beginning of the voyage.",
+      "action": "reuse-existing",
+      "original": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "Gulliver wakes on the grass, lightly tethered by fine threads, while tiny Lilliputians flee at his first shout.",
+      "action": "exported",
+      "original": "exec-31dab178-4416-4e50-a5ec-82e0397ee81b.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 11,
+      "scene": "Gulliver reunites with his wife and children at home in England after returning safely.",
+      "action": "exported",
+      "original": "exec-a9e8e167-46df-40da-9b8e-63de847fe2f6.png"
     }
   ],
-  "hash": "b746ebe7",
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-a1dfe5fa-da7c-4048-aa4f-937202679c51.png",
-  "generationCalls": 1
+  "generationCallsBeforeThisRun": 1,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/new-story-l5-gulliver-ryokouki.mjs",
+  "storyHashAfter": "b746ebe7",
+  "registeredAssets": [
+    "assets/stories/gulliver-ryokouki/01.webp",
+    "assets/stories/gulliver-ryokouki/02.webp",
+    "assets/stories/gulliver-ryokouki/03.webp"
+  ],
+  "dimensions": "01 and 02 are 960x560 WebP; 03 is 960x559 WebP",
+  "totalImageBytes": 294154,
+  "verification": "story rebuild succeeded; body and all non-art fields are unchanged; 01.webp byte-for-byte unchanged; three registered placements verified; total image size is within 450 KiB budget. Local commit created; push withheld because this run's only fetch attempt failed, so a safe remote position could not be established."
 }
