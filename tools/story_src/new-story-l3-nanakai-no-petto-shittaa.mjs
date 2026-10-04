@@ -474,6 +474,18 @@ const words = lexicon({
   '近[ちか]づけた': ['brought close', 'v', { df: '近づける', cf: 'plain past' }],
 });
 
+const inlineArt = [
+  [
+    { after: 0, file: '01.webp' },
+    { after: 3, file: '02.webp' },
+    { after: 4, file: '03.webp' },
+  ],
+  [],
+  [],
+  [],
+  [],
+];
+
 export const STORY_SOURCES = CHAPTERS.map((body, index) => expandStory({
   id: `nanakai-no-petto-shittaa-${index + 1}`,
   title: { ja: titles[index][0], en: titles[index][1] },
@@ -487,9 +499,11 @@ export const STORY_SOURCES = CHAPTERS.map((body, index) => expandStory({
     text: 'An original five-chapter story written for Kanji Trail',
     by: 'Claude Opus 5.5',
     credit: 'Written by',
+    ...(index === 0 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the original story text for character and scene details; no cover reference is available.' } : {}),
     notes: 'Original Japanese prose and English translations for Level 3. Japanese convention writes a parrot’s speech in katakana, which is why the budgie says ハヤト and ダメ; a circle (丸) is the Japanese tick mark. The building, its residents and their animals are invented; no published text was adapted.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
   },
+  ...(inlineArt[index].length ? { art: { inline: inlineArt[index] } } : {}),
   lexicon: words,
   body: body.map((paragraph) => paragraph.map(([tokens, en]) => line(tokens, en))),
 }));

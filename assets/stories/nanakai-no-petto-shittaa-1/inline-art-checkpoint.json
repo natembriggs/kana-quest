@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "unit": "nanakai-no-petto-shittaa-1",
+  "title": "The Summer Holiday Deal",
+  "selectedAt": "2026-10-04T23:41:10Z",
+  "readingPositionHash": "da295c36",
+  "status": "complete; rebuilt and verified; pending commit and push",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "On the first morning of summer holiday, eight-year-old Hayato reads a book about dogs in the family’s seventh-floor Japanese apartment. Show only dog drawings on the open pages, with no real dog present.",
+      "action": "generate",
+      "status": "generated; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-88b48f17-0b7f-4cd2-83a9-3ae0dd0def02.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-1/01.webp",
+      "dimensions": "960x560",
+      "bytes": 76492
+    },
+    {
+      "file": "02.webp",
+      "after": 3,
+      "scene": "In the shared lift lobby, twelve-year-old Kotone smooths the siblings’ pet-care notice beside the elevator while Hayato holds it steady; only simple dog and cat doodles appear on the otherwise blank sheet.",
+      "action": "generate",
+      "status": "generated; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-f95dc482-3fda-4390-a210-3fff2f99e983.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-1/02.webp",
+      "dimensions": "960x559",
+      "bytes": 52414
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "scene": "At the apartment doorway, Mrs Nomura from the third floor brings a small birdcage with a blue budgie; Kotone and Hayato exchange surprised, eager looks as they accept their first pet-sitting job.",
+      "action": "generate",
+      "status": "generated; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-3bcc2b26-c0fc-474e-a5a6-441b507b1372.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-1/03.webp",
+      "dimensions": "960x560",
+      "bytes": 54124
+    }
+  ],
+  "generationCallsBeforeThisRun": 0,
+  "generationCallsPlannedThisRun": 3,
+  "generationCallsThisRun": 3,
+  "sourceRegistration": "tools/story_src/new-story-l3-nanakai-no-petto-shittaa.mjs",
+  "registeredAssetsBeforeThisRun": [],
+  "verification": {
+    "build": "success; 82 stories",
+    "registeredInlineCount": 3,
+    "readingPositionHash": "da295c36",
+    "textTranslationsVocabularyUnchanged": true,
+    "totalWebpBytes": 183030,
+    "allImagesWithin150KiBBudget": true,
+    "storyWithin450KiBBudget": true
+  }
+}
