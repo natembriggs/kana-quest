@@ -18,7 +18,7 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel’s main journey; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",
-    "illustrations": "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the cover only for character identity and palette.",
+    "illustrations": "Three inline paintings for Kanji Trail use the approved simple Kasa Jizō inline treatment; 01.webp was reused, and 02.webp and 03.webp were generated with OpenAI built-in image generation. The cover guides Fogg’s character identity and palette only.",
     "cover": "Cover generated with OpenAI image generation."
   },
   "art": {
@@ -27,6 +27,18 @@ export const STORY = {
       {
         "after": 0,
         "src": "assets/stories/hachijuu-nichikan-sekai-isshuu/01.webp?v=87e4120619f96d61",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 2,
+        "src": "assets/stories/hachijuu-nichikan-sekai-isshuu/02.webp?v=d0cd41211f9f0e9d",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 3,
+        "src": "assets/stories/hachijuu-nichikan-sekai-isshuu/03.webp?v=1532f333fbc01c36",
         "width": 960,
         "height": 560
       }

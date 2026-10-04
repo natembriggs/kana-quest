@@ -1,14 +1,44 @@
 {
+  "schemaVersion": 1,
   "unit": "hachijuu-nichikan-sekai-isshuu",
+  "title": "Around the World in Eighty Days",
+  "status": "complete; three paintings registered; rebuild and content verification succeeded",
+  "storyHashBefore": "a5bf5231",
+  "paragraphCount": 6,
   "planned": [
     {
       "file": "01.webp",
       "after": 0,
-      "scene": "Fogg checks watch beside departing train"
+      "scene": "Phileas Fogg checks his watch at the London railway platform beside the departing steam train.",
+      "action": "reuse-existing",
+      "original": "exec-54d7d04b-41ad-409e-a312-b06f5fdb7ea0.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "At a modest Yokohama circus stage, Fogg hurries up and reunites with Passepartout; a few quiet audience silhouettes and simple Japanese timber details establish the setting.",
+      "action": "generated-original",
+      "original": "exec-c280a836-ad5a-46bc-87ae-d3e995110ecd.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "scene": "A peaceful bison herd crosses the transcontinental railway and stops the steam train on broad North American plains, before the paragraph's later danger and rescue.",
+      "action": "generated-original",
+      "original": "exec-1ac72fca-7028-47cd-b648-69a3aee169ce.png"
     }
   ],
-  "hash": "a5bf5231",
-  "status": "art complete and rebuild verified; publishing prepared; confirm remote contains commit before selecting next unit",
-  "original": "exec-54d7d04b-41ad-409e-a312-b06f5fdb7ea0.png",
-  "generationCalls": 1
+  "generationCallsBeforeThisRun": 1,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/round-four-advanced.mjs",
+  "registeredAssets": [
+    "assets/stories/hachijuu-nichikan-sekai-isshuu/01.webp",
+    "assets/stories/hachijuu-nichikan-sekai-isshuu/02.webp",
+    "assets/stories/hachijuu-nichikan-sekai-isshuu/03.webp"
+  ],
+  "sizeBudget": "01.webp was preserved byte-for-byte. Each file is below 150 KiB; combined size is 266,444 bytes (260.2 KiB), below 450 KiB.",
+  "dimensions": "All three final WebP files are 960×560.",
+  "totalImageBytes": 266444,
+  "storyHashAfter": "a5bf5231",
+  "verification": "Story rebuild succeeded. Japanese/English body, translations, vocabulary, and reading-position hash are unchanged; existing 01.webp is byte-for-byte unchanged. Three registered images at paragraphs 0, 2, and 3; all 960×560 WebP files meet per-image and combined size budgets."
 }
