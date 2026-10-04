@@ -1,0 +1,93 @@
+{
+  "unit": "mittsu-no-kane-4",
+  "title": "A Letter Forty Years Old",
+  "status": "complete",
+  "storyHashBefore": "78a94bc4",
+  "existingAssetsToReuse": [
+    "01.webp"
+  ],
+  "placements": [
+    {
+      "file": "02.webp",
+      "after": 0,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "At the threshold of a weathered Japanese island house with its door off, the injured Mori leans on the frame as Riku and Chika turn toward him.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-adfb30bc-6475-4a00-8252-18eddaca9d35.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T05:43Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-adfb30bc-6475-4a00-8252-18eddaca9d35.png",
+          "validation": "Selected: Mori braces himself in the open Japanese house doorway with his injured leg visibly dragging; Riku and Chika turn toward him. No letter or later clue is shown.",
+          "prompt": "Use case: illustration-story\nAsset type: a restrained landscape inline painting for chapter 4, “A Letter Forty Years Old,” in a graded Japanese reader.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the inline style: broad smooth colour areas, gentle contours, minimal texture, and quiet backgrounds. Image 4 is the series cover and guides only Riku and Chika’s identity and palette. Image 5 is the existing chapter painting and guides only Mori, Riku, and Chika’s appearance and colours; do not copy its seated composition or detailed rendering.\nPrimary request: depict paragraph 0: the injured stranger appears at the doorway of the island house as Riku and Chika turn toward him.\nScene/backdrop: a modest, weathered Japanese wooden house on a rocky island. One old sliding door has come off its track and rests beside the open entrance. Through the open threshold, show a small hint of grey sea and dark rock. Keep the timber walls and room sparse and simple; no western-style foyer.\nSubject: exactly three people. Mori, a middle-aged Japanese man with dark tousled hair, a muted green-grey jacket and plain travel clothes, stands braced against the doorframe, dragging one injured leg as he faces the children. Riku is a 13-year-old boy with dark hair, a pale grey shirt, dark shorts and a simple dark backpack. Chika is a young Japanese woman with tied-back dark hair, a muted rust-red top and simple light skirt. They stand just outside or at the threshold, turning to look at Mori with surprise and concern, not fear. Keep the limp visible but do not show injury detail.\nStyle/medium: children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad smooth colour planes, gentle contours, minimal surface texture, a few purposeful folds and shadows, quiet simplified background; clearly simpler than the series cover.\nComposition/framing: wide landscape near 12:7, the three figures and the open doorway large and readable, with Mori’s uneven step visible; two or three calm depth layers and ample breathing room.\nLighting/mood: soft, overcast coastal daylight, tense but welcoming and not frightening.\nColor palette: muted timber brown, sea-grey, warm ivory, subdued teal-grey, rust red, sage and soft ochre.\nConstraints: show only the moment from paragraph 0. No torch, notebook, envelope, photograph, extra people or later revelations. No readable writing, text, captions, lettering, sign, border, watermark or decorative frame."
+        }
+      ]
+    },
+    {
+      "file": "01.webp",
+      "after": 3,
+      "state": "reused_existing",
+      "reuseExisting": true,
+      "sceneDescription": "Existing painting: inside the damaged coastal house, Mori shows Riku and Chika his father’s old unsent envelope."
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "state": "generated_and_exported",
+      "reuseExisting": false,
+      "sceneDescription": "Inside the old timber island house, Chika points toward the open-sided wooden bell tower and its broken rope as Mori slowly rises and Riku watches.",
+      "selectedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-dd1f1dbe-1b24-431c-a8c9-f76440943def.png",
+      "attempts": [
+        {
+          "call": 1,
+          "run": "2026-10-04T05:43Z",
+          "original": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-dd1f1dbe-1b24-431c-a8c9-f76440943def.png",
+          "validation": "Selected: Chika points toward the local timber bell tower with the short broken rope while Mori and Riku look on from the doorway. No storm or bell movement is shown.",
+          "prompt": "Use case: illustration-story\nAsset type: a quiet landscape inline painting for chapter 4, “A Letter Forty Years Old,” in a graded Japanese reader.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings and define only the simpler style: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Riku and Chika’s identity and palette only. Image 5 guides Mori and the children’s appearance and colours only; do not copy its seated grouping, envelope, or detailed rendering.\nPrimary request: depict paragraph 6: Chika points toward the bell tower and Mori slowly gets to his feet after learning the rope is broken.\nScene/backdrop: view from the open entrance of the weathered Japanese island house toward a small open-sided timber fog-bell tower on a rocky rise. The tower is a simple local wooden structure with a large dark bell and a short visibly broken rope. Beyond it, show only a calm grey sea and one low island ridge. Do not make the tower look like a church, Western lighthouse, or temple pagoda.\nSubject: exactly three people near the doorway. Chika, a young Japanese woman with tied-back dark hair, muted rust-red top and simple light skirt, points toward the tower. Mori, a middle-aged man with dark tousled hair, muted green-grey jacket and an injured, bandaged ankle, pushes himself slowly upright against the timber wall. Riku, a 13-year-old boy in a pale grey shirt, dark shorts and a simple dark backpack, watches them. Keep the gestures restrained and readable; Mori’s limp is clear without showing injury detail.\nStyle/medium: children’s picture-book gouache in the approved Kasa Jizō inline treatment: broad smooth colour planes, gentle contours, minimal surface texture, a few purposeful folds and shadows, and a quiet simplified background. Simpler and less detailed than the chapter cover.\nComposition/framing: wide landscape near 12:7. Keep the three people and Chika’s pointing gesture prominent; the small tower and broken rope should be clearly recognizable through the open doorway without intricate construction detail.\nLighting/mood: subdued grey morning light, thoughtful and newly purposeful, not frightening.\nColor palette: warm ivory, muted timber brown, blue-grey sea, subdued teal-grey, rust red, sage and soft ochre.\nConstraints: depict only this moment from paragraph 6. No fourth person, no Yuki, no readable name on the floor, no letter or notebook, no bell movement, no storm, no ship, and no later revelations. No text, captions, lettering, symbols, border, watermark or decorative frame."
+        }
+      ]
+    }
+  ],
+  "generationCallsPlanned": 2,
+  "generationCalls": 2,
+  "generationCallsThisRun": 2,
+  "failedScene": null,
+  "resumeNextRun": null,
+  "rebuildVerified": true,
+  "contentAndReadingHashUnchanged": true,
+  "allThreeAssetsRegistered": true,
+  "sizeBudgetVerified": true,
+  "note": "Generate only 02.webp and 03.webp. Preserve and reuse existing 01.webp. Keep the story text, translations, vocabulary and reading-position hash unchanged.",
+  "storyHashAfter": "78a94bc4",
+  "export": {
+    "status": "success",
+    "assetBudgetBytes": 153600,
+    "totalBudgetBytes": 460800,
+    "totalAssetBytes": 248384,
+    "images": [
+      {
+        "file": "01.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 82946,
+        "status": "reused_existing"
+      },
+      {
+        "file": "02.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 78722,
+        "status": "generated_and_exported"
+      },
+      {
+        "file": "03.webp",
+        "width": 960,
+        "height": 560,
+        "bytes": 86716,
+        "status": "generated_and_exported"
+      }
+    ]
+  },
+  "nextAction": "Complete. Three inline paintings are registered, rebuilt, and verified; reading-position hash remains 78a94bc4."
+}

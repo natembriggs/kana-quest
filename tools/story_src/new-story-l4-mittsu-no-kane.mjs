@@ -46,7 +46,11 @@ const inlineArt = [
     { after: 5, file: '02.webp' },
     { after: 8, file: '03.webp' },
   ],
-  [{ after: 3, file: '01.webp' }],
+  [
+    { after: 0, file: '02.webp' },
+    { after: 3, file: '01.webp' },
+    { after: 6, file: '03.webp' },
+  ],
   [{ after: 4, file: '01.webp' }],
 ];
 
@@ -66,7 +70,7 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     illustrations: index < 3
       ? 'Inline paintings generated with OpenAI image generation, using the chapter cover for character reference and Kasa Jizō for the simpler inline style.'
       : index === 3
-        ? "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Riku and Chika's character identity and palette."
+        ? 'Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment. The cover guides Riku and Chika’s identity and palette; existing 01.webp is reused, and two new paintings accompany paragraphs 0 and 6.'
         : index === 4
           ? "Inline painting generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment and the chapter cover only for Riku and Chika's character identity and palette."
           : undefined,
