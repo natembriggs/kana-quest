@@ -1,0 +1,98 @@
+{
+  "storyId": "kakure-tani-no-akari-3",
+  "title": "The House That Makes the Night",
+  "chapter": 3,
+  "readingPositionHash": "e788a9a2",
+  "status": "complete and rebuild verified",
+  "plannedAt": "2026-10-05T07:48:12Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 3,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Aoi and Ren cross the newly formed paper bridge toward Sayo’s open doorway, leaving Kohaku on the bank.",
+      "sceneDescription": "At dusk in the hidden mountain valley, Sayo waits in an open doorway across a dark river as layered white washi sheets unfurl from her window and overlap into a narrow firm bridge. Aoi tests its edge with her shoe and begins crossing with Ren; Kohaku remains on the starting bank.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-2e4051be-0b2e-413b-a293-8ffae2b5acf6.png",
+      "originalBytes": 2177900
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "paragraphMeaning": "Sayo shows Aoi a lantern depicting her mother drying daikon in the snow, while the paper’s old story begins to fade.",
+      "sceneDescription": "Inside Sayo’s washi-making home, Sayo holds a small paper lantern for Aoi. Its paper shows a simple picture of a woman hanging daikon radishes to dry in falling snow; the pale edges suggest a fading memory, with other quiet lanterns on the shelf.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-49eb97ea-088a-46ea-a3f9-e5fc6f4be252.png",
+      "outputHint": "Generated images are saved to /Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02 as /Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-49eb97ea-088a-46ea-a3f9-e5fc6f4be252.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Ma",
+      "originalBytes": 0
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "paragraphMeaning": "Aoi writes Sayo’s mother’s story in her notebook as Ren carries the lantern with the blank page tied to its handle across the paper bridge; Kohaku accompanies him toward the trail.",
+      "sceneDescription": "A quiet view through Sayo’s open window: Aoi stays inside with the notebook in her hands, while beyond the sill Ren carries the glowing lantern and a blank page tied to its handle across the paper bridge, with Kohaku beside him toward the mountain path.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-3dcc7959-2161-407c-8cde-89aee6e56bfa.png",
+      "outputHint": "Generated images are saved to /Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02 as /Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-3dcc7959-2161-407c-8cde-89aee6e56bfa.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/kakure-tani-no-akari-1/cover.webp",
+    "assets/stories/kakure-tani-no-akari-2/01.webp"
+  ],
+  "sourceRegistration": "tools/story_src/new-story-l5-kakure-tani-no-akari.mjs",
+  "lastError": null,
+  "exportedAssets": [
+    {
+      "file": "01.webp",
+      "width": 960,
+      "height": 559,
+      "bytes": 128366,
+      "quality": 90
+    },
+    {
+      "file": "02.webp",
+      "width": 960,
+      "height": 560,
+      "bytes": 86286,
+      "quality": 90
+    },
+    {
+      "file": "03.webp",
+      "width": 960,
+      "height": 560,
+      "bytes": 91872,
+      "quality": 90
+    }
+  ],
+  "totalExportedBytes": 306524,
+  "build": {
+    "stories": 82,
+    "sentences": 4510,
+    "result": "successful"
+  },
+  "verification": {
+    "storyTextTranslationsAndVocabularyUnchanged": true,
+    "readingPositionHashUnchanged": true,
+    "readingPositionHash": "e788a9a2",
+    "registeredInlineCount": 3,
+    "placements": [
+      0,
+      5,
+      8
+    ],
+    "imageBudgetBytes": 460800,
+    "exportedTotalBytes": 306524
+  }
+}

@@ -41,7 +41,11 @@ const inlineArt = [
     { after: 3, file: '02.webp' },
     { after: 7, file: '03.webp' },
   ],
-  [],
+  [
+    { after: 0, file: '01.webp' },
+    { after: 5, file: '02.webp' },
+    { after: 8, file: '03.webp' },
+  ],
   [
     { after: 2, file: '01.webp' },
     { after: 5, file: '02.webp' },

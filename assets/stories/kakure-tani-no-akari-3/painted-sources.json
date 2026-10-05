@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline style. The first chapter cover guides Aoi, Ren and Kohaku character identity and palette; chapter 2 inline art guides Aoi and Ren character continuity. Images contain no story text.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-2e4051be-0b2e-413b-a293-8ffae2b5acf6.png",
+    "02.webp": "exec-49eb97ea-088a-46ea-a3f9-e5fc6f4be252.png",
+    "03.webp": "exec-3dcc7959-2161-407c-8cde-89aee6e56bfa.png"
+  }
+}

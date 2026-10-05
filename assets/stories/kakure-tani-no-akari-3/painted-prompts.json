@@ -1,0 +1,69 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kakure-tani-no-akari-1/cover.webp",
+      "role": "Aoi, Ren and Kohaku character identity and palette only; do not copy cover composition or setting."
+    },
+    {
+      "file": "assets/stories/kakure-tani-no-akari-2/01.webp",
+      "role": "Aoi and Ren character-continuity reference only; preserve their established age, face, hair and clothing colours, but do not copy composition or setting."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Aoi and Ren cross the newly formed paper bridge toward Sayo’s open doorway, leaving Kohaku on the bank.",
+      "sceneDescription": "At dusk in the hidden mountain valley, Sayo waits in an open doorway across a dark river as layered white washi sheets unfurl from her window and overlap into a narrow firm bridge. Aoi tests its edge with her shoe and begins crossing with Ren; Kohaku remains on the starting bank.",
+      "prompt": "Use case: illustration-story.\nAsset type: first of three inline landscape paintings for Kanji Trail, The House That Makes the Night, chapter 3; place after paragraph 0.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Aoi, Ren, and Kohaku’s character identity and palette only. Image 5 guides Aoi and Ren’s character continuity only. Do not copy any reference composition.\nScene/backdrop: a quiet fictional mountain village across a dark river at dusk, with a simple wooden doorway on the far bank and uncluttered river edges.\nSubject/action: Sayo, an adult Japanese woman in a plain old indigo kimono, waits silently at the open doorway. White washi sheets have unfurled from her window and overlap into a narrow bridge over the water. Aoi gently tests the near edge with the toe of her shoe, then begins to cross with her cousin Ren. Kohaku, a child-sized guide in a simple fox mask, stays behind on the starting bank. Show only these four characters.\nCharacter continuity: Aoi is a Japanese girl with dark hair tied low, a simple ivory top, muted teal/navy skirt and small tan satchel. Ren is a Japanese boy with short dark hair, a pale shirt and dark trousers/shorts with a small dark backpack. Match their faces, relative height, hair and clothing palette to images 4 and 5. Kohaku wears a simple pale top, dark trousers and a restrained red sash under a plain fox mask. Sayo has understated age-appropriate features and indigo clothing.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, very little surface texture, a few purposeful folds and shadows, quiet simplified background and two or three depth layers; less detailed than cover art.\nComposition/framing: full-bleed 12:7 landscape; the paper bridge is a clear diagonal across the river, Aoi and Ren are on it, Kohaku remains on the bank, Sayo waits in the doorway. Readable silhouettes at small size.\nLighting/mood: soft lantern-warm light near the doorway against cool dusk, quiet and uncanny but not threatening.\nPalette: warm ivory paper, midnight indigo water, muted teal and sage, restrained ochre-gold light.\nConstraints: match paragraph 0 only; the layered sheets look solid enough to bear weight. No visible writing or symbols on the paper.\nAvoid: lettering, text, numbers, logos, borders, watermarks, extra characters, extra bridges, dramatic danger, photorealism, glossy 3D, dense texture, busy scenery, cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/kakure-tani-no-akari-1/cover.webp",
+        "assets/stories/kakure-tani-no-akari-2/01.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "paragraphMeaning": "Sayo shows Aoi a lantern depicting her mother drying daikon in the snow, while the paper’s old story begins to fade.",
+      "sceneDescription": "Inside Sayo’s washi-making home, Sayo holds a small paper lantern for Aoi. Its paper shows a simple picture of a woman hanging daikon radishes to dry in falling snow; the pale edges suggest a fading memory, with other quiet lanterns on the shelf.",
+      "prompt": "Use case: illustration-story.\nAsset type: second of three inline landscape paintings for Kanji Trail, The House That Makes the Night, chapter 3; place after paragraph 5.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Aoi’s character identity and palette only. Image 5 guides Aoi’s character continuity only. Do not copy any reference composition.\nScene/backdrop: inside Sayo’s quiet washi-making home, with several simple paper lanterns along a shelf, a low table with a few bamboo frames, and soft hanging sheets of blank washi in the distance.\nSubject/action: Sayo, an adult Japanese woman in a plain indigo kimono, has carefully taken down one small lantern and holds it beside Aoi, who studies it. The lantern paper contains only a simple, wordless picture of an older village woman hanging white daikon radishes to dry in falling snow; let the drawing’s outer edges be pale and softly fading. No written marks. A few other small lanterns sit dimly on the shelf. Show only Sayo and Aoi.\nCharacter continuity: Aoi is a Japanese girl with dark hair tied low, a simple ivory top, muted teal/navy skirt and small tan satchel, consistent with images 4 and 5. Sayo has understated age-appropriate features and simple indigo clothing.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background and two or three depth layers; simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; the lantern and Aoi’s attentive face are the focal point, Sayo’s careful hands visible, shelf lanterns gently receding behind them.\nLighting/mood: cool, soft interior light with one restrained lantern-gold accent; tender, still and a little melancholy.\nPalette: warm ivory washi, midnight indigo, muted teal, sage, soft snow-white and restrained ochre gold.\nConstraints: match paragraph 5 only. The lantern picture must be purely visual with no words, letters, marks or pseudo-writing. Keep the village memory quiet and nonliteral beyond the simple mother-and-daikon picture.\nAvoid: readable writing, lettering, numbers, symbols, logos, borders, watermarks, extra people, dramatic decay, photorealism, glossy 3D, dense texture, busy lantern detail, cover-level painting texture.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/kakure-tani-no-akari-1/cover.webp",
+        "assets/stories/kakure-tani-no-akari-2/01.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 8,
+      "paragraphMeaning": "Aoi writes Sayo’s mother’s story in her notebook as Ren carries the lantern with the blank page tied to its handle across the paper bridge; Kohaku accompanies him toward the trail.",
+      "sceneDescription": "A quiet view through Sayo’s open window: Aoi stays inside with the notebook in her hands, while beyond the sill Ren carries the glowing lantern and a blank page tied to its handle across the paper bridge, with Kohaku beside him toward the mountain path.",
+      "prompt": "Use case: illustration-story.\nAsset type: third of three inline landscape paintings for Kanji Trail, The House That Makes the Night, chapter 3; place after paragraph 8.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Aoi, Ren, and Kohaku’s character identity and palette only. Image 5 guides Aoi and Ren’s character continuity only. Do not copy any reference composition.\nScene/backdrop: Sayo’s open wooden window above the dark river in the hidden mountain valley at night. The narrow bridge is made from overlapping blank white washi sheets; beyond it, a simple mountain-path entrance fades into indigo darkness.\nSubject/action: Frame the moment as a quiet view through the open window. Inside, Aoi remains by the sill, holding her open notebook close as the warm golden light recedes. Outside, Ren carefully crosses the paper bridge carrying a small lantern; one completely blank paper page is tied to its handle. Kohaku, a child-sized fox-masked guide, accompanies Ren toward the beginning of the mountain path. Show only these three cousins/companions, with Aoi remaining inside and Ren and Kohaku outside.\nCharacter continuity: Aoi is a Japanese girl with dark hair tied low, ivory top and muted teal/navy skirt. Ren is a Japanese boy with short dark hair, pale shirt, dark trousers/shorts and small dark backpack. Kohaku wears a simple fox mask, pale top, dark trousers and restrained red sash. Match identities and palette to images 4 and 5 without repeating those compositions.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background and two or three depth layers; less detailed than cover art.\nComposition/framing: full-bleed 12:7 landscape; window frame gently separates the warm interior from cool river-night exterior, while the blank page and paper bridge remain legible visual shapes.\nLighting/mood: restrained golden lantern glow fading into midnight indigo; solemn, hopeful departure without showing what happens next.\nPalette: warm ivory paper, midnight indigo, muted teal, sage and a small ochre-gold light.\nConstraints: match paragraph 8 only and stop at this departure. All paper is blank with no visible writing. Do not depict a later return or resolution.\nAvoid: text, lettering, numbers, symbols, logos, borders, watermarks, extra characters, dramatic peril, readable notebook marks, bright festival imagery, photorealism, glossy 3D, dense texture, busy scenery, cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/kakure-tani-no-akari-1/cover.webp",
+        "assets/stories/kakure-tani-no-akari-2/01.webp"
+      ]
+    }
+  ]
+}
