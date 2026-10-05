@@ -1,0 +1,84 @@
+{
+  "storyId": "saigo-no-otehon-2",
+  "title": "The Man with the Black Umbrella",
+  "chapter": 2,
+  "readingPositionHash": "375e32d3",
+  "status": "complete; rebuild and content verification passed",
+  "plannedAt": "2026-10-05T12:55:13Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 3,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "The local police officer examines the school after the unexplained entry; the safe, money, inkstone, and phone remain untouched, and Mio notices her mother pause when asked whether anyone else has a key.",
+      "sceneDescription": "At night inside the Japanese calligraphy school, a local officer checks the undamaged door with a flashlight while Mio’s mother stands near an open small safe containing untouched belongings; Mio watches her mother’s brief hesitation.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-72ae46f9-f81a-4f41-856d-f1e77d33f117.png",
+      "dimensions": "960x559",
+      "bytes": 76188
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "paragraphMeaning": "At Tenmangū, Mio finds her grandfather’s wish on a votive tablet and realises he had been waiting for her to return to calligraphy; Sōta quietly gives her privacy.",
+      "sceneDescription": "Under a large tree in a Japanese shrine courtyard, Mio holds one plain unmarked wooden votive tablet and looks down with eyes beginning to shine; Sōta stands a short distance away, gently pretending to examine another blank tablet.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-9f286882-de02-45d1-9be0-1f16ba37e112.png",
+      "dimensions": "960x560",
+      "bytes": 132564
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "paragraphMeaning": "At the shrine gate, Mio recognises the black-umbrella man from the night before; he asks what her grandfather left, while she holds the votive tablet close.",
+      "sceneDescription": "On the shrine steps beneath a red torii, a tired, anonymous man pauses with a black umbrella tilted just enough to look toward Mio; Mio holds a plain tablet close and Sōta stays beside her, with the stranger’s identity unresolved.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-8b01d7ad-53d4-4ca8-86bd-6e5b1f961692.png",
+      "dimensions": "960x560",
+      "bytes": 153388
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/saigo-no-otehon-2/cover.webp"
+  ],
+  "sourceRegistration": "tools/story_src/new-story-l5-saigo-no-otehon.mjs",
+  "lastError": null,
+  "completedAt": "2026-10-05T14:05:23Z",
+  "originalsRetained": true,
+  "verification": {
+    "build": "node tools/build_story_data.mjs passed using Codex bundled Node runtime; 82 stories rebuilt",
+    "storyTextTranslationsVocabularyUnchanged": true,
+    "readingPositionHashBefore": "375e32d3",
+    "readingPositionHashAfter": "375e32d3",
+    "paragraphCount": 10,
+    "registeredInlinePlacements": [
+      0,
+      4,
+      6
+    ],
+    "imageFormat": "static WebP",
+    "maxDimensions": "960x560",
+    "maxImageBytes": 153600,
+    "actualImageBytes": [
+      76188,
+      132564,
+      153388
+    ],
+    "totalImageBytes": 362140,
+    "totalBudgetBytes": 460800,
+    "budgetPassed": true,
+    "refusals": [],
+    "fullTestSuiteRun": false
+  }
+}

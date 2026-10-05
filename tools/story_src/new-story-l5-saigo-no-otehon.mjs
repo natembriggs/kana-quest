@@ -47,8 +47,10 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     notes: 'Original Japanese prose and English translations for level 5. The trail is built from real character structure: 休 is 人 beside 木, 明 is 日 beside 月, 天 is 一 over 大, and 峠 is a character made in Japan from 山, 上 and 下. Reading 親 as 立 + 木 + 見, “a parent standing on a tree, watching”, is a popular folk explanation rather than the character’s actual etymology; the story presents it as something the grandfather taught. 永字八法, the teaching that 永 contains the eight basic strokes, is a standard first lesson in calligraphy. Tenmangū shrines enshrine Sugawara no Michizane as a deity of learning and calligraphy, votive ema tablets carry written wishes, and kakizome is the year’s first calligraphy in early January. The canal town of Funaki, Meigetsudō, the shrine, the teahouse, the Takagi typeface and every character are invented.',
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
     ...(index === 0 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 1.' } : {}),
+    ...(index === 1 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 2.' } : {}),
   },
   ...(index === 0 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 5, file: '02.webp' }, { after: 13, file: '03.webp' }] } } : {}),
+  ...(index === 1 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 6, file: '03.webp' }] } } : {}),
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => entries[key]?.[0] || key).join('|'),

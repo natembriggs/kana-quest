@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 2 and contain no story text.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-72ae46f9-f81a-4f41-856d-f1e77d33f117.png",
+    "02.webp": "exec-9f286882-de02-45d1-9be0-1f16ba37e112.png",
+    "03.webp": "exec-8b01d7ad-53d4-4ca8-86bd-6e5b1f961692.png"
+  }
+}
