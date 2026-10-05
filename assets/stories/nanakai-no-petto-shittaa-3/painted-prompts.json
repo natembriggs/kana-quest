@@ -1,0 +1,59 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/nanakai-no-petto-shittaa-2/01.webp",
+      "role": "Character reference for Hayato and Kotone only; preserve their relative ages, faces, hair and summer-clothing palette, but do not reuse the scene or composition."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Mr Ōkawa asks the siblings to walk Gorō for a week and introduces the large, elderly brown dog.",
+      "prompt": "Use case: illustration-story\nAsset type: first inline landscape painting for Kanji Trail, Gorō Takes His Time, chapter 3, after paragraph 0.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is a character reference for Hayato and Kotone only; do not repeat its scene or composition.\nScene/backdrop: the modest entry and sitting area of a contemporary Japanese apartment, with a low table, plain sliding interior door and quiet natural details; no readable signs or text.\nSubject: Mr Ōkawa, an eighty-year-old Japanese man with kind grey hair, sits comfortably with one leg resting after an injury. He smiles as he asks Hayato and Kotone to walk his dog for a week. Gorō, his large elderly brown dog, sits close beside him; his muzzle is lightly grey and his eyes are gentle. Hayato is eight, shorter, with tousled dark hair, an ivory T-shirt and sage-green shorts. Kotone is twelve, taller, with dark hair in a low ponytail, a muted teal top and a simple indigo skirt.\nCharacter continuity: match Hayato and Kotone's age, relative height, facial features, hair and summer-clothing colours to Image 4. This is Gorō's first appearance; establish him as a calm, large, brown senior dog with a little white at the muzzle.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background, less detail than cover art.\nComposition/framing: full-bleed 12:7 landscape; Mr Ōkawa and Gorō sit together on one side while the two children listen at a comfortable distance; faces and dog remain clearly readable.\nLighting/mood: soft late-afternoon light, warm and trusting.\nColor palette: warm cream, muted teal, sage, natural wood ochre, restrained indigo, and Gorō's warm brown coat.\nConstraints: show only the request and dog description from paragraph 0. Keep Mr Ōkawa's injury understated, with no visible wound; Gorō is relaxed and remains beside him. Contemporary Japanese residential setting.\nAvoid: readable text, letters, numbers, logos, signs, borders, watermarks, extra people or animals, exaggerated injury, photorealism, glossy 3D, dense surface texture, American-coded domestic details.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-2/01.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "paragraphMeaning": "On the first evening walk, Hayato tries to hurry Gorō; Gorō sits by the apartment while Kotone offers a small treat, but he still does not walk.",
+      "prompt": "Use case: illustration-story\nAsset type: second inline landscape painting for Kanji Trail, Gorō Takes His Time, chapter 3, after paragraph 1.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is a character reference for Hayato and Kotone only; do not repeat its scene or composition.\nScene/backdrop: the paved entrance path beside a contemporary Japanese apartment building in the early evening, with a few simple potted plants and a quiet entry canopy.\nSubject: Gorō, the same large elderly brown dog with a lightly greying muzzle, sits calmly and will not move. Hayato, eight, with tousled dark hair, ivory T-shirt and sage-green shorts, holds the lead with a puzzled, slightly disappointed expression. Kotone, twelve, with dark low ponytail, muted teal top and indigo skirt, crouches nearby and offers a small dog treat. Keep the lead slack; no pulling or distress.\nCharacter continuity: match Hayato and Kotone's relative heights, faces, hair and summer-clothing colours to Image 4. Keep Gorō's size, warm brown coat, softly greying muzzle and calm demeanor consistent with Image 1's plan.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet background, simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; Gorō sitting at the centre, with the children positioned on either side so the slack lead and offered treat are easy to read.\nLighting/mood: gentle dusk light, patient and slightly uncertain, never comic or tense.\nColor palette: warm cream, muted teal, sage, natural wood ochre, restrained indigo and warm brown.\nConstraints: show the first walk's pause in front of the apartment and the treat moment from paragraph 1. Exactly one dog; Gorō remains seated after eating.\nAvoid: a taut or yanked lead, frightened or hurt dog, running, other animals or people, readable text, lettering, numbers, logos, signs, borders, watermarks, photorealism, glossy 3D, dense texture, Western suburban cues or American-coded architecture.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-2/01.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "paragraphMeaning": "Kotone remembers how Mr Ōkawa walked slowly with Gorō; the siblings stop rushing, stand beside him and take one slow step, and Gorō rises to take a step too.",
+      "prompt": "Use case: illustration-story\nAsset type: third inline landscape painting for Kanji Trail, Gorō Takes His Time, chapter 3, after paragraph 3.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is a character reference for Hayato and Kotone only; do not repeat its scene or composition.\nScene/backdrop: a calm Japanese residential walkway at dusk, with a simple apartment facade and a few quiet plants; keep the background uncluttered and do not show the park.\nSubject: Kotone and Hayato have stopped rushing. They stand together beside Gorō and begin one very slow step forward. Gorō has just risen from sitting and takes one small step beside them. Hayato, eight, is shorter, with tousled dark hair, an ivory T-shirt and sage-green shorts. Kotone, twelve, is taller, with a dark low ponytail, muted teal top and indigo skirt. Gorō is a large elderly brown dog with a lightly greying muzzle and kind eyes.\nCharacter continuity: match the children's relative ages, heights, faces, hair and summer palette to Image 4; keep Gorō's appearance consistent with the chapter's prior scenes.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background, less detail than cover art.\nComposition/framing: full-bleed 12:7 landscape; the three figures move side by side at the same unhurried pace, with Gorō's small step clearly visible and no leash tension.\nLighting/mood: soft evening light, attentive and encouraging.\nColor palette: warm cream, muted teal, sage, natural wood ochre, restrained indigo and Gorō's warm brown.\nConstraints: depict exactly the turning-point action stated in paragraph 3: the children stop running, take one slow step, and Gorō stands and takes one step. Keep this to the residential walkway; no later events.\nAvoid: park setting, flowers or other dogs (later paragraph), any text, lettering, numbers, logos, signs, borders, watermarks, extra people or animals, a taut leash, photorealism, glossy 3D, dense surface texture, Western suburban cues or American-coded architecture.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-2/01.webp"
+      ]
+    }
+  ]
+}

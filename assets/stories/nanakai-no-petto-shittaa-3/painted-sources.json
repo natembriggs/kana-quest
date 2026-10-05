@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail in the approved Kasa Jizō simple inline style; the chapter 2 painting guides Hayato and Kotone for continuity, and scenes follow the original Japanese story text.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-08053dbe-2aba-47c5-af7f-4597144d8660.png",
+    "02.webp": "exec-3ac28609-8acd-4641-ba65-df85a1d030da.png",
+    "03.webp": "exec-4f0902e1-d50e-4468-9734-ebb4fa3ddd99.png"
+  }
+}

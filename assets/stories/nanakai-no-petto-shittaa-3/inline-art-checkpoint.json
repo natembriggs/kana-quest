@@ -1,0 +1,85 @@
+{
+  "storyId": "nanakai-no-petto-shittaa-3",
+  "title": "Gorō Takes His Time",
+  "chapter": 3,
+  "readingPositionHash": "5d326cf4",
+  "status": "complete; rebuilt and verified; pending commit and push",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Mr Ōkawa asks the siblings to walk Gorō for a week and introduces the large, elderly brown dog.",
+      "sceneDescription": "A quiet meeting in the entry of a contemporary Japanese apartment: Mr Ōkawa rests his injured leg while speaking with Hayato and Kotone; Gorō, a large brown elderly dog with a softly greying muzzle and kind eyes, sits beside him.",
+      "status": "generated; original preserved; export pending",
+      "reusedExistingAsset": null,
+      "error": "Image-generation request for 01.webp was rejected before dispatch: AbsolutePathBuf deserialized without a base path at line 1 column 2434. No image was generated. Stop this run; retry the same planned scene next run with absolute reference-image paths.",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-08053dbe-2aba-47c5-af7f-4597144d8660.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "paragraphMeaning": "On the first evening walk, Hayato tries to hurry Gorō; Gorō sits by the apartment while Kotone offers a small treat, but he still does not walk.",
+      "sceneDescription": "At the entrance path of a Japanese apartment building at dusk, Hayato holds Gorō’s lead while the big brown dog sits still; Kotone crouches with a small treat, and the lead remains slack.",
+      "status": "generated; original preserved; export pending",
+      "reusedExistingAsset": null,
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-3ac28609-8acd-4641-ba65-df85a1d030da.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "paragraphMeaning": "Kotone remembers how Mr Ōkawa walked slowly with Gorō; the siblings stop rushing, stand beside him and take one slow step, and Gorō rises to take a step too.",
+      "sceneDescription": "On a calm residential walkway, Kotone and Hayato stand beside Gorō and move one careful step at his pace; Gorō has just risen from sitting to follow, with no park or later event shown.",
+      "status": "generated; original preserved; export pending",
+      "reusedExistingAsset": null,
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-4f0902e1-d50e-4468-9734-ebb4fa3ddd99.png"
+    }
+  ],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReference": "assets/stories/nanakai-no-petto-shittaa-2/01.webp",
+  "sourceRegistration": "tools/story_src/new-story-l3-nanakai-no-petto-shittaa.mjs",
+  "registeredAssetsBeforeThisRun": [],
+  "generationCallsBefore": 3,
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 0,
+  "toolAttemptsThisRun": 0,
+  "recoveredPreviousRunFailure": {
+    "scene": "01.webp",
+    "error": "Image-generation request for 01.webp was rejected before dispatch: AbsolutePathBuf deserialized without a base path at line 1 column 2434. No image was generated. Stop this run; retry the same planned scene next run with absolute reference-image paths.",
+    "resolution": "The previous request used relative image-reference paths. This run used absolute paths and the built-in generator succeeded."
+  },
+  "exportCallsThisRun": 1,
+  "sourceMetadataJsonRepair": "Removed only a trailing literal backslash-n from the malformed metadata file; image export was not retried.",
+  "successfulGenerationCallsTotal": 3,
+  "recoveredPreviousRunExportFailure": {
+    "error": "WebP export failed before writing any assets: painted-sources.json was invalid JSON (JSONDecodeError: Extra data: line 11 column 2 (char 611)).",
+    "resolution": "Removed the trailing literal backslash-n from painted-sources.json, validated it, and resumed export once in this run."
+  },
+  "verification": {
+    "build": "success; 82 stories (4510 sentences)",
+    "registeredInlineCount": 3,
+    "readingPositionHash": "5d326cf4",
+    "textTranslationsVocabularyUnchanged": true,
+    "images": {
+      "01.webp": {
+        "dimensions": "960x559",
+        "bytes": 71220
+      },
+      "02.webp": {
+        "dimensions": "960x560",
+        "bytes": 94542
+      },
+      "03.webp": {
+        "dimensions": "960x560",
+        "bytes": 78418
+      }
+    },
+    "totalWebpBytes": 244180,
+    "allImagesWithin150KiBBudget": true,
+    "storyWithin450KiBBudget": true
+  },
+  "fetchCheckThisRun": "success with elevated permission; branch was synced before edits"
+}
