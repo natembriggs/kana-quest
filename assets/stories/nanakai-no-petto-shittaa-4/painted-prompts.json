@@ -1,0 +1,59 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/nanakai-no-petto-shittaa-3/01.webp",
+      "role": "Character continuity reference only for Hayato, Kotone, Mr Ōkawa and Gorō where present; do not copy the scene or composition."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Chihiro asks Mum to feed Mochi and hands her the flat key.",
+      "prompt": "Use case: illustration-story\nAsset type: first inline landscape painting for Kanji Trail, “Where’s Mochi?”, chapter 4, after paragraph 0.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 3 art used only as a character reference for Hayato, Kotone, and Gorō where they appear; preserve their identities and clothing palette, but do not reuse its scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with clear silhouettes and one readable focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold and restrained terracotta, adjusted naturally to the scene.\nConstraints: match only the scene details stated in the existing Japanese paragraph; contemporary Japanese apartment architecture and ordinary Japanese residential details where the setting appears. Keep all actions gentle and plausible. No lettering, captions, readable calendar marks, numbers, logos, signage, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: the entrance of a compact, contemporary Japanese apartment, with a neat genkan, small shoe cabinet and quiet neutral interior details.\nSubject: Chihiro, a university-age Japanese woman with simple dark shoulder-length hair and understated casual clothes, gently hands a small apartment key to the siblings’ mother, an adult Japanese woman in calm everyday home clothes. The exchange is warm and practical, as Chihiro asks her to feed Mochi while she visits family. Mochi is described in this paragraph as a round white cat, but keep the cat off-scene; the moment is the key handoff.\nCharacter continuity: do not add Hayato or Kotone to this image; the paragraph moment is Chihiro giving the key to Mum. Give Mum a natural, unidealised adult appearance, without implying any unsupported distinctive traits. The key is a simple metal key with no tag or writing.\nLighting/mood: bright, soft morning-to-day interior light, friendly and matter-of-fact.\nComposition: medium-wide view at the apartment entrance, key handoff centered and clearly visible, with uncluttered background and no text-like marks.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-3/01.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "paragraphMeaning": "Hayato, Kotone and Mum search Chihiro’s flat and hallway for the missing cat.",
+      "prompt": "Use case: illustration-story\nAsset type: second inline landscape painting for Kanji Trail, “Where’s Mochi?”, chapter 4, after paragraph 1.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 3 art used only as a character reference for Hayato, Kotone, and Gorō where they appear; preserve their identities and clothing palette, but do not reuse its scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with clear silhouettes and one readable focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold and restrained terracotta, adjusted naturally to the scene.\nConstraints: match only the scene details stated in the existing Japanese paragraph; contemporary Japanese apartment architecture and ordinary Japanese residential details where the setting appears. Keep all actions gentle and plausible. No lettering, captions, readable calendar marks, numbers, logos, signage, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: inside Chihiro’s compact second-floor Japanese apartment on a clear Saturday morning; a simple living area opens toward a bedroom doorway and a narrow hall, with low furniture and a small shoe area near the entrance.\nSubject: Hayato, the shorter eight-year-old boy with tousled dark hair, an ivory T-shirt and sage-green shorts, calls softly into the flat while looking around. Kotone, his taller twelve-year-old sister with a low dark ponytail, muted teal top and indigo skirt, and their mother search nearby. Show their careful search and growing concern through restrained expressions and glances into a room; Mochi is not visible anywhere.\nCharacter continuity: match the siblings’ relative age, height, face shape, hair and simple summer clothing to Image 4. Mum is the same ordinary adult Japanese woman implied in the chapter’s key handoff, with calm casual clothing. Exactly three family members are present; Chihiro is away, and there is exactly one cat in the story but it remains unseen in this scene.\nLighting/mood: clear morning light, quiet concern without panic.\nComposition: medium-wide horizontal view, siblings and Mum separated naturally around the room, with open but empty hiding places in view. Keep the apartment believable and distinctly contemporary Japanese, not a Western suburban house.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-3/01.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "paragraphMeaning": "After the walk, Ōkawa tells the siblings that he will move in with his daughter; Gorō rests at his feet.",
+      "prompt": "Use case: illustration-story\nAsset type: third inline landscape painting for Kanji Trail, “Where’s Mochi?”, chapter 4, after paragraph 3.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 3 art used only as a character reference for Hayato, Kotone, and Gorō where they appear; preserve their identities and clothing palette, but do not reuse its scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with clear silhouettes and one readable focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold and restrained terracotta, adjusted naturally to the scene.\nConstraints: match only the scene details stated in the existing Japanese paragraph; contemporary Japanese apartment architecture and ordinary Japanese residential details where the setting appears. Keep all actions gentle and plausible. No lettering, captions, readable calendar marks, numbers, logos, signage, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: a quiet common entry area of a contemporary Japanese apartment building after an evening walk, with a simple bench or low step, a clean paved approach and a modest planting pot; no signs or moving boxes.\nSubject: Mr Ōkawa, the same kind elderly Japanese man with short grey hair and a navy-indigo jacket over a muted grey shirt, sits quietly as he speaks with Hayato and Kotone. His leg has healed and has no visible bandage or injury. Gorō, his large, elderly warm-brown dog with a lightly grey muzzle, lies peacefully at Ōkawa’s feet with eyes closed. The siblings listen, sensing that the news is serious.\nCharacter continuity: use Image 4 only to keep Hayato and Kotone’s ages, relative height, facial features, hair and clothing palette consistent. Use its older man and dog only as references for Ōkawa and Gorō’s identity and appearance; preserve the dog’s large size, brown coat and grey muzzle. Do not depict a move, the daughter, a new home, boxes, or any future outcome.\nLighting/mood: soft late-afternoon light, gentle and subdued, with no melodrama.\nComposition: full figures readable in a calm three-quarter view; Ōkawa seated with Gorō clearly at his feet and eyes closed, Hayato and Kotone facing him attentively. No leash tension or distress.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/nanakai-no-petto-shittaa-3/01.webp"
+      ]
+    }
+  ]
+}
