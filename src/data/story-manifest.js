@@ -456,7 +456,7 @@ export const STORIES = {
     "hash": "da295c36",
     "length": 374,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -480,7 +480,7 @@ export const STORIES = {
     "hash": "5dbf377c",
     "length": 379,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -504,7 +504,7 @@ export const STORIES = {
     "hash": "5d326cf4",
     "length": 387,
     "paras": 6,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -528,7 +528,7 @@ export const STORIES = {
     "hash": "0424af9d",
     "length": 387,
     "paras": 4,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
@@ -552,7 +552,7 @@ export const STORIES = {
     "hash": "996bdf03",
     "length": 395,
     "paras": 5,
-    "cover": false,
+    "cover": true,
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",

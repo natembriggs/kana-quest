@@ -78,7 +78,12 @@
     "chikamichi": "exec-280e7173-8d72-4329-9719-e4382cfedba5.png",
     "keeki-o-mite-kudasai": "exec-f2a0db2b-719b-4ef4-8b06-202ad9fbb225.png",
     "ugokanai-chikyuu": "exec-48064b07-af67-4a8d-a689-ff7517621f73.png",
-    "yuzu-sensei": "exec-615267ce-abf5-4036-9ac2-cc3ab60ecfca.png"
+    "yuzu-sensei": "exec-615267ce-abf5-4036-9ac2-cc3ab60ecfca.png",
+    "nanakai-no-petto-shittaa-1": "exec-e858a7d6-bd1f-46db-82d4-833757e0ede3.png",
+    "nanakai-no-petto-shittaa-2": "exec-e858a7d6-bd1f-46db-82d4-833757e0ede3.png",
+    "nanakai-no-petto-shittaa-3": "exec-e858a7d6-bd1f-46db-82d4-833757e0ede3.png",
+    "nanakai-no-petto-shittaa-4": "exec-e858a7d6-bd1f-46db-82d4-833757e0ede3.png",
+    "nanakai-no-petto-shittaa-5": "exec-e858a7d6-bd1f-46db-82d4-833757e0ede3.png"
   },
   "batches": {
     "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
@@ -118,7 +123,12 @@
     "chikamichi": "01a0e6b5-007b-70a1-80ae-fa7dc459bbda",
     "keeki-o-mite-kudasai": "01a0e6b5-007b-70a1-80ae-fa7dc459bbda",
     "ugokanai-chikyuu": "01a0e6b5-007b-70a1-80ae-fa7dc459bbda",
-    "yuzu-sensei": "01a0e6b5-007b-70a1-80ae-fa7dc459bbda"
+    "yuzu-sensei": "01a0e6b5-007b-70a1-80ae-fa7dc459bbda",
+    "nanakai-no-petto-shittaa-1": "01a10b4a-c4e4-7113-8bb3-ebf74b4151c7",
+    "nanakai-no-petto-shittaa-2": "01a10b4a-c4e4-7113-8bb3-ebf74b4151c7",
+    "nanakai-no-petto-shittaa-3": "01a10b4a-c4e4-7113-8bb3-ebf74b4151c7",
+    "nanakai-no-petto-shittaa-4": "01a10b4a-c4e4-7113-8bb3-ebf74b4151c7",
+    "nanakai-no-petto-shittaa-5": "01a10b4a-c4e4-7113-8bb3-ebf74b4151c7"
   },
   "references": {
     "pinocchio": [
@@ -136,6 +146,16 @@
       {
         "role": "edit target",
         "source": "exec-51efae62-f024-421e-b7f6-833fb425ed95.png"
+      }
+    ],
+    "nanakai-no-petto-shittaa-1": [
+      {
+        "role": "character and opening-scene reference",
+        "source": "assets/stories/nanakai-no-petto-shittaa-1/03.webp"
+      },
+      {
+        "role": "cover painting style reference",
+        "source": "assets/stories/neko-no-ie/cover.webp"
       }
     ]
   }

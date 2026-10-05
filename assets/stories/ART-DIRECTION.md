@@ -257,3 +257,14 @@ moment without revealing the story's outcome. Generated with the built-in
 OpenAI image-generation tool; prompts and original PNG source names are
 recorded in `cover-prompts.json` and `cover-sources.json`. All four exported
 covers are 480×640 WebP files below 60 KiB.
+
+## Series cover: The Seventh-Floor Pet Sitters, 5 October 2026
+
+One painted cover is shared by all five chapter IDs. Kotone and Hayato meet
+Mrs Nomura at their apartment doorway as she brings their first pet-sitting
+job: Pii-chan, a blue budgie in a closed cage. The children match the existing
+chapter illustrations, and the painting follows the richer gouache cover
+style. This opening scene reveals no later events or resolution. Generated
+with the built-in OpenAI image-generation tool; the prompt, two reference
+images and original PNG source are recorded in `cover-prompts.json` and
+`cover-sources.json`. All five exports are 480×640 WebP files below 60 KiB.

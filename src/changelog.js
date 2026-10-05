@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-10-08',
+    changes: [
+      'New: a painted cover for The Seventh-Floor Pet Sitters, showing Kotone and Hayato meeting their first customer and her blue budgie. The book keeps its cover as you move through all five chapters.',
+    ],
+  },
+  {
     date: '2026-10-05',
     changes: [
       'Fixed: ぢ/ヂ and づ/ヅ now use “dji” and “dzu” consistently in lessons, reading quizzes and writing prompts. Their detail pages explain how they are pronounced and typed. Other kana and compound sounds also explain pronunciation differences and alternative keyboard spellings.',
