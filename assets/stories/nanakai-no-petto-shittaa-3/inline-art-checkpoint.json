@@ -3,7 +3,7 @@
   "title": "Gorō Takes His Time",
   "chapter": 3,
   "readingPositionHash": "5d326cf4",
-  "status": "complete; rebuilt and verified; pending commit and push",
+  "status": "complete; rebuilt, verified, committed and pushed",
   "planned": [
     {
       "file": "01.webp",
@@ -81,5 +81,10 @@
     "allImagesWithin150KiBBudget": true,
     "storyWithin450KiBBudget": true
   },
-  "fetchCheckThisRun": "success with elevated permission; branch was synced before edits"
+  "fetchCheckThisRun": "success with elevated permission; branch was synced before edits",
+  "completion": {
+    "commit": "5f5e442772f69bdd9e9d9fcf78c95ceccb51f293",
+    "push": "success to origin/main after successful fetch",
+    "unitFilesOnly": true
+  }
 }
