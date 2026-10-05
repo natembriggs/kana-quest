@@ -1,0 +1,75 @@
+{
+  "storyId": "saigo-no-otehon-1",
+  "title": "The \"Closed\" Sign",
+  "chapter": 1,
+  "readingPositionHash": "0a64099f",
+  "status": "complete and rebuild verified",
+  "plannedAt": "2026-10-05T11:54:13Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 3,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "The chapter opens on a late-July afternoon beside the old canal in Funaki, where the family’s calligraphy school and its wooden sign stand among traditional tiled-roof homes.",
+      "sceneDescription": "A quiet establishing view of the Japanese canal town Funaki: tied wooden boats, dark tiled-roof houses and the Takagi calligraphy school with a simple blank wooden signboard, in warm late-July afternoon light.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-a1e22229-9f71-44f1-b9db-9f6f482419a6.png",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-a1e22229-9f71-44f1-b9db-9f6f482419a6.png",
+      "exportedDimensions": "960×559",
+      "exportBytes": 142766,
+      "originalBytes": 2199388
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "paragraphMeaning": "Mio removes the “Closed Today” sign from the classroom door; a white envelope drops to her feet, carrying her grandfather’s first clue.",
+      "sceneDescription": "Inside the quiet tatami calligraphy school, Mio lifts a completely blank wooden sign from its hook as a small white envelope lies freshly fallen on the floor beside her; the envelope and sign have no writing.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-06956343-d3c7-44a5-af7e-d897573a3950.png",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-06956343-d3c7-44a5-af7e-d897573a3950.png",
+      "exportedDimensions": "960×560",
+      "exportBytes": 76110,
+      "originalBytes": 1852187
+    },
+    {
+      "file": "03.webp",
+      "after": 13,
+      "paragraphMeaning": "At night Mio discovers the classroom drawers emptied and blank papers scattered; a face-hidden figure with a black umbrella slips through the garden gate.",
+      "sceneDescription": "Mio stands in the dark classroom beside an open desk with seven pulled-out drawers and blank sheets scattered across tatami, looking through the garden-facing glass door at a face-hidden black-umbrella silhouette leaving through the gate into night.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-030a2d39-c833-4ec0-9bf9-4f17e87ac99a.png",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-030a2d39-c833-4ec0-9bf9-4f17e87ac99a.png",
+      "exportedDimensions": "960×560",
+      "exportBytes": 92404,
+      "originalBytes": 1884751
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/saigo-no-otehon-1/cover.webp"
+  ],
+  "sourceRegistration": "tools/story_src/new-story-l5-saigo-no-otehon.mjs",
+  "lastError": null,
+  "exportedTotalBytes": 311280,
+  "sourceMetadata": "painted-sources.json",
+  "completedAt": "2026-10-05T12:09:40.119Z",
+  "verifications": {
+    "rebuild": "passed: built 82 stories",
+    "storyTextTranslationsVocabulary": "unchanged for all five series chapters against HEAD baseline",
+    "readingPositionHash": "0a64099f unchanged",
+    "registeredIllustrations": 3,
+    "imageFormat": "static WebP",
+    "imageBudget": "each <=150 KiB and combined <=450 KiB",
+    "originalsRetained": true
+  }
+}

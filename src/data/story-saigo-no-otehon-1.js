@@ -32,7 +32,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for level 5. The trail is built from real character structure: 休 is 人 beside 木, 明 is 日 beside 月, 天 is 一 over 大, and 峠 is a character made in Japan from 山, 上 and 下. Reading 親 as 立 + 木 + 見, “a parent standing on a tree, watching”, is a popular folk explanation rather than the character’s actual etymology; the story presents it as something the grandfather taught. 永字八法, the teaching that 永 contains the eight basic strokes, is a standard first lesson in calligraphy. Tenmangū shrines enshrine Sugawara no Michizane as a deity of learning and calligraphy, votive ema tablets carry written wishes, and kakizome is the year’s first calligraphy in early January. The canal town of Funaki, Meigetsudō, the shrine, the teahouse, the Takagi typeface and every character are invented.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 1.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/saigo-no-otehon-1/01.webp?v=67aa63f84c2ac744",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/saigo-no-otehon-1/02.webp?v=dcee7fb1dcd84174",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 13,
+        "src": "assets/stories/saigo-no-otehon-1/03.webp?v=3482bf98ffd7a646",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -15504,9 +15528,5 @@ export const STORY = {
   "hash": "0a64099f",
   "was": [
     "5db04d6e"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };
