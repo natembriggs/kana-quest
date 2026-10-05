@@ -1,0 +1,62 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy characters or composition."
+    },
+    {
+      "file": "assets/stories/pinocchio/cover.webp",
+      "role": "Pinocchio and Geppetto character identity and palette only; do not copy the cover montage, fairy, whale composition, or setting."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Geppetto carves a puppet from a peculiar log; its eyes blink and its limbs begin to move before Pinocchio leaps from the window.",
+      "sceneDescription": "In a modest Italian woodcarver’s workshop, elderly Geppetto holds the newly carved wooden puppet as its eyes blink; hand tools and curled shavings show the craft, with an open shuttered window behind.",
+      "prompt": "Use case: illustration-story.\nAsset type: first of three inline landscape paintings for Kanji Trail, Pinocchio; place after paragraph 0.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Pinocchio and Geppetto character identity and palette only. Do not copy the cover’s montage, fairy, whale, composition, or setting.\nScene/backdrop: a small Italian woodcarver’s workshop in an old town, with simple plaster-and-stone walls, a wooden bench, a few hand tools, curled shavings, and a shuttered window. Keep it quiet and uncluttered.\nSubject/action: elderly Geppetto, a kind Italian woodcarver with white hair and moustache, round spectacles and a simple brown cap, holds his newly carved boy-shaped wooden puppet as its eyes blink for the first time. The puppet has dark hair, a simple muted green jacket over an ivory shirt, brown trousers, and clearly wooden hands and jointed knees. Geppetto looks surprised and tender. Show just Geppetto and the puppet.\nCharacter continuity: match Geppetto’s and Pinocchio’s face, hair, moustache, cap and muted clothing palette to Image 4 only; make the puppet visibly carved wood, with original neutral clothing, no film-adaptation costume.\nStyle/medium: simple painted children’s picture-book illustration matching approved Kasa Jizō inline art: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three calm depth layers; clearly less detail than the cover.\nComposition/framing: full-bleed 12:7 landscape; Geppetto and the blinking puppet form one readable focal group at the workbench, window secondary in the background.\nLighting/mood: soft afternoon light through the window, warm, surprised and affectionate.\nPalette: warm ivory, muted wood ochre and brown, sage green, restrained terracotta, and gentle indigo shadows.\nConstraints: match paragraph 0 only. The puppet has just come alive; do not show later adventures.\nAvoid: readable text, letters, numbers, logos, borders, watermarks, extra characters, fairy, whale, circus, crowded tools, photorealism, glossy 3D, strong wood grain, dense texture, rich cover-level brushwork, film-adaptation costumes.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/pinocchio/cover.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "paragraphMeaning": "After selling his schoolbook to enter the travelling puppet show, Pinocchio is welcomed by the stage puppets and begins to dance.",
+      "sceneDescription": "Inside a small travelling puppet-show tent in an Italian town, wooden stage puppets greet Pinocchio as he dances among them; a simple curtain and warm footlights define the stage.",
+      "prompt": "Use case: illustration-story.\nAsset type: second of three inline landscape paintings for Kanji Trail, Pinocchio; place after paragraph 2.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Pinocchio and Geppetto character identity and palette only. Do not copy the cover’s montage, fairy, whale, composition, or setting.\nScene/backdrop: the simple stage of a small travelling puppet-show tent in an Italian town. Use a plain terracotta-red curtain, a few warm footlights and an uncluttered darkened audience area with no visible crowd.\nSubject/action: Pinocchio, a wooden boy puppet with dark hair, muted green jacket, ivory shirt, brown trousers and carved wooden joints, dances lightly at centre stage. Two simple wooden stage puppets turn toward him in welcome. Show no more than these three puppets; the show master is outside the frame.\nCharacter continuity: match Pinocchio’s face, dark hair, wooden body and muted green/ivory/brown palette to Image 4 only, without copying the cover pose.\nStyle/medium: simple painted children’s picture-book illustration matching approved Kasa Jizō inline art: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful shadows, quiet simplified background and two or three depth layers; less detailed than the cover.\nComposition/framing: full-bleed 12:7 landscape; Pinocchio’s dance is the clear focal point, with the two stage puppets forming a welcoming, balanced group.\nLighting/mood: warm, gentle stage light; playful and surprising, not grand or theatrical spectacle.\nPalette: muted green, warm ivory, wood ochre, restrained terracotta-red curtain, soft golden light and midnight-indigo shadows.\nConstraints: match paragraph 2 only: he has joined the stage puppets and begun dancing. Keep the stage intimate and clearly a puppet show.\nAvoid: readable poster or signs, text, letters, numbers, logos, borders, watermarks, humans, extra puppets, fairy, whale, elaborate circus spectacle, photorealism, glossy 3D, dense surface texture, detailed audience, rich cover-level brushwork, film-adaptation design.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/pinocchio/cover.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "paragraphMeaning": "A storm overturns Geppetto’s boat and the whale swallows him; Pinocchio immediately jumps into the sea and swims after it.",
+      "sceneDescription": "At a stormy Italian coast at dusk, wooden Pinocchio dives into the rough sea toward Geppetto’s small overturned boat while the whale’s dark back breaks the waves in the distance.",
+      "prompt": "Use case: illustration-story.\nAsset type: third of three inline landscape paintings for Kanji Trail, Pinocchio; place after paragraph 5.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Pinocchio and Geppetto character identity and palette only. Do not copy the cover’s montage, fairy, whale, composition, or setting.\nScene/backdrop: an Italian coastline in a sudden evening storm, with dark simple waves, a pale strip of shore and a low storm sky. Keep the sea dramatic but readable.\nSubject/action: Pinocchio, a small wooden boy puppet with dark hair, muted green jacket and brown trousers, dives into the sea without hesitation to swim after Geppetto. A small wooden boat has overturned in the middle distance; farther out, a huge whale’s dark curved back rises among the waves. Suggest the open mouth as a dark shape only, without showing anyone inside it. Geppetto is no longer visible.\nCharacter continuity: match Pinocchio’s wooden joints, face, dark hair and muted green/brown palette to Image 4 only; do not copy any characters’ poses from the cover.\nStyle/medium: simple painted children’s picture-book illustration matching approved Kasa Jizō inline art: broad smooth colour areas, gentle contours, minimal surface texture, a few purposeful shadows, quiet simplified background and two or three depth layers; simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; Pinocchio’s leap and the overturned boat are easy to read, with the whale’s back a distant ominous silhouette, not a close-up.\nLighting/mood: cool storm light with one pale break near the horizon; brave and urgent but restrained, no graphic peril.\nPalette: midnight indigo and slate-blue sea, warm wood ochre, muted green jacket, ivory highlights and a small soft-grey sky.\nConstraints: match paragraph 5 only and stop before the whale’s interior. No injury or graphic details.\nAvoid: blood, drowning, visible swallowing, anyone inside the whale, later rescue, readable text, lettering, numbers, logos, borders, watermarks, extra boats, photorealism, glossy 3D, dense spray detail, rich cover-level brushwork, film-adaptation design.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/pinocchio/cover.webp"
+      ]
+    }
+  ]
+}

@@ -14,6 +14,13 @@
       "refusedScene": "03.webp after paragraph 2: Belle reads aloud to the Beast in the castle library.",
       "outcome": "The built-in image-generation request was rejected by the safety system (moderation_blocked; output stage; category other; request ID d96ee0bc-512c-4f70-a811-309050aafc55). No further image-generation calls will be made for this unit. Preserve the existing 01.webp and successfully generated 02.webp; skip this unit in future runs.",
       "reason": "The tool did not provide a specific reason."
+    },
+    {
+      "unit": "pinocchio",
+      "title": "Pinocchio",
+      "refusedScene": "01.webp after paragraph 0: Geppetto’s workshop as Pinocchio first blinks into life.",
+      "outcome": "The built-in image-generation request for 01.webp was rejected: HTTP 400 image_generation_user_error, code moderation_blocked, moderation stage output, category other, request ID 7fe60929-babe-491d-82f8-b63198461941. The tool supplied no specific reason.",
+      "reason": "The tool supplied no specific reason; none is inferred."
     }
   ]
 }

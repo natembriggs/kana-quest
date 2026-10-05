@@ -1,0 +1,54 @@
+{
+  "storyId": "pinocchio",
+  "title": "Pinocchio",
+  "readingPositionHash": "13858129",
+  "status": "refused; stop all generation for this unit",
+  "plannedAt": "2026-10-05T09:50:42Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 1,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Geppetto carves a puppet from a peculiar log; its eyes blink and its limbs begin to move before Pinocchio leaps from the window.",
+      "sceneDescription": "In a modest Italian woodcarver’s workshop, elderly Geppetto holds the newly carved wooden puppet as its eyes blink; hand tools and curled shavings show the craft, with an open shuttered window behind.",
+      "status": "refused",
+      "reusedExistingAsset": null,
+      "error": "The built-in image-generation request for 01.webp was rejected: HTTP 400 image_generation_user_error, code moderation_blocked, moderation stage output, category other, request ID 7fe60929-babe-491d-82f8-b63198461941. The tool supplied no specific reason.",
+      "generatedOriginal": null
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "paragraphMeaning": "After selling his schoolbook to enter the travelling puppet show, Pinocchio is welcomed by the stage puppets and begins to dance.",
+      "sceneDescription": "Inside a small travelling puppet-show tent in an Italian town, wooden stage puppets greet Pinocchio as he dances among them; a simple curtain and warm footlights define the stage.",
+      "status": "not attempted; unit refused after first scene",
+      "reusedExistingAsset": null
+    },
+    {
+      "file": "03.webp",
+      "after": 5,
+      "paragraphMeaning": "A storm overturns Geppetto’s boat and the whale swallows him; Pinocchio immediately jumps into the sea and swims after it.",
+      "sceneDescription": "At a stormy Italian coast at dusk, wooden Pinocchio dives into the rough sea toward Geppetto’s small overturned boat while the whale’s dark back breaks the waves in the distance.",
+      "status": "not attempted; unit refused after first scene",
+      "reusedExistingAsset": null
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/pinocchio/cover.webp"
+  ],
+  "sourceRegistration": "tools/story_src/level-5.mjs",
+  "lastError": "The built-in image-generation request for 01.webp was rejected: HTTP 400 image_generation_user_error, code moderation_blocked, moderation stage output, category other, request ID 7fe60929-babe-491d-82f8-b63198461941. The tool supplied no specific reason.",
+  "refusal": {
+    "scene": "01.webp after paragraph 0",
+    "outcome": "The built-in image-generation request for 01.webp was rejected: HTTP 400 image_generation_user_error, code moderation_blocked, moderation stage output, category other, request ID 7fe60929-babe-491d-82f8-b63198461941. The tool supplied no specific reason.",
+    "recordedAt": "2026-10-05T09:50:42.541Z"
+  }
+}
