@@ -4,7 +4,7 @@
   "title": "Pii-chan Talks",
   "selectedAt": "2026-10-05T00:42:40Z",
   "readingPositionHash": "5dbf377c",
-  "status": "complete; rebuilt and verified; pending commit and push",
+  "status": "complete; rebuilt, verified, committed and pushed",
   "planned": [
     {
       "file": "01.webp",
@@ -75,5 +75,9 @@
     "allImagesWithin150KiBBudget": true,
     "storyWithin450KiBBudget": true,
     "scene02Note": "The generated view shows an open window despite the prompt's avoid constraint; retained without a refinement call."
+  },
+  "commit": {
+    "hash": "5dde9de",
+    "push": "successful"
   }
 }
