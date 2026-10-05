@@ -32,7 +32,31 @@ export const STORY = {
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations for level 5. The trail is built from real character structure: 休 is 人 beside 木, 明 is 日 beside 月, 天 is 一 over 大, and 峠 is a character made in Japan from 山, 上 and 下. Reading 親 as 立 + 木 + 見, “a parent standing on a tree, watching”, is a popular folk explanation rather than the character’s actual etymology; the story presents it as something the grandfather taught. 永字八法, the teaching that 永 contains the eight basic strokes, is a standard first lesson in calligraphy. Tenmangū shrines enshrine Sugawara no Michizane as a deity of learning and calligraphy, votive ema tablets carry written wishes, and kakizome is the year’s first calligraphy in early January. The canal town of Funaki, Meigetsudō, the shrine, the teahouse, the Takagi typeface and every character are invented.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; chapter 2 artwork guides Mio and Sōta continuity only. The paintings follow chapter 3.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 3,
+        "src": "assets/stories/saigo-no-otehon-3/01.webp?v=4ae254b348e2b239",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 5,
+        "src": "assets/stories/saigo-no-otehon-3/02.webp?v=a432ebadb8107010",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 7,
+        "src": "assets/stories/saigo-no-otehon-3/03.webp?v=94007e0fa8276a8a",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -10141,9 +10165,5 @@ export const STORY = {
   "hash": "fa55e390",
   "was": [
     "3e734db1"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

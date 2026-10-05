@@ -48,9 +48,11 @@ export const STORY_SOURCES = chapters.map((body, index) => expandStory({
     licence: 'Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.',
     ...(index === 0 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 1.' } : {}),
     ...(index === 1 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; the paintings follow chapter 2.' } : {}),
+    ...(index === 2 ? { illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. The shared series cover guides Mio’s character identity and palette only; chapter 2 artwork guides Mio and Sōta continuity only. The paintings follow chapter 3.' } : {}),
   },
   ...(index === 0 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 5, file: '02.webp' }, { after: 13, file: '03.webp' }] } } : {}),
   ...(index === 1 ? { art: { inline: [{ after: 0, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 6, file: '03.webp' }] } } : {}),
+  ...(index === 2 ? { art: { inline: [{ after: 3, file: '01.webp' }, { after: 5, file: '02.webp' }, { after: 7, file: '03.webp' }] } } : {}),
   lexicon: definitions,
   body: body.map((paragraph) => paragraph.map((sentence) => line(
     sentence.tokens.split('|').map((key) => entries[key]?.[0] || key).join('|'),

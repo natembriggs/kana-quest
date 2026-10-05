@@ -1,0 +1,98 @@
+{
+  "storyId": "saigo-no-otehon-3",
+  "title": "The Teahouse on the Pass",
+  "chapter": 3,
+  "readingPositionHash": "fa55e390",
+  "status": "complete; rebuild and content verification passed",
+  "plannedAt": "2026-10-05T15:01:25.565Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 3,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "paragraphMeaning": "Mio and Sōta travel from town toward the north mountain pass, pushing their bicycles up the steep road through the cool cedar woods after riding between the rice fields.",
+      "sceneDescription": "Two Japanese children push their bicycles uphill along a quiet mountain road where the rice fields give way to cedar forest; the pass rises ahead under a bright blue sky with distant white summer thunderclouds.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-4696f4d8-7605-4b65-b76a-859647c2cbe3.png",
+      "dimensions": "960x560",
+      "bytes": 152600
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "paragraphMeaning": "At the old teahouse on the pass, Mio tells the white-bearded owner her name; he stops fanning himself and recognises her as Takagi’s granddaughter.",
+      "sceneDescription": "At a small wooden Japanese mountain teahouse, white-bearded Gen-san sits on the front bench with his fan paused as Mio and Sōta arrive with their bicycles; the shop sign is present but blank and unreadable.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-abc20d30-6f39-40c4-941b-35553bfd8874.png",
+      "dimensions": "960x560",
+      "bytes": 126352
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "paragraphMeaning": "A sudden summer storm traps Mio and Sōta at the teahouse; Gen-san lets them inside and points out the old telephone so they can call home later.",
+      "sceneDescription": "Inside the quiet old teahouse, Mio and Sōta sit safely by a window while rain veils the cedar trees; Gen-san gestures toward a simple old corded telephone. No stranger has arrived yet.",
+      "status": "exported, registered, and rebuilt",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-c4f58a77-73dd-42c0-a13b-a012e56bff73.png",
+      "dimensions": "960x560",
+      "bytes": 98498
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/saigo-no-otehon-3/cover.webp"
+  ],
+  "continuityReferences": [
+    "assets/stories/saigo-no-otehon-2/02.webp"
+  ],
+  "sourceRegistration": "tools/story_src/new-story-l5-saigo-no-otehon.mjs",
+  "lastError": null,
+  "generationAttemptsThisRun": 3,
+  "failureAt": "2026-10-05T15:01Z",
+  "resolvedPriorRunErrors": [
+    {
+      "scene": "01.webp",
+      "type": "non-refusal built-in image-generation request error",
+      "exact": "AbsolutePathBuf deserialized without a base path at line 1 column 2335",
+      "outcome": "No generation output was created; do not retry this unit during this run. Resume the same scene next run with absolute paths in referenced_image_paths."
+    }
+  ],
+  "resumedAt": "2026-10-05T15:56:44Z",
+  "completedAt": "2026-10-05T16:03:33Z",
+  "originalsRetained": true,
+  "verification": {
+    "build": "node tools/build_story_data.mjs passed using Codex bundled Node runtime; 82 stories rebuilt",
+    "storyTextTranslationsVocabularyUnchanged": true,
+    "readingPositionHashBefore": "fa55e390",
+    "readingPositionHashAfter": "fa55e390",
+    "paragraphCount": 10,
+    "registeredInlinePlacements": [
+      3,
+      5,
+      7
+    ],
+    "imageFormat": "static WebP",
+    "dimensions": "960x560 each",
+    "imageBytes": [
+      152600,
+      126352,
+      98498
+    ],
+    "totalImageBytes": 377450,
+    "totalBudgetBytes": 460800,
+    "budgetPassed": true,
+    "originalsRetained": true,
+    "refusals": [],
+    "fullTestSuiteRun": false
+  }
+}

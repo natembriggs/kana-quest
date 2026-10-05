@@ -1,0 +1,69 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/saigo-no-otehon-3/cover.webp",
+      "role": "Mio character identity and palette only; do not copy the cover composition or detail."
+    },
+    {
+      "file": "assets/stories/saigo-no-otehon-2/02.webp",
+      "role": "Mio and Sōta character continuity only; do not copy this chapter 2 scene, composition, detail or style."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 3,
+      "paragraphMeaning": "Mio and Sōta travel from town toward the north mountain pass, pushing their bicycles up the steep road through the cool cedar woods after riding between the rice fields.",
+      "sceneDescription": "Two Japanese children push their bicycles uphill along a quiet mountain road where the rice fields give way to cedar forest; the pass rises ahead under a bright blue sky with distant white summer thunderclouds.",
+      "prompt": "Use case: illustration-story.\nAsset type: first of three inline landscape paintings for Kanji Trail, The Teahouse on the Pass, chapter 3; place after paragraph 3.\nInput images: Images 1–3 are approved Kasa Jizō inline paintings for style only: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Mio’s character identity and palette only; do not copy the cover composition or detail. Image 5 is a chapter 2 character-continuity reference for Mio and Sōta only; do not copy its composition, scenery, detail or style.\nScene/backdrop: a rural road north of an invented Japanese canal town in summer, leaving rice fields and entering a cool cedar forest; the mountain pass rises in the distance beneath a blue sky and tall white cumulonimbus clouds.\nSubject/action: Mio and her friend Sōta, both about twelve, push their simple bicycles up the steep road. Mio has black hair in a low ponytail, an ivory short-sleeved shirt, muted sage-green skirt and brown backpack. Sōta has short dark hair, a plain blue shirt, beige shorts and a navy backpack. Keep the two children friendly and naturally proportioned. Show them before any sighting on the lower road: no shadowy figure or other person.\nStyle/medium: simple painted children's picture-book art matching the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three depth layers and a quiet simplified background; much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape. Make the children and bicycles clear readable silhouettes, with the road leading from open rice fields into dark green cedar shade.\nLighting/mood: warm summer daylight, a little exertion, calm anticipation.\nPalette: warm ivory, muted teal, sage foliage, ochre fields and restrained midnight-blue shadows.\nConstraints: depict only the journey described in paragraph 3, before Sōta notices anything on the road below. Japanese countryside details; no cars or traffic.\nAvoid: readable writing, kanji, letters, numbers, logos, extra people, a black figure, storm rain, dramatic danger, borders, watermarks, photorealism, glossy 3D, dense texture or cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/saigo-no-otehon-3/cover.webp",
+        "assets/stories/saigo-no-otehon-2/02.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 5,
+      "paragraphMeaning": "At the old teahouse on the pass, Mio tells the white-bearded owner her name; he stops fanning himself and recognises her as Takagi’s granddaughter.",
+      "sceneDescription": "At a small wooden Japanese mountain teahouse, white-bearded Gen-san sits on the front bench with his fan paused as Mio and Sōta arrive with their bicycles; the shop sign is present but blank and unreadable.",
+      "prompt": "Use case: illustration-story.\nAsset type: second of three inline landscape paintings for Kanji Trail, The Teahouse on the Pass, chapter 3; place after paragraph 5.\nInput images: Images 1–3 are approved Kasa Jizō inline paintings for style only: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Mio’s character identity and palette only; do not copy the cover composition or detail. Image 5 is a chapter 2 character-continuity reference for Mio and Sōta only; do not copy its composition, scenery, detail or style.\nScene/backdrop: a small old Japanese teahouse standing alone at the highest point of a mountain pass, with simple timber walls, a shaded eave, a low front bench and green mountain slopes behind it. A plain wooden shop sign hangs under the eave, with no visible characters or writing.\nSubject/action: white-bearded Gen-san, a kind elderly Japanese man, sits on the bench holding a simple hand fan that has just stopped. He welcomes Mio and Sōta, two Japanese children about twelve, who stand beside their bicycles after the climb. Mio has a black low ponytail, ivory shirt, sage-green skirt and brown backpack. Sōta has short dark hair, a plain blue shirt, beige shorts and a navy backpack. Gen-san's expression is gentle surprise as he recognises Mio's family name.\nStyle/medium: simple painted children's picture-book art matching the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three depth layers and a quiet simplified background; much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape. Keep the three figures, the teahouse bench and the two bicycles distinct at small size; a blank sign may sit high under the eave without becoming a focal point.\nLighting/mood: hot late-summer afternoon softened by the teahouse shade; welcoming and quietly meaningful.\nPalette: warm ivory, muted teal, sage, ochre timber and a small terracotta accent.\nConstraints: match paragraph 5 only. Show the greeting and Gen-san's recognition; no tin box, no revelation about the missing third key, and no readable or decorative writing on the sign.\nAvoid: legible text, kanji, letters, numbers, signs with marks, logos, extra characters, rain, umbrellas, borders, watermarks, photorealism, glossy 3D, dense texture or cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/saigo-no-otehon-3/cover.webp",
+        "assets/stories/saigo-no-otehon-2/02.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 7,
+      "paragraphMeaning": "A sudden summer storm traps Mio and Sōta at the teahouse; Gen-san lets them inside and points out the old telephone so they can call home later.",
+      "sceneDescription": "Inside the quiet old teahouse, Mio and Sōta sit safely by a window while rain veils the cedar trees; Gen-san gestures toward a simple old corded telephone. No stranger has arrived yet.",
+      "prompt": "Use case: illustration-story.\nAsset type: third of three inline landscape paintings for Kanji Trail, The Teahouse on the Pass, chapter 3; place after paragraph 7.\nInput images: Images 1–3 are approved Kasa Jizō inline paintings for style only: broad smooth colour areas, gentle contours, minimal texture and quiet backgrounds. Image 4 guides Mio’s character identity and palette only; do not copy the cover composition or detail. Image 5 is a chapter 2 character-continuity reference for Mio and Sōta only; do not copy its composition, scenery, detail or style.\nScene/backdrop: inside the simple Japanese mountain teahouse during a sudden summer downpour. Through an open window, broad pale sheets of rain cross the view and cedar trees bend in the wind.\nSubject/action: Mio and Sōta sit safely inside near the window, their bicycles sheltered outside under the eave. Gen-san stands or sits nearby and points calmly toward an old corded telephone on a low wooden shelf. Mio's own phone is in her hand or pocket but shows no screen text. Mio has black hair in a low ponytail, an ivory shirt and sage-green skirt; Sōta has short dark hair, a plain blue shirt and beige shorts; Gen-san has a white beard and simple everyday clothes.\nStyle/medium: simple painted children's picture-book art matching the approved Kasa Jizō inline style: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three depth layers and a quiet simplified background; much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape. Arrange the children, Gen-san and the old telephone as simple distinct forms against the broad rain-filled window; keep the storm outside and the room warm and secure.\nLighting/mood: cool grey-blue summer rain outside, a soft warm interior; sheltered, suspenseful but safe.\nPalette: warm ivory, muted teal, sage, ochre wood and restrained indigo storm shadows.\nConstraints: match paragraph 7 only and stop before the next chapter event. No stranger enters the teahouse; the old phone is visible but bears no labels or writing.\nAvoid: readable text, kanji, letters, numbers, phone-screen text, any man with an umbrella, broken windows, lightning strikes, danger, logos, borders, watermarks, photorealism, glossy 3D, dense texture or cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/saigo-no-otehon-3/cover.webp",
+        "assets/stories/saigo-no-otehon-2/02.webp"
+      ]
+    }
+  ]
+}
