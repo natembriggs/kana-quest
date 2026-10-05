@@ -1,7 +1,7 @@
 // Screen routing, session flow and event wiring.
 
 import {
-  COURSES, romajiFor, writingPromptFor, buildChoices,
+  COURSES, romajiFor, romajiNoteFor, writingPromptFor, buildChoices,
 } from './kana.js';
 import {
   KANJI_COURSES, KANJI_ALL_COURSES, KANJI_ORDERS, kanjiCoursesFor, kanjiCourseForUnit,
@@ -189,7 +189,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-10-04a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-10-05b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
@@ -4829,7 +4829,7 @@ function renderCharacterDetail() {
     // (renderLesson()'s lesson-romaji/lesson-pronunciation), shown openly
     // here too since this screen has no reveal ladder to protect.
     $('detail-romaji').hidden = false;
-    $('detail-romaji').textContent = toRomaji(info.r);
+    $('detail-romaji').textContent = romajiFor(info.r);
     const pronunciation = pronunciationFor(info.r);
     $('detail-pronunciation').hidden = !pronunciation;
     $('detail-pronunciation').textContent = pronunciation ? `said: ${pronunciation}` : '';
@@ -4848,6 +4848,13 @@ function renderCharacterDetail() {
     $('detail-word-kanji').hidden = true;
     $('detail-romaji').hidden = false;
     $('detail-romaji').textContent = romajiFor(char);
+    const romajiNote = romajiNoteFor(char);
+    if (romajiNote) {
+      const note = document.createElement('span');
+      note.className = 'romaji-note';
+      note.textContent = ` (${romajiNote})`;
+      $('detail-romaji').appendChild(note);
+    }
     $('detail-pronunciation').hidden = true;
     $('detail-readings').hidden = true;
     $('detail-readings').innerHTML = '';
@@ -6227,7 +6234,7 @@ function renderLesson() {
     // full reading list is on its own lesson card just above.
     renderVocabWordGlyph($('lesson-kana'), info);
     $('lesson-romaji').hidden = false;
-    $('lesson-romaji').textContent = toRomaji(info.r);
+    $('lesson-romaji').textContent = romajiFor(info.r);
     // Only shown when it genuinely differs from the romaji above — see
     // pronunciationFor()'s module note in vocab.js (こんばんは vs "konbanha",
     // long vowels needing a macron rather than a doubled letter).
@@ -6276,6 +6283,11 @@ function renderLesson() {
     strokeContainer.appendChild(svg);
     lessonStrokeLoopStop = animateStrokes(paths, { loop: true });
     $('lesson-hint').textContent = "Watch how it's drawn — you'll trace it in the quiz.";
+  }
+
+  if (course.kind === 'kana') {
+    const note = romajiNoteFor(item);
+    if (note) $('lesson-hint').textContent = `${note[0].toUpperCase()}${note.slice(1)}. ${$('lesson-hint').textContent}`;
   }
 
   show('screen-lesson');
@@ -7322,7 +7334,7 @@ function updateVocabWordDisplay() {
   const pronunciation = $('quiz-prompt-pronunciation');
   hint.hidden = level < romajiLevel;
   if (!hint.hidden) {
-    hint.textContent = toRomaji(info.r);
+    hint.textContent = romajiFor(info.r);
     // Only shown when it genuinely differs — see pronunciationFor()'s module
     // note in vocab.js.
     const said = pronunciationFor(info.r);
@@ -11238,7 +11250,7 @@ function paintTokenElement(el, token, rendered, level) {
   if (at.showRomaji) {
     const romaji = document.createElement('span');
     romaji.className = 'reader-romaji-pop';
-    romaji.textContent = toRomaji(token.k);
+    romaji.textContent = romajiFor(token.k);
     el.appendChild(romaji);
   }
 }
@@ -12537,7 +12549,7 @@ function renderReaderCardHead(token) {
   head.appendChild(glyph);
   const readingLine = document.createElement('div');
   readingLine.className = 'reader-card-reading';
-  const romaji = toRomaji(token.k);
+  const romaji = romajiFor(token.k);
   readingLine.textContent = token.k === token.s ? romaji : `${token.k}  ${romaji}`;
   head.appendChild(readingLine);
   return head;

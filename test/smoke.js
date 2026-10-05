@@ -10,7 +10,7 @@ load('vendor/wanakana.min.js');
 globalThis.window = { wanakana: globalThis.wanakana };
 
 const {
-  COURSES, romajiFor, writingPromptFor, checkRomaji, buildChoices,
+  COURSES, romajiFor, romajiNoteFor, writingPromptFor, checkRomaji, buildChoices,
 } = await import('../src/kana.js');
 const {
   KANJI_COURSES, kanjiInfo, readingExample, meaningLabel, meaningKeys,
@@ -577,8 +577,10 @@ done('every character accepts its own romaji');
 const accepted = [
   ['si', 'し'], ['shi', 'し'], ['tu', 'つ'], ['tsu', 'つ'],
   ['hu', 'ふ'], ['fu', 'ふ'], ['n', 'ん'], ['nn', 'ん'], ["n'", 'ん'],
-  ['wo', 'を'], ['o', 'を'], ['di', 'ぢ'], ['ji', 'ぢ'],
-  ['du', 'づ'], ['zu', 'づ'], ['kya', 'きゃ'], ['sho', 'しょ'],
+  ['wo', 'を'], ['o', 'を'], ['di', 'ぢ'], ['ji', 'ぢ'], ['dji', 'ぢ'],
+  ['du', 'づ'], ['zu', 'づ'], ['dzu', 'づ'], ['kya', 'きゃ'], ['sho', 'しょ'],
+  ['dji', 'ヂ'], ['dzu', 'ヅ'], [' DJI ', 'ぢ'],
+  ['dja', 'ぢゃ'], ['dju', 'ぢゅ'], ['djo', 'ぢょ'],
   ['SHI', 'し'], [' ka ', 'か'],
   // katakana targets take the same romaji
   ['ka', 'カ'], ['shi', 'シ'], ['n', 'ン'], ['ja', 'ジャ'],
@@ -592,16 +594,51 @@ const rejected = [
   ['ki', 'カ'], ['sa', 'し'], ['ya', 'や'.replace('や', 'ゆ')],
   // お and を must stay distinct in this direction, even though を accepts "o"
   ['wo', 'お'],
+  ['dji', 'じ'], ['dzu', 'ず'], ['dji', 'ジ'], ['dzu', 'ズ'],
 ];
 for (const [typed, target] of rejected) {
   check(`reject "${typed}" for ${target}`, !checkRomaji(typed, target));
 }
 done('alternate spellings');
 
-// --- Writing-mode prompt disambiguation -------------------------------------
-// romajiFor(ぢ)/romajiFor(づ) collide with romajiFor(じ)/romajiFor(ず) — fine
-// for reading questions, where the kana glyph is on screen, but writing mode
-// shows only the romaji, so those four characters need to come back distinct.
+// --- Consistent display spelling and explanatory notes ----------------------
+// Learning, reading and writing must distinguish the same pairs, including
+// inside words. Parenthetical details never leak into quiz answer labels.
+
+for (const [kana, expected] of [
+  ['ぢ', 'dji'], ['ヂ', 'dji'], ['づ', 'dzu'], ['ヅ', 'dzu'],
+  ['じ', 'ji'], ['ず', 'zu'], ['はなぢ', 'hanadji'], ['ミヂカ', 'midjika'],
+  ['つづく', 'tsudzuku'], ['ぢゃ', 'dja'], ['ヂュ', 'dju'], ['ぢょ', 'djo'],
+]) {
+  check(`consistent display spelling for ${kana}`, romajiFor(kana) === expected, romajiFor(kana));
+}
+
+for (const [kana, note] of [
+  ['ぢ', 'pronounced "ji", typed as "di"'],
+  ['づ', 'pronounced "zu", typed as "du"'],
+  ['を', 'pronounced "o", typed as "wo"'],
+  ['し', 'also typed as "si"'], ['じ', 'also typed as "zi"'],
+  ['ち', 'also typed as "ti"'], ['つ', 'also typed as "tu"'], ['ふ', 'also typed as "hu"'],
+  ['しゃ', 'also typed as "sya"'], ['しゅ', 'also typed as "syu"'], ['しょ', 'also typed as "syo"'],
+  ['じゃ', 'also typed as "jya" or "zya"'], ['じゅ', 'also typed as "jyu" or "zyu"'],
+  ['じょ', 'also typed as "jyo" or "zyo"'],
+  ['ちゃ', 'also typed as "tya" or "cya"'], ['ちゅ', 'also typed as "tyu" or "cyu"'],
+  ['ちょ', 'also typed as "tyo" or "cyo"'],
+]) {
+  for (const target of [kana, window.wanakana.toKatakana(kana)]) {
+    check(`pronunciation/typing note for ${target}`, romajiNoteFor(target) === note, romajiNoteFor(target));
+    // Every keyboard spelling we recommend must be accepted by the checker.
+    const typingNote = note.slice(note.indexOf('typed as'));
+    for (const [, typed] of typingNote.matchAll(/"([^"]+)"/g)) {
+      check(`detail typing hint ${typed} works for ${target}`, checkRomaji(typed, target));
+    }
+  }
+}
+check('ん explains Japanese keyboard input', romajiNoteFor('ん').includes('"nn"'));
+check('は explains its particle pronunciation', romajiNoteFor('は').includes('"wa" when used as a particle'));
+check('へ explains its particle pronunciation', romajiNoteFor('へ').includes('"e" when used as a particle'));
+check('katakana ハ/ヘ do not get hiragana particle notes', !romajiNoteFor('ハ') && !romajiNoteFor('ヘ'));
+check('ordinary kana and compounds have no unnecessary note', !romajiNoteFor('か') && !romajiNoteFor('きゃ'));
 
 const writingPairs = [['じ', 'ぢ'], ['ず', 'づ'], ['ジ', 'ヂ'], ['ズ', 'ヅ']];
 for (const [plain, merged] of writingPairs) {
@@ -613,16 +650,15 @@ for (const [plain, merged] of writingPairs) {
 }
 for (const course of COURSES) {
   for (const kana of course.chunks.flatMap((c) => c.items)) {
-    if (['ぢ', 'づ', 'ヂ', 'ヅ'].includes(kana)) continue;
-    check(`writing prompt unchanged for ${kana}`, writingPromptFor(kana) === romajiFor(kana));
+    check(`writing and reading agree for ${kana}`, writingPromptFor(kana) === romajiFor(kana));
   }
 }
-done('writing-mode prompt disambiguation');
+done('consistent kana romanization and explanatory notes');
 
 // --- Multiple-choice options ---------------------------------------------
 // Checked for every character in both courses, because the failure that
-// matters is an unanswerable question: two options showing the same romaji
-// (じ/ぢ are both "ji", ず/づ are both "zu"), or the answer missing entirely.
+// matters is an unanswerable question: two accepted spellings offered as
+// different options, or the answer missing entirely.
 
 let ambiguous = 0;
 let missingAnswer = 0;

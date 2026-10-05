@@ -343,11 +343,11 @@ are all reused unchanged.
 - Square canvas box with the four quadrants marked by dashed lines.
 - Kana prompt: the romaji, plus an explicit script label — "write this in
   **katakana**" — since romaji alone does not say which script is wanted.
-  ぢ/づ get "dji"/"dzu" here rather than their usual "ji"/"zu" (see
-  `writingPromptFor` in kana.js) — with no kana glyph on screen to tell them
-  apart from じ/ず, plain Hepburn romaji is genuinely ambiguous here, unlike
-  every reading-direction use of romajiFor() where the kana is already on
-  screen.
+  ぢ/づ use "dji"/"dzu" throughout the app, including learning and reading
+  quizzes (see `romajiFor` and `writingPromptFor` in kana.js). With no glyph
+  on screen, these distinguish them from じ/ず. Their detail pages explain
+  that they are pronounced "ji"/"zu" and typed as "di"/"du" on a Japanese
+  keyboard; other kana and compounds have similar notes where appropriate.
 - Kanji prompt: on'yomi, kun'yomi, example words in kana, and English
   meanings in a side panel; stacked above the canvas in portrait, beside it
   in landscape.

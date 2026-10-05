@@ -216,9 +216,10 @@ is typed, so no keyboard appears and the layout never shifts under a finger.
   not yet solid, the card shows a *review first* tip — but *Add 5 more* stays
   enabled. The learner decides.
 - **Distractors are confusable on purpose.** The nine wrong options are drawn
-  from the character's own set first, and de-duplicated by romaji, because
-  じ/ぢ are both "ji" and ず/づ are both "zu" — offering both would make a
-  question unanswerable. A test checks this for all 208 characters.
+  from the character's own set first, de-duplicated by romaji, and filtered
+  to exclude accepted alternate answers. ぢ/づ use "dji"/"dzu" in every
+  mode; their detail pages explain "ji"/"zu" pronunciation and "di"/"du"
+  keyboard input. A test checks the choices for all 208 characters.
 - **A wrong tap gets one more try**, not an instant reveal. The tapped option
   turns red and locks; a second, different tap either finds the right answer
   or reveals it. Either way, the pass/fail record is locked to the *first*
@@ -708,10 +709,13 @@ when you want to force it, but it shouldn't be needed.
 | `tools/build_story_data.mjs` | Reads `tools/story_src/` and `src/data/vocab-lookup.js` (for `d`, the vocab-id link, at build time only), writes `src/data/story-manifest.js` + `story-*.js` |
 
 Katakana is not written out anywhere: it is derived from the hiragana tables
-with `wanakana.toKatakana`, and every romaji prompt is derived with
-`wanakana.toRomaji`, so there is no hand-typed romaji that could disagree with
-the answer checker. `test/smoke.js` asserts that invariant for all 208
-characters.
+with `wanakana.toKatakana`. Every displayed romaji uses `romajiFor`, which
+wraps `wanakana.toRomaji` with consistent "dji"/"dzu" spellings for ぢ/づ
+(and "dja"/"dju"/"djo" for their compounds). The answer checker accepts
+these labels as well as pronunciation and keyboard alternatives.
+`test/smoke.js` checks this for all 208 taught characters. Detail pages add
+parenthetical pronunciation and typing notes wherever these differ, including
+alternative keyboard spellings for simple and compound kana.
 
 ## Credits
 

@@ -1,13 +1,49 @@
 // Kana tables and answer checking.
 //
 // Only hiragana is written out by hand. Katakana is derived with
-// wanakana.toKatakana, and every romaji prompt is derived with
-// wanakana.toRomaji, so there is no hand-typed romaji anywhere that could
-// silently disagree with the answer checker.
+// wanakana.toKatakana. All displayed romaji goes through romajiFor, which
+// uses wanakana with the same disambiguating spellings in every mode.
 
 import { shuffle } from './srs.js';
 
 const { toRomaji, toKana, toHiragana, toKatakana } = window.wanakana;
+
+// Keep ぢ/づ distinct from じ/ず even when writing prompts hide the glyph.
+// The detail note explains the pronunciation and Japanese keyboard input.
+// Include their contracted forms so words use the same spelling as kana.
+const DISPLAY_ROMAJI = {
+  'ぢ': 'dji', 'づ': 'dzu',
+  'ぢゃ': 'dja', 'ぢゅ': 'dju', 'ぢょ': 'djo',
+};
+
+// Japanese romaji keyboard spellings (including accepted shorter forms):
+// https://support.apple.com/en-gb/guide/japanese-input-method/jpim10277/mac
+// These explain differences; they do not replace the app's display spelling.
+const ROMAJI_NOTES = {
+  'ぢ': 'pronounced "ji", typed as "di"',
+  'づ': 'pronounced "zu", typed as "du"',
+  'ぢゃ': 'pronounced "ja", typed as "dya"',
+  'ぢゅ': 'pronounced "ju", typed as "dyu"',
+  'ぢょ': 'pronounced "jo", typed as "dyo"',
+  'を': 'pronounced "o", typed as "wo"',
+  'ん': 'typed as "nn" or "n\'" on a Japanese keyboard',
+  'は': 'pronounced "wa" when used as a particle, typed as "ha"',
+  'へ': 'pronounced "e" when used as a particle, typed as "he"',
+  'し': 'also typed as "si"',
+  'じ': 'also typed as "zi"',
+  'ち': 'also typed as "ti"',
+  'つ': 'also typed as "tu"',
+  'ふ': 'also typed as "hu"',
+  'しゃ': 'also typed as "sya"',
+  'しゅ': 'also typed as "syu"',
+  'しょ': 'also typed as "syo"',
+  'じゃ': 'also typed as "jya" or "zya"',
+  'じゅ': 'also typed as "jyu" or "zyu"',
+  'じょ': 'also typed as "jyo" or "zyo"',
+  'ちゃ': 'also typed as "tya" or "cya"',
+  'ちゅ': 'also typed as "tyu" or "cyu"',
+  'ちょ': 'also typed as "tyo" or "cyo"',
+};
 
 // Rows of the gojuon, in the order they are normally taught.
 const BASIC = [
@@ -73,8 +109,8 @@ function buildChunks(courseId, toScript) {
       band,
       // e.g. "ka – ko", derived rather than hand-labelled.
       label: items.length > 1
-        ? `${toRomaji(items[0])} – ${toRomaji(items[items.length - 1])}`
-        : toRomaji(items[0]),
+        ? `${romajiFor(items[0])} – ${romajiFor(items[items.length - 1])}`
+        : romajiFor(items[0]),
       items,
     };
   });
@@ -109,29 +145,21 @@ export function getCourse(courseId) {
   return COURSES.find((c) => c.id === courseId) || COURSES[0];
 }
 
-/** The romaji we show as the answer to a reading question. */
+/** The romaji shown throughout the app, for kana and words alike. */
 export function romajiFor(kana) {
-  return toRomaji(kana);
+  return toRomaji(kana, { customRomajiMapping: DISPLAY_ROMAJI });
 }
 
-// romajiFor(ぢ) and romajiFor(づ) come back as "ji"/"zu" — same as じ/ず —
-// because that's how they're actually pronounced in modern Japanese, and
-// that merge is exactly what ALTERNATES above lets a learner type. But
-// writing mode shows romaji with no kana glyph alongside it (see
-// writing-mode-plan.md's kana-prompt section): shown "zu" in isolation,
-// there's no way to tell ず from づ apart, and nothing in the checker below
-// is meant to resolve that — it's a display problem, not a spelling one.
-// Marked here with an extra "d", the usual hint at ぢ/づ's origin as the
-// dakuten forms of ち/つ rather than a spelling anyone is expected to type.
-const WRITING_DISAMBIGUATE = {
-  'ぢ': 'dji',
-  'づ': 'dzu',
-};
+/** Parenthetical detail copy, shared by both scripts except particle notes. */
+export function romajiNoteFor(kana) {
+  const hira = toHiragana(kana);
+  if (kana !== hira && (hira === 'は' || hira === 'へ')) return '';
+  return ROMAJI_NOTES[hira] || '';
+}
 
-/** The romaji shown as the writing-mode prompt — see WRITING_DISAMBIGUATE
- * just above for why this can differ from romajiFor(). */
+/** Writing uses exactly the spelling taught and tested in reading mode. */
 export function writingPromptFor(kana) {
-  return WRITING_DISAMBIGUATE[toHiragana(kana)] || romajiFor(kana);
+  return romajiFor(kana);
 }
 
 /**
@@ -142,9 +170,8 @@ export function writingPromptFor(kana) {
  * between genuinely confusable sounds rather than between one plausible
  * answer and nine obviously wrong ones.
  *
- * Options are de-duplicated by romaji, which matters because じ/ぢ are both
- * "ji" and ず/づ are both "zu" — offering both would make the question
- * unanswerable.
+ * Options are de-duplicated by romaji and exclude accepted alternate
+ * answers, so a question never offers two valid spellings of its target.
  */
 export function buildChoices(course, kana, count = 10) {
   const answer = romajiFor(kana);
@@ -180,6 +207,9 @@ export function checkRomaji(input, target) {
   const typed = String(input || '').trim().toLowerCase();
   if (!typed) return false;
   const want = toHiragana(target);
+  // The spelling we teach must be accepted even when it is a display hint
+  // (dji/dzu) rather than the keystrokes a Japanese keyboard expects (di/du).
+  if (typed === romajiFor(want)) return true;
   if ((ALTERNATES[want] || []).includes(typed)) return true;
   return toHiragana(toKana(typed)) === want;
 }

@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-10-05',
+    changes: [
+      'Fixed: ぢ/ヂ and づ/ヅ now use “dji” and “dzu” consistently in lessons, reading quizzes and writing prompts. Their detail pages explain how they are pronounced and typed. Other kana and compound sounds also explain pronunciation differences and alternative keyboard spellings.',
+    ],
+  },
+  {
     date: '2026-10-04',
     changes: [
       'New: 七階のペットシッター (The Seventh-Floor Pet Sitters), an original level 3 story in five chapters, and the first level 3 story told in chapters. Hayato, eight, wants a puppy, but Mum says he can’t even remember to feed a goldfish. So he and his big sister Kotone spend the summer holidays looking after the neighbours’ pets in their block of flats: a budgie that learns the wrong words, an old dog who won’t be hurried and a cat who vanishes. By the end of the summer, Hayato has changed his mind about the puppy. Every sentence has its own English translation and tappable word explanations.',

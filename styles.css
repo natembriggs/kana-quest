@@ -555,6 +555,16 @@ button.quiz-glyph-tap, button.lesson-glyph-tap {
   color: var(--accent);
 }
 
+/* Keep the kana label prominent while a longer explanation wraps on phones. */
+.romaji-note {
+  display: block;
+  font-size: calc(16px * var(--app-font-scale, 1));
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
 /* Vocabulary only: how a word is actually SAID, when that differs from its
    literal romaji spelling (こんばんは "konbanha" vs said "konbanwa"; a long
    vowel needing a macron, とう -> "tō"). Deliberately smaller and quieter

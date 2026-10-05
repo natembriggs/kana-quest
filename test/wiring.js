@@ -130,6 +130,13 @@ function makeElement(id = '') {
     get() { return markup; },
     set(value) { markup = value; if (value === '') el._children.length = 0; },
   });
+  // Assigning textContent also removes old children in a real DOM, including
+  // a kana's previous pronunciation/typing note when paging through details.
+  let text = '';
+  Object.defineProperty(el, 'textContent', {
+    get() { return text; },
+    set(value) { text = value; el._children.length = 0; },
+  });
   return el;
 }
 
@@ -2455,6 +2462,26 @@ check('the overview is rebuilt with the same full character set on return',
 check('returning from detail scrolls back to that character, not the top of the list',
   rebuiltTiles[deepIndex]._scrolledIntoView === true,
   `tile ${deepIndex} (${rebuiltTiles[deepIndex].textContent})`);
+
+// Detail explanations accompany the same label used by lessons and quizzes.
+// Reopen several tiles to check that notes are replaced and cleared cleanly.
+for (const [char, label, note] of [
+  ['ヂ', 'dji', ' (pronounced "ji", typed as "di")'],
+  ['ヅ', 'dzu', ' (pronounced "zu", typed as "du")'],
+  ['シャ', 'sha', ' (also typed as "sya")'],
+  ['チャ', 'cha', ' (also typed as "tya" or "cya")'],
+  ['カ', 'ka', ''],
+]) {
+  fire(el('overview-grid')._children.find((t) => t.textContent === char), 'click');
+  await settle();
+  check(`detail label for ${char} agrees with quizzes`, el('detail-romaji').textContent === label);
+  const notes = el('detail-romaji')._children.filter((c) => c.className === 'romaji-note');
+  check(`detail note for ${char} is current and parenthetical`,
+    note ? notes.length === 1 && notes[0].textContent === note : notes.length === 0,
+    notes.map((c) => c.textContent).join(' | '));
+  fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'detail-back' } }) } });
+  await settle();
+}
 
 fire(document, 'click', { target: { closest: () => ({ dataset: { action: 'go-course' } }) } });
 await settle();
