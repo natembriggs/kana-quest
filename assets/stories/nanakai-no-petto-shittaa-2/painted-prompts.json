@@ -1,0 +1,44 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "assets/stories/nanakai-no-petto-shittaa-1/03.webp",
+      "role": "Character reference for Hayato, Kotone and Pii-chan's appearance and palette; do not reuse the scene or composition."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "prompt": "Use case: illustration-story\nAsset type: first inline landscape painting for Kanji Trail, Pii-chan Talks, chapter 2, after paragraph 0.\nInput images: the three Kasa Jizō inline paintings are style references only; do not copy their characters or composition. Chapter 1's third painting is a character reference for Hayato, Kotone and Pii-chan only; do not repeat its scene or composition. No cover exists for this series.\nScene/backdrop: Kotone's tidy bedroom in a contemporary Japanese apartment, with a low desk and a softly lit window; quiet simplified furnishings, no signs or readable numbers.\nSubject: Pii-chan, one small blue budgie, is safely inside her simple birdcage on the desk. Kotone, twelve, has dark hair in a neat low ponytail, a muted teal short-sleeved top and a dark indigo skirt. Hayato, eight, is noticeably shorter, with short tousled dark hair, an ivory T-shirt and sage-green shorts. The siblings calmly settle beside the cage and look over a care note from Mrs Nomura; show only the blank back of the paper, with no visible writing.\nCharacter continuity: match the siblings' faces, relative ages, hair and summer clothes to the chapter 1 character reference. Pii-chan is the single blue budgie established in chapter 1.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet background, much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; the cage and siblings form one clear, calm group, with the desk and bedroom kept simple.\nLighting/mood: soft morning light, attentive and reassuring.\nColor palette: warm ivory, muted teal, sage, natural wood ochre, restrained indigo and a clean blue accent for the bird.\nConstraints: depict the cage being settled on Kotone's desk and the care-note moment from paragraph 0. Exactly one blue budgie, inside the closed cage. Keep the note blank and turned away.\nAvoid: readable text, letters, numbers, logos, signage, borders, watermarks, extra people or animals, an open cage, bird outside the cage, photorealism, glossy 3D, dense texture, Western-coded bedroom details.",
+      "inputImages": ["assets/stories/kasa-jizou/01.webp", "assets/stories/kasa-jizou/02.webp", "assets/stories/kasa-jizou/03.webp", "assets/stories/nanakai-no-petto-shittaa-1/03.webp"],
+      "paragraphMeaning": "The siblings put Pii-chan's cage on Kotone's desk and receive the care instructions."
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "prompt": "Use case: illustration-story\nAsset type: second inline landscape painting for Kanji Trail, Pii-chan Talks, chapter 2, after paragraph 2.\nInput images: the three Kasa Jizō inline paintings are style references only; do not copy their characters or composition. Chapter 1's third painting is a character reference for Hayato, Kotone and Pii-chan only; do not repeat its scene or composition. No cover exists for this series.\nScene/backdrop: the same contemporary Japanese apartment bedroom in the quiet evening, with a simple curtain by the window and the birdcage on the desk.\nSubject: Pii-chan, the single small blue budgie, has just escaped through the slightly open door of her cage and is perched high on top of the curtain. Hayato, eight, in his ivory T-shirt and sage-green shorts, reaches upward from below but does not touch or chase the bird. Show his worried surprise without danger or panic. Kotone is not yet in the room in this paragraph, so leave her out.\nCharacter continuity: keep Hayato's age, short tousled dark hair and summer clothes consistent with the chapter 1 character reference. Keep Pii-chan a small blue budgie.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified setting.\nComposition/framing: full-bleed 12:7 landscape; a clear vertical relationship between the slightly open cage below, Hayato reaching safely, and the bird perched high on the curtain.\nLighting/mood: calm dusk light, a brief moment of concern without alarm.\nColor palette: warm ivory, muted teal accents, sage, natural wood ochre, restrained indigo and blue for Pii-chan.\nConstraints: depict only the escape and curtain perch described in paragraph 2. Exactly one budgie. The bird is safe and perched; no one is touching it.\nAvoid: injury, open windows, outdoor escape, bird near a fan, dangerous climbing, extra animals or people, readable text, lettering, numbers, logos, borders, watermarks, photorealism, glossy 3D, dense texture, American-coded room.",
+      "inputImages": ["assets/stories/kasa-jizou/01.webp", "assets/stories/kasa-jizou/02.webp", "assets/stories/kasa-jizou/03.webp", "assets/stories/nanakai-no-petto-shittaa-1/03.webp", "assets/stories/nanakai-no-petto-shittaa-2/01.webp"],
+      "paragraphMeaning": "Pii-chan escapes through the partly open cage door and lands high on the curtain while Hayato reaches up."
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "prompt": "Use case: illustration-story\nAsset type: third inline landscape painting for Kanji Trail, Pii-chan Talks, chapter 2, after paragraph 3.\nInput images: the three Kasa Jizō inline paintings are style references only; do not copy their characters or composition. Chapter 1's third painting is a character reference for Hayato, Kotone and Pii-chan only; do not repeat its scene or composition. No cover exists for this series.\nScene/backdrop: the same softly lit Japanese apartment bedroom, with the desk and birdcage nearby and the curtain behind the siblings.\nSubject: Kotone, twelve, with a dark low ponytail, muted teal top and indigo skirt, gently shakes a small plain food box in one hand while the single blue budgie Pii-chan settles onto her open other hand. Hayato, eight, with short tousled dark hair, ivory T-shirt and sage shorts, carefully closes the cage door firmly beside them. His expression is relieved and attentive.\nCharacter continuity: keep both siblings' appearances and relative heights consistent with the chapter 1 reference. Pii-chan remains the same small blue budgie.\nStyle/medium: simple painted children's picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background.\nComposition/framing: full-bleed 12:7 landscape; Kotone's hand and Pii-chan are the focal point, with the food box and Hayato closing the cage clearly readable.\nLighting/mood: gentle warm evening light, relief and trust.\nColor palette: warm ivory, muted teal, sage, natural wood ochre, restrained indigo and a clean blue accent for Pii-chan.\nConstraints: match the recovery in paragraph 3. Exactly one blue budgie, landing safely on Kotone's hand; Hayato closes the cage. No later events.\nAvoid: extra birds or animals, bird escaping again, open cage after the moment, readable text, letters, numbers, logos, borders, watermarks, photorealism, glossy 3D, dense surface texture, American-coded setting.",
+      "inputImages": ["assets/stories/kasa-jizou/01.webp", "assets/stories/kasa-jizou/02.webp", "assets/stories/kasa-jizou/03.webp", "assets/stories/nanakai-no-petto-shittaa-1/03.webp", "assets/stories/nanakai-no-petto-shittaa-2/01.webp"],
+      "paragraphMeaning": "Kotone remembers the instructions, uses the food box to coax Pii-chan onto her hand, and Hayato closes the cage."
+    }
+  ]
+}

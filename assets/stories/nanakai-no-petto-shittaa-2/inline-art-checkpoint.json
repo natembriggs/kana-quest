@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "unit": "nanakai-no-petto-shittaa-2",
+  "title": "Pii-chan Talks",
+  "selectedAt": "2026-10-05T00:42:40Z",
+  "readingPositionHash": "5dbf377c",
+  "status": "complete; rebuilt and verified; pending commit and push",
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "scene": "Pii-chan's small cage sits on Kotone's desk in her Japanese apartment bedroom. Kotone and Hayato settle the bird and look over Mrs Nomura's care note, which is turned away and has no visible writing.",
+      "action": "reuse",
+      "status": "existing exported image reused this run; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-26579cc7-634a-4feb-ac1e-25787d7ae02c.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-2/01.webp",
+      "dimensions": "960x559",
+      "bytes": 71278
+    },
+    {
+      "file": "02.webp",
+      "after": 2,
+      "scene": "In the evening, Pii-chan has escaped through the slightly open cage door and is perched high on the curtain. Hayato reaches upward from below without touching her; show only him and the single bird.",
+      "action": "generate",
+      "status": "generated; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-44f84f99-e10b-4b4d-ab98-567b75526780.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-2/02.webp",
+      "dimensions": "960x560",
+      "bytes": 65674,
+      "visualReview": "Shows Pii-chan above Hayato at the curtain and the cage door open. The window is visibly open despite the prompt's avoid constraint; no refinement or replacement call was made.",
+      "previousRunAttempts": [
+        "Initial imagegen invocation rejected before generation: referenced_image_paths must contain at most 5 paths.",
+        "Corrected scene-2 imagegen request failed: image generation failed: network error: error sending request."
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 3,
+      "scene": "Kotone gently shakes the food box as Pii-chan settles onto her open hand. Hayato is closing the cage door firmly beside them, restoring the bird safely to the cage.",
+      "action": "generate",
+      "status": "generated and exported; original preserved",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-c3ceeb8f-643f-4db8-ab19-45fa5bd1219b.png",
+      "asset": "assets/stories/nanakai-no-petto-shittaa-2/03.webp",
+      "dimensions": "960x559",
+      "bytes": 75382
+    }
+  ],
+  "generationCallsBeforeThisRun": 3,
+  "generationCallsPlannedThisRun": 2,
+  "generationCallsThisRun": 2,
+  "sourceRegistration": "tools/story_src/new-story-l3-nanakai-no-petto-shittaa.mjs",
+  "registeredAssetsBeforeThisRun": [],
+  "reusedAssets": [
+    "assets/stories/nanakai-no-petto-shittaa-2/01.webp"
+  ],
+  "resumedAt": "2026-10-05T01:43:41Z",
+  "characterReferences": [
+    "assets/stories/nanakai-no-petto-shittaa-1/03.webp"
+  ],
+  "previousRunError": {
+    "stage": "built-in image generation",
+    "scene": "02.webp",
+    "reason": "network error: error sending request",
+    "priorInputValidationError": "referenced_image_paths must contain at most 5 paths",
+    "refusal": false,
+    "resumeAt": "02.webp"
+  },
+  "previousRunErrorResolved": "02.webp generated successfully in this run",
+  "verification": {
+    "build": "success; 82 stories",
+    "registeredInlineCount": 3,
+    "readingPositionHash": "5dbf377c",
+    "textTranslationsVocabularyUnchanged": true,
+    "totalWebpBytes": 212334,
+    "allImagesWithin150KiBBudget": true,
+    "storyWithin450KiBBudget": true,
+    "scene02Note": "The generated view shows an open window despite the prompt's avoid constraint; retained without a refinement call."
+  }
+}
