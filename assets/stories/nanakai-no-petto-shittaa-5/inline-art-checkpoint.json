@@ -1,0 +1,121 @@
+{
+  "unit": "nanakai-no-petto-shittaa-5",
+  "title": {
+    "ja": "七階の新しい家族",
+    "en": "New Family on the Seventh Floor"
+  },
+  "status": "complete and rebuild verified",
+  "storyHash": "996bdf03",
+  "storyTextChanged": false,
+  "readingPositionHashChanged": false,
+  "visualGuidance": [
+    {
+      "file": "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/01.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/02.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/03.webp",
+      "role": "Approved simple inline-style reference only; do not copy its characters or composition."
+    },
+    {
+      "file": "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-3/01.webp",
+      "role": "Character reference for Hayato, Kotone, Mr Ōkawa, and Gorō only; do not copy scene or composition."
+    },
+    {
+      "file": "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-1/03.webp",
+      "role": "Character reference for Kotone, Hayato, Mum, Mrs Nomura, and Pii-chan only; do not copy scene or composition."
+    }
+  ],
+  "existingAssetsReused": [],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Kotone and Hayato lie awake worrying about Gorō living in a stranger’s home.",
+      "sceneDescription": "The siblings share a quiet, sleepless night, thinking about Gorō; no imagined new home or physical dog appears.",
+      "prompt": "Use case: illustration-story\nAsset type: first inline landscape painting for Kanji Trail, “New Family on the Seventh Floor,” chapter 5, after paragraph 0.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 3 art used only as a character reference for Hayato and Kotone; keep their identities and clothing palette, but do not reuse its scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with readable silhouettes and one clear focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold, and restrained terracotta, adjusted naturally to the scene.\nConstraints: depict only the named moment from the existing Japanese paragraph. This is a contemporary Japanese apartment building and household; use culturally appropriate, understated Japanese residential details where visible. Keep gestures gentle and plausible. No lettering, captions, readable writing, numbers, logos, signs, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: a quiet, compact contemporary Japanese apartment bedroom at night, simple bedding and a warm bedside lamp; no elaborate décor.\nSubject: Kotone, twelve, with dark hair in a low ponytail, a muted teal top and indigo skirt, sits awake beside her younger brother Hayato, eight, with tousled dark hair, ivory T-shirt and sage-green shorts. Neither can sleep. Hayato looks worried as he quietly asks where Gorō will go; Kotone listens, thinking about the old dog being in an unfamiliar home. Show only the two siblings and their subdued concern. Gorō is not physically present and no imagined future home is shown.\nCharacter continuity: match the siblings’ relative ages, height, facial features, hair, and clothing colours to Image 4. No mother or other family members in this scene.\nLighting/mood: soft low lamp light with cool indigo night at a window, tender and thoughtful, not frightening.\nComposition: medium-wide view with the siblings close together in the quiet room; clear expressions, restrained shadows, no speech bubbles or visible written marks.",
+      "inputImages": [
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/01.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/02.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/03.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-3/01.webp"
+      ],
+      "status": "exported and registered",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-76ee980d-4137-4420-9ffc-d2958c7158c7.png"
+    },
+    {
+      "file": "02.webp",
+      "after": 1,
+      "paragraphMeaning": "The siblings tell Mum they want Gorō; she checks the family calendar and agrees to talk with Ōkawa.",
+      "sceneDescription": "The family reaches its decision together in a calm Japanese apartment dining space; the calendar is blank and unlettered.",
+      "prompt": "Use case: illustration-story\nAsset type: second inline landscape painting for Kanji Trail, “New Family on the Seventh Floor,” chapter 5, after paragraph 1.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 1 art used only as a character reference for Kotone, Hayato, and their mother; preserve their identities, relative ages, and established clothing palette, but do not reuse the scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with readable silhouettes and one clear focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold, and restrained terracotta, adjusted naturally to the scene.\nConstraints: depict only the named moment from the existing Japanese paragraph. This is a contemporary Japanese apartment building and household; use culturally appropriate, understated Japanese residential details where visible. Keep gestures gentle and plausible. No lettering, captions, readable writing, numbers, logos, signs, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: a small, sunlit dining space in the same contemporary Japanese apartment, with a simple table, neatly kept household items and a paper calendar whose grid is blank and contains no writing.\nSubject: Hayato, eight, and Kotone, twelve, stand together facing their mother. Hayato has just earnestly said that he wants Gorō rather than a puppy; Kotone looks steadily at Mum. Their mother first looks at the calendar that represents the family’s daily responsibilities, then turns back with a relieved, affectionate smile and agrees they should speak with Mr Ōkawa. Gorō is not in the room.\nCharacter continuity: match all three family members’ faces, hair, relative heights and colors to Image 4. Use the siblings’ simple ivory/sage and teal/indigo clothing.\nLighting/mood: gentle clear morning light, quiet and hopeful, the moment of a family decision.\nComposition: medium-wide landscape view, family grouped naturally around the table; their expressions carry the scene. The calendar is secondary and entirely unmarked; no legible or symbol-like text.",
+      "inputImages": [
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/01.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/02.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/03.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-1/03.webp"
+      ],
+      "status": "exported and registered",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-44096ecc-e0f0-4369-b48e-b97afd573950.png"
+    },
+    {
+      "file": "03.webp",
+      "after": 4,
+      "paragraphMeaning": "Mrs Nomura meets them at the elevator with Pii-chan; Gorō sniffs the cage and Hayato makes everyone laugh.",
+      "sceneDescription": "A safe, warm elevator-lobby reunion with the siblings, Mum, Mrs Nomura, Gorō, and the blue budgie Pii-chan; no readable note or later event.",
+      "prompt": "Use case: illustration-story\nAsset type: third inline landscape painting for Kanji Trail, “New Family on the Seventh Floor,” chapter 5, after paragraph 4.\nInput images: Images 1–3 are the approved Kasa Jizō inline paintings for style only; do not copy their characters or composition. Image 4 is chapter 3 art used only for Hayato, Kotone, and Gorō’s character continuity. Image 5 is chapter 1 art used only for the mother, Mrs Nomura, and Pii-chan’s identities and palette; do not reuse either reference scene or composition.\nStyle/medium: simple painted children’s picture-book art in the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal surface texture, few purposeful folds and shadows, two or three quiet depth layers, and detail simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape with readable silhouettes and one clear focal moment.\nPalette: warm ivory, midnight indigo, muted teal, sage green, ochre gold, and restrained terracotta, adjusted naturally to the scene.\nConstraints: depict only the named moment from the existing Japanese paragraph. This is a contemporary Japanese apartment building and household; use culturally appropriate, understated Japanese residential details where visible. Keep gestures gentle and plausible. No lettering, captions, readable writing, numbers, logos, signs, borders, or watermark.\nAvoid: photorealism, glossy 3D, dense texture, extra people or animals, Western suburban or American-coded interiors, stereotyped Japanese props, spoilers beyond the cited paragraph, and copied Kasa Jizō characters or layouts.\nScene/backdrop: the quiet elevator lobby of the family’s contemporary Japanese apartment building, with a simple elevator doorway and subdued common-area finishes. A small notice sheet may be present but must be completely blank, with no writing or symbols.\nSubject: Mrs Nomura stands by the open elevator holding a secure, closed birdcage. Inside is Pii-chan, a small blue budgerigar matching Image 5. Gorō, the large elderly brown dog with a lightly grey muzzle matching Image 4, gently brings his nose near the cage without touching it. Hayato, Kotone, and their mother smile and laugh at Hayato’s surprised reply. The bird remains safe inside the cage; everyone is relaxed and kind.\nCharacter continuity: match Hayato, Kotone and Gorō to Image 4, and Mum, Mrs Nomura, and Pii-chan to Image 5 where they appear. Keep Mum’s muted plum cardigan and sage apron, Mrs Nomura’s established appearance, and Pii-chan’s blue feathers. Exactly four people, one dog, one bird; no other pets.\nLighting/mood: warm, welcoming apartment light and a light, joyful family moment.\nComposition: full-bleed landscape group scene, cage and bird clearly visible at a safe distance from Gorō; expressions suggest shared laughter without text. Do not depict Mr Ōkawa, a moving car, or events after this paragraph.",
+      "inputImages": [
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/01.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/02.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/kasa-jizou/03.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-3/01.webp",
+        "/Users/natbrig/Other/GitHub/kana-quest/assets/stories/nanakai-no-petto-shittaa-1/03.webp"
+      ],
+      "status": "exported and registered",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-e65b39d5-ecb3-4a56-b4f6-60047ba95f60.png"
+    }
+  ],
+  "plannedAt": "2026-10-05T06:47:42Z",
+  "builtInGenerationCalls": 3,
+  "exportedAssets": [
+    {
+      "file": "01.webp",
+      "width": 960,
+      "height": 559,
+      "bytes": 59052,
+      "quality": 90
+    },
+    {
+      "file": "02.webp",
+      "width": 960,
+      "height": 560,
+      "bytes": 72444,
+      "quality": 90
+    },
+    {
+      "file": "03.webp",
+      "width": 960,
+      "height": 560,
+      "bytes": 77106,
+      "quality": 90
+    }
+  ],
+  "totalExportedBytes": 208602,
+  "build": {
+    "stories": 82,
+    "sentences": 4510,
+    "result": "successful"
+  },
+  "verification": {
+    "textTranslationsVocabularyUnchanged": true,
+    "readingPositionHashUnchanged": true,
+    "readingPositionHash": "996bdf03",
+    "registeredInlineCount": 3,
+    "imageBudgetBytes": 460800,
+    "exportedTotalBytes": 208602
+  }
+}

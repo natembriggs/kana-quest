@@ -30,8 +30,32 @@ export const STORY = {
     "text": "An original five-chapter story written for Kanji Trail",
     "by": "Claude Opus 5.5",
     "credit": "Written by",
+    "illustrations": "Three inline paintings for Kanji Trail use the approved Kasa Jizō inline treatment; chapter 3 and chapter 1 artwork guide recurring character identities where they appear, and each scene follows the original Japanese story text.",
     "notes": "Original Japanese prose and English translations for Level 3. Japanese convention writes a parrot’s speech in katakana, which is why the budgie says ハヤト and ダメ; a circle (丸) is the Japanese tick mark. The building, its residents and their animals are invented; no published text was adapted.",
     "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+  },
+  "art": {
+    "cover": false,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/nanakai-no-petto-shittaa-5/01.webp?v=8a90571fdbb42570",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 1,
+        "src": "assets/stories/nanakai-no-petto-shittaa-5/02.webp?v=39c66542c5ba9b0d",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 4,
+        "src": "assets/stories/nanakai-no-petto-shittaa-5/03.webp?v=4bb20343a3bb8790",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "body": [
     [
@@ -4109,9 +4133,5 @@ export const STORY = {
       }
     ]
   ],
-  "hash": "996bdf03",
-  "art": {
-    "cover": false,
-    "inline": []
-  }
+  "hash": "996bdf03"
 };
