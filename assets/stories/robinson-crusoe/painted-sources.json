@@ -1,0 +1,11 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "credit": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail, using the approved Kasa Jizō inline treatment. Robinson Crusoe’s cover guides his character identity and palette only; images follow the story text and contain no text.",
+  "batch": "01a0f468-4d05-7242-807c-c67fb6b64f02",
+  "prompts": "painted-prompts.json",
+  "images": {
+    "01.webp": "exec-6a522eff-103b-42d8-911e-5a558f66274a.png",
+    "02.webp": "exec-eb5eb483-1e6c-4800-be28-dd90b3ff84ec.png",
+    "03.webp": "exec-ab165e04-f5e4-4ed0-a289-abc6e2bafbc5.png"
+  }
+}

@@ -18,7 +18,31 @@ export const STORY = {
     "credit": "Retold by",
     "notes": "An original graded retelling of the novel's complete main plot; no wording is copied from a published translation.",
     "licence": "Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.",
+    "illustrations": "Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. Robinson’s cover guides his character identity and palette only; the paintings follow the story text.",
     "cover": "Cover generated with OpenAI image generation."
+  },
+  "art": {
+    "cover": true,
+    "inline": [
+      {
+        "after": 0,
+        "src": "assets/stories/robinson-crusoe/01.webp?v=001fa514e71721b1",
+        "width": 960,
+        "height": 560
+      },
+      {
+        "after": 4,
+        "src": "assets/stories/robinson-crusoe/02.webp?v=e633f6f80b9e89f3",
+        "width": 960,
+        "height": 559
+      },
+      {
+        "after": 6,
+        "src": "assets/stories/robinson-crusoe/03.webp?v=55db47e3ca5c778f",
+        "width": 960,
+        "height": 560
+      }
+    ]
   },
   "nw": [
     "ロビンソン・クルーソー",
@@ -16690,9 +16714,5 @@ export const STORY = {
   "hash": "167a3d13",
   "was": [
     "fb226830"
-  ],
-  "art": {
-    "cover": true,
-    "inline": []
-  }
+  ]
 };

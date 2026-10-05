@@ -11,11 +11,12 @@ const theStory = expandStory({
   level: 'L5',
   gram: 'G5',
   blurb: 'A young man ignores his father and goes to sea, and a shipwreck leaves him alone on an island with only what he can save from the waves.',
-  source: SOL_SOURCE(
+  source: { ...SOL_SOURCE(
     'Robinson Crusoe by Daniel Defoe (1719)',
     "An original graded retelling of the novel's complete main plot; no wording is copied from a published translation.",
     'Public domain source novel. This Japanese retelling and its English translation are original to Kanji Trail.',
-  ),
+  ), illustrations: 'Three inline paintings generated with OpenAI built-in image generation for Kanji Trail using the approved Kasa Jizō inline treatment. Robinson’s cover guides his character identity and palette only; the paintings follow the story text.' },
+  art: { inline: [{ after: 0, file: '01.webp' }, { after: 4, file: '02.webp' }, { after: 6, file: '03.webp' }] },
   nw: ['ロビンソン・クルーソー', 'フライデー', '難破船', '無人島', '食人族', '反乱'],
   lexicon: lexicon({
     // --- names and recurring words -------------------------------------

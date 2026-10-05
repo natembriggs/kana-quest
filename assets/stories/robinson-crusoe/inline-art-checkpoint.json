@@ -1,0 +1,77 @@
+{
+  "storyId": "robinson-crusoe",
+  "title": "Robinson Crusoe",
+  "readingPositionHash": "167a3d13",
+  "status": "complete and rebuild verified",
+  "plannedAt": "2026-10-05T10:52:13Z",
+  "plannedGenerationCalls": 3,
+  "generationCallsThisRun": 3,
+  "planned": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Eighteen-year-old Robinson leaves York for the sea and faces a violent storm on his first voyage.",
+      "sceneDescription": "On an eighteenth-century English merchant sailing ship in the first sea storm, young Robinson holds a line on the pitching deck as waves strike the hull; he is frightened but safe aboard.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-6a522eff-103b-42d8-911e-5a558f66274a.png",
+      "generationOutputHint": "Generated images saved to the built-in generated-images location; original retained.",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-6a522eff-103b-42d8-911e-5a558f66274a.png",
+      "originalBytes": 114348,
+      "exportedDimensions": "960×560",
+      "exportBytes": 114348
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "paragraphMeaning": "Alone on the island, Robinson builds a tent and stake-walled shelter below a hill near fresh water, and begins keeping track of days.",
+      "sceneDescription": "Robinson works beside his sturdy stake-walled camp below a small hill and freshwater spring; a tent, cave entrance, ladder, and a post with simple tally notches establish the shelter.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-eb5eb483-1e6c-4800-be28-dd90b3ff84ec.png",
+      "generationOutputHint": "Generated images saved to the built-in generated-images location; original retained.",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-eb5eb483-1e6c-4800-be28-dd90b3ff84ec.png",
+      "originalBytes": 151332,
+      "exportedDimensions": "960×559",
+      "exportBytes": 151332
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "paragraphMeaning": "After fifteen years alone, Robinson discovers a single human footprint that is not his and retreats in fear.",
+      "sceneDescription": "On a quiet beach, Robinson has stopped abruptly to inspect one clear unfamiliar barefoot print beside his own boot tracks; the empty shore and distant hill make his isolation visible.",
+      "status": "exported and source registered",
+      "reusedExistingAsset": null,
+      "originalPath": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-ab165e04-f5e4-4ed0-a289-abc6e2bafbc5.png",
+      "generationOutputHint": "Generated images saved to the built-in generated-images location; original retained.",
+      "generatedOriginal": "/Users/natbrig/.codex/generated_images/01a0f468-4d05-7242-807c-c67fb6b64f02/exec-ab165e04-f5e4-4ed0-a289-abc6e2bafbc5.png",
+      "originalBytes": 114484,
+      "exportedDimensions": "960×560",
+      "exportBytes": 114484
+    }
+  ],
+  "existingAssetsReused": [],
+  "registeredAssetsBeforeThisRun": [],
+  "styleReferences": [
+    "assets/stories/kasa-jizou/01.webp",
+    "assets/stories/kasa-jizou/02.webp",
+    "assets/stories/kasa-jizou/03.webp"
+  ],
+  "characterReferences": [
+    "assets/stories/robinson-crusoe/cover.webp"
+  ],
+  "sourceRegistration": "tools/story_src/new-story-l5-robinson-crusoe.mjs",
+  "lastError": null,
+  "exportedTotalBytes": 380164,
+  "sourceMetadata": "painted-sources.json",
+  "completedAt": "2026-10-05T11:04:57.571Z",
+  "verifications": {
+    "rebuild": "passed: built 82 stories",
+    "storyTextTranslationsVocabulary": "unchanged against HEAD baseline",
+    "readingPositionHash": "167a3d13 unchanged",
+    "registeredIllustrations": 3,
+    "imageFormat": "static WebP",
+    "imageBudget": "each <=150 KiB and combined <=450 KiB",
+    "originalsRetained": true
+  }
+}

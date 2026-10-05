@@ -1,0 +1,62 @@
+{
+  "tool": "OpenAI built-in image generation",
+  "visualGuidance": [
+    {
+      "file": "assets/stories/kasa-jizou/01.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/02.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/kasa-jizou/03.webp",
+      "role": "Approved Kasa Jizō inline-style reference only: broad smooth colour areas, gentle contours, minimal texture, quiet background; do not copy scene or characters."
+    },
+    {
+      "file": "assets/stories/robinson-crusoe/cover.webp",
+      "role": "Robinson Crusoe character identity and palette only; do not copy the shipwreck-on-island composition or setting."
+    }
+  ],
+  "scenes": [
+    {
+      "file": "01.webp",
+      "after": 0,
+      "paragraphMeaning": "Eighteen-year-old Robinson leaves York for the sea and faces a violent storm on his first voyage.",
+      "sceneDescription": "On an eighteenth-century English merchant sailing ship in the first sea storm, young Robinson holds a line on the pitching deck as waves strike the hull; he is frightened but safe aboard.",
+      "prompt": "Use case: illustration-story.\nAsset type: first of three inline landscape paintings for Kanji Trail, Robinson Crusoe; place after paragraph 0.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Robinson’s character identity and palette only; do not copy its shipwreck-on-beach composition or island.\nScene/backdrop: an eighteenth-century English merchant sailing ship at sea during a sudden first-voyage storm. Keep rigging and deck simple, with wind-driven clouds and broad waves.\nSubject/action: Robinson, an eighteen-year-old English man with tousled dark curly hair, a lean face and a simple worn brown sea coat over an ivory shirt, braces himself beside a mast and grips a taut line. He looks frightened but remains safely aboard. Show no other people.\nCharacter continuity: use Image 4 only for Robinson’s facial identity and muted brown/ivory palette; depict him as a young adult before island life, in practical period clothing, not in the cover pose.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, two or three depth layers; much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; Robinson and the mast form a clear stable focal shape against the pitching ship and waves.\nLighting/mood: cool storm daylight, uncertain but not frightening or graphic.\nPalette: midnight indigo sea and cloud shadows, muted slate-blue, ivory sailcloth, warm brown coat and restrained ochre wood.\nConstraints: match paragraph 0 only. This is the first storm, before Robinson abandons the sea. Keep him aboard and alive.\nAvoid: shipwreck, drowning, injury, sinking people, pirates, modern vessels, text, lettering, numbers, logos, borders, watermarks, extra figures, photorealism, glossy 3D, dense spray detail, heavy texture, rich cover-level painting.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/robinson-crusoe/cover.webp"
+      ]
+    },
+    {
+      "file": "02.webp",
+      "after": 4,
+      "paragraphMeaning": "Alone on the island, Robinson builds a tent and stake-walled shelter below a hill near fresh water, and begins keeping track of days.",
+      "sceneDescription": "Robinson works beside his sturdy stake-walled camp below a small hill and freshwater spring; a tent, cave entrance, ladder, and a post with simple tally notches establish the shelter.",
+      "prompt": "Use case: illustration-story.\nAsset type: second of three inline landscape paintings for Kanji Trail, Robinson Crusoe; place after paragraph 4.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Robinson’s character identity and palette only; do not copy its shipwreck-on-beach composition.\nScene/backdrop: a quiet tropical island foothill with a small freshwater spring and a rock face; a plain canvas tent and sturdy stake wall sit close to the hill.\nSubject/action: Robinson works alone at his camp, arranging a wooden ladder over the stake wall. The hillside has a simple shallow cave entrance for tools and food. Nearby stands a large post with a few short tally notches, and folded blank paper beside a pot hints at his new journal. Robinson is a young English man with dark curly hair, a brown coat, ivory shirt and practical worn trousers, now sun-faded from island life.\nCharacter continuity: use Image 4 only for Robinson’s face, curly dark hair and brown/ivory palette; no other people or characters.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, a few purposeful folds and shadows, quiet simplified background and two or three depth layers; simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; shelter, hill, ladder and solitary Robinson form a clear, readable group at small size.\nLighting/mood: calm warm daylight, practical and resilient with a note of loneliness.\nPalette: warm ivory canvas and stone, sage foliage, muted teal shadows, natural ochre wood, restrained indigo.\nConstraints: match paragraph 4 only. Use only a few tally notches, no legible diary writing or marks beyond the notches.\nAvoid: weapons, violence, other people, extra animals, text, lettering, numbers, logos, borders, watermarks, elaborate fortifications, photorealism, glossy 3D, busy foliage, dense textures, cover-level detail.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/robinson-crusoe/cover.webp"
+      ]
+    },
+    {
+      "file": "03.webp",
+      "after": 6,
+      "paragraphMeaning": "After fifteen years alone, Robinson discovers a single human footprint that is not his and retreats in fear.",
+      "sceneDescription": "On a quiet beach, Robinson has stopped abruptly to inspect one clear unfamiliar barefoot print beside his own boot tracks; the empty shore and distant hill make his isolation visible.",
+      "prompt": "Use case: illustration-story.\nAsset type: third of three inline landscape paintings for Kanji Trail, Robinson Crusoe; place after paragraph 6.\nInput images: Images 1–3 are approved Kasa Jizō inline-style references only. Image 4 guides Robinson’s character identity and palette only; do not copy its composition or reveal any other person.\nScene/backdrop: a quiet isolated island beach at late afternoon, pale sand curving toward a calm indigo-blue sea, with Robinson’s small distant hill and trees on the horizon.\nSubject/action: Robinson has stopped abruptly and stares at one clear unfamiliar barefoot human footprint in the sand, distinct from his own nearby boot tracks. He looks alarmed and alone. No other person or source of the print is visible.\nCharacter continuity: use Image 4 only for Robinson’s face, dark curly hair and muted brown/ivory clothing palette. He is now weathered by many years alone but remains the same man.\nStyle/medium: simple painted children’s picture-book art matching the approved Kasa Jizō inline treatment: broad smooth colour areas, gentle contours, minimal texture, few purposeful folds and shadows, quiet simplified background and two or three depth layers; much simpler than cover art.\nComposition/framing: full-bleed 12:7 landscape; the footprint is visible in the foreground, with Robinson halted in the midground and open shore behind him.\nLighting/mood: soft overcast beach light, quiet suspense and loneliness, no horror.\nPalette: warm ivory sand, muted teal water, sage-green distant growth, restrained ochre and midnight-indigo shadows.\nConstraints: match paragraph 6 only. Show exactly one unfamiliar footprint and keep its maker unseen; no bones, canoes or later encounter.\nAvoid: any other people, violence, weapons, text, lettering, numbers, logos, borders, watermarks, horror imagery, photorealism, glossy 3D, detailed footprints trail, dense texture, rich cover-level brushwork.",
+      "inputImages": [
+        "assets/stories/kasa-jizou/01.webp",
+        "assets/stories/kasa-jizou/02.webp",
+        "assets/stories/kasa-jizou/03.webp",
+        "assets/stories/robinson-crusoe/cover.webp"
+      ]
+    }
+  ]
+}
