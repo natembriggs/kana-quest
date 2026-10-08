@@ -13,6 +13,7 @@ export const CHANGELOG = [
   {
     date: '2026-10-08',
     changes: [
+      'Fixed: the credits at the end of a story no longer show behind-the-scenes notes about how the pictures were made, just who wrote the story and who made the art.',
       'New: a painted cover for The Seventh-Floor Pet Sitters, showing Kotone and Hayato meeting their first customer and her blue budgie. The book keeps its cover as you move through all five chapters.',
     ],
   },

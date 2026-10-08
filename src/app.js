@@ -189,7 +189,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-10-08a'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-10-08b'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
@@ -12835,9 +12835,16 @@ function renderReaderSource(story) {
   const byline = source.by
     ? (source.credit ? `${source.credit} ${source.by}. ` : `${source.by}. `)
     : '';
-  const coverCredit = source.cover ? ` ${source.cover}` : '';
-  const illustrationCredit = source.illustrations ? ` ${source.illustrations}` : '';
-  el.textContent = `${byline}${source.text}. ${source.licence}${coverCredit}${illustrationCredit}`;
+  // `source.illustrations` is a production note (art direction, reused
+  // filenames, paragraph indices) kept for provenance, not for learners — the
+  // reader shows a fixed credit instead, and only when the story actually has
+  // painted art (SVG drawings are original, not generated).
+  const painted = (story.art?.inline || []).some((art) => art.src);
+  let artCredit = '';
+  if (source.cover && painted) artCredit = ' Cover and illustrations generated with OpenAI image generation.';
+  else if (source.cover) artCredit = ` ${source.cover}`;
+  else if (painted) artCredit = ' Illustrations generated with OpenAI image generation.';
+  el.textContent = `${byline}${source.text}. ${source.licence}${artCredit}`;
 }
 
 /**

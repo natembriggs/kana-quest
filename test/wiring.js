@@ -5681,7 +5681,12 @@ for (let i = 0; i < 10; i += 1) await settle(); // ensureStoryLoaded is a real d
 check('tapping a story card opens the reader', visible() === 'screen-reader', `showing ${visible()}`);
 check('the reader credits the cover separately from the story author',
   el('reader-source').textContent.includes('Retold by GPT-5.6 Sol.')
-  && el('reader-source').textContent.includes('Cover generated with OpenAI image generation.'));
+  && el('reader-source').textContent.includes('Cover and illustrations generated with OpenAI image generation.'));
+// Feedback #29: `source.illustrations` holds art-direction notes (filenames,
+// "Kasa Jizō treatment", paragraph indices) meant for us, not learners.
+check('the reader credits the art without leaking production notes',
+  !/Kasa Jiz|\.webp|paragraph|palette/.test(el('reader-source').textContent),
+  el('reader-source').textContent);
 
 // ありとはと carries inline illustrations (stories-plan.md §8.8), and this
 // stub has no DOMParser. That is the point of the assertion: art is
