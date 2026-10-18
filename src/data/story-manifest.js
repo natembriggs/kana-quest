@@ -173,6 +173,44 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "uchuujin-to-neko": {
+    "title": {
+      "ja": "宇宙人と猫",
+      "en": "The Alien and the Cat"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "A tiny spaceship lands in Shun’s garden one night. The alien inside wants to meet the King of the Earth. Nobody in the family is it — but they all know who is.",
+    "hash": "03e63343",
+    "length": 127,
+    "paras": 4,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "chiisai-ryuu-no-yuki": {
+    "title": {
+      "ja": "小さいりゅうのユキ",
+      "en": "Yuki the Little Dragon"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Every dragon in Yuki’s family breathes fire. Yuki can only breathe snow — which is no use at all, until a very hot day in the village below.",
+    "hash": "232c875c",
+    "length": 229,
+    "paras": 5,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "futatsu-no-obentou": {
     "title": {
       "ja": "二つのお弁当",
@@ -437,6 +475,25 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Claude Opus 5",
       "credit": "Retold by"
+    }
+  },
+  "ki-sono-san": {
+    "title": {
+      "ja": "木その三",
+      "en": "Tree Number Three"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "In the class play, Takumi is Tree No. 3. He has no lines at all, so he learns everybody else’s — which turns out to be very useful when the rice ball rolls the wrong way.",
+    "hash": "0bf1ce24",
+    "length": 419,
+    "paras": 6,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
     }
   },
   "nanakai-no-petto-shittaa-1": {
@@ -1090,6 +1147,25 @@ export const STORIES = {
       "credit": "Written by"
     }
   },
+  "monooki-no-booru": {
+    "title": {
+      "ja": "物置のボール",
+      "en": "The Balls in the Shed"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Any ball that goes over Mr Ishikawa’s wall is gone for ever — everyone knows that. When Makoto’s brand-new birthday ball goes over, he and Hinata plan a rescue mission.",
+    "hash": "c79e3c6b",
+    "length": 589,
+    "paras": 9,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
   "ningyo-hime": {
     "title": {
       "ja": "人魚姫",
@@ -1340,6 +1416,25 @@ export const STORIES = {
     "source": {
       "kind": "original",
       "by": "GPT-6 Astra",
+      "credit": "Written by"
+    }
+  },
+  "nanakaime-no-kinyoubi": {
+    "title": {
+      "ja": "七回目の金曜日",
+      "en": "The Seventh Friday"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Chisato is the piano accompanist for her class at the school choir contest, and she slips in the introduction. Then she wakes up, and it is the morning of the contest again.",
+    "hash": "b0769361",
+    "length": 901,
+    "paras": 12,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
       "credit": "Written by"
     }
   },
@@ -1656,6 +1751,25 @@ export const STORIES = {
       "kind": "adapted",
       "by": "Claude Opus 5",
       "credit": "Retold by"
+    }
+  },
+  "kawabiraki-no-yoru": {
+    "title": {
+      "ja": "川開きの夜",
+      "en": "The Night the River Opened"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "Edo, the day before the summer fireworks. Orin pastes paper onto shells in her father’s workshop and is never allowed near the powder — until she finds that the biggest shell in Edo has been sitting under a leaking roof.",
+    "hash": "94ca94d1",
+    "length": 1271,
+    "paras": 16,
+    "cover": false,
+    "source": {
+      "kind": "original",
+      "by": "Claude Opus 5.5",
+      "credit": "Written by"
     }
   },
   "madara-no-himo": {

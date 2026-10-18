@@ -64,6 +64,10 @@
   "from": "L4",
   "note": "everyday kana word or expression"
  },
+ "おとっつぁん": {
+  "from": "L6",
+  "note": "check: deliberate Edo-period speech for “Father” in a historical story"
+ },
  "おばあさま": {
   "from": "L4",
   "note": "respectful form of an everyday word"
@@ -71,6 +75,10 @@
  "おばさん": {
   "from": "L2",
   "note": "everyday word"
+ },
+ "おむすび": {
+  "from": "L3",
+  "note": "story-critical (the rice ball of Omusubi Kororin); everyday word and the folk tale's own title"
  },
  "おんどり": {
   "from": "L4",
@@ -136,6 +144,10 @@
   "from": "L1",
   "note": "the grasshopper of the fable; written in kana because L1 has no katakana"
  },
+ "くぐもる": {
+  "from": "L6",
+  "note": "ordinary literary verb (muffled); fine at L6"
+ },
  "くるまる": {
   "from": "L6",
   "note": "natural verb for wrapping oneself up in a blanket or jacket"
@@ -191,6 +203,10 @@
  "さびつく": {
   "from": "L6",
   "note": "compound of common words"
+ },
+ "しける": {
+  "from": "L6",
+  "note": "story-critical (the powder going damp); ordinary word, usually written in kana"
  },
  "しばらくして": {
   "from": "L3",
@@ -328,9 +344,25 @@
   "from": "L4",
   "note": "set phrase built from common words"
  },
+ "ひとかかえ": {
+  "from": "L6",
+  "note": "ordinary word for an armful; fine at L6"
+ },
+ "ひときわ": {
+  "from": "L6",
+  "note": "ordinary literary adverb; fine at L6"
+ },
  "ひとつずつ": {
   "from": "L6",
   "note": "everyday kana word or expression"
+ },
+ "ひょいと": {
+  "from": "L4",
+  "note": "everyday mimetic adverb (lightly, with a flick)"
+ },
+ "ふうっと": {
+  "from": "L2",
+  "note": "onomatopoeia for a long breath; glossed in the story"
  },
  "ふっと": {
   "from": "L6",
@@ -428,6 +460,10 @@
   "from": "L5",
   "note": "animal name (the talking cricket)"
  },
+ "サッカーボール": {
+  "from": "L4",
+  "note": "everyday loanword compound"
+ },
  "スペイン人": {
   "from": "L5",
   "note": "nationality"
@@ -443,6 +479,10 @@
  "チーター": {
   "from": "L6",
   "note": "animal name (the cheetah in The Speckled Band)"
+ },
+ "テニスボール": {
+  "from": "L4",
+  "note": "everyday loanword compound"
  },
  "トウモロコシ畑": {
   "from": "L6",
@@ -496,6 +536,10 @@
   "from": "L6",
   "note": "loanword, normal in katakana"
  },
+ "ブロック塀": {
+  "from": "L4",
+  "note": "story-critical (the wall balls go over); the everyday word for a breeze-block garden wall"
+ },
  "プールサイド": {
   "from": "L2",
   "note": "the ordinary Japanese word for the edge of a swimming pool; setting-critical and transparent to English readers"
@@ -515,6 +559,10 @@
  "メモ用紙": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "ユーフォー": {
+  "from": "L1",
+  "note": "story-critical (the alien's spaceship); kana spelling of UFO, glossed"
  },
  "ランタン": {
   "from": "L5",
@@ -540,6 +588,10 @@
   "from": "L3",
   "note": "story-critical (the lunar rover the whole adventure happens in); the standard Japanese word, as in 月面ローバー"
  },
+ "一か月": {
+  "from": "L3",
+  "note": "ordinary duration; natural and fine at this level"
+ },
  "一つ目": {
   "from": "L6",
   "note": "number or time expression"
@@ -564,6 +616,10 @@
   "from": "L6",
   "note": "number or time expression"
  },
+ "三分": {
+  "from": "L4",
+  "note": "ordinary number + counter"
+ },
  "三十分": {
   "from": "L6",
   "note": "number + minutes counter; ordinary"
@@ -579,6 +635,10 @@
  "二人分": {
   "from": "L4",
   "note": "ordinary compound (二人 + 分, \"enough for two\"); natural at this level"
+ },
+ "二位": {
+  "from": "L5",
+  "note": "ordinary ranking word (second place); natural at this level"
  },
  "亡きがら": {
   "from": "L6",
@@ -692,6 +752,10 @@
   "from": "L6",
   "note": "set phrase built from common words"
  },
+ "十年": {
+  "from": "L4",
+  "note": "ordinary number + counter"
+ },
  "取り返しのつかない": {
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
@@ -703,6 +767,10 @@
  "召し使い": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "合唱コンクール": {
+  "from": "L5",
+  "note": "story-critical (the school choir contest the story is about); everyday school event"
  },
  "吐き捨てる": {
   "from": "L6",
@@ -716,6 +784,10 @@
   "from": "L6",
   "note": "set phrase built from common words"
  },
+ "声にならない": {
+  "from": "L6",
+  "note": "ordinary set phrase (no words come out)"
+ },
  "声をかける": {
   "from": "L4",
   "note": "set phrase built from common words"
@@ -727,6 +799,10 @@
  "夜ごと": {
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "大玉": {
+  "from": "L6",
+  "note": "story-critical (the big firework shell)"
  },
  "好き勝手": {
   "from": "L5",
@@ -740,13 +816,25 @@
   "from": "L3",
   "note": "ordinary word; natural and fine at this level"
  },
+ "宇宙人": {
+  "from": "L1",
+  "note": "story-critical (the alien); everyday word every Japanese child knows"
+ },
  "家を出る": {
   "from": "L3",
   "note": "set phrase built from common words"
  },
+ "小玉": {
+  "from": "L6",
+  "note": "story-critical (the small firework shells Orin pastes)"
+ },
  "山岳部": {
   "from": "L6",
   "note": "ordinary name of a school mountaineering club"
+ },
+ "川開き": {
+  "from": "L6",
+  "note": "story-critical (the summer river-opening fireworks the story is set at)"
  },
  "巻きつく": {
   "from": "L6",
@@ -809,7 +897,7 @@
   "note": "set phrase built from common words"
  },
  "手を合わせる": {
-  "from": "L5",
+  "from": "L4",
   "note": "set phrase built from common words"
  },
  "折りたたむ": {
@@ -872,6 +960,10 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "日が暮れる": {
+  "from": "L6",
+  "note": "ordinary set phrase (the sun goes down)"
+ },
  "明": {
   "from": "L5",
   "note": "a calligraphy character the story is about"
@@ -907,6 +999,10 @@
  "東インド": {
   "from": "L5",
   "note": "historical place name (Gulliver)"
+ },
+ "歌い出す": {
+  "from": "L3",
+  "note": "ordinary compound of 歌う + 出す; natural at this level"
  },
  "正気を失う": {
   "from": "L6",
@@ -1100,6 +1196,10 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "破裂音": {
+  "from": "L6",
+  "note": "ordinary word for a bang or burst; fine at L6"
+ },
  "礼拝堂": {
   "from": "L6",
   "note": "plot-relevant"
@@ -1127,6 +1227,14 @@
  "笑いかける": {
   "from": "L4",
   "note": "compound of common words"
+ },
+ "笑いもの": {
+  "from": "L6",
+  "note": "ordinary expression (laughing stock)"
+ },
+ "米問屋": {
+  "from": "L6",
+  "note": "historical setting (Edo rice wholesaler)"
  },
  "絞首台": {
   "from": "L6",
@@ -1175,6 +1283,10 @@
  "腕を組む": {
   "from": "L5",
   "note": "set phrase built from common words"
+ },
+ "腰を下ろす": {
+  "from": "L6",
+  "note": "ordinary set phrase (sit down)"
  },
  "膝をつく": {
   "from": "L5",
@@ -1247,6 +1359,10 @@
  "走り出る": {
   "from": "L5",
   "note": "compound of common words"
+ },
+ "起き出す": {
+  "from": "L6",
+  "note": "ordinary compound (get out of bed)"
  },
  "足を止める": {
   "from": "L4",
@@ -1352,6 +1468,10 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "音楽室": {
+  "from": "L5",
+  "note": "everyday school word (music room)"
+ },
  "音楽隊": {
   "from": "L4",
   "note": "story-critical (ブレーメンの音楽隊)"
@@ -1387,6 +1507,10 @@
  "首を切る": {
   "from": "L6",
   "note": "set phrase built from common words"
+ },
+ "首を振る": {
+  "from": "L6",
+  "note": "ordinary set phrase (shake one’s head)"
  },
  "骨董市": {
   "from": "L5",
