@@ -2,6 +2,25 @@
 // the library can list every story without fetching the full bodies.
 
 export const STORIES = {
+  "akai-kappu": {
+    "title": {
+      "ja": "赤いカップ",
+      "en": "The Red Cup"
+    },
+    "series": null,
+    "level": "L1",
+    "gram": "G1",
+    "blurb": "Hana has a new red cup. Her cat likes it too.",
+    "hash": "a4c7eb53",
+    "length": 111,
+    "paras": 4,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
+      "credit": "Written by"
+    }
+  },
   "ari-to-hato": {
     "title": {
       "ja": "ありとはと",
@@ -306,6 +325,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "poketto-no-kippu": {
+    "title": {
+      "ja": "ポケットの切符",
+      "en": "The Ticket in the Pocket"
+    },
+    "series": null,
+    "level": "L2",
+    "gram": "G2",
+    "blurb": "Grandma’s coat has room for everything. So where are the train tickets?",
+    "hash": "901ccea0",
+    "length": 221,
+    "paras": 5,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
+      "credit": "Written by"
+    }
+  },
   "tamago-no-otsukai": {
     "title": {
       "ja": "たまごのおつかい",
@@ -379,6 +417,25 @@ export const STORIES = {
     "source": {
       "kind": "original",
       "by": "Claude Opus 5.5",
+      "credit": "Written by"
+    }
+  },
+  "chiisana-eigakan": {
+    "title": {
+      "ja": "小さな映画館",
+      "en": "The Tiny Cinema"
+    },
+    "series": null,
+    "level": "L3",
+    "gram": "G3",
+    "blurb": "Rain cancels Ren’s trip to the cinema. Then the power goes out. A torch, a sheet and an unexpected giant give him an idea.",
+    "hash": "c66b9037",
+    "length": 320,
+    "paras": 6,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
       "credit": "Written by"
     }
   },
@@ -1185,6 +1242,25 @@ export const STORIES = {
       "credit": "Retold by"
     }
   },
+  "oto-no-nai-hanabi": {
+    "title": {
+      "ja": "音のない花火",
+      "en": "Fireworks Without Sound"
+    },
+    "series": null,
+    "level": "L4",
+    "gram": "G4",
+    "blurb": "Nao wants the perfect view of the fireworks for her grandfather. He knows a quieter place, and a different way to watch.",
+    "hash": "81585ce3",
+    "length": 524,
+    "paras": 8,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
+      "credit": "Written by"
+    }
+  },
   "saigo-no-watashibune": {
     "title": {
       "ja": "最後の渡し船",
@@ -1278,6 +1354,25 @@ export const STORIES = {
       "kind": "adapted",
       "by": "GPT-5.6 Sol",
       "credit": "Retold by"
+    }
+  },
+  "heiten-go-no-shashinkan": {
+    "title": {
+      "ja": "閉店後の写真館",
+      "en": "The Photo Studio After Closing"
+    },
+    "series": null,
+    "level": "L5",
+    "gram": "G5",
+    "blurb": "Three days before her father’s photo studio closes, Aki receives a request she cannot quite fulfil: a photograph of a smile.",
+    "hash": "0b361086",
+    "length": 830,
+    "paras": 11,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
+      "credit": "Written by"
     }
   },
   "ichinichi-dake-no-honya": {
@@ -1631,6 +1726,25 @@ export const STORIES = {
     "source": {
       "kind": "original",
       "by": "Claude Fable 5.1",
+      "credit": "Written by"
+    }
+  },
+  "ashita-no-otoshimono": {
+    "title": {
+      "ja": "明日の落とし物",
+      "en": "Tomorrow’s Lost Property"
+    },
+    "series": null,
+    "level": "L6",
+    "gram": "G6",
+    "blurb": "At Mizuki’s lost-property office, tomorrow’s belongings arrive today. A child’s blue mitten makes it suddenly difficult to follow the rules.",
+    "hash": "713f5617",
+    "length": 1253,
+    "paras": 15,
+    "cover": true,
+    "source": {
+      "kind": "original",
+      "by": "GPT-6.1 Sol",
       "credit": "Written by"
     }
   },

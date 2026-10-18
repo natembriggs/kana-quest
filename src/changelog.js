@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-10-18',
+    changes: [
+      'New: six original stories, one at every level, each in a kind of story the library didn’t have yet. Level 1: 宇宙人と猫 (The Alien and the Cat), in which an alien asks Shun’s family who the King of the Earth is. Level 2: 小さいりゅうのユキ (Yuki the Little Dragon), who can only breathe snow until a very hot day. Level 3: 木その三 (Tree Number Three), a school play saved by a boy playing a tree. Level 4: 物置のボール (The Balls in the Shed), a mission to rescue a football from the scary neighbour’s garden. Level 5: 七回目の金曜日 (The Seventh Friday), in which Chisato lives the day of the choir contest again and again. Level 6: 川開きの夜 (The Night the River Opened), a fireworks-maker’s daughter in old Edo. Every sentence has its own English translation and tappable word explanations.',
+    ],
+  },
+  {
     date: '2026-10-08',
     changes: [
       'Fixed: the credits at the end of a story no longer show behind-the-scenes notes about how the pictures were made, just who wrote the story and who made the art.',
