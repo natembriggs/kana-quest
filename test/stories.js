@@ -85,6 +85,12 @@ import { STORY as pets2 } from '../src/data/story-nanakai-no-petto-shittaa-2.js'
 import { STORY as pets3 } from '../src/data/story-nanakai-no-petto-shittaa-3.js';
 import { STORY as pets4 } from '../src/data/story-nanakai-no-petto-shittaa-4.js';
 import { STORY as pets5 } from '../src/data/story-nanakai-no-petto-shittaa-5.js';
+import { STORY as cup } from '../src/data/story-akai-kappu.js';
+import { STORY as ticket } from '../src/data/story-poketto-no-kippu.js';
+import { STORY as cinema } from '../src/data/story-chiisana-eigakan.js';
+import { STORY as fireworks } from '../src/data/story-oto-no-nai-hanabi.js';
+import { STORY as photoStudio } from '../src/data/story-heiten-go-no-shashinkan.js';
+import { STORY as tomorrow } from '../src/data/story-ashita-no-otoshimono.js';
 
 
 const corpus = [
@@ -95,6 +101,7 @@ const corpus = [
   red1, red2, red3, red4, red5, shadow1, shadow2, shadow3, shadow4, shadow5,
   f1, f2, f3, f4, f5, f6, f7, f8, a9, b9, c9, f9,
   pets1, pets2, pets3, pets4, pets5,
+  cup, ticket, cinema, fireworks, photoStudio, tomorrow,
 ];
 let failures = 0;
 function check(name, condition, detail = '') {

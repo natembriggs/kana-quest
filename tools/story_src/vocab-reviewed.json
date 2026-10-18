@@ -157,8 +157,8 @@
   "note": "everyday kana word or expression"
  },
  "このまま": {
-  "from": "L6",
-  "note": "everyday kana word or expression"
+  "from": "L5",
+  "note": "Common everyday expression meaning just as it is; relevant to retaining the actual photograph."
  },
  "こらえる": {
   "from": "L5",
@@ -397,8 +397,8 @@
   "note": "story-critical (Pii-chan is a budgie); the everyday word for a pet budgie"
  },
  "ウサギ": {
-  "from": "L6",
-  "note": "animal name (the White Rabbit)"
+  "from": "L3",
+  "note": "Everyday animal name; ordinary katakana spelling of rabbit, central to the shadow play in chiisana-eigakan."
  },
  "オウム": {
   "from": "L5",
@@ -528,6 +528,10 @@
   "from": "L5",
   "note": "everyday word; katakana is normal"
  },
+ "ルーペ": {
+  "from": "L5",
+  "note": "Story-critical magnifying glass used to examine a contact sheet; normal modern loanword."
+ },
  "レーズン": {
   "from": "L6",
   "note": "loanword, normal in katakana"
@@ -652,6 +656,10 @@
   "from": "L4",
   "note": "ordinary word; natural and fine at this level"
  },
+ "写真館": {
+  "from": "L5",
+  "note": "Story-critical workplace and setting in heiten-go-no-shashinkan; standard modern compound."
+ },
  "出ていく": {
   "from": "L4",
   "note": "ordinary word; natural and fine at this level"
@@ -659,6 +667,10 @@
  "出てくる": {
   "from": "L2",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "切り抜く": {
+  "from": "L3",
+  "note": "Common craft action: cutting paper shapes out for the shadow theatre; useful everyday verb."
  },
  "創造主": {
   "from": "L6",
@@ -764,6 +776,10 @@
   "from": "L4",
   "note": "set phrase built from common words"
  },
+ "座り直す": {
+  "from": "L4",
+  "note": "Ordinary productive compound: sit down again or adjust a sitting position."
+ },
  "座面": {
   "from": "L6",
   "note": "ordinary word; natural and fine at this level"
@@ -783,6 +799,10 @@
  "息をつく": {
   "from": "L6",
   "note": "set phrase built from common words"
+ },
+ "息をのむ": {
+  "from": "L6",
+  "note": "Standard idiom for catching one's breath in surprise; kept as one lookup unit."
  },
  "息を吐く": {
   "from": "L5",
@@ -807,6 +827,10 @@
  "手をかける": {
   "from": "L4",
   "note": "set phrase built from common words"
+ },
+ "手をつける": {
+  "from": "L6",
+  "note": "Everyday idiom for starting or touching something; here leaving a piece of cake untouched."
  },
  "手を合わせる": {
   "from": "L5",
@@ -876,6 +900,10 @@
   "from": "L5",
   "note": "a calligraphy character the story is about"
  },
+ "暗室": {
+  "from": "L5",
+  "note": "Story-critical photographic darkroom in the inherited studio; standard photography term."
+ },
  "暮らし始める": {
   "from": "L5",
   "note": "compound of common words"
@@ -883,6 +911,10 @@
  "書き始める": {
   "from": "L5",
   "note": "compound of common words"
+ },
+ "書き換わる": {
+  "from": "L6",
+  "note": "Ordinary intransitive compound for a written value changing; needed for the changing tag rule."
  },
  "書き終わる": {
   "from": "L6",
@@ -1044,6 +1076,10 @@
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
  },
+ "用水路": {
+  "from": "L4",
+  "note": "Story-critical setting in oto-no-nai-hanabi: a still irrigation channel supplies the reflected view."
+ },
  "町全体": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
@@ -1175,6 +1211,10 @@
  "腕を組む": {
   "from": "L5",
   "note": "set phrase built from common words"
+ },
+ "腰を下ろす": {
+  "from": "L4",
+  "note": "Standard everyday phrase meaning to sit down, presented as one lookup unit."
  },
  "膝をつく": {
   "from": "L5",
@@ -1339,6 +1379,10 @@
  "隠し場所": {
   "from": "L5",
   "note": "ordinary word; natural and fine at this level"
+ },
+ "隣県": {
+  "from": "L6",
+  "note": "Standard geographical compound: the neighbouring prefecture where Mio has accepted a job."
  },
  "集合住宅": {
   "from": "L6",
