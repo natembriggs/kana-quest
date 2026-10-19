@@ -268,3 +268,24 @@ style. This opening scene reveals no later events or resolution. Generated
 with the built-in OpenAI image-generation tool; the prompt, two reference
 images and original PNG source are recorded in `cover-prompts.json` and
 `cover-sources.json`. All five exports are 480×640 WebP files below 60 KiB.
+
+## Story covers: 19 October 2026
+
+Claude Opus 5.5's six new standalone stories each have a painted cover:
+
+- *The Alien and the Cat*: Shun and his family meet the alien in their garden.
+- *Yuki the Little Dragon*: Yuki breathes snow on a summer mountain path.
+- *Tree Number Three*: Takumi rehearses in his cardboard tree costume.
+- *The Balls in the Shed*: Hinata and Makoto watch their blue football go over
+  the neighbour's wall.
+- *The Seventh Friday*: Chisato sits at the piano while Minato practises
+  conducting in the background.
+- *The Night the River Opened*: Orin pastes paper onto small firework shells
+  in her father's Edo workshop.
+
+Each depicts an opening situation without revealing the resolution. Generated
+with OpenAI's built-in image-generation tool; the full prompts and original
+PNG source names are recorded in `cover-prompts.json` and `cover-sources.json`.
+All six WebP exports preserve the full 3:4 compositions at 480×640 and stay
+below 60 KiB each. Adding the covers leaves story text and saved-position
+hashes unchanged.

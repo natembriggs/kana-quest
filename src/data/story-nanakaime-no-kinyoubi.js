@@ -25,7 +25,8 @@ export const STORY = {
     "by": "Claude Opus 5.5",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level. No published text was adapted.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -10238,7 +10239,7 @@ export const STORY = {
   ],
   "hash": "b0769361",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

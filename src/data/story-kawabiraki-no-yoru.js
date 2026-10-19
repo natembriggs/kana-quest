@@ -26,7 +26,8 @@ export const STORY = {
     "by": "Claude Opus 5.5",
     "credit": "Written by",
     "notes": "Original Japanese prose and English translations written for this reading level, set at the summer river-opening fireworks on the Sumida in Edo. The workshop, its people and the merchant are invented. No published text was adapted.",
-    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app."
+    "licence": "Original to Kanji Trail; Japanese text and English translations may be used and adapted with the app.",
+    "cover": "Cover generated with OpenAI image generation."
   },
   "body": [
     [
@@ -14408,7 +14409,7 @@ export const STORY = {
   ],
   "hash": "94ca94d1",
   "art": {
-    "cover": false,
+    "cover": true,
     "inline": []
   }
 };

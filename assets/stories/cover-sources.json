@@ -89,7 +89,13 @@
     "chiisana-eigakan": "exec-5ea382f4-2cc5-4ae1-a76b-4c9344103e4d.png",
     "oto-no-nai-hanabi": "exec-e78a4ae7-b293-4610-87b2-ab8147a6d244.png",
     "heiten-go-no-shashinkan": "exec-135c1f6e-7f61-4117-8be1-b2f369dda937.png",
-    "ashita-no-otoshimono": "exec-8f3f6656-77b8-4e5c-9d53-073911d56658.png"
+    "ashita-no-otoshimono": "exec-8f3f6656-77b8-4e5c-9d53-073911d56658.png",
+    "ki-sono-san": "exec-d11e93f4-695b-45f1-be62-a25a947a2004.png",
+    "chiisai-ryuu-no-yuki": "exec-9d8d4aca-b735-4376-85de-4a3547d0e4dc.png",
+    "uchuujin-to-neko": "exec-d80e83f5-098d-4c4b-b2b1-1d08eafa12ce.png",
+    "nanakaime-no-kinyoubi": "exec-6b063c8a-7755-4d08-a074-205d06fb098c.png",
+    "monooki-no-booru": "exec-3141da68-1db2-4492-bd2e-fc1a7b0f98d9.png",
+    "kawabiraki-no-yoru": "exec-5f5ee53e-46e2-4229-a67a-8bec512cec0d.png"
   },
   "batches": {
     "ningyo-hime": "01a0b44f-5d44-7b00-88dc-cf62f0232f7f",
@@ -140,7 +146,13 @@
     "chiisana-eigakan": "01a15101-d535-7712-a70d-acc4a16cd6e2",
     "oto-no-nai-hanabi": "01a15101-d535-7712-a70d-acc4a16cd6e2",
     "heiten-go-no-shashinkan": "01a15101-d535-7712-a70d-acc4a16cd6e2",
-    "ashita-no-otoshimono": "01a15101-d535-7712-a70d-acc4a16cd6e2"
+    "ashita-no-otoshimono": "01a15101-d535-7712-a70d-acc4a16cd6e2",
+    "ki-sono-san": "01a15369-a29f-7913-b7e1-622bb9d41d50",
+    "chiisai-ryuu-no-yuki": "01a15369-a29f-7913-b7e1-622bb9d41d50",
+    "uchuujin-to-neko": "01a15369-a29f-7913-b7e1-622bb9d41d50",
+    "nanakaime-no-kinyoubi": "01a15369-a29f-7913-b7e1-622bb9d41d50",
+    "monooki-no-booru": "01a15369-a29f-7913-b7e1-622bb9d41d50",
+    "kawabiraki-no-yoru": "01a15369-a29f-7913-b7e1-622bb9d41d50"
   },
   "references": {
     "pinocchio": [
