@@ -189,7 +189,7 @@ function loadReader() {
 // it (or the query) is written in — see renderKanjiSearchResults() below.
 const { toRomaji } = window.wanakana;
 
-export const APP_VERSION = '2026-10-19'; // keep in step with VERSION in sw.js
+export const APP_VERSION = '2026-11-11'; // keep in step with VERSION in sw.js
 const CACHE_PREFIX = 'kana-quest-';
 
 const ALL_COURSES = [...COURSES, ...KANJI_ALL_COURSES, ...VOCAB_ALL_COURSES];
@@ -1069,7 +1069,7 @@ const ONBOARDING_GUIDE = [
     title: 'If the pace feels wrong',
     body: [
       'Settings (the ⚙️ in the corner) has two sliders worth knowing about. "New characters per session" sets how many never-seen characters get introduced before each quiz — turn it down if new batches feel like a lot, up if they feel slow.',
-      '"Writing strictness" sets how closely a drawn stroke has to match to be accepted. Turn it down if writing practice feels unfairly picky.',
+      '"Writing strictness" sets how closely a drawn stroke has to match to be accepted. Turn it down if writing practice feels unfairly picky — you can also change it right on the writing screen, under the drawing box.',
     ],
   },
   {
@@ -7981,8 +7981,47 @@ function writingFeedbackMessage(result) {
   return WRITING_FEEDBACK[result.verdict] || 'Try that stroke again.';
 }
 
+function currentStrictness() {
+  return state.profile.settings.strictness || DEFAULT_STRICTNESS;
+}
+
+/** Highlights the in-session strictness row (#writing-strictness-panel). */
+function renderWritingStrictness() {
+  const level = currentStrictness();
+  STRICTNESS_LEVELS.forEach(({ id }) => {
+    const el = $(`writing-strict-${id}`);
+    el.className = `segment${id === level ? ' active' : ''}`;
+    el.setAttribute('aria-checked', id === level ? 'true' : 'false');
+  });
+}
+
+/**
+ * Changes writing strictness from inside a practice session — the same
+ * persistent setting as Settings → Writing strictness, synced the same way
+ * (kana-quest-feedback#30: a grader that is too picky for the learner is a
+ * major source of frustration, and leaving the session to fix it costs the
+ * session). Applies to the attempt already in progress: strokes already
+ * accepted stay accepted, the next stroke is graded at the new level.
+ */
+function writingSetStrictness(level) {
+  if (!state.profile) return;
+  const value = Math.min(5, Math.max(1, level));
+  state.profile.settings.strictness = value;
+  stampSetting(state.profile, 'strictness');
+  store.saveProfile(state.profile);
+  renderWritingStrictness();
+  const session = state.session;
+  if (session) {
+    session.writingRejectStreak = 0;
+    if (session.writingAttempt && session.writingAttempt.setStrictness) {
+      session.writingAttempt.setStrictness(value);
+    }
+  }
+  $('writing-gentler').hidden = true;
+}
+
 function createAttemptForMode(item, mode) {
-  const strictness = state.profile.settings.strictness || DEFAULT_STRICTNESS;
+  const strictness = currentStrictness();
   return mode === 'free'
     ? createFreeAttempt(item, { strictness })
     : createWritingAttempt(item, { strictness });
@@ -8040,6 +8079,8 @@ function renderWritingQuestion(course, item) {
   // introMode already overrides whatever this picked, so offering it here
   // would just be a control that visibly does nothing.
   $('writing-difficulty').hidden = !!introMode;
+  renderWritingStrictness();
+  $('writing-gentler').hidden = true;
   // Trace already shows the whole guide — the hint row only makes sense
   // where something is actually being hidden, and only while still in
   // progress (finishWritingCharacter hides it again once finished).
@@ -8060,6 +8101,7 @@ function renderWritingQuestion(course, item) {
   session.writingPointerId = null;
   session.writingPeekedStrokeIndex = null;
   session.writingLastCorrect = false;
+  session.writingRejectStreak = 0;
   // NOTE: session.writingRecorded is NOT reset here — this function also
   // runs for a redo or a mode-toggle switch on a question already recorded,
   // and re-arming it here would let either one write a second, conflicting
@@ -8342,10 +8384,23 @@ function writingPointerUp(event) {
     session.writingStrokes.push(localPoints);
     markGuideStrokeDone(session.writingGuidePaths, result.strokeIndex);
     $('writing-feedback').textContent = '';
+    session.writingRejectStreak = 0;
+    $('writing-gentler').hidden = true;
     updateWritingStrokeCounter();
   } else {
     $('writing-feedback').textContent = writingFeedbackMessage(result);
     $('writing-feedback').className = 'hint writing-feedback is-bad';
+    // Two misses on the same stroke: offer a one-tap way to loosen the
+    // grader right here, instead of only down in the strictness row. It is
+    // only an offer, so it doesn't try to second-guess why the stroke
+    // missed (a sloppy stroke can also read as "that's stroke 3").
+    session.writingRejectStreak = (session.writingRejectStreak || 0) + 1;
+    const level = currentStrictness();
+    if (session.writingRejectStreak >= 2 && level > 1) {
+      const easier = STRICTNESS_LEVELS.find((l) => l.id === level - 1);
+      $('writing-gentler').textContent = `Too picky? Switch to ${easier.name}`;
+      $('writing-gentler').hidden = false;
+    }
   }
   // Draw the just-accepted stroke BEFORE showing the result panel — the
   // completing stroke would otherwise never actually appear on screen.
@@ -8431,6 +8486,7 @@ function finishWritingCharacter(explicitCorrect) {
   const isAutomatic = explicitCorrect === undefined;
   const correct = isAutomatic ? session.writingAttempt.isCorrect() : explicitCorrect;
   session.writingLastCorrect = correct; // read by writingRetry() and the switch-mode button below
+  $('writing-gentler').hidden = true;
 
   const wasAlreadyRecorded = !!session.writingRecorded; // this finish is a redo, not the first pass
   // True only on the very first, not-yet-recorded, non-placement correct
@@ -13349,6 +13405,15 @@ function wire() {
   bindTap($('writing-mark-bad'), writingMarkBad);
   WRITING_SUB_MODES.forEach((mode) => {
     $(`writing-mode-${mode}`).addEventListener('click', () => writingSetSubMode(mode));
+  });
+  STRICTNESS_LEVELS.forEach(({ id }) => {
+    $(`writing-strict-${id}`).addEventListener('click', () => writingSetStrictness(id));
+  });
+  bindTap($('writing-gentler'), () => {
+    const lower = currentStrictness() - 1;
+    writingSetStrictness(lower);
+    $('writing-feedback').textContent = `Strictness is now ${strictnessName(lower)} — try that stroke again.`;
+    $('writing-feedback').className = 'hint writing-feedback';
   });
   bindTap($('writing-done'), writingDone);
   bindTap($('writing-undo'), writingUndo);

@@ -1148,6 +1148,12 @@ button.quiz-glyph-tap, button.lesson-glyph-tap {
    heading, so it stays visually quiet next to the segmented control. */
 .writing-difficulty { margin: 16px auto 0; max-width: min(78vw, 340px); }
 .writing-difficulty-label { text-align: center; margin: 0 0 4px; }
+/* Five short labels in one row: tighter padding than the three-segment mode
+   toggle so "Strict" doesn't wrap at phone width. */
+.writing-strictness-toggle .segment { padding-left: 4px; padding-right: 4px; font-size: calc(13px * var(--app-font-scale, 1)); }
+#writing-strictness-panel { margin-top: 10px; }
+.writing-gentler { display: block; margin: 0 auto 6px; width: auto; }
+.writing-gentler[hidden] { display: none; }
 
 .writing-board {
   position: relative;

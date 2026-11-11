@@ -3139,6 +3139,38 @@ done('confusion tracking: caps, session pairs and merge-by-max');
 }
 done('my progress: history replay, level series, enrollment windows and goals');
 
+// --- Writing: changing strictness mid-attempt (kana-quest-feedback#30) -----
+
+{
+  const writing = await import('../src/writing.js');
+  const model = writing.prepareCharacter('い')[0];
+  // The smallest sideways shift of stroke 1 that Strict rejects but Gentle
+  // still accepts — the "I know it, I just put it a bit off" case.
+  let shifted = null;
+  for (let dx = 1; dx <= 40 && !shifted; dx += 1) {
+    const pts = model.points.map(([x, y]) => [x + dx, y]);
+    if (grader.gradeStroke(pts, model, grader.strictnessMultiplier(5)) !== 'ok'
+      && grader.gradeStroke(pts, model, grader.strictnessMultiplier(1)) === 'ok') shifted = pts;
+  }
+  check('some shift of い stroke 1 separates Strict from Gentle', !!shifted);
+  if (shifted) {
+    const attempt = writing.createWritingAttempt('い', { strictness: 5 });
+    check('a Strict attempt rejects the shifted stroke', attempt.submitStroke(shifted).verdict !== 'ok');
+    attempt.setStrictness(1);
+    const after = attempt.submitStroke(shifted);
+    check('after setStrictness(1) the same attempt accepts it, still on stroke 1',
+      after.verdict === 'ok' && after.strokeIndex === 0);
+
+    const free = writing.createFreeAttempt('い', { strictness: 5 });
+    free.submitStroke(shifted);
+    free.setStrictness(1);
+    const review = free.finish();
+    check('a Free attempt grades at the level set before Done',
+      review.perStroke[0].status === 'ok');
+  }
+}
+done('writing: strictness can change mid-attempt');
+
 // --- Result ---------------------------------------------------------------
 
 print('');

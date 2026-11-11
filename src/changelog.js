@@ -11,6 +11,12 @@
 // single day's version, e.g. '2026-08-23c', often bundles several).
 export const CHANGELOG = [
   {
+    date: '2026-11-11',
+    changes: [
+      'New: you can change how strict the stroke checking is without leaving writing practice. A row of buttons under the drawing box — Gentle, Easy, Normal, Neat, Strict — changes it straight away, and the next stroke you draw is checked at the new level (strokes you have already drawn stay). And if the same stroke gets rejected twice in a row, a "Too picky? Switch to Easy" button appears right under the message, so a kanji you know isn\'t marked wrong over a slightly misplaced stroke. It is the same setting as Writing strictness in Settings, so changing it in one place changes it in both.',
+    ],
+  },
+  {
     date: '2026-10-19',
     changes: [
       'New: painted covers for all six new stories — The Alien and the Cat, Yuki the Little Dragon, Tree Number Three, The Balls in the Shed, The Seventh Friday and The Night the River Opened.',

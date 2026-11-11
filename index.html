@@ -1280,6 +1280,13 @@
     </div>
 
     <p id="writing-feedback" class="hint writing-feedback" aria-live="polite"></p>
+    <!-- Trace/Guided only: appears after the SAME stroke has been rejected
+         twice in a row, right where the learner is already looking — a
+         one-tap way out of a strictness level that is rejecting strokes they
+         actually know (kana-quest-feedback#30). Lowers strictness one step,
+         for good (same setting as Settings → Writing strictness). Hidden
+         again on any accepted stroke and on every new character. -->
+    <button id="writing-gentler" class="btn btn-quiet writing-gentler" type="button" hidden>Too picky? Make it gentler</button>
 
     <!-- Guided/Free only (Trace already shows the whole guide), and only
          while still in progress — gone once finished, see
@@ -1381,6 +1388,22 @@
         <button id="writing-mode-trace" class="segment" type="button" role="tab" aria-selected="false">Trace</button>
         <button id="writing-mode-guided" class="segment" type="button" role="tab" aria-selected="false">Guided</button>
         <button id="writing-mode-free" class="segment" type="button" role="tab" aria-selected="false">Free</button>
+      </div>
+    </div>
+    <!-- The same setting as Settings → Writing strictness, here so it can be
+         changed mid-practice without leaving the session
+         (kana-quest-feedback#30). Unlike #writing-difficulty above it is never
+         hidden — not even during a new kanji's fixed Trace/Guided drill,
+         which is exactly when a too-picky grader hurts most. A change applies
+         to the next stroke drawn; strokes already accepted stay. -->
+    <div id="writing-strictness-panel" class="writing-difficulty">
+      <p class="hint writing-difficulty-label">How strict the checking is</p>
+      <div class="segmented writing-strictness-toggle" role="radiogroup" aria-label="Writing strictness">
+        <button id="writing-strict-1" class="segment" type="button" role="radio" aria-checked="false">Gentle</button>
+        <button id="writing-strict-2" class="segment" type="button" role="radio" aria-checked="false">Easy</button>
+        <button id="writing-strict-3" class="segment" type="button" role="radio" aria-checked="false">Normal</button>
+        <button id="writing-strict-4" class="segment" type="button" role="radio" aria-checked="false">Neat</button>
+        <button id="writing-strict-5" class="segment" type="button" role="radio" aria-checked="false">Strict</button>
       </div>
     </div>
   </section>

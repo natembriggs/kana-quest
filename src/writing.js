@@ -36,7 +36,10 @@ export function prepareCharacter(char) {
  */
 export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}) {
   const modelStrokes = prepareCharacter(char);
-  const multiplier = strictnessMultiplier(strictness);
+  // `let`, not const: setStrictness() below changes it mid-attempt, so a
+  // learner who turns strictness down after a rejection gets the new
+  // tolerance on the very next stroke, without losing strokes already drawn.
+  let multiplier = strictnessMultiplier(strictness);
   let strokeIndex = 0;
   let everyStrokeFirstTry = true;
   let done = false;
@@ -78,6 +81,7 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
   return {
     submitStroke,
     restart,
+    setStrictness: (level) => { multiplier = strictnessMultiplier(level); },
     strokeCount: () => (modelStrokes ? modelStrokes.length : 0),
     currentStrokeIndex: () => strokeIndex,
     isComplete: () => done,
@@ -100,7 +104,7 @@ export function createWritingAttempt(char, { strictness = DEFAULT_STRICTNESS } =
  */
 export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}) {
   const modelStrokes = prepareCharacter(char);
-  const multiplier = strictnessMultiplier(strictness);
+  let multiplier = strictnessMultiplier(strictness); // see setStrictness below
   const drawn = [];
   let finished = false;
   let review = null;
@@ -162,6 +166,8 @@ export function createFreeAttempt(char, { strictness = DEFAULT_STRICTNESS } = {}
     finish,
     restart,
     undo,
+    // Takes effect at finish() — Free grades nothing until Done.
+    setStrictness: (level) => { multiplier = strictnessMultiplier(level); },
     drawnCount: () => drawn.length,
     modelStrokeCount: () => (modelStrokes ? modelStrokes.length : 0),
     // Matches createWritingAttempt's currentStrokeIndex() so "show next

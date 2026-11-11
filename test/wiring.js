@@ -901,6 +901,12 @@ check('Trace already shows the whole guide, so the peek/switch-easier hint row s
 // see the seeding step further down.
 check('a brand-new hiragana character is locked into the drill too — the practice-mode toggle is hidden',
   el('writing-difficulty').hidden === true);
+// kana-quest-feedback#30: strictness stays changeable mid-practice, drill
+// included — that's exactly when a too-picky grader hurts most.
+check('the in-session strictness row is shown even during the intro drill, with the saved level highlighted',
+  el('writing-strictness-panel').hidden !== true
+  && el('writing-strict-3').className.includes('active')
+  && !el('writing-strict-1').className.includes('active'));
 
 for (let i = 0; i < 20 && visible() === 'screen-writing'; i += 1) {
   const drillChar = el('screen-writing').dataset.char;
@@ -1100,6 +1106,26 @@ if (visible() === 'screen-writing') {
   await settle();
   check('the second character also rejects a bad first stroke',
     el('writing-feedback').textContent.length > 0);
+  check('one miss is not enough to offer loosening the grader',
+    el('writing-gentler').hidden === true);
+  traceBadStroke();
+  await settle();
+  check('a second miss on the same stroke offers a one-tap step down in strictness (kana-quest-feedback#30)',
+    el('writing-gentler').hidden === false && el('writing-gentler').textContent.includes('Easy'),
+    `${el('writing-gentler').hidden} ${el('writing-gentler').textContent} / ${el('writing-feedback').textContent}`);
+  fire(el('writing-gentler'), 'click');
+  await settle();
+  check('tapping it lowers the saved strictness one step and highlights it in the in-session row',
+    [...rows.values()][0].settings.strictness === 2
+    && el('writing-strict-2').className.includes('active')
+    && el('writing-gentler').hidden === true,
+    JSON.stringify([...rows.values()][0].settings));
+  fire(el('writing-strict-3'), 'click');
+  await settle();
+  check('the in-session strictness row sets the level directly, without leaving the character',
+    [...rows.values()][0].settings.strictness === 3
+    && el('screen-writing').dataset.char === secondWritingChar
+    && el('writing-stroke-counter').textContent.startsWith('Stroke 1 of'));
 
   for (let i = 0; i < secondStrokeCount; i += 1) {
     traceModelStroke(secondWritingChar, i);
